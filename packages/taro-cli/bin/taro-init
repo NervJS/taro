@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+
+const Project = require('../src/project')
+
+const {
+  getPkgVersion
+} = require('../src/util')
+
+program
+  .option('--name', '项目名称')
+  .option('--template', '项目模板')
+  .option('--description', '项目介绍')
+  .parse(process.argv)
+
+const args = program.args
+const { template, description, name } = program
+
+const projectName = args[0] || name
+
+const project = new Project({
+  projectName,
+  template,
+  description
+})
+
+console.log(`Taro v${getPkgVersion()}`)
+console.log()
+
+project.create()

@@ -1,0 +1,17 @@
+{
+  "name": "@taro/plugin-babel",
+  "version": "0.0.1",
+  "description": "Taro babel编译",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^6.26.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@taro/async-await",
+  "version": "0.0.1",
+  "description": "taro async await",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "promise-polyfill": "^7.1.2",
+    "regenerator-runtime": "^0.11.1"
+  }
+}

@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+const path = require('path')
+const fs = require('fs-extra')
+const program = require('commander')
+const chalk = require('chalk')
+
+const build = require('../src/build')
+const {
+  getPkgVersion,
+  PROJECT_CONFIG
+} = require('../src/util')
+const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
+
+program
+  .option('--type [typeName]', 'Build type, weapp/rn/h5')
+  .option('--watch', 'Build type, weapp/rn/h5')
+  .parse(process.argv)
+
+const args = program.args
+const { type, watch } = program
+console.log(`Taro v${getPkgVersion()}`)
+console.log()
+if (!fs.existsSync(projectConfPath)) {
+  console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
+  process.exit(1)
+}
+const projectConf = require(projectConfPath)
+console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+build(args, { type, watch })

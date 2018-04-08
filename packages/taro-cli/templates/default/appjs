@@ -1,0 +1,32 @@
+import Taro, { Component } from '@taro/taro'
+import Index from './pages/index'
+
+import './app.scss'
+
+class App extends Component {
+  config = {
+    pages: [
+      'pages/index'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    }
+  }
+
+  componentDidMount () {}
+
+  componentDidShow () {}
+
+  componentDidHide () {}
+
+  componentCatchError () {}
+
+  render () {
+    return (
+      <Index />
+    )
+  }
+}

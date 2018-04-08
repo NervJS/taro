@@ -1,0 +1,34 @@
+{
+  "name": "@taro/components",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./build/index.js",
+  "module": "./src/components/index.js",
+  "files": [
+    "src/components",
+    "build",
+    "utils"
+  ],
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js --env development",
+    "deploy": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.prod.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "lodash": "^4.17.5",
+    "nervjs": "^1.2.16",
+    "omit.js": "^1.0.0",
+    "weui": "^1.1.2"
+  },
+  "peerDependencies": {
+    "classnames": "^2.2.5",
+    "lodash": "^4.17.5",
+    "nervjs": "^1.2.16",
+    "omit.js": "^1.0.0",
+    "weui": "^1.1.2"
+  }
+}

@@ -1,0 +1,9 @@
+.taro-scroll-view {
+  overflow: hidden;
+  &__scroll-x {
+    overflow-x: scroll;
+  }
+  &__scroll-y {
+    overflow-y: scroll;
+  }
+}
