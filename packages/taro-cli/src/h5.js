@@ -6,6 +6,7 @@ const through2 = require('through2')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
+const template = require('babel-template')
 
 const npmProcess = require('./npm')
 const Util = require('./util')
@@ -14,6 +15,7 @@ const CONFIG = require('./config')
 const taroJsFramework = '@tarojs/taro'
 const nervJsFramework = 'nervjs'
 const nervJsImportDefaultName = 'Nerv'
+const routerComponentName = 'Router'
 const tempDir = '.temp'
 
 const appPath = process.cwd()
@@ -34,25 +36,68 @@ const babylonConfig = {
     'exponentiationOperator',
     'asyncGenerators',
     'objectRestSpread',
-    'decorators'
+    'decorators',
+    'dynamicImport'
   ]
 }
+const pages = []
 
-function parseAst (code) {
+function processEntry (code) {
   const styleFiles = []
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
   let componentClassName
+
   traverse(ast, {
     enter (astPath) {
-      const node = astPath.node
-      if (node.type === 'ClassProperty' && node.key.name === 'config') {
-        astPath.remove()
-      } else if (node.type === 'ImportDeclaration') {
-        const source = node.source
-        const value = source.value
-        if (Util.isNpmPkg(value)) {
-          if (value === taroJsFramework) {
+      astPath.traverse({
+        ClassDeclaration (astPath) {
+          const node = astPath.node
+          if (!node.superClass) return
+          if (node.superClass.type === 'MemberExpression' &&
+            node.superClass.object.name === taroImportDefaultName) {
+            node.superClass.object.name = nervJsImportDefaultName
+            if (node.id === null) {
+              const renameComponentClassName = '_TaroComponentClass'
+              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+              componentClassName = renameComponentClassName
+            } else {
+              componentClassName = node.id.name
+            }
+          } else if (node.superClass.name === 'Component') {
+            if (node.id === null) {
+              const renameComponentClassName = '_TaroComponentClass'
+              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+              componentClassName = renameComponentClassName
+            } else {
+              componentClassName = node.id.name
+            }
+          }
+        },
+        ClassProperty (astPath) {
+          const node = astPath.node
+          const key = node.key
+          const value = node.value
+          if (key.name !== 'config' || !t.isObjectExpression(value)) return
+          astPath.traverse({
+            ObjectProperty (astPath) {
+              const node = astPath.node
+              const key = node.key
+              const value = node.value
+              if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+              value.elements.forEach(v => {
+                pages.push(v.value)
+              })
+            }
+          })
+          astPath.remove()
+        },
+        ImportDeclaration (astPath) {
+          const node = astPath.node
+          const source = node.source
+          const value = source.value
+          if (Util.isNpmPkg(value)) {
+            if (value !== taroJsFramework) return
             const specifiers = node.specifiers
             let defaultSpecifier = null
             let idx = -1
@@ -70,39 +115,122 @@ function parseAst (code) {
             }
             source.value = nervJsFramework
             astPath.replaceWith(t.importDeclaration(node.specifiers, source))
+          } else if (Util.CSS_EXT.indexOf(path.extname(value)) >= 0) {
+            if (styleFiles.indexOf(value) < 0) {
+              styleFiles.push(value)
+            }
           }
-        } else if (Util.CSS_EXT.indexOf(path.extname(value)) >= 0) {
-          if (styleFiles.indexOf(value) < 0) {
-            styleFiles.push(value)
-          }
+        },
+        ClassMethod (astPath) {
+          const node = astPath.node
+          const key = node.key
+          if (key.name !== 'render') return
+          node.body = template(`{
+            return <Router />
+          }`, babylonConfig)()
         }
-      } else if (node.type === 'ClassDeclaration' && node.superClass) {
-        if (node.superClass.type === 'MemberExpression' &&
-          node.superClass.object.name === taroImportDefaultName) {
-          node.superClass.object.name = nervJsImportDefaultName
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
-            componentClassName = renameComponentClassName
-          } else {
-            componentClassName = node.id.name
-          }
-        } else if (node.superClass.name === 'Component') {
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
-            componentClassName = renameComponentClassName
-          } else {
-            componentClassName = node.id.name
-          }
-        }
+      })
+    },
+    Program: {
+      exit (astPath) {
+        const node = astPath.node
+        const routerPages = pages.map(v => {
+          const pageName = v.startsWith('/') ? v : `/${v}`
+          return `'${pageName}': () => import('.${pageName}.js')`
+        }).join(',')
+
+        const importTaro = template(`import ${taroImportDefaultName}, { ${routerComponentName} } from '${taroJsFramework}'`, babylonConfig)()
+        const initRouter = template(`Taro.initRouter({${routerPages}})`, babylonConfig)()
+        const initNativeApi = template(`${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`, babylonConfig)()
+        const renderApp = template(`${nervJsImportDefaultName}.render(<${componentClassName} />, document.getElementById('app'))`, babylonConfig)()
+
+        node.body.unshift(importTaro)
+        node.body.push(initRouter)
+        node.body.push(initNativeApi)
+        node.body.push(renderApp)
       }
     }
   })
+
   return {
     code: generate(ast).code,
-    taroImportDefaultName,
-    componentClassName,
+    styleFiles
+  }
+}
+
+function processOthers (code) {
+  const styleFiles = []
+  const ast = babylon.parse(code, babylonConfig)
+  let taroImportDefaultName
+
+  traverse(ast, {
+    enter (astPath) {
+      astPath.traverse({
+        ClassDeclaration (astPath) {
+          const node = astPath.node
+          if (!node.superClass) return
+          if (node.superClass.type === 'MemberExpression' &&
+            node.superClass.object.name === taroImportDefaultName) {
+            node.superClass.object.name = nervJsImportDefaultName
+            if (node.id === null) {
+              const renameComponentClassName = '_TaroComponentClass'
+              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+            }
+          } else if (node.superClass.name === 'Component') {
+            if (node.id === null) {
+              const renameComponentClassName = '_TaroComponentClass'
+              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+            }
+          }
+        },
+        ImportDeclaration (astPath) {
+          const node = astPath.node
+          const source = node.source
+          const value = source.value
+          if (Util.isNpmPkg(value)) {
+            if (value !== taroJsFramework) return
+            const specifiers = node.specifiers
+            let defaultSpecifier = null
+            let idx = -1
+            specifiers.forEach((item, index) => {
+              if (item.type === 'ImportDefaultSpecifier') {
+                defaultSpecifier = item.local.name
+                idx = index
+              }
+            })
+            if (!defaultSpecifier) {
+              node.specifiers.unshift(t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName)))
+            } else {
+              taroImportDefaultName = defaultSpecifier
+              node.specifiers[idx].local.name = nervJsImportDefaultName
+            }
+            source.value = nervJsFramework
+            astPath.replaceWith(t.importDeclaration(node.specifiers, source))
+          } else if (Util.CSS_EXT.indexOf(path.extname(value)) >= 0) {
+            if (styleFiles.indexOf(value) < 0) {
+              styleFiles.push(value)
+            }
+          }
+        }
+      })
+    },
+    Program: {
+      exit (astPath) {
+        astPath.traverse({
+          Program (astPath) {
+            const node = astPath.node
+            const importTaro = template(`
+              import ${taroImportDefaultName} from '${taroJsFramework}'
+            `, babylonConfig)
+            node.body.unshift(importTaro())
+          }
+        })
+      }
+    }
+  })
+
+  return {
+    code: generate(ast).code,
     styleFiles
   }
 }
@@ -117,14 +245,11 @@ function build () {
       const filePath = file.path
       const content = file.contents.toString()
       if (entryFilePath === filePath) {
-        const transformResult = parseAst(content)
-        let jsCode = transformResult.code
-        jsCode = `import ${transformResult.taroImportDefaultName} from '${taroJsFramework}'\n${jsCode}`
-        jsCode += `\n${transformResult.taroImportDefaultName}.initNativeApi(${transformResult.taroImportDefaultName})\n`
-        jsCode += `\n${nervJsImportDefaultName}.render(<${transformResult.componentClassName} />, document.getElementById('app'))`
+        const transformResult = processEntry(content)
+        const jsCode = transformResult.code
         file.contents = Buffer.from(jsCode)
       } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
-        const transformResult = parseAst(content)
+        const transformResult = processOthers(content)
         let jsCode = transformResult.code
         if (transformResult.taroImportDefaultName) {
           jsCode = `import ${transformResult.taroImportDefaultName} from '${taroJsFramework}'\n${jsCode}`
@@ -142,7 +267,7 @@ function build () {
       const h5Config = projectConfig.h5 || {}
       h5Config.designWidth = projectConfig.designWidth
       h5Config.entry = entry
-      const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
+      const webpackRunner = await npmProcess.getNpmPkg('taro-webpack-runner')
       webpackRunner(h5Config)
     })
 }

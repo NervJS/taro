@@ -1,4 +1,6 @@
 import { getEnv, ENV_TYPE } from './util'
+import { navigateBack, navigateTo, redirectTo } from './router'
+import { createSelectorQuery } from './api/createSelectorQuery'
 
 const env = getEnv()
 
@@ -100,7 +102,7 @@ function processApis (taro) {
     removeStorageSync: true,
     clearStorageSync: true,
     getSystemInfoSync: true,
-    getExtConfigSync: true,
+    getExtConfigSync: true
   }
   const noPromiseApis = {
     // 媒体
@@ -131,7 +133,6 @@ function processApis (taro) {
     hideLoading: true,
     showNavigationBarLoading: true,
     hideNavigationBarLoading: true,
-    navigateBack: true,
     createAnimation: true,
     pageScrollTo: true,
     createSelectorQuery: true,
@@ -246,8 +247,6 @@ function processApis (taro) {
     showTabBar: true,
     hideTabBar: true,
     setTopBarText: true,
-    navigateTo: true,
-    redirectTo: true,
     switchTab: true,
     reLaunch: true,
     startPullDownRefresh: true,
@@ -276,13 +275,15 @@ function processApis (taro) {
     checkIsSupportSoterAuthentication: true,
     startSoterAuthentication: true,
     checkIsSoterEnrolledInDevice: true
-    //
+    // 
   }
   const weApis = Object.assign(onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
     if (env === ENV_TYPE.WEAPP) {
       if (!onAndSyncApis[key] && !noPromiseApis[key]) {
         taro[key] = options => {
+          let task = null
+          let obj = {}
           options = options || {}
           if (typeof options === 'string') {
             return wx[key](options)
@@ -332,4 +333,8 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
+  taro.navigateTo = navigateTo
+  taro.navigateBack = navigateBack
+  taro.redirectTo = redirectTo
+  taro.createSelectorQuery = createSelectorQuery
 }
