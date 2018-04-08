@@ -267,7 +267,7 @@ function build () {
       const h5Config = projectConfig.h5 || {}
       h5Config.designWidth = projectConfig.designWidth
       h5Config.entry = entry
-      const webpackRunner = await npmProcess.getNpmPkg('taro-webpack-runner')
+      const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
       webpackRunner(h5Config)
     })
 }
