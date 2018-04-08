@@ -14,7 +14,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loaders: ['babel-loader', 'eslint-loader']
+        loaders: ['babel-loader'/*, 'eslint-loader'*/]
       },
       {
         test: /\.md$/,

@@ -6,7 +6,7 @@ module.exports = {
     extensions: ['.js', '.scss', '.css']
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
     libraryTarget: 'umd',
     library: 'taroComponents'
@@ -21,7 +21,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loaders: ['babel-loader', 'eslint-loader']
+        loaders: ['babel-loader'/*, 'eslint-loader'*/]
       },
       {
         test: /\.scss$/,
