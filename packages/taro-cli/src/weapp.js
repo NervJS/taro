@@ -421,22 +421,16 @@ async function buildSinglePage (page) {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${CONFIG.SOURCE_DIR}/${page}`)
   const pagePathArr = page.split('/')
   const pageName = pagePathArr[pagePathArr.length - 1]
-  let pageJs = path.join(sourceDir, page, `${pageName}.js`)
+  let pageJs = path.join(sourceDir, `${page}.js`)
   if (!fs.existsSync(pageJs)) {
-    pageJs = path.join(sourceDir, page, 'index.js')
-    if (!fs.existsSync(pageJs)) {
-      pageJs = path.join(sourceDir, `${page}.js`)
-      if (!fs.existsSync(pageJs)) {
-        Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${CONFIG.SOURCE_DIR}/${page}不存在！`)
-      }
-    }
+    Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${CONFIG.SOURCE_DIR}/${page}不存在！`)
   }
   const pageJsContent = fs.readFileSync(pageJs).toString()
-  const outputPagePath = path.join(outputDir, pagePathArr[0])
-  const outputPageJSPath = path.join(outputDir, `${page}.js`)
-  const outputPageJSONPath = path.join(outputDir, `${page}.json`)
-  const outputPageWXMLPath = path.join(outputDir, `${page}.wxml`)
-  const outputPageWXSSPath = path.join(outputDir, `${page}.wxss`)
+  const outputPageJSPath = pageJs.replace(sourceDir, outputDir)
+  const outputPagePath = path.dirname(outputPageJSPath)
+  const outputPageJSONPath = outputPageJSPath.replace(path.extname(pageJs), '.json')
+  const outputPageWXMLPath = outputPageJSPath.replace(path.extname(pageJs), '.wxml')
+  const outputPageWXSSPath = outputPageJSPath.replace(path.extname(pageJs), '.wxss')
   try {
     const transformResult = nervToMp({
       code: pageJsContent,
