@@ -275,7 +275,7 @@ function processApis (taro) {
     checkIsSupportSoterAuthentication: true,
     startSoterAuthentication: true,
     checkIsSoterEnrolledInDevice: true
-    // 
+    //
   }
   const weApis = Object.assign(onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
