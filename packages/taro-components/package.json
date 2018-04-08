@@ -2,11 +2,11 @@
   "name": "@taro/components",
   "version": "0.0.1",
   "description": "",
-  "main": "./build/index.js",
+  "main": "./dist/index.js",
   "module": "./src/components/index.js",
   "files": [
     "src/components",
-    "build",
+    "dist",
     "utils"
   ],
   "scripts": {
