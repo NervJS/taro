@@ -1,4 +1,4 @@
-import Taro, { Component } from '@taro/taro'
+import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
 
 import './app.scss'

@@ -1,5 +1,5 @@
-import Taro, { Component } from '@taro/taro'
-import { View, Text } from '@taro/components'
+import Taro, { Component } from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 export default class Index extends Component {

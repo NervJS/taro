@@ -1,5 +1,5 @@
 {
-  "name": "@taro/components",
+  "name": "@tarojs/components",
   "version": "0.0.1",
   "description": "",
   "main": "./dist/index.js",

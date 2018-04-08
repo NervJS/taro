@@ -1,5 +1,5 @@
 {
-  "name": "@taro/taro",
+  "name": "@tarojs/taro",
   "version": "0.0.1",
   "description": "Taro framework",
   "main": "index.js",

@@ -22,8 +22,8 @@ const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))
 const pluginsConfig = projectConfig.plugins || {}
 
 const notExistNpmList = []
-const taroJsFramework = '@taro/taro'
-const taroJsComponents = '@taro/components'
+const taroJsFramework = '@tarojs/taro'
+const taroJsComponents = '@tarojs/components'
 let appConfig = {}
 const dependencyTree = {}
 const depComponents = {}
