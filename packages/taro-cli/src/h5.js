@@ -137,19 +137,19 @@ function processEntry (code) {
         const node = astPath.node
         const routerPages = pages.map(v => {
           const pageName = v.startsWith('/') ? v : `/${v}`
-          return `'${pageName}': () => import('.${pageName}.js')`
+          return `['${pageName}', () => import('.${pageName}.js')]`
         }).join(',')
 
         const importTaro = template(`import ${taroImportDefaultName} from '${taroJsFramework}'`, babylonConfig)()
         const importTaroRouter = template(`import ${routerImportDefaultName} from '${taroRouterFramework}'`, babylonConfig)()
-        const initRouter = template(`${routerImportDefaultName}.initRouter({${routerPages}}, ${taroImportDefaultName})`, babylonConfig)()
+        const initRouter = template(`${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`, babylonConfig)()
         const initNativeApi = template(`${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`, babylonConfig)()
         const renderApp = template(`${nervJsImportDefaultName}.render(<${componentClassName} />, document.getElementById('app'))`, babylonConfig)()
 
         node.body.unshift(importTaro)
         node.body.unshift(importTaroRouter)
-        node.body.push(initRouter)
         node.body.push(initNativeApi)
+        node.body.push(initRouter)
         node.body.push(renderApp)
       }
     }
