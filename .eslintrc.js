@@ -5,6 +5,9 @@ module.exports = {
     node: true,
     es6: true
   },
+  globals: {
+    wx: true
+  },
   rules: {
     'no-unused-expressions': 0,
     'no-useless-constructor': 0

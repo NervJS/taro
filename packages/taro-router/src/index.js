@@ -1,6 +1,6 @@
-import history from './history'
-import URL from 'url'
 import Nerv from 'nervjs'
+import history from './lib/history'
+import resolvePathname from './lib/resolvePathname'
 
 let registeredPages = {}
 
@@ -36,6 +36,43 @@ const getWrappedComponent = (component, { location, pathName }) => {
   }
 
   return Wrapped
+}
+
+const navigateTo = function (opts) {
+  const url = opts.url
+  const success = opts.success
+  const fail = opts.fail
+  const complete = opts.complete
+
+  const current = history.stack[history.stack.length - 1]
+  const currentUrl = current.pathname
+  history.push({
+    url: resolvePathname(url, currentUrl),
+    success,
+    fail,
+    complete
+  })
+}
+
+const navigateBack = function (opts) {
+  history.goBack(opts.delta)
+}
+
+const redirectTo = function (opts) {
+  const success = opts.success
+  const fail = opts.fail
+  const complete = opts.complete
+
+  history.replace({
+    url: opts.url,
+    success,
+    fail,
+    complete
+  })
+}
+
+const getCurrentPages = function (opts) {
+  return history.stack[0]
 }
 
 class Router extends Nerv.Component {
@@ -130,55 +167,20 @@ class Router extends Nerv.Component {
   }
 }
 
-const navigateTo = function (opts) {
-  const url = opts.url
-  const success = opts.success
-  const fail = opts.fail
-  const complete = opts.complete
-
-  const current = history.stack[history.stack.length - 1]
-  const currentUrl = current.pathname
-  history.push({
-    url: URL.resolve(currentUrl, url),
-    success,
-    fail,
-    complete
-  })
-}
-
-const navigateBack = function (opts) {
-  history.goBack(opts.delta)
-}
-
-const redirectTo = function (opts) {
-  const success = opts.success
-  const fail = opts.fail
-  const complete = opts.complete
-
-  history.replace({
-    url: opts.url,
-    success,
-    fail,
-    complete
-  })
-}
-
-const getCurrentPages = function (opts) {
-  return history.stack[0]
-}
-
-const initRouter = (opts) => {
+const initRouter = (opts, taro) => {
   registeredPages = opts
+  taro.navigateTo = navigateTo
+  taro.navigateBack = navigateBack
+  taro.redirectTo = redirectTo
+  taro.getCurrentPages = getCurrentPages
 }
 
-export default Router
+export default {
+  Router,
+  initRouter
+}
+
 export {
-  history,
-
-  navigateTo,
-  navigateBack,
-  redirectTo,
-  getCurrentPages,
-
+  Router,
   initRouter
 }

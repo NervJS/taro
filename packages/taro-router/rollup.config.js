@@ -14,9 +14,9 @@ const baseConfig = {
       exports: 'named'
     },
     {
-      file: join(cwd, 'dist/taro.js'),
+      file: join(cwd, 'dist/router.js'),
       format: 'umd',
-      name: 'Taro',
+      name: 'Router',
       sourcemap: true,
       exports: 'named'
     }

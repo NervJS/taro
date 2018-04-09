@@ -1,4 +1,4 @@
-import eventEmitter from 'events'
+import EventEmitter from './eventEmitter'
 
 function pushHashPath (path) {
   window.location.hash = path
@@ -43,7 +43,7 @@ function createLocation (path) {
   }
 }
 
-class History extends eventEmitter {
+class History extends EventEmitter {
   constructor (props) {
     super(props)
 
@@ -79,14 +79,12 @@ class History extends eventEmitter {
     window.addEventListener('hashchange', e => {
       window.history.replaceState(this.stack.length, '', '')
     }, false)
-
-    this.listen = this.listen.bind(this)
   }
 
-  listen (fn) {
+  listen = (fn) => {
     this.on('change', fn)
     return () => {
-      this.removeListener('change', fn)
+      this.off('change', fn)
     }
   }
 

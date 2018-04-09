@@ -1,8 +1,9 @@
 {
-  "name": "@tarojs/taro",
+  "name": "@tarojs/router",
   "version": "0.0.4",
-  "description": "Taro framework",
-  "main": "./dist/index.js",
+  "description": "Taro-router",
+  "main": "index.js",
+  "module": "dist/index.esm.js",
   "files": [
     "dist",
     "src",
@@ -13,7 +14,7 @@
     "build": "rollup -c rollup.config.js"
   },
   "keywords": [
-    "taro"
+    "router"
   ],
   "peerDependencies": {
     "nervjs": "^1.2.17"

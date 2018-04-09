@@ -81,6 +81,7 @@ module.exports = function (config) {
       ]
     },
     resolve: {
+      symlinks: false,
       modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
     },
     resolveLoader: {

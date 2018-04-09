@@ -1,5 +1,4 @@
 import { getEnv, ENV_TYPE } from './util'
-import { navigateBack, navigateTo, redirectTo } from './router'
 import { createSelectorQuery } from './api/createSelectorQuery'
 
 const env = getEnv()
@@ -333,8 +332,5 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
-  taro.navigateTo = navigateTo
-  taro.navigateBack = navigateBack
-  taro.redirectTo = redirectTo
   taro.createSelectorQuery = createSelectorQuery
 }

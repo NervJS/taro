@@ -14,8 +14,9 @@ const CONFIG = require('./config')
 
 const taroJsFramework = '@tarojs/taro'
 const nervJsFramework = 'nervjs'
+const taroRouterFramework = '@tarojs/router'
 const nervJsImportDefaultName = 'Nerv'
-const routerComponentName = 'Router'
+const routerImportDefaultName = 'TaroRouter'
 const tempDir = '.temp'
 
 const appPath = process.cwd()
@@ -126,7 +127,7 @@ function processEntry (code) {
           const key = node.key
           if (key.name !== 'render') return
           node.body = template(`{
-            return <Router />
+            return <${routerImportDefaultName}.Router />
           }`, babylonConfig)()
         }
       })
@@ -139,12 +140,14 @@ function processEntry (code) {
           return `'${pageName}': () => import('.${pageName}.js')`
         }).join(',')
 
-        const importTaro = template(`import ${taroImportDefaultName}, { ${routerComponentName} } from '${taroJsFramework}'`, babylonConfig)()
-        const initRouter = template(`Taro.initRouter({${routerPages}})`, babylonConfig)()
+        const importTaro = template(`import ${taroImportDefaultName} from '${taroJsFramework}'`, babylonConfig)()
+        const importTaroRouter = template(`import ${routerImportDefaultName} from '${taroRouterFramework}'`, babylonConfig)()
+        const initRouter = template(`${routerImportDefaultName}.initRouter({${routerPages}}, ${taroImportDefaultName})`, babylonConfig)()
         const initNativeApi = template(`${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`, babylonConfig)()
         const renderApp = template(`${nervJsImportDefaultName}.render(<${componentClassName} />, document.getElementById('app'))`, babylonConfig)()
 
         node.body.unshift(importTaro)
+        node.body.unshift(importTaroRouter)
         node.body.push(initRouter)
         node.body.push(initNativeApi)
         node.body.push(renderApp)
@@ -216,15 +219,12 @@ function processOthers (code) {
     },
     Program: {
       exit (astPath) {
-        astPath.traverse({
-          Program (astPath) {
-            const node = astPath.node
-            const importTaro = template(`
-              import ${taroImportDefaultName} from '${taroJsFramework}'
-            `, babylonConfig)
-            node.body.unshift(importTaro())
-          }
-        })
+        if (!taroImportDefaultName) return
+        const node = astPath.node
+        const importTaro = template(`
+          import ${taroImportDefaultName} from '${taroJsFramework}'
+        `, babylonConfig)
+        node.body.unshift(importTaro())
       }
     }
   })
