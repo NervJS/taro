@@ -2,7 +2,7 @@
   "name": "@tarojs/taro",
   "version": "0.0.4",
   "description": "Taro framework",
-  "main": "./dist/index.js",
+  "main": "index.js",
   "files": [
     "dist",
     "src",
