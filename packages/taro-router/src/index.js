@@ -2,9 +2,24 @@ import Nerv from 'nervjs'
 import history from './lib/history'
 import resolvePathname from './lib/resolvePathname'
 
-let registeredPages = {}
+const registeredPages = {}
+let registeredPagesArr = []
+const hasPage = (pathname) => {
+  const isNormalPage = registeredPagesArr.some(v => {
+    return pathname === v[0]
+  })
+  const isIndex = /^\/(index(\.html)?)?[^/]*$/.test(pathname)
+  if (isNormalPage || isIndex) return true
+}
+const getPage = (pathname) => {
+  if (pathname in registeredPages) {
+    return registeredPages[pathname]
+  } else {
+    return registeredPagesArr[0][1]
+  }
+}
 
-const getWrappedComponent = (component, { location, pathName }) => {
+const getWrappedComponent = (component, { location }) => {
   class Wrapped extends component {
     constructor (props) {
       super(props)
@@ -99,19 +114,15 @@ class Router extends Nerv.Component {
     switch (action) {
       case 'PUSH':
       case 'REPLACE':
-        const pathName = location.pathname
-        const importFunc = registeredPages[pathName]
-        if (!/function/i.test(Object.prototype.toString.call(importFunc))) {
+        const pathname = location.pathname
+        if (!hasPage(pathname)) {
           payload.fail && payload.fail()
           payload.complete && payload.complete()
           return
         }
-        importFunc()
+        getPage(pathname)()
           .then(loaded => {
-            const wrapped = getWrappedComponent(loaded.default, {
-              location,
-              pathName
-            })
+            const wrapped = getWrappedComponent(loaded.default, { location })
             this.commit(action, wrapped)
             payload.success && payload.success()
           }).catch(e => {
@@ -167,8 +178,13 @@ class Router extends Nerv.Component {
   }
 }
 
-const initRouter = (opts, taro) => {
-  registeredPages = opts
+const initRouter = (pageArr, taro) => {
+  registeredPagesArr = pageArr
+  pageArr.forEach(v => {
+    const pageName = v[0]
+    const pageLoader = v[1]
+    registeredPages[pageName] = pageLoader
+  })
   taro.navigateTo = navigateTo
   taro.navigateBack = navigateBack
   taro.redirectTo = redirectTo
