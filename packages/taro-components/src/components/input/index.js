@@ -1,4 +1,5 @@
 import Nerv from 'nervjs'
+import omit from 'omit.js'
 import classNames from 'classnames'
 const types = {
   text: 'text',
@@ -32,6 +33,16 @@ class Input extends Nerv.Component {
     const cls = classNames('weui-input', className)
     return (
       <input
+        {...omit(this.props, [
+          'className',
+          'placeholder',
+          'disabled',
+          'max',
+          'onChange',
+          'onFocus',
+          'onBlur',
+          'type'
+        ])}
         className={cls}
         placeholder={placeholder}
         disabled={disabled}

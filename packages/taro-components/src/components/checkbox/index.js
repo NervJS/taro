@@ -3,13 +3,6 @@ import omit from 'omit.js'
 import classNames from 'classnames'
 import './style'
 
-function parseKey (key) {
-  if (typeof key === 'undefined') {
-    throw new Error('Checkbox undefined key')
-  }
-  return key
-}
-
 class Checkbox extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -21,7 +14,7 @@ class Checkbox extends Nerv.Component {
     const cls = classNames('taro-checkbox_checked ', className)
     const style = { color: color }
     return (
-      <label className='weui-cells_checkbox' for={parseKey(key)}>
+      <span className='weui-cells_checkbox'>
         <input
           {...omit(this.props, [
             'className',
@@ -41,7 +34,7 @@ class Checkbox extends Nerv.Component {
           style={style}
         />
         {this.props.children}
-      </label>
+      </span>
     )
   }
 }

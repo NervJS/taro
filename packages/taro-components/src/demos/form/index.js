@@ -250,8 +250,9 @@ export default class Form extends Nerv.Component {
     })
   }
 
-  handleSubmit (value) {
-    console.log(value)
+  handleSubmit (e) {
+    console.log(e.detail.value)
+    // value.map(item => {})
   }
 
   render () {
@@ -277,7 +278,7 @@ export default class Form extends Nerv.Component {
                   <Taro.View>
                     <Taro.Text>switch</Taro.Text>
                   </Taro.View>
-                  <Taro.Switch onChange={handleChange} />
+                  <Taro.Switch onChange={handleChange} name='switch' />
                 </Taro.View>
                 <Taro.View className='page__con__title'>
                   <Taro.Text>radio</Taro.Text>
@@ -330,6 +331,7 @@ export default class Form extends Nerv.Component {
                   <Taro.View className='weui-cells'>
                     <Taro.View className='weui-cell'>
                       <Taro.Input
+                        name='input'
                         placeholder='这是一个输入框'
                         type='text'
                         onChange={this.handleChange}
@@ -341,7 +343,11 @@ export default class Form extends Nerv.Component {
                   <Taro.Text>textarea</Taro.Text>
                   <Taro.View className='weui-cells weui-cells_form'>
                     <Taro.View className='weui-cell'>
-                      <Taro.Textarea placeholder='请输入文本' rows='4' />
+                      <Taro.Textarea
+                        placeholder='请输入文本'
+                        rows='4'
+                        name='textarea'
+                      />
                     </Taro.View>
                   </Taro.View>
                 </Taro.View>
@@ -349,6 +355,7 @@ export default class Form extends Nerv.Component {
                   <Taro.Text>slider</Taro.Text>
                   <Taro.View>
                     <Taro.Slider
+                      name='slider'
                       value={this.state.sliderValue}
                       showValue
                       blockSize={16}
@@ -366,6 +373,7 @@ export default class Form extends Nerv.Component {
                     >
                       <Taro.Picker
                         className='selector weui-cell__bd'
+                        name='picker'
                         range={this.state.array}
                         value={this.state.index}
                         bindchange={this.onChange}
@@ -386,6 +394,7 @@ export default class Form extends Nerv.Component {
                       style='padding:15px'
                     >
                       <Taro.Picker
+                        name='multiSelector'
                         className='selector weui-cell__bd'
                         mode='multiSelector'
                         range={this.state.multiArray}
@@ -416,6 +425,7 @@ export default class Form extends Nerv.Component {
                       style='padding:15px'
                     >
                       <Taro.Picker
+                        name='pickerTime'
                         className='selector weui-cell__bd'
                         mode='time'
                         value={this.state.time}
@@ -440,6 +450,7 @@ export default class Form extends Nerv.Component {
                       style='padding:15px'
                     >
                       <Taro.Picker
+                        name='pickerDate'
                         className='selector weui-cell__bd'
                         mode='date'
                         value={this.state.date}
@@ -460,11 +471,20 @@ export default class Form extends Nerv.Component {
                   <Taro.Text>Button</Taro.Text>
                   <Taro.View className='weui-btn-area'>
                     <Taro.Button
+                      formType='submit'
                       className='weui-btn weui-btn_primary'
-                      // disabled='true'
                       hoverClass='red'
+                      type='submit'
                     >
                       测试
+                    </Taro.Button>
+                    <Taro.Button
+                      formType='reset'
+                      className='weui-btn weui-btn_warn'
+                      hoverClass='red'
+                      type='reset'
+                    >
+                      重置
                     </Taro.Button>
                   </Taro.View>
                 </Taro.View>

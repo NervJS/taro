@@ -213,7 +213,7 @@ class Slider extends Nerv.Component {
       marginTop: `-${Math.floor(blockSize / 2)}px`,
       marginLeft: `-${Math.floor(blockSize / 2)}px`
     }
-
+    const { name = '' } = this.props
     return (
       <div className={cls}>
         <div className='weui-slider'>
@@ -226,6 +226,7 @@ class Slider extends Nerv.Component {
               onTouchEnd={this.handleTouchEnd}
               className='weui-slider__handler'
             />
+            <input type='hidden' name={name} value={this.state.value} />
           </div>
         </div>
         {showValue ? (

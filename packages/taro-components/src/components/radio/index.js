@@ -2,13 +2,6 @@ import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
 
-function parseKey (key) {
-  if (typeof key === 'undefined') {
-    throw new Error('Radio undefined key')
-  }
-  return key
-}
-
 class Radio extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -19,7 +12,7 @@ class Radio extends Nerv.Component {
     const key = this.props.for
     const cls = classNames('weui-check', className)
     return (
-      <label className='weui-cells_checkbox' for={parseKey(key)}>
+      <span className='weui-cells_checkbox'>
         <input
           {...omit(this.props, [
             'className',
@@ -38,7 +31,7 @@ class Radio extends Nerv.Component {
         />
         <i className='weui-icon-checked' />
         {this.props.children}
-      </label>
+      </span>
     )
   }
 }

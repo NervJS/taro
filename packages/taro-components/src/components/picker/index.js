@@ -88,6 +88,7 @@ export default class Picker extends Nerv.Component {
     }
 
     this.state = {
+      pickerValue: this.index,
       hidden: true,
       fadeOut: false,
       height: []
@@ -249,6 +250,9 @@ export default class Picker extends Nerv.Component {
         }
       }
 
+      this.setState({
+        pickerValue: eventObj.detail.value
+      })
       this.props.bindchange && this.props.bindchange(eventObj)
     }
 
@@ -573,6 +577,8 @@ export default class Picker extends Nerv.Component {
         pickerGroup = getSelector()
     }
 
+    const { name = '' } = this.props
+
     return (
       <div className={this.props.className}>
         {children}
@@ -587,6 +593,7 @@ export default class Picker extends Nerv.Component {
             </div>
           </div>
           <div className='weui-picker__bd'>{pickerGroup}</div>
+          <input type='hidden' name={name} value={this.state.pickerValue} />
         </div>
       </div>
     )

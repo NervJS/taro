@@ -45,7 +45,7 @@ class RadioGroup extends Nerv.Component {
     const children = Nerv.Children.toArray(this.props.children).map(
       (item, i) => {
         let _key = item.props.for
-        return Nerv.Children.toArray(item.props.children).map(ch => {
+        const chd = Nerv.Children.toArray(item.props.children).map(ch => {
           if (ch.name === 'Radio') {
             if (ch.props.checked) {
               this.state.value[i] = {
@@ -68,6 +68,7 @@ class RadioGroup extends Nerv.Component {
           }
           return ch
         })
+        return Nerv.cloneElement(item, '', chd)
       }
     )
 

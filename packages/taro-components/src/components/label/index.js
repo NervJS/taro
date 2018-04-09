@@ -8,12 +8,7 @@ class Label extends Nerv.Component {
   render () {
     const key = this.props.for
 
-    const children = Nerv.Children.map(this.props.children, child => {
-      return Nerv.cloneElement(child, {
-        for: key
-      })
-    })
-    return children
+    return <label for={key}>{this.props.children}</label>
   }
 }
 
