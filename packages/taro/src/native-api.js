@@ -117,6 +117,8 @@ function processApis (taro) {
     createVideoContext: true,
     createCameraContext: true,
 
+    navigateBack: true,
+
     // 位置
     createMapContext: true,
 
@@ -183,6 +185,12 @@ function processApis (taro) {
     getStorageInfo: true,
     removeStorage: true,
     clearStorage: true,
+
+    // 导航
+    navigateTo: true,
+    redirectTo: true,
+    switchTab: true,
+    reLaunch: true,
 
     // 位置
     getLocation: true,
