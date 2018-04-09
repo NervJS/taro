@@ -739,11 +739,7 @@ function watchFiles () {
         if (includeStyleJSPath.length) {
           includeStyleJSPath.forEach(async item => {
             let outputWXSSPath = null
-            if (item.filePath.indexOf(CONFIG.ENTRY) >= 0) {
-              outputWXSSPath = item.filePath.replace(path.extname(item.filePath), '.wxss')
-            } else {
-              outputWXSSPath = `${path.dirname(item.filePath)}.wxss`
-            }
+            outputWXSSPath = item.filePath.replace(path.extname(item.filePath), '.wxss')
             let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
