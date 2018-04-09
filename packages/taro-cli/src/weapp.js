@@ -704,7 +704,7 @@ function watchFiles () {
             }
           })
           if (isPage) { // 编译页面
-            filePath = path.dirname(filePath)
+            filePath = filePath.replace(path.extname(filePath), '')
             filePath = filePath.replace(path.join(sourceDir) + path.sep, '')
             filePath = filePath.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '页面文件', `${CONFIG.SOURCE_DIR}/${filePath}`)
