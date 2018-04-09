@@ -66,7 +66,9 @@ class Component {
         throw new Error('parameter error!')
     }
     if (this.shouldComponentUpdate(this.nextProps, newState)) {
-      this.state = Object.assign(this.state, newState)
+      const state = Object.assign({}, this.state)
+      delete state.__data
+      this.state = Object.assign({}, state, newState)
       this.lastProps = objClone(this.props)
       this.props = Object.assign(this.props, this.nextProps)
       this._createData && this._createData()
