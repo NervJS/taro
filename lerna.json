@@ -3,6 +3,11 @@
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "publish": {
+      "message": "chore(release): publish %s"
+    }
+  },
   "version": "0.0.7",
   "npmClient": "yarn",
   "npmClientArgs": [
