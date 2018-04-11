@@ -419,8 +419,6 @@ async function buildPages () {
 
 async function buildSinglePage (page) {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${CONFIG.SOURCE_DIR}/${page}`)
-  const pagePathArr = page.split('/')
-  const pageName = pagePathArr[pagePathArr.length - 1]
   let pageJs = path.join(sourceDir, `${page}.js`)
   if (!fs.existsSync(pageJs)) {
     Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${CONFIG.SOURCE_DIR}/${page}不存在！`)

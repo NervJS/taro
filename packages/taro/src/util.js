@@ -4,7 +4,7 @@ export const ENV_TYPE = {
   RN: 'RN'
 }
 
-export function getEnv() {
+export function getEnv () {
   if (typeof wx !== 'undefined' && wx.getSystemInfo) {
     return ENV_TYPE.WEAPP
   }
@@ -17,7 +17,7 @@ export function getEnv() {
   return 'Unknown environment'
 }
 
-export function isEmptyObject(obj) {
+export function isEmptyObject (obj) {
   if (!obj) {
     return false
   }
@@ -34,7 +34,7 @@ export function isEmptyObject(obj) {
  * @param {Object | Json} jsonObj json对象
  * @return {Object | Json} 新的json对象
  */
-export function objClone(jsonObj) {
+export function objClone (jsonObj) {
   var buf
   if (jsonObj instanceof Array) {
     buf = []

@@ -254,8 +254,6 @@ function processApis (taro) {
     showTabBar: true,
     hideTabBar: true,
     setTopBarText: true,
-    switchTab: true,
-    reLaunch: true,
     startPullDownRefresh: true,
 
     // 第三方平台

@@ -1,8 +1,8 @@
 import initNativeApi from './native-api'
 
-function createApp (appClass) {
+function createApp (AppClass) {
   initNativeApi(this)
-  const app = new appClass()
+  const app = new AppClass()
   const weappAppConf = {
     onLaunch (options) {
       if (app.componentDidMount) {

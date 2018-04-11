@@ -86,6 +86,6 @@ module.exports = function (config) {
     },
     resolveLoader: {
       modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
-    },
+    }
   }
 }

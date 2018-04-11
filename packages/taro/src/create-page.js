@@ -9,54 +9,53 @@ function initPage (weappPageConf, page) {
     if (obj[newEventHandlerName]) {
       return
     }
-    !obj[newEventHandlerName] &&
-      (obj[newEventHandlerName] = function (event) {
-        if (event) {
-          event.preventDefault = function () {}
-          event.stopPropagation = function () {}
-          Object.assign(event.target, event.detail)
-          Object.assign(event.currentTarget, event.detail)
-        }
-        const dataset = event.currentTarget.dataset
-        const theComponent =
-          scopeMap[dataset['__component_path'] || rootScopeKey]
-        let scope = theComponent
-        const bindArgs = {}
-        Object.keys(dataset).forEach(key => {
-          const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
-          if (
-            key.indexOf(eventPreffix) >= 0 &&
-            key.indexOf(newEventHandlerNameLower) >= 0
-          ) {
-            const argName = key.replace(
-              `${eventPreffix}${newEventHandlerNameLower}_`,
-              ''
-            )
+    obj[newEventHandlerName] = function (event) {
+      if (event) {
+        event.preventDefault = function () {}
+        event.stopPropagation = function () {}
+        Object.assign(event.target, event.detail)
+        Object.assign(event.currentTarget, event.detail)
+      }
+      const dataset = event.currentTarget.dataset
+      const theComponent =
+        scopeMap[dataset['__component_path'] || rootScopeKey]
+      let scope = theComponent
+      const bindArgs = {}
+      Object.keys(dataset).forEach(key => {
+        const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
+        if (
+          key.indexOf(eventPreffix) >= 0 &&
+          key.indexOf(newEventHandlerNameLower) >= 0
+        ) {
+          const argName = key.replace(
+            `${eventPreffix}${newEventHandlerNameLower}_`,
+            ''
+          )
 
-            bindArgs[argName] = dataset[key]
-          }
-        })
-        if (!isEmptyObject(bindArgs)) {
-          if (bindArgs['scope'] !== 'this') {
-            scope = bindArgs['scope']
-          }
-          delete bindArgs['scope']
-          const realArgs = Object.keys(bindArgs)
-            .sort()
-            .map(key => bindArgs[key])
-
-          realArgs.push(event)
-          const newHandler = () => {
-            return theComponent[eventHandlerName].apply(scope, realArgs)
-          }
-          newHandler()
-        } else {
-          if (dataset['__component_path']) {
-            scope = scopeMap[dataset['__component_path'] || rootScopeKey]
-          }
-          theComponent[eventHandlerName].call(scope, event)
+          bindArgs[argName] = dataset[key]
         }
       })
+      if (!isEmptyObject(bindArgs)) {
+        if (bindArgs['scope'] !== 'this') {
+          scope = bindArgs['scope']
+        }
+        delete bindArgs['scope']
+        const realArgs = Object.keys(bindArgs)
+          .sort()
+          .map(key => bindArgs[key])
+
+        realArgs.push(event)
+        const newHandler = () => {
+          return theComponent[eventHandlerName].apply(scope, realArgs)
+        }
+        newHandler()
+      } else {
+        if (dataset['__component_path']) {
+          scope = scopeMap[dataset['__component_path'] || rootScopeKey]
+        }
+        theComponent[eventHandlerName].call(scope, event)
+      }
+    }
   }
 
   function recurrenceComponent (weappPageConf, component, path) {
@@ -97,10 +96,9 @@ function initPage (weappPageConf, page) {
   }
   return recurrenceComponent(weappPageConf, page)
 }
-function createPage (pageClass) {
-  const page = new pageClass()
+function createPage (PageClass) {
+  const page = new PageClass()
   page.$isComponent = false
-  const stateList = []
   const weappPageConf = {
     stateList: [],
     onLoad (options) {

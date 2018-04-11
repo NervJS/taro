@@ -4,7 +4,6 @@ const webpackMerge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const baseConf = require('./config/base.conf')
-const devConf = require('./config/dev.conf')
 const prodConf = require('./config/prod.conf')
 const buildConf = require('./config/build.conf')
 

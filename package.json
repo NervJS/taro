@@ -4,6 +4,8 @@
   "description": "Nerv-multi多端开发解决方案",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint packages/*/src --fix",
+    "precommit": "lint-staged",
     "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json",
     "bootstrap:lerna": "lerna bootstrap -- --ignore-engines",
     "bootstrap": "npm-run-all clear-all bootstrap:lerna",
@@ -14,6 +16,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "keywords": [
     "nerv",

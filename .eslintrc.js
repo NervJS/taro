@@ -6,7 +6,8 @@ module.exports = {
     es6: true
   },
   globals: {
-    wx: true
+    wx: true,
+    getApp: true
   },
   rules: {
     'no-unused-expressions': 0,

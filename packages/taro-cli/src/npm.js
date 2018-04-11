@@ -5,7 +5,7 @@ const Util = require('./util')
 
 const basedir = process.cwd()
 const taroPluginPrefix = '@tarojs/plugin-'
-const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9\.]+)@(.+)/gm
+const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
 const npmCached = {}
 const erroneous = []
 const defaultInstallOptions = {
