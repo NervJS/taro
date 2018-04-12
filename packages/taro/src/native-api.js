@@ -1,5 +1,6 @@
 import { getEnv, ENV_TYPE } from './util'
 import { createSelectorQuery } from './api/createSelectorQuery'
+import * as storage from './api/storage'
 
 const env = getEnv()
 
@@ -339,4 +340,5 @@ export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
   taro.createSelectorQuery = createSelectorQuery
+  Object.assign(taro, storage)
 }
