@@ -376,6 +376,7 @@ async function buildEntry () {
       const compileScriptRes = await npmProcess.callPlugin('babel', resCode, entryFilePath, babelConfig)
       resCode = compileScriptRes.code
     }
+    resCode = resCode.replace(Util.REG_ENV, JSON.stringify(process.env.NODE_ENV))
     fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${CONFIG.OUTPUT_DIR}/app.json`)
     fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
@@ -448,6 +449,7 @@ async function buildSinglePage (page) {
       const compileScriptRes = await npmProcess.callPlugin('babel', resCode, pageJs, babelConfig)
       resCode = compileScriptRes.code
     }
+    resCode = resCode.replace(Util.REG_ENV, JSON.stringify(process.env.NODE_ENV))
     fs.ensureDirSync(outputPagePath)
     fs.writeFileSync(outputPageJSONPath, JSON.stringify(res.configObj, null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${CONFIG.OUTPUT_DIR}/${page}.json`)
@@ -653,7 +655,8 @@ function compileDepScripts (babelConfig, scriptFiles) {
           const compileScriptRes = await npmProcess.callPlugin('babel', code, item, babelConfig)
           const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
           fs.ensureDirSync(path.dirname(outputItem))
-          fs.writeFileSync(outputItem, compileScriptRes.code)
+          const resCode = compileScriptRes.code.replace(Util.REG_ENV, JSON.stringify(process.env.NODE_ENV))
+          fs.writeFileSync(outputItem, resCode)
           let modifyOutput = outputItem.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
@@ -770,6 +773,11 @@ function watchFiles () {
 }
 
 async function build ({ watch }) {
+  if (watch) {
+    process.env.NODE_ENV = 'development'
+  } else {
+    process.env.NODE_ENV = 'production'
+  }
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {

@@ -27,7 +27,7 @@ const processTypeMap = {
     color: 'blue'
   },
   [pocessTypeEnum.MODIFY]: {
-    name: '拷贝',
+    name: '修改',
     color: 'yellow'
   },
   [pocessTypeEnum.ERROR]: {
@@ -73,6 +73,8 @@ exports.isNpmPkg = function (name) {
   }
   return true
 }
+
+exports.REG_ENV = /process.env.NODE_ENV/g
 
 exports.promoteRelativePath = function (fPath) {
   const fPathArr = fPath.split('/')

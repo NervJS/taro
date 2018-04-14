@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const resolvePath = require('resolve')
 
-const { isNpmPkg, promoteRelativePath, printLog, pocessTypeEnum } = require('./index')
+const { isNpmPkg, promoteRelativePath, printLog, pocessTypeEnum, REG_ENV } = require('./index')
 const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
@@ -30,6 +30,7 @@ function resolveNpmFilesPath (pkgName) {
 
 function recursiveRequire (filePath, files) {
   let fileContent = fs.readFileSync(filePath).toString()
+  fileContent = fileContent.replace(REG_ENV, JSON.stringify(process.env.NODE_ENV))
   fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
     if (isNpmPkg(requirePath)) {
       const res = resolveNpmFilesPath(requirePath)
