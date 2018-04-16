@@ -10,7 +10,6 @@ class Component {
   nextProps = {}
   constructor (props) {
     this.state = {}
-    this.state = (this._createData && this._createData()) || {}
     this.props = props || {}
   }
 
