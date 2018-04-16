@@ -21,11 +21,10 @@ const routerImportDefaultName = 'TaroRouter'
 const tempDir = '.temp'
 
 const appPath = process.cwd()
-const sourceDir = path.join(appPath, CONFIG.SOURCE_DIR)
+const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
+const sourceDir = path.join(appPath, projectConfig.sourceRoot || CONFIG.SOURCE_DIR)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
-
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 
 const babylonConfig = {
   sourceType: 'module',
@@ -266,7 +265,11 @@ function build ({ watch }) {
         'app': path.join(tempPath, CONFIG.ENTRY)
       }
       const h5Config = projectConfig.h5 || {}
+      h5Config.env = projectConfig.env
+      h5Config.defineConstants = projectConfig.defineConstants
       h5Config.designWidth = projectConfig.designWidth
+      h5Config.sourceRoot = projectConfig.sourceRoot
+      h5Config.outputRoot = projectConfig.outputRoot
       h5Config.entry = entry
       const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
       webpackRunner(h5Config)

@@ -14,12 +14,14 @@ const npmProcess = require('./npm')
 const { resolveNpmFilesPath } = require('./util/resolve_npm_files')
 
 const appPath = process.cwd()
-const sourceDir = path.join(appPath, CONFIG.SOURCE_DIR)
-const outputDir = path.join(appPath, CONFIG.OUTPUT_DIR)
+const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
+const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+const sourceDir = path.join(appPath, sourceDirName)
+const outputDir = path.join(appPath, outputDirName)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 const outputEntryFilePath = path.join(outputDir, CONFIG.ENTRY)
 
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 
 const notExistNpmList = []
@@ -35,7 +37,7 @@ function getExactedNpmFilePath (npmName, filePath) {
   try {
     const npmInfo = resolveNpmFilesPath(npmName)
     const npmInfoMainPath = npmInfo.main
-    const outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(CONFIG.OUTPUT_DIR, CONFIG.NPM_DIR))
+    const outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(outputDirName, CONFIG.NPM_DIR))
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
   } catch (err) {
@@ -357,7 +359,7 @@ function copyFilesFromSrcToOutput (files) {
 }
 
 async function buildEntry () {
-  Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${CONFIG.SOURCE_DIR}/${CONFIG.ENTRY}`)
+  Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${CONFIG.ENTRY}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
   try {
     const transformResult = nervToMp({
@@ -380,9 +382,9 @@ async function buildEntry () {
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${CONFIG.OUTPUT_DIR}/app.json`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
     fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${CONFIG.OUTPUT_DIR}/app.js`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
@@ -391,7 +393,7 @@ async function buildEntry () {
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
       await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, [])
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${CONFIG.OUTPUT_DIR}/app.wxss`)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app.wxss`)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -421,10 +423,10 @@ async function buildPages () {
 }
 
 async function buildSinglePage (page) {
-  Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${CONFIG.SOURCE_DIR}/${page}`)
+  Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${sourceDirName}/${page}`)
   let pageJs = path.join(sourceDir, `${page}.js`)
   if (!fs.existsSync(pageJs)) {
-    Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${CONFIG.SOURCE_DIR}/${page}不存在！`)
+    Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${sourceDirName}/${page}不存在！`)
   }
   const pageJsContent = fs.readFileSync(pageJs).toString()
   const outputPageJSPath = pageJs.replace(sourceDir, outputDir)
@@ -455,11 +457,11 @@ async function buildSinglePage (page) {
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     fs.ensureDirSync(outputPagePath)
     fs.writeFileSync(outputPageJSONPath, JSON.stringify(res.configObj, null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${CONFIG.OUTPUT_DIR}/${page}.json`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
     fs.writeFileSync(outputPageJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${CONFIG.OUTPUT_DIR}/${page}.js`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${outputDirName}/${page}.js`)
     fs.writeFileSync(outputPageWXMLPath, transformResult.template)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXML', `${CONFIG.OUTPUT_DIR}/${page}.wxml`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXML', `${outputDirName}/${page}.wxml`)
     const fileDep = dependencyTree[pageJs] || {}
     // 编译依赖的组件文件
     let buildDepComponentsResult = []
@@ -482,7 +484,7 @@ async function buildSinglePage (page) {
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${CONFIG.OUTPUT_DIR}/${page}.wxss`)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${outputDirName}/${page}.wxss`)
       const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputPageWXSSPath] = depStyleList
       await compileDepStyles(outputPageWXSSPath, res.styleFiles, depStyleList)
@@ -571,7 +573,7 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
 async function buildSingleComponent (component) {
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
-  let outputComponentShowPath = componentShowPath.replace(CONFIG.SOURCE_DIR, CONFIG.OUTPUT_DIR)
+  let outputComponentShowPath = componentShowPath.replace(sourceDirName, outputDirName)
   outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
   Util.printLog(Util.pocessTypeEnum.COMPILE, '组件文件', componentShowPath)
   const componentContent = fs.readFileSync(component).toString()
@@ -596,9 +598,9 @@ async function buildSingleComponent (component) {
     }
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     fs.writeFileSync(outputComponentJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${CONFIG.OUTPUT_DIR}/${outputComponentShowPath}.js`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
     fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXML', `${CONFIG.OUTPUT_DIR}/${outputComponentShowPath}.wxml`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXML', `${outputDirName}/${outputComponentShowPath}.wxml`)
     const fileDep = dependencyTree[component] || {}
     // 编译依赖的组件文件
     let buildDepComponentsResult = []
@@ -621,7 +623,7 @@ async function buildSingleComponent (component) {
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXSS', `${CONFIG.OUTPUT_DIR}/${outputComponentShowPath}.wxss`)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXSS', `${outputDirName}/${outputComponentShowPath}.wxss`)
       const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputComponentWXSSPath] = depStyleList
       await compileDepStyles(outputComponentWXSSPath, res.styleFiles, depStyleList)
@@ -693,7 +695,7 @@ function watchFiles () {
       // 编译JS文件
       if (Util.REG_SCRIPT.test(extname)) {
         if (filePath.indexOf(CONFIG.ENTRY) >= 0) {
-          Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${CONFIG.SOURCE_DIR}/${CONFIG.ENTRY}.js`)
+          Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${CONFIG.ENTRY}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
           if (Util.checksum(JSON.stringify(config)) !== Util.checksum(JSON.stringify(appConfig))) {
@@ -712,7 +714,7 @@ function watchFiles () {
             filePath = filePath.replace(path.extname(filePath), '')
             filePath = filePath.replace(path.join(sourceDir) + path.sep, '')
             filePath = filePath.split(path.sep).join('/')
-            Util.printLog(Util.pocessTypeEnum.MODIFY, '页面文件', `${CONFIG.SOURCE_DIR}/${filePath}`)
+            Util.printLog(Util.pocessTypeEnum.MODIFY, '页面文件', `${sourceDirName}/${filePath}`)
             await buildSinglePage(filePath)
           } else if (hasBeenBuiltComponents.indexOf(filePath) >= 0) { // 编译组件
             let outoutShowFilePath = filePath.replace(path.join(appPath) + path.sep, '')
