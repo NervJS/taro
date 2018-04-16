@@ -7,6 +7,7 @@ const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
 const template = require('babel-template')
+const _ = require('lodash')
 
 const npmProcess = require('./npm')
 const Util = require('./util')
@@ -24,7 +25,7 @@ const sourceDir = path.join(appPath, CONFIG.SOURCE_DIR)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))
+const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 
 const babylonConfig = {
   sourceType: 'module',
@@ -235,7 +236,7 @@ function processOthers (code) {
   }
 }
 
-function build () {
+function build ({ watch }) {
   fs.ensureDirSync(tempPath)
   vfs.src(path.join(sourceDir, '**'))
     .pipe(through2.obj(function (file, enc, cb) {

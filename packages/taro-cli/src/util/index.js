@@ -54,7 +54,7 @@ exports.BUILD_TYPES = {
   RN: 'rn'
 }
 
-exports.PROJECT_CONFIG = 'project.config.js'
+exports.PROJECT_CONFIG = 'config/index.js'
 
 exports.DEVICE_RATIO = {
   '640': 2.34 / 2,
@@ -73,8 +73,6 @@ exports.isNpmPkg = function (name) {
   }
   return true
 }
-
-exports.REG_ENV = /process.env.NODE_ENV/g
 
 exports.promoteRelativePath = function (fPath) {
   const fPathArr = fPath.split('/')
@@ -363,4 +361,15 @@ exports.printLog = function (type, tag, filePath) {
   const padding = ''
   filePath = filePath || ''
   console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+}
+
+exports.replaceContentEnv = function (content, env) {
+  if (typeof env === 'object') {
+    for (const key in env) {
+      const reg = new RegExp(`process.env.${key}`, 'g')
+      content = content.replace(reg, env[key])
+    }
+    return content
+  }
+  return content
 }

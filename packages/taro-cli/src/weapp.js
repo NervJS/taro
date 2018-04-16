@@ -6,6 +6,7 @@ const nervToMp = require('nerv-to-mp')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
+const _ = require('lodash')
 
 const Util = require('./util')
 const CONFIG = require('./config')
@@ -18,7 +19,7 @@ const outputDir = path.join(appPath, CONFIG.OUTPUT_DIR)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 const outputEntryFilePath = path.join(outputDir, CONFIG.ENTRY)
 
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))
+const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 
 const notExistNpmList = []
@@ -376,7 +377,7 @@ async function buildEntry () {
       const compileScriptRes = await npmProcess.callPlugin('babel', resCode, entryFilePath, babelConfig)
       resCode = compileScriptRes.code
     }
-    resCode = resCode.replace(Util.REG_ENV, JSON.stringify(process.env.NODE_ENV))
+    resCode = Util.replaceContentEnv(resCode, projectConfig.env || '')
     fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${CONFIG.OUTPUT_DIR}/app.json`)
     fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
@@ -449,7 +450,7 @@ async function buildSinglePage (page) {
       const compileScriptRes = await npmProcess.callPlugin('babel', resCode, pageJs, babelConfig)
       resCode = compileScriptRes.code
     }
-    resCode = resCode.replace(Util.REG_ENV, JSON.stringify(process.env.NODE_ENV))
+    resCode = Util.replaceContentEnv(resCode, projectConfig.env || '')
     fs.ensureDirSync(outputPagePath)
     fs.writeFileSync(outputPageJSONPath, JSON.stringify(res.configObj, null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${CONFIG.OUTPUT_DIR}/${page}.json`)
@@ -655,7 +656,7 @@ function compileDepScripts (babelConfig, scriptFiles) {
           const compileScriptRes = await npmProcess.callPlugin('babel', code, item, babelConfig)
           const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
           fs.ensureDirSync(path.dirname(outputItem))
-          const resCode = compileScriptRes.code.replace(Util.REG_ENV, JSON.stringify(process.env.NODE_ENV))
+          const resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || '')
           fs.writeFileSync(outputItem, resCode)
           let modifyOutput = outputItem.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
@@ -773,11 +774,6 @@ function watchFiles () {
 }
 
 async function build ({ watch }) {
-  if (watch) {
-    process.env.NODE_ENV = 'development'
-  } else {
-    process.env.NODE_ENV = 'production'
-  }
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {
