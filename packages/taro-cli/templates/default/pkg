@@ -10,14 +10,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/components": "^0.0.3",
-    "@tarojs/taro": "^0.0.3",
+    "@tarojs/components": "^0.0.8",
+    "@tarojs/router": "^0.0.8",
+    "@tarojs/taro": "^0.0.8",
     "nervjs": "^1.2.17"
   },
   "devDependencies": {
-    "@tarojs/plugin-babel": "^0.0.3",
-    "@tarojs/plugin-sass": "^0.0.3",
-    "@tarojs/webpack-runner": "^0.0.3",
+    "@tarojs/plugin-babel": "^0.0.8",
+    "@tarojs/plugin-sass": "^0.0.8",
+    "@tarojs/webpack-runner": "^0.0.8",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

@@ -6,12 +6,15 @@ const ora = require('ora')
 
 module.exports = function (creater, params, helper, cb) {
   const { projectName, description, template, date, src } = params
+  const configDirName = 'config'
   const cwd = process.cwd()
   const projectPath = path.join(cwd, projectName)
   const sourceDir = path.join(projectPath, src)
+  const configDir = path.join(projectPath, configDirName)
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
+  fs.mkdirSync(configDir)
   fs.mkdirSync(path.join(sourceDir, 'pages'))
 
   creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
@@ -23,21 +26,26 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   creater.template(template, 'appjs', path.join(sourceDir, 'app.js'))
   creater.template(template, 'scss', path.join(sourceDir, 'app.scss'))
-  creater.template(template, 'projectconf', path.join(sourceDir, 'project.conf.js'), {
+  creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
   })
+  creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
+  creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'))
   creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', 'index.scss'))
   creater.fs.commit(() => {
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建配置目录: ${projectName}/${configDirName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建源码目录: ${projectName}/${src}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${src}/pages`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.scss`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/index.html`)}`)
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/project.conf.js`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/index.js`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/dev.js`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/prod.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.editorconfig`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.gitignore`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/package.json`)}`)
