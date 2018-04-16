@@ -364,10 +364,21 @@ exports.printLog = function (type, tag, filePath) {
 }
 
 exports.replaceContentEnv = function (content, env) {
-  if (typeof env === 'object') {
+  if (env && !exports.isEmptyObject(env)) {
     for (const key in env) {
       const reg = new RegExp(`process.env.${key}`, 'g')
       content = content.replace(reg, env[key])
+    }
+    return content
+  }
+  return content
+}
+
+exports.replaceContentConstants = function (content, constants) {
+  if (constants && !exports.isEmptyObject(constants)) {
+    for (const key in constants) {
+      const reg = new RegExp(key, 'g')
+      content = content.replace(reg, constants[key])
     }
     return content
   }

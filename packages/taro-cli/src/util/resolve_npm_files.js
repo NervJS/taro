@@ -39,7 +39,7 @@ function resolveNpmFilesPath (pkgName) {
 
 function recursiveRequire (filePath, files) {
   let fileContent = fs.readFileSync(filePath).toString()
-  fileContent = replaceContentEnv(fileContent, projectConfig.env || '')
+  fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
     if (isNpmPkg(requirePath)) {
       const res = resolveNpmFilesPath(requirePath)
