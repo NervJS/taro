@@ -14,6 +14,10 @@
     "deploy": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.prod.config.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",

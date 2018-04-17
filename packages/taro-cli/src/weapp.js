@@ -2,16 +2,19 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
+const babylon = require('babylon')
 const nervToMp = require('nerv-to-mp')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
+const template = require('babel-template')
 const _ = require('lodash')
 
 const Util = require('./util')
 const CONFIG = require('./config')
 const npmProcess = require('./npm')
 const { resolveNpmFilesPath } = require('./util/resolve_npm_files')
+const babylonConfig = require('./config/babylon')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -27,11 +30,19 @@ const pluginsConfig = projectConfig.plugins || {}
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
 const taroJsComponents = '@tarojs/components'
+const taroJsRedux = '@tarojs/redux'
 let appConfig = {}
 const dependencyTree = {}
 const depComponents = {}
 const hasBeenBuiltComponents = []
 const wxssDepTree = {}
+
+const PARSE_AST_TYPE = {
+  ENTRY: 'ENTRY',
+  PAGE: 'PAGE',
+  COMPONENT: 'COMPONENT',
+  NORMAL: 'NORMAL'
+}
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
@@ -48,13 +59,14 @@ function getExactedNpmFilePath (npmName, filePath) {
   }
 }
 
-function parseAst (ast, sourceFilePath, filePath) {
+function parseAst (type, ast, sourceFilePath, filePath) {
   const styleFiles = []
   const scriptFiles = []
   const jsonFiles = []
   const mediaFiles = []
   let configObj = {}
   let componentClassName = null
+  let taroJsReduxConnect = null
   function traverseObjectNode (node, obj) {
     if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
       const properties = node.value.properties
@@ -81,80 +93,91 @@ function parseAst (ast, sourceFilePath, filePath) {
     return node.value
   }
   let taroImportDefaultName
+  let needExportDefault = false
+  let exportTaroReduxConnected = null
   traverse(ast, {
-    enter (astPath) {
+    ClassDeclaration (astPath) {
       const node = astPath.node
-      if (node.type === 'ClassProperty' && node.key.name === 'config') {
+      if (node.superClass) {
+        if (node.superClass.name === 'Component' ||
+        (node.superClass.type === 'MemberExpression' &&
+        node.superClass.object.name === taroImportDefaultName)) {
+          needExportDefault = true
+          if (node.id === null) {
+            componentClassName = '_TaroComponentClass'
+            astPath.replaceWith(t.classDeclaration(t.identifier(componentClassName), node.superClass, node.body, node.decorators || []))
+          } else if (node.id.name === 'App') {
+            componentClassName = '_App'
+            astPath.replaceWith(t.classDeclaration(t.identifier(componentClassName), node.superClass, node.body, node.decorators || []))
+          } else {
+            componentClassName = node.id.name
+          }
+        }
+      }
+    },
+
+    ClassProperty (astPath) {
+      const node = astPath.node
+      if (node.key.name === 'config') {
         configObj = traverseObjectNode(node)
         astPath.remove()
-      } else if (node.type === 'ImportDeclaration') {
-        const source = node.source
-        const value = source.value
-        const valueExtname = path.extname(value)
-        if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
-          if (value === taroJsComponents) {
-            astPath.remove()
-          } else {
-            if (value === taroJsFramework) {
-              const specifiers = node.specifiers
-              let defaultSpecifier = null
-              specifiers.forEach(item => {
-                if (item.type === 'ImportDefaultSpecifier') {
-                  defaultSpecifier = item.local.name
-                }
-              })
-              if (defaultSpecifier) {
-                taroImportDefaultName = defaultSpecifier
-              }
-            }
-            source.value = getExactedNpmFilePath(value, filePath)
-            astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
-          }
-        } else if (Util.REG_STYLE.test(valueExtname)) {
-          const stylePath = path.resolve(path.dirname(sourceFilePath), value)
-          if (styleFiles.indexOf(stylePath) < 0) {
-            styleFiles.push(stylePath)
-          }
+      }
+    },
+
+    ImportDeclaration (astPath) {
+      const node = astPath.node
+      const source = node.source
+      const value = source.value
+      const valueExtname = path.extname(value)
+      if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
+        if (value === taroJsComponents) {
           astPath.remove()
-        } else if (value.indexOf('.') === 0) {
-          const pathArr = value.split('/')
-          if (pathArr.indexOf('pages') >= 0) {
-            astPath.remove()
-          } else if (Util.REG_SCRIPT.test(valueExtname)) {
-            if (scriptFiles.indexOf(value) < 0) {
-              scriptFiles.push(value)
-            }
-          } else if (Util.REG_JSON.test(valueExtname)) {
-            const vpath = path.resolve(sourceFilePath, '..', value)
-            if (jsonFiles.indexOf(vpath) < 0) {
-              jsonFiles.push(vpath)
-            }
-            if (fs.existsSync(vpath)) {
-              const obj = JSON.parse(fs.readFileSync(vpath).toString())
-              const specifiers = node.specifiers
-              let defaultSpecifier = null
-              specifiers.forEach(item => {
-                if (item.type === 'ImportDefaultSpecifier') {
-                  defaultSpecifier = item.local.name
-                }
-              })
-              if (defaultSpecifier) {
-                let objArr = [t.nullLiteral()]
-                if (Array.isArray(obj)) {
-                  objArr = convertArrayToAstExpression(obj)
-                } else {
-                  objArr = convertObjectToAstExpression(obj)
-                }
-                astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
-              } else {
-                astPath.remove()
+        } else {
+          const specifiers = node.specifiers
+          if (value === taroJsFramework) {
+            let defaultSpecifier = null
+            specifiers.forEach(item => {
+              if (item.type === 'ImportDefaultSpecifier') {
+                defaultSpecifier = item.local.name
               }
+            })
+            if (defaultSpecifier) {
+              taroImportDefaultName = defaultSpecifier
             }
-          } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
-            const vpath = path.resolve(sourceFilePath, '..', value)
-            if (mediaFiles.indexOf(vpath) < 0) {
-              mediaFiles.push(vpath)
-            }
+          } else if (value === taroJsRedux) {
+            specifiers.forEach(item => {
+              if (item.type === 'ImportSpecifier') {
+                const local = item.local
+                if (local.type === 'Identifier' && local.name === 'connect') {
+                  taroJsReduxConnect = item.imported.name
+                }
+              }
+            })
+          }
+          source.value = getExactedNpmFilePath(value, filePath)
+          astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
+        }
+      } else if (Util.REG_STYLE.test(valueExtname)) {
+        const stylePath = path.resolve(path.dirname(sourceFilePath), value)
+        if (styleFiles.indexOf(stylePath) < 0) {
+          styleFiles.push(stylePath)
+        }
+        astPath.remove()
+      } else if (value.indexOf('.') === 0) {
+        const pathArr = value.split('/')
+        if (pathArr.indexOf('pages') >= 0) {
+          astPath.remove()
+        } else if (Util.REG_SCRIPT.test(valueExtname)) {
+          if (scriptFiles.indexOf(value) < 0) {
+            scriptFiles.push(value)
+          }
+        } else if (Util.REG_JSON.test(valueExtname)) {
+          const vpath = path.resolve(sourceFilePath, '..', value)
+          if (jsonFiles.indexOf(vpath) < 0) {
+            jsonFiles.push(vpath)
+          }
+          if (fs.existsSync(vpath)) {
+            const obj = JSON.parse(fs.readFileSync(vpath).toString())
             const specifiers = node.specifiers
             let defaultSpecifier = null
             specifiers.forEach(item => {
@@ -163,25 +186,52 @@ function parseAst (ast, sourceFilePath, filePath) {
               }
             })
             if (defaultSpecifier) {
-              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(value))]))
+              let objArr = [t.nullLiteral()]
+              if (Array.isArray(obj)) {
+                objArr = convertArrayToAstExpression(obj)
+              } else {
+                objArr = convertObjectToAstExpression(obj)
+              }
+              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
             } else {
               astPath.remove()
             }
-          } else if (!valueExtname) {
-            const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-            const outputVpath = vpath.replace(sourceDir, outputDir)
-            const relativePath = path.relative(filePath, outputVpath)
-            source.value = Util.promoteRelativePath(relativePath)
-            astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
-            if (vpath) {
-              if (scriptFiles.indexOf(vpath) < 0) {
-                scriptFiles.push(vpath)
-              }
+          }
+        } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
+          const vpath = path.resolve(sourceFilePath, '..', value)
+          if (mediaFiles.indexOf(vpath) < 0) {
+            mediaFiles.push(vpath)
+          }
+          const specifiers = node.specifiers
+          let defaultSpecifier = null
+          specifiers.forEach(item => {
+            if (item.type === 'ImportDefaultSpecifier') {
+              defaultSpecifier = item.local.name
+            }
+          })
+          if (defaultSpecifier) {
+            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(value))]))
+          } else {
+            astPath.remove()
+          }
+        } else if (!valueExtname) {
+          const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+          const outputVpath = vpath.replace(sourceDir, outputDir)
+          const relativePath = path.relative(filePath, outputVpath)
+          source.value = Util.promoteRelativePath(relativePath)
+          astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
+          if (vpath) {
+            if (scriptFiles.indexOf(vpath) < 0) {
+              scriptFiles.push(vpath)
             }
           }
         }
-      } else if (node.type === 'VariableDeclaration' &&
-        node.declarations.length === 1 && node.declarations[0].init &&
+      }
+    },
+
+    VariableDeclaration (astPath) {
+      const node = astPath.node
+      if (node.declarations.length === 1 && node.declarations[0].init &&
         node.declarations[0].init.type === 'CallExpression' && node.declarations[0].init.callee &&
         node.declarations[0].init.callee.name === 'require') {
         const init = node.declarations[0].init
@@ -195,6 +245,21 @@ function parseAst (ast, sourceFilePath, filePath) {
           } else {
             if (value === taroJsFramework && id.type === 'Identifier') {
               taroImportDefaultName = id.name
+            } else if (value === taroJsRedux) {
+              const declarations = node.declarations
+              declarations.forEach(item => {
+                const id = item.id
+                if (id.type === 'ObjectPattern') {
+                  const properties = id.properties
+                  properties.forEach(p => {
+                    if (p.type === 'ObjectProperty') {
+                      if (p.value.type === 'Identifier' && p.value.name === 'connect') {
+                        taroJsReduxConnect = p.key.name
+                      }
+                    }
+                  })
+                }
+              })
             }
             args[0].value = getExactedNpmFilePath(value, filePath)
             astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
@@ -263,21 +328,65 @@ function parseAst (ast, sourceFilePath, filePath) {
             }
           }
         }
-      } else if (node.type === 'ClassDeclaration' && node.superClass) {
-        if (node.superClass.name === 'Component' ||
-        (node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName)) {
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
-            componentClassName = renameComponentClassName
-          } else if (node.id.name === 'App') {
-            const renameComponentClassName = '_App'
-            astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
-            componentClassName = renameComponentClassName
+      }
+    },
+
+    ExportDefaultDeclaration (astPath) {
+      const node = astPath.node
+      const declaration = node.declaration
+      needExportDefault = false
+      if (declaration && declaration.type === 'ClassDeclaration') {
+        const superClass = declaration.superClass
+        if (superClass &&
+          (superClass.name === 'Component' ||
+          (superClass.type === 'MemberExpression' &&
+          superClass.object.name === taroImportDefaultName))) {
+          needExportDefault = true
+          if (declaration.id === null) {
+            componentClassName = '_TaroComponentClass'
+          } else if (declaration.id.name === 'App') {
+            componentClassName = '_App'
           } else {
-            componentClassName = node.id.name
+            componentClassName = declaration.id.name
           }
+          astPath.replaceWith(t.classDeclaration(t.identifier(componentClassName), superClass, declaration.body, declaration.decorators || []))
+        }
+      } else if (declaration.type === 'CallExpression') {
+        const callee = declaration.callee
+        if (callee && callee.type === 'CallExpression') {
+          const subCallee = callee.callee
+          if (subCallee.type === 'Identifier' && subCallee.name === taroJsReduxConnect) {
+            const args = declaration.arguments
+            if (args.length === 1 && args[0].name === componentClassName) {
+              exportTaroReduxConnected = `${componentClassName}__Connected`
+              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(`${componentClassName}__Connected`), t.CallExpression(declaration.callee, declaration.arguments))]))
+            }
+          }
+        }
+      }
+    },
+
+    Program: {
+      exit (astPath) {
+        const node = astPath.node
+        if (needExportDefault) {
+          const exportDefault = template(`export default ${componentClassName}`, babylonConfig)()
+          node.body.push(exportDefault)
+        }
+        const taroJsFrameworkPath = getExactedNpmFilePath(taroJsFramework, filePath)
+        let insert
+        const exportVariableName = exportTaroReduxConnected || componentClassName
+        switch (type) {
+          case PARSE_AST_TYPE.ENTRY:
+            insert = template(`App(require('${taroJsFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)()
+            node.body.push(insert)
+            break
+          case PARSE_AST_TYPE.PAGE:
+            insert = template(`Page(require('${taroJsFrameworkPath}').default.createPage(${exportVariableName}))`, babylonConfig)()
+            node.body.push(insert)
+            break
+          default:
+            break
         }
       }
     }
@@ -368,12 +477,9 @@ async function buildEntry () {
       isApp: true
     })
     // app.js的template忽略
-    const res = parseAst(transformResult.ast, entryFilePath, outputEntryFilePath)
+    const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, entryFilePath, outputEntryFilePath)
     const babelConfig = pluginsConfig.babel
     babelConfig && (babelConfig.babelrc = false)
-    const taroJsFrameworkPath = getExactedNpmFilePath(taroJsFramework, outputEntryFilePath)
-    const extraCode = `App(require('${taroJsFrameworkPath}').default.createApp(${res.componentClassName}))`
-    res.code += `\n${extraCode}`
     let resCode = res.code
     if (babelConfig) {
       const compileScriptRes = await npmProcess.callPlugin('babel', resCode, entryFilePath, babelConfig)
@@ -440,14 +546,11 @@ async function buildSinglePage (page) {
       path: outputPageJSPath,
       isRoot: true
     })
-    const res = parseAst(transformResult.ast, pageJs, outputPageJSPath)
+    const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageJs, outputPageJSPath)
     const babelConfig = pluginsConfig.babel
     const pageDepComponents = transformResult.components
     depComponents[pageJs] = pageDepComponents
     babelConfig && (babelConfig.babelrc = false)
-    const taroJsFrameworkPath = getExactedNpmFilePath(taroJsFramework, outputPageJSPath)
-    const extraCode = `Page(require('${taroJsFrameworkPath}').default.createPage(${res.componentClassName}))`
-    res.code += `\n${extraCode}`
     let resCode = res.code
     if (babelConfig) {
       const compileScriptRes = await npmProcess.callPlugin('babel', resCode, pageJs, babelConfig)
@@ -586,7 +689,7 @@ async function buildSingleComponent (component) {
       path: outputComponentJSPath,
       isRoot: false
     })
-    const res = parseAst(transformResult.ast, component, outputComponentJSPath)
+    const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, component, outputComponentJSPath)
     const babelConfig = pluginsConfig.babel
     const componentDepComponents = transformResult.components
     depComponents[component] = componentDepComponents
@@ -656,9 +759,12 @@ function compileDepScripts (babelConfig, scriptFiles) {
     scriptFiles.forEach(async item => {
       if (path.isAbsolute(item)) {
         try {
-          const code = fs.readFileSync(item).toString()
-          const compileScriptRes = await npmProcess.callPlugin('babel', code, item, babelConfig)
           const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
+          const code = fs.readFileSync(item).toString()
+          const ast = babylon.parse(code, babylonConfig)
+          const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
+          const fileDep = dependencyTree[item] || {}
+          const compileScriptRes = await npmProcess.callPlugin('babel', res.code, item, babelConfig)
           fs.ensureDirSync(path.dirname(outputItem))
           let resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || {})
           resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
@@ -666,6 +772,21 @@ function compileDepScripts (babelConfig, scriptFiles) {
           let modifyOutput = outputItem.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
+          // 编译依赖的脚本文件
+          if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
+            compileDepScripts(babelConfig, res.scriptFiles)
+          }
+          // 拷贝依赖文件
+          if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
+            copyFilesFromSrcToOutput(res.jsonFiles)
+          }
+          if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
+            copyFilesFromSrcToOutput(res.mediaFiles)
+          }
+          fileDep['script'] = res.scriptFiles
+          fileDep['json'] = res.jsonFiles
+          fileDep['media'] = res.mediaFiles
+          dependencyTree[item] = fileDep
         } catch (err) {
           console.log(err)
         }

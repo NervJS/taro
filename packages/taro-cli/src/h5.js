@@ -12,6 +12,7 @@ const _ = require('lodash')
 const npmProcess = require('./npm')
 const Util = require('./util')
 const CONFIG = require('./config')
+const babylonConfig = require('./config/babylon')
 
 const taroJsFramework = '@tarojs/taro'
 const nervJsFramework = 'nervjs'
@@ -26,21 +27,6 @@ const sourceDir = path.join(appPath, projectConfig.sourceRoot || CONFIG.SOURCE_D
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
-const babylonConfig = {
-  sourceType: 'module',
-  plugins: [
-    'typescript',
-    'classProperties',
-    'jsx',
-    'trailingFunctionCommas',
-    'asyncFunctions',
-    'exponentiationOperator',
-    'asyncGenerators',
-    'objectRestSpread',
-    'decorators',
-    'dynamicImport'
-  ]
-}
 const pages = []
 
 function processEntry (code) {
