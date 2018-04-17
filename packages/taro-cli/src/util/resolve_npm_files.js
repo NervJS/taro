@@ -40,6 +40,7 @@ function resolveNpmFilesPath (pkgName) {
 function recursiveRequire (filePath, files) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
+  fileContent = npmCodeHack(filePath, fileContent)
   fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
     if (isNpmPkg(requirePath)) {
       const res = resolveNpmFilesPath(requirePath)
@@ -62,6 +63,14 @@ function recursiveRequire (filePath, files) {
   let modifyOutput = outputNpmPath.replace(basedir + path.sep, '')
   modifyOutput = modifyOutput.split(path.sep).join('/')
   printLog(pocessTypeEnum.COPY, 'NPM文件', modifyOutput)
+}
+
+function npmCodeHack (filePath, content) {
+  const basename = path.basename(filePath)
+  if (basename === '_freeGlobal.js') {
+    content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
+  }
+  return content
 }
 
 function getResolvedCache () {
