@@ -1,6 +1,6 @@
 import { getStore } from '../utils/store'
 
-export function connect (mapStateToProps, mapDispatchToProps) {
+export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const state = store.getState()
   const dispatch = store.dispatch

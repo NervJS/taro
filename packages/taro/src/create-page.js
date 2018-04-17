@@ -1,4 +1,4 @@
-import { isEmptyObject } from './util'
+import { isEmptyObject, getPrototypeChain } from './util'
 
 const eventPreffix = '__event_'
 const rootScopeKey = '__root_'
@@ -84,13 +84,14 @@ function initPage (weappPageConf, page) {
         processEvent(k, weappPageConf, component)
       }
     }
-    Object.getOwnPropertyNames(component.constructor.prototype).forEach(
-      function (fn) {
+    const prototypeChain = getPrototypeChain(component)
+    prototypeChain.forEach(item => {
+      Object.getOwnPropertyNames(item).forEach(fn => {
         if (fn.indexOf(eventPreffix) >= 0) {
           processEvent(fn, weappPageConf, component)
         }
-      }
-    )
+      })
+    })
 
     return weappPageConf
   }

@@ -53,3 +53,22 @@ export function objClone (jsonObj) {
     return jsonObj
   }
 }
+
+export function getPrototype (obj) {
+  /* eslint-disable */
+  if (Object.getPrototypeOf) {
+    return Object.getPrototypeOf(obj)
+  } else if (obj.__proto__) {
+    return obj.__proto__
+  }
+  /* eslint-enable */
+  return obj.constructor.prototype
+}
+
+export function getPrototypeChain (obj) {
+  const protoChain = []
+  while ((obj = getPrototype(obj))) {
+    protoChain.push(obj)
+  }
+  return protoChain
+}
