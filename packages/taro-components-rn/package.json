@@ -1,0 +1,47 @@
+{
+  "name": "@tarojs/components-rn",
+  "version": "0.0.9",
+  "description": "多端解决方案基础组件（RN）",
+  "main": "index.js",
+  "scripts": {
+    "flow": "flow",
+    "flow-stop": "flow stop",
+    "lint": "eslint .",
+    "test": "jest --coverage",
+    "test-update": "jest --updateSnapshot"
+  },
+  "pre-commit": [
+    "lint",
+    "flow",
+    "flow-stop"
+  ],
+  "engines": {
+    "node": ">=8.11.0"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-native": "^0.54.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.3",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react-native": "^4.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jest": "^21.15.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.69.0",
+    "jest": "^22.4.3",
+    "jest-react-native": "^18.0.0",
+    "pre-commit": "^1.2.2",
+    "react-test-renderer": "^16.2.0"
+  }
+}
