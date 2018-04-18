@@ -358,6 +358,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           if (subCallee.type === 'Identifier' && subCallee.name === taroJsReduxConnect) {
             const args = declaration.arguments
             if (args.length === 1 && args[0].name === componentClassName) {
+              needExportDefault = true
               exportTaroReduxConnected = `${componentClassName}__Connected`
               astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(`${componentClassName}__Connected`), t.CallExpression(declaration.callee, declaration.arguments))]))
             }
@@ -369,13 +370,13 @@ function parseAst (type, ast, sourceFilePath, filePath) {
     Program: {
       exit (astPath) {
         const node = astPath.node
+        const exportVariableName = exportTaroReduxConnected || componentClassName
         if (needExportDefault) {
-          const exportDefault = template(`export default ${componentClassName}`, babylonConfig)()
+          const exportDefault = template(`export default ${exportVariableName}`, babylonConfig)()
           node.body.push(exportDefault)
         }
         const taroJsFrameworkPath = getExactedNpmFilePath(taroJsFramework, filePath)
         let insert
-        const exportVariableName = exportTaroReduxConnected || componentClassName
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
             insert = template(`App(require('${taroJsFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)()
