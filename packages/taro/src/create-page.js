@@ -17,8 +17,7 @@ function initPage (weappPageConf, page) {
         Object.assign(event.currentTarget, event.detail)
       }
       const dataset = event.currentTarget.dataset
-      const theComponent =
-        scopeMap[dataset['__component_path'] || rootScopeKey]
+      const theComponent = scopeMap[dataset['__component_path'] || rootScopeKey]
       let scope = theComponent
       const bindArgs = {}
       Object.keys(dataset).forEach(key => {
@@ -107,18 +106,18 @@ function createPage (PageClass) {
       page.$router = {
         params: options
       }
-      if (page.componentWillMount) {
-        page.componentWillMount()
+      if (page._componentWillMount) {
+        page._componentWillMount()
       }
     },
     onReady () {
-      if (page.componentDidMount) {
-        page.componentDidMount()
+      if (page._componentDidMount) {
+        page._componentDidMount()
       }
     },
     onUnload () {
-      if (page.componentDidUnmount) {
-        page.componentDidUnmount()
+      if (page._componentDidUnmount) {
+        page._componentDidUnmount()
       }
     },
     _setData (data, cb, isRoot) {

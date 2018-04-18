@@ -101,21 +101,27 @@ class Component {
   }
 
   // onLoad
-  componentWillMount () {
+  componentWillMount () {}
+  _componentWillMount () {
+    this.componentWillMount()
     Object.getOwnPropertyNames(this.$$components).forEach(name => {
-      this.$$components[name].componentWillMount()
+      this.$$components[name]._componentWillMount()
     })
   }
   // onReady
-  componentDidMount () {
+  componentDidMount () {}
+  _componentDidMount () {
+    this.componentDidMount()
     Object.getOwnPropertyNames(this.$$components).forEach(name => {
-      this.$$components[name].componentDidMount()
+      this.$$components[name]._componentDidMount()
     })
   }
   // onUnload
-  componentDidUnmout () {
+  componentDidUnmout () {}
+  _componentDidUnmout () {
+    this.componentDidUnmout()
     Object.getOwnPropertyNames(this.$$components).forEach(name => {
-      this.$$components[name].componentWillUnmout()
+      this.$$components[name]._componentDidUnmout()
     })
   }
   componentWillReceiveProps (nextProps) {}
