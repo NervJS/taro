@@ -1,0 +1,15 @@
+[ignore]
+
+[include]
+
+[libs]
+# node_modules/react-native/Libraries/react-native/react-native-interface.js
+node_modules/react-native/flow/
+
+[options]
+
+[untyped]
+.*/node_modules/react-native
+
+[version]
+^0.69.0

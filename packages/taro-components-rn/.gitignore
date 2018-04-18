@@ -1,0 +1,17 @@
+# dependency
+node_modules
+
+# macOS
+.DS_Store
+
+# ide
+.vs_code
+.idea
+
+# build
+dist
+build
+
+# jest
+coverage
+__snapshots__
