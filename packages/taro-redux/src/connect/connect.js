@@ -37,7 +37,9 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       componentWillMount () {
         const store = getStore()
         unSubscribe = store.subscribe(stateListener.bind(this))
-        super.componentWillMount()
+        if (super.componentWillMount) {
+          super.componentWillMount()
+        }
       }
 
       componentWillUnmount () {
@@ -45,7 +47,9 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
           unSubscribe()
         }
         unSubscribe = null
-        super.componentWillUnmount()
+        if (super.componentWillUnmount) {
+          super.componentWillUnmount()
+        }
       }
     }
   }
