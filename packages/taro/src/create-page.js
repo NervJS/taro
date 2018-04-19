@@ -96,6 +96,14 @@ function initPage (weappPageConf, page) {
   }
   return recurrenceComponent(weappPageConf, page)
 }
+
+function componentActivate (component, key) {
+  Object.getOwnPropertyNames(component.$$components || {}).forEach(name => {
+    componentActivate(component.$$components[name], key)
+  })
+  component[key] && typeof component[key] === 'function' && component[key]()
+}
+
 function createPage (PageClass) {
   const page = new PageClass()
   page.$isComponent = false
@@ -106,19 +114,13 @@ function createPage (PageClass) {
       page.$router = {
         params: options
       }
-      if (page._componentWillMount) {
-        page._componentWillMount()
-      }
+      componentActivate(page, 'componentWillMount')
     },
     onReady () {
-      if (page._componentDidMount) {
-        page._componentDidMount()
-      }
+      componentActivate(page, 'componentDidMount')
     },
     onUnload () {
-      if (page._componentDidUnmount) {
-        page._componentDidUnmount()
-      }
+      componentActivate(page, 'componentDidUnmount')
     },
     _setData (data, cb, isRoot) {
       this.stateList.push({
