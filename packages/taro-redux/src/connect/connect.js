@@ -28,7 +28,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     return class Connect extends Component {
       constructor () {
         super(...arguments)
-        this.props = Object.assign(this.props, initMapState)
+        this.props = Object.assign(this.props, initMapState, initMapDispatch)
         Object.keys(initMapDispatch).forEach(key => {
           this[`__event_${key}`] = initMapDispatch[key]
         })
