@@ -855,7 +855,7 @@ function watchFiles () {
       } else if (Util.REG_STYLE.test(extname)) {
         const includeStyleJSPath = []
         for (const key in dependencyTree) {
-          const styles = dependencyTree[key]['style']
+          const styles = dependencyTree[key]['style'] || []
           styles.forEach(item => {
             if (item === filePath) {
               includeStyleJSPath.push({
