@@ -98,6 +98,13 @@ function initPage (weappPageConf, page) {
 }
 
 function componentTrigger (component, key) {
+  if (key === 'componentDidMount') {
+    component._dirty = false
+    component._disable = false
+  } else if (key === 'componentDidUnmount') {
+    component._dirty = true
+    component._disable = true
+  }
   Object.getOwnPropertyNames(component.$$components || {}).forEach(name => {
     componentTrigger(component.$$components[name], key)
   })
@@ -108,7 +115,6 @@ function createPage (PageClass) {
   const page = new PageClass()
   page.$isComponent = false
   const weappPageConf = {
-    stateList: [],
     onLoad (options) {
       page._init(this)
       page.$router = {
@@ -123,18 +129,9 @@ function createPage (PageClass) {
       componentTrigger(page, 'componentDidUnmount')
     },
     _setData (data, cb, isRoot) {
-      this.stateList.push({
-        data: data,
-        cb: cb
-      })
-
       if (isRoot) {
-        let stateListTmp = this.stateList
-        this.stateList = []
-        this.setData(data, function () {
-          stateListTmp.forEach(function (state) {
-            state.cb && typeof state.cb === 'function' && state.cb()
-          })
+        this.setData(data, () => {
+          cb && cb()
         })
       }
     }

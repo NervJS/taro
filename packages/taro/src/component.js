@@ -1,13 +1,20 @@
-import { objClone } from './util'
+import { enqueueRender } from './render-queue'
+import { updateComponent } from './lifecycle'
+
 class Component {
+  static defaultProps = {}
   $components = {}
   $$components = {}
   $path = ''
   $name = ''
   $isComponent = true
   $props = {}
-  defaultProps = {}
   nextProps = {}
+  _dirty = true
+  _disable = true
+  _pendingStates = []
+  _pendingCallbacks = []
+
   constructor (props) {
     this.state = {}
     this.props = props || {}
@@ -48,75 +55,42 @@ class Component {
     return this.state
   }
 
-  setState (state) {
-    this._setState(state, true)
+  setState (state, callback) {
+    if (state) {
+      (this._pendingStates = this._pendingStates || []).push(state)
+    }
+    if (typeof callback === 'function') {
+      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
+    }
+    if (!this._disable) {
+      enqueueRender(this)
+    }
   }
 
-  _setState (state, update) {
-    let newState = {}
-    switch (typeof state) {
-      case 'function':
-        newState = state(this.state, this.props)
-        break
-      case 'object':
-        newState = state
-        break
-      default:
-        throw new Error('parameter error!')
+  getState () {
+    const { _pendingStates, state, props } = this
+    const stateClone = Object.assign({}, state)
+    delete stateClone.__data
+    if (!_pendingStates.length) {
+      return stateClone
     }
-    if (this.shouldComponentUpdate(this.nextProps, newState)) {
-      const state = Object.assign({}, this.state)
-      delete state.__data
-      this.state = Object.assign({}, state, newState)
-      this.lastProps = objClone(this.props)
-      this.props = Object.assign(this.props, this.nextProps)
-      this._createData && this._createData()
-
-      for (let k in this.$props) {
-        const newChildProps = this.$props[k].call(this)
-        this.$$components[k].componentWillReceiveProps(newChildProps)
-        this.$$components[k].nextProps = newChildProps
-        this.$$components[k]._setState({}, false)
+    const queue = _pendingStates.concat()
+    this._pendingStates.length = 0
+    queue.forEach((nextState) => {
+      if (typeof nextState === 'function') {
+        nextState = nextState.call(this, stateClone, props)
       }
-      this.componentWillUpdate(this.lastProps, this.nextProps)
-      Object.assign(this.$data, this.state, this.props)
-      this._update(update)
-    } else {
-      this.state = Object.assign(this.state, newState)
-      this._createData && this._createData()
-      this.props = Object.assign(this.props, this.nextProps)
-    }
-  }
-  _update (update) {
-    let self = this
-    this.$scope._setData(
-      { ...this.$root.$data },
-      (function (lastProps, props) {
-        return function () {
-          self.componentDidUpdate(lastProps, props)
-        }
-      })(this.lastProps, this.props),
-      update
-    )
+      Object.assign(stateClone, nextState)
+    })
+    return stateClone
   }
 
-  // onLoad
-  componentWillMount () {}
-  // onReady
-  componentDidMount () {}
-  // onUnload
-  componentDidUnmout () {}
-  componentWillReceiveProps (nextProps) {}
-  shouldComponentUpdate (nextProps, nextState) {
-    return true
+  forceUpdate (callback) {
+    if (typeof callback === 'function') {
+      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
+    }
+    updateComponent(this, true)
   }
-  componentWillUpdate (lastProps, nextProps) {}
-  componentDidUpdate (lastProps, nextProps) {}
-  //  Not supported in component
-  componentWillUnmout () {}
-  onShow () {}
-  onHide () {}
-  onLaunch () {}
 }
 
 export default Component
