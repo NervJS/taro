@@ -1,0 +1,32 @@
+{
+  "name": "eslint-plugin-taro",
+  "version": "0.0.13",
+  "description": "Taro specific linting rules for ESLint",
+  "main": "index.js",
+  "files": [
+    "lib",
+    "index.js",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro",
+    "react",
+    "jsx"
+  ],
+  "peerDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-standard": "11.0.0"
+  },
+  "author": "O2Team",
+  "license": "MIT"
+}
