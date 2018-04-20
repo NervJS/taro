@@ -4,7 +4,8 @@
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
-    "lib",
+    "rules",
+    "utils",
     "index.js",
     "README.md"
   ],
@@ -25,7 +26,9 @@
     "eslint": "^4.15.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-standard": "11.0.0"
+    "eslint-plugin-standard": "11.0.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0"
   },
   "author": "O2Team",
   "license": "MIT"
