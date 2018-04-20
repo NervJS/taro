@@ -1,7 +1,8 @@
 const rules = [
   './rules/jsx',
   './rules/imports',
-  './rules/custom'
+  './rules/es6'
+  // './rules/custom'
 ].map(require.resolve)
 
 rules.unshift('standard')
