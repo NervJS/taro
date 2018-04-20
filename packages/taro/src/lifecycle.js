@@ -1,7 +1,9 @@
 export function updateComponent (component, update) {
-  component._createData && component._createData()
   const props = component.props
-  const state = component.getState()
+  let state = component.getState()
+  if (component._createData) {
+    state = component._createData(state)
+  }
   const prevProps = component.prevProps || props
   const prevState = component.prevState || state
   component.props = prevProps
