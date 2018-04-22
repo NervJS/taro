@@ -19,6 +19,9 @@ const nervJsFramework = 'nervjs'
 const taroRouterFramework = '@tarojs/router'
 const nervJsImportDefaultName = 'Nerv'
 const routerImportDefaultName = 'TaroRouter'
+const taroComponentFramework = '@tarojs/components'
+const tabBarComponentName = 'Tabbar'
+const tabBarConfigName = '__tabs'
 const tempDir = '.temp'
 
 const appPath = process.cwd()
@@ -31,13 +34,12 @@ const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
 const pages = []
-
+let tabBar
 function processEntry (code) {
   const styleFiles = []
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
   let componentClassName
-
   traverse(ast, {
     enter (astPath) {
       astPath.traverse({
@@ -90,10 +92,15 @@ function processEntry (code) {
               const node = astPath.node
               const key = node.key
               const value = node.value
-              if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-              value.elements.forEach(v => {
-                pages.push(v.value)
-              })
+              // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+              if (key.name === 'pages' && t.isArrayExpression(value)) {
+                value.elements.forEach(v => {
+                  pages.push(v.value)
+                })
+              } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+                // tabBar
+                tabBar = value
+              }
             }
           })
           astPath.remove()
@@ -142,6 +149,34 @@ function processEntry (code) {
         }
       })
     },
+    exit (astPath) {
+      astPath.traverse({
+        ClassMethod (astPath) {
+          const node = astPath.node
+          const key = node.key
+          if (key.name !== 'render') return
+          if (tabBar) {
+            node.body = template(
+              `{
+              return <View>
+              <${routerImportDefaultName}.Router />
+              <${tabBarComponentName} conf={${tabBarConfigName}}/>
+            </View>
+            }`,
+              babylonConfig
+            )()
+
+            astPath
+              .get('body')
+              .unshiftContainer('body', [
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
+                ])
+              ])
+          }
+        }
+      })
+    },
     Program: {
       exit (astPath) {
         const node = astPath.node
@@ -160,6 +195,10 @@ function processEntry (code) {
           `import ${routerImportDefaultName} from '${taroRouterFramework}'`,
           babylonConfig
         )()
+        const importComponents = template(
+          `import { View, ${tabBarComponentName}} from '${taroComponentFramework}'`,
+          babylonConfig
+        )()
         const initRouter = template(
           `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
           babylonConfig
@@ -175,6 +214,7 @@ function processEntry (code) {
 
         node.body.unshift(importTaro)
         node.body.unshift(importTaroRouter)
+        tabBar && node.body.unshift(importComponents)
         node.body.push(initNativeApi)
         node.body.push(initRouter)
         node.body.push(renderApp)
