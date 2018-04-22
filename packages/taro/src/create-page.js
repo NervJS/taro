@@ -101,7 +101,7 @@ function componentTrigger (component, key) {
   if (key === 'componentDidMount') {
     component._dirty = false
     component._disable = false
-  } else if (key === 'componentDidUnmount') {
+  } else if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
   }
@@ -126,7 +126,7 @@ function createPage (PageClass) {
       componentTrigger(page, 'componentDidMount')
     },
     onUnload () {
-      componentTrigger(page, 'componentDidUnmount')
+      componentTrigger(page, 'componentWillUnmount')
     },
     _setData (data, cb, isRoot) {
       if (isRoot) {
