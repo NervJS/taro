@@ -27,8 +27,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     let unSubscribe = null
     return class Connect extends Component {
       constructor () {
-        super(...arguments)
-        this.props = Object.assign(this.props, initMapState, initMapDispatch)
+        super(Object.assign(initMapState, initMapDispatch))
         Object.keys(initMapDispatch).forEach(key => {
           this[`__event_${key}`] = initMapDispatch[key]
         })
@@ -43,13 +42,13 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       }
 
       componentWillUnmount () {
+        if (super.componentWillUnmount) {
+          super.componentWillUnmount()
+        }
         if (unSubscribe) {
           unSubscribe()
         }
         unSubscribe = null
-        if (super.componentWillUnmount) {
-          super.componentWillUnmount()
-        }
       }
     }
   }
