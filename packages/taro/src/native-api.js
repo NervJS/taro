@@ -59,19 +59,23 @@ function request (options) {
     params.mode = options.mode
     params.credentials = options.credentials
     params.cache = options.cache
+    const res = {}
     return fetch(url, params)
       .then(response => {
-        const res = {
-          statusCode: response.status,
-          header: response.headers
-        }
+        res.statusCode = response.status
+        res.header = response.headers
         if (options.responseType === 'arraybuffer') {
-          res.data = response.arrayBuffer()
-        } else if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-          res.data = response.json()
-        } else if (options.responseType === 'text') {
-          res.data = response.text()
+          return response.arrayBuffer()
         }
+        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
+          return response.json()
+        }
+        if (options.responseType === 'text') {
+          return response.text()
+        }
+        return Promise.resolve(null)
+      }).then(data => {
+        res.data = data
         return res
       })
   }
