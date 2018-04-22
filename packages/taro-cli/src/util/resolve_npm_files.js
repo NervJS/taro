@@ -16,6 +16,7 @@ const { NPM_DIR, OUTPUT_DIR } = require('../config')
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
 
 const resolvedCache = {}
+const copyedFiles = {}
 
 const basedir = process.cwd()
 const projectConfig = require(path.join(basedir, PROJECT_CONFIG))(_.merge)
@@ -58,11 +59,14 @@ function recursiveRequire (filePath, files) {
     return m
   })
   const outputNpmPath = filePath.replace('node_modules', path.join(OUTPUT_DIR, NPM_DIR))
-  fs.ensureDirSync(path.dirname(outputNpmPath))
-  fs.writeFileSync(outputNpmPath, fileContent)
-  let modifyOutput = outputNpmPath.replace(basedir + path.sep, '')
-  modifyOutput = modifyOutput.split(path.sep).join('/')
-  printLog(pocessTypeEnum.COPY, 'NPM文件', modifyOutput)
+  if (!copyedFiles[outputNpmPath]) {
+    fs.ensureDirSync(path.dirname(outputNpmPath))
+    fs.writeFileSync(outputNpmPath, fileContent)
+    let modifyOutput = outputNpmPath.replace(basedir + path.sep, '')
+    modifyOutput = modifyOutput.split(path.sep).join('/')
+    printLog(pocessTypeEnum.COPY, 'NPM文件', modifyOutput)
+    copyedFiles[outputNpmPath] = true
+  }
 }
 
 function npmCodeHack (filePath, content) {

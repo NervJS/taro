@@ -36,6 +36,9 @@ const dependencyTree = {}
 const depComponents = {}
 const hasBeenBuiltComponents = []
 const wxssDepTree = {}
+let isBuildingScripts = {}
+let isBuildingStyles = {}
+let isCopyingFiles = {}
 
 const PARSE_AST_TYPE = {
   ENTRY: 'ENTRY',
@@ -218,11 +221,15 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
           const outputVpath = vpath.replace(sourceDir, outputDir)
           const relativePath = path.relative(filePath, outputVpath)
-          source.value = Util.promoteRelativePath(relativePath)
-          astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
           if (vpath) {
-            if (scriptFiles.indexOf(vpath) < 0) {
-              scriptFiles.push(vpath)
+            if (!fs.existsSync(vpath)) {
+              Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+            } else {
+              if (scriptFiles.indexOf(vpath) < 0) {
+                scriptFiles.push(vpath)
+              }
+              source.value = Util.promoteRelativePath(relativePath)
+              astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
             }
           }
         }
@@ -319,11 +326,15 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
             const outputVpath = vpath.replace(sourceDir, outputDir)
             const relativePath = path.relative(filePath, outputVpath)
-            args[0].value = Util.promoteRelativePath(relativePath)
-            astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
             if (vpath) {
-              if (scriptFiles.indexOf(vpath) < 0) {
-                scriptFiles.push(vpath)
+              if (!fs.existsSync(vpath)) {
+                Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+              } else {
+                if (scriptFiles.indexOf(vpath) < 0) {
+                  scriptFiles.push(vpath)
+                }
+                args[0].value = Util.promoteRelativePath(relativePath)
+                astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
               }
             }
           }
@@ -454,13 +465,17 @@ function convertArrayToAstExpression (arr) {
 function copyFilesFromSrcToOutput (files) {
   files.forEach(file => {
     const outputFilePath = file.replace(sourceDir, outputDir)
+    if (isCopyingFiles[outputFilePath]) {
+      return
+    }
+    isCopyingFiles[outputFilePath] = true
     let modifySrc = file.replace(appPath + path.sep, '')
     modifySrc = modifySrc.split(path.sep).join('/')
     let modifyOutput = outputFilePath.replace(appPath + path.sep, '')
     modifyOutput = modifyOutput.split(path.sep).join('/')
     Util.printLog(Util.pocessTypeEnum.COPY, '文件', modifyOutput)
     if (!fs.existsSync(file)) {
-      Util.printLog(Util.pocessTypeEnum.ERROR, '文件', `${modifySrc}不存在`)
+      Util.printLog(Util.pocessTypeEnum.ERROR, '文件', `${modifySrc} 不存在`)
     } else {
       fs.ensureDir(path.dirname(outputFilePath))
       fs.copySync(file, outputFilePath)
@@ -533,7 +548,8 @@ async function buildSinglePage (page) {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${sourceDirName}/${page}`)
   let pageJs = path.join(sourceDir, `${page}.js`)
   if (!fs.existsSync(pageJs)) {
-    Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${sourceDirName}/${page}不存在！`)
+    Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${sourceDirName}/${page} 不存在！`)
+    return
   }
   const pageJsContent = fs.readFileSync(pageJs).toString()
   const outputPageJSPath = pageJs.replace(sourceDir, outputDir)
@@ -611,6 +627,10 @@ async function buildSinglePage (page) {
 }
 
 function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
+  if (isBuildingStyles[outputFilePath]) {
+    return Promise.resolve({})
+  }
+  isBuildingStyles[outputFilePath] = true
   return Promise.all(styleFiles.map(async p => {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
@@ -761,33 +781,36 @@ function compileDepScripts (babelConfig, scriptFiles) {
       if (path.isAbsolute(item)) {
         try {
           const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
-          const code = fs.readFileSync(item).toString()
-          const ast = babylon.parse(code, babylonConfig)
-          const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
-          const fileDep = dependencyTree[item] || {}
-          const compileScriptRes = await npmProcess.callPlugin('babel', res.code, item, babelConfig)
-          fs.ensureDirSync(path.dirname(outputItem))
-          let resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || {})
-          resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
-          fs.writeFileSync(outputItem, resCode)
-          let modifyOutput = outputItem.replace(appPath + path.sep, '')
-          modifyOutput = modifyOutput.split(path.sep).join('/')
-          Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
-          // 编译依赖的脚本文件
-          if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-            compileDepScripts(babelConfig, res.scriptFiles)
+          if (!isBuildingScripts[outputItem]) {
+            isBuildingScripts[outputItem] = true
+            const code = fs.readFileSync(item).toString()
+            const ast = babylon.parse(code, babylonConfig)
+            const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
+            const fileDep = dependencyTree[item] || {}
+            const compileScriptRes = await npmProcess.callPlugin('babel', res.code, item, babelConfig)
+            fs.ensureDirSync(path.dirname(outputItem))
+            let resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || {})
+            resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+            fs.writeFileSync(outputItem, resCode)
+            let modifyOutput = outputItem.replace(appPath + path.sep, '')
+            modifyOutput = modifyOutput.split(path.sep).join('/')
+            Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
+            // 编译依赖的脚本文件
+            if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
+              compileDepScripts(babelConfig, res.scriptFiles)
+            }
+            // 拷贝依赖文件
+            if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
+              copyFilesFromSrcToOutput(res.jsonFiles)
+            }
+            if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
+              copyFilesFromSrcToOutput(res.mediaFiles)
+            }
+            fileDep['script'] = res.scriptFiles
+            fileDep['json'] = res.jsonFiles
+            fileDep['media'] = res.mediaFiles
+            dependencyTree[item] = fileDep
           }
-          // 拷贝依赖文件
-          if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
-            copyFilesFromSrcToOutput(res.jsonFiles)
-          }
-          if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
-            copyFilesFromSrcToOutput(res.mediaFiles)
-          }
-          fileDep['script'] = res.scriptFiles
-          fileDep['json'] = res.jsonFiles
-          fileDep['media'] = res.mediaFiles
-          dependencyTree[item] = fileDep
         } catch (err) {
           console.log(err)
         }
@@ -800,6 +823,9 @@ function watchFiles () {
   console.log()
   console.log(chalk.gray('监听文件修改中...'))
   console.log()
+  isBuildingScripts = {}
+  isBuildingStyles = {}
+  isCopyingFiles = {}
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
@@ -897,6 +923,9 @@ function watchFiles () {
         Util.printLog(Util.pocessTypeEnum.MODIFY, '文件', modifySource)
         copyFilesFromSrcToOutput([filePath])
       }
+      isBuildingScripts = {}
+      isBuildingStyles = {}
+      isCopyingFiles = {}
     })
 }
 
