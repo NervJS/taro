@@ -13,6 +13,7 @@ import Audio from './audio'
 import Camera from './camera'
 import Progress from './progress'
 import RichText from './rich-text'
+import Tabbar from './tabbar'
 
 // 全局样式引入
 import 'weui'
@@ -54,6 +55,7 @@ class Hello extends Nerv.Component {
         <Camera />
         <Audio />
         <Video />
+        <Tabbar />
       </Taro.View>
     )
   }

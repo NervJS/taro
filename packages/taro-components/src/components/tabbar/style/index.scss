@@ -1,0 +1,9 @@
+.taro-tabbar {
+  &__border {
+    &-white {
+      &::before {
+        border-top-color: #fff !important;
+      }
+    }
+  }
+}
