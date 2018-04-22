@@ -19,34 +19,48 @@ const nervJsFramework = 'nervjs'
 const taroRouterFramework = '@tarojs/router'
 const nervJsImportDefaultName = 'Nerv'
 const routerImportDefaultName = 'TaroRouter'
+const taroComponentFramework = '@tarojs/components'
+const tabBarComponentName = 'Tabbar'
+const tabBarConfigName = '__tabs'
 const tempDir = '.temp'
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
-const sourceDir = path.join(appPath, projectConfig.sourceRoot || CONFIG.SOURCE_DIR)
+const sourceDir = path.join(
+  appPath,
+  projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
 const pages = []
-
+let tabBar
 function processEntry (code) {
   const styleFiles = []
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
   let componentClassName
-
   traverse(ast, {
     enter (astPath) {
       astPath.traverse({
         ClassDeclaration (astPath) {
           const node = astPath.node
           if (!node.superClass) return
-          if (node.superClass.type === 'MemberExpression' &&
-            node.superClass.object.name === taroImportDefaultName) {
+          if (
+            node.superClass.type === 'MemberExpression' &&
+            node.superClass.object.name === taroImportDefaultName
+          ) {
             node.superClass.object.name = nervJsImportDefaultName
             if (node.id === null) {
               const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(renameComponentClassName),
+                  node.superClass,
+                  node.body,
+                  node.decorators || []
+                )
+              )
               componentClassName = renameComponentClassName
             } else {
               componentClassName = node.id.name
@@ -54,7 +68,14 @@ function processEntry (code) {
           } else if (node.superClass.name === 'Component') {
             if (node.id === null) {
               const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(renameComponentClassName),
+                  node.superClass,
+                  node.body,
+                  node.decorators || []
+                )
+              )
               componentClassName = renameComponentClassName
             } else {
               componentClassName = node.id.name
@@ -71,10 +92,15 @@ function processEntry (code) {
               const node = astPath.node
               const key = node.key
               const value = node.value
-              if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-              value.elements.forEach(v => {
-                pages.push(v.value)
-              })
+              // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+              if (key.name === 'pages' && t.isArrayExpression(value)) {
+                value.elements.forEach(v => {
+                  pages.push(v.value)
+                })
+              } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+                // tabBar
+                tabBar = value
+              }
             }
           })
           astPath.remove()
@@ -95,7 +121,9 @@ function processEntry (code) {
               }
             })
             if (!defaultSpecifier) {
-              node.specifiers.unshift(t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName)))
+              node.specifiers.unshift(
+                t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+              )
             } else {
               taroImportDefaultName = defaultSpecifier
               node.specifiers[idx].local.name = nervJsImportDefaultName
@@ -112,28 +140,81 @@ function processEntry (code) {
           const node = astPath.node
           const key = node.key
           if (key.name !== 'render') return
-          node.body = template(`{
+          node.body = template(
+            `{
             return <${routerImportDefaultName}.Router />
-          }`, babylonConfig)()
+          }`,
+            babylonConfig
+          )()
+        }
+      })
+    },
+    exit (astPath) {
+      astPath.traverse({
+        ClassMethod (astPath) {
+          const node = astPath.node
+          const key = node.key
+          if (key.name !== 'render') return
+          if (tabBar) {
+            node.body = template(
+              `{
+              return <View>
+              <${routerImportDefaultName}.Router />
+              <${tabBarComponentName} conf={${tabBarConfigName}}/>
+            </View>
+            }`,
+              babylonConfig
+            )()
+
+            astPath
+              .get('body')
+              .unshiftContainer('body', [
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
+                ])
+              ])
+          }
         }
       })
     },
     Program: {
       exit (astPath) {
         const node = astPath.node
-        const routerPages = pages.map(v => {
-          const pageName = v.startsWith('/') ? v : `/${v}`
-          return `['${pageName}', () => import('.${pageName}.js')]`
-        }).join(',')
+        const routerPages = pages
+          .map(v => {
+            const pageName = v.startsWith('/') ? v : `/${v}`
+            return `['${pageName}', () => import('.${pageName}.js')]`
+          })
+          .join(',')
 
-        const importTaro = template(`import ${taroImportDefaultName} from '${taroJsFramework}'`, babylonConfig)()
-        const importTaroRouter = template(`import ${routerImportDefaultName} from '${taroRouterFramework}'`, babylonConfig)()
-        const initRouter = template(`${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`, babylonConfig)()
-        const initNativeApi = template(`${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`, babylonConfig)()
-        const renderApp = template(`${nervJsImportDefaultName}.render(<${componentClassName} />, document.getElementById('app'))`, babylonConfig)()
+        const importTaro = template(
+          `import ${taroImportDefaultName} from '${taroJsFramework}'`,
+          babylonConfig
+        )()
+        const importTaroRouter = template(
+          `import ${routerImportDefaultName} from '${taroRouterFramework}'`,
+          babylonConfig
+        )()
+        const importComponents = template(
+          `import { View, ${tabBarComponentName}} from '${taroComponentFramework}'`,
+          babylonConfig
+        )()
+        const initRouter = template(
+          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
+          babylonConfig
+        )()
+        const initNativeApi = template(
+          `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
+          babylonConfig
+        )()
+        const renderApp = template(
+          `${nervJsImportDefaultName}.render(<${componentClassName} />, document.getElementById('app'))`,
+          babylonConfig
+        )()
 
         node.body.unshift(importTaro)
         node.body.unshift(importTaroRouter)
+        tabBar && node.body.unshift(importComponents)
         node.body.push(initNativeApi)
         node.body.push(initRouter)
         node.body.push(renderApp)
@@ -158,17 +239,33 @@ function processOthers (code) {
         ClassDeclaration (astPath) {
           const node = astPath.node
           if (!node.superClass) return
-          if (node.superClass.type === 'MemberExpression' &&
-            node.superClass.object.name === taroImportDefaultName) {
+          if (
+            node.superClass.type === 'MemberExpression' &&
+            node.superClass.object.name === taroImportDefaultName
+          ) {
             node.superClass.object.name = nervJsImportDefaultName
             if (node.id === null) {
               const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(renameComponentClassName),
+                  node.superClass,
+                  node.body,
+                  node.decorators || []
+                )
+              )
             }
           } else if (node.superClass.name === 'Component') {
             if (node.id === null) {
               const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(t.classDeclaration(t.identifier(renameComponentClassName), node.superClass, node.body, node.decorators || []))
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(renameComponentClassName),
+                  node.superClass,
+                  node.body,
+                  node.decorators || []
+                )
+              )
             }
           }
         },
@@ -188,7 +285,9 @@ function processOthers (code) {
               }
             })
             if (!defaultSpecifier) {
-              node.specifiers.unshift(t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName)))
+              node.specifiers.unshift(
+                t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+              )
             } else {
               taroImportDefaultName = defaultSpecifier
               node.specifiers[idx].local.name = nervJsImportDefaultName
@@ -207,9 +306,12 @@ function processOthers (code) {
       exit (astPath) {
         if (!taroImportDefaultName) return
         const node = astPath.node
-        const importTaro = template(`
+        const importTaro = template(
+          `
           import ${taroImportDefaultName} from '${taroJsFramework}'
-        `, babylonConfig)
+        `,
+          babylonConfig
+        )
         node.body.unshift(importTaro())
       }
     }
@@ -223,32 +325,37 @@ function processOthers (code) {
 
 function build ({ watch }) {
   fs.ensureDirSync(tempPath)
-  vfs.src(path.join(sourceDir, '**'))
-    .pipe(through2.obj(function (file, enc, cb) {
-      if (file.isNull() || file.isStream()) {
-        return cb(null, file)
-      }
-      const filePath = file.path
-      const content = file.contents.toString()
-      if (entryFilePath === filePath) {
-        const transformResult = processEntry(content)
-        const jsCode = transformResult.code
-        file.contents = Buffer.from(jsCode)
-      } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
-        const transformResult = processOthers(content)
-        let jsCode = transformResult.code
-        if (transformResult.taroImportDefaultName) {
-          jsCode = `import ${transformResult.taroImportDefaultName} from '${taroJsFramework}'\n${jsCode}`
+  vfs
+    .src(path.join(sourceDir, '**'))
+    .pipe(
+      through2.obj(function (file, enc, cb) {
+        if (file.isNull() || file.isStream()) {
+          return cb(null, file)
         }
-        file.contents = Buffer.from(jsCode)
-      }
-      this.push(file)
-      cb()
-    }))
+        const filePath = file.path
+        const content = file.contents.toString()
+        if (entryFilePath === filePath) {
+          const transformResult = processEntry(content)
+          const jsCode = transformResult.code
+          file.contents = Buffer.from(jsCode)
+        } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
+          const transformResult = processOthers(content)
+          let jsCode = transformResult.code
+          if (transformResult.taroImportDefaultName) {
+            jsCode = `import ${
+              transformResult.taroImportDefaultName
+            } from '${taroJsFramework}'\n${jsCode}`
+          }
+          file.contents = Buffer.from(jsCode)
+        }
+        this.push(file)
+        cb()
+      })
+    )
     .pipe(vfs.dest(path.join(tempPath)))
     .on('end', async () => {
       const entry = {
-        'app': path.join(tempPath, CONFIG.ENTRY)
+        app: path.join(tempPath, CONFIG.ENTRY)
       }
       const h5Config = projectConfig.h5 || {}
       h5Config.env = projectConfig.env
