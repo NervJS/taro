@@ -521,6 +521,25 @@ async function buildEntry () {
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
       copyFilesFromSrcToOutput(res.jsonFiles)
     }
+
+    // 处理res.configObj 中的tabBar配置
+    const tabBar = res.configObj.tabBar
+    if (tabBar && typeof tabBar === 'object' && !Util.isEmptyObject(tabBar)) {
+      const list = tabBar.list || []
+      let tabBarIcons = []
+      list.forEach(item => {
+        if (item.iconPath) {
+          tabBarIcons.push(item.iconPath)
+        }
+        if (item.selectedIconPath) {
+          tabBarIcons.push(item.selectedIconPath)
+        }
+      })
+      tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
+      if (tabBarIcons && tabBarIcons.length) {
+        res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
+      }
+    }
     if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
       copyFilesFromSrcToOutput(res.mediaFiles)
     }
