@@ -42,7 +42,7 @@ function request (options) {
   if (env === ENV_TYPE.WEAPP) {
     const p = new Promise((resolve, reject) => {
       options['success'] = res => {
-        resolve(res.data)
+        resolve(res)
       }
       options['fail'] = res => {
         reject(res)
@@ -61,15 +61,18 @@ function request (options) {
     params.cache = options.cache
     return fetch(url, params)
       .then(response => {
+        const res = {
+          statusCode: response.status,
+          header: response.headers
+        }
         if (options.responseType === 'arraybuffer') {
-          return response.arrayBuffer()
+          res.data = response.arrayBuffer()
+        } else if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
+          res.data = response.json()
+        } else if (options.responseType === 'text') {
+          res.data = response.text()
         }
-        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-          return response.json()
-        }
-        if (options.responseType === 'text') {
-          return response.text()
-        }
+        return res
       })
   }
 }
