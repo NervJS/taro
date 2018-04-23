@@ -3,6 +3,7 @@ import { isEmptyObject, getPrototypeChain } from './util'
 const eventPreffix = '__event_'
 const rootScopeKey = '__root_'
 const componentPath = 'componentPath'
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 function initPage (weappPageConf, page) {
   const scopeMap = {}
   function processEvent (eventHandlerName, obj, page) {
@@ -139,6 +140,11 @@ function createPage (PageClass) {
   }
   let weappPageConfEvents = initPage(weappPageConf, page)
   page._initData()
+  pageExtraFns.forEach(fn => {
+    if (typeof page[fn] === 'function') {
+      weappPageConf[fn] = page[fn].bind(page)
+    }
+  })
   return Object.assign(weappPageConfEvents, {
     data: page.$data
   })
