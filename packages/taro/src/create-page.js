@@ -103,6 +103,11 @@ function componentTrigger (component, key) {
     componentTrigger(component.$$components[name], key)
   })
   component[key] && typeof component[key] === 'function' && component[key]()
+  if (key === 'componentWillMount') {
+    component._dirty = false
+    component._disable = false
+    component.state = component.getState()
+  }
 }
 
 function createPage (PageClass) {
@@ -115,8 +120,6 @@ function createPage (PageClass) {
         params: options
       }
       componentTrigger(page, 'componentWillMount')
-      page._dirty = false
-      page._disable = false
     },
     onReady () {
       componentTrigger(page, 'componentDidMount')
