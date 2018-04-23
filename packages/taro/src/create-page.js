@@ -121,6 +121,12 @@ function createPage (PageClass) {
     onReady () {
       componentTrigger(page, 'componentDidMount')
     },
+    onShow () {
+      componentTrigger(page, 'componentDidShow')
+    },
+    onHide () {
+      componentTrigger(page, 'componentDidHide')
+    },
     onUnload () {
       componentTrigger(page, 'componentWillUnmount')
     },

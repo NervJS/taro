@@ -1,3 +1,4 @@
+import { isEmptyObject } from './util'
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
 
@@ -39,16 +40,20 @@ class Component {
       }
     }
 
-    Object.getOwnPropertyNames(this.$$components).forEach(name => {
-      this.$$components[name]._initData(this.$root, this)
-    })
+    if (this.$$components && !isEmptyObject(this.$$components)) {
+      Object.getOwnPropertyNames(this.$$components).forEach(name => {
+        this.$$components[name]._initData(this.$root, this)
+      })
+    }
   }
   _init (scope) {
     this.$scope = scope
     this.$app = getApp()
-    Object.getOwnPropertyNames(this.$$components).forEach(name => {
-      this.$$components[name]._init(this.$scope)
-    })
+    if (this.$$components && !isEmptyObject(this.$$components)) {
+      Object.getOwnPropertyNames(this.$$components).forEach(name => {
+        this.$$components[name]._init(this.$scope)
+      })
+    }
   }
   // rewrite when compile
   _createData () {

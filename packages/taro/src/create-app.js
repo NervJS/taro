@@ -5,8 +5,28 @@ function createApp (AppClass) {
   const app = new AppClass()
   const weappAppConf = {
     onLaunch (options) {
+      app._init(this)
+      app.$router = {
+        params: options
+      }
+      if (app.componentWillMount) {
+        app.componentWillMount()
+      }
       if (app.componentDidMount) {
-        app.componentDidMount(options)
+        app.componentDidMount()
+      }
+    },
+
+    onShow (options) {
+      Object.assign(app.$router.params, options)
+      if (app.componentDidShow) {
+        app.componentDidShow()
+      }
+    },
+
+    onHide () {
+      if (app.componentDidHide) {
+        app.componentDidHide()
       }
     }
   }
