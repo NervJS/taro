@@ -2,6 +2,7 @@ import { isEmptyObject, getPrototypeChain } from './util'
 
 const eventPreffix = '__event_'
 const rootScopeKey = '__root_'
+const componentPath = 'componentPath'
 function initPage (weappPageConf, page) {
   const scopeMap = {}
   function processEvent (eventHandlerName, obj, page) {
@@ -17,20 +18,15 @@ function initPage (weappPageConf, page) {
         Object.assign(event.currentTarget, event.detail)
       }
       const dataset = event.currentTarget.dataset
-      const theComponent = scopeMap[dataset['__component_path'] || rootScopeKey]
+      const theComponent = scopeMap[dataset[componentPath] || rootScopeKey]
       let scope = theComponent
       const bindArgs = {}
       Object.keys(dataset).forEach(key => {
         const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
-        if (
-          key.indexOf(eventPreffix) >= 0 &&
-          key.indexOf(newEventHandlerNameLower) >= 0
-        ) {
-          const argName = key.replace(
-            `${eventPreffix}${newEventHandlerNameLower}_`,
-            ''
-          )
-
+        const keyLower = key.toLocaleLowerCase()
+        if (keyLower.indexOf('event') >= 0 &&
+          keyLower.indexOf(newEventHandlerNameLower) >= 0) {
+          const argName = keyLower.replace(`event${newEventHandlerNameLower}`, '')
           bindArgs[argName] = dataset[key]
         }
       })
@@ -49,8 +45,8 @@ function initPage (weappPageConf, page) {
         }
         newHandler()
       } else {
-        if (dataset['__component_path']) {
-          scope = scopeMap[dataset['__component_path'] || rootScopeKey]
+        if (dataset[componentPath]) {
+          scope = scopeMap[dataset[componentPath] || rootScopeKey]
         }
         theComponent[eventHandlerName].call(scope, event)
       }
