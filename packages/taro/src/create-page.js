@@ -94,10 +94,7 @@ function initPage (weappPageConf, page) {
 }
 
 function componentTrigger (component, key) {
-  if (key === 'componentDidMount') {
-    component._dirty = false
-    component._disable = false
-  } else if (key === 'componentWillUnmount') {
+  if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
   }
@@ -117,6 +114,8 @@ function createPage (PageClass) {
         params: options
       }
       componentTrigger(page, 'componentWillMount')
+      page._dirty = false
+      page._disable = false
     },
     onReady () {
       componentTrigger(page, 'componentDidMount')
