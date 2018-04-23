@@ -290,7 +290,7 @@ function processApis (taro) {
     checkIsSoterEnrolledInDevice: true
     //
   }
-  const weApis = Object.assign(onAndSyncApis, noPromiseApis, otherApis)
+  const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
     if (env === ENV_TYPE.WEAPP) {
       if (!onAndSyncApis[key] && !noPromiseApis[key]) {
