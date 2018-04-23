@@ -295,15 +295,16 @@ function processApis (taro) {
     if (env === ENV_TYPE.WEAPP) {
       if (!onAndSyncApis[key] && !noPromiseApis[key]) {
         taro[key] = options => {
-          let task = null
-          let obj = {}
           options = options || {}
+          let task = null
+          let obj = Object.assign({}, options)
           if (typeof options === 'string') {
             return wx[key](options)
           }
           const p = new Promise((resolve, reject) => {
             ['fail', 'success', 'complete'].forEach((k) => {
               obj[k] = (res) => {
+                options[k] && options[k](res)
                 if (k === 'success') {
                   if (key === 'connectSocket') {
                     resolve(task)
