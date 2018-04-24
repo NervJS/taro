@@ -27,7 +27,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     let unSubscribe = null
     return class Connect extends Component {
       constructor () {
-        super(Object.assign(initMapState, initMapDispatch))
+        super(Object.assign(...arguments, initMapState, initMapDispatch))
         Object.keys(initMapDispatch).forEach(key => {
           this[`__event_${key}`] = initMapDispatch[key]
         })
