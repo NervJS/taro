@@ -22,13 +22,18 @@ function initPage (weappPageConf, page) {
       const theComponent = scopeMap[dataset[componentPath] || rootScopeKey]
       let scope = theComponent
       const bindArgs = {}
+      const componentClassName = dataset['componentClass']
+      const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
       Object.keys(dataset).forEach(key => {
-        const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
-        const keyLower = key.toLocaleLowerCase()
-        if (keyLower.indexOf('event') >= 0 &&
-          keyLower.indexOf(newEventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(`event${newEventHandlerNameLower}`, '')
-          bindArgs[argName] = dataset[key]
+        let keyLower = key.toLocaleLowerCase()
+        if (keyLower.indexOf('event') === 0) {
+          keyLower = keyLower.replace('event', '')
+          keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
+          keyLower = keyLower.toLocaleLowerCase()
+          if (keyLower.indexOf(newEventHandlerNameLower) >= 0) {
+            const argName = keyLower.replace(newEventHandlerNameLower, '')
+            bindArgs[argName] = dataset[key]
+          }
         }
       })
       if (!isEmptyObject(bindArgs)) {
