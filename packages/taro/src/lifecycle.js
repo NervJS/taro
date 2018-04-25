@@ -4,6 +4,7 @@ export function updateComponent (component, update) {
   if (component._createData) {
     state = component._createData(state)
   }
+  state.__data && (state.__data.$path = component.$path)
   const prevProps = component.prevProps || props
   const prevState = component.prevState || state
   component.props = prevProps
