@@ -41,8 +41,9 @@ export function updateComponent (component, update) {
 }
 
 function doUpdate (component, update) {
+  const $data = component.$root ? component.$root.$data : component.$data
   component.$scope._setData(
-    { ...component.$root.$data },
+    { ...$data },
     function () {
       if (component._pendingCallbacks) {
         while (component._pendingCallbacks.length) {

@@ -23,7 +23,7 @@ class Component {
 
   _initData ($root, $parent) {
     this.$app = getApp()
-    this.$root = $root || this
+    this.$root = $root || null
     this.$parent = $parent || null
     this.defaultData = {}
     this.$data = $parent ? $parent.$data : {}
@@ -42,7 +42,7 @@ class Component {
 
     if (this.$$components && !isEmptyObject(this.$$components)) {
       Object.getOwnPropertyNames(this.$$components).forEach(name => {
-        this.$$components[name]._initData(this.$root, this)
+        this.$$components[name]._initData(this.$root || this, this)
       })
     }
   }
