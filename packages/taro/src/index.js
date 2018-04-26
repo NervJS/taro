@@ -4,6 +4,7 @@ import createApp from './create-app'
 import createPage from './create-page'
 import initNativeApi from './native-api'
 import { get as internal_safe_get } from './internal/safe-get'
+import { dynamicRecursive as internal_dynamic_recursive } from './internal/dynamic-recursive'
 import { getEnv, ENV_TYPE } from './util'
 
 export {
@@ -13,7 +14,8 @@ export {
   initNativeApi,
   getEnv,
   ENV_TYPE,
-  internal_safe_get
+  internal_safe_get,
+  internal_dynamic_recursive
 }
 
 export default {
@@ -23,5 +25,6 @@ export default {
   initNativeApi,
   getEnv,
   ENV_TYPE,
-  internal_safe_get
+  internal_safe_get,
+  internal_dynamic_recursive
 }

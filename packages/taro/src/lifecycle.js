@@ -1,3 +1,5 @@
+import { processDynamicComponents } from './create-page'
+
 export function updateComponent (component, update) {
   const props = component.props
   let state = component.getState()
@@ -43,6 +45,9 @@ export function updateComponent (component, update) {
 
 function doUpdate (component, update) {
   const $data = component.$root ? component.$root.$data : component.$data
+  if (update) {
+    processDynamicComponents(component.$root || component)
+  }
   component.$scope._setData(
     { ...$data },
     function () {
