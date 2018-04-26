@@ -798,10 +798,10 @@ function compileDepScripts (babelConfig, scriptFiles) {
   if (babelConfig) {
     scriptFiles.forEach(async item => {
       if (path.isAbsolute(item)) {
-        try {
-          const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
-          if (!isBuildingScripts[outputItem]) {
-            isBuildingScripts[outputItem] = true
+        const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
+        if (!isBuildingScripts[outputItem]) {
+          isBuildingScripts[outputItem] = true
+          try {
             const code = fs.readFileSync(item).toString()
             const ast = babylon.parse(code, babylonConfig)
             const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
@@ -829,9 +829,10 @@ function compileDepScripts (babelConfig, scriptFiles) {
             fileDep['json'] = res.jsonFiles
             fileDep['media'] = res.mediaFiles
             dependencyTree[item] = fileDep
+          } catch (err) {
+            Util.printLog(Util.pocessTypeEnum.ERROR, '编译失败', item.replace(appPath + path.sep, ''))
+            console.log(err)
           }
-        } catch (err) {
-          console.log(err)
         }
       }
     })
