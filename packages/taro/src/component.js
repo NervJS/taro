@@ -36,7 +36,9 @@ class Component {
     }
     if (this.props) {
       for (let k in this.props) {
-        this.$data[k] = this.props[k]
+        if (typeof this.props[k] !== 'function') {
+          this.$data[k] = this.props[k]
+        }
       }
     }
 

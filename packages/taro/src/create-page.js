@@ -145,7 +145,7 @@ export function processDynamicComponents (page) {
                 }
 
                 if (stateData) {
-                  Object.assign(stateData[index], child.props, child.state)
+                  stateData[index] = Object.assign({}, { ...stateData[index] }, child.props, child.state)
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child

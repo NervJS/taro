@@ -1,4 +1,5 @@
 export function dynamicRecursive (component, param, data) {
+  data = data || []
   return param.map(paramItem => {
     const inData = paramItem.subscript ? data[paramItem.subscript] || [] : data
     const res = {

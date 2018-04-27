@@ -394,7 +394,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroJsFrameworkPath}').default.createPage(${exportVariableName}))`, babylonConfig)()
+            insert = template(`Page(require('${taroJsFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '')}' }))`, babylonConfig)()
             node.body.push(insert)
             break
           default:

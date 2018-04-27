@@ -33,7 +33,13 @@ export function updateComponent (component, update) {
       subComponent.props = newChildProps
       updateComponent(subComponent, false)
     }
-    Object.assign(component.$data, component.state, component.props)
+    const propsCopy = {}
+    Object.keys(component.props).forEach(item => {
+      if (typeof component.props[item] !== 'function') {
+        propsCopy[item] = component.props[item]
+      }
+    })
+    Object.assign(component.$data, component.state, propsCopy)
     if (component.componentDidUpdate) {
       component.componentDidUpdate(prevProps, prevState)
     }
