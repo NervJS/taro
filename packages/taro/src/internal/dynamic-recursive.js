@@ -14,7 +14,7 @@ export function dynamicRecursive (component, param, data) {
           body: (function (d) {
             return Object.assign({
               $name: `dy_${paramItem.subscript}_${paramItem.name}${index}`
-            }, paramItem.args && paramItem.args.call(component, d))
+            }, paramItem.args && paramItem.args.call(component, d, index))
           })(d)
         }
         if (paramItem.children && paramItem.children.length) {
