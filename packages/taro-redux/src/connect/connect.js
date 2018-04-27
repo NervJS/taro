@@ -11,12 +11,11 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     Object.keys(newMapState).forEach(key => {
       const val = newMapState[key]
       if (this.props[key] !== val) {
-        this.props[key] = key
+        this.props[key] = val
         isChanged = true
       }
     })
     if (isChanged) {
-      this.props = Object.assign(this.props, newMapState)
       this.setState({})
     }
   }
