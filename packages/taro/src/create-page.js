@@ -122,7 +122,7 @@ export function processDynamicComponents (page) {
             const components = item.components
             const children = item.children
             const subscript = item.subscript
-            stateData = subscript ? stateData[subscript] : stateData
+            stateData = subscript ? safeGet(stateData, subscript) : stateData
             if (!stateData) {
               return
             }
