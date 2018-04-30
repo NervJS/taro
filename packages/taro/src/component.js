@@ -6,6 +6,9 @@ class Component {
   static defaultProps = {}
   $components = {}
   $$components = {}
+  $router = {
+    $params: {}
+  }
   $path = ''
   $name = ''
   $isComponent = true
