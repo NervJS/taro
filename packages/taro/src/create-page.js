@@ -191,6 +191,9 @@ function componentTrigger (component, key) {
   })
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
+    if (component.$isComponent) {
+      component.$router.params = component.$root.$router.params
+    }
     component._dirty = false
     component._disable = false
     component.state = component.getState()
@@ -204,9 +207,7 @@ function createPage (PageClass, options) {
   const weappPageConf = {
     onLoad (options) {
       page._init(this)
-      page.$router = {
-        params: options
-      }
+      page.$router.params = options
       componentTrigger(page, 'componentWillMount')
     },
     onReady () {
