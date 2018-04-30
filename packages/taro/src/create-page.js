@@ -224,7 +224,13 @@ function createPage (PageClass, options) {
     },
     _setData (data, cb, isRoot) {
       if (isRoot) {
-        this.setData(data, () => {
+        const filterData = {}
+        for (let k in data) {
+          if (typeof data[k] !== 'undefined') {
+            filterData[k] = data[k]
+          }
+        }
+        this.setData(filterData, () => {
           cb && cb()
         })
       }
