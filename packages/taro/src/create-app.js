@@ -5,7 +5,7 @@ function createApp (AppClass) {
   const app = new AppClass()
   const weappAppConf = {
     onLaunch (options) {
-      app._init(this)
+      app.$app = this
       app.$router = {
         params: options
       }
