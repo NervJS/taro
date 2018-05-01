@@ -197,6 +197,7 @@ function componentTrigger (component, key) {
     component._dirty = false
     component._disable = false
     component.state = component.getState()
+    component.forceUpdate()
   }
 }
 
