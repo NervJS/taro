@@ -3,7 +3,7 @@ import { getStore } from '../utils/store'
 export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
-  const initMapDispatch = mapDispatchToProps(dispatch)
+  const initMapDispatch = typeof mapDispatchToProps === 'function' ? mapDispatchToProps(dispatch) : {}
 
   const stateListener = function () {
     let isChanged = false
@@ -32,6 +32,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
 
       componentWillMount () {
         const store = getStore()
+        Object.assign(this.props, mapStateToProps(store.getState()), initMapDispatch)
         unSubscribe = store.subscribe(stateListener.bind(this))
         if (super.componentWillMount) {
           super.componentWillMount()
