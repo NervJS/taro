@@ -86,6 +86,7 @@ function initPage (weappPageConf, page, options) {
     }
     for (const k in component) {
       if (k.indexOf(eventPreffix) >= 0) {
+        page[k.replace(eventPreffix, '')] = component[k]
         processEvent(pagePath, k, weappPageConf)
       }
     }
@@ -93,6 +94,7 @@ function initPage (weappPageConf, page, options) {
     prototypeChain.forEach(item => {
       Object.getOwnPropertyNames(item).forEach(fn => {
         if (fn.indexOf(eventPreffix) >= 0) {
+          page[fn.replace(eventPreffix, '')] = component[fn]
           processEvent(pagePath, fn, weappPageConf)
         }
       })
@@ -197,7 +199,9 @@ function componentTrigger (component, key) {
     component._dirty = false
     component._disable = false
     component.state = component.getState()
-    component.forceUpdate()
+    if (!component.$isComponent) {
+      component.forceUpdate()
+    }
   }
 }
 
