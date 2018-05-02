@@ -1,5 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
+const chalk = require('chalk')
+const chokidar = require('chokidar')
 const babylon = require('babylon')
 const vfs = require('vinyl-fs')
 const through2 = require('through2')
@@ -8,38 +10,60 @@ const t = require('babel-types')
 const generate = require('babel-generator').default
 const template = require('babel-template')
 const _ = require('lodash')
+const rimraf = require('rimraf')
 
 const npmProcess = require('./npm')
 const Util = require('./util')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 
-const taroJsFramework = '@tarojs/taro'
-const nervJsFramework = 'nervjs'
-const taroRouterFramework = '@tarojs/router'
+const PACKAGES = {
+  '@tarojs/taro': '@tarojs/taro',
+  '@tarojs/redux': '@tarojs/redux',
+  '@tarojs/router': '@tarojs/router',
+  '@tarojs/components': '@tarojs/components',
+  'nervjs': 'nervjs',
+  'nerv-redux': 'nerv-redux'
+}
 const nervJsImportDefaultName = 'Nerv'
 const routerImportDefaultName = 'TaroRouter'
-const taroComponentFramework = '@tarojs/components'
 const tabBarComponentName = 'Tabbar'
+const providerComponentName = 'Provider'
+const configStoreFuncName = 'configStore'
+const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
 const tempDir = '.temp'
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
-const sourceDir = path.join(
-  appPath,
-  projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-)
+const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+// const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+const sourceDir = path.join(appPath, sourceDirName)
+// const outputDir = path.join(appPath, outputDirName)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
-const pages = []
+let pages = []
 let tabBar
+
+// let isBuildingScripts = {}
+// let isBuildingStyles = {}
+// let isCopyingFiles = {}
+
+const FILE_TYPE = {
+  ENTRY: 'ENTRY',
+  PAGE: 'PAGE',
+  COMPONENT: 'COMPONENT',
+  NORMAL: 'NORMAL'
+}
+
 function processEntry (code) {
-  const styleFiles = []
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
   let componentClassName
+  let providorImportName
+  let storeName
+
   traverse(ast, {
     enter (astPath) {
       astPath.traverse({
@@ -109,43 +133,54 @@ function processEntry (code) {
           const node = astPath.node
           const source = node.source
           const value = source.value
-          if (Util.isNpmPkg(value)) {
-            if (value !== taroJsFramework) return
-            const specifiers = node.specifiers
-            let defaultSpecifier = null
-            let idx = -1
-            specifiers.forEach((item, index) => {
-              if (item.type === 'ImportDefaultSpecifier') {
-                defaultSpecifier = item.local.name
-                idx = index
-              }
-            })
-            if (!defaultSpecifier) {
+          const specifiers = node.specifiers
+
+          if (!Util.isNpmPkg(value)) return
+
+          if (value === PACKAGES['@tarojs/taro']) {
+            let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
+            if (specifier) {
+              taroImportDefaultName = specifier.local.name
+              specifier.local.name = nervJsImportDefaultName
+            } else {
               node.specifiers.unshift(
                 t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
               )
+            }
+            source.value = PACKAGES['nervjs']
+          } else if (value === PACKAGES['@tarojs/redux']) {
+            const specifier = specifiers.find(item => {
+              return t.isImportSpecifier(item) && item.imported.name === providerComponentName
+            })
+            if (specifier) {
+              providorImportName = specifier.local.name
             } else {
-              taroImportDefaultName = defaultSpecifier
-              node.specifiers[idx].local.name = nervJsImportDefaultName
+              providorImportName = providerComponentName
+              specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
             }
-            source.value = nervJsFramework
-            astPath.replaceWith(t.importDeclaration(node.specifiers, source))
-          } else if (Util.CSS_EXT.indexOf(path.extname(value)) >= 0) {
-            if (styleFiles.indexOf(value) < 0) {
-              styleFiles.push(value)
-            }
+            source.value = PACKAGES['nerv-redux']
           }
         },
-        ClassMethod (astPath) {
+        CallExpression (astPath) {
           const node = astPath.node
-          const key = node.key
-          if (key.name !== 'render') return
-          node.body = template(
-            `{
-            return <${routerImportDefaultName}.Router />
-          }`,
-            babylonConfig
-          )()
+          const calleeName = node.callee.name
+          const parentPath = astPath.parentPath
+
+          if (calleeName === configStoreFuncName) {
+            if (parentPath.isAssignmentExpression()) {
+              storeName = parentPath.node.left.name
+            } else if (parentPath.isVariableDeclarator()) {
+              storeName = parentPath.node.id.name
+            } else {
+              storeName = 'store'
+            }
+          } else if (calleeName === setStoreFuncName) {
+            if (parentPath.isAssignmentExpression() ||
+              parentPath.isExpressionStatement() ||
+              parentPath.isVariableDeclarator()) {
+              parentPath.remove()
+            }
+          }
         }
       })
     },
@@ -154,17 +189,16 @@ function processEntry (code) {
         ClassMethod (astPath) {
           const node = astPath.node
           const key = node.key
+          let funcBody
           if (key.name !== 'render') return
+          funcBody = `<${routerImportDefaultName}.Router />`
+
           if (tabBar) {
-            node.body = template(
-              `{
-              return <View>
-              <${routerImportDefaultName}.Router />
-              <${tabBarComponentName} conf={${tabBarConfigName}}/>
-            </View>
-            }`,
-              babylonConfig
-            )()
+            funcBody = `
+              <View>
+                ${funcBody}
+                <${tabBarComponentName} conf={${tabBarConfigName}}/>
+              </View>`
 
             astPath
               .get('body')
@@ -174,6 +208,16 @@ function processEntry (code) {
                 ])
               ])
           }
+
+          if (providerComponentName && storeName) {
+            // 使用redux
+            funcBody = `
+              <${providorImportName} store={${storeName}}>
+                ${funcBody}
+              </${providorImportName}>`
+          }
+
+          node.body = template(`{return (${funcBody});}`, babylonConfig)()
         }
       })
     },
@@ -188,15 +232,15 @@ function processEntry (code) {
           .join(',')
 
         const importTaro = template(
-          `import ${taroImportDefaultName} from '${taroJsFramework}'`,
+          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro']}'`,
           babylonConfig
         )()
         const importTaroRouter = template(
-          `import ${routerImportDefaultName} from '${taroRouterFramework}'`,
+          `import ${routerImportDefaultName} from '${PACKAGES['@tarojs/router']}'`,
           babylonConfig
         )()
         const importComponents = template(
-          `import { View, ${tabBarComponentName}} from '${taroComponentFramework}'`,
+          `import { View, ${tabBarComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
         )()
         const initRouter = template(
@@ -223,13 +267,11 @@ function processEntry (code) {
   })
 
   return {
-    code: generate(ast).code,
-    styleFiles
+    code: generate(ast).code
   }
 }
 
 function processOthers (code) {
-  const styleFiles = []
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
 
@@ -273,31 +315,21 @@ function processOthers (code) {
           const node = astPath.node
           const source = node.source
           const value = source.value
-          if (Util.isNpmPkg(value)) {
-            if (value !== taroJsFramework) return
-            const specifiers = node.specifiers
-            let defaultSpecifier = null
-            let idx = -1
-            specifiers.forEach((item, index) => {
-              if (item.type === 'ImportDefaultSpecifier') {
-                defaultSpecifier = item.local.name
-                idx = index
-              }
-            })
-            if (!defaultSpecifier) {
+          const specifiers = node.specifiers
+          if (!Util.isNpmPkg(value)) return
+          if (value === PACKAGES['@tarojs/taro']) {
+            let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
+            if (specifier) {
+              taroImportDefaultName = specifier.local.name
+              specifier.local.name = nervJsImportDefaultName
+            } else {
               node.specifiers.unshift(
                 t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
               )
-            } else {
-              taroImportDefaultName = defaultSpecifier
-              node.specifiers[idx].local.name = nervJsImportDefaultName
             }
-            source.value = nervJsFramework
-            astPath.replaceWith(t.importDeclaration(node.specifiers, source))
-          } else if (Util.CSS_EXT.indexOf(path.extname(value)) >= 0) {
-            if (styleFiles.indexOf(value) < 0) {
-              styleFiles.push(value)
-            }
+            source.value = PACKAGES['nervjs']
+          } else if (value === PACKAGES['@tarojs/redux']) {
+            source.value = PACKAGES['nerv-redux']
           }
         }
       })
@@ -306,67 +338,142 @@ function processOthers (code) {
       exit (astPath) {
         if (!taroImportDefaultName) return
         const node = astPath.node
-        const importTaro = template(
-          `
-          import ${taroImportDefaultName} from '${taroJsFramework}'
-        `,
-          babylonConfig
-        )
+        const importTaro = template(`
+          import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro']}'
+        `, babylonConfig)
         node.body.unshift(importTaro())
       }
     }
   })
 
   return {
-    code: generate(ast).code,
-    styleFiles
+    code: generate(ast).code
   }
 }
 
-function build ({ watch }) {
-  fs.ensureDirSync(tempPath)
-  vfs
-    .src(path.join(sourceDir, '**'))
-    .pipe(
-      through2.obj(function (file, enc, cb) {
-        if (file.isNull() || file.isStream()) {
-          return cb(null, file)
-        }
-        const filePath = file.path
-        const content = file.contents.toString()
-        if (entryFilePath === filePath) {
-          const transformResult = processEntry(content)
-          const jsCode = transformResult.code
-          file.contents = Buffer.from(jsCode)
-        } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
-          const transformResult = processOthers(content)
-          let jsCode = transformResult.code
-          if (transformResult.taroImportDefaultName) {
-            jsCode = `import ${
-              transformResult.taroImportDefaultName
-            } from '${taroJsFramework}'\n${jsCode}`
-          }
-          file.contents = Buffer.from(jsCode)
-        }
-        this.push(file)
-        cb()
-      })
-    )
-    .pipe(vfs.dest(path.join(tempPath)))
-    .on('end', async () => {
-      const entry = {
-        app: path.join(tempPath, CONFIG.ENTRY)
-      }
-      const h5Config = projectConfig.h5 || {}
-      h5Config.env = projectConfig.env
-      h5Config.defineConstants = projectConfig.defineConstants
-      h5Config.designWidth = projectConfig.designWidth
-      h5Config.sourceRoot = projectConfig.sourceRoot
-      h5Config.outputRoot = projectConfig.outputRoot
-      h5Config.entry = entry
-      const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
-      webpackRunner(h5Config)
+function classifyFiles (filename) {
+  if (filename.indexOf(CONFIG.ENTRY) >= 0) return FILE_TYPE.ENTRY
+
+  if (pages.some(page => {
+    if (filename.indexOf(page) >= 0) return true
+  })) {
+    return FILE_TYPE.PAGE
+  } else {
+    return FILE_TYPE.NORMAL
+  }
+}
+
+function watchFiles () {
+  console.log(chalk.gray('\n监听文件修改中...\n'))
+  // isBuildingScripts = {}
+  // isBuildingStyles = {}
+  // isCopyingFiles = {}
+  const watcher = chokidar.watch(path.join(sourceDir), {
+    ignored: /(^|[/\\])\../,
+    persistent: true,
+    ignoreInitial: true
+  })
+  watcher
+    .on('addDir', dirPath => {
+      console.log(dirPath)
     })
+    .on('add', filePath => {
+      console.log(filePath)
+    })
+    .on('change', async filePath => {
+      const extname = path.extname(filePath)
+      const fileType = classifyFiles(filePath)
+      let transformResult
+      pages = []
+
+      let modifySource = filePath.replace(appPath + path.sep, '')
+      modifySource = modifySource.split(path.sep).join('/')
+      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', modifySource)
+
+      if (Util.REG_SCRIPT.test(extname)) {
+        // 脚本文件
+        const code = fs.readFileSync(filePath).toString()
+        if (fileType === FILE_TYPE.ENTRY) {
+          transformResult = processEntry(code)
+        } else {
+          transformResult = processOthers(code)
+        }
+        fs.writeFileSync(filePath.replace(sourceDir, tempDir), transformResult.code)
+      } else {
+        // 其他
+        vfs.src([modifySource]).pipe(vfs.dest(tempPath))
+      }
+      // isBuildingScripts = {}
+      // isBuildingStyles = {}
+      // isCopyingFiles = {}
+    })
+}
+
+function buildTemp () {
+  fs.ensureDirSync(tempPath)
+  return new Promise((resolve, reject) => {
+    vfs
+      .src(path.join(sourceDir, '**'))
+      .pipe(
+        through2.obj(function (file, enc, cb) {
+          if (file.isNull() || file.isStream()) {
+            return cb(null, file)
+          }
+          const filePath = file.path
+          const content = file.contents.toString()
+          if (entryFilePath === filePath) {
+            const transformResult = processEntry(content)
+            const jsCode = transformResult.code
+            file.contents = Buffer.from(jsCode)
+          } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
+            const transformResult = processOthers(content)
+            let jsCode = transformResult.code
+            file.contents = Buffer.from(jsCode)
+          }
+          this.push(file)
+          cb()
+        })
+      )
+      .pipe(vfs.dest(path.join(tempPath)))
+      .on('end', () => {
+        resolve()
+      })
+  })
+}
+
+async function buildDist ({ watch }) {
+  const entry = {
+    app: path.join(tempPath, CONFIG.ENTRY)
+  }
+  const h5Config = projectConfig.h5 || {}
+  h5Config.env = projectConfig.env
+  h5Config.defineConstants = projectConfig.defineConstants
+  h5Config.designWidth = projectConfig.designWidth
+  h5Config.sourceRoot = projectConfig.sourceRoot
+  h5Config.outputRoot = projectConfig.outputRoot
+  h5Config.entry = entry
+  if (watch) {
+    h5Config.isWatch = true
+  }
+  const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
+  webpackRunner(h5Config)
+}
+
+function clean () {
+  return new Promise((resolve, reject) => {
+    rimraf(tempPath, () => {
+      resolve()
+    })
+  })
+}
+
+async function build ({ watch }) {
+  await clean()
+  await buildTemp()
+  await buildDist({ watch })
+  if (watch) {
+    watchFiles()
+  }
 }
 
 module.exports = {
