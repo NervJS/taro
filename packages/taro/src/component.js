@@ -7,7 +7,7 @@ class Component {
   $components = {}
   $$components = {}
   $router = {
-    $params: {}
+    params: {}
   }
   $path = ''
   $name = ''
