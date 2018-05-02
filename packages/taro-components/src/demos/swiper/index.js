@@ -72,9 +72,9 @@ export default class Swiper extends Nerv.Component {
             <Taro.Swiper {...swiperOpts} bindchange={this.onChange}>
               {goodsData.map(item => {
                 return (
-                  <div className='swiper_item'>
+                  <Taro.SwiperItem>
                     <img src={item.image} />
-                  </div>
+                  </Taro.SwiperItem>
                 )
               })}
             </Taro.Swiper>

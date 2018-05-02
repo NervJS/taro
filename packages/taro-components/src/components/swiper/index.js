@@ -3,6 +3,12 @@ import classNames from 'classnames'
 import { throttle } from '../../../utils/index'
 import './style/index.scss'
 
+class SwiperItem extends Nerv.Component {
+  render () {
+    return ''
+  }
+}
+
 class Swiper extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -262,6 +268,9 @@ class Swiper extends Nerv.Component {
     let preSwiper = []
     let lastSwiper = []
     children.forEach((child, idx) => {
+      child.children = child.props.children
+      child.type = 'div'
+      child.props.class = 'swiper_item'
       let dom1 = {
         'data-index': idx,
         style: {
@@ -317,7 +326,6 @@ class Swiper extends Nerv.Component {
   componentDidMount () {
     this.initSwiper()
   }
-
   render () {
     const {
       wrapperClass,
@@ -328,6 +336,7 @@ class Swiper extends Nerv.Component {
       indicatorColor,
       indicatorActiveColor
     } = this.props
+
     const {current} = this.state
     const SwiperCount = children.length
     const Swipers = this.renderSwipers()
@@ -335,6 +344,7 @@ class Swiper extends Nerv.Component {
       <div
         className='swiper'
         ref={(SwiperWp) => { this.SwiperWp = SwiperWp }}>
+        <SwiperItem />
         {Swipers}
       </div>
       {indicatorDots ? <IndicatorDots
@@ -384,4 +394,4 @@ class IndicatorDots extends Nerv.Component {
   }
 }
 
-export default Swiper
+export {Swiper, SwiperItem}
