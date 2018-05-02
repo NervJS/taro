@@ -21,8 +21,8 @@ const getPage = (pathname) => {
 
 const getWrappedComponent = (component, { location }) => {
   class Wrapped extends component {
-    constructor (props) {
-      super(props)
+    constructor () {
+      super(...arguments)
       this.$router = location
       const pageId = location.pageId
       this.$router.unlisten = history.listen((nextLocation, action, payload) => {
@@ -91,8 +91,8 @@ const getCurrentPages = function (opts) {
 }
 
 class Router extends Nerv.Component {
-  constructor (props) {
-    super(props)
+  constructor () {
+    super(...arguments)
 
     this.state = {
       cached: []
