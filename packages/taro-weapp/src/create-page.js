@@ -1,5 +1,6 @@
+import { internal_safe_get as safeGet } from '@tarojs/taro/index.esm.js'
+
 import { isEmptyObject, getPrototypeChain } from './util'
-import { get as safeGet } from './internal/safe-get'
 
 const eventPreffix = '__event_'
 const rootScopeKey = '__root_'
