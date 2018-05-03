@@ -20,5 +20,8 @@
     "taro"
   ],
   "author": "O2Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/taro": "^0.0.22"
+  }
 }

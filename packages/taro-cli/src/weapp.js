@@ -29,6 +29,7 @@ const pluginsConfig = projectConfig.plugins || {}
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
+const taroWeappFramework = '@tarojs/taro-weapp'
 const taroJsComponents = '@tarojs/components'
 const taroJsRedux = '@tarojs/redux'
 let appConfig = {}
@@ -130,7 +131,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
     ImportDeclaration (astPath) {
       const node = astPath.node
       const source = node.source
-      const value = source.value
+      let value = source.value
       const valueExtname = path.extname(value)
       if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
         if (value === taroJsComponents) {
@@ -147,6 +148,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             if (defaultSpecifier) {
               taroImportDefaultName = defaultSpecifier
             }
+            value = taroWeappFramework
           } else if (value === taroJsRedux) {
             specifiers.forEach(item => {
               if (item.type === 'ImportSpecifier') {
@@ -243,7 +245,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
         node.declarations[0].init.callee.name === 'require') {
         const init = node.declarations[0].init
         const args = init.arguments
-        const value = args[0].value
+        let value = args[0].value
         const valueExtname = path.extname(value)
         const id = node.declarations[0].id
         if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
@@ -252,6 +254,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           } else {
             if (value === taroJsFramework && id.type === 'Identifier') {
               taroImportDefaultName = id.name
+              value = taroWeappFramework
             } else if (value === taroJsRedux) {
               const declarations = node.declarations
               declarations.forEach(item => {
@@ -386,15 +389,15 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           const exportDefault = template(`export default ${exportVariableName}`, babylonConfig)()
           node.body.push(exportDefault)
         }
-        const taroJsFrameworkPath = getExactedNpmFilePath(taroJsFramework, filePath)
+        const taroWeappFrameworkPath = getExactedNpmFilePath(taroWeappFramework, filePath)
         let insert
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
-            insert = template(`App(require('${taroJsFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)()
+            insert = template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)()
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroJsFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '')}' }))`, babylonConfig)()
+            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '')}' }))`, babylonConfig)()
             node.body.push(insert)
             break
           default:

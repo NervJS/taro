@@ -19,9 +19,12 @@
   "keywords": [
     "taro"
   ],
+  "author": "O2Team",
+  "license": "MIT",
   "peerDependencies": {
     "nervjs": "^1.2.17"
   },
-  "author": "O2Team",
-  "license": "MIT"
+  "dependencies": {
+    "@tarojs/taro": "^0.0.22"
+  }
 }
