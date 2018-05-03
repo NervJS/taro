@@ -26,6 +26,12 @@ const PACKAGES = {
   'nervjs': 'nervjs',
   'nerv-redux': 'nerv-redux'
 }
+const taroApis = [
+  'getEnv',
+  'ENV_TYPE',
+  'internal_safe_get',
+  'internal_dynamic_recursive'
+]
 const nervJsImportDefaultName = 'Nerv'
 const routerImportDefaultName = 'TaroRouter'
 const tabBarComponentName = 'Tabbar'
@@ -64,6 +70,7 @@ function processEntry (code) {
   let componentClassName
   let providorImportName
   let storeName
+  let hasAddNervJsImportDefaultName = false
 
   traverse(ast, {
     enter (astPath) {
@@ -141,14 +148,30 @@ function processEntry (code) {
           if (value === PACKAGES['@tarojs/taro']) {
             let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
             if (specifier) {
+              hasAddNervJsImportDefaultName = true
               taroImportDefaultName = specifier.local.name
               specifier.local.name = nervJsImportDefaultName
-            } else {
+            } else if (!hasAddNervJsImportDefaultName) {
+              hasAddNervJsImportDefaultName = true
               node.specifiers.unshift(
                 t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
               )
             }
+            const taroApisSpecifiers = []
+            specifiers.forEach((item, index) => {
+              if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
+                taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
+                specifiers.splice(index, 1)
+              }
+            })
             source.value = PACKAGES['nervjs']
+
+            if (taroApisSpecifiers.length) {
+              astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
+            }
+            if (!specifiers.length) {
+              astPath.remove()
+            }
           } else if (value === PACKAGES['@tarojs/redux']) {
             const specifier = specifiers.find(item => {
               return t.isImportSpecifier(item) && item.imported.name === providerComponentName
@@ -233,7 +256,7 @@ function processEntry (code) {
           .join(',')
 
         const importTaro = template(
-          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro']}'`,
+          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
           babylonConfig
         )()
         const importTaroRouter = template(
@@ -275,6 +298,7 @@ function processEntry (code) {
 function processOthers (code) {
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
+  let hasAddNervJsImportDefaultName = false
 
   traverse(ast, {
     enter (astPath) {
@@ -321,14 +345,30 @@ function processOthers (code) {
           if (value === PACKAGES['@tarojs/taro']) {
             let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
             if (specifier) {
+              hasAddNervJsImportDefaultName = true
               taroImportDefaultName = specifier.local.name
               specifier.local.name = nervJsImportDefaultName
-            } else {
+            } else if (!hasAddNervJsImportDefaultName) {
+              hasAddNervJsImportDefaultName = true
               node.specifiers.unshift(
                 t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
               )
             }
+            const taroApisSpecifiers = []
+            specifiers.forEach((item, index) => {
+              if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
+                taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
+                specifiers.splice(index, 1)
+              }
+            })
             source.value = PACKAGES['nervjs']
+
+            if (taroApisSpecifiers.length) {
+              astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
+            }
+            if (!specifiers.length) {
+              astPath.remove()
+            }
           } else if (value === PACKAGES['@tarojs/redux']) {
             source.value = PACKAGES['nerv-redux']
           }
@@ -340,7 +380,7 @@ function processOthers (code) {
         if (!taroImportDefaultName) return
         const node = astPath.node
         const importTaro = template(`
-          import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro']}'
+          import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'
         `, babylonConfig)
         node.body.unshift(importTaro())
       }
