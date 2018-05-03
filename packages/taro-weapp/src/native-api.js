@@ -1,10 +1,3 @@
-import { getEnv, ENV_TYPE } from './util'
-import { createSelectorQuery } from './api/createSelectorQuery'
-import * as storage from './api/storage'
-import * as interactive from './api/interactive'
-
-const env = getEnv()
-
 const RequestQueue = {
   MAX_REQUEST: 5,
   queue: [],
@@ -40,46 +33,16 @@ function request (options) {
       url: options
     }
   }
-  if (env === ENV_TYPE.WEAPP) {
-    const p = new Promise((resolve, reject) => {
-      options['success'] = res => {
-        resolve(res)
-      }
-      options['fail'] = res => {
-        reject(res)
-      }
-      RequestQueue.request(options)
-    })
-    return p
-  } else {
-    const url = options.url
-    const params = {}
-    params.body = options.data
-    params.headers = options.header
-    params.method = options.method
-    params.mode = options.mode
-    params.credentials = options.credentials
-    params.cache = options.cache
-    const res = {}
-    return fetch(url, params)
-      .then(response => {
-        res.statusCode = response.status
-        res.header = response.headers
-        if (options.responseType === 'arraybuffer') {
-          return response.arrayBuffer()
-        }
-        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-          return response.json()
-        }
-        if (options.responseType === 'text') {
-          return response.text()
-        }
-        return Promise.resolve(null)
-      }).then(data => {
-        res.data = data
-        return res
-      })
-  }
+  const p = new Promise((resolve, reject) => {
+    options['success'] = res => {
+      resolve(res)
+    }
+    options['fail'] = res => {
+      reject(res)
+    }
+    RequestQueue.request(options)
+  })
+  return p
 }
 
 function processApis (taro) {
@@ -293,53 +256,47 @@ function processApis (taro) {
   }
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
-    if (env === ENV_TYPE.WEAPP) {
-      if (!onAndSyncApis[key] && !noPromiseApis[key]) {
-        taro[key] = options => {
-          options = options || {}
-          let task = null
-          let obj = Object.assign({}, options)
-          if (typeof options === 'string') {
-            return wx[key](options)
-          }
-          const p = new Promise((resolve, reject) => {
-            ['fail', 'success', 'complete'].forEach((k) => {
-              obj[k] = (res) => {
-                options[k] && options[k](res)
-                if (k === 'success') {
-                  if (key === 'connectSocket') {
-                    resolve(task)
-                  } else {
-                    resolve(res)
-                  }
-                } else if (k === 'fail') {
-                  reject(res)
+    if (!onAndSyncApis[key] && !noPromiseApis[key]) {
+      taro[key] = options => {
+        options = options || {}
+        let task = null
+        let obj = Object.assign({}, options)
+        if (typeof options === 'string') {
+          return wx[key](options)
+        }
+        const p = new Promise((resolve, reject) => {
+          ['fail', 'success', 'complete'].forEach((k) => {
+            obj[k] = (res) => {
+              options[k] && options[k](res)
+              if (k === 'success') {
+                if (key === 'connectSocket') {
+                  resolve(task)
+                } else {
+                  resolve(res)
                 }
+              } else if (k === 'fail') {
+                reject(res)
               }
-            })
-            task = wx[key](obj)
+            }
           })
-          if (key === 'uploadFile' || key === 'downloadFile') {
-            p.progress = cb => {
-              task.onProgressUpdate(cb)
-              return p
-            }
-            p.abort = cb => {
-              cb && cb()
-              task.abort()
-              return p
-            }
+          task = wx[key](obj)
+        })
+        if (key === 'uploadFile' || key === 'downloadFile') {
+          p.progress = cb => {
+            task.onProgressUpdate(cb)
+            return p
           }
-          return p
+          p.abort = cb => {
+            cb && cb()
+            task.abort()
+            return p
+          }
         }
-      } else {
-        taro[key] = (...args) => {
-          return wx[key].apply(wx, args)
-        }
+        return p
       }
     } else {
-      taro[key] = () => {
-        console.log(`暂时不支持 ${key}`)
+      taro[key] = (...args) => {
+        return wx[key].apply(wx, args)
       }
     }
   })
@@ -348,6 +305,4 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
-  taro.createSelectorQuery = createSelectorQuery
-  Object.assign(taro, storage, interactive)
 }

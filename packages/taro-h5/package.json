@@ -1,0 +1,27 @@
+{
+  "name": "@tarojs/taro-h5",
+  "version": "0.0.22",
+  "description": "Taro h5 framework",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "src",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "peerDependencies": {
+    "nervjs": "^1.2.17"
+  },
+  "author": "O2Team",
+  "license": "MIT"
+}
