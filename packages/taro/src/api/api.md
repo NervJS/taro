@@ -318,17 +318,17 @@
 
 #### 交互反馈
 
-☑️ wx.showToast
+✅ wx.showToast
 
-☑️ wx.showLoading
+✅ wx.showLoading
 
-☑️ wx.hideToast
+✅ wx.hideToast
 
-☑️ wx.hideLoading
+✅ wx.hideLoading
 
-☑️ wx.showModal
+✅ wx.showModal
 
-☑️ wx.showActionSheet
+✅ wx.showActionSheet
 
 #### 设置导航条
 

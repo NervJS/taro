@@ -87,15 +87,17 @@ exports.buildDev = function (config) {
       })
     ]
   })
-  const compiler = createCompiler(webpackConf)
-
-  const server = new WebpackDevServer(compiler, devServerConf({
+  const devServerOptions = devServerConf({
     publicPath,
     contentBase,
     protocol,
     host,
     publicUrl: urls.lanUrlForConfig
-  }))
+  })
+  WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
+
+  const compiler = createCompiler(webpackConf)
+  const server = new WebpackDevServer(compiler, devServerOptions)
 
   server.listen(port, host, err => {
     if (err) return console.log(err)
