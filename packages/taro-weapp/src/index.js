@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { getEnv, ENV_TYPE, internal_safe_get, internal_dynamic_recursive } from '@tarojs/taro/index.esm.js'
+import { getEnv, ENV_TYPE, internal_safe_get, internal_dynamic_recursive } from '@tarojs/taro'
 
 import Component from './component'
 import createApp from './create-app'

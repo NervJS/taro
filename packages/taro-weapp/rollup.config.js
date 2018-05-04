@@ -1,6 +1,8 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+const common = require('rollup-plugin-commonjs')
+const alias = require('rollup-plugin-alias')
 const cwd = __dirname
 
 const baseConfig = {
@@ -22,6 +24,9 @@ const baseConfig = {
     }
   ],
   plugins: [
+    alias({
+      '@tarojs/taro': join(cwd, '../taro/src/index')
+    }),
     resolve({
       preferBuiltins: false
     }),
@@ -39,7 +44,8 @@ const baseConfig = {
           'pragma': 'Nerv.createElement'
         }]
       ]
-    })
+    }),
+    common()
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

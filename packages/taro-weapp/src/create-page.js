@@ -1,4 +1,4 @@
-import { internal_safe_get as safeGet } from '@tarojs/taro/index.esm.js'
+import { internal_safe_get as safeGet } from '@tarojs/taro'
 
 import { isEmptyObject, getPrototypeChain } from './util'
 
