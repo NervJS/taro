@@ -75,7 +75,7 @@ exports.isNpmPkg = function (name) {
 }
 
 exports.promoteRelativePath = function (fPath) {
-  const fPathArr = fPath.split('/')
+  const fPathArr = fPath.split(path.sep)
   let dotCount = 0
   fPathArr.forEach(item => {
     if (item.indexOf('..') >= 0) {
@@ -84,11 +84,11 @@ exports.promoteRelativePath = function (fPath) {
   })
   if (dotCount === 1) {
     fPathArr.splice(0, 1, '.')
-    return fPathArr.join('/')
+    return fPathArr.join(path.sep)
   }
   if (dotCount > 1) {
     fPathArr.splice(0, 1)
-    return fPathArr.join('/')
+    return fPathArr.join(path.sep)
   }
   return fPath
 }
