@@ -406,9 +406,6 @@ function classifyFiles (filename) {
 
 function watchFiles () {
   console.log(chalk.gray('\n监听文件修改中...\n'))
-  // isBuildingScripts = {}
-  // isBuildingStyles = {}
-  // isCopyingFiles = {}
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
@@ -442,11 +439,9 @@ function watchFiles () {
         fs.writeFileSync(filePath.replace(sourceDir, tempDir), transformResult.code)
       } else {
         // 其他
-        vfs.src([modifySource]).pipe(vfs.dest(tempPath))
+        const destDir = path.dirname(filePath.replace(sourceDir, tempDir))
+        vfs.src([modifySource]).pipe(vfs.dest(destDir))
       }
-      // isBuildingScripts = {}
-      // isBuildingStyles = {}
-      // isCopyingFiles = {}
     })
 }
 
