@@ -1,5 +1,12 @@
 /* eslint-disable camelcase */
-import { getEnv, ENV_TYPE, internal_safe_get, internal_dynamic_recursive } from '@tarojs/taro'
+import {
+  getEnv,
+  Events,
+  eventCenter,
+  ENV_TYPE,
+  internal_safe_get,
+  internal_dynamic_recursive
+} from '@tarojs/taro'
 
 import Component from './component'
 import createApp from './create-app'
@@ -11,6 +18,8 @@ export {
   createApp,
   createPage,
   initNativeApi,
+  Events,
+  eventCenter,
   getEnv,
   ENV_TYPE,
   internal_safe_get,
@@ -22,6 +31,8 @@ export default {
   createApp,
   createPage,
   initNativeApi,
+  Events,
+  eventCenter,
   getEnv,
   ENV_TYPE,
   internal_safe_get,
