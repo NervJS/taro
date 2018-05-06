@@ -215,7 +215,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             }
           })
           if (defaultSpecifier) {
-            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(value))]))
+            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '')))]))
           } else {
             astPath.remove()
           }
@@ -321,7 +321,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
               defaultSpecifier = id.name
             }
             if (defaultSpecifier) {
-              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(value))]))
+              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '')))]))
             } else {
               astPath.remove()
             }
