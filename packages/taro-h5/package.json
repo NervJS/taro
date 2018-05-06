@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Taro h5 framework",
   "main": "index.js",
   "files": [
@@ -25,6 +25,6 @@
     "nervjs": "^1.2.17"
   },
   "dependencies": {
-    "@tarojs/taro": "0.0.26"
+    "@tarojs/taro": "0.0.27"
   }
 }
