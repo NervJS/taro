@@ -146,8 +146,12 @@ export function processDynamicComponents (page) {
                   child._initData(component.$root || component, component)
                   componentTrigger(child, 'componentWillMount')
                 } else {
+                  child.$path = comPath
                   child.props = item.body
+                  child.props.$path = comPath
                   child.state = child._createData()
+                  child._init(component.$scope)
+                  child._initData(component.$root || component, component)
                 }
 
                 if (stateData) {
