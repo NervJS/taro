@@ -1,12 +1,17 @@
 import EventEmitter from './eventEmitter'
+import resolvePathname from './resolvePathname'
 
 function pushHashPath (path) {
   window.location.hash = path
 }
 
+function getHashPath (path) {
+  const hashIndex = window.location.href.indexOf('#')
+  return window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path
+}
+
 function replaceHashPath (path) {
   const hashIndex = window.location.href.indexOf('#')
-
   window.location.replace(window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path)
 }
 
@@ -44,18 +49,27 @@ function createLocation (path) {
 }
 
 class History extends EventEmitter {
-  constructor (props) {
-    super(props)
+  stack = []
+  ignorePath = null
+  current = null
 
+  constructor () {
+    super()
     if (History.instance) return History.instance
     History.instance = this
 
-    this.stack = []
-    this.ignorePath = false
+    this.init()
+  }
 
+  init () {
     const path = encodePath(getHash())
     this.stack.push(createLocation(path))
-    window.history.replaceState(1, null, null)
+    window.history.replaceState(0, null, null)
+    this.current = 0
+
+    window.addEventListener('hashchange', () => {
+      window.history.replaceState(this.current, '', '')
+    }, false)
 
     window.addEventListener('popstate', e => {
       const currentPath = encodePath(getHash())
@@ -63,29 +77,33 @@ class History extends EventEmitter {
         this.ignorePath = null
         return
       }
+      if (typeof e.state !== 'number') return
 
-      if (e.state && e.state <= this.stack.length) {
-        // back
-        this.stack.pop()
-        console.log('back', e.state)
-      } else {
-        // forward
-        const path = encodePath(getHash())
-        this.stack.push(createLocation(path))
-        console.log('new')
+      let navigateResult = false
+      if (e.state <= this.current) {
+        navigateResult = navigateBack({ delta: 1 })
       }
-    }, false)
 
-    window.addEventListener('hashchange', e => {
-      window.history.replaceState(this.stack.length, '', '')
+      if (!navigateResult) window.history.pushState(null, null, getHashPath(history.now().path))
     }, false)
+  }
+
+  // 获取stack的当前值
+  now () {
+    return this.stack[this.current]
+  }
+
+  // 获取stack的长度
+  len () {
+    return this.stack.length
   }
 
   listen = (fn) => {
     this.on('change', fn)
-    return () => {
-      this.off('change', fn)
-    }
+  }
+
+  unlisten = (fn) => {
+    this.off('change', fn)
   }
 
   push (opts) {
@@ -94,7 +112,8 @@ class History extends EventEmitter {
 
     if (encodedPath !== currentPath) {
       const location = createLocation(encodedPath)
-      this.stack.push(location)
+      this.current++
+      this.stack.splice(this.current, this.len(), location)
       this.emit('change', location, 'PUSH', opts)
       this.ignorePath = encodedPath
       pushHashPath(encodedPath)
@@ -109,8 +128,8 @@ class History extends EventEmitter {
 
     if (encodedPath !== currentPath) {
       const location = createLocation(encodedPath)
-      this.stack.pop()
-      this.stack.push(location)
+      const len = this.stack.length
+      this.stack.splice(this.current, len, location)
       this.emit('change', location, 'REPLACE', opts)
       this.ignorePath = encodedPath
       replaceHashPath(encodedPath)
@@ -119,30 +138,75 @@ class History extends EventEmitter {
     }
   }
 
-  goBack (n) {
-    if (typeof n !== 'number' || n < 1) {
+  goBack (delta) {
+    if (typeof delta !== 'number' || delta < 1) {
       console.warn('goBack arg error')
-      return
+      return false
     }
 
-    const len = this.stack.length
+    if (this.current < delta) return false
+    this.current -= delta
+    this.stack.splice(this.current + 2)
 
-    if (len === 1) return
-
-    if (n > len - 1) n = len - 1
-    this.stack.splice(len - n, n)
-
-    const backPage = this.stack[len - n - 1]
+    const backPage = this.now()
     const encodedPath = backPage.path
-    this.emit('change', backPage, 'BACK', { n })
+    this.emit('change', backPage, 'BACK', { delta })
     this.ignorePath = encodedPath
     pushHashPath(encodedPath)
+    return true
   }
 }
 
 const history = new History()
 
 window.h = history
+
+let navigateLock = false
+const waitForlock = (fn) => {
+  if (navigateLock) return false
+  navigateLock = true
+  setTimeout(() => {
+    navigateLock = false
+  }, 300)
+  return fn()
+}
+
+const navigateTo = function (opts) {
+  waitForlock(() => {
+    const url = opts.url
+    const success = opts.success
+    const fail = opts.fail
+    const complete = opts.complete
+
+    const current = history.stack[history.stack.length - 1]
+    const currentUrl = current.pathname
+    history.push({
+      url: resolvePathname(url, currentUrl),
+      success,
+      fail,
+      complete
+    })
+  })
+}
+
+const navigateBack = function (opts) {
+  return waitForlock(() => history.goBack(opts.delta))
+}
+
+const redirectTo = function (opts) {
+  waitForlock(() => {
+    const success = opts.success
+    const fail = opts.fail
+    const complete = opts.complete
+
+    history.replace({
+      url: opts.url,
+      success,
+      fail,
+      complete
+    })
+  })
+}
 
 export default history
 
@@ -151,5 +215,9 @@ export {
   replaceHashPath,
   getHash,
   encodePath,
-  createLocation
+  createLocation,
+
+  navigateBack,
+  navigateTo,
+  redirectTo
 }
