@@ -1,7 +1,18 @@
 {
   "lerna": "2.10.0",
   "packages": [
-    "packages/*"
+    "packages/taro",
+    "packages/taro-async-await",
+    "packages/taro-cli",
+    "packages/taro-components",
+    "packages/taro-components-rn",
+    "packages/taro-h5",
+    "packages/taro-plugin-babel",
+    "packages/taro-plugin-sass",
+    "packages/taro-redux",
+    "packages/taro-router",
+    "packages/taro-weapp",
+    "packages/taro-webpack-runner"
   ],
   "command": {
     "publish": {
