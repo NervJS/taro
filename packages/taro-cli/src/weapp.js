@@ -888,8 +888,8 @@ function watchFiles () {
             Util.printLog(Util.pocessTypeEnum.MODIFY, '页面文件', `${sourceDirName}/${filePath}`)
             await buildSinglePage(filePath)
           } else if (hasBeenBuiltComponents.indexOf(filePath) >= 0) { // 编译组件
-            let outoutShowFilePath = filePath.replace(path.join(appPath) + path.sep, '')
-            outoutShowFilePath = filePath.split(path.sep).join('/')
+            let outoutShowFilePath = filePath.replace(appPath + path.sep, '')
+            outoutShowFilePath = outoutShowFilePath.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '组件文件', outoutShowFilePath)
             await buildSingleComponent(filePath)
           } else {
