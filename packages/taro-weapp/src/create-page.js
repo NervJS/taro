@@ -76,9 +76,8 @@ function initPage (weappPageConf, page, options) {
         const _class = component.$components[name]
         const comPath = `${component.$path}$$${name}`
         let _props = (component.$props || {})[name] || {}
-        let props =
-          typeof _props === 'function' ? _props.call(component) : _props
-
+        let props = typeof _props === 'function' ? _props.call(component) : _props
+        props = transformPropsForComponent(props, _class.defaultProps)
         const child = new _class(props)
         component.$$components[name] = child
 
@@ -138,8 +137,9 @@ export function processDynamicComponents (page) {
                     child = component.$$dynamicComponents[c]
                   }
                 })
+                const props = transformPropsForComponent(item.body, _class.defaultProps)
                 if (!child) {
-                  child = new _class(item.body)
+                  child = new _class(props)
                   child.$path = comPath
                   child.props.$path = comPath
                   child._init(component.$scope)
@@ -147,7 +147,7 @@ export function processDynamicComponents (page) {
                   componentTrigger(child, 'componentWillMount')
                 } else {
                   child.$path = comPath
-                  child.props = item.body
+                  child.props = props
                   child.props.$path = comPath
                   child.state = child._createData()
                   child._init(component.$scope)
@@ -213,8 +213,25 @@ function componentTrigger (component, key) {
   }
 }
 
+function transformPropsForComponent (props, defaultProps) {
+  const newProps = {}
+  for (const propName in props) {
+    const propValue = props[propName]
+    newProps[propName] = propValue
+  }
+  if (defaultProps) {
+    for (const propName in defaultProps) {
+      if (newProps[propName] === undefined) {
+        newProps[propName] = defaultProps[propName]
+      }
+    }
+  }
+  return newProps
+}
+
 function createPage (PageClass, options) {
-  const page = new PageClass()
+  const pageProps = transformPropsForComponent({}, PageClass.defaultProps)
+  const page = new PageClass(pageProps)
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {
