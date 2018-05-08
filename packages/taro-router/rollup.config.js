@@ -1,6 +1,8 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+const postcss = require('rollup-plugin-postcss')
+
 const cwd = __dirname
 
 const baseConfig = {
@@ -22,6 +24,9 @@ const baseConfig = {
     }
   ],
   plugins: [
+    postcss({
+      extensions: [ '.css' ]
+    }),
     resolve({
       preferBuiltins: false
     }),
