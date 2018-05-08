@@ -11,6 +11,7 @@ module.exports = function (creater, params, helper, cb) {
   const projectPath = path.join(cwd, projectName)
   const sourceDir = path.join(projectPath, src)
   const configDir = path.join(projectPath, configDirName)
+  const version = helper.getPkgVersion()
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
@@ -19,7 +20,8 @@ module.exports = function (creater, params, helper, cb) {
 
   creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
-    projectName
+    projectName,
+    version
   })
   creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
   creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))

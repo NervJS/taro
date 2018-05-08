@@ -7,7 +7,8 @@ const Creator = require('./creator')
 
 const {
   shouldUseYarn,
-  shouldUseCnpm
+  shouldUseCnpm,
+  getPkgVersion
 } = require('./util')
 const { SOURCE_DIR } = require('./config')
 
@@ -120,7 +121,8 @@ class Project extends Creator {
     const templateCreate = require(path.join(this.templatePath(), template, 'index.js'))
     templateCreate(this, this.conf, {
       shouldUseYarn,
-      shouldUseCnpm
+      shouldUseCnpm,
+      getPkgVersion
     })
   }
 }
