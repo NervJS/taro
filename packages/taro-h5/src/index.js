@@ -4,8 +4,10 @@ import {
   ENV_TYPE,
   Events,
   eventCenter,
+  render,
   internal_safe_get,
-  internal_dynamic_recursive } from '@tarojs/taro'
+  internal_dynamic_recursive
+} from '@tarojs/taro'
 
 import initNativeApi from './native-api'
 
@@ -15,6 +17,7 @@ export {
   ENV_TYPE,
   Events,
   eventCenter,
+  render,
   internal_safe_get,
   internal_dynamic_recursive
 }
@@ -25,6 +28,7 @@ export default {
   ENV_TYPE,
   Events,
   eventCenter,
+  render,
   internal_safe_get,
   internal_dynamic_recursive
 }

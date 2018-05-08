@@ -4,6 +4,7 @@ import {
   Events,
   eventCenter,
   ENV_TYPE,
+  render,
   internal_safe_get,
   internal_dynamic_recursive
 } from '@tarojs/taro'
@@ -21,6 +22,7 @@ export {
   Events,
   eventCenter,
   getEnv,
+  render,
   ENV_TYPE,
   internal_safe_get,
   internal_dynamic_recursive
@@ -34,6 +36,7 @@ export default {
   Events,
   eventCenter,
   getEnv,
+  render,
   ENV_TYPE,
   internal_safe_get,
   internal_dynamic_recursive

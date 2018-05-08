@@ -67,10 +67,10 @@ const FILE_TYPE = {
 function processEntry (code) {
   const ast = babylon.parse(code, babylonConfig)
   let taroImportDefaultName
-  let componentClassName
   let providorImportName
   let storeName
   let hasAddNervJsImportDefaultName = false
+  let renderCallCode
 
   traverse(ast, {
     enter (astPath) {
@@ -93,9 +93,6 @@ function processEntry (code) {
                   node.decorators || []
                 )
               )
-              componentClassName = renameComponentClassName
-            } else {
-              componentClassName = node.id.name
             }
           } else if (node.superClass.name === 'Component') {
             if (node.id === null) {
@@ -108,9 +105,6 @@ function processEntry (code) {
                   node.decorators || []
                 )
               )
-              componentClassName = renameComponentClassName
-            } else {
-              componentClassName = node.id.name
             }
           }
         },
@@ -187,22 +181,31 @@ function processEntry (code) {
         },
         CallExpression (astPath) {
           const node = astPath.node
-          const calleeName = node.callee.name
+          const callee = node.callee
+          const calleeName = callee.name
           const parentPath = astPath.parentPath
 
-          if (calleeName === configStoreFuncName) {
-            if (parentPath.isAssignmentExpression()) {
-              storeName = parentPath.node.left.name
-            } else if (parentPath.isVariableDeclarator()) {
-              storeName = parentPath.node.id.name
-            } else {
-              storeName = 'store'
+          if (t.isMemberExpression(callee)) {
+            if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+              callee.object.name = nervJsImportDefaultName
+              renderCallCode = generate(astPath.node).code
+              astPath.remove()
             }
-          } else if (calleeName === setStoreFuncName) {
-            if (parentPath.isAssignmentExpression() ||
-              parentPath.isExpressionStatement() ||
-              parentPath.isVariableDeclarator()) {
-              parentPath.remove()
+          } else {
+            if (calleeName === configStoreFuncName) {
+              if (parentPath.isAssignmentExpression()) {
+                storeName = parentPath.node.left.name
+              } else if (parentPath.isVariableDeclarator()) {
+                storeName = parentPath.node.id.name
+              } else {
+                storeName = 'store'
+              }
+            } else if (calleeName === setStoreFuncName) {
+              if (parentPath.isAssignmentExpression() ||
+                parentPath.isExpressionStatement() ||
+                parentPath.isVariableDeclarator()) {
+                parentPath.remove()
+              }
             }
           }
         }
@@ -275,17 +278,13 @@ function processEntry (code) {
           `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
           babylonConfig
         )()
-        const renderApp = template(
-          `${nervJsImportDefaultName}.render(<${componentClassName} />, document.getElementById('app'))`,
-          babylonConfig
-        )()
 
         node.body.unshift(importTaro)
         node.body.unshift(importTaroRouter)
         tabBar && node.body.unshift(importComponents)
         node.body.push(initNativeApi)
         node.body.push(initRouter)
-        node.body.push(renderApp)
+        node.body.push(template(renderCallCode, babylonConfig)())
       }
     }
   })

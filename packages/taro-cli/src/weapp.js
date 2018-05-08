@@ -345,6 +345,16 @@ function parseAst (type, ast, sourceFilePath, filePath) {
       }
     },
 
+    CallExpression (astPath) {
+      const node = astPath.node
+      const callee = node.callee
+      if (t.isMemberExpression(callee)) {
+        if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+          astPath.remove()
+        }
+      }
+    },
+
     ExportDefaultDeclaration (astPath) {
       const node = astPath.node
       const declaration = node.declaration
