@@ -119,7 +119,7 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View class='index'>
+      <View className='index'>
         <Text>1</Text>
       </View>
     )
@@ -127,3 +127,7 @@ export default class Index extends Component {
 }
 
 ```
+
+Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都拥有自己配置 `config`，这个配置参考自微信小程序的[页面配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html)，在编译成小程序时，将会生成跟页面JS文件同名的 `json` 配置文件；在编译成 H5 时，`config` 配置中 `navigationBarTitleText` 将会被用来设置当前页面的标题。
+
+页面的样式文件建议放在与页面JS的同级目录下，然后通过ES6规范 `import` 进行引入，支持使用 CSS 预编译处理器，目前提供了 `sass` 预编译插件 `@tarojs/plugin-sass`，需要自行在本地进行安装。
