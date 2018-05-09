@@ -13,7 +13,8 @@ script:
 
 deploy:
   provider: pages
-  skip_cleanup: true
-  github_token: gh-pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local-dir: docs/_book
   on:
     branch: master
