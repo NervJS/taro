@@ -15,7 +15,8 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
         isChanged = true
       }
     })
-    if (isChanged) {
+    const isPageHide = this.$root ? this.$root.$isPageHide : this.$isPageHide
+    if (isChanged && !isPageHide) {
       this.setState({})
     }
   }
@@ -36,6 +37,20 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
         unSubscribe = store.subscribe(stateListener.bind(this))
         if (super.componentWillMount) {
           super.componentWillMount()
+        }
+      }
+
+      componentDidShow () {
+        this.$isPageHide = false
+        if (super.componentDidShow) {
+          super.componentDidShow()
+        }
+      }
+
+      componentDidHide () {
+        this.$isPageHide = true
+        if (super.componentDidShow) {
+          super.componentDidShow()
         }
       }
 
