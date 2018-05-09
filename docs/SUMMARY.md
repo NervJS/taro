@@ -16,3 +16,7 @@
 * API
   * [Taro.Component](component.md)
   * [Taro.request](request.md)
+* 简介指南
+  * [技术原理](principle.md)
+  * [最佳实践](best-practice.md)
+  * [Debug 指南](debug.md)
