@@ -1,6 +1,6 @@
 # 教程
 
-## Taro 项目目录结构
+## 项目目录结构
 
     ├── dist                   编译结果目录
     ├── config                 配置目录
@@ -65,9 +65,16 @@ class App extends Component {
 
 通常入口文件会包含一个 `config` 配置项，这里的配置主要参考微信小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html)而来，在编译成小程序时，这一部分配置将会被抽离成 `app.json`，而编译成其他端，亦会有其他作用。
 
-而且由于入口文件继承自 `Component` 组件基类，它同样拥有组件生命周期，但因为入口文件的特殊性，他的生命周期并不完整，组件生命周期具体请参考章节。
+而且由于入口文件继承自 `Component` 组件基类，它同样拥有组件生命周期，但因为入口文件的特殊性，他的生命周期并不完整，如下
 
-入口文件的 `render` 方法只要求返回程序的第一个页面。
+| 生命周期方法 | 作用 | 说明 | 
+| - | - | - | 
+| componentWilMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch` | 
+| componentDidMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch`，在 `componentWilMount` 后执行 | 
+| componentDidShow | 程序展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
+| componentDidHide | 程序被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
+
+入口文件需要包含一个`render` 方法，一般返回程序的第一个页面。
 
 ## 页面
 
@@ -131,3 +138,71 @@ export default class Index extends Component {
 Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都拥有自己配置 `config`，这个配置参考自微信小程序的[页面配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html)，在编译成小程序时，将会生成跟页面JS文件同名的 `json` 配置文件；在编译成 H5 时，`config` 配置中 `navigationBarTitleText` 将会被用来设置当前页面的标题。
 
 页面的样式文件建议放在与页面JS的同级目录下，然后通过ES6规范 `import` 进行引入，支持使用 CSS 预编译处理器，目前提供了 `sass` 预编译插件 `@tarojs/plugin-sass`，需要自行在本地进行安装。
+
+页面JS要求必须有一个 `render` 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 [JSX章节](./jsx.md)。
+
+由于页面JS也继承自 `Component` 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：
+
+| 生命周期方法 | 作用 | 说明 | 
+| - | - | - | 
+| componentWilMount | 页面被载入 | 在微信小程序中这一生命周期方法对应 `onLoad` | 
+| componentDidMount | 页面渲染完成 | 在微信小程序中这一生命周期方法对应 `onReady` | 
+| shouldComponentUpdate | 页面是否需要更新 |  |
+| componentWillUpdate | 页面即将更新 |  |
+| componentDidUpdate | 页面更新完毕 |  |
+| componentWillUnmount | 页面退出 | 在微信小程序中这一生命周期方法对应 `onUnload` |
+| componentDidShow | 页面展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
+| componentDidHide | 页面被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
+
+在小程序中，页面还有在一些专属的方法成员，如下
+
+| 方法 | 作用 |
+| - | - |
+| onPullDownRefresh | 页面相关事件处理函数--监听用户下拉动作 |
+| onReachBottom | 页面上拉触底事件的处理函数 |
+| onShareAppMessage | 用户点击右上角转发 |
+| onPageScroll | 页面滚动触发事件的处理函数 |
+| onTabItemTap | 当前是 tab 页时，点击 tab 时触发 |
+
+以上成员方案在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有微信小程序端支持这些方法，编译到H5端后这些方法均会失效。
+
+## 组件
+
+Taro 支持组件化开发，组件代码可以放在任意位置，不过建议放在 `src` 下的 `component` 目录中。一个组件通常包含组件 JS 文件以及组件样式文件，组织方式与页面类似。
+
+### 代码示例
+
+```javascript
+import Taro, { Component } from '@tarojs/taro'
+import { View, Image, Button } from '@tarojs/components'
+import './tab.scss'
+
+class Tab extends Component {
+
+  handler = () => {
+    // dosth
+  }
+  
+  componentWillMount () { }
+
+  componentDidMount () { }
+
+  componentWillUnmout () { }
+
+  componentWillReceiveProps () { }
+  
+  render () {
+    return (
+      <View className='tab'>
+        tab
+      </View>
+    )
+  }
+}
+```
+
+Taro 的组件同样是继承自 `Component` 组件基类，与页面类似，组件也必须包含一个 `render` 函数，返回 JSX 代码。
+
+与页面相比，组件没有自己的 `config`，同时组件的生命相比页面来说多了一个 `componentWillReceiveProps` ，表示当父组件（或页面）发生更新时将带动子组件进行更新时调用的方法。
+
+> 具体生命周期的使用以及组件类的说明请查看[组件说明章节](./component.md)。
