@@ -8,6 +8,8 @@
   * [Taro项目目录结构](tutorial.md#项目目录结构)
   * [入口文件](tutorial.md#入口文件)
   * [页面](tutorial.md#页面)
+  * [设计稿及尺寸单位](size.md)
+  * [静态资源引用](static-reference.md)
   * [JSX简介](jsx.md)
   * [组件化 & props](props.md)
   * [生命周期 & state](state.md)
@@ -15,6 +17,8 @@
   * [条件渲染](condition.md)
   * [列表渲染](list.md)
   * [消息机制](events.md)
+* 组件
+  * [组件库](components.md)
 * API
   * [Taro.Component](component.md)
   * [Taro.Events](events.md)
@@ -22,10 +26,10 @@
   * [Taro.ENV_TYPE](env.md#Taro.ENV_TYPE)
   * [Taro.getEnv](env.md#Taro.getEnv())
   * [端能力API](native-api.md)
-    * [Taro.request](native-api.md#Taro.request)
-    * [Taro.download](native-api.md#Taro.download)
-    * [Taro.upload](native-api.md#Taro.upload)
+    * [网络](native-api.md#网络)
 * 进阶指南
+  * [项目配置](config.md)
+  * [使用Redux](redux.md)
   * [技术原理](principle.md)
   * [最佳实践](best-practice.md)
   * [Debug 指南](debug.md)
