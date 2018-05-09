@@ -4,7 +4,7 @@
 * [快速开始](GETTING-STARTED.md)
   * [安装使用](GETTING-STARTED.md#安装)
 * [教程](tutorial.md)
-  * [Taro 项目目录结构](tutorial.md#Taro 项目目录结构)
+  * [Taro 项目目录结构](tutorial.md#Taro)
   * [入口文件](tutorial.md#入口文件)
   * [页面](tutorial.md#页面)
   * [JSX简介](jsx.md)
@@ -16,7 +16,7 @@
 * API
   * [Taro.Component](component.md)
   * [Taro.request](request.md)
-* 简介指南
+* 进阶指南
   * [技术原理](principle.md)
   * [最佳实践](best-practice.md)
   * [Debug 指南](debug.md)
