@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import Component from './component'
 import { get as internal_safe_get } from './internal/safe-get'
+import { set as internal_safe_set } from './internal/safe-set'
 import { dynamicRecursive as internal_dynamic_recursive } from './internal/dynamic-recursive'
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
@@ -16,6 +17,7 @@ export {
   ENV_TYPE,
   render,
   internal_safe_get,
+  internal_safe_set,
   internal_dynamic_recursive
 }
 
@@ -27,5 +29,6 @@ export default {
   ENV_TYPE,
   render,
   internal_safe_get,
+  internal_safe_set,
   internal_dynamic_recursive
 }

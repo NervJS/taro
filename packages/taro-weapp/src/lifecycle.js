@@ -1,3 +1,8 @@
+import {
+  internal_safe_get as safeGet,
+  internal_safe_set as safeSet
+} from '@tarojs/taro'
+
 import { processDynamicComponents } from './create-page'
 
 export function updateComponent (component, update) {
@@ -50,9 +55,17 @@ export function updateComponent (component, update) {
 }
 
 function doUpdate (component, update) {
-  const $data = component.$root ? component.$root.$data : component.$data
+  let $data = component.$root ? component.$root.$data : component.$data
   if (update) {
     processDynamicComponents(component.$root || component)
+  }
+  if (!component.$isComponent && component.$usedState && component.$usedState.length) {
+    const data = {}
+    component.$usedState.forEach(key => {
+      const value = safeGet(component.$data, key)
+      safeSet(data, key, value)
+    })
+    $data = data
   }
   component.$scope._setData(
     { ...$data },

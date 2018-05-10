@@ -1,4 +1,7 @@
-import { internal_safe_get as safeGet } from '@tarojs/taro'
+import {
+  internal_safe_get as safeGet,
+  internal_safe_set as safeSet
+} from '@tarojs/taro'
 
 import { isEmptyObject, getPrototypeChain } from './util'
 
@@ -274,8 +277,15 @@ function createPage (PageClass, options) {
       weappPageConf[fn] = page[fn].bind(page)
     }
   })
+  const data = {}
+  if (page.$usedState && page.$usedState.length) {
+    page.$usedState.forEach(key => {
+      const value = safeGet(page.$data, key)
+      safeSet(data, key, value)
+    })
+  }
   return Object.assign(weappPageConfEvents, {
-    data: page.$data
+    data
   })
 }
 

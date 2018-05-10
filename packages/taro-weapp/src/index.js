@@ -6,6 +6,7 @@ import {
   ENV_TYPE,
   render,
   internal_safe_get,
+  internal_safe_set,
   internal_dynamic_recursive
 } from '@tarojs/taro'
 
@@ -25,6 +26,7 @@ export {
   render,
   ENV_TYPE,
   internal_safe_get,
+  internal_safe_set,
   internal_dynamic_recursive
 }
 
@@ -39,5 +41,6 @@ export default {
   render,
   ENV_TYPE,
   internal_safe_get,
+  internal_safe_set,
   internal_dynamic_recursive
 }
