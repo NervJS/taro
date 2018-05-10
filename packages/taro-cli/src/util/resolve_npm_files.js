@@ -66,12 +66,15 @@ function recursiveRequire (filePath, files, isProduction) {
   const outputNpmPath = filePath.replace('node_modules', path.join(OUTPUT_DIR, NPM_DIR))
   if (!copyedFiles[outputNpmPath]) {
     if (isProduction) {
-      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
-      const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
-      if (uglifyResult.error) {
-        console.log(uglifyResult.error)
-      } else {
-        fileContent = uglifyResult.code
+      const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+      if (uglifyPluginConfig.enable) {
+        const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+        const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
+        if (uglifyResult.error) {
+          console.log(uglifyResult.error)
+        } else {
+          fileContent = uglifyResult.code
+        }
       }
     }
     fs.ensureDirSync(path.dirname(outputNpmPath))

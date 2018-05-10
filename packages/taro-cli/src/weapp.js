@@ -519,12 +519,15 @@ async function buildEntry () {
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
-      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
-      const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, entryFilePath, uglifyConfig)
-      if (uglifyResult.error) {
-        console.log(uglifyResult.error)
-      } else {
-        resCode = uglifyResult.code
+      const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+      if (uglifyPluginConfig.enable) {
+        const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+        const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, entryFilePath, uglifyConfig)
+        if (uglifyResult.error) {
+          console.log(uglifyResult.error)
+        } else {
+          resCode = uglifyResult.code
+        }
       }
     }
     fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
@@ -619,12 +622,15 @@ async function buildSinglePage (page) {
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
-      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
-      const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputPageJSPath, uglifyConfig)
-      if (uglifyResult.error) {
-        console.log(uglifyResult.error)
-      } else {
-        resCode = uglifyResult.code
+      const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+      if (uglifyPluginConfig.enable) {
+        const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+        const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputPageJSPath, uglifyConfig)
+        if (uglifyResult.error) {
+          console.log(uglifyResult.error)
+        } else {
+          resCode = uglifyResult.code
+        }
       }
     }
     fs.ensureDirSync(outputPagePath)
@@ -774,12 +780,15 @@ async function buildSingleComponent (component) {
     }
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
-      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
-      const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputComponentJSPath, uglifyConfig)
-      if (uglifyResult.error) {
-        console.log(uglifyResult.error)
-      } else {
-        resCode = uglifyResult.code
+      const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+      if (uglifyPluginConfig.enable) {
+        const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+        const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputComponentJSPath, uglifyConfig)
+        if (uglifyResult.error) {
+          console.log(uglifyResult.error)
+        } else {
+          resCode = uglifyResult.code
+        }
       }
     }
     fs.writeFileSync(outputComponentJSPath, resCode)
@@ -853,12 +862,15 @@ function compileDepScripts (babelConfig, scriptFiles) {
             let resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || {})
             resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
             if (isProduction) {
-              const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
-              const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
-              if (uglifyResult.error) {
-                console.log(uglifyResult.error)
-              } else {
-                resCode = uglifyResult.code
+              const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+              if (uglifyPluginConfig.enable) {
+                const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+                const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
+                if (uglifyResult.error) {
+                  console.log(uglifyResult.error)
+                } else {
+                  resCode = uglifyResult.code
+                }
               }
             }
             fs.writeFileSync(outputItem, resCode)
