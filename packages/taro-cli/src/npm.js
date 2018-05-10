@@ -28,6 +28,18 @@ function resolveNpm (pluginName) {
   return Promise.resolve(npmCached[pluginName])
 }
 
+function resolveNpmSync (pluginName) {
+  try {
+    if (!npmCached[pluginName]) {
+      const res = resolvePath.sync(pluginName, { basedir })
+      return res
+    }
+    return npmCached[pluginName]
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 function installNpmPkg (pkgList, options) {
   if (!pkgList) {
     return
@@ -89,6 +101,17 @@ async function callPlugin (pluginName, content, file, config) {
   return pluginFn(content, file, config)
 }
 
+function callPluginSync (pluginName, content, file, config) {
+  const pluginFn = getNpmPkgSync(`${taroPluginPrefix}${pluginName}`)
+  return pluginFn(content, file, config)
+}
+
+function getNpmPkgSync (npmName) {
+  const npmPath = resolveNpmSync(npmName)
+  const npmFn = require(npmPath)
+  return npmFn
+}
+
 async function getNpmPkg (npmName) {
   let npmPath
   try {
@@ -110,6 +133,9 @@ async function getNpmPkg (npmName) {
 
 module.exports = {
   resolveNpm,
+  resolveNpmSync,
   callPlugin,
-  getNpmPkg
+  callPluginSync,
+  getNpmPkg,
+  getNpmPkgSync
 }

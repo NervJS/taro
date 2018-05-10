@@ -15,6 +15,7 @@ const CONFIG = require('./config')
 const npmProcess = require('./npm')
 const { resolveNpmFilesPath } = require('./util/resolve_npm_files')
 const babylonConfig = require('./config/babylon')
+const defaultUglifyConfig = require('./config/uglify')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -40,6 +41,7 @@ const wxssDepTree = {}
 let isBuildingScripts = {}
 let isBuildingStyles = {}
 let isCopyingFiles = {}
+let isProduction = false
 
 const PARSE_AST_TYPE = {
   ENTRY: 'ENTRY',
@@ -50,7 +52,7 @@ const PARSE_AST_TYPE = {
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction)
     const npmInfoMainPath = npmInfo.main
     const outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(outputDirName, CONFIG.NPM_DIR))
     const relativePath = path.relative(filePath, outputNpmPath)
@@ -516,6 +518,15 @@ async function buildEntry () {
     }
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+    if (isProduction) {
+      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
+      const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, entryFilePath, uglifyConfig)
+      if (uglifyResult.error) {
+        console.log(uglifyResult.error)
+      } else {
+        resCode = uglifyResult.code
+      }
+    }
     fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
     fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
@@ -607,6 +618,15 @@ async function buildSinglePage (page) {
     }
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+    if (isProduction) {
+      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
+      const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputPageJSPath, uglifyConfig)
+      if (uglifyResult.error) {
+        console.log(uglifyResult.error)
+      } else {
+        resCode = uglifyResult.code
+      }
+    }
     fs.ensureDirSync(outputPagePath)
     fs.writeFileSync(outputPageJSONPath, JSON.stringify(res.configObj, null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
@@ -753,6 +773,15 @@ async function buildSingleComponent (component) {
       resCode = compileScriptRes.code
     }
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
+    if (isProduction) {
+      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
+      const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputComponentJSPath, uglifyConfig)
+      if (uglifyResult.error) {
+        console.log(uglifyResult.error)
+      } else {
+        resCode = uglifyResult.code
+      }
+    }
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
     fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
@@ -823,6 +852,15 @@ function compileDepScripts (babelConfig, scriptFiles) {
             fs.ensureDirSync(path.dirname(outputItem))
             let resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || {})
             resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+            if (isProduction) {
+              const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
+              const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
+              if (uglifyResult.error) {
+                console.log(uglifyResult.error)
+              } else {
+                resCode = uglifyResult.code
+              }
+            }
             fs.writeFileSync(outputItem, resCode)
             let modifyOutput = outputItem.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
@@ -963,6 +1001,7 @@ function watchFiles () {
 }
 
 async function build ({ watch }) {
+  isProduction = !watch
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {

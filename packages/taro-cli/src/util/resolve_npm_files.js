@@ -3,6 +3,8 @@ const path = require('path')
 const resolvePath = require('resolve')
 const _ = require('lodash')
 
+const defaultUglifyConfig = require('../config/uglify')
+
 const {
   isNpmPkg,
   promoteRelativePath,
@@ -11,6 +13,8 @@ const {
   PROJECT_CONFIG,
   replaceContentEnv
 } = require('./index')
+
+const npmProcess = require('../npm')
 const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
@@ -20,8 +24,9 @@ const copyedFiles = {}
 
 const basedir = process.cwd()
 const projectConfig = require(path.join(basedir, PROJECT_CONFIG))(_.merge)
+const pluginsConfig = projectConfig.plugins || {}
 
-function resolveNpmFilesPath (pkgName) {
+function resolveNpmFilesPath (pkgName, isProduction) {
   if (!resolvedCache[pkgName]) {
     try {
       const res = resolvePath.sync(pkgName, { basedir })
@@ -30,7 +35,7 @@ function resolveNpmFilesPath (pkgName) {
         files: []
       }
       resolvedCache[pkgName].files.push(res)
-      recursiveRequire(res, resolvedCache[pkgName].files)
+      recursiveRequire(res, resolvedCache[pkgName].files, isProduction)
     } catch (error) {
       console.log(error)
     }
@@ -38,13 +43,13 @@ function resolveNpmFilesPath (pkgName) {
   return resolvedCache[pkgName]
 }
 
-function recursiveRequire (filePath, files) {
+function recursiveRequire (filePath, files, isProduction) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
   fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
     if (isNpmPkg(requirePath)) {
-      const res = resolveNpmFilesPath(requirePath)
+      const res = resolveNpmFilesPath(requirePath, isProduction)
       const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
       return `require('${relativeRequirePath}')`
     }
@@ -55,11 +60,20 @@ function recursiveRequire (filePath, files) {
     if (files.indexOf(requirePath) < 0) {
       files.push(requirePath)
     }
-    recursiveRequire(requirePath, files)
+    recursiveRequire(requirePath, files, isProduction)
     return m
   })
   const outputNpmPath = filePath.replace('node_modules', path.join(OUTPUT_DIR, NPM_DIR))
   if (!copyedFiles[outputNpmPath]) {
+    if (isProduction) {
+      const uglifyConfig = Object.assign(defaultUglifyConfig, pluginsConfig.uglify || {})
+      const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
+      if (uglifyResult.error) {
+        console.log(uglifyResult.error)
+      } else {
+        fileContent = uglifyResult.code
+      }
+    }
     fs.ensureDirSync(path.dirname(outputNpmPath))
     fs.writeFileSync(outputNpmPath, fileContent)
     let modifyOutput = outputNpmPath.replace(basedir + path.sep, '')
