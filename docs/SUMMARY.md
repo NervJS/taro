@@ -3,6 +3,7 @@
 * [简介](README.md)
 * [快速开始](GETTING-STARTED.md)
   * [安装使用](GETTING-STARTED.md#安装)
+  * [Taro组成](composition.md)
   * [开发前注意](before-dev-remind.md)
 * [教程](tutorial.md)
   * [Taro项目目录结构](tutorial.md#项目目录结构)
