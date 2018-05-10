@@ -1,4 +1,4 @@
-##### audio
+##### Audio
 ##### 音频。
 
 | 是否支持 | 属性           | 类型        | 默认值 | 说明                                                         |
@@ -7,7 +7,7 @@
 | √        | controls       | Boolean     | true   | 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）        |
 | √        | autoplay       | Boolean     | false  | 是否自动播放                                                 |
 |          | poster         | String      |        | 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
-|          | initial-time   | Number      |        | 指定视频初始播放位置                                         |
+|          | initialTime   | Number      |        | 指定视频初始播放位置                                         |
 | √        | loop           | Boolean     | false  | 是否循环播放                                                 |
 | √        | muted          | Boolean     | false  | 是否静音播放                                                 |
 | √        | bindplay       | EventHandle |        | 当开始/继续播放时触发play事件                                |

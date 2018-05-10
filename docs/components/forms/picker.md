@@ -1,10 +1,10 @@
-##### picker
+##### Picker
 
 ##### 普通选择器：mode = selector
 |     | 属性       | 类型                 | 默认值 | 说明                                                                                        |
 | --- | ---------- | -------------------- | ------ | ------------------------------------------------------------------------------------------- |
 | √   | range      | Array / Object Array | []     | mode 为 selector 或 multiSelector 时，range 有效                                            |
-| √   | range-key  | String               |        | 当 range 是一个 Object Array 时，通过 range-key 来指定 Object 中 key 的值作为选择器显示内容 |
+| √   | rangeKey  | String               |        | 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容 |
 | √   | value      | Number               | 0      | value 的值表示选择了 range 中的第几个（下标从 0 开始）                                      |
 | √   | bindchange | EventHandle          |        | value 改变时触发 change 事件，event.detail = value: value                                   |
 | √   | bindcancel | EventHandle          |        | 取消选择或点遮罩层收起 picker 时触发                                                        |
