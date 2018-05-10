@@ -18,10 +18,10 @@
 |              | selectionStart   | Number      |        | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用                                                       |
 |              | selectionEnd     | Number      |        | 光标结束位置，自动聚集时有效，需与 selection-start 搭配使用                                                     |
 |              | adjustPosition   | Boolean     |        | 键盘弹起时，是否自动上推页面                                                                                    |
-| √ (onChange) | bindinput         | EventHandle |        | 当键盘输入时，触发 input 事件，处理函数可以直接 return 一个字符串，将替换输入框的内容。                         |
-| √ (onFocus)  | bindfocus         | EventHandle |        | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持                                                             |
-| √ (onBlur)   | bindblur          | EventHandle |        | 输入框失去焦点时触发                                                                                            |
-|              | bindconfirm       | EventHandle |        | 点击完成按钮时触发                                                                                              |
+| √ (onChange) | onInput         | EventHandle |        | 当键盘输入时，触发 input 事件，处理函数可以直接 return 一个字符串，将替换输入框的内容。                         |
+| √ (onFocus)  | onFocus         | EventHandle |        | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持                                                             |
+| √ (onBlur)   | onBlur          | EventHandle |        | 输入框失去焦点时触发                                                                                            |
+|              | onConfirm       | EventHandle |        | 点击完成按钮时触发                                                                                              |
 
 ###### 示例：
 ```

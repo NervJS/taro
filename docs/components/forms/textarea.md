@@ -15,12 +15,12 @@
 |     | cursorSpacing    | Number      | 0                    | 指定光标与键盘的距离，单位 px 。取 textarea 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
 |     | showConfirmBar  | Boolean     | true                 | 是否显示键盘上方带有”完成“按钮那一栏                                                                               |
 |     | selectionStart   | Number      | -1                   | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用                                                          |
-|     | selectionEnd     | Number      | -1                   | 光标结束位置，自动聚集时有效，需与 selection-start 搭配使用                                                        |
-| √   | bindfocus         | EventHandle |                      | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持                                                                |
-| √   | bindblur          | EventHandle |                      | 输入框失去焦点时触发，                                                                                             |
-|     | bindlinechange    | EventHandle |                      | 输入框行数变化时调用，                                                                                             |
-| √   | bindinput         | EventHandle |                      | 当键盘输入时，触发 input 事件， bindinput 处理函数的返回值并不会反映到 textarea 上                                 |
-|     | bindconfirm       | EventHandle |                      | 点击完成时， 触发 confirm 事件，                                                                                   |
+|     | selectionEnd     | Number      | -1                   | 光标结束位置，自动聚集时有效，需与 selectionStart 搭配使用                                                        |
+| √   | onFocus         | EventHandle |                      | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持                                                                |
+| √   | onBlur          | EventHandle |                      | 输入框失去焦点时触发，                                                                                             |
+|     | onLinechange    | EventHandle |                      | 输入框行数变化时调用，                                                                                             |
+| √   | onInput         | EventHandle |                      | 当键盘输入时，触发 input 事件， bindinput 处理函数的返回值并不会反映到 textarea 上                                 |
+|     | onConfirm       | EventHandle |                      | 点击完成时， 触发 confirm 事件，                                                                                   |
 
 ###### 示例：
 ```

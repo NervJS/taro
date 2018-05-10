@@ -14,8 +14,8 @@
 | √   | blockSize      | Number      | 28      | 滑块的大小，取值范围为 12 - 28                |
 | √   | blockColor     | Color       | #ffffff | 滑块的颜色                                    |
 | √   | showValue      | Boolean     | false   | 是否显示当前 value                            |
-| √   | bindchange      | EventHandle |         | 完成一次拖动后触发的事件                      |
-| √   | bindchanging    | EventHandle |         | 拖动过程中触发的事件                          |
+| √   | onChange      | EventHandle |         | 完成一次拖动后触发的事件                      |
+| √   | onChanging    | EventHandle |         | 拖动过程中触发的事件                          |
 
 ###### 示例：
 ```
