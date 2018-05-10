@@ -19,7 +19,33 @@
   * [列表渲染](list.md)
   * [消息机制](events.md)
 * 组件
-  * [组件库](components.md)
+  * 视图容器
+    * [View](components/viewContainer/view.md)
+    * [ScrollView](components/viewContainer/scroll-view.md)
+    * [Swiper](components/viewContainer/swiper.md)
+  * 基础内容
+    * [Icon](components/base/icon.md)
+    * [Text](components/base/text.md)
+    * [Progress](components/base/progress.md)
+  * 表单组件
+    * [Button](components/forms/button.md)
+    * [Checkbox](components/forms/checkbox.md)
+    * [Form](components/forms/form.md)
+    * [Input](components/forms/input.md)
+    * [Label](components/forms/label.md)
+    * [Picker](components/forms/picker.md)
+    * [PickerView](components/forms/picker-view.md)
+    * [Radio](components/forms/radio.md)
+    * [Slider](components/forms/slider.md)
+    * [Switch](components/forms/switch.md)
+    * [Textarea](components/forms/textarea.md)
+  * 导航
+    * [Navigator](components/navig/navigator.md)
+  * 媒体
+    * [Audio](components/media/audio.md)
+    * [Image](components/media/image.md)
+    * [Video](components/media/video.md)
+    * [Camera](components/media/camera.md)
 * API
   * [Taro.Component](component.md)
   * [Taro.Events](events.md)
