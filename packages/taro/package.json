@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Taro framework",
   "main": "index.js",
   "files": [
