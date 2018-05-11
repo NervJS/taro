@@ -1,4 +1,5 @@
 module.exports = [
-  'Android >= 4',
-  'iOS >= 6'
+  'last 3 versions',
+  'Android >= 4.1',
+  'ios >= 8'
 ]

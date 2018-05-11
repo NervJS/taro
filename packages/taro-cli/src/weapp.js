@@ -8,6 +8,9 @@ const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
 const template = require('babel-template')
+const autoprefixer = require('autoprefixer')
+const postcss = require('postcss')
+const pxtransform = require('postcss-pxtransform')
 const _ = require('lodash')
 
 const Util = require('./util')
@@ -15,6 +18,7 @@ const CONFIG = require('./config')
 const npmProcess = require('./npm')
 const { resolveNpmFilesPath } = require('./util/resolve_npm_files')
 const babylonConfig = require('./config/babylon')
+const browserList = require('./config/browser_list')
 const defaultUglifyConfig = require('./config/uglify')
 
 const appPath = process.cwd()
@@ -706,19 +710,34 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
         })
       })
     })
-  })).then(resList => {
-    const designWidth = projectConfig.designWidth || 750
+  })).then(async resList => {
     let resContent = resList.map(res => res.css).join('\n')
-    resContent = resContent.replace(/([0-9.]+)px/ig, (match, size) => {
-      return (parseInt(size, 10) / Util.DEVICE_RATIO[designWidth]) + 'rpx'
-    })
-    if (depStyleList && depStyleList.length) {
-      const importStyles = depStyleList.map(item => {
-        return `@import "${item}";\n`
-      }).join('')
-      resContent = importStyles + resContent
+    try {
+      const postcssResult = await postcss([
+        autoprefixer({ browsers: browserList }),
+        pxtransform()
+      ]).process(resContent, {
+        from: undefined
+      })
+      resContent = postcssResult.css
+      if (depStyleList && depStyleList.length) {
+        const importStyles = depStyleList.map(item => {
+          return `@import "${item}";\n`
+        }).join('')
+        resContent = importStyles + resContent
+      }
+      if (isProduction) {
+        const cssoPuginConfig = pluginsConfig.csso || { enable: true }
+        if (cssoPuginConfig.enable) {
+          const cssoConfig = cssoPuginConfig.config || {}
+          const cssoResult = npmProcess.callPluginSync('csso', resContent, outputFilePath, cssoConfig)
+          resContent = cssoResult.css
+        }
+      }
+      fs.writeFileSync(outputFilePath, resContent)
+    } catch (err) {
+      console.log(err)
     }
-    fs.writeFileSync(outputFilePath, resContent)
   })
 }
 
