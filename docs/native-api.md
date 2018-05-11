@@ -112,3 +112,197 @@ Taro.closeSocket(params).then(...)
 | Taro.onSocketMessage | ✔️ | ✔️ | ✔️ |
 | Taro.closeSocket | ✔️ | ✔️ | ✔️ |
 | Taro.onSocketClose | ✔️ | ✔️ | ✔️ |
+
+## 数据缓存
+
+#### Taro.setStorage
+
+使用方式同 [`wx.setStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstorageobject)，支持 `Promise` 化使用
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setStorage(params).then(...)
+```
+
+#### Taro.setStorageSync
+
+使用方式同 [`wx.setStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstoragesynckeydata)
+
+#### Taro.getStorage
+
+使用方式同 [`wx.getStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageobject)，支持 `Promise` 化使用
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.getStorage(params).then(...)
+```
+
+#### Taro.getStorageSync
+
+使用方式同 [`wx.getStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstoragesynckey)
+
+#### Taro.getStorageInfo
+
+使用方式同 [`wx.getStorageInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfoobject)，支持 `Promise` 化使用
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.getStorageInfo(params).then(...)
+```
+
+#### Taro.getStorageInfoSync
+
+使用方式同 [`wx.getStorageInfoSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfosync)
+
+#### Taro.removeStorage
+
+使用方式同 [`wx.removeStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestorageobject)，支持 `Promise` 化使用
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.removeStorage(params).then(...)
+```
+
+#### Taro.removeStorageSync
+
+使用方式同 [`wx.removeStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestoragesynckey)
+
+#### Taro.clearStorage
+
+使用方式同 [`wx.clearStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstorage)
+
+#### Taro.clearStorageSync
+
+使用方式同 [`wx.clearStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstoragesync)
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.setStorage | ✔️ | ✔️ | ✔️ |
+| Taro.setStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.getStorage | ✔️ | ✔️ | ✔️ |
+| Taro.getStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.getStorageInfo | ✔️ | ✔️ | ✔️ |
+| Taro.getStorageInfoSync | ✔️ | ✔️ | ✔️ |
+| Taro.removeStorage | ✔️ | ✔️ | ✔️ |
+| Taro.removeStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.clearStorage | ✔️ | ✔️ | ✔️ |
+| Taro.clearStorageSync | ✔️ | ✔️ | ✔️ |
+
+## 界面
+
+### 交互反馈
+
+##### Taro.showToast
+
+使用方式同 [`wx.showToast `](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html)
+
+##### Taro.showLoading
+
+使用方式同 [`wx.showLoading`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject)
+
+##### Taro.hideToast
+
+使用方式同 [`wx.hideToast`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhidetoast)
+
+##### Taro.hideLoading
+
+使用方式同 [`wx.hideLoading`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading)
+
+##### Taro.showModal
+
+使用方式同 [`wx.showModal`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject)
+
+##### Taro.showActionSheet
+
+使用方式同 [`wx.showActionSheet`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowactionsheetobject)
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.showToast | ✔️ | ✔️ | ✔️ |
+| Taro.showLoading | ✔️ | ✔️ | ✔️ |
+| Taro.hideToast | ✔️ | ✔️ | ✔️ |
+| Taro.hideLoading | ✔️ | ✔️ | ✔️ |
+| Taro.showModal | ✔️ | ✔️ | ✔️ |
+| Taro.showActionSheet | ✔️ | ✔️ | ✔️ |
+
+### 导航
+
+##### Taro.navigateTo
+
+使用方式同 [`wx.navigateTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html)
+
+##### Taro.redirectTo
+
+使用方式同 [`wx.redirectTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject)
+
+##### Taro.navigateBack
+
+使用方式同 [`wx.navigateBack`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject)
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.navigateTo | ✔️ | ✔️ | ✔️ |
+| Taro.redirectTo | ✔️ | ✔️ | ✔️ |
+| Taro.navigateBack | ✔️ | ✔️ | ✔️ |
+
+### WXML 节点信息
+
+##### Taro.createSelectorQuery
+
+使用方式同 [`wx.createSelectorQuery`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#wxcreateselectorquery)
+
+##### selectorQuery.in
+
+使用方式同 [`selectorQuery.in`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryincomponent)
+
+##### selectorQuery.select
+
+使用方式同 [`selectorQuery.select`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryselectselector)
+
+##### selectorQuery.selectAll
+
+使用方式同 [`selectorQuery.selectAll`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryselectallselector)
+
+##### selectorQuery.selectViewport
+
+使用方式同 [`selectorQuery.selectViewport`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryselectviewport)
+
+##### nodesRef.boundingClientRect
+
+使用方式同 [`nodesRef.boundingClientRect`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#nodesrefboundingclientrectcallback)
+
+##### nodesRef.scrollOffset
+
+使用方式同 [`nodesRef.scrollOffset`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#nodesrefscrolloffsetcallback)
+
+##### nodesRef.fields
+
+使用方式同 [`nodesRef.fields`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#nodesreffieldsfieldscallback)
+
+##### selectorQuery.exec
+
+使用方式同 [`selectorQuery.exec`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryexeccallback)
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.createSelectorQuery | ✔️ | ✔️ | ✔️ |
+| selectorQuery.in | ✔️ | ✔️ | ✔️ |
+| selectorQuery.select | ✔️ | ✔️ | ✔️ |
+| selectorQuery.selectAll | ✔️ | ✔️ | ✔️ |
+| selectorQuery.selectViewport | ✔️ | ✔️ | ✔️ |
+| nodesRef.boundingClientRect | ✔️ | ✔️ | ✔️ |
+| nodesRef.scrollOffset | ✔️ | ✔️ | ✔️ |
+| nodesRef.fields | ✔️ | ✔️ | ✔️ |
+| selectorQuery.exec | ✔️ | ✔️ | ✔️ |

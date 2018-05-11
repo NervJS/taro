@@ -4,27 +4,16 @@
  */
 function queryBat (queue, cb) {
   const res = []
-  const cached = {}
 
   queue.forEach(item => {
     const { selector, single, fields } = item
     let el = null
 
     if (single) {
-      if (cached[selector] && cached[selector].single) {
-        el = cached[selector].el
-      } else {
-        el = document.querySelector(selector)
-        cached[selector] = { single, el }
-      }
+      el = document.querySelector(selector)
       res.push(filter(fields, el, selector))
     } else {
-      if (cached[selector] && !cached[selector].single) {
-        el = cached[selector].el
-      } else {
-        el = Array.from(document.querySelectorAll(selector))
-        cached[selector] = { single, el }
-      }
+      el = Array.from(document.querySelectorAll(selector))
       res.push(el.map(dom => filter(fields, dom)))
     }
   })

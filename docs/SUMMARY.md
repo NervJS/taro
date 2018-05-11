@@ -54,6 +54,8 @@
   * [Taro.getEnv](env.md#Taro.getEnv())
   * [端能力API](native-api.md)
     * [网络](native-api.md#网络)
+    * [数据缓存](native-api.md#数据缓存)
+    * [界面](native-api.md#界面)
 * 进阶指南
   * [项目配置](config.md)
   * [使用Redux](redux.md)
