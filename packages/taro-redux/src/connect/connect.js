@@ -49,8 +49,8 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
 
       componentDidHide () {
         this.$isPageHide = true
-        if (super.componentDidShow) {
-          super.componentDidShow()
+        if (super.componentDidHide) {
+          super.componentDidHide()
         }
       }
 
