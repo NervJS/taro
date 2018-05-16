@@ -28,7 +28,8 @@ const baseConfig = {
       '@tarojs/taro': join(cwd, '../taro/src/index')
     }),
     resolve({
-      preferBuiltins: false
+      preferBuiltins: false,
+      jsnext: true
     }),
     babel({
       babelrc: false,

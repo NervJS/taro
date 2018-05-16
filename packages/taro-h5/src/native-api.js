@@ -1,3 +1,5 @@
+import jsonpRetry from 'jsonp-retry'
+
 import { createSelectorQuery } from './api/createSelectorQuery'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
@@ -11,13 +13,25 @@ function request (options) {
   }
   const url = options.url
   const params = {}
+  const res = {}
+  if (options.jsonp) {
+    params.params = options.data
+    params.cache = options.cache
+    if (typeof options.jsonp === 'string') {
+      params.name = options.jsonp
+    }
+    return jsonpRetry(url, params)
+      .then(data => {
+        res.data = data
+        return res
+      })
+  }
   params.body = options.data
   params.headers = options.header
   params.method = options.method
   params.mode = options.mode
   params.credentials = options.credentials
   params.cache = options.cache
-  const res = {}
   return fetch(url, params)
     .then(response => {
       res.statusCode = response.status

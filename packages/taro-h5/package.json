@@ -25,6 +25,7 @@
     "nervjs": "^1.2.17"
   },
   "dependencies": {
-    "@tarojs/taro": "0.0.31"
+    "@tarojs/taro": "0.0.31",
+    "jsonp-retry": "^1.0.3"
   }
 }
