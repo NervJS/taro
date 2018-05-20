@@ -29,6 +29,8 @@ const PACKAGES = {
 const taroApis = [
   'getEnv',
   'ENV_TYPE',
+  'eventCenter',
+  'Events',
   'internal_safe_get',
   'internal_dynamic_recursive'
 ]
