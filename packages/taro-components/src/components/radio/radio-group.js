@@ -49,14 +49,14 @@ class RadioGroup extends Nerv.Component {
           if (ch.name === 'Radio') {
             if (ch.props.checked) {
               this.state.value[i] = {
-                name: ch.props.value,
-                value: ch.props.children.props.children,
+                name: ch.props.name,
+                value: ch.props.value,
                 checked: true
               }
             } else {
               this.state.value[i] = {
-                name: ch.props.value,
-                value: ch.props.children.props.children,
+                name: ch.props.name,
+                value: ch.props.value,
                 checked: false
               }
             }

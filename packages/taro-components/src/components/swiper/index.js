@@ -132,7 +132,7 @@ class Swiper extends Nerv.Component {
             enumerable: true,
             value: type
           })
-          this.props.bindchange(e)
+          this.props.onChange && this.props.onChange(e)
         }, duration)
       })
     } else if (realIdx <= -1 && circular) {
@@ -152,7 +152,7 @@ class Swiper extends Nerv.Component {
             enumerable: true,
             value: type
           })
-          this.props.bindchange(e)
+          this.props.onChange && this.props.onChange(e)
         }, duration)
       })
     } else if (realIdx > -1 && realIdx < SwiperCount) {
@@ -170,7 +170,7 @@ class Swiper extends Nerv.Component {
             enumerable: true,
             value: type
           })
-          this.props.bindchange(e)
+          this.props.onChange && this.props.onChange(e)
         }, duration)
       })
     } else if (realIdx >= SwiperCount || realIdx < 0) {
@@ -191,7 +191,7 @@ class Swiper extends Nerv.Component {
               enumerable: true,
               value: type
             })
-            this.props.bindchange(e)
+            this.props.onChange && this.props.onChange(e)
           }, duration)
         })
       }
