@@ -54,8 +54,7 @@ function getStorage (options = {}) {
 
 function getStorageSync (key) {
   if (typeof key !== 'string') throw new Error(`getStorageSync:fail parameter error: parameter should be String instead of ${typeof key}`)
-  let res
-  res = wx.getStorageSync(key)
+  let res = JSON.parse(localStorage.getItem(key))
 
   // 只返回使用 Taro.setStorage API 存储的数据
   if (res && res.data) return res.data
