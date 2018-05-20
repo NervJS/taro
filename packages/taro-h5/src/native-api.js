@@ -22,6 +22,7 @@ function request (options) {
     }
     return jsonpRetry(url, params)
       .then(data => {
+        res.statusCode = 200
         res.data = data
         return res
       })
