@@ -139,8 +139,15 @@ function processEntry (code) {
           const value = source.value
           const specifiers = node.specifiers
 
-          if (!Util.isNpmPkg(value)) return
-
+          if (!Util.isNpmPkg(value)) {
+            if (value.indexOf('.') === 0) {
+              const pathArr = value.split('/')
+              if (pathArr.indexOf('pages') >= 0) {
+                astPath.remove()
+              }
+            }
+            return
+          }
           if (value === PACKAGES['@tarojs/taro']) {
             let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
             if (specifier) {
