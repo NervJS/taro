@@ -31,20 +31,20 @@ function createLocation (path) {
   path = decodeURIComponent(path)
   const pathname = path.split('?')[0]
 
-  const search = {}
+  const params = {}
   const searchIndex = path.indexOf('?')
   if (searchIndex !== -1) {
     const queryString = path.substring(searchIndex + 1)
     queryString.split('&').forEach(pair => {
       const temp = pair.split('=')
-      search[temp[0]] = temp[1]
+      params[temp[0]] = temp[1]
     })
   }
   return {
     pageId: counter++,
     path,
     pathname,
-    search
+    params
   }
 }
 

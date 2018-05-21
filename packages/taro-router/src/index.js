@@ -30,8 +30,9 @@ const getWrappedComponent = (component, { location }) => {
      *   4 - 被后退
      */
     __pageStatus = 3
-    constructor () {
-      super(...arguments)
+    constructor (props, context) {
+      context.$router = location
+      super(props, context)
       this.$router = location
       this.pageId = location.pageId
 
@@ -77,6 +78,7 @@ const getWrappedComponent = (component, { location }) => {
       if (this.__pageStatus === nextStatus) return
       setTimeout(() => {
         this.__pageStatus = 2
+        this.defaultShow = true
         this.forceUpdate()
       }, 100)
     }
