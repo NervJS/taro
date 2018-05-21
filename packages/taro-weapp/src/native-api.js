@@ -305,4 +305,6 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
+  taro.getCurrentPages = getCurrentPages
+  taro.getApp = getApp
 }

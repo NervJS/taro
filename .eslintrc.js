@@ -7,7 +7,8 @@ module.exports = {
   },
   globals: {
     wx: true,
-    getApp: true
+    getApp: true,
+    getCurrentPages: true
   },
   rules: {
     'no-unused-expressions': 0,
