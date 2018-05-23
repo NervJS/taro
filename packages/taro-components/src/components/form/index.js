@@ -24,44 +24,39 @@ class Form extends Nerv.Component {
     for (let j = 0; j < tagElements.length; j++) {
       elements.push(tagElements[j])
     }
-    let formItem = []
+    let formItem = {}
     let hash = {}
     elements.forEach(item => {
       if (item.className === 'weui-switch') {
-        formItem.push({
-          [item.name]: item.checked
-        })
+        formItem[item.name] = item.checked
         return
       }
       // console.dir(item)
       if (item.type === 'radio') {
         if (item.checked) {
-          formItem.push({
-            [item.name]: item.value
-          })
+          formItem['radio-group'] = item.value
         }
         return
       }
 
       if (item.type === 'checkbox') {
-        if (hash[item.name]) {
-          formItem.forEach(i => {
-            if (i[item.name]) {
-              i[item.name].push({ value: item.value, checked: item.checked })
-            }
-          })
-        } else {
-          hash[item.name] = true
-          formItem.push({
-            [item.name]: [{ value: item.value, checked: item.checked }]
-          })
+        if (item.checked) {
+          if (hash[item.name]) {
+            // formItem.forEach(i => {
+            //   if (i[item.name]) {
+            //     i[item.name].push({ value: item.value, checked: item.checked })
+            //   }
+            // })
+            formItem[item.name].push(item.value)
+            // formItem[item.name].push({ value: item.value, checked: item.checked })
+          } else {
+            hash[item.name] = true
+            formItem[item.name] = [item.value]
+          }
         }
-
         return
       }
-      formItem.push({
-        [item.name]: item.value
-      })
+      formItem[item.name] = item.value
     })
 
     let textareaElements = formDom.getElementsByTagName('textarea')
@@ -71,7 +66,7 @@ class Form extends Nerv.Component {
       textareaEleArr.push(textareaElements[i])
     }
     textareaEleArr.forEach(v => {
-      formItem.push({ [v.name]: v.value })
+      formItem[v.name] = v.value
     })
     this.props.onSubmit({
       detail: { value: formItem }
