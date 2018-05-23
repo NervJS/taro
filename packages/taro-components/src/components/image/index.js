@@ -8,14 +8,14 @@ class Image extends Nerv.Component {
   }
 
   render () {
-    const { className, src, style, mode, onLoad, onError } = this.props
+    const { className, src, style, mode, onLoad, onError, ...reset } = this.props
     const cls = classNames('taro-img', {}, className)
     const imgCls =
       'taro-img__mode-' +
       (mode || 'scaleToFill').toLowerCase().replace(/\s/g, '')
 
     return (
-      <div className={cls} style={style}>
+      <div className={cls} style={style} {...reset}>
         <img className={imgCls} src={src} onLoad={onLoad} onError={onError} />
       </div>
     )
