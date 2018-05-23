@@ -116,6 +116,7 @@ export default class Form extends Nerv.Component {
     this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this)
     this.handleRadioChange = this.handleRadioChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleReset = this.handleReset.bind(this)
   }
 
   onChange (e) {
@@ -254,6 +255,9 @@ export default class Form extends Nerv.Component {
     console.log(e.detail.value)
     // value.map(item => {})
   }
+  handleReset (e) {
+    console.log('触发重置事件')
+  }
 
   render () {
     function handleChange (e) {
@@ -271,7 +275,7 @@ export default class Form extends Nerv.Component {
               <Taro.Text>表单</Taro.Text>
             </Taro.View>
           </Taro.View>
-          <Taro.Form onSubmit={this.handleSubmit} state={this.state}>
+          <Taro.Form onSubmit={this.handleSubmit} onReset={this.handleReset} state={this.state}>
             <Taro.View className='page__con'>
               <Taro.View className='page__con__list'>
                 <Taro.View className='page__con__title'>

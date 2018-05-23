@@ -31,7 +31,6 @@ class Form extends Nerv.Component {
         formItem[item.name] = item.checked
         return
       }
-      // console.dir(item)
       if (item.type === 'radio') {
         if (item.checked) {
           formItem['radio-group'] = item.value
@@ -42,13 +41,7 @@ class Form extends Nerv.Component {
       if (item.type === 'checkbox') {
         if (item.checked) {
           if (hash[item.name]) {
-            // formItem.forEach(i => {
-            //   if (i[item.name]) {
-            //     i[item.name].push({ value: item.value, checked: item.checked })
-            //   }
-            // })
             formItem[item.name].push(item.value)
-            // formItem[item.name].push({ value: item.value, checked: item.checked })
           } else {
             hash[item.name] = true
             formItem[item.name] = [item.value]
@@ -75,11 +68,11 @@ class Form extends Nerv.Component {
 
   onReset (e) {
     e.preventDefault()
-    console.log('onReset')
+    this.props.onReset()
   }
 
   render () {
-    return <form onSubmit={this.onSubmit}>{this.props.children}</form>
+    return <form onSubmit={this.onSubmit} onReset={this.onReset}>{this.props.children}</form>
   }
 }
 
