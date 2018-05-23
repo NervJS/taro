@@ -94,7 +94,6 @@ class Swiper extends Nerv.Component {
     this.SwiperGap = (SwiperWidth || 0) / slideMult
 
     this.touchstartFn = function (e) {
-      e.preventDefault()
       this.SwiperDirection = 'none'
       this.pauseAutoPlay()
       this.touchStartX = e.changedTouches[0].pageX
