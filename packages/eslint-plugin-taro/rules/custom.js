@@ -8,3 +8,6 @@
 // const foo = l.id
 // return <View bar={foo} />
 // })
+// [x] 自定义组件 children
+// [x] 函数表达式
+// [x] 不能在循环中使用 if
