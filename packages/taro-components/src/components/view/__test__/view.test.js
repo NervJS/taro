@@ -1,6 +1,6 @@
 import Nerv from 'nervjs'
 import { renderIntoDocument } from 'nerv-test-utils'
-import View from '../src/components/view'
+import View from '../index'
 
 describe('View', () => {
   it('render View', () => {
