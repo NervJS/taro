@@ -34,7 +34,8 @@ class Tabbar extends Nerv.Component {
       })
       router.navigateTo &&
         router.navigateTo({
-          url: list[index].pagePath
+          url:
+            (/^\//.test(list[index].pagePath) ? '' : '/') + list[index].pagePath
         })
     }
     conf.borderStyle = conf.borderStyle || 'black'

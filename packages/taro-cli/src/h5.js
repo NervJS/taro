@@ -37,6 +37,8 @@ const taroApis = [
 const nervJsImportDefaultName = 'Nerv'
 const routerImportDefaultName = 'TaroRouter'
 const tabBarComponentName = 'Tabbar'
+const tabBarContainerComponentName = 'TabbarContainer'
+const tabBarPanelComponentName = 'TabbarPanel'
 const providerComponentName = 'Provider'
 const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
@@ -231,18 +233,12 @@ function processEntry (code) {
 
           if (tabBar) {
             funcBody = `
-              <View>
-                ${funcBody}
-                <${tabBarComponentName} conf={${tabBarConfigName}}/>
-              </View>`
-
-            astPath
-              .get('body')
-              .unshiftContainer('body', [
-                t.variableDeclaration('const', [
-                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
-                ])
-              ])
+              <${tabBarContainerComponentName}>
+                <${tabBarPanelComponentName}>
+                  ${funcBody}
+                </${tabBarPanelComponentName}>
+                <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+              </${tabBarContainerComponentName}>`
           }
 
           if (providerComponentName && storeName) {
@@ -254,6 +250,16 @@ function processEntry (code) {
           }
 
           node.body = template(`{return (${funcBody});}`, babylonConfig)()
+
+          if (tabBar) {
+            astPath
+              .get('body')
+              .unshiftContainer('body', [
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
+                ])
+              ])
+          }
         }
       })
     },
@@ -276,7 +282,7 @@ function processEntry (code) {
           babylonConfig
         )()
         const importComponents = template(
-          `import { View, ${tabBarComponentName}} from '${PACKAGES['@tarojs/components']}'`,
+          `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
         )()
         const initRouter = template(
