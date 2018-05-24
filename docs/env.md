@@ -4,7 +4,7 @@
 
 `ENV_TYPE.WEAPP` 小程序环境
 
-`ENV_TYPE.H5` H5环境
+`ENV_TYPE.WEB` WEB(H5)环境
 
 `ENV_TYPE.RN` ReactNative环境
 
