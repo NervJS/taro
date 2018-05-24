@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-export const DEFAULT_Components_SET = new Set([
+const DEFAULT_Components_SET = new Set([
   'View',
   'ScrollView',
   'Swiper',
@@ -35,3 +35,7 @@ export const DEFAULT_Components_SET = new Set([
   'WebView',
   'SwiperItem'
 ])
+
+module.exports = {
+  DEFAULT_Components_SET
+}

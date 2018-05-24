@@ -4,7 +4,7 @@ const ERROR_MESSAGE = '定义 ref 在微信小程序不会起作用'
 
 module.exports = {
   meta: {
-    docs: buildDocsMeta(ERROR_MESSAGE, 'no-jsx-in-props')
+    docs: buildDocsMeta(ERROR_MESSAGE, 'no-ref')
   },
 
   create (context) {
