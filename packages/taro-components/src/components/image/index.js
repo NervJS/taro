@@ -1,6 +1,6 @@
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import './style'
+import './style/index.scss'
 
 class Image extends Nerv.Component {
   constructor () {
