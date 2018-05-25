@@ -13,7 +13,7 @@ module.exports = {
         const parents = context.getAncestors(node)
         let matchCallExpression = false
         let matchIfStatement = false
-        let IfStatement = null
+        let ifStatement = null
 
         // 想念 for..of 的第一天
         for (let index = 0; index < parents.length; index++) {
@@ -27,13 +27,14 @@ module.exports = {
           }
           if (statement.type === 'IfStatement') {
             matchIfStatement = true
-            IfStatement = statement
+            ifStatement = statement
           }
         }
+
         if (matchCallExpression && matchIfStatement) {
           context.report({
             message: ERROR_MESSAGE,
-            node: IfStatement
+            node: ifStatement
           })
         }
       }
