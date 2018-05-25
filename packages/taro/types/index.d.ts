@@ -2,6 +2,8 @@ export = Taro;
 export as namespace Taro;
 
 declare namespace Taro {
+
+  // Components
   interface ComponentLifecycle<P, S> {
     componentWillMount?(): void;
     componentDidMount?(): void;
@@ -35,4 +37,35 @@ declare namespace Taro {
         [key: string]: any
     };
   }
+
+  // Events
+  class Events {
+    on(event: string | symbol, listener: (...args: any[]) => void): this;
+
+    off(event: string | symbol, listener: (...args: any[]) => void): this;
+
+    trigger(event: string | symbol, ...args: any[]): boolean;
+  }
+
+  // eventCenter
+
+  interface eventCenter {
+    on(event: string | symbol, listener: (...args: any[]) => void): this;
+
+    off(event: string | symbol, listener: (...args: any[]) => void): this;
+
+    trigger(event: string | symbol, ...args: any[]): boolean;
+  }
+
+  // ENV_TYPE
+
+  interface ENV_TYPE {
+    WEAPP: 'WEAPP',
+    WEB: 'WEB',
+    RN: 'RN'
+  }
+
+
+  function getEnv(): 'WEAPP' | 'WEB' | 'RN';
+
 }
