@@ -246,9 +246,6 @@ export default class Form extends Nerv.Component {
 
   handleRadioChange (e) {
     console.log(e.detail.value)
-    this.setState({
-      radioItem: e.detail.value
-    })
   }
 
   handleSubmit (e) {
@@ -296,10 +293,11 @@ export default class Form extends Nerv.Component {
                           <Taro.Label for={item.name}>
                             <Taro.Radio
                               color='#09bb07'
-                              value={item.name}
+                              value={item.value}
+                              name={item.name}
                               checked={item.checked}
                             >
-                              <Taro.Text>{item.value}</Taro.Text>
+                              <Taro.Text>{item.name}</Taro.Text>
                             </Taro.Radio>
                           </Taro.Label>
                         )

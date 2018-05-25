@@ -3,25 +3,29 @@ import Nerv from 'nervjs'
 class RadioGroup extends Nerv.Component {
   constructor () {
     super(...arguments)
-    this.state = {
-      value: []
-    }
+    // this.state = {
+    //   value: []
+    // }
+    this.radioValue = []
     this.toggleChange = this.toggleChange.bind(this)
   }
 
   toggleChange (e, i) {
-    let _value = this.state.value.map((item, idx) => {
-      if (e.target.checked) {
+    let checkValue
+    let _value = this.radioValue.map((item, idx) => {
+      if (e.target.value === item.value) {
+        checkValue = item.value
         return {
-          name: item.value,
-          value: item.name,
+          name: item.name,
+          value: item.value,
           checked: !item.checked
         }
       }
+      return item
     })
-    this.state.value = _value
+    this.radioValue = _value
     const { onChange } = this.props
-    onChange({ detail: { value: _value } })
+    onChange({ detail: { value: checkValue } })
   }
 
   getRandomID () {
@@ -48,13 +52,13 @@ class RadioGroup extends Nerv.Component {
         const chd = Nerv.Children.toArray(item.props.children).map(ch => {
           if (ch.name === 'Radio') {
             if (ch.props.checked) {
-              this.state.value[i] = {
+              this.radioValue[i] = {
                 name: ch.props.name,
                 value: ch.props.value,
                 checked: true
               }
             } else {
-              this.state.value[i] = {
+              this.radioValue[i] = {
                 name: ch.props.name,
                 value: ch.props.value,
                 checked: false
