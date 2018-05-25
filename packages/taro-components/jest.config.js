@@ -10,6 +10,7 @@ module.exports = {
   moduleNameMapper: {
     react: 'nervjs',
     'react-addons-test-utils': 'nerv-test-utils',
-    'react-dom': 'nervjs'
+    'react-dom': 'nervjs',
+    '.scss$': '<rootDir>/__mock__/styleMock.js'
   }
 }

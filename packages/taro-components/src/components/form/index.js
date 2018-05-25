@@ -4,13 +4,7 @@ class Form extends Nerv.Component {
   constructor () {
     super(...arguments)
 
-    const { state } = this.props
-
     this.Forms = []
-    this.state = {
-      CheckboxGroup: state.checkboxItem || [],
-      RadioGroup: state.radioItem || []
-    }
 
     this.onSubmit = this.onSubmit.bind(this)
     this.onReset = this.onReset.bind(this)
