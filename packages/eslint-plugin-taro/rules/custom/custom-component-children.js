@@ -12,7 +12,7 @@ module.exports = {
   create (context) {
     return {
       JSXElement (node) {
-        const name = node.name
+        const { name } = node
         if (
           DEFAULT_Components_SET.has(name) &&
           node.children
