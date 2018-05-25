@@ -34,7 +34,8 @@ class Tabbar extends Nerv.Component {
       })
       router.navigateTo &&
         router.navigateTo({
-          url: list[index].pagePath
+          url:
+            (/^\//.test(list[index].pagePath) ? '' : '/') + list[index].pagePath
         })
     }
     conf.borderStyle = conf.borderStyle || 'black'
@@ -42,40 +43,41 @@ class Tabbar extends Nerv.Component {
       [`taro-tabbar__border-${conf.borderStyle}`]: true
     })
     return (
-      <div
-        className={containerCls}
-        style={{
-          position: 'fixed',
-          backgroundColor: conf.backgroundColor || ''
-        }}
-      >
-        {this.state.list.map((item, index) => {
-          const cls = classNames('weui-tabbar__item', {
-            [`weui-bar__item_on`]: item.selected
-          })
-          let textStyle = {
-            color: item.selected ? conf.selectedColor : conf.color || ''
-          }
-          return (
-            <a
-              key={index}
-              href='javascript:;'
-              className={cls}
-              onClick={handleSelect.bind(this, index)}
-            >
-              <span style='display: inline-block;position: relative;'>
-                <img
-                  src={item.selected ? item.selectedIconPath : item.iconPath}
-                  alt=''
-                  className='weui-tabbar__icon'
-                />
-              </span>
-              <p className='weui-tabbar__label' style={textStyle}>
-                {item.text}
-              </p>
-            </a>
-          )
-        })}
+      <div className='taro-tabbar__tabbar'>
+        <div
+          className={containerCls}
+          style={{
+            backgroundColor: conf.backgroundColor || ''
+          }}
+        >
+          {this.state.list.map((item, index) => {
+            const cls = classNames('weui-tabbar__item', {
+              [`weui-bar__item_on`]: item.selected
+            })
+            let textStyle = {
+              color: item.selected ? conf.selectedColor : conf.color || ''
+            }
+            return (
+              <a
+                key={index}
+                href='javascript:;'
+                className={cls}
+                onClick={handleSelect.bind(this, index)}
+              >
+                <span style='display: inline-block;position: relative;'>
+                  <img
+                    src={item.selected ? item.selectedIconPath : item.iconPath}
+                    alt=''
+                    className='weui-tabbar__icon'
+                  />
+                </span>
+                <p className='weui-tabbar__label' style={textStyle}>
+                  {item.text}
+                </p>
+              </a>
+            )
+          })}
+        </div>
       </div>
     )
   }

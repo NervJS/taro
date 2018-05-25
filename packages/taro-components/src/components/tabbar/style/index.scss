@@ -1,3 +1,9 @@
+html, body {
+	height: 100%;
+}
+#app {
+	height: 100%;
+}
 .taro-tabbar {
   &__border {
     &-white {
@@ -5,5 +11,21 @@
         border-top-color: #fff !important;
       }
     }
+  }
+  &__container {
+  	display: flex;
+  	height: 100%;
+  	flex-direction: column;
+  }
+  &__panel {
+  	flex: 1;
+  	position: relative;
+  	overflow: auto;
+
+  }
+  &__tabbar {
+  	position: relative;
+  	height: 50px;
+  	width: 100%;
   }
 }

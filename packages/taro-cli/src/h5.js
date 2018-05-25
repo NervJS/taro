@@ -37,6 +37,8 @@ const taroApis = [
 const nervJsImportDefaultName = 'Nerv'
 const routerImportDefaultName = 'TaroRouter'
 const tabBarComponentName = 'Tabbar'
+const tabBarContainerComponentName = 'TabbarContainer'
+const tabBarPanelComponentName = 'TabbarPanel'
 const providerComponentName = 'Provider'
 const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
@@ -54,6 +56,7 @@ const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
 let pages = []
 let tabBar
+let tabbarPos
 
 // let isBuildingScripts = {}
 // let isBuildingStyles = {}
@@ -128,6 +131,9 @@ function processEntry (code) {
               } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
                 // tabBar
                 tabBar = value
+                value.properties.forEach(node => {
+                  if (node.key.name === 'position') tabbarPos = node.value.value
+                })
               }
             }
           })
@@ -230,19 +236,23 @@ function processEntry (code) {
           funcBody = `<${routerImportDefaultName}.Router />`
 
           if (tabBar) {
-            funcBody = `
-              <View>
-                ${funcBody}
-                <${tabBarComponentName} conf={${tabBarConfigName}}/>
-              </View>`
-
-            astPath
-              .get('body')
-              .unshiftContainer('body', [
-                t.variableDeclaration('const', [
-                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
-                ])
-              ])
+            if (tabbarPos === 'top') {
+              funcBody = `
+                <${tabBarContainerComponentName}>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+                  <${tabBarPanelComponentName}>
+                    ${funcBody}
+                  </${tabBarPanelComponentName}>
+                </${tabBarContainerComponentName}>`
+            } else {
+              funcBody = `
+                <${tabBarContainerComponentName}>
+                  <${tabBarPanelComponentName}>
+                    ${funcBody}
+                  </${tabBarPanelComponentName}>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+                </${tabBarContainerComponentName}>`
+            }
           }
 
           if (providerComponentName && storeName) {
@@ -254,6 +264,16 @@ function processEntry (code) {
           }
 
           node.body = template(`{return (${funcBody});}`, babylonConfig)()
+
+          if (tabBar) {
+            astPath
+              .get('body')
+              .unshiftContainer('body', [
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
+                ])
+              ])
+          }
         }
       })
     },
@@ -276,7 +296,7 @@ function processEntry (code) {
           babylonConfig
         )()
         const importComponents = template(
-          `import { View, ${tabBarComponentName}} from '${PACKAGES['@tarojs/components']}'`,
+          `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
         )()
         const initRouter = template(
