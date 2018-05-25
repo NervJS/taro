@@ -1,4 +1,5 @@
 /**
+ * @warn
  * IOS: Remember to link the libART.a into your project,
  * see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.
  *
@@ -41,6 +42,8 @@ type Props = {
 }
 
 class _Icon extends Component<Props> {
+  props: Props
+
   static defaultProps = {
     size: 23,
     color: 'black',
