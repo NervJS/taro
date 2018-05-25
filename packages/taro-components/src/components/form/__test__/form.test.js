@@ -6,13 +6,9 @@ describe('Form', () => {
   it('render Form', () => {
     const handleSubmit = jest.fn()
     const handleReset = jest.fn()
-    const state = {
-      checkboxItem: [],
-      radioItem: []
-    }
 
     let component = renderIntoDocument(
-      <Form onSubmit={handleSubmit} onReset={handleReset} state={state}>
+      <Form onSubmit={handleSubmit} onReset={handleReset} >
         this is form
       </Form>
     )
