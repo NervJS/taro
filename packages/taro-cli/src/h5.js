@@ -56,6 +56,7 @@ const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 
 let pages = []
 let tabBar
+let tabbarPos
 
 // let isBuildingScripts = {}
 // let isBuildingStyles = {}
@@ -130,6 +131,9 @@ function processEntry (code) {
               } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
                 // tabBar
                 tabBar = value
+                value.properties.forEach(node => {
+                  if (node.key.name === 'position') tabbarPos = node.value.value
+                })
               }
             }
           })
@@ -232,13 +236,23 @@ function processEntry (code) {
           funcBody = `<${routerImportDefaultName}.Router />`
 
           if (tabBar) {
-            funcBody = `
-              <${tabBarContainerComponentName}>
-                <${tabBarPanelComponentName}>
-                  ${funcBody}
-                </${tabBarPanelComponentName}>
-                <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
-              </${tabBarContainerComponentName}>`
+            if (tabbarPos === 'top') {
+              funcBody = `
+                <${tabBarContainerComponentName}>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+                  <${tabBarPanelComponentName}>
+                    ${funcBody}
+                  </${tabBarPanelComponentName}>
+                </${tabBarContainerComponentName}>`
+            } else {
+              funcBody = `
+                <${tabBarContainerComponentName}>
+                  <${tabBarPanelComponentName}>
+                    ${funcBody}
+                  </${tabBarPanelComponentName}>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+                </${tabBarContainerComponentName}>`
+            }
           }
 
           if (providerComponentName && storeName) {
