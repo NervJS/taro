@@ -11,12 +11,14 @@ import {
 } from '@tarojs/taro'
 
 import Component from './component'
+import PureComponent from './pure-component'
 import createApp from './create-app'
 import createPage from './create-page'
 import initNativeApi from './native-api'
 
 export {
   Component,
+  PureComponent,
   createApp,
   createPage,
   initNativeApi,
