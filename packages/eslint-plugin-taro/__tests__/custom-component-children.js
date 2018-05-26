@@ -12,6 +12,8 @@ ruleTester.run('custom-component-children', rule, {
   }, {
     code: testComponent(`<View>test</View>`)
   }, {
+    code: testComponent(`<ScrollView>test</ScrollView>`)
+  }, {
     code: testComponent(`<View>{'test'}</View>`)
   }, {
     code: testComponent(`<View>
@@ -21,6 +23,10 @@ ruleTester.run('custom-component-children', rule, {
     code: testComponent(`<CustomComponent />`)
   }, {
     code: testComponent(`<CustomComponent> </CustomComponent>`)
+  }, {
+    code: testComponent(`<CustomComponent> 
+    
+    </CustomComponent>`)
   }],
   invalid: [{
     code: testComponent(`<CustomComponent>test</CustomComponent>`),

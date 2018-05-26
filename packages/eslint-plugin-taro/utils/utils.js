@@ -31,9 +31,22 @@ class App extends Component {
 `
 }
 
+function testValid (tests) {
+  return tests.map(code => ({ code: testComponent(code) }))
+}
+
+function testInvalid (tests, message) {
+  return tests.map(code => ({
+    code: testComponent(code),
+    errors: [{ message }]
+  }))
+}
+
 module.exports = {
   docsUrl,
   buildDocsMeta,
   parserOptions,
-  testComponent
+  testComponent,
+  testValid,
+  testInvalid
 }
