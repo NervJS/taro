@@ -35,7 +35,7 @@ function testValid (tests) {
   return tests.map(code => ({ code: testComponent(code) }))
 }
 
-function testInvalid (tests, message) {
+function testInvalid (message, tests) {
   return tests.map(code => ({
     code: testComponent(code),
     errors: [{ message }]
