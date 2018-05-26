@@ -10,18 +10,25 @@ module.exports = {
   },
 
   create (context) {
+    function isChildrenNotEmpty (children) {
+      return !(
+        (children.type === 'JSXText' || children.type === 'Literal') &&
+        children.value.trim() === ''
+      )
+    }
+
     return {
       JSXElement (node) {
-        const { name } = node
+        const { name } = node.openingElement.name
         if (
-          DEFAULT_Components_SET.has(name) &&
+          !DEFAULT_Components_SET.has(name) &&
           node.children
-            .filter(children => children.type === 'JSXText' && children.value.trim() === '')
+            .filter(isChildrenNotEmpty)
             .length > 0
         ) {
           context.report({
             message: ERROR_MESSAGE,
-            node: node
+            node
           })
         }
       }
