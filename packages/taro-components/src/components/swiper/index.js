@@ -98,11 +98,11 @@ class Swiper extends Nerv.Component {
       this.pauseAutoPlay()
       this.touchStartX = e.changedTouches[0].pageX
       this.touchStartY = e.changedTouches[0].pageY
-    }
+    }.bind(this)
     this.touchendFn = this.getSwiperDirection.bind(this)
     this.touchMoveFn = throttle(this.isPreventDefault.bind(this), 150)
 
-    this.SwiperWp.addEventListener('touchstart', this.touchstartFn.bind(this), false)
+    this.SwiperWp.addEventListener('touchstart', this.touchstartFn, false)
     this.SwiperWp.addEventListener('touchmove', this.touchMoveFn)
     this.SwiperWp.addEventListener('touchend', this.touchendFn, false)
   }
@@ -325,6 +325,12 @@ class Swiper extends Nerv.Component {
   componentDidMount () {
     this.initSwiper()
   }
+
+  componentWillUnmount () {
+    this.pauseAutoPlay()
+    this.removeEvent()
+  }
+
   render () {
     const {
       wrapperClass,
