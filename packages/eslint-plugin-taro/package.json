@@ -11,7 +11,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha __tests__/*.js",
     "build": "rollup -c rollup.config.js"
   },
   "repository": {
@@ -33,7 +33,7 @@
   },
   "author": "O2Team",
   "license": "MIT",
-  "dependencies": {
-    "jsx-ast-utils": "^2.0.1"
+  "devDependencies": {
+    "mocha": "^5.2.0"
   }
 }

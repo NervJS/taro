@@ -11,7 +11,29 @@ function buildDocsMeta (description, rule) {
   }
 }
 
+const parserOptions = {
+  ecmaVersion: 6,
+  sourceType: 'module',
+  ecmaFeatures: {
+    jsx: true
+  }
+}
+
+function testComponent (code) {
+  return `
+class App extends Component {
+  render () {
+    return (
+      ${code}
+    )
+  }
+}
+`
+}
+
 module.exports = {
   docsUrl,
-  buildDocsMeta
+  buildDocsMeta,
+  parserOptions,
+  testComponent
 }
