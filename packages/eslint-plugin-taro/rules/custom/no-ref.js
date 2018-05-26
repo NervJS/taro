@@ -10,7 +10,7 @@ module.exports = {
   create (context) {
     return {
       JSXAttribute (node) {
-        if (node.name === 'ref') {
+        if (node.name.type === 'JSXIdentifier' && node.name.name === 'ref') {
           context.report({
             message: ERROR_MESSAGE,
             node
