@@ -12,7 +12,7 @@ function buildDocsMeta (description, rule) {
 }
 
 const parserOptions = {
-  ecmaVersion: 6,
+  ecmaVersion: 9,
   sourceType: 'module',
   ecmaFeatures: {
     jsx: true
@@ -32,13 +32,17 @@ class App extends Component {
 }
 
 function testValid (tests) {
-  return tests.map(code => ({ code: testComponent(code) }))
+  return tests.map(code => ({
+    code: testComponent(code),
+    parser: 'babel-eslint'
+  }))
 }
 
 function testInvalid (message, tests) {
   return tests.map(code => ({
     code: testComponent(code),
-    errors: [{ message }]
+    errors: [{ message }],
+    parser: 'babel-eslint'
   }))
 }
 

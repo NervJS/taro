@@ -11,7 +11,12 @@ module.exports = {
     return {
       JSXElement (node) {
         const parents = context.getAncestors(node)
-        const classMethod = parents.find(p => p.type === 'ClassMethod' || p.type === 'ClassProperty')
+        const classMethod = parents.find(p => (
+          p.type === 'ClassMethod' ||
+          p.type === 'ClassProperty' ||
+          p.type === 'MethodDefinition' ||
+          p._babelType === 'ClassMethod')
+        )
         if (classMethod && classMethod.key.name !== 'render') {
           context.report({
             message: ERROR_MESSAGE,
