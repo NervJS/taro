@@ -15,7 +15,7 @@ ruleTester.run('no-spread-in-props', rule, {
   ]),
   valid: testValid([
     `<View test />`
-    // @TODO eslint 的测试环境无法解析 ...rest, 暂不清楚原因
+    // @TODO eslint 的测试环境无法解析解构表达式, 暂不清楚原因
     // `const a = { ...b }`
   ])
 })
