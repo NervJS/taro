@@ -16,7 +16,6 @@
 <View onClick={function () {}} />
 
 <View onClick={function (e) {this.handleClick(e)}} />
-
 ```
 
 以下代码不会被警告，也应当在 Taro 任意端中能够运行：

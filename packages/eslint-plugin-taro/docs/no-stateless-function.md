@@ -1,5 +1,7 @@
 # 不支持无状态组件（stateless component）(taro/no-stateless-component)
 
+由于微信的 `template` 能力有限，不支持动态传值和函数，Taro 暂时只支持一个文件只定义一个组件。为了避免开发者疑惑，暂时不支持定义 stateless component。
+
 ## 规则详情
 
 以下代码会被 ESLint 提示警告，同时在 Taro（小程序端）也不会有效：

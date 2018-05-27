@@ -11,10 +11,13 @@
 
 ```javascript
 <CustomComponent>test</CustomComponent>
+
 <CustomComponent>{'test'}</CustomComponent>
+
 <CustomComponent>
   <Other />
 </CustomComponent>
+
 <Typo>{}</Typo>
 ```
 
@@ -22,9 +25,13 @@
 
 ```javascript
 <CustomComponent />
+
 <CustomComponent> </CustomComponent>
+
 <ScrollView>test</ScrollView>
+
 <View>test</View>
+
 <View>
   <CustomComponent />
 </View>
