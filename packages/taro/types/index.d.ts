@@ -37,6 +37,8 @@ declare namespace Taro {
         [key: string]: any
     };
   }
+  
+  class PureComponent<P = {}, S = {}> extends Component<P, S> { }
 
   // Events
   class Events {
