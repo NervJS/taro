@@ -5,14 +5,11 @@ const rules = [
   './rules/custom'
 ].map(require.resolve)
 
-rules.unshift('standard')
-
 module.exports = {
   extends: rules,
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
       jsx: true
     }
   }

@@ -1,9 +1,44 @@
 const { buildDocsMeta } = require('../../utils/utils')
-// eslint-disable-next-line
-const { DEFAULT_Components_SET } = require('../../components')
 
 const ERROR_MESSAGE = '不能使用 Array#map 之外的方法操作 JSX 数组'
 
+// eslint-disable-next-line
+const DEFAULT_Components_SET = new Set([
+  'View',
+  'ScrollView',
+  'Swiper',
+  'MovableView',
+  'CoverView',
+  'Icon',
+  'Text',
+  'RichText',
+  'Progress',
+  'Button',
+  'Checkbox',
+  'Form',
+  'Input',
+  'Label',
+  'Picker',
+  'PickerView',
+  'Radio',
+  'RadioGroup',
+  'CheckboxGroup',
+  'Slider',
+  'Switch',
+  'Textarea',
+  'Navigator',
+  'Audio',
+  'Image',
+  'Video',
+  'Camera',
+  'LivePlayer',
+  'LivePusher',
+  'Map',
+  'Canvas',
+  'OpenData',
+  'WebView',
+  'SwiperItem'
+])
 // 可以传值的数组方法
 const ARRAY_METHODS_EXCEPT_MAP = new Set([
   'concat',
