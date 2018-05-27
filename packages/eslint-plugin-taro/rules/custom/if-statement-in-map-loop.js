@@ -1,6 +1,6 @@
 const { buildDocsMeta } = require('../../utils/utils')
 
-const ERROR_MESSAGE = '不允许在 JSX 参数(props)中传入 JSX 元素'
+const ERROR_MESSAGE = '不能在包含 JSX 元素的 map 循环中使用 if 表达式'
 
 module.exports = {
   meta: {
