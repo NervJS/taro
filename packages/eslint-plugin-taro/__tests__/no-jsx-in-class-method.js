@@ -11,6 +11,7 @@ function testInvalid (message, tests) {
     errors: [{ message }]
   }))
 }
+
 const ERROR_MESSAGE = '暂不支持在 render() 之外的方法定义 JSX'
 
 ruleTester.run('no-jsx-in-class-method', rule, {
