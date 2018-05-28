@@ -21,7 +21,7 @@ import {
   Switch,
   StyleSheet,
 } from 'react-native'
-import Checkbox from '../Checkbox2'
+import Checkbox from '../Checkbox'
 
 type Props = {
   style?: StyleSheet.Styles,

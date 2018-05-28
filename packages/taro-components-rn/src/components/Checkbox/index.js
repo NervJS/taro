@@ -15,7 +15,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet
 } from 'react-native'
-import Icon from '../Icon2'
+import Icon from '../Icon'
 import styles from './styles'
 
 type Props = {

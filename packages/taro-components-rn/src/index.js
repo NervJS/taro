@@ -1,6 +1,6 @@
-import View from './components/view2'
-import Icon from './components/Icon2'
-import Switch from './components/Switch2'
+import View from './components/View'
+import Icon from './components/Icon'
+import Switch from './components/Switch'
 
 export {
   View,
