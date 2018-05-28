@@ -19,6 +19,8 @@
  * ✘ animationend
  * ✘ touchforcechange
  *
+ * @warn unstable
+ *
  * @flow
  */
 

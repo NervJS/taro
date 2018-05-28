@@ -4,7 +4,14 @@
  * ✔ bindchange :isChecked
  * ✔ color
  *
+ * @warn When type="switch", use native Switch
  * @see https://wechat.design/brand/color
+ * @example
+ *  <Switch
+ *    checked={this.state.isSwitchChecked}
+ *    bindchange={this.onSwitchChange}
+ *    color="red"
+ *  />
  *
  * @flow
  */
@@ -49,7 +56,7 @@ class _Switch extends Component<Props> {
     if (type === 'checkbox') {
       return (
         <Checkbox
-          bindchange={onCheckboxToggle}
+          bindchange={this.onCheckboxToggle}
           checked={checked}
         />
       )
@@ -60,7 +67,7 @@ class _Switch extends Component<Props> {
         value={checked}
         onValueChange={bindchange}
         onTintColor={color}
-        style={[style, { width: size, height: size }]}
+        style={style}
       />
     )
   }

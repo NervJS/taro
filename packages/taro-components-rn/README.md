@@ -4,6 +4,16 @@ Alo, alo! Bilibilibilibibili~
 
 > IOS: Remember to link the libART.a into your project if you want to use Icon.
 
+## Example
+
+Please use official AwesomeProject.
+
+```bash
+cp -rf src AwesomeProjectDir/src/tcr
+# import components
+# import { Icon } from './tcr'
+```
+
 ## Todo list
 
 > FS = Fully Support
@@ -31,7 +41,7 @@ Alo, alo! Bilibilibilibibili~
 - [] picker | 
 - [] radio | 
 - [] slider | 0.4~0.6 99%
-- [] switch | 0.3~0.5
+- [] switch | FS
 - [] textarea
 
 ### 导航

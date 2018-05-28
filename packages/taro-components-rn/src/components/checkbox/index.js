@@ -11,8 +11,9 @@
 
 import React, { Component } from 'react'
 import {
+  View,
   TouchableWithoutFeedback,
-  StyleSheet,
+  StyleSheet
 } from 'react-native'
 import Icon from '../icon'
 import styles from './styles'
@@ -54,16 +55,15 @@ class _Checkbox extends Component<Props> {
     } = this.props
 
     return (
-      <TouchableWithoutFeedback
-        onPress={this.onPress}
-        style={[styles.wrapper, style, wrapperChecked]}
-      >
-        <Icon
-          type="success_no_circle"
-          size="10"
-          color="white"
-          style="[wrapperIcon, checked && wrapperCheckedIcon]"
-        />
+      <TouchableWithoutFeedback onPress={this.onPress}>
+        <View style={[styles.wrapper, style, checked && styles.wrapperChecked]}>
+          <Icon
+            type="success_no_circle"
+            size={18}
+            color="white"
+            style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
+          />
+        </View>
       </TouchableWithoutFeedback>
     )
   }

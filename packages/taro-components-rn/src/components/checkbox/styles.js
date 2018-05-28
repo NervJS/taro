@@ -4,10 +4,10 @@ export default StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 12,
-    height: 12,
+    width: 24,
+    height: 24,
     borderColor: '#f3f3f3',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 2
   },
   wrapperChecked: {
