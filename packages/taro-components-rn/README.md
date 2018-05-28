@@ -17,42 +17,33 @@ cp -rf src AwesomeProjectDir/src/tcr
 ## Todo list
 
 > FS = Fully Support
+> PS = Partial Support
 
-### 视图容器
-
-- [] view
-- [] scroll-view
-- [] swiper
-
-### 基础内容
-
-- [x] icon | FS
-- [] text
-- [] rich-text
-- [] progress
-
-### 表单内容
-
-- [] button | 0.7~0.9 80% exclude open-type
-- [] checkbox
-- [] form
-- [] input
-- [] label
-- [] picker | 
-- [] radio | 
-- [] slider | 0.4~0.6 99%
-- [] switch | FS
-- [] textarea
-
-### 导航
-
-### 媒体组件
-
-- [] audio
-- [] image
-- [] video
-- [] camera
-
-### 其他
-
-- [] tabbar
+- 视图容器
+  - [ ] view
+  - [ ] scroll-view
+  - [ ] swiper
+- 基础内容
+  - [x] icon | FS
+  - [ ] text
+  - [ ] rich-text
+  - [ ] progress
+- 表单内容
+  - [ ] button | 0.7~0.9 80% exclude open-type
+  - [ ] checkbox
+  - [ ] form
+  - [ ] input
+  - [ ] label
+  - [ ] picker | 
+  - [ ] radio | 
+  - [ ] slider | 0.4~0.6 99%
+  - [x] switch | FS
+  - [ ] textarea
+- 导航
+- 媒体组件
+  - [ ] audio
+  - [ ] image
+  - [ ] video
+  - [ ] camera
+- 其他
+  - [ ] tabbar

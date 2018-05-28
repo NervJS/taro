@@ -8,7 +8,7 @@ export default StyleSheet.create({
     height: 24,
     borderColor: '#f3f3f3',
     borderWidth: 2,
-    borderRadius: 2
+    borderRadius: 4
   },
   wrapperChecked: {
     borderColor: '#2BA245',
