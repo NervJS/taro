@@ -13,9 +13,11 @@ $ npm install eslint babel-eslint eslint-config-taro eslint-plugin-taro eslint-p
 在 `.eslintrc` 中设置：
 
 ```json
-"extends": [
-  "taro"
-]
+{
+  "extends": [
+    "taro"
+  ]
+}
 ```
 
 或者使用 `taro-cli` 创建模板自动设置。
@@ -24,8 +26,8 @@ $ npm install eslint babel-eslint eslint-config-taro eslint-plugin-taro eslint-p
 
 插件包含了四个方面的规则：
 
-1. 自定义规则 (通过 eslint-plugin-taro 提供)
+1. 自定义规则 (via [eslint-plugin-taro](https://github.com/NervJS/taro/tree/master/packages/eslint-plugin-taro))
 2. 变量定义规则
-3. import 规则 (通过 eslint-plugin-import 提供)
-4. JSX 规则 (通过 eslint-plugin-react 提供)
+3. import 规则 (via [eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import))
+4. JSX 规则 (via [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react))
 

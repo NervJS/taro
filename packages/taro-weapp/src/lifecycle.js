@@ -2,11 +2,20 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
+import PropTypes from 'prop-types'
 
 import { processDynamicComponents } from './create-page'
 
+const DEV = typeof process === 'undefined' ||
+  !process.env ||
+  process.env.NODE_ENV !== 'production'
+
 export function updateComponent (component, update) {
-  const props = component.props
+  const { props, propTypes, type } = component
+  if (DEV && propTypes) {
+    const displayName = type.name || type.toString().match(/^function\s*([^\s(]+)/)[1]
+    PropTypes.checkPropTypes(propTypes, props, 'prop', displayName)
+  }
   let state = component.getState()
   if (component._createData) {
     state = component._createData(state)
