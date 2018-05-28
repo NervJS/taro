@@ -1,5 +1,5 @@
 /**
- * ✔ bindchange
+ * ✔ onChange(bindchange)
  *
  * @warn No support of props FOR, you must put checkbox below label.
  *
@@ -15,7 +15,7 @@ import {
 type Props = {
   children?: React.Node,
   style?: StyleSheet.Styles,
-  bindchange?: Function
+  onChange?: Function
 }
 
 class _CheckboxGroup extends Component<Props> {
@@ -28,7 +28,7 @@ class _CheckboxGroup extends Component<Props> {
       value: e.value,
       checked: e.checked
     }
-    this.props.bindchange({
+    this.props.onChange({
       detail: {
         value: this.values.filter((item) => item && item.checked).map((item) => item.value)
       }
@@ -39,7 +39,7 @@ class _CheckboxGroup extends Component<Props> {
     const {
       children,
       style,
-      // bindchange
+      // onChange
     } = this.props
 
     const children = React.Children.toArray(children).map((labelItem, index) => {
@@ -48,7 +48,7 @@ class _CheckboxGroup extends Component<Props> {
           const { value, disabled, checked, color } = child.props
           this.values[index] = { value, checked }
           return React.cloneElement(child, {
-            bindchange: (e) => this.toggleChange(e, index),
+            onChange: (e) => this.toggleChange(e, index),
             value,
             disabled,
             checked,

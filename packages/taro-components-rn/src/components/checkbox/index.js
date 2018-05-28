@@ -20,7 +20,7 @@ import styles from './styles'
 
 type Props = {
   style?: StyleSheet.Styles,
-  bindchange?: Function,
+  onChange?: Function,
   value?: string,
   disabled?: boolean,
   checked?: boolean,
@@ -37,8 +37,8 @@ class _Checkbox extends Component<Props> {
   }
 
   onPress= () => {
-    const { bindchange, value, checked } = this.props
-    bindchange && bindchange({
+    const { onChange, value, checked } = this.props
+    onChange && onChange({
       value,
       checked: !checked
     })
@@ -47,7 +47,6 @@ class _Checkbox extends Component<Props> {
   render () {
     const {
       style,
-      bindchange,
       value,
       disabled,
       checked,

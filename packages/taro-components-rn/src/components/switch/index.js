@@ -1,7 +1,7 @@
 /**
  * ✔ checked
  * ✔ type
- * ✔ bindchange :isChecked
+ * ✔ onChange(bindchange) :isChecked
  * ✔ color
  *
  * @warn When type="switch", use native Switch
@@ -9,7 +9,7 @@
  * @example
  *  <Switch
  *    checked={this.state.isSwitchChecked}
- *    bindchange={this.onSwitchChange}
+ *    onChange={this.onSwitchChange}
  *    color="red"
  *  />
  *
@@ -27,7 +27,7 @@ type Props = {
   style?: StyleSheet.Styles,
   checked?: boolean,
   type?: 'switch' | 'checkbox',
-  bindchange?: Function,
+  onChange?: Function,
   color?: string
 }
 
@@ -40,8 +40,8 @@ class _Switch extends Component<Props> {
   }
 
   onCheckboxToggle = (item) => {
-    const { bindchange } = this.props
-    bindchange && bindchange(item.checked)
+    const { onChange } = this.props
+    onChange && onChange(item.checked)
   }
 
   render () {
@@ -49,14 +49,14 @@ class _Switch extends Component<Props> {
       style,
       checked,
       type,
-      bindchange,
+      onChange,
       color
     } = this.props
 
     if (type === 'checkbox') {
       return (
         <Checkbox
-          bindchange={this.onCheckboxToggle}
+          onChange={this.onCheckboxToggle}
           checked={checked}
         />
       )
@@ -65,7 +65,7 @@ class _Switch extends Component<Props> {
     return (
       <Switch
         value={checked}
-        onValueChange={bindchange}
+        onValueChange={onChange}
         onTintColor={color}
         style={style}
       />
