@@ -1,0 +1,4 @@
+{
+  "extends": ["taro"],
+  "parser": "babel-eslint"
+}

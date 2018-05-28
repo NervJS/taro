@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-taro",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Taro specific linting plugin for ESLint",
   "main": "index.js",
   "files": [
@@ -22,7 +22,7 @@
     "jsx"
   ],
   "peerDependencies": {
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.2.3",
     "eslint": "^4.15.0"
   },
   "author": "O2Team",
