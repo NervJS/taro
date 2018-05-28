@@ -77,14 +77,18 @@ const getWrappedComponent = (component, { location }) => {
     }
 
     componentDidMount () {
-      super.componentDidMount && super.componentDidMount()
-      super.componentDidShow && super.componentDidShow()
       let nextStatus = this.props.location.pageId === this.pageId ? 2 : 1
-      if (this.__pageStatus === nextStatus) return
+      if (this.__pageStatus === nextStatus) {
+        super.componentDidMount && super.componentDidMount()
+        super.componentDidShow && super.componentDidShow()
+        return
+      }
       setTimeout(() => {
         this.__pageStatus = 2
         this.defaultShow = true
         this.forceUpdate()
+        super.componentDidMount && super.componentDidMount()
+        super.componentDidShow && super.componentDidShow()
       }, 100)
     }
 
@@ -125,7 +129,7 @@ const getWrappedComponent = (component, { location }) => {
 }
 
 const getCurrentPages = function (opts) {
-  return history.stack[0]
+  return history.now()
 }
 
 /**
