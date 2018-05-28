@@ -14,7 +14,7 @@ $ npm install eslint-plugin-taro --save-dev
 
 ```json
 "extends": [
-  "plugin:taro"
+  "plugin:taro/all"
 ]
 ```
 
