@@ -92,7 +92,7 @@ const replace = ({ url }) => {
  *
  * @param {object} param0 回退的配置项
  */
-const goBack = ({ delta, url, routerIdx }) => {
+const goBack = ({ delta = 1, url, routerIdx }) => {
   if (typeof delta !== 'number' || delta < 1) return console.warn('goBack delta out of range')
 
   if (currentStackIdx >= delta) {
