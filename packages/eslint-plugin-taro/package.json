@@ -1,18 +1,16 @@
 {
   "name": "eslint-plugin-taro",
-  "version": "0.0.1",
-  "description": "Taro specific linting rules for ESLint",
+  "version": "0.1.2",
+  "description": "Taro specific linting plugin for ESLint",
   "main": "index.js",
   "files": [
     "rules",
     "utils",
     "index.js",
-    "html-tags.js",
     "README.md"
   ],
   "scripts": {
-    "test": "mocha __tests__/*.js",
-    "build": "rollup -c rollup.config.js"
+    "test": "mocha __tests__/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,12 +23,7 @@
   ],
   "peerDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.15.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-standard": "11.0.0"
+    "eslint": "^4.15.0"
   },
   "author": "O2Team",
   "license": "MIT",

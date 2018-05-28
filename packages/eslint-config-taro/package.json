@@ -1,11 +1,12 @@
 {
-  "name": "eslint-plugin-taro",
-  "version": "0.0.3",
+  "name": "eslint-config-taro",
+  "version": "0.1.2",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
     "rules",
     "index.js",
+    "html-tags.js",
     "README.md"
   ],
   "repository": {
@@ -21,10 +22,8 @@
     "babel-eslint": "^7.2.3",
     "eslint": "^4.15.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-taro": "latest"
+    "eslint-plugin-taro": "^0.1.2"
   },
   "author": "O2Team",
   "license": "MIT"

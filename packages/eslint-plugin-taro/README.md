@@ -7,7 +7,7 @@ Taro ESLint 插件，只有当 ESLint 规则全部都通过时，Taro 小程序�
 通过 NPM 安装：
 
 ```bash
-$ npm install eslint-plugin-react --save-dev
+$ npm install eslint-plugin-taro --save-dev
 ```
 
 在 `.eslintrc` 中设置：
@@ -21,15 +21,6 @@ $ npm install eslint-plugin-react --save-dev
 或者使用 `taro-cli` 创建模板自动设置。
 
 ## 规则
-
-插件包含了四个方面的规则：
-
-1. 自定义规则
-2. 变量定义规则
-3. import 规则 (通过 eslint-plugin-import 提供)
-4. JSX 规则 (通过 eslint-plugin-react 提供)
-
-其中自定义规则包括：
 
 * [taro/custom-component-children](./docs/custom-component-children.md)
 * [taro/if-statement-in-map-loop](./docs/if-statement-in-map-loop.md)
