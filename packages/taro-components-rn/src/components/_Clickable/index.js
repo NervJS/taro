@@ -4,8 +4,11 @@
 
 import React, { Component } from 'react'
 import {
-  TouchableWithoutFeedback
+  View,
+  TouchableWithoutFeedback,
+  StyleSheet
 } from 'react-native'
+import { dismemberStyle } from '../../utils'
 
 type Props = {
   onClick?: Function
@@ -14,9 +17,15 @@ type Props = {
 export default function (WrappedComponent) {
   return class extends Component<Props> {
     render () {
+      // const flattenStyle = StyleSheet.flatten(this.props.style)
+      // const newStyle = flattenStyle
+      const dismember = dismemberStyle(this.props.style)
+
       return (
         <TouchableWithoutFeedback onPress={this.props.onClick}>
-          <WrappedComponent {...this.props} />
+          <View style={dismember.wrapperStyle}>
+            <WrappedComponent {...this.props} style={dismember.innerStyle} />
+          </View>
         </TouchableWithoutFeedback>
       )
     }
