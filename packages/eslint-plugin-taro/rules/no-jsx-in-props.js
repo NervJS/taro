@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../../utils/utils')
+const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '不允许在 JSX 参数(props)中传入 JSX 元素'
 

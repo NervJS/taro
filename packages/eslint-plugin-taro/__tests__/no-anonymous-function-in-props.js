@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/no-anonymous-function-in-props')
+const rule = require('../rules/no-anonymous-function-in-props')
 const { RuleTester } = require('eslint')
 const { parserOptions, testValid, testInvalid } = require('../utils/utils')
 

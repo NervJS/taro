@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/manipulate-jsx-as-array')
+const rule = require('../rules/manipulate-jsx-as-array')
 const { RuleTester } = require('eslint')
 const { parserOptions, testValid, testInvalid } = require('../utils/utils')
 

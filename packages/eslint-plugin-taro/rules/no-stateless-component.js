@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../../utils/utils')
+const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '暂不支持无状态组件（stateless component）'
 

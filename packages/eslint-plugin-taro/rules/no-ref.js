@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../../utils/utils')
+const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '定义 ref 在微信小程序不会起作用'
 

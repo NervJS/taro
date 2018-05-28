@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../../utils/utils')
+const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '不能使用 Array#map 之外的方法操作 JSX 数组'
 

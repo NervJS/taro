@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/custom-component-children')
+const rule = require('../rules/custom-component-children')
 const { RuleTester } = require('eslint')
 const { parserOptions, testComponent } = require('../utils/utils')
 

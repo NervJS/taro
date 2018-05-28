@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../../utils/utils')
+const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '不能在包含 JSX 元素的 map 循环中使用 if 表达式'
 

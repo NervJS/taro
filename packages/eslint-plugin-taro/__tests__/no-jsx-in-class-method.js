@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/no-jsx-in-class-method')
+const rule = require('../rules/no-jsx-in-class-method')
 const { RuleTester } = require('eslint')
 const { parserOptions, testValid } = require('../utils/utils')
 require('babel-eslint')

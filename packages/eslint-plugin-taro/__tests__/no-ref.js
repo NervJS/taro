@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/no-ref')
+const rule = require('../rules/no-ref')
 const { RuleTester } = require('eslint')
 const { parserOptions, testValid, testInvalid } = require('../utils/utils')
 

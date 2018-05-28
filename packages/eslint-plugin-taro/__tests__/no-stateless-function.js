@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/no-stateless-component')
+const rule = require('../rules/no-stateless-component')
 const { RuleTester } = require('eslint')
 const { parserOptions, testComponent } = require('../utils/utils')
 

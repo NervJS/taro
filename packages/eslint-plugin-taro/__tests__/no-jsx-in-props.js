@@ -1,4 +1,4 @@
-const rule = require('../rules/custom/no-jsx-in-props')
+const rule = require('../rules/no-jsx-in-props')
 const { RuleTester } = require('eslint')
 const { parserOptions, testValid, testInvalid } = require('../utils/utils')
 

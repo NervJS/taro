@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../../utils/utils')
+const { buildDocsMeta } = require('../utils/utils')
 // eslint-disable-next-line
 const DEFAULT_Components_SET = new Set([
   'View',

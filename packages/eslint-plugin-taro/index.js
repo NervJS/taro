@@ -1,4 +1,4 @@
-const { allRules, activeRules } = require('./rules/custom')
+const { allRules, activeRules } = require('./rules')
 
 module.exports = {
   rules: allRules,
