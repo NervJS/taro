@@ -30,6 +30,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native'
+import Clickable from './_Clickable'
 
 type Props = {
   style?: StyleSheet.Styles,
@@ -56,7 +57,7 @@ type State = {
   hover: boolean,
 }
 
-class _View extends Component<Props, State> {
+class _View extends Clickable<Props, State> {
   timer: TimeoutID
   state = {
     hover: false
