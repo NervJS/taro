@@ -25,4 +25,7 @@ function configureAsError (rules) {
 
 const activeRules = configureAsError(allRules)
 
-module.exports = activeRules
+module.exports = {
+  activeRules,
+  allRules
+}

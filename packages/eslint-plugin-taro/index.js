@@ -1,16 +1,17 @@
-const rules = [
-  './rules/jsx',
-  './rules/imports',
-  './rules/variables',
-  './rules/custom'
-].map(require.resolve)
+const { allRules, activeRules } = require('./rules/custom')
 
 module.exports = {
-  extends: rules,
-  parserOptions: {
-    ecmaVersion: 2018,
-    ecmaFeatures: {
-      jsx: true
-    }
+  rules: allRules,
+  configs: {
+    plugins: [
+      'taro'
+    ],
+    parserOptions: {
+      ecmaVersion: 2018,
+      ecmaFeatures: {
+        jsx: true
+      }
+    },
+    rules: activeRules
   }
 }
