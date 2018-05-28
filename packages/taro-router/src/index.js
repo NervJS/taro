@@ -1,5 +1,9 @@
 import Nerv from 'nervjs'
-import history, { navigateTo, navigateBack, redirectTo } from './lib/history'
+import history, {
+  navigateTo,
+  navigateBack,
+  redirectTo
+} from './lib/history'
 import './router.css'
 
 const registeredPages = {}
@@ -11,6 +15,7 @@ const hasPage = (pathname) => {
   })
   const isIndex = /^\/(index(\.html)?)?[^/]*$/.test(pathname)
   if (isNormalPage || isIndex) return true
+  return false
 }
 const getPage = (pathname) => {
   if (pathname in registeredPages) {
@@ -109,7 +114,7 @@ const getWrappedComponent = (component, { location }) => {
           break
       }
       return (
-        <div className={pageClassName}>
+        <div className={pageClassName} dataPageid={this.pageId}>
           {pageContent}
         </div>
       )
@@ -123,6 +128,9 @@ const getCurrentPages = function (opts) {
   return history.stack[0]
 }
 
+/**
+ * Router组件内保存了每次路由变化后渲染的组件
+ */
 class Router extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -137,70 +145,103 @@ class Router extends Nerv.Component {
     this.navigate(location, action, payload)
   }
 
-  componentDidMount () {
-    history.listen(this.onHistoryChange)
-    this.navigate(history.now(), 'PUSH')
-  }
-
-  componentWillUnmount () {
-    history.unlisten(this.onHistoryChange)
-  }
-
+  /**
+   * 根据提供的location跳转
+   *
+   * @param {location} location 待跳转的location
+   * @param {string} action 跳转的种类
+   * @param {any} payload 附加参数
+   */
   navigate (location, action, payload = {}) {
-    switch (action) {
-      case 'PUSH':
-      case 'REPLACE':
-        const pathname = location.pathname
-        if (!hasPage(pathname)) {
-          payload.fail && payload.fail()
-          payload.complete && payload.complete()
-          return
-        }
-        getPage(pathname)()
-          .then(loaded => {
-            const wrapped = getWrappedComponent(loaded.default, { location })
-            this.commit(action, wrapped)
-            payload.success && payload.success()
-          }).catch(e => {
-            payload.fail && payload.fail()
-          }).then(() => {
-            payload.complete && payload.complete()
-          })
-        break
-      case 'BACK':
-        this.commit(action, null, payload)
+    const { fail, complete, success, url, delta } = payload
+    let pathname
+    if (action === 'BACK') {
+      if (!url) return this.commit('BACK', null, { delta })
+      else pathname = url
+    } else if (action === 'FORWARD') {
+      if (!url) return this.commit('FORWARD', null, { delta })
+      else pathname = url
+    } else if (action === 'PUSH' || action === 'REPLACE') {
+      pathname = location.url
     }
+
+    /* loadPage */
+    if (!hasPage(pathname)) {
+      fail && fail()
+      complete && complete()
+      return console.warn('page not found')
+    }
+    getPage(pathname)()
+      .then(loaded => {
+        const wrapped = getWrappedComponent(loaded.default, { location })
+        this.commit(action, wrapped, payload)
+        success && success()
+      }).catch(e => {
+        fail && fail()
+      }).then(() => {
+        complete && complete()
+      })
   }
 
   commit (action, el, payload) {
+    const current = history.nowIdx()
+    const { delta } = payload
     switch (action) {
       case 'PUSH':
         this.setState(state => {
-          state.cached.splice(history.current, history.len(), el)
+          state.cached.splice(current, history.len(), el)
           return {
-            cached: state.cached,
-            current: history.current
+            current,
+            cached: state.cached
           }
         })
         break
       case 'REPLACE':
         this.setState(state => {
-          state.cached.splice(history.current, history.len(), el)
+          state.cached.splice(current, history.len(), el)
           return {
-            cached: state.cached,
-            current: history.current
+            current,
+            cached: state.cached
           }
         })
         break
       case 'BACK':
-        if (!payload || !payload.delta) return Promise.reject(new Error('wrong arguments'))
-        this.setState((state) => {
-          state.cached.splice(history.current + 2)
-          return {
-            current: history.current,
-            cached: state.cached
-          }
-        })
+        if (el) {
+          this.setState((state) => {
+            const cached = state.cached
+            const paddingArr = new Array(Math.max(delta - current - 1, 0))
+            Array.prototype.splice.apply(cached, [0, 10000, el, ...paddingArr])
+            return {
+              cached,
+              current: 0
+            }
+          })
+        } else {
+          this.setState((state) => {
+            state.cached.splice(current + 1)
+            return {
+              current,
+              cached: state.cached
+            }
+          })
+        }
+        break
+      case 'FORWARD':
+        if (el) {
+          this.setState((state) => {
+            const cached = state.cached
+            const paddingArr = new Array(Math.max(current + delta - cached.length, 0))
+            Array.prototype.splice.apply(cached, [state.current, 10000, ...paddingArr, el])
+            return {
+              cached,
+              current: cached.length - 1
+            }
+          })
+        } else {
+          this.setState((state) => {
+            return { current }
+          })
+        }
         break
       default:
         console.warn('wrong action')
@@ -212,6 +253,15 @@ class Router extends Nerv.Component {
     return this.state.cached.map((Page, index) => {
       return <Page location={location} />
     })
+  }
+
+  componentDidMount () {
+    history.listen(this.onHistoryChange)
+    this.navigate(history.now(), 'PUSH')
+  }
+
+  componentWillUnmount () {
+    history.unlisten(this.onHistoryChange)
   }
 
   render () {

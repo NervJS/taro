@@ -1,7 +1,7 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
-import './style'
+import './style/index.scss'
 function easeOutScroll (from, to, callback) {
   if (from === to || typeof from !== 'number') {
     return

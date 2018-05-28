@@ -1,165 +1,194 @@
-import EventEmitter from './eventEmitter'
+import routerStore from './routerStore'
 import resolvePathname from './resolvePathname'
+import EventEmitter from './eventEmitter'
+import {
+  pushHash,
+  replaceHash,
+  getCurrentHash,
+  normalizeUrl,
+  createLocation
+} from './utils'
 
-function pushHashPath (path) {
-  window.location.hash = path
+let ignoredUrl = null
+const stack = []
+let currentStackIdx = null
+const history = window.history
+const eventEmitter = new EventEmitter()
+
+const listen = (fn) => {
+  eventEmitter.on('change', fn)
+}
+const unlisten = (fn) => {
+  eventEmitter.off('change', fn)
+}
+const emit = (location, type, opts) => {
+  eventEmitter.emit('change', location, type, opts)
 }
 
-function getHashPath (path) {
-  const hashIndex = window.location.href.indexOf('#')
-  return window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path
+/**
+ * 返回currentStackIdx对应的location对象
+ *
+ * @returns {location} location对象
+ */
+const now = () => {
+  return stack[currentStackIdx]
+}
+const nowIdx = () => {
+  return currentStackIdx
 }
 
-function replaceHashPath (path) {
-  const hashIndex = window.location.href.indexOf('#')
-  window.location.replace(window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path)
+/**
+ * 返回当前的history栈长度
+ *
+ * @returns {number} history.stack的长度
+ */
+const len = () => {
+  return stack.length
 }
 
-function getHash () {
-  const href = window.location.href
-  const hashIndex = href.indexOf('#')
-  return hashIndex === -1 ? '' : href.substring(hashIndex + 1)
+/**
+ * 在history.stack中push新的location
+ *
+ * @param {object} param0 push的对象
+ */
+const push = ({ url }) => {
+  const nextUrl = normalizeUrl(url)
+  const currentUrl = normalizeUrl(getCurrentHash())
+  let currentRouterIdx = routerStore.get('current')
+
+  if (nextUrl === currentUrl) return
+  currentRouterIdx += 1
+  const location = createLocation(nextUrl, currentRouterIdx)
+
+  routerStore.set({ current: currentRouterIdx })
+  stack.splice(++currentStackIdx, 1000, location)
+  emit(location, 'PUSH', { url })
+  ignoredUrl = nextUrl
+  pushHash(nextUrl)
 }
 
-function encodePath (path) {
-  path = path.replace(/\?$/, '')
-  return path.charAt(0) === '/' ? path : `/${path}`
+/**
+ * 在history.stack中replace新的location
+ *
+ * @param {object} param0 replace的对象
+ */
+const replace = ({ url }) => {
+  const nextUrl = normalizeUrl(url)
+  const currentUrl = normalizeUrl(getCurrentHash())
+  let currentRouterIdx = routerStore.get('current')
+
+  if (nextUrl === currentUrl) {
+    const location = createLocation(nextUrl, currentRouterIdx)
+
+    stack.splice(currentStackIdx, 0, location)
+    emit(location, 'REPLACE', { url })
+    ignoredUrl = nextUrl
+    replaceHash(nextUrl)
+  }
 }
 
-let counter = 0
-function createLocation (path) {
-  path = decodeURIComponent(path)
-  const pathname = path.split('?')[0]
+/**
+ * 从history.stack中回退
+ *
+ * @param {object} param0 回退的配置项
+ */
+const goBack = ({ delta, url, routerIdx }) => {
+  if (typeof delta !== 'number' || delta < 1) return console.warn('goBack delta out of range')
 
-  const params = {}
-  const searchIndex = path.indexOf('?')
-  if (searchIndex !== -1) {
-    const queryString = path.substring(searchIndex + 1)
-    queryString.split('&').forEach(pair => {
-      const temp = pair.split('=')
-      params[temp[0]] = temp[1]
+  if (currentStackIdx >= delta) {
+    currentStackIdx -= delta
+    const location = now()
+    const url = location.url
+    routerStore.set({ current: location.routerIdx })
+
+    emit(location, 'BACK', { delta })
+    replaceHash(location.fullUrl)
+    ignoredUrl = normalizeUrl(url)
+  } else if (url && typeof routerIdx === 'number') {
+    const location = createLocation(normalizeUrl(url), routerIdx)
+    const paddingArr = new Array(Math.max(delta - currentStackIdx - 1, 0))
+    Array.prototype.splice.apply(stack, [0, 10000, location, ...paddingArr])
+    currentStackIdx = 0
+    emit(location, 'BACK', { delta, url, routerIdx })
+    replaceHash(location.fullUrl)
+  } else {
+    return console.warn('goBack delta out of range')
+  }
+}
+
+/**
+ * 从history.stack中前进
+ *
+ * @param {object} param0 回退的配置项
+ */
+const goForward = ({ delta, url, routerIdx }) => {
+  if (typeof delta !== 'number' || delta < 1) return console.warn('goForward delta out of range')
+  const stackLen = len()
+
+  if (stackLen > currentStackIdx + delta) {
+    currentStackIdx += delta
+    const location = now()
+    const url = location.url
+    routerStore.set({ current: location.routerIdx })
+
+    emit(location, 'FORWARD', { delta })
+    replaceHash(location.fullUrl)
+    ignoredUrl = normalizeUrl(url)
+  } else if (url && typeof routerIdx === 'number') {
+    const location = createLocation(normalizeUrl(url), routerIdx)
+    const paddingArr = new Array(Math.max(currentStackIdx + delta - stackLen, 0))
+    Array.prototype.splice.apply(stack, [currentStackIdx + 1, 10000, ...paddingArr, location])
+    currentStackIdx = len() - 1
+    emit(location, 'FORWARD', { delta, url, routerIdx })
+    replaceHash(location.fullUrl)
+  } else {
+    return console.warn('goForward delta out of range')
+  }
+}
+
+const onHashchange = (e) => {
+  const currentRouterIdx = routerStore.get('current')
+  history.replaceState(currentRouterIdx, null, '')
+}
+
+const onPopstate = (e) => {
+  const nextUrl = normalizeUrl(getCurrentHash())
+  const currentRouterIdx = routerStore.get('current')
+
+  if (nextUrl === ignoredUrl) return
+  if (!e || typeof e.state !== 'number') return
+
+  if (ignoredUrl === nextUrl) {
+    ignoredUrl = null
+    return
+  }
+  if (typeof e.state !== 'number') return
+
+  if (e.state <= currentRouterIdx) {
+    navigateBack({
+      url: nextUrl,
+      routerIdx: e.state,
+      delta: 1
+    })
+  } else {
+    navigateForward({
+      url: nextUrl,
+      routerIdx: e.state,
+      delta: 1
     })
   }
-  return {
-    pageId: counter++,
-    path,
-    pathname,
-    params
-  }
 }
 
-class History extends EventEmitter {
-  stack = []
-  ignorePath = null
-  current = null
+(() => {
+  const url = normalizeUrl(getCurrentHash())
+  const currentRouterIdx = routerStore.get('current')
+  stack.push(createLocation(url, currentRouterIdx))
+  history.replaceState(currentRouterIdx, null, null)
+  currentStackIdx = 0
 
-  constructor () {
-    super()
-    if (History.instance) return History.instance
-    History.instance = this
-
-    this.init()
-  }
-
-  init () {
-    const path = encodePath(getHash())
-    this.stack.push(createLocation(path))
-    window.history.replaceState(0, null, null)
-    this.current = 0
-
-    window.addEventListener('hashchange', () => {
-      window.history.replaceState(this.current, '', '')
-    }, false)
-
-    window.addEventListener('popstate', e => {
-      const currentPath = encodePath(getHash())
-      if (this.ignorePath === currentPath) {
-        this.ignorePath = null
-        return
-      }
-      if (typeof e.state !== 'number') return
-
-      let navigateResult = false
-      if (e.state <= this.current) {
-        navigateResult = navigateBack({ delta: 1 })
-      }
-
-      if (!navigateResult) window.history.pushState(null, null, getHashPath(history.now().path))
-    }, false)
-  }
-
-  // 获取stack的当前值
-  now () {
-    return this.stack[this.current]
-  }
-
-  // 获取stack的长度
-  len () {
-    return this.stack.length
-  }
-
-  listen = (fn) => {
-    this.on('change', fn)
-  }
-
-  unlisten = (fn) => {
-    this.off('change', fn)
-  }
-
-  push (opts) {
-    const encodedPath = encodePath(opts.url)
-    const currentPath = encodePath(getHash())
-
-    if (encodedPath !== currentPath) {
-      const location = createLocation(encodedPath)
-      this.current++
-      this.stack.splice(this.current, this.len(), location)
-      this.emit('change', location, 'PUSH', opts)
-      this.ignorePath = encodedPath
-      pushHashPath(encodedPath)
-    } else {
-      console.warn('cannot PUSH the same path')
-    }
-  }
-
-  replace (opts) {
-    const encodedPath = encodePath(opts.url)
-    const currentPath = encodePath(getHash())
-
-    if (encodedPath !== currentPath) {
-      const location = createLocation(encodedPath)
-      const len = this.stack.length
-      this.stack.splice(this.current, len, location)
-      this.emit('change', location, 'REPLACE', opts)
-      this.ignorePath = encodedPath
-      replaceHashPath(encodedPath)
-    } else {
-      console.warn('cannot PUSH the same path')
-    }
-  }
-
-  goBack (delta) {
-    if (typeof delta !== 'number' || delta < 1) {
-      console.warn('goBack arg error')
-      return false
-    }
-
-    if (this.current < delta) return false
-    this.current -= delta
-    this.stack.splice(this.current + 2)
-
-    const backPage = this.now()
-    const encodedPath = backPage.path
-    this.emit('change', backPage, 'BACK', { delta })
-    this.ignorePath = encodedPath
-    pushHashPath(encodedPath)
-    return true
-  }
-}
-
-const history = new History()
-
-window.h = history
+  window.addEventListener('hashchange', onHashchange)
+  window.addEventListener('popstate', onPopstate)
+})()
 
 let navigateLock = false
 const waitForlock = (fn) => {
@@ -178,9 +207,9 @@ const navigateTo = function (opts) {
     const fail = opts.fail
     const complete = opts.complete
 
-    const current = history.stack[history.stack.length - 1]
-    const currentUrl = current.pathname
-    history.push({
+    const current = now()
+    const currentUrl = current.url
+    push({
       url: resolvePathname(url, currentUrl),
       success,
       fail,
@@ -190,7 +219,15 @@ const navigateTo = function (opts) {
 }
 
 const navigateBack = function (opts) {
-  return waitForlock(() => history.goBack(opts.delta))
+  return waitForlock(() => {
+    goBack(opts)
+  })
+}
+
+const navigateForward = function (opts) {
+  return waitForlock(() => {
+    goForward(opts)
+  })
 }
 
 const redirectTo = function (opts) {
@@ -199,7 +236,7 @@ const redirectTo = function (opts) {
     const fail = opts.fail
     const complete = opts.complete
 
-    history.replace({
+    replace({
       url: opts.url,
       success,
       fail,
@@ -208,16 +245,21 @@ const redirectTo = function (opts) {
   })
 }
 
-export default history
-
 export {
-  pushHashPath,
-  replaceHashPath,
-  getHash,
-  encodePath,
-  createLocation,
-
-  navigateBack,
   navigateTo,
+  navigateBack,
   redirectTo
+}
+
+export default {
+  now,
+  nowIdx,
+  len,
+
+  push,
+  replace,
+  goBack,
+
+  listen,
+  unlisten
 }
