@@ -2,7 +2,7 @@
   "name": "@tarojs/components-rn",
   "version": "0.0.32",
   "description": "多端解决方案基础组件（RN）",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "flow": "flow",
     "flow-stop": "flow stop",
