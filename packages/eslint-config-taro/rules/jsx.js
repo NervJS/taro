@@ -42,7 +42,7 @@ module.exports = {
 
     // Prevent usage of isMounted
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-is-mounted.md
-    'react/no-find-dom-node': ['react/no-find-dom-node'],
+    'react/no-find-dom-node': ['error'],
 
     // Prevent direct mutation of this.state
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-direct-mutation-state.md
