@@ -80,7 +80,7 @@ function initPage (weappPageConf, page, options) {
         const comPath = `${component.$path}$$${name}`
         let _props = (component.$props || {})[name] || {}
         let props = typeof _props === 'function' ? _props.call(component) : _props
-        props = transformPropsForComponent(props, _class.defaultProps, _class.PropTypes)
+        props = transformPropsForComponent(props, _class.defaultProps, _class.propTypes)
         const child = new _class(props)
         component.$$components[name] = child
 
@@ -240,7 +240,7 @@ function transformPropsForComponent (props, defaultProps, propTypes) {
 }
 
 function createPage (PageClass, options) {
-  const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.PropTypes)
+  const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.propTypes)
   const page = new PageClass(pageProps)
   page.$isComponent = false
   page.path = options.path
