@@ -1,6 +1,6 @@
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import _ from 'lodash'
+import _ from '../../../utils/parse-type'
 
 /**
  * props 类型检测

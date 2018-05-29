@@ -29,7 +29,7 @@ class Radio extends Nerv.Component {
           checked={checked}
           onChange={onChange}
         />
-        <i className='weui-icon-checked' />
+        {className ? (false) : (<i className='weui-icon-checked' />) }
         {this.props.children}
       </span>
     )

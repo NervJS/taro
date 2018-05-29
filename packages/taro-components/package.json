@@ -26,14 +26,12 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "lodash": "^4.17.5",
     "nervjs": "^1.2.16",
     "omit.js": "^1.0.0",
     "weui": "^1.1.2"
   },
   "peerDependencies": {
     "classnames": "^2.2.5",
-    "lodash": "^4.17.5",
     "nervjs": "^1.2.16",
     "omit.js": "^1.0.0",
     "weui": "^1.1.2"
@@ -42,6 +40,9 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
     "jest": "^22.4.4",
-    "nerv-test-utils": "^1.2.18"
+    "nerv-test-utils": "^1.2.18",
+    "webpack": "^3.11.0",
+    "webpack-cli": "^1.0.12",
+    "webpack-dev-server": "^2.1.1"
   }
 }
