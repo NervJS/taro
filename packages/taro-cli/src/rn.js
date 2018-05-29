@@ -1,9 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
-const chalk = require('chalk')
 const vfs = require('vinyl-fs')
 const through2 = require('through2')
-const chokidar = require('chokidar')
 const babylon = require('babylon')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
@@ -20,24 +18,19 @@ const babylonConfig = require('./config/babylon')
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 const sourceDir = path.join(appPath, sourceDirName)
-const outputDir = path.join(appPath, outputDirName)
 const tempDir = '.temp'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
 const pluginsConfig = projectConfig.plugins || {}
 
 const isBuildingStyles = {}
-let isProduction = false
 const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
 const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
-const styleSheetImportFromRNName = 'StyleSheet'
-const importStylesName = 'styles'
 
 const taroApis = [
   'getEnv',
@@ -67,6 +60,7 @@ function parseJSCode (code, filePath) {
   let providorImportName
   let storeName
   let classRenderReturnJSX
+  const stylesImportedArr = []
 
   traverse(ast, {
     ClassDeclaration (astPath) {
@@ -127,68 +121,6 @@ function parseJSCode (code, filePath) {
       })
     },
 
-    ImportDeclaration (astPath) {
-      const node = astPath.node
-      const source = node.source
-      const value = source.value
-      const valueExtname = path.extname(value)
-      const specifiers = node.specifiers
-
-      if (!Util.isNpmPkg(value)) {
-        if (Util.REG_STYLE.test(valueExtname)) {
-          const basename = path.basename(value, valueExtname)
-          const stylePath = path.resolve(path.dirname(filePath), value)
-          if (styleFiles.indexOf(stylePath) < 0) {
-            styleFiles.push(stylePath)
-          }
-          astPath.replaceWith(t.importDeclaration(
-            [t.importDefaultSpecifier(t.identifier(_.camelCase(`${basename}_${importStylesName}`)))],
-            t.stringLiteral(`${path.dirname(value)}/${basename}_styles`))
-          )
-        }
-        return
-      }
-      if (value === PACKAGES['@tarojs/taro']) {
-        let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
-        if (specifier) {
-          hasAddReactImportDefaultName = true
-          taroImportDefaultName = specifier.local.name
-          specifier.local.name = reactImportDefaultName
-        } else if (!hasAddReactImportDefaultName) {
-          hasAddReactImportDefaultName = true
-          node.specifiers.unshift(
-            t.importDefaultSpecifier(t.identifier(reactImportDefaultName))
-          )
-        }
-        const taroApisSpecifiers = []
-        specifiers.forEach((item, index) => {
-          if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
-            taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-            specifiers.splice(index, 1)
-          }
-        })
-        source.value = PACKAGES['react']
-
-        if (taroApisSpecifiers.length) {
-          astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-rn'])))
-        }
-        if (!specifiers.length) {
-          astPath.remove()
-        }
-      } else if (value === PACKAGES['@tarojs/redux']) {
-        const specifier = specifiers.find(item => {
-          return t.isImportSpecifier(item) && item.imported.name === providerComponentName
-        })
-        if (specifier) {
-          providorImportName = specifier.local.name
-        } else {
-          providorImportName = providerComponentName
-          specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
-        }
-        source.value = PACKAGES['react-redux']
-      }
-    },
-
     CallExpression (astPath) {
       const node = astPath.node
       const callee = node.callee
@@ -217,49 +149,6 @@ function parseJSCode (code, filePath) {
         }
       }
     },
-    Program: {
-      exit (astPath) {
-        const node = astPath.node
-        const importTaro = template(
-          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
-          babylonConfig
-        )()
-        astPath.traverse({
-          ClassMethod (astPath) {
-            const node = astPath.node
-            const key = node.key
-            if (key.name !== 'render' || filePath !== entryFilePath) return
-            let funcBody = classRenderReturnJSX
-            if (providerComponentName && storeName) {
-              // 使用redux
-              funcBody = `
-                <${providorImportName} store={${storeName}}>
-                  ${funcBody}
-                </${providorImportName}>`
-            }
-            node.body = template(`{return (${funcBody});}`, babylonConfig)()
-          }
-        })
-        node.body.unshift(importTaro)
-        if (filePath === entryFilePath) {
-          const initNativeApi = template(
-            `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
-            babylonConfig
-          )()
-          node.body.push(initNativeApi)
-        }
-      }
-    }
-  })
-  return {
-    code: generate(ast).code,
-    styleFiles
-  }
-}
-
-function parseJSXAttribute (code, filePath) {
-  const ast = babylon.parse(code, babylonConfig)
-  traverse(ast, {
     JSXElement (astPath) {
       const node = astPath.node
       const openingElement = node.openingElement
@@ -279,18 +168,121 @@ function parseJSXAttribute (code, filePath) {
         })
         if (styleAttrs.length) {
           styleAttrs = _.uniq(styleAttrs)
-          const styleArr = styleAttrs.map(item => t.identifier(item))
-          attributes.push(
+          const styleArr = styleAttrs.map(item => {
+            const styleName = _.camelCase(`${item}_style`)
+            stylesImportedArr.push({
+              originName: item,
+              styleName
+            })
+            return t.identifier(styleName)
+          })
+          newAttributes.push(
             t.jSXAttribute(t.jSXIdentifier('style'), t.jSXExpressionContainer(t.arrayExpression(styleArr)))
           )
         }
         openingElement.attributes = newAttributes
       }
+    },
+    Program: {
+      exit (astPath) {
+        const node = astPath.node
+        astPath.traverse({
+          ImportDeclaration (astPath) {
+            const node = astPath.node
+            const source = node.source
+            const value = source.value
+            const valueExtname = path.extname(value)
+            const specifiers = node.specifiers
+
+            if (!Util.isNpmPkg(value)) {
+              if (Util.REG_STYLE.test(valueExtname)) {
+                const basename = path.basename(value, valueExtname)
+                const stylePath = path.resolve(path.dirname(filePath), value)
+                if (styleFiles.indexOf(stylePath) < 0) {
+                  styleFiles.push(stylePath)
+                }
+                const importSpecifiers = _.uniqBy(stylesImportedArr, 'originName')
+                  .map(item => t.importSpecifier(t.identifier(item.styleName), t.identifier(item.originName)))
+                astPath.replaceWith(t.importDeclaration(
+                  importSpecifiers,
+                  t.stringLiteral(`${path.dirname(value)}/${basename}_styles`))
+                )
+              }
+              return
+            }
+            if (value === PACKAGES['@tarojs/taro']) {
+              let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
+              if (specifier) {
+                hasAddReactImportDefaultName = true
+                taroImportDefaultName = specifier.local.name
+                specifier.local.name = reactImportDefaultName
+              } else if (!hasAddReactImportDefaultName) {
+                hasAddReactImportDefaultName = true
+                node.specifiers.unshift(
+                  t.importDefaultSpecifier(t.identifier(reactImportDefaultName))
+                )
+              }
+              const taroApisSpecifiers = []
+              specifiers.forEach((item, index) => {
+                if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
+                  taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
+                  specifiers.splice(index, 1)
+                }
+              })
+              source.value = PACKAGES['react']
+
+              if (taroApisSpecifiers.length) {
+                astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-rn'])))
+              }
+              if (!specifiers.length) {
+                astPath.remove()
+              }
+            } else if (value === PACKAGES['@tarojs/redux']) {
+              const specifier = specifiers.find(item => {
+                return t.isImportSpecifier(item) && item.imported.name === providerComponentName
+              })
+              if (specifier) {
+                providorImportName = specifier.local.name
+              } else {
+                providorImportName = providerComponentName
+                specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
+              }
+              source.value = PACKAGES['react-redux']
+            }
+          },
+          ClassMethod (astPath) {
+            const node = astPath.node
+            const key = node.key
+            if (key.name !== 'render' || filePath !== entryFilePath) return
+            let funcBody = classRenderReturnJSX
+            if (providerComponentName && storeName) {
+              // 使用redux
+              funcBody = `
+                <${providorImportName} store={${storeName}}>
+                  ${funcBody}
+                </${providorImportName}>`
+            }
+            node.body = template(`{return (${funcBody});}`, babylonConfig)()
+          }
+        })
+        const importTaro = template(
+          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
+          babylonConfig
+        )()
+        node.body.unshift(importTaro)
+        if (filePath === entryFilePath) {
+          const initNativeApi = template(
+            `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
+            babylonConfig
+          )()
+          node.body.push(initNativeApi)
+        }
+      }
     }
   })
-
   return {
-    code: generate(ast).code
+    code: generate(ast).code,
+    styleFiles
   }
 }
 
@@ -359,8 +351,6 @@ function buildTemp () {
           const jsCode = transformResult.code
           const styleFiles = transformResult.styleFiles
           await compileDepStyles(filePath, styleFiles)
-          transformResult = parseJSXAttribute(content, filePath)
-          // console.log(transformResult)
           file.contents = Buffer.from(jsCode)
         }
         this.push(file)
@@ -378,7 +368,6 @@ function watchFiles () {
 }
 
 async function build ({ watch }) {
-  isProduction = !watch
   fs.ensureDirSync(tempPath)
   await buildTemp()
   if (watch) {
