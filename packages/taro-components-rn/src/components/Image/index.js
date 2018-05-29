@@ -4,6 +4,7 @@
  * ✘ lazy-load
  * ✔ binderror
  * ✔ bindload
+ * ✔ onClick
  * ✔ DEFAULT_SIZE
  *
  * @warn Pass require(LOCAL IMAGE) to SRC, otherwise a string-type parameter.

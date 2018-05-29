@@ -26,7 +26,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] swiper
 - 基础内容
   - [x] icon | FS
-  - [ ] text
+  - [x] text | PS
   - [ ] rich-text
   - [ ] progress
 - 表单内容

@@ -4,6 +4,7 @@ import {
 
 // @see https://facebook.github.io/react-native/docs/layout-props.html
 // @see https://facebook.github.io/react-native/docs/view-style-props.html
+// @todo According to the source code of ScrollView, ['alignItems','justifyContent'] should be set to contentContainerStyle
 
 const WRAPPER_TYPE_STYLE_REGEX = /alignSelf|aspectRatio|border.*|bottom|direction|display|end|left|margin.*|position|right|start|top|zIndex|opacity|elevation/
 const INNER_TYPE_STYLE_REGEX = /alignContent|alignItems|flexDirection|flexWrap|height|justifyContent|.*[wW]idth|.*[hH]eight|overflow|padding.*/

@@ -30,7 +30,6 @@ class _Text extends Component<Props> {
 
     return (
       <Text
-        {...this.props}
         selectable={!!selectable}
         style={style}
       >
