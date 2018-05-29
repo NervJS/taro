@@ -1,0 +1,27 @@
+{
+  "name": "@tarojs/taro-rn",
+  "version": "0.0.33",
+  "description": "Taro RN framework",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "src",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/taro": "0.0.33"
+  }
+}
