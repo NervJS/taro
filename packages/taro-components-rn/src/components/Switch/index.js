@@ -1,10 +1,17 @@
 /**
  * ✔ checked
- * ✘ type
- * ✔ bindchange
+ * ✔ type
+ * ✔ onChange(bindchange) :isChecked
  * ✔ color
  *
+ * @warn When type="switch", use native Switch
  * @see https://wechat.design/brand/color
+ * @example
+ *  <Switch
+ *    checked={this.state.isSwitchChecked}
+ *    onChange={this.onSwitchChange}
+ *    color="red"
+ *  />
  *
  * @flow
  */
@@ -14,19 +21,27 @@ import {
   Switch,
   StyleSheet,
 } from 'react-native'
+import Checkbox from '../Checkbox'
 
 type Props = {
   style?: StyleSheet.Styles,
   checked?: boolean,
   type?: 'switch' | 'checkbox',
-  bindchange?: Function,
+  onChange?: Function,
   color?: string
 }
 
 class _Switch extends Component<Props> {
+  props: Props
+
   static defaultProps = {
     type: 'switch',
     color: '#2BA245'
+  }
+
+  onCheckboxToggle = (item) => {
+    const { onChange } = this.props
+    onChange && onChange(item.checked)
   }
 
   render () {
@@ -34,21 +49,25 @@ class _Switch extends Component<Props> {
       style,
       checked,
       type,
-      bindchange,
+      onChange,
       color
     } = this.props
 
     if (type === 'checkbox') {
-      // @todo use checkbox component
-      // return
+      return (
+        <Checkbox
+          onChange={this.onCheckboxToggle}
+          checked={checked}
+        />
+      )
     }
 
     return (
       <Switch
         value={checked}
-        onValueChange={bindchange}
+        onValueChange={onChange}
         onTintColor={color}
-        style={[style, { width: size, height: size }]}
+        style={style}
       />
     )
   }

@@ -1,23 +1,25 @@
 /**
- * ✔ hover-class
- * ? hover-stop-propagation
- * ✔ hover-start-time
- * ✔ hover-stay-time
+ * ✘ hover-class
+ * ✘ hover-stop-propagation
+ * ✘ hover-start-time
+ * ✘ hover-stay-time
  *
  * @todo props.hoverClass needs transforming to Stylesheet.Styles
  *
- * ✔ touchstart
+ * ✘ touchstart
  * ✘ touchmove
  * ✘ touchcancel
- * ✔ touchend
- * ✔ tap
- * ✔ longpress
+ * ✘ touchend
+ * ✔ onClick(tap)
+ * ✘ longpress
  * ✘ longtap (deprecated, recommended to use longpress)
  * ✘ transitionend
  * ✘ animationstart
  * ✘ animationiteration
  * ✘ animationend
  * ✘ touchforcechange
+ *
+ * @warn unstable
  *
  * @flow
  */
@@ -28,6 +30,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native'
+import Clickable from '../_Clickable'
 
 type Props = {
   style?: StyleSheet.Styles,
@@ -40,7 +43,7 @@ type Props = {
   onTouchMove?: Function,
   onTouchCancel?: Function,
   onTouchEnd?: Function,
-  onTap?: Function,
+  onClick?: Function,
   onLongPress?: Function,
   // onLongtap?: Function,
   // onTransitionend?: Function,
@@ -61,8 +64,8 @@ class _View extends Component<Props, State> {
   }
 
   onPress = (event: Object) => {
-    const { onTap } = this.props
-    onTap && onTap(event)
+    const { onClick } = this.props
+    onClick && onClick(event)
   }
 
   onPressIn = (event: Object) => {
@@ -102,27 +105,17 @@ class _View extends Component<Props, State> {
 
     const shouldNotSetResponder = !!hoverStopPropagation
 
+    // 分解样式
+    // const flattenStyle = StyleSheet.flatten([style, hover && hoverClass])
+    // const wrapperStyle = {}
+    // const innerStyle = {}
+
     return (
-      <View
-        onStartShouldSetResponder={() => shouldNotSetResponder}
-        onMoveShouldSetResponder={() => shouldNotSetResponder}
-        style={[style, hover && hoverClass]}
-      >
-        <TouchableWithoutFeedback
-          delayPressIn={hoverStartTime}
-          onPress={this.onPress}
-          onPressIn={this.onPressIn}
-          onPressOut={this.onPressOut}
-          onLongPress={this.onLongPress}
-          delayLongPress={350}
-        >
-          <View>
-            {this.props.children}
-          </View>
-        </TouchableWithoutFeedback>
+      <View style={[style, hover && hoverClass]}>
+        {this.props.children}
       </View>
     )
   }
 }
 
-export default _View
+export default Clickable(_View)

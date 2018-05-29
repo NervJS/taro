@@ -104,6 +104,18 @@ class ScrollView extends Nerv.Component {
     }
     const uperAndLowerThrottle = throttle(uperAndLower, 200)
     const _onScroll = e => {
+      const {
+        scrollLeft,
+        scrollTop,
+        scrollHeight,
+        scrollWidth
+      } = this.container
+      e.detail = {
+        scrollLeft,
+        scrollTop,
+        scrollHeight,
+        scrollWidth
+      }
       uperAndLowerThrottle()
       onScroll && onScroll(e)
     }
