@@ -1,6 +1,6 @@
 # eslint-config-taro
 
-Taro ESLint 插件，只有当 ESLint 规则全部都通过时，Taro 小程序端才可能正常运行。
+Taro ESLint config，只有当 ESLint 规则全部都通过时，Taro 小程序端才可能正常运行。
 
 ## 安装/设置
 
