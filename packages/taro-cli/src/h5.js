@@ -27,6 +27,7 @@ const PACKAGES = {
   'nerv-redux': 'nerv-redux'
 }
 const taroApis = [
+  'Component',
   'getEnv',
   'ENV_TYPE',
   'eventCenter',
@@ -167,12 +168,14 @@ function processEntry (code) {
               )
             }
             const taroApisSpecifiers = []
+            const deletedIdx = []
             specifiers.forEach((item, index) => {
               if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
                 taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-                specifiers.splice(index, 1)
+                deletedIdx.push(index)
               }
             })
+            _.pullAt(specifiers, deletedIdx)
             source.value = PACKAGES['nervjs']
 
             if (taroApisSpecifiers.length) {
@@ -383,12 +386,14 @@ function processOthers (code) {
               )
             }
             const taroApisSpecifiers = []
+            const deletedIdx = []
             specifiers.forEach((item, index) => {
               if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
                 taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-                specifiers.splice(index, 1)
+                deletedIdx.push(index)
               }
             })
+            _.pullAt(specifiers, deletedIdx)
             source.value = PACKAGES['nervjs']
 
             if (taroApisSpecifiers.length) {
