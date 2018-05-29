@@ -2,7 +2,7 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import { processDynamicComponents } from './create-page'
 
