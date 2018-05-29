@@ -31,7 +31,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] progress
 - 表单内容
   - [ ] button | 0.7~0.9 80% exclude open-type
-  - [ ] checkbox
+  - [x] checkbox | FS
   - [ ] form
   - [ ] input
   - [ ] label

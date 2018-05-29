@@ -26,8 +26,11 @@ type Props = {
   checked?: boolean,
   color?: string
 }
+type State = {
+  checked: boolean
+}
 
-class _Checkbox extends Component<Props> {
+class _Checkbox extends Component<Props, State> {
   props: Props
 
   static defaultProps = {
@@ -36,31 +39,38 @@ class _Checkbox extends Component<Props> {
     checked: false
   }
 
+  state: State = {
+    checked: !!this.props.checked
+  }
+
   onPress= () => {
-    const { onChange, value, checked } = this.props
+    const { disabled, onChange, value } = this.props
+
+    if (disabled) return
+
     onChange && onChange({
       value,
-      checked: !checked
+      checked: !this.state.checked
     })
+
+    this.setState({ checked: !this.state.checked })
   }
 
   render () {
     const {
       style,
       value,
-      disabled,
-      checked,
       color
     } = this.props
 
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
-        <View style={[styles.wrapper, style, checked && styles.wrapperChecked]}>
+        <View style={[styles.wrapper, style, this.state.checked && styles.wrapperChecked]}>
           <Icon
             type="success_no_circle"
             size={18}
             color="white"
-            style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
+            style={[styles.wrapperIcon, this.state.checked && styles.wrapperCheckedIcon]}
           />
         </View>
       </TouchableWithoutFeedback>
