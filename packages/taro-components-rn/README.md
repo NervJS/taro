@@ -17,20 +17,21 @@ cp -rf src AwesomeProjectDir/src/tcr
 ## Todo list
 
 > FS = Fully Support
-> PS = Partial Support
+> PS = Partially Support
+> MS = Minimum Support
 
 - 视图容器
-  - [ ] view
+  - [x] view | MS
   - [ ] scroll-view
   - [ ] swiper
 - 基础内容
   - [x] icon | FS
-  - [ ] text
+  - [x] text | PS
   - [ ] rich-text
   - [ ] progress
 - 表单内容
   - [ ] button | 0.7~0.9 80% exclude open-type
-  - [ ] checkbox
+  - [x] checkbox | FS
   - [ ] form
   - [ ] input
   - [ ] label
@@ -42,7 +43,7 @@ cp -rf src AwesomeProjectDir/src/tcr
 - 导航
 - 媒体组件
   - [ ] audio
-  - [ ] image
+  - [x] image | PS
   - [ ] video
   - [ ] camera
 - 其他

@@ -1,6 +1,5 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
-import _ from 'lodash'
 
 class RichText extends Nerv.Component {
   constructor () {
@@ -32,7 +31,7 @@ class RichText extends Nerv.Component {
   render () {
     let { nodes } = this.props
 
-    if (_.isArray(nodes)) {
+    if (Array.isArray(nodes)) {
       return (
         <div {...omit(this.props, ['nodes'])}>
           {nodes.map((item, idx) => {

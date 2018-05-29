@@ -1,5 +1,5 @@
 import Nerv from 'nervjs'
-import _ from 'lodash'
+import _ from '../../../utils/parse-type'
 import classNames from 'classnames'
 
 /**

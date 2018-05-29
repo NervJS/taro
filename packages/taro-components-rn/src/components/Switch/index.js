@@ -30,8 +30,11 @@ type Props = {
   onChange?: Function,
   color?: string
 }
+type State = {
+  checked: boolean
+}
 
-class _Switch extends Component<Props> {
+class _Switch extends Component<Props, State> {
   props: Props
 
   static defaultProps = {
@@ -39,15 +42,23 @@ class _Switch extends Component<Props> {
     color: '#2BA245'
   }
 
-  onCheckboxToggle = (item) => {
+  state: State = {
+    checked: !!this.props.checked
+  }
+
+  onCheckedChange = (isChecked) => {
     const { onChange } = this.props
-    onChange && onChange(item.checked)
+    onChange && onChange(isChecked)
+    this.setState({ checked: isChecked })
+  }
+
+  onCheckboxToggle = (item) => {
+    this.onCheckedChange(item.checked)
   }
 
   render () {
     const {
       style,
-      checked,
       type,
       onChange,
       color
@@ -57,15 +68,15 @@ class _Switch extends Component<Props> {
       return (
         <Checkbox
           onChange={this.onCheckboxToggle}
-          checked={checked}
+          checked={this.state.checked}
         />
       )
     }
 
     return (
       <Switch
-        value={checked}
-        onValueChange={onChange}
+        value={this.state.checked}
+        onValueChange={this.onCheckedChange}
         onTintColor={color}
         style={style}
       />

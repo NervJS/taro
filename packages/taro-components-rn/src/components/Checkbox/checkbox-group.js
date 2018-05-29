@@ -21,7 +21,7 @@ type Props = {
 class _CheckboxGroup extends Component<Props> {
   props: Props
 
-  values = []
+  values: Array<{ value: any, checked: boolean }> = []
 
   toggleChange = (e, index) => {
     this.values[index] = {
@@ -39,12 +39,11 @@ class _CheckboxGroup extends Component<Props> {
     const {
       children,
       style,
-      // onChange
     } = this.props
 
-    const children = React.Children.toArray(children).map((labelItem, index) => {
+    const mapChildren = React.Children.toArray(children).map((labelItem, index) => {
       const chd = React.Children.toArray(labelItem.props.children).map(child => {
-        if (child.name === 'Checkbox') {
+        if (child.type.name === '_Checkbox') {
           const { value, disabled, checked, color } = child.props
           this.values[index] = { value, checked }
           return React.cloneElement(child, {
@@ -63,7 +62,7 @@ class _CheckboxGroup extends Component<Props> {
 
     return (
       <View style={style}>
-        {children}
+        {mapChildren}
       </View>
     )
   }

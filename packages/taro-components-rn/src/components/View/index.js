@@ -58,6 +58,7 @@ type State = {
 }
 
 class _View extends Component<Props, State> {
+  props: Props
   timer: TimeoutID
   state = {
     hover: false
@@ -104,11 +105,6 @@ class _View extends Component<Props, State> {
     const { hover } = this.state
 
     const shouldNotSetResponder = !!hoverStopPropagation
-
-    // 分解样式
-    // const flattenStyle = StyleSheet.flatten([style, hover && hoverClass])
-    // const wrapperStyle = {}
-    // const innerStyle = {}
 
     return (
       <View style={[style, hover && hoverClass]}>

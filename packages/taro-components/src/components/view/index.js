@@ -29,10 +29,10 @@ class View extends Nerv.Component {
     )
 
     const _onTouchStart = e => {
-      this.setState(() => ({
-        touch: true
-      }))
       if (hoverClass) {
+        this.setState(() => ({
+          touch: true
+        }))
         setTimeout(() => {
           if (this.state.touch) {
             this.setState(() => ({
@@ -44,10 +44,10 @@ class View extends Nerv.Component {
       onTouchStart && onTouchStart(e)
     }
     const _onTouchEnd = e => {
-      this.setState(() => ({
-        touch: false
-      }))
       if (hoverClass) {
+        this.setState(() => ({
+          touch: false
+        }))
         setTimeout(() => {
           if (!this.state.touch) {
             this.setState(() => ({
