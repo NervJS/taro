@@ -21,16 +21,18 @@ export const dismemberStyle = function (style) {
   const flattenStyle = StyleSheet.flatten(style)
   const wrapperStyle = {}
   const innerStyle = {}
-  Object.keys(flattenStyle).forEach((key) => {
-    if (SYNC_TYPE_STYLE_REGEX.test(key)) {
-      wrapperStyle[key] = flattenStyle[key]
-      innerStyle[key] = flattenStyle[key]
-    } else if (WRAPPER_TYPE_STYLE_REGEX.test(key)) {
-      wrapperStyle[key] = flattenStyle[key]
-    } else {
-      innerStyle[key] = flattenStyle[key]
-    }
-  })
+  if (flattenStyle) {
+    Object.keys(flattenStyle).forEach((key) => {
+      if (SYNC_TYPE_STYLE_REGEX.test(key)) {
+        wrapperStyle[key] = flattenStyle[key]
+        innerStyle[key] = flattenStyle[key]
+      } else if (WRAPPER_TYPE_STYLE_REGEX.test(key)) {
+        wrapperStyle[key] = flattenStyle[key]
+      } else {
+        innerStyle[key] = flattenStyle[key]
+      }
+    })
+  }
   return {
     wrapperStyle,
     innerStyle

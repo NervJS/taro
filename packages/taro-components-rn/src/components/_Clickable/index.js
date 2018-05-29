@@ -16,6 +16,8 @@ type Props = {
 
 export default function (WrappedComponent) {
   return class extends Component<Props> {
+    props: Props
+
     render () {
       const {
         style,

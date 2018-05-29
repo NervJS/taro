@@ -19,6 +19,8 @@ type Props = {
 }
 
 class _Text extends Component<Props> {
+  props: Props
+
   render () {
     const {
       style,

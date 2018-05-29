@@ -17,10 +17,11 @@ cp -rf src AwesomeProjectDir/src/tcr
 ## Todo list
 
 > FS = Fully Support
-> PS = Partial Support
+> PS = Partially Support
+> MS = Minimum Support
 
 - 视图容器
-  - [ ] view
+  - [x] view | MS
   - [ ] scroll-view
   - [ ] swiper
 - 基础内容
@@ -42,7 +43,7 @@ cp -rf src AwesomeProjectDir/src/tcr
 - 导航
 - 媒体组件
   - [ ] audio
-  - [ ] image
+  - [x] image | PS
   - [ ] video
   - [ ] camera
 - 其他
