@@ -24,6 +24,8 @@ export default StyleSheet.create({
 
   loading: {
     marginRight: 5,
+  },
+  loadingImg: {
     width: 20,
     height: 20
   }

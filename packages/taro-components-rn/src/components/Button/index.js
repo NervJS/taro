@@ -37,6 +37,8 @@ import {
   Text,
   View,
   Image,
+  Animated,
+  Easing,
   StyleSheet,
 } from 'react-native'
 import styles from './styles'
@@ -50,13 +52,48 @@ type Props = {
   loading?: boolean,
   onClick?: Function,
 }
+type State = {
+  valve: Animated.Value
+}
 
-class _Button extends Component<Props> {
+class _Button extends Component<Props, State> {
   props: Props
 
   static defaultProps = {
     size: 'default',
     type: 'default'
+  }
+
+  state: State = {
+    valve: new Animated.Value(0)
+  }
+
+  animate = () => {
+    if (!this.props.loading) return
+
+    Animated.sequence([
+      Animated.timing(this.state.valve, {
+        toValue: 1,
+        easing: Easing.linear,
+        duration: 1000
+      }),
+      Animated.timing(this.state.valve, {
+        toValue: 0,
+        duration: 0
+      })
+    ]).start(() => { this.animate() })
+  }
+
+  componentDidMount () {
+    if (this.props.loading) {
+      this.animate()
+    }
+  }
+
+  componentDidUpdate (prevProps: Props) {
+    if (!prevProps.loading && this.props.loading) {
+      this.animate()
+    }
   }
 
   render () {
@@ -82,10 +119,15 @@ class _Button extends Component<Props> {
     // otherwise use rgb(53,53,53) for plain-default-type particularly.
     const themeColor = plain && isDefaultType ? `rgba(53,53,53,${disabled ? 0.6 : 1})` : themeColorMap[type][disabled ? 1 : 0]
     const backgroundColor = plain ? 'transparent' : themeColor
-    const borderStyle = plain && { borderWidth: 1, borderColor: themeColor, borderStyle: 'solid' }
+    const borderStyle = plain && { borderWidth: 1, borderColor: themeColor }
     const textColor = plain
       ? themeColor
       : (isDefaultType ? `rgba(0,0,0,${disabled ? 0.3 : 1})` : `rgba(255,255,255,${disabled ? 0.6 : 1})`)
+
+    const rotateDeg = this.state.valve.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    })
 
     return (
       <TouchableOpacity
@@ -101,10 +143,16 @@ class _Button extends Component<Props> {
             style
           ]}
         >
-          {loading && <Image
-            source={type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')}
-            style={styles.loading}
-          />}
+          {loading && (
+            <Animated.View
+              style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}
+            >
+              <Image
+                source={type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')}
+                style={styles.loadingImg}
+              />
+            </Animated.View>)
+          }
           <Text
             style={[
               styles.btnText,
