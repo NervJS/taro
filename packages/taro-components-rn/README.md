@@ -14,6 +14,12 @@ cp -rf src AwesomeProjectDir/src/tcr
 # import { Icon } from './tcr'
 ```
 
+## About code comments
+
+- ✔ Support
+- ✘ Not support
+- \- Would not support
+
 ## Todo list
 
 > FS = Fully Support
@@ -30,7 +36,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] rich-text
   - [ ] progress
 - 表单内容
-  - [ ] button | 0.7~0.9 80% exclude open-type
+  - [x] button | PS
   - [x] checkbox | FS
   - [ ] form
   - [ ] input

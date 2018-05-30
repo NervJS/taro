@@ -1,7 +1,7 @@
 /**
  * ✔ onChange(bindchange)
  *
- * @warn No support of props FOR, you must put checkbox below label.
+ * @warn No support of props FOR, you must put checkbox below label straightly.
  *
  * @flow
  */
@@ -22,6 +22,7 @@ class _CheckboxGroup extends Component<Props> {
   props: Props
 
   values: Array<{ value: any, checked: boolean }> = []
+  // checkboxs: React.Node = []
 
   toggleChange = (e, index) => {
     this.values[index] = {
@@ -42,7 +43,7 @@ class _CheckboxGroup extends Component<Props> {
     } = this.props
 
     const mapChildren = React.Children.toArray(children).map((labelItem, index) => {
-      const chd = React.Children.toArray(labelItem.props.children).map(child => {
+      const chd = React.Children.toArray(labelItem.props.children).map((child) => {
         if (child.type.name === '_Checkbox') {
           const { value, disabled, checked, color } = child.props
           this.values[index] = { value, checked }
