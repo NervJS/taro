@@ -11,9 +11,11 @@ import {
 } from '@tarojs/taro'
 
 import initNativeApi from './native-api'
+import Component from './component'
 
 export {
   initNativeApi,
+  Component,
   getEnv,
   ENV_TYPE,
   Events,
@@ -26,6 +28,7 @@ export {
 
 export default {
   initNativeApi,
+  Component,
   getEnv,
   ENV_TYPE,
   Events,
