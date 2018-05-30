@@ -248,6 +248,8 @@ function parseJSCode (code, filePath) {
                 specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
               }
               source.value = PACKAGES['react-redux']
+            } else if (value === PACKAGES['@tarojs/components']) {
+              source.value = PACKAGES['@tarojs/components-rn']
             }
           },
           ClassMethod (astPath) {
