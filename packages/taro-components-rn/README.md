@@ -4,6 +4,10 @@ Alo, alo! Bilibilibilibibili~
 
 > IOS: Remember to link the libART.a into your project if you want to use Icon.
 
+## Capture
+
+![image](capture/capture.20180531.gif)
+
 ## Example
 
 Please use official AwesomeProject.
