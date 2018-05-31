@@ -59,8 +59,6 @@ class _Checkbox extends Component<Props, State> {
   render () {
     const {
       style,
-      value,
-      color
     } = this.props
 
     return (

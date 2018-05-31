@@ -29,12 +29,12 @@ class _ProgressBar extends Component<Props> {
 
   render () {
     const {
-      percent,
-      strokeWidth,
+      // percent,
+      // strokeWidth,
       activeColor,
-      backgroundColor,
-      active,
-      activeMode,
+      // backgroundColor,
+      // active,
+      // activeMode,
     } = this.props
 
     return (

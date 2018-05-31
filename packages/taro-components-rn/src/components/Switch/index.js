@@ -60,7 +60,6 @@ class _Switch extends Component<Props, State> {
     const {
       style,
       type,
-      onChange,
       color
     } = this.props
 

@@ -95,7 +95,8 @@ class _Progress extends Component<Props, State> {
     this.animate(this.props.percent)
   }
 
-  componentWillReceiveProps (nextProps: Props) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps (nextProps: Props) {
     this.animate(nextProps.percent, this.props.percent)
   }
 
@@ -107,8 +108,6 @@ class _Progress extends Component<Props, State> {
       strokeWidth,
       activeColor,
       backgroundColor,
-      active,
-      activeMode,
     } = this.props
 
     const width = this.state.valve.interpolate({

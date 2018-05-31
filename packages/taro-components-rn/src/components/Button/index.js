@@ -45,6 +45,7 @@ import styles from './styles'
 
 type Props = {
   style?: StyleSheet.Styles,
+  children?: React.Node,
   size?: 'default' | 'mini',
   type?: 'primary' | 'default' | 'warn',
   plain?: boolean,
