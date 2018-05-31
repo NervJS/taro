@@ -1,6 +1,7 @@
 import View from './components/View'
 import Icon from './components/Icon'
 import Text from './components/Text'
+import Progress from './components/Progress'
 import Button from './components/Button'
 import Checkbox from './components/Checkbox'
 import CheckboxGroup from './components/Checkbox/checkbox-group'
@@ -12,6 +13,7 @@ export {
   View,
   Icon,
   Text,
+  Progress,
   Button,
   Checkbox,
   CheckboxGroup,

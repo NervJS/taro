@@ -28,6 +28,7 @@ const resizeModeMap: Object = {
 }
 
 type Props = {
+  style?: StyleSheet.Styles,
   src?: string,
   mode?: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right',
   binderror?: Function,

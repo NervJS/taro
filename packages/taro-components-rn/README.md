@@ -34,7 +34,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [x] icon | FS
   - [x] text | PS
   - [ ] rich-text
-  - [ ] progress
+  - [x] progress | FS
 - 表单内容
   - [x] button | PS
   - [x] checkbox | FS

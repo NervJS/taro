@@ -11,6 +11,7 @@ import {
 import { dismemberStyle } from '../../utils'
 
 type Props = {
+  style?: StyleSheet.Styles,
   onClick?: Function
 }
 
