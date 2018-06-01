@@ -24,8 +24,7 @@ type Props = {
   value: string,
   disabled?: boolean,
   checked?: boolean,
-  // @todo
-  color?: string | number
+  color: string | number
 }
 type State = {
   checked: boolean
@@ -36,6 +35,7 @@ class _Checkbox extends React.Component<Props, State> {
 
   static defaultProps = {
     value: '',
+    color: '#09BB07',
   }
 
   state: State = {
@@ -58,6 +58,7 @@ class _Checkbox extends React.Component<Props, State> {
   render () {
     const {
       style,
+      color,
     } = this.props
 
     return (
@@ -66,7 +67,7 @@ class _Checkbox extends React.Component<Props, State> {
           <Icon
             type="success_no_circle"
             size={18}
-            color="white"
+            color={color}
             style={[styles.wrapperIcon, this.state.checked && styles.wrapperCheckedIcon]}
           />
         </View>

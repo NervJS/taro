@@ -39,7 +39,7 @@ class _Switch extends React.Component<Props, State> {
 
   static defaultProps = {
     type: 'switch',
-    color: '#2BA245'
+    color: '#04BE02'
   }
 
   state: State = {

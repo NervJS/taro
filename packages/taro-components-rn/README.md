@@ -6,7 +6,7 @@ Alo, alo! Bilibilibilibibili~
 
 ## Capture
 
-![image](./capture/capture.20180531.gif)
+![image](screenshots/capture.20180531.gif)
 
 ## Example
 
