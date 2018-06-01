@@ -76,7 +76,7 @@ class Popper extends Component{
 }
 ```
 
-> Taro 目前暂时不支持通过匿名函数传值，也不支持多层 lambdas 嵌套。当你有传参需求时，请全部使用 `bind` 来处理。
+> Taro 目前暂时不支持通过匿名函数传值，也不支持多层 lambda 嵌套。当你有传参需求时，请全部使用 `bind` 来处理。
 
 ## 任何组件的事件传递都要以 `on` 开头
 
