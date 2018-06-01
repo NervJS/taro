@@ -19,7 +19,7 @@ Taro 中稍稍有点不同：
 </button>
 ```
 
-在 Taro 中另一个不同是你不能使用 `catchEvent` 的方式阻止时间冒泡。你必须明确的使用 `stopPropagation`。例如，阻止时间冒泡你可以这样写：
+在 Taro 中另一个不同是你不能使用 `catchEvent` 的方式阻止事件冒泡。你必须明确的使用 `stopPropagation`。例如，阻止事件冒泡你可以这样写：
 
 ```javascript
 class Toggle extends React.Component {
@@ -65,7 +65,7 @@ class Popper extends Component{
         this.state = {name:'Hello world!'};
     }
     
-	  // 你可以通过 bind 传入多个参数
+	// 你可以通过 bind 传入多个参数
     preventPop(name, test, e){    //事件对象e要放在最后
         e.preventDefault();
     }
