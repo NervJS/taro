@@ -24,7 +24,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   StyleSheet,
@@ -56,7 +56,7 @@ type State = {
   hover: boolean,
 }
 
-class _View extends Component<Props, State> {
+class _View extends React.Component<Props, State> {
   props: Props
   timer: TimeoutID
   state = {

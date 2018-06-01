@@ -2,7 +2,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   TouchableWithoutFeedback,
@@ -15,8 +15,8 @@ type Props = {
   onClick?: Function
 }
 
-export default function (WrappedComponent) {
-  return class _Clickable extends Component<Props> {
+export default function (WrappedComponent: React.ComponentType<*>) {
+  return class _Clickable extends React.Component<Props> {
     props: Props
 
     render () {

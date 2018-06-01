@@ -13,7 +13,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   ART,
@@ -37,11 +37,11 @@ const iconTypeMap: Object = {
 type Props = {
   style?: StyleSheet.Styles,
   type: 'success' | 'success_no_circle' | 'info' | 'warn' | 'waiting' | 'cancel' | 'download' | 'search' | 'clear',
-  size?: number,
-  color?: string | number,
+  size: number,
+  color: string | number,
 }
 
-class _Icon extends Component<Props> {
+class _Icon extends React.Component<Props> {
   props: Props
 
   static defaultProps = {

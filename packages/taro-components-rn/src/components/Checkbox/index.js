@@ -9,7 +9,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   TouchableWithoutFeedback,
@@ -21,22 +21,21 @@ import styles from './styles'
 type Props = {
   style?: StyleSheet.Styles,
   onChange?: Function,
-  value?: string,
+  value: string,
   disabled?: boolean,
   checked?: boolean,
-  color?: string
+  // @todo
+  color?: string | number
 }
 type State = {
   checked: boolean
 }
 
-class _Checkbox extends Component<Props, State> {
+class _Checkbox extends React.Component<Props, State> {
   props: Props
 
   static defaultProps = {
     value: '',
-    disabled: false,
-    checked: false
   }
 
   state: State = {

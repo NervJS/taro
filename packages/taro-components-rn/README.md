@@ -61,3 +61,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] camera
 - 其他
   - [ ] tabbar
+
+## D~
+
+[flow type annotation for children react elements](https://stackoverflow.com/a/42887802)

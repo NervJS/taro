@@ -31,7 +31,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   TouchableOpacity,
   Text,
@@ -46,8 +46,8 @@ import styles from './styles'
 type Props = {
   style?: StyleSheet.Styles,
   children?: React.Node,
-  size?: 'default' | 'mini',
-  type?: 'primary' | 'default' | 'warn',
+  size: 'default' | 'mini',
+  type: 'primary' | 'default' | 'warn',
   plain?: boolean,
   disabled?: boolean,
   loading?: boolean,
@@ -57,7 +57,7 @@ type State = {
   valve: Animated.Value
 }
 
-class _Button extends Component<Props, State> {
+class _Button extends React.Component<Props, State> {
   props: Props
 
   static defaultProps = {

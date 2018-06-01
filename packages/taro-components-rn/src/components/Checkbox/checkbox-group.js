@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   StyleSheet
@@ -18,18 +18,19 @@ type Props = {
   onChange?: Function
 }
 
-class _CheckboxGroup extends Component<Props> {
+class _CheckboxGroup extends React.Component<Props> {
   props: Props
 
   values: Array<{ value: any, checked: boolean }> = []
   // checkboxs: React.Node = []
 
-  toggleChange = (e, index) => {
+  toggleChange = (e: { value: string, checked: boolean }, index: number) => {
+    const { onChange } = this.props
     this.values[index] = {
       value: e.value,
       checked: e.checked
     }
-    this.props.onChange({
+    onChange && onChange({
       detail: {
         value: this.values.filter((item) => item && item.checked).map((item) => item.value)
       }

@@ -16,7 +16,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   Switch,
   StyleSheet,
@@ -26,15 +26,15 @@ import Checkbox from '../Checkbox'
 type Props = {
   style?: StyleSheet.Styles,
   checked?: boolean,
-  type?: 'switch' | 'checkbox',
+  type: 'switch' | 'checkbox',
   onChange?: Function,
-  color?: string
+  color: string | number
 }
 type State = {
   checked: boolean
 }
 
-class _Switch extends Component<Props, State> {
+class _Switch extends React.Component<Props, State> {
   props: Props
 
   static defaultProps = {
@@ -46,13 +46,13 @@ class _Switch extends Component<Props, State> {
     checked: !!this.props.checked
   }
 
-  onCheckedChange = (isChecked) => {
+  onCheckedChange = (isChecked: boolean) => {
     const { onChange } = this.props
     onChange && onChange(isChecked)
     this.setState({ checked: isChecked })
   }
 
-  onCheckboxToggle = (item) => {
+  onCheckboxToggle = (item: { checked: boolean }) => {
     this.onCheckedChange(item.checked)
   }
 

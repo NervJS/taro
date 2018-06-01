@@ -14,9 +14,10 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   Image,
+  StyleSheet,
 } from 'react-native'
 import Clickable from '../_Clickable'
 
@@ -30,12 +31,12 @@ const resizeModeMap: Object = {
 type Props = {
   style?: StyleSheet.Styles,
   src?: string,
-  mode?: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right',
+  mode: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right',
   binderror?: Function,
   bindload?: Function,
 }
 
-class _Image extends Component<Props> {
+class _Image extends React.Component<Props> {
   props: Props
 
   static defaultProps = {

@@ -24,30 +24,31 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   Text,
   Animated,
   Easing,
+  StyleSheet,
 } from 'react-native'
 import styles from './styles'
 
 type Props = {
   style?: StyleSheet.Styles,
-  percent?: number,
+  percent: number,
   showInfo?: boolean,
-  strokeWidth?: number,
-  activeColor?: string,
-  backgroundColor?: string,
+  strokeWidth: number,
+  activeColor: string,
+  backgroundColor: string,
   active?: boolean,
-  activeMode?: 'backwards' | 'forwards',
+  activeMode: 'backwards' | 'forwards',
 }
 type State = {
   valve: Animated.Value
 }
 
-class _Progress extends Component<Props, State> {
+class _Progress extends React.Component<Props, State> {
   props: Props
   state: State = {
     valve: new Animated.Value(0)
@@ -61,7 +62,7 @@ class _Progress extends Component<Props, State> {
     activeMode: 'backwards',
   }
 
-  animate = (nextPercent = 0, nowPercent = 0) => {
+  animate = (nextPercent: number = 0, nowPercent: number = 0) => {
     const { active, activeMode } = this.props
     const toValve = nextPercent / 100
 

@@ -19,31 +19,31 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
-  Text,
-  View,
+  // Text,
+  // View,
   StyleSheet,
 } from 'react-native'
 import Swiper from 'react-native-swiper'
-import styles from './styles'
+// import styles from './styles'
 
 type Props = {
   children?: React.Node,
   style?: StyleSheet.Styles,
   indicatorDots?: boolean,
-  indicatorColor?: string,
-  indicatorActiveColor?: string,
+  indicatorColor: string | number,
+  indicatorActiveColor: string | number,
   autoplay?: boolean,
-  current?: number,
-  interval?: number,
+  current: number,
+  interval: number,
   circular?: boolean,
   vertical?: boolean,
   onChange?: Function,
   onAnimationFinish?: Function,
 }
 
-class _Swiper extends Component<Props> {
+class _Swiper extends React.Component<Props> {
   props: Props
 
   static defaultProps = {
@@ -53,7 +53,7 @@ class _Swiper extends Component<Props> {
     interval: 5000,
   }
 
-  onIndexChanged = (index) => {
+  onIndexChanged = (index: number) => {
     const { onChange } = this.props
     onChange && onChange({ detail: { current: index } })
   }
@@ -61,7 +61,7 @@ class _Swiper extends Component<Props> {
   /**
    * e, state, context(ref to swiper's this)
    */
-  onMomentumScrollEnd = (e, state) => {
+  onMomentumScrollEnd = (e: any, state: { index: number }) => {
     const { onAnimationFinish } = this.props
     onAnimationFinish && onAnimationFinish({ detail: { current: state.index } })
   }
