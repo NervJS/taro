@@ -11,7 +11,7 @@
  *
  * @class EventEmitter Manages event registering and emitting.
  */
-function EventEmitter () {}
+const EventEmitter = function () {}
 
 // Shortcuts to improve speed and size
 var proto = EventEmitter.prototype
