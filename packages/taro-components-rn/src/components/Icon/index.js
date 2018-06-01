@@ -1,11 +1,11 @@
 /**
- * @warn
- * IOS: Remember to link the libART.a into your project,
- * see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.
- *
  * ✔ type
  * ✔ size
  * ✔ color
+ *
+ * @warn
+ *  IOS: Remember to link the libART.a into your project,
+ *  see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.
  *
  * @see https://github.com/react-native-china/react-native-ART-doc
  * @example <Icon type='success' color='green' />

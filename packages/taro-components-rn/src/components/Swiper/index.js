@@ -16,6 +16,31 @@
  * ✔ onChange(bindchange): No support for detail.source
  * ✔ onAnimationFinish(bindanimationfinish): No support for detail.source
  *
+ * @example
+ * <Swiper
+ *   showsPagination={true}
+ *   indicatorColor="white"
+ *   indicatorActiveColor="purple"
+ *   autoplay={false}
+ *   current={1}
+ *   interval={6000}
+ *   circular={false}
+ *   vertical={true}
+ *   onChange={() => null}
+ *   onAnimationFinish={() => null}
+ *   style={{ backgroundColor: 'black' }}
+ * >
+ *   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}>
+ *     <Text style={styles.text}>Hello Swiper</Text>
+ *   </View>
+ *   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'green' }}>
+ *     <Text style={styles.text}>Beautiful</Text>
+ *   </View>
+ *   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'blue' }}>
+ *     <Text style={styles.text}>And simple</Text>
+ *   </View>
+ * </Swiper>
+ *
  * @flow
  */
 

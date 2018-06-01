@@ -50,7 +50,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] label
   - [ ] picker | 
   - [ ] radio | 
-  - [ ] slider | 0.4~0.6 99%
+  - [x] slider | PS
   - [x] switch | FS
   - [ ] textarea
 - 导航
