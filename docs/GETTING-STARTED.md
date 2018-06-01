@@ -8,7 +8,7 @@
 
 ```bash
 $ npm install -g @tarojs/cli
-$ yarn add global @tarojs/cli
+$ yarn global add @tarojs/cli
 ```
 
 ## 使用
