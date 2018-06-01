@@ -22,7 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "react": "^16.2.0",
-    "react-native": "^0.54.3"
+    "react-native": "^0.54.3",
+    "react-native-swiper": "^1.5.13"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

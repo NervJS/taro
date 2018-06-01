@@ -13,6 +13,9 @@ Alo, alo! Bilibilibilibibili~
 Please use official AwesomeProject.
 
 ```bash
+# RNComponent dependencies
+npm i react-native-swiper
+# Move source to example directory
 cp -rf src AwesomeProjectDir/src/tcr
 # import components
 # import { Icon } from './tcr'
@@ -33,7 +36,7 @@ cp -rf src AwesomeProjectDir/src/tcr
 - 视图容器
   - [x] view | MS
   - [ ] scroll-view
-  - [ ] swiper
+  - [x] swiper | PS
 - 基础内容
   - [x] icon | FS
   - [x] text | PS

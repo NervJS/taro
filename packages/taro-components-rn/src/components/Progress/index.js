@@ -74,7 +74,7 @@ class _Progress extends Component<Props, State> {
     }
 
     const sequence = []
-    const duration = Math.abs(nextPercent - nowPercent) / 100 * 1000
+    const duration = (activeMode === 'forwards' ? Math.abs(nextPercent - nowPercent) : nextPercent) / 100 * 1000
 
     if (activeMode === 'backwards') {
       sequence.push(Animated.timing(this.state.valve, {
@@ -112,7 +112,7 @@ class _Progress extends Component<Props, State> {
 
     const width = this.state.valve.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0%', `100%`]
+      outputRange: ['0%', '100%']
     })
 
     return (
