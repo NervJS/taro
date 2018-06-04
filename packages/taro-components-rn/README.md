@@ -35,7 +35,7 @@ cp -rf src AwesomeProjectDir/src/tcr
 
 - 视图容器
   - [x] view | MS
-  - [ ] scroll-view
+  - [x] scroll-view | PS
   - [x] swiper | PS
 - 基础内容
   - [x] icon | FS
@@ -49,7 +49,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] input
   - [ ] label
   - [ ] picker | 
-  - [ ] radio | 
+  - [x] radio | FS
   - [x] slider | PS
   - [x] switch | FS
   - [ ] textarea

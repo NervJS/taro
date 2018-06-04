@@ -1,4 +1,9 @@
 /**
+ * ✔ onChange(bindchange)
+ *
+ * @warn No support for props FOR, you must put <Radio /> below <RadioGroup /> straightly.
+ * @warn unstable
+ *
  * @flow
  */
 
