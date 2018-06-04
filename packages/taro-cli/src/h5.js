@@ -12,8 +12,8 @@ const template = require('babel-template')
 const _ = require('lodash')
 const rimraf = require('rimraf')
 
-const npmProcess = require('./npm')
 const Util = require('./util')
+const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 
