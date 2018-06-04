@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+const chalk = require('chalk')
 
 function log (data) {
   const args = Array.prototype.slice.call(arguments, 0)
@@ -33,4 +33,4 @@ function respectProgressBars (commitLogs) {
   }
 }
 
-export default log
+module.exports = log

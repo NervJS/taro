@@ -1,12 +1,12 @@
-import { PackagerLogsStream, Project, ProjectSettings, ProjectUtils } from 'xdl'
+const { PackagerLogsStream, Project, ProjectSettings, ProjectUtils } = require('xdl')
 
-import _ from 'lodash'
-import spawn from 'cross-spawn'
-import ProgressBar from 'progress'
-import bunyan from '@expo/bunyan'
-import chalk from 'chalk'
+const _ = require('lodash')
+const spawn = require('cross-spawn')
+const ProgressBar = require('progress')
+const bunyan = require('@expo/bunyan')
+const chalk = require('chalk')
 
-import log from './log'
+const log = require('./log')
 
 function installExitHooks (projectDir, isInteractive) {
   if (!isInteractive && process.platform === 'win32') {
@@ -54,12 +54,11 @@ function shouldIgnoreMsg (msg) {
     msg.indexOf('Warning: PropTypes has been moved to a separate package') >= 0
 }
 
-function run (onReady, options, isInteractive = false) {
+function run (projectDir, onReady, options, isInteractive = false) {
   let packagerReady = false
   let needsClear = false
   let logBuffer = ''
   let progressBar
-  const projectDir = process.cwd()
 
   if (process.platform !== 'win32') {
     const watchmanExists = spawn.sync('which', ['watchman']).status === 0
@@ -176,7 +175,6 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
       if (progressBar) {
         log.setBundleProgressBar(null)
         progressBar = null
-
         if (err) {
           log.withTimestamp(chalk.red(`Failed building JavaScript bundle`))
         } else {
@@ -305,4 +303,4 @@ const logLines = (msg, logFn, colorFn) => {
   }
 }
 
-export default { run }
+module.exports = { run }
