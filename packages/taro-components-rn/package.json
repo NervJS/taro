@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "多端解决方案基础组件（RN）",
   "main": "./src/index.js",
   "scripts": {
