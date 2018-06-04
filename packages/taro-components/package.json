@@ -4,10 +4,12 @@
   "description": "",
   "main": "./dist/index.js",
   "module": "./src/components/index.js",
+  "typings": "types/index.d.ts",
   "files": [
     "src/components",
     "dist",
-    "utils"
+    "utils",
+    "types"
   ],
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js --env development",
@@ -25,10 +27,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/react": "^16.3.16",
     "classnames": "^2.2.5",
     "lodash": "^4.17.5",
     "nervjs": "^1.2.16",
     "omit.js": "^1.0.0",
+    "react": "16.3.0",
     "weui": "^1.1.2"
   },
   "peerDependencies": {
