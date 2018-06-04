@@ -22,7 +22,7 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.35",
+  "version": "0.0.36",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"

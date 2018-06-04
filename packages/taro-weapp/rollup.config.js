@@ -30,6 +30,10 @@ const baseConfig = {
     resolve({
       preferBuiltins: false
     }),
+
+    common({
+      include: 'node_modules/**'
+    }),
     babel({
       babelrc: false,
       presets: [
@@ -44,8 +48,7 @@ const baseConfig = {
           'pragma': 'Nerv.createElement'
         }]
       ]
-    }),
-    common()
+    })
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

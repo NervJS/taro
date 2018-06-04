@@ -18,6 +18,7 @@ const npmProcess = require('../npm')
 const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
+const commentRegex = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:([\s;])+\/\/(?:.*)$)/gm
 
 const resolvedCache = {}
 const copyedFiles = {}
@@ -47,7 +48,7 @@ function recursiveRequire (filePath, files, isProduction) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
-  fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
+  fileContent = fileContent.replace(commentRegex, '').replace(requireRegex, (m, requirePath) => {
     if (isNpmPkg(requirePath)) {
       const res = resolveNpmFilesPath(requirePath, isProduction)
       const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
