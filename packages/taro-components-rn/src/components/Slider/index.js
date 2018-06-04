@@ -45,6 +45,11 @@ type State = {
 }
 
 class _Slider extends React.Component<Props, State> {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (props: Props) {
+    super(props)
+  }
+
   props: Props
   state: State = {
     currentValue: this.props.value
@@ -78,7 +83,6 @@ class _Slider extends React.Component<Props, State> {
       max,
       step,
       disabled,
-      value,
       activeColor,
       backgroundColor,
       blockColor,
@@ -94,7 +98,7 @@ class _Slider extends React.Component<Props, State> {
           maximumValue={max}
           step={step}
           disabled={!!disabled}
-          value={value}
+          value={this.state.currentValue}
           minimumTrackTintColor={activeColor}
           maximumTrackTintColor={backgroundColor}
           thumbTintColor={blockColor}

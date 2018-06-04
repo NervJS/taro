@@ -24,7 +24,7 @@ class _CheckboxGroup extends React.Component<Props> {
   values: Array<{ value: any, checked: boolean }> = []
   // checkboxs: React.Node = []
 
-  toggleChange = (e: { value: string, checked: boolean }, index: number) => {
+  toggleChange = (e: { value: *, checked: boolean }, index: number) => {
     const { onChange } = this.props
     this.values[index] = {
       value: e.value,

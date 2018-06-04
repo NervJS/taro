@@ -5,8 +5,6 @@
  * ✔ color
  * ✔ onChange
  *
- * @see https://wechat.design/brand/color
- *
  * @flow
  */
 
@@ -31,7 +29,7 @@ type State = {
   checked: boolean
 }
 
-class _Checkbox extends React.Component<Props, State> {
+class _Radio extends React.Component<Props, State> {
   // eslint-disable-next-line no-useless-constructor
   constructor (props: Props) {
     super(props)
@@ -53,6 +51,8 @@ class _Checkbox extends React.Component<Props, State> {
 
     if (disabled) return
 
+    if (this.state.checked) return
+
     onChange && onChange({
       value,
       checked: !this.state.checked
@@ -61,20 +61,34 @@ class _Checkbox extends React.Component<Props, State> {
     this.setState({ checked: !this.state.checked })
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps (nextProps: Props) {
+    if (nextProps.checked !== this.props.checked) {
+      this.setState({ checked: !!nextProps.checked })
+    }
+  }
+
   render () {
     const {
       style,
       color,
     } = this.props
 
+    const isChecked = this.state.checked
+
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
-        <View style={[styles.wrapper, style, this.state.checked && styles.wrapperChecked]}>
+        <View style={[
+          styles.wrapper,
+          isChecked && styles.wrapperChecked,
+          isChecked && { borderColor: color },
+          style
+        ]}>
           <Icon
-            type="success_no_circle"
-            size={18}
+            type="success"
+            size={20}
             color={color}
-            style={[styles.wrapperIcon, this.state.checked && styles.wrapperCheckedIcon]}
+            style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -82,4 +96,4 @@ class _Checkbox extends React.Component<Props, State> {
   }
 }
 
-export default _Checkbox
+export default _Radio
