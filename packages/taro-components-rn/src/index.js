@@ -7,6 +7,8 @@ import Button from './components/Button'
 import Checkbox from './components/Checkbox'
 import CheckboxGroup from './components/Checkbox/checkbox-group'
 import Label from './components/Label'
+import Radio from './components/Radio'
+import RadioGroup from './components/Radio/radio-group'
 import Slider from './components/Slider'
 import Switch from './components/Switch'
 import Image from './components/Image'
@@ -21,6 +23,8 @@ export {
   Checkbox,
   CheckboxGroup,
   Label,
+  Radio,
+  RadioGroup,
   Slider,
   Switch,
   Image,
