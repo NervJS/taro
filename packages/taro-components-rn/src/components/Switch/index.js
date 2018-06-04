@@ -16,7 +16,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   Switch,
   StyleSheet,
@@ -26,30 +26,40 @@ import Checkbox from '../Checkbox'
 type Props = {
   style?: StyleSheet.Styles,
   checked?: boolean,
-  type?: 'switch' | 'checkbox',
+  type: 'switch' | 'checkbox',
   onChange?: Function,
-  color?: string
+  color: string | number
+}
+type State = {
+  checked: boolean
 }
 
-class _Switch extends Component<Props> {
+class _Switch extends React.Component<Props, State> {
   props: Props
 
   static defaultProps = {
     type: 'switch',
-    color: '#2BA245'
+    color: '#04BE02'
   }
 
-  onCheckboxToggle = (item) => {
+  state: State = {
+    checked: !!this.props.checked
+  }
+
+  onCheckedChange = (isChecked: boolean) => {
     const { onChange } = this.props
-    onChange && onChange(item.checked)
+    onChange && onChange(isChecked)
+    this.setState({ checked: isChecked })
+  }
+
+  onCheckboxToggle = (item: { checked: boolean }) => {
+    this.onCheckedChange(item.checked)
   }
 
   render () {
     const {
       style,
-      checked,
       type,
-      onChange,
       color
     } = this.props
 
@@ -57,15 +67,15 @@ class _Switch extends Component<Props> {
       return (
         <Checkbox
           onChange={this.onCheckboxToggle}
-          checked={checked}
+          checked={this.state.checked}
         />
       )
     }
 
     return (
       <Switch
-        value={checked}
-        onValueChange={onChange}
+        value={this.state.checked}
+        onValueChange={this.onCheckedChange}
         onTintColor={color}
         style={style}
       />

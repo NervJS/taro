@@ -37,8 +37,8 @@ function buildForH5 ({ watch }) {
   require('./h5').build({ watch })
 }
 
-function buildForRN () {
-
+function buildForRN ({ watch }) {
+  require('./rn').build({ watch })
 }
 
 module.exports = build

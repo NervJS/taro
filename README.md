@@ -99,7 +99,7 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 
 ```bash
 $ npm install -g @tarojs/cli
-$ yarn add global @tarojs/cli
+$ yarn global add @tarojs/cli
 ```
 
 使用命令创建模板项目

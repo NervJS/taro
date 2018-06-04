@@ -25,52 +25,36 @@ const getPage = (pathname) => {
   }
 }
 
+const PAGESTATUS = {
+  HIDDEN: 1,
+  SHOWING: 2
+}
+
 const getWrappedComponent = (component, { location }) => {
   class Wrapped extends component {
-    /**
-     * __pageStatus
-     *   1 - 已隐藏
-     *   2 - 展示
-     *   3 - 未展示
-     *   4 - 被后退
-     */
-    __pageStatus = 3
+    __pageStatus = PAGESTATUS.SHOWING
     constructor (props, context) {
       context.$router = location
       super(props, context)
       this.$router = location
-      this.pageId = location.pageId
-
-      if (this.pageId === 0) {
-        this.__pageStatus = 2
-      } else {
-        this.__pageStatus = 3
-      }
+      this.locationState = location.state
     }
 
     componentWillReceiveProps (nextProps) {
       super.componentWillReceiveProps && super.componentWillReceiveProps()
 
       const nextLocation = nextProps.location
-      const lastShouldShow = this.props.location.pageId === this.pageId
-      const nextShouldShow = nextLocation.pageId === this.pageId
+      const lastShouldShow = this.props.location.state === this.locationState
+      const nextShouldShow = nextLocation.state === this.locationState
 
-      // 显示状态未发生变化
-      const noChange = lastShouldShow === nextShouldShow
+      if (lastShouldShow === nextShouldShow) return
 
-      if (nextLocation.pageId < this.pageId) {
-        this.__pageStatus = 4
-        if (noChange) return
-        this.forceUpdate()
-        this.componentDidHide && this.componentDidHide()
-      } else if (nextLocation.pageId > this.pageId) {
-        this.__pageStatus = 1
-        if (noChange) return
+      if (nextLocation.state !== this.locationState) {
+        this.__pageStatus = PAGESTATUS.HIDDEN
         this.forceUpdate()
         this.componentDidHide && this.componentDidHide()
       } else {
-        this.__pageStatus = 2
-        if (noChange) return
+        this.__pageStatus = PAGESTATUS.SHOWING
         this.forceUpdate()
         this.componentDidShow && this.componentDidShow()
       }
@@ -78,14 +62,8 @@ const getWrappedComponent = (component, { location }) => {
 
     componentDidMount () {
       super.componentDidMount && super.componentDidMount()
+      this.defaultShow = true
       super.componentDidShow && super.componentDidShow()
-      let nextStatus = this.props.location.pageId === this.pageId ? 2 : 1
-      if (this.__pageStatus === nextStatus) return
-      setTimeout(() => {
-        this.__pageStatus = 2
-        this.defaultShow = true
-        this.forceUpdate()
-      }, 100)
     }
 
     componentWillUnmount () {
@@ -94,50 +72,28 @@ const getWrappedComponent = (component, { location }) => {
     }
 
     render () {
-      let pageClassName = 'taro_page'
-      let pageContent = ''
-      switch (this.__pageStatus) {
-        case 1:
-          pageClassName = 'taro_page taro_page_hide'
-          pageContent = super.render()
-          break
-        case 2:
-          pageClassName = 'taro_page taro_page_show'
-          pageContent = super.render()
-          break
-        case 3:
-          pageClassName = 'taro_page'
-          break
-        case 4:
-          pageClassName = 'taro_page'
-          pageContent = super.render()
-          break
-      }
       return (
-        <div className={pageClassName} dataPageid={this.pageId}>
-          {pageContent}
+        <div className='taro_page' dataPageid={this.pageId}>
+          {this.__pageStatus === PAGESTATUS.SHOWING && super.render()}
         </div>
       )
     }
   }
-
   return Wrapped
 }
 
 const getCurrentPages = function (opts) {
-  return history.stack[0]
+  return history.now()
 }
 
 /**
  * Router组件内保存了每次路由变化后渲染的组件
  */
 class Router extends Nerv.Component {
-  constructor () {
-    super(...arguments)
-
+  constructor (props, context) {
+    super(props, context)
     this.state = {
-      cached: [],
-      current: null
+      cached: []
     }
   }
 
@@ -153,14 +109,11 @@ class Router extends Nerv.Component {
    * @param {any} payload 附加参数
    */
   navigate (location, action, payload = {}) {
-    const { fail, complete, success, url, delta } = payload
+    const { fail, complete, success, delta } = payload
     let pathname
     if (action === 'BACK') {
-      if (!url) return this.commit('BACK', null, { delta })
-      else pathname = url
-    } else if (action === 'FORWARD') {
-      if (!url) return this.commit('FORWARD', null, { delta })
-      else pathname = url
+      if (this.state.cached.length <= delta) pathname = location.url
+      else return this.commit('BACK', null, { delta })
     } else if (action === 'PUSH' || action === 'REPLACE') {
       pathname = location.url
     }
@@ -184,62 +137,34 @@ class Router extends Nerv.Component {
   }
 
   commit (action, el, payload) {
-    const current = history.nowIdx()
     const { delta } = payload
     switch (action) {
       case 'PUSH':
         this.setState(state => {
-          state.cached.splice(current, history.len(), el)
-          return {
-            current,
-            cached: state.cached
-          }
+          const cached = this.state.cached
+          cached.push(el)
+          return { cached }
         })
         break
       case 'REPLACE':
         this.setState(state => {
-          state.cached.splice(current, history.len(), el)
-          return {
-            current,
-            cached: state.cached
-          }
+          const cached = this.state.cached
+          cached.pop()
+          cached.push(el)
+          return { cached }
         })
         break
       case 'BACK':
         if (el) {
           this.setState((state) => {
-            const cached = state.cached
-            const paddingArr = new Array(Math.max(delta - current - 1, 0))
-            Array.prototype.splice.apply(cached, [0, 10000, el, ...paddingArr])
-            return {
-              cached,
-              current: 0
-            }
+            const cached = [ el ]
+            return { cached }
           })
         } else {
           this.setState((state) => {
-            state.cached.splice(current + 1)
-            return {
-              current,
-              cached: state.cached
-            }
-          })
-        }
-        break
-      case 'FORWARD':
-        if (el) {
-          this.setState((state) => {
             const cached = state.cached
-            const paddingArr = new Array(Math.max(current + delta - cached.length, 0))
-            Array.prototype.splice.apply(cached, [state.current, 10000, ...paddingArr, el])
-            return {
-              cached,
-              current: cached.length - 1
-            }
-          })
-        } else {
-          this.setState((state) => {
-            return { current }
+            cached.splice(-delta)
+            return { cached }
           })
         }
         break
@@ -248,9 +173,10 @@ class Router extends Nerv.Component {
     }
   }
 
-  getPages () {
+  getPage () {
     const location = history.now()
-    return this.state.cached.map((Page, index) => {
+
+    return this.state.cached.map((Page) => {
       return <Page location={location} />
     })
   }
@@ -265,7 +191,7 @@ class Router extends Nerv.Component {
   }
 
   render () {
-    return <div className='taro_router'>{this.getPages()}</div>
+    return <div className='taro_router'>{this.getPage()}</div>
   }
 }
 

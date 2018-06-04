@@ -12,6 +12,7 @@
     "packages/taro-plugin-sass",
     "packages/taro-plugin-uglifyjs",
     "packages/taro-redux",
+    "packages/taro-rn",
     "packages/taro-router",
     "packages/taro-weapp",
     "packages/taro-webpack-runner"
@@ -21,7 +22,7 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.33",
+  "version": "0.0.34",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"

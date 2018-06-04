@@ -11,8 +11,8 @@ export default StyleSheet.create({
     borderRadius: 4
   },
   wrapperChecked: {
-    borderColor: '#2BA245',
-    backgroundColor: '#2BA245'
+    // borderColor: '#2BA245',
+    // backgroundColor: '#2BA245'
   },
   wrapperIcon: {
     opacity: 0

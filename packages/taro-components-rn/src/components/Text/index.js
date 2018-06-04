@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   Text,
   StyleSheet,
@@ -18,7 +18,9 @@ type Props = {
   selectable?: boolean,
 }
 
-class _Text extends Component<Props> {
+class _Text extends React.Component<Props> {
+  props: Props
+
   render () {
     const {
       style,
@@ -28,7 +30,6 @@ class _Text extends Component<Props> {
 
     return (
       <Text
-        {...this.props}
         selectable={!!selectable}
         style={style}
       >

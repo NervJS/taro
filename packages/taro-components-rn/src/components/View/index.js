@@ -24,17 +24,16 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
-  TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native'
 import Clickable from '../_Clickable'
 
 type Props = {
   style?: StyleSheet.Styles,
-  children?: any,
+  children?: React.Node,
   hoverClass?: StyleSheet.Styles,
   hoverStopPropagation?: boolean,
   hoverStartTime?: number,
@@ -57,7 +56,8 @@ type State = {
   hover: boolean,
 }
 
-class _View extends Component<Props, State> {
+class _View extends React.Component<Props, State> {
+  props: Props
   timer: TimeoutID
   state = {
     hover: false
@@ -95,20 +95,15 @@ class _View extends Component<Props, State> {
     const {
       style,
       hoverClass,
-      hoverStopPropagation,
-      hoverStartTime = 50,
+      // hoverStopPropagation,
+      // hoverStartTime = 50,
       // hoverStayTime = 400,
       // onTouchStart,
       // onTouchEnd,
     } = this.props
     const { hover } = this.state
 
-    const shouldNotSetResponder = !!hoverStopPropagation
-
-    // 分解样式
-    // const flattenStyle = StyleSheet.flatten([style, hover && hoverClass])
-    // const wrapperStyle = {}
-    // const innerStyle = {}
+    // const shouldNotSetResponder = !!hoverStopPropagation
 
     return (
       <View style={[style, hover && hoverClass]}>

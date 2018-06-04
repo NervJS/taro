@@ -1,12 +1,12 @@
 /**
  * ✔ onChange(bindchange)
  *
- * @warn No support of props FOR, you must put checkbox below label.
+ * @warn No support of props FOR, you must put checkbox below label straightly.
  *
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   StyleSheet
@@ -18,17 +18,19 @@ type Props = {
   onChange?: Function
 }
 
-class _CheckboxGroup extends Component<Props> {
+class _CheckboxGroup extends React.Component<Props> {
   props: Props
 
-  values = []
+  values: Array<{ value: any, checked: boolean }> = []
+  // checkboxs: React.Node = []
 
-  toggleChange = (e, index) => {
+  toggleChange = (e: { value: *, checked: boolean }, index: number) => {
+    const { onChange } = this.props
     this.values[index] = {
       value: e.value,
       checked: e.checked
     }
-    this.props.onChange({
+    onChange && onChange({
       detail: {
         value: this.values.filter((item) => item && item.checked).map((item) => item.value)
       }
@@ -39,12 +41,11 @@ class _CheckboxGroup extends Component<Props> {
     const {
       children,
       style,
-      // onChange
     } = this.props
 
-    const children = React.Children.toArray(children).map((labelItem, index) => {
-      const chd = React.Children.toArray(labelItem.props.children).map(child => {
-        if (child.name === 'Checkbox') {
+    const mapChildren = React.Children.toArray(children).map((labelItem, index) => {
+      const chd = React.Children.toArray(labelItem.props.children).map((child) => {
+        if (child.type.name === '_Checkbox') {
           const { value, disabled, checked, color } = child.props
           this.values[index] = { value, checked }
           return React.cloneElement(child, {
@@ -63,7 +64,7 @@ class _CheckboxGroup extends Component<Props> {
 
     return (
       <View style={style}>
-        {children}
+        {mapChildren}
       </View>
     )
   }

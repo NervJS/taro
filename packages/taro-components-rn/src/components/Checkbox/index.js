@@ -3,64 +3,78 @@
  * ✔ disabled
  * ✔ checked
  * ✔ color
+ * ✔ onChange
  *
  * @see https://wechat.design/brand/color
  *
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   TouchableWithoutFeedback,
-  StyleSheet
+  StyleSheet,
 } from 'react-native'
 import Icon from '../Icon'
 import styles from './styles'
 
 type Props = {
   style?: StyleSheet.Styles,
-  onChange?: Function,
-  value?: string,
+  value: *,
   disabled?: boolean,
   checked?: boolean,
-  color?: string
+  color: string | number,
+  onChange?: Function,
+}
+type State = {
+  checked: boolean
 }
 
-class _Checkbox extends Component<Props> {
+class _Checkbox extends React.Component<Props, State> {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (props: Props) {
+    super(props)
+  }
+
   props: Props
 
   static defaultProps = {
     value: '',
-    disabled: false,
-    checked: false
+    color: '#09BB07',
   }
 
-  onPress= () => {
-    const { onChange, value, checked } = this.props
+  state: State = {
+    checked: !!this.props.checked
+  }
+
+  onPress = () => {
+    const { disabled, onChange, value } = this.props
+
+    if (disabled) return
+
     onChange && onChange({
       value,
-      checked: !checked
+      checked: !this.state.checked
     })
+
+    this.setState({ checked: !this.state.checked })
   }
 
   render () {
     const {
       style,
-      value,
-      disabled,
-      checked,
-      color
+      color,
     } = this.props
 
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
-        <View style={[styles.wrapper, style, checked && styles.wrapperChecked]}>
+        <View style={[styles.wrapper, style, this.state.checked && styles.wrapperChecked]}>
           <Icon
             type="success_no_circle"
             size={18}
-            color="white"
-            style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
+            color={color}
+            style={[styles.wrapperIcon, this.state.checked && styles.wrapperCheckedIcon]}
           />
         </View>
       </TouchableWithoutFeedback>

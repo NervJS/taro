@@ -4,15 +4,22 @@
  * ✘ lazy-load
  * ✔ binderror
  * ✔ bindload
+ * ✔ onClick
+ * ✔ DEFAULT_SIZE
+ *
+ * @warn Pass require(LOCAL IMAGE) to SRC, otherwise a string-type parameter.
+ * @warn The width/height would be undefined in onLoad.
+ * @warn unstable
  *
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   Image,
+  StyleSheet,
 } from 'react-native'
-import { omit } from '../../utils'
+import Clickable from '../_Clickable'
 
 const resizeModeMap: Object = {
   scaleToFill: 'stretch',
@@ -22,13 +29,16 @@ const resizeModeMap: Object = {
 }
 
 type Props = {
+  style?: StyleSheet.Styles,
   src?: string,
-  mode?: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right',
+  mode: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right',
   binderror?: Function,
   bindload?: Function,
 }
 
-class _Image extends Component<Props> {
+class _Image extends React.Component<Props> {
+  props: Props
+
   static defaultProps = {
     mode: 'scaleToFill',
   }
@@ -42,8 +52,7 @@ class _Image extends Component<Props> {
 
   onLoad = (event: Object) => {
     const { src, bindload } = this.props
-    // @todo To be confirmed
-    const { width, height } = Image.resolveAssetSource(src)
+    const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
     bindload && bindload({
       detail: { width, height }
     })
@@ -51,34 +60,26 @@ class _Image extends Component<Props> {
 
   render () {
     let {
+      style,
       src,
       mode,
     } = this.props
 
-    if (typeof src === 'string') {
-      // $FlowFixMe: The parameter passed to require must be a string literal
-      src = /^(https?:)?\/\//.test(src) ? { uri: src } : require(src)
-    }
+    // The parameter passed to require must be a string literal
+    src = typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src
 
     mode = resizeModeMap[mode] || 'stretch'
 
-    // @todo Add default size 300x225
-
     return (
       <Image
-        {...omit(this.props, [
-          'src',
-          'mode',
-          'binderror',
-          'bindload',
-        ])}
         source={src}
         resizeMode={mode}
         onError={this.onError}
         onLoad={this.onLoad}
+        style={[{ width: 300, height: 225 }, style]}
       />
     )
   }
 }
 
-export default _Image
+export default Clickable(_Image)

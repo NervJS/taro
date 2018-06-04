@@ -1,11 +1,11 @@
 /**
- * @warn
- * IOS: Remember to link the libART.a into your project,
- * see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.
- *
  * ✔ type
  * ✔ size
  * ✔ color
+ *
+ * @warn
+ *  IOS: Remember to link the libART.a into your project,
+ *  see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.
  *
  * @see https://github.com/react-native-china/react-native-ART-doc
  * @example <Icon type='success' color='green' />
@@ -13,7 +13,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import {
   View,
   ART,
@@ -37,11 +37,11 @@ const iconTypeMap: Object = {
 type Props = {
   style?: StyleSheet.Styles,
   type: 'success' | 'success_no_circle' | 'info' | 'warn' | 'waiting' | 'cancel' | 'download' | 'search' | 'clear',
-  size?: number,
-  color?: string | number,
+  size: number,
+  color: string | number,
 }
 
-class _Icon extends Component<Props> {
+class _Icon extends React.Component<Props> {
   props: Props
 
   static defaultProps = {

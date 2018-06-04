@@ -11,7 +11,7 @@
  * @param {string} url hash路径
  * @returns {string} 带hash的全路径
  */
-const convertToFullUrl = (url) => {
+const convertToFullUrl = url => {
   const hashIndex = window.location.href.indexOf('#')
   return window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + url
 }
@@ -21,17 +21,19 @@ const convertToFullUrl = (url) => {
  *
  * @param {string} url 待跳转的hash路径
  */
-const pushHash = (url) => {
+const pushHash = url => {
   window.location.hash = url
 }
 
 /**
  * 将当前的hash路径替换为新的
  *
- * @param {string} url 待转换的路径
+ * @param {string} param0
+ * @param {string} param0.url
+ * @param {string} param0.state
  */
-const replaceHash = (url) => {
-  window.location.replace(convertToFullUrl(url))
+const replaceHash = ({ url, state }) => {
+  window.history.replaceState(state, '', convertToFullUrl(url))
 }
 
 /**
@@ -50,7 +52,7 @@ const getCurrentHash = () => {
  *
  * @param {string} url 待转换的路径
  */
-const normalizeUrl = (url) => {
+const normalizeUrl = url => {
   url = url.replace(/\?$/, '')
   return url.charAt(0) === '/' ? url : `/${url}`
 }
@@ -68,10 +70,10 @@ let counter = 0
  * 生成location对象
  *
  * @param {string} fullUrl 待处理的路径
- * @param {number} routerIdx 页面对应的routerIdx
+ * @param {number} state 页面对应的state
  * @return {location} location对象
  */
-const createLocation = (fullUrl, routerIdx) => {
+const createLocation = (fullUrl, state) => {
   fullUrl = decodeURIComponent(fullUrl)
   const url = fullUrl.split('?')[0]
 
@@ -85,7 +87,7 @@ const createLocation = (fullUrl, routerIdx) => {
     })
   }
   return {
-    routerIdx,
+    state,
     fullUrl,
     pageId: counter++,
     params,
@@ -93,12 +95,4 @@ const createLocation = (fullUrl, routerIdx) => {
   }
 }
 
-export {
-  pushHash,
-  replaceHash,
-
-  convertToFullUrl,
-  getCurrentHash,
-  normalizeUrl,
-  createLocation
-}
+export { pushHash, replaceHash, convertToFullUrl, getCurrentHash, normalizeUrl, createLocation }
