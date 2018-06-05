@@ -3,6 +3,7 @@ import ScrollView from './components/ScrollView'
 import Swiper from './components/Swiper'
 import Icon from './components/Icon'
 import Text from './components/Text'
+import RichText from './components/RichText'
 import Progress from './components/Progress'
 import Button from './components/Button'
 import Checkbox from './components/Checkbox'
@@ -20,6 +21,7 @@ export {
   Swiper,
   Icon,
   Text,
+  RichText,
   Progress,
   Button,
   Checkbox,
