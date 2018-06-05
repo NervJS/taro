@@ -1,13 +1,14 @@
 {
   "name": "@tarojs/taro",
-  "version": "0.0.34",
+  "version": "0.0.36",
   "description": "Taro framework",
   "main": "index.js",
   "typings": "types/index.d.ts",
   "files": [
     "dist",
     "src",
-    "index.js"
+    "index.js",
+    "types"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

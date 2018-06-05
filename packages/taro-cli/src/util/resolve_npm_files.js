@@ -14,10 +14,11 @@ const {
   replaceContentEnv
 } = require('./index')
 
-const npmProcess = require('../npm')
+const npmProcess = require('./npm')
 const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
+const commentRegex = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:([\s;])+\/\/(?:.*)$)/gm
 
 const resolvedCache = {}
 const copyedFiles = {}
@@ -36,8 +37,16 @@ function resolveNpmFilesPath (pkgName, isProduction) {
       }
       resolvedCache[pkgName].files.push(res)
       recursiveRequire(res, resolvedCache[pkgName].files, isProduction)
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      if (err.code === 'MODULE_NOT_FOUND') {
+        console.log(`缺少npm包${pkgName}，开始安装...`)
+        const installOptions = {}
+        if (pkgName.indexOf(npmProcess.taroPluginPrefix) >= 0) {
+          installOptions.dev = true
+        }
+        npmProcess.installNpmPkg(pkgName, installOptions)
+        return resolveNpmFilesPath(pkgName, isProduction)
+      }
     }
   }
   return resolvedCache[pkgName]
@@ -47,7 +56,7 @@ function recursiveRequire (filePath, files, isProduction) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
-  fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
+  fileContent = fileContent.replace(commentRegex, '').replace(requireRegex, (m, requirePath) => {
     if (isNpmPkg(requirePath)) {
       const res = resolveNpmFilesPath(requirePath, isProduction)
       const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))

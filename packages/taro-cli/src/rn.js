@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const vfs = require('vinyl-fs')
+const Vinyl = require('vinyl')
 const through2 = require('through2')
 const babylon = require('babylon')
 const traverse = require('babel-traverse').default
@@ -9,9 +10,10 @@ const generate = require('babel-generator').default
 const template = require('babel-template')
 const _ = require('lodash')
 const transformCSS = require('css-to-react-native-transform').default
+const shelljs = require('shelljs')
 
-const npmProcess = require('./npm')
 const Util = require('./util')
+const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 
@@ -336,7 +338,7 @@ function compileDepStyles (filePath, styleFiles) {
 }
 
 function buildTemp () {
-  fs.emptyDirSync(tempPath)
+  // fs.emptyDirSync(tempPath)
   return new Promise((resolve, reject) => {
     vfs.src(path.join(sourceDir, '**'))
       .pipe(through2.obj(async function (file, enc, cb) {
@@ -357,12 +359,64 @@ function buildTemp () {
         }
         this.push(file)
         cb()
+      }, function (cb) {
+        const appJson = new Vinyl({
+          path: 'app.json',
+          contents: Buffer.from(JSON.stringify({
+            expo: {
+              sdkVersion: '27.0.0'
+            }
+          }, null, 2))
+        })
+        const pkg = new Vinyl({
+          path: 'package.json',
+          contents: Buffer.from(JSON.stringify({
+            name: projectConfig.projectName,
+            main: '../node_modules/@tarojs/rn-runner/src/bin/crna-entry.js',
+            dependencies: {
+              '@tarojs/taro-rn': '^0.0.34',
+              'expo': '^27.0.1',
+              'react': '16.3.1',
+              'react-native': '~0.55.2'
+            }
+          }, null, 2))
+        })
+        this.push(appJson)
+        this.push(pkg)
+        cb()
       }))
       .pipe(vfs.dest(path.join(tempPath)))
       .on('end', () => {
+        process.chdir(tempPath)
+        let command
+        if (Util.shouldUseYarn()) {
+          command = 'yarn install'
+        } else if (Util.shouldUseCnpm()) {
+          command = 'cnpm install'
+        } else {
+          command = 'npm install'
+        }
+        shelljs.exec(command, { silent: true })
         resolve()
       })
   })
+}
+
+async function buildDist ({ watch }) {
+  const entry = {
+    app: path.join(tempPath, CONFIG.ENTRY)
+  }
+  const rnConfig = projectConfig.rn || {}
+  rnConfig.env = projectConfig.env
+  rnConfig.defineConstants = projectConfig.defineConstants
+  rnConfig.designWidth = projectConfig.designWidth
+  rnConfig.entry = entry
+  if (watch) {
+    rnConfig.isWatch = true
+  }
+  rnConfig.projectDir = tempPath
+  const rnRunner = await npmProcess.getNpmPkg('@tarojs/rn-runner')
+  rnRunner(rnConfig)
 }
 
 function watchFiles () {
@@ -372,6 +426,7 @@ function watchFiles () {
 async function build ({ watch }) {
   fs.ensureDirSync(tempPath)
   await buildTemp()
+  await buildDist({ watch })
   if (watch) {
     watchFiles()
   }

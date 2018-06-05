@@ -1,7 +1,7 @@
 const resolvePath = require('resolve')
 const spawn = require('cross-spawn')
 
-const Util = require('./util')
+const Util = require('./')
 
 const basedir = process.cwd()
 const taroPluginPrefix = '@tarojs/plugin-'
@@ -36,7 +36,15 @@ function resolveNpmSync (pluginName) {
     }
     return npmCached[pluginName]
   } catch (err) {
-    console.log(err)
+    if (err.code === 'MODULE_NOT_FOUND') {
+      console.log(`缺少npm包${pluginName}，开始安装...`)
+      const installOptions = {}
+      if (pluginName.indexOf(taroPluginPrefix) >= 0) {
+        installOptions.dev = true
+      }
+      installNpmPkg(pluginName, installOptions)
+      return resolveNpmSync(pluginName)
+    }
   }
 }
 
@@ -58,7 +66,7 @@ function installNpmPkg (pkgList, options) {
   let installer = ''
   let args = []
   if (Util.shouldUseCnpm()) {
-    installer = 'npm'
+    installer = 'cnpm'
   } else {
     installer = 'npm'
   }
@@ -91,7 +99,7 @@ function installNpmPkg (pkgList, options) {
   }
   if (options.peerDependencies && peers.length) {
     console.info('正在安装 peerDependencies...')
-    installNpmPkg.install(peers, options)
+    installNpmPkg(peers, options)
   }
   return output
 }
@@ -132,6 +140,8 @@ async function getNpmPkg (npmName) {
 }
 
 module.exports = {
+  taroPluginPrefix,
+  installNpmPkg,
   resolveNpm,
   resolveNpmSync,
   callPlugin,
