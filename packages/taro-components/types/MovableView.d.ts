@@ -121,4 +121,4 @@ declare const MovableArea: ComponentType<MovableAreaProps>
 
 declare const MovableView: ComponentType<MovableViewProps>
 
-export { MovableArea }
+export { MovableArea, MovableView }
