@@ -12,8 +12,8 @@ const _ = require('lodash')
 const transformCSS = require('css-to-react-native-transform').default
 const shelljs = require('shelljs')
 
-const npmProcess = require('./npm')
 const Util = require('./util')
+const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 

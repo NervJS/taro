@@ -15,7 +15,7 @@ const _ = require('lodash')
 
 const Util = require('./util')
 const CONFIG = require('./config')
-const npmProcess = require('./npm')
+const npmProcess = require('./util/npm')
 const { resolveNpmFilesPath } = require('./util/resolve_npm_files')
 const babylonConfig = require('./config/babylon')
 const browserList = require('./config/browser_list')

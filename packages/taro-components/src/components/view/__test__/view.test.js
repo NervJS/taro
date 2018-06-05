@@ -2,6 +2,9 @@ import Nerv from 'nervjs'
 import { renderIntoDocument, Simulate } from 'nerv-test-utils'
 import View from '../index'
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const hoverStartTime = 50
+const hoverStayTime = 400
 describe('View', () => {
   it('render View', () => {
     const view = <View>hello taro</View>
@@ -10,23 +13,50 @@ describe('View', () => {
     expect(dom.textContent).toEqual('hello taro')
   })
 
-  it('touchStart View', () => {
+  it('should set hoverClass after touchStart and remove it after touchEnd', async () => {
+    const hoverClass = 'hoverclass'
     const onTouchStart = jest.fn()
-    const view = <View hoverClass='test' onTouchStart={onTouchStart}> hover View</View>
+    const onTouchEnd = jest.fn()
+    let viewIns
+    const view = <View className='class' ref={c => (viewIns = c)} hoverClass={hoverClass} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}> hover View</View>
     const component = renderIntoDocument(view)
     const dom = Nerv.findDOMNode(component)
     Simulate.touchStart(dom)
-
     expect(onTouchStart).toHaveBeenCalled()
+
+    Simulate.touchEnd(dom)
+    await delay(hoverStartTime)
+    expect(dom.getAttribute('class')).not.toContain(hoverClass)
+
+    Simulate.touchStart(dom)
+    await delay(hoverStartTime)
+    expect(viewIns.state.touch).toEqual(true)
+    expect(dom.getAttribute('class')).toContain(hoverClass)
+
+    Simulate.touchEnd(dom)
+    expect(onTouchEnd).toHaveBeenCalled()
+
+    Simulate.touchStart(dom)
+    await delay(hoverStayTime)
+    expect(dom.getAttribute('class')).toContain(hoverClass)
+
+    Simulate.touchEnd(dom)
+    await delay(hoverStayTime)
+    expect(dom.getAttribute('class')).not.toContain(hoverClass)
   })
 
-  it('touchEnd View', () => {
-    const onTouchEnd = jest.fn()
-    const view = <View hoverClass='test' onTouchEnd={onTouchEnd}> hover View</View>
+  it('should not execute set hoverClass when hoverClass is undefined', async () => {
+    let viewIns
+    const view = <View className='class' ref={c => (viewIns = c)}> hover View</View>
     const component = renderIntoDocument(view)
     const dom = Nerv.findDOMNode(component)
-    Simulate.touchEnd(dom)
+    Simulate.touchStart(dom)
+    expect(viewIns.state.touch).toEqual(false)
+    await delay(hoverStartTime)
+    expect(viewIns.state.hover).toEqual(false)
 
-    expect(onTouchEnd).toHaveBeenCalled()
+    Simulate.touchEnd(dom)
+    await delay(hoverStayTime)
+    expect(viewIns.state.hover).toEqual(false)
   })
 })

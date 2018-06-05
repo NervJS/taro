@@ -14,7 +14,7 @@ const {
   replaceContentEnv
 } = require('./index')
 
-const npmProcess = require('../npm')
+const npmProcess = require('./npm')
 const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
@@ -37,8 +37,16 @@ function resolveNpmFilesPath (pkgName, isProduction) {
       }
       resolvedCache[pkgName].files.push(res)
       recursiveRequire(res, resolvedCache[pkgName].files, isProduction)
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      if (err.code === 'MODULE_NOT_FOUND') {
+        console.log(`缺少npm包${pkgName}，开始安装...`)
+        const installOptions = {}
+        if (pkgName.indexOf(npmProcess.taroPluginPrefix) >= 0) {
+          installOptions.dev = true
+        }
+        npmProcess.installNpmPkg(pkgName, installOptions)
+        return resolveNpmFilesPath(pkgName, isProduction)
+      }
     }
   }
   return resolvedCache[pkgName]
