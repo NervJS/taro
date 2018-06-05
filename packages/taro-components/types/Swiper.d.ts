@@ -129,7 +129,6 @@ interface SwiperItemProps extends StandardProps {
 
 declare const SwiperItem: ComponentType<SwiperItemProps>
 
-
 export {
   Swiper,
   SwiperItem

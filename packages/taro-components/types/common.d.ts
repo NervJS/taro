@@ -84,6 +84,10 @@ interface EventProps {
   onTouchForceChange?: (event: BaseEvent) => any
 }
 
+export type BaseEventFunction = (event: BaseEvent) => any
+
+export type TouchEventFunction = (event: ITouchEvent) => any
+
 interface BaseEvent {
   /**
    * 事件类型
