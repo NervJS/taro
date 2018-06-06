@@ -8,7 +8,8 @@ module.exports = {
   globals: {
     wx: true,
     getApp: true,
-    getCurrentPages: true
+    getCurrentPages: true,
+    requirePlugin: true
   },
   rules: {
     'no-unused-expressions': 0,
