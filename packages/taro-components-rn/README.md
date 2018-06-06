@@ -14,7 +14,7 @@ Please use official AwesomeProject.
 
 ```bash
 # RNComponent dependencies
-npm i react-native-swiper
+npm i react-native-swiper react-dom
 # Move source to example directory
 cp -rf src AwesomeProjectDir/src/tcr
 # import components
@@ -40,7 +40,7 @@ cp -rf src AwesomeProjectDir/src/tcr
 - 基础内容
   - [x] icon | FS
   - [x] text | PS
-  - [ ] rich-text
+  - [x] rich-text | FS
   - [x] progress | FS
 - 表单内容
   - [x] button | PS
@@ -61,6 +61,11 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] camera
 - 其他
   - [ ] tabbar
+
+## pureDependencies
+
+- react
+- react-native
 
 ## D~
 

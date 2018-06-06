@@ -175,6 +175,7 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
       if (progressBar) {
         log.setBundleProgressBar(null)
         progressBar = null
+        console.log(err)
         if (err) {
           log.withTimestamp(chalk.red(`Failed building JavaScript bundle`))
         } else {

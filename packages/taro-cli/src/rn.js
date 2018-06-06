@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const chalk = require('chalk')
 const vfs = require('vinyl-fs')
 const Vinyl = require('vinyl')
 const through2 = require('through2')
@@ -339,6 +340,7 @@ function compileDepStyles (filePath, styleFiles) {
 
 function buildTemp () {
   // fs.emptyDirSync(tempPath)
+  fs.ensureDirSync(path.join(tempPath, 'bin'))
   return new Promise((resolve, reject) => {
     vfs.src(path.join(sourceDir, '**'))
       .pipe(through2.obj(async function (file, enc, cb) {
@@ -372,31 +374,43 @@ function buildTemp () {
           path: 'package.json',
           contents: Buffer.from(JSON.stringify({
             name: projectConfig.projectName,
-            main: '../node_modules/@tarojs/rn-runner/src/bin/crna-entry.js',
+            main: './bin/crna-entry.js',
             dependencies: {
-              '@tarojs/taro-rn': '^0.0.34',
+              '@tarojs/components-rn': `^${Util.getPkgVersion()}`,
+              '@tarojs/taro-rn': `^${Util.getPkgVersion()}`,
               'expo': '^27.0.1',
               'react': '16.3.1',
               'react-native': '~0.55.2'
             }
           }, null, 2))
         })
+        const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
+        const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
+        const crnaEntry = new Vinyl({
+          path: 'bin/crna-entry.js',
+          contents: Buffer.from(crnaEntryCode)
+        })
         this.push(appJson)
         this.push(pkg)
+        this.push(crnaEntry)
         cb()
       }))
       .pipe(vfs.dest(path.join(tempPath)))
       .on('end', () => {
-        process.chdir(tempPath)
-        let command
-        if (Util.shouldUseYarn()) {
-          command = 'yarn install'
-        } else if (Util.shouldUseCnpm()) {
-          command = 'cnpm install'
-        } else {
-          command = 'npm install'
+        if (!fs.existsSync(path.join(tempPath, 'node_modules'))) {
+          console.log()
+          console.log(chalk.yellow('开始安装依赖~'))
+          process.chdir(tempPath)
+          let command
+          if (Util.shouldUseYarn()) {
+            command = 'yarn'
+          } else if (Util.shouldUseCnpm()) {
+            command = 'cnpm install'
+          } else {
+            command = 'npm install'
+          }
+          shelljs.exec(command, { silent: false })
         }
-        shelljs.exec(command, { silent: true })
         resolve()
       })
   })

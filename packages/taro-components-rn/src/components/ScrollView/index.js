@@ -18,10 +18,13 @@
 import * as React from 'react'
 import {
   ScrollView,
+  StyleSheet,
 } from 'react-native'
+import { dismemberStyle } from '../../utils'
 
 type Props = {
   children?: React.Node,
+  style?: StyleSheet.Styles,
   horizontal?: boolean,
   upperThreshold: number,
   lowerThreshold: number,
@@ -206,8 +209,11 @@ class _ScrollView extends React.Component<Props> {
   render () {
     const {
       children,
+      style,
       enableBackToTop,
     } = this.props
+
+    const dismember = dismemberStyle(style)
 
     return (
       <ScrollView
@@ -219,6 +225,8 @@ class _ScrollView extends React.Component<Props> {
         ref={this._captureScrollRef}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
+        style={dismember.wrapperStyle}
+        contentContainerStyle={dismember.innerStyle}
       >
         {children}
       </ScrollView>

@@ -1,10 +1,10 @@
 {
   "name": "@tarojs/components",
-  "version": "0.0.36",
+  "version": "0.0.38",
   "description": "",
   "main": "./dist/index.js",
   "module": "./src/components/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "./types/index.d.ts",
   "files": [
     "src/components",
     "dist",
