@@ -62,6 +62,11 @@ cp -rf src AwesomeProjectDir/src/tcr
 - 其他
   - [ ] tabbar
 
+## pureDependencies
+
+- react
+- react-native
+
 ## D~
 
 [flow type annotation for children react elements](https://stackoverflow.com/a/42887802)

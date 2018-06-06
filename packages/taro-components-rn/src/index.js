@@ -8,7 +8,9 @@ import Progress from './components/Progress'
 import Button from './components/Button'
 import Checkbox from './components/Checkbox'
 import CheckboxGroup from './components/Checkbox/checkbox-group'
+import Input from './components/Input'
 import Label from './components/Label'
+// import Picker from './components/Picker'
 import Radio from './components/Radio'
 import RadioGroup from './components/Radio/radio-group'
 import Slider from './components/Slider'
@@ -26,7 +28,9 @@ export {
   Button,
   Checkbox,
   CheckboxGroup,
+  Input,
   Label,
+  // Picker,
   Radio,
   RadioGroup,
   Slider,
