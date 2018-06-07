@@ -46,13 +46,13 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [x] button | PS
   - [x] checkbox | FS
   - [ ] form
-  - [ ] input
+  - [x] input | PS
   - [ ] label
   - [ ] picker | 
   - [x] radio | FS
   - [x] slider | PS
   - [x] switch | FS
-  - [ ] textarea
+  - [x] textarea
 - 导航
 - 媒体组件
   - [ ] audio

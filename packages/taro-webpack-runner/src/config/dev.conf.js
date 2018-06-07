@@ -11,6 +11,7 @@ module.exports = function (config) {
           oneOf: [
             {
               test: /\.(css|scss|sass)(\?.*)?$/,
+              exclude: /node_modules/,
               use: [
                 require.resolve('style-loader'),
                 {
@@ -24,6 +25,20 @@ module.exports = function (config) {
                   options: {
                     ident: 'postcss',
                     plugins: () => getPostcssPlugins(config)
+                  }
+                },
+                require.resolve('sass-loader')
+              ]
+            },
+            {
+              test: /\.(css|scss|sass)(\?.*)?$/,
+              include: /node_modules/,
+              use: [
+                require.resolve('style-loader'),
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    importLoaders: 1
                   }
                 },
                 require.resolve('sass-loader')

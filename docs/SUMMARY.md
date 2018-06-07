@@ -9,6 +9,7 @@
   * [Taro项目目录结构](tutorial.md#项目目录结构)
   * [入口文件](tutorial.md#入口文件)
   * [页面](tutorial.md#页面)
+  * [路由功能](router.md)
   * [设计稿及尺寸单位](size.md)
   * [静态资源引用](static-reference.md)
   * [JSX简介](jsx.md)
@@ -56,6 +57,8 @@
     * [网络](native-api.md#网络)
     * [数据缓存](native-api.md#数据缓存)
     * [界面](native-api.md#界面)
+    * [导航](native-api.md#导航)
+    * [WXML节点信息](native-api.md#WXML节点信息)
 * 进阶指南
   * [项目配置](config.md)
   * [使用Redux](redux.md)
