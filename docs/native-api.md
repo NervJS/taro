@@ -55,63 +55,171 @@ Taro.downloadFile(params).then(...)
 
 ### WebSocket
 
-##### Taro.connectSocket
+#### Taro.connectSocket(OBJECT)
 
-使用方式同 [`wx.connectSocket`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject)，支持 `Promise` 化使用
+创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 链接。
 
-```javascript
-import Taro from '@tarojs/taro'
+支持存在最多**两个** WebSocket 链接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](native-api.md####SocketTask)。
 
-const socketTask = Taro.connectSocket(params).then(...)
-```
+**OBJECT 参数说明：**
 
-##### Taro.onSocketOpen
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| url | String | 是 | 开发者服务器接口地址，必须是 wss 协议 |
+| header | Object | 否 | HTTP Header , header 中不能设置 Referer |
+| method | String | 否 | 默认是GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
+| protocols | StringArray | 否 | 子协议数组 |
+| success | Function | 否 | 接口调用成功的回调函数 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
-使用方式同 [`wx.onSocketOpen`](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocket)
-
-##### Taro.onSocketError
-
-使用方式同 [`wx.onSocketError`](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocket)
-
-##### Taro.sendSocketMessage
-
-使用方式同 [`wx.sendSocketMessage`](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocket)，支持 `Promise` 化使用
+事例代码：
 
 ```javascript
 import Taro from '@tarojs/taro'
 
-Taro.sendSocketMessage(params).then(...)
+Taro.connectSocket({
+  url: 'ws://echo.websocket.org/echo',
+  success: function () {
+    console.log('connect success')
+  }
+})
+  .then(task => {
+    task.onOpen(function () {
+      console.log('onOpen')
+      task.send({ data: 'xxx'})
+    })
+    task.onMessage(function (msg) {
+      console.log('onMessage: ', msg)
+      task.close()
+    })
+    task.onError(function () {
+      console.log('onError')
+    })
+    task.onClose(function (e) {
+      console.log('onClose: ', e)
+    })
+  })
 ```
 
-##### Taro.onSocketMessage
+#### SocketTask
 
-使用方式同 [`wx.onSocketMessage`](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocket)
+WebSocket 任务，可通过 [wx.connectSocket()](Taro.connectSocket(OBJECT)) 接口创建返回。
 
-##### Taro.closeSocket
+属性
 
-使用方式同 [`wx.closeSocket`](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocket)，支持 `Promise` 化使用
+socketTask.readyState: websocket 当前的连接状态。
 
-```javascript
-import Taro from '@tarojs/taro'
+socketTask.CONNECTING: websocket 状态：连接中。
 
-Taro.closeSocket(params).then(...)
-```
+socketTask.OPEN: websocket 状态：已连接。
 
-##### Taro.onSocketClose
+socketTask.CLOSING: websocket 状态：关闭中。
 
-使用方式同 [`wx.onSocketClose`](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketclosecallback)
+socketTask.CLOSED: websocket 状态：已关闭。 
+
+socketTask.ws: 浏览器 websocket 实例。（**h5 端独有**）
+
+方法
+
+SocketTask.send(OBJECT)
+
+通过 WebSocket 连接发送数据。
+
+**OBJECT 参数说明：**
+
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| data | String/ArrayBuffer | 是 | 需要发送的内容 |
+| success | Function | 否 | 接口调用成功的回调函数 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+SocketTask.close(OBJECT)
+
+关闭 WebSocket 连接。
+
+**OBJECT 参数说明：**
+
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| code | Number | 否 | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。如果这个参数没有被指定，默认的取值是1000 （表示正常连接关闭） |
+| reason | String | 否 | 一个可读的字符串，表示连接被关闭的原因 |
+| success | Function | 否 | 接口调用成功的回调函数 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+SocketTask.onOpen(CALLBACK)
+
+监听 WebSocket 连接打开事件。
+
+SocketTask.onClose(CALLBACK)
+
+监听 WebSocket 连接关闭事件。
+
+**CALLBACK返回参数**
+
+| 参数 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| code | Number | 关闭连接的状态号 |
+| reason | String | 连接被关闭的原因 |
+
+SocketTask.onError(CALLBACK)
+
+监听 WebSocket 错误。
+
+**CALLBACK返回参数**
+
+| 参数 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| errMsg | String | 错误信息 |
+
+SocketTask.onMessage(CALLBACK)
+
+监听WebSocket接受到服务器的消息事件。
+
+**CALLBACK返回参数**
+
+| 参数 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| data | String/ArrayBuffer | 服务器返回的消息 |
+
+#### Taro.onSocketOpen
+
+`@Deprecated` 请使用 **SocketTask.onOpen**
+
+#### Taro.onSocketError
+
+`@Deprecated` 请使用 **SocketTask.onError**
+
+#### Taro.sendSocketMessage
+
+`@Deprecated` 请使用 **SocketTask.send**
+
+#### Taro.onSocketMessage
+
+`@Deprecated` 请使用 **SocketTask.onMessage**
+
+#### Taro.closeSocket
+
+`@Deprecated` 请使用 **SocketTask.close**
+
+#### Taro.onSocketClose
+
+`@Deprecated` 请使用 **SocketTask.onClose**
 
 > API 支持度
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
 | Taro.connectSocket | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketOpen | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketError | ✔️ | ✔️ | ✔️ |
-| Taro.sendSocketMessage | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketMessage | ✔️ | ✔️ | ✔️ |
-| Taro.closeSocket | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketClose | ✔️ | ✔️ | ✔️ |
+| SocketTask | ✔️ | ✔️ | ✔️ |
+| Taro.onSocketOpen | ✔️ |  | ✔️ |
+| Taro.onSocketError | ✔️ |  | ✔️ |
+| Taro.sendSocketMessage | ✔️ |  | ✔️ |
+| Taro.onSocketMessage | ✔️ |  | ✔️ |
+| Taro.closeSocket | ✔️ |  | ✔️ |
+| Taro.onSocketClose | ✔️ |  | ✔️ |
 
 ## 数据缓存
 
@@ -198,27 +306,27 @@ Taro.removeStorage(params).then(...)
 
 ### 交互反馈
 
-##### Taro.showToast
+#### Taro.showToast
 
 使用方式同 [`wx.showToast `](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html)
 
-##### Taro.showLoading
+#### Taro.showLoading
 
 使用方式同 [`wx.showLoading`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject)
 
-##### Taro.hideToast
+#### Taro.hideToast
 
 使用方式同 [`wx.hideToast`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhidetoast)
 
-##### Taro.hideLoading
+#### Taro.hideLoading
 
 使用方式同 [`wx.hideLoading`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading)
 
-##### Taro.showModal
+#### Taro.showModal
 
 使用方式同 [`wx.showModal`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject)
 
-##### Taro.showActionSheet
+#### Taro.showActionSheet
 
 使用方式同 [`wx.showActionSheet`](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowactionsheetobject)
 
@@ -235,15 +343,15 @@ Taro.removeStorage(params).then(...)
 
 ### 导航
 
-##### Taro.navigateTo
+#### Taro.navigateTo
 
 使用方式同 [`wx.navigateTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html)
 
-##### Taro.redirectTo
+#### Taro.redirectTo
 
 使用方式同 [`wx.redirectTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject)
 
-##### Taro.navigateBack
+#### Taro.navigateBack
 
 使用方式同 [`wx.navigateBack`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject)
 
@@ -257,39 +365,39 @@ Taro.removeStorage(params).then(...)
 
 ### WXML节点信息
 
-##### Taro.createSelectorQuery
+#### Taro.createSelectorQuery
 
 使用方式同 [`wx.createSelectorQuery`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#wxcreateselectorquery)
 
-##### selectorQuery.in
+#### selectorQuery.in
 
 使用方式同 [`selectorQuery.in`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryincomponent)
 
-##### selectorQuery.select
+#### selectorQuery.select
 
 使用方式同 [`selectorQuery.select`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryselectselector)
 
-##### selectorQuery.selectAll
+#### selectorQuery.selectAll
 
 使用方式同 [`selectorQuery.selectAll`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryselectallselector)
 
-##### selectorQuery.selectViewport
+#### selectorQuery.selectViewport
 
 使用方式同 [`selectorQuery.selectViewport`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryselectviewport)
 
-##### nodesRef.boundingClientRect
+#### nodesRef.boundingClientRect
 
 使用方式同 [`nodesRef.boundingClientRect`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#nodesrefboundingclientrectcallback)
 
-##### nodesRef.scrollOffset
+#### nodesRef.scrollOffset
 
 使用方式同 [`nodesRef.scrollOffset`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#nodesrefscrolloffsetcallback)
 
-##### nodesRef.fields
+#### nodesRef.fields
 
 使用方式同 [`nodesRef.fields`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#nodesreffieldsfieldscallback)
 
-##### selectorQuery.exec
+#### selectorQuery.exec
 
 使用方式同 [`selectorQuery.exec`](https://developers.weixin.qq.com/miniprogram/dev/api/wxml-nodes-info.html#selectorqueryexeccallback)
 

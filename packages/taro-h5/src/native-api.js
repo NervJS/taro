@@ -3,6 +3,7 @@ import jsonpRetry from 'jsonp-retry'
 import { createSelectorQuery } from './api/createSelectorQuery'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
+import webSocket from './api/webSocket'
 
 function request (options) {
   options = options || {}
@@ -274,5 +275,5 @@ export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
   taro.createSelectorQuery = createSelectorQuery
-  Object.assign(taro, storage, interactive)
+  Object.assign(taro, storage, interactive, webSocket)
 }
