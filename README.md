@@ -5,7 +5,7 @@
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 
-> 👽 Taro['tɑ:roʊ]，泰罗奥特曼，宇宙警备队总教官，实力最强的奥特曼。
+> 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
 ## 简介
 
@@ -13,7 +13,13 @@
 
 使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信小程序、H5、RN等）运行的代码。
 
-### Taro 特性
+## 使用案例
+
+Taro 已经投入到了生产环境使用，目前 [TOPLIFE](https://toplife.com) 整站、部分`京东购物`页面和`一起有局`页面都在使用 Taro 进行开发，未来也将接入更多京东业务。
+
+![qrcode.png](http://img14.360buyimg.com/uba/jfs/t21817/73/625556299/346228/96240192/5b14a81eN8e6a43db.png)
+
+## Taro 特性
 
 #### React 语法风格
 

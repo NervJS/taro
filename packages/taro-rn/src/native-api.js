@@ -1,4 +1,6 @@
 import storage from './api/storage'
+import system from './api/system'
+import network from './api/network'
 
 function request (options) {
   options = options || {}
@@ -256,5 +258,5 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
-  Object.assign(taro, storage)
+  Object.assign(taro, storage, system, network)
 }

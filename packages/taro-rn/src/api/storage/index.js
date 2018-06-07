@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native'
+import { generateUnSupportApi } from '../utils'
 
-function setStorage (opts = {}) {
+export function setStorage (opts = {}) {
   const { key, data, success, fail, complete } = opts
   const res = { errMsg: 'setStorage:ok' }
 
@@ -19,13 +20,7 @@ function setStorage (opts = {}) {
     })
 }
 
-async function setStorageSync (key, data = '') {
-  await AsyncStorage.setItem(key, JSON.stringify(data)).catch((err) => {
-    return Promise.reject(err)
-  })
-}
-
-function getStorage (opts = {}) {
+export function getStorage (opts = {}) {
   const { key, success, fail, complete } = opts
   const res = { errMsg: 'getStorage:ok' }
 
@@ -45,14 +40,7 @@ function getStorage (opts = {}) {
     })
 }
 
-async function getStorageSync (key) {
-  const res = await AsyncStorage.getItem(key).catch((err) => {
-    return Promise.reject(err)
-  })
-  return JSON.parse(res)
-}
-
-function getStorageInfo (opts = {}) {
+export function getStorageInfo (opts = {}) {
   const { success, fail, complete } = opts
   const res = { errMsg: 'getStorageInfo:ok' }
 
@@ -74,17 +62,7 @@ function getStorageInfo (opts = {}) {
     })
 }
 
-async function getStorageInfoSync () {
-  const res = {}
-  res.keys = await AsyncStorage.getAllKeys().catch((err) => {
-    return Promise.reject(err)
-  })
-  res.currentSize = null
-  res.limitSize = null
-  return res
-}
-
-function removeStorage (opts = {}) {
+export function removeStorage (opts = {}) {
   const { key, success, fail, complete } = opts
   const res = { errMsg: 'removeStorage:ok' }
 
@@ -103,28 +81,23 @@ function removeStorage (opts = {}) {
     })
 }
 
-async function removeStorageSync (key) {
-  const res = await AsyncStorage.removeItem(key).catch((err) => {
-    return Promise.reject(err)
-  })
-  return JSON.parse(res)
-}
-
-async function clearStorage () {
-  const res = await getStorageInfoSync()
+export async function clearStorage () {
+  const res = await getStorageInfo()
   const keys = res.keys
   return AsyncStorage.multiRemove(keys)
 }
 
-export {
+let unSupportApis = ['setStorageSync', 'getStorageSync', 'getStorageInfoSync', 'removeStorageSync', 'clearStorageSync']
+unSupportApis = generateUnSupportApi(
+  'React Native暂不支持storage的同步存取',
+  unSupportApis
+)
+
+export default {
   setStorage,
-  setStorageSync,
   getStorage,
-  getStorageSync,
   getStorageInfo,
-  getStorageInfoSync,
   removeStorage,
-  removeStorageSync,
   clearStorage,
-  clearStorage as clearStorageSync
+  ...unSupportApis
 }

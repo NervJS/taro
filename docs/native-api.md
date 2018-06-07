@@ -255,7 +255,7 @@ Taro.removeStorage(params).then(...)
 | Taro.redirectTo | ✔️ | ✔️ | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
 
-### WXML 节点信息
+### WXML节点信息
 
 ##### Taro.createSelectorQuery
 
