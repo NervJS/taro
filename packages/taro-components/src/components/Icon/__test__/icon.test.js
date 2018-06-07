@@ -10,4 +10,11 @@ describe('Icon', () => {
     const dom = Nerv.findDOMNode(component)
     expect(dom.textContent).toEqual('Icon')
   })
+  it('not type', () => {
+    const component = renderIntoDocument(<Icon>Icon</Icon>)
+    const scryResults = scryRenderedDOMComponentsWithClass(component, 'weui-icon-success')
+    expect(scryResults.length).toBe(0)
+    const dom = Nerv.findDOMNode(component)
+    expect(dom.textContent).toEqual('Icon')
+  })
 })
