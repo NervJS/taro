@@ -1,6 +1,6 @@
 const autoprefixer = require('autoprefixer')
 const pxtransform = require('postcss-pxtransform')
-
+const constparse = require('postcss-plugin-constparse')
 const { isEmptyObject } = require('../util')
 
 const defaultAutoprefixerConf = {
@@ -22,9 +22,18 @@ exports.getPostcssPlugins = function (config) {
   if (isEmptyObject(customAutoprefixerConf) || customAutoprefixerConf.enable) {
     plugins.push(autoprefixer(Object.assign({}, defaultAutoprefixerConf, customAutoprefixerConf)))
   }
+
   plugins.push(pxtransform({
     designWidth,
     platform: 'h5'
   }))
+
+  plugins.push(constparse({
+    constants: [{
+      key: 'taro-tabbar-height',
+      val: '50PX'
+    }]
+  }))
+
   return plugins.concat(customPlugins)
 }
