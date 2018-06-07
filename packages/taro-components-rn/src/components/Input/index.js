@@ -10,16 +10,16 @@
  * ✘ cursor-spacing
  * - auto-focus
  * ✔ focus
- * ✘ confirm-type
- * ✘ confirm-hold
+ * ✔ confirmType(confirm-type): Android only.
+ * ✔ confirmHold(confirm-hold)
  * ✔ cursor
  * ✔ selectionStart(selection-start)
  * ✔ selectionEnd(selection-end)
  * ✘ adjust-position
- * ✘ onInput(bindinput): No cursor info.
- * ✘ onFocus(bindfocus)
- * ✘ onBlur(bindblur)
- * ✘ onConfirm(bindconfirm)
+ * ✔ onInput(bindinput): No CURSOR info.
+ * ✔ onFocus(bindfocus): No HEIGHT info.
+ * ✔ onBlur(bindblur)
+ * ✔ onConfirm(bindconfirm)
  *
  * @flow
  */
@@ -41,6 +41,14 @@ const keyboardTypeMap = {
   }),
 }
 
+// const confirmTypeMap = {
+//   done: '完成',
+//   send: '发送',
+//   search: '搜索',
+//   next: '下一个',
+//   go: '前往',
+// }
+
 type Props = {
   style?: StyleSheet.Styles,
   value?: string,
@@ -50,24 +58,35 @@ type Props = {
   disabled?: boolean,
   maxlength: number,
   focus?: boolean,
+  confirmType: 'done' | 'send' | 'search' | 'next' | 'go',
+  confirmHold?: boolean,
   cursor?: number,
   selectionStart: number,
   selectionEnd: number,
   onInput?: Function,
+  onFocus?: Function,
+  onBlur?: Function,
+  onConfirm?: Function,
 }
 type State = {
   value: string
 }
 
 class _Input extends React.Component<Props, State> {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (props: Props) {
+    super(props)
+  }
+
   props: Props
   state: State = {
-    value: ''
+    value: this.props.value || ''
   }
 
   static defaultProps = {
     type: 'text',
     maxlength: 140,
+    confirmType: 'done',
     selectionStart: -1,
     selectionEnd: -1,
   }
@@ -76,10 +95,25 @@ class _Input extends React.Component<Props, State> {
     const { onInput } = this.props
     if (onInput) {
       const result = onInput({ detail: { value: text } })
-      if (result) {
-        this.setState({ value: result })
-      }
+      this.setState({ value: typeof result === 'string' ? result : text })
     }
+  }
+
+  onFocus = () => {
+    const { onFocus } = this.props
+    event.detail = { value, height }
+    onFocus && onFocus({ detail: { value: this.state.value } })
+  }
+
+  onBlur = () => {
+    const { onBlur } = this.props
+    onBlur && onBlur({ detail: { value: this.state.value } })
+  }
+
+  onKeyPress = (event) => {
+    if (event.nativeEvent.key !== 'Enter') return
+    const { onConfirm } = this.props
+    onConfirm && onConfirm({ detail: { value: this.state.value } })
   }
 
   render () {
@@ -91,6 +125,8 @@ class _Input extends React.Component<Props, State> {
       placeholder,
       disabled,
       maxlength,
+      confirmType,
+      confirmHold,
       focus,
       cursor,
       selectionStart,
@@ -115,10 +151,16 @@ class _Input extends React.Component<Props, State> {
         placeholder={placeholder}
         editable={!disabled}
         maxLength={maxlength}
+        // returnKeyLabel={confirmType}
+        returnKeyType={confirmType}
+        blurOnSubmit={!confirmHold}
         autoFocus={!!focus}
         selection={selection}
         onChangeText={this.onChangeText}
         value={this.state.value}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        onKeyPress={this.onKeyPress}
         style={style}
       />
     )
