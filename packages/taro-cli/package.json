@@ -17,6 +17,9 @@
     "taro",
     "weapp"
   ],
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
