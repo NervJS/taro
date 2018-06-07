@@ -2,15 +2,13 @@
   "name": "@tarojs/taro-rn",
   "version": "0.0.39",
   "description": "Taro RN framework",
-  "main": "index.js",
+  "main": "./src/index.js",
   "files": [
-    "dist",
     "src",
     "index.js"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,7 +20,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.39",
-    "react-native": "^0.55.4"
+    "@tarojs/taro": "0.0.39"
   }
 }
