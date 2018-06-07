@@ -10,7 +10,7 @@
  * ✘ cursor-spacing
  * - auto-focus
  * ✔ focus
- * ✔ confirmType(confirm-type): Android only.
+ * ✔ confirmType(confirm-type)
  * ✔ confirmHold(confirm-hold)
  * ✔ cursor
  * ✔ selectionStart(selection-start)
