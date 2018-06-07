@@ -31,9 +31,9 @@ class _Picker extends React.Component<Props, State> {
   }
 
   render () {
-    const {
-      style,
-    } = this.props
+    // const {
+    //   style,
+    // } = this.props
 
     return (
       <Picker

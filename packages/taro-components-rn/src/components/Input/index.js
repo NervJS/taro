@@ -10,16 +10,16 @@
  * ✘ cursor-spacing
  * - auto-focus
  * ✔ focus
- * ✘ confirm-type
- * ✘ confirm-hold
+ * ✔ confirmType(confirm-type): Android only.
+ * ✔ confirmHold(confirm-hold)
  * ✔ cursor
  * ✔ selectionStart(selection-start)
  * ✔ selectionEnd(selection-end)
  * ✘ adjust-position
- * ✘ onInput(bindinput): No cursor info.
- * ✘ onFocus(bindfocus)
- * ✘ onBlur(bindblur)
- * ✘ onConfirm(bindconfirm)
+ * ✔ onInput(bindinput): No CURSOR info.
+ * ✔ onFocus(bindfocus): No HEIGHT info.
+ * ✔ onBlur(bindblur): No CURSOR info.
+ * ✔ onConfirm(bindconfirm)
  *
  * @flow
  */
@@ -41,6 +41,14 @@ const keyboardTypeMap = {
   }),
 }
 
+// const confirmTypeMap = {
+//   done: '完成',
+//   send: '发送',
+//   search: '搜索',
+//   next: '下一个',
+//   go: '前往',
+// }
+
 type Props = {
   style?: StyleSheet.Styles,
   value?: string,
@@ -50,35 +58,80 @@ type Props = {
   disabled?: boolean,
   maxlength: number,
   focus?: boolean,
+  confirmType: 'done' | 'send' | 'search' | 'next' | 'go',
+  confirmHold?: boolean,
   cursor?: number,
   selectionStart: number,
   selectionEnd: number,
   onInput?: Function,
+  onFocus?: Function,
+  onBlur?: Function,
+  onConfirm?: Function,
+  // Private
+  _multiline?: boolean,
+  _autoHeight?: boolean,
+  _onLineChange?: Function,
 }
 type State = {
-  value: string
+  value: string,
+  height: number,
 }
 
 class _Input extends React.Component<Props, State> {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (props: Props) {
+    super(props)
+  }
+
   props: Props
   state: State = {
-    value: ''
+    value: this.props.value || '',
+    height: 0,
   }
+  lineCount: number = 0
 
   static defaultProps = {
     type: 'text',
     maxlength: 140,
+    confirmType: 'done',
     selectionStart: -1,
     selectionEnd: -1,
   }
 
-  onChangeText = (text) => {
+  onChangeText = (text: string) => {
     const { onInput } = this.props
     if (onInput) {
       const result = onInput({ detail: { value: text } })
-      if (result) {
-        this.setState({ value: result })
-      }
+      this.setState({ value: typeof result === 'string' ? result : text })
+    }
+  }
+
+  onFocus = () => {
+    const { onFocus } = this.props
+    // event.detail = { value, height }
+    onFocus && onFocus({ detail: { value: this.state.value } })
+  }
+
+  onBlur = () => {
+    const { onBlur } = this.props
+    onBlur && onBlur({ detail: { value: this.state.value } })
+  }
+
+  onKeyPress = (event: Object) => {
+    if (event.nativeEvent.key !== 'Enter') return
+    const { onConfirm } = this.props
+    onConfirm && onConfirm({ detail: { value: this.state.value } })
+  }
+
+  onContentSizeChange = (event: Object) => {
+    const { width, height } = event.nativeEvent.contentSize
+    // One of width and height may be 0.
+    if (width && height) {
+      const { _autoHeight, _onLineChange } = this.props
+      if (!_autoHeight || height === this.state.height) return
+      this.lineCount += height > this.state.height ? 1 : -1
+      _onLineChange && _onLineChange({ detail: { height, lineCount: this.lineCount } })
+      this.setState({ height })
     }
   }
 
@@ -91,10 +144,13 @@ class _Input extends React.Component<Props, State> {
       placeholder,
       disabled,
       maxlength,
+      confirmType,
+      confirmHold,
       focus,
       cursor,
       selectionStart,
       selectionEnd,
+      _multiline,
     } = this.props
 
     const keyboardType = keyboardTypeMap[type]
@@ -115,11 +171,19 @@ class _Input extends React.Component<Props, State> {
         placeholder={placeholder}
         editable={!disabled}
         maxLength={maxlength}
+        // returnKeyLabel={confirmType}
+        returnKeyType={confirmType}
+        blurOnSubmit={!_multiline && !confirmHold}
         autoFocus={!!focus}
         selection={selection}
         onChangeText={this.onChangeText}
         value={this.state.value}
-        style={style}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        onKeyPress={this.onKeyPress}
+        multiline={!!_multiline}
+        onContentSizeChange={this.onContentSizeChange}
+        style={[style, _multiline && { height: Math.max(35, this.state.height) }]}
       />
     )
   }

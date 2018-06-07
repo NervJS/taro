@@ -35,6 +35,7 @@ module.exports = function (config) {
   }, useModuleConf.compress)
   cssLoaders.push({
     test: /\.(css|scss|sass)(\?.*)?$/,
+    exclude: /node_modules/,
     loader: ExtractTextPlugin.extract({
       fallback: require.resolve('style-loader'),
       use: [
@@ -51,6 +52,24 @@ module.exports = function (config) {
           options: {
             ident: 'postcss',
             plugins: () => getPostcssPlugins(config)
+          }
+        },
+        require.resolve('sass-loader')
+      ]
+    })
+  })
+  cssLoaders.push({
+    test: /\.(css|scss|sass)(\?.*)?$/,
+    include: /node_modules/,
+    loader: ExtractTextPlugin.extract({
+      fallback: require.resolve('style-loader'),
+      use: [
+        {
+          loader: require.resolve('css-loader'),
+          options: {
+            importLoaders: 1,
+            minimize: compress.css,
+            sourceMap
           }
         },
         require.resolve('sass-loader')
