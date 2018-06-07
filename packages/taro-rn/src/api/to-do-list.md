@@ -6,23 +6,23 @@
 
 ☑️ wx.setStorage
 
-☑️ wx.setStorageSync   (因rn内部的api是异步的，所以该函数还是要用async/await才能实现同步效果)
+☑️ wx.setStorageSync  (因rn内部的api是异步的，所以不支持)
 
 ☑️ wx.getStorage
 
-☑️ wx.getStorageSync   (因rn内部的api是异步的，所以该函数还是要用async/await才能实现同步效果)
+☑️ wx.getStorageSync  (因rn内部的api是异步的，所以不支持)
 
 ☑️ wx.getStorageInfo
 
-☑️ wx.getStorageInfoSync   (因rn内部的api是异步的，所以该函数还是要用async/await才能实现同步效果)
+☑️ wx.getStorageInfoSync   (因rn内部的api是异步的，所以不支持)
 
 ☑️ wx.removeStorage
 
-☑️ wx.removeStorageSync   (因rn内部的api是异步的，所以该函数还是要用async/await才能实现同步效果)
+☑️ wx.removeStorageSync  (因rn内部的api是异步的，所以不支持)
 
 ☑️ wx.clearStorage
 
-☑️ wx.clearStorageSync   (因rn内部的api是异步的，所以该函数还是要用async/await才能实现同步效果)
+☑️ wx.clearStorageSync   (因rn内部的api是异步的，所以不支持)
 
 
 

@@ -7,11 +7,18 @@ const types = {
   idcard: 'idcard',
   digit: 'digit'
 }
-function parseType (type, isPassword) {
+function parseType (type, isPassword, confirmType) {
   if (!types[type]) {
     throw new Error('unexpected type')
   }
-  return isPassword ? 'password' : 'text'
+  // return isPassword ? 'password' : 'text'
+  if (isPassword) {
+    return 'isPassword'
+  } else if (confirmType) {
+    return 'search'
+  } else {
+    return 'text'
+  }
 }
 class Input extends Nerv.Component {
   constructor () {
@@ -28,7 +35,8 @@ class Input extends Nerv.Component {
       maxlength,
       onInput,
       onFocus,
-      onBlur
+      onBlur,
+      confirmType = ''
     } = this.props
     const cls = classNames('weui-input', className)
     return (
@@ -50,7 +58,7 @@ class Input extends Nerv.Component {
         onChange={onInput}
         onFocus={onFocus}
         onBlur={onBlur}
-        type={parseType(type, password)}
+        type={parseType(type, password, confirmType)}
       />
     )
   }

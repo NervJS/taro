@@ -16,7 +16,8 @@
     "packages/taro-rn-runner",
     "packages/taro-router",
     "packages/taro-weapp",
-    "packages/taro-webpack-runner"
+    "packages/taro-webpack-runner",
+    "packages/postcss-plugin-constparse"
   ],
   "command": {
     "publish": {
