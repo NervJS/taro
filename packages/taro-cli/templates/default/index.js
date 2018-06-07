@@ -24,6 +24,7 @@ module.exports = function (creater, params, helper, cb) {
     version
   })
   creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
+  creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
   creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'))
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
@@ -51,6 +52,7 @@ module.exports = function (creater, params, helper, cb) {
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/prod.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.editorconfig`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.gitignore`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.npmrc`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/package.json`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.eslintrc`)}`)
     console.log()

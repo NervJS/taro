@@ -1,0 +1,4 @@
+registry=https://registry.npm.taobao.org
+disturl=https://npm.taobao.org/mirrors/node
+sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+fse_binary_host_mirror=https://npm.taobao.org/mirrors/fsevents
