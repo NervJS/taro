@@ -1,3 +1,5 @@
+import storage from './api/storage'
+
 function request (options) {
   options = options || {}
   if (typeof options === 'string') {
@@ -254,4 +256,5 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
+  Object.assign(taro, storage)
 }
