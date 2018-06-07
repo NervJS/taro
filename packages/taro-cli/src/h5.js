@@ -135,6 +135,10 @@ function processEntry (code) {
                 value.properties.forEach(node => {
                   if (node.key.name === 'position') tabbarPos = node.value.value
                 })
+              } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
+                astPath.replaceWith(
+                  t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
+                )
               }
             }
           })

@@ -10,7 +10,8 @@
 | [`@tarojs/router`](https://www.npmjs.com/package/@tarojs/router) |  taro h5 路由  |
 | [`@tarojs/async-await`](https://www.npmjs.com/package/@tarojs/async-await)      |  支持使用 asyn/await 语法  |
 | [`@tarojs/cli`](https://www.npmjs.com/package/@tarojs/cli) | taro开发工具   |
-| [`@tarojs/webpack-runner`](https://www.npmjs.com/package/@tarojs/webpack-runner) |  taro h5 端 webpack 编译工具  |
+| [`@tarojs/taro-rn-runner`](https://www.npmjs.com/package/@tarojs/rn-runner) |  taro ReactNative 打包编译工具  |
+| [`@tarojs/webpack-runner`](https://www.npmjs.com/package/@tarojs/webpack-runner) |  taro h5 端 webpack 打包编译工具  |
 | [`@tarojs/components`](https://www.npmjs.com/package/@tarojs/components) | taro 标准组件库，h5 版 |
 | [`@tarojs/components-rn`](https://www.npmjs.com/package/@tarojs/components-rn) |  taro 标准组件库，RractNative 版  |
 | [`@tarojs/plugin-babel`](https://www.npmjs.com/package/@tarojs/plugin-babel) |  taro babel 编译插件  |
