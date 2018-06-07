@@ -37,12 +37,12 @@ declare namespace Taro {
         [key: string]: any
     };
   }
-  
+
   class PureComponent<P = {}, S = {}> extends Component<P, S> { }
 
   // Events
   class Events {
-    /** 
+    /**
      * 监听一个事件，接受参数
      */
     on(eventName: string | symbol, listener: (...args: any[]) => void): this;
@@ -52,7 +52,7 @@ declare namespace Taro {
      */
     off(eventName: string | symbol, listener: (...args: any[]) => void): this;
 
-    /** 
+    /**
      * 触发一个事件，传参
      */
     trigger(eventName: string | symbol, ...args: any[]): boolean;
@@ -80,15 +80,15 @@ declare namespace Taro {
   function getEnv(): 'WEAPP' | 'WEB' | 'RN';
 
 
-  /** 
-   * 
+  /**
+   *
    * 微信端能力
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/Taro.d.ts
    * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
-   * 
+   *
    */
-  
+
   namespace request {
     type Promised = {
       /**
@@ -145,7 +145,13 @@ declare namespace Taro {
        * @default text
        * @since 1.7.0
        */
-      responseType?: string
+      responseType?: string,
+      /**
+       * 设置H5端是否使用jsonp方式获取数据
+       *
+       * @default false
+       */
+      jsonp?: boolean
     }
   }
   /**
@@ -166,7 +172,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.request({
+   *     Taro.request({
    *       url: 'test.php', //仅为示例，并非真实的接口地址
    *       data: {
    *          x: '' ,
@@ -184,7 +190,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const requestTask = wx.request({
+   *     const requestTask = Taro.request({
    *       url: 'test.php', //仅为示例，并非真实的接口地址
    *       data: {
    *          x: '' ,
@@ -241,7 +247,7 @@ declare namespace Taro {
   /**
    * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data` 。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
    *
-   * 如页面通过 [wx.chooseImage](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject) 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。
+   * 如页面通过 [Taro.chooseImage](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject) 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。
    *
    * **返回值：**
    *
@@ -252,10 +258,10 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.chooseImage({
+   *     Taro.chooseImage({
    *       success: function(res) {
    *         var tempFilePaths = res.tempFilePaths
-   *         wx.uploadFile({
+   *         Taro.uploadFile({
    *           url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
    *           filePath: tempFilePaths[0],
    *           name: 'file',
@@ -274,7 +280,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const uploadTask = wx.uploadFile({
+   *     const uploadTask = Taro.uploadFile({
    *         url: 'http://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
    *         filePath: tempFilePaths[0],
    *         name: 'file',
@@ -337,12 +343,12 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.downloadFile({
+   *     Taro.downloadFile({
    *       url: 'https://example.com/audio/123', //仅为示例，并非真实的资源
    *       success: function(res) {
    *         // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
    *         if (res.statusCode === 200) {
-   *             wx.playVoice({
+   *             Taro.playVoice({
    *               filePath: res.tempFilePath
    *             })
    *         }
@@ -353,10 +359,10 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const downloadTask = wx.downloadFile({
+   *     const downloadTask = Taro.downloadFile({
    *         url: 'http://example.com/audio/123', //仅为示例，并非真实的资源
    *         success: function(res) {
-   *             wx.playVoice({
+   *             Taro.playVoice({
    *                 filePath: res.tempFilePath
    *             })
    *         }
@@ -375,6 +381,12 @@ declare namespace Taro {
   function downloadFile(OBJECT: downloadFile.Param): Promise<downloadFile.Promised>
 
   namespace connectSocket {
+    type Promised = {
+      /**
+       * 返回一个SocketTask
+       */
+      socketTask: SocketTask
+    }
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
@@ -399,18 +411,18 @@ declare namespace Taro {
   /**
    * 创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 连接。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
    *
-   * **基础库 1.7.0 之前，一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。基础库版本 1.7.0 及以后，支持存在多个 WebSokcet 连接，每次成功调用 wx.connectSocket 会返回一个新的 [SocketTask](https://developers.weixin.qq.com/miniprogram/dev/api/socket-task.html)。**
+   * **基础库 1.7.0 之前，一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。基础库版本 1.7.0 及以后，支持存在多个 WebSokcet 连接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](https://developers.weixin.qq.com/miniprogram/dev/api/socket-task.html)。**
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.connectSocket({
+   *     Taro.connectSocket({
    *       url: 'wss://example.qq.com',
    *       data:{
    *         x: '',
    *         y: ''
    *       },
-   *       header:{ 
+   *       header:{
    *         'content-type': 'application/json'
    *       },
    *       protocols: ['protocol1'],
@@ -438,10 +450,10 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.connectSocket({
+   *     Taro.connectSocket({
    *       url: 'test.php'
    *     })
-   *     wx.onSocketOpen(function(res) {
+   *     Taro.onSocketOpen(function(res) {
    *       console.log('WebSocket连接已打开！')
    *     })
    *     ```
@@ -455,13 +467,13 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.connectSocket({
+   *     Taro.connectSocket({
    *       url: 'test.php'
    *     })
-   *     wx.onSocketOpen(function(res){
+   *     Taro.onSocketOpen(function(res){
    *       console.log('WebSocket连接已打开！')
    *     })
-   *     wx.onSocketError(function(res){
+   *     Taro.onSocketError(function(res){
    *       console.log('WebSocket连接打开失败，请检查！')
    *     })
    *     ```
@@ -478,18 +490,18 @@ declare namespace Taro {
     }
   }
   /**
-   * 通过 WebSocket 连接发送数据，需要先 [wx.connectSocket](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject)，并在 [wx.onSocketOpen](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketopencallback) 回调之后才能发送。
+   * 通过 WebSocket 连接发送数据，需要先 [Taro.connectSocket](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject)，并在 [Taro.onSocketOpen](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketopencallback) 回调之后才能发送。
    *
    * **示例代码：**
    *
    *     ```javascript
    *     var socketOpen = false
    *     var socketMsgQueue = []
-   *     wx.connectSocket({
+   *     Taro.connectSocket({
    *       url: 'test.php'
    *     })
    *
-   *     wx.onSocketOpen(function(res) {
+   *     Taro.onSocketOpen(function(res) {
    *       socketOpen = true
    *       for (var i = 0; i < socketMsgQueue.length; i++){
    *          sendSocketMessage(socketMsgQueue[i])
@@ -499,7 +511,7 @@ declare namespace Taro {
    *
    *     function sendSocketMessage(msg) {
    *       if (socketOpen) {
-   *         wx.sendSocketMessage({
+   *         Taro.sendSocketMessage({
    *           data:msg
    *         })
    *       } else {
@@ -526,11 +538,11 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.connectSocket({
+   *     Taro.connectSocket({
    *       url: 'test.php'
    *     })
    *
-   *     wx.onSocketMessage(function(res) {
+   *     Taro.onSocketMessage(function(res) {
    *       console.log('收到服务器内容：' + res.data)
    *     })
    *     ```
@@ -576,18 +588,18 @@ declare namespace Taro {
    * **示例：**
    *
    *     ```javascript
-   *     wx.connectSocket({
+   *     Taro.connectSocket({
    *       url: 'test.php'
    *     })
    *
    *     //注意这里有时序问题，
-   *     //如果 wx.connectSocket 还没回调 wx.onSocketOpen，而先调用 wx.closeSocket，那么就做不到关闭 WebSocket 的目的。
-   *     //必须在 WebSocket 打开期间调用 wx.closeSocket 才能关闭。
-   *     wx.onSocketOpen(function() {
-   *       wx.closeSocket()
+   *     //如果 Taro.connectSocket 还没回调 Taro.onSocketOpen，而先调用 Taro.closeSocket，那么就做不到关闭 WebSocket 的目的。
+   *     //必须在 WebSocket 打开期间调用 Taro.closeSocket 才能关闭。
+   *     Taro.onSocketOpen(function() {
+   *       Taro.closeSocket()
    *     })
    *
-   *     wx.onSocketClose(function(res) {
+   *     Taro.onSocketClose(function(res) {
    *       console.log('WebSocket 已关闭！')
    *     })
    *     ```
@@ -686,7 +698,7 @@ declare namespace Taro {
   /**
    * @since 1.7.0
    *
-   * WebSocket 任务，可通过 [wx.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html) 接口创建返回。
+   * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html) 接口创建返回。
    */
   class SocketTask {
     /**
@@ -780,7 +792,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.chooseImage({
+   *     Taro.chooseImage({
    *       count: 1, // 默认9
    *       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
    *       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
@@ -812,7 +824,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.previewImage({
+   *     Taro.previewImage({
    *       current: '', // 当前显示图片的http链接
    *       urls: [] // 需要预览的图片http链接列表
    *     })
@@ -840,12 +852,12 @@ declare namespace Taro {
        *
        * **orientation参数说明：**
        *
-       *   枚举值           |  说明           
+       *   枚举值           |  说明
        * -------------------|-----------------
-       *   up               |  默认           
-       *   down             |  180度旋转      
-       *   left             |  逆时针旋转90度 
-       *   right            |  顺时针旋转90度 
+       *   up               |  默认
+       *   down             |  180度旋转
+       *   left             |  逆时针旋转90度
+       *   right            |  顺时针旋转90度
        *   up-mirrored      | 同up，但水平翻转
        *   down-mirrored    |同down，但水平翻转
        *   left-mirrored    |同left，但垂直翻转
@@ -874,7 +886,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getImageInfo({
+   *     Taro.getImageInfo({
    *       src: 'images/a.jpg',
    *       success: function (res) {
    *         console.log(res.width)
@@ -882,9 +894,9 @@ declare namespace Taro {
    *       }
    *     })
    *
-   *     wx.chooseImage({
+   *     Taro.chooseImage({
    *       success: function (res) {
-   *         wx.getImageInfo({
+   *         Taro.getImageInfo({
    *           src: res.tempFilePaths[0],
    *           success: function (res) {
    *             console.log(res.width)
@@ -920,7 +932,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.saveImageToPhotosAlbum({
+   *     Taro.saveImageToPhotosAlbum({
    *         success(res) {
    *         }
    *     })
@@ -939,9 +951,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [wx.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html) 接口**
    *
-   * 开始录音。当主动调用`wx.stopRecord`，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。
+   * 开始录音。当主动调用`Taro.stopRecord`，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。
    *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.record
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstartrecordobject
@@ -954,17 +966,17 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startRecord({
+   *     Taro.startRecord({
    *       success: function(res) {
-   *         var tempFilePath = res.tempFilePath 
+   *         var tempFilePath = res.tempFilePath
    *       },
    *       fail: function(res) {
    *          //录音失败
    *       }
    *     })
    *     setTimeout(function() {
-   *       //结束录音  
-   *       wx.stopRecord()
+   *       //结束录音
+   *       Taro.stopRecord()
    *     }, 10000)
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstoprecord
@@ -978,22 +990,22 @@ declare namespace Taro {
    *
    * **其中，采样率和码率有一定要求，具体有效值如下：：**
    *
-   *   采样率  |  编码码率         
+   *   采样率  |  编码码率
    * ----------|-------------------
-   *   8000    |  16000 ~ 48000    
-   *   11025   |  16000 ~ 48000    
-   *   12000   |  24000 ~ 64000    
-   *   16000   |  24000 ~ 96000    
-   *   22050   |  32000 ~ 128000   
-   *   24000   |  32000 ~ 128000   
-   *   32000   |  48000 ~ 192000   
-   *   44100   |  64000 ~ 320000   
-   *   48000   |  64000 ~ 320000   
+   *   8000    |  16000 ~ 48000
+   *   11025   |  16000 ~ 48000
+   *   12000   |  24000 ~ 64000
+   *   16000   |  24000 ~ 96000
+   *   22050   |  32000 ~ 128000
+   *   24000   |  32000 ~ 128000
+   *   32000   |  48000 ~ 192000
+   *   44100   |  64000 ~ 320000
+   *   48000   |  64000 ~ 320000
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     const recorderManager = wx.getRecorderManager()
+   *     const recorderManager = Taro.getRecorderManager()
    *
    *     recorderManager.onStart(() => {
    *       console.log('recorder start')
@@ -1139,17 +1151,17 @@ declare namespace Taro {
     }
   }
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [wx.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    *
    * 开始播放语音，同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startRecord({
+   *     Taro.startRecord({
    *       success: function(res) {
    *         var tempFilePath = res.tempFilePath
-   *         wx.playVoice({
+   *         Taro.playVoice({
    *           filePath: tempFilePath,
    *           complete: function(){
    *           }
@@ -1162,21 +1174,21 @@ declare namespace Taro {
   function playVoice(OBJECT: playVoice.Param): Promise<any>
 
   /**
-   * 暂停正在播放的语音。再次调用wx.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 wx.stopVoice。
+   * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startRecord({
+   *     Taro.startRecord({
    *       success: function(res) {
    *         var tempFilePath = res.tempFilePath
-   *           wx.playVoice({
+   *           Taro.playVoice({
    *           filePath: tempFilePath
    *         })
    *
    *         setTimeout(function() {
    *             //暂停播放
-   *           wx.pauseVoice()
+   *           Taro.pauseVoice()
    *         }, 5000)
    *       }
    *     })
@@ -1191,15 +1203,15 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startRecord({
+   *     Taro.startRecord({
    *       success: function(res) {
    *         var tempFilePath = res.tempFilePath
-   *         wx.playVoice({
+   *         Taro.playVoice({
    *           filePath:tempFilePath
    *         })
    *
    *         setTimeout(function(){
-   *           wx.stopVoice()
+   *           Taro.stopVoice()
    *         }, 5000)
    *       }
    *     })
@@ -1234,14 +1246,14 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [wx.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html) 接口**
+   * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html) 接口**
    *
    * 获取后台音乐播放状态。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getBackgroundAudioPlayerState({
+   *     Taro.getBackgroundAudioPlayerState({
    *         success: function(res) {
    *             var status = res.status
    *             var dataUrl = res.dataUrl
@@ -1277,7 +1289,7 @@ declare namespace Taro {
    * **OBJECT参数说明：**
    *
    *     ```javascript
-   *     wx.playBackgroundAudio({
+   *     Taro.playBackgroundAudio({
    *         dataUrl: '',
    *         title: '',
    *         coverImgUrl: ''
@@ -1295,7 +1307,7 @@ declare namespace Taro {
    * **示例：**
    *
    *     ```javascript
-   *     wx.pauseBackgroundAudio()
+   *     Taro.pauseBackgroundAudio()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxpausebackgroundaudio
    */
@@ -1315,7 +1327,7 @@ declare namespace Taro {
    * **OBJECT参数说明：**
    *
    *     ```javascript
-   *     wx.seekBackgroundAudio({
+   *     Taro.seekBackgroundAudio({
    *         position: 30
    *     })
    *     ```
@@ -1331,7 +1343,7 @@ declare namespace Taro {
    * **示例：**
    *
    *     ```javascript
-   *     wx.stopBackgroundAudio()
+   *     Taro.stopBackgroundAudio()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxstopbackgroundaudio
    */
@@ -1354,7 +1366,7 @@ declare namespace Taro {
    *
    * **bug & tip：**
    *
-   * 1.  `bug`: `iOS` `6.3.30` wx.seekBackgroundAudio 会有短暂延迟
+   * 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudiostopcallback
    */
   function onBackgroundAudioStop(CALLBACK: any): void
@@ -1366,7 +1378,7 @@ declare namespace Taro {
    *
    * **errcode 说明：**
    *
-   *   errCode   |  说明   
+   *   errCode   |  说明
    * ------------|---------
    *   10001     | 系统错误
    *   10002     | 网络错误
@@ -1377,7 +1389,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const backgroundAudioManager = wx.getBackgroundAudioManager()
+   *     const backgroundAudioManager = Taro.getBackgroundAudioManager()
    *
    *     backgroundAudioManager.title = '此时此刻'
    *     backgroundAudioManager.epname = '此时此刻'
@@ -1506,7 +1518,7 @@ declare namespace Taro {
     onWaiting(callback: any): any
   }
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [wx.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    *
    * 创建并返回 audio 上下文 `audioContext` 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<audio/>` 组件
    *
@@ -1532,8 +1544,8 @@ declare namespace Taro {
    *     // audio.js
    *     Page({
    *       onReady: function (e) {
-   *         // 使用 wx.createAudioContext 获取 audio 上下文 context
-   *         this.audioCtx = wx.createAudioContext('myAudio')
+   *         // 使用 Taro.createAudioContext 获取 audio 上下文 context
+   *         this.audioCtx = Taro.createAudioContext('myAudio')
    *         this.audioCtx.setSrc('http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46')
    *         this.audioCtx.play()
    *       },
@@ -1579,11 +1591,11 @@ declare namespace Taro {
   /**
    * @since 1.6.0
    *
-   * 创建并返回内部 audio 上下文 `innerAudioContext` 对象。_本接口是 `wx.createAudioContext` 升级版。_
+   * 创建并返回内部 audio 上下文 `innerAudioContext` 对象。_本接口是 `Taro.createAudioContext` 升级版。_
    *
    * **errCode 说明：**
    *
-   *   errCode   |  说明   
+   *   errCode   |  说明
    * ------------|---------
    *   10001     | 系统错误
    *   10002     | 网络错误
@@ -1594,7 +1606,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const innerAudioContext = wx.createInnerAudioContext()
+   *     const innerAudioContext = Taro.createInnerAudioContext()
    *     innerAudioContext.autoplay = true
    *     innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
    *     innerAudioContext.onPlay(() => {
@@ -1839,7 +1851,7 @@ declare namespace Taro {
    *     Page({
    *         bindButtonTap: function() {
    *             var that = this
-   *             wx.chooseVideo({
+   *             Taro.chooseVideo({
    *                 sourceType: ['album','camera'],
    *                 maxDuration: 60,
    *           camera: 'back',
@@ -1882,7 +1894,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.saveVideoToPhotosAlbum({
+   *     Taro.saveVideoToPhotosAlbum({
    *       filePath: 'wxfile://xxx'
    *       success(res) {
    *         console.log(res.errMsg)
@@ -1927,7 +1939,7 @@ declare namespace Taro {
    *
    *     Page({
    *       onReady: function (res) {
-   *         this.videoContext = wx.createVideoContext('myVideo')
+   *         this.videoContext = Taro.createVideoContext('myVideo')
    *       },
    *       inputValue: '',
    *       bindInputBlur: function(e) {
@@ -2587,10 +2599,10 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.chooseImage({
+   *     Taro.chooseImage({
    *       success: function(res) {
    *         var tempFilePaths = res.tempFilePaths
-   *         wx.saveFile({
+   *         Taro.saveFile({
    *           tempFilePath: tempFilePaths[0],
    *           success: function(res) {
    *             var savedFilePath = res.savedFilePath
@@ -2640,7 +2652,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getSavedFileList({
+   *     Taro.getSavedFileList({
    *       success: function(res) {
    *         console.log(res.fileList)
    *       }
@@ -2673,12 +2685,12 @@ declare namespace Taro {
     }
   }
   /**
-   * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [wx.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html) 接口。
+   * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html) 接口。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getSavedFileInfo({
+   *     Taro.getSavedFileInfo({
    *       filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
    *       success: function(res) {
    *         console.log(res.size)
@@ -2704,10 +2716,10 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getSavedFileList({
+   *     Taro.getSavedFileList({
    *       success: function(res) {
    *         if (res.fileList.length > 0){
-   *           wx.removeSavedFile({
+   *           Taro.removeSavedFile({
    *             filePath: res.fileList[0].filePath,
    *             complete: function(res) {
    *               console.log(res)
@@ -2741,11 +2753,11 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.downloadFile({
+   *     Taro.downloadFile({
    *       url: 'http://example.com/somefile.pdf',
    *       success: function (res) {
    *         var filePath = res.tempFilePath
-   *         wx.openDocument({
+   *         Taro.openDocument({
    *           filePath: filePath,
    *           success: function (res) {
    *             console.log('打开文档成功')
@@ -2792,7 +2804,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getFileInfo({
+   *     Taro.getFileInfo({
    *         success(res) {
    *             console.log(res.size)
    *             console.log(res.digest)
@@ -2821,7 +2833,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setStorage({
+   *     Taro.setStorage({
    *       key:"key",
    *       data:"value"
    *     })
@@ -2837,8 +2849,8 @@ declare namespace Taro {
    *
    *     ```javascript
    *     try {
-   *         wx.setStorageSync('key', 'value')
-   *     } catch (e) {    
+   *         Taro.setStorageSync('key', 'value')
+   *     } catch (e) {
    *     }
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstoragesynckeydata
@@ -2865,11 +2877,11 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getStorage({
+   *     Taro.getStorage({
    *       key: 'key',
    *       success: function(res) {
    *           console.log(res.data)
-   *       } 
+   *       }
    *     })
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageobject
@@ -2883,7 +2895,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     try {
-   *       var value = wx.getStorageSync('key')
+   *       var value = Taro.getStorageSync('key')
    *       if (value) {
    *           // Do something with return value
    *       }
@@ -2918,7 +2930,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getStorageInfo({
+   *     Taro.getStorageInfo({
    *       success: function(res) {
    *         console.log(res.keys)
    *         console.log(res.currentSize)
@@ -2953,7 +2965,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     try {
-   *       var res = wx.getStorageInfoSync()
+   *       var res = Taro.getStorageInfoSync()
    *       console.log(res.keys)
    *       console.log(res.currentSize)
    *       console.log(res.limitSize)
@@ -2979,11 +2991,11 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.removeStorage({
+   *     Taro.removeStorage({
    *       key: 'key',
    *       success: function(res) {
    *         console.log(res.data)
-   *       } 
+   *       }
    *     })
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestorageobject
@@ -2997,7 +3009,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     try {
-   *       wx.removeStorageSync('key')
+   *       Taro.removeStorageSync('key')
    *     } catch (e) {
    *       // Do something when catch error
    *     }
@@ -3012,7 +3024,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.clearStorage()
+   *     Taro.clearStorage()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstorage
    */
@@ -3029,7 +3041,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     try {
-   *         wx.clearStorageSync()
+   *         Taro.clearStorageSync()
    *     } catch(e) {
    *       // Do something when catch error
    *     }
@@ -3077,7 +3089,7 @@ declare namespace Taro {
     }
     type Param = {
       /**
-       * 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于`wx.openLocation`的坐标
+       * 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于`Taro.openLocation`的坐标
        */
       type?: string
       /**
@@ -3094,7 +3106,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getLocation({
+   *     Taro.getLocation({
    *       type: 'wgs84',
    *       success: function(res) {
    *         var latitude = res.latitude
@@ -3173,12 +3185,12 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getLocation({
-   *       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+   *     Taro.getLocation({
+   *       type: 'gcj02', //返回可以用于Taro.openLocation的经纬度
    *       success: function(res) {
    *         var latitude = res.latitude
    *         var longitude = res.longitude
-   *         wx.openLocation({
+   *         Taro.openLocation({
    *           latitude: latitude,
    *           longitude: longitude,
    *           scale: 28
@@ -3215,8 +3227,8 @@ declare namespace Taro {
    *     // map.js
    *     Page({
    *       onReady: function (e) {
-   *         // 使用 wx.createMapContext 获取 map 上下文
-   *         this.mapCtx = wx.createMapContext('myMap')
+   *         // 使用 Taro.createMapContext 获取 map 上下文
+   *         this.mapCtx = Taro.createMapContext('myMap')
    *       },
    *       getCenterLocation: function () {
    *         this.mapCtx.getCenterLocation({
@@ -3401,7 +3413,7 @@ declare namespace Taro {
   }
   class MapContext {
     /**
-     * 获取当前地图中心的经纬度，返回的是 gcj02 坐标系，可以用于 [`wx.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject)
+     * 获取当前地图中心的经纬度，返回的是 gcj02 坐标系，可以用于 [`Taro.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject)
      */
     getCenterLocation(OBJECT: MapContext.getCenterLocation.Param): any
     /**
@@ -3512,7 +3524,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getSystemInfo({
+   *     Taro.getSystemInfo({
    *       success: function(res) {
    *         console.log(res.model)
    *         console.log(res.pixelRatio)
@@ -3607,7 +3619,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     try {
-   *       var res = wx.getSystemInfoSync()
+   *       var res = Taro.getSystemInfoSync()
    *       console.log(res.model)
    *       console.log(res.pixelRatio)
    *       console.log(res.windowWidth)
@@ -3643,16 +3655,16 @@ declare namespace Taro {
    * **示例：**
    *
    *     ```js
-   *     wx.canIUse('openBluetoothAdapter')
-   *     wx.canIUse('getSystemInfoSync.return.screenWidth')
-   *     wx.canIUse('getSystemInfo.success.screenWidth')
-   *     wx.canIUse('showToast.object.image')
-   *     wx.canIUse('onCompassChange.callback.direction')
-   *     wx.canIUse('request.object.method.GET')
+   *     Taro.canIUse('openBluetoothAdapter')
+   *     Taro.canIUse('getSystemInfoSync.return.screenWidth')
+   *     Taro.canIUse('getSystemInfo.success.screenWidth')
+   *     Taro.canIUse('showToast.object.image')
+   *     Taro.canIUse('onCompassChange.callback.direction')
+   *     Taro.canIUse('request.object.method.GET')
    *
-   *     wx.canIUse('live-player')
-   *     wx.canIUse('text.selectable')
-   *     wx.canIUse('button.open-type.contact')
+   *     Taro.canIUse('live-player')
+   *     Taro.canIUse('text.selectable')
+   *     Taro.canIUse('button.open-type.contact')
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-caniuse.html#wxcaniusestring
    */
@@ -3673,7 +3685,7 @@ declare namespace Taro {
    * **success返回参数说明：**
    *
    *     ```javascript
-   *     wx.getNetworkType({
+   *     Taro.getNetworkType({
    *       success: function(res) {
    *         // 返回网络类型, 有效值：
    *         // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
@@ -3697,13 +3709,13 @@ declare namespace Taro {
        *
        * **networkType 有效值：**
        *
-       *   值        |  说明               
+       *   值        |  说明
        * ------------|---------------------
-       *   wifi      |  wifi 网络          
-       *   2g        |  2g 网络            
-       *   3g        |  3g 网络            
-       *   4g        |  4g 网络            
-       *   none      |  无网络             
+       *   wifi      |  wifi 网络
+       *   2g        |  2g 网络
+       *   3g        |  3g 网络
+       *   4g        |  4g 网络
+       *   none      |  无网络
        *   unknown   |Android下不常见的网络类型
        */
       networkType: string
@@ -3717,7 +3729,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onNetworkStatusChange(function(res) {
+   *     Taro.onNetworkStatusChange(function(res) {
    *       console.log(res.isConnected)
    *       console.log(res.networkType)
    *     })
@@ -3804,12 +3816,12 @@ declare namespace Taro {
     }
   }
   /**
-   * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `wx.stopAccelerometer` 停止监听。
+   * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onAccelerometerChange(function(res) {
+   *     Taro.onAccelerometerChange(function(res) {
    *       console.log(res.x)
    *       console.log(res.y)
    *       console.log(res.z)
@@ -3830,7 +3842,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startAccelerometer()
+   *     Taro.startAccelerometer()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstartaccelerometerobject
    */
@@ -3847,7 +3859,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.stopAccelerometer()
+   *     Taro.stopAccelerometer()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstopaccelerometerobject
    */
@@ -3863,12 +3875,12 @@ declare namespace Taro {
     }
   }
   /**
-   * 监听罗盘数据，频率：5次/秒，接口调用后会自动开始监听，可使用`wx.stopCompass`停止监听。
+   * 监听罗盘数据，频率：5次/秒，接口调用后会自动开始监听，可使用`Taro.stopCompass`停止监听。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onCompassChange(function (res) {
+   *     Taro.onCompassChange(function (res) {
    *       console.log(res.direction)
    *     })
    *     ```
@@ -3887,7 +3899,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startCompass()
+   *     Taro.startCompass()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstartcompassobject
    */
@@ -3904,7 +3916,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.stopCompass()
+   *     Taro.stopCompass()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstopcompassobject
    */
@@ -3923,7 +3935,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.makePhoneCall({
+   *     Taro.makePhoneCall({
    *       phoneNumber: '1340000' //仅为示例，并非真实的电话号码
    *     })
    *     ```
@@ -3972,14 +3984,14 @@ declare namespace Taro {
    *
    *     ```javascript
    *     // 允许从相机和相册扫码
-   *     wx.scanCode({
+   *     Taro.scanCode({
    *       success: (res) => {
    *         console.log(res)
    *       }
    *     })
    *
    *     // 只允许从相机扫码
-   *     wx.scanCode({
+   *     Taro.scanCode({
    *       onlyFromCamera: true,
    *       success: (res) => {
    *         console.log(res)
@@ -4006,10 +4018,10 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setClipboardData({
+   *     Taro.setClipboardData({
    *       data: 'data',
    *       success: function(res) {
-   *         wx.getClipboardData({
+   *         Taro.getClipboardData({
    *           success: function(res) {
    *             console.log(res.data) // data
    *           }
@@ -4038,7 +4050,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getClipboardData({
+   *     Taro.getClipboardData({
    *       success: function(res){
    *         console.log(res.data)
    *       }
@@ -4054,18 +4066,18 @@ declare namespace Taro {
   /**
    * @since 1.1.0
    *
-   * 初始化小程序蓝牙模块，生效周期为调用`wx.openBluetoothAdapter`至调用`wx.closeBluetoothAdapter`或小程序被销毁为止。 在小程序蓝牙适配器模块生效期间，开发者可以正常调用下面的小程序API，并会收到蓝牙模块相关的on回调。
+   * 初始化小程序蓝牙模块，生效周期为调用`Taro.openBluetoothAdapter`至调用`Taro.closeBluetoothAdapter`或小程序被销毁为止。 在小程序蓝牙适配器模块生效期间，开发者可以正常调用下面的小程序API，并会收到蓝牙模块相关的on回调。
    *
    * **Bug & Tip：**
    *
    * 1.  `tip`: 基础库版本 1.1.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-   * 2.  `tip`: 在没有调用`wx.openBluetoothAdapter`的情况下调用小程序其它蓝牙模块相关API，API会返回错误，错误码为`10000`
-   * 3.  `bug`: 在用户蓝牙开关未开启或者手机不支持蓝牙功能的情况下，调用`wx.openBluetoothAdapter`会返回错误，错误码为`10001`，表示手机蓝牙功能不可用；此时小程序蓝牙模块已经初始化完成，可通过`wx.onBluetoothAdapterStateChange`监听手机蓝牙状态的改变，也可以调用蓝牙模块的所有API。
+   * 2.  `tip`: 在没有调用`Taro.openBluetoothAdapter`的情况下调用小程序其它蓝牙模块相关API，API会返回错误，错误码为`10000`
+   * 3.  `bug`: 在用户蓝牙开关未开启或者手机不支持蓝牙功能的情况下，调用`Taro.openBluetoothAdapter`会返回错误，错误码为`10001`，表示手机蓝牙功能不可用；此时小程序蓝牙模块已经初始化完成，可通过`Taro.onBluetoothAdapterStateChange`监听手机蓝牙状态的改变，也可以调用蓝牙模块的所有API。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.openBluetoothAdapter({
+   *     Taro.openBluetoothAdapter({
    *       success: function (res) {
    *         console.log(res)
    *       }
@@ -4081,12 +4093,12 @@ declare namespace Taro {
   /**
    * @since 1.1.0
    *
-   * 关闭蓝牙模块，使其进入未初始化状态。调用该方法将断开所有已建立的链接并释放系统资源。建议在使用小程序蓝牙流程后调用，与`wx.openBluetoothAdapter`成对调用。
+   * 关闭蓝牙模块，使其进入未初始化状态。调用该方法将断开所有已建立的链接并释放系统资源。建议在使用小程序蓝牙流程后调用，与`Taro.openBluetoothAdapter`成对调用。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.closeBluetoothAdapter({
+   *     Taro.closeBluetoothAdapter({
    *       success: function (res) {
    *         console.log(res)
    *       }
@@ -4121,7 +4133,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getBluetoothAdapterState({
+   *     Taro.getBluetoothAdapterState({
    *       success: function (res) {
    *         console.log(res)
    *       }
@@ -4152,7 +4164,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onBluetoothAdapterStateChange(function(res) {
+   *     Taro.onBluetoothAdapterStateChange(function(res) {
    *       console.log(`adapterState changed, now is`, res)
    *     })
    *     ```
@@ -4191,7 +4203,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     // 以微信硬件平台的蓝牙智能灯为例，主服务的 UUID 是 FEE7。传入这个参数，只搜索主服务 UUID 为 FEE7 的设备
-   *     wx.startBluetoothDevicesDiscovery({
+   *     Taro.startBluetoothDevicesDiscovery({
    *       services: ['FEE7'],
    *       success: function (res) {
    *         console.log(res)
@@ -4219,7 +4231,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.stopBluetoothDevicesDiscovery({
+   *     Taro.stopBluetoothDevicesDiscovery({
    *       success: function (res) {
    *         console.log(res)
    *       }
@@ -4285,7 +4297,7 @@ declare namespace Taro {
    *
    * 1.  `tip`: Mac系统可能无法获取`advertisData`及`RSSI`，请使用真机调试
    * 2.  `tip`: 开发者工具和 Android 上获取到的`deviceId`为设备 MAC 地址，iOS 上则为设备 uuid。因此`deviceId`不能硬编码到代码中
-   * 3.  `tip`: 注意该接口获取到的设备列表为**小程序蓝牙模块生效期间所有搜索到的蓝牙设备**，若在蓝牙模块使用流程结束后未及时调用 wx.closeBluetoothAdapter 释放资源，会存在调用该接口会返回之前的蓝牙使用流程中搜索到的蓝牙设备，可能设备已经不在用户身边，无法连接。
+   * 3.  `tip`: 注意该接口获取到的设备列表为**小程序蓝牙模块生效期间所有搜索到的蓝牙设备**，若在蓝牙模块使用流程结束后未及时调用 Taro.closeBluetoothAdapter 释放资源，会存在调用该接口会返回之前的蓝牙使用流程中搜索到的蓝牙设备，可能设备已经不在用户身边，无法连接。
    * 4.  `tips`: 蓝牙设备在被搜索到时，系统返回的 name 字段一般为广播包中的LocalName字段中的设备名称，而如果与蓝牙设备建立连接，系统返回的 name 字段会改为从蓝牙设备上获取到的GattName。若需要动态改变设备名称并展示，建议使用localName字段。
    *
    * **示例代码：**
@@ -4301,7 +4313,7 @@ declare namespace Taro {
    *       )
    *       return hexArr.join('');
    *     }
-   *     wx.getBluetoothDevices({
+   *     Taro.getBluetoothDevices({
    *       success: function (res) {
    *         console.log(res)
    *         if (res.devices[0]) {
@@ -4366,7 +4378,7 @@ declare namespace Taro {
    *
    * 1.  `tip`: Mac系统可能无法获取`advertisData`及`RSSI`，请使用真机调试
    * 2.  `tip`: 开发者工具和 Android 上获取到的`deviceId`为设备 MAC 地址，iOS 上则为设备 uuid。因此`deviceId`不能硬编码到代码中
-   * 3.  `tip`: 若在onBluetoothDeviceFound回调了某个设备，则此设备会添加到 wx.getBluetoothDevices 接口获取到的数组中
+   * 3.  `tip`: 若在onBluetoothDeviceFound回调了某个设备，则此设备会添加到 Taro.getBluetoothDevices 接口获取到的数组中
    *
    * **示例代码：**
    *
@@ -4381,7 +4393,7 @@ declare namespace Taro {
    *       )
    *       return hexArr.join('');
    *     }
-   *     wx.onBluetoothDeviceFound(function(devices) {
+   *     Taro.onBluetoothDeviceFound(function(devices) {
    *       console.log('new device list has founded')
    *       console.dir(devices)
    *       console.log(ab2hex(devices[0].advertisData))
@@ -4435,7 +4447,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getConnectedBluetoothDevices({
+   *     Taro.getConnectedBluetoothDevices({
    *       success: function (res) {
    *         console.log(res)
    *       }
@@ -4469,14 +4481,14 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `tip`: 安卓手机上如果多次调用create创建连接，有可能导致系统持有同一设备多个连接的实例，导致调用close的时候并不能真正的断开与设备的连接。因此请保证尽量成对的调用create和close接口
-   * 2.  `tip`: 蓝牙链接随时可能断开，建议监听 wx.onBLEConnectionStateChange 回调事件，当蓝牙设备断开时按需执行重连操作
+   * 2.  `tip`: 蓝牙链接随时可能断开，建议监听 Taro.onBLEConnectionStateChange 回调事件，当蓝牙设备断开时按需执行重连操作
    * 3.  `tip`: 若对未连接的设备或已断开连接的设备调用数据读写操作的接口，会返回10006错误，详见错误码，建议进行重连操作
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.createBLEConnection({
-   *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接 
+   *     Taro.createBLEConnection({
+   *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
    *       deviceId: deviceId,
    *       success: function (res) {
    *         console.log(res)
@@ -4509,7 +4521,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.closeBLEConnection({
+   *     Taro.closeBLEConnection({
    *       deviceId:deviceId
    *       success: function (res) {
    *         console.log(res)
@@ -4541,7 +4553,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onBLEConnectionStateChange(function(res) {
+   *     Taro.onBLEConnectionStateChange(function(res) {
    *       // 该方法回调中可以用于处理连接意外断开等异常情况
    *       console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
    *     })
@@ -4594,8 +4606,8 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getBLEDeviceServices({
-   *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接 
+   *     Taro.getBLEDeviceServices({
+   *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
    *       deviceId: deviceId,
    *       success: function (res) {
    *         console.log('device services:', res.services)
@@ -4676,7 +4688,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getBLEDeviceCharacteristics({
+   *     Taro.getBLEDeviceCharacteristics({
    *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
    *       deviceId: deviceId,
    *       // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
@@ -4730,11 +4742,11 @@ declare namespace Taro {
    *
    *     ```javascript
    *     // 必须在这里的回调才能获取
-   *     wx.onBLECharacteristicValueChange(function(characteristic) {
+   *     Taro.onBLECharacteristicValueChange(function(characteristic) {
    *       console.log('characteristic value comed:', characteristic)
    *     })
    *
-   *     wx.readBLECharacteristicValue({
+   *     Taro.readBLECharacteristicValue({
    *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接  [**new**]
    *       deviceId: deviceId,
    *       // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
@@ -4798,7 +4810,7 @@ declare namespace Taro {
    *     let dataView = new DataView(buffer)
    *     dataView.setUint8(0, 0)
    *
-   *     wx.writeBLECharacteristicValue({
+   *     Taro.writeBLECharacteristicValue({
    *       // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
    *       deviceId: deviceId,
    *       // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
@@ -4851,15 +4863,15 @@ declare namespace Taro {
    *
    * **Bug & Tip：**
    *
-   * 1.  `tip`: 订阅操作成功后需要设备主动更新特征值的value，才会触发 wx.onBLECharacteristicValueChange 回调。
+   * 1.  `tip`: 订阅操作成功后需要设备主动更新特征值的value，才会触发 Taro.onBLECharacteristicValueChange 回调。
    * 2.  `tip`: 安卓平台上，在调用notify成功后立即调用write接口，在部分机型上会发生 10008 系统错误
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.notifyBLECharacteristicValueChange({
+   *     Taro.notifyBLECharacteristicValueChange({
    *       state: true, // 启用 notify 功能
-   *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接  
+   *       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
    *       deviceId: deviceId,
    *       // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
    *       serviceId: serviceId,
@@ -4913,7 +4925,7 @@ declare namespace Taro {
    *       )
    *       return hexArr.join('');
    *     }
-   *     wx.onBLECharacteristicValueChange(function(res) {
+   *     Taro.onBLECharacteristicValueChange(function(res) {
    *       console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`)
    *       console.log(ab2hext(res.value))
    *     })
@@ -4944,7 +4956,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startBeaconDiscovery({
+   *     Taro.startBeaconDiscovery({
    *         success(res) {
    *         }
    *     })
@@ -5112,7 +5124,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     // 保持屏幕常亮
-   *     wx.setKeepScreenOn({
+   *     Taro.setKeepScreenOn({
    *         keepScreenOn: true
    *     })
    *     ```
@@ -5128,7 +5140,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onUserCaptureScreen(function(res) {
+   *     Taro.onUserCaptureScreen(function(res) {
    *         console.log('用户截屏了')
    *     })
    *     ```
@@ -5275,10 +5287,10 @@ declare namespace Taro {
    *
    * **回调结果：**
    *
-   *   回调类型  |  errMsg           |  说明                 
+   *   回调类型  |  errMsg           |  说明
    * ------------|-------------------|-----------------------
-   *   success   |  ok               |  添加成功             
-   *   fail      |  fail cancel      |  用户取消操作         
+   *   success   |  ok               |  添加成功
+   *   fail      |  fail cancel      |  用户取消操作
    *   fail      |  fail ${detail}   |调用失败，detail 加上详细信息
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/phone-contact.html#wxaddphonecontactobject
    */
@@ -5305,7 +5317,7 @@ declare namespace Taro {
    * **success返回参数说明：**
    *
    *     ```javascript
-   *     wx.getHCEState({
+   *     Taro.getHCEState({
    *       success: function(res) {
    *         console.log(res.errCode)
    *       }
@@ -5341,7 +5353,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startHCE({
+   *     Taro.startHCE({
    *       aid_list: ['F222222222']
    *       success: function(res) {
    *         console.log(res.errMsg)
@@ -5373,7 +5385,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.stopHCE({
+   *     Taro.stopHCE({
    *       success: function(res) {
    *         console.log(res.errMsg)
    *       }
@@ -5424,16 +5436,16 @@ declare namespace Taro {
        *
        * 每个接口调用的时候，都会返回 `errCode` 字段。
        *
-       *   错误码  |  说明                     
+       *   错误码  |  说明
        * ----------|---------------------------
-       *   0       |  Ok                       
-       *   13000   |  当前设备不支持 NFC       
+       *   0       |  Ok
+       *   13000   |  当前设备不支持 NFC
        *   13001   |当前设备支持 NFC，但系统NFC开关未开启
        *   13002   |当前设备支持 NFC，但不支持HCE
-       *   13003   |  AID 列表参数格式错误     
+       *   13003   |  AID 列表参数格式错误
        *   13004   |未设置微信为默认NFC支付应用
-       *   13005   |  返回的指令不合法         
-       *   13006   |  注册 AID 失败            
+       *   13005   |  返回的指令不合法
+       *   13006   |  注册 AID 失败
        */
       errCode: number
     }
@@ -5456,11 +5468,11 @@ declare namespace Taro {
    *     const dataView = new DataView(buffer)
    *     dataView.setUint8(0, 0)
    *
-   *     wx.startHCE({
+   *     Taro.startHCE({
    *       success: function(res) {
-   *         wx.onHCEMessage(function(res) {
+   *         Taro.onHCEMessage(function(res) {
    *           if (res.messageType === 1) {
-   *             wx.sendHCEMessage({data: buffer})
+   *             Taro.sendHCEMessage({data: buffer})
    *           }
    *         })
    *       }
@@ -5481,7 +5493,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startWifi({
+   *     Taro.startWifi({
    *       success: function(res) {
    *         console.log(res.errMsg)
    *       }
@@ -5502,7 +5514,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.stopWifi({
+   *     Taro.stopWifi({
    *       success: function(res) {
    *         console.log(res.errMsg)
    *       }
@@ -5536,7 +5548,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.connectWifi({
+   *     Taro.connectWifi({
    *       SSID: '',
    *       BSSID: '',
    *       success: function(res) {
@@ -5638,9 +5650,9 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.onGetWifiList(function(res) {
+   *     Taro.onGetWifiList(function(res) {
    *       if (res.wifiList.length) {
-   *         wx.setWifiList({
+   *         Taro.setWifiList({
    *           wifiList: [{
    *             SSID: res.wifiList[0].SSID,
    *             BSSID: res.wifiList[0].BSSID,
@@ -5648,12 +5660,12 @@ declare namespace Taro {
    *           }]
    *         })
    *       } else {
-   *         wx.setWifiList({
+   *         Taro.setWifiList({
    *           wifiList: []
    *         })
    *       }
    *     })
-   *     wx.getWifiList()
+   *     Taro.getWifiList()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxsetwifilistobject
    */
@@ -5736,21 +5748,21 @@ declare namespace Taro {
    *
    * 每个接口调用的时候，都会返回 `errCode` 字段。
    *
-   *   错误码  |  说明                    |  备注                        
+   *   错误码  |  说明                    |  备注
    * ----------|--------------------------|------------------------------
-   *   0       |  ok                      |  正常                        
-   *   12000   |  not init                |  未先调用startWifi接口       
-   *   12001   |  system not support      |  当前系统不支持相关能力      
-   *   12002   |  password error          |  Wi-Fi 密码错误              
-   *   12003   |  connection timeout      |  连接超时                    
-   *   12004   |  duplicate request       |  重复连接 Wi-Fi              
+   *   0       |  ok                      |  正常
+   *   12000   |  not init                |  未先调用startWifi接口
+   *   12001   |  system not support      |  当前系统不支持相关能力
+   *   12002   |  password error          |  Wi-Fi 密码错误
+   *   12003   |  connection timeout      |  连接超时
+   *   12004   |  duplicate request       |  重复连接 Wi-Fi
    *   12005   |  wifi not turned on      |Android特有，未打开 Wi-Fi 开关
    *   12006   |  gps not turned on       |Android特有，未打开 GPS 定位开关
-   *   12007   |  user denied             |  用户拒绝授权链接 Wi-Fi      
-   *   12008   |  invalid SSID            |  无效SSID                    
-   *   12009   |  system config err       | 系统运营商配置拒绝连接 Wi-Fi 
+   *   12007   |  user denied             |  用户拒绝授权链接 Wi-Fi
+   *   12008   |  invalid SSID            |  无效SSID
+   *   12009   |  system config err       | 系统运营商配置拒绝连接 Wi-Fi
    *   12010   |  system internal error   |系统其他错误，需要在errmsg打印具体的错误原因
-   *   12011   |  weapp in background     |  应用在后台无法配置 Wi-Fi    
+   *   12011   |  weapp in background     |  应用在后台无法配置 Wi-Fi
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetconnectedwifiobject
    */
   function getConnectedWifi(OBJECT?: getConnectedWifi.Param): Promise<getConnectedWifi.Promised>
@@ -5766,11 +5778,11 @@ declare namespace Taro {
        *
        * **icon有效值：**
        *
-       *   有效值    |  说明                                 | 最低版本 
+       *   有效值    |  说明                                 | 最低版本
        * ------------|---------------------------------------|----------
-       *   success   |显示成功图标，此时 title 文本最多显示 7 个汉字长度。默认值|          
-       *   loading   |显示加载图标，此时 title 文本最多显示 7 个汉字长度。|          
-       *   none      |不显示图标，此时 title 文本最多可显示两行|  1.9.0   
+       *   success   |显示成功图标，此时 title 文本最多显示 7 个汉字长度。默认值|
+       *   loading   |显示加载图标，此时 title 文本最多显示 7 个汉字长度。|
+       *   none      |不显示图标，此时 title 文本最多可显示两行|  1.9.0
        */
       icon?: string
       /**
@@ -5795,7 +5807,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.showToast({
+   *     Taro.showToast({
    *       title: '成功',
    *       icon: 'success',
    *       duration: 2000
@@ -5820,7 +5832,7 @@ declare namespace Taro {
   /**
    * @since 1.1.0
    *
-   * 显示 loading 提示框, 需主动调用 [wx.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
+   * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
    */
   function showLoading(OBJECT: showLoading.Param): Promise<any>
@@ -5839,12 +5851,12 @@ declare namespace Taro {
    * **示例：**
    *
    *     ```javascript
-   *     wx.showLoading({
+   *     Taro.showLoading({
    *       title: '加载中',
    *     })
    *
    *     setTimeout(function(){
-   *       wx.hideLoading()
+   *       Taro.hideLoading()
    *     },2000)
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading
@@ -5901,7 +5913,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.showModal({
+   *     Taro.showModal({
    *       title: '提示',
    *       content: '这是一个模态弹窗',
    *       success: function(res) {
@@ -5940,15 +5952,15 @@ declare namespace Taro {
    *
    * **Bug & Tip：**
    *
-   * 1.  `bug`: `Android` `6.3.30`，wx.showModal 的返回的 confirm 一直为 true；
-   * 2.  `tip`: wx.showActionSheet 点击取消或蒙层时，回调 `fail`, errMsg 为 "showActionSheet:fail cancel"；
-   * 3.  `tip`: wx.showLoading 和 wx.showToast 同时只能显示一个，但 wx.hideToast/wx.hideLoading 也应当配对使用；
-   * 4.  `tip`: `iOS` wx.showModal 点击蒙层不会关闭模态弹窗，所以尽量避免使用“取消”分支中实现业务逻辑。
+   * 1.  `bug`: `Android` `6.3.30`，Taro.showModal 的返回的 confirm 一直为 true；
+   * 2.  `tip`: Taro.showActionSheet 点击取消或蒙层时，回调 `fail`, errMsg 为 "showActionSheet:fail cancel"；
+   * 3.  `tip`: Taro.showLoading 和 Taro.showToast 同时只能显示一个，但 Taro.hideToast/Taro.hideLoading 也应当配对使用；
+   * 4.  `tip`: `iOS` Taro.showModal 点击蒙层不会关闭模态弹窗，所以尽量避免使用“取消”分支中实现业务逻辑。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.showActionSheet({
+   *     Taro.showActionSheet({
    *       itemList: ['A', 'B', 'C'],
    *       success: function(res) {
    *         console.log(res.tapIndex)
@@ -5978,7 +5990,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setTopBarText({
+   *     Taro.setTopBarText({
    *       text: 'hello, world!'
    *     })
    *     ```
@@ -6000,7 +6012,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setNavigationBarTitle({
+   *     Taro.setNavigationBarTitle({
    *       title: '当前页面'
    *     })
    *     ```
@@ -6041,11 +6053,11 @@ declare namespace Taro {
        *
        * **animation.timingFunc 有效值：**
        *
-       *   值          |  说明             
+       *   值          |  说明
        * --------------|-------------------
        *   linear      |动画从头到尾的速度是相同的。
-       *   easeIn      |  动画以低速开始   
-       *   easeOut     |  动画以低速结束。 
+       *   easeIn      |  动画以低速开始
+       *   easeOut     |  动画以低速结束。
        *   easeInOut   |动画以低速开始和结束。
        */
       animation?: ParamPropAnimation
@@ -6079,7 +6091,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setNavigationBarColor({
+   *     Taro.setNavigationBarColor({
    *         frontColor: '#ffffff',
    *         backgroundColor: '#ff0000',
    *         animation: {
@@ -6112,7 +6124,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setTabBarBadge({
+   *     Taro.setTabBarBadge({
    *       index: 0,
    *       text: '1'
    *     })
@@ -6197,7 +6209,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setTabBarStyle({
+   *     Taro.setTabBarStyle({
    *         color: '#FF0000',
    *         selectedColor: '#00FF00',
    *         backgroundColor: '#0000FF',
@@ -6236,7 +6248,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.setTabBarItem({
+   *     Taro.setTabBarItem({
    *         index: 0,
    *         text: 'text',
    *         iconPath: '/path/to/iconPath',
@@ -6288,12 +6300,12 @@ declare namespace Taro {
     }
   }
   /**
-   * 保留当前页面，跳转到应用内的某个页面，使用`wx.navigateBack`可以返回到原页面。
+   * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.navigateTo({
+   *     Taro.navigateTo({
    *       url: 'test?id=1'
    *     })
    *     ```
@@ -6326,7 +6338,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.redirectTo({
+   *     Taro.redirectTo({
    *       url: 'test?id=1'
    *     })
    *     ```
@@ -6350,7 +6362,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.reLaunch({
+   *     Taro.reLaunch({
    *       url: 'test?id=1'
    *     })
    *     ```
@@ -6399,7 +6411,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.switchTab({
+   *     Taro.switchTab({
    *       url: '/index'
    *     })
    *     ```
@@ -6422,7 +6434,7 @@ declare namespace Taro {
    *
    * **Tip：**
    *
-   * 1.  `tip`: wx.navigateTo 和 wx.redirectTo 不允许跳转到 tabbar 页面，只能用 wx.switchTab 跳转到 tabbar 页面
+   * 1.  `tip`: Taro.navigateTo 和 Taro.redirectTo 不允许跳转到 tabbar 页面，只能用 Taro.switchTab 跳转到 tabbar 页面
    *
    * **示例代码：**
    *
@@ -6430,17 +6442,17 @@ declare namespace Taro {
    *     // 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
    *
    *     // 此处是A页面
-   *     wx.navigateTo({
+   *     Taro.navigateTo({
    *       url: 'B?id=1'
    *     })
    *
    *     // 此处是B页面
-   *     wx.navigateTo({
+   *     Taro.navigateTo({
    *       url: 'C?id=1'
    *     })
    *
    *     // 在C页面内 navigateBack，将返回A页面
-   *     wx.navigateBack({
+   *     Taro.navigateBack({
    *       delta: 2
    *     })
    *     ```
@@ -6461,13 +6473,13 @@ declare namespace Taro {
        *
        * **timingFunction 有效值：**
        *
-       *   值            |  说明                    
+       *   值            |  说明
        * ----------------|--------------------------
        *   linear        |动画从头到尾的速度是相同的
        *   ease          |动画以低速开始，然后加快，在结束前变慢
-       *   ease-in       |  动画以低速开始          
-       *   ease-in-out   |  动画以低速开始和结束    
-       *   ease-out      |  动画以低速结束          
+       *   ease-in       |  动画以低速开始
+       *   ease-in-out   |  动画以低速开始和结束
+       *   ease-out      |  动画以低速结束
        *   step-start    |动画第一帧就跳至结束状态直到结束
        *   step-end      |动画一直保持开始状态，最后一帧跳到结束状态
        *
@@ -6496,7 +6508,7 @@ declare namespace Taro {
    * **timingFunction 有效值：**
    *
    *     ```javascript
-   *     var animation = wx.createAnimation({
+   *     var animation = Taro.createAnimation({
    *       transformOrigin: "50% 50%",
    *       duration: 1000,
    *       timingFunction: "ease",
@@ -6641,7 +6653,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.pageScrollTo({
+   *     Taro.pageScrollTo({
    *       scrollTop: 0,
    *       duration: 300
    *     })
@@ -6751,7 +6763,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.canvasToTempFilePath({
+   *     Taro.canvasToTempFilePath({
    *       x: 100,
    *       y: 200,
    *       width: 50,
@@ -6761,7 +6773,7 @@ declare namespace Taro {
    *       canvasId: 'myCanvas',
    *       success: function(res) {
    *         console.log(res.tempFilePath)
-   *       } 
+   *       }
    *     })
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/temp-file.html#wxcanvastotempfilepathobject-this
@@ -6818,7 +6830,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.canvasGetImageData({
+   *     Taro.canvasGetImageData({
    *       canvasId: 'myCanvas',
    *       x: 0,
    *       y: 0,
@@ -6873,7 +6885,7 @@ declare namespace Taro {
    *
    *     ```javascript
    *     const data = new Uint8ClampedArray([255, 0, 0, 1])
-   *     wx.canvasPutImageData({
+   *     Taro.canvasPutImageData({
    *       canvasId: 'myCanvas',
    *       x: 0,
    *       y: 0,
@@ -6903,7 +6915,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startPullDownRefresh()
+   *     Taro.startPullDownRefresh()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstartpulldownrefreshobject
    */
@@ -6917,7 +6929,7 @@ declare namespace Taro {
    *     ```javascript
    *     Page({
    *       onPullDownRefresh: function(){
-   *         wx.stopPullDownRefresh()
+   *         Taro.stopPullDownRefresh()
    *       }
    *     })
    *     ```
@@ -6978,7 +6990,7 @@ declare namespace Taro {
    *     ```javascript
    *     Page({
    *       queryMultipleNodes: function(){
-   *         var query = wx.createSelectorQuery()
+   *         var query = Taro.createSelectorQuery()
    *         query.select('#the-id').boundingClientRect()
    *         query.selectViewport().scrollOffset()
    *         query.exec(function(res){
@@ -6994,7 +7006,7 @@ declare namespace Taro {
    *     ```javascript
    *     Component({
    *       queryMultipleNodes: function(){
-   *         var query = wx.createSelectorQuery().in(this)
+   *         var query = Taro.createSelectorQuery().in(this)
    *         query.select('#the-id').boundingClientRect(function(res){
    *           res.top // 这个组件内 #the-id 节点的上边界坐标
    *         }).exec()
@@ -7007,7 +7019,7 @@ declare namespace Taro {
    *     ```javascript
    *     Page({
    *       getRect: function(){
-   *         wx.createSelectorQuery().select('#the-id').boundingClientRect(function(rect){
+   *         Taro.createSelectorQuery().select('#the-id').boundingClientRect(function(rect){
    *           rect.id      // 节点的ID
    *           rect.dataset // 节点的dataset
    *           rect.left    // 节点的左边界坐标
@@ -7019,7 +7031,7 @@ declare namespace Taro {
    *         }).exec()
    *       },
    *       getAllRects: function(){
-   *         wx.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rects){
+   *         Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rects){
    *           rects.forEach(function(rect){
    *             rect.id      // 节点的ID
    *             rect.dataset // 节点的dataset
@@ -7040,7 +7052,7 @@ declare namespace Taro {
    *     ```javascript
    *     Page({
    *       getScrollOffset: function(){
-   *         wx.createSelectorQuery().selectViewport().scrollOffset(function(res){
+   *         Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
    *           res.id      // 节点的ID
    *           res.dataset // 节点的dataset
    *           res.scrollLeft // 节点的水平滚动位置
@@ -7055,7 +7067,7 @@ declare namespace Taro {
    *     ```javascript
    *     Page({
    *       getFields: function(){
-   *         wx.createSelectorQuery().select('#the-id').fields({
+   *         Taro.createSelectorQuery().select('#the-id').fields({
    *           dataset: true,
    *           size: true,
    *           scrollOffset: true,
@@ -7117,13 +7129,13 @@ declare namespace Taro {
    *
    * **Bug & Tip：**
    *
-   * 1.  `wx.getExtConfig` 暂时无法通过 `wx.canIUse` 判断是否兼容，开发者需要自行判断 `wx.getExtConfig` 是否存在来兼容
+   * 1.  `Taro.getExtConfig` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfig` 是否存在来兼容
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     if(wx.getExtConfig) {
-   *       wx.getExtConfig({
+   *     if(Taro.getExtConfig) {
+   *       Taro.getExtConfig({
    *         success: function (res) {
    *           console.log(res.extConfig)
    *         }
@@ -7149,12 +7161,12 @@ declare namespace Taro {
    *
    * **Bug & Tip：**
    *
-   * 1.  `wx.getExtConfigSync` 暂时无法通过 `wx.canIUse` 判断是否兼容，开发者需要自行判断 `wx.getExtConfigSync` 是否存在来兼容
+   * 1.  `Taro.getExtConfigSync` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfigSync` 是否存在来兼容
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     let extConfig = wx.getExtConfigSync? wx.getExtConfigSync(): {}
+   *     let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
    *     console.log(extConfig)
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext-api.html#wxgetextconfigsync
@@ -7182,7 +7194,7 @@ declare namespace Taro {
     }
   }
   /**
-   * 调用接口wx.login() 获取**临时登录凭证（code）**
+   * 调用接口Taro.login() 获取**临时登录凭证（code）**
    *
    * **示例代码：**
    *
@@ -7190,11 +7202,11 @@ declare namespace Taro {
    *     //app.js
    *     App({
    *       onLaunch: function() {
-   *         wx.login({
+   *         Taro.login({
    *           success: function(res) {
    *             if (res.code) {
    *               //发起网络请求
-   *               wx.request({
+   *               Taro.request({
    *                 url: 'https://test.com/onLogin',
    *                 data: {
    *                   code: res.code
@@ -7221,13 +7233,13 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.checkSession({
+   *     Taro.checkSession({
    *       success: function(){
    *         //session_key 未过期，并且在本生命周期一直有效
    *       },
    *       fail: function(){
    *         // session_key 已经失效，需要重新执行登录流程
-   *         wx.login() //重新登录
+   *         Taro.login() //重新登录
    *         ....
    *       }
    *     })
@@ -7258,15 +7270,15 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-   *     wx.getSetting({
+   *     // 可以通过 Taro.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
+   *     Taro.getSetting({
    *         success(res) {
    *             if (!res.authSetting['scope.record']) {
-   *                 wx.authorize({
+   *                 Taro.authorize({
    *                     scope: 'scope.record',
    *                     success() {
-   *                         // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
-   *                         wx.startRecord()
+   *                         // 用户已经同意小程序使用录音功能，后续调用 Taro.startRecord 接口不会弹窗询问
+   *                         Taro.startRecord()
    *                     }
    *                 })
    *             }
@@ -7355,14 +7367,14 @@ declare namespace Taro {
     }
   }
   /**
-   * 获取用户信息，withCredentials 为 true 时需要先调用 [wx.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
+   * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
    *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.userInfo
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getUserInfo({
+   *     Taro.getUserInfo({
    *       success: function(res) {
    *         var userInfo = res.userInfo
    *         var nickName = userInfo.nickName
@@ -7427,10 +7439,10 @@ declare namespace Taro {
    *
    * **回调结果：**
    *
-   *   回调类型  |  errMsg                                 |  说明                                    
+   *   回调类型  |  errMsg                                 |  说明
    * ------------|-----------------------------------------|------------------------------------------
-   *   success   |  requestPayment:ok                      |  调用支付成功                            
-   *   fail      |  requestPayment:fail cancel             |  用户取消支付                            
+   *   success   |  requestPayment:ok                      |  调用支付成功
+   *   fail      |  requestPayment:fail cancel             |  用户取消支付
    *   fail      |  requestPayment:fail (detail message)   |调用支付失败，其中 detail message 为后台返回的详细失败原因
    *
    * **Bug & Tip：**
@@ -7440,7 +7452,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.requestPayment({
+   *     Taro.requestPayment({
    *        'timeStamp': '',
    *        'nonceStr': '',
    *        'package': '',
@@ -7472,7 +7484,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.showShareMenu({
+   *     Taro.showShareMenu({
    *       withShareTicket: true
    *     })
    *     ```
@@ -7491,7 +7503,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.hideShareMenu()
+   *     Taro.hideShareMenu()
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxhidesharemenuobject
    */
@@ -7513,7 +7525,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.updateShareMenu({
+   *     Taro.updateShareMenu({
    *       withShareTicket: true,
    *       success() {
    *       }
@@ -7534,7 +7546,7 @@ declare namespace Taro {
        *
        * **encryptedData 解密后为一个 JSON 结构，包含字段如下：**
        *
-       *   字段      |  说明            
+       *   字段      |  说明
        * ------------|------------------
        *   openGId   |群对当前小程序的唯一 ID
        *
@@ -7618,7 +7630,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.chooseAddress({
+   *     Taro.chooseAddress({
    *       success: function (res) {
    *         console.log(res.userName)
    *         console.log(res.postalCode)
@@ -7684,14 +7696,14 @@ declare namespace Taro {
        *
        * **cardExt 说明：**
        *
-       *   参数                   |  类型     |  必填 |是否参与签名|  说明                                                                                                                       
+       *   参数                   |  类型     |  必填 |是否参与签名|  说明
        * -------------------------|-----------|-------|-----------|-----------------------------------------------------------------------------------------------------------------------------
        *   code                   |  String   |  否   |  是       |用户领取的 code，仅自定义 code 模式的卡券须填写，非自定义 code 模式卡券不可填写，[详情](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025056)
-       *   openid                 |  String   |  否   |  是       |  指定领取者的openid，只有该用户能领取。 bind_openid 字段为 true 的卡券必须填写，bind_openid 字段为 false 不可填写。         
-       *   timestamp              |  Number   |  是   |  是       |  时间戳，东八区时间,UTC+8，单位为秒                                                                                         
+       *   openid                 |  String   |  否   |  是       |  指定领取者的openid，只有该用户能领取。 bind_openid 字段为 true 的卡券必须填写，bind_openid 字段为 false 不可填写。
+       *   timestamp              |  Number   |  是   |  是       |  时间戳，东八区时间,UTC+8，单位为秒
        *   nonce_str              |  String   |  否   |  是       |随机字符串，由开发者设置传入，加强安全性（若不填写可能被重放请求）。随机字符串，不长于 32 位。推荐使用大小写字母和数字，不同添加请求的 nonce_str 须动态生成，若重复将会导致领取失败。
        *   fixed_begintimestamp   |  Number   |  否   |  否       |卡券在第三方系统的实际领取时间，为东八区时间戳（UTC+8,精确到秒）。当卡券的有效期类为 DATE_TYPE_FIX_TERM 时专用，标识卡券的实际生效时间，用于解决商户系统内起始时间和领取微信卡券时间不同步的问题。
-       *   outer_str              |  String   |  否   |  否       |  领取渠道参数，用于标识本次领取的渠道值。                                                                                   
+       *   outer_str              |  String   |  否   |  否       |  领取渠道参数，用于标识本次领取的渠道值。
        *   signature              |  String   |  是   |  -        |签名，商户将接口列表中的参数按照指定方式进行签名,签名方式使用 SHA1，具体签名方案参见：[卡券签名](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115)
        *
        * **注：cardExt 需进行 JSON 序列化为字符串传入**
@@ -7706,16 +7718,16 @@ declare namespace Taro {
    *
    * **回调结果：**
    *
-   *   回调类型  |  errMsg                          |  说明                                    
+   *   回调类型  |  errMsg                          |  说明
    * ------------|----------------------------------|------------------------------------------
-   *   success   |  addCard:ok                      |  添加卡券成功                            
-   *   fail      |  addCard:fail cancel             |  用户取消添加卡券                        
+   *   success   |  addCard:ok                      |  添加卡券成功
+   *   fail      |  addCard:fail cancel             |  用户取消添加卡券
    *   fail      |  addCard:fail (detail message)   |添加卡券失败，其中 detail message 为后台返回的详细失败原因
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.addCard({
+   *     Taro.addCard({
    *       cardList: [
    *         {
    *           cardId: '',
@@ -7769,7 +7781,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.openCard({
+   *     Taro.openCard({
    *       cardList: [
    *         {
    *           cardId: '',
@@ -7806,7 +7818,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.openSetting({
+   *     Taro.openSetting({
    *       success: (res) => {
    *
    *          // res.authSetting = {
@@ -7840,7 +7852,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getSetting({
+   *     Taro.getSetting({
    *       success: (res) => {
    *
    *          // res.authSetting = {
@@ -7868,11 +7880,11 @@ declare namespace Taro {
        *
        * encryptedData 解密后为以下 json 结构，详见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        *
-       *   属性                       |  类型          |  说明             
+       *   属性                       |  类型          |  说明
        * -----------------------------|----------------|-------------------
        *   stepInfoList               |  ObjectArray   |用户过去三十天的微信运动步数
        *   stepInfoList[].timestamp   |  Number        |时间戳，表示数据对应的时间
-       *   stepInfoList[].step        |  Number        |  微信运动步数     
+       *   stepInfoList[].step        |  Number        |  微信运动步数
        */
       encryptedData: string
       /**
@@ -7892,14 +7904,14 @@ declare namespace Taro {
   /**
    * @since 1.2.0
    *
-   * 获取用户过去三十天微信运动步数，需要先调用 [wx.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
+   * 获取用户过去三十天微信运动步数，需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
    *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.werun
    *
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.getWeRunData({
+   *     Taro.getWeRunData({
    *         success(res) {
    *             const encryptedData = res.encryptedData
    *         }
@@ -7937,7 +7949,7 @@ declare namespace Taro {
   }
   /**
    * @since 1.3.0
-   * > 
+   * >
    * > iOS 微信客户端 6.5.9 版本开始支持，Android 客户端即将在 6.5.10 版本开始支持，请先使用 iOS 客户端进行调试
    *
    * 打开同一公众号下关联的另一个小程序。**（注：必须是同一公众号下，而非同个 open 账号下）**
@@ -7951,7 +7963,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.navigateToMiniProgram({
+   *     Taro.navigateToMiniProgram({
    *       appId: '',
    *       path: 'pages/index/index?id=123',
    *       extraData: {
@@ -7983,7 +7995,7 @@ declare namespace Taro {
   }
   /**
    * @since 1.3.0
-   * > 
+   * >
    * > iOS 微信客户端 6.5.9 版本开始支持，Android 客户端即将在 6.5.10 版本开始支持，请先使用 iOS 客户端进行调试
    *
    * 返回到上一个小程序，只有在当前小程序是被其他小程序打开时可以调用成功
@@ -7991,7 +8003,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.navigateBackMiniProgram({
+   *     Taro.navigateBackMiniProgram({
    *       extraData: {
    *         foo: 'bar'
    *       },
@@ -8051,7 +8063,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.chooseInvoiceTitle({
+   *     Taro.chooseInvoiceTitle({
    *       success(res) {
    *       }
    *     })
@@ -8067,9 +8079,9 @@ declare namespace Taro {
        *
        * **supportMode 有效值：**
        *
-       *   值            |  说明         
+       *   值            |  说明
        * ----------------|---------------
-       *   fingerPrint   |  指纹识别     
+       *   fingerPrint   |  指纹识别
        *   facial        |人脸识别（暂未支持）
        *   speech        |声纹识别（暂未支持）
        */
@@ -8089,7 +8101,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.checkIsSupportSoterAuthentication({
+   *     Taro.checkIsSupportSoterAuthentication({
    *         success(res) {
    *             // res.supportMode = [] 不具备任何被SOTER支持的生物识别方式
    *             // res.supportMode = ['fingerPrint'] 只支持指纹识别
@@ -8118,17 +8130,17 @@ declare namespace Taro {
        *
        * 此数据为设备TEE中，将传入的challenge和TEE内其他安全信息组成的数据进行组装而来的JSON，对下述字段的解释如表2。例子如下：
        *
-       *   字段名    |  说明                                               
+       *   字段名    |  说明
        * ------------|-----------------------------------------------------
-       *   raw       |  调用者传入的challenge                              
+       *   raw       |  调用者传入的challenge
        *   fid       |（仅Android支持）本次生物识别认证的生物信息编号（如指纹识别则是指纹信息在本设备内部编号）
-       *   counter   |  防重放特征参数                                     
-       *   tee_n     |  TEE名称（如高通或者trustonic等）                   
-       *   tee_v     |  TEE版本号                                          
-       *   fp_n      |  指纹以及相关逻辑模块提供商（如FPC等）              
-       *   fp_v      |  指纹以及相关模块版本号                             
-       *   cpu_id    |  机器唯一识别ID                                     
-       *   uid       |  概念同Android系统定义uid，即应用程序编号           
+       *   counter   |  防重放特征参数
+       *   tee_n     |  TEE名称（如高通或者trustonic等）
+       *   tee_v     |  TEE版本号
+       *   fp_n      |  指纹以及相关逻辑模块提供商（如FPC等）
+       *   fp_v      |  指纹以及相关模块版本号
+       *   cpu_id    |  机器唯一识别ID
+       *   uid       |  概念同Android系统定义uid，即应用程序编号
        */
       resultJSON: string
       /**
@@ -8162,9 +8174,9 @@ declare namespace Taro {
    *
    * **生物识别方式定义：**
    *
-   *   mode          |  说明         
+   *   mode          |  说明
    * ----------------|---------------
-   *   fingerPrint   |  指纹识别     
+   *   fingerPrint   |  指纹识别
    *   facial        |人脸识别（暂未支持）
    *   speech        |声纹识别（暂未支持）
    *
@@ -8187,7 +8199,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.startSoterAuthentication({
+   *     Taro.startSoterAuthentication({
    *       requestAuthModes: ['fingerPrint'],
    *       challenge: '123456',
    *       authContent: '请用指纹解锁',
@@ -8216,9 +8228,9 @@ declare namespace Taro {
        *
        * **checkAuthMode 有效值：**
        *
-       *   值            |  说明         
+       *   值            |  说明
        * ----------------|---------------
-       *   fingerPrint   |  指纹识别     
+       *   fingerPrint   |  指纹识别
        *   facial        |人脸识别（暂未支持）
        *   speech        |声纹识别（暂未支持）
        */
@@ -8233,7 +8245,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.checkIsSoterEnrolledInDevice({
+   *     Taro.checkIsSoterEnrolledInDevice({
    *         checkAuthMode: 'fingerPrint',
    *         success(res) {
    *             console.log(res.isEnrolled)
@@ -8250,7 +8262,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     wx.reportAnalytics('purchase', {
+   *     Taro.reportAnalytics('purchase', {
    *       price: 120,
    *       color: 'red'
    *     })
@@ -8269,7 +8281,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const updateManager = wx.getUpdateManager()
+   *     const updateManager = Taro.getUpdateManager()
    *
    *     updateManager.onCheckForUpdate(function (res) {
    *       // 请求完新版本信息的回调
@@ -8277,7 +8289,7 @@ declare namespace Taro {
    *     })
    *
    *     updateManager.onUpdateReady(function () {
-   *       wx.showModal({
+   *       Taro.showModal({
    *         title: '更新提示',
    *         content: '新版本已经准备好，是否重启应用？',
    *         success: function (res) {
@@ -8353,7 +8365,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    *     ```javascript
-   *     const worker = wx.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
+   *     const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
    *
    *     worker.onMessage(function (res) {
    *       console.log(res)
@@ -8425,12 +8437,12 @@ declare namespace Taro {
    *
    *     ```javascript
    *     // 打开调试
-   *     wx.setEnableDebug({
+   *     Taro.setEnableDebug({
    *         enableDebug: true
    *     })
    *
    *     // 关闭调试
-   *     wx.setEnableDebug({
+   *     Taro.setEnableDebug({
    *         enableDebug: false
    *     })
    *     ```
@@ -8454,9 +8466,9 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型                                                                              |  定义              
+     *   参数    |  类型                                                                              |  定义
      * ----------|------------------------------------------------------------------------------------|--------------------
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object   
+     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object
      *
      * **语法：**
      *
@@ -8468,7 +8480,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(10, 10, 150, 75)
      *     ctx.draw()
@@ -8485,9 +8497,9 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型                                                                              |  定义              
+     *   参数    |  类型                                                                              |  定义
      * ----------|------------------------------------------------------------------------------------|--------------------
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object   
+     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object
      *
      * **语法：**
      *
@@ -8499,7 +8511,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.setStrokeStyle('red')
      *     ctx.strokeRect(10, 10, 150, 75)
      *     ctx.draw()
@@ -8516,17 +8528,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数      |  类型                                                                              |  范围    |  定义              
+     *   参数      |  类型                                                                              |  范围    |  定义
      * ------------|------------------------------------------------------------------------------------|----------|--------------------
      *   offsetX   |  Number                                                                            |          |阴影相对于形状在水平方向的偏移
      *   offsetY   |  Number                                                                            |          |阴影相对于形状在竖直方向的偏移
      *   blur      |  Number                                                                            |  0~100   |阴影的模糊级别，数值越大越模糊
-     *   color     |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |          |  阴影的颜色        
+     *   color     |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |          |  阴影的颜色
      *
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.setFillStyle('red')
      *     ctx.setShadow(10, 50, 50, 'blue')
      *     ctx.fillRect(10, 10, 150, 75)
@@ -8600,7 +8612,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数 |  类型     |  定义     
+     *   参数 |  类型     |  定义
      * -------|-----------|-----------
      *   x0   |  Number   |起点的x坐标
      *   y0   |  Number   |起点的y坐标
@@ -8610,7 +8622,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // Create linear gradient
      *     const grd = ctx.createLinearGradient(0, 0, 200, 0)
@@ -8636,16 +8648,16 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数 |  类型     |  定义     
+     *   参数 |  类型     |  定义
      * -------|-----------|-----------
      *   x    |  Number   |圆心的x坐标
      *   y    |  Number   |圆心的y坐标
-     *   r    |  Number   |  圆的半径 
+     *   r    |  Number   |  圆的半径
      *
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // Create circular gradient
      *     const grd = ctx.createCircularGradient(75, 50, 50)
@@ -8671,15 +8683,15 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型                                                                              |  定义              
+     *   参数    |  类型                                                                              |  定义
      * ----------|------------------------------------------------------------------------------------|--------------------
      *   stop    |  Number(0-1)                                                                       |表示渐变点在起点和终点中的位置
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  渐变点的颜色      
+     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  渐变点的颜色
      *
      * **示例代码：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // Create circular gradient
      *     const grd = ctx.createLinearGradient(30, 10, 120, 10)
@@ -8706,7 +8718,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数        |  类型     |  说明           
+     *   参数        |  类型     |  说明
      * --------------|-----------|-----------------
      *   lineWidth   |  Number   |线条的宽度(单位是px)
      *
@@ -8720,7 +8732,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.beginPath()
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(150, 10)
@@ -8756,7 +8768,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数      |  类型     |  范围                      |  说明        
+     *   参数      |  类型     |  范围                      |  说明
      * ------------|-----------|----------------------------|--------------
      *   lineCap   |  String   |  'butt'、'round'、'square' |线条的结束端点样式
      *
@@ -8770,7 +8782,7 @@ declare namespace Taro {
      * **示例代码：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.beginPath()
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(150, 10)
@@ -8809,7 +8821,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数       |  类型     |  范围                      |  说明        
+     *   参数       |  类型     |  范围                      |  说明
      * -------------|-----------|----------------------------|--------------
      *   lineJoin   |  String   |  'bevel'、'round'、'miter' |线条的结束交点样式
      *
@@ -8823,7 +8835,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.beginPath()
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(100, 50)
@@ -8867,15 +8879,15 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数      |  类型     |  说明                         
+     *   参数      |  类型     |  说明
      * ------------|-----------|-------------------------------
      *   pattern   |  Array    |一组描述交替绘制线段和间距（坐标空间单位）长度的数字
-     *   offset    |  Number   |  虚线偏移量                   
+     *   offset    |  Number   |  虚线偏移量
      *
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setLineDash([10, 20], 5);
      *
@@ -8896,7 +8908,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数         |  类型     |  说明     
+     *   参数         |  类型     |  说明
      * ---------------|-----------|-----------
      *   miterLimit   |  Number   |最大斜接长度
      *
@@ -8910,7 +8922,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.beginPath()
      *     ctx.setLineWidth(10)
      *     ctx.setLineJoin('miter')
@@ -8961,17 +8973,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数     |  类型     |  说明          
+     *   参数     |  类型     |  说明
      * -----------|-----------|----------------
      *   x        |  Number   |矩形路径左上角的x坐标
      *   y        |  Number   |矩形路径左上角的y坐标
-     *   width    |  Number   | 矩形路径的宽度 
-     *   height   |  Number   | 矩形路径的高度 
+     *   width    |  Number   | 矩形路径的宽度
+     *   height   |  Number   | 矩形路径的高度
      *
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.rect(10, 10, 150, 75)
      *     ctx.setFillStyle('red')
      *     ctx.fill()
@@ -8989,17 +9001,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数     |  类型     |  说明          
+     *   参数     |  类型     |  说明
      * -----------|-----------|----------------
      *   x        |  Number   |矩形路径左上角的x坐标
      *   y        |  Number   |矩形路径左上角的y坐标
-     *   width    |  Number   | 矩形路径的宽度 
-     *   height   |  Number   | 矩形路径的高度 
+     *   width    |  Number   | 矩形路径的宽度
+     *   height   |  Number   | 矩形路径的高度
      *
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(10, 10, 150, 75)
      *     ctx.draw()
@@ -9016,17 +9028,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数     |  类型     |  范围 |  说明          
+     *   参数     |  类型     |  范围 |  说明
      * -----------|-----------|-------|----------------
      *   x        |  Number   |       |矩形路径左上角的x坐标
      *   y        |  Number   |       |矩形路径左上角的y坐标
-     *   width    |  Number   |       | 矩形路径的宽度 
-     *   height   |  Number   |       | 矩形路径的高度 
+     *   width    |  Number   |       | 矩形路径的宽度
+     *   height   |  Number   |       | 矩形路径的高度
      *
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.setStrokeStyle('red')
      *     ctx.strokeRect(10, 10, 150, 75)
      *     ctx.draw()
@@ -9037,12 +9049,12 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数     |  类型     |  说明          
+     *   参数     |  类型     |  说明
      * -----------|-----------|----------------
      *   x        |  Number   |矩形区域左上角的x坐标
      *   y        |  Number   |矩形区域左上角的y坐标
-     *   width    |  Number   | 矩形区域的宽度 
-     *   height   |  Number   | 矩形区域的高度 
+     *   width    |  Number   | 矩形区域的宽度
+     *   height   |  Number   | 矩形区域的高度
      *
      * **定义：**
      *
@@ -9053,7 +9065,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(0, 0, 150, 200)
      *     ctx.setFillStyle('blue')
@@ -9076,7 +9088,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(100, 10)
      *     ctx.lineTo(100, 100)
@@ -9087,7 +9099,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     // begin path
      *     ctx.rect(10, 10, 100, 30)
      *     ctx.setFillStyle('yellow')
@@ -9121,7 +9133,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(100, 10)
      *     ctx.lineTo(100, 100)
@@ -9132,7 +9144,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     // begin path
      *     ctx.rect(10, 10, 100, 30)
      *     ctx.setStrokeStyle('yellow')
@@ -9168,7 +9180,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     // begin path
      *     ctx.rect(10, 10, 100, 30)
      *     ctx.setFillStyle('yellow')
@@ -9204,7 +9216,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(100, 10)
      *     ctx.lineTo(100, 100)
@@ -9216,7 +9228,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     // begin path
      *     ctx.rect(10, 10, 100, 30)
      *     ctx.closePath()
@@ -9248,7 +9260,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数 |  类型     |  说明       
+     *   参数 |  类型     |  说明
      * -------|-----------|-------------
      *   x    |  Number   |目标位置的x坐标
      *   y    |  Number   |目标位置的y坐标
@@ -9256,7 +9268,7 @@ declare namespace Taro {
      * **示例代码：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.moveTo(10, 10)
      *     ctx.lineTo(100, 10)
      *
@@ -9277,7 +9289,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数 |  类型     |  说明       
+     *   参数 |  类型     |  说明
      * -------|-----------|-------------
      *   x    |  Number   |目标位置的x坐标
      *   y    |  Number   |目标位置的y坐标
@@ -9285,7 +9297,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.moveTo(10, 10)
      *     ctx.rect(10, 10, 100, 50)
      *     ctx.lineTo(110, 60)
@@ -9306,19 +9318,19 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数               |  类型      |  说明                                 
+     *   参数               |  类型      |  说明
      * ---------------------|------------|---------------------------------------
-     *   x                  |  Number    |  圆的x坐标                            
-     *   y                  |  Number    |  圆的y坐标                            
-     *   r                  |  Number    |  圆的半径                             
-     *   sAngle             |  Number    |  起始弧度，单位弧度（在3点钟方向）    
-     *   eAngle             |  Number    |  终止弧度                             
+     *   x                  |  Number    |  圆的x坐标
+     *   y                  |  Number    |  圆的y坐标
+     *   r                  |  Number    |  圆的半径
+     *   sAngle             |  Number    |  起始弧度，单位弧度（在3点钟方向）
+     *   eAngle             |  Number    |  终止弧度
      *   counterclockwise   |  Boolean   |可选。指定弧度的方向是逆时针还是顺时针。默认是false，即顺时针。
      *
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // Draw coordinates
      *     ctx.arc(100, 75, 50, 0, 2 * Math.PI)
@@ -9376,19 +9388,19 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数   |  类型     |  说明              
+     *   参数   |  类型     |  说明
      * ---------|-----------|--------------------
      *   cp1x   |  Number   |第一个贝塞尔控制点的 x 坐标
      *   cp1y   |  Number   |第一个贝塞尔控制点的 y 坐标
      *   cp2x   |  Number   |第二个贝塞尔控制点的 x 坐标
      *   cp2y   |  Number   |第二个贝塞尔控制点的 y 坐标
-     *   x      |  Number   |  结束点的 x 坐标   
-     *   y      |  Number   |  结束点的 y 坐标   
+     *   x      |  Number   |  结束点的 x 坐标
+     *   y      |  Number   |  结束点的 y 坐标
      *
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // Draw points
      *     ctx.beginPath()
@@ -9443,17 +9455,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数  |  类型     |  说明         
+     *   参数  |  类型     |  说明
      * --------|-----------|---------------
      *   cpx   |  Number   |贝塞尔控制点的x坐标
      *   cpy   |  Number   |贝塞尔控制点的y坐标
-     *   x     |  Number   | 结束点的x坐标 
-     *   y     |  Number   | 结束点的y坐标 
+     *   x     |  Number   | 结束点的x坐标
+     *   y     |  Number   | 结束点的y坐标
      *
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // Draw points
      *     ctx.beginPath()
@@ -9501,7 +9513,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数          |  类型     |  说明                                      
+     *   参数          |  类型     |  说明
      * ----------------|-----------|--------------------------------------------
      *   scaleWidth    |  Number   |横坐标缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%)
      *   scaleHeight   |  Number   |纵坐标轴缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%)
@@ -9509,7 +9521,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.strokeRect(10, 10, 25, 15)
      *     ctx.scale(2, 2)
@@ -9529,7 +9541,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数     |  类型     |  说明                                               
+     *   参数     |  类型     |  说明
      * -----------|-----------|-----------------------------------------------------
      *   rotate   |  Number   |旋转角度，以弧度计(degrees * Math.PI/180；degrees范围为0~360)
      *
@@ -9538,7 +9550,7 @@ declare namespace Taro {
      * **参数：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.strokeRect(100, 10, 150, 100)
      *     ctx.rotate(20 * Math.PI / 180)
@@ -9558,7 +9570,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数 |  类型     |  说明      
+     *   参数 |  类型     |  说明
      * -------|-----------|------------
      *   x    |  Number   |水平坐标平移量
      *   y    |  Number   |竖直坐标平移量
@@ -9566,7 +9578,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.strokeRect(10, 10, 150, 100)
      *     ctx.translate(20, 20)
@@ -9588,9 +9600,9 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
-     *     wx.downloadFile({
+     *     Taro.downloadFile({
      *       url: 'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
      *       success: function(res) {
      *           ctx.save()
@@ -9613,14 +9625,14 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数       |  类型     |  说明    
+     *   参数       |  类型     |  说明
      * -------------|-----------|----------
      *   fontSize   |  Number   |字体的字号
      *
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setFontSize(20)
      *     ctx.fillText('20', 20, 20)
@@ -9643,7 +9655,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数       |  类型     |  说明            
+     *   参数       |  类型     |  说明
      * -------------|-----------|------------------
      *   text       |  String   |在画布上输出的文本
      *   x          |  Number   |绘制文本的左上角x坐标位置
@@ -9653,7 +9665,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setFontSize(20)
      *     ctx.fillText('Hello', 20, 20)
@@ -9672,7 +9684,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型     |  定义                          
+     *   参数    |  类型     |  定义
      * ----------|-----------|--------------------------------
      *   align   |  String   |可选值 'left'、'center'、'right'
      *
@@ -9686,7 +9698,7 @@ declare namespace Taro {
      * **示例代码：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setStrokeStyle('red')
      *     ctx.moveTo(150, 20)
@@ -9716,7 +9728,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数           |  类型     |  定义                                   
+     *   参数           |  类型     |  定义
      * -----------------|-----------|-----------------------------------------
      *   textBaseline   |  String   |可选值 'top'、'bottom'、'middle'、'normal'
      *
@@ -9730,7 +9742,7 @@ declare namespace Taro {
      * **示例代码：**
      *
      *     ```js
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setStrokeStyle('red')
      *     ctx.moveTo(5, 75)
@@ -9763,17 +9775,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数            |  类型     |  说明                         
+     *   参数            |  类型     |  说明
      * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源           
+     *   imageResource   |  String   |  所要绘制的图片资源
      *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
      *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
      *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
      *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
      *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
      *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度     
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度     
+     *   sWidth          |  Number   |  源图像的矩形选择框的高度
+     *   sHeight         |  Number   |  源图像的矩形选择框的高度
      *
      * **有三个版本的写法：**
      *
@@ -9784,9 +9796,9 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
-     *     wx.chooseImage({
+     *     Taro.chooseImage({
      *       success: function(res){
      *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
      *         ctx.draw()
@@ -9803,17 +9815,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数            |  类型     |  说明                         
+     *   参数            |  类型     |  说明
      * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源           
+     *   imageResource   |  String   |  所要绘制的图片资源
      *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
      *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
      *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
      *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
      *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
      *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度     
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度     
+     *   sWidth          |  Number   |  源图像的矩形选择框的高度
+     *   sHeight         |  Number   |  源图像的矩形选择框的高度
      *
      * **有三个版本的写法：**
      *
@@ -9824,9 +9836,9 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
-     *     wx.chooseImage({
+     *     Taro.chooseImage({
      *       success: function(res){
      *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
      *         ctx.draw()
@@ -9843,17 +9855,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数            |  类型     |  说明                         
+     *   参数            |  类型     |  说明
      * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源           
+     *   imageResource   |  String   |  所要绘制的图片资源
      *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
      *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
      *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
      *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
      *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
      *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度     
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度     
+     *   sWidth          |  Number   |  源图像的矩形选择框的高度
+     *   sHeight         |  Number   |  源图像的矩形选择框的高度
      *
      * **有三个版本的写法：**
      *
@@ -9864,9 +9876,9 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
-     *     wx.chooseImage({
+     *     Taro.chooseImage({
      *       success: function(res){
      *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
      *         ctx.draw()
@@ -9883,7 +9895,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型     |  范围  |  说明                     
+     *   参数    |  类型     |  范围  |  说明
      * ----------|-----------|--------|---------------------------
      *   alpha   |  Number   |  0~1   |透明度，0 表示完全透明，1 表示完全不透明
      *
@@ -9897,7 +9909,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(10, 10, 150, 100)
@@ -9927,10 +9939,10 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     // save the default fill style
-     *     ctx.save() 
+     *     ctx.save()
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(10, 10, 150, 100)
      *
@@ -9948,19 +9960,19 @@ declare namespace Taro {
      *
      * 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
      *
-     * **Tip**: 绘图上下文需要由 `wx.createCanvasContext(canvasId)` 来创建。
+     * **Tip**: 绘图上下文需要由 `Taro.createCanvasContext(canvasId)` 来创建。
      *
      * **参数：**
      *
-     *   参数       |  类型       |  说明                                                                                                                                       | 最低版本 
+     *   参数       |  类型       |  说明                                                                                                                                       | 最低版本
      * -------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|----------
-     *   reserve    |  Boolean    |非必填。本次绘制是否接着上一次绘制，即reserve参数为false，则在本次调用drawCanvas绘制之前native层应先清空画布再继续绘制；若reserver参数为true，则保留当前画布上的内容，本次调用drawCanvas绘制的内容覆盖在上面，默认 false|          
-     *   callback   |  Function   |  绘制完成后回调                                                                                                                             |  1.7.0   
+     *   reserve    |  Boolean    |非必填。本次绘制是否接着上一次绘制，即reserve参数为false，则在本次调用drawCanvas绘制之前native层应先清空画布再继续绘制；若reserver参数为true，则保留当前画布上的内容，本次调用drawCanvas绘制的内容覆盖在上面，默认 false|
+     *   callback   |  Function   |  绘制完成后回调                                                                                                                             |  1.7.0
      *
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(10, 10, 150, 100)
@@ -9972,7 +9984,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *
      *     ctx.setFillStyle('red')
      *     ctx.fillRect(10, 10, 150, 100)
@@ -9991,7 +10003,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数   |  类型     |  说明     
+     *   参数   |  类型     |  说明
      * ---------|-----------|-----------
      *   text   |  String   |要测量的文本
      *
@@ -9999,14 +10011,14 @@ declare namespace Taro {
      *
      * 返回 TextMetrics 对象，结构如下：
      *
-     *   参数    |  类型     |  说明    
+     *   参数    |  类型     |  说明
      * ----------|-----------|----------
      *   width   |  Number   |文本的宽度
      *
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     ctx.font = 'italic bold 20px cursive'
      *     const metrics = ctx.measureText('Hello World')
      *     console.log(metrics.width)
@@ -10022,16 +10034,16 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值 |  类型     |  说明               
+     *   属性值 |  类型     |  说明
      * ---------|-----------|---------------------
      *   type   |  String   |标识要使用哪种合成或混合模式操作
      *
      * **type 支持的操作有：**
      *
-     *   平台  |  操作                                                                                                                                                                                                            
+     *   平台  |  操作
      * --------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     *   安卓  |  xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light                                                                                                                   
-     *   iOS   |  xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity   
+     *   安卓  |  xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
+     *   iOS   |  xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity
      *
      * **Bug**: 目前安卓版本只适用于 fill 填充块的合成，用于 stroke 线段的合成效果都是 source-over
      *
@@ -10051,13 +10063,13 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值   |  类型     |  说明            
+     *   属性值   |  类型     |  说明
      * -----------|-----------|------------------
      *   x1       |  Number   |第一个控制点的 x 轴坐标
      *   y1       |  Number   |第一个控制点的 y 轴坐标
      *   x2       |  Number   |第二个控制点的 x 轴坐标
      *   y2       |  Number   |第二个控制点的 y 轴坐标
-     *   radius   |  Number   |  圆弧的半径      
+     *   radius   |  Number   |  圆弧的半径
      *
      * **语法：**
      *
@@ -10075,9 +10087,9 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值     |  类型     |  说明           
+     *   属性值     |  类型     |  说明
      * -------------|-----------|-----------------
-     *   text       |  String   |  要绘制的文本   
+     *   text       |  String   |  要绘制的文本
      *   x          |  Number   |文本起始点的 x 轴坐标
      *   y          |  Number   |文本起始点的 y 轴坐标
      *   maxWidth   |  Number   |需要绘制的最大宽度，可选
@@ -10098,7 +10110,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值  |  类型     |  说明         
+     *   属性值  |  类型     |  说明
      * ----------|-----------|---------------
      *   value   |  Number   |偏移量，初始值为 0
      *
@@ -10118,9 +10130,9 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值       |  类型     |  说明                                                   
+     *   属性值       |  类型     |  说明
      * ---------------|-----------|---------------------------------------------------------
-     *   image        |  String   |  重复的图像源，仅支持包内路径和临时路径                 
+     *   image        |  String   |  重复的图像源，仅支持包内路径和临时路径
      *   repetition   |  String   |指定如何重复图像，有效值有: repeat, repeat-x, repeat-y, no-repeat
      *
      * **语法：**
@@ -10132,7 +10144,7 @@ declare namespace Taro {
      * **例子：**
      *
      *     ```javascript
-     *     const ctx = wx.createCanvasContext('myCanvas')
+     *     const ctx = Taro.createCanvasContext('myCanvas')
      *     const pattern = ctx.createPattern('/path/to/image', 'repeat-x')
      *     ctx.fillStyle = pattern
      *     ctx.fillRect(0, 0, 300, 150)
@@ -10149,17 +10161,17 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值  |  类型     |  说明                                                                 
+     *   属性值  |  类型     |  说明
      * ----------|-----------|-----------------------------------------------------------------------
      *   value   |  String   |符合 CSS font 语法的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif
      *
      * **value 支持的属性有：**
      *
-     *   属性     |  说明                               
+     *   属性     |  说明
      * -----------|-------------------------------------
      *   style    |字体样式。仅支持 italic, oblique, normal
-     *   weight   |  字体粗细。仅支持 normal, bold      
-     *   size     |  字体大小                           
+     *   weight   |  字体粗细。仅支持 normal, bold
+     *   size     |  字体大小
      *   family   | 字体族名。注意确认各平台所支持的字体
      *
      * **语法：**
@@ -10178,7 +10190,7 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   属性值       |  类型     |  说明   
+     *   属性值       |  类型     |  说明
      * ---------------|-----------|---------
      *   scaleX       |  Number   | 水平缩放
      *   skewX        |  Number   | 水平倾斜
