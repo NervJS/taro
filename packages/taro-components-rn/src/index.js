@@ -15,6 +15,7 @@ import Radio from './components/Radio'
 import RadioGroup from './components/Radio/radio-group'
 import Slider from './components/Slider'
 import Switch from './components/Switch'
+import Textarea from './components/Textarea'
 import Image from './components/Image'
 
 export {
@@ -35,5 +36,6 @@ export {
   RadioGroup,
   Slider,
   Switch,
+  Textarea,
   Image,
 }

@@ -52,7 +52,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [x] radio | FS
   - [x] slider | PS
   - [x] switch | FS
-  - [ ] textarea
+  - [x] textarea
 - 导航
 - 媒体组件
   - [ ] audio

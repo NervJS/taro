@@ -18,7 +18,7 @@
  * ✘ adjust-position
  * ✔ onInput(bindinput): No CURSOR info.
  * ✔ onFocus(bindfocus): No HEIGHT info.
- * ✔ onBlur(bindblur)
+ * ✔ onBlur(bindblur): No CURSOR info.
  * ✔ onConfirm(bindconfirm)
  *
  * @flow
@@ -67,9 +67,14 @@ type Props = {
   onFocus?: Function,
   onBlur?: Function,
   onConfirm?: Function,
+  // Private
+  _multiline?: boolean,
+  _autoHeight?: boolean,
+  _onLineChange?: Function,
 }
 type State = {
-  value: string
+  value: string,
+  height: number,
 }
 
 class _Input extends React.Component<Props, State> {
@@ -80,8 +85,10 @@ class _Input extends React.Component<Props, State> {
 
   props: Props
   state: State = {
-    value: this.props.value || ''
+    value: this.props.value || '',
+    height: 0,
   }
+  lineCount: number = 0
 
   static defaultProps = {
     type: 'text',
@@ -91,7 +98,7 @@ class _Input extends React.Component<Props, State> {
     selectionEnd: -1,
   }
 
-  onChangeText = (text) => {
+  onChangeText = (text: string) => {
     const { onInput } = this.props
     if (onInput) {
       const result = onInput({ detail: { value: text } })
@@ -101,7 +108,7 @@ class _Input extends React.Component<Props, State> {
 
   onFocus = () => {
     const { onFocus } = this.props
-    event.detail = { value, height }
+    // event.detail = { value, height }
     onFocus && onFocus({ detail: { value: this.state.value } })
   }
 
@@ -110,10 +117,22 @@ class _Input extends React.Component<Props, State> {
     onBlur && onBlur({ detail: { value: this.state.value } })
   }
 
-  onKeyPress = (event) => {
+  onKeyPress = (event: Object) => {
     if (event.nativeEvent.key !== 'Enter') return
     const { onConfirm } = this.props
     onConfirm && onConfirm({ detail: { value: this.state.value } })
+  }
+
+  onContentSizeChange = (event: Object) => {
+    const { width, height } = event.nativeEvent.contentSize
+    // One of width and height may be 0.
+    if (width && height) {
+      const { _autoHeight, _onLineChange } = this.props
+      if (!_autoHeight || height === this.state.height) return
+      this.lineCount += height > this.state.height ? 1 : -1
+      _onLineChange && _onLineChange({ detail: { height, lineCount: this.lineCount } })
+      this.setState({ height })
+    }
   }
 
   render () {
@@ -131,6 +150,7 @@ class _Input extends React.Component<Props, State> {
       cursor,
       selectionStart,
       selectionEnd,
+      _multiline,
     } = this.props
 
     const keyboardType = keyboardTypeMap[type]
@@ -153,7 +173,7 @@ class _Input extends React.Component<Props, State> {
         maxLength={maxlength}
         // returnKeyLabel={confirmType}
         returnKeyType={confirmType}
-        blurOnSubmit={!confirmHold}
+        blurOnSubmit={!_multiline && !confirmHold}
         autoFocus={!!focus}
         selection={selection}
         onChangeText={this.onChangeText}
@@ -161,7 +181,9 @@ class _Input extends React.Component<Props, State> {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onKeyPress={this.onKeyPress}
-        style={style}
+        multiline={!!_multiline}
+        onContentSizeChange={this.onContentSizeChange}
+        style={[style, _multiline && { height: Math.max(35, this.state.height) }]}
       />
     )
   }
