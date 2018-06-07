@@ -59,7 +59,7 @@ Taro.downloadFile(params).then(...)
 
 创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 链接。
 
-支持存在最多**两个** WebSocket 链接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](native-api.md####SocketTask)。
+支持存在最多**两个** WebSocket 链接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](native-api.md#sockettask)。
 
 **OBJECT 参数说明：**
 
@@ -104,7 +104,7 @@ Taro.connectSocket({
 
 #### SocketTask
 
-WebSocket 任务，可通过 [wx.connectSocket()](Taro.connectSocket(OBJECT)) 接口创建返回。
+WebSocket 任务，可通过 [wx.connectSocket()](native-api.md#taroconnectsocketobject) 接口创建返回。
 
 属性
 
