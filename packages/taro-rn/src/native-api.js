@@ -1,4 +1,4 @@
-import storage from './api/storage'
+import * as storage from './api/storage'
 
 function request (options) {
   options = options || {}
