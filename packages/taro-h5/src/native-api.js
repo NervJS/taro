@@ -29,7 +29,7 @@ function request (options) {
       })
   }
   params.body = options.data
-  params.headers = options.header
+  params.headers = options.headers
   params.method = options.method
   params.mode = options.mode
   params.credentials = options.credentials
