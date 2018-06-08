@@ -11,15 +11,15 @@ export default class Audio extends Nerv.Component {
     console.log(e)
   }
 
-  onended (e) {
+  onEnded (e) {
     console.log(e)
   }
 
-  ontimeupdate (e) {
+  onTimeupdate (e) {
     // console.log(e)
   }
 
-  onerror (e) {
+  onError (e) {
     console.log(e)
   }
 
@@ -53,11 +53,11 @@ export default class Audio extends Nerv.Component {
           <Taro.View className='page__con'>
             <Taro.Video
               {...videoOpts}
-              bindpause={this.onPause}
-              bindended={this.onended}
-              bindtimeupdate={this.ontimeupdate}
-              binderror={this.onerror}
-              bindplay={this.onPlay}
+              onPause={this.onPause}
+              onEnded={this.onEnded}
+              onTimeupdate={this.onTimeupdate}
+              onError={this.onError}
+              onPlay={this.onPlay}
             />
           </Taro.View>
         </Taro.View>
