@@ -69,8 +69,8 @@ class App extends Component {
 
 | 生命周期方法 | 作用 | 说明 | 
 | - | - | - | 
-| componentWilMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch` | 
-| componentDidMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch`，在 `componentWilMount` 后执行 | 
+| componentWillMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch` | 
+| componentDidMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch`，在 `componentWillMount` 后执行 | 
 | componentDidShow | 程序展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
 | componentDidHide | 程序被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
 
@@ -145,7 +145,7 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 
 | 生命周期方法 | 作用 | 说明 | 
 | - | - | - | 
-| componentWilMount | 页面被载入 | 在微信小程序中这一生命周期方法对应 `onLoad` | 
+| componentWillMount | 页面被载入 | 在微信小程序中这一生命周期方法对应 `onLoad` | 
 | componentDidMount | 页面渲染完成 | 在微信小程序中这一生命周期方法对应 `onReady` | 
 | shouldComponentUpdate | 页面是否需要更新 |  |
 | componentWillUpdate | 页面即将更新 |  |
