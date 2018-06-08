@@ -11,8 +11,6 @@ Taro 中的条件渲染和 JavaScript 中的一致，使用 Taro 操作符 if �
 ```javascript
 // LoginStatus.js
 class LoginStatus extends Component {
-  state = {isLoggedIn: false}
-
   render() {
     const isLoggedIn = this.props.isLoggedIn
 	  // 这里最好初始化声明为 `null`，初始化又不赋值的话
@@ -35,7 +33,7 @@ class LoginStatus extends Component {
 import LoginStatus from './LoginStatus'
 
 // 这样会渲染 `已登录`
-class LoginStatus extends Component {
+class App extends Component {
   render() {
     return (
       <View>
@@ -56,8 +54,6 @@ class LoginStatus extends Component {
 
 ```javascript
 class LoginStatus extends Component {
-  state = {isLoggedIn: false}
-
   render() {
     const isLoggedIn = this.props.isLoggedIn
 
@@ -81,8 +77,6 @@ class LoginStatus extends Component {
 
 ```javascript
 class LoginStatus extends Component {
-  state = {isLoggedIn: false}
-
   render() {
     const isLoggedIn = this.props.isLoggedIn
 
