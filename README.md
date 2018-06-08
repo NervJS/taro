@@ -15,9 +15,9 @@
 
 ## 使用案例
 
-Taro 已经投入到了生产环境使用，目前 [TOPLIFE](https://toplife.com) 整站、部分`京东购物`页面和`一起有局`页面都在使用 Taro 进行开发，未来也将接入更多京东业务。
+Taro 已经投入到了生产环境使用，目前 [TOPLIFE](https://toplife.com) 全部使用 Taro 进行开发，未来也将接入更多京东业务。
 
-![qrcode.png](http://img14.360buyimg.com/uba/jfs/t21817/73/625556299/346228/96240192/5b14a81eN8e6a43db.png)
+![qrcode.png](https://i.loli.net/2018/06/08/5b19f2ebb1308.png)
 
 ## Taro 特性
 
