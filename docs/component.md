@@ -78,7 +78,7 @@ class Welcome extends Component {
 constructor(props)
 ```
 
-eact组件的构造函数将会在装配之前被调用。当为一个 `Taro.Component` 子类定义构造函数时，你应该在任何其他的表达式之前调用 `super(props)`。否则，this.props在构造函数中将是未定义，并可能引发异常。
+React组件的构造函数将会在装配之前被调用。当为一个 `Taro.Component` 子类定义构造函数时，你应该在任何其他的表达式之前调用 `super(props)`。否则，this.props在构造函数中将是未定义，并可能引发异常。
 
 构造函数是初始化状态的合适位置。若你不初始化状态且不绑定方法，那你也不需要为你的 Taro 组件定义一个构造函数。
 
