@@ -292,15 +292,15 @@ Taro.removeStorage(params).then(...)
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
 | Taro.setStorage | ✔️ | ✔️ | ✔️ |
-| Taro.setStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.setStorageSync | ✔️ | ✔️ |  |
 | Taro.getStorage | ✔️ | ✔️ | ✔️ |
-| Taro.getStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.getStorageSync | ✔️ | ✔️ |  |
 | Taro.getStorageInfo | ✔️ | ✔️ | ✔️ |
-| Taro.getStorageInfoSync | ✔️ | ✔️ | ✔️ |
+| Taro.getStorageInfoSync | ✔️ | ✔️ |  |
 | Taro.removeStorage | ✔️ | ✔️ | ✔️ |
-| Taro.removeStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.removeStorageSync | ✔️ | ✔️ |  |
 | Taro.clearStorage | ✔️ | ✔️ | ✔️ |
-| Taro.clearStorageSync | ✔️ | ✔️ | ✔️ |
+| Taro.clearStorageSync | ✔️ | ✔️ |  |
 
 ## 界面
 
@@ -405,12 +405,12 @@ Taro.removeStorage(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.createSelectorQuery | ✔️ | ✔️ | ✔️ |
-| selectorQuery.in | ✔️ | ✔️ | ✔️ |
-| selectorQuery.select | ✔️ | ✔️ | ✔️ |
-| selectorQuery.selectAll | ✔️ | ✔️ | ✔️ |
-| selectorQuery.selectViewport | ✔️ | ✔️ | ✔️ |
-| nodesRef.boundingClientRect | ✔️ | ✔️ | ✔️ |
-| nodesRef.scrollOffset | ✔️ | ✔️ | ✔️ |
-| nodesRef.fields | ✔️ | ✔️ | ✔️ |
-| selectorQuery.exec | ✔️ | ✔️ | ✔️ |
+| Taro.createSelectorQuery | ✔️ | ✔️ |  |
+| selectorQuery.in | ✔️ | ✔️ |  |
+| selectorQuery.select | ✔️ | ✔️ |  |
+| selectorQuery.selectAll | ✔️ | ✔️ |  |
+| selectorQuery.selectViewport | ✔️ | ✔️ |  |
+| nodesRef.boundingClientRect | ✔️ | ✔️ |  |
+| nodesRef.scrollOffset | ✔️ | ✔️ |  |
+| nodesRef.fields | ✔️ | ✔️ |  |
+| selectorQuery.exec | ✔️ | ✔️ |  |
