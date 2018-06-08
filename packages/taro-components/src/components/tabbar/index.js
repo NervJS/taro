@@ -14,24 +14,61 @@ class Tabbar extends Nerv.Component {
     }
     list[0].selected = true
     this.state = {
-      list
+      list,
+      isShow: true,
+      selectedIndex: 0
     }
+  }
+  componentDidMount () {
+    this.bindEvent()
+    this.hashChangeHandler()
+  }
+
+  componentUnMount () {
+    this.removeEvent()
+  }
+
+  hashChangeHandler () {
+    const hash = location.hash
+    if (!hash) return
+    const len = this.state.list.length
+    for (let i = 0; i < len; i++) {
+      if (this.state.list[i].pagePath.indexOf(hash.replace(/^#\//, '')) > -1) {
+        return this.setState({
+          isShow: true,
+          selectedIndex: i
+        })
+      }
+    }
+    this.setState({
+      isShow: false
+    })
+  }
+
+  hideBar () {
+    this.setState({
+      isShow: false
+    })
+  }
+
+  showBar () {
+    this.setState({
+      isShow: true
+    })
+  }
+
+  bindEvent () {
+    window.addEventListener('hashchange', this.hashChangeHandler.bind(this))
+  }
+
+  removeEvent () {
+    window.removeEventListener('hashchange', this.hashChangeHandler.bind(this))
   }
 
   render () {
     const { conf, router = {} } = this.props
     function handleSelect (index, e) {
       let list = this.state.list
-      list.forEach((item, i) => {
-        if (i === index) {
-          item.selected = true
-        } else {
-          item.selected = false
-        }
-      })
-      this.setState({
-        list
-      })
       router.navigateTo &&
         router.navigateTo({
           url:
@@ -43,7 +80,7 @@ class Tabbar extends Nerv.Component {
       [`taro-tabbar__border-${conf.borderStyle}`]: true
     })
     return (
-      <div className='taro-tabbar__tabbar'>
+      <div className='taro-tabbar__tabbar' style={{display: this.state.isShow ? '' : 'none'}}>
         <div
           className={containerCls}
           style={{
@@ -52,10 +89,10 @@ class Tabbar extends Nerv.Component {
         >
           {this.state.list.map((item, index) => {
             const cls = classNames('weui-tabbar__item', {
-              [`weui-bar__item_on`]: item.selected
+              [`weui-bar__item_on`]: this.state.selectedIndex === index
             })
             let textStyle = {
-              color: item.selected ? conf.selectedColor : conf.color || ''
+              color: this.state.selectedIndex === index ? conf.selectedColor : conf.color || ''
             }
             return (
               <a
@@ -66,7 +103,7 @@ class Tabbar extends Nerv.Component {
               >
                 <span style='display: inline-block;position: relative;'>
                   <img
-                    src={item.selected ? item.selectedIconPath : item.iconPath}
+                    src={this.state.selectedIndex === index ? item.selectedIconPath : item.iconPath}
                     alt=''
                     className='weui-tabbar__icon'
                   />

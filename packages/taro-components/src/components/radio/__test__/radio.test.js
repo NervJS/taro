@@ -8,7 +8,7 @@ describe('Radio', () => {
     expect(container.props.checked).toBeFalsy()
   })
   it('should checked', () => {
-    const container = renderIntoDocument(<Radio checked />)
+    const container = renderIntoDocument(<Radio checked className='test' />)
     expect(container.props.checked).toBeTruthy()
   })
 })

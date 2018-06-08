@@ -15,7 +15,7 @@ input
 |              | cursor-spacing    | Number      |        | 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
 |              | auto-focus        | Boolean     |        | (即将废弃，请直接使用 focus )自动聚焦，拉起键盘                                                                 |
 |              | focus             | Boolean     |        | 获取焦点                                                                                                        |
-|              | confirm-type      | String      |        | 设置键盘右下角按钮的文字                                                                                        |
+|     √           | confirm-type      | String      |        | 设置键盘右下角按钮的文字(目前仅支持search)                                                                                        |
 |              | cursor            | Number      |        | 指定 focus 时的光标位置                                                                                         |
 |              | selection-start   | Number      |        | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用                                                       |
 |              | selection-end     | Number      |        | 光标结束位置，自动聚集时有效，需与 selection-start 搭配使用                                                     |

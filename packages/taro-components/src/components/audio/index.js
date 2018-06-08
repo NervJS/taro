@@ -6,69 +6,40 @@ class Audio extends Nerv.Component {
     super(...arguments)
   }
   componentDidMount () {
-    this.initVideo()
-  }
-
-  initVideo () {
-    // 绑定事件
     this.bindevent()
   }
 
   bindevent () {
-    this.radio.addEventListener('timeupdate', (e) => {
-      this.props.bindtimeupdate(e)
-    })
-
-    this.radio.addEventListener('ended', (e) => {
-      this.props.bindended(e)
-    })
-
-    this.radio.addEventListener('play', (e) => {
-      this.props.bindplay(e)
-    })
-
-    this.radio.addEventListener('pause', (e) => {
-      this.props.bindpause(e)
-    })
-
-    // 网络错误
-    this.radio.addEventListener('stalled', (data) => {
-      let e = {}
+    this.audio.addEventListener('timeupdate', (e) => {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
-        errMsg: 2
+        value: {
+          duration: e.srcElement.duration,
+          currentTime: e.srcElement.currentTime
+        }
       })
-      this.props.bindended(e)
+      this.props.onTimeupdate(e)
     })
 
-    // 获取资源被用户禁止
-    this.radio.addEventListener('abort', (data) => {
-      let e = {}
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        errMsg: 1
-      })
-      this.props.bindended(e)
+    this.audio.addEventListener('ended', (e) => {
+      this.props.onEnded(e)
     })
 
-    // 解码错误
-    this.radio.addEventListener('error', (data) => {
-      let e = {}
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        errMsg: 3
-      })
-      this.props.bindended(e)
+    this.audio.addEventListener('play', (e) => {
+      this.props.onPlay(e)
     })
 
-    // 不合适资源
-    this.radio.addEventListener('error', (data) => {
-      let e = {}
+    this.audio.addEventListener('pause', (e) => {
+      this.props.onPause(e)
+    })
+
+    // 1网络错误, 2解码错误, 3解码错误，4 不合适资源
+    this.audio.addEventListener('error', (e) => {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
-        errMsg: 4
+        value: {errMsg: e.srcElement.error.code}
       })
-      this.props.bindended(e)
+      this.props.onError(e)
     })
   }
 
@@ -91,7 +62,7 @@ class Audio extends Nerv.Component {
         start={initialTime}
         loop={loop}
         muted={muted}
-        ref={(radio) => { this.radio = radio }}>
+        ref={(audio) => { this.audio = audio }}>
         暂时不支持播放该视频
       </audio>
     )

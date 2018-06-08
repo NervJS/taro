@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,9 @@
     "taro",
     "weapp"
   ],
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {

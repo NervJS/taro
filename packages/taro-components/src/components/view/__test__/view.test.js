@@ -30,7 +30,7 @@ describe('View', () => {
 
     Simulate.touchStart(dom)
     await delay(hoverStartTime)
-    expect(viewIns.state.touch).toEqual(true)
+    expect(viewIns.state.touch).toBeTruthy()
     expect(dom.getAttribute('class')).toContain(hoverClass)
 
     Simulate.touchEnd(dom)
@@ -51,12 +51,12 @@ describe('View', () => {
     const component = renderIntoDocument(view)
     const dom = Nerv.findDOMNode(component)
     Simulate.touchStart(dom)
-    expect(viewIns.state.touch).toEqual(false)
+    expect(viewIns.state.touch).toBeFalsy()
     await delay(hoverStartTime)
-    expect(viewIns.state.hover).toEqual(false)
+    expect(viewIns.state.hover).toBeFalsy()
 
     Simulate.touchEnd(dom)
     await delay(hoverStayTime)
-    expect(viewIns.state.hover).toEqual(false)
+    expect(viewIns.state.hover).toBeFalsy()
   })
 })
