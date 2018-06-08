@@ -90,7 +90,7 @@ exports.promoteRelativePath = function (fPath) {
     fPathArr.splice(0, 1)
     return fPathArr.join(path.sep)
   }
-  return fPath
+  return fPath.replace(/\\/g, '/')
 }
 
 exports.replaceAsync = async function (str, regex, asyncFn) {

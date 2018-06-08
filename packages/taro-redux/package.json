@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/redux",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Redux for Taro",
   "main": "index.js",
   "scripts": {

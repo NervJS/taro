@@ -6,69 +6,40 @@ class Video extends Nerv.Component {
     super(...arguments)
   }
   componentDidMount () {
-    this.initVideo()
-  }
-
-  initVideo () {
-    // 绑定事件
     this.bindevent()
   }
 
   bindevent () {
     this.video.addEventListener('timeupdate', (e) => {
-      this.props.bindtimeupdate(e)
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          duration: e.srcElement.duration,
+          currentTime: e.srcElement.currentTime
+        }
+      })
+      this.props.onTimeupdate(e)
     })
 
     this.video.addEventListener('ended', (e) => {
-      this.props.bindended(e)
+      this.props.onEnded(e)
     })
 
     this.video.addEventListener('play', (e) => {
-      this.props.bindplay(e)
+      this.props.onPlay(e)
     })
 
     this.video.addEventListener('pause', (e) => {
-      this.props.bindpause(e)
+      this.props.onPause(e)
     })
 
     // 网络错误
-    this.video.addEventListener('stalled', (data) => {
-      let e = {}
+    this.video.addEventListener('error', (e) => {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
-        errMsg: 2
+        value: {errMsg: e.srcElement.error.code}
       })
-      this.props.bindended(e)
-    })
-
-    // 获取资源被用户禁止
-    this.video.addEventListener('abort', (data) => {
-      let e = {}
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        errMsg: 1
-      })
-      this.props.bindended(e)
-    })
-
-    // 解码错误
-    this.video.addEventListener('error', (data) => {
-      let e = {}
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        errMsg: 3
-      })
-      this.props.bindended(e)
-    })
-
-    // 不合适资源
-    this.video.addEventListener('error', (data) => {
-      let e = {}
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        errMsg: 4
-      })
-      this.props.bindended(e)
+      this.props.onError(e)
     })
   }
 

@@ -11,12 +11,7 @@ describe('RichText', () => {
           class: 'div_class',
           style: 'color: red;'
         },
-        children: [
-          {
-            type: 'text',
-            text: 'HelloWorld!'
-          }
-        ]
+        children: []
       },
       {
         name: 'div',

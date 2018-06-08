@@ -42,13 +42,13 @@
 
 #### 图片
 
-☑️ wx.chooseImage
+😐 wx.chooseImage (IOS有官方API支持，但该API过于简单，表现与想象不同，且在真机上会闪退)
 
 ☑️ wx.previewImage
 
-☑️ wx.getImageInfo
+✅ wx.getImageInfo (仅能返回宽高)
 
-☑️ wx.saveImageToPhotosAlbum
+✅ wx.saveImageToPhotosAlbum
         
 
 #### 录音
@@ -103,9 +103,9 @@
 
 #### 视频
 
-☑️ wx.chooseVideo
+😐 wx.chooseVideo  (同wx.chooseImage一样)
 
-☑️ wx.saveVideoToPhotosAlbum
+✅ wx.saveVideoToPhotosAlbum
         
 
 #### 视频组件控制
@@ -211,7 +211,7 @@
 
 #### 拨打电话
 
-☑️ wx.makePhoneCall
+✅ wx.makePhoneCall
 
 #### 扫码
 
@@ -219,9 +219,9 @@
 
 #### 剪贴板
 
-☑️ wx.setClipboardData
+✅ wx.setClipboardData
 
-☑️ wx.getClipboardData
+✅ wx.getClipboardData
 
 #### 蓝牙
 
@@ -287,9 +287,9 @@
 
 #### 振动
 
-☑️ wx.vibrateLong
+✅ wx.vibrateLong
 
-☑️ wx.vibrateShort
+✅ wx.vibrateShort （IOS振动间隔是固定的）
 
 #### 手机联系人
 
