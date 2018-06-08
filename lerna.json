@@ -24,7 +24,7 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.40",
+  "version": "0.0.41",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"
