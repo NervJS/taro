@@ -1,0 +1,73 @@
+{
+  "name": "@tarojs/transformer-wx",
+  "version": "0.0.41",
+  "description": "Transfrom Nerv Component to Wechat mini program.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib",
+    "cli.js",
+    "dist"
+  ],
+  "scripts": {
+    "test:cov": "jest --coverage && npm run lint",
+    "test": "jest",
+    "dev": "tsc -w --pretty",
+    "lint": "tslint"
+  },
+  "author": "O2Team",
+  "license": "MIT",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "utils"
+    ]
+  },
+  "dependencies": {
+    "@babel/code-frame": "^7.0.0-beta.44",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0-beta.47",
+    "@babel/plugin-transform-typescript": "^7.0.0-beta.47",
+    "babel-core": "^6.26.3",
+    "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
+    "html": "^1.0.0",
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.47",
+    "@types/babel-core": "^6.25.3",
+    "@types/babel-generator": "^6.25.1",
+    "@types/babel-template": "^6.25.0",
+    "@types/babel-traverse": "^6.25.3",
+    "@types/jest": "^22.2.3",
+    "@types/lodash": "^4.14.105",
+    "@types/node": "^9.6.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "cac": "^4.0.0",
+    "jest": "^23.0.1",
+    "jest-cli": "^22.1.4",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.8.4"
+  }
+}
