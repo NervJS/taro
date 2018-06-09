@@ -87,7 +87,7 @@ Taro.connectSocket({
   .then(task => {
     task.onOpen(function () {
       console.log('onOpen')
-      task.send({ data: 'xxx'})
+      task.send({ data: 'xxx' })
     })
     task.onMessage(function (msg) {
       console.log('onMessage: ', msg)
