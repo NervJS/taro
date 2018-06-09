@@ -3,6 +3,7 @@ import system from './api/system'
 import network from './api/network'
 import clipboard from './api/clipboard'
 import phone from './api/phone'
+import vibrate from './api/vibrate'
 
 function request (options) {
   options = options || {}
@@ -260,5 +261,13 @@ function processApis (taro) {
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
-  Object.assign(taro, storage, system, network, clipboard, phone)
+  Object.assign(
+    taro,
+    storage,
+    system,
+    network,
+    clipboard,
+    phone,
+    vibrate
+  )
 }

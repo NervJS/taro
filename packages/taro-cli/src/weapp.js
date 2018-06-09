@@ -956,7 +956,7 @@ function watchFiles () {
           let isPage = false
           const pages = appConfig.pages || []
           pages.forEach(page => {
-            if (filePath.indexOf(page) >= 0) {
+            if (path.normalize(filePath).indexOf(path.normalize(page)) >= 0) {
               isPage = true
             }
           })
