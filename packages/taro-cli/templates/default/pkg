@@ -18,6 +18,7 @@
     "nervjs": "^1.2.18"
   },
   "devDependencies": {
+    "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",
     "@tarojs/plugin-sass": "^<%= version %>",
