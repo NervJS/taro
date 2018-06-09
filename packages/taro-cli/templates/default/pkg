@@ -5,6 +5,10 @@
   "description": "<%= description %>",
   "main": "index.js",
   "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "build:h5": "taro build --type h5",
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:h5": "npm run build:h5 -- --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -18,6 +22,7 @@
     "nervjs": "^1.2.18"
   },
   "devDependencies": {
+    "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",
     "@tarojs/plugin-sass": "^<%= version %>",
