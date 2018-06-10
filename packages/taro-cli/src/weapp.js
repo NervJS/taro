@@ -1,4 +1,5 @@
 const fs = require('fs-extra')
+const os = require('os')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
@@ -53,6 +54,8 @@ const PARSE_AST_TYPE = {
   COMPONENT: 'COMPONENT',
   NORMAL: 'NORMAL'
 }
+
+const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
@@ -1016,7 +1019,16 @@ function watchFiles () {
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
             const depStyleList = wxssDepTree[outputWXSSPath]
-            await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+            if (isWindows) {
+              await new Promise((resolve, reject) => {
+                setTimeout(async () => {
+                  await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+                  resolve()
+                }, 150)
+              })
+            } else {
+              await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+            }
             Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
           })
         } else {
@@ -1028,7 +1040,16 @@ function watchFiles () {
           let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
           const depStyleList = wxssDepTree[outputWXSSPath]
-          await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+          if (isWindows) {
+            await new Promise((resolve, reject) => {
+              setTimeout(async () => {
+                await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+                resolve()
+              }, 150)
+            })
+          } else {
+            await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+          }
           Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
         }
       } else {
