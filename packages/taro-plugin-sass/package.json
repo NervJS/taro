@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-sass",
-  "version": "0.0.43",
+  "version": "0.0.44-beta.0",
   "description": "Taro编译sass文件",
   "main": "index.js",
   "scripts": {
