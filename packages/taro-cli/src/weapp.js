@@ -226,13 +226,22 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             astPath.remove()
           }
         } else if (!valueExtname) {
-          const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+          let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
           const outputVpath = vpath.replace(sourceDir, outputDir)
-          const relativePath = path.relative(filePath, outputVpath)
+          let relativePath = path.relative(filePath, outputVpath)
           if (vpath) {
             if (!fs.existsSync(vpath)) {
               Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
             } else {
+              if (fs.lstatSync(vpath).isDirectory()) {
+                if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                  vpath = path.join(vpath, 'index.js')
+                  relativePath = path.join(relativePath, 'index.js')
+                } else {
+                  Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                  return
+                }
+              }
               if (scriptFiles.indexOf(vpath) < 0) {
                 scriptFiles.push(vpath)
               }
