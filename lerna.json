@@ -18,7 +18,6 @@
     "packages/taro-weapp",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
-    "packages/eslint-plugin-taro",
     "packages/eslint-config-taro",
     "packages/taro-transformer-wx"
   ],
@@ -27,7 +26,7 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.44-beta.0",
+  "version": "0.0.44-beta.1",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"
