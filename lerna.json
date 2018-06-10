@@ -17,7 +17,10 @@
     "packages/taro-router",
     "packages/taro-weapp",
     "packages/taro-webpack-runner",
-    "packages/postcss-plugin-constparse"
+    "packages/postcss-plugin-constparse",
+    "packages/eslint-plugin-taro",
+    "packages/eslint-config-taro",
+    "packages/taro-transformer-wx"
   ],
   "command": {
     "publish": {

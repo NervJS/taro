@@ -17,7 +17,8 @@
     "test:cov": "jest --coverage && npm run lint",
     "test": "jest",
     "dev": "tsc -w --pretty",
-    "lint": "tslint"
+    "lint": "tslint",
+    "build": "tsc"
   },
   "author": "O2Team",
   "license": "MIT",
