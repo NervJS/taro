@@ -70,5 +70,12 @@
     "tslint-config-prettier": "^1.10.0",
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.8.4"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme"
 }

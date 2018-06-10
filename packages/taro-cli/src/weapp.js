@@ -3,7 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
 const babylon = require('babylon')
-const nervToMp = require('nerv-to-mp')
+const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -506,7 +506,7 @@ async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${CONFIG.ENTRY}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
   try {
-    const transformResult = nervToMp({
+    const transformResult = wxTransformer({
       code: entryFileCode,
       path: outputEntryFilePath,
       isApp: true
@@ -608,7 +608,7 @@ async function buildSinglePage (page) {
   const outputPageWXMLPath = outputPageJSPath.replace(path.extname(pageJs), '.wxml')
   const outputPageWXSSPath = outputPageJSPath.replace(path.extname(pageJs), '.wxss')
   try {
-    const transformResult = nervToMp({
+    const transformResult = wxTransformer({
       code: pageJsContent,
       path: outputPageJSPath,
       isRoot: true
@@ -785,7 +785,7 @@ async function buildSingleComponent (component) {
   const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(component), '.wxml')
   const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(component), '.wxss')
   try {
-    const transformResult = nervToMp({
+    const transformResult = wxTransformer({
       code: componentContent,
       path: outputComponentJSPath,
       isRoot: false
