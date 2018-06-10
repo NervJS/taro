@@ -185,9 +185,9 @@ export default class Index extends Component {
   render () {
     return (
       <View className='todo'>
-        <Button className='add_btn' onClick={this.props.inc}>+</Button>
+        <Button className='add_btn' onClick={this.props.add}>+</Button>
         <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncInc}>async</Button>
+        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
         <View>{this.props.counter.num}</View>
       </View>
     )
