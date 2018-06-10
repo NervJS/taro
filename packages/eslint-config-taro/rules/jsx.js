@@ -99,7 +99,8 @@ module.exports = {
     // Enforce event handler naming conventions in JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
     'react/jsx-handler-names': ['error', {
-      eventHandlerPropPrefix: 'on'
+      eventHandlerPropPrefix: 'on',
+      eventHandlerPrefix: ''
     }],
 
     // Enforce PascalCase for user-defined JSX components
