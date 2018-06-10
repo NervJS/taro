@@ -72,7 +72,8 @@ export default function transform<T> (options: Options): TransformResult {
         'objectRestSpread',
         'decorators'
       ] as any[]
-    }
+    },
+    plugins: ['transform-flow-strip-types']
   }).ast as t.File
   // transformFromAst(ast, code)
   let result

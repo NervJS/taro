@@ -90,3 +90,5 @@ export function evalClass (ast: t.File, props = '') {
   // tslint:disable-next-line
   return eval(code)
 }
+
+export class Custom {}
