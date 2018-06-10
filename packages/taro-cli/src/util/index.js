@@ -84,11 +84,11 @@ exports.promoteRelativePath = function (fPath) {
   })
   if (dotCount === 1) {
     fPathArr.splice(0, 1, '.')
-    return fPathArr.join(path.sep)
+    return fPathArr.join('/')
   }
   if (dotCount > 1) {
     fPathArr.splice(0, 1)
-    return fPathArr.join(path.sep)
+    return fPathArr.join('/')
   }
   return fPath.replace(/\\/g, '/')
 }

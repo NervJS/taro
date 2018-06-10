@@ -60,10 +60,25 @@ describe('Swiper', () => {
   })
 
   it('should error Swiper', () => {
-    const view = <Swiper />
+    let swIns
+    const view = <Swiper autoplay ref={c => (swIns = c)} />
     const component = renderIntoDocument(view)
     const dom = Nerv.findDOMNode(component)
     const children = dom.querySelectorAll('.swiper_item')
+
+    // todo 研究下相关库
+    const targetTouches = [
+      {
+        identifier: 'test',
+        pageX: 20,
+        pageY: 30
+      }
+    ]
+    swIns.componentDidMount()
+    swIns.slideNext()
+    swIns.slidePre()
+    swIns.getSwiperDirection(targetTouches)
+    swIns.componentWillUnmount()
     expect(children.length).toBe(0)
   })
 })

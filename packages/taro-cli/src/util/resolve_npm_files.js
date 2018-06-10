@@ -65,15 +65,22 @@ function recursiveRequire (filePath, files, isProduction) {
       const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
       return `require('${relativeRequirePath}')`
     }
-    requirePath = path.resolve(path.dirname(filePath), requirePath)
-    if (!path.extname(requirePath)) {
-      requirePath += '.js'
+    let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
+    let tempPathWithJS = `${realRequirePath}.js`
+    let tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
+    if (!path.extname(realRequirePath)) {
+      if (fs.existsSync(tempPathWithJS)) {
+        realRequirePath = tempPathWithJS
+      } else if (fs.existsSync(tempPathWithIndexJS)) {
+        realRequirePath = tempPathWithIndexJS
+        requirePath += '/index.js'
+      }
     }
-    if (files.indexOf(requirePath) < 0) {
-      files.push(requirePath)
+    if (files.indexOf(realRequirePath) < 0) {
+      files.push(realRequirePath)
+      recursiveRequire(realRequirePath, files, isProduction)
     }
-    recursiveRequire(requirePath, files, isProduction)
-    return m
+    return `require('${requirePath}')`
   })
   const outputNpmPath = filePath.replace('node_modules', path.join(OUTPUT_DIR, NPM_DIR))
   if (!copyedFiles[outputNpmPath]) {

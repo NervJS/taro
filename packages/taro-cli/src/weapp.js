@@ -413,7 +413,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '')}' }))`, babylonConfig)()
+            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '').replace(/\\/g, '/')}' }))`, babylonConfig)()
             node.body.push(insert)
             break
           default:
@@ -715,7 +715,10 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     try {
       const postcssResult = await postcss([
         autoprefixer({ browsers: browserList }),
-        pxtransform()
+        pxtransform({
+          designWidth: projectConfig.designWidth || 750,
+          platform: 'weapp'
+        })
       ]).process(resContent, {
         from: undefined
       })
