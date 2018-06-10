@@ -34,7 +34,8 @@ const DEFAULT_Components_SET = new Set([
   'Canvas',
   'OpenData',
   'WebView',
-  'SwiperItem'
+  'SwiperItem',
+  'Provider'
 ])
 
 const ERROR_MESSAGE = '不能在自定义组件中写 children'
