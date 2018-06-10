@@ -45,7 +45,8 @@ function dealWithWeapp ({root, opts, result}) {
   root.walkDecls(function (decl) {
     let value = decl.value
     value = value.replace(/([0-9.]+)rem/ig, function (match, size) {
-      return parseInt(size, 10) / DEVICE_RATIO[opts.designWidth] + 'rpx'
+      return Math.ceil(size / DEVICE_RATIO[opts.designWidth] * 10000) / 10000 +
+        'rpx'
     })
     decl.value = value
   })
