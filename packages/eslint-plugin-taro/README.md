@@ -25,7 +25,7 @@ $ npm install eslint-plugin-taro --save-dev
 * [taro/custom-component-children](./docs/custom-component-children.md)
 * [taro/if-statement-in-map-loop](./docs/if-statement-in-map-loop.md)
 * [taro/manipulate-jsx-as-array](./docs/manipulate-jsx-as-array.md)
-* [taro/no-anonymous-function-in-props](./docs/manipulate-jsx-as-array.md)
+* [taro/no-anonymous-function-in-props](./docs/no-anonymous-function-in-props.md)
 * [taro/no-jsx-in-class-method](./docs/no-jsx-in-class-method.md)
 * [taro/no-jsx-in-props](./docs/no-jsx-in-props.md)
 * [taro/no-ref](./docs/no-ref.md)
