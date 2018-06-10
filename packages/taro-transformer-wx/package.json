@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "0.0.41",
+  "version": "0.0.43",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
     "test:cov": "jest --coverage && npm run lint",
     "test": "jest",
     "dev": "tsc -w --pretty",
-    "lint": "tslint"
+    "lint": "tslint",
+    "build": "tsc"
   },
   "author": "O2Team",
   "license": "MIT",
@@ -69,5 +70,12 @@
     "tslint-config-prettier": "^1.10.0",
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.8.4"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme"
 }
