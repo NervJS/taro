@@ -5,6 +5,7 @@
   * [安装使用](GETTING-STARTED.md#安装)
   * [Taro组成](composition.md)
   * [开发前注意](before-dev-remind.md)
+  * [特殊问题的处理](specials.md)
 * [教程](tutorial.md)
   * [Taro项目目录结构](tutorial.md#项目目录结构)
   * [入口文件](tutorial.md#入口文件)
