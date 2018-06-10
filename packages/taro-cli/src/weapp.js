@@ -715,7 +715,10 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     try {
       const postcssResult = await postcss([
         autoprefixer({ browsers: browserList }),
-        pxtransform()
+        pxtransform({
+          designWidth: projectConfig.designWidth || 750,
+          platform: 'weapp'
+        })
       ]).process(resContent, {
         from: undefined
       })
