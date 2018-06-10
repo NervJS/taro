@@ -62,6 +62,7 @@
     * [WXML节点信息](native-api.md#WXML节点信息)
 * 进阶指南
   * [项目配置](config.md)
+  * [异步编程](async-await.md)
   * [使用Redux](redux.md)
   * [技术原理](principle.md)
   * [最佳实践](best-practice.md)
