@@ -20,7 +20,7 @@ const babylonConfig = require('./config/babylon')
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-h5': '@tarojs/taro-h5',
-  '@tarojs/redux-h5': '@tarojs/redux-h5',
+  '@tarojs/redux': '@tarojs/redux',
   '@tarojs/router': '@tarojs/router',
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
@@ -41,7 +41,6 @@ const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
 const tabBarPanelComponentName = 'TabbarPanel'
 const providerComponentName = 'Provider'
-const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
 const tempDir = '.temp'
@@ -188,7 +187,7 @@ function processEntry (code) {
             if (!specifiers.length) {
               astPath.remove()
             }
-          } else if (value === PACKAGES['@tarojs/redux-h5']) {
+          } else if (value === PACKAGES['@tarojs/redux']) {
             const specifier = specifiers.find(item => {
               return t.isImportSpecifier(item) && item.imported.name === providerComponentName
             })
@@ -214,20 +213,21 @@ function processEntry (code) {
               astPath.remove()
             }
           } else {
-            if (calleeName === configStoreFuncName) {
-              if (parentPath.isAssignmentExpression()) {
-                storeName = parentPath.node.left.name
-              } else if (parentPath.isVariableDeclarator()) {
-                storeName = parentPath.node.id.name
-              } else {
-                storeName = 'store'
-              }
-            } else if (calleeName === setStoreFuncName) {
+            if (calleeName === setStoreFuncName) {
               if (parentPath.isAssignmentExpression() ||
                 parentPath.isExpressionStatement() ||
                 parentPath.isVariableDeclarator()) {
                 parentPath.remove()
               }
+            }
+          }
+        },
+        JSXOpeningElement (astPath) {
+          if (astPath.node.name.name === 'Provider') {
+            for (let v of astPath.node.attributes) {
+              if (v.name.name !== 'store') continue
+              storeName = v.value.expression.name
+              break
             }
           }
         }
@@ -262,6 +262,7 @@ function processEntry (code) {
             }
           }
 
+          /* 插入<Provider /> */
           if (providerComponentName && storeName) {
             // 使用redux
             funcBody = `
@@ -270,6 +271,7 @@ function processEntry (code) {
               </${providorImportName}>`
           }
 
+          /* 插入<TaroRouter.Router /> */
           node.body = template(`{return (${funcBody});}`, babylonConfig)()
 
           if (tabBar) {
@@ -406,7 +408,7 @@ function processOthers (code) {
             if (!specifiers.length) {
               astPath.remove()
             }
-          } else if (value === PACKAGES['@tarojs/redux-h5']) {
+          } else if (value === PACKAGES['@tarojs/redux']) {
             source.value = PACKAGES['nerv-redux']
           }
         }

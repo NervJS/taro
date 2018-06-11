@@ -18,25 +18,17 @@ type Props = {
   selectable?: boolean,
 }
 
-class _Text extends React.Component<Props> {
-  props: Props
-
-  render () {
-    const {
-      style,
-      children,
-      selectable,
-    } = this.props
-
-    return (
-      <Text
-        selectable={!!selectable}
-        style={style}
-      >
-        {children}
-      </Text>
-    )
-  }
+export default function ({
+  style,
+  children,
+  selectable,
+}: Props) {
+  return (
+    <Text
+      selectable={!!selectable}
+      style={style}
+    >
+      {children}
+    </Text>
+  )
 }
-
-export default _Text
