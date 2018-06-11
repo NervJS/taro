@@ -19,6 +19,7 @@
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
+    "packages/eslint-plugin-taro",
     "packages/taro-transformer-wx"
   ],
   "command": {
