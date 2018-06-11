@@ -100,9 +100,6 @@ Type: `Object | Null`
 ### `designWidth`（Number）（必填）
 `640` 或 `750` 或 `828`
 
-### `rootValue` (Number) (必填)
-(Number) The root element font size.
-
 ### `unitPrecision` (Number) 
 The decimal numbers to allow the REM units to grow to.
 

@@ -31,23 +31,17 @@ describe('platform 为 weapp', () => {
       {platform: 'weapp', designWidth: 750})
   })
 
-  it(' {designWidth: 750, rootValue: 10} ', () => {
+  it(' {designWidth: 640} ', () => {
     return run(`h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}`,
-      `h1 {margin: 0 0 2rpx;font-size: 4rpx;line-height: 1.2;}`,
-      {platform: 'weapp', designWidth: 750, rootValue: '10'})
-  })
-
-  it(' {designWidth: 640, rootValue: 40} ', () => {
-    return run(`h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}`,
-      `h1 {margin: 0 0 1.7095rpx;font-size: 3.4189rpx;line-height: 1.2;}`,
-      {platform: 'weapp', designWidth: 640, rootValue: '10'})
+      `h1 {margin: 0 0 17.0941rpx;font-size: 34.1881rpx;line-height: 1.2;}`,
+      {platform: 'weapp', designWidth: 640})
   })
 })
 
 describe('platform 为 h5', () => {
   it('{designWidth: 750}', () => {
     return run(`h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}`,
-      `h1 {margin: 0 0 0.5rem;font-size: 1rem;line-height: 1.2;}`,
+      `h1 {margin: 0 0 0.42667rem;font-size: 0.85333rem;line-height: 1.2;}`,
       {platform: 'h5', designWidth: 750})
   })
 
@@ -57,15 +51,9 @@ describe('platform 为 h5', () => {
       {platform: 'h5', designWidth: 750})
   })
 
-  it(' {designWidth: 750, rootValue: 10} ', () => {
-    return run(`h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}`,
-      `h1 {margin: 0 0 2rem;font-size: 4rem;line-height: 1.2;}`,
-      {platform: 'h5', designWidth: 750, rootValue: 10})
-  })
-
-  it(' {designWidth: 640, rootValue: 40} ', () => {
+  it(' {designWidth: 640} ', () => {
     return run(`h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}`,
       `h1 {margin: 0 0 0.5rem;font-size: 1rem;line-height: 1.2;}`,
-      {platform: 'h5', designWidth: 640, rootValue: 40})
+      {platform: 'h5', designWidth: 640})
   })
 })
