@@ -84,6 +84,7 @@ class Transformer {
   private location: string
   private componentSourceMap: Map<string, string[]>
   private customComponentNames = new Set<string>()
+  private usedState = new Set<string>()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -146,6 +147,24 @@ class Transformer {
             }
           })
         }
+      },
+      JSXExpressionContainer (path) {
+        path.traverse({
+          MemberExpression (path) {
+            const sibling = path.getSibling('property')
+            if (
+              path.get('object').isThisExpression() &&
+              path.get('property').isIdentifier({ name: 'props' }) &&
+              sibling.isIdentifier()
+            ) {
+              const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+              const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
+              if (!isFunctionProp) {
+                self.usedState.add(sibling.node.name)
+              }
+            }
+          }
+        })
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
@@ -514,7 +533,8 @@ class Transformer {
           this.isRoot,
           instanceName,
           this.jsxReferencedIdentifiers,
-          this.customComponentNames
+          this.customComponentNames,
+          this.usedState
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
