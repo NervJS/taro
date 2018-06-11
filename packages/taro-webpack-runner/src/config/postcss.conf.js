@@ -32,7 +32,8 @@ exports.getPostcssPlugins = function (config) {
     constants: [{
       key: 'taro-tabbar-height',
       val: '50PX'
-    }]
+    }],
+    platform: 'h5'
   }))
 
   return plugins.concat(customPlugins)
