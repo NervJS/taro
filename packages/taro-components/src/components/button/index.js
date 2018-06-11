@@ -28,8 +28,7 @@ class Button extends Nerv.Component {
       loading = false,
       type = 'default'
     } = this.props
-    const cls = classNames(
-      className,
+    const cls = className || classNames(
       'weui-btn',
       {
         [`${hoverClass}`]: this.state.hover && !disabled,
