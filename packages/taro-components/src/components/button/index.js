@@ -1,6 +1,7 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
+import './style/index.scss'
 
 class Button extends Nerv.Component {
   constructor () {
@@ -28,7 +29,8 @@ class Button extends Nerv.Component {
       loading = false,
       type = 'default'
     } = this.props
-    const cls = className || classNames(
+    const cls = classNames(
+      className,
       'weui-btn',
       {
         [`${hoverClass}`]: this.state.hover && !disabled,
