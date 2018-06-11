@@ -1,6 +1,9 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
+
+import './index.scss'
+
 const types = {
   text: 'text',
   number: 'number',
