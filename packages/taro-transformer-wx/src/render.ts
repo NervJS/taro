@@ -128,6 +128,7 @@ export class RenderParser {
   private referencedIdentifiers: Set<t.Identifier>
   private customComponentNames: Set<string>
   private renderScope: Scope
+  private usedState: Set<string>
 
   private finalReturnElement!: t.JSXElement
 
@@ -578,9 +579,7 @@ export class RenderParser {
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
-        (
-          this.renderScope.hasBinding(path.node.name)
-        )
+        this.renderScope.hasOwnBinding(path.node.name)
       ) {
         const codes = parentPath.getSource().split('.')
         if (!(codes[0] === 'this' && codes[1] === 'state')) {
@@ -651,7 +650,8 @@ export class RenderParser {
     isRoot: boolean,
     instanceName: string,
     referencedIdentifiers: Set<t.Identifier>,
-    customComponentNames: Set<string>
+    customComponentNames: Set<string>,
+    usedState: Set<string>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -660,6 +660,7 @@ export class RenderParser {
     this.instanceName = instanceName
     this.referencedIdentifiers = referencedIdentifiers
     this.customComponentNames = customComponentNames
+    this.usedState = usedState
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -826,6 +827,7 @@ export class RenderParser {
           .concat([...this.initState, ...this.usedThisState])
         )
     )
+    .concat(...this.usedState)
     // .filter(i => {
     //   return !methods.has(i)
     // })

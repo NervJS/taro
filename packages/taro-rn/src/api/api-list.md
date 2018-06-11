@@ -24,19 +24,21 @@
 
 #### WebSocket
 
-☑️ wx.connectSocket
+✅ wx.connectSocket
 
-☑️ wx.onSocketOpen
+❌ wx.onSocketOpen
 
-☑️ wx.onSocketError
+❌ wx.onSocketError
 
-☑️ wx.sendSocketMessage
+❌ wx.sendSocketMessage
 
-☑️ wx.onSocketMessage
+❌ wx.onSocketMessage
 
-☑️ wx.closeSocket
+❌ wx.closeSocket
 
-☑️ wx.onSocketClose
+❌ wx.onSocketClose
+
+✅ SocketTask
 
 ### 媒体
 
@@ -375,13 +377,13 @@
 
 #### 导航
 
-☑️ wx.navigateTo
+✅ wx.navigateTo
 
-☑️ wx.redirectTo
+✅ wx.redirectTo
 
 🤔 wx.switchTab
 
-☑️ wx.navigateBack
+✅ wx.navigateBack
 
 🤔 wx.reLaunch
 
