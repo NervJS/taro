@@ -18,15 +18,16 @@ exports.getPostcssPlugins = function (config) {
   const useModuleConf = config.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customAutoprefixerConf = customPostcssConf.autoprefixer || {}
+  const customPxtransformConf = customPostcssConf.pxtransform || {}
   const customPlugins = customPostcssConf.plugins || []
   if (isEmptyObject(customAutoprefixerConf) || customAutoprefixerConf.enable) {
     plugins.push(autoprefixer(Object.assign({}, defaultAutoprefixerConf, customAutoprefixerConf)))
   }
 
-  plugins.push(pxtransform({
+  plugins.push(pxtransform(Object.assign({}, customPxtransformConf, {
     designWidth,
     platform: 'h5'
-  }))
+  })))
 
   plugins.push(constparse({
     constants: [{
