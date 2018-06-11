@@ -214,12 +214,12 @@ SocketTask.onMessage(CALLBACK)
 | :-: | :-: | :-: | :-: |
 | Taro.connectSocket | ✔️ | ✔️ | ✔️ |
 | SocketTask | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketOpen | ✔️ |  | ✔️ |
-| Taro.onSocketError | ✔️ |  | ✔️ |
-| Taro.sendSocketMessage | ✔️ |  | ✔️ |
-| Taro.onSocketMessage | ✔️ |  | ✔️ |
-| Taro.closeSocket | ✔️ |  | ✔️ |
-| Taro.onSocketClose | ✔️ |  | ✔️ |
+| Taro.onSocketOpen | ✔️ |  |  |
+| Taro.onSocketError | ✔️ |  |  |
+| Taro.sendSocketMessage | ✔️ |  |  |
+| Taro.onSocketMessage | ✔️ |  |  |
+| Taro.closeSocket | ✔️ |  |  |
+| Taro.onSocketClose | ✔️ |  |  |
 
 ## 数据缓存
 

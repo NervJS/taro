@@ -12,6 +12,7 @@
     "packages/taro-plugin-sass",
     "packages/taro-plugin-uglifyjs",
     "packages/taro-redux",
+    "packages/taro-redux-h5",
     "packages/taro-rn",
     "packages/taro-rn-runner",
     "packages/taro-router",

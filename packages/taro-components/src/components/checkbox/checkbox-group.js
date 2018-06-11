@@ -11,12 +11,22 @@ class CheckboxGroup extends Nerv.Component {
 
   toggleChange (e, i) {
     this.state.value[i] = {
-      name: e.target.value,
-      value: e.target.textContent,
+      name: e.target.textContent,
+      value: e.target.value,
       checked: e.target.checked
     }
+    const resp = []
+    this.state.value.forEach(v => {
+      if (v.checked) {
+        resp.push(v.value)
+      }
+    })
     const { onChange } = this.props
-    onChange({ detail: { value: this.state.value } })
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: resp
+    })
+    onChange(e)
   }
 
   render () {
@@ -29,14 +39,14 @@ class CheckboxGroup extends Nerv.Component {
           if (ch.name === 'Checkbox') {
             if (ch.props.checked) {
               this.state.value[i] = {
-                name: ch.props.value,
-                value: ch.props.children.props.children,
+                name: ch.props.name,
+                value: ch.props.value,
                 checked: true
               }
             } else {
               this.state.value[i] = {
-                name: ch.props.value,
-                value: ch.props.children.props.children,
+                name: ch.props.name,
+                value: ch.props.value,
                 checked: false
               }
             }
