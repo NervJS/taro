@@ -12,7 +12,7 @@
     "types"
   ],
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --env development",
+    "dev": "webpack-dev-server --config webpack.config.js --env development --port 9090",
     "deploy": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.prod.config.js",
     "test": "jest",
