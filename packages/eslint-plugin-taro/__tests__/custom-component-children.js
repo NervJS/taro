@@ -29,6 +29,8 @@ ruleTester.run('custom-component-children', rule, {
     </CustomComponent>`)
   }, {
     code: testComponent(`<Provider><Index /></Provider>`)
+  }, {
+    code: testComponent(`<Provider>{'test'}</Provider>`)
   }],
   invalid: [{
     code: testComponent(`<CustomComponent>test</CustomComponent>`),
