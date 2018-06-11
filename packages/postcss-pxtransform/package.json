@@ -1,0 +1,34 @@
+{
+  "name": "postcss-pxtransform",
+  "version": "0.0.1",
+  "description": "PostCSS plugin px 转小程序 rpx及h5 rem 单位",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "pxtransform"
+  ],
+  "author": "Pines-Cheng <spider.cs.nuc@gmail.com>",
+  "license": "MIT",
+  "repository": "https://github.com/Pines-Cheng/postcss-pxtransform",
+  "bugs": {
+    "url": "https://github.com/Pines-Cheng/postcss-pxtransform/issues"
+  },
+  "homepage": "https://github.com/Pines-Cheng/postcss-pxtransform",
+  "dependencies": {
+    "postcss": "^6.0.16",
+    "postcss-pxtorem": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-config-postcss": "^2.0.2",
+    "jest": "^22.4.2"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "main": "index.js"
+}

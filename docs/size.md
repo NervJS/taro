@@ -14,3 +14,29 @@ const config = {
 ```
 
 建议使用 Taro 时，设计稿以 iPhone6 `750px` 作为设计尺寸标准。
+
+基于 [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem/)，配置规则一致。
+
+默认配置下，所有的 `px` 都会被转换。而如果你的px单位里有一个大写字母，例如 `Px` 或者 `PX` 这样，则会被忽略。
+
+如何配置一个选择器忽略规则？
+
+对应 `config/index.js` ：
+```js
+{
+  h5: {
+    publicPath: '/',
+    staticDirectory: 'static',
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        },
+        pxtransform: {
+          selectorBlackList: ['body']
+        }
+      }
+    }
+  }
+}
+```

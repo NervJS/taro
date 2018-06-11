@@ -12,6 +12,7 @@
     "packages/taro-plugin-sass",
     "packages/taro-plugin-uglifyjs",
     "packages/taro-redux",
+    "packages/taro-redux-h5",
     "packages/taro-rn",
     "packages/taro-rn-runner",
     "packages/taro-router",
@@ -20,7 +21,8 @@
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
-    "packages/taro-transformer-wx"
+    "packages/taro-transformer-wx",
+    "packages/postcss-pxtransform"
   ],
   "command": {
     "publish": {
