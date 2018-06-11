@@ -20,7 +20,7 @@ const babylonConfig = require('./config/babylon')
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-h5': '@tarojs/taro-h5',
-  '@tarojs/redux': '@tarojs/redux',
+  '@tarojs/redux-h5': '@tarojs/redux-h5',
   '@tarojs/router': '@tarojs/router',
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
@@ -188,7 +188,7 @@ function processEntry (code) {
             if (!specifiers.length) {
               astPath.remove()
             }
-          } else if (value === PACKAGES['@tarojs/redux']) {
+          } else if (value === PACKAGES['@tarojs/redux-h5']) {
             const specifier = specifiers.find(item => {
               return t.isImportSpecifier(item) && item.imported.name === providerComponentName
             })
@@ -406,7 +406,7 @@ function processOthers (code) {
             if (!specifiers.length) {
               astPath.remove()
             }
-          } else if (value === PACKAGES['@tarojs/redux']) {
+          } else if (value === PACKAGES['@tarojs/redux-h5']) {
             source.value = PACKAGES['nerv-redux']
           }
         }
