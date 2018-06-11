@@ -13,7 +13,21 @@ import MultiSelector from './MultiSelector'
 // @todo Dynamic data.
 import { provinces, cities, districts } from './regions'
 
-const regionParts = [provinces, cities, districts]
+function addCustomItemToRegion (provinces, cities, districts, customItem) {
+  const shallowCities = {}
+  const shallowDistricts = {}
+  Object.keys(cities).forEach((key) => {
+    shallowCities[key] = [customItem, ...cities[key]]
+  })
+  Object.keys(districts).forEach((key) => {
+    shallowDistricts[key] = [customItem, ...districts[key]]
+  })
+  return {
+    provinces: [customItem, ...provinces],
+    cities: shallowCities,
+    districts: shallowDistricts
+  }
+}
 
 type Props = {
   value?: Array,
@@ -31,9 +45,10 @@ class _PickerRegion extends React.Component<Props, State> {
     super(props)
     const { customItem } = this.props
     if (customItem) {
-      provinces.unshift(customItem)
-      Object.values(cities).map((item) => item.unshift(customItem))
-      Object.values(districts).map((item) => item.unshift(customItem))
+      const regions = addCustomItemToRegion(provinces, cities, districts, customItem)
+      this.provinces = regions.provinces
+      this.cities = regions.cities
+      this.districts = regions.districts
     }
     const result = this.getRangeFromProps(this.props)
     this.state = {
@@ -49,15 +64,15 @@ class _PickerRegion extends React.Component<Props, State> {
     let selectIndexOfThird = 0
     // Get indexes by provided region values.
     if (valFirst) {
-      provinces.forEach((item, index) => {
+      this.provinces.forEach((item, index) => {
         if (item.name === valFirst) {
           selectIndexOfFirst = index
           if (valSecond) {
-            (cities[item.code] || []).map((item, index) => {
+            (this.cities[item.code] || []).map((item, index) => {
               if (item.name === valSecond) {
                 selectIndexOfSecond = index
                 if (valThird) {
-                  (districts[item.code] || []).map((item, index) => {
+                  (this.districts[item.code] || []).map((item, index) => {
                     if (item.name === valThird) {
                       selectIndexOfThird = index
                     }
@@ -69,11 +84,11 @@ class _PickerRegion extends React.Component<Props, State> {
         }
       })
     }
-    const citiesList = cities[provinces[selectIndexOfFirst].code] || []
+    const citiesList = this.cities[this.provinces[selectIndexOfFirst].code] || []
     const selectedCityItem = citiesList[selectIndexOfSecond]
-    const districtsList = (selectedCityItem && districts[selectedCityItem.code]) || []
+    const districtsList = (selectedCityItem && this.districts[selectedCityItem.code]) || []
     return {
-      range: [provinces, citiesList, districtsList],
+      range: [this.provinces, citiesList, districtsList],
       value: [selectIndexOfFirst, selectIndexOfSecond, selectIndexOfThird]
     }
   }
@@ -92,12 +107,13 @@ class _PickerRegion extends React.Component<Props, State> {
   onColumnChange = ({ detail: { column, value }}) => {
     if (column === 2) return
     const nextColumnIndex = column + 1
-    const newListForAdjacentColumn = regionParts[nextColumnIndex][value.code] || []
+
+    const newListForAdjacentColumn = (nextColumnIndex === 1 ? this.cities : this.districts)[value.code] || []
     this.state.range[nextColumnIndex] = newListForAdjacentColumn
     this.state.value[nextColumnIndex] = 0
     if (nextColumnIndex === 1) {
       const nextColumnFirstItem = newListForAdjacentColumn[0]
-      this.state.range[2] = (nextColumnFirstItem && regionParts[2][nextColumnFirstItem.code]) || []
+      this.state.range[2] = (nextColumnFirstItem && this.districts[nextColumnFirstItem.code]) || []
       this.state.value[2] = 0
     }
     this.setState({
