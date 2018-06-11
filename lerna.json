@@ -20,7 +20,8 @@
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
-    "packages/taro-transformer-wx"
+    "packages/taro-transformer-wx",
+    "packages/postcss-pxtransform"
   ],
   "command": {
     "publish": {
