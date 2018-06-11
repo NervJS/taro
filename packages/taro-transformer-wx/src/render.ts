@@ -10,7 +10,6 @@ import {
   codeFrameError,
   isBlockIfStatement,
   findFirstIdentifierFromMemberExpression,
-  isComplexExpression,
   setTemplate,
   isContainFunction,
   buildConstVariableDeclaration,
@@ -29,23 +28,6 @@ import generate from 'babel-generator'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
-
-function generateAnonymousState (
-  scope: Scope,
-  expression: NodePath<t.Expression>
-) {
-  const variableName = `anonymousState_${scope.generateUid()}`
-  const statementParent = expression.getStatementParent()
-  if (!statementParent) {
-    throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
-  }
-  statementParent.insertBefore(
-    buildConstVariableDeclaration(variableName, expression.node)
-  )
-  expression.replaceWith(
-    t.identifier(variableName)
-  )
-}
 
 function isContainStopPropagation (path: NodePath<t.Node>) {
   let matched = false
@@ -459,11 +441,7 @@ export class RenderParser {
             setJSXAttr(JSXElement, 'data-component-path', t.stringLiteral('{{$path}}'))
             expression.replaceWith(t.stringLiteral(`${!this.isRoot ? `${this.instanceName}__` : ''}${bindCalleeName}`))
           }
-        } else {
-          generateAnonymousState(this.renderScope, expression)
         }
-      } else if (isComplexExpression(expression)) {
-        generateAnonymousState(this.renderScope, expression)
       }
     },
     MemberExpression: (path) => {
@@ -635,10 +613,6 @@ export class RenderParser {
             }
           }
         })
-        const expression = path.get('expression') as NodePath<t.Expression>
-        if (isComplexExpression(expression)) {
-          generateAnonymousState(this.renderScope, expression)
-        }
       }
     }
   }

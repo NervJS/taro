@@ -1,7 +1,7 @@
 {
   "extends": ["taro"],
-  "globals": {
-    "Taro": true
-  },
+  "rules": {
+    "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }]
+  }
   "parser": "babel-eslint"
 }
