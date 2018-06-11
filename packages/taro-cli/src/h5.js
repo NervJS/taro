@@ -500,7 +500,7 @@ function buildTemp () {
             file.contents = Buffer.from(jsCode)
           } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
             const transformResult = processOthers(content)
-            let jsCode = transformResult.code
+            let jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
             file.contents = Buffer.from(jsCode)
           }
           this.push(file)
