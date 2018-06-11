@@ -115,7 +115,7 @@ export function isContainJSXElement (path: NodePath<t.Node>) {
   return matched
 }
 
-export function isComplexExpression (path: NodePath<t.Node>) {
+export function hasComplexExpression (path: NodePath<t.Node>) {
   let matched = false
   if (isContainJSXElement(path)) {
     return false
