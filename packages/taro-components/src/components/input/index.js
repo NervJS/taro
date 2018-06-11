@@ -13,7 +13,7 @@ function parseType (type, isPassword, confirmType) {
   }
   // return isPassword ? 'password' : 'text'
   if (isPassword) {
-    return 'isPassword'
+    return isPassword ? 'password' : 'text'
   } else if (confirmType) {
     return 'search'
   } else {
