@@ -20,7 +20,7 @@ const babylonConfig = require('./config/babylon')
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-h5': '@tarojs/taro-h5',
-  '@tarojs/redux-h5': '@tarojs/redux-h5',
+  '@tarojs/redux-h5': 'nerv-redux',
   '@tarojs/router': '@tarojs/router',
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
