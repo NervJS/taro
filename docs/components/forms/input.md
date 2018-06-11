@@ -4,7 +4,7 @@
 | ------------ | ----------------- | ----------- | ------ | --------------------------------------------------------------------------------------------------------------- |
 | √            | value             | String      |        | 输入框的初始内容                                                                                                |
 | √            | type              | String      | 23     | input 的类型                                                                                                    |
-| √            | password          | Color       |        | 是否是密码类型                                                                                                  |
+| √            | password          | Boolean       |        | 是否是密码类型                                                                                                  |
 | √            | placeholder       | String      |        | 输入框为空时占位符                                                                                              |
 |              | placeholderStyle | String      |        | 指定 placeholder 的样式                                                                                         |
 |              | placeholderClass | String      |        | 指定 placeholder 的样式类                                                                                       |
@@ -34,7 +34,7 @@
 <Text>数字输入的input</Text>
 <Input type='number' placeholder='这是一个数字输入框'/>
 <Text>密码输入的input</Text>
-<Input type='password' placeholder='这是一个密码输入框'/>
+<Input type='password' password placeholder='这是一个密码输入框'/>
 <Text>带小数点的input</Text>
 <Input type='digit' placeholder='带小数点的数字键盘'/>
 <Text>身份证输入的input</Text>
