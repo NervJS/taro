@@ -21,6 +21,8 @@
  * ✔ onBlur(bindblur): No CURSOR info.
  * ✔ onConfirm(bindconfirm)
  *
+ * @todo KeyboardAvoidingView
+ *
  * @flow
  */
 
