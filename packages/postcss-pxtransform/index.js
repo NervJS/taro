@@ -41,24 +41,23 @@ module.exports = postcss.plugin('postcss-pxtransform', function (opts) {
 
 function dealWithWeapp ({root, opts, result}) {
   opts = Object.assign({}, DEFAULT_WEAPP_OPTIONS, opts)
-  return postcss(pxtorem(opts)).process(result)
-    .then(newResult => {
-      root = newResult.root
-      root.walkDecls(function (decl) {
-        let value = decl.value
-        value = value.replace(/([0-9.]+)rem/ig, function (match, size) {
-          return Math.ceil(size / DEVICE_RATIO[opts.designWidth] *
-            10000) / 10000 + 'rpx'
-        })
-        decl.value = value
-      })
+  var css = postcss(pxtorem(opts)).process(root.toResult()).css
+  var cssRoot = postcss.parse(css)
+  root.nodes = cssRoot.nodes
+
+  root.walkDecls(function (decl) {
+    let value = decl.value
+    value = value.replace(/([0-9.]+)rem/ig, function (match, size) {
+      return Math.ceil(size / DEVICE_RATIO[opts.designWidth] *
+        10000) / 10000 + 'rpx'
     })
+    decl.value = value
+  })
 }
 
 function dealWithH5 ({root, result, opts}) {
   opts = Object.assign({}, DEFAULT_H5_OPTIONS, opts)
-  return postcss(pxtorem(opts)).process(result)
-    .then(newResult => {
-      result = newResult
-    })
+  var css = postcss(pxtorem(opts)).process(root.toResult()).css
+  var cssRoot = postcss.parse(css)
+  root.nodes = cssRoot.nodes
 }
