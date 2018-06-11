@@ -5,13 +5,13 @@ const types = {
   text: 'text',
   number: 'number',
   idcard: 'idcard',
-  digit: 'digit'
+  digit: 'digit',
+  password: 'password'
 }
 function parseType (type, isPassword, confirmType) {
   if (!types[type]) {
     throw new Error('unexpected type')
   }
-  // return isPassword ? 'password' : 'text'
   if (isPassword) {
     return isPassword ? 'password' : 'text'
   } else if (confirmType) {
