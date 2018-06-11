@@ -13,6 +13,7 @@
     "build": "lerna run build",
     "build:docs": "node ./build/docs.js",
     "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
+    "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna"
   },
   "repository": {

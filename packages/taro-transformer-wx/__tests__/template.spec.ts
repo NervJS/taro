@@ -1,5 +1,5 @@
 import transform from '../src'
-import { buildComponent, baseCode, baseOptions, evalClass } from './utils'
+import { buildComponent, baseOptions } from './utils'
 
 describe('Template', () => {
 
@@ -76,20 +76,18 @@ describe('Template', () => {
       expect(template).toMatch('<view hover-class="test"></view>')
     })
 
-    test('本来是下划线不用再转', () => {
-      const { template } = transform({
-        ...baseOptions,
-        isRoot: true,
-        code: buildComponent(`
-        <View className='index'>
-          { [0, 1, 2, 3].map(i => <Text key={i}>{ i }</Text>) }
-        </View>
-        `)
-      })
+    // test('本来是下划线不用再转', () => {
+    //   const { template } = transform({
+    //     ...baseOptions,
+    //     isRoot: true,
+    //     code: buildComponent(`
+    //      return <View className='index'>
+    //       { [0, 1, 2, 3].map(i => <Text key={i}>{ i }</Text>) }
+    //     </View>
+    //     `)
+    //   })
 
-      // console.log(template)
-
-      // expect(template).toMatch('<view data-id="1"></view>')
-    })
+    //   // expect(template).toMatch('<view data-id="1"></view>')
+    // })
   })
 })

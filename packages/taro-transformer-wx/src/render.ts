@@ -220,6 +220,12 @@ export class RenderParser {
               }
             }
           }
+        } else if (t.isArrowFunctionExpression(parentNode)) {
+          parentPath.replaceWith(
+            t.arrowFunctionExpression(parentNode.params, t.blockStatement([
+              t.returnStatement(jsxElementPath.node)
+            ]))
+          )
         }
       }
     }
@@ -348,11 +354,7 @@ export class RenderParser {
             this.returnedPaths.push(parentPath)
           }
         } else if (t.isArrowFunctionExpression(parentNode)) {
-          parentPath.replaceWith(
-            t.arrowFunctionExpression(parentNode.params, t.blockStatement([
-              t.returnStatement(jsxElementPath.node)
-            ]))
-          )
+          // console.log('arrow')
         } else if (t.isAssignmentExpression(parentNode)) {
           if (t.isIdentifier(parentNode.left)) {
             const name = parentNode.left.name

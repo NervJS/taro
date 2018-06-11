@@ -122,10 +122,8 @@ class Transformer {
                 ) {
                   const properties = p.node.right.properties
                   properties.forEach(p => {
-                    if (t.isObjectProperty(p)) {
-                      if (t.isIdentifier(p.key)) {
-                        self.initState.add(p.key.name)
-                      }
+                    if (t.isObjectProperty(p) && t.isIdentifier(p.key)) {
+                      self.initState.add(p.key.name)
                     }
                   })
                 }

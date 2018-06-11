@@ -17,14 +17,16 @@
     "packages/taro-router",
     "packages/taro-weapp",
     "packages/taro-webpack-runner",
-    "packages/postcss-plugin-constparse"
+    "packages/postcss-plugin-constparse",
+    "packages/eslint-config-taro",
+    "packages/taro-transformer-wx"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.41",
+  "version": "0.0.44",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"

@@ -1,4 +1,7 @@
 {
   "extends": ["taro"],
+  "globals": {
+    "Taro": true
+  },
   "parser": "babel-eslint"
 }

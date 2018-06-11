@@ -147,6 +147,7 @@ export function processDynamicComponents (page) {
                   child.props.$path = comPath
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
+                  recursiveDynamicComponents(child)
                   componentTrigger(child, 'componentWillMount')
                 } else {
                   child.$path = comPath
@@ -155,6 +156,7 @@ export function processDynamicComponents (page) {
                   child.state = child._createData()
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
+                  recursiveDynamicComponents(child)
                 }
 
                 if (stateData) {
