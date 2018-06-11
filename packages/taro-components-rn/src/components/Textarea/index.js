@@ -1,12 +1,12 @@
 /**
  * Compared with Input:
- *  Subtraction:
- *    type, password, confirmType, confirmHold
- *  Addition:
- *    ✔ autoHeight(auto-height)
- *    ✘ fixed
- *    ✘ show-confirm-bar
- *    ✔ onLineChange(bindlinechange)
+ *   Subtraction:
+ *     type, password, confirmType, confirmHold
+ *   Addition:
+ *     ✔ autoHeight(auto-height)
+ *     ✘ fixed
+ *     ✘ show-confirm-bar
+ *     ✔ onLineChange(bindlinechange): No heightRpx info.
  *
  * @flow
  */
