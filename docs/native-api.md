@@ -73,7 +73,7 @@ Taro.downloadFile(params).then(...)
 | fail | Function | 否 | 接口调用失败的回调函数 |
 | complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
-示例代码：
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
@@ -110,13 +110,13 @@ WebSocket 任务，可通过 [wx.connectSocket()](native-api.md#taroconnectsocke
 
 socketTask.readyState: websocket 当前的连接状态。
 
-socketTask.CONNECTING: websocket 状态：连接中。
+socketTask.CONNECTING: websocket 状态值：连接中。
 
-socketTask.OPEN: websocket 状态：已连接。
+socketTask.OPEN: websocket 状态值：已连接。
 
-socketTask.CLOSING: websocket 状态：关闭中。
+socketTask.CLOSING: websocket 状态值：关闭中。
 
-socketTask.CLOSED: websocket 状态：已关闭。 
+socketTask.CLOSED: websocket 状态值：已关闭。 
 
 socketTask.ws: 浏览器 websocket 实例。（**h5 端独有**）
 
