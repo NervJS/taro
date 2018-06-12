@@ -19,7 +19,7 @@
 
 ###### 示例：
 ```
-<ScrollView class='scrollview'
+<ScrollView className='scrollview'
             scrollY
             scrollWithAnimation
             scrollTop='0'

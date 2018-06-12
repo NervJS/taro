@@ -730,13 +730,18 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     })
   })).then(async resList => {
     let resContent = resList.map(res => res.css).join('\n')
+    const weappConf = projectConfig.weapp || {}
+    const useModuleConf = weappConf.module || {}
+    const customPostcssConf = useModuleConf.postcss || {}
+    const customPxtransformConf = customPostcssConf.pxtransform || {}
+
     try {
       const postcssResult = await postcss([
         autoprefixer({ browsers: browserList }),
-        pxtransform({
+        pxtransform(Object.assign({
           designWidth: projectConfig.designWidth || 750,
           platform: 'weapp'
-        })
+        }, customPxtransformConf))
       ]).process(resContent, {
         from: undefined
       })
