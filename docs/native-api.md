@@ -8,14 +8,57 @@
 
 ### 发起请求
 
-#### Taro.request
+#### Taro.request(OBJECT)
 
-使用方式同 [`wx.request`](https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html)，支持 `Promise` 化使用
+发起网络请求。
+
+**OBJECT 参数说明：**
+
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+| :-- | :-- | :-- | :-- | :-- |
+| url | String | 是 |  | 开发者服务器接口地址 |
+| data | Object/String/ArrayBuffer | 否 |  |请求的参数 |
+| header | Object | 否 |  | 设置请求的 header，header 中不能设置 Referer。 |
+| method | String | 否 | GET | （需大写）有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
+| dataType | String | 否 | json | 如果设为json，会尝试对返回的数据做一次 JSON.parse |
+| responseType | String | 否 | text | 设置响应的数据类型。合法值：text、arraybuffer |
+| success | Function | 否 |  | 接口调用成功的回调函数 |
+| fail | Function | 否 |  | 接口调用失败的回调函数 |
+| complete | Function | 否 |  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+**H5 端附加参数说明：**
+
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+| :-- | :-- | :-- | :-- | :-- |
+| jsonp | String | 否 |  | 使用 jsonp，且使用此值作为回调函数名 |
+| cache | Boolean | 否 | false | jsonp 请求 url 是否需要被缓存 |
+| credentials | String | 否 | default | 是否携带 Cookie。有效值：default, no-cache, reload, force-cache, only-if-cached |
+| cache | String | 否 | omit | 缓存模式。有效值：include, same-origin, omit |
+
+**success 返回参数说明：**
+
+| 参数 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| data | Object/String/ArrayBuffer | 开发者服务器返回的数据 |
+| statusCode | Number | 开发者服务器返回的 HTTP 状态码 |
+| header | Object | 开发者服务器返回的 HTTP Response Header |
+
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
 
-Taro.request(params).then(...)
+Taro.request({
+  url: 'http://localhost:8080/test',
+  data: {
+  	foo: 'foo',
+  	bar: 10
+  },
+  header: {
+    'content-type': 'application/json'
+  }
+})
+  .then(res => console.log(res.data))
 ```
 
 > API 支持度
@@ -50,8 +93,8 @@ Taro.downloadFile(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.uploadFile | ✔️ | ✔️ | ✔️ |
-| Taro.downloadFile | ✔️ | ✔️ | ✔️ |
+| Taro.uploadFile | ✔️ |  | ✔️ |
+| Taro.downloadFile | ✔️ |  | ✔️ |
 
 ### WebSocket
 
