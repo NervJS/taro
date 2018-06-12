@@ -513,7 +513,7 @@ describe('platform 为 weapp', () => {
 
   it('{platform: \'weapp\', designWidth: 640} ', () => {
     var rules = 'h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}'
-    var expected = 'h1 {margin: 0 0 17.0941rpx;font-size: 34.1881rpx;line-height: 1.2;}'
+    var expected = 'h1 {margin: 0 0 17.09402rpx;font-size: 34.18803rpx;line-height: 1.2;}'
     var options = {
       platform: 'weapp',
       designWidth: 640
