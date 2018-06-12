@@ -73,7 +73,7 @@ Taro.downloadFile(params).then(...)
 | fail | Function | 否 | 接口调用失败的回调函数 |
 | complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
-事例代码：
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
@@ -87,7 +87,7 @@ Taro.connectSocket({
   .then(task => {
     task.onOpen(function () {
       console.log('onOpen')
-      task.send({ data: 'xxx'})
+      task.send({ data: 'xxx' })
     })
     task.onMessage(function (msg) {
       console.log('onMessage: ', msg)
@@ -110,13 +110,13 @@ WebSocket 任务，可通过 [wx.connectSocket()](native-api.md#taroconnectsocke
 
 socketTask.readyState: websocket 当前的连接状态。
 
-socketTask.CONNECTING: websocket 状态：连接中。
+socketTask.CONNECTING: websocket 状态值：连接中。
 
-socketTask.OPEN: websocket 状态：已连接。
+socketTask.OPEN: websocket 状态值：已连接。
 
-socketTask.CLOSING: websocket 状态：关闭中。
+socketTask.CLOSING: websocket 状态值：关闭中。
 
-socketTask.CLOSED: websocket 状态：已关闭。 
+socketTask.CLOSED: websocket 状态值：已关闭。 
 
 socketTask.ws: 浏览器 websocket 实例。（**h5 端独有**）
 
@@ -223,69 +223,197 @@ SocketTask.onMessage(CALLBACK)
 
 ## 数据缓存
 
-#### Taro.setStorage
+#### Taro.setStorage(OBJECT)
 
-使用方式同 [`wx.setStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstorageobject)，支持 `Promise` 化使用
+将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个异步接口，支持 `Promise` 化使用。
+
+**OBJECT 参数说明：**
+
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| key | String | 是 | 本地缓存中的指定的 key |
+| data | Object/String | 是 | 需要存储的内容 |
+| success | Function | 否 | 接口调用成功的回调函数 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
 
-Taro.setStorage(params).then(...)
+Taro.setStorage({ key: 'key', data: 'value' })
+  .then(res => console.log(res))
 ```
 
-#### Taro.setStorageSync
+#### Taro.setStorageSync(KEY, DATA)
 
-使用方式同 [`wx.setStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstoragesynckeydata)
+将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。
 
-#### Taro.getStorage
+**参数说明：**
 
-使用方式同 [`wx.getStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageobject)，支持 `Promise` 化使用
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| key | String | 是 | 本地缓存中的指定的 key |
+| data | Object/String | 是 | 需要存储的内容 |
+
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
 
-Taro.getStorage(params).then(...)
+Taro.setStorageSync('key', 'value')
 ```
 
-#### Taro.getStorageSync
+#### Taro.getStorage(OBJECT)
 
-使用方式同 [`wx.getStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstoragesynckey)
+从本地缓存中异步获取指定 key 对应的内容，支持 `Promise` 化使用。
 
-#### Taro.getStorageInfo
+**OBJECT 参数说明：**
 
-使用方式同 [`wx.getStorageInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfoobject)，支持 `Promise` 化使用
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| key | String | 是 | 本地缓存中的指定的 key |
+| success | Function | 否 | 接口调用成功的回调函数 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+**success 返回参数说明：**
+
+| 参数 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| data | String | key 对应的内容 |
+
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
 
-Taro.getStorageInfo(params).then(...)
+Taro.getStorage({ key: 'key' })
+  .then(res => console.log(res.data))
+```
+
+#### Taro.getStorageSync(KEY)
+
+从本地缓存中同步获取指定 key 对应的内容。
+
+**参数说明：**
+
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| key | String | 是 | 本地缓存中的指定的 key |
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const data = Taro.getStorageSync('key')
+```
+
+#### Taro.getStorageInfo(OBJECT)
+
+异步获取当前storage的相关信息，支持 `Promise` 化使用。
+
+**OBJECT 参数说明：**
+
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| success | Function | 否 | 接口调用成功的回调函数，详见返回参数说明 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+**success 返回参数说明：**
+
+| 参数 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| keys | String Array | 当前 storage 中所有的 key |
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.getStorageInfo()
+  .then(res => console.log(res.keys))
 ```
 
 #### Taro.getStorageInfoSync
 
-使用方式同 [`wx.getStorageInfoSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfosync)
+同步获取当前storage的相关信息。
 
-#### Taro.removeStorage
-
-使用方式同 [`wx.removeStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestorageobject)，支持 `Promise` 化使用
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
 
-Taro.removeStorage(params).then(...)
+const res = Taro.getStorageInfoSync()
+console.log(res.keys)
 ```
 
-#### Taro.removeStorageSync
+#### Taro.removeStorage(OBJECT)
 
-使用方式同 [`wx.removeStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestoragesynckey)
+从本地缓存中异步移除指定 key，支持 `Promise` 化使用。
 
-#### Taro.clearStorage
+**OBJECT 参数说明：**
 
-使用方式同 [`wx.clearStorage`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstorage)
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| keys | String | 是 | 本地缓存中的指定的 key |
+| success | Function | 否 | 接口调用成功的回调函数 |
+| fail | Function | 否 | 接口调用失败的回调函数 |
+| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
-#### Taro.clearStorageSync
+**示例代码：**
 
-使用方式同 [`wx.clearStorageSync`](https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstoragesync)
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.removeStorage({ key: 'key' })
+  .then(res => console.log(res))
+```
+
+#### Taro.removeStorageSync(KEY)
+
+从本地缓存中同步移除指定 key 。
+
+**参数说明：**
+
+| 参数 | 类型 | 必填 | 说明 |
+| :-- | :-- | :-- | :-- |
+| key | String | 是 | 本地缓存中的指定的 key |
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.removeStorageSync('key')
+```
+
+#### Taro.clearStorage()
+
+清理本地数据缓存。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.clearStorage()
+```
+
+#### Taro.clearStorageSync()
+
+同步清理本地数据缓存
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.clearStorageSync()
+```
 
 > API 支持度
 
