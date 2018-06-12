@@ -1,4 +1,4 @@
-# PostCSS Pxtransform [![Build Status][ci-img]][ci]
+# PostCSS Pxtransform 
 
 [PostCSS](https://github.com/ai/postcss) 插件，目前已支持 px 转小程序 rpx 及 h5 rem 单位。
 
@@ -129,9 +129,9 @@ Allow px to be converted in media queries.
 Set the minimum pixel value to replace.
 
 
-## 不予处理的情况
-### ignoring properties
-Currently, the easiest way to have a single property ignored is to use a capital in the pixel unit declaration.
+## 忽略
+### 属性
+当前忽略单个属性的最简单的方法，就是 px 单位使用大写字母。
 
 ```css
  /*`px` is converted to `rem`*/
@@ -146,7 +146,7 @@ Currently, the easiest way to have a single property ignored is to use a capital
 }
 ```
 
-### 文件粒度
+### 文件
 对于头部包含注释`/*postcss-pxtransform disable*/` 的文件，插件不予处理。
 
 

@@ -106,3 +106,24 @@ REM单位允许的小数位。
   }
 }
 ```
+
+## 忽略
+### 属性
+当前忽略单个属性的最简单的方法，就是 px 单位使用大写字母。
+
+```css
+ /*`px` is converted to `rem`*/
+.convert {
+    font-size: 16px; // converted to 1rem
+}
+
+ /* `Px` or `PX` is ignored by `postcss-pxtorem` but still accepted by browsers*/
+.ignore {
+    border: 1Px solid; // ignored
+    border-width: 2PX; // ignored
+}
+```
+
+### 文件
+对于头部包含注释`/*postcss-pxtransform disable*/` 的文件，插件不予处理。
+
