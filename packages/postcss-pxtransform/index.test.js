@@ -546,3 +546,15 @@ describe('platform 为 h5', () => {
     expect(processed).toBe(expected)
   })
 })
+
+describe('platform 为 h5，文件头部带注释的不转换', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    var rules = '/*postcss-pxtransform disable*/ h1 {margin: 0 0 20px;font-size: 40Px;line-height: 1.2;}'
+    var options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    var processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe(rules)
+  })
+})

@@ -64,6 +64,12 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
   var satisfyPropList = createPropListMatcher(opts.propList)
 
   return function (css) {
+    console.log(css, '\r\n\r\n')
+    if (css.nodes[0] &&
+      css.nodes[0].type === 'comment' &&
+      css.nodes[0].text === 'postcss-pxtransform disable') {
+      return
+    }
     css.walkDecls(function (decl, i) {
       // This should be the fastest test and will remove most declarations
       if (decl.value.indexOf('px') === -1) return
