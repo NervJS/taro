@@ -24,7 +24,9 @@ class CheckboxGroup extends Nerv.Component {
     const { onChange } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
-      value: resp
+      value: {
+        value: resp
+      }
     })
     onChange(e)
   }

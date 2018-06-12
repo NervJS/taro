@@ -115,6 +115,27 @@ export class RenderParser {
   private finalReturnElement!: t.JSXElement
 
   private loopComponentVisitor: Visitor = {
+    VariableDeclarator (path) {
+      const id = path.get('id')
+      const init = path.get('init')
+      const parentPath = path.parentPath
+      if (
+        id.isObjectPattern() &&
+        init.isThisExpression() &&
+        parentPath.isVariableDeclaration()
+      ) {
+        const { properties } = id.node
+        const declareState = template('const state = this.state;')()
+        if (properties.length > 1) {
+          const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))
+          properties.splice(index, 1)
+          parentPath.insertAfter(declareState)
+        } else {
+          parentPath.insertAfter(declareState)
+          parentPath.remove()
+        }
+      }
+    },
     JSXElement: (jsxElementPath) => {
       const parentNode = jsxElementPath.parent
       const parentPath = jsxElementPath.parentPath
