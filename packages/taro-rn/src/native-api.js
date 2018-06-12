@@ -6,6 +6,7 @@ import phone from './api/phone'
 import vibrate from './api/vibrate'
 import media from './api/media'
 import webSocket from './api/webSocket'
+import geolocation from './api/geolocation'
 
 function request (options) {
   options = options || {}
@@ -272,6 +273,7 @@ export default function initNativeApi (taro) {
     phone,
     vibrate,
     media,
-    webSocket
+    webSocket,
+    geolocation
   )
 }

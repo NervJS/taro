@@ -49,6 +49,8 @@ const getWrappedComponent = (component, { location }) => {
       const nextShouldShow = nextLocation.state === this.locationState
 
       if (lastShouldShow === nextShouldShow) return
+      this.context.$router = nextLocation
+      this.$router = nextLocation
 
       if (nextShouldShow) {
         this.__pageStatus = PAGESTATUS.SHOWING
@@ -119,6 +121,7 @@ class Router extends Nerv.Component {
         this.commit(action, wrapped, payload)
         success && success()
       }).catch(e => {
+        console.error(e)
         fail && fail()
       }).then(() => {
         complete && complete()

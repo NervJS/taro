@@ -35,6 +35,7 @@ class History {
       this.locationStack = stack
       this.serializeStack = generateSerializer(this.locationStack)
     } else {
+      console.warn('Stack in storage invalid')
       this.locationStack = [ initLocation ]
       this.serializeStack = generateSerializer(this.locationStack)
       this.serializeStack()
@@ -77,6 +78,7 @@ class History {
   onPopstate = (e) => {
     const nextUrl = normalizeUrl(getCurrentHash())
     const isBackPage = e.state < historyState
+    if (typeof e.state !== 'number') return
     if (isBackPage) {
       navigateBack({
         url: nextUrl,
@@ -84,7 +86,6 @@ class History {
         delta: 1
       })
     } else {
-      console.log(historyState, e.state)
       navigateTo({
         url: nextUrl,
         state: e.state,
@@ -185,16 +186,12 @@ class History {
 
     const len = this.len()
     if (len > delta) {
-      const location = this.now()
       this.locationStack.splice(-delta)
       this.serializeStack()
 
-      historyState = this.now().state
+      const location = this.now()
+      historyState = location.state
       this.emit(location, 'BACK', { delta })
-      // replaceHash({
-      //   url: location.fullUrl,
-      //   state: historyState
-      // })
     } else if (delta <= 1 && url) {
       const location = createLocation(normalizeUrl(url), state)
       historyState = state
@@ -203,11 +200,6 @@ class History {
       this.serializeStack()
 
       this.emit(location, 'BACK', { delta })
-      // replaceHash(location.fullUrl)
-      // replaceHash({
-      //   url: location.fullUrl,
-      //   state: historyState
-      // })
     } else {
       return console.warn('goBack delta out of range')
     }

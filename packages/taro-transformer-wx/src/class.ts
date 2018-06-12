@@ -7,7 +7,9 @@ import {
   incrementId,
   createUUID,
   findFirstIdentifierFromMemberExpression,
-  isArrayMapCallExpression
+  isArrayMapCallExpression,
+  buildConstVariableDeclaration,
+  hasComplexExpression
 } from './utils'
 import {
   buildRefTemplate
@@ -53,6 +55,23 @@ function resetThisState () {
         []
       )
     )
+  )
+}
+
+function generateAnonymousState (
+  scope: Scope,
+  expression: NodePath<t.Expression>
+) {
+  const variableName = `anonymousState_${scope.generateUid()}`
+  const statementParent = expression.getStatementParent()
+  if (!statementParent) {
+    throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
+  }
+  statementParent.insertBefore(
+    buildConstVariableDeclaration(variableName, expression.node)
+  )
+  expression.replaceWith(
+    t.identifier(variableName)
   )
 }
 
@@ -165,6 +184,21 @@ class Transformer {
             }
           }
         })
+
+        const expression = path.get('expression') as NodePath<t.Expression>
+        const scope = self.renderMethod && self.renderMethod.scope || path.scope
+        if (expression.isCallExpression()) {
+          const node = expression.node
+          if (
+            !(t.isMemberExpression(node.callee) &&
+            t.isIdentifier(node.callee.property) &&
+            node.callee.property.name === 'bind')
+          ) {
+            generateAnonymousState(scope, expression)
+          }
+        } else if (hasComplexExpression(expression)) {
+          generateAnonymousState(scope, expression)
+        }
       },
       JSXElement (path) {
         const id = path.node.openingElement.name

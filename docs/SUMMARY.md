@@ -20,7 +20,7 @@
   * [条件渲染](condition.md)
   * [列表渲染](list.md)
   * [消息机制](events.md)
-* 组件
+* [组件库](components.md)
   * 视图容器
     * [View](components/viewContainer/view.md)
     * [ScrollView](components/viewContainer/scroll-view.md)
