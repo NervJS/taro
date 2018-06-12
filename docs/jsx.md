@@ -262,3 +262,46 @@ class App extends Componenet {
 ```
 
 > 原生组件（从 `@tarojs/components` 引入进来的组件）是可以嵌套子元素的。
+
+### 自定义组件的名称必须和引入时一致
+
+考虑如下代码：
+
+```javascript
+// Tabs.js
+export default class Tabs extends Componenet {
+	render () {
+		return <View> {this.props.children} </View>
+	}
+}
+// App.js
+import Tabset from './tabs'
+class App extends Componenet {
+	render () {
+		return (
+			<Tabset >
+		)
+	}
+}
+```
+
+在 React/Nerv 中，你可以把组件的名称命名为任何遵循 JavaScript 规范的名字，通过 `export default` 导出时再通过 `import` 引入，又可以给他命名为一个不同的名字。但在 Taro 中你不能这么做，当转换成小程序时，自定义组件实际上会包一层 `template` 组件，而 `template` 的 `name` 属性必须是和 `class` 定义的名称一致的，否则 Taro 无法找到对应的组件：
+
+```javascript
+// Tabs.js
+export default class Tabs extends Componenet {
+	render () {
+		return <View> {this.props.children} </View>
+	}
+}
+// App.js
+// 定义 `Tabs`，引入名称也必须是 `Tabs`
+import Tabs from './tabs'
+class App extends Componenet {
+	render () {
+		return (
+			<Tabs >
+		)
+	}
+}
+```

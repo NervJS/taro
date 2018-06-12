@@ -18,7 +18,16 @@ export default class SocketTask {
   send (obj = {}) {
     if (typeof obj !== 'object' || !obj) obj = {}
 
-    const { data = '', success, complete } = obj
+    const { data = '', success, fail, complete } = obj
+
+    if (this.readyState !== 1) {
+      const res = { errMsg: 'SocketTask.send:fail SocketTask.readState is not OPEN' }
+      console.error(res.errMsg)
+      typeof fail === 'function' && fail(res)
+      typeof complete === 'function' && complete(res)
+      return Promise.reject(res)
+    }
+
     this.ws.send(data)
 
     const res = { errMsg: 'sendSocketMessage:ok' }
@@ -38,6 +47,8 @@ export default class SocketTask {
     } = obj
 
     this.closeDetail = { code, reason }
+    // 主动断开时需要重置链接数
+    this._destroyWhenClose && this._destroyWhenClose()
     this.ws.close()
 
     const res = { errMsg: 'closeSocket:ok' }
@@ -56,6 +67,8 @@ export default class SocketTask {
 
   onClose (func) {
     this.ws.onclose = () => {
+      // 若服务器方断掉也需要重置链接数
+      this._destroyWhenClose && this._destroyWhenClose()
       func(this.closeDetail || { code: 1006, reason: 'abnormal closure' })
     }
   }

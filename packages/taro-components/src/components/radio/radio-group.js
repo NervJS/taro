@@ -25,25 +25,16 @@ class RadioGroup extends Nerv.Component {
     })
     this.radioValue = _value
     const { onChange } = this.props
-    onChange({ detail: { value: checkValue } })
-  }
-
-  getRandomID () {
-    return (
-      'radio' +
-      Math.random()
-        .toString(36)
-        .substring(2, 15)
-    )
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: checkValue
+      }
+    })
+    onChange(e)
   }
 
   render () {
-    // let randomRadioId =
-    // 'radio' +
-    // Math.random()
-    //   .toString(36)
-    //   .substring(2, 15)
-    const { name = '' } = this.props
     // 给 children 绑定事件
 
     const children = Nerv.Children.toArray(this.props.children).map(
@@ -66,8 +57,7 @@ class RadioGroup extends Nerv.Component {
             }
             return Nerv.cloneElement(ch, {
               onChange: e => this.toggleChange(e, i),
-              for: _key,
-              name: name
+              for: _key
             })
           }
           return ch
