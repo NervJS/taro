@@ -10,7 +10,7 @@
  * ✘ cursor-spacing
  * - auto-focus
  * ✔ focus
- * ✔ confirmType(confirm-type): Android only.
+ * ✔ confirmType(confirm-type)
  * ✔ confirmHold(confirm-hold)
  * ✔ cursor
  * ✔ selectionStart(selection-start)
@@ -20,6 +20,8 @@
  * ✔ onFocus(bindfocus): No HEIGHT info.
  * ✔ onBlur(bindblur): No CURSOR info.
  * ✔ onConfirm(bindconfirm)
+ *
+ * @todo KeyboardAvoidingView
  *
  * @flow
  */

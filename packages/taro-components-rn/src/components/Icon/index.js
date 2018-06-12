@@ -41,49 +41,36 @@ type Props = {
   color: string | number,
 }
 
-class _Icon extends React.Component<Props> {
-  props: Props
+export default function ({
+  style,
+  type,
+  size = 23,
+  color = 'black',
+}: Props) {
+  const iconPath = WEUI[iconTypeMap[type]]
 
-  static defaultProps = {
-    size: 23,
-    color: 'black',
-  }
-
-  render () {
-    const {
-      style,
-      type,
-      size,
-      color,
-    } = this.props
-
-    const iconPath = WEUI[iconTypeMap[type]]
-
-    if (!iconPath) {
-      return (
-        <View style={[style, { width: size, height: size }]} />
-      )
-    }
-
-    const transform = new Transform().scale(size / WEUI.VIEWBOX_SIZE)
-
+  if (!iconPath) {
     return (
-      <View style={[style, { width: size, height: size }]}>
-        <View style={{
-          transform: [{ rotateX: '180deg' }]
-        }}>
-          <Surface width={size} height={size}>
-            <Shape
-              d={iconPath}
-              width={size}
-              height={size}
-              fill={color}
-              transform={transform} />
-          </Surface>
-        </View>
-      </View>
+      <View style={[style, { width: size, height: size }]} />
     )
   }
-}
 
-export default _Icon
+  const transform = new Transform().scale(size / WEUI.VIEWBOX_SIZE)
+
+  return (
+    <View style={[style, { width: size, height: size }]}>
+      <View style={{
+        transform: [{ rotateX: '180deg' }]
+      }}>
+        <Surface width={size} height={size}>
+          <Shape
+            d={iconPath}
+            width={size}
+            height={size}
+            fill={color}
+            transform={transform} />
+        </Surface>
+      </View>
+    </View>
+  )
+}

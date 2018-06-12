@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "",
   "main": "./dist/index.js",
   "module": "./src/components/index.js",
@@ -28,7 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "nervjs": "^1.2.16",
+    "nervjs": "^1.3.0",
     "omit.js": "^1.0.0",
     "react": "16.3.0",
     "weui": "^1.1.2"

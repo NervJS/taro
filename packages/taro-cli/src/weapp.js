@@ -171,6 +171,8 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           source.value = getExactedNpmFilePath(value, filePath)
           astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
         }
+      } else if (path.isAbsolute(value)) {
+        Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
       } else if (Util.REG_STYLE.test(valueExtname)) {
         const stylePath = path.resolve(path.dirname(sourceFilePath), value)
         if (styleFiles.indexOf(stylePath) < 0) {
@@ -213,6 +215,10 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           }
         } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
           const vpath = path.resolve(sourceFilePath, '..', value)
+          if (!fs.existsSync(vpath)) {
+            Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+            return
+          }
           if (mediaFiles.indexOf(vpath) < 0) {
             mediaFiles.push(vpath)
           }
