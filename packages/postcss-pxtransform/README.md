@@ -129,7 +129,8 @@ Allow px to be converted in media queries.
 Set the minimum pixel value to replace.
 
 
-## A message about ignoring properties
+## 不予处理的情况
+### ignoring properties
 Currently, the easiest way to have a single property ignored is to use a capital in the pixel unit declaration.
 
 ```css
@@ -144,4 +145,8 @@ Currently, the easiest way to have a single property ignored is to use a capital
     border-width: 2PX; // ignored
 }
 ```
+
+### 文件粒度
+对于头部包含注释`/*postcss-pxtransform disable*/` 的文件，插件不予处理。
+
 
