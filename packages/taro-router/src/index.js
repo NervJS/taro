@@ -121,6 +121,7 @@ class Router extends Nerv.Component {
         this.commit(action, wrapped, payload)
         success && success()
       }).catch(e => {
+        console.error(e)
         fail && fail()
       }).then(() => {
         complete && complete()
