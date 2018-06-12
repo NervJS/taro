@@ -9,6 +9,46 @@ function removeShadowData (obj: Object) {
 }
 
 describe('State', () => {
+  describe('使用 object pattern 从 this 取 state', () => {
+    test('只有一个 pattern', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { state } = this
+          return (
+            <View className={'icon-' + this.props.type}>测试 + {this.props.type}</View>
+          )
+        `, `state = { type: 'test' }`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.__state.type).toBe('test')
+      expect(instance.state.type).toBe('test')
+      expect(code).not.toMatch('const { state } = this')
+      expect(code).toMatch(`const state = this.__state`)
+    })
+
+    test('多个 pattern', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { state, props } = this
+          return (
+            <View className={'icon-' + this.props.type}>测试 + {this.props.type}</View>
+          )
+        `, `state = { type: 'test' }`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.__state.type).toBe('test')
+      expect(instance.state.type).toBe('test')
+      expect(code).not.toMatch('const { state } = this')
+      expect(code).toMatch(`const { props } = this`)
+      expect(code).toMatch(`const state = this.__state`)
+    })
+
+  })
+
   describe('$usedState', () => {
     test('$usedState 一直存在并且是一个 array', () => {
       const { ast } = transform({
