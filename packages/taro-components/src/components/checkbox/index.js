@@ -28,7 +28,7 @@ class Checkbox extends Nerv.Component {
           id={key}
           type='checkbox'
           name={name}
-          class={cls}
+          className={cls}
           checked={checked}
           onChange={onChange}
           style={style}
