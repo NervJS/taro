@@ -2,7 +2,7 @@ import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
-import { DEFAULT_Component_SET } from './constant'
+import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError } from './utils'
 
@@ -104,6 +104,7 @@ export function parseJSXElement (element: t.JSXElement): string {
     throw codeFrameError(name.loc, '暂不支持 JSX 成员表达式')
   }
   const isDefaultComponent = DEFAULT_Component_SET.has(name.name)
+  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(name.name)
   return createHTMLElement({
     name: kebabCase(name.name),
     attributes: attributes.reduce((obj, attr) => {
@@ -128,7 +129,14 @@ export function parseJSXElement (element: t.JSXElement): string {
             value = attrValue.expression.value
           }
         }
-        obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
+        if (
+          componentSpecialProps &&
+          componentSpecialProps.has(name)
+        ) {
+          obj[name] = value
+        } else {
+          obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
+        }
       }
       return obj
     }, {}),

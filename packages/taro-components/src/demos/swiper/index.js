@@ -69,7 +69,7 @@ export default class Swiper extends Nerv.Component {
             </Taro.View>
           </Taro.View>
           <Taro.View className='page__con'>
-            <Taro.Swiper {...swiperOpts} bindchange={this.onChange}>
+            <Taro.Swiper {...swiperOpts} onChange={this.onChange}>
               {goodsData.map(item => {
                 return (
                   <Taro.SwiperItem>

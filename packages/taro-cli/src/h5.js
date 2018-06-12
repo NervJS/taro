@@ -41,7 +41,6 @@ const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
 const tabBarPanelComponentName = 'TabbarPanel'
 const providerComponentName = 'Provider'
-const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
 const tempDir = '.temp'
@@ -214,20 +213,21 @@ function processEntry (code) {
               astPath.remove()
             }
           } else {
-            if (calleeName === configStoreFuncName) {
-              if (parentPath.isAssignmentExpression()) {
-                storeName = parentPath.node.left.name
-              } else if (parentPath.isVariableDeclarator()) {
-                storeName = parentPath.node.id.name
-              } else {
-                storeName = 'store'
-              }
-            } else if (calleeName === setStoreFuncName) {
+            if (calleeName === setStoreFuncName) {
               if (parentPath.isAssignmentExpression() ||
                 parentPath.isExpressionStatement() ||
                 parentPath.isVariableDeclarator()) {
                 parentPath.remove()
               }
+            }
+          }
+        },
+        JSXOpeningElement (astPath) {
+          if (astPath.node.name.name === 'Provider') {
+            for (let v of astPath.node.attributes) {
+              if (v.name.name !== 'store') continue
+              storeName = v.value.expression.name
+              break
             }
           }
         }
@@ -262,6 +262,7 @@ function processEntry (code) {
             }
           }
 
+          /* 插入<Provider /> */
           if (providerComponentName && storeName) {
             // 使用redux
             funcBody = `
@@ -270,6 +271,7 @@ function processEntry (code) {
               </${providorImportName}>`
           }
 
+          /* 插入<TaroRouter.Router /> */
           node.body = template(`{return (${funcBody});}`, babylonConfig)()
 
           if (tabBar) {
@@ -500,7 +502,7 @@ function buildTemp () {
             file.contents = Buffer.from(jsCode)
           } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
             const transformResult = processOthers(content)
-            let jsCode = transformResult.code
+            let jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
             file.contents = Buffer.from(jsCode)
           }
           this.push(file)

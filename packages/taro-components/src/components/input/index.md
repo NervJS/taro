@@ -6,7 +6,7 @@ input
 | ------------ | ----------------- | ----------- | ------ | --------------------------------------------------------------------------------------------------------------- |
 | √            | value             | String      |        | 输入框的初始内容                                                                                                |
 | √            | type              | String      | 23     | input 的类型                                                                                                    |
-| √            | password          | Color       |        | 是否是密码类型                                                                                                  |
+| √            | password          | Boolean       |        | 是否是密码类型                                                                                                  |
 | √            | placeholder       | String      |        | 输入框为空时占位符                                                                                              |
 |              | placeholder-style | String      |        | 指定 placeholder 的样式                                                                                         |
 |              | placeholder-class | String      |        | 指定 placeholder 的样式类                                                                                       |

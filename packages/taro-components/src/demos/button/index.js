@@ -43,6 +43,7 @@ export default class Button extends Nerv.Component {
             <Taro.Button size='mini' type='warn'>
               Warn
             </Taro.Button>
+            <Taro.Button plain type='primary' disabled>不可点击的按钮</Taro.Button>
           </Taro.View>
         </Taro.View>
         <Taro.View className='markdown'>

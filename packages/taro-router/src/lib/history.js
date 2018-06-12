@@ -31,23 +31,43 @@ class History {
     window.addEventListener('popstate', this.onPopstate)
 
     const stack = this.deserialize()
-    if (stack && stack[stack.length - 1].url === initLocation.url) {
+    if (this.validateStack(stack)) {
       this.locationStack = stack
       this.serializeStack = generateSerializer(this.locationStack)
     } else {
+      console.warn('Stack in storage invalid')
       this.locationStack = [ initLocation ]
       this.serializeStack = generateSerializer(this.locationStack)
       this.serializeStack()
     }
   }
 
+  validateStack (stack) {
+    if (stack.length === 0) return false
+
+    const historyMap = {}
+    const hasDuplicateState = stack.some(v => {
+      const state = v.state
+      if (historyMap[state]) return true
+      historyMap[state] = true
+    })
+    if (hasDuplicateState) return false
+
+    const stackCurrent = stack[stack.length - 1]
+    const isThisone = stackCurrent.state === initLocation.state &&
+      stackCurrent.fullUrl === initLocation.fullUrl
+    if (isThisone) return true
+    else return false
+  }
+
   deserialize () {
     try {
       const stackStr = localStorage.getItem(HISTORYKEY)
       const stack = JSON.parse(stackStr)
-      return Array.isArray(stack) && stack.length > 0 ? stack : false
+      if (!Array.isArray(stack)) return []
+      return stack
     } catch (e) {
-      return false
+      return []
     }
   }
 
@@ -57,18 +77,19 @@ class History {
 
   onPopstate = (e) => {
     const nextUrl = normalizeUrl(getCurrentHash())
-    const isBackPage = e.state < this.now().state
+    const isBackPage = e.state < historyState
+    if (typeof e.state !== 'number') return
     if (isBackPage) {
       navigateBack({
-        delta: 1,
+        url: nextUrl,
         state: e.state,
-        url: nextUrl
+        delta: 1
       })
     } else {
       navigateTo({
         url: nextUrl,
-        isForward: true,
-        state: e.state
+        state: e.state,
+        isForward: true
       })
     }
   }
@@ -111,8 +132,11 @@ class History {
     const nextUrl = normalizeUrl(url)
     const currentUrl = this.now().url
 
-    if (nextUrl === currentUrl) return
+    if (!isForward && (nextUrl === currentUrl)) return
 
+    /**
+     * 带state 是forward 否则是navigate
+     */
     if (!state) {
       historyState += 1
     } else {
@@ -139,7 +163,7 @@ class History {
     const currentUrl = this.now().url
     if (nextUrl === currentUrl) return
 
-    const location = createLocation(nextUrl, ++historyState)
+    const location = createLocation(nextUrl, historyState)
     this.locationStack.pop()
     this.locationStack.push(location)
     this.serializeStack()
@@ -162,16 +186,12 @@ class History {
 
     const len = this.len()
     if (len > delta) {
-      const location = this.now()
       this.locationStack.splice(-delta)
       this.serializeStack()
 
-      historyState = this.now().state
+      const location = this.now()
+      historyState = location.state
       this.emit(location, 'BACK', { delta })
-      // replaceHash({
-      //   url: location.fullUrl,
-      //   state: historyState
-      // })
     } else if (delta <= 1 && url) {
       const location = createLocation(normalizeUrl(url), state)
       historyState = state
@@ -180,11 +200,6 @@ class History {
       this.serializeStack()
 
       this.emit(location, 'BACK', { delta })
-      // replaceHash(location.fullUrl)
-      // replaceHash({
-      //   url: location.fullUrl,
-      //   state: historyState
-      // })
     } else {
       return console.warn('goBack delta out of range')
     }

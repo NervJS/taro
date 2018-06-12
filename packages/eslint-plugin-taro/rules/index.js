@@ -9,7 +9,8 @@ const allRules = {
   'no-jsx-in-props': require('./no-jsx-in-props'),
   'no-ref': require('./no-ref'),
   'no-spread-in-props': require('./no-spread-in-props'),
-  'no-stateless-component': require('./no-stateless-component')
+  'no-stateless-component': require('./no-stateless-component'),
+  'jsx-handler-names': require('./jsx-handler-names')
 }
 
 function configureAsError (rules) {

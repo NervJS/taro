@@ -33,6 +33,7 @@ const PAGESTATUS = {
 const getWrappedComponent = (component, { location }) => {
   class Wrapped extends component {
     __pageStatus = PAGESTATUS.SHOWING
+
     constructor (props, context) {
       context.$router = location
       super(props, context)
@@ -48,15 +49,17 @@ const getWrappedComponent = (component, { location }) => {
       const nextShouldShow = nextLocation.state === this.locationState
 
       if (lastShouldShow === nextShouldShow) return
+      this.context.$router = nextLocation
+      this.$router = nextLocation
 
-      if (nextLocation.state !== this.locationState) {
-        this.__pageStatus = PAGESTATUS.HIDDEN
-        this.forceUpdate()
-        this.componentDidHide && this.componentDidHide()
-      } else {
+      if (nextShouldShow) {
         this.__pageStatus = PAGESTATUS.SHOWING
         this.forceUpdate()
         this.componentDidShow && this.componentDidShow()
+      } else {
+        this.__pageStatus = PAGESTATUS.HIDDEN
+        this.forceUpdate()
+        this.componentDidHide && this.componentDidHide()
       }
     }
 
@@ -73,7 +76,7 @@ const getWrappedComponent = (component, { location }) => {
 
     render () {
       return (
-        <div className='taro_page' dataPageid={this.pageId}>
+        <div className='taro_page' dataState={this.locationState}>
           {this.__pageStatus === PAGESTATUS.SHOWING && super.render()}
         </div>
       )
@@ -82,24 +85,12 @@ const getWrappedComponent = (component, { location }) => {
   return Wrapped
 }
 
-const getCurrentPages = function (opts) {
-  return history.now()
-}
-
 /**
  * Router组件内保存了每次路由变化后渲染的组件
  */
 class Router extends Nerv.Component {
-  constructor (props, context) {
-    super(props, context)
-    this.state = {
-      cached: []
-    }
-  }
-
-  onHistoryChange = (location, action, payload) => {
-    this.navigate(location, action, payload)
-  }
+  /* 页面栈 */
+  static pageStack = []
 
   /**
    * 根据提供的location跳转
@@ -108,11 +99,11 @@ class Router extends Nerv.Component {
    * @param {string} action 跳转的种类
    * @param {any} payload 附加参数
    */
-  navigate (location, action, payload = {}) {
+  navigate = (location, action, payload = {}) => {
     const { fail, complete, success, delta } = payload
     let pathname
     if (action === 'BACK') {
-      if (this.state.cached.length <= delta) pathname = location.url
+      if (this.constructor.pageStack.length <= delta) pathname = location.url
       else return this.commit('BACK', null, { delta })
     } else if (action === 'PUSH' || action === 'REPLACE') {
       pathname = location.url
@@ -130,6 +121,7 @@ class Router extends Nerv.Component {
         this.commit(action, wrapped, payload)
         success && success()
       }).catch(e => {
+        console.error(e)
         fail && fail()
       }).then(() => {
         complete && complete()
@@ -140,32 +132,23 @@ class Router extends Nerv.Component {
     const { delta } = payload
     switch (action) {
       case 'PUSH':
-        this.setState(state => {
-          const cached = this.state.cached
-          cached.push(el)
-          return { cached }
-        })
+        this.constructor.pageStack.push(el)
+        this.forceUpdate()
         break
       case 'REPLACE':
-        this.setState(state => {
-          const cached = this.state.cached
-          cached.pop()
-          cached.push(el)
-          return { cached }
-        })
+        const pageStack = this.constructor.pageStack
+        pageStack.pop()
+        pageStack.push(el)
+        this.forceUpdate()
         break
       case 'BACK':
         if (el) {
-          this.setState((state) => {
-            const cached = [ el ]
-            return { cached }
-          })
+          this.constructor.pageStack = [ el ]
+          this.forceUpdate()
         } else {
-          this.setState((state) => {
-            const cached = state.cached
-            cached.splice(-delta)
-            return { cached }
-          })
+          const pageStack = this.constructor.pageStack
+          pageStack.splice(-delta)
+          this.forceUpdate()
         }
         break
       default:
@@ -173,26 +156,29 @@ class Router extends Nerv.Component {
     }
   }
 
-  getPage () {
+  getPages () {
     const location = history.now()
-
-    return this.state.cached.map((Page) => {
-      return <Page location={location} />
+    return this.constructor.pageStack.map(Comp => {
+      return <Comp location={location} />
     })
   }
 
   componentDidMount () {
-    history.listen(this.onHistoryChange)
+    history.listen(this.navigate)
     this.navigate(history.now(), 'PUSH')
   }
 
   componentWillUnmount () {
-    history.unlisten(this.onHistoryChange)
+    history.unlisten(this.navigate)
   }
 
   render () {
-    return <div className='taro_router'>{this.getPage()}</div>
+    return <div className='taro_router'>{this.getPages()}</div>
   }
+}
+
+const getCurrentPages = function (opts) {
+  return Router.pageStack
 }
 
 const initRouter = (pageArr, taro) => {

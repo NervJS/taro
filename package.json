@@ -12,8 +12,10 @@
     "bootstrap": "npm-run-all clear-all bootstrap:lerna",
     "build": "lerna run build",
     "build:docs": "node ./build/docs.js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
-    "release": "npm-run-all build release:lerna"
+    "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
+    "release": "npm run changelog && npm-run-all build release:lerna"
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,7 @@
     "babel-eslint": "^7.2.3",
     "babel-loader": "^8.0.0-beta.0",
     "babel-preset-es2015": "^6.24.1",
+    "conventional-changelog-cli": "^2.0.1",
     "css-loader": "^0.28.10",
     "eslint": "^4.18.2",
     "eslint-config-standard": "^11.0.0",

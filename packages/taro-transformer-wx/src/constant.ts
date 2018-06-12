@@ -76,3 +76,13 @@ export const MAP_CALL_ITERATOR = '__item'
 export const INTERNAL_DYNAMIC = 'internal_dynamic_recursive'
 
 export const LOOP_STATE = '$loopState'
+
+export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
+
+SPECIAL_COMPONENT_PROPS.set(
+  'Progress',
+  new Set([
+    'activeColor',
+    'backgroundColor'
+  ])
+)

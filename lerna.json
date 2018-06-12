@@ -12,19 +12,24 @@
     "packages/taro-plugin-sass",
     "packages/taro-plugin-uglifyjs",
     "packages/taro-redux",
+    "packages/taro-redux-h5",
     "packages/taro-rn",
     "packages/taro-rn-runner",
     "packages/taro-router",
     "packages/taro-weapp",
     "packages/taro-webpack-runner",
-    "packages/postcss-plugin-constparse"
+    "packages/postcss-plugin-constparse",
+    "packages/eslint-config-taro",
+    "packages/eslint-plugin-taro",
+    "packages/taro-transformer-wx",
+    "packages/postcss-pxtransform"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.41",
+  "version": "0.0.46",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"

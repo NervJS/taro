@@ -10,7 +10,6 @@ import {
   codeFrameError,
   isBlockIfStatement,
   findFirstIdentifierFromMemberExpression,
-  isComplexExpression,
   setTemplate,
   isContainFunction,
   buildConstVariableDeclaration,
@@ -29,23 +28,6 @@ import generate from 'babel-generator'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
-
-function generateAnonymousState (
-  scope: Scope,
-  expression: NodePath<t.Expression>
-) {
-  const variableName = `anonymousState_${scope.generateUid()}`
-  const statementParent = expression.getStatementParent()
-  if (!statementParent) {
-    throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
-  }
-  statementParent.insertBefore(
-    buildConstVariableDeclaration(variableName, expression.node)
-  )
-  expression.replaceWith(
-    t.identifier(variableName)
-  )
-}
 
 function isContainStopPropagation (path: NodePath<t.Node>) {
   let matched = false
@@ -128,6 +110,7 @@ export class RenderParser {
   private referencedIdentifiers: Set<t.Identifier>
   private customComponentNames: Set<string>
   private renderScope: Scope
+  private usedState: Set<string>
 
   private finalReturnElement!: t.JSXElement
 
@@ -220,6 +203,12 @@ export class RenderParser {
               }
             }
           }
+        } else if (t.isArrowFunctionExpression(parentNode)) {
+          parentPath.replaceWith(
+            t.arrowFunctionExpression(parentNode.params, t.blockStatement([
+              t.returnStatement(jsxElementPath.node)
+            ]))
+          )
         }
       }
     }
@@ -348,11 +337,7 @@ export class RenderParser {
             this.returnedPaths.push(parentPath)
           }
         } else if (t.isArrowFunctionExpression(parentNode)) {
-          parentPath.replaceWith(
-            t.arrowFunctionExpression(parentNode.params, t.blockStatement([
-              t.returnStatement(jsxElementPath.node)
-            ]))
-          )
+          // console.log('arrow')
         } else if (t.isAssignmentExpression(parentNode)) {
           if (t.isIdentifier(parentNode.left)) {
             const name = parentNode.left.name
@@ -456,11 +441,7 @@ export class RenderParser {
             setJSXAttr(JSXElement, 'data-component-path', t.stringLiteral('{{$path}}'))
             expression.replaceWith(t.stringLiteral(`${!this.isRoot ? `${this.instanceName}__` : ''}${bindCalleeName}`))
           }
-        } else {
-          generateAnonymousState(this.renderScope, expression)
         }
-      } else if (isComplexExpression(expression)) {
-        generateAnonymousState(this.renderScope, expression)
       }
     },
     MemberExpression: (path) => {
@@ -576,9 +557,7 @@ export class RenderParser {
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
-        (
-          this.renderScope.hasBinding(path.node.name)
-        )
+        this.renderScope.hasOwnBinding(path.node.name)
       ) {
         const codes = parentPath.getSource().split('.')
         if (!(codes[0] === 'this' && codes[1] === 'state')) {
@@ -634,10 +613,6 @@ export class RenderParser {
             }
           }
         })
-        const expression = path.get('expression') as NodePath<t.Expression>
-        if (isComplexExpression(expression)) {
-          generateAnonymousState(this.renderScope, expression)
-        }
       }
     }
   }
@@ -649,7 +624,8 @@ export class RenderParser {
     isRoot: boolean,
     instanceName: string,
     referencedIdentifiers: Set<t.Identifier>,
-    customComponentNames: Set<string>
+    customComponentNames: Set<string>,
+    usedState: Set<string>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -658,6 +634,7 @@ export class RenderParser {
     this.instanceName = instanceName
     this.referencedIdentifiers = referencedIdentifiers
     this.customComponentNames = customComponentNames
+    this.usedState = usedState
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -824,6 +801,7 @@ export class RenderParser {
           .concat([...this.initState, ...this.usedThisState])
         )
     )
+    .concat(...this.usedState)
     // .filter(i => {
     //   return !methods.has(i)
     // })

@@ -1,9 +1,10 @@
 const fs = require('fs-extra')
+const os = require('os')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
 const babylon = require('babylon')
-const nervToMp = require('nerv-to-mp')
+const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -53,6 +54,8 @@ const PARSE_AST_TYPE = {
   COMPONENT: 'COMPONENT',
   NORMAL: 'NORMAL'
 }
+
+const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
@@ -168,6 +171,8 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           source.value = getExactedNpmFilePath(value, filePath)
           astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
         }
+      } else if (path.isAbsolute(value)) {
+        Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
       } else if (Util.REG_STYLE.test(valueExtname)) {
         const stylePath = path.resolve(path.dirname(sourceFilePath), value)
         if (styleFiles.indexOf(stylePath) < 0) {
@@ -210,6 +215,10 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           }
         } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
           const vpath = path.resolve(sourceFilePath, '..', value)
+          if (!fs.existsSync(vpath)) {
+            Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+            return
+          }
           if (mediaFiles.indexOf(vpath) < 0) {
             mediaFiles.push(vpath)
           }
@@ -221,18 +230,27 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             }
           })
           if (defaultSpecifier) {
-            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '')))]))
+            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
           } else {
             astPath.remove()
           }
         } else if (!valueExtname) {
-          const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+          let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
           const outputVpath = vpath.replace(sourceDir, outputDir)
-          const relativePath = path.relative(filePath, outputVpath)
+          let relativePath = path.relative(filePath, outputVpath)
           if (vpath) {
             if (!fs.existsSync(vpath)) {
               Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
             } else {
+              if (fs.lstatSync(vpath).isDirectory()) {
+                if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                  vpath = path.join(vpath, 'index.js')
+                  relativePath = path.join(relativePath, 'index.js')
+                } else {
+                  Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                  return
+                }
+              }
               if (scriptFiles.indexOf(vpath) < 0) {
                 scriptFiles.push(vpath)
               }
@@ -327,7 +345,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
               defaultSpecifier = id.name
             }
             if (defaultSpecifier) {
-              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '')))]))
+              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
             } else {
               astPath.remove()
             }
@@ -413,7 +431,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '')}' }))`, babylonConfig)()
+            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '').replace(/\\/g, '/')}' }))`, babylonConfig)()
             node.body.push(insert)
             break
           default:
@@ -506,7 +524,7 @@ async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${CONFIG.ENTRY}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
   try {
-    const transformResult = nervToMp({
+    const transformResult = wxTransformer({
       code: entryFileCode,
       path: outputEntryFilePath,
       isApp: true
@@ -608,7 +626,7 @@ async function buildSinglePage (page) {
   const outputPageWXMLPath = outputPageJSPath.replace(path.extname(pageJs), '.wxml')
   const outputPageWXSSPath = outputPageJSPath.replace(path.extname(pageJs), '.wxss')
   try {
-    const transformResult = nervToMp({
+    const transformResult = wxTransformer({
       code: pageJsContent,
       path: outputPageJSPath,
       isRoot: true
@@ -712,10 +730,18 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     })
   })).then(async resList => {
     let resContent = resList.map(res => res.css).join('\n')
+    const weappConf = projectConfig.weapp || {}
+    const useModuleConf = weappConf.module || {}
+    const customPostcssConf = useModuleConf.postcss || {}
+    const customPxtransformConf = customPostcssConf.pxtransform || {}
+
     try {
       const postcssResult = await postcss([
         autoprefixer({ browsers: browserList }),
-        pxtransform()
+        pxtransform(Object.assign({
+          designWidth: projectConfig.designWidth || 750,
+          platform: 'weapp'
+        }, customPxtransformConf))
       ]).process(resContent, {
         from: undefined
       })
@@ -782,7 +808,7 @@ async function buildSingleComponent (component) {
   const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(component), '.wxml')
   const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(component), '.wxss')
   try {
-    const transformResult = nervToMp({
+    const transformResult = wxTransformer({
       code: componentContent,
       path: outputComponentJSPath,
       isRoot: false
@@ -1004,7 +1030,16 @@ function watchFiles () {
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
             const depStyleList = wxssDepTree[outputWXSSPath]
-            await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+            if (isWindows) {
+              await new Promise((resolve, reject) => {
+                setTimeout(async () => {
+                  await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+                  resolve()
+                }, 150)
+              })
+            } else {
+              await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+            }
             Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
           })
         } else {
@@ -1016,7 +1051,16 @@ function watchFiles () {
           let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
           const depStyleList = wxssDepTree[outputWXSSPath]
-          await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+          if (isWindows) {
+            await new Promise((resolve, reject) => {
+              setTimeout(async () => {
+                await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+                resolve()
+              }, 150)
+            })
+          } else {
+            await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+          }
           Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
         }
       } else {

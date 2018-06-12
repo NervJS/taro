@@ -1,19 +1,22 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
+
+import './index.scss'
+
 const types = {
   text: 'text',
   number: 'number',
   idcard: 'idcard',
-  digit: 'digit'
+  digit: 'digit',
+  password: 'password'
 }
 function parseType (type, isPassword, confirmType) {
   if (!types[type]) {
     throw new Error('unexpected type')
   }
-  // return isPassword ? 'password' : 'text'
   if (isPassword) {
-    return 'isPassword'
+    return isPassword ? 'password' : 'text'
   } else if (confirmType) {
     return 'search'
   } else {

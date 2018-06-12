@@ -2,6 +2,8 @@ import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
 
+import './index.scss'
+
 class Button extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -31,7 +33,7 @@ class Button extends Nerv.Component {
     const cls = className || classNames(
       'weui-btn',
       {
-        [`${hoverClass}`]: this.state.hover,
+        [`${hoverClass}`]: this.state.hover && !disabled,
         [`weui-btn_plain-${type}`]: plain,
         [`weui-btn_${type}`]: !plain && type,
         'weui-btn_mini': size === 'mini',
@@ -44,7 +46,7 @@ class Button extends Nerv.Component {
       this.setState(() => ({
         touch: true
       }))
-      if (hoverClass) {
+      if (hoverClass && !disabled) {
         setTimeout(() => {
           if (this.state.touch) {
             this.setState(() => ({
@@ -59,7 +61,7 @@ class Button extends Nerv.Component {
       this.setState(() => ({
         touch: false
       }))
-      if (hoverClass) {
+      if (hoverClass && !disabled) {
         setTimeout(() => {
           if (!this.state.touch) {
             this.setState(() => ({

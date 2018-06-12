@@ -166,6 +166,10 @@ $ taro build --type h5
 $ npx taro build --type h5
 ```
 
+## 更新日志
+
+本项目遵从 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)，更新日志由 `conventional-changelog` 自动生成。完整日志请点击 [CHANGELOG.md](./CHANGELOG.md)。
+
 ## License
 
 MIT License

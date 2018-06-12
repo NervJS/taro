@@ -70,13 +70,13 @@ export default class PageView extends Component {
              circular={true}
              preMargin='20'>
        <SwiperItem>
-         <View class='content' style='height:100%;background-color:rgb(26,173,25);'>A</View>
+         <View className='content' style='height:100%;background-color:rgb(26,173,25);'>A</View>
        </SwiperItem>
        <SwiperItem>
-         <View class='content' style='height:100%;background-color:rgb(39,130,215);'>B</View>
+         <View className='content' style='height:100%;background-color:rgb(39,130,215);'>B</View>
        </SwiperItem>
        <SwiperItem>
-         <View class='content' style='height:100%;background-color:rgb(241,241,241);color: #333;'>C</View>
+         <View className='content' style='height:100%;background-color:rgb(241,241,241);color: #333;'>C</View>
        </SwiperItem>
      </Swiper>
      <View className="switch-list__text">指示点</View>
