@@ -4,16 +4,14 @@
 
 import * as React from 'react'
 import {
-  View,
   Picker,
-  Platform,
 } from 'react-native'
 import Dialog from './Dialog'
 
 type Props = {
   range: Array<any>,
   rangeKey?: string,
-  value: number,
+  value: Array<number>,
   onChange?: Function,
   disabled?: boolean,
   onCancel?: Function,
@@ -57,7 +55,7 @@ class _PickerMultiSelector extends React.Component<Props, State> {
     this.setState({ isShowDialog: isShow })
   }
 
-  onValueChange = (columnIndex, itemValue, itemIndex) => {
+  onValueChange = (columnIndex: number, itemValue: any, itemIndex: number) => {
     this.changingColumn = columnIndex
     // itemValue always be string
     const { onColumnChange } = this.props

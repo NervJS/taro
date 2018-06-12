@@ -3,15 +3,13 @@
  */
 
 import * as React from 'react'
-import {
-  View,
-  Picker,
-  Platform,
-} from 'react-native'
+// import {
+// } from 'react-native'
 import MultiSelector from './MultiSelector'
 // Latest updated at 2017-12-26.
 // @todo Dynamic data.
 import { provinces, cities, districts } from './regions'
+import { omit } from '../../utils'
 
 function addCustomItemToRegion (provinces, cities, districts, customItem) {
   const shallowCities = {}
@@ -30,12 +28,13 @@ function addCustomItemToRegion (provinces, cities, districts, customItem) {
 }
 
 type Props = {
-  value?: Array,
+  value: Array<string>,
+  customItem?: string,
+  onChange?: Function,
 }
 type State = {
-  range: Array<Object>,
-  value: Array,
-  customItem?: string,
+  range: Array<Array<any>>,
+  value: Array<number>,
   onChange?: Function,
 }
 
@@ -56,6 +55,11 @@ class _PickerRegion extends React.Component<Props, State> {
       value: result.value,
     }
   }
+
+  state: State
+  provinces: Array<Object>
+  cities: Object
+  districts: Object
 
   getRangeFromProps = ({ value }: Props) => {
     const [ valFirst, valSecond, valThird ] = value
@@ -104,25 +108,26 @@ class _PickerRegion extends React.Component<Props, State> {
     this.picker.toggleDialog(isShow)
   }
 
-  onColumnChange = ({ detail: { column, value }}) => {
+  onColumnChange = ({ detail: { column, value } }: Object) => {
     if (column === 2) return
+    const stateRange = this.state.range
+    const stateValue = this.state.value
     const nextColumnIndex = column + 1
-
     const newListForAdjacentColumn = (nextColumnIndex === 1 ? this.cities : this.districts)[value.code] || []
-    this.state.range[nextColumnIndex] = newListForAdjacentColumn
-    this.state.value[nextColumnIndex] = 0
+    stateRange[nextColumnIndex] = newListForAdjacentColumn
+    stateValue[nextColumnIndex] = 0
     if (nextColumnIndex === 1) {
       const nextColumnFirstItem = newListForAdjacentColumn[0]
-      this.state.range[2] = (nextColumnFirstItem && this.districts[nextColumnFirstItem.code]) || []
-      this.state.value[2] = 0
+      stateRange[2] = (nextColumnFirstItem && this.districts[nextColumnFirstItem.code]) || []
+      stateValue[2] = 0
     }
     this.setState({
-      range: [...this.state.range],
-      value: [...this.state.value],
+      range: [...stateRange],
+      value: [...stateValue],
     })
   }
 
-  onChange = ({ detail: { value } }) => {
+  onChange = ({ detail: { value } }: Object) => {
     const { onChange } = this.props
     const { range } = this.state
     const newValue = value.map((rowIndex, columnIndex) => {
@@ -133,10 +138,6 @@ class _PickerRegion extends React.Component<Props, State> {
   }
 
   render () {
-    // const {
-    //   range,
-    //   value,
-    // } = this.props
     const {
       range,
       value,
@@ -144,7 +145,13 @@ class _PickerRegion extends React.Component<Props, State> {
 
     return (
       <MultiSelector
-        {...this.props}
+        {...omit(this.props, [
+          'value',
+          'range',
+          'rangeKey',
+          'customItem',
+          'onChange',
+        ])}
         range={range}
         rangeKey="name"
         value={value}

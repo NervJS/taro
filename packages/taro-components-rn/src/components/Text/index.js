@@ -18,7 +18,7 @@ type Props = {
   selectable?: boolean,
 }
 
-export default function ({
+export default function _Text ({
   style,
   children,
   selectable,

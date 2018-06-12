@@ -35,8 +35,6 @@
 import * as React from 'react'
 import {
   View,
-  Text,
-  DatePickerIOS,
   DatePickerAndroid,
   TimePickerAndroid,
   Platform,
@@ -47,11 +45,17 @@ import PickerSelector from './Selector'
 import PickerMultiSelector from './MultiSelector'
 import PickerDate from './DateIOS'
 import PickerRegion from './Region'
+// import { omit } from '../../utils'
 
 type Props = {
   children?: React.Element<any>,
-  style?: StyleSheet.Styles,
-  mode: 'selector' | 'multiSelector' | 'time' | 'date' | 'region'
+  mode: 'selector' | 'multiSelector' | 'time' | 'date' | 'region',
+  disabled?: boolean,
+  value?: any,
+  start?: string,
+  end?: string,
+  onChange?: Function,
+  onCancel?: Function,
 }
 type State = {
   shownValue: string,
@@ -84,21 +88,21 @@ class _Picker extends React.Component<Props, State> {
     } = this.props
 
     const DateOrTimeAndroid = mode === 'date' ? DatePickerAndroid : TimePickerAndroid
-    const openParams = { mode: 'spinner' }
+    const openParams: Object = { mode: 'spinner' }
 
     if (mode === 'date') {
-      let minDate = new Date(start)
-      let maxDate = new Date(end)
+      let minDate = start && new Date(start)
+      let maxDate = end && new Date(end)
       if (disabled) {
-        minDate = maxDate = new Date(value)
+        minDate = maxDate = value && new Date(value)
       }
       Object.assign(openParams, {
-        date: new Date(value),
+        date: value && new Date(value),
         minDate,
         maxDate,
       })
     } else {
-      const tmp = value.split(':')
+      const tmp = value ? value.split(':') : []
       const valueHour = tmp[0]
       const valueMinute = tmp[1]
       Object.assign(openParams, {
@@ -134,14 +138,14 @@ class _Picker extends React.Component<Props, State> {
 
   render () {
     const {
-      style,
       mode,
     } = this.props
 
-    if (mode === 'date' || mode === 'time' && Platform.OS === 'ios') {
+    if ((mode === 'date' || mode === 'time') && Platform.OS === 'ios') {
       return (
         <View>
           {this.getShowValueElement(this.onBarClick)}
+          {/* $FlowFixMe mode=selector|multiSelector|region would emit error */}
           <PickerDate
             {...this.props}
             ref={(picker) => { this.picker = picker }}
@@ -150,7 +154,7 @@ class _Picker extends React.Component<Props, State> {
       )
     }
 
-    if (mode === 'date' || mode === 'time' && Platform.OS === 'android') {
+    if ((mode === 'date' || mode === 'time') && Platform.OS === 'android') {
       return (
         <View>
           {this.getShowValueElement(this.openDatePickerAndroid)}
@@ -158,19 +162,9 @@ class _Picker extends React.Component<Props, State> {
       )
     }
 
-    if (mode === 'region') {
-      return (
-        <View>
-          {this.getShowValueElement(this.onBarClick)}
-          <PickerRegion
-            {...this.props}
-            ref={(picker) => { this.picker = picker }}
-          />
-        </View>
-      )
-    }
-
-    const MySelector = mode === 'multiSelector' ? PickerMultiSelector : PickerSelector
+    const MySelector = mode === 'region'
+      ? PickerRegion
+      : (mode === 'multiSelector' ? PickerMultiSelector : PickerSelector)
 
     return (
       <View>
