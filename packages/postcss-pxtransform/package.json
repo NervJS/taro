@@ -10,11 +10,14 @@
   ],
   "author": "Pines-Cheng <spider.cs.nuc@gmail.com>",
   "license": "MIT",
-  "repository": "https://github.com/Pines-Cheng/postcss-pxtransform",
-  "bugs": {
-    "url": "https://github.com/Pines-Cheng/postcss-pxtransform/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
   },
-  "homepage": "https://github.com/Pines-Cheng/postcss-pxtransform",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "postcss": "^6.0.16",
     "postcss-pxtorem": "^4.0.1"

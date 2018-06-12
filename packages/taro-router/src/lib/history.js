@@ -35,6 +35,7 @@ class History {
       this.locationStack = stack
       this.serializeStack = generateSerializer(this.locationStack)
     } else {
+      console.warn('Stack in storage invalid')
       this.locationStack = [ initLocation ]
       this.serializeStack = generateSerializer(this.locationStack)
       this.serializeStack()

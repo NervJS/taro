@@ -25,7 +25,7 @@ class Radio extends Nerv.Component {
           id={key}
           type='radio'
           name={name}
-          class={cls}
+          className={cls}
           checked={checked}
           onChange={onChange}
         />

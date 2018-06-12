@@ -1,25 +1,47 @@
-function setStorage (options = {}) {
+import { shouleBeObject, getParameterError } from '../utils'
+
+function setStorage (options) {
+  // options must be an Object
+  const isObject = shouleBeObject(options)
+  if (!isObject.res) {
+    const res = { errMsg: `setStorage${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
   const { key, data, success, fail, complete } = options
-  const res = { errMsg: 'getStorage:ok' }
+  const res = { errMsg: 'setStorage:ok' }
 
   if (typeof key !== 'string') {
-    const e = new Error(`setStorage:fail parameter error: parameter should be String instead of ${typeof key}`)
-    res.errMsg = e.message
-    fail && fail(res)
-    complete && complete(res)
-    return Promise.reject(e)
+    res.errMsg = getParameterError({
+      name: 'setStorage',
+      para: 'key',
+      correct: 'String',
+      wrong: typeof key
+    })
+    console.error(res.errMsg)
+    typeof fail === 'function' && fail(res)
+    typeof complete === 'function' && complete(res)
+    return Promise.reject(res)
   }
 
   setStorageSync(key, data)
 
-  success && success(res)
-  complete && complete(res)
+  typeof success === 'function' && success(res)
+  typeof complete === 'function' && complete(res)
 
   return Promise.resolve(res)
 }
 
 function setStorageSync (key, data = '') {
-  if (typeof key !== 'string') throw new Error(`setStorageSync:fail parameter error: parameter should be String instead of ${typeof key}`)
+  if (typeof key !== 'string') {
+    console.error(getParameterError({
+      name: 'setStorage',
+      correct: 'String',
+      wrong: typeof key
+    }))
+    return
+  }
 
   const type = typeof data
   let obj = {}
@@ -32,34 +54,75 @@ function setStorageSync (key, data = '') {
   localStorage.setItem(key, JSON.stringify(obj))
 }
 
-function getStorage (options = {}) {
+function getStorage (options) {
+  // options must be an Object
+  const isObject = shouleBeObject(options)
+  if (!isObject.res) {
+    const res = { errMsg: `getStorage${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
   const { key, success, fail, complete } = options
   const res = { errMsg: 'getStorage:ok' }
 
   if (typeof key !== 'string') {
-    const e = new Error(`getStorage:fail parameter error: parameter should be String instead of ${typeof key}`)
-    res.errMsg = e.message
-    fail && fail(res)
-    complete && complete(res)
-    return Promise.reject(e)
+    res.errMsg = getParameterError({
+      name: 'getStorage',
+      para: 'key',
+      correct: 'String',
+      wrong: typeof key
+    })
+    console.error(res.errMsg)
+    typeof fail === 'function' && fail(res)
+    typeof complete === 'function' && complete(res)
+    return Promise.reject(res)
   }
 
-  res.data = getStorageSync(key)
+  const { result, data } = getItem(key)
+  if (result) {
+    res.data = data
+  } else {
+    res.errMsg = 'getStorage:fail data not found'
+    typeof fail === 'function' && fail(res)
+    typeof complete === 'function' && complete(res)
+    return Promise.reject(res)
+  }
 
-  success && success(res)
-  complete && complete(res)
+  typeof success === 'function' && success(res)
+  typeof complete === 'function' && complete(res)
 
   return Promise.resolve(res)
 }
 
 function getStorageSync (key) {
-  if (typeof key !== 'string') throw new Error(`getStorageSync:fail parameter error: parameter should be String instead of ${typeof key}`)
-  let res = JSON.parse(localStorage.getItem(key))
+  if (typeof key !== 'string') {
+    console.error(getParameterError({
+      name: 'getStorage',
+      correct: 'String',
+      wrong: typeof key
+    }))
+    return
+  }
 
-  // 只返回使用 Taro.setStorage API 存储的数据
-  if (res && res.data) return res.data
+  let res = getItem(key)
+  if (res.result) return res.data
 
   return ''
+}
+
+function getItem (key) {
+  let item
+  try {
+    item = JSON.parse(localStorage.getItem(key))
+  } catch (e) {}
+
+  // 只返回使用 Taro.setStorage API 存储的数据
+  if (item && typeof item === 'object' && item.hasOwnProperty('data')) {
+    return { result: true, data: item.data }
+  } else {
+    return { result: false }
+  }
 }
 
 function getStorageInfo (options = {}) {
@@ -84,16 +147,29 @@ function getStorageInfoSync () {
   return res
 }
 
-function removeStorage (options = {}) {
+function removeStorage (options) {
+  // options must be an Object
+  const isObject = shouleBeObject(options)
+  if (!isObject.res) {
+    const res = { errMsg: `removeStorage${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
   const { key, success, fail, complete } = options
   const res = { errMsg: 'removeStorage:ok' }
 
   if (typeof key !== 'string') {
-    const e = new Error(`removeStorage:fail parameter error: parameter should be String instead of ${typeof key}`)
-    res.errMsg = e.message
-    fail && fail(res)
-    complete && complete(res)
-    return Promise.reject(e)
+    res.errMsg = getParameterError({
+      name: 'removeStorage',
+      para: 'key',
+      correct: 'String',
+      wrong: typeof key
+    })
+    console.error(res.errMsg)
+    typeof fail === 'function' && fail(res)
+    typeof complete === 'function' && complete(res)
+    return Promise.reject(res)
   }
 
   removeStorageSync(key)
@@ -105,7 +181,15 @@ function removeStorage (options = {}) {
 }
 
 function removeStorageSync (key) {
-  if (typeof key !== 'string') throw new Error(`removeStorageSync:fail parameter error: parameter should be String instead of ${typeof key}`)
+  if (typeof key !== 'string') {
+    console.error(getParameterError({
+      name: 'removeStorage',
+      correct: 'String',
+      wrong: typeof key
+    }))
+    return
+  }
+
   localStorage.removeItem(key)
 }
 
