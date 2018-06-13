@@ -37,11 +37,11 @@ const iconTypeMap: Object = {
 type Props = {
   style?: StyleSheet.Styles,
   type: 'success' | 'success_no_circle' | 'info' | 'warn' | 'waiting' | 'cancel' | 'download' | 'search' | 'clear',
-  size: number,
-  color: string | number,
+  size?: number,
+  color?: string,
 }
 
-export default function ({
+export default function _Icon ({
   style,
   type,
   size = 23,

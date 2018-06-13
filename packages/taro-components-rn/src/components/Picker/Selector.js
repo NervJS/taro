@@ -3,12 +3,10 @@
  */
 
 import * as React from 'react'
-import {
-  View,
-  Picker,
-  Platform,
-} from 'react-native'
+// import {
+// } from 'react-native'
 import MultiSelector from './MultiSelector'
+import { omit } from '../../utils'
 
 type Props = {
   range: Array<any>,
@@ -19,12 +17,17 @@ type Props = {
 class _PickerSelector extends React.Component<Props> {
   picker: any
 
+  static defaultProps = {
+    range: [],
+    value: 0,
+  }
+
   // Pass to next ref
   toggleDialog = (isShow: boolean) => {
     this.picker.toggleDialog(isShow)
   }
 
-  onChange = ({ detail: { value } }) => {
+  onChange = ({ detail: { value } }: Object) => {
     const { onChange } = this.props
     onChange && onChange({ detail: { value: value[0] } })
   }
@@ -37,7 +40,11 @@ class _PickerSelector extends React.Component<Props> {
 
     return (
       <MultiSelector
-        {...this.props}
+        {...omit(this.props, [
+          'value',
+          'range',
+          'onChange',
+        ])}
         range={[range]}
         value={[value]}
         onChange={this.onChange}

@@ -2,8 +2,8 @@
  * ✔ src
  * ✔ mode: Partial support
  * ✘ lazy-load
- * ✔ binderror
- * ✔ bindload
+ * ✔ onError(binderror)
+ * ✔ onLoad(bindload)
  * ✔ onClick
  * ✔ DEFAULT_SIZE
  *
@@ -32,8 +32,8 @@ type Props = {
   style?: StyleSheet.Styles,
   src?: string,
   mode: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right',
-  binderror?: Function,
-  bindload?: Function,
+  onError?: Function,
+  onLoad?: Function,
 }
 
 class _Image extends React.Component<Props> {
@@ -44,16 +44,16 @@ class _Image extends React.Component<Props> {
   }
 
   onError = (event: Object) => {
-    const { binderror } = this.props
-    binderror && binderror({
+    const { onError } = this.props
+    onError && onError({
       detail: { errMsg: 'something wrong' }
     })
   }
 
   onLoad = (event: Object) => {
-    const { src, bindload } = this.props
+    const { src, onLoad } = this.props
     const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
-    bindload && bindload({
+    onLoad && onLoad({
       detail: { width, height }
     })
   }
@@ -82,4 +82,5 @@ class _Image extends React.Component<Props> {
   }
 }
 
+export { _Image }
 export default Clickable(_Image)

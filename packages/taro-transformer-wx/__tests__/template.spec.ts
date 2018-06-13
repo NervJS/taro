@@ -15,6 +15,40 @@ describe('Template', () => {
     }).toThrow()
   })
 
+  describe('使用 [] 获取成员表达式', () => {
+    test('可以直接使用', () => {
+      const { template, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View>{this.state.list[this.state.index]}</View>
+          )
+        `, `state = {
+          list:['a','b','c'],
+          index:0
+          }`)
+      })
+      expect(template).toMatch('anonymousState__temp')
+    })
+
+    test('', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View>{this.state.list[this.props.index]}</View>
+          )
+        `, `state = {
+          list:['a','b','c'],
+          index:0
+          }`)
+      })
+
+    })
+  })
+
   test('不支持 spread 表达式', () => {
     expect(() => {
       transform({

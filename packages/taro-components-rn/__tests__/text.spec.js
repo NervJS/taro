@@ -1,15 +1,23 @@
-import 'react-native'
 import React from 'react'
+// import 'react-native'
+import { shallow } from 'enzyme'
 import Text from '../src/components/text'
-
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
-it('renders correctly', () => {
-  const tree = renderer
-    .create(
-      <Text>Alo, alo, holy high!</Text>
-    )
-    .toJSON()
-  expect(tree).toMatchSnapshot()
+
+
+describe('<Text />', () => {
+  // it('renders correctly', () => {
+  //   const tree = renderer
+  //     .create(
+  //       <Text>Alo, alo, holy high!</Text>
+  //     )
+  //     .toJSON()
+  //   expect(tree).toMatchSnapshot()
+  // })
+
+  it('simple structure check', () => {
+    const wrapper = shallow(<Text>Miao miao miao~</Text>)
+    expect(wrapper.childAt(0).text()).toContain('Miao miao miao~')
+  })
 })

@@ -22,7 +22,7 @@ type Props = {
   value: *,
   disabled?: boolean,
   checked?: boolean,
-  color: string | number,
+  color: string,
   onChange?: Function,
 }
 type State = {
