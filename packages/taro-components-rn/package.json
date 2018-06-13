@@ -44,6 +44,7 @@
     "react": "^16.2.0",
     "react-native": "^0.54.3",
     "react-native-mock-render": "0.0.25",
-    "react-test-renderer": "^16.2.0"
+    "react-test-renderer": "^16.2.0",
+    "sinon": "^6.0.0"
   }
 }

@@ -13,10 +13,10 @@ describe('<Icon />', () => {
     />
   )
 
-  it('renders correctly', () => {
-    const tree = renderer.create(TestedIcon).toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+  // it('renders correctly', () => {
+  //   const tree = renderer.create(TestedIcon).toJSON()
+  //   expect(tree).toMatchSnapshot()
+  // })
 
   it('simple structure check', () => {
     const wrapper = shallow(TestedIcon)
