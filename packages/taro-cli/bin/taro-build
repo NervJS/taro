@@ -25,11 +25,16 @@ if (!fs.existsSync(projectConfPath)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
   process.exit(1)
 }
-const projectConf = require(projectConfPath)(_.merge)
-console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+
 if (watch) {
   process.env.NODE_ENV = 'development'
 } else {
   process.env.NODE_ENV = 'production'
 }
-build(args, { type, watch })
+const projectConf = require(projectConfPath)(_.merge)
+console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+
+build(args, Object.assign(projectConf, {
+  type,
+  watch
+}))

@@ -1,7 +1,7 @@
 import {
   StyleSheet,
   Dimensions,
-  PixelRatio,
+  // PixelRatio,
 } from 'react-native'
 
 const deviceWidth = Dimensions.get('window').width
