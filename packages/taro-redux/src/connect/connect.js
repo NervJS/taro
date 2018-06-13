@@ -5,6 +5,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
   const initMapDispatch = typeof mapDispatchToProps === 'function' ? mapDispatchToProps(dispatch) : {}
+  initMapDispatch.dispatch = dispatch;
 
   const stateListener = function () {
     let isChanged = false

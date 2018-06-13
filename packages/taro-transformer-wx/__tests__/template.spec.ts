@@ -15,6 +15,23 @@ describe('Template', () => {
     }).toThrow()
   })
 
+  test('使用 []  access 成员表达式', () => {
+    const { template, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+        return (
+          <View>{this.state.list[this.state.index]}</View>
+        )
+      `, `state = {
+        list:['a','b','c'],
+        index:0
+        }`)
+    })
+
+    // expect(template).toMatch('<scroll-view></scroll-view>')
+  })
+
   test('不支持 spread 表达式', () => {
     expect(() => {
       transform({

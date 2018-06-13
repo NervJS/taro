@@ -10,7 +10,7 @@
 
 #### Taro.request(OBJECT)
 
-发起网络请求。
+发起网络请求，支持 `Promise` 化使用。
 
 **OBJECT 参数说明：**
 
@@ -30,7 +30,7 @@
 
 | 参数 | 类型 | 必填 | 默认值 | 说明 |
 | :-- | :-- | :-- | :-- | :-- |
-| jsonp | String | 否 |  | 使用 jsonp，且使用此值作为回调函数名 |
+| jsonp | String/Boolean | 否 |  | 使用 jsonp，且使用此值作为回调函数名 |
 | cache | Boolean | 否 | false | jsonp 请求 url 是否需要被缓存 |
 | credentials | String | 否 | default | 是否携带 Cookie。有效值：default, no-cache, reload, force-cache, only-if-cached |
 | cache | String | 否 | omit | 缓存模式。有效值：include, same-origin, omit |
@@ -69,9 +69,11 @@ Taro.request({
 
 ### 上传、下载
 
-#### Taro.uploadFile
+#### Taro.uploadFile(OBJECT)
 
-使用方式同 [`wx.uploadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject)，支持 `Promise` 化使用
+使用方式同 [`wx.uploadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject)，支持 `Promise` 化使用。
+
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
@@ -79,9 +81,11 @@ import Taro from '@tarojs/taro'
 const uploadTask = Taro.uploadFile(params).then(...)
 ```
 
-#### Taro.downloadFile
+#### Taro.downloadFile(OBJECT)
 
-使用方式同 [`wx.downloadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject)，支持 `Promise` 化使用
+使用方式同 [`wx.downloadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject)，支持 `Promise` 化使用。
+
+**示例代码：**
 
 ```javascript
 import Taro from '@tarojs/taro'
@@ -264,6 +268,393 @@ SocketTask.onMessage(CALLBACK)
 | Taro.closeSocket | ✔️ |  |  |
 | Taro.onSocketClose | ✔️ |  |  |
 
+## 媒体
+
+### 图片
+
+#### Taro.chooseImage(OBJECT)
+
+使用方式同 [`wx.chooseImage `](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.chooseImage(params).then(...)
+```
+
+#### Taro.previewImage(OBJECT)
+
+使用方式同 [`wx.previewImage`](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxpreviewimageobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.previewImage(params).then(...)
+```
+
+#### Taro.getImageInfo(OBJECT)
+
+使用方式同 [`wx.getImageInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxgetimageinfoobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.getImageInfo(params).then(...)
+```
+
+#### Taro.saveImageToPhotosAlbum(OBJECT)
+
+使用方式同 [`wx.saveImageToPhotosAlbum`](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxsaveimagetophotosalbumobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.saveImageToPhotosAlbum(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.chooseImage | ✔️ |  |  |
+| Taro.previewImage | ✔️ |  |  |
+| Taro.getImageInfo | ✔️ |  |  |
+| Taro.saveImageToPhotosAlbum | ✔️ |  |  |
+
+### 录音
+
+#### Taro.startRecord(OBJECT)
+
+使用方式同 [`wx.startRecord`](https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstartrecordobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.startRecord(params).then(...)
+```
+
+#### Taro.stopRecord()
+
+​主动调用停止录音。
+
+​**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.stopRecord()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.startRecord | ✔️ |  |  |
+| Taro.stopRecord | ✔️ |  |  |
+
+### 录音管理
+
+#### Taro.getRecorderManager()
+
+使用方式同 [`wx.getRecorderManager`](https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const recorderManager = Taro.getRecorderManager()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getRecorderManager | ✔️ |  |  |
+
+### 音频播放控制
+
+#### Taro.playVoice(OBJECT)
+
+使用方式同 [`wx.playVoice`](https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxplayvoiceobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.playVoice(params).then(...)
+```
+
+#### Taro.pauseVoice()
+
+暂停正在播放的语音。再次调用 Taro.playVoice 播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.startRecord(params)
+  .then(res => {
+    const filePath = res.tempFilePath
+    Taro.playVoice({ filePath })
+    
+    setTimeout(Taro.pauseVoice, 5000)
+  })
+```
+
+#### Taro.stopVoice
+
+结束播放语音。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.startRecord(params)
+  .then(res => {
+    const filePath = res.tempFilePath
+    Taro.playVoice({ filePath })
+    
+    setTimeout(Taro.stopVoice, 5000)
+  })
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.playVoice | ✔️ |  |  |
+| Taro.pauseVoice | ✔️ |  |  |
+| Taro.stopVoice | ✔️ |  |  |
+
+### 音乐播放控制
+
+#### Taro.getBackgroundAudioPlayerState(OBJECT)
+
+使用方式同 [`wx.getBackgroundAudioPlayerState`](https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxgetbackgroundaudioplayerstateobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.getBackgroundAudioPlayerState(params).then(...)
+```
+
+#### Taro.playBackgroundAudio(OBJECT)
+
+使用方式同 [`wx.playBackgroundAudio`](https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxplaybackgroundaudioobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.playBackgroundAudio(params).then(...)
+```
+
+#### Taro.pauseBackgroundAudio()
+
+暂停播放音乐。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.pauseBackgroundAudio()
+```
+
+#### Taro.seekBackgroundAudio(OBJECT)
+
+使用方式同 [`wx.seekBackgroundAudio`](https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxseekbackgroundaudioobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.seekBackgroundAudio(params).then(...)
+```
+
+#### Taro.stopBackgroundAudio()
+
+停止播放音乐。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.stopBackgroundAudio()
+```
+
+#### Taro.onBackgroundAudioPlay(CALLBACK)
+
+监听音乐播放。
+
+#### Taro.onBackgroundAudioPause(CALLBACK)
+
+监听音乐暂停。
+
+#### Taro.onBackgroundAudioStop(CALLBACK)
+
+监听音乐停止。
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getBackgroundAudioPlayerState | ✔️ |  |  |
+| Taro.playBackgroundAudio | ✔️ |  |  |
+| Taro.pauseBackgroundAudio | ✔️ |  |  |
+| Taro.seekBackgroundAudio | ✔️ |  |  |
+| Taro.stopBackgroundAudio | ✔️ |  |  |
+| Taro.onBackgroundAudioPlay | ✔️ |  |  |
+| Taro.onBackgroundAudioPause | ✔️ |  |  |
+| Taro.onBackgroundAudioStop | ✔️ |  |  |
+
+### 背景音频播放管理
+
+#### Taro.getBackgroundAudioManager()
+
+使用方式同 [`wx.getBackgroundAudioManager`](https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const backgroundAudioManager = Taro.getBackgroundAudioManager()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getBackgroundAudioManager | ✔️ |  |  |
+
+### 音频组件控制
+
+#### Taro.createAudioContext(audioId, this)
+
+使用方式同 [`wx.createAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-audio.html#wxcreateaudiocontextaudioid)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const audioCtx = Taro.createAudioContext('myAudio')
+```
+
+#### Taro.createInnerAudioContext()
+
+使用方式同 [`wx.createInnerAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const innerAudioContext = Taro.createInnerAudioContext()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.createAudioContext | ✔️ |  |  |
+| Taro.createInnerAudioContext | ✔️ |  |  |
+
+### 视频
+
+#### Taro.chooseVideo(OBJECT)
+
+使用方式同 [`wx.chooseVideo`](https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxchoosevideoobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.chooseVideo(params).then(...)
+```
+
+#### Taro.saveVideoToPhotosAlbum(OBJECT)
+
+使用方式同 [`wx.saveVideoToPhotosAlbum`](https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxsavevideotophotosalbumobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.saveVideoToPhotosAlbum(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.chooseVideo | ✔️ |  |  |
+| Taro.saveVideoToPhotosAlbum | ✔️ |  |  |
+
+### 视频组件控制
+
+#### Taro.createVideoContext(videoId, this)
+
+使用方式同 [`wx.createVideoContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-video.html#wxcreatevideocontextvideoid)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const videoContext = Taro.createVideoContext('myVideo')
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.createVideoContext | ✔️ |  |  |
+
+### 相机组件控制
+
+#### Taro.createCameraContext(this)
+
+使用方式同 [`wx.createCameraContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-camera.html)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const cameraContext = Taro.createCameraContext()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.createCameraContext | ✔️ |  |  |
+
+## 文件
+
 ## 数据缓存
 
 #### Taro.setStorage(OBJECT)
@@ -381,7 +772,7 @@ Taro.getStorageInfo()
   .then(res => console.log(res.keys))
 ```
 
-#### Taro.getStorageInfoSync
+#### Taro.getStorageInfoSync()
 
 同步获取当前storage的相关信息。
 
