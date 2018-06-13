@@ -60,7 +60,8 @@ function resetThisState () {
 
 function generateAnonymousState (
   scope: Scope,
-  expression: NodePath<t.Expression>
+  expression: NodePath<t.Expression>,
+  refIds: Set<t.Identifier>
 ) {
   const variableName = `anonymousState_${scope.generateUid()}`
   const statementParent = expression.getStatementParent()
@@ -70,6 +71,7 @@ function generateAnonymousState (
   statementParent.insertBefore(
     buildConstVariableDeclaration(variableName, expression.node)
   )
+  refIds.add(t.identifier(variableName))
   expression.replaceWith(
     t.identifier(variableName)
   )
@@ -194,10 +196,10 @@ class Transformer {
             t.isIdentifier(node.callee.property) &&
             node.callee.property.name === 'bind')
           ) {
-            generateAnonymousState(scope, expression)
+            generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
           }
         } else if (hasComplexExpression(expression)) {
-          generateAnonymousState(scope, expression)
+          generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
         }
       },
       JSXElement (path) {

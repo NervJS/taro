@@ -830,9 +830,11 @@ export class RenderParser {
     .filter(i => !this.templates.has(i))
     const classPath = this.renderPath.findParent(p => p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
     classPath.node.body.body.unshift(t.classProperty(t.identifier('$usedState'), t.arrayExpression(
-      usedState
+      [...new Set(
+        usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .concat(Array.from(this.customComponentNames))
+      )]
         .map(s => t.stringLiteral(s))
     )))
   }
