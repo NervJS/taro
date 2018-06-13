@@ -4,7 +4,7 @@
   "description": "Redux for Taro",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "rollup -c rollup.config.js"
   },
   "repository": {
@@ -15,5 +15,10 @@
     "taro"
   ],
   "author": "luckyadam",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
+    "jest": "^23.1.0"
+  }
 }
