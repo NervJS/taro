@@ -4,7 +4,6 @@
 
 import * as React from 'react'
 import {
-  Picker,
   Modal,
   TouchableWithoutFeedback,
   Platform,

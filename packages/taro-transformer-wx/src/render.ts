@@ -833,6 +833,7 @@ export class RenderParser {
       [...new Set(
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
+        .filter(i => i !== MAP_CALL_ITERATOR && i !== 'state' && i !== 'props')
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
@@ -852,7 +853,7 @@ export class RenderParser {
       .filter(i => !this.initState.has(i))
       .filter(i => !this.templates.has(i))
       .filter(i => !i.includes('.'))
-      .filter(i => i !== MAP_CALL_ITERATOR)
+      .filter(i => i !== MAP_CALL_ITERATOR && i !== 'state' && i !== 'props')
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     )
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(

@@ -16,6 +16,7 @@ class Swiper extends Nerv.Component {
       current: this.props.current
     }
     this.isSliding = false
+    this.SwiperTimer = null
   }
 
   initSwiper (nextProps) {
@@ -324,6 +325,16 @@ class Swiper extends Nerv.Component {
 
   componentDidMount () {
     this.initSwiper()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {interval, autoplay} = nextProps
+    this.pauseAutoPlay()
+    if (!autoplay) return
+
+    this.SwiperTimer = setInterval(() => {
+      this.slideNext('aotuplay')
+    }, interval)
   }
 
   componentWillUnmount () {

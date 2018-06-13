@@ -26,6 +26,8 @@
     "babel-jest": "^22.4.3",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "^4.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-flowtype": "^2.46.1",
@@ -39,6 +41,10 @@
     "jest": "^22.4.3",
     "jest-react-native": "^18.0.0",
     "pre-commit": "^1.2.2",
-    "react-test-renderer": "^16.2.0"
+    "react": "^16.2.0",
+    "react-native": "^0.54.3",
+    "react-native-mock-render": "0.0.25",
+    "react-test-renderer": "^16.2.0",
+    "sinon": "^6.0.0"
   }
 }

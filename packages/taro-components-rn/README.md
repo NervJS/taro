@@ -48,7 +48,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [ ] form
   - [x] input | PS
   - [ ] label
-  - [ ] picker | 
+  - [x] picker | PS
   - [x] radio | FS
   - [x] slider | PS
   - [x] switch | FS
@@ -64,8 +64,8 @@ cp -rf src AwesomeProjectDir/src/tcr
 
 ## pureDependencies
 
-- react
-- react-native
+- react: ^16.2.0
+- react-native: ^0.54.3
 
 ## D~
 

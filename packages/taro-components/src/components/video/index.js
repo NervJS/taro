@@ -18,19 +18,19 @@ class Video extends Nerv.Component {
           currentTime: e.srcElement.currentTime
         }
       })
-      this.props.onTimeupdate(e)
+      this.props.onTimeupdate && this.props.onTimeupdate(e)
     })
 
     this.video.addEventListener('ended', (e) => {
-      this.props.onEnded(e)
+      this.props.onEnded && this.props.onEnded(e)
     })
 
     this.video.addEventListener('play', (e) => {
-      this.props.onPlay(e)
+      this.props.onPlay && this.props.onPlay(e)
     })
 
     this.video.addEventListener('pause', (e) => {
-      this.props.onPause(e)
+      this.props.onPause && this.props.onPause(e)
     })
 
     // 网络错误
@@ -39,7 +39,7 @@ class Video extends Nerv.Component {
         enumerable: true,
         value: {errMsg: e.srcElement.error.code}
       })
-      this.props.onError(e)
+      this.props.onError && this.props.onError(e)
     })
   }
 

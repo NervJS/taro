@@ -113,4 +113,5 @@ class _View extends React.Component<Props, State> {
   }
 }
 
+export { _View }
 export default Clickable(_View)
