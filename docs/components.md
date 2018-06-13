@@ -22,5 +22,33 @@ export default class C extends Component {
     )
   }
 }
-
 ```
+
+## 注意
+
+在组件的详细文档中列出了组件在不同端的支持程度，以及基本的使用示例。 部分未列出示例的，标明仅在小程序端支持的组件的用法可以直接参考[小程序组件文档](https://developers.weixin.qq.com/miniprogram/dev/component/)。
+
+需要注意的是仍需遵循 Taro 的开发规范：
+
+### 首字母大写与驼峰式命名
+
+例如使用H5端尚未支持 map 组件
+
+```jsx
+import Taro, { Component } from '@tarojs/taro'
+// 引入 map 组件
+import { Map } from '@tarojs/components'
+
+class App extends Components {
+	handleTap () {}
+	render () {
+		return (
+			<Map onTap={this.handleTap} />
+		)
+	}
+}
+```
+
+### 组件的事件传递都要以 on 开头
+
+在微信小程序中 bindTap 这样的用法，都需要转成以 on 开头的形式。

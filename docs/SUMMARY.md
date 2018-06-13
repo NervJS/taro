@@ -25,10 +25,13 @@
     * [View](components/viewContainer/view.md)
     * [ScrollView](components/viewContainer/scroll-view.md)
     * [Swiper](components/viewContainer/swiper.md)
+    * [MovableView](components/viewContainer/movable-view.md)
+    * [CoverView](components/viewContainer/cover-view.md)
   * 基础内容
     * [Icon](components/base/icon.md)
     * [Text](components/base/text.md)
     * [Progress](components/base/progress.md)
+    * [RichText](components/base/rich-text.md)
   * 表单组件
     * [Button](components/forms/button.md)
     * [Checkbox](components/forms/checkbox.md)
@@ -48,6 +51,8 @@
     * [Image](components/media/image.md)
     * [Video](components/media/video.md)
     * [Camera](components/media/camera.md)
+  * 地图
+    * [Map](components/maps/map.md)
 * API
   * [Taro.Component](component.md)
   * [Taro.Events](events.md)
