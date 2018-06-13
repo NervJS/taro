@@ -135,6 +135,22 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
     TaggedTemplateExpression (p) {
       matched = true
       p.stop()
+    },
+    MemberExpression (path) {
+      const jsxElement = path.findParent(p => p.isJSXExpressionContainer())
+      const object = path.get('object')
+      const property = path.get('property')
+      const parentPath = path.parentPath
+      if (
+        jsxElement &&
+        object.isThisExpression() &&
+        property.isIdentifier({ name: 'state' }) &&
+        parentPath.isMemberExpression() &&
+        parentPath.parentPath.isMemberExpression()
+      ) {
+        matched = true
+        path.stop()
+      }
     }
   })
   return matched
