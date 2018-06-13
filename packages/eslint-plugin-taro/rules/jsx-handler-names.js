@@ -28,7 +28,7 @@ module.exports = {
 
         const propIsEventHandler = PROP_EVENT_HANDLER_REGEX.test(propKey)
 
-        if (propIsEventHandler) {
+        if (!propIsEventHandler) {
           context.report({
             node: node,
             message: ERROR_MESSAGE

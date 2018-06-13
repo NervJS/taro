@@ -1,9 +1,11 @@
 import { getStore } from '../utils/store'
+import { mergeObjects } from '../utils'
 
 export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
   const initMapDispatch = typeof mapDispatchToProps === 'function' ? mapDispatchToProps(dispatch) : {}
+  initMapDispatch.dispatch = dispatch;
 
   const stateListener = function () {
     let isChanged = false
@@ -25,7 +27,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     let unSubscribe = null
     return class Connect extends Component {
       constructor () {
-        super(Object.assign(...arguments, mapStateToProps(store.getState()), initMapDispatch))
+        super(Object.assign(...arguments, mergeObjects(mapStateToProps(store.getState()), initMapDispatch)))
         Object.keys(initMapDispatch).forEach(key => {
           this[`__event_${key}`] = initMapDispatch[key]
         })
