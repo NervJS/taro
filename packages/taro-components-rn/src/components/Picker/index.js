@@ -39,7 +39,6 @@ import {
   TimePickerAndroid,
   Platform,
   TouchableWithoutFeedback,
-  StyleSheet,
 } from 'react-native'
 import PickerSelector from './Selector'
 import PickerMultiSelector from './MultiSelector'

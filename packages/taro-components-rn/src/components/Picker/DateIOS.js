@@ -29,8 +29,8 @@ class _PickerDateIOS extends React.Component<Props, State> {
     super(props)
   }
 
-  getDateValueFromProps = (mode: string, dateOrTime: ?string) => {
-    if (!dateOrTime) return new Date()
+  getDateValueFromProps = (mode: string, dateOrTime: ?string, isDefaultNow: ?boolean) => {
+    if (!dateOrTime) return isDefaultNow && new Date()
     if (mode === 'date') return new Date(dateOrTime)
     const now = new Date()
     return new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${dateOrTime}`)
@@ -38,7 +38,7 @@ class _PickerDateIOS extends React.Component<Props, State> {
 
   state: State = {
     isShowDialog: false,
-    date: this.getDateValueFromProps(this.props.mode, this.props.value),
+    date: this.getDateValueFromProps(this.props.mode, this.props.value, true),
   }
 
   fillZero = (strOrNum: string | number) => {
