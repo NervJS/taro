@@ -29,7 +29,6 @@ describe('Template', () => {
           index:0
           }`)
       })
-      console.log(code)
       expect(template).toMatch('anonymousState__temp')
     })
 

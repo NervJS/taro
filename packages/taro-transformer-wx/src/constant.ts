@@ -30,6 +30,7 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Swiper',
   'MovableView',
   'CoverView',
+  'CoverImage',
   'Icon',
   'Text',
   'RichText',
