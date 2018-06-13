@@ -16,10 +16,22 @@ class Switch extends Nerv.Component {
     this.state = {
       checked: this.props.checked
     }
+    this.switchChange = this.switchChange.bind(this)
+  }
+
+  switchChange (e) {
+    const { onChange } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.checked
+      }
+    })
+    onChange(e)
   }
 
   render () {
-    const { onChange, type = 'switch', className } = this.props
+    const { type = 'switch', className } = this.props
     const cls = classNames(
       {
         [`weui-${parseType(type)}`]: true
@@ -32,7 +44,7 @@ class Switch extends Nerv.Component {
         className={cls}
         checked={this.state.checked}
         type='checkbox'
-        onChange={onChange}
+        onChange={this.switchChange}
       />
     )
   }

@@ -54,6 +54,8 @@ class Slider extends Nerv.Component {
 
     parseType(this.props)
 
+    this.sliderInsRef = ''
+
     this.state = {
       value: this.props.value ? this.props.value : 0,
       controlled: typeof this.props.value !== 'undefined',
@@ -119,7 +121,7 @@ class Slider extends Nerv.Component {
 
   handleTouchStart (e) {
     if (this.state.touching || this.props.disabled) return
-    let barDOM = Nerv.findDOMNode(this.refs.bar)
+    let barDOM = Nerv.findDOMNode(this.sliderInsRef)
     this.setState({
       touching: true,
       touchId: e.targetTouches[0].identifier,
@@ -217,7 +219,7 @@ class Slider extends Nerv.Component {
     return (
       <div className={cls}>
         <div className='weui-slider'>
-          <div className='weui-slider__inner' style={innerStyles} ref='bar'>
+          <div className='weui-slider__inner' style={innerStyles} ref={c => (this.sliderInsRef = c)}>
             <div style={trackStyles} className='weui-slider__track' />
             <div
               style={handlerStyles}
