@@ -24,6 +24,10 @@ module.exports = function (creater, params, helper, cb) {
     projectName,
     version
   })
+  creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
+    description,
+    projectName
+  })
   creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
@@ -56,6 +60,7 @@ module.exports = function (creater, params, helper, cb) {
     if (useNpmrc) console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.npmrc`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/package.json`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.eslintrc`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/project.config.json`)}`)
     console.log()
     const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
     process.chdir(projectName)
