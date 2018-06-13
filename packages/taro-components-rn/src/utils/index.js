@@ -62,5 +62,6 @@ export const parseStyles = function (styles = '') {
 
 export default {
   omit,
-  dismemberStyle
+  dismemberStyle,
+  parseStyles
 }
