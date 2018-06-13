@@ -167,7 +167,7 @@
 
 #### 获取位置
 
-☑️ wx.getLocation
+✅ wx.getLocation
 
 ❌ wx.chooseLocation
 
