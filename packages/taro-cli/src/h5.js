@@ -516,7 +516,8 @@ function buildTemp () {
   })
 }
 
-async function buildDist ({ watch }) {
+async function buildDist (buildConfig) {
+  const { watch, webpack } = buildConfig
   const entry = {
     app: path.join(tempPath, CONFIG.ENTRY)
   }
@@ -531,7 +532,7 @@ async function buildDist ({ watch }) {
     h5Config.isWatch = true
   }
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
-  webpackRunner(h5Config)
+  webpackRunner(h5Config, webpack)
 }
 
 function clean () {
@@ -542,15 +543,13 @@ function clean () {
   })
 }
 
-async function build ({ watch }) {
+async function build (buildConfig) {
   await clean()
-  await buildTemp()
-  await buildDist({ watch })
-  if (watch) {
+  await buildTemp(buildConfig)
+  await buildDist(buildConfig)
+  if (buildConfig.watch) {
     watchFiles()
   }
 }
 
-module.exports = {
-  build
-}
+module.exports = { build }

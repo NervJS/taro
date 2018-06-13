@@ -32,4 +32,8 @@ if (watch) {
 } else {
   process.env.NODE_ENV = 'production'
 }
-build(args, { type, watch })
+
+build(args, Object.assign(projectConf, {
+  type,
+  watch
+}))
