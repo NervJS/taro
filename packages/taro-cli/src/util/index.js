@@ -6,14 +6,20 @@ const execSync = require('child_process').execSync
 const chalk = require('chalk')
 
 const pocessTypeEnum = {
+  CREATE: 'create',
   COMPILE: 'compile',
   COPY: 'copy',
   GENERATE: 'generate',
   MODIFY: 'modify',
-  ERROR: 'error'
+  ERROR: 'error',
+  WARNING: 'warning'
 }
 
 const processTypeMap = {
+  [pocessTypeEnum.CREATE]: {
+    name: '创建',
+    color: 'cyan'
+  },
   [pocessTypeEnum.COMPILE]: {
     name: '编译',
     color: 'green'
@@ -33,6 +39,10 @@ const processTypeMap = {
   [pocessTypeEnum.ERROR]: {
     name: '错误',
     color: 'red'
+  },
+  [pocessTypeEnum.WARNING]: {
+    name: '警告',
+    color: 'yellow'
   }
 }
 

@@ -682,6 +682,8 @@ async function buildSinglePage (page) {
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(babelConfig, res.scriptFiles)
     }
+    console.log(fileDep['style'])
+    console.log(res.styleFiles)
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${outputDirName}/${page}.wxss`)
@@ -760,6 +762,7 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
           resContent = cssoResult.css
         }
       }
+      fs.ensureDirSync(path.dirname(outputFilePath))
       fs.writeFileSync(outputFilePath, resContent)
     } catch (err) {
       console.log(err)
@@ -998,12 +1001,23 @@ function watchFiles () {
             Util.printLog(Util.pocessTypeEnum.MODIFY, '组件文件', outoutShowFilePath)
             await buildSingleComponent(filePath)
           } else {
+            let isImported = false
+            for (const key in dependencyTree) {
+              const scripts = dependencyTree[key].script || []
+              if (scripts.indexOf(filePath) >= 0) {
+                isImported = true
+              }
+            }
             let modifySource = filePath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
-            Util.printLog(Util.pocessTypeEnum.MODIFY, '组件文件', modifySource)
-            const babelConfig = pluginsConfig.babel
-            babelConfig && (babelConfig.babelrc = false)
-            compileDepScripts(babelConfig, [filePath])
+            if (isImported) {
+              Util.printLog(Util.pocessTypeEnum.MODIFY, 'JS文件', modifySource)
+              const babelConfig = pluginsConfig.babel
+              babelConfig && (babelConfig.babelrc = false)
+              compileDepScripts(babelConfig, [filePath])
+            } else {
+              Util.printLog(Util.pocessTypeEnum.WARNING, 'JS文件', `${modifySource} 没有被引用到，不会被编译`)
+            }
           }
         }
       } else if (Util.REG_STYLE.test(extname)) {
