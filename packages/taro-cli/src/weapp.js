@@ -1035,7 +1035,7 @@ function watchFiles () {
                 setTimeout(async () => {
                   await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
                   resolve()
-                }, 150)
+                }, 300)
               })
             } else {
               await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
@@ -1056,7 +1056,7 @@ function watchFiles () {
               setTimeout(async () => {
                 await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
                 resolve()
-              }, 150)
+              }, 300)
             })
           } else {
             await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
