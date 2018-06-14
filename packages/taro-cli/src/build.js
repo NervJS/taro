@@ -7,7 +7,8 @@ const CONFIG = require('./config')
 
 const appPath = process.cwd()
 
-function build (args, { type, watch }) {
+function build (args, buildConfig) {
+  const { type, watch } = buildConfig
   const outputPath = path.join(appPath, CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
@@ -16,7 +17,7 @@ function build (args, { type, watch }) {
   }
   switch (type) {
     case Util.BUILD_TYPES.H5:
-      buildForH5({ watch })
+      buildForH5(buildConfig)
       break
     case Util.BUILD_TYPES.WEAPP:
       buildForWeapp({ watch })
@@ -33,8 +34,8 @@ function buildForWeapp ({ watch }) {
   require('./weapp').build({ watch })
 }
 
-function buildForH5 ({ watch }) {
-  require('./h5').build({ watch })
+function buildForH5 (buildConfig) {
+  require('./h5').build(buildConfig)
 }
 
 function buildForRN ({ watch }) {

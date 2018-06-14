@@ -1919,19 +1919,241 @@ Taro.getConnectedWifi(params).then(...)
 | Taro.showModal | ✔️ | ✔️ | ✔️ |
 | Taro.showActionSheet | ✔️ | ✔️ | ✔️ |
 
+### 设置导航条
+
+#### Taro.setNavigationBarTitle(OBJECT)
+
+使用方式同 [`wx.setNavigationBarTitle`](https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsettopbartextobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setNavigationBarTitle(params).then(...)
+```
+
+#### Taro.showNavigationBarLoading()
+
+在当前页面显示导航条加载动画。
+
+#### Taro.hideNavigationBarLoading()
+
+隐藏导航条加载动画。
+
+#### Taro.setNavigationBarColor(OBJECT)
+
+使用方式同 [`wx.setNavigationBarColor`](https://developers.weixin.qq.com/miniprogram/dev/api/setNavigationBarColor.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setNavigationBarColor(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.setNavigationBarTitle | ✔️ |  |  |
+| Taro.showNavigationBarLoading | ✔️ |  |  |
+| Taro.hideNavigationBarLoading | ✔️ |  |  |
+| Taro.setNavigationBarColor | ✔️ |  |  |
+
+### 设置tabBar
+
+#### Taro.setTabBarBadge(OBJECT)
+
+使用方式同 [`wx.setTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarbadgeobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setTabBarBadge(params).then(...)
+```
+
+#### Taro.removeTabBarBadge(OBJECT)
+
+使用方式同 [`wx.removeTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxremovetabbarbadgeobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.removeTabBarBadge(params).then(...)
+```
+
+#### Taro.showTabBarRedDot(OBJECT)
+
+使用方式同 [`wx.showTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarreddotobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.showTabBarRedDot(params).then(...)
+```
+
+#### Taro.hideTabBarRedDot(OBJECT)
+
+使用方式同 [`wx.hideTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarreddotobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.hideTabBarRedDot(params).then(...)
+```
+
+#### Taro.setTabBarStyle(OBJECT)
+
+使用方式同 [`wx.setTabBarStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarstyleobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setTabBarStyle(params).then(...)
+```
+
+#### Taro.setTabBarItem(OBJECT)
+
+使用方式同 [`wx.setTabBarItem`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbaritemobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setTabBarItem(params).then(...)
+```
+
+#### Taro.showTabBar(OBJECT)
+
+使用方式同 [`wx.showTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.showTabBar(params).then(...)
+```
+
+#### Taro.hideTabBar(OBJECT)
+
+使用方式同 [`wx.hideTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.hideTabBar(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.setTabBarBadge | ✔️ |  |  |
+| Taro.removeTabBarBadge | ✔️ |  |  |
+| Taro.showTabBarRedDot | ✔️ |  |  |
+| Taro.hideTabBarRedDot | ✔️ |  |  |
+| Taro.setTabBarStyle | ✔️ |  |  |
+| Taro.setTabBarItem | ✔️ |  |  |
+| Taro.showTabBar | ✔️ |  |  |
+| Taro.hideTabBar | ✔️ |  |  |
+
+### 设置置顶信息
+
+#### Taro.setTopBarText(OBJECT)
+
+使用方式同 [`wx.setTopBarText`](https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsettopbartextobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.setTopBarText(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.setTopBarText | ✔️ |  |  |
+
 ### 导航
 
-#### Taro.navigateTo
+#### Taro.navigateTo(OBJECT)
 
-使用方式同 [`wx.navigateTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html)
+使用方式同 [`wx.navigateTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html)，支持 `Promise` 化使用。
 
-#### Taro.redirectTo
+**示例代码：**
 
-使用方式同 [`wx.redirectTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject)
+```javascript
+import Taro from '@tarojs/taro'
 
-#### Taro.navigateBack
+Taro.navigateTo(params).then(...)
+```
 
-使用方式同 [`wx.navigateBack`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject)
+#### Taro.redirectTo(OBJECT)
+
+使用方式同 [`wx.redirectTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.redirectTo(params).then(...)
+```
+
+#### Taro.switchTab(OBJECT)
+
+使用方式同 [`wx.switchTab`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxswitchtabobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.switchTab(params).then(...)
+```
+
+#### Taro.navigateBack(OBJECT)
+
+使用方式同 [`wx.navigateBack`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+wx.navigateBack({ delta: 2 })
+```
+
+#### Taro.reLaunch(OBJECT)
+
+使用方式同 [`wx.reLaunch`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxrelaunchobject)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.reLaunch(params).then(...)
+```
 
 > API 支持度
 
@@ -1939,7 +2161,109 @@ Taro.getConnectedWifi(params).then(...)
 | :-: | :-: | :-: | :-: |
 | Taro.navigateTo | ✔️ | ✔️ | ✔️ |
 | Taro.redirectTo | ✔️ | ✔️ | ✔️ |
+| Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
+| Taro.reLaunch | ✔️ |  | ✔️ |
+
+### 动画
+
+#### Taro.createAnimation(OBJECT)
+
+使用方式同 [`wx.createAnimation`](https://developers.weixin.qq.com/miniprogram/dev/api/api-animation.html#wxcreateanimationobject)。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+const animation = Taro.createAnimation({
+  transformOrigin: "50% 50%",
+  duration: 1000,
+  timingFunction: "ease",
+  delay: 0
+})
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.createAnimation | ✔️ |  |  |
+
+### 位置
+
+#### Taro.pageScrollTo(OBJECT)
+
+使用方式同 [`wx.pageScrollTo`](https://developers.weixin.qq.com/miniprogram/dev/api/scroll.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.pageScrollTo(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.pageScrollTo | ✔️ |  |  |
+
+### 绘图
+
+#### Taro.createCanvasContext(canvasId, this)
+
+使用方式同 [`wx.createCanvasContext`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/create-canvas-context.html)。
+
+#### Taro.createContext(不推荐使用)
+
+创建并返回绘图上下文。
+
+#### Taro.drawCanvas(不推荐使用)
+
+使用方式同 [`wx.drawCanvas`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/draw-canvas.html)。
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.createCanvasContext | ✔️ |  |  |
+| Taro.createContext | ✔️ |  |  |
+| Taro.drawCanvas | ✔️ |  |  |
+
+### 下拉刷新
+
+#### Taro.startPullDownRefresh(OBJECT)
+
+使用方式同 [`wx.startPullDownRefresh`](https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstartpulldownrefresh)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.startPullDownRefresh(params).then(...)
+```
+
+#### Taro.stopPullDownRefresh()
+
+停止当前页面下拉刷新。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.stopPullDownRefresh()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.startPullDownRefresh | ✔️ |  |  |
+| Taro.stopPullDownRefresh | ✔️ |  |  |
 
 ### WXML节点信息
 

@@ -238,7 +238,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
           const outputVpath = vpath.replace(sourceDir, outputDir)
           let relativePath = path.relative(filePath, outputVpath)
-          if (vpath) {
+          if (vpath && vpath !== sourceFilePath) {
             if (!fs.existsSync(vpath)) {
               Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
             } else {
