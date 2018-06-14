@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { shallow } from 'enzyme'
 import { Icon } from '../src'
-import renderer from 'react-test-renderer'
+// import renderer from 'react-test-renderer'
 
 describe('<Icon />', () => {
   const TestedIcon = (
