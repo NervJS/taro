@@ -2,7 +2,8 @@
 
 Alo, alo! Bilibilibilibibili~
 
-> IOS: Remember to link the libART.a into your project if you want to use Icon.
+> IOS: 如果你要用到 `Icon`，请先把 `libART.a` 引进去，步骤如下：
+> `open ios/AwesomeProject.xcodeproj` 在xcode中打开项目，拖拽 `node_modules/react-native/Libraries/ART/ART.xcodeproj` 到左侧栏的 `Libraries` 下；选中项目左侧栏中的根节点，然后在 `Build Phases` 中 `Link Binary with Libraries` 添加 `libART.a`
 
 ## Capture
 
