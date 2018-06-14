@@ -29,6 +29,7 @@
     "babel-template": "^6.26.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
+    "babel-plugin-danger-remove-unused-import": "^1.0.13",
     "babylon": "^6.18.0",
     "chalk": "^2.3.2",
     "chokidar": "^2.0.3",
