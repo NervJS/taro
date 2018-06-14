@@ -4,9 +4,9 @@
     "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }]
   },
   "parser": "babel-eslint",
-  globals: {
-    wx: true,
-    getApp: true,
-    getCurrentPages: true
-   }
+  "globals": {
+    "wx": true,
+    "getApp": true,
+    "getCurrentPages": true
+  }
 }
