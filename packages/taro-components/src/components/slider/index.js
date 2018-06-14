@@ -95,7 +95,9 @@ class Slider extends Nerv.Component {
     let percent = this.state.percent
     let { min, max, step } = this.props
     let steps = parseInt((max - min) / step)
-    let perPercent = parseInt(100 / steps)
+    let per = 100 / steps
+    if (per < 1) per = 1
+    let perPercent = parseInt(per)
 
     if (percent === 100) {
       value = max
@@ -111,7 +113,6 @@ class Slider extends Nerv.Component {
         }
       }
     }
-
     if (value !== this.state.value) {
       this.setState({ value })
       return true
@@ -132,7 +133,7 @@ class Slider extends Nerv.Component {
   }
 
   handleTouchMove (e) {
-    let { onChange, onChanging } = this.props
+    let { onChanging } = this.props
     if (!this.state.touching || this.props.disabled) return
     if (e.targetTouches[0].identifier !== this.state.touchId) return
 
@@ -161,7 +162,6 @@ class Slider extends Nerv.Component {
               value: percent
             }
           })
-          if (onChange) onChange(e)
           if (onChanging) onChanging(e)
         }
       }
@@ -172,11 +172,15 @@ class Slider extends Nerv.Component {
       return
     }
 
+    let { onChange } = this.props
+
     this.setState({
       touching: false,
       ogX: 0,
       touchId: false,
       ogPercent: 0
+    }, () => {
+      if (onChange) onChange(e)
     })
   }
 
