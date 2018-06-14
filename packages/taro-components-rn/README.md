@@ -71,3 +71,8 @@ cp -rf src AwesomeProjectDir/src/tcr
 ## D~
 
 [flow type annotation for children react elements](https://stackoverflow.com/a/42887802)
+
+## 开发者日志
+
+- 2018-06-14：`sdkmanager "system-images;android-28;default;x86_64" --proxy_host=mirrors.zzu.edu.cn --proxy_port=80 --proxy=http --no_https` 即将开始安卓的测试。
+- 2018-06-13：换了新 MAC，测试用的 react-native-app 创建的 AwesomeProject 竟然跑不起来，这段时间应该有更新了，折腾半天，发现 package.json 有个 eject 命令，而且相比在原来的文件少了 ios 和 android 等目录，取而代之的是一个 .expo 文件夹，果然执行 eject 命令后，就可以正常跑起来了。
