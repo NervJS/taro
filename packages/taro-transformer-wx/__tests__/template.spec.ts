@@ -1,5 +1,5 @@
 import transform from '../src'
-import { buildComponent, baseOptions } from './utils'
+import { buildComponent, baseOptions, evalClass } from './utils'
 
 describe('Template', () => {
 
@@ -16,8 +16,8 @@ describe('Template', () => {
   })
 
   describe('使用 [] 获取成员表达式', () => {
-    test('可以直接使用', () => {
-      const { template, code } = transform({
+    test('可以直接使用 this.state ', () => {
+      const { template, ast } = transform({
         ...baseOptions,
         isRoot: true,
         code: buildComponent(`
@@ -30,9 +30,12 @@ describe('Template', () => {
           }`)
       })
       expect(template).toMatch('anonymousState__temp')
+
+      const instance = evalClass(ast)
+      expect(instance.state.anonymousState__temp).toBe('a')
     })
 
-    test('', () => {
+    test('可以使用 props ', () => {
       const { template } = transform({
         ...baseOptions,
         isRoot: true,
@@ -45,6 +48,28 @@ describe('Template', () => {
           index:0
           }`)
       })
+
+      expect(template).toMatch('anonymousState__temp')
+    })
+
+    test('使用标识符', () => {
+      const { template, code, ast } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { list, index } = this.state
+          return (
+            <View>{list[index]}</View>
+          )
+        `, `state = {
+          list:['a','b','c'],
+          index:0
+          }; static defaultProps = { index: 0 }`)
+      })
+
+      const instance = evalClass(ast)
+      expect(template).not.toMatch('anonymousState__temp')
+      expect(instance.$usedState).toEqual(['list', 'index'])
 
     })
   })
