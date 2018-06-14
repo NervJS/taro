@@ -3,6 +3,7 @@
 .swiper {
   position: relative;
   overflow: hidden;
+  height: 150px;
 
   &_wrapper {
     position: relative;
@@ -13,8 +14,8 @@
   &_item {
     float: left;
     img {
-      width: 100%;
-      height: auto;
+      width: 320px;
+      height: 240px;
     }
   }
 }

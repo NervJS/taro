@@ -86,9 +86,7 @@ class _Button extends React.Component<Props, State> {
   }
 
   componentDidMount () {
-    if (this.props.loading) {
-      this.animate()
-    }
+    this.animate()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -96,6 +94,24 @@ class _Button extends React.Component<Props, State> {
       this.animate()
     }
   }
+
+  // eslint-disable-next-line camelcase
+  // UNSAFE_componentWillReceiveProps (nextProps: Props) {
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+  //   console.log(!this.props, nextProps)
+
+  //   if (!this.props.loading && nextProps.loading) {
+  //     this.animate()
+  //   }
+  // }
 
   render () {
     const {
@@ -118,7 +134,7 @@ class _Button extends React.Component<Props, State> {
     }
     // Use themeColorMap normally as PLAIN is false (by default),
     // otherwise use rgb(53,53,53) for plain-default-type particularly.
-    const themeColor = plain && isDefaultType ? `rgba(53,53,53,${disabled ? 0.6 : 1})` : themeColorMap[type][disabled ? 1 : 0]
+    const themeColor = plain && isDefaultType ? `rgba(53,53,53,${ disabled ? 0.6 : 1 })` : themeColorMap[type][disabled ? 1 : 0]
     const backgroundColor = plain ? 'transparent' : themeColor
     const borderStyle = plain && { borderWidth: 1, borderColor: themeColor }
     const textColor = plain
