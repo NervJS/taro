@@ -39,6 +39,13 @@ return (
 )
 `
 
+export function removeShadowData (obj: any) {
+  if (obj['__data']) {
+    delete obj['__data']
+  }
+  return obj
+}
+
 export const baseOptions = {
   isRoot: false,
   isApp: false,

@@ -23,11 +23,13 @@ import {
   parseJSXElement,
   generateHTMLTemplate
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR } from './constant'
+import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE } from './constant'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
+
+const calleeId = incrementId()
 
 function isContainStopPropagation (path: NodePath<t.Node>) {
   let matched = false
@@ -156,18 +158,18 @@ export class RenderParser {
         this.jsxDeclarations.add(statementParent)
         if (t.isReturnStatement(parentNode)) {
           if (!isFinalReturn) {
-            const caller = parentPath.findParent(p => p.isCallExpression())
-            if (caller.isCallExpression()) {
-              const callee = caller.node.callee
+            const callExpr = parentPath.findParent(p => p.isCallExpression())
+            if (callExpr.isCallExpression()) {
+              const callee = callExpr.node.callee
               if (
                 t.isMemberExpression(callee) &&
                 t.isIdentifier(callee.property) &&
                 callee.property.name === 'map'
               ) {
                 let ary = callee.object
-                if (t.isCallExpression(ary) || isContainFunction(caller.get('callee').get('object'))) {
-                  const variableName = `anonymousState_${this.renderScope.generateUid()}`
-                  caller.getStatementParent().insertBefore(
+                if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
+                  const variableName = `anonymousCallee_${calleeId()}`
+                  callExpr.getStatementParent().insertBefore(
                     buildConstVariableDeclaration(variableName, ary)
                   )
                   ary = t.identifier(variableName)
@@ -181,7 +183,7 @@ export class RenderParser {
                   this.referencedIdentifiers.add(ary)
                 }
                 setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
-                const [func] = caller.node.arguments
+                const [func] = callExpr.node.arguments
                 if (
                   t.isFunctionExpression(func) ||
                   t.isArrowFunctionExpression(func)
@@ -211,7 +213,7 @@ export class RenderParser {
                     )
                     this.loopScopes.add(index.name)
                   }
-                  this.loopComponents.set(caller, jsxElementPath)
+                  this.loopComponents.set(callExpr, jsxElementPath)
                   // caller.replaceWith(jsxElementPath.node)
                   if (statementParent) {
                     const name = findIdentifierFromStatement(
@@ -724,7 +726,7 @@ export class RenderParser {
           for (const [ index, statement ] of body.entries()) {
             if (t.isVariableDeclaration(statement)) {
               for (const dcl of statement.declarations) {
-                if (t.isIdentifier(dcl.id) && dcl.id.name.startsWith('anonymousState_')) {
+                if (t.isIdentifier(dcl.id) && dcl.id.name.startsWith(LOOP_STATE)) {
                   const name = dcl.id.name
                   stateToBeAssign.add(name)
                   dcl.id = t.identifier(name)
