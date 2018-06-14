@@ -27,7 +27,7 @@ class Switch extends Nerv.Component {
         value: e.target.checked
       }
     })
-    onChange(e)
+    onChange && onChange(e)
   }
 
   render () {
