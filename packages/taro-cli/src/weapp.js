@@ -42,6 +42,7 @@ let appConfig = {}
 const dependencyTree = {}
 const depComponents = {}
 const hasBeenBuiltComponents = []
+const componentsBuildResult = {}
 const wxssDepTree = {}
 let isBuildingScripts = {}
 let isBuildingStyles = {}
@@ -634,7 +635,6 @@ async function buildSinglePage (page) {
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageJs, outputPageJSPath)
     const babelConfig = pluginsConfig.babel
     const pageDepComponents = transformResult.components
-    depComponents[pageJs] = pageDepComponents
     babelConfig && (babelConfig.babelrc = false)
     let resCode = res.code
     if (babelConfig) {
@@ -682,10 +682,8 @@ async function buildSinglePage (page) {
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(babelConfig, res.scriptFiles)
     }
-    console.log(fileDep['style'])
-    console.log(res.styleFiles)
     // 编译样式文件
-    if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
+    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[pageJs], pageDepComponents)) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${outputDirName}/${page}.wxss`)
       const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputPageWXSSPath] = depStyleList
@@ -698,6 +696,7 @@ async function buildSinglePage (page) {
     if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
       copyFilesFromSrcToOutput(res.mediaFiles)
     }
+    depComponents[pageJs] = pageDepComponents
     fileDep['style'] = res.styleFiles
     fileDep['script'] = res.scriptFiles
     fileDep['json'] = res.jsonFiles
@@ -779,12 +778,7 @@ function getRealComponentsPathList (filePath, components) {
 }
 
 function buildDepComponents (componentPathList) {
-  const promises = componentPathList.map(componentPath => {
-    if (hasBeenBuiltComponents.indexOf(componentPath) < 0) {
-      return buildSingleComponent(componentPath)
-    }
-  }).filter(item => item)
-  return Promise.all(promises)
+  return Promise.all(componentPathList.map(componentPath => buildSingleComponent(componentPath)))
 }
 
 function getDepStyleList (outputFilePath, buildDepComponentsResult) {
@@ -801,6 +795,9 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
 }
 
 async function buildSingleComponent (component) {
+  if (hasBeenBuiltComponents.indexOf(component) >= 0 && componentsBuildResult[component]) {
+    return componentsBuildResult[component]
+  }
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
   let outputComponentShowPath = componentShowPath.replace(sourceDirName, outputDirName)
@@ -819,7 +816,6 @@ async function buildSingleComponent (component) {
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, component, outputComponentJSPath)
     const babelConfig = pluginsConfig.babel
     const componentDepComponents = transformResult.components
-    depComponents[component] = componentDepComponents
     babelConfig && (babelConfig.babelrc = false)
     let resCode = res.code
     if (babelConfig) {
@@ -864,7 +860,7 @@ async function buildSingleComponent (component) {
       compileDepScripts(babelConfig, res.scriptFiles)
     }
     // 编译样式文件
-    if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
+    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[component], componentDepComponents)) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXSS', `${outputDirName}/${outputComponentShowPath}.wxss`)
       const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputComponentWXSSPath] = depStyleList
@@ -883,11 +879,13 @@ async function buildSingleComponent (component) {
     fileDep['json'] = res.jsonFiles
     fileDep['media'] = res.mediaFiles
     dependencyTree[component] = fileDep
-    return {
+    depComponents[component] = componentDepComponents
+    componentsBuildResult[component] = {
       js: outputComponentJSPath,
       wxss: outputComponentWXSSPath,
       wxml: outputComponentWXMLPath
     }
+    return componentsBuildResult[component]
   } catch (err) {
     console.log(err)
   }
