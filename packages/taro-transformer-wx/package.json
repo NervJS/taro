@@ -47,6 +47,7 @@
     "@babel/plugin-transform-flow-strip-types": "^7.0.0-beta.47",
     "@babel/plugin-transform-typescript": "^7.0.0-beta.47",
     "babel-core": "^6.26.3",
+    "babel-plugin-danger-remove-unused-import": "^1.0.13",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-traverse": "^6.26.0",
