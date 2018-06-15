@@ -49,7 +49,7 @@ export function parseLoopBody (
         ) {
           statementParent = statementParent.findParent(
             s => s.isVariableDeclaration() || s.isExpressionStatement()
-          )
+          ) as NodePath<t.Statement>
         }
         jsxDeclarations.add(statementParent)
         if (t.isVariableDeclarator(parentNode)) {

@@ -26,7 +26,6 @@
     "@tarojs/transformer-wx": "0.0.51",
     "autoprefixer": "^8.4.1",
     "babel-generator": "^6.26.1",
-    "babel-plugin-danger-remove-unused-import": "^1.0.13",
     "babel-template": "^6.26.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
