@@ -116,6 +116,10 @@ postcss: {
 
 专属于 H5 的配置
 
+### h5.port
+
+更换 H5 编译模式预览时的端口号，默认是 `8080`
+
 ### h5.publicPath
 
 设置输出解析文件的目录
@@ -123,6 +127,33 @@ postcss: {
 ### h5.staticDirectory
 
 h5 编译后的静态文件目录
+
+### h5.webpack
+自定义webpack配置。这个配置项支持两种形式的配置。
+
+1. 如果该配置项以**对象**的形态呈现，taro将会使用 `webpack-merge` 将这个对象合并到默认的配置项中。
+例子：
+```javascript
+webpack: {
+  resolve: {
+    alias: {
+      'test': './test'
+    }
+  }
+}
+```
+
+2. 如果该配置以**函数**的形态呈现，那这个函数将会接收到两个参数：默认配置（defaultConfig）和webpack实例（webpack）。taro将会以该函数的返回值作为最终的webpack配置。
+例子：
+
+```javascript
+webpack (defaultConfig, webpack) {
+  defaultConfig.plugins.push(
+    new webpack.EnvironmentPlugin(['NODE_ENV'])
+  )
+  return defaultConfig
+}
+```
 
 ### h5.module
 

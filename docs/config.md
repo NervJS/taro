@@ -55,32 +55,3 @@ module.exports = function(merge) {
   return merge({}, config, require('./prod'));
 };
 ```
-
-## 特殊配置说明
-
-### h5.webpack
-自定义webpack配置。这个配置项支持两种形式的配置。
-
-1. 如果该配置项以**对象**的形态呈现，taro将会使用webpack-merge将这个对象合并到默认的配置项中。
-例子：
-```javascript
-webpack: {
-  resolve: {
-    alias: {
-      'test': './test'
-    }
-  }
-}
-```
-
-2. 如果该配置以**函数**的形态呈现，那这个函数将会接收到两个参数：默认配置（defaultConfig）和webpack实例（webpack）。taro将会以该函数的返回值作为最终的webpack配置。
-例子：
-
-```javascript
-webpack (defaultConfig, webpack) {
-  defaultConfig.plugins.push(
-    new webpack.EnvironmentPlugin(['NODE_ENV'])
-  )
-  return defaultConfig
-}
-```
