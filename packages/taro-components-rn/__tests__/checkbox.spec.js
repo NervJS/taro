@@ -1,8 +1,8 @@
 import React from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
+import { View, TouchableWithoutFeedback } from 'react-native'
 import { shallow } from 'enzyme'
 import sinon from 'sinon'
-import { Checkbox, CheckboxGroup } from '../src'
+import { Label, Checkbox, CheckboxGroup } from '../src'
 import renderer from 'react-test-renderer'
 
 describe('<Checkbox />', () => {
@@ -36,6 +36,23 @@ describe('<Checkbox />', () => {
   })
 
   describe('<CheckboxGroup />', () => {
-
+    it('should render well', () => {
+      const spy = sinon.spy()
+      const wrapper = shallow(
+        <CheckboxGroup onChange={spy} style={{ flexDirection: 'row' }}>
+          <View><View /></View>
+          <Label><Checkbox value={0} /></Label>
+          <Label><Checkbox value={1} /></Label>
+          <Label><Checkbox value={2} /></Label>
+        </CheckboxGroup>
+      )
+      wrapper.find(Checkbox).at(0).props().onChange({ checked: true })
+      expect(spy.calledOnce).toBe(true)
+      wrapper.find(Checkbox).at(0).props().onChange({ checked: false })
+      expect(spy.calledTwice).toBe(true)
+      wrapper.find(Checkbox).at(1).props().onChange({ checked: true })
+      wrapper.find(Checkbox).at(2).props().onChange({ checked: true })
+      expect(spy.callCount).toBe(4)
+    })
   })
 })

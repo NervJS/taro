@@ -32,7 +32,9 @@ class _CheckboxGroup extends React.Component<Props> {
     }
     onChange && onChange({
       detail: {
-        value: this.values.filter((item) => item && item.checked).map((item) => item.value)
+        value: this.values
+          .filter((item) => item.checked)
+          .map((item) => item.value)
       }
     })
   }
