@@ -153,7 +153,7 @@ export class RenderParser {
         ) {
           statementParent = statementParent.findParent(
             s => s.isVariableDeclaration() || s.isExpressionStatement()
-          )
+          ) as NodePath<t.Statement>
         }
         this.jsxDeclarations.add(statementParent)
         if (t.isReturnStatement(parentNode)) {
@@ -253,7 +253,7 @@ export class RenderParser {
         ) {
           statementParent = statementParent.findParent(
             s => s.isVariableDeclaration() || s.isExpressionStatement()
-          )
+          ) as NodePath<t.Statement>
         }
         // this.jsxDeclarations.add(statementParent)
         /**
