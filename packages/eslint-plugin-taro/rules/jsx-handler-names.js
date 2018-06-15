@@ -21,8 +21,7 @@ module.exports = {
         }
 
         const propKey = typeof node.name === 'object' ? node.name.name : node.name
-
-        if (propKey === 'ref') {
+        if (propKey === 'ref' || propKey === 'key') {
           return
         }
 
@@ -30,7 +29,7 @@ module.exports = {
 
         if (!propIsEventHandler) {
           context.report({
-            node: node,
+            node,
             message: ERROR_MESSAGE
           })
         }
