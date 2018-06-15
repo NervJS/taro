@@ -997,6 +997,10 @@ function watchFiles () {
             let outoutShowFilePath = filePath.replace(appPath + path.sep, '')
             outoutShowFilePath = outoutShowFilePath.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '组件文件', outoutShowFilePath)
+            const hasbeenBuiltIndex = hasBeenBuiltComponents.indexOf(filePath)
+            if (hasbeenBuiltIndex >= 0) {
+              hasBeenBuiltComponents.splice(hasbeenBuiltIndex, 1)
+            }
             await buildSingleComponent(filePath)
           } else {
             let isImported = false
