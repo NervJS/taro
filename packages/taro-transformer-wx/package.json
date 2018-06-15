@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "test": "jest",
     "dev": "tsc -w --pretty",
     "lint": "tslint",
-    "build": "tsc"
+    "_build": "tsc --skipLibCheck"
   },
   "author": "O2Team",
   "license": "MIT",
