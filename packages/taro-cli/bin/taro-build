@@ -6,10 +6,7 @@ const chalk = require('chalk')
 const _ = require('lodash')
 
 const build = require('../src/build')
-const {
-  getPkgVersion,
-  PROJECT_CONFIG
-} = require('../src/util')
+const {getPkgVersion, PROJECT_CONFIG} = require('../src/util')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program

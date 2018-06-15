@@ -123,7 +123,8 @@ exports.homedir = (function () {
   } else if (process.platform === 'darwin') {
     homedir = home || (user ? `/Users/${user}` : null)
   } else if (process.platform === 'linux') {
-    homedir = home || (process.getuid() === 0 ? '/root' : (user ? `/home/${user}` : null))
+    homedir = home ||
+      (process.getuid() === 0 ? '/root' : (user ? `/home/${user}` : null))
   }
   return typeof os.homedir === 'function' ? os.homedir : function () {
     return homedir
@@ -147,7 +148,8 @@ exports.setConfig = function (config) {
   if (typeof config === 'object') {
     const oldConfig = exports.getConfig()
     config = Object.assign({}, oldConfig, config)
-    fs.writeFileSync(path.join(taroPath, 'config.json'), JSON.stringify(config, null, 2))
+    fs.writeFileSync(path.join(taroPath, 'config.json'),
+      JSON.stringify(config, null, 2))
   }
 }
 
@@ -169,6 +171,15 @@ exports.getPkgVersion = function () {
   return require(path.join(exports.getRootPath(), 'package.json')).version
 }
 
+exports.getPkgItemByKey = function (key) {
+  const packageMap = require(path.join(exports.getRootPath(), 'package.json'))
+  if (Object.keys(packageMap).indexOf(key) === -1) {
+    return {}
+  } else {
+    return packageMap[key]
+  }
+}
+
 exports.printPkgVersion = function () {
   const taroVersion = exports.getPkgVersion()
   console.log(`👽 Taro v${taroVersion}`)
@@ -177,7 +188,7 @@ exports.printPkgVersion = function () {
 
 exports.shouldUseYarn = function () {
   try {
-    execSync('yarn --version', { stdio: 'ignore' })
+    execSync('yarn --version', {stdio: 'ignore'})
     return true
   } catch (e) {
     return false
@@ -186,7 +197,7 @@ exports.shouldUseYarn = function () {
 
 exports.shouldUseCnpm = function () {
   try {
-    execSync('cnpm --version', { stdio: 'ignore' })
+    execSync('cnpm --version', {stdio: 'ignore'})
     return true
   } catch (e) {
     return false
@@ -255,7 +266,10 @@ exports.checksum = function (buf, length) {
   if (!Buffer.isBuffer(buf)) {
     buf = Buffer.from(buf)
   }
-  return crypto.createHash('md5').update(buf).digest('hex').slice(0, length || 8)
+  return crypto.createHash('md5')
+    .update(buf)
+    .digest('hex')
+    .slice(0, length || 8)
 }
 
 exports.printLog = function (type, tag, filePath) {
@@ -268,7 +282,8 @@ exports.printLog = function (type, tag, filePath) {
   }
   const padding = ''
   filePath = filePath || ''
-  console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding,
+    filePath)
 }
 
 exports.replaceContentEnv = function (content, env) {
