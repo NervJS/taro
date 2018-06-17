@@ -1,0 +1,25 @@
+{
+  "name": "@tarojs/mobx",
+  "version": "0.0.51",
+  "description": "Mobx for Taro",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro",
+    "mobx"
+  ],
+  "author": "xiaomuzhu",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
+    "jest": "^23.1.0"
+  }
+}
