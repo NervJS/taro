@@ -13,7 +13,11 @@ import {
 if (!Component) throw new Error('mobx-react requires React to be available')
 if (!spy) throw new Error('mobx-react requires mobx to be available')
 
-if (typeof rdBatched === 'function') configure({reactionScheduler: rdBatched})
+if (typeof rdBatched === 'function') {
+  configure({
+    reactionScheduler: rdBatched
+  })
+}
 
 export {
   observer,
@@ -31,7 +35,12 @@ export {propTypes}
 export {propTypes as PropTypes}
 export const onError = fn => errorsReporter.on(fn)
 if (typeof __MOBX_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
-  const mobx = {spy, extras: {getDebugName}}
+  const mobx = {
+    spy,
+    extras: {
+      getDebugName
+    }
+  }
   const mobxReact = {
     renderReporter,
     componentByNodeRegistry,
@@ -39,5 +48,5 @@ if (typeof __MOBX_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
     trackComponents
   }
   /* eslint-disable */
-  __MOBX_DEVTOOLS_GLOBAL_HOOK__.injectMobxReact(mobxReact, mobx)
+  __MOBX_DEVTOOLS_GLOBAL_HOOK__.injectMobxReact(mobxReact, mobx);
 }
