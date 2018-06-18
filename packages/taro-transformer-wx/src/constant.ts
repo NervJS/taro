@@ -87,3 +87,8 @@ SPECIAL_COMPONENT_PROPS.set(
     'backgroundColor'
   ])
 )
+
+export const IMAGE_COMPONENTS = new Set<string>([
+  'Image',
+  'CoverImage'
+])

@@ -43,6 +43,18 @@ ruleTester.run('jsx-handler-names', rule, {
     },
     {
       code: testComponent(`<View onTouchForceChange={this.handleClick} />`)
+    },
+    {
+      code: testComponent(`array.map(item => <View key={'1'} />)`)
+    },
+    {
+      code: testComponent(`array.map(item => <View key={item} />)`)
+    },
+    {
+      code: testComponent(`<View key={this.handleClick} />`)
+    },
+    {
+      code: testComponent(`<View key={handleClick} />`)
     }
   ],
   invalid: [{

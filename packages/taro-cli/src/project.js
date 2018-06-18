@@ -123,7 +123,7 @@ class Project extends Creator {
     return inquirer.prompt(prompts)
   }
 
-  write () {
+  write (cb) {
     const { template } = this.conf
     this.conf.src = SOURCE_DIR
     const templateCreate = require(path.join(this.templatePath(), template, 'index.js'))
@@ -131,7 +131,7 @@ class Project extends Creator {
       shouldUseYarn,
       shouldUseCnpm,
       getPkgVersion
-    })
+    }, cb)
   }
 }
 
