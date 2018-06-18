@@ -48,14 +48,14 @@ const processTypeMap = {
 
 exports.pocessTypeEnum = pocessTypeEnum
 
-exports.CSS_EXT = ['.css', '.scss']
+exports.CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl']
 exports.SCSS_EXT = ['.scss']
 exports.JS_EXT = ['.js', '.jsx']
 exports.TS_EXT = ['.ts', '.tsx']
 exports.REG_JS = /\.js(\?.*)?$/
 exports.REG_SCRIPT = /\.(js|jsx)(\?.*)?$/
 exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
-exports.REG_STYLE = /\.(css|scss)(\?.*)?$/
+exports.REG_STYLE = /\.(css|scss|sass|less|styl)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
@@ -77,7 +77,10 @@ exports.DEVICE_RATIO = {
 
 exports.FILE_PROCESSOR_MAP = {
   '.js': 'babel',
-  '.scss': 'sass'
+  '.scss': 'sass',
+  '.sass': 'sass',
+  '.less': 'less',
+  '.styl': 'stylus'
 }
 
 exports.isNpmPkg = function (name) {
