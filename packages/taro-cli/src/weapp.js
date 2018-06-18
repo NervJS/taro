@@ -21,6 +21,8 @@ const { resolveNpmFilesPath } = require('./util/resolve_npm_files')
 const babylonConfig = require('./config/babylon')
 const browserList = require('./config/browser_list')
 const defaultUglifyConfig = require('./config/uglify')
+const defaultBabelConfig = require('./config/babel')
+const defaultTSConfig = require('./config/tsconfig.json')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -28,8 +30,9 @@ const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 const sourceDir = path.join(appPath, sourceDirName)
 const outputDir = path.join(appPath, outputDirName)
-const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
-const outputEntryFilePath = path.join(outputDir, CONFIG.ENTRY)
+const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+const entryFileName = path.basename(entryFilePath)
+const outputEntryFilePath = path.join(outputDir, entryFileName)
 
 const pluginsConfig = projectConfig.plugins || {}
 
@@ -184,7 +187,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
         const pathArr = value.split('/')
         if (pathArr.indexOf('pages') >= 0) {
           astPath.remove()
-        } else if (Util.REG_SCRIPT.test(valueExtname)) {
+        } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
           if (scriptFiles.indexOf(value) < 0) {
             scriptFiles.push(value)
           }
@@ -255,7 +258,9 @@ function parseAst (type, ast, sourceFilePath, filePath) {
               if (scriptFiles.indexOf(vpath) < 0) {
                 scriptFiles.push(vpath)
               }
-              source.value = Util.promoteRelativePath(relativePath)
+              relativePath = Util.promoteRelativePath(relativePath)
+              relativePath = relativePath.replace(path.extname(relativePath), '.js')
+              source.value = relativePath
               astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
             }
           }
@@ -332,7 +337,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
                 astPath.remove()
               }
             }
-          } else if (Util.REG_SCRIPT.test(valueExtname)) {
+          } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
             if (scriptFiles.indexOf(value) < 0) {
               scriptFiles.push(value)
             }
@@ -351,17 +356,28 @@ function parseAst (type, ast, sourceFilePath, filePath) {
               astPath.remove()
             }
           } else if (!valueExtname) {
-            const vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+            let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
             const outputVpath = vpath.replace(sourceDir, outputDir)
-            const relativePath = path.relative(filePath, outputVpath)
+            let relativePath = path.relative(filePath, outputVpath)
             if (vpath) {
               if (!fs.existsSync(vpath)) {
                 Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
               } else {
+                if (fs.lstatSync(vpath).isDirectory()) {
+                  if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                    vpath = path.join(vpath, 'index.js')
+                    relativePath = path.join(relativePath, 'index.js')
+                  } else {
+                    Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                    return
+                  }
+                }
                 if (scriptFiles.indexOf(vpath) < 0) {
                   scriptFiles.push(vpath)
                 }
-                args[0].value = Util.promoteRelativePath(relativePath)
+                relativePath = Util.promoteRelativePath(relativePath)
+                relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                args[0].value = relativePath
                 astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
               }
             }
@@ -521,8 +537,21 @@ function copyFilesFromSrcToOutput (files) {
   })
 }
 
+async function compileScriptFile (filePath, content) {
+  const babelConfig = Object.assign({}, pluginsConfig.babel, defaultBabelConfig)
+  const tsConfig = Object.assign({}, pluginsConfig.typescript, defaultTSConfig)
+  if (Util.REG_TYPESCRIPT.test(filePath)) {
+    const compileTSRes = await npmProcess.callPlugin('typescript', content, entryFilePath, tsConfig)
+    if (compileTSRes && compileTSRes.outputText) {
+      content = compileTSRes.outputText
+    }
+  }
+  const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
+  return compileScriptRes.code
+}
+
 async function buildEntry () {
-  Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${CONFIG.ENTRY}`)
+  Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
   try {
     const transformResult = wxTransformer({
@@ -532,13 +561,8 @@ async function buildEntry () {
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, entryFilePath, outputEntryFilePath)
-    const babelConfig = pluginsConfig.babel
-    babelConfig && (babelConfig.babelrc = false)
     let resCode = res.code
-    if (babelConfig) {
-      const compileScriptRes = await npmProcess.callPlugin('babel', resCode, entryFilePath, babelConfig)
-      resCode = compileScriptRes.code
-    }
+    resCode = await compileScriptFile(entryFilePath, resCode)
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
@@ -560,7 +584,7 @@ async function buildEntry () {
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(babelConfig, res.scriptFiles)
+      compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
@@ -615,32 +639,28 @@ async function buildPages () {
 
 async function buildSinglePage (page) {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${sourceDirName}/${page}`)
-  let pageJs = path.join(sourceDir, `${page}.js`)
+  let pageJs = Util.resolveScriptPath(path.join(sourceDir, `${page}`))
   if (!fs.existsSync(pageJs)) {
     Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${sourceDirName}/${page} 不存在！`)
     return
   }
   const pageJsContent = fs.readFileSync(pageJs).toString()
-  const outputPageJSPath = pageJs.replace(sourceDir, outputDir)
+  const outputPageJSPath = pageJs.replace(sourceDir, outputDir).replace(path.extname(pageJs), '.js')
   const outputPagePath = path.dirname(outputPageJSPath)
-  const outputPageJSONPath = outputPageJSPath.replace(path.extname(pageJs), '.json')
-  const outputPageWXMLPath = outputPageJSPath.replace(path.extname(pageJs), '.wxml')
-  const outputPageWXSSPath = outputPageJSPath.replace(path.extname(pageJs), '.wxss')
+  const outputPageJSONPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.json')
+  const outputPageWXMLPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.wxml')
+  const outputPageWXSSPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.wxss')
   try {
     const transformResult = wxTransformer({
       code: pageJsContent,
       path: outputPageJSPath,
-      isRoot: true
+      isRoot: true,
+      isTyped: Util.REG_TYPESCRIPT.test(pageJs)
     })
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageJs, outputPageJSPath)
-    const babelConfig = pluginsConfig.babel
     const pageDepComponents = transformResult.components
-    babelConfig && (babelConfig.babelrc = false)
     let resCode = res.code
-    if (babelConfig) {
-      const compileScriptRes = await npmProcess.callPlugin('babel', resCode, pageJs, babelConfig)
-      resCode = compileScriptRes.code
-    }
+    resCode = await compileScriptFile(pageJs, resCode)
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
@@ -680,7 +700,7 @@ async function buildSinglePage (page) {
     }
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(babelConfig, res.scriptFiles)
+      compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[pageJs], pageDepComponents)) {
@@ -804,9 +824,9 @@ async function buildSingleComponent (component) {
   outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
   Util.printLog(Util.pocessTypeEnum.COMPILE, '组件文件', componentShowPath)
   const componentContent = fs.readFileSync(component).toString()
-  const outputComponentJSPath = component.replace(sourceDir, outputDir)
-  const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(component), '.wxml')
-  const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(component), '.wxss')
+  const outputComponentJSPath = component.replace(sourceDir, outputDir).replace(path.extname(component), '.js')
+  const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxml')
+  const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
   try {
     const transformResult = wxTransformer({
       code: componentContent,
@@ -814,14 +834,9 @@ async function buildSingleComponent (component) {
       isRoot: false
     })
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, component, outputComponentJSPath)
-    const babelConfig = pluginsConfig.babel
     const componentDepComponents = transformResult.components
-    babelConfig && (babelConfig.babelrc = false)
     let resCode = res.code
-    if (babelConfig) {
-      const compileScriptRes = await npmProcess.callPlugin('babel', resCode, component, babelConfig)
-      resCode = compileScriptRes.code
-    }
+    resCode = await compileScriptFile(component, resCode)
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -857,7 +872,7 @@ async function buildSingleComponent (component) {
     }
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(babelConfig, res.scriptFiles)
+      compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[component], componentDepComponents)) {
@@ -891,61 +906,60 @@ async function buildSingleComponent (component) {
   }
 }
 
-function compileDepScripts (babelConfig, scriptFiles) {
-  if (babelConfig) {
-    scriptFiles.forEach(async item => {
-      if (path.isAbsolute(item)) {
-        const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
-        if (!isBuildingScripts[outputItem]) {
-          isBuildingScripts[outputItem] = true
-          try {
-            const code = fs.readFileSync(item).toString()
-            const ast = babylon.parse(code, babylonConfig)
-            const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
-            const fileDep = dependencyTree[item] || {}
-            const compileScriptRes = await npmProcess.callPlugin('babel', res.code, item, babelConfig)
-            fs.ensureDirSync(path.dirname(outputItem))
-            let resCode = Util.replaceContentEnv(compileScriptRes.code, projectConfig.env || {})
-            resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
-            if (isProduction) {
-              const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
-              if (uglifyPluginConfig.enable) {
-                const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
-                const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
-                if (uglifyResult.error) {
-                  console.log(uglifyResult.error)
-                } else {
-                  resCode = uglifyResult.code
-                }
+function compileDepScripts (scriptFiles) {
+  scriptFiles.forEach(async item => {
+    if (path.isAbsolute(item)) {
+      const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
+      if (!isBuildingScripts[outputItem]) {
+        isBuildingScripts[outputItem] = true
+        try {
+          const code = fs.readFileSync(item).toString()
+          const ast = babylon.parse(code, babylonConfig)
+          const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
+          const fileDep = dependencyTree[item] || {}
+          let resCode = res.code
+          resCode = await compileScriptFile(item, res.code)
+          fs.ensureDirSync(path.dirname(outputItem))
+          resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
+          resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+          if (isProduction) {
+            const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+            if (uglifyPluginConfig.enable) {
+              const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+              const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
+              if (uglifyResult.error) {
+                console.log(uglifyResult.error)
+              } else {
+                resCode = uglifyResult.code
               }
             }
-            fs.writeFileSync(outputItem, resCode)
-            let modifyOutput = outputItem.replace(appPath + path.sep, '')
-            modifyOutput = modifyOutput.split(path.sep).join('/')
-            Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
-            // 编译依赖的脚本文件
-            if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-              compileDepScripts(babelConfig, res.scriptFiles)
-            }
-            // 拷贝依赖文件
-            if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
-              copyFilesFromSrcToOutput(res.jsonFiles)
-            }
-            if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
-              copyFilesFromSrcToOutput(res.mediaFiles)
-            }
-            fileDep['script'] = res.scriptFiles
-            fileDep['json'] = res.jsonFiles
-            fileDep['media'] = res.mediaFiles
-            dependencyTree[item] = fileDep
-          } catch (err) {
-            Util.printLog(Util.pocessTypeEnum.ERROR, '编译失败', item.replace(appPath + path.sep, ''))
-            console.log(err)
           }
+          fs.writeFileSync(outputItem, resCode)
+          let modifyOutput = outputItem.replace(appPath + path.sep, '')
+          modifyOutput = modifyOutput.split(path.sep).join('/')
+          Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
+          // 编译依赖的脚本文件
+          if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
+            compileDepScripts(res.scriptFiles)
+          }
+          // 拷贝依赖文件
+          if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
+            copyFilesFromSrcToOutput(res.jsonFiles)
+          }
+          if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
+            copyFilesFromSrcToOutput(res.mediaFiles)
+          }
+          fileDep['script'] = res.scriptFiles
+          fileDep['json'] = res.jsonFiles
+          fileDep['media'] = res.mediaFiles
+          dependencyTree[item] = fileDep
+        } catch (err) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '编译失败', item.replace(appPath + path.sep, ''))
+          console.log(err)
         }
       }
-    })
-  }
+    }
+  })
 }
 
 function watchFiles () {
@@ -970,9 +984,9 @@ function watchFiles () {
     .on('change', async filePath => {
       const extname = path.extname(filePath)
       // 编译JS文件
-      if (Util.REG_SCRIPT.test(extname)) {
-        if (filePath.indexOf(CONFIG.ENTRY) >= 0) {
-          Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${CONFIG.ENTRY}.js`)
+      if (Util.REG_SCRIPT.test(extname) || Util.REG_TYPESCRIPT.test(extname)) {
+        if (filePath.indexOf(entryFileName) >= 0) {
+          Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
           if (Util.checksum(JSON.stringify(config)) !== Util.checksum(JSON.stringify(appConfig))) {
@@ -1014,9 +1028,7 @@ function watchFiles () {
             modifySource = modifySource.split(path.sep).join('/')
             if (isImported) {
               Util.printLog(Util.pocessTypeEnum.MODIFY, 'JS文件', modifySource)
-              const babelConfig = pluginsConfig.babel
-              babelConfig && (babelConfig.babelrc = false)
-              compileDepScripts(babelConfig, [filePath])
+              compileDepScripts([filePath])
             } else {
               Util.printLog(Util.pocessTypeEnum.WARNING, 'JS文件', `${modifySource} 没有被引用到，不会被编译`)
             }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "0.0.51",
+  "version": "0.0.53",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "test": "jest",
     "dev": "tsc -w --pretty",
     "lint": "tslint",
-    "_build": "tsc --skipLibCheck"
+    "build": "tsc"
   },
   "author": "O2Team",
   "license": "MIT",
@@ -45,7 +45,6 @@
     "@babel/code-frame": "^7.0.0-beta.44",
     "@babel/core": "^7.0.0-beta.42",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0-beta.47",
-    "@babel/plugin-transform-typescript": "^7.0.0-beta.47",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
@@ -58,7 +57,7 @@
     "@types/babel-core": "^6.25.3",
     "@types/babel-generator": "^6.25.1",
     "@types/babel-template": "^6.25.0",
-    "@types/babel-traverse": "^6.25.3",
+    "@types/babel-traverse": "6.25.3",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
     "@types/node": "^9.6.2",

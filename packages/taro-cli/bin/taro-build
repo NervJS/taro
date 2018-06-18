@@ -19,7 +19,7 @@ program
 
 const args = program.args
 const { type, watch } = program
-console.log(`Taro v${getPkgVersion()}`)
+console.log(`👽 Taro v${getPkgVersion()}`)
 console.log()
 if (!fs.existsSync(projectConfPath)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))

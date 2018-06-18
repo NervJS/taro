@@ -5,14 +5,26 @@ const shelljs = require('shelljs')
 const ora = require('ora')
 
 module.exports = function (creater, params, helper, cb) {
-  const { projectName, description, template, date, src } = params
+  const { projectName, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const cwd = process.cwd()
   const projectPath = path.join(cwd, projectName)
   const sourceDir = path.join(projectPath, src)
   const configDir = path.join(projectPath, configDirName)
   const version = helper.getPkgVersion()
-  const useNpmrc = helper.shouldUseYarn() === false
+  const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
+  const shouldUseYarn = helper.shouldUseYarn()
+  const useNpmrc = shouldUseYarn === false
+  const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
+  let appCSSName
+  let pageCSSName
+  const styleExtMap = {
+    sass: 'scss',
+    less: 'less',
+    stylus: 'styl',
+    none: 'css'
+  }
+  const currentStyleExt = styleExtMap[css]
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
@@ -22,45 +34,92 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
     projectName,
-    version
+    version,
+    css
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
     projectName
   })
   creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
-  if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
   creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'))
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
-  creater.template(template, 'appjs', path.join(sourceDir, 'app.js'))
-  creater.template(template, 'scss', path.join(sourceDir, 'app.scss'))
+  if (typescript) {
+    creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
+      css: currentStyleExt
+    })
+  } else {
+    creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
+      css: currentStyleExt
+    })
+  }
+  switch (css) {
+    case 'sass':
+      appCSSName = 'app.scss'
+      pageCSSName = 'index.scss'
+      break
+    case 'less':
+      appCSSName = 'app.less'
+      pageCSSName = 'index.less'
+      break
+    case 'stylus':
+      appCSSName = 'app.styl'
+      pageCSSName = 'index.styl'
+      break
+    default:
+      appCSSName = 'app.css'
+      pageCSSName = 'index.css'
+      break
+  }
+  creater.template(template, 'scss', path.join(sourceDir, appCSSName))
+  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
   creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
   })
   creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
-  creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'))
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', 'index.scss'))
+  if (typescript) {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
+      css: currentStyleExt
+    })
+  } else {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
+      css: currentStyleExt
+    })
+  }
+  if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
+  if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
   creater.fs.commit(() => {
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建配置目录: ${projectName}/${configDirName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建源码目录: ${projectName}/${src}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${src}/pages`)}`)
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.js`)}`)
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.scss`)}`)
+    if (typescript) {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.tsx`)}`)
+    } else {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.js`)}`)
+    }
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${currentStyleExt.toLocaleUpperCase()} 文件: ${projectName}/${src}/pages/index/${pageCSSName}`)}`)
+    if (typescript) {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.tsx`)}`)
+    } else {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.js`)}`)
+    }
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/${appCSSName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/index.html`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/index.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/dev.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/prod.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.editorconfig`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.gitignore`)}`)
-    if (useNpmrc) console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.npmrc`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/package.json`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.eslintrc`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/project.config.json`)}`)
+    if (useNpmrc) console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.npmrc`)}`)
+    if (useYarnLock) console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/yarn.lock`)}`)
     console.log()
     const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
     process.chdir(projectName)
@@ -74,7 +133,7 @@ module.exports = function (creater, params, helper, cb) {
     }
     // install
     let command
-    if (helper.shouldUseYarn()) {
+    if (shouldUseYarn) {
       command = 'yarn install'
     } else if (helper.shouldUseCnpm()) {
       command = 'cnpm install'

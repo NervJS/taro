@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
 
-import './app.scss'
+import './app.<%= css %>'
 
 class App extends Component {
   config = {

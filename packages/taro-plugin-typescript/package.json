@@ -1,7 +1,7 @@
 {
-  "name": "@tarojs/plugin-sass",
+  "name": "@tarojs/plugin-typescript",
   "version": "0.0.53",
-  "description": "Taro编译sass文件",
+  "description": "Taro TypeScript 编译插件",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,6 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "node-sass": "^4.8.3"
+    "typescript": "^2.9.2"
   }
 }

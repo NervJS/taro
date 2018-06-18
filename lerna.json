@@ -11,6 +11,9 @@
     "packages/taro-plugin-csso",
     "packages/taro-plugin-sass",
     "packages/taro-plugin-uglifyjs",
+    "packages/taro-plugin-typescript",
+    "packages/taro-plugin-less",
+    "packages/taro-plugin-stylus",
     "packages/taro-redux",
     "packages/taro-redux-h5",
     "packages/taro-rn",
@@ -29,7 +32,7 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.51",
+  "version": "0.0.53",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"
