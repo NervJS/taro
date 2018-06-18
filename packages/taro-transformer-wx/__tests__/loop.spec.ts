@@ -25,27 +25,35 @@ describe('loop', () => {
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
 
-      // test('能使用 key', () => {
-      //   const { template, ast, code } = transform({
-      //     ...baseOptions,
-      //     isRoot: true,
-      //     code: buildComponent(`
-      //       const array = ['test1', 'test2', 'test3']
-      //       return (
-      //         <View>{array.map(item => <Custom>{item}</Custom>)}</View>
-      //       )
-      //     `, ``, `import { Custom } from './utils'`)
-      //   })
+      test('能使用 key', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = ['test1', 'test2', 'test3']
+            return (
+              <View>{array.map(item => <Custom key={item}>{item}</Custom>)}</View>
+            )
+          `, ``, `import { Custom } from './utils'`)
+        })
 
-      //   const instance = evalClass(ast)
-      //   console.log(code)
-      //   console.log(template)
-      //   removeShadowData(instance.state)
+        expect(template).toMatch(`wx:key="{{item}}"`)
+      })
 
-      //   // expect(template).toMatch(`<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`)
-      //   // expect(Object.keys(instance.state).length).toBe(1)
-      //   // expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
-      // })
+      test('能使用 key', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{id: 1}, {id: 2}, {id: 3}]
+            return (
+              <View>{array.map(item => <Custom key={item.id} />)}</View>
+            )
+          `, ``, `import { Custom } from './utils'`)
+        })
+
+        expect(template).toMatch(`wx:key="{{item.id}}"`)
+      })
 
       test('callee 支持复杂表达式', () => {
         const { template, ast, code } = transform({
