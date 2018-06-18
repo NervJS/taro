@@ -24,6 +24,7 @@ module.exports = function (creater, params, helper, cb) {
     stylus: 'styl',
     none: 'css'
   }
+  const currentStyleExt = styleExtMap[css]
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
@@ -46,11 +47,11 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   if (typescript) {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
-      css: styleExtMap[css]
+      css: currentStyleExt
     })
   } else {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
-      css: styleExtMap[css]
+      css: currentStyleExt
     })
   }
   switch (css) {
@@ -81,11 +82,11 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
     creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
-      css: styleExtMap[css]
+      css: currentStyleExt
     })
   } else {
     creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
-      css: styleExtMap[css]
+      css: currentStyleExt
     })
   }
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
@@ -101,7 +102,7 @@ module.exports = function (creater, params, helper, cb) {
     } else {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.js`)}`)
     }
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 SCSS 文件: ${projectName}/${src}/pages/index/${pageCSSName}`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${currentStyleExt.toLocaleUpperCase()} 文件: ${projectName}/${src}/pages/index/${pageCSSName}`)}`)
     if (typescript) {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.tsx`)}`)
     } else {
