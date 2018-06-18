@@ -45,10 +45,7 @@ export default function transform<T> (options: Options): TransformResult {
           'objectRestSpread',
           'decorators'
         ] as any[]
-      },
-      plugins: [
-        '@babel/plugin-transform-typescript'
-      ]
+      }
     }).code
     : options.code
   setting.sourceCode = code
