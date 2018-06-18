@@ -381,6 +381,9 @@ class Transformer {
         const attr = path.node
         const name = attr.name as t.JSXIdentifier
         let value!: t.Expression
+        if (name.name === 'key') {
+          return
+        }
         if (t.isJSXElement(attr.value)) {
           throw codeFrameError(attr.loc, 'JSX 参数不支持传入 JSX 元素')
         } else if (t.isJSXExpressionContainer(attr.value)) {
@@ -542,8 +545,9 @@ class Transformer {
         ) {
           const [ item ] = func.params
           if (t.isIdentifier(item)) {
+            const key = c.element.node.openingElement.attributes.find(attr => attr.name.name === 'key')
             c.element.replaceWith(
-              buildRefTemplate(findImportedName(c.name), item.name, true)
+              buildRefTemplate(findImportedName(c.name), item.name, true, key)
             )
           }
         }

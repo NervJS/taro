@@ -24,12 +24,16 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function buildRefTemplate (name: string, refName?: string, loop?: boolean) {
+export function buildRefTemplate (name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
+  const attrs = [
+    t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
+    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`))
+  ]
+  if (key) {
+    attrs.push(key)
+  }
   return t.jSXElement(
-    t.jSXOpeningElement(t.jSXIdentifier('template'), [
-      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
-      t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`))
-    ]),
+    t.jSXOpeningElement(t.jSXIdentifier('template'), attrs),
     t.jSXClosingElement(t.jSXIdentifier('template')),
     []
   )
