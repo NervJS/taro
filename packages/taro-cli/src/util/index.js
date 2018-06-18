@@ -50,8 +50,11 @@ exports.pocessTypeEnum = pocessTypeEnum
 
 exports.CSS_EXT = ['.css', '.scss']
 exports.SCSS_EXT = ['.scss']
-exports.JS_EXT = ['.js', '.jsx', '.ts', '.tsx']
-exports.REG_SCRIPT = /\.(js|jsx|tsx|ts)(\?.*)?$/
+exports.JS_EXT = ['.js', '.jsx']
+exports.TS_EXT = ['.ts', '.tsx']
+exports.REG_JS = /\.js(\?.*)?$/
+exports.REG_SCRIPT = /\.(js|jsx)(\?.*)?$/
+exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
 exports.REG_STYLE = /\.(css|scss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
@@ -224,13 +227,16 @@ exports.urlJoin = function () {
 
 exports.resolveScriptPath = function (p) {
   let realPath = p
-  exports.JS_EXT.forEach(item => {
+  const SCRIPT_EXT = exports.JS_EXT.concat(exports.TS_EXT)
+  for (let i = 0; i < SCRIPT_EXT.length; i++) {
+    const item = SCRIPT_EXT[i]
     if (fs.existsSync(`${p}${item}`)) {
-      realPath = `${p}${item}`
-    } else if (fs.existsSync(`${p}${path.sep}index${item}`)) {
-      realPath = `${p}${path.sep}index${item}`
+      return `${p}${item}`
     }
-  })
+    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
+      return `${p}${path.sep}index${item}`
+    }
+  }
   return realPath
 }
 
