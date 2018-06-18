@@ -1,6 +1,6 @@
 {
   "name": "postcss-plugin-constparse",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "description": "parse constants defined in config",
   "main": "index.js",
   "author": "Simba",
