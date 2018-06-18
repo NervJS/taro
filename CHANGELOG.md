@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.52...v) (2018-06-18)
+# [](https://github.com/NervJS/taro/compare/v0.0.53...v) (2018-06-18)
+
+
+
+<a name="0.0.53"></a>
+## [0.0.53](https://github.com/NervJS/taro/compare/v0.0.52...v0.0.53) (2018-06-18)
+
+
+### Bug Fixes
+
+* **cli:** h5 编译入口文件查找错误 ([e00b08b](https://github.com/NervJS/taro/commit/e00b08b))
 
 
 
