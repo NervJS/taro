@@ -27,7 +27,7 @@ const project = new Project({
   typescript
 })
 
-console.log(`Taro v${getPkgVersion()}`)
+console.log(`👽 Taro v${getPkgVersion()}`)
 console.log()
 
 project.create()

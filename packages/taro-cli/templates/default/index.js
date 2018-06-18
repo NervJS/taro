@@ -5,7 +5,7 @@ const shelljs = require('shelljs')
 const ora = require('ora')
 
 module.exports = function (creater, params, helper, cb) {
-  const { projectName, description, template, typescript, date, src } = params
+  const { projectName, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const cwd = process.cwd()
   const projectPath = path.join(cwd, projectName)
@@ -16,6 +16,8 @@ module.exports = function (creater, params, helper, cb) {
   const shouldUseYarn = helper.shouldUseYarn()
   const useNpmrc = shouldUseYarn === false
   const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
+  let appCSSName
+  let pageCSSName
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
@@ -25,7 +27,8 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
     projectName,
-    version
+    version,
+    css
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
@@ -40,7 +43,26 @@ module.exports = function (creater, params, helper, cb) {
   } else {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.js'))
   }
-  creater.template(template, 'scss', path.join(sourceDir, 'app.scss'))
+  switch (css) {
+    case 'sass':
+      appCSSName = 'app.scss'
+      pageCSSName = 'index.scss'
+      break
+    case 'less':
+      appCSSName = 'app.less'
+      pageCSSName = 'index.less'
+      break
+    case 'stylus':
+      appCSSName = 'app.styl'
+      pageCSSName = 'index.styl'
+      break
+    default:
+      appCSSName = 'app.css'
+      pageCSSName = 'index.css'
+      break
+  }
+  creater.template(template, 'scss', path.join(sourceDir, appCSSName))
+  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
   creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
@@ -52,7 +74,6 @@ module.exports = function (creater, params, helper, cb) {
   } else {
     creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'))
   }
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', 'index.scss'))
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
   creater.fs.commit(() => {
@@ -66,13 +87,13 @@ module.exports = function (creater, params, helper, cb) {
     } else {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.js`)}`)
     }
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 SCSS 文件: ${projectName}/${src}/pages/index/index.scss`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 SCSS 文件: ${projectName}/${src}/pages/index/${pageCSSName}`)}`)
     if (typescript) {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.tsx`)}`)
     } else {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.js`)}`)
     }
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.scss`)}`)
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/${appCSSName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/index.html`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/index.js`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/dev.js`)}`)

@@ -90,6 +90,27 @@ class Project extends Creator {
       })
     }
 
+    const cssChoices = [{
+      name: 'Sass',
+      value: 'sass'
+    }, {
+      name: 'Less',
+      value: 'less'
+    }, {
+      name: 'Stylus',
+      value: 'stylus'
+    }, {
+      name: '无',
+      value: 'none'
+    }]
+
+    prompts.push({
+      type: 'list',
+      name: 'css',
+      message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
+      choices: cssChoices
+    })
+
     const templateChoices = [{
       name: '默认模板',
       value: 'default'
