@@ -82,6 +82,14 @@ class Project extends Creator {
       })
     }
 
+    if (typeof conf.typescript !== 'boolean') {
+      prompts.push({
+        type: 'confirm',
+        name: 'typescript',
+        message: '是否需要使用 TypeScript ？'
+      })
+    }
+
     const templateChoices = [{
       name: '默认模板',
       value: 'default'

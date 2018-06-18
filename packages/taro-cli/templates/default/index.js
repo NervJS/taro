@@ -5,7 +5,7 @@ const shelljs = require('shelljs')
 const ora = require('ora')
 
 module.exports = function (creater, params, helper, cb) {
-  const { projectName, description, template, date, src } = params
+  const { projectName, description, template, typescript, date, src } = params
   const configDirName = 'config'
   const cwd = process.cwd()
   const projectPath = path.join(cwd, projectName)
@@ -33,7 +33,11 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
   creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'))
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
-  creater.template(template, 'appjs', path.join(sourceDir, 'app.js'))
+  if (typescript) {
+    creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'))
+  } else {
+    creater.template(template, 'appjs', path.join(sourceDir, 'app.js'))
+  }
   creater.template(template, 'scss', path.join(sourceDir, 'app.scss'))
   creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
@@ -41,7 +45,11 @@ module.exports = function (creater, params, helper, cb) {
   })
   creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
-  creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'))
+  if (typescript) {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'))
+  } else {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'))
+  }
   creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', 'index.scss'))
   creater.fs.commit(() => {
     console.log()
@@ -49,7 +57,17 @@ module.exports = function (creater, params, helper, cb) {
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建配置目录: ${projectName}/${configDirName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建源码目录: ${projectName}/${src}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${src}/pages`)}`)
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.js`)}`)
+    if (typescript) {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.tsx`)}`)
+    } else {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.js`)}`)
+    }
+    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 SCSS 文件: ${projectName}/${src}/pages/index/index.scss`)}`)
+    if (typescript) {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.tsx`)}`)
+    } else {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.js`)}`)
+    }
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/app.scss`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${src}/index.html`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${configDirName}/index.js`)}`)

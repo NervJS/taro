@@ -50,8 +50,8 @@ exports.pocessTypeEnum = pocessTypeEnum
 
 exports.CSS_EXT = ['.css', '.scss']
 exports.SCSS_EXT = ['.scss']
-exports.JS_EXT = ['.js']
-exports.REG_SCRIPT = /\.js(\?.*)?$/
+exports.JS_EXT = ['.js', '.jsx', '.ts', '.tsx']
+exports.REG_SCRIPT = /\.(js|jsx|tsx|ts)(\?.*)?$/
 exports.REG_STYLE = /\.(css|scss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/

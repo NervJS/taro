@@ -18,7 +18,7 @@
     "test": "jest",
     "dev": "tsc -w --pretty",
     "lint": "tslint",
-    "_build": "tsc --skipLibCheck"
+    "build": "tsc"
   },
   "author": "O2Team",
   "license": "MIT",
@@ -58,7 +58,7 @@
     "@types/babel-core": "^6.25.3",
     "@types/babel-generator": "^6.25.1",
     "@types/babel-template": "^6.25.0",
-    "@types/babel-traverse": "^6.25.3",
+    "@types/babel-traverse": "6.25.3",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
     "@types/node": "^9.6.2",
