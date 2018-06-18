@@ -16,7 +16,7 @@ const config = {
         'transform-object-rest-spread'
       ]
     },
-    typescript: typescript: {
+    typescript: {
       compilerOptions: {
         allowSyntheticDefaultImports: true,
         baseUrl: '.',

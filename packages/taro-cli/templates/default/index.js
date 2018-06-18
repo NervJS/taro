@@ -18,6 +18,12 @@ module.exports = function (creater, params, helper, cb) {
   const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
   let appCSSName
   let pageCSSName
+  const styleExtMap = {
+    sass: 'scss',
+    less: 'less',
+    stylus: 'styl',
+    none: 'css'
+  }
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
@@ -39,9 +45,13 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'))
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   if (typescript) {
-    creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'))
+    creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
+      css: styleExtMap[css]
+    })
   } else {
-    creater.template(template, 'appjs', path.join(sourceDir, 'app.js'))
+    creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
+      css: styleExtMap[css]
+    })
   }
   switch (css) {
     case 'sass':
@@ -70,9 +80,13 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'))
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
+      css: styleExtMap[css]
+    })
   } else {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'))
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
+      css: styleExtMap[css]
+    })
   }
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
