@@ -20,13 +20,12 @@ function connectSocket (options) {
     const res = { errMsg: 'connectSocket:ok' }
 
     // options.url must be String
-    const urlType = typeof url
-    if (urlType !== 'string') {
+    if (typeof url !== 'string') {
       res.errMsg = getParameterError({
         name,
         para: 'url',
         correct: 'String',
-        wrong: urlType
+        wrong: url
       })
       console.error(res.errMsg)
       typeof fail === 'function' && fail(res)

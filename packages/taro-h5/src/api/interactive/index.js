@@ -1,4 +1,4 @@
-import { errorHandler, getParameterError } from './utils'
+import { errorHandler, getParameterError } from '../utils'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'
@@ -7,7 +7,6 @@ let status = 'default'
 
 // inject necessary style
 function init (doc) {
-  console.log(status)
   if (status === 'ready') return
 
   const taroStyle = doc.createElement('style')
@@ -35,18 +34,28 @@ function showToast (options = {}) {
   options._type = 'toast'
 
   // verify options
+  const handler = errorHandler(options.fail, options.complete)
+
   if (typeof options.title !== 'string') {
-    const err = { errMsg: getParameterError('showToast', 'title', 'String', typeof options.title) }
-    options.fail && options.fail(err)
-    options.complete && options.complete(err)
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showToast',
+        para: 'title',
+        correct: 'String',
+        wrong: options.title
+      })
+    })
   }
 
-  if (options.hasOwnProperty('duration') && typeof options.duration !== 'number') {
-    const err = { errMsg: getParameterError('showToast', 'duration', 'Number', typeof options.duration) }
-    options.fail && options.fail(err)
-    options.complete && options.complete(err)
-    return
+  if (typeof options.duration !== 'number') {
+    return handler({
+      errMsg: getParameterError({
+        name: 'showToast',
+        para: 'duration',
+        correct: 'Number',
+        wrong: options.duration
+      })
+    })
   }
 
   if (options.image && typeof options.image !== 'string') options.image = ''
@@ -54,7 +63,7 @@ function showToast (options = {}) {
   options.mask = !!options.mask
 
   if (!toast.el) return toast.create(options)
-  toast.show(options)
+  return toast.show(options)
 }
 
 function hideToast () {

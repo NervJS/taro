@@ -132,6 +132,8 @@ export function parseJSXElement (element: t.JSXElement): string {
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
+        } else if (attrValue === null) {
+          value = `{{true}}`
         }
         if (
           componentSpecialProps &&

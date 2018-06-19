@@ -123,6 +123,48 @@ describe('Template', () => {
       expect(template).toMatch('<scroll-view class="a"></scroll-view>')
     })
 
+    describe('props 不写值', () => {
+      test('内置组件', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView hidden />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view hidden="{{true}}"></scroll-view>')
+      })
+
+      test('内置组件 2', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <View hidden />
+          `)
+        })
+
+        expect(template).toMatch('<view hidden="{{true}}"></view>')
+      })
+
+      test('自定义组件', () => {
+        const { template, code, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <Custom hidden />
+          `, ``, `import { Custom } from './utils'`)
+        })
+
+        const instance = evalClass(ast)
+        const props = instance.$props.Custom()
+        expect(props.$name).toBe('Custom')
+        expect(props.hidden).toBe(true)
+        expect(template).toMatch(`<template is="Custom" data="{{...$$Custom}}"></template>`)
+      })
+    })
+
     test('驼峰式应该变为下划线式', () => {
       const { template } = transform({
         ...baseOptions,
