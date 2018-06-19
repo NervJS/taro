@@ -185,7 +185,6 @@ class Transformer {
         }
       },
       JSXExpressionContainer (path) {
-        debugger
         path.traverse({
           MemberExpression (path) {
             const sibling = path.getSibling('property')
@@ -495,7 +494,6 @@ class Transformer {
   }
 
   setComponentResult () {
-    // debugger
     this.componentSourceMap.forEach((names, source) => {
       let name = ''
       names.forEach(n => {
