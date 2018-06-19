@@ -88,17 +88,23 @@ function showLoading (options = {}) {
   options._type = 'loading'
 
   // verify options
+  const handler = errorHandler(options.fail, options.complete)
+
   if (typeof options.title !== 'string') {
-    const err = { errMsg: getParameterError('showLoading', 'title', 'String', typeof options.title) }
-    options.fail && options.fail(err)
-    options.complete && options.complete(err)
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showLoading',
+        para: 'title',
+        correct: 'String',
+        wrong: options.title
+      })
+    })
   }
 
   options.mask = !!options.mask
 
   if (!toast.el) return toast.create(options)
-  toast.show(options)
+  return toast.show(options)
 }
 
 function hideLoading () {
