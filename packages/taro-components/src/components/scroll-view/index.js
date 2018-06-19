@@ -39,22 +39,22 @@ class ScrollView extends Nerv.Component {
   componentDidMount () {
     setTimeout(() => {
       const props = this.props
-      if (props['scroll-y'] && 'scroll-top' in props) {
-        if ('scroll-with-animation' in props) {
-          easeOutScroll(0, props['scroll-top'], pos => {
+      if (props.scrollY && props.scrollTop) {
+        if ('scrollWithAnimation' in props) {
+          easeOutScroll(0, props.scrollTop, pos => {
             this.container.scrollTop = pos
           })
         } else {
-          this.container.scrollTop = props['scroll-top']
+          this.container.scrollTop = props.scrollTop
         }
       }
-      if (props['scroll-x'] && 'scroll-left' in props) {
-        if ('scroll-with-animation' in props) {
-          easeOutScroll(0, props['scroll-left'], pos => {
+      if (props.scrollX && props.scrollLeft) {
+        if ('scrollWithAnimation' in props) {
+          easeOutScroll(0, props.scrollLeft, pos => {
             this.container.scrollLeft = pos
           })
         } else {
-          this.container.scrollLeft = props['scroll-left']
+          this.container.scrollLeft = props.scrollLeft
         }
       }
     }, 10)
@@ -65,14 +65,16 @@ class ScrollView extends Nerv.Component {
       onScroll,
       onScrolltoupper,
       onScrolltolower,
+      scrollX,
+      scrollY,
       upperThreshold = 0,
       lowerThreshold = 0
     } = this.props
     const cls = classNames(
       'taro-scroll',
       {
-        [`taro-scroll-view__scroll-x`]: this.props['scroll-x'],
-        [`taro-scroll-view__scroll-y`]: this.props['scroll-y']
+        [`taro-scroll-view__scroll-x`]: scrollX,
+        [`taro-scroll-view__scroll-y`]: scrollY
       },
       className
     )
@@ -87,17 +89,17 @@ class ScrollView extends Nerv.Component {
       } = this.container
       if (
         onScrolltolower &&
-        ((this.props['scroll-y'] &&
+        ((this.props.scrollY &&
           offsetHeight + scrollTop + lowerThreshold >= scrollHeight) ||
-          (this.props['scroll-x'] &&
+          (this.props.scrollX &&
             offsetWidth + scrollLeft + lowerThreshold >= scrollWidth))
       ) {
         onScrolltolower()
       }
       if (
         onScrolltoupper &&
-        ((this.props['scroll-y'] && scrollTop <= upperThreshold) ||
-          (this.props['scroll-x'] && scrollLeft <= upperThreshold))
+        ((this.props.scrollY && scrollTop <= upperThreshold) ||
+          (this.props.scrollX && scrollLeft <= upperThreshold))
       ) {
         onScrolltoupper()
       }
