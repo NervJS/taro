@@ -465,7 +465,7 @@ class Transformer {
           value = attr.value
         }
         properties.push(
-          t.objectProperty(t.identifier(name.name), value)
+          t.objectProperty(t.identifier(name.name), value === null ? t.booleanLiteral(true) : value)
         )
       }
     })
