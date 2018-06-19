@@ -1,15 +1,26 @@
 #! /usr/bin/env node
 
 const program = require('commander')
+const latestVersion = require('latest-version')
+const chalk = require('chalk')
+const {getPkgVersion, getPkgItemByKey} = require('../src/util')
 
-const {
-  getPkgVersion
-} = require('../src/util')
+const pkgName = getPkgItemByKey('name')
+const currentVersion = getPkgVersion()
 
-program
-  .version(getPkgVersion())
-  .usage('<command> [options]')
-  .command('init [projectName]', 'Init a project with default templete')
-  .command('build', 'Build a project with options')
-  .command('update', 'Update packages of taro')
-  .parse(process.argv)
+latestVersion(pkgName).then((latestVersion) => {
+  console.log(
+    `Current : ${chalk.yellow('v' +
+      currentVersion)}  Latest : ${chalk.green('v' +
+      latestVersion)}`)
+
+  console.log(
+    `Run ${chalk.green('taro update')} update to the latest version`)
+  program
+    .version(getPkgVersion())
+    .usage('<command> [options]')
+    .command('init [projectName]', 'Init a project with default templete')
+    .command('build', 'Build a project with options')
+    .command('update', 'Update packages of taro')
+    .parse(process.argv)
+})
