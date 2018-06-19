@@ -727,7 +727,7 @@ function build$PropsProperty (
           value = attr.value
         }
         attrObj.push(
-          t.objectProperty(t.identifier(name.name), value)
+          t.objectProperty(t.identifier(name.name), value === null ? t.booleanLiteral(true) : value)
         )
       }
     })

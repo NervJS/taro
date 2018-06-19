@@ -129,48 +129,46 @@ describe('$components', () => {
       expect(component.name).toBe('Custom')
       expect(component.path).toBe('./utils')
     })
-  })
 
-  test('component results 能在多层循环使用', () => {
-    const { components, code, template } = transform({
+    test('component results 能在多层循环使用', () => {
+      const { components, code, template } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { list } = this.state
+          return (
+            <View>
+              {list.map(item => {
+                return (
+                  <View>
+                    {item.children.map(child => <Custom />)}
+                  </View>
+                )
+              })}
+            </View>
+          )
+          `, '', `import { Custom } from './utils'`)
+      })
+      const component = components[0]
+      expect(components.length).toBe(1)
+      expect(component.name).toBe('Custom')
+      expect(component.path).toBe('./utils')
+    })
+  })
+  test.skip('重复使用同一组件不会增加 $components', () => {
+    const { ast } = transform({
       ...baseOptions,
       code: buildComponent(`
         const { list } = this.state
         return (
           <View>
-            {list.map(item => {
-              return (
-                <View>
-                  {item.children.map(child => <Custom />)}
-                </View>
-              )
-            })}
+            <Custom />
+            <Custom />
           </View>
         )
         `, '', `import { Custom } from './utils'`)
     })
-    const component = components[0]
-    expect(components.length).toBe(1)
-    expect(component.name).toBe('Custom')
-    expect(component.path).toBe('./utils')
-  })
-})
 
-test.skip('重复使用同一组件不会增加 $components', () => {
-  const { ast } = transform({
-    ...baseOptions,
-    code: buildComponent(`
-      const { list } = this.state
-      return (
-        <View>
-          <Custom />
-          <Custom />
-        </View>
-      )
-      `, '', `import { Custom } from './utils'`)
+    const instance = evalClass(ast)
+    expect(Object.keys(instance.$components).length).toEqual(1)
   })
-
-  const instance = evalClass(ast)
-  expect(Object.keys(instance.$components).length).toEqual(1)
-})
 })
