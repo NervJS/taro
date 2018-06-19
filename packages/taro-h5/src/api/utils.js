@@ -1,18 +1,17 @@
 function shouleBeObject (target) {
-  const type = typeof target
-  if (target && type === 'object') return { res: true }
+  if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
     msg: getParameterError({
       correct: 'Object',
-      wrong: target === null ? 'Null' : type
+      wrong: target
     })
   }
 }
 
 function getParameterError ({ name = '', para, correct, wrong }) {
   const parameter = para ? `parameter.${para}` : 'parameter'
-  const errorType = upperCaseFirstLetter(wrong)
+  const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
@@ -22,4 +21,24 @@ function upperCaseFirstLetter (string) {
   return string
 }
 
-export { shouleBeObject, getParameterError }
+function inlineStyle (style) {
+  let res = ''
+  for (let attr in style) res += `${attr}: ${style[attr]};`
+  if (res.includes('display: flex;')) res += 'display: -webkit-box;display: -webkit-flex;'
+  return res
+}
+
+function errorHandler (fail, complete) {
+  return function (res) {
+    typeof fail === 'function' && fail(res)
+    typeof complete === 'function' && complete(res)
+    return Promise.reject(res)
+  }
+}
+
+export {
+  shouleBeObject,
+  getParameterError,
+  inlineStyle,
+  errorHandler
+}

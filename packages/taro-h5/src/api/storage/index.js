@@ -17,7 +17,7 @@ function setStorage (options) {
       name: 'setStorage',
       para: 'key',
       correct: 'String',
-      wrong: typeof key
+      wrong: key
     })
     console.error(res.errMsg)
     typeof fail === 'function' && fail(res)
@@ -38,7 +38,7 @@ function setStorageSync (key, data = '') {
     console.error(getParameterError({
       name: 'setStorage',
       correct: 'String',
-      wrong: typeof key
+      wrong: key
     }))
     return
   }
@@ -71,7 +71,7 @@ function getStorage (options) {
       name: 'getStorage',
       para: 'key',
       correct: 'String',
-      wrong: typeof key
+      wrong: key
     })
     console.error(res.errMsg)
     typeof fail === 'function' && fail(res)
@@ -100,7 +100,7 @@ function getStorageSync (key) {
     console.error(getParameterError({
       name: 'getStorage',
       correct: 'String',
-      wrong: typeof key
+      wrong: key
     }))
     return
   }
@@ -164,7 +164,7 @@ function removeStorage (options) {
       name: 'removeStorage',
       para: 'key',
       correct: 'String',
-      wrong: typeof key
+      wrong: key
     })
     console.error(res.errMsg)
     typeof fail === 'function' && fail(res)
@@ -185,7 +185,7 @@ function removeStorageSync (key) {
     console.error(getParameterError({
       name: 'removeStorage',
       correct: 'String',
-      wrong: typeof key
+      wrong: key
     }))
     return
   }
