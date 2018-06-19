@@ -25,6 +25,28 @@ describe('loop', () => {
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
 
+      test('简单情况', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = ['test1', 'test2', 'test3']
+            return (
+              <View>{array.map(item => {
+                return <View>{\`\$\{item\}\`}</View>
+              })}</View>
+            )
+          `)
+        })
+
+        // const instance = evalClass(ast)
+        // removeShadowData(instance.state)
+
+        // expect(template).toMatch(`<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`)
+        // expect(Object.keys(instance.state).length).toBe(1)
+        // expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
+      })
+
       test('能使用 key', () => {
         const { template, ast, code } = transform({
           ...baseOptions,

@@ -185,6 +185,7 @@ class Transformer {
         }
       },
       JSXExpressionContainer (path) {
+        debugger
         path.traverse({
           MemberExpression (path) {
             const sibling = path.getSibling('property')
@@ -204,16 +205,7 @@ class Transformer {
 
         const expression = path.get('expression') as NodePath<t.Expression>
         const scope = self.renderMethod && self.renderMethod.scope || path.scope
-        if (expression.isCallExpression()) {
-          const node = expression.node
-          if (
-            !(t.isMemberExpression(node.callee) &&
-            t.isIdentifier(node.callee.property) &&
-            node.callee.property.name === 'bind')
-          ) {
-            generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
-          }
-        } else if (hasComplexExpression(expression)) {
+        if (hasComplexExpression(expression)) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
         }
       },
@@ -503,6 +495,7 @@ class Transformer {
   }
 
   setComponentResult () {
+    // debugger
     this.componentSourceMap.forEach((names, source) => {
       let name = ''
       names.forEach(n => {
