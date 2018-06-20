@@ -123,7 +123,7 @@ describe('Template', () => {
       expect(template).toMatch('<scroll-view class="a"></scroll-view>')
     })
 
-    describe('props 不写值', () => {
+    describe('props 为布尔值', () => {
       test('内置组件', () => {
         const { template } = transform({
           ...baseOptions,
@@ -134,6 +134,42 @@ describe('Template', () => {
         })
 
         expect(template).toMatch('<scroll-view hidden="{{true}}"></scroll-view>')
+      })
+
+      test('直接写值', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView hidden={true} />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view hidden="{{true}}"></scroll-view>')
+      })
+
+      test('内置组件 + 特殊 props', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView scrollX />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view scroll-x="{{true}}"></scroll-view>')
+      })
+
+      test('内置组件 + 特殊 props + 直接写值', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView scrollX={true} />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view scroll-x="{{true}}"></scroll-view>')
       })
 
       test('内置组件 2', () => {

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "description": "多端解决方案基础组件（RN）",
   "main": "./src/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "react-dom": "^16.4.0",
-    "react-native-swiper": "^1.5.13"
+    "@nart/react-native-swiper": "^1.5.13"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

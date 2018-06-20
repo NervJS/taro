@@ -139,7 +139,7 @@ export default class Toast {
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
 
-    const errMsg = 'showToast:ok'
+    const errMsg = this.type === 'loading' ? 'showLoading:ok' : 'showToast:ok'
     config.success && config.success({ errMsg })
     config.complete && config.complete({ errMsg })
     return Promise.resolve({ errMsg })
@@ -196,7 +196,7 @@ export default class Toast {
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
 
-    const errMsg = 'showToast:ok'
+    const errMsg = this.type === 'loading' ? 'showLoading:ok' : 'showToast:ok'
     config.success && config.success({ errMsg })
     config.complete && config.complete({ errMsg })
     return Promise.resolve({ errMsg })

@@ -3,6 +3,23 @@ const webpack = require('webpack')
 const { getPostcssPlugins } = require('./postcss.conf')
 
 module.exports = function (config) {
+  const styleLoader = require.resolve('style-loader')
+  const cssLoader = {
+    loader: require.resolve('css-loader'),
+    options: {
+      importLoaders: 1
+    }
+  }
+  const postcssLoader = {
+    loader: require.resolve('postcss-loader'),
+    options: {
+      ident: 'postcss',
+      plugins: () => getPostcssPlugins(config)
+    }
+  }
+  const sassLoader = require.resolve('sass-loader')
+  const lessLoader = require.resolve('less-loader')
+  const stylusLoader = require.resolve('stylus-loader')
   return {
     devtool: 'cheap-module-eval-source-map',
     module: {
@@ -12,37 +29,32 @@ module.exports = function (config) {
             {
               test: /\.(css|scss|sass)(\?.*)?$/,
               exclude: /node_modules/,
-              use: [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1
-                  }
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: {
-                    ident: 'postcss',
-                    plugins: () => getPostcssPlugins(config)
-                  }
-                },
-                require.resolve('sass-loader')
-              ]
+              use: [ styleLoader, cssLoader, postcssLoader, sassLoader ]
+            },
+            {
+              test: /\.less(\?.*)?$/,
+              exclude: /node_modules/,
+              use: [ styleLoader, cssLoader, postcssLoader, lessLoader ]
+            },
+            {
+              test: /\.styl(\?.*)?$/,
+              exclude: /node_modules/,
+              use: [ styleLoader, cssLoader, postcssLoader, stylusLoader ]
             },
             {
               test: /\.(css|scss|sass)(\?.*)?$/,
               include: /node_modules/,
-              use: [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1
-                  }
-                },
-                require.resolve('sass-loader')
-              ]
+              use: [ styleLoader, cssLoader, sassLoader ]
+            },
+            {
+              test: /\.less(\?.*)?$/,
+              include: /node_modules/,
+              use: [ styleLoader, cssLoader, lessLoader ]
+            },
+            {
+              test: /\.styl(\?.*)?$/,
+              include: /node_modules/,
+              use: [ styleLoader, cssLoader, stylusLoader ]
             }
           ]
         }

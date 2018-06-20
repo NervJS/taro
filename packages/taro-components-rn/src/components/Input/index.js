@@ -87,7 +87,7 @@ class _Input extends React.Component<Props, State> {
 
   props: Props
   state: State = {
-    value: this.props.value || '',
+    returnValue: undefined,
     height: 0,
   }
   lineCount: number = 0
@@ -102,9 +102,16 @@ class _Input extends React.Component<Props, State> {
 
   onChangeText = (text: string) => {
     const { onInput } = this.props
+    const { returnValue } = this.state
     if (onInput) {
       const result = onInput({ detail: { value: text } })
-      this.setState({ value: typeof result === 'string' ? result : text })
+      // Be care of flickering
+      // @see https://facebook.github.io/react-native/docs/textinput.html#value
+      if (typeof result === 'string') {
+        this.setState({ returnValue: result })
+      } else if (returnValue) {
+        this.setState({ returnValue: undefined })
+      }
     }
   }
 
@@ -179,7 +186,7 @@ class _Input extends React.Component<Props, State> {
         autoFocus={!!focus}
         selection={selection}
         onChangeText={this.onChangeText}
-        value={this.state.value}
+        value={this.state.returnValue}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onKeyPress={this.onKeyPress}

@@ -24,6 +24,11 @@ export function updateComponent (component, update) {
   const prevProps = component.prevProps || props
   const prevState = component.prevState || state
   component.props = prevProps
+  if (component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
+    component._disable = true
+    component.componentWillReceiveProps(props)
+    component._disable = false
+  }
   let skip = false
   if (typeof component.shouldComponentUpdate === 'function' &&
     component.shouldComponentUpdate(props, state) === false) {
@@ -39,11 +44,11 @@ export function updateComponent (component, update) {
       const childProps = component.$props[k].call(component)
       const subComponent = component.$$components[k]
       const newChildProps = Object.assign(subComponent.props, childProps)
-      component._disable = true
+      subComponent._disable = true
       if (subComponent.componentWillReceiveProps) {
         subComponent.componentWillReceiveProps(newChildProps)
       }
-      component._disable = false
+      subComponent._disable = false
       subComponent.props = newChildProps
       updateComponent(subComponent, false)
     }

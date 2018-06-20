@@ -204,7 +204,14 @@ class Transformer {
 
         const expression = path.get('expression') as NodePath<t.Expression>
         const scope = self.renderMethod && self.renderMethod.scope || path.scope
-        if (hasComplexExpression(expression)) {
+        const calleeExpr = expression.get('callee')
+        if (
+          hasComplexExpression(expression) &&
+          !(calleeExpr &&
+            calleeExpr.isMemberExpression() &&
+            calleeExpr.get('object').isMemberExpression() &&
+            calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
+        ) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
         }
       },
@@ -465,7 +472,7 @@ class Transformer {
           value = attr.value
         }
         properties.push(
-          t.objectProperty(t.identifier(name.name), value)
+          t.objectProperty(t.identifier(name.name), value === null ? t.booleanLiteral(true) : value)
         )
       }
     })

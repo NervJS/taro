@@ -120,9 +120,13 @@ export function processDynamicComponents (page) {
         const stateName = loopRes.stateName
         const loopComponents = loopRes.loopComponents
         const stateData = safeGet(component.state, stateName)
-        recurrence(loopComponents, stateData)
-        function recurrence (loopComponents, stateData) {
-          loopComponents.forEach(item => {
+        recurrence(loopComponents, stateData, -1)
+        function recurrence (loopComponents, stateData, level) {
+          loopComponents.forEach((item, loopId) => {
+            if (Array.isArray(item)) {
+              recurrence(item, stateData[loopId], loopId)
+              return
+            }
             const _class = item.path
             const components = item.components
             const children = item.children
@@ -133,7 +137,7 @@ export function processDynamicComponents (page) {
             }
             if (components && components.length) {
               components.forEach(function (item, index) {
-                const comPath = `${component.$path}$$${item.fn}`
+                const comPath = `${component.$path}$$${item.fn}_${level}`
                 let child
                 Object.getOwnPropertyNames(component.$$dynamicComponents).forEach(c => {
                   if (c === comPath) {
@@ -178,15 +182,13 @@ export function processDynamicComponents (page) {
                   })
                 })
                 if (item.children && item.children.length) {
-                  recurrence(item.children, stateData[index])
+                  recurrence(item.children, stateData[index], `${index}_${level}`)
                 }
                 recursiveDynamicComponents(item)
               })
             }
             if (children && children.length) {
-              stateData.forEach(item => {
-                recurrence(children, item)
-              })
+              recurrence(children, stateData, level)
             }
           })
         }
