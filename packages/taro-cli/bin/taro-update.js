@@ -60,11 +60,11 @@ function updateSelf () {
 
   child.stdout.on('data', function (data) {
     console.log(data)
-    spinner.succeed(chalk.green('Update successfully!\n'))
+    spinner.stop()
   })
   child.stderr.on('data', function (data) {
     console.log(data)
-    spinner.fail(chalk.red('Update failed!\n'))
+    spinner.stop()
   })
 }
 
@@ -116,10 +116,10 @@ async function updateProject () {
 
   child.stdout.on('data', function (data) {
     console.log(data)
-    spinner.succeed(chalk.green('Update successfully!\n'))
+    spinner.stop()
   })
   child.stderr.on('data', function (data) {
     console.log(data)
-    spinner.fail(chalk.red('Update failed!\n'))
+    spinner.stop()
   })
 }
