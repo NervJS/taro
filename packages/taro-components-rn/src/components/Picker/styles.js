@@ -7,11 +7,6 @@ import {
 const deviceWidth = Dimensions.get('window').width
 
 export default StyleSheet.create({
-  dialogWrapper: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   dialogOverlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     position: 'absolute',
@@ -19,6 +14,11 @@ export default StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  dialogWrapper: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   dialogContainer: {
     width: deviceWidth,
