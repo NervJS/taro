@@ -10,6 +10,7 @@ const getLatestVersion = require('latest-version')
 const {PROJECT_CONFIG} = require('../src/util')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 const pkgPath = path.join(process.cwd(), 'package.json')
+const {shouldUseYarn, shouldUseCnpm} = require('../src/util')
 
 const pkgName = getPkgItemByKey('name')
 
@@ -38,14 +39,22 @@ if (args.length === 1) {
 function info () {
   console.log()
   console.log(chalk.red('Commnd error:'))
-  console.log(`${chalk.green('npm update self')} Update package @tarojs/cli to the latest`)
-  console.log(`${chalk.green('npm update project')} Update all of packages in Project @taro/* to the latest`)
+  console.log(`${chalk.green('taro update self')} Update package @tarojs/cli to the latest`)
+  console.log(`${chalk.green('taro update project')} Update all of packages in Project @taro/* to the latest`)
 }
 
 function updateSelf () {
   console.log(chalk.green('Update package @tarojs/cli to the latest...'))
+  let command
+  if (shouldUseYarn()) {
+    command = 'yarn global add @tarojs/cli@latest'
+  } else if (shouldUseCnpm()) {
+    command = 'cnpm i -g @tarojs/cli@latest'
+  } else {
+    command = 'npm i -g @tarojs/cli@latest'
+  }
 
-  let child = exec('npm i -g @tarojs/cli@latest')
+  let child = exec(command)
 
   const spinner = ora('update packages...').start()
 
@@ -92,7 +101,16 @@ async function updateProject () {
   // npm install
   console.log(chalk.green('Update all of packages in Project @taro/* to the latest...'))
 
-  let child = exec('npm i')
+  let command
+  if (shouldUseYarn()) {
+    command = 'yarn install'
+  } else if (shouldUseCnpm()) {
+    command = 'cnpm install'
+  } else {
+    command = 'npm install'
+  }
+
+  let child = exec(command)
 
   const spinner = ora('update packages...').start()
 
