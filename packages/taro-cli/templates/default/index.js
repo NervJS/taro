@@ -24,7 +24,7 @@ module.exports = function (creater, params, helper, cb) {
     stylus: 'styl',
     none: 'css'
   }
-  const currentStyleExt = styleExtMap[css]
+  const currentStyleExt = styleExtMap[css] || 'css'
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)

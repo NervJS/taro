@@ -276,7 +276,6 @@ function parseAst (type, ast, sourceFilePath, filePath) {
         const init = node.declarations[0].init
         const args = init.arguments
         let value = args[0].value
-        const valueExtname = path.extname(value)
         const id = node.declarations[0].id
         if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
           if (value === taroJsComponents) {
@@ -304,12 +303,29 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             args[0].value = getExactedNpmFilePath(value, filePath)
             astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
           }
-        } else if (Util.REG_STYLE.test(valueExtname)) {
+        }
+      }
+    },
+
+    CallExpression (astPath) {
+      const node = astPath.node
+      const callee = node.callee
+      if (t.isMemberExpression(callee)) {
+        if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+          astPath.remove()
+        }
+      } else if (callee.name === 'require') {
+        const args = node.arguments
+        let value = args[0].value
+        const valueExtname = path.extname(value)
+        if (Util.REG_STYLE.test(valueExtname)) {
           const stylePath = path.resolve(path.dirname(sourceFilePath), value)
           if (styleFiles.indexOf(stylePath) < 0) {
             styleFiles.push(stylePath)
           }
           astPath.remove()
+        } else if (path.isAbsolute(value)) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
         } else if (value.indexOf('.') === 0) {
           const pathArr = value.split('/')
           if (pathArr.indexOf('pages') >= 0) {
@@ -321,21 +337,13 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             }
             if (fs.existsSync(vpath)) {
               const obj = JSON.parse(fs.readFileSync(vpath).toString())
-              let defaultSpecifier = null
-              if (id.type === 'Identifier') {
-                defaultSpecifier = id.name
-              }
-              if (defaultSpecifier) {
-                let objArr = [t.nullLiteral()]
-                if (Array.isArray(obj)) {
-                  objArr = convertArrayToAstExpression(obj)
-                } else {
-                  objArr = convertObjectToAstExpression(obj)
-                }
-                astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
+              let objArr = [t.nullLiteral()]
+              if (Array.isArray(obj)) {
+                objArr = convertArrayToAstExpression(obj)
               } else {
-                astPath.remove()
+                objArr = convertObjectToAstExpression(obj)
               }
+              astPath.replaceWith(t.objectExpression(objArr))
             }
           } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
             if (scriptFiles.indexOf(value) < 0) {
@@ -346,15 +354,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             if (mediaFiles.indexOf(vpath) < 0) {
               mediaFiles.push(vpath)
             }
-            let defaultSpecifier = null
-            if (id.type === 'Identifier') {
-              defaultSpecifier = id.name
-            }
-            if (defaultSpecifier) {
-              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
-            } else {
-              astPath.remove()
-            }
+            astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))
           } else if (!valueExtname) {
             let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
             const outputVpath = vpath.replace(sourceDir, outputDir)
@@ -378,20 +378,9 @@ function parseAst (type, ast, sourceFilePath, filePath) {
                 relativePath = Util.promoteRelativePath(relativePath)
                 relativePath = relativePath.replace(path.extname(relativePath), '.js')
                 args[0].value = relativePath
-                astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
               }
             }
           }
-        }
-      }
-    },
-
-    CallExpression (astPath) {
-      const node = astPath.node
-      const callee = node.callee
-      if (t.isMemberExpression(callee)) {
-        if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
-          astPath.remove()
         }
       }
     },
