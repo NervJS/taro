@@ -53,6 +53,12 @@ class _PickerDialog extends React.Component<Props, State> {
     onConfirm && onConfirm()
   }
 
+  // Android or AppleTV
+  onRequestClose = () => {
+    const { onCancel } = this.props
+    onCancel && onCancel()
+  }
+
   render () {
     const {
       children,
@@ -70,6 +76,7 @@ class _PickerDialog extends React.Component<Props, State> {
           visible={show}
           animationType="fade"
           transparent={true}
+          onRequestClose={this.onRequestClose}
         >
           <TouchableWithoutFeedback
             onPress={this.onCancel}
@@ -82,6 +89,7 @@ class _PickerDialog extends React.Component<Props, State> {
           visible={show}
           animationType="slide"
           transparent={true}
+          onRequestClose={this.onRequestClose}
         >
           <DialogWrapper style={styles.dialogWrapper} behavior="padding">
             <View style={styles.dialogContainer}>
