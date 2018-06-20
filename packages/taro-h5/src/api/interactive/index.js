@@ -130,49 +130,83 @@ function showModal (options = {}) {
   const handler = errorHandler(options.fail, options.complete)
 
   if (typeof options.title !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'title', 'String', typeof options.title)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'title',
+        correct: 'String',
+        wrong: options.title
+      })
+    })
   }
 
   if (typeof options.content !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'content', 'String', typeof options.content)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'content',
+        correct: 'String',
+        wrong: options.content
+      })
+    })
   }
 
   if (typeof options.cancelText !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'cancelText', 'String', typeof options.cancelText)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'cancelText',
+        correct: 'String',
+        wrong: options.cancelText
+      })
+    })
   }
 
-  if (options.cancelText.length > 4) {
-    handler({errMsg: 'showModal: fail cancelText length should not large then 4'})
-    return
+  if (options.cancelText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
+    return handler({ errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' })
   }
 
   if (typeof options.confirmText !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'confirmText', 'String', typeof options.confirmText)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'confirmText',
+        correct: 'String',
+        wrong: options.confirmText
+      })
+    })
   }
 
-  if (options.confirmText.length > 4) {
-    handler({errMsg: 'showModal: fail confirmText length should not large then 4'})
-    return
+  if (options.confirmText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
+    return handler({ errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' })
   }
 
   if (typeof options.cancelColor !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'cancelColor', 'String', typeof options.cancelColor)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'cancelColor',
+        correct: 'String',
+        wrong: options.cancelColor
+      })
+    })
   }
 
   if (typeof options.confirmColor !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'confirmColor', 'String', typeof options.confirmColor)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'confirmColor',
+        correct: 'String',
+        wrong: options.confirmColor
+      })
+    })
   }
 
   options.showCancel = !!options.showCancel
 
   if (!modal.el) return modal.create(options)
-  modal.show(options)
+  return modal.show(options)
 }
 
 function showActionSheet (options = {}) {
