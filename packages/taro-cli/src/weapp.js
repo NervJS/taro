@@ -827,6 +827,8 @@ async function buildSingleComponent (component) {
     const componentDepComponents = transformResult.components
     let resCode = res.code
     resCode = await compileScriptFile(component, resCode)
+    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
+    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
