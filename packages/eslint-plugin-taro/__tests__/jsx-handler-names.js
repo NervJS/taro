@@ -64,6 +64,9 @@ ruleTester.run('jsx-handler-names', rule, {
     },
     {
       code: testComponent(`<View key={handleClick} />`)
+    },
+    {
+      code: testComponent(`<View src={a.b} />`)
     }
   ],
   invalid: [{

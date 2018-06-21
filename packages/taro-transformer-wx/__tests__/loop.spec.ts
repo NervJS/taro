@@ -5,6 +5,25 @@ import { buildComponent, baseOptions, evalClass, removeShadowData } from './util
 describe('loop', () => {
   describe('有 block 有 return', () => {
     describe('一层 loop', () => {
+      test('支持写逻辑表达式', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = ['test1', 'test2', 'test3']
+            const bool = true
+            return (
+              <View>{array.map(item => { return bool && <View>{item}</View> })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        const stateName = Object.keys(instance.state)[0]
+        expect(template).toMatch(`<view wx:for="{{${stateName}}}" wx:for-item="item" wx:if="{{bool}}">{{item}}</view>`)
+      })
+
       test('有 template string', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
