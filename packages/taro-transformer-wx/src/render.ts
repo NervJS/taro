@@ -161,11 +161,15 @@ export class RenderParser {
           t.isReturnStatement(parentNode) ||
           (
             isReturnStatement &&
-            !t.isArrowFunctionExpression(parentNode) &&
-            !jsxElementPath.findParent(p => p.isJSXExpressionContainer())
+            !t.isArrowFunctionExpression(parentNode)
           )
         ) {
-          if (!isFinalReturn) {
+          let isChildren = false
+          this.loopComponents.forEach((component) => {
+            isChildren = !!jsxElementPath.findParent(p => p === component)
+          })
+          const JSXExpr = jsxElementPath.findParent(p => p.isJSXExpressionContainer())
+          if (!isFinalReturn && (!isChildren || isContainFunction(JSXExpr))) {
             const callExpr = parentPath.findParent(p => p.isCallExpression())
             if (callExpr.isCallExpression()) {
               const callee = callExpr.node.callee
