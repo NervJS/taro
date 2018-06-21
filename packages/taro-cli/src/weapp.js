@@ -3,7 +3,7 @@ const os = require('os')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const babylon = require('babylon')
+const babel = require('babel-core')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
@@ -903,7 +903,9 @@ function compileDepScripts (scriptFiles) {
         isBuildingScripts[outputItem] = true
         try {
           const code = fs.readFileSync(item).toString()
-          const ast = babylon.parse(code, babylonConfig)
+          const ast = babel.transform(code, {
+            parserOpts: babylonConfig
+          }).ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code

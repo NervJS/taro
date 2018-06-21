@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const vfs = require('vinyl-fs')
 const Vinyl = require('vinyl')
 const through2 = require('through2')
-const babylon = require('babylon')
+const babel = require('babel-core')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -56,7 +56,9 @@ const PACKAGES = {
 }
 
 function parseJSCode (code, filePath) {
-  const ast = babylon.parse(code, babylonConfig)
+  const ast = babel.transform(code, {
+    parserOpts: babylonConfig
+  }).ast
   const styleFiles = []
   let taroImportDefaultName
   let hasAddReactImportDefaultName = false

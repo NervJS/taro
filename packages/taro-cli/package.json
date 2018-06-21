@@ -25,6 +25,7 @@
   "dependencies": {
     "@tarojs/transformer-wx": "0.0.54",
     "autoprefixer": "^8.4.1",
+    "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
     "babel-template": "^6.26.0",
     "babel-traverse": "^6.26.0",

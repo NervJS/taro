@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const babylon = require('babylon')
+const babel = require('babel-core')
 const vfs = require('vinyl-fs')
 const through2 = require('through2')
 const traverse = require('babel-traverse').default
@@ -71,7 +71,9 @@ const FILE_TYPE = {
 }
 
 function processEntry (code) {
-  const ast = babylon.parse(code, babylonConfig)
+  const ast = babel.transform(code, {
+    parserOpts: babylonConfig
+  }).ast
   let taroImportDefaultName
   let providorImportName
   let storeName
@@ -334,7 +336,9 @@ function processEntry (code) {
 }
 
 function processOthers (code) {
-  const ast = babylon.parse(code, babylonConfig)
+  const ast = babel.transform(code, {
+    parserOpts: babylonConfig
+  }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
 
