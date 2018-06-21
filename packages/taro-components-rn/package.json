@@ -18,8 +18,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "react-dom": "^16.4.0",
-    "@nart/react-native-swiper": "^1.5.13"
+    "@nart/react-native-swiper": "^1.5.13",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
