@@ -3,14 +3,14 @@ const path = require('path')
 const fs = require('fs-extra')
 const program = require('commander')
 const chalk = require('chalk')
-const {getPkgItemByKey} = require('../src/util')
+const { getPkgItemByKey } = require('../src/util')
 const ora = require('ora')
 const exec = require('child_process').exec
 const getLatestVersion = require('latest-version')
-const {PROJECT_CONFIG} = require('../src/util')
+const { PROJECT_CONFIG } = require('../src/util')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 const pkgPath = path.join(process.cwd(), 'package.json')
-const {shouldUseYarn, shouldUseCnpm} = require('../src/util')
+const { shouldUseYarn, shouldUseCnpm } = require('../src/util')
 
 const pkgName = getPkgItemByKey('name')
 

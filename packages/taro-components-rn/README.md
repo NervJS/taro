@@ -48,7 +48,7 @@ cp -rf src AwesomeProjectDir/src/tcr
   - [x] checkbox | FS
   - [ ] form
   - [x] input | PS
-  - [ ] label
+  - [x] label | PS(without FOR)
   - [x] picker | PS
   - [x] radio | FS
   - [x] slider | PS

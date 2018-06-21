@@ -10,6 +10,8 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
+
     const eventHandlerPropPrefix = 'on'
 
     const PROP_EVENT_HANDLER_REGEX = new RegExp(`^(${eventHandlerPropPrefix}[A-Z].*|ref)$`)
@@ -21,16 +23,20 @@ module.exports = {
         }
 
         const propKey = typeof node.name === 'object' ? node.name.name : node.name
+        const source = sourceCode.getText(node.value.expression)
 
-        if (propKey === 'ref') {
+        if (propKey === 'ref' || propKey === 'key') {
           return
         }
 
         const propIsEventHandler = PROP_EVENT_HANDLER_REGEX.test(propKey)
+        console.log(node.value.expression)
+        const isPropValueFunction = source.startsWith('this.props.on') ||
+          source.startsWith('this.')
 
-        if (!propIsEventHandler) {
+        if (!propIsEventHandler && isPropValueFunction) {
           context.report({
-            node: node,
+            node,
             message: ERROR_MESSAGE
           })
         }

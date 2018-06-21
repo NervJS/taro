@@ -123,6 +123,84 @@ describe('Template', () => {
       expect(template).toMatch('<scroll-view class="a"></scroll-view>')
     })
 
+    describe('props 为布尔值', () => {
+      test('内置组件', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView hidden />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view hidden="{{true}}"></scroll-view>')
+      })
+
+      test('直接写值', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView hidden={true} />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view hidden="{{true}}"></scroll-view>')
+      })
+
+      test('内置组件 + 特殊 props', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView scrollX />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view scroll-x="{{true}}"></scroll-view>')
+      })
+
+      test('内置组件 + 特殊 props + 直接写值', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <ScrollView scrollX={true} />
+          `)
+        })
+
+        expect(template).toMatch('<scroll-view scroll-x="{{true}}"></scroll-view>')
+      })
+
+      test('内置组件 2', () => {
+        const { template } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <View hidden />
+          `)
+        })
+
+        expect(template).toMatch('<view hidden="{{true}}"></view>')
+      })
+
+      test('自定义组件', () => {
+        const { template, code, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            return <Custom hidden />
+          `, ``, `import { Custom } from './utils'`)
+        })
+
+        const instance = evalClass(ast)
+        const props = instance.$props.Custom()
+        expect(props.$name).toBe('Custom')
+        expect(props.hidden).toBe(true)
+        expect(template).toMatch(`<template is="Custom" data="{{...$$Custom}}"></template>`)
+      })
+    })
+
     test('驼峰式应该变为下划线式', () => {
       const { template } = transform({
         ...baseOptions,

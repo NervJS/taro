@@ -82,6 +82,35 @@ class Project extends Creator {
       })
     }
 
+    if (typeof conf.typescript !== 'boolean') {
+      prompts.push({
+        type: 'confirm',
+        name: 'typescript',
+        message: '是否需要使用 TypeScript ？'
+      })
+    }
+
+    const cssChoices = [{
+      name: 'Sass',
+      value: 'sass'
+    }, {
+      name: 'Less',
+      value: 'less'
+    }, {
+      name: 'Stylus',
+      value: 'stylus'
+    }, {
+      name: '无',
+      value: 'none'
+    }]
+
+    prompts.push({
+      type: 'list',
+      name: 'css',
+      message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
+      choices: cssChoices
+    })
+
     const templateChoices = [{
       name: '默认模板',
       value: 'default'
@@ -115,7 +144,7 @@ class Project extends Creator {
     return inquirer.prompt(prompts)
   }
 
-  write () {
+  write (cb) {
     const { template } = this.conf
     this.conf.src = SOURCE_DIR
     const templateCreate = require(path.join(this.templatePath(), template, 'index.js'))
@@ -123,7 +152,7 @@ class Project extends Creator {
       shouldUseYarn,
       shouldUseCnpm,
       getPkgVersion
-    })
+    }, cb)
   }
 }
 

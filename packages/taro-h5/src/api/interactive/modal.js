@@ -1,4 +1,4 @@
-import { inlineStyle } from './utils'
+import { inlineStyle } from '../utils'
 
 export default class Modal {
   constructor () {
@@ -122,8 +122,9 @@ export default class Modal {
     this.cancel.onclick = () => {
       this.hide()
       const res = this.getRes('cancel')
-      config.fail(res)
+      config.success(res)
       config.complete(res)
+      this.resolveHandler(res)
     }
 
     // confirm button
@@ -137,6 +138,7 @@ export default class Modal {
       const res = this.getRes('confirm')
       config.success(res)
       config.complete(res)
+      this.resolveHandler(res)
     }
 
     // result
@@ -151,6 +153,8 @@ export default class Modal {
     // show immediately
     document.body.appendChild(this.el)
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
+
+    return new Promise(resolve => (this.resolveHandler = resolve))
   }
 
   getRes (type) {
@@ -209,19 +213,23 @@ export default class Modal {
     this.cancel.onclick = () => {
       this.hide()
       const res = this.getRes('cancel')
-      config.fail(res)
+      config.success(res)
       config.complete(res)
+      this.resolveHandler(res)
     }
     this.confirm.onclick = () => {
       this.hide()
       const res = this.getRes('confirm')
       config.success(res)
       config.complete(res)
+      this.resolveHandler(res)
     }
 
     // show
     this.el.style.display = 'block'
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
+
+    return new Promise(resolve => (this.resolveHandler = resolve))
   }
 
   hide () {

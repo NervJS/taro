@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const babylon = require('babylon')
+const babel = require('babel-core')
 const vfs = require('vinyl-fs')
 const through2 = require('through2')
 const traverse = require('babel-traverse').default
@@ -52,7 +52,8 @@ const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
 // const outputDir = path.join(appPath, outputDirName)
 const tempPath = path.join(appPath, tempDir)
-const entryFilePath = path.join(sourceDir, CONFIG.ENTRY)
+const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+const entryFileName = path.basename(entryFilePath)
 
 let pages = []
 let tabBar
@@ -70,7 +71,9 @@ const FILE_TYPE = {
 }
 
 function processEntry (code) {
-  const ast = babylon.parse(code, babylonConfig)
+  const ast = babel.transform(code, {
+    parserOpts: babylonConfig
+  }).ast
   let taroImportDefaultName
   let providorImportName
   let storeName
@@ -333,7 +336,9 @@ function processEntry (code) {
 }
 
 function processOthers (code) {
-  const ast = babylon.parse(code, babylonConfig)
+  const ast = babel.transform(code, {
+    parserOpts: babylonConfig
+  }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
 
@@ -432,7 +437,7 @@ function processOthers (code) {
 }
 
 function classifyFiles (filename) {
-  if (filename.indexOf(CONFIG.ENTRY) >= 0) return FILE_TYPE.ENTRY
+  if (filename.indexOf(entryFileName) >= 0) return FILE_TYPE.ENTRY
 
   if (pages.some(page => {
     if (filename.indexOf(page) >= 0) return true
@@ -520,7 +525,7 @@ async function buildDist (buildConfig) {
   const { watch, h5 } = buildConfig
   const webpackConf = h5 && h5.webpack
   const entry = {
-    app: path.join(tempPath, CONFIG.ENTRY)
+    app: path.join(tempPath, entryFileName)
   }
   const h5Config = projectConfig.h5 || {}
   h5Config.env = projectConfig.env

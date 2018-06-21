@@ -16,6 +16,8 @@
  * ✔ onChange(bindchange): No support for detail.source
  * ✔ onAnimationFinish(bindanimationfinish): No support for detail.source
  *
+ * @warn vertical swiper nested in scrollview on android would not work.
+ *
  * @example
  * <Swiper
  *   showsPagination={true}
@@ -50,7 +52,7 @@ import {
   // View,
   StyleSheet,
 } from 'react-native'
-import Swiper from 'react-native-swiper'
+import Swiper from '@nart/react-native-swiper'
 // import styles from './styles'
 
 type Props = {

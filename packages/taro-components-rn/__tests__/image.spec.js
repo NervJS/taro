@@ -3,7 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import sinon from 'sinon'
 import { _Image } from '../src/components/image'
-import renderer from 'react-test-renderer'
+// import renderer from 'react-test-renderer'
 
 describe('<Image />', () => {
   // it('renders correctly', () => {

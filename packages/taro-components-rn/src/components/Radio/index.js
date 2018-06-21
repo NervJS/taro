@@ -36,14 +36,18 @@ class _Radio extends React.Component<Props, State> {
   }
 
   props: Props
+  state: State = {
+    checked: !!this.props.checked
+  }
+  $touchable: ?React.ElementRef<TouchableWithoutFeedback>
 
   static defaultProps = {
     value: '',
     color: '#09BB07',
   }
 
-  state: State = {
-    checked: !!this.props.checked
+  _simulateNativePress = () => {
+    this.$touchable && this.$touchable.touchableHandlePress()
   }
 
   onPress = () => {
@@ -77,7 +81,10 @@ class _Radio extends React.Component<Props, State> {
     const isChecked = this.state.checked
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+      <TouchableWithoutFeedback
+        onPress={this.onPress}
+        ref={(touchable) => { this.$touchable = touchable }}
+      >
         <View style={[
           styles.wrapper,
           isChecked && styles.wrapperChecked,

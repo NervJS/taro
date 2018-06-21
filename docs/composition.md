@@ -16,6 +16,7 @@
 | [`@tarojs/components-rn`](https://www.npmjs.com/package/@tarojs/components-rn) |  taro 标准组件库，RractNative 版  |
 | [`@tarojs/plugin-babel`](https://www.npmjs.com/package/@tarojs/plugin-babel) |  taro babel 编译插件  |
 | [`@tarojs/plugin-sass`](https://www.npmjs.com/package/@tarojs/plugin-sass) |  taro sass 编译插件  |
+| [`@tarojs/plugin-less`](https://www.npmjs.com/package/@tarojs/plugin-less) |  taro less 编译插件  |
 | [`@tarojs/plugin-csso`](https://www.npmjs.com/package/@tarojs/plugin-csso) |  taro css 压缩插件  |
 | [`@tarojs/plugin-uglifyjs`](https://www.npmjs.com/package/@tarojs/plugin-uglifyjs) |  taro js 压缩插件  |
 | [`eslint-config-taro`](https://www.npmjs.com/package/eslint-config-taro)      |  taro eslint 规则  |

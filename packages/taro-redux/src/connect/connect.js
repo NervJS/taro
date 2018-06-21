@@ -5,7 +5,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
   const initMapDispatch = typeof mapDispatchToProps === 'function' ? mapDispatchToProps(dispatch) : {}
-  initMapDispatch.dispatch = dispatch;
+  initMapDispatch.dispatch = dispatch
 
   const stateListener = function () {
     let isChanged = false
@@ -19,7 +19,10 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     })
     const isPageHide = this.$root ? this.$root.$isPageHide : this.$isPageHide
     if (isChanged && !isPageHide) {
-      this.setState({})
+      this._unsafeCallUpdate = true
+      this.setState({}, () => {
+        delete this._unsafeCallUpdate
+      })
     }
   }
 

@@ -4,7 +4,7 @@ import { Transformer } from './class'
 import { prettyPrint } from 'html'
 import { setting } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS } from './constant'
 import { transform as parse } from 'babel-core'
 import { transform as babel7Transform } from '@babel/core'
 
@@ -45,10 +45,7 @@ export default function transform<T> (options: Options): TransformResult {
           'objectRestSpread',
           'decorators'
         ] as any[]
-      },
-      plugins: [
-        '@babel/plugin-transform-typescript'
-      ]
+      }
     }).code
     : options.code
   setting.sourceCode = code
@@ -77,6 +74,7 @@ export default function transform<T> (options: Options): TransformResult {
   // transformFromAst(ast, code)
   let result
   const componentSourceMap = new Map<string, string[]>()
+  const imageSource = new Set<string>()
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
   let renderMethod!: NodePath<t.ClassMethod>
@@ -111,6 +109,23 @@ export default function transform<T> (options: Options): TransformResult {
             storeName = store.value.expression.name
           }
           path.node.attributes = []
+        }
+      }
+
+      if (IMAGE_COMPONENTS.has(name)) {
+        for (const attr of path.node.attributes) {
+          if (
+            t.isIdentifier(attr) &&
+            attr.name.name === 'src'
+          ) {
+            if (t.isStringLiteral(attr.value)) {
+              imageSource.add(attr.value.value)
+            } else if (t.isJSXExpressionContainer(attr.value)) {
+              if (t.isStringLiteral(attr.value.expression)) {
+                imageSource.add(attr.value.expression.value)
+              }
+            }
+          }
         }
       }
     },
@@ -171,5 +186,6 @@ export default function transform<T> (options: Options): TransformResult {
   result.code = generate(ast).code
   result.ast = ast
   result.template = prettyPrint(result.template)
+  result.imageSrcs = Array.from(imageSource)
   return result
 }

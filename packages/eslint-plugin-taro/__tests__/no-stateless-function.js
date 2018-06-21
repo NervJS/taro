@@ -26,6 +26,32 @@ ruleTester.run('no-stateless-component', rule, {
     code: testComponent(`<View>
       <CustomComponent />
     </View>`)
+  }, {
+    code: `
+    const array = ['test1', 'test2', 'test3'];
+    const element = array.map(item => <View>{item}</View>)
+    `
+  }, {
+    code: `
+    const array = ['test1', 'test2', 'test3'];
+    const element = array.map(item => {
+      return <View>{item}</View>
+    })
+    `
+  }, {
+    code: `
+    const array = ['test1', 'test2', 'test3'];
+    const element = array.map(item => {
+      return <View>{item}</View>
+    })
+    `
+  }, {
+    code: `
+    const array = ['test1', 'test2', 'test3'];
+    const element = this.state.array.map(item => {
+      return <View>{item}</View>
+    })
+    `
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
     `function Test () { return <View /> }`,

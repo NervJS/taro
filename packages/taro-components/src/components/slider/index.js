@@ -56,8 +56,14 @@ class Slider extends Nerv.Component {
 
     this.sliderInsRef = ''
 
+    if (this.props.value) {
+      if (this.props.value > this.props.max) {
+        this.props.value = this.props.max
+      }
+    }
+
     this.state = {
-      value: this.props.value ? this.props.value : 0,
+      value: this.props.value,
       controlled: typeof this.props.value !== 'undefined',
       totalWidth: 0,
       touching: false,
@@ -199,8 +205,9 @@ class Slider extends Nerv.Component {
       backgroundColor: backgroundColor
     }
 
+    const percent = this.state.percent > 100 ? 100 : this.state.percent
     let trackStyles = {
-      width: `${this.state.percent}%`,
+      width: `${percent}%`,
       backgroundColor: activeColor
     }
 
@@ -212,7 +219,7 @@ class Slider extends Nerv.Component {
     }
 
     let handlerStyles = {
-      left: `${this.state.percent}%`,
+      left: `${percent}%`,
       width: `${blockSize}px`,
       height: `${blockSize}px`,
       backgroundColor: blockColor,

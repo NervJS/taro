@@ -69,7 +69,7 @@ module.exports = function (config) {
               }
             },
             {
-              exclude: /\.js|\.css|\.scss|\.sass|\.html|\.json|\.ejs$/,
+              exclude: /\.(js|css|scss|sass|html|json|ejs|less|styl)$/,
               loader: require.resolve('url-loader'),
               options: {
                 limit: 2000,

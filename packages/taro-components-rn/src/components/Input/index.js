@@ -75,7 +75,7 @@ type Props = {
   _onLineChange?: Function,
 }
 type State = {
-  value: string,
+  returnValue: ?string,
   height: number,
 }
 
@@ -87,9 +87,10 @@ class _Input extends React.Component<Props, State> {
 
   props: Props
   state: State = {
-    value: this.props.value || '',
+    returnValue: undefined,
     height: 0,
   }
+  tmpValue: ?string
   lineCount: number = 0
 
   static defaultProps = {
@@ -102,27 +103,35 @@ class _Input extends React.Component<Props, State> {
 
   onChangeText = (text: string) => {
     const { onInput } = this.props
+    const { returnValue } = this.state
     if (onInput) {
       const result = onInput({ detail: { value: text } })
-      this.setState({ value: typeof result === 'string' ? result : text })
+      this.tmpValue = text
+      // Be care of flickering
+      // @see https://facebook.github.io/react-native/docs/textinput.html#value
+      if (typeof result === 'string') {
+        this.setState({ returnValue: result })
+      } else if (returnValue) {
+        this.setState({ returnValue: undefined })
+      }
     }
   }
 
   onFocus = () => {
     const { onFocus } = this.props
     // event.detail = { value, height }
-    onFocus && onFocus({ detail: { value: this.state.value } })
+    onFocus && onFocus({ detail: { value: this.tmpValue } })
   }
 
   onBlur = () => {
     const { onBlur } = this.props
-    onBlur && onBlur({ detail: { value: this.state.value } })
+    onBlur && onBlur({ detail: { value: this.tmpValue } })
   }
 
   onKeyPress = (event: Object) => {
     if (event.nativeEvent.key !== 'Enter') return
     const { onConfirm } = this.props
-    onConfirm && onConfirm({ detail: { value: this.state.value } })
+    onConfirm && onConfirm({ detail: { value: this.tmpValue } })
   }
 
   onContentSizeChange = (event: Object) => {
@@ -179,7 +188,7 @@ class _Input extends React.Component<Props, State> {
         autoFocus={!!focus}
         selection={selection}
         onChangeText={this.onChangeText}
-        value={this.state.value}
+        value={this.state.returnValue}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onKeyPress={this.onKeyPress}

@@ -1,4 +1,4 @@
-import { inlineStyle } from './utils'
+import { inlineStyle } from '../utils'
 
 export default class Toast {
   constructor () {
@@ -97,10 +97,6 @@ export default class Toast {
     this.mask.setAttribute('style', inlineStyle(maskStyle))
     this.mask.style.display = config.mask ? 'block' : 'none'
 
-    // toast
-    const toast = document.createElement('div')
-    toast.setAttribute('style', inlineStyle(toastStyle))
-
     // icon
     this.icon = document.createElement('p')
     if (config.image) {
@@ -109,9 +105,20 @@ export default class Toast {
       })))
     } else {
       const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
+      if (config.icon === 'none') Object.assign(iconStyle, { 'display': 'none' })
       this.icon.setAttribute('style', inlineStyle(iconStyle))
       if (config.icon !== 'loading') this.icon.textContent = ''
     }
+
+    // toast
+    this.toast = document.createElement('div')
+    if (config.icon === 'none') {
+      Object.assign(toastStyle, {
+        'min-height': '0',
+        'padding': '10px 15px'
+      })
+    }
+    this.toast.setAttribute('style', inlineStyle(toastStyle))
 
     // title
     this.title = document.createElement('p')
@@ -119,20 +126,23 @@ export default class Toast {
     this.title.textContent = config.title
 
     // result
-    toast.appendChild(this.icon)
-    toast.appendChild(this.title)
+    this.toast.appendChild(this.icon)
+    this.toast.appendChild(this.title)
     this.el.appendChild(this.mask)
-    this.el.appendChild(toast)
+    this.el.appendChild(this.toast)
 
     // show immediately
     document.body.appendChild(this.el)
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
     this.type = config._type
-    config.success && config.success({errMsg: 'showToast:ok'})
-    config.complete && config.complete({errMsg: 'showToast:ok'})
 
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
+
+    const errMsg = this.type === 'loading' ? 'showLoading:ok' : 'showToast:ok'
+    config.success && config.success({ errMsg })
+    config.complete && config.complete({ errMsg })
+    return Promise.resolve({ errMsg })
   }
 
   show (options = {}) {
@@ -145,7 +155,7 @@ export default class Toast {
     if (config.mask !== options.mask) this.mask.style.display = options.mask ? 'block' : 'none'
 
     // image
-    const { successStyle, loadingStyle, imageStyle } = this.getstyle()
+    const { toastStyle, successStyle, loadingStyle, imageStyle } = this.getstyle()
     if (config.image !== options.image) {
       if (options.image) {
         this.icon.setAttribute('style', inlineStyle(Object.assign({}, imageStyle, {
@@ -154,16 +164,27 @@ export default class Toast {
         this.icon.textContent = ''
       } else {
         const iconStyle = options.icon === 'loading' ? loadingStyle : successStyle
+        if (options.icon === 'none') Object.assign(iconStyle, { 'display': 'none' })
         this.icon.setAttribute('style', inlineStyle(iconStyle))
         this.icon.textContent = options.icon === 'loading' ? '' : ''
       }
     } else {
       if (!options.image && config.icon !== options.icon) {
         const iconStyle = options.icon === 'loading' ? loadingStyle : successStyle
+        if (options.icon === 'none') Object.assign(iconStyle, { 'display': 'none' })
         this.icon.setAttribute('style', inlineStyle(iconStyle))
         this.icon.textContent = options.icon === 'loading' ? '' : ''
       }
     }
+
+    // toast
+    if (options.icon === 'none') {
+      Object.assign(toastStyle, {
+        'min-height': '0',
+        'padding': '10px 15px'
+      })
+    }
+    this.toast.setAttribute('style', inlineStyle(toastStyle))
 
     Object.assign(config, options)
 
@@ -171,11 +192,14 @@ export default class Toast {
     this.el.style.display = 'block'
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
     this.type = config._type
-    config.success && config.success({errMsg: 'showToast:ok'})
-    config.complete && config.complete({errMsg: 'showToast:ok'})
 
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
+
+    const errMsg = this.type === 'loading' ? 'showLoading:ok' : 'showToast:ok'
+    config.success && config.success({ errMsg })
+    config.complete && config.complete({ errMsg })
+    return Promise.resolve({ errMsg })
   }
 
   hide (duration = 0, type) {

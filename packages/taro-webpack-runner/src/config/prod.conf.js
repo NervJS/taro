@@ -27,55 +27,75 @@ module.exports = function (config) {
   }
   const sourceMap = config.sourceMap
   const cssExtractPlugins = []
-  const cssLoaders = []
   const devtool = 'hidden-source-map'
   const compress = Object.assign({}, {
     css: defaultCSSCompressConf,
     js: defaultJSCompressConf
   }, useModuleConf.compress)
-  cssLoaders.push({
+  const styleLoader = require.resolve('style-loader')
+  const cssLoader = {
+    loader: require.resolve('css-loader'),
+    options: {
+      importLoaders: 1,
+      minimize: compress.css,
+      sourceMap
+    }
+  }
+  const postcssLoader = {
+    loader: require.resolve('postcss-loader'),
+    options: {
+      ident: 'postcss',
+      plugins: () => getPostcssPlugins(config)
+    }
+  }
+  const sassLoader = require.resolve('sass-loader')
+  const lessLoader = require.resolve('less-loader')
+  const stylusLoader = require.resolve('stylus-loader')
+
+  const cssLoaders = [{
     test: /\.(css|scss|sass)(\?.*)?$/,
     exclude: /node_modules/,
     loader: ExtractTextPlugin.extract({
-      fallback: require.resolve('style-loader'),
-      use: [
-        {
-          loader: require.resolve('css-loader'),
-          options: {
-            importLoaders: 1,
-            minimize: compress.css,
-            sourceMap
-          }
-        },
-        {
-          loader: require.resolve('postcss-loader'),
-          options: {
-            ident: 'postcss',
-            plugins: () => getPostcssPlugins(config)
-          }
-        },
-        require.resolve('sass-loader')
-      ]
+      fallback: styleLoader,
+      use: [ cssLoader, postcssLoader, sassLoader ]
     })
-  })
-  cssLoaders.push({
+  }, {
+    test: /\.less(\?.*)?$/,
+    exclude: /node_modules/,
+    loader: ExtractTextPlugin.extract({
+      fallback: styleLoader,
+      use: [ cssLoader, postcssLoader, lessLoader ]
+    })
+  }, {
+    test: /\.styl(\?.*)?$/,
+    exclude: /node_modules/,
+    loader: ExtractTextPlugin.extract({
+      fallback: styleLoader,
+      use: [ cssLoader, postcssLoader, stylusLoader ]
+    })
+  }, {
     test: /\.(css|scss|sass)(\?.*)?$/,
     include: /node_modules/,
     loader: ExtractTextPlugin.extract({
-      fallback: require.resolve('style-loader'),
-      use: [
-        {
-          loader: require.resolve('css-loader'),
-          options: {
-            importLoaders: 1,
-            minimize: compress.css,
-            sourceMap
-          }
-        },
-        require.resolve('sass-loader')
-      ]
+      fallback: styleLoader,
+      use: [ cssLoader, sassLoader ]
     })
-  })
+  }, {
+    test: /\.less(\?.*)?$/,
+    include: /node_modules/,
+    loader: ExtractTextPlugin.extract({
+      fallback: styleLoader,
+      use: [ cssLoader, lessLoader ]
+    })
+  }, {
+    test: /\.styl(\?.*)?$/,
+    include: /node_modules/,
+    loader: ExtractTextPlugin.extract({
+      fallback: styleLoader,
+      use: [ cssLoader, stylusLoader ]
+    })
+  }]
+
   cssExtractPlugins.push(new ExtractTextPlugin({
     filename: 'css/[name].css'
   }))

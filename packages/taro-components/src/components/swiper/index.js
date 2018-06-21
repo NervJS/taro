@@ -350,15 +350,17 @@ class Swiper extends Nerv.Component {
       indicatorItemClass,
       indicatorDots,
       indicatorColor,
-      indicatorActiveColor
+      indicatorActiveColor,
+      className
     } = this.props
 
+    const cls = classNames('swiper', className)
     const {current} = this.state
     const SwiperCount = children.length
     const Swipers = this.renderSwipers()
     return <div className={wrapperClass}>
       <div
-        className='swiper'
+        className={cls}
         ref={(SwiperWp) => { this.SwiperWp = SwiperWp }}>
         <SwiperItem />
         {Swipers}

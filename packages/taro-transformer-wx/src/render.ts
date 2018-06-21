@@ -141,10 +141,11 @@ export class RenderParser {
     JSXElement: (jsxElementPath) => {
       const parentNode = jsxElementPath.parent
       const parentPath = jsxElementPath.parentPath
-      const isFinalReturn = jsxElementPath.getFunctionParent().isClassMethod()
       const isJSXChildren = t.isJSXElement(parentNode)
       if (!isJSXChildren) {
         let statementParent = jsxElementPath.getStatementParent()
+        const isReturnStatement = statementParent.isReturnStatement()
+        const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
         if (
           !(
             statementParent.isVariableDeclaration() ||
@@ -156,7 +157,11 @@ export class RenderParser {
           ) as NodePath<t.Statement>
         }
         this.jsxDeclarations.add(statementParent)
-        if (t.isReturnStatement(parentNode)) {
+        if (
+          t.isReturnStatement(parentNode) ||
+          (isReturnStatement &&
+          !t.isArrowFunctionExpression(parentNode))
+        ) {
           if (!isFinalReturn) {
             const callExpr = parentPath.findParent(p => p.isCallExpression())
             if (callExpr.isCallExpression()) {
@@ -797,7 +802,14 @@ export class RenderParser {
           // console.log(callee.getSource())
         }
       }
-      replaceQueue.push(() => callee.replaceWith(component.node))
+      replaceQueue.push(() => {
+        const statement = component.getStatementParent()
+        callee.replaceWith(
+          statement.isReturnStatement()
+          ? statement.get('argument').node
+          : component.node
+        )
+      })
     })
     replaceQueue.forEach(func => func())
   }

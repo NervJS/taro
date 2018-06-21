@@ -43,6 +43,30 @@ ruleTester.run('jsx-handler-names', rule, {
     },
     {
       code: testComponent(`<View onTouchForceChange={this.handleClick} />`)
+    },
+    {
+      code: testComponent(`<View onTouchForceChange={this.test} />`)
+    },
+    {
+      code: testComponent(`<View onTouchForceChange={this.props.on} />`)
+    },
+    {
+      code: testComponent(`<View onTouchForceChange={this.props.dsfsdf} />`)
+    },
+    {
+      code: testComponent(`array.map(item => <View key={'1'} />)`)
+    },
+    {
+      code: testComponent(`array.map(item => <View key={item} />)`)
+    },
+    {
+      code: testComponent(`<View key={this.handleClick} />`)
+    },
+    {
+      code: testComponent(`<View key={handleClick} />`)
+    },
+    {
+      code: testComponent(`<View src={a.b} />`)
     }
   ],
   invalid: [{
@@ -65,6 +89,12 @@ ruleTester.run('jsx-handler-names', rule, {
     errors: [{ message: ERROR_MESSAGE }]
   }, {
     code: testComponent(`<CustomComponent ONClick={this.handleClick} />`),
+    errors: [{ message: ERROR_MESSAGE }]
+  }, {
+    code: testComponent(`<View oTest={this.dsfsdf} />`),
+    errors: [{ message: ERROR_MESSAGE }]
+  }, {
+    code: testComponent(`<View oTest={this.props.onClick} />`),
     errors: [{ message: ERROR_MESSAGE }]
   }]
 })
