@@ -88,17 +88,23 @@ function showLoading (options = {}) {
   options._type = 'loading'
 
   // verify options
+  const handler = errorHandler(options.fail, options.complete)
+
   if (typeof options.title !== 'string') {
-    const err = { errMsg: getParameterError('showLoading', 'title', 'String', typeof options.title) }
-    options.fail && options.fail(err)
-    options.complete && options.complete(err)
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showLoading',
+        para: 'title',
+        correct: 'String',
+        wrong: options.title
+      })
+    })
   }
 
   options.mask = !!options.mask
 
   if (!toast.el) return toast.create(options)
-  toast.show(options)
+  return toast.show(options)
 }
 
 function hideLoading () {
@@ -124,49 +130,83 @@ function showModal (options = {}) {
   const handler = errorHandler(options.fail, options.complete)
 
   if (typeof options.title !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'title', 'String', typeof options.title)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'title',
+        correct: 'String',
+        wrong: options.title
+      })
+    })
   }
 
   if (typeof options.content !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'content', 'String', typeof options.content)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'content',
+        correct: 'String',
+        wrong: options.content
+      })
+    })
   }
 
   if (typeof options.cancelText !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'cancelText', 'String', typeof options.cancelText)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'cancelText',
+        correct: 'String',
+        wrong: options.cancelText
+      })
+    })
   }
 
-  if (options.cancelText.length > 4) {
-    handler({errMsg: 'showModal: fail cancelText length should not large then 4'})
-    return
+  if (options.cancelText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
+    return handler({ errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' })
   }
 
   if (typeof options.confirmText !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'confirmText', 'String', typeof options.confirmText)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'confirmText',
+        correct: 'String',
+        wrong: options.confirmText
+      })
+    })
   }
 
-  if (options.confirmText.length > 4) {
-    handler({errMsg: 'showModal: fail confirmText length should not large then 4'})
-    return
+  if (options.confirmText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
+    return handler({ errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' })
   }
 
   if (typeof options.cancelColor !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'cancelColor', 'String', typeof options.cancelColor)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'cancelColor',
+        correct: 'String',
+        wrong: options.cancelColor
+      })
+    })
   }
 
   if (typeof options.confirmColor !== 'string') {
-    handler({errMsg: getParameterError('showModal', 'confirmColor', 'String', typeof options.confirmColor)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showModal',
+        para: 'confirmColor',
+        correct: 'String',
+        wrong: options.confirmColor
+      })
+    })
   }
 
   options.showCancel = !!options.showCancel
 
   if (!modal.el) return modal.create(options)
-  modal.show(options)
+  return modal.show(options)
 }
 
 function showActionSheet (options = {}) {
@@ -182,34 +222,50 @@ function showActionSheet (options = {}) {
 
   // list item String
   if (!Array.isArray(options.itemList)) {
-    handler({errMsg: getParameterError('showActionSheet', 'itemList', 'Array', typeof options.itemList)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showActionSheet',
+        para: 'itemList',
+        correct: 'Array',
+        wrong: options.itemList
+      })
+    })
   }
 
   if (options.itemList.length < 1) {
-    handler({errMsg: 'showActionSheet:fail parameter error:parameter.itemList should have at least 1 item'})
-    return
+    return handler({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' })
   }
 
   if (options.itemList.length > 6) {
-    handler({errMsg: 'showActionSheet:fail parameter error:parameter.itemList should not be large than 6'})
-    return
+    return handler({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' })
   }
 
   for (let i = 0; i < options.itemList.length; i++) {
     if (typeof options.itemList[i] !== 'string') {
-      handler({errMsg: getParameterError('showActionSheet', `itemList[${i}]`, 'String', typeof options.itemList[i])})
-      return
+      return handler({
+        errMsg: getParameterError({
+          name: 'showActionSheet',
+          para: `itemList[${i}]`,
+          correct: 'String',
+          wrong: options.itemList[i]
+        })
+      })
     }
   }
 
   if (typeof options.itemColor !== 'string') {
-    handler({errMsg: getParameterError('showActionSheet', 'itemColor', 'String', typeof options.itemColor)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showActionSheet',
+        para: 'itemColor',
+        correct: 'String',
+        wrong: options.itemColor
+      })
+    })
   }
 
   if (!actionSheet.el) return actionSheet.create(options)
-  actionSheet.show(options)
+  return actionSheet.show(options)
 }
 
 export { showToast, hideToast, showLoading, hideLoading, showModal, showActionSheet }

@@ -53,6 +53,12 @@ class _PickerDialog extends React.Component<Props, State> {
     onConfirm && onConfirm()
   }
 
+  // Android or AppleTV
+  onRequestClose = () => {
+    const { onCancel } = this.props
+    onCancel && onCancel()
+  }
+
   render () {
     const {
       children,
@@ -65,33 +71,43 @@ class _PickerDialog extends React.Component<Props, State> {
     })
 
     return (
-      <Modal
-        visible={show}
-        animationType="slide"
-        transparent={true}
-      >
-        <DialogWrapper style={styles.dialogWrapper} behavior="padding">
+      <View>
+        <Modal
+          visible={show}
+          animationType="fade"
+          transparent={true}
+          onRequestClose={this.onRequestClose}
+        >
           <TouchableWithoutFeedback
             onPress={this.onCancel}
             underlayColor="rgba(0, 0, 0, 0.5)"
           >
             <View style={styles.dialogOverlay} />
           </TouchableWithoutFeedback>
-          <View style={styles.dialogContainer}>
-            <View style={styles.dialogHead}>
-              <TouchableWithoutFeedback onPress={this.onCancel}>
-                <View><Text style={styles.dialogCancelText}>取消</Text></View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={this.onConfirm}>
-                <View><Text style={styles.dialogConfirmText}>确定</Text></View>
-              </TouchableWithoutFeedback>
+        </Modal>
+        <Modal
+          visible={show}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={this.onRequestClose}
+        >
+          <DialogWrapper style={styles.dialogWrapper} behavior="padding">
+            <View style={styles.dialogContainer}>
+              <View style={styles.dialogHead}>
+                <TouchableWithoutFeedback onPress={this.onCancel}>
+                  <View><Text style={styles.dialogCancelText}>取消</Text></View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={this.onConfirm}>
+                  <View><Text style={styles.dialogConfirmText}>确定</Text></View>
+                </TouchableWithoutFeedback>
+              </View>
+              <View style={styles.dialogSlot}>
+                {children}
+              </View>
             </View>
-            <View style={styles.dialogSlot}>
-              {children}
-            </View>
-          </View>
-        </DialogWrapper>
-      </Modal>
+          </DialogWrapper>
+        </Modal>
+      </View>
     )
   }
 }

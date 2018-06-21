@@ -24,8 +24,8 @@ export function dynamicRecursive (component, param, data, stateName) {
         return res
       })
     } else if (paramItem.children && paramItem.children.length) {
-      inData.map((d, index) => {
-        res.children = dynamicRecursive(component, paramItem.children, d, stateName)
+      res.children = inData.map((d, index) => {
+        return dynamicRecursive(component, paramItem.children, d, stateName)
       })
     }
     return res
