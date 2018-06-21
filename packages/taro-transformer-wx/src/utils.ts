@@ -148,8 +148,12 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
         parentPath.isMemberExpression() &&
         parentPath.parentPath.isMemberExpression()
       ) {
-        matched = true
-        path.stop()
+        const sourceCode = parentPath.parentPath.getSource()
+        if (sourceCode.includes('[') && sourceCode.includes(']')) {
+          debugger
+          matched = true
+          path.stop()
+        }
       }
     }
   })
