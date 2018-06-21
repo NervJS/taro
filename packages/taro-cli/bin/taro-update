@@ -62,14 +62,12 @@ if (args.length === 1) {
 }
 
 function info () {
-  console.log()
-  console.log(chalk.red('Commnd error:'))
-  console.log(`${chalk.green('taro update self')} Update package @tarojs/cli to the latest`)
-  console.log(`${chalk.green('taro update project')} Update all of packages in Project @taro/* to the latest`)
+  console.log(chalk.red('命令错误:'))
+  console.log(`${chalk.green('taro update self')} 更新 Taro 开发工具 taro-cli 到最新版本`)
+  console.log(`${chalk.green('taro update project')} 更新项目所有 Taro 相关依赖到最新版本...`)
 }
 
 function updateSelf () {
-  console.log(chalk.green('Update package @tarojs/cli to the latest...'))
   let command
   if (shouldUseYarn()) {
     command = 'yarn global add @tarojs/cli@latest'
@@ -81,7 +79,7 @@ function updateSelf () {
 
   let child = exec(command)
 
-  const spinner = ora('update packages...').start()
+  const spinner = ora('即将将 Taro 开发工具 taro-cli 更新到最新版本...').start()
 
   child.stdout.on('data', function (data) {
     console.log(data)
@@ -117,14 +115,11 @@ async function updateProject () {
   // 写入package.json
   try {
     await fs.writeJson(pkgPath, packageMap, {spaces: '\t'})
+    console.log(chalk.green('更新项目 package.json 成功！'))
     console.log()
-    console.log('update package.json success!')
   } catch (err) {
     console.error(err)
   }
-
-  // npm install
-  console.log(chalk.green('Update all of packages in Project @taro/* to the latest...'))
 
   let command
   if (shouldUseYarn()) {
@@ -137,14 +132,14 @@ async function updateProject () {
 
   let child = exec(command)
 
-  const spinner = ora('update packages...').start()
+  const spinner = ora('即将将项目所有 Taro 相关依赖更新到最新版本...').start()
 
   child.stdout.on('data', function (data) {
-    console.log(data)
     spinner.stop()
+    console.log(data)
   })
   child.stderr.on('data', function (data) {
-    console.log(data)
     spinner.stop()
+    console.log(data)
   })
 }
