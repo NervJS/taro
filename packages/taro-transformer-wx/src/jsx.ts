@@ -132,7 +132,7 @@ export function parseJSXElement (element: t.JSXElement): string {
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
-        } else if (attrValue === null) {
+        } else if (attrValue === null && name !== 'wx:else') {
           value = `{{true}}`
         }
         if (
