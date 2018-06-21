@@ -23,7 +23,7 @@ function queryBat (queue, cb) {
 function filter (fields, dom, selector) {
   if (!dom) return null
 
-  const { id, dataset, rect, size, scrollOffset, properties = [] } = fields
+  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [] } = fields
   const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
   const isViewport = selector === 'html'
   const res = {}
@@ -55,7 +55,15 @@ function filter (fields, dom, selector) {
   }
   if (properties.length) {
     properties.forEach(prop => {
-      res[prop] = dom.getAttribute(prop)
+      const attr = dom.getAttribute(prop)
+      if (attr) res[prop] = attr
+    })
+  }
+  if (computedStyle.length) {
+    const styles = window.getComputedStyle(dom)
+    computedStyle.forEach(key => {
+      const value = styles.getPropertyValue(key)
+      if (value) res[key] = value
     })
   }
 
@@ -78,13 +86,13 @@ class Query {
 
   select (selector) {
     // 小程序里跨自定义组件的后代选择器 '>>>' 在 h5 替换为普通后代选择器 '>'
-    selector = selector.replace('>>>', '>')
+    if (typeof selector === 'string') selector = selector.replace('>>>', '>')
     return new NodesRef(selector, this, true)
   }
 
   selectAll (selector) {
     // 小程序里跨自定义组件的后代选择器 '>>>' 在 h5 替换为普通后代选择器 '>'
-    selector = selector.replace('>>>', '>')
+    if (typeof selector === 'string') selector = selector.replace('>>>', '>')
     return new NodesRef(selector, this, false)
   }
 
@@ -135,7 +143,7 @@ class NodesRef {
 
   fields (fields, cb) {
     const { _selector, _component, _single, _selectorQuery } = this
-    const { id, dataset, rect, size, scrollOffset, properties = [] } = fields
+    const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [] } = fields
 
     _selectorQuery._push(_selector, _component, _single, {
       id,
@@ -143,7 +151,8 @@ class NodesRef {
       rect,
       size,
       scrollOffset,
-      properties
+      properties,
+      computedStyle
     }, cb)
 
     return _selectorQuery
