@@ -1986,6 +1986,7 @@ Taro.showLoading({
 ```javascript
 import Taro from '@tarojs/taro'
 
+// 注意：无论用户点击确定还是取消，Promise 都会 resolve。
 Taro.showModal({
   title: 'xxx',
   content: 'hello world',
@@ -2016,10 +2017,12 @@ Taro.showModal({
 ```javascript
 import Taro from '@tarojs/taro'
 
+// 注意：当用户点击选项时 Promise 会 resolve，而当用户点击取消或蒙层时，Promise 会 reject。
 Taro.showActionSheet({
   itemList: ['a', 'b', 'c']
 })
   .then(res => console.log(res.errMsg, res.tapIndex))
+  .catch(err => console.log(res.errMsg))
 ```
 
 > API 支持度

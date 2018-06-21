@@ -162,7 +162,7 @@ describe('actionSheet', () => {
       fail,
       complete
     })
-      .then(res => {
+      .catch(res => {
         const expectObj = { errMsg: 'showActionSheet:fail cancel' }
         expect(success.mock.calls.length).toBe(0)
         expect(fail).toHaveBeenCalledWith(expectObj)
@@ -191,7 +191,7 @@ describe('actionSheet', () => {
       fail,
       complete
     })
-      .then(res => {
+      .catch(res => {
         const expectObj = { errMsg: 'showActionSheet:fail cancel' }
         expect(success.mock.calls.length).toBe(0)
         expect(fail).toHaveBeenCalledWith(expectObj)
