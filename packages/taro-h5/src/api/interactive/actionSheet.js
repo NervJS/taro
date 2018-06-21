@@ -111,6 +111,7 @@ export default class ActionSheet {
       const res = { errMsg: 'showActionSheet:fail cancel' }
       config.fail(res)
       config.complete(res)
+      this.resolveHandler(res)
     }
     mask.onclick = cb
     this.cancel.onclick = cb
@@ -121,6 +122,8 @@ export default class ActionSheet {
       this.el.style.opacity = '1'
       this.actionSheet.style.transform = 'translate(0, 0)'
     }, 0)
+
+    return new Promise(resolve => (this.resolveHandler = resolve))
   }
 
   show (options = {}) {
@@ -170,16 +173,19 @@ export default class ActionSheet {
       this.el.style.opacity = '1'
       this.actionSheet.style.transform = 'translate(0, 0)'
     }, 0)
+
+    return new Promise(resolve => (this.resolveHandler = resolve))
   }
 
   onCellClick (e) {
     this.hide()
     const res = {
       errMsg: 'showActionSheet:ok',
-      tapIndex: e.currentTarget.dataset.tapIndex
+      tapIndex: +e.currentTarget.dataset.tapIndex
     }
     this.options.success(res)
     this.options.complete(res)
+    this.resolveHandler(res)
   }
 
   hide () {
