@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 import jsonpRetry from 'jsonp-retry'
 
 import { createSelectorQuery } from './api/createSelectorQuery'
