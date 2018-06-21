@@ -14,7 +14,7 @@ export interface Options {
   path: string,
   code: string,
   isTyped: boolean,
-  isNormal: boolean
+  isNormal?: boolean
 }
 
 export interface Result {

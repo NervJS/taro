@@ -159,8 +159,11 @@ export class RenderParser {
         this.jsxDeclarations.add(statementParent)
         if (
           t.isReturnStatement(parentNode) ||
-          (isReturnStatement &&
-          !t.isArrowFunctionExpression(parentNode))
+          (
+            isReturnStatement &&
+            !t.isArrowFunctionExpression(parentNode) &&
+            !jsxElementPath.findParent(p => p.isJSXExpressionContainer())
+          )
         ) {
           if (!isFinalReturn) {
             const callExpr = parentPath.findParent(p => p.isCallExpression())
