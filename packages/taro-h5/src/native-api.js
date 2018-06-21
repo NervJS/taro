@@ -30,7 +30,7 @@ function request (options) {
   }
   params.body = options.data
   params.headers = options.header
-  params.method = options.method
+  params.method = options.method || 'GET'
   params.mode = options.mode
   params.credentials = options.credentials
   params.cache = options.cache
