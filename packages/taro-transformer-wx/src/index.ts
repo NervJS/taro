@@ -13,7 +13,8 @@ export interface Options {
   isApp: boolean,
   path: string,
   code: string,
-  isTyped: boolean
+  isTyped: boolean,
+  isNormal: boolean
 }
 
 export interface Result {
@@ -71,6 +72,9 @@ export default function transform<T> (options: Options): TransformResult {
       ] as any[]
     }
   }).ast as t.File
+  if (options.isNormal) {
+    return { ast } as any
+  }
   // transformFromAst(ast, code)
   let result
   const componentSourceMap = new Map<string, string[]>()
