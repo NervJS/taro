@@ -72,6 +72,7 @@ function doUpdate (component, update) {
   let $data = component.$root ? component.$root.$data : component.$data
   if (update) {
     processDynamicComponents(component.$root || component)
+    Object.assign(component.$data, component.state)
   }
   if (!component.$isComponent && component.$usedState && component.$usedState.length) {
     const data = {}
