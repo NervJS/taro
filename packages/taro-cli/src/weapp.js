@@ -3,7 +3,6 @@ const os = require('os')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const babel = require('babel-core')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
@@ -546,7 +545,8 @@ async function buildEntry () {
     const transformResult = wxTransformer({
       code: entryFileCode,
       path: outputEntryFilePath,
-      isApp: true
+      isApp: true,
+      isTyped: Util.REG_TYPESCRIPT.test(entryFilePath)
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, entryFilePath, outputEntryFilePath)
@@ -820,7 +820,8 @@ async function buildSingleComponent (component) {
     const transformResult = wxTransformer({
       code: componentContent,
       path: outputComponentJSPath,
-      isRoot: false
+      isRoot: false,
+      isTyped: Util.REG_TYPESCRIPT.test(component)
     })
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, component, outputComponentJSPath)
     const componentDepComponents = transformResult.components
@@ -898,14 +899,18 @@ async function buildSingleComponent (component) {
 function compileDepScripts (scriptFiles) {
   scriptFiles.forEach(async item => {
     if (path.isAbsolute(item)) {
-      const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
+      const outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
       if (!isBuildingScripts[outputItem]) {
         isBuildingScripts[outputItem] = true
         try {
           const code = fs.readFileSync(item).toString()
-          const ast = babel.transform(code, {
-            parserOpts: babylonConfig
-          }).ast
+          const transformResult = wxTransformer({
+            code,
+            path: outputItem,
+            isNormal: true,
+            isTyped: Util.REG_TYPESCRIPT.test(item)
+          })
+          const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
