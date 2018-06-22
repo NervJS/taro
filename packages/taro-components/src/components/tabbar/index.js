@@ -1,6 +1,10 @@
 import Nerv from 'nervjs'
 import classNames from 'classnames'
 import './style'
+
+function fixPagePath (pagePath) {
+  return pagePath.replace(/^\.?\//, '')
+}
 class Tabbar extends Nerv.Component {
   constructor (props) {
     super(...arguments)
@@ -12,10 +16,12 @@ class Tabbar extends Nerv.Component {
     ) {
       throw new Error('tabBar 配置错误')
     }
-    list[0].selected = true
+
+    this.homePage = fixPagePath(props.homePage)
+
     this.state = {
       list,
-      isShow: true,
+      isShow: false,
       selectedIndex: 0
     }
   }
@@ -30,10 +36,11 @@ class Tabbar extends Nerv.Component {
 
   hashChangeHandler () {
     const hash = location.hash
-    if (!hash) return
+    const homePage = hash ? hash.replace(/^#\//, '') : this.homePage
+
     const len = this.state.list.length
     for (let i = 0; i < len; i++) {
-      if (this.state.list[i].pagePath.indexOf(hash.replace(/^#\//, '')) > -1) {
+      if (this.state.list[i].pagePath.indexOf(homePage) > -1) {
         return this.setState({
           isShow: true,
           selectedIndex: i
