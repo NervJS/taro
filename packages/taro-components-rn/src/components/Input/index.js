@@ -104,9 +104,9 @@ class _Input extends React.Component<Props, State> {
   onChangeText = (text: string) => {
     const { onInput } = this.props
     const { returnValue } = this.state
+    this.tmpValue = text
     if (onInput) {
       const result = onInput({ detail: { value: text } })
-      this.tmpValue = text
       // Be care of flickering
       // @see https://facebook.github.io/react-native/docs/textinput.html#value
       if (typeof result === 'string') {
