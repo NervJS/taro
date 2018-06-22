@@ -17,6 +17,7 @@ type Props = {
   children?: React.Node,
   style?: StyleSheet.Styles,
   onChange?: Function,
+  _onGroupDataInitial?: Function,
 }
 type State = {
   checkedValue: ?string
@@ -46,6 +47,9 @@ class _RadioGroup extends React.Component<Props, State> {
       const childTypeName = child.type.name
       if (childTypeName === '_Radio') {
         const { checkedValue } = this.state
+        if (!checkedValue && child.props.checked) {
+          this.props._onGroupDataInitial && this.props._onGroupDataInitial(child.props.value)
+        }
         return React.cloneElement(child, {
           checked: checkedValue === child.props.value,
           onChange: this.onValueChange.bind(this, child.props.onChange)

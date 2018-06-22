@@ -46,7 +46,7 @@ cp -rf src AwesomeProjectDir/src/tcr
 - 表单内容
   - [x] button | PS
   - [x] checkbox | FS
-  - [ ] form
+  - [x] form | PS(without RESET)
   - [x] input | PS
   - [x] label | PS(without FOR)
   - [x] picker | PS

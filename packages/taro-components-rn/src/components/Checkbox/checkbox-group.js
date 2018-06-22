@@ -15,13 +15,20 @@ import {
 type Props = {
   children?: React.Node,
   style?: StyleSheet.Styles,
-  onChange?: Function
+  onChange?: Function,
+  _onGroupDataInitial?: Function,
 }
 
 class _CheckboxGroup extends React.Component<Props> {
   props: Props
   values: Array<{ value: any, checked: boolean }> = []
   tmpIndex: number = 0
+
+  getDataFromValues = () => {
+    return this.values
+      .filter((item) => item.checked)
+      .map((item) => item.value)
+  }
 
   toggleChange = (e: { value: *, checked: boolean }, index: number) => {
     const { onChange } = this.props
@@ -31,9 +38,7 @@ class _CheckboxGroup extends React.Component<Props> {
     }
     onChange && onChange({
       detail: {
-        value: this.values
-          .filter((item) => item.checked)
-          .map((item) => item.value)
+        value: this.getDataFromValues()
       }
     })
   }
@@ -64,10 +69,12 @@ class _CheckboxGroup extends React.Component<Props> {
     const {
       children,
       style,
+      _onGroupDataInitial,
     } = this.props
 
     this.tmpIndex = 0
     const mapChildren = this.findAndAttachCb(children)
+    _onGroupDataInitial && _onGroupDataInitial(this.getDataFromValues())
 
     return (
       <View style={style}>
