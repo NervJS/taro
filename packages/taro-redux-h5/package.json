@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/redux-h5",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "Forked react-redux for taro",
   "keywords": [
     "react",
