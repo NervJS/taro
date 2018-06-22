@@ -246,10 +246,11 @@ function processEntry (code) {
           funcBody = `<${routerImportDefaultName}.Router />`
 
           if (tabBar) {
+            const homePage = pages[0] || ''
             if (tabbarPos === 'top') {
               funcBody = `
                 <${tabBarContainerComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
@@ -260,7 +261,7 @@ function processEntry (code) {
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} router={${taroImportDefaultName}}/>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
                 </${tabBarContainerComponentName}>`
             }
           }
