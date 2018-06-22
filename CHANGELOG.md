@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.55...v) (2018-06-22)
+# [](https://github.com/NervJS/taro/compare/v0.0.56...v) (2018-06-22)
+
+
+
+<a name="0.0.56"></a>
+## [0.0.56](https://github.com/NervJS/taro/compare/v0.0.55...v0.0.56) (2018-06-22)
+
+
+### Bug Fixes
+
+* **cli:** cli 丢失 latest-version 依赖 ([62b60fc](https://github.com/NervJS/taro/commit/62b60fc))
 
 
 
