@@ -16,19 +16,19 @@ export function updateComponent (component, update) {
     const displayName = type.name || type.toString().match(/^function\s*([^\s(]+)/)[1]
     PropTypes.checkPropTypes(propTypes, props, 'prop', displayName)
   }
-  let state = component.getState()
-  if (component._createData) {
-    state = component._createData(state)
-  }
-  state.__data && (state.__data.$path = component.$path)
   const prevProps = component.prevProps || props
-  const prevState = component.prevState || state
   component.props = prevProps
   if (component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
     component._disable = true
     component.componentWillReceiveProps(props)
     component._disable = false
   }
+  let state = component.getState()
+  if (component._createData) {
+    state = component._createData(state)
+  }
+  state.__data && (state.__data.$path = component.$path)
+  const prevState = component.prevState || state
   let skip = false
   if (typeof component.shouldComponentUpdate === 'function' &&
     component.shouldComponentUpdate(props, state) === false) {
