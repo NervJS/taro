@@ -58,7 +58,7 @@ class _Switch extends React.Component<Props, State> {
 
   onCheckedChange = (isChecked: boolean) => {
     const { onChange } = this.props
-    onChange && onChange(isChecked)
+    onChange && onChange({ detail: { value: isChecked } })
     this.setState({ checked: isChecked })
   }
 
