@@ -84,6 +84,10 @@ function generateAnonymousState (
           buildConstVariableDeclaration(variableName, expression.node),
           t.returnStatement(func.body)
         ])
+      } else {
+        statementParent.insertBefore(
+          buildConstVariableDeclaration(variableName, expression.node)
+        )
       }
     }
   }
@@ -212,6 +216,7 @@ class Transformer {
             calleeExpr.get('object').isMemberExpression() &&
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
+          debugger
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
         }
       },
