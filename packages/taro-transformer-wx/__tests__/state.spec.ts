@@ -28,6 +28,43 @@ describe('State', () => {
       expect(code).toMatch(`const state = this.__state`)
     })
 
+    test('可以使用 style', () => {
+      const { template } = transform({
+        ...baseOptions,
+        code: buildComponent(
+          `
+          return (
+            <View style={'width:' + this.state.rate + 'px;'}>
+              <View />
+            </View>
+          )`,
+          `state = { rate: 5 }`
+        )
+      })
+
+      expect(template).toMatch(`<view style="{{'width:' + rate + 'px;'}}">`)
+    })
+
+    test('可以使用 template style', () => {
+      const { template, ast } = transform({
+        ...baseOptions,
+        code: buildComponent(
+          `
+          const rate = 5;
+          return (
+            <View style={\`width: \$\{rate\}px;\`}>
+              <View />
+            </View>
+          )`
+        )
+      })
+
+      const instance = evalClass(ast)
+
+      expect(instance.state.anonymousState__temp).toBe(`width: 5px;`)
+      expect(template).toMatch(`<view style="{{anonymousState__temp}}">`)
+    })
+
     test('多个 pattern', () => {
       const { ast, code } = transform({
         ...baseOptions,
