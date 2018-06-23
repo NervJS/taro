@@ -33,13 +33,23 @@ function request (options) {
       url: options
     }
   }
+  const originSuccess = options['success']
+  const originFail = options['fail']
+  const originComplete = options['complete']
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
+      originSuccess && originSuccess(res)
       resolve(res)
     }
     options['fail'] = res => {
+      originFail && originFail(res)
       reject(res)
     }
+
+    options['complete'] = res => {
+      originComplete && originComplete(res)
+    }
+
     RequestQueue.request(options)
   })
   return p

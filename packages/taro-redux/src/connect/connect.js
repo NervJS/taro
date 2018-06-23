@@ -12,6 +12,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     const newMapState = mapStateToProps(store.getState())
     Object.keys(newMapState).forEach(key => {
       const val = newMapState[key]
+      this.prevProps = Object.assign({}, this.props)
       if (this.props[key] !== val) {
         this.props[key] = val
         isChanged = true
