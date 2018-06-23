@@ -63,6 +63,9 @@ ruleTester.run('jsx-handler-names', rule, {
       code: testComponent(`<View key={this.handleClick} />`)
     },
     {
+      code: testComponent(`<View className={this.state.handleClick} />`)
+    },
+    {
       code: testComponent(`<View key={handleClick} />`)
     },
     {
