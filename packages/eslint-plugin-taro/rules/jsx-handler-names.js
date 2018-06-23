@@ -32,7 +32,7 @@ module.exports = {
         const propIsEventHandler = PROP_EVENT_HANDLER_REGEX.test(propKey)
         console.log(node.value.expression)
         const isPropValueFunction = source.startsWith('this.props.on') ||
-          source.startsWith('this.')
+          (source.startsWith('this.') && !source.startsWith('this.state.'))
 
         if (!propIsEventHandler && isPropValueFunction) {
           context.report({
