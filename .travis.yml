@@ -16,10 +16,9 @@ jobs:
         - yarn run bootstrap
         - yarn run test
     - stage: deploy
+      if: (branch = master) AND (NOT (type IN (pull_request)))
       script: yarn run build:docs
       provider: pages
       skip-cleanup: true
       github-token: $GITHUB_TOKEN
       local-dir: docs/_book
-      on:
-        branch: master
