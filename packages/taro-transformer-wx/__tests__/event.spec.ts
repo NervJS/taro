@@ -21,7 +21,7 @@ describe('event', () => {
   })
 
   test('普通绑定', () => {
-    const { template, ast } = transform({
+    const { template, ast, code } = transform({
       ...baseOptions,
       code: buildComponent(`
       return (

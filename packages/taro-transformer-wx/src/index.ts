@@ -30,7 +30,7 @@ interface TransformResult extends Result {
   ast: t.File
 }
 
-export default function transform<T> (options: Options): TransformResult {
+export default function transform (options: Options): TransformResult {
   const code = options.isTyped
     ? babel7Transform(options.code, {
       parserOpts: {
@@ -91,7 +91,7 @@ export default function transform<T> (options: Options): TransformResult {
         renderMethod = path
       }
     },
-    AwaitExpression (path) {
+    AwaitExpression () {
       const isAsyncImported = ast.program.body.some(statement => {
         return t.isImportDeclaration(statement) && statement.source.value === ASYNC_PACKAGE_NAME
       })

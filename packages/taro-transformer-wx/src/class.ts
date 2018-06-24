@@ -556,7 +556,7 @@ class Transformer {
         }
       })
     })
-    this.result.template = this.result.components.reduce((acc, { name, path }, index) => {
+    this.result.template = this.result.components.reduce((acc, { path }, index) => {
       return acc + `${index === 0 ? '' : `\n` }` + createHTMLElement({
         name: 'import',
         attributes: {

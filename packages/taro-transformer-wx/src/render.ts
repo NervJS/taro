@@ -92,8 +92,7 @@ function buildComponentPathDataset (path: NodePath<t.Node>) {
 }
 
 function buildAssignState (
-  pendingState: t.ObjectExpression,
-  initState: Set<string>
+  pendingState: t.ObjectExpression
 ) {
   return t.expressionStatement(
     t.callExpression(
@@ -173,7 +172,7 @@ export class RenderParser {
     },
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
-        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }) => {
+        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent }) => {
           if (t.isLogicalExpression(parentNode)) {
             const { left, operator } = parentNode
             if (operator === '&&') {
@@ -240,7 +239,7 @@ export class RenderParser {
         })
       },
       exit: (jsxElementPath: NodePath<t.JSXElement>) => {
-        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }) => {
+        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isFinalReturn }) => {
           this.jsxDeclarations.add(statementParent)
           if (t.isReturnStatement(parentNode)) {
             if (!isFinalReturn) {
@@ -326,7 +325,7 @@ export class RenderParser {
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
-      handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }) => {
+      handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isFinalReturn }) => {
         // this.jsxDeclarations.add(statementParent)
         /**
          * @TODO
@@ -880,7 +879,7 @@ export class RenderParser {
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     )
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
-      buildAssignState(pendingState, this.initState),
+      buildAssignState(pendingState),
       copyStateToShalowData(),
       t.returnStatement(
         t.memberExpression(t.thisExpression(), t.identifier('state'))
