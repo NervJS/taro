@@ -23,3 +23,5 @@ jobs:
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
           local-dir: docs/_book
+          on:
+            branch: master
