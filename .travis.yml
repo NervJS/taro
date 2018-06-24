@@ -17,7 +17,7 @@ jobs:
         - yarn run test
     - stage: deploy
       if: (branch = master) AND (NOT (type IN (pull_request)))
-      script: yarn run build:docs
+      script: npm run build:docs
       provider: pages
       skip-cleanup: true
       github-token: $GITHUB_TOKEN
