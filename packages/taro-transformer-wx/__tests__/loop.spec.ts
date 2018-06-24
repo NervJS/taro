@@ -393,6 +393,448 @@ describe('loop', () => {
           `
         ))
       })
+
+      test('支持条件表达式2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>{arr.list.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </CoverView> : null
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(3)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <cover-view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </cover-view>
+                      </block>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持条件表达式2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>
+                {arr.list.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </CoverView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                        <cover-view>
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                        </cover-view>
+                    </block>
+                    <view>
+                        <image wx:if=\"{{b4}}\" />
+                    </view>
+                </cover-view>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('支持写方法', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>
+                {arr.list.map(item => {
+                  return b1 ? <ScrollView onClick={this.handleClick} >
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </ScrollView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <scroll-view bindtap=\"handleClick\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </scroll-view>
+                      </block>
+                      <view>
+                          <image wx:if=\"{{b4}}\" />
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持写 props.method', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>
+                {arr.list.map(item => {
+                  return b1 ? <ScrollView onClick={this.props.onClick} >
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </ScrollView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <scroll-view bindtap=\"onClick\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </scroll-view>
+                      </block>
+                      <view>
+                          <image wx:if=\"{{b4}}\" />
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持写 bind', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>
+                {arr.list.map(item => {
+                  return b1 ? <ScrollView onClick={this.onClick.bind(this, null)} >
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </ScrollView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                        <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
+                        data-component-path=\"{{$path}}\">
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                        </scroll-view>
+                    </block>
+                    <view>
+                        <image wx:if=\"{{b4}}\" />
+                    </view>
+                </cover-view>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('支持写 bind 2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>
+                {arr.list.map(item => {
+                  return b1 ? <ScrollView onClick={this.props.onClick.bind(this, null)} >
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </ScrollView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                        <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
+                        data-component-path=\"{{$path}}\">
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                        </scroll-view>
+                    </block>
+                    <view>
+                        <image wx:if=\"{{b4}}\" />
+                    </view>
+                </cover-view>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('支持字符串模板', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [{}] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>
+                {arr.list.map(item => {
+                  return b1 ? <ScrollView className={\`test\`} >
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </ScrollView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [{ $loopState__temp2: 'test' }] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <cover-view wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                        <scroll-view class=\"{{item.$loopState__temp2}}\">
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                        </scroll-view>
+                    </block>
+                    <view>
+                        <image wx:if=\"{{b4}}\" />
+                    </view>
+                </cover-view>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('支持字符串模板2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [{}] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView className={\`test\`}>
+                {arr.list.map(item => {
+                  return b1 ? <ScrollView >
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </ScrollView> : null
+                })}
+                <View>
+                  {b4 && <Image />}
+                </View>
+                </CoverView>
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.loopArray0).toEqual([
+          {
+            'list': [
+              {}
+            ],
+            '$loopState__temp2': 'test'
+          }
+        ])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <cover-view class=\"{{arr.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\"
+                wx:for-item=\"arr\">
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                        <scroll-view>
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                        </scroll-view>
+                    </block>
+                    <view>
+                        <image wx:if=\"{{b4}}\" />
+                    </view>
+                </cover-view>
+            </view>
+        </block>
+          `
+        ))
+      })
     })
     describe('一层 loop', () => {
       test('简单情况', () => {
