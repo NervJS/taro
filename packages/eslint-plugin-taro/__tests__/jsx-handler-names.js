@@ -70,6 +70,9 @@ ruleTester.run('jsx-handler-names', rule, {
     },
     {
       code: testComponent(`<View src={a.b} />`)
+    },
+    {
+      code: testComponent(`<View src={this.state.img} />`)
     }
   ],
   invalid: [{

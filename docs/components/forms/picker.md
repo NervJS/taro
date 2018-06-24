@@ -71,18 +71,18 @@ export default class PagePicker extends Component {
         dateSel: '2018-04-22',
     }
 
-    handleChange = e => {
+    onChange = e => {
         this.setState({
             selectorChecked: this.state.selector[e.detail.value]
         })
     }
 
-    handleTimeChange = e => {
+    onTimeChange = e => {
         this.setState({
             timeSel: e.detail.value
         })
     }
-    handleDateChange = e => {
+    onDateChange = e => {
         this.setState({
             dateSel: e.detail.value
         })
@@ -95,7 +95,7 @@ export default class PagePicker extends Component {
                     <View className="page-section">
                         <Text>地区选择器</Text>
                         <View>
-                            <Picker mode='selector' range={this.state.selector} onChange={this.handleChange}>
+                            <Picker mode='selector' range={this.state.selector} onChange={this.onChange}>
                                 <View className="picker">
                                     当前选择：{this.state.selectorChecked}
                                 </View>
@@ -105,7 +105,7 @@ export default class PagePicker extends Component {
                     <View className="page-section">
                         <Text>时间选择器</Text>
                         <View>
-                            <Picker mode='time' onChange={this.handleTimeChange}>
+                            <Picker mode='time' onChange={this.onTimeChange}>
                                 <View className="picker">
                                     当前选择：{this.state.timeSel}
                                 </View>
@@ -115,7 +115,7 @@ export default class PagePicker extends Component {
                     <View className="page-section">
                         <Text>日期选择器</Text>
                         <View>
-                            <Picker mode='date' onChange={this.handleDateChange}>
+                            <Picker mode='date' onChange={this.onDateChange}>
                                 <View className="picker">
                                     当前选择：{this.state.dateSel}
                                 </View>
