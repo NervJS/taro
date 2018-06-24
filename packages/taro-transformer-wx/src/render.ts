@@ -31,6 +31,39 @@ type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 const calleeId = incrementId()
 
+interface JSXHandler {
+  parentNode: t.Node
+  parentPath: NodePath<t.Node>
+  statementParent: NodePath<t.Node>
+  isReturnStatement: boolean
+  isFinalReturn: boolean
+}
+
+function handleJSXElement (
+  jsxElementPath: NodePath<t.JSXElement>,
+  func: ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }: JSXHandler) => void
+) {
+  const parentNode = jsxElementPath.parent
+  const parentPath = jsxElementPath.parentPath
+  const isJSXChildren = t.isJSXElement(parentNode)
+  if (!isJSXChildren) {
+    let statementParent = jsxElementPath.getStatementParent()
+    const isReturnStatement = statementParent.isReturnStatement()
+    const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
+    if (
+      !(
+        statementParent.isVariableDeclaration() ||
+        statementParent.isExpressionStatement()
+      )
+    ) {
+      statementParent = statementParent.findParent(
+        s => s.isVariableDeclaration() || s.isExpressionStatement()
+      ) as NodePath<t.Statement>
+    }
+    func({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn })
+  }
+}
+
 function isContainStopPropagation (path: NodePath<t.Node>) {
   let matched = false
   path.traverse({
@@ -138,135 +171,162 @@ export class RenderParser {
         }
       }
     },
-    JSXElement: (jsxElementPath) => {
-      const parentNode = jsxElementPath.parent
-      const parentPath = jsxElementPath.parentPath
-      const isJSXChildren = t.isJSXElement(parentNode)
-      if (!isJSXChildren) {
-        let statementParent = jsxElementPath.getStatementParent()
-        const isReturnStatement = statementParent.isReturnStatement()
-        const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
-        if (
-          !(
-            statementParent.isVariableDeclaration() ||
-            statementParent.isExpressionStatement()
-          )
-        ) {
-          statementParent = statementParent.findParent(
-            s => s.isVariableDeclaration() || s.isExpressionStatement()
-          ) as NodePath<t.Statement>
-        }
-        this.jsxDeclarations.add(statementParent)
-        if (
-          t.isReturnStatement(parentNode) ||
-          (
-            isReturnStatement &&
-            !t.isArrowFunctionExpression(parentNode)
-          )
-        ) {
-          let isChildren = false
-          this.loopComponents.forEach((component) => {
-            isChildren = !!jsxElementPath.findParent(p => p === component)
-          })
-          const JSXExpr = jsxElementPath.findParent(p => p.isJSXExpressionContainer())
-          if (!isFinalReturn && (!isChildren || isContainFunction(JSXExpr))) {
-            const callExpr = parentPath.findParent(p => p.isCallExpression())
-            if (callExpr.isCallExpression()) {
-              const callee = callExpr.node.callee
-              if (
-                t.isMemberExpression(callee) &&
-                t.isIdentifier(callee.property) &&
-                callee.property.name === 'map'
-              ) {
-                let ary = callee.object
-                if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
-                  const variableName = `anonymousCallee_${calleeId()}`
-                  callExpr.getStatementParent().insertBefore(
-                    buildConstVariableDeclaration(variableName, ary)
+    JSXElement: {
+      enter: (jsxElementPath: NodePath<t.JSXElement>) => {
+        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }) => {
+          if (t.isLogicalExpression(parentNode)) {
+            const { left, operator } = parentNode
+            if (operator === '&&') {
+              if (t.isExpression(left)) {
+                newJSXIfAttr(jsxElementPath.node, left)
+                parentPath.replaceWith(jsxElementPath.node)
+                if (statementParent) {
+                  const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
+                  setTemplate(name, jsxElementPath, this.templates)
+                  // name && templates.set(name, path.node)
+                }
+              }
+            }
+          } else if (t.isConditionalExpression(parentNode)) {
+            const { test, consequent, alternate } = parentNode
+            const block = buildBlockElement()
+            if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
+              const { value, confident } = parentPath.get('alternate').evaluate()
+              if (confident && !value) {
+                newJSXIfAttr(block, test)
+                block.children = [ jsxElementPath.node ]
+                // newJSXIfAttr(jsxElementPath.node, test)
+                parentPath.replaceWith(block)
+                if (statementParent) {
+                  const name = findIdentifierFromStatement(
+                    statementParent.node as t.VariableDeclaration
                   )
-                  ary = t.identifier(variableName)
+                  setTemplate(name, jsxElementPath, this.templates)
+                  // name && templates.set(name, path.node)
                 }
-                if (t.isMemberExpression(ary)) {
-                  const id = findFirstIdentifierFromMemberExpression(ary)
-                  if (t.isIdentifier(id)) {
-                    this.referencedIdentifiers.add(id)
-                  }
-                } else if (t.isIdentifier(ary)) {
-                  this.referencedIdentifiers.add(ary)
+              }
+            } else if (t.isLiteral(consequent) && t.isJSXElement(consequent)) {
+              if (t.isNullLiteral(consequent)) {
+                newJSXIfAttr(block, reverseBoolean(test))
+                // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
+                parentPath.replaceWith(block)
+                if (statementParent) {
+                  const name = findIdentifierFromStatement(
+                    statementParent.node as t.VariableDeclaration
+                  )
+                  setTemplate(name, jsxElementPath, this.templates)
+                  // name && templates.set(name, path.node)
                 }
-                setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
-                const [func] = callExpr.node.arguments
+              }
+            } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
+              const block2 = buildBlockElement()
+              block.children = [consequent]
+              newJSXIfAttr(block, test)
+              setJSXAttr(block2, 'wx:else')
+              block2.children = [alternate]
+              const parentBlock = buildBlockElement()
+              parentBlock.children = [block, block2]
+              parentPath.replaceWith(parentBlock)
+              if (statementParent) {
+                const name = findIdentifierFromStatement(
+                  statementParent.node as t.VariableDeclaration
+                )
+                setTemplate(name, jsxElementPath, this.templates)
+              }
+            } else {
+              // console.log('todo')
+            }
+          }
+        })
+      },
+      exit: (jsxElementPath: NodePath<t.JSXElement>) => {
+        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }) => {
+          this.jsxDeclarations.add(statementParent)
+          if (t.isReturnStatement(parentNode)) {
+            if (!isFinalReturn) {
+              const callExpr = parentPath.findParent(p => p.isCallExpression())
+              if (callExpr.isCallExpression()) {
+                const callee = callExpr.node.callee
                 if (
-                  t.isFunctionExpression(func) ||
-                  t.isArrowFunctionExpression(func)
+                  t.isMemberExpression(callee) &&
+                  t.isIdentifier(callee.property) &&
+                  callee.property.name === 'map'
                 ) {
-                  const [item, index] = func.params
-                  if (t.isIdentifier(item)) {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      'wx:for-item',
-                      t.stringLiteral(item.name)
+                  let ary = callee.object
+                  if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
+                    const variableName = `anonymousCallee_${calleeId()}`
+                    callExpr.getStatementParent().insertBefore(
+                      buildConstVariableDeclaration(variableName, ary)
                     )
-                    this.loopScopes.add(item.name)
-                  } else if (t.isObjectPattern(item)) {
-                    throw codeFrameError(item.loc, 'JSX map 循环参数暂时不支持使用 Object pattern 解构。')
-                  } else {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      'wx:for-item',
-                      t.stringLiteral('__item')
-                    )
+                    ary = t.identifier(variableName)
                   }
-                  if (t.isIdentifier(index)) {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      'wx:for-index',
-                      t.stringLiteral(index.name)
-                    )
-                    this.loopScopes.add(index.name)
+                  if (t.isMemberExpression(ary)) {
+                    const id = findFirstIdentifierFromMemberExpression(ary)
+                    if (t.isIdentifier(id)) {
+                      this.referencedIdentifiers.add(id)
+                    }
+                  } else if (t.isIdentifier(ary)) {
+                    this.referencedIdentifiers.add(ary)
                   }
-                  this.loopComponents.set(callExpr, jsxElementPath)
-                  // caller.replaceWith(jsxElementPath.node)
-                  if (statementParent) {
-                    const name = findIdentifierFromStatement(
-                      statementParent.node as t.VariableDeclaration
-                    )
-                    // setTemplate(name, path, templates)
-                    name && this.templates.set(name, jsxElementPath.node)
+                  setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
+                  const [func] = callExpr.node.arguments
+                  if (
+                    t.isFunctionExpression(func) ||
+                    t.isArrowFunctionExpression(func)
+                  ) {
+                    const [item, index] = func.params
+                    if (t.isIdentifier(item)) {
+                      setJSXAttr(
+                        jsxElementPath.node,
+                        'wx:for-item',
+                        t.stringLiteral(item.name)
+                      )
+                      this.loopScopes.add(item.name)
+                    } else if (t.isObjectPattern(item)) {
+                      throw codeFrameError(item.loc, 'JSX map 循环参数暂时不支持使用 Object pattern 解构。')
+                    } else {
+                      setJSXAttr(
+                        jsxElementPath.node,
+                        'wx:for-item',
+                        t.stringLiteral('__item')
+                      )
+                    }
+                    if (t.isIdentifier(index)) {
+                      setJSXAttr(
+                        jsxElementPath.node,
+                        'wx:for-index',
+                        t.stringLiteral(index.name)
+                      )
+                      this.loopScopes.add(index.name)
+                    }
+                    this.loopComponents.set(callExpr, jsxElementPath)
+                    // caller.replaceWith(jsxElementPath.node)
+                    if (statementParent) {
+                      const name = findIdentifierFromStatement(
+                        statementParent.node as t.VariableDeclaration
+                      )
+                      // setTemplate(name, path, templates)
+                      name && this.templates.set(name, jsxElementPath.node)
+                    }
                   }
                 }
               }
             }
+          } else if (t.isArrowFunctionExpression(parentNode)) {
+            parentPath.replaceWith(
+              t.arrowFunctionExpression(parentNode.params, t.blockStatement([
+                t.returnStatement(jsxElementPath.node)
+              ]))
+            )
           }
-        } else if (t.isArrowFunctionExpression(parentNode)) {
-          parentPath.replaceWith(
-            t.arrowFunctionExpression(parentNode.params, t.blockStatement([
-              t.returnStatement(jsxElementPath.node)
-            ]))
-          )
-        }
+        })
       }
     }
   }
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
-      const parentNode = jsxElementPath.parent
-      const parentPath = jsxElementPath.parentPath
-      const isFinalReturn = jsxElementPath.getFunctionParent().isClassMethod()
-      const isJSXChildren = t.isJSXElement(parentNode)
-      if (!isJSXChildren) {
-        let statementParent = jsxElementPath.getStatementParent()
-        if (
-          !(
-            statementParent.isVariableDeclaration() ||
-            statementParent.isExpressionStatement()
-          )
-        ) {
-          statementParent = statementParent.findParent(
-            s => s.isVariableDeclaration() || s.isExpressionStatement()
-          ) as NodePath<t.Statement>
-        }
+      handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }) => {
         // this.jsxDeclarations.add(statementParent)
         /**
          * @TODO
@@ -280,67 +340,9 @@ export class RenderParser {
             name && this.templates.set(name, jsxElementPath.node)
           }
         } else if (t.isLogicalExpression(parentNode)) {
-          const { left, operator } = parentNode
-          if (operator === '&&') {
-            if (t.isExpression(left)) {
-              newJSXIfAttr(jsxElementPath.node, left)
-              parentPath.replaceWith(jsxElementPath.node)
-              if (statementParent) {
-                const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
-                setTemplate(name, jsxElementPath, this.templates)
-                // name && templates.set(name, path.node)
-              }
-            }
-          }
+          //
         } else if (t.isConditionalExpression(parentNode)) {
-          const { test, consequent, alternate } = parentNode
-          const block = buildBlockElement()
-          if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
-            const { value, confident } = parentPath.get('alternate').evaluate()
-            if (confident && !value) {
-              newJSXIfAttr(block, test)
-              block.children = [ jsxElementPath.node ]
-              // newJSXIfAttr(jsxElementPath.node, test)
-              parentPath.replaceWith(block)
-              if (statementParent) {
-                const name = findIdentifierFromStatement(
-                  statementParent.node as t.VariableDeclaration
-                )
-                setTemplate(name, jsxElementPath, this.templates)
-                // name && templates.set(name, path.node)
-              }
-            }
-          } else if (t.isLiteral(consequent) && t.isJSXElement(consequent)) {
-            if (t.isNullLiteral(consequent)) {
-              newJSXIfAttr(block, reverseBoolean(test))
-              // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
-              parentPath.replaceWith(block)
-              if (statementParent) {
-                const name = findIdentifierFromStatement(
-                  statementParent.node as t.VariableDeclaration
-                )
-                setTemplate(name, jsxElementPath, this.templates)
-                // name && templates.set(name, path.node)
-              }
-            }
-          } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
-            const block2 = buildBlockElement()
-            block.children = [consequent]
-            newJSXIfAttr(block, test)
-            setJSXAttr(block2, 'wx:else')
-            block2.children = [alternate]
-            const parentBlock = buildBlockElement()
-            parentBlock.children = [block, block2]
-            parentPath.replaceWith(parentBlock)
-            if (statementParent) {
-              const name = findIdentifierFromStatement(
-                statementParent.node as t.VariableDeclaration
-              )
-              setTemplate(name, jsxElementPath, this.templates)
-            }
-          } else {
-            // console.log('todo')
-          }
+          //
         } else if (t.isReturnStatement(parentNode)) {
           if (!isFinalReturn) {
             //
@@ -418,7 +420,7 @@ export class RenderParser {
         } else if (!t.isJSXElement(parentNode)) {
           // throwError(path, '考虑只对 JSX 元素赋值一次。')
         }
-      }
+      })
 
       // handle jsx attrs
       const openingElementPath = jsxElementPath.get('openingElement')

@@ -5,6 +5,28 @@ import { buildComponent, baseOptions, evalClass, removeShadowData } from './util
 describe('loop', () => {
   describe('有 block 有 return', () => {
     describe('一层 loop', () => {
+      test('简单情况', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = ['test1', 'test2', 'test3']
+            return (
+              <View>{array.map(item => {
+                return <View>{item}</View>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+
+        expect(template).toMatch(`<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`)
+        expect(Object.keys(instance.state).length).toBe(1)
+        expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
+      })
+
       test('支持写逻辑表达式', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
@@ -21,7 +43,7 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         const stateName = Object.keys(instance.state)[0]
-        expect(template).toMatch(`<view wx:for="{{${stateName}}}" wx:for-item="item" wx:if="{{bool}}">{{item}}</view>`)
+        expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
       })
 
       test('有 template string', () => {
@@ -121,10 +143,9 @@ describe('loop', () => {
           isRoot: true,
           code: buildComponent(`
             const array = ['test1', 'test2', 'test3']
+            const bool = true
             return (
-              <View>{array.map(item => {
-                return <View>{item}</View>
-              })}</View>
+              <View>{array.map(item => bool && <View>{item}</View>)}</View>
             )
           `)
         })
@@ -132,8 +153,8 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`)
-        expect(Object.keys(instance.state).length).toBe(1)
+        expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
+        expect(Object.keys(instance.state).length).toBe(2)
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
 
