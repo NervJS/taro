@@ -1,9 +1,4 @@
-import {
-  isObservableArray,
-  isObservableObject,
-  isObservableMap,
-  untracked
-} from 'mobx'
+import { isObservableArray, isObservableObject, isObservableMap, untracked } from 'mobx'
 
 // Copied from React.PropTypes
 function createChainableTypeChecker (validate) {
@@ -23,28 +18,12 @@ function createChainableTypeChecker (validate) {
         if (isRequired) {
           const actual = props[propName] === null ? 'null' : 'undefined'
           return new Error(
-            'The ' +
-              location +
-              ' `' +
-              propFullName +
-              '` is marked as required ' +
-              'in `' +
-              componentName +
-              '`, but its value is `' +
-              actual +
-              '`.'
+            'The ' + location + ' `' + propFullName + '` is marked as required ' + 'in `' + componentName + '`, but its value is `' + actual + '`.'
           )
         }
         return null
       } else {
-        return validate(
-          props,
-          propName,
-          componentName,
-          location,
-          propFullName,
-          ...rest
-        )
+        return validate(props, propName, componentName, location, propFullName, ...rest)
       }
     })
   }
@@ -116,7 +95,7 @@ function createObservableTypeCheckerCreator (allowNativeType, mobxType) {
   ) {
     return untracked(() => {
       if (allowNativeType) {
-        if (getPropType(props[propName]) === mobxType.toLowerCase()) { return null }
+        if (getPropType(props[propName]) === mobxType.toLowerCase()) return null
       }
       let mobxChecker
       switch (mobxType) {
@@ -139,18 +118,7 @@ function createObservableTypeCheckerCreator (allowNativeType, mobxType) {
           ? ' or javascript `' + mobxType.toLowerCase() + '`'
           : ''
         return new Error(
-          'Invalid prop `' +
-            propFullName +
-            '` of type `' +
-            preciseType +
-            '` supplied to' +
-            ' `' +
-            componentName +
-            '`, expected `mobx.Observable' +
-            mobxType +
-            '`' +
-            nativeTypeExpectationMessage +
-            '.'
+          'Invalid prop `' + propFullName + '` of type `' + preciseType + '` supplied to' + ' `' + componentName + '`, expected `mobx.Observable' + mobxType + '`' + nativeTypeExpectationMessage + '.'
         )
       }
       return null
@@ -170,12 +138,7 @@ function createObservableArrayOfTypeChecker (allowNativeType, typeChecker) {
     return untracked(() => {
       if (typeof typeChecker !== 'function') {
         return new Error(
-          'Property `' +
-            propFullName +
-            '` of component `' +
-            componentName +
-            '` has ' +
-            'invalid PropType notation.'
+          'Property `' + propFullName + '` of component `' + componentName + '` has ' + 'invalid PropType notation.'
         )
       }
       let error = createObservableTypeCheckerCreator(allowNativeType, 'Array')(
@@ -201,28 +164,10 @@ function createObservableArrayOfTypeChecker (allowNativeType, typeChecker) {
   })
 }
 
-export const observableArray = createObservableTypeCheckerCreator(
-  false,
-  'Array'
-)
-export const observableArrayOf = createObservableArrayOfTypeChecker.bind(
-  null,
-  false
-)
+export const observableArray = createObservableTypeCheckerCreator(false, 'Array')
+export const observableArrayOf = createObservableArrayOfTypeChecker.bind(null, false)
 export const observableMap = createObservableTypeCheckerCreator(false, 'Map')
-export const observableObject = createObservableTypeCheckerCreator(
-  false,
-  'Object'
-)
-export const arrayOrObservableArray = createObservableTypeCheckerCreator(
-  true,
-  'Array'
-)
-export const arrayOrObservableArrayOf = createObservableArrayOfTypeChecker.bind(
-  null,
-  true
-)
-export const objectOrObservableObject = createObservableTypeCheckerCreator(
-  true,
-  'Object'
-)
+export const observableObject = createObservableTypeCheckerCreator(false, 'Object')
+export const arrayOrObservableArray = createObservableTypeCheckerCreator(true, 'Array')
+export const arrayOrObservableArrayOf = createObservableArrayOfTypeChecker.bind(null, true)
+export const objectOrObservableObject = createObservableTypeCheckerCreator(true, 'Object')

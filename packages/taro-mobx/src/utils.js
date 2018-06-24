@@ -7,15 +7,6 @@ export function isStateless (component) {
   )
 }
 
-export function makeDisplayName (component, {prefix = '', suffix = ''} = {}) {
-  let displayName =
-    component.displayName ||
-    component.name ||
-    (component.constructor && component.constructor.name) ||
-    '<component>'
-  return prefix + displayName + suffix
-}
-
 export default class EventEmitter {
   listeners = [];
 

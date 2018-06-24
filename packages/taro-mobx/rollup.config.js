@@ -1,7 +1,11 @@
+import * as fs from 'fs'
 const { join } = require('path')
-const resolve = require('rollup-plugin-node-resolve')
-const babel = require('rollup-plugin-babel')
+const resolve = require('_rollup-plugin-node-resolve@3.3.0@rollup-plugin-node-resolve')
+const babel = require('_rollup-plugin-babel@4.0.0-beta.5@rollup-plugin-babel')
+
 const cwd = __dirname
+const pkg = JSON.parse(fs.readFileSync('./package.json'))
+const external = Object.keys(pkg.peerDependencies || {}).concat(Object.keys(pkg.dependencies || {}))
 
 const baseConfig = {
   input: join(cwd, 'src/index.js'),
@@ -19,6 +23,7 @@ const baseConfig = {
     exports: 'named'
   }
   ],
+  external,
   plugins: [
     resolve({
       preferBuiltins: false

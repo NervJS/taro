@@ -1,7 +1,7 @@
-import {Component, createElement} from 'nervjs'
+import { Component, createElement } from 'nervjs'
 import hoistStatics from 'hoist-non-react-statics'
-import {observer} from './observer'
-import {isStateless} from './utils'
+import { observer } from './observer'
+import { isStateless } from './utils'
 import * as PropTypes from './propTypes'
 
 const injectorContextTypes = {
@@ -35,43 +35,42 @@ const proxiedInjectorProps = {
  */
 function createStoreInjector (grabStoresFn, component, injectNames) {
   let displayName =
-    'inject-' +
-    (component.displayName ||
-      component.name ||
-      (component.constructor && component.constructor.name) ||
-      'Unknown')
+        'inject-' +
+        (component.displayName ||
+            component.name ||
+            (component.constructor && component.constructor.name) ||
+            'Unknown')
   if (injectNames) displayName += '-with-' + injectNames
 
   class Injector extends Component {
-    static displayName = displayName;
+        static displayName = displayName;
 
-    storeRef = instance => {
-      this.wrappedInstance = instance
-    };
+        storeRef = instance => {
+          this.wrappedInstance = instance
+        };
 
-    render () {
-      // Optimization: it might be more efficient to apply the mapper function *outside* the render method
-      // (if the mapper is a function), that could avoid expensive(?) re-rendering of the injector component
-      // See this test: 'using a custom injector is not too reactive' in inject.js
-      let newProps = {}
-      for (let key in this.props) {
-        if (this.props.hasOwnProperty(key)) {
-          newProps[key] = this.props[key]
+        render () {
+          // Optimization: it might be more efficient to apply the mapper function *outside* the render method
+          // (if the mapper is a function), that could avoid expensive(?) re-rendering of the injector component
+          // See this test: 'using a custom injector is not too reactive' in inject.js
+          let newProps = {}
+          for (let key in this.props) {
+            if (this.props.hasOwnProperty(key)) {
+              newProps[key] = this.props[key]
+            }
+          }
+          var additionalProps =
+                grabStoresFn(this.context.mobxStores || {}, newProps, this.context) || {}
+          for (let key in additionalProps) {
+            newProps[key] = additionalProps[key]
+          }
+
+          if (!isStateless(component)) {
+            newProps.ref = this.storeRef
+          }
+
+          return createElement(component, newProps)
         }
-      }
-      var additionalProps =
-        grabStoresFn(this.context.mobxStores || {}, newProps, this.context) ||
-        {}
-      for (let key in additionalProps) {
-        newProps[key] = additionalProps[key]
-      }
-
-      if (!isStateless(component)) {
-        newProps.ref = this.storeRef
-      }
-
-      return createElement(component, newProps)
-    }
   }
 
   // Static fields from component should be visible on the generated Injector
@@ -94,8 +93,8 @@ function grabStoresByName (storeNames) {
       if (!(storeName in baseStores)) {
         throw new Error(
           "MobX injector: Store '" +
-            storeName +
-            "' is not available! Make sure it is provided by some Provider"
+                    storeName +
+                    "' is not available! Make sure it is provided by some Provider"
         )
       }
       nextProps[storeName] = baseStores[storeName]

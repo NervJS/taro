@@ -53,10 +53,7 @@ class Provider extends Component {
     if (!nextProps.suppressChangedStoreWarning) {
       for (let key in nextProps) {
         if (!specialReactKeys[key] && prevState[key] !== nextProps[key]) {
-          console.warn(
-            "MobX Provider: Provided store '" +
-              key +
-              "' has changed. Please avoid replacing stores as the change might not propagate to all children"
+          console.warn("MobX Provider: Provided store '" + key + "' has changed. Please avoid replacing stores as the change might not propagate to all children"
           )
         }
       }

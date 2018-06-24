@@ -6,5 +6,6 @@ module.exports = {
   transform: {
     '^.+\\.js?$': 'babel-jest'
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/']
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  moduleNameMapper: { '^inferno(.*?)$': '<rootDir>/packages/inferno$1/src', 'nerv-create-class': '<rootDir>/node_modules/nerv-create-class/dist/index.js' }
 }
