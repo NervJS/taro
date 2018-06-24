@@ -538,6 +538,15 @@ async function compileScriptFile (filePath, content) {
   return compileScriptRes.code
 }
 
+function buildProjectConfig () {
+  const origProjectConfig = fs.readJsonSync(path.join(appPath, 'project.config.json'))
+  fs.writeFileSync(
+    path.join(outputDir, 'project.config.json'),
+    JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
+  )
+  Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/project.config.json`)
+}
+
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
@@ -1103,6 +1112,7 @@ function watchFiles () {
 
 async function build ({ watch }) {
   isProduction = !watch
+  buildProjectConfig()
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {
