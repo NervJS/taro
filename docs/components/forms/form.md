@@ -6,5 +6,5 @@
 | 微信小程序 | H5 | ReactNative | 属性值 | 类型 | 说明 |
 | :-: | :-: | :-: | :-: |:-: | :-: | :-: |
 | √ | x | x | reportSubmit | Boolean | 是否返回 formId 用于发送模板消息 |
-| √ | √ | x | onSubmit | EventHandle | 携带 form 中的数据触发 submit 事件，event.detail = {value : {'name': 'value'}}
-| √ | √ | x | onReset | EventHandle | 表单重置时会触发 reset 事件
+| √ | √ | x | onSubmit | EventHandle | 携带 form 中的数据触发 submit 事件，event.detail = {value : {'name': 'value'}} |
+| √ | √ | x | onReset | EventHandle | 表单重置时会触发 reset 事件 |
