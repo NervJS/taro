@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/async-await",
-  "version": "0.0.57",
+  "version": "0.0.58",
   "description": "taro async await",
   "main": "index.js",
   "scripts": {
