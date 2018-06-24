@@ -40,10 +40,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { Map } from '@tarojs/components'
 
 class App extends Components {
-	handleTap () {}
+	onTap () {}
 	render () {
 		return (
-			<Map onTap={this.handleTap} />
+			<Map onTap={this.onTap} />
 		)
 	}
 }

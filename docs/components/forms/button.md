@@ -17,7 +17,8 @@
 | √ |   | | hoverStopPropagation | Boolean | false | 指定是否阻止本节点的祖先节点出现点击态  |
 | √ | √ | | hoverStartTime    | Number  | 20    | 按住后多久出现点击态，单位毫秒   |
 | √ | √ | | hoverStayTime | Number  | 70    | 手指松开后点击态保留时间，单位毫秒   |
-| √ |   | | bindgetuserinfo | Handler | | 用户点击该按钮时，会返回获取到的用户信息，从返回参数的 detail 中获取到的值同 wx.getUserInfo |
+| √ |   | | onGetUserInfo | Handler | | 用户点击该按钮时，会返回获取到的用户信息，从返回参数的 detail 中获取到的值同 wx.getUserInfo |
+| √ |   | | onGetPhoneNumber | Handler | | 获取用户手机号回调 |
 | √ |   | | lang   | String  | en    | 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。 |
 
 

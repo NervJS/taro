@@ -28,7 +28,7 @@ class Toggle extends React.Component {
     this.state = {isToggleOn: true};
   }
 
-  handleClick = (e) => {
+  onClick = (e) => {
 	  e.stopPropagation();
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
@@ -37,7 +37,7 @@ class Toggle extends React.Component {
 
   render() {
     return (
-      <button onClick={this.handleClick}>
+      <button onClick={this.onClick}>
         {this.state.isToggleOn ? 'ON' : 'OFF'}
       </button>
     );
@@ -61,12 +61,12 @@ class Popper extends Component{
         super();
         this.state = {name:'Hello world!'};
     }
-    
+
 	// 你可以通过 bind 传入多个参数
     preventPop(name, test, e){    //事件对象e要放在最后
         e.preventDefault();
     }
-    
+
     render(){
         return <Button onClick={this.preventPop.bind(this, this.state.name, 'test')}></Button>;
     }
@@ -81,17 +81,17 @@ class Popper extends Component{
 
 ```javascript
 // 错误
-const element = <View bindtap={this.handleTag} />
-const element2 = <Input bindfocus={this.hanldeFocus} />
-const element3 = <CustomElement animationEnd={this.props.handleAnimationEnd} />
+const element = <View bindtap={this.onTag} />
+const element2 = <Input bindfocus={this.onFocus} />
+const element3 = <CustomElement animationEnd={this.props.onAnimationEnd} />
 ```
 
 只要当 JSX 组件传入的参数是函数，参数名就必须以 `on` 开头：
 
 ```javascript
 // 正确
-const element = <View onClick={this.handleTag} />
-const element2 = <Input onFocus={this.hanldeFocus} />
-const element3 = <CustomElement onAnimationEnd={this.props.handleAnimationEnd} />
+const element = <View onClick={this.onTag} />
+const element2 = <Input onFocus={this.onFocus} />
+const element3 = <CustomElement onAnimationEnd={this.props.onAnimationEnd} />
 ```
 
