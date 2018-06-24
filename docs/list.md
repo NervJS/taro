@@ -121,7 +121,7 @@ class App extends Components {
     inputText: ''
   }
 
-  handleNewTodo () {
+  onNewTodo () {
     this.setState({
       todos: [...this.state.todos, createNewTodo(this.state.inputText)]
     })
