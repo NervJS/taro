@@ -5,6 +5,395 @@ import { prettyPrint } from 'html'
 
 describe('loop', () => {
   describe('有 block 有 return', () => {
+    describe('多层 loop', () => {
+      test('简单情况', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            return (
+              <View>{array.map(item => {
+                return <CoverView>{item.list.map(item2 => <Text>{item2}</Text>)}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for="{{array}}" wx:for-item="item">
+                      <text wx:for="{{item.list}}" wx:for-item="item2">{{item2}}</text>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持逻辑表达式', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            return (
+              <View>{array.map(item => {
+                return <CoverView>{item.list.map(item2 => b1 && <Text>{item2}</Text>)}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for="{{array}}" wx:for-item="item">
+                      <text wx:if=\"{{b1}}\" wx:for="{{item.list}}" wx:for-item="item2">{{item2}}</text>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持逻辑表达式2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            return (
+              <View>{array.map(item => {
+                return <CoverView>{item.list.map(item2 => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <Text />
+                  </View>
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(3)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <map wx:if=\"{{b2}}\"></map>
+                          <text></text>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持逻辑表达式3', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            return (
+              <View>{array.map(item => {
+                return <CoverView>{item.list.map(item2 => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <CoverView>
+                      <Text />
+                    </CoverView>
+                  </View>
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(3)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <map wx:if=\"{{b2}}\"></map>
+                          <cover-view>
+                              <text></text>
+                          </cover-view>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持逻辑表达式3', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            return (
+              <View>{array.map(item => {
+                return <CoverView>{item.list.map(item2 => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <CoverView>
+                      <Text />
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </View>
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <map wx:if=\"{{b2}}\"></map>
+                          <cover-view>
+                              <text></text>
+                          </cover-view>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持逻辑表达式4', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(item => {
+                return <CoverView>{item.list.map(item2 => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </View>
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <map wx:if=\"{{b2}}\"></map>
+                          <cover-view>
+                              <text></text>
+                              <button wx:if=\"{{b4}}\"></button>
+                          </cover-view>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持条件表达式', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>{arr.list.map(item => {
+                  return b1 ? <Text>{item}</Text> : <View />
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(2)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <block wx:if=\"{{b1}}\">
+                              <text>{{item}}</text>
+                          </block>
+                          <block wx:else>
+                              <view></view>
+                          </block>
+                      </block>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持条件表达式2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>{arr.list.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <CoverView>
+                    <Text />
+                  </CoverView>
+                  </CoverView> : null
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(3)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <cover-view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <cover-view>
+                                  <text></text>
+                              </cover-view>
+                          </cover-view>
+                      </block>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持条件表达式2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return <CoverView>{arr.list.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </CoverView> : null
+                })}</CoverView>
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(3)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <cover-view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </cover-view>
+                      </block>
+                  </cover-view>
+              </view>
+          </block>
+          `
+        ))
+      })
+    })
     describe('一层 loop', () => {
       test('简单情况', () => {
         const { template, ast, code } = transform({
@@ -26,6 +415,603 @@ describe('loop', () => {
         expect(template).toMatch(`<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`)
         expect(Object.keys(instance.state).length).toBe(1)
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
+      })
+
+      test('支持条件表达式3', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <text></text>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('支持条件表达式4', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
+                              <text></text>
+                              <button wx:if=\"{{b4}}\"></button>
+                          </cover-view>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('能使用方法', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.handleClick}>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view bindtap=\"handleClick\">
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
+                              <text></text>
+                              <button wx:if=\"{{b4}}\"></button>
+                          </cover-view>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('能使用方法2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.handleClick}>
+                    {b2 ? <Map onClick={this.handleClick} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view bindtap=\"handleClick\">
+                          <block wx:if=\"{{b2}}\">
+                              <map bindtap=\"handleClick\"></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
+                              <text></text>
+                              <button wx:if=\"{{b4}}\"></button>
+                          </cover-view>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
+          `
+        ))
+      })
+
+      test('能使用bind', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.handleClick.bind(this)}>
+                    {b2 ? <Map onClick={this.handleClick} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                    data-component-path=\"{{$path}}\">
+                        <block wx:if=\"{{b2}}\">
+                            <map bindtap=\"handleClick\"></map>
+                        </block>
+                        <text></text>
+                        <cover-view>
+                            <text></text>
+                            <button wx:if=\"{{b4}}\"></button>
+                        </cover-view>
+                        <progress wx:if=\"{{b3}}\"></progress>
+                    </cover-view>
+                </block>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('能使用bind 2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.handleClick.bind(this, b1)}>
+                    {b2 ? <Map onClick={this.handleClick} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                    data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                        <block wx:if=\"{{b2}}\">
+                            <map bindtap=\"handleClick\"></map>
+                        </block>
+                        <text></text>
+                        <cover-view>
+                            <text></text>
+                            <button wx:if=\"{{b4}}\"></button>
+                        </cover-view>
+                        <progress wx:if=\"{{b3}}\"></progress>
+                    </cover-view>
+                </block>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('能使用bind 3', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.handleClick.bind(this, b1)}>
+                    {b2 ? <Map onClick={this.handleClick.bind(this, b2)} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                    data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                        <block wx:if=\"{{b2}}\">
+                            <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                            data-component-path=\"{{$path}}\"></map>
+                        </block>
+                        <text></text>
+                        <cover-view>
+                            <text></text>
+                            <button wx:if=\"{{b4}}\"></button>
+                        </cover-view>
+                        <progress wx:if=\"{{b3}}\"></progress>
+                    </cover-view>
+                </block>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('能使用bind 3', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.handleClick.bind(this, b1)}>
+                    {b2 ? <Map onClick={this.handleClick.bind(this, b2)} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button onClick={this.handleClick.bind(this, b2)} />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <block>
+            <view>
+                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                    data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                        <block wx:if=\"{{b2}}\">
+                            <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                            data-component-path=\"{{$path}}\"></map>
+                        </block>
+                        <text></text>
+                        <cover-view>
+                            <text></text>
+                            <button bindtap=\"handleClick\" wx:if=\"{{b4}}\" data-event-handleClick-scope=\"this\"
+                            data-event-handleClick-arg-a=\"{{b2}}\" data-component-path=\"{{$path}}\"></button>
+                        </cover-view>
+                        <progress wx:if=\"{{b3}}\"></progress>
+                    </cover-view>
+                </block>
+            </view>
+        </block>
+          `
+        ))
+      })
+
+      test('能使用this.props.${event}.bind', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: false,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.props.onClick}>
+                    {b2 ? <Map onClick={this.handleClick.bind(this, b2)} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button onClick={this.handleClick.bind(this, b2)} />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <template name=\"Index\">
+              <block>
+                  <view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                          <cover-view bindtap=\"onClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                  data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></map>
+                              </block>
+                              <text></text>
+                              <cover-view>
+                                  <text></text>
+                                  <button bindtap=\"Index__handleClick\" wx:if=\"{{b4}}\" data-component-path=\"{{$path}}\"
+                                  data-component-class=\"Index\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                              </cover-view>
+                              <progress wx:if=\"{{b3}}\"></progress>
+                          </cover-view>
+                      </block>
+                  </view>
+              </block>
+          </template>
+          `
+        ))
+      })
+
+      test('能使用this.props.${event}.bind 2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: false,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.props.onCoverClick.bind(this, b1)}>
+                    {b2 ? <Map onClick={this.props.onMapCick.bind(this, b2)} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button onClick={this.handleClick.bind(this, b2)} />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <template name=\"Index\">
+            <block>
+                <view>
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                        <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
+                        data-component-class=\"Index\" data-event-onCoverClick-scope=\"this\" data-event-onCoverClick-arg-a=\"{{b1}}\">
+                            <block wx:if=\"{{b2}}\">
+                                <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                data-event-onMapCick-scope=\"this\" data-event-onMapCick-arg-a=\"{{b2}}\"></map>
+                            </block>
+                            <text></text>
+                            <cover-view>
+                                <text></text>
+                                <button bindtap=\"Index__handleClick\" wx:if=\"{{b4}}\" data-component-path=\"{{$path}}\"
+                                data-component-class=\"Index\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                            </cover-view>
+                            <progress wx:if=\"{{b3}}\"></progress>
+                        </cover-view>
+                    </block>
+                </view>
+            </block>
+        </template>
+          `
+        ))
+      })
+
+      test('能使用this.props.${event}.bind 3', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: false,
+          code: buildComponent(`
+            const array = [{ list: [] }]
+            const b1 = true
+            const b2 = true
+            const b3 = true
+            const b4 = true
+            return (
+              <View>{array.map(arr => {
+                return b1 ? <CoverView onClick={this.props.onCoverClick.bind(this, b1)}>
+                    {b2 ? <Map onClick={this.props.onMapCick.bind(this, b2)} /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button onClick={this.handleClick.bind(this, b2)} />}
+                    </CoverView>
+                    {b3 && <Progress onClick={this.props.onProgressClick.bind(this, b2)} />}
+                  </CoverView> : null
+              })}</View>
+            )
+          `, `handleClick = () => ({})`)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+        expect(Object.keys(instance.state).length).toBe(5)
+        expect(instance.state.array).toEqual([{ list: [] }])
+        expect(template).toMatch(prettyPrint(
+          `
+          <template name=\"Index\">
+              <block>
+                  <view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                          <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
+                          data-component-class=\"Index\" data-event-onCoverClick-scope=\"this\" data-event-onCoverClick-arg-a=\"{{b1}}\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                  data-event-onMapCick-scope=\"this\" data-event-onMapCick-arg-a=\"{{b2}}\"></map>
+                              </block>
+                              <text></text>
+                              <cover-view>
+                                  <text></text>
+                                  <button bindtap=\"Index__handleClick\" wx:if=\"{{b4}}\" data-component-path=\"{{$path}}\"
+                                  data-component-class=\"Index\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                              </cover-view>
+                              <progress bindtap=\"Index__onProgressClick\" wx:if=\"{{b3}}\" data-component-path=\"{{$path}}\"
+                              data-component-class=\"Index\" data-event-onProgressClick-scope=\"this\" data-event-onProgressClick-arg-a=\"{{b2}}\"></progress>
+                          </cover-view>
+                      </block>
+                  </view>
+              </block>
+          </template>
+          `
+        ))
       })
 
       describe('支持写逻辑表达式', () => {
