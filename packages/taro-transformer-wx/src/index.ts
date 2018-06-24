@@ -101,6 +101,26 @@ export default function transform (options: Options): TransformResult {
         )
       }
     },
+    // JSXIdentifier (path) {
+    //   const parentPath = path.parentPath
+    //   if (!parentPath.isJSXAttribute()) {
+    //     return
+    //   }
+    //   const element = parentPath.parentPath
+    //   if (!element.isJSXOpeningElement()) {
+    //     return
+    //   }
+    //   const elementName = element.get('name')
+    //   if (!elementName.isJSXIdentifier()) {
+    //     return
+    //   }
+    //   if (DEFAULT_Component_SET.has(elementName.node.name)) {
+    //     return
+    //   }
+
+    //   const expr = parentPath.get('value.expression')
+
+    // },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       if (name === 'Provider') {

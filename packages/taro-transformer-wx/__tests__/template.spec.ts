@@ -123,6 +123,22 @@ describe('Template', () => {
       expect(template).toMatch('<scroll-view class="a"></scroll-view>')
     })
 
+    test('expression 有多个 this.props.xx 成员表达式', () => {
+      const { template, code, ast } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return <ScrollView className={this.props.iconList && this.props.iconList.length > 3 ? 'iconlist_wrap' : 'iconlist_wrap wrap-less'} />
+        `)
+      })
+
+      const instance = evalClass(ast)
+
+      expect(instance.$usedState).toEqual([ 'iconList' ])
+
+      expect(template).toMatch(`<scroll-view class=\"{{iconList && iconList.length > 3 ? 'iconlist_wrap' : 'iconlist_wrap wrap-less'}}\"></scroll-view>`)
+    })
+
     describe('props 为布尔值', () => {
       test('内置组件', () => {
         const { template } = transform({
@@ -202,7 +218,7 @@ describe('Template', () => {
     })
 
     test('驼峰式应该变为下划线式', () => {
-      const { template } = transform({
+      const { template, ast } = transform({
         ...baseOptions,
         isRoot: true,
         code: buildComponent(`

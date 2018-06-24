@@ -126,8 +126,8 @@ export function parseJSXElement (element: t.JSXElement): string {
             name.startsWith('bind') || name.startsWith('catch')
           let { code } = generate(attrValue.expression)
           code = code
-            .replace(/(this\.props\.)|(this\.state\.)/, '')
-            .replace(/this\./, '')
+            .replace(/(this\.props\.)|(this\.state\.)/g, '')
+            .replace(/this\./g, '')
           value = isBindEvent ? code : `{{${code}}}`
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
