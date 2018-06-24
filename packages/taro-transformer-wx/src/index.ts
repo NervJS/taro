@@ -189,6 +189,9 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.path).result
   result.code = generate(ast).code
   result.ast = ast
+  // if (process.env.NODE_ENV !== 'test') {
+  //   result.template = prettyPrint(result.template)
+  // }
   result.template = prettyPrint(result.template)
   result.imageSrcs = Array.from(imageSource)
   return result

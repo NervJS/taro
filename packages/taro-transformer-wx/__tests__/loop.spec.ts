@@ -1,6 +1,7 @@
 import transform from '../src'
 import { LOOP_STATE } from '../src/constant'
 import { buildComponent, baseOptions, evalClass, removeShadowData } from './utils'
+import { prettyPrint } from 'html'
 
 describe('loop', () => {
   describe('有 block 有 return', () => {
@@ -27,24 +28,386 @@ describe('loop', () => {
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
 
-      test('支持写逻辑表达式', () => {
-        const { template, ast, code } = transform({
-          ...baseOptions,
-          isRoot: true,
-          code: buildComponent(`
-            const array = ['test1', 'test2', 'test3']
-            const bool = true
-            return (
-              <View>{array.map(item => { return bool && <View>{item}</View> })}</View>
-            )
-          `)
+      describe('支持写逻辑表达式', () => {
+        test('简单情况', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const bool = true
+              return (
+                <View>{array.map(item => { return bool && <View>{item}</View> })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          const stateName = Object.keys(instance.state)[0]
+          expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
         })
 
-        const instance = evalClass(ast)
-        removeShadowData(instance.state)
-        const stateName = Object.keys(instance.state)[0]
-        expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
+        test('子元素有逻辑表达式', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <Text />
+                  </View>
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(3)
+          expect(template).toMatch(prettyPrint(`<block><view><view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\"><map wx:if=\"{{b2}}\"></map><text></text></view></view></block>`))
+        })
+
+        test('子元素有逻辑表达式2', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <CoverView>
+                      <Text />
+                    </CoverView>
+                  </View>
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(3)
+          expect(template).toMatch(prettyPrint(`<block><view><view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\"><map wx:if=\"{{b2}}\"></map><cover-view><text></text></cover-view></view></view></block>`))
+        })
+
+        test('子元素有逻辑表达式3', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              const b3 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <CoverView>
+                      <Text />
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </View>
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(4)
+          expect(template).toMatch(prettyPrint(`
+          <block>
+              <view>
+                  <view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <map wx:if=\"{{b2}}\"></map>
+                      <cover-view>
+                          <text></text>
+                      </cover-view>
+                      <progress wx:if=\"{{b3}}\"></progress>
+                  </view>
+              </view>
+          </block>
+          `))
+        })
+
+        test('子元素有逻辑表达式4', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              const b3 = true
+              const b4 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 && <View>
+                    {b2 && <Map />}
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </View>
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(5)
+          expect(template).toMatch(prettyPrint(`
+            <block>
+                <view>
+                    <view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                        <map wx:if=\"{{b2}}\"></map>
+                        <cover-view>
+                            <text></text>
+                            <button wx:if=\"{{b4}}\"></button>
+                        </cover-view>
+                        <progress wx:if=\"{{b3}}\"></progress>
+                    </view>
+                </view>
+            </block>
+          `))
+        })
       })
+
+      describe('支持条件表达式', () => {
+
+        test('简单情况', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const bool = true
+              return (
+                <View>{array.map(item => {
+                  return bool ? <Text>{item}</Text> : <View />
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(2)
+          expect(template).toMatch(
+            prettyPrint(`
+            <block>
+                <view>
+                    <block wx:for="{{array}}" wx:for-item="item">
+                        <block wx:if="{{bool}}">
+                            <text>{{item}}</text>
+                        </block>
+                        <block wx:else>
+                            <view></view>
+                        </block>
+                    </block>
+                </view>
+            </block>
+            `)
+          )
+        })
+
+        test('子元素', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <CoverView>
+                    <Text />
+                  </CoverView>
+                  </CoverView> : null
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(3)
+          expect(template).toMatch(
+            prettyPrint(`
+            <block>
+                <view>
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                        <cover-view>
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <cover-view>
+                                <text></text>
+                            </cover-view>
+                        </cover-view>
+                    </block>
+                </view>
+            </block>
+            `)
+          )
+        })
+
+        test('子元素2', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                  </CoverView> : null
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(3)
+          expect(template).toMatch(
+            prettyPrint(`
+            <block>
+                <view>
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                        <cover-view>
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                        </cover-view>
+                    </block>
+                </view>
+            </block>
+            `)
+          )
+        })
+
+        test('子元素3', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              const b3 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                    {b3 && <Progress />}
+                  </CoverView> : null
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(4)
+          expect(template).toMatch(
+            prettyPrint(`
+            <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <cover-view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <text></text>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
+            `)
+          )
+        })
+
+        test('子元素4', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              const b3 = true
+              const b4 = true
+              return (
+                <View>{array.map(item => {
+                  return b1 ? <CoverView>
+                    {b2 ? <Map /> : null}
+                    <Text />
+                    <CoverView>
+                      <Text />
+                      {b4 && <Button />}
+                    </CoverView>
+                    {b3 && <Progress />}
+                  </CoverView> : null
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(5)
+          expect(template).toMatch(
+            prettyPrint(`
+            <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <cover-view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
+                              <text></text>
+                              <button wx:if=\"{{b4}}\"></button>
+                          </cover-view>
+                          <progress wx:if=\"{{b3}}\"></progress>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
+            `)
+          )
+        })
+      })
+
+      // test('支持写条件表达式', () => {
+
+      //   expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
+      // })
 
       test('有 template string', () => {
         const { template, ast, code } = transform({
