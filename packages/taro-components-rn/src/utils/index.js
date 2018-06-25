@@ -60,8 +60,11 @@ export const parseStyles = function (styles = '') {
     }), {})
 }
 
+export const noop = function () {}
+
 export default {
   omit,
   dismemberStyle,
-  parseStyles
+  parseStyles,
+  noop,
 }
