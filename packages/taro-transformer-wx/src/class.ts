@@ -8,13 +8,13 @@ import {
   createUUID,
   findFirstIdentifierFromMemberExpression,
   isArrayMapCallExpression,
-  buildConstVariableDeclaration,
-  hasComplexExpression
+  hasComplexExpression,
+  generateAnonymousState
 } from './utils'
 import {
   buildRefTemplate
 } from './jsx'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC, LOOP_STATE } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
 import { uniqBy } from 'lodash'
@@ -55,44 +55,6 @@ function resetThisState () {
         []
       )
     )
-  )
-}
-
-function generateAnonymousState (
-  scope: Scope,
-  expression: NodePath<t.Expression>,
-  refIds: Set<t.Identifier>
-) {
-  let variableName = `anonymousState_${scope.generateUid()}`
-  let statementParent = expression.getStatementParent()
-  if (!statementParent) {
-    throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
-  }
-  const jsx = expression.findParent(p => p.isJSXElement())
-  const callExpr = jsx.findParent(p => p.isCallExpression())
-  if (!isArrayMapCallExpression(callExpr)) {
-    refIds.add(t.identifier(variableName))
-    statementParent.insertBefore(
-      buildConstVariableDeclaration(variableName, expression.node)
-    )
-  } else {
-    variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
-    const func = callExpr.node.arguments[0]
-    if (t.isArrowFunctionExpression(func)) {
-      if (!t.isBlockStatement(func.body)) {
-        func.body = t.blockStatement([
-          buildConstVariableDeclaration(variableName, expression.node),
-          t.returnStatement(func.body)
-        ])
-      } else {
-        statementParent.insertBefore(
-          buildConstVariableDeclaration(variableName, expression.node)
-        )
-      }
-    }
-  }
-  expression.replaceWith(
-    t.identifier(variableName)
   )
 }
 
@@ -216,7 +178,6 @@ class Transformer {
             calleeExpr.get('object').isMemberExpression() &&
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
-          debugger
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
         }
       },
@@ -335,7 +296,7 @@ class Transformer {
         } else {
           // todo 找倒数第二个 callee id
           let ary = calleeCode.split('.')
-          stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state'
+          stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
 
@@ -777,20 +738,20 @@ function build$ComponentsProperty (
       )
     )
   }
-  loopComponents.forEach(lc => {
-    lc.forEach(c => {
-      if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
-        properties.push(
-          t.objectProperty(
-            t.identifier(c.name),
-            t.identifier(
-              findImportedName(c.name)
-            )
-          )
-        )
-      }
-    })
-  })
+  // loopComponents.forEach(lc => {
+  //   lc.forEach(c => {
+  //     if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
+  //       properties.push(
+  //         t.objectProperty(
+  //           t.identifier(c.name),
+  //           t.identifier(
+  //             findImportedName(c.name)
+  //           )
+  //         )
+  //       )
+  //     }
+  //   })
+  // })
   return t.classProperty(
     t.identifier('$components'),
     t.objectExpression(properties)

@@ -36,6 +36,134 @@ describe('loop', () => {
         ))
       })
 
+      describe('动态创建 callee', () => {
+        test('callee 动态创建', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              return (
+                <View>{Array.from({ length: 9 }).map((e, i) => {
+                  return (
+                    <View
+                      key={i}
+                      className="ratio-16-9 image-company-album"
+                    >
+                      loop1: {i}
+                      {Array.from({ length: 9 }).map((el, j) => {
+                        return (
+                          <View
+                            key={j}
+                            className="ratio-16-9 image-company-album"
+                          >
+                            loop2: {j}
+                          </View>
+                        )
+                      })}
+                    </View>
+                  )
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
+          expect(instance.state.loopArray0[0].$anonymousCallee__0.length).toBe(9)
+
+          expect(template).toMatch(prettyPrint(
+            `
+            <block>
+                <view>
+                    <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}"
+                    wx:for-item="e" wx:for-index="i">loop1: {{i}}
+                        <view wx:key="{{j}}" class="ratio-16-9 image-company-album"
+                        wx:for="{{e.$anonymousCallee__0}}" wx:for-item="el" wx:for-index="j">loop2: {{j}}</view>
+                    </view>
+                </view>
+            </block>
+            `
+          ))
+        })
+
+        test('支持条件表达式的 consequent 为空', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const arr1 = []
+              return (
+                <View>{Array.from({length: 9}).map((e, i) => {
+                  return (
+                    arr1.length > 1 ? null :
+                    <View
+                      key={i}
+                      className="ratio-16-9 image-company-album"
+                    >
+                      loop1: {i}
+                    </View>
+                  )
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
+          expect(instance.state.$anonymousCallee__2.length).toBe(9)
+          expect(template).toMatch(prettyPrint(
+            `
+            <block>
+                <view>
+                    <block wx:if="{{!(arr1.length > 1)}}" wx:for="{{$anonymousCallee__2}}"
+                    wx:for-item="e" wx:for-index="i"></block>
+                </view>
+            </block>
+            `
+          ))
+        })
+
+        test('支持条件表达式的 test 可以使用复杂表达式', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              return (
+                <View>{Array.from({length: 9}).map((e, i) => {
+                  return (
+                    Array.from({length: 9}).length > 1 ? null :
+                    <View
+                      key={i}
+                      className="ratio-16-9 image-company-album"
+                    >
+                      loop1: {i}
+                    </View>
+                  )
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
+          expect(instance.state.loopArray0[0].$loopState__temp2).toBe(true)
+          expect(template).toMatch(prettyPrint(
+            `
+            <block>
+                <view>
+                    <block wx:if="{{!e.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="e"
+                    wx:for-index="i"></block>
+                </view>
+            </block>
+            `
+          ))
+        })
+
+      })
+
       test('支持逻辑表达式', () => {
         const { template, ast, code } = transform({
           ...baseOptions,

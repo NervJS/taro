@@ -14,7 +14,9 @@ import {
   isContainFunction,
   buildConstVariableDeclaration,
   incrementId,
-  isArrayMapCallExpression
+  isArrayMapCallExpression,
+  generateAnonymousState,
+  hasComplexExpression
 } from './utils'
 import { difference } from 'lodash'
 import {
@@ -23,7 +25,7 @@ import {
   parseJSXElement,
   generateHTMLTemplate
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE } from './constant'
+import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE } from './constant'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -175,20 +177,27 @@ export class RenderParser {
         handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent }) => {
           if (t.isLogicalExpression(parentNode)) {
             const { left, operator } = parentNode
-            if (operator === '&&') {
-              if (t.isExpression(left)) {
-                newJSXIfAttr(jsxElementPath.node, left)
-                parentPath.replaceWith(jsxElementPath.node)
-                if (statementParent) {
-                  const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
-                  setTemplate(name, jsxElementPath, this.templates)
-                  // name && templates.set(name, path.node)
-                }
+            const leftExpression = parentPath.get('left') as NodePath<t.Expression>
+            if (operator === '&&' && t.isExpression(left)) {
+              if (hasComplexExpression(leftExpression)) {
+                generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
+              }
+              newJSXIfAttr(jsxElementPath.node, leftExpression.node)
+              parentPath.replaceWith(jsxElementPath.node)
+              if (statementParent) {
+                const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
+                setTemplate(name, jsxElementPath, this.templates)
+                // name && templates.set(name, path.node)
               }
             }
           } else if (t.isConditionalExpression(parentNode)) {
-            const { test, consequent, alternate } = parentNode
+            const { consequent, alternate } = parentNode
+            const testExpression = parentPath.get('test') as NodePath<t.Expression>
             const block = buildBlockElement()
+            if (hasComplexExpression(testExpression)) {
+              generateAnonymousState(parentPath.scope, testExpression, this.referencedIdentifiers, true)
+            }
+            const test = testExpression.node
             if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
               const { value, confident } = parentPath.get('alternate').evaluate()
               if (confident && !value) {
@@ -204,7 +213,7 @@ export class RenderParser {
                   // name && templates.set(name, path.node)
                 }
               }
-            } else if (t.isLiteral(consequent) && t.isJSXElement(consequent)) {
+            } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
               if (t.isNullLiteral(consequent)) {
                 newJSXIfAttr(block, reverseBoolean(test))
                 // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
@@ -246,6 +255,9 @@ export class RenderParser {
               const callExpr = parentPath.findParent(p => p.isCallExpression())
               if (callExpr.isCallExpression()) {
                 const callee = callExpr.node.callee
+                if (this.loopComponents.has(callExpr)) {
+                  return
+                }
                 if (
                   t.isMemberExpression(callee) &&
                   t.isIdentifier(callee.property) &&
@@ -253,7 +265,7 @@ export class RenderParser {
                 ) {
                   let ary = callee.object
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
-                    const variableName = `anonymousCallee_${calleeId()}`
+                    const variableName = `${LOOP_CALLEE}_${calleeId()}`
                     callExpr.getStatementParent().insertBefore(
                       buildConstVariableDeclaration(variableName, ary)
                     )
@@ -265,7 +277,10 @@ export class RenderParser {
                       this.referencedIdentifiers.add(id)
                     }
                   } else if (t.isIdentifier(ary)) {
-                    this.referencedIdentifiers.add(ary)
+                    const parentCallExpr = callExpr.find(p => p.isCallExpression())
+                    if (!isArrayMapCallExpression(parentCallExpr) && parentCallExpr !== callExpr) {
+                      this.referencedIdentifiers.add(ary)
+                    }
                   }
                   setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
                   const [func] = callExpr.node.arguments
@@ -739,10 +754,12 @@ export class RenderParser {
           for (const [ index, statement ] of body.entries()) {
             if (t.isVariableDeclaration(statement)) {
               for (const dcl of statement.declarations) {
-                if (t.isIdentifier(dcl.id) && dcl.id.name.startsWith(LOOP_STATE)) {
+                if (t.isIdentifier(dcl.id)) {
                   const name = dcl.id.name
-                  stateToBeAssign.add(name)
-                  dcl.id = t.identifier(name)
+                  if (name.startsWith(LOOP_STATE) || name.startsWith(LOOP_CALLEE)) {
+                    stateToBeAssign.add(name)
+                    dcl.id = t.identifier(name)
+                  }
                 }
               }
             }
@@ -895,18 +912,23 @@ export class RenderParser {
         if (property.isIdentifier({ name : 'state' })) {
           property.replaceWith(t.identifier('__state'))
         }
+        if (property.isIdentifier({ name : 'props' })) {
+          property.replaceWith(t.identifier('__props'))
+        }
       }
     })
 
     renderBody.insertAfter(
       template(`
+        delete this.__props;
         const __state = this.__state;
         delete this.__state;
         return __state;
       `)()
     )
     this.renderPath.node.body.body.unshift(
-      template(`this.__state = arguments[0] || this.state || {};`)()
+      template(`this.__state = arguments[0] || this.state || {};`)(),
+      template(`this.__props = arguments[1] || this.props || {};`)()
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {
