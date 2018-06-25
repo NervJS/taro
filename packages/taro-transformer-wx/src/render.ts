@@ -912,18 +912,23 @@ export class RenderParser {
         if (property.isIdentifier({ name : 'state' })) {
           property.replaceWith(t.identifier('__state'))
         }
+        if (property.isIdentifier({ name : 'props' })) {
+          property.replaceWith(t.identifier('__props'))
+        }
       }
     })
 
     renderBody.insertAfter(
       template(`
+        delete this.__props;
         const __state = this.__state;
         delete this.__state;
         return __state;
       `)()
     )
     this.renderPath.node.body.body.unshift(
-      template(`this.__state = arguments[0] || this.state || {};`)()
+      template(`this.__state = arguments[0] || this.state || {};`)(),
+      template(`this.__props = arguments[1] || this.props || {};`)()
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {

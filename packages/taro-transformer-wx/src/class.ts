@@ -296,7 +296,7 @@ class Transformer {
         } else {
           // todo 找倒数第二个 callee id
           let ary = calleeCode.split('.')
-          stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state'
+          stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
 

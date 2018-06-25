@@ -125,7 +125,7 @@ describe('loop', () => {
           ))
         })
 
-        test('支持条件表达式的 consequent 为空', () => {
+        test('支持条件表达式的 test 可以使用复杂表达式', () => {
           const { template, ast, code } = transform({
             ...baseOptions,
             isRoot: true,
