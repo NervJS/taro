@@ -8,6 +8,7 @@ import Progress from './components/Progress'
 import Button from './components/Button'
 import Checkbox from './components/Checkbox'
 import CheckboxGroup from './components/Checkbox/checkbox-group'
+import Form from './components/Form'
 import Input from './components/Input'
 import Label from './components/Label'
 import Picker from './components/Picker'
@@ -29,6 +30,7 @@ export {
   Button,
   Checkbox,
   CheckboxGroup,
+  Form,
   Input,
   Label,
   Picker,

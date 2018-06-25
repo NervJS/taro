@@ -4,20 +4,20 @@ export function setClipboardData (opts = {}) {
   const { data, success, fail, complete } = opts
   const res = { errMsg: 'setClipboardData:ok' }
 
-  try {
-    Clipboard.setString(data)
-    res.data = data
-    success && success(res)
-    complete && complete(res)
-
-    return Promise.resolve(res)
-  } catch (err) {
-    res.errMsg = err.message
+  if (typeof data !== 'string') {
+    res.errMsg = 'setClipboardData:fail parameter error: parameter.data should be String'
     fail && fail(res)
     complete && complete(res)
 
-    return Promise.reject(err)
+    return Promise.reject(res)
   }
+
+  Clipboard.setString()
+  res.data = data
+  success && success(res)
+  complete && complete(res)
+
+  return Promise.resolve(res)
 }
 
 export function getClipboardData (opts = {}) {
