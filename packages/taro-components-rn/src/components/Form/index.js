@@ -39,7 +39,7 @@ class _Form extends React.Component<Props, State> {
   }
   formValues: Object = {}
 
-  bindValueChangeEvent = (child) => {
+  bindValueChangeEvent = (child: any) => {
     // onChange: _CheckboxGroup _RadioGroup _Switch _Slider _Picker
     // onBlur: _Input _Textarea
     const childTypeName = child.type.name
@@ -57,14 +57,14 @@ class _Form extends React.Component<Props, State> {
       }
     }
     tmpProps[valueChangeCbName] = (event) => {
-      const cb = child.props[valueChangeCbName]
+      const valueChangeCb = child.props[valueChangeCbName]
       this.formValues[childPropsName] = event.detail.value
-      cb && cb(...arguments)
+      valueChangeCb && valueChangeCb(...arguments)
     }
     return React.cloneElement(child, tmpProps, child.props.children)
   }
 
-  deppDiveIntoChildren = (children) => {
+  deppDiveIntoChildren = (children: any) => {
     return React.Children.toArray(children).map((child) => {
       const childTypeName = child.type.name
       if (!child.type) return child
@@ -73,18 +73,19 @@ class _Form extends React.Component<Props, State> {
         return React.cloneElement(child, {
           ...child.props,
           onClick: () => {
+            // $FlowFixMe An indexer property is missing in _Form
             this[child.props.formType]()
             onClick && onClick()
           }
         })
       }
-      return isFormTypeElement(childTypeName) && child.props.name ?
-        this.bindValueChangeEvent(child) :
-        React.cloneElement(child, { ...child.props }, this.deppDiveIntoChildren(child.props.children))
+      return isFormTypeElement(childTypeName) && child.props.name
+        ? this.bindValueChangeEvent(child)
+        : React.cloneElement(child, { ...child.props }, this.deppDiveIntoChildren(child.props.children))
     })
   }
 
-  submit = () => {
+  submit: Function = () => {
     const { onSubmit } = this.props
     onSubmit && onSubmit({
       detail: {
@@ -93,7 +94,7 @@ class _Form extends React.Component<Props, State> {
     })
   }
 
-  reset = () => {
+  reset: Function = () => {
   }
 
   render () {

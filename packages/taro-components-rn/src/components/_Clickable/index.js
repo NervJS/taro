@@ -14,7 +14,7 @@
 import * as React from 'react'
 import {
   View,
-  TouchableWithoutFeedback,
+  // TouchableWithoutFeedback,
   StyleSheet,
   PanResponder,
 } from 'react-native'
