@@ -29,13 +29,17 @@ class Component {
     this.$root = $root || null
     this.$parent = $parent || null
     this.defaultData = {}
-    this.$data = $parent ? $parent.$data : {}
+    this.$data = $parent ? $parent.$data || {} : {}
 
     let path = this.$path.split('$$').pop()
     this.$data[`$$${path}`] = this.$data[`$$${path}`] || {}
     this.$data = this.$data[`$$${path}`]
-    for (let k in this.state) {
-      this.$data[k] = this.state[k]
+    let state = this.state
+    if (this._dyState) {
+      state = Object.assign({}, this.state, this._dyState)
+    }
+    for (let k in state) {
+      this.$data[k] = state[k]
     }
     if (this.props) {
       for (let k in this.props) {

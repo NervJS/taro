@@ -25,7 +25,7 @@ export function updateComponent (component, update) {
   }
   let state = component.getState()
   if (component._createData) {
-    state = component._createData(state)
+    state = component._createData(state, props)
   }
   state.__data && (state.__data.$path = component.$path)
   const prevState = component.prevState || state
@@ -72,7 +72,7 @@ function doUpdate (component, update) {
   let $data = component.$root ? component.$root.$data : component.$data
   if (update) {
     processDynamicComponents(component.$root || component)
-    Object.assign(component.$data, component.state)
+    Object.assign(component.$data, component.state, component._dyState || {})
   }
   if (!component.$isComponent && component.$usedState && component.$usedState.length) {
     const data = {}
