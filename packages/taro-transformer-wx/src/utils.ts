@@ -195,7 +195,7 @@ export function isAllLiteral (...args) {
 export function reverseBoolean (expression: t.Expression) {
   return t.unaryExpression(
     '!',
-    t.callExpression(t.identifier('Boolean'), [expression])
+    expression
   )
 }
 

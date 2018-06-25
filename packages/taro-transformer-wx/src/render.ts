@@ -187,6 +187,7 @@ export class RenderParser {
               }
             }
           } else if (t.isConditionalExpression(parentNode)) {
+            debugger
             const { test, consequent, alternate } = parentNode
             const block = buildBlockElement()
             if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
@@ -204,7 +205,7 @@ export class RenderParser {
                   // name && templates.set(name, path.node)
                 }
               }
-            } else if (t.isLiteral(consequent) && t.isJSXElement(consequent)) {
+            } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
               if (t.isNullLiteral(consequent)) {
                 newJSXIfAttr(block, reverseBoolean(test))
                 // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
@@ -246,6 +247,9 @@ export class RenderParser {
               const callExpr = parentPath.findParent(p => p.isCallExpression())
               if (callExpr.isCallExpression()) {
                 const callee = callExpr.node.callee
+                if (this.loopComponents.has(callExpr)) {
+                  return
+                }
                 if (
                   t.isMemberExpression(callee) &&
                   t.isIdentifier(callee.property) &&
