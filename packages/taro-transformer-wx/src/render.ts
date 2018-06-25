@@ -14,7 +14,9 @@ import {
   isContainFunction,
   buildConstVariableDeclaration,
   incrementId,
-  isArrayMapCallExpression
+  isArrayMapCallExpression,
+  generateAnonymousState,
+  hasComplexExpression
 } from './utils'
 import { difference } from 'lodash'
 import {
@@ -175,21 +177,27 @@ export class RenderParser {
         handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent }) => {
           if (t.isLogicalExpression(parentNode)) {
             const { left, operator } = parentNode
-            if (operator === '&&') {
-              if (t.isExpression(left)) {
-                newJSXIfAttr(jsxElementPath.node, left)
-                parentPath.replaceWith(jsxElementPath.node)
-                if (statementParent) {
-                  const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
-                  setTemplate(name, jsxElementPath, this.templates)
-                  // name && templates.set(name, path.node)
-                }
+            const leftExpression = parentPath.get('left') as NodePath<t.Expression>
+            if (operator === '&&' && t.isExpression(left)) {
+              if (hasComplexExpression(leftExpression)) {
+                generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
+              }
+              newJSXIfAttr(jsxElementPath.node, leftExpression.node)
+              parentPath.replaceWith(jsxElementPath.node)
+              if (statementParent) {
+                const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
+                setTemplate(name, jsxElementPath, this.templates)
+                // name && templates.set(name, path.node)
               }
             }
           } else if (t.isConditionalExpression(parentNode)) {
-            debugger
-            const { test, consequent, alternate } = parentNode
+            const { consequent, alternate } = parentNode
+            const testExpression = parentPath.get('test') as NodePath<t.Expression>
             const block = buildBlockElement()
+            if (hasComplexExpression(testExpression)) {
+              generateAnonymousState(parentPath.scope, testExpression, this.referencedIdentifiers, true)
+            }
+            const test = testExpression.node
             if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
               const { value, confident } = parentPath.get('alternate').evaluate()
               if (confident && !value) {
