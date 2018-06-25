@@ -23,7 +23,7 @@ import {
   parseJSXElement,
   generateHTMLTemplate
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE } from './constant'
+import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE } from './constant'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -253,7 +253,7 @@ export class RenderParser {
                 ) {
                   let ary = callee.object
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
-                    const variableName = `anonymousCallee_${calleeId()}`
+                    const variableName = `${LOOP_CALLEE}_${calleeId()}`
                     callExpr.getStatementParent().insertBefore(
                       buildConstVariableDeclaration(variableName, ary)
                     )
@@ -265,7 +265,10 @@ export class RenderParser {
                       this.referencedIdentifiers.add(id)
                     }
                   } else if (t.isIdentifier(ary)) {
-                    this.referencedIdentifiers.add(ary)
+                    const parentCallExpr = callExpr.find(p => p.isCallExpression())
+                    if (!isArrayMapCallExpression(parentCallExpr) && parentCallExpr !== callExpr) {
+                      this.referencedIdentifiers.add(ary)
+                    }
                   }
                   setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
                   const [func] = callExpr.node.arguments
@@ -739,10 +742,12 @@ export class RenderParser {
           for (const [ index, statement ] of body.entries()) {
             if (t.isVariableDeclaration(statement)) {
               for (const dcl of statement.declarations) {
-                if (t.isIdentifier(dcl.id) && dcl.id.name.startsWith(LOOP_STATE)) {
+                if (t.isIdentifier(dcl.id)) {
                   const name = dcl.id.name
-                  stateToBeAssign.add(name)
-                  dcl.id = t.identifier(name)
+                  if (name.startsWith(LOOP_STATE) || name.startsWith(LOOP_CALLEE)) {
+                    stateToBeAssign.add(name)
+                    dcl.id = t.identifier(name)
+                  }
                 }
               }
             }

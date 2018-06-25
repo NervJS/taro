@@ -36,6 +36,65 @@ describe('loop', () => {
         ))
       })
 
+      describe('动态创建 callee', () => {
+        test('callee 动态创建', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              return (
+                <View>{Array.from({ length: 9 }).map((e, i) => {
+                  return (
+                    <View
+                      key={i}
+                      className="ratio-16-9 image-company-album"
+                    >
+                      loop1: {i}
+                      {Array.from({ length: 9 }).map((el, j) => {
+                        return (
+                          <View
+                            key={j}
+                            className="ratio-16-9 image-company-album"
+                          >
+                            loop2: {j}
+                          </View>
+                        )
+                      })}
+                    </View>
+                  )
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          /**
+           * @TODO
+           * @PERF
+           * 这里的 length 应该是 1，只有一个 loopArray0。
+           * 但在匿名 callee 加入全局 state 的时候，还不知道 callee 是否需要 assign，
+           * 因此目前还没找到很好方法判断匿名 callee 在 render 作用域有没有使用
+           */
+          expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
+          expect(instance.state.loopArray0[0].$anonymousCallee__0.length).toBe(9)
+
+          expect(template).toMatch(prettyPrint(
+            `
+            <block>
+                <view>
+                    <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}"
+                    wx:for-item="e" wx:for-index="i">loop1: {{i}}
+                        <view wx:key="{{j}}" class="ratio-16-9 image-company-album"
+                        wx:for="{{e.$anonymousCallee__0}}" wx:for-item="el" wx:for-index="j">loop2: {{j}}</view>
+                    </view>
+                </view>
+            </block>
+            `
+          ))
+        })
+      })
+
       test('支持逻辑表达式', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
