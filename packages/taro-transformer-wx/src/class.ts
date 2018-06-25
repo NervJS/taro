@@ -255,7 +255,7 @@ class Transformer {
     const body = this.classPath.node.body.body
     this.classPath.node.body.body = [
       build$PropsProperty(this.customComponents, body, this.jsxReferencedIdentifiers, this.renderMethod!.get('body').scope),
-      build$ComponentsProperty(this.customComponents, this.loopComponents),
+      build$ComponentsProperty(this.customComponents),
       ...body
     ]
   }
@@ -725,7 +725,7 @@ function findImportedName (name: string) {
 
 function build$ComponentsProperty (
   importedJSXElement: Map<NodePath<t.JSXElement>, string>,
-  loopComponents: TypeLoopComponents
+  // loopComponents: TypeLoopComponents
 ) {
   const properties: Array<t.ObjectProperty> = []
   for (const name of importedJSXElement.values()) {
