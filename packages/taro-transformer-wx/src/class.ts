@@ -738,20 +738,20 @@ function build$ComponentsProperty (
       )
     )
   }
-  loopComponents.forEach(lc => {
-    lc.forEach(c => {
-      if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
-        properties.push(
-          t.objectProperty(
-            t.identifier(c.name),
-            t.identifier(
-              findImportedName(c.name)
-            )
-          )
-        )
-      }
-    })
-  })
+  // loopComponents.forEach(lc => {
+  //   lc.forEach(c => {
+  //     if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
+  //       properties.push(
+  //         t.objectProperty(
+  //           t.identifier(c.name),
+  //           t.identifier(
+  //             findImportedName(c.name)
+  //           )
+  //         )
+  //       )
+  //     }
+  //   })
+  // })
   return t.classProperty(
     t.identifier('$components'),
     t.objectExpression(properties)
