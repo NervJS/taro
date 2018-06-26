@@ -1,4 +1,4 @@
-input {
+input:not([type='checkbox']) {
   display: block;
   height: 1.4rem;
   text-overflow: clip;
