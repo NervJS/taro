@@ -1,7 +1,9 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+import webpack from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
-const { getPostcssPlugins } = require('./postcss.conf')
+import { getPostcssPlugins } from './postcss.conf'
+import { BuildConfig } from '../util/types'
 
 const defaultCSSCompressConf = {
   mergeRules: false,
@@ -21,12 +23,12 @@ const defaultJSCompressConf = {
   warnings: false
 }
 
-module.exports = function (config) {
+export default (config: BuildConfig): webpack.Configuration => {
   const useModuleConf = config.module || {
     compress: {}
   }
   const sourceMap = config.sourceMap
-  const cssExtractPlugins = []
+  const cssExtractPlugins = [] as any[]
   const devtool = 'hidden-source-map'
   const compress = Object.assign({}, {
     css: defaultCSSCompressConf,

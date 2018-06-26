@@ -1,8 +1,12 @@
-const os = require('os')
-const path = require('path')
-const url = require('url')
+import * as os from 'os'
+import * as path from 'path'
+import * as url from 'url'
 
-exports.isEmptyObject = function (obj) {
+import webpack from 'webpack'
+import webpackMerge from 'webpack-merge'
+import * as Types from './types'
+
+const isEmptyObject = function (obj) {
   if (obj == null) {
     return true
   }
@@ -14,16 +18,16 @@ exports.isEmptyObject = function (obj) {
   return true
 }
 
-exports.getRootPath = function () {
+const getRootPath = function () {
   return path.resolve(__dirname, '../../')
 }
 
-exports.zeroPad = function (num, places) {
+const zeroPad = function (num, places) {
   const zero = places - num.toString().length + 1
   return Array(+(zero > 0 && zero)).join('0') + num
 }
 
-exports.formatTime = function (date) {
+const formatTime = function (date?) {
   if (!date) {
     date = new Date()
   } else if (!(date instanceof Date)) {
@@ -34,19 +38,19 @@ exports.formatTime = function (date) {
   const day = date.getDate()
   const hour = date.getHours()
   const minute = date.getMinutes()
-  return `${year}-${exports.zeroPad(month, 2)}-${exports.zeroPad(day, 2)} ${exports.zeroPad(hour, 2)}:${exports.zeroPad(minute, 2)}`
+  return `${year}-${zeroPad(month, 2)}-${zeroPad(day, 2)} ${zeroPad(hour, 2)}:${zeroPad(minute, 2)}`
 }
 
 function _normalizeFamily (family) {
   return family ? family.toLowerCase() : 'ipv4'
 }
 
-function getLocalIp (name, family) {
-  const interfaces = os.networkInterfaces()
+const getLocalIp = function (name?, family?) {
+  const interfaces = os.networkInterfaces();
   //
   // Default to `ipv4`
   //
-  family = _normalizeFamily(family)
+  family = _normalizeFamily(family);
 
   //
   // If a specific network interface has been named,
@@ -54,39 +58,42 @@ function getLocalIp (name, family) {
   //
   if (name && name !== 'private' && name !== 'public') {
     const res = interfaces[name].filter(details => {
-      const itemFamily = details.family.toLowerCase()
-      return itemFamily === family
-    })
+      const itemFamily = details.family.toLowerCase();
+      return itemFamily === family;
+    });
     if (res.length === 0) {
-      return undefined
+      return undefined;
     }
-    return res[0].address
+    return res[0].address;
   }
 
-  const all = Object.keys(interfaces).map(nic => {
-    //
-    // Note: name will only be `public` or `private`
-    // when this is called.
-    //
-    const addresses = interfaces[nic].filter(details => {
-      details.family = details.family.toLowerCase()
-      if (details.family !== family || exports.isLoopback(details.address)) {
-        return false
-      } else if (!name) {
-        return true
-      }
+  const all = Object.keys(interfaces)
+    .map(nic => {
+      //
+      // Note: name will only be `public` or `private`
+      // when this is called.
+      //
+      const local = interfaces[nic].find(details => {
+        const detailsFamily = details.family.toLowerCase();
+        if (detailsFamily !== family || isLoopback(details.address)) {
+          return false;
+        } else if (!name) {
+          return true;
+        }
 
-      return name === 'public' ? !exports.isPrivate(details.address)
-        : exports.isPrivate(details.address)
+        return name === 'public'
+          ? !isPrivate(details.address)
+          : isPrivate(details.address);
+      });
+      return local ? local.address : undefined;
     })
-    return addresses.length ? addresses[0].address : undefined
-  }).filter(Boolean)
+    .filter(Boolean);
 
-  return !all.length ? exports.loopback(family) : all[0]
+  return !all.length ? loopback(family) : all[0];
 }
-exports.getLocalIp = getLocalIp
 
-function isPrivate (addr) {
+
+const isPrivate = function (addr) {
   return /^(::f{4}:)?10\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/
     .test(addr) ||
     /^(::f{4}:)?192\.168\.([0-9]{1,3})\.([0-9]{1,3})$/.test(addr) ||
@@ -99,18 +106,30 @@ function isPrivate (addr) {
     /^::1$/.test(addr) ||
     /^::$/.test(addr)
 }
-exports.isPrivate = isPrivate
 
-function isLoopback (addr) {
+
+const loopback = function(family) {
+  //
+  // Default to `ipv4`
+  //
+  family = _normalizeFamily(family);
+
+  if (family !== 'ipv4' && family !== 'ipv6') {
+    throw new Error('family must be ipv4 or ipv6');
+  }
+
+  return family === 'ipv4' ? '127.0.0.1' : 'fe80::1';
+};
+
+const isLoopback = function (addr) {
   return /^(::f{4}:)?127\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/
     .test(addr) ||
     /^fe80::1$/.test(addr) ||
     /^::1$/.test(addr) ||
     /^::$/.test(addr)
 }
-exports.isLoopback = isLoopback
 
-exports.prepareUrls = function (protocol, host, port) {
+const prepareUrls = function (protocol, host, port) {
   const formatUrl = hostname =>
     url.format({
       protocol,
@@ -144,4 +163,24 @@ exports.prepareUrls = function (protocol, host, port) {
     localUrlForTerminal,
     localUrlForBrowser
   }
+}
+
+const mergeCustomConfig = (webpackConf: webpack.Configuration, customWebpackConfig: Types.CustomWebpackConfig = {}): webpack.Configuration => {
+  if (typeof customWebpackConfig === 'function') {
+    return customWebpackConfig(webpackConf, webpack)
+  }
+  return webpackMerge(webpackConf, customWebpackConfig)
+}
+
+export {
+  isEmptyObject,
+  getRootPath,
+  zeroPad,
+  formatTime,
+  getLocalIp,
+  isPrivate,
+  isLoopback,
+  prepareUrls,
+
+  mergeCustomConfig
 }

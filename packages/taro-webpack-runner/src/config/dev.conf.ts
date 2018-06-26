@@ -1,8 +1,8 @@
-const webpack = require('webpack')
+import webpack from 'webpack'
+import { getPostcssPlugins } from './postcss.conf'
+import { BuildConfig } from '../util/types'
 
-const { getPostcssPlugins } = require('./postcss.conf')
-
-module.exports = function (config) {
+export default function (config: BuildConfig): webpack.Configuration {
   const styleLoader = require.resolve('style-loader')
   const cssLoader = {
     loader: require.resolve('css-loader'),

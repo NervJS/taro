@@ -1,19 +1,20 @@
-const path = require('path')
-const webpack = require('webpack')
-const webpackMerge = require('webpack-merge')
-const WebpackDevServer = require('webpack-dev-server')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const opn = require('opn')
-const ora = require('ora')
-const chalk = require('chalk')
-const formatWebpackMessage = require('./util/format_webpack_message')
+import * as path from 'path'
+import webpack from 'webpack'
+import webpackMerge from 'webpack-merge'
+import WebpackDevServer from 'webpack-dev-server'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import opn from 'opn'
+import ora from 'ora'
+import chalk from 'chalk'
+import formatWebpackMessage from './util/format_webpack_message'
 
-const baseConf = require('./config/base.conf')
-const devConf = require('./config/dev.conf')
-const devServerConf = require('./config/devServer.conf')
-const prodConf = require('./config/prod.conf')
-const buildConf = require('./config/build.conf')
-const utils = require('./util')
+import baseConf from './config/base.conf'
+import devConf from './config/dev.conf'
+import devServerConf from './config/devServer.conf'
+import prodConf from './config/prod.conf'
+import buildConf from './config/build.conf'
+import { mergeCustomConfig, formatTime, prepareUrls } from './util'
+import { BuildConfig } from './util/types'
 
 const appPath = process.cwd()
 
@@ -25,14 +26,10 @@ const getServeSpinner = (() => {
   }
 })()
 
-const printBuildError = (err) => {
+const printBuildError = (err: Error): void => {
   const message = err != null && err.message
   const stack = err != null && err.stack
-  if (
-    stack &&
-    typeof message === 'string' &&
-    message.indexOf('from UglifyJs') !== -1
-  ) {
+  if (stack && typeof message === 'string' && message.indexOf('from UglifyJs') !== -1) {
     try {
       const matched = /(.+)\[(.+):(.+),(.+)\]\[.+\]/.exec(stack)
       if (!matched) {
@@ -41,13 +38,7 @@ const printBuildError = (err) => {
       const problemPath = matched[2]
       const line = matched[3]
       const column = matched[4]
-      console.log(
-        'Failed to minify the code from this file: \n\n',
-        chalk.yellow(
-          `\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`
-        ),
-        '\n'
-      )
+      console.log('Failed to minify the code from this file: \n\n', chalk.yellow(`\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`), '\n')
     } catch (ignored) {
       console.log('Failed to minify the bundle.', err)
     }
@@ -57,10 +48,10 @@ const printBuildError = (err) => {
   console.log()
 }
 
-const createCompiler = (webpackConf) => {
+const createCompiler = (webpackConf): webpack.Compiler => {
   const compiler = webpack(webpackConf)
   compiler.plugin('invalid', filepath => {
-    console.log(chalk.grey(`[${utils.formatTime()}]Modified: ${filepath}`))
+    console.log(chalk.grey(`[${formatTime()}]Modified: ${filepath}`))
     getServeSpinner().text = 'Compiling...🤡~'
     getServeSpinner().render()
   })
@@ -79,33 +70,32 @@ const createCompiler = (webpackConf) => {
   return compiler
 }
 
-const mergeCustomConfig = function (webpackConf, customWebpackConfig = {}) {
-  if (typeof customWebpackConfig === 'function') {
-    return customWebpackConfig(webpackConf, webpack)
-  }
-  return webpackMerge(webpackConf, customWebpackConfig)
-}
-
-exports.buildProd = function (config, customWebpackConfig) {
-  config = Object.assign({}, buildConf, config)
-  const webpackConf = webpackMerge(baseConf(config), prodConf(config))
-  webpackConf.entry = config.entry
-  webpackConf.output = {
-    path: path.join(appPath, config.outputRoot),
-    filename: 'js/[name].js',
-    publicPath: config.publicPath
-  }
-  webpackConf.plugins.push(new HtmlWebpackPlugin({
-    filename: 'index.html',
-    template: path.join(appPath, config.sourceRoot, 'index.html')
-  }))
+const buildProd = (config: BuildConfig): void => {
+  const conf = Object.assign({}, buildConf, config)
+  const customWebpackConfig = conf.webpack || {}
+  const definePluginConfig = conf.defineConstants || {}
+  const webpackConf = webpackMerge(baseConf(conf), prodConf(conf), {
+    entry: conf.entry,
+    output: {
+      path: path.join(appPath, conf.outputRoot),
+      filename: 'js/[name].js',
+      publicPath: conf.publicPath
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: path.join(appPath, conf.sourceRoot, 'index.html')
+      }),
+      new webpack.DefinePlugin(definePluginConfig)
+    ]
+  })
   const compiler = webpack(mergeCustomConfig(webpackConf, customWebpackConfig))
   compiler.run((err, stats) => {
     if (err) {
       return printBuildError(err)
     }
 
-    const { errors, warnings } = formatWebpackMessage(stats.toJson({}, true))
+    const { errors, warnings } = formatWebpackMessage(stats.toJson({}))
     const isSuccess = !errors.length && !warnings.length
     if (isSuccess) {
       getServeSpinner().succeed(chalk.green('Compile successfully!\n'))
@@ -127,28 +117,22 @@ exports.buildProd = function (config, customWebpackConfig) {
     if (warnings.length) {
       getServeSpinner().warn(chalk.yellow('Compiled with warnings.\n'))
       console.log(warnings.join('\n\n'))
-      console.log(
-        '\nSearch for the ' +
-          chalk.underline(chalk.yellow('keywords')) +
-          ' to learn more about each warning.'
-      )
-      console.log(
-        'To ignore, add ' +
-          chalk.cyan('// eslint-disable-next-line') +
-          ' to the line before.\n'
-      )
+      console.log('\nSearch for the ' + chalk.underline(chalk.yellow('keywords')) + ' to learn more about each warning.')
+      console.log('To ignore, add ' + chalk.cyan('// eslint-disable-next-line') + ' to the line before.\n')
     }
   })
 }
 
-exports.buildDev = function (config, customWebpackConfig) {
+const buildDev = (config: BuildConfig): void => {
   const conf = Object.assign({}, buildConf, config)
   const publicPath = conf.publicPath
   const contentBase = path.join(appPath, conf.outputRoot)
   const protocol = conf.protocol
   const host = conf.host
   const port = conf.port
-  const urls = utils.prepareUrls(protocol, host, port)
+  const urls = prepareUrls(conf.protocol, conf.host, conf.port)
+  const customWebpackConfig = config.webpack || {}
+  const definePluginConfig = config.defineConstants || {}
 
   let webpackConf = webpackMerge(baseConf(conf), devConf(conf), {
     entry: conf.entry,
@@ -161,16 +145,18 @@ exports.buildDev = function (config, customWebpackConfig) {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: path.join(appPath, conf.sourceRoot, 'index.html')
-      })
+      }),
+      new webpack.DefinePlugin(definePluginConfig)
     ]
   })
-  const devServerOptions = devServerConf({
+  const baseDevServerOptions = devServerConf({
     publicPath,
     contentBase,
     protocol,
     host,
     publicUrl: urls.lanUrlForConfig
   })
+  const devServerOptions = Object.assign({}, baseDevServerOptions, config.devServer)
   webpackConf = mergeCustomConfig(webpackConf, customWebpackConfig)
   WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
   const compiler = createCompiler(webpackConf)
@@ -183,4 +169,12 @@ exports.buildDev = function (config, customWebpackConfig) {
     console.log(chalk.cyan(`> Listening at ${urls.localUrlForBrowser}\n`))
     opn(urls.localUrlForBrowser)
   })
+}
+
+export default (config: BuildConfig): void => {
+  if (config.isWatch) {
+    buildDev(config)
+  } else {
+    buildProd(config)
+  }
 }

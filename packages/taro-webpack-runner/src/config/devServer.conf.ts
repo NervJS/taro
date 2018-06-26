@@ -1,4 +1,6 @@
-module.exports = function ({publicPath, contentBase, protocol, host, publicUrl}) {
+import webpackDevServer from 'webpack-dev-server'
+
+export default ({publicPath, contentBase, protocol, host, publicUrl}): webpackDevServer.Configuration => {
   return {
     disableHostCheck: process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
     compress: true,
