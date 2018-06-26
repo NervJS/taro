@@ -17,7 +17,6 @@ export function generateAnonymousState (
   refIds: Set<t.Identifier>,
   isLogical?: boolean
 ) {
-  debugger
   let variableName = `anonymousState_${scope.generateUid()}`
   let statementParent = expression.getStatementParent()
   if (!statementParent) {
@@ -191,7 +190,6 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
       ) {
         const sourceCode = parentPath.parentPath.getSource()
         if (sourceCode.includes('[') && sourceCode.includes(']')) {
-          debugger
           matched = true
           path.stop()
         }
@@ -219,11 +217,12 @@ export function getArgumentName (arg) {
     return 'this'
   } else if (t.isNullLiteral(arg)) {
     return 'null'
-  } else if (t.isStringLiteral(arg)) {
+  } else if (t.isStringLiteral(arg) || t.isNumericLiteral(arg)) {
+    debugger
     return arg.value
   } else if (t.isIdentifier(arg)) {
     return arg.name
-  } else if (t.isMemberExpression(arg)) {
+  } else {
     return generate(arg).code
   }
   throw new Error(`bind 不支持传入该参数: ${arg}`)

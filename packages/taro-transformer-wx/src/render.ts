@@ -473,19 +473,25 @@ export class RenderParser {
                 setJSXAttr(
                   JSXElement,
                   `data-event-${bindCalleeName}-scope`,
-                  t.stringLiteral(argName)
+                  t.stringLiteral(argName as string)
                 )
               } else {
-                if (path.scope.hasBinding(argName) && t.isIdentifier(arg)) {
+                if (typeof argName === 'string' && path.scope.hasBinding(argName) && t.isIdentifier(arg)) {
                   this.addRefIdentifier(path, arg)
                   // referencedIdentifiers.add(arg)
+                }
+                let expr: any = null
+                if (isLiteral) {
+                  expr = typeof argName === 'string'
+                    ? t.stringLiteral(argName)
+                    : t.jSXExpressionContainer({ type: 'NumericLiteral', value: argName } as t.Expression)
+                } else {
+                  expr = t.jSXExpressionContainer(t.identifier(argName as string))
                 }
                 setJSXAttr(
                   JSXElement,
                   `data-event-${bindCalleeName}-arg-${toLetters(index)}`,
-                  isLiteral
-                    ? t.stringLiteral(argName)
-                    : t.jSXExpressionContainer(t.identifier(argName))
+                  expr!
                 )
               }
             })
