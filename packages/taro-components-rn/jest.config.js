@@ -5,7 +5,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@nart\/react-native-swiper|react-native-vertical-view-pager)/)'
+    'node_modules/(?!(react-native|@nart/react-native-swiper|react-native-vertical-view-pager)/)'
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
