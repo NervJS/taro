@@ -25,6 +25,7 @@
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-env": "^1.7.0",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "^4.0.0",
