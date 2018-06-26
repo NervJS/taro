@@ -150,6 +150,81 @@ export class RenderParser {
 
   private finalReturnElement!: t.JSXElement
 
+  handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
+    if (t.isLogicalExpression(parentNode)) {
+      const { left, operator } = parentNode
+      const leftExpression = parentPath.get('left') as NodePath<t.Expression>
+      if (operator === '&&' && t.isExpression(left)) {
+        if (hasComplexExpression(leftExpression)) {
+          generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
+        }
+        newJSXIfAttr(jsxElementPath.node, leftExpression.node)
+        parentPath.replaceWith(jsxElementPath.node)
+        if (statementParent) {
+          const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
+        }
+      }
+    } else if (t.isConditionalExpression(parentNode)) {
+      debugger
+      const { consequent, alternate } = parentNode
+      const testExpression = parentPath.get('test') as NodePath<t.Expression>
+      const block = buildBlockElement()
+      if (hasComplexExpression(testExpression)) {
+        generateAnonymousState(parentPath.scope, testExpression, this.referencedIdentifiers, true)
+      }
+      const test = testExpression.node
+      if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
+        const { value, confident } = parentPath.get('alternate').evaluate()
+        if (confident && !value) {
+          newJSXIfAttr(block, test)
+          block.children = [ jsxElementPath.node ]
+          // newJSXIfAttr(jsxElementPath.node, test)
+          parentPath.replaceWith(block)
+          if (statementParent) {
+            const name = findIdentifierFromStatement(
+              statementParent.node as t.VariableDeclaration
+            )
+            setTemplate(name, jsxElementPath, this.templates)
+            // name && templates.set(name, path.node)
+          }
+        }
+      } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
+        if (t.isNullLiteral(consequent)) {
+          newJSXIfAttr(block, reverseBoolean(test))
+          // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
+          block.children = [ jsxElementPath.node ]
+          parentPath.replaceWith(block)
+          if (statementParent) {
+            const name = findIdentifierFromStatement(
+              statementParent.node as t.VariableDeclaration
+            )
+            setTemplate(name, jsxElementPath, this.templates)
+            // name && templates.set(name, path.node)
+          }
+        }
+      } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
+        const block2 = buildBlockElement()
+        block.children = [consequent]
+        newJSXIfAttr(block, test)
+        setJSXAttr(block2, 'wx:else')
+        block2.children = [alternate]
+        const parentBlock = buildBlockElement()
+        parentBlock.children = [block, block2]
+        parentPath.replaceWith(parentBlock)
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+        }
+      } else {
+        // console.log('todo')
+      }
+    }
+  }
+
   private loopComponentVisitor: Visitor = {
     VariableDeclarator (path) {
       const id = path.get('id')
@@ -174,77 +249,8 @@ export class RenderParser {
     },
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
-        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent }) => {
-          if (t.isLogicalExpression(parentNode)) {
-            const { left, operator } = parentNode
-            const leftExpression = parentPath.get('left') as NodePath<t.Expression>
-            if (operator === '&&' && t.isExpression(left)) {
-              if (hasComplexExpression(leftExpression)) {
-                generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
-              }
-              newJSXIfAttr(jsxElementPath.node, leftExpression.node)
-              parentPath.replaceWith(jsxElementPath.node)
-              if (statementParent) {
-                const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
-                setTemplate(name, jsxElementPath, this.templates)
-                // name && templates.set(name, path.node)
-              }
-            }
-          } else if (t.isConditionalExpression(parentNode)) {
-            const { consequent, alternate } = parentNode
-            const testExpression = parentPath.get('test') as NodePath<t.Expression>
-            const block = buildBlockElement()
-            if (hasComplexExpression(testExpression)) {
-              generateAnonymousState(parentPath.scope, testExpression, this.referencedIdentifiers, true)
-            }
-            const test = testExpression.node
-            if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
-              const { value, confident } = parentPath.get('alternate').evaluate()
-              if (confident && !value) {
-                newJSXIfAttr(block, test)
-                block.children = [ jsxElementPath.node ]
-                // newJSXIfAttr(jsxElementPath.node, test)
-                parentPath.replaceWith(block)
-                if (statementParent) {
-                  const name = findIdentifierFromStatement(
-                    statementParent.node as t.VariableDeclaration
-                  )
-                  setTemplate(name, jsxElementPath, this.templates)
-                  // name && templates.set(name, path.node)
-                }
-              }
-            } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
-              if (t.isNullLiteral(consequent)) {
-                newJSXIfAttr(block, reverseBoolean(test))
-                // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
-                parentPath.replaceWith(block)
-                if (statementParent) {
-                  const name = findIdentifierFromStatement(
-                    statementParent.node as t.VariableDeclaration
-                  )
-                  setTemplate(name, jsxElementPath, this.templates)
-                  // name && templates.set(name, path.node)
-                }
-              }
-            } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
-              const block2 = buildBlockElement()
-              block.children = [consequent]
-              newJSXIfAttr(block, test)
-              setJSXAttr(block2, 'wx:else')
-              block2.children = [alternate]
-              const parentBlock = buildBlockElement()
-              parentBlock.children = [block, block2]
-              parentPath.replaceWith(parentBlock)
-              if (statementParent) {
-                const name = findIdentifierFromStatement(
-                  statementParent.node as t.VariableDeclaration
-                )
-                setTemplate(name, jsxElementPath, this.templates)
-              }
-            } else {
-              // console.log('todo')
-            }
-          }
+        handleJSXElement(jsxElementPath, (options) => {
+          this.handleConditionExpr(options, jsxElementPath)
         })
       },
       exit: (jsxElementPath: NodePath<t.JSXElement>) => {
@@ -340,7 +346,9 @@ export class RenderParser {
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
-      handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isFinalReturn }) => {
+      handleJSXElement(jsxElementPath, (options) => {
+        const { parentNode, parentPath, statementParent, isFinalReturn } = options
+        this.handleConditionExpr(options, jsxElementPath)
         // this.jsxDeclarations.add(statementParent)
         /**
          * @TODO
@@ -353,10 +361,6 @@ export class RenderParser {
             // setTemplate(name, path, templates)
             name && this.templates.set(name, jsxElementPath.node)
           }
-        } else if (t.isLogicalExpression(parentNode)) {
-          //
-        } else if (t.isConditionalExpression(parentNode)) {
-          //
         } else if (t.isReturnStatement(parentNode)) {
           if (!isFinalReturn) {
             //

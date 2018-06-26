@@ -117,8 +117,10 @@ describe('loop', () => {
             `
             <block>
                 <view>
-                    <block wx:if="{{!(arr1.length > 1)}}" wx:for="{{$anonymousCallee__2}}"
-                    wx:for-item="e" wx:for-index="i"></block>
+                    <block wx:if=\"{{!(arr1.length > 1)}}\" wx:for=\"{{$anonymousCallee__2}}\"
+                    wx:for-item=\"e\" wx:for-index=\"i\">
+                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
+                    </block>
                 </view>
             </block>
             `
@@ -154,8 +156,10 @@ describe('loop', () => {
             `
             <block>
                 <view>
-                    <block wx:if="{{!e.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="e"
-                    wx:for-index="i"></block>
+                    <block wx:if=\"{{!e.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"e\"
+                    wx:for-index=\"i\">
+                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
+                    </block>
                 </view>
             </block>
             `
