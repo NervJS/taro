@@ -166,6 +166,115 @@ describe('loop', () => {
           ))
         })
 
+        test('calee 之前可以使用逻辑表达式', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              return (
+                <View>{Array.from({length: 9}).length === 0 ? null : Array.from({length: 9}).map((e, i) => {
+                  return (
+                    <View
+                      key={i}
+                      className="ratio-16-9 image-company-album"
+                    >
+                      loop1: {i}
+                    </View>
+                  )
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
+          expect(instance.state.anonymousState__temp).toBe(false)
+          expect(template).toMatch(prettyPrint(
+            `
+            <block>
+                <view>
+                    <block>
+                        <block wx:if="{{anonymousState__temp}}">
+                            <view></view>
+                        </block>
+                        <block wx:else>
+                            <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{$anonymousCallee__4}}"
+                            wx:for-item="e" wx:for-index="i">loop1: {{i}}</view>
+                        </block>
+                    </block>
+                </view>
+            </block>
+            `
+          ))
+        })
+
+        test('calee 之前可以使用逻辑表达式 2', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const b1 = true
+              const a1 = Array.from({length: 1})
+              const a2 = Array.from({length: 2})
+              const a3 = Array.from({length: 9})
+              return (
+                <View>{a1.length === 0 ? null : a2.map((e, i) => {
+                  return (
+                    <View
+                      key={i}
+                      className="ratio-16-9 image-company-album"
+                    >
+                      loop1: {i}
+                      {b1 ? null : a3.map((e, i) => {
+                        return (
+                          <View
+                            key={i}
+                            className="ratio-16-9 image-company-album"
+                          >
+                            loop1: {i}
+                          </View>
+                        )
+                      })}
+                    </View>
+                  )
+                })}</View>
+              )
+            `)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(4)
+          expect(template).toMatch(prettyPrint(
+            `
+            <block>
+              <view>
+                  <block>
+                      <block wx:if="{{a1.length === 0}}">
+                          <view></view>
+                      </block>
+                      <block wx:else>
+                          <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{a2}}"
+                          wx:for-item="e" wx:for-index="i">loop1: {{i}}
+                              <block>
+                                  <block wx:if="{{b1}}">
+                                      <view></view>
+                                  </block>
+                                  <block wx:else>
+                                      <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{a3}}"
+                                      wx:for-item="e" wx:for-index="i">loop1: {{i}}</view>
+                                  </block>
+                              </block>
+                          </view>
+                      </block>
+                  </block>
+              </view>
+          </block>
+            `
+          ))
+        })
+
       })
 
       test('支持逻辑表达式', () => {
