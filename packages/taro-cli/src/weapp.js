@@ -539,7 +539,11 @@ async function compileScriptFile (filePath, content) {
 }
 
 function buildProjectConfig () {
-  const origProjectConfig = fs.readJsonSync(path.join(appPath, 'project.config.json'))
+  const projectConfigPath = path.join(appPath, 'project.config.json')
+  if (!fs.existsSync(projectConfigPath)) {
+    return
+  }
+  const origProjectConfig = fs.readJSONSync(projectConfigPath)
   fs.writeFileSync(
     path.join(outputDir, 'project.config.json'),
     JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)

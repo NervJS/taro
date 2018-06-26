@@ -1,8 +1,9 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet
+  internal_safe_set as safeSet,
+  Events
 } from '@tarojs/taro'
-
+import { updateComponent } from './lifecycle'
 import { isEmptyObject, getPrototypeChain } from './util'
 
 const eventPreffix = '__event_'
@@ -10,6 +11,7 @@ const rootScopeKey = '__root_'
 const componentPath = 'componentPath'
 const scopeMap = {}
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
+const events = new Events()
 
 function processEvent (pagePath, eventHandlerName, obj) {
   let newEventHandlerName = eventHandlerName.replace(eventPreffix, '')
@@ -119,7 +121,9 @@ export function processDynamicComponents (page) {
         const loopRes = dynamicComponetFn()
         const stateName = loopRes.stateName
         const loopComponents = loopRes.loopComponents
-        const stateData = safeGet(component.state, stateName)
+        const stateData = Object.assign({}, safeGet(component.state, stateName))
+        component._dyState = component._dyState || {}
+        safeSet(component._dyState, stateName, stateData)
         recurrence(loopComponents, stateData, -1)
         function recurrence (loopComponents, stateData, level) {
           loopComponents.forEach((item, loopId) => {
@@ -151,13 +155,19 @@ export function processDynamicComponents (page) {
                   child.props.$path = comPath
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
-                  recursiveDynamicComponents(child)
                   componentTrigger(child, 'componentWillMount')
+                  events.on('page:onReady', () => {
+                    componentTrigger(child, 'componentDidMount')
+                  })
+                  recursiveDynamicComponents(child)
                 } else {
                   child.$path = comPath
-                  child.props = props
                   child.props.$path = comPath
-                  child.state = child._createData()
+                  child.prevProps = child.props
+                  child.props = props
+                  child._unsafeCallUpdate = true
+                  updateComponent(child, false)
+                  child._unsafeCallUpdate = false
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
                   recursiveDynamicComponents(child)
@@ -255,6 +265,7 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentWillMount')
     },
     onReady () {
+      events.trigger('page:onReady')
       componentTrigger(page, 'componentDidMount')
     },
     onShow () {
@@ -264,6 +275,7 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentDidHide')
     },
     onUnload () {
+      events.off('page:onReady')
       componentTrigger(page, 'componentWillUnmount')
     },
     _setData (data, cb, isRoot) {
@@ -281,8 +293,8 @@ function createPage (PageClass, options) {
     }
   }
   let weappPageConfEvents = initPage(weappPageConf, page, options)
-  page._initData()
   processDynamicComponents(page)
+  page._initData()
   pageExtraFns.forEach(fn => {
     if (typeof page[fn] === 'function') {
       weappPageConf[fn] = page[fn].bind(page)
