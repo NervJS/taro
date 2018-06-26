@@ -2,7 +2,8 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const babel = require('babel-core')
+// const babel = require('babel-core')
+const wxTransformer = require('@tarojs/transformer-wx')
 const vfs = require('vinyl-fs')
 const through2 = require('through2')
 const traverse = require('babel-traverse').default
@@ -71,9 +72,12 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-function processEntry (code) {
-  const ast = babel.transform(code, {
-    parserOpts: babylonConfig
+function processEntry (code, filePath) {
+  const ast = wxTransformer({
+    code,
+    path: filePath,
+    isNormal: true,
+    isTyped: Util.REG_TYPESCRIPT.test(filePath)
   }).ast
   let taroImportDefaultName
   let providorImportName
@@ -303,7 +307,7 @@ function processEntry (code) {
         const routerPages = pages
           .map(v => {
             const pageName = v.startsWith('/') ? v : `/${v}`
-            return `['${pageName}', () => import('.${pageName}.js')]`
+            return `['${pageName}', () => import('.${pageName}.tsx')]`
           })
           .join(',')
 
@@ -343,9 +347,12 @@ function processEntry (code) {
   }
 }
 
-function processOthers (code) {
-  const ast = babel.transform(code, {
-    parserOpts: babylonConfig
+function processOthers (code, filePath) {
+  const ast = wxTransformer({
+    code,
+    path: filePath,
+    isNormal: true,
+    isTyped: Util.REG_TYPESCRIPT.test(filePath)
   }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
@@ -484,9 +491,9 @@ function watchFiles () {
         // 脚本文件
         const code = fs.readFileSync(filePath).toString()
         if (fileType === FILE_TYPE.ENTRY) {
-          transformResult = processEntry(code)
+          transformResult = processEntry(code, filePath)
         } else {
-          transformResult = processOthers(code)
+          transformResult = processOthers(code, filePath)
         }
         fs.writeFileSync(filePath.replace(sourceDir, tempDir), transformResult.code)
       } else {
@@ -510,12 +517,12 @@ function buildTemp () {
           const filePath = file.path
           const content = file.contents.toString()
           if (entryFilePath === filePath) {
-            const transformResult = processEntry(content)
+            const transformResult = processEntry(content, filePath)
             const jsCode = transformResult.code
             file.contents = Buffer.from(jsCode)
           } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
-            const transformResult = processOthers(content)
-            const jsCode = transformResult.code
+            const transformResult = processOthers(content, filePath)
+            let jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
             file.contents = Buffer.from(jsCode)
           }
           this.push(file)
@@ -530,23 +537,23 @@ function buildTemp () {
 }
 
 async function buildDist (buildConfig) {
-  const { watch, h5 } = buildConfig
-  const webpackConf = h5 && h5.webpack
-  const entry = {
-    app: path.join(tempPath, entryFileName)
-  }
+  const { watch } = buildConfig
+
   const h5Config = projectConfig.h5 || {}
   h5Config.env = projectConfig.env
   h5Config.defineConstants = projectConfig.defineConstants
+  h5Config.plugins = projectConfig.plugins
   h5Config.designWidth = projectConfig.designWidth
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
-  h5Config.entry = entry
+  h5Config.entry = {
+    app: path.join(tempPath, entryFileName)
+  }
   if (watch) {
     h5Config.isWatch = true
   }
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
-  webpackRunner(h5Config, webpackConf)
+  webpackRunner(h5Config)
 }
 
 function clean () {
