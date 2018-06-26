@@ -15,7 +15,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 
-class Home extends Components {
+class Home extends Component {
 	render () {
 		return (
 			<View>Hello World!</View>
@@ -42,7 +42,7 @@ import Taro, { Component } from '@tarojs/taro'
 import home_page from './page'
 
 // 错误！组件名应该首字母大写:
-class App extends Components {
+class App extends Component {
 	render () {
 		return (
 			<home_page message="Hello World!" />
@@ -58,7 +58,7 @@ import Taro, { Component } from '@tarojs/taro'
 // 引入一个自定义组件组件
 import HomePage from './page'
 
-class App extends Components {
+class App extends Component {
 	render () {
 		return (
 			<HomePage message="Hello World!" />
