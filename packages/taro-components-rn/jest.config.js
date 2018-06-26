@@ -7,5 +7,9 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(react-native|@nart\/react-native-swiper|react-native-vertical-view-pager)/)'
   ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    './setupTests.js'
+  ],
   setupTestFrameworkScriptFile: './setupTests.js'
 }

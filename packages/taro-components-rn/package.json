@@ -42,6 +42,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "flow-bin": "^0.69.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
     "gulp-flow-remove-types": "^1.0.0",
     "jest": "^22.4.3",
     "jest-react-native": "^18.0.0",

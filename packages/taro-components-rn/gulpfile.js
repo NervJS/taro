@@ -1,11 +1,15 @@
 const gulp = require('gulp')
 const flowRemoveTypes = require('gulp-flow-remove-types')
+const babel = require('gulp-babel')
 
 gulp.task('scripts', function () {
   gulp
     .src(['src/**/*.js'])
     .pipe(flowRemoveTypes({
-      pretty: true
+      // pretty: true
+    }))
+    .pipe(babel({
+      presets: ['react-native']
     }))
     .pipe(gulp.dest('dist'))
 })
