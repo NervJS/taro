@@ -5,32 +5,49 @@ type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, we
 
 export type CustomWebpackConfig = FunctionLikeCustomWebpackConfig | webpack.Configuration;
 export interface BuildConfig {
+  date?: string;
   defineConstants?: object;
   designWidth: number;
   entry: webpack.Entry;
   isWatch: boolean;
   outputRoot: string;
-  publicPath: string;
   sourceRoot: string;
-  staticDirectory?: string;
   env?: object;
   sourceMap?: boolean;
   plugins?: {
     babel?;
-    csso?;
+    csso?: {
+      enable?: boolean;
+      config?: object;
+    };
+    uglify?: {
+      enable?: boolean;
+      config?: object;
+    }
     typescript?;
   };
+
+  publicPath: string;
+  staticDirectory?: string;
   devServer?: webpackDevServer.Configuration;
+  port?: number;
   webpack?: CustomWebpackConfig;
-  date?: string;
   module?: {
+    postcss?: {
+      autoprefixer?: {
+        enable?: boolean;
+      };
+      pxtransform?: {
+        selectorBlackList?: any[];
+      };
+    }
     base64?: {
       imageLimit?: number;
       fontLimit?: number;
     };
     compress?: {
-      css?: boolean;
-      js?: boolean;
+      css?: object; // css-loader - minimize
+      js?: object; // uglifyjs plugin - uglifyOptions
     };
   };
 };
