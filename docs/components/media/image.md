@@ -12,12 +12,12 @@
 | √ |   | x | lazyLoad | Boolean     | false       | 图片懒加载。只针对 page 与 scroll-view 下的 image 有效 |
 
 
-> 注意 
+> 注意
 
 为实现小程序的 `mode` 特性，在H5组件中使用一个 `div` 容器来对内部的 `img` 进行展示区域的裁剪，因此请勿使用元素选择器来重置 `img` 的样式！
 
 ###### 示例：
-```
+```jsx
 <Image
   style='width: 300px;height: 100px;background: #fff;'
   src='nerv_logo.png'

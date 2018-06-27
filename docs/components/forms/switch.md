@@ -10,7 +10,7 @@
 | √ | √ | √ | color   | Color   |        | switch 的颜色，同 css 的 color |
 
 ###### 示例：
-```
+```jsx
 <Text>默认样式</Text>
 <Switch checked/>
 <Switch/>
