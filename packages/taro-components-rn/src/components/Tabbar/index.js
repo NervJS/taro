@@ -29,7 +29,7 @@ type Props = {
 }
 
 type State = {
-  list: Array<any>,
+  list: Array<{ selectedIconPath: string, iconPath: string, text: string }>,
   isShow: boolean,
   selectedIndex: number
 }
@@ -50,7 +50,7 @@ class Tabbar extends React.Component<Props, State> {
 
     this.state = {
       list,
-      isShow: false,
+      isShow: true,
       selectedIndex: 0
     }
   }
