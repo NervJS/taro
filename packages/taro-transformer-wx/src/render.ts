@@ -137,6 +137,7 @@ export class RenderParser {
   private usedThisState = new Set<string>()
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
   private loopRefIdentifiers = new Map<t.Identifier, NodePath<t.CallExpression>>()
+  private reserveStateWords = new Set(['state', 'props'])
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -167,7 +168,6 @@ export class RenderParser {
         }
       }
     } else if (t.isConditionalExpression(parentNode)) {
-      debugger
       const { consequent, alternate } = parentNode
       const testExpression = parentPath.get('test') as NodePath<t.Expression>
       const block = buildBlockElement()
@@ -863,7 +863,36 @@ export class RenderParser {
     this.returnedPaths.forEach(p => p.remove())
   }
 
+  setReserveWord = (word: string) => {
+    const binding = this.renderScope.getOwnBinding(word)
+    let hasStateId = false
+    if (binding) {
+      const path = binding.path
+      const id = path.get('id')
+      const init = path.get('init')
+      if (init.isThisExpression()) {
+        return hasStateId
+      }
+      if (id.isObjectPattern()) {
+        hasStateId = id.node.properties.some(p => {
+          return (t.isObjectProperty(p) && t.isIdentifier(p.key, { name: word }))
+            || (t.isRestProperty(p) && t.isIdentifier(p.argument, { name: word }))
+        })
+      } else if (id.isIdentifier({ name: word })) {
+        hasStateId = true
+      }
+      if (hasStateId) {
+        this.referencedIdentifiers.add(t.identifier(word))
+      }
+    }
+    if (hasStateId) {
+      this.reserveStateWords.delete(word)
+    }
+  }
+
   setUsedState () {
+    Array.from(this.reserveStateWords).forEach(this.setReserveWord)
+
     const usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
@@ -882,7 +911,7 @@ export class RenderParser {
       [...new Set(
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
-        .filter(i => i !== MAP_CALL_ITERATOR && i !== 'state' && i !== 'props')
+        .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
@@ -902,7 +931,7 @@ export class RenderParser {
       .filter(i => !this.initState.has(i))
       .filter(i => !this.templates.has(i))
       .filter(i => !i.includes('.'))
-      .filter(i => i !== MAP_CALL_ITERATOR && i !== 'state' && i !== 'props')
+      .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     )
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
