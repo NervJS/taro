@@ -18,6 +18,9 @@ import Slider from './components/Slider'
 import Switch from './components/Switch'
 import Textarea from './components/Textarea'
 import Image from './components/Image'
+import Tabbar from './components/Tabbar'
+import TabbarContainer from './components/Tabbar/Container'
+import TabbarPanel from './components/Tabbar/Panel'
 
 export {
   View,
@@ -40,4 +43,7 @@ export {
   Switch,
   Textarea,
   Image,
+  Tabbar,
+  TabbarContainer,
+  TabbarPanel,
 }
