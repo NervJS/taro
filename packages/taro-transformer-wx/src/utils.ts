@@ -84,13 +84,25 @@ export function isContainFunction (p: NodePath<t.Node>) {
   return bool
 }
 
+function slash (input: string) {
+  const isExtendedLengthPath = /^\\\\\?\\/.test(input)
+  const hasNonAscii = /[^\u0000-\u0080]+/.test(input)
+  const hasChinese = /[^\u4e00-\u9fa5]+/.test(input)  // has Chinese characters
+
+  if (isExtendedLengthPath || (hasNonAscii && !hasChinese)) {
+    return input
+  }
+
+  return input.replace(/\\/g, '/')
+}
+
 export function pathResolver (p: string, location: string) {
   const extName = path.extname(p)
   const promotedPath = p
   if (extName === '') {
     try {
-      const pathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.js'))
-      const baseNameExist = fs.existsSync(path.resolve(path.dirname(location), p) + '.js')
+      const pathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.js')))
+      const baseNameExist = fs.existsSync(slash(path.resolve(path.dirname(location), p) + '.js'))
       if (pathExist) {
         return path.join(promotedPath, 'index.wxml')
       } else if (baseNameExist) {
