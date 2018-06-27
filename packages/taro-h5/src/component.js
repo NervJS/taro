@@ -1,8 +1,11 @@
 import Nerv from 'nervjs'
 
 class Component extends Nerv.Component {
-  constructor () {
-    super(...arguments)
+  constructor (props, context) {
+    super(props, context)
+    if (props._$router) {
+      this.$router = props._$router
+    }
   }
   get $app () {
     if (!this.vnode) return {}

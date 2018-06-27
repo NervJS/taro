@@ -1,6 +1,4 @@
-/* eslint-disable import/no-unresolved */
-import { Component, Children } from 'react'
-/* eslint-enable import/no-unresolved */
+import { Component, Children } from '../../src/compat'
 import PropTypes from 'prop-types'
 import { storeShape, subscriptionShape } from '../utils/PropTypes'
 import warning from '../utils/warning'
