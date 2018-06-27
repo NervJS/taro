@@ -4,7 +4,7 @@
 
 如下代码，我们使用 `map()` 函数让数组中的每一项翻倍,我们得到了一个新的数列 `doubled` 。
 
-```
+```javascript
 const numbers = [1, 2, 3, 4, 5];
 const doubled = numbers.map((number) => number * 2);
 console.log(doubled);

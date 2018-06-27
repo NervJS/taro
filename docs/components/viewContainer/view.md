@@ -13,7 +13,7 @@
 
 
 ###### 示例：
-```
+```jsx
 <Text>flex-direction: row 横向布局</Text>
 <View className="flex-wrp" style="flex-direction:row;">
   <View className="flex-item demo-text-1"/>
@@ -28,4 +28,3 @@
   <View className="flex-item flex-item-V demo-text-3"/>
 </View>
 ```
-
