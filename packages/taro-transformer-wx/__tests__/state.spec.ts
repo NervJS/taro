@@ -28,6 +28,38 @@ describe('State', () => {
       expect(code).toMatch(`const state = this.__state`)
     })
 
+    test('可以使用 state 关键字作为 state', () => {
+      const { ast, code, template } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { state } = this.state.task
+          return (
+            <View>{state}</View>
+          )
+        `, `state = { task: { state: null } }`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.state).toBe(null)
+      expect(instance.$usedState.includes('state')).toBe(true)
+    })
+
+    test('可以使用 props 关键字作为 state', () => {
+      const { ast, code, template } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { props } = this.state.task
+          return (
+            <View>{state}</View>
+          )
+        `, `state = { task: { props: null } }`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.props).toBe(null)
+      expect(instance.$usedState.includes('props')).toBe(true)
+    })
+
     test('可以使用 style', () => {
       const { template } = transform({
         ...baseOptions,
