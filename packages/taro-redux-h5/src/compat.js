@@ -1,4 +1,7 @@
-export { Component, createElement } from 'nervjs'
+/* eslint-disable-next-line import/no-unresolved */
+export { createElement } from 'nervjs'
+export { Component } from '@tarojs/taro-h5'
+
 const EMPTY_ARRAY = []
 const isArray = Array.isArray
 export const Children = {
