@@ -330,9 +330,9 @@ function processEntry (code) {
       }
     }
   })
-
+  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
   return {
-    code: generate(ast).code
+    code: generateCode
   }
 }
 
@@ -431,9 +431,9 @@ function processOthers (code) {
       }
     }
   })
-
+  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
   return {
-    code: generate(ast).code
+    code: generateCode
   }
 }
 
@@ -508,7 +508,7 @@ function buildTemp () {
             file.contents = Buffer.from(jsCode)
           } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
             const transformResult = processOthers(content)
-            let jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
+            const jsCode = transformResult.code
             file.contents = Buffer.from(jsCode)
           }
           this.push(file)

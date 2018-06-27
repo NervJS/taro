@@ -1,6 +1,6 @@
 export function dynamicRecursive (component, param, data, stateName) {
   data = data || []
-  return param.map(paramItem => {
+  return param.map((paramItem, idx) => {
     const inData = paramItem.subscript ? data[paramItem.subscript] || [] : data
     const res = {
       name: paramItem.name || '',
@@ -11,7 +11,7 @@ export function dynamicRecursive (component, param, data, stateName) {
     if (res.name) {
       res.components = inData.map((d, index) => {
         const res = {
-          fn: `dy_${stateName}_${paramItem.subscript}_${paramItem.name}${index}`,
+          fn: `dy_${stateName}_${paramItem.subscript}_${paramItem.name}${index}_${idx}`,
           body: (function (d) {
             return Object.assign({
               $name: `dy_${stateName}_${paramItem.subscript}_${paramItem.name}${index}`
