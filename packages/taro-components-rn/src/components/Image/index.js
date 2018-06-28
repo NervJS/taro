@@ -9,6 +9,7 @@
  *
  * @warn Pass require(LOCAL IMAGE) to SRC, otherwise a string-type parameter.
  * @warn The width/height would be undefined in onLoad.
+ * @warn Avoid using HTTP source image.
  * @warn unstable
  *
  * @flow
