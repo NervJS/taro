@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.61...v) (2018-06-28)
+# [](https://github.com/NervJS/taro/compare/v0.0.62...v) (2018-06-28)
+
+
+
+<a name="0.0.62"></a>
+## [0.0.62](https://github.com/NervJS/taro/compare/v0.0.61...v0.0.62) (2018-06-28)
+
+
+### Bug Fixes
+
+* **webpack-runner:** 丢失 ts-loader 依赖 ([8a0bf39](https://github.com/NervJS/taro/commit/8a0bf39))
 
 
 
