@@ -160,8 +160,10 @@ export class RenderParser {
         if (hasComplexExpression(leftExpression)) {
           generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
         }
-        newJSXIfAttr(jsxElementPath.node, leftExpression.node)
-        parentPath.replaceWith(jsxElementPath.node)
+        const block = buildBlockElement()
+        newJSXIfAttr(block, leftExpression.node)
+        block.children = [jsxElementPath.node]
+        parentPath.replaceWith(block)
         if (statementParent) {
           const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
           setTemplate(name, jsxElementPath, this.templates)
