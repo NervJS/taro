@@ -11,5 +11,10 @@ module.exports = {
     '/node_modules/',
     './setupTests.js'
   ],
+  // moduleFileExtensions: [
+  //   'js',
+  //   'ios.js',
+  //   'android.js'
+  // ],
   setupTestFrameworkScriptFile: './setupTests.js'
 }

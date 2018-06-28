@@ -1,9 +1,5 @@
 /**
- * ✔ type
- * ✔ size
- * ✔ color
- *
- * @example <Icon type='success' color='green' />
+ * @see .android.js
  *
  * @flow
  */
@@ -39,7 +35,7 @@ module.exports = function _Icon ({
   style,
   type,
   size = 23,
-  color = 'black',
+  color,
 }: Props) {
   const iconObj = WEUI[iconTypeMap[type]]
 
@@ -50,6 +46,7 @@ module.exports = function _Icon ({
   }
 
   const imageAsset = iconObj.image
+  const iconColor = color || iconObj.defaultColor || '#B2B2B2'
 
   return (
     <View style={[style, { width: size, height: size }]}>
@@ -57,7 +54,8 @@ module.exports = function _Icon ({
         source={imageAsset}
         style={{
           width: size,
-          height: size
+          height: size,
+          tintColor: iconColor
         }}
       />
     </View>
