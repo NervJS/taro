@@ -2,7 +2,6 @@
 
 Alo, alo! Bilibilibilibibili~
 
-
 <details>
   <summary>关于 Icon 的使用</summary>
 
@@ -13,7 +12,7 @@ Alo, alo! Bilibilibilibibili~
 
 ## Capture
 
-![image](screenshots/capture.20180531.gif)
+[组件演示（视频480p）](http://storage.jd.com/temporary/%E7%BB%84%E4%BB%B6%E6%BC%94%E7%A4%BA480p.mov)
 
 ## Example
 
