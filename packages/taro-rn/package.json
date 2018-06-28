@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "0.0.61",
+  "version": "0.0.62",
   "description": "Taro RN framework",
   "main": "./src/index.js",
   "files": [
@@ -22,7 +22,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.61"
+    "@tarojs/taro": "0.0.62"
   },
   "devDependencies": {
     "babel-jest": "^23.0.1",
