@@ -27,7 +27,10 @@ export default StyleSheet.create({
     backgroundColor: '#F7F7FA'
   },
   barItem: {
-    paddingTop: 5
+    flex: 1,
+    paddingTop: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   barItemIcon: {
     width: 27,

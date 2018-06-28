@@ -24,6 +24,9 @@ describe('storage', () => {
         complete
       })
       const expectMsg = 'setStorage:ok'
+
+      expect.assertions(7)
+
       expect(success.mock.calls.length).toBe(1)
       expect(success.mock.calls[0][0]).toEqual({ errMsg: expectMsg })
       expect(fail.mock.calls.length).toBe(0)
@@ -40,6 +43,8 @@ describe('storage', () => {
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()
+
+      expect.assertions(5)
 
       return Taro.setStorage({
         data,
@@ -73,6 +78,9 @@ describe('storage', () => {
         complete
       })
       const expectMsg = 'getStorage:ok'
+
+      expect.assertions(7)
+
       expect(success.mock.calls.length).toBe(1)
       expect(success.mock.calls[0][0]).toEqual(res)
       expect(fail.mock.calls.length).toBe(0)

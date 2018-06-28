@@ -1,22 +1,26 @@
 class SocketTask {
   constructor (url, protocols) {
     if (protocols) {
-      this.wx = new WebSocket(url, protocols)
+      this.ws = new WebSocket(url, protocols)
     } else {
-      this.wx = new WebSocket(url)
+      this.ws = new WebSocket(url)
     }
   }
 
   get readyState () {
-    return this.wx.readyState
+    return this.ws.readyState
   }
 
-  send (opts) {
+  send (opts = {}) {
+    if (Object.prototype.toString.call(opts) !== '[object Object]') {
+      opts = {}
+    }
+
     const { data, success, fail, complete } = opts
     const res = { errMsg: 'sendSocketMessage:ok' }
 
     try {
-      this.wx.send(data)
+      this.ws.send(data)
 
       success && success(res)
       complete && complete(res)
@@ -29,7 +33,11 @@ class SocketTask {
     }
   }
 
-  close (opts) {
+  close (opts = {}) {
+    if (Object.prototype.toString.call(opts) !== '[object Object]') {
+      opts = {}
+    }
+
     const {
       code = 1000,
       reason = 'server complete, close',
@@ -38,10 +46,12 @@ class SocketTask {
       complete
     } = opts
     const res = { errMsg: 'closeSocket:ok' }
+    this.closeDetail = { code, reason }
 
     try {
-      this.wx.close(code, reason)
-
+      this.ws.close(code, reason)
+      // 把自己从链接数组中清除
+      this._destroyWhenClose && this._destroyWhenClose()
       success && success(res)
       complete && complete(res)
       return Promise.resolve(res)
@@ -62,7 +72,10 @@ class SocketTask {
   }
 
   onClose (func) {
-    this.ws.onclose = func
+    this.ws.onclose = () => {
+      this._destroyWhenClose && this._destroyWhenClose()
+      func(this.closeDetail || { code: 1006, reason: 'abnormal closure' })
+    }
   }
 
   onError (func) {

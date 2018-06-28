@@ -1,5 +1,28 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.59...v) (2018-06-25)
+# [](https://github.com/NervJS/taro/compare/v0.0.60...v) (2018-06-27)
+
+
+
+<a name="0.0.60"></a>
+## [0.0.60](https://github.com/NervJS/taro/compare/v0.0.59...v0.0.60) (2018-06-27)
+
+
+### Bug Fixes
+
+* **cli:** h5 编译watch时中文处理的问题 ([62c1554](https://github.com/NervJS/taro/commit/62c1554))
+* **eslint-plugin-taro:** 组件属性无法使用 this.props.* 形式赋值 ([0f7e746](https://github.com/NervJS/taro/commit/0f7e746))
+* **transformer:** 条件表达式编译 block 没有 children ([80925b7](https://github.com/NervJS/taro/commit/80925b7))
+
+
+### Features
+
+* **router:** router改用[@tarojs](https://github.com/tarojs)/taro-h5作为基类 ([503bdc8](https://github.com/NervJS/taro/commit/503bdc8))
+* **taro-h5:** taro-h5注入$router ([e518482](https://github.com/NervJS/taro/commit/e518482))
+* **taro-redux-h5:** 加入了定制版redux ([090ff9c](https://github.com/NervJS/taro/commit/090ff9c))
+* **taro-rn:** 优化websocket API，增加测试用例 ([4beb2f2](https://github.com/NervJS/taro/commit/4beb2f2))
+* **tcr:** add component Tabbar ([5e34a2c](https://github.com/NervJS/taro/commit/5e34a2c))
+* **transformer:** state|props 可以作为 data 的 key ([7e78f31](https://github.com/NervJS/taro/commit/7e78f31))
+* **transformer:** 事件 bind 可以直接写数字 ([3b6a799](https://github.com/NervJS/taro/commit/3b6a799))
 
 
 

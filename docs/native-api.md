@@ -326,8 +326,8 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 | :-: | :-: | :-: | :-: |
 | Taro.chooseImage | ✔️ |  |  |
 | Taro.previewImage | ✔️ |  |  |
-| Taro.getImageInfo | ✔️ |  |  |
-| Taro.saveImageToPhotosAlbum | ✔️ |  |  |
+| Taro.getImageInfo | ✔️ |  | ✔️ |
+| Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ |
 
 ### 录音
 
@@ -979,7 +979,7 @@ Taro.chooseLocation(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.getLocation | ✔️ |  |  |
+| Taro.getLocation | ✔️ |  | ✔️ |
 | Taro.chooseLocation | ✔️ |  |  |
 
 ### 查看位置
@@ -1081,8 +1081,8 @@ Taro.canIUse('button.open-type.contact')
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.getSystemInfo | ✔️ |  |  |
-| Taro.getSystemInfoSync | ✔️ |  |  |
+| Taro.getSystemInfo | ✔️ |  | ✔️ |
+| Taro.getSystemInfoSync | ✔️ |  | ✔️ |
 | Taro.canIUse | ✔️ |  |  |
 
 ### 网络状态
@@ -1118,8 +1118,8 @@ Taro.onNetworkStatusChange(res => {
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.getNetworkType | ✔️ |  |  |
-| Taro.onNetworkStatusChange | ✔️ |  |  |
+| Taro.getNetworkType | ✔️ |  | ✔️ |
+| Taro.onNetworkStatusChange | ✔️ |  | ✔️ |
 
 ### 加速度计
 
@@ -1237,7 +1237,7 @@ Taro.makePhoneCall(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.makePhoneCall | ✔️ |  |  |
+| Taro.makePhoneCall | ✔️ |  | ✔️ |
 
 ### 扫码
 
@@ -1289,8 +1289,8 @@ Taro.getClipboardData(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.setClipboardData | ✔️ |  |  |
-| Taro.getClipboardData | ✔️ |  |  |
+| Taro.setClipboardData | ✔️ |  | ✔️ |
+| Taro.getClipboardData | ✔️ |  | ✔️ |
 
 ### 蓝牙
 
@@ -1698,8 +1698,8 @@ Taro.vibrateShort(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.vibrateLong | ✔️ |  |  |
-| Taro.vibrateShort | ✔️ |  |  |
+| Taro.vibrateLong | ✔️ |  | ✔️ |
+| Taro.vibrateShort | ✔️ |  | ✔️ |
 
 ### 手机联系人
 

@@ -21,6 +21,7 @@ const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-h5': '@tarojs/taro-h5',
   '@tarojs/redux': '@tarojs/redux',
+  '@tarojs/redux-h5': '@tarojs/redux-h5',
   '@tarojs/router': '@tarojs/router',
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
@@ -81,160 +82,166 @@ function processEntry (code) {
   let renderCallCode
 
   traverse(ast, {
-    enter (astPath) {
-      astPath.traverse({
-        ClassDeclaration (astPath) {
-          const node = astPath.node
-          if (!node.superClass) return
-          if (
-            node.superClass.type === 'MemberExpression' &&
-            node.superClass.object.name === taroImportDefaultName
-          ) {
-            node.superClass.object.name = nervJsImportDefaultName
-            if (node.id === null) {
-              const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(
-                t.classDeclaration(
-                  t.identifier(renameComponentClassName),
-                  node.superClass,
-                  node.body,
-                  node.decorators || []
-                )
+    ClassDeclaration: {
+      enter (astPath) {
+        const node = astPath.node
+        if (!node.superClass) return
+        if (
+          node.superClass.type === 'MemberExpression' &&
+          node.superClass.object.name === taroImportDefaultName
+        ) {
+          node.superClass.object.name = nervJsImportDefaultName
+          if (node.id === null) {
+            const renameComponentClassName = '_TaroComponentClass'
+            astPath.replaceWith(
+              t.classDeclaration(
+                t.identifier(renameComponentClassName),
+                node.superClass,
+                node.body,
+                node.decorators || []
               )
-            }
-          } else if (node.superClass.name === 'Component') {
-            if (node.id === null) {
-              const renameComponentClassName = '_TaroComponentClass'
+            )
+          }
+        } else if (node.superClass.name === 'Component') {
+          if (node.id === null) {
+            const renameComponentClassName = '_TaroComponentClass'
+            astPath.replaceWith(
+              t.classDeclaration(
+                t.identifier(renameComponentClassName),
+                node.superClass,
+                node.body,
+                node.decorators || []
+              )
+            )
+          }
+        }
+      }
+    },
+    ClassProperty: {
+      enter (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const value = node.value
+        if (key.name !== 'config' || !t.isObjectExpression(value)) return
+        astPath.traverse({
+          ObjectProperty (astPath) {
+            const node = astPath.node
+            const key = node.key
+            const value = node.value
+            // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+            if (key.name === 'pages' && t.isArrayExpression(value)) {
+              value.elements.forEach(v => {
+                pages.push(v.value)
+              })
+            } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+              // tabBar
+              tabBar = value
+              value.properties.forEach(node => {
+                if (node.key.name === 'position') tabbarPos = node.value.value
+              })
+            } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
               astPath.replaceWith(
-                t.classDeclaration(
-                  t.identifier(renameComponentClassName),
-                  node.superClass,
-                  node.body,
-                  node.decorators || []
-                )
+                t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
               )
             }
           }
-        },
-        ClassProperty (astPath) {
-          const node = astPath.node
-          const key = node.key
-          const value = node.value
-          if (key.name !== 'config' || !t.isObjectExpression(value)) return
-          astPath.traverse({
-            ObjectProperty (astPath) {
-              const node = astPath.node
-              const key = node.key
-              const value = node.value
-              // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-              if (key.name === 'pages' && t.isArrayExpression(value)) {
-                value.elements.forEach(v => {
-                  pages.push(v.value)
-                })
-              } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
-                // tabBar
-                tabBar = value
-                value.properties.forEach(node => {
-                  if (node.key.name === 'position') tabbarPos = node.value.value
-                })
-              } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
-                astPath.replaceWith(
-                  t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
-                )
-              }
+        })
+        astPath.remove()
+      }
+    },
+    ImportDeclaration: {
+      enter (astPath) {
+        const node = astPath.node
+        const source = node.source
+        const value = source.value
+        const specifiers = node.specifiers
+
+        if (!Util.isNpmPkg(value)) {
+          if (value.indexOf('.') === 0) {
+            const pathArr = value.split('/')
+            if (pathArr.indexOf('pages') >= 0) {
+              astPath.remove()
+            }
+          }
+          return
+        }
+        if (value === PACKAGES['@tarojs/taro']) {
+          let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
+          if (specifier) {
+            hasAddNervJsImportDefaultName = true
+            taroImportDefaultName = specifier.local.name
+            specifier.local.name = nervJsImportDefaultName
+          } else if (!hasAddNervJsImportDefaultName) {
+            hasAddNervJsImportDefaultName = true
+            node.specifiers.unshift(
+              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+            )
+          }
+          const taroApisSpecifiers = []
+          const deletedIdx = []
+          specifiers.forEach((item, index) => {
+            if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
+              taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
+              deletedIdx.push(index)
             }
           })
-          astPath.remove()
-        },
-        ImportDeclaration (astPath) {
-          const node = astPath.node
-          const source = node.source
-          const value = source.value
-          const specifiers = node.specifiers
+          _.pullAt(specifiers, deletedIdx)
+          source.value = PACKAGES['nervjs']
 
-          if (!Util.isNpmPkg(value)) {
-            if (value.indexOf('.') === 0) {
-              const pathArr = value.split('/')
-              if (pathArr.indexOf('pages') >= 0) {
-                astPath.remove()
-              }
-            }
-            return
+          if (taroApisSpecifiers.length) {
+            astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
           }
-          if (value === PACKAGES['@tarojs/taro']) {
-            let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
-            if (specifier) {
-              hasAddNervJsImportDefaultName = true
-              taroImportDefaultName = specifier.local.name
-              specifier.local.name = nervJsImportDefaultName
-            } else if (!hasAddNervJsImportDefaultName) {
-              hasAddNervJsImportDefaultName = true
-              node.specifiers.unshift(
-                t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-              )
-            }
-            const taroApisSpecifiers = []
-            const deletedIdx = []
-            specifiers.forEach((item, index) => {
-              if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
-                taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-                deletedIdx.push(index)
-              }
-            })
-            _.pullAt(specifiers, deletedIdx)
-            source.value = PACKAGES['nervjs']
-
-            if (taroApisSpecifiers.length) {
-              astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
-            }
-            if (!specifiers.length) {
-              astPath.remove()
-            }
-          } else if (value === PACKAGES['@tarojs/redux']) {
-            const specifier = specifiers.find(item => {
-              return t.isImportSpecifier(item) && item.imported.name === providerComponentName
-            })
-            if (specifier) {
-              providorImportName = specifier.local.name
-            } else {
-              providorImportName = providerComponentName
-              specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
-            }
-            source.value = PACKAGES['nerv-redux']
+          if (!specifiers.length) {
+            astPath.remove()
           }
-        },
-        CallExpression (astPath) {
-          const node = astPath.node
-          const callee = node.callee
-          const calleeName = callee.name
-          const parentPath = astPath.parentPath
-
-          if (t.isMemberExpression(callee)) {
-            if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
-              callee.object.name = nervJsImportDefaultName
-              renderCallCode = generate(astPath.node).code
-              astPath.remove()
-            }
+        } else if (value === PACKAGES['@tarojs/redux']) {
+          const specifier = specifiers.find(item => {
+            return t.isImportSpecifier(item) && item.imported.name === providerComponentName
+          })
+          if (specifier) {
+            providorImportName = specifier.local.name
           } else {
-            if (calleeName === setStoreFuncName) {
-              if (parentPath.isAssignmentExpression() ||
-                parentPath.isExpressionStatement() ||
-                parentPath.isVariableDeclarator()) {
-                parentPath.remove()
-              }
-            }
+            providorImportName = providerComponentName
+            specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
           }
-        },
-        JSXOpeningElement (astPath) {
-          if (astPath.node.name.name === 'Provider') {
-            for (let v of astPath.node.attributes) {
-              if (v.name.name !== 'store') continue
-              storeName = v.value.expression.name
-              break
+          source.value = PACKAGES['@tarojs/redux-h5']
+        }
+      }
+    },
+    CallExpression: {
+      enter (astPath) {
+        const node = astPath.node
+        const callee = node.callee
+        const calleeName = callee.name
+        const parentPath = astPath.parentPath
+
+        if (t.isMemberExpression(callee)) {
+          if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+            callee.object.name = nervJsImportDefaultName
+            renderCallCode = generate(astPath.node).code
+            astPath.remove()
+          }
+        } else {
+          if (calleeName === setStoreFuncName) {
+            if (parentPath.isAssignmentExpression() ||
+              parentPath.isExpressionStatement() ||
+              parentPath.isVariableDeclarator()) {
+              parentPath.remove()
             }
           }
         }
-      })
+      }
+    },
+    JSXOpeningElement: {
+      enter (astPath) {
+        if (astPath.node.name.name === 'Provider') {
+          for (let v of astPath.node.attributes) {
+            if (v.name.name !== 'store') continue
+            storeName = v.value.expression.name
+            break
+          }
+        }
+      }
     },
     exit (astPath) {
       astPath.traverse({
@@ -330,9 +337,9 @@ function processEntry (code) {
       }
     }
   })
-
+  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
   return {
-    code: generate(ast).code
+    code: generateCode
   }
 }
 
@@ -344,81 +351,81 @@ function processOthers (code) {
   let hasAddNervJsImportDefaultName = false
 
   traverse(ast, {
-    enter (astPath) {
-      astPath.traverse({
-        ClassDeclaration (astPath) {
-          const node = astPath.node
-          if (!node.superClass) return
-          if (
-            node.superClass.type === 'MemberExpression' &&
-            node.superClass.object.name === taroImportDefaultName
-          ) {
-            node.superClass.object.name = nervJsImportDefaultName
-            if (node.id === null) {
-              const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(
-                t.classDeclaration(
-                  t.identifier(renameComponentClassName),
-                  node.superClass,
-                  node.body,
-                  node.decorators || []
-                )
+    ClassDeclaration: {
+      enter (astPath) {
+        const node = astPath.node
+        if (!node.superClass) return
+        if (
+          node.superClass.type === 'MemberExpression' &&
+          node.superClass.object.name === taroImportDefaultName
+        ) {
+          node.superClass.object.name = nervJsImportDefaultName
+          if (node.id === null) {
+            const renameComponentClassName = '_TaroComponentClass'
+            astPath.replaceWith(
+              t.classDeclaration(
+                t.identifier(renameComponentClassName),
+                node.superClass,
+                node.body,
+                node.decorators || []
               )
-            }
-          } else if (node.superClass.name === 'Component') {
-            if (node.id === null) {
-              const renameComponentClassName = '_TaroComponentClass'
-              astPath.replaceWith(
-                t.classDeclaration(
-                  t.identifier(renameComponentClassName),
-                  node.superClass,
-                  node.body,
-                  node.decorators || []
-                )
-              )
-            }
+            )
           }
-        },
-        ImportDeclaration (astPath) {
-          const node = astPath.node
-          const source = node.source
-          const value = source.value
-          const specifiers = node.specifiers
-          if (!Util.isNpmPkg(value)) return
-          if (value === PACKAGES['@tarojs/taro']) {
-            let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
-            if (specifier) {
-              hasAddNervJsImportDefaultName = true
-              taroImportDefaultName = specifier.local.name
-              specifier.local.name = nervJsImportDefaultName
-            } else if (!hasAddNervJsImportDefaultName) {
-              hasAddNervJsImportDefaultName = true
-              node.specifiers.unshift(
-                t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+        } else if (node.superClass.name === 'Component') {
+          if (node.id === null) {
+            const renameComponentClassName = '_TaroComponentClass'
+            astPath.replaceWith(
+              t.classDeclaration(
+                t.identifier(renameComponentClassName),
+                node.superClass,
+                node.body,
+                node.decorators || []
               )
-            }
-            const taroApisSpecifiers = []
-            const deletedIdx = []
-            specifiers.forEach((item, index) => {
-              if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
-                taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-                deletedIdx.push(index)
-              }
-            })
-            _.pullAt(specifiers, deletedIdx)
-            source.value = PACKAGES['nervjs']
-
-            if (taroApisSpecifiers.length) {
-              astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
-            }
-            if (!specifiers.length) {
-              astPath.remove()
-            }
-          } else if (value === PACKAGES['@tarojs/redux']) {
-            source.value = PACKAGES['nerv-redux']
+            )
           }
         }
-      })
+      }
+    },
+    ImportDeclaration: {
+      enter (astPath) {
+        const node = astPath.node
+        const source = node.source
+        const value = source.value
+        const specifiers = node.specifiers
+        if (!Util.isNpmPkg(value)) return
+        if (value === PACKAGES['@tarojs/taro']) {
+          let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
+          if (specifier) {
+            hasAddNervJsImportDefaultName = true
+            taroImportDefaultName = specifier.local.name
+            specifier.local.name = nervJsImportDefaultName
+          } else if (!hasAddNervJsImportDefaultName) {
+            hasAddNervJsImportDefaultName = true
+            node.specifiers.unshift(
+              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+            )
+          }
+          const taroApisSpecifiers = []
+          const deletedIdx = []
+          specifiers.forEach((item, index) => {
+            if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
+              taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
+              deletedIdx.push(index)
+            }
+          })
+          _.pullAt(specifiers, deletedIdx)
+          source.value = PACKAGES['nervjs']
+
+          if (taroApisSpecifiers.length) {
+            astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
+          }
+          if (!specifiers.length) {
+            astPath.remove()
+          }
+        } else if (value === PACKAGES['@tarojs/redux']) {
+          source.value = PACKAGES['@tarojs/redux-h5']
+        }
+      }
     },
     Program: {
       exit (astPath) {
@@ -431,9 +438,9 @@ function processOthers (code) {
       }
     }
   })
-
+  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
   return {
-    code: generate(ast).code
+    code: generateCode
   }
 }
 
@@ -508,7 +515,7 @@ function buildTemp () {
             file.contents = Buffer.from(jsCode)
           } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
             const transformResult = processOthers(content)
-            let jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
+            const jsCode = transformResult.code
             file.contents = Buffer.from(jsCode)
           }
           this.push(file)

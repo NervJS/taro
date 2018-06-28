@@ -18,9 +18,9 @@
 
 #### 上传、下载
 
-☑️ wx.uploadFile
+☑️ wx.uploadFile (依赖 chooseImage)
 
-☑️ wx.downloadFile
+😐 wx.downloadFile
 
 #### WebSocket
 
@@ -66,11 +66,9 @@
 
 #### 音频播放控制
 
-☑️ wx.playVoice
-
-☑️ wx.pauseVoice
-
-☑️ wx.stopVoice
+😐 wx.playVoice
+😐 wx.pauseVoice
+😐 wx.stopVoice
 
 #### 音乐播放控制
 
@@ -98,9 +96,9 @@
 
 #### 音频组件控制
 
-☑️ wx.createAudioContext
+😐 wx.createAudioContext
 
-☑️ wx.createInnerAudioContext
+😐 wx.createInnerAudioContext
         
 
 #### 视频
@@ -112,7 +110,7 @@
 
 #### 视频组件控制
 
-☑️ wx.createVideoContext
+😐 wx.createVideoContext
         
 
 #### 相机组件控制
@@ -389,11 +387,11 @@
 
 #### 动画
 
-☑️ wx.createAnimation
+🤔 wx.createAnimation
 
 #### 位置
 
-☑️ wx.pageScrollTo
+🤔️ wx.pageScrollTo (ScrollView（滚动视图）的组件支持 scrollTo 方法，具体看代码转换后页面的处理情况)
 
 #### 绘图
 
@@ -631,7 +629,7 @@
 
 #### 打开APP
 
-☑️ launchApp
+❌️ launchApp
 
 #### 获取发票抬头
 

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "description": "Taro RN framework",
   "main": "./src/index.js",
   "files": [
@@ -8,7 +8,9 @@
     "index.js"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -20,12 +22,13 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.59"
+    "@tarojs/taro": "0.0.60"
   },
   "devDependencies": {
     "babel-jest": "^23.0.1",
     "jest": "^23.1.0",
     "jest-react-native": "^18.0.0",
+    "mock-socket": "^7.1.0",
     "react-native": "^0.55.4"
   }
 }

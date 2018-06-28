@@ -4,6 +4,7 @@ import history, {
   navigateBack,
   redirectTo
 } from './lib/history'
+import { Component } from '@tarojs/taro-h5'
 import './router.css'
 
 const registeredPages = {}
@@ -30,26 +31,24 @@ const PAGESTATUS = {
   SHOWING: 2
 }
 
-const getWrappedComponent = (component, { location }) => {
+const getWrappedComponent = (component) => {
   class Wrapped extends component {
     __pageStatus = PAGESTATUS.SHOWING
 
     constructor (props, context) {
-      context.$router = location
       super(props, context)
-      this.$router = location
-      this.locationState = location.state
+      console.log('cons')
+      this.locationState = props._$router.state
     }
 
     componentWillReceiveProps (nextProps) {
-      super.componentWillReceiveProps && super.componentWillReceiveProps()
+      super.componentWillReceiveProps && super.componentWillReceiveProps(nextProps)
 
-      const nextLocation = nextProps.location
-      const lastShouldShow = this.props.location.state === this.locationState
+      const nextLocation = nextProps._$router
+      const lastShouldShow = this.props._$router.state === this.locationState
       const nextShouldShow = nextLocation.state === this.locationState
 
       if (lastShouldShow === nextShouldShow) return
-      this.context.$router = nextLocation
       this.$router = nextLocation
 
       if (nextShouldShow) {
@@ -88,10 +87,10 @@ const getWrappedComponent = (component, { location }) => {
 /**
  * Router组件内保存了每次路由变化后渲染的组件
  */
-class Router extends Nerv.Component {
+class Router extends Component {
   /* 页面栈 */
   static pageStack = []
-
+  static pageInstStack = []
   /**
    * 根据提供的location跳转
    *
@@ -99,6 +98,7 @@ class Router extends Nerv.Component {
    * @param {string} action 跳转的种类
    * @param {any} payload 附加参数
    */
+
   navigate = (location, action, payload = {}) => {
     const { fail, complete, success, delta } = payload
     let pathname
@@ -117,8 +117,11 @@ class Router extends Nerv.Component {
     }
     getPage(pathname)()
       .then(loaded => {
-        const wrapped = getWrappedComponent(loaded.default, { location })
-        this.commit(action, wrapped, payload)
+        const comp = getWrappedComponent(loaded.default)
+        // this.commit(action, Nerv.createElement(comp, {
+        //   _$router: location
+        // }), payload)
+        this.commit(action, comp, payload)
         success && success()
       }).catch(e => {
         console.error(e)
@@ -157,10 +160,11 @@ class Router extends Nerv.Component {
   }
 
   getPages () {
-    const location = history.now()
-    return this.constructor.pageStack.map(Comp => {
-      return <Comp location={location} />
+    const $router = history.now()
+    this.constructor.pageInstStack = this.constructor.pageStack.map(Comp => {
+      return <Comp _$router={$router} />
     })
+    return this.constructor.pageInstStack
   }
 
   componentDidMount () {

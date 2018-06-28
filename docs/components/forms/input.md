@@ -26,7 +26,7 @@
 | √ |   | √ |  onConfirm       | EventHandle |        | 点击完成按钮时触发   |
 
 ###### 示例：
-```
+```jsx
 <Text>可以自动聚焦的input</Text>
 <Input type='text' placeholder='将会获取焦点' focus/>
 <Text>控制最大输入长度的input</Text>

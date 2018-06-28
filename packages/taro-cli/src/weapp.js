@@ -557,7 +557,7 @@ async function buildEntry () {
   try {
     const transformResult = wxTransformer({
       code: entryFileCode,
-      path: outputEntryFilePath,
+      path: entryFilePath,
       isApp: true,
       isTyped: Util.REG_TYPESCRIPT.test(entryFilePath)
     })
@@ -655,7 +655,7 @@ async function buildSinglePage (page) {
   try {
     const transformResult = wxTransformer({
       code: pageJsContent,
-      path: outputPageJSPath,
+      path: pageJs,
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs)
     })
@@ -832,7 +832,7 @@ async function buildSingleComponent (component) {
   try {
     const transformResult = wxTransformer({
       code: componentContent,
-      path: outputComponentJSPath,
+      path: component,
       isRoot: false,
       isTyped: Util.REG_TYPESCRIPT.test(component)
     })
@@ -921,7 +921,7 @@ function compileDepScripts (scriptFiles) {
           const code = fs.readFileSync(item).toString()
           const transformResult = wxTransformer({
             code,
-            path: outputItem,
+            path: item,
             isNormal: true,
             isTyped: Util.REG_TYPESCRIPT.test(item)
           })

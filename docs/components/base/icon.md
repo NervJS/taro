@@ -12,7 +12,7 @@
 
 
 ###### 示例：
-```
+```jsx
 <Icon size='60' type='success' />
 <Icon size='60' type='info' />
 <Icon size='60' type='warn' color='#ccc' />

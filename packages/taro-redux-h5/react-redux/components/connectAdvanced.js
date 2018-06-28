@@ -1,9 +1,6 @@
 import hoistStatics from 'hoist-non-react-statics'
 import invariant from 'invariant'
-/* eslint-disable import/no-unresolved */
-import { Component, createElement } from 'react'
-/* eslint-enable import/no-unresolved */
-
+import { Component, createElement } from '../../src/compat'
 import Subscription from '../utils/Subscription'
 import { storeShape, subscriptionShape } from '../utils/PropTypes'
 
@@ -157,20 +154,12 @@ export default function connectAdvanced(
         if (this.selector.shouldComponentUpdate) this.forceUpdate()
       }
 
-      componentDidShow() {
-        this.wrappedInstance.componentDidShow && this.wrappedInstance.componentDidShow()
-      }
-
       componentWillReceiveProps(nextProps) {
         this.selector.run(nextProps)
       }
 
       shouldComponentUpdate() {
         return this.selector.shouldComponentUpdate
-      }
-      
-      componentDidHide() {
-        this.wrappedInstance.componentDidHide && this.wrappedInstance.componentDidHide()
       }
 
       componentWillUnmount() {
@@ -191,6 +180,7 @@ export default function connectAdvanced(
       }
 
       setWrappedInstance = (ref) => {
+        if (ref === null) return
         this.wrappedInstance = ref
       }
 
@@ -276,6 +266,20 @@ export default function connectAdvanced(
     Connect.childContextTypes = childContextTypes
     Connect.contextTypes = contextTypes
     Connect.propTypes = contextTypes
+
+    const componentDidShow = WrappedComponent.prototype.componentDidShow
+    const componentDidHide = WrappedComponent.prototype.componentDidHide
+    const originalComponentDidMount = Connect.prototype.componentDidMount
+    const originalComponentWillUnmount = Connect.prototype.componentWillUnmount
+
+    Connect.prototype.componentDidMount = function () {
+      originalComponentDidMount && originalComponentDidMount.call(this)
+      componentDidShow && componentDidShow.call(this.wrappedInstance)
+    }
+    Connect.prototype.componentWillUnmount = function () {
+      componentDidHide && componentDidHide.call(this.wrappedInstance)
+      originalComponentWillUnmount && originalComponentWillUnmount.call(this)
+    }
 
     if (process.env.NODE_ENV !== 'production') {
       Connect.prototype.componentWillUpdate = function componentWillUpdate() {

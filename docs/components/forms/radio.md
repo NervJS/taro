@@ -22,7 +22,7 @@
 
 
 ###### 示例：
-```
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Radio } from '@tarojs/components'
 import './radio.scss'
@@ -95,5 +95,4 @@ export default class PageRadio extends Component {
         )
     }
 }
-
 ```
