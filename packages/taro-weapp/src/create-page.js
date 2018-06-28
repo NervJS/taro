@@ -110,7 +110,7 @@ function initPage (weappPageConf, page, options) {
   return recurrenceComponent(weappPageConf, page)
 }
 
-export function processDynamicComponents (page) {
+export function processDynamicComponents (page, weappPageConf) {
   const pagePath = page.path
   scopeMap[pagePath] = scopeMap[pagePath] || {}
   function recursiveDynamicComponents (component) {
@@ -178,19 +178,21 @@ export function processDynamicComponents (page) {
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child
-                for (const k in child) {
-                  if (k.indexOf(eventPreffix) >= 0) {
-                    processEvent(pagePath, k, component)
-                  }
-                }
-                const prototypeChain = getPrototypeChain(child)
-                prototypeChain.forEach(item => {
-                  Object.getOwnPropertyNames(item).forEach(fn => {
-                    if (fn.indexOf(eventPreffix) >= 0) {
-                      processEvent(pagePath, fn, component)
+                if (weappPageConf) {
+                  for (const k in child) {
+                    if (k.indexOf(eventPreffix) >= 0) {
+                      processEvent(pagePath, k, weappPageConf)
                     }
+                  }
+                  const prototypeChain = getPrototypeChain(child)
+                  prototypeChain.forEach(item => {
+                    Object.getOwnPropertyNames(item).forEach(fn => {
+                      if (fn.indexOf(eventPreffix) >= 0) {
+                        processEvent(pagePath, fn, weappPageConf)
+                      }
+                    })
                   })
-                })
+                }
                 if (item.children && item.children.length) {
                   recurrence(item.children, stateData[index], `${index}_${level}`)
                 }
@@ -225,7 +227,7 @@ function componentTrigger (component, key) {
     component._disable = false
     component.state = component.getState()
     if (!component.$isComponent) {
-      component.forceUpdate()
+      updateComponent(component, true, true)
     }
   }
 }
@@ -293,7 +295,7 @@ function createPage (PageClass, options) {
     }
   }
   let weappPageConfEvents = initPage(weappPageConf, page, options)
-  processDynamicComponents(page)
+  processDynamicComponents(page, weappPageConf)
   page._initData()
   pageExtraFns.forEach(fn => {
     if (typeof page[fn] === 'function') {
