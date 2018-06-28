@@ -20,6 +20,11 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  dialogOverlayForIOS: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
   dialogContainer: {
     width: deviceWidth,
     backgroundColor: '#FFF',

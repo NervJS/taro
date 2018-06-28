@@ -13,6 +13,8 @@ import {
 } from 'react-native'
 import styles from './styles'
 
+const isIOS = Platform.OS === 'ios'
+
 type Props = {
   children?: React.Node,
   /**
@@ -72,7 +74,7 @@ class _PickerDialog extends React.Component<Props, State> {
 
     return (
       <View>
-        {Platform.OS !== 'ios' && <Modal
+        {!isIOS && <Modal
           visible={show}
           animationType="fade"
           transparent={true}
@@ -92,6 +94,12 @@ class _PickerDialog extends React.Component<Props, State> {
           onRequestClose={this.onRequestClose}
         >
           <DialogWrapper style={styles.dialogWrapper} behavior="padding">
+            {isIOS && <TouchableWithoutFeedback
+              onPress={this.onCancel}
+              underlayColor="rgba(0, 0, 0, 0.5)"
+            >
+              <View style={styles.dialogOverlayForIOS} />
+            </TouchableWithoutFeedback>}
             <View style={styles.dialogContainer}>
               <View style={styles.dialogHead}>
                 <TouchableWithoutFeedback onPress={this.onCancel}>
