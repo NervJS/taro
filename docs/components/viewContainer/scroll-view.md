@@ -22,7 +22,7 @@
 使用竖向滚动时，需要给 `<scroll-view/>` 一个固定高度，通过 WXSS 设置 height。
 
 ###### 示例：
-```
+```jsx
 <ScrollView className='scrollview'
             scrollY
             scrollWithAnimation

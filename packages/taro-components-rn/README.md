@@ -2,8 +2,13 @@
 
 Alo, alo! Bilibilibilibibili~
 
-> IOS: 如果你要用到 `Icon`，请先把 `libART.a` 引进去，步骤如下：
-> `open ios/AwesomeProject.xcodeproj` 在xcode中打开项目，拖拽 `node_modules/react-native/Libraries/ART/ART.xcodeproj` 到左侧栏的 `Libraries` 下；选中项目左侧栏中的根节点，然后在 `Build Phases` 中 `Link Binary with Libraries` 添加 `libART.a`
+
+<details>
+  <summary>关于 `Icon` 的使用</summary>
+  > <del>IOS: 如果你要用到 `Icon`，请先把 `libART.a` 引进去，步骤如下：</del>
+  > <del>`open ios/AwesomeProject.xcodeproj` 在xcode中打开项目，拖拽 `node_modules/react-native/Libraries/ART/ART.xcodeproj` 到左侧栏的 `Libraries` 下；选中项目左侧栏中的根节点，然后在 `Build Phases` 中 `Link Binary with Libraries` 添加 `libART.a`</del>
+  > 为了尽可能地减少用户需要地操作，斟酌再三，目前方案改成：IOS不给配置颜色了
+</details>
 
 ## Capture
 

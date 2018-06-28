@@ -15,7 +15,7 @@
 | √ |  | √ |activeMode | String  | backwards | backwards: 动画从头播；forwards：动画从上次结束点接着播 |
 
 ###### 示例：
-```
+```jsx
 <Progress percent={20} showInfo strokeWidth={2} />
 <Progress percent={40} strokeWidth={2} active />
 <Progress percent={60}  strokeWidth={2} active />

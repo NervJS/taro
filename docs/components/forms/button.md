@@ -23,7 +23,7 @@
 
 
 ###### 示例：
-```
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 
@@ -101,5 +101,4 @@ export default class PageButton extends Component {
         )
     }
 }
-
 ```

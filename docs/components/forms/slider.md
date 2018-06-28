@@ -20,7 +20,7 @@
 | √ | √ | √ | onChanging    | EventHandle |         | 拖动过程中触发的事件|
 
 ###### 示例：
-```
+```jsx
 <Text>设置step</Text>
 <Slider step="1" value="50"/>
 <Text>显示当前value</Text>
