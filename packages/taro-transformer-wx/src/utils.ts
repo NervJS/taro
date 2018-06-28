@@ -230,7 +230,6 @@ export function getArgumentName (arg) {
   } else if (t.isNullLiteral(arg)) {
     return 'null'
   } else if (t.isStringLiteral(arg) || t.isNumericLiteral(arg)) {
-    debugger
     return arg.value
   } else if (t.isIdentifier(arg)) {
     return arg.name

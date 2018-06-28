@@ -543,7 +543,25 @@ export class RenderParser {
           }
         }
         if (name.name === 'key') {
-          path.get('name').replaceWith(t.jSXIdentifier('wx:key'))
+          const jsx = path.findParent(p => p.isJSXElement())
+          const loopBlock = jsx.findParent(p => {
+            if (p.isJSXElement()) {
+              const element = p.get('openingElement') as NodePath<t.JSXOpeningElement>
+              if (element.get('name').isJSXIdentifier({ name: 'block' })) {
+                const attrs = element.node.attributes
+                const hasWXForLoop = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: 'wx:for' }))
+                const hasWXKey = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: 'wx:key' }))
+                return hasWXForLoop && !hasWXKey
+              }
+            }
+            return false
+          }) as NodePath<t.JSXElement>
+          if (loopBlock) {
+            setJSXAttr(loopBlock.node, 'wx:key', value)
+            path.remove()
+          } else {
+            path.get('name').replaceWith(t.jSXIdentifier('wx:key'))
+          }
         } else if (
           name.name.startsWith('on')
         ) {

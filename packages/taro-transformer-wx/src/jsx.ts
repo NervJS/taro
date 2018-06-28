@@ -53,7 +53,7 @@ export function newJSXIfAttr (
 export function setJSXAttr (
   jsx: t.JSXElement,
   name: string,
-  value?: t.StringLiteral | t.JSXExpressionContainer
+  value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement
 ) {
   jsx.openingElement.attributes.push(
     t.jSXAttribute(t.jSXIdentifier(name), value)

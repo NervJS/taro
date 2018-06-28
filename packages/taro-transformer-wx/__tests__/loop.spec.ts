@@ -118,8 +118,8 @@ describe('loop', () => {
             <block>
                 <view>
                     <block wx:if=\"{{!(arr1.length > 1)}}\" wx:for=\"{{$anonymousCallee__2}}\"
-                    wx:for-item=\"e\" wx:for-index=\"i\">
-                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
+                    wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"{{i}}\">
+                        <view class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
                     </block>
                 </view>
             </block>
@@ -157,8 +157,8 @@ describe('loop', () => {
             <block>
                 <view>
                     <block wx:if=\"{{!e.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"e\"
-                    wx:for-index=\"i\">
-                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
+                    wx:for-index=\"i\" wx:key=\"{{i}}\">
+                        <view class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
                     </block>
                 </view>
             </block>
@@ -1740,6 +1740,60 @@ describe('loop', () => {
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(3)
           expect(template).toMatch(prettyPrint(`<block><view><view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\"><map wx:if=\"{{b2}}\"></map><text></text></view></view></block>`))
+        })
+
+        test('子元素有条件表达式', () => {
+          const { template, ast, code } = transform({
+            ...baseOptions,
+            isRoot: true,
+            code: buildComponent(`
+              const array = ['test1', 'test2', 'test3']
+              const b1 = true
+              const b2 = true
+              const { activeIndex } = this.state
+              return (
+                <View>{array.map((item, index) => {
+                  return this.state.list[activeIndex] === 'trip' ?
+                  (
+                    <Navigator
+                      key={index}
+                    >
+                    <View>1</View>
+                    </Navigator>
+                  ) : (
+                    <Navigator
+                      key={item.id}
+                    >
+                    <View>2</View>
+                    </Navigator>
+                  );
+                })}</View>
+              )
+            `, `state = { activeIndex: 0, list: [] }`)
+          })
+
+          const instance = evalClass(ast)
+          removeShadowData(instance.state)
+          expect(Object.keys(instance.state).length).toBe(4)
+          expect(template).toMatch(prettyPrint(`
+          <block>
+              <view>
+                  <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\" wx:for-index=\"index\"
+                  wx:key=\"{{index}}\">
+                      <block wx:if=\"{{item.$loopState__temp2}}\">
+                          <navigator>
+                              <view>1</view>
+                          </navigator>
+                      </block>
+                      <block wx:else>
+                          <navigator wx:key=\"{{item.id}}\">
+                              <view>2</view>
+                          </navigator>
+                      </block>
+                  </block>
+              </view>
+          </block>
+          `))
         })
 
         test('子元素有逻辑表达式2', () => {
