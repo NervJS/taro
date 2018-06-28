@@ -13,6 +13,7 @@ import {
   View,
   TouchableWithoutFeedback,
   StyleSheet,
+  Platform,
 } from 'react-native'
 import Icon from '../Icon'
 import styles from './styles'
@@ -79,6 +80,7 @@ class _Radio extends React.Component<Props, State> {
     } = this.props
 
     const isChecked = this.state.checked
+    const iconSize = Platform.OS === 'ios' ? 24 : 21
 
     return (
       <TouchableWithoutFeedback
@@ -93,7 +95,7 @@ class _Radio extends React.Component<Props, State> {
         ]}>
           <Icon
             type="success"
-            size={20}
+            size={iconSize}
             color={color}
             style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
           />
