@@ -37,7 +37,6 @@ const getWrappedComponent = (component) => {
 
     constructor (props, context) {
       super(props, context)
-      console.log('cons')
       this.locationState = props._$router.state
     }
 
