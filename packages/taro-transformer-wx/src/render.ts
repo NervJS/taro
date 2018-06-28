@@ -138,6 +138,7 @@ export class RenderParser {
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
   private loopRefIdentifiers = new Map<t.Identifier, NodePath<t.CallExpression>>()
   private reserveStateWords = new Set(['state', 'props'])
+  private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -369,6 +370,7 @@ export class RenderParser {
             const blockStatement = parentPath.findParent(p => p.isBlockStatement())
             const block = this.finalReturnElement || buildBlockElement()
             if (isBlockIfStatement(ifStatement, blockStatement)) {
+              debugger
               const { test, alternate, consequent } = ifStatement.node
               if (alternate === blockStatement.node) {
                 throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')
@@ -381,7 +383,16 @@ export class RenderParser {
                     t.jSXExpressionContainer(test)
                   )
                 } else {
-                  newJSXIfAttr(jsxElementPath.node, test)
+                  if (this.topLevelIfStatement.size > 0) {
+                    setJSXAttr(
+                      jsxElementPath.node,
+                      'wx:elif',
+                      t.jSXExpressionContainer(test)
+                    )
+                  } else {
+                    newJSXIfAttr(jsxElementPath.node, test)
+                    this.topLevelIfStatement.add(ifStatement)
+                  }
                 }
               }
             } else if (block.children.length !== 0) {
@@ -655,7 +666,7 @@ export class RenderParser {
   private visitors: Visitor = {
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
-      if (statementParent && statementParent.isReturnStatement()) {
+      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent)) {
         path.replaceWith(
           t.jSXElement(
             t.jSXOpeningElement(

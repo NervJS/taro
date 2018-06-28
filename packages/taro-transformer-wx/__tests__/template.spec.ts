@@ -1,5 +1,6 @@
 import transform from '../src'
 import { buildComponent, baseOptions, evalClass } from './utils'
+import { prettyPrint } from 'html'
 
 describe('Template', () => {
 
@@ -227,6 +228,75 @@ describe('Template', () => {
       })
 
       expect(template).toMatch('<view hover-class="test"></view>')
+    })
+
+    describe('if statement', () => {
+      test('简单情况', () => {
+        const { template, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const tasks = []
+          if (tasks !== null) {
+            return <View className='page-body' >
+            </View>
+          }
+
+          return (
+            <View className='page-body'>
+              <Text>Hello world!</Text>
+            </View>
+          )
+          `)
+        })
+
+        expect(template).toMatch(prettyPrint(`
+        <block>
+            <view class=\"page-body\" wx:if=\"{{tasks !== null}}\"></view>
+            <view class=\"page-body\" wx:else>
+                <text>Hello world!</text>
+            </view>
+        </block>
+        `))
+      })
+
+      test('两个平级的 ifStatement', () => {
+        const { template, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const tasks = []
+          if (tasks !== null) {
+            return <View className='page-body' >
+            </View>
+          }
+
+          if (tasks.length === 0) {
+            return <View className='page-body'>
+              <Text>{tasks.length}</Text>
+            </View>
+          }
+
+          return (
+            <View className='page-body'>
+              <Text>Hello world!</Text>
+            </View>
+          )
+          `)
+        })
+
+        expect(template).toMatch(prettyPrint(`
+          <block>
+              <view class=\"page-body\" wx:if=\"{{tasks !== null}}\"></view>
+              <view class=\"page-body\" wx:elif=\"{{tasks.length === 0}}\">
+                  <text>{{tasks.length}}</text>
+              </view>
+              <view class=\"page-body\" wx:else>
+                  <text>Hello world!</text>
+              </view>
+          </block>
+        `))
+      })
     })
 
     // test('本来是下划线不用再转', () => {
