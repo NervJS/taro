@@ -31,7 +31,7 @@
 | 参数 | 类型 | 必填 | 默认值 | 说明 |
 | :-- | :-- | :-- | :-- | :-- |
 | jsonp | String/Boolean | 否 |  | 使用 jsonp，且使用此值作为回调函数名 |
-| cache | Boolean | 否 | false | jsonp 请求 url 是否需要被缓存 |
+| jsonpCache | Boolean | 否 | false | jsonp 请求 url 是否需要被缓存 |
 | credentials | String | 否 | omit | 是否携带 Cookie。有效值：include, same-origin, omit |
 | cache | String | 否 | default | 缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached |
 
