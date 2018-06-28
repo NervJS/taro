@@ -9,6 +9,7 @@
     "flow-stop": "flow stop",
     "lint": "eslint .",
     "test": "jest --coverage",
+    "postinstall": "npm run build",
     "test-update": "jest --updateSnapshot"
   },
   "pre-commit": [

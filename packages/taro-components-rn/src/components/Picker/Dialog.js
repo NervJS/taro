@@ -72,7 +72,7 @@ class _PickerDialog extends React.Component<Props, State> {
 
     return (
       <View>
-        <Modal
+        {Platform.OS !== 'ios' && <Modal
           visible={show}
           animationType="fade"
           transparent={true}
@@ -84,7 +84,7 @@ class _PickerDialog extends React.Component<Props, State> {
           >
             <View style={styles.dialogOverlay} />
           </TouchableWithoutFeedback>
-        </Modal>
+        </Modal>}
         <Modal
           visible={show}
           animationType="slide"
