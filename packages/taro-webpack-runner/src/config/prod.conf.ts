@@ -1,6 +1,6 @@
-import webpack from 'webpack'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import * as webpack from 'webpack'
+import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
 import { getPostcssPlugins } from './postcss.conf'
 import { BuildConfig } from '../util/types'
@@ -113,7 +113,7 @@ export default (config: BuildConfig): webpack.Configuration => {
   ]
 
   return {
-    devtool: devtool,
+    devtool,
     module: {
       rules: [
         {
@@ -126,6 +126,6 @@ export default (config: BuildConfig): webpack.Configuration => {
     resolve: {
       mainFields: ['main']
     },
-    plugins: plugins
-  }
+    plugins
+  } as webpack.Configuration
 }

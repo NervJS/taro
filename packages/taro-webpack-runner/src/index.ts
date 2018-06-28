@@ -1,19 +1,18 @@
 import * as path from 'path'
-import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
-import WebpackDevServer from 'webpack-dev-server'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import opn from 'opn'
-import ora from 'ora'
+import * as webpack from 'webpack'
+import * as webpackMerge from 'webpack-merge'
+import * as WebpackDevServer from 'webpack-dev-server'
+import * as opn from 'opn'
+import * as ora from 'ora'
 import chalk from 'chalk'
-import formatWebpackMessage from './util/format_webpack_message'
 
+import formatWebpackMessage from './util/format_webpack_message'
 import baseConf from './config/base.conf'
 import devConf from './config/dev.conf'
 import devServerConf from './config/devServer.conf'
 import prodConf from './config/prod.conf'
 import buildConf from './config/build.conf'
-import { mergeCustomConfig, formatTime, prepareUrls } from './util'
+import { formatTime, prepareUrls, patchCustomConfig } from './util'
 import { BuildConfig } from './util/types'
 
 const appPath = process.cwd()
@@ -72,24 +71,15 @@ const createCompiler = (webpackConf): webpack.Compiler => {
 
 const buildProd = (config: BuildConfig): void => {
   const conf = Object.assign({}, buildConf, config)
-  const customWebpackConfig = conf.webpack || {}
-  const definePluginConfig = conf.defineConstants || {}
   const webpackConf = webpackMerge(baseConf(conf), prodConf(conf), {
     entry: conf.entry,
     output: {
       path: path.join(appPath, conf.outputRoot),
       filename: 'js/[name].js',
       publicPath: conf.publicPath
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: path.join(appPath, conf.sourceRoot, 'index.html')
-      }),
-      new webpack.DefinePlugin(definePluginConfig)
-    ]
+    }
   })
-  const compiler = webpack(mergeCustomConfig(webpackConf, customWebpackConfig))
+  const compiler = webpack(webpackConf)
   compiler.run((err, stats) => {
     if (err) {
       return printBuildError(err)
@@ -127,37 +117,36 @@ const buildDev = (config: BuildConfig): void => {
   const conf = Object.assign({}, buildConf, config)
   const publicPath = conf.publicPath
   const contentBase = path.join(appPath, conf.outputRoot)
-  const protocol = conf.protocol
-  const host = conf.host
-  const port = conf.port
-  const urls = prepareUrls(conf.protocol, conf.host, conf.port)
-  const customWebpackConfig = config.webpack || {}
-  const definePluginConfig = config.defineConstants || {}
+  const customDevServerOptions = config.devServer || {}
+  const https = 'https' in customDevServerOptions
+    ? customDevServerOptions.https
+    : (conf.protocol === 'https')
+  const host = customDevServerOptions.host || conf.host
+  const port = customDevServerOptions.port || conf.port
+  const urls = prepareUrls(
+    https ? 'https' : 'http',
+    host,
+    port
+  )
 
-  let webpackConf = webpackMerge(baseConf(conf), devConf(conf), {
+  const baseWebpackConf = webpackMerge(baseConf(conf), devConf(conf), {
     entry: conf.entry,
     output: {
       path: contentBase,
       filename: 'js/[name].js',
-      publicPath: publicPath
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: path.join(appPath, conf.sourceRoot, 'index.html')
-      }),
-      new webpack.DefinePlugin(definePluginConfig)
-    ]
+      publicPath
+    }
   })
+
+  const webpackConf = patchCustomConfig(baseWebpackConf, conf)
   const baseDevServerOptions = devServerConf({
     publicPath,
     contentBase,
-    protocol,
+    https,
     host,
     publicUrl: urls.lanUrlForConfig
   })
-  const devServerOptions = Object.assign({}, baseDevServerOptions, config.devServer)
-  webpackConf = mergeCustomConfig(webpackConf, customWebpackConfig)
+  const devServerOptions = Object.assign({}, baseDevServerOptions, customDevServerOptions)
   WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
   const compiler = createCompiler(webpackConf)
   const server = new WebpackDevServer(compiler, devServerOptions)

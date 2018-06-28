@@ -1,4 +1,4 @@
-import webpack from 'webpack'
+import * as webpack from 'webpack'
 import { getPostcssPlugins } from './postcss.conf'
 import { BuildConfig } from '../util/types'
 
@@ -21,7 +21,6 @@ export default function (config: BuildConfig): webpack.Configuration {
   const lessLoader = require.resolve('less-loader')
   const stylusLoader = require.resolve('stylus-loader')
   return {
-    devtool: 'cheap-module-eval-source-map',
     module: {
       rules: [
         {
@@ -63,6 +62,7 @@ export default function (config: BuildConfig): webpack.Configuration {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin()
-    ]
-  }
+    ],
+    devtool: 'cheap-module-eval-source-map'
+  } as webpack.Configuration
 }

@@ -1,5 +1,5 @@
-import webpack from 'webpack'
-import webpackDevServer from 'webpack-dev-server'
+import * as webpack from 'webpack'
+import * as webpackDevServer from 'webpack-dev-server'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration;
 
@@ -8,6 +8,7 @@ export interface BuildConfig {
   date?: string;
   defineConstants?: object;
   designWidth: number;
+  devtool;
   entry: webpack.Entry;
   isWatch: boolean;
   outputRoot: string;
@@ -28,9 +29,12 @@ export interface BuildConfig {
   };
 
   publicPath: string;
-  staticDirectory?: string;
+  staticDirectory: string;
+  chunkDirectory: string;
   devServer?: webpackDevServer.Configuration;
-  port?: number;
+  host: string;
+  port: number;
+  protocol: string;
   webpack?: CustomWebpackConfig;
   module?: {
     postcss?: {

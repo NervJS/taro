@@ -307,7 +307,7 @@ function processEntry (code, filePath) {
         const routerPages = pages
           .map(v => {
             const pageName = v.startsWith('/') ? v : `/${v}`
-            return `['${pageName}', () => import('.${pageName}.tsx')]`
+            return `['${pageName}', () => import('.${pageName}')]`
           })
           .join(',')
 

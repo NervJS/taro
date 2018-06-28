@@ -2,9 +2,12 @@ import * as os from 'os'
 import * as path from 'path'
 import * as url from 'url'
 
-import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
+import * as webpack from 'webpack'
+import * as webpackMerge from 'webpack-merge'
+import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import * as Types from './types'
+
+const appPath = process.cwd()
 
 const isEmptyObject = function (obj) {
   if (obj == null) {
@@ -92,7 +95,6 @@ const getLocalIp = function (name?, family?) {
   return !all.length ? loopback(family) : all[0];
 }
 
-
 const isPrivate = function (addr) {
   return /^(::f{4}:)?10\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/
     .test(addr) ||
@@ -165,11 +167,33 @@ const prepareUrls = function (protocol, host, port) {
   }
 }
 
-const mergeCustomConfig = (webpackConf: webpack.Configuration, customWebpackConfig: Types.CustomWebpackConfig = {}): webpack.Configuration => {
+const patchCustomConfig = (
+  baseConfig: webpack.Configuration,
+  buildConfig: Types.BuildConfig
+): webpack.Configuration => {
+  const customWebpackConfig = buildConfig.webpack || {}
+  let webpackConf
   if (typeof customWebpackConfig === 'function') {
-    return customWebpackConfig(webpackConf, webpack)
+    webpackConf = customWebpackConfig(baseConfig, webpack)
+  } else {
+    webpackConf = webpackMerge(baseConfig, customWebpackConfig)
   }
-  return webpackMerge(webpackConf, customWebpackConfig)
+
+  const constantConfig = buildConfig.defineConstants || {}
+  const envConfig = {}
+  for (const [envKey, envValue] of Object.entries(buildConfig.env || {})) {
+    envConfig[`process.env.${envKey}`] = envValue
+  }
+  const definePluginConfig = Object.assign({}, envConfig, constantConfig)
+  return webpackMerge(webpackConf, {
+    plugins: [
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: path.join(appPath, buildConfig.sourceRoot, 'index.html')
+      }),
+      new webpack.DefinePlugin(definePluginConfig)
+    ]
+  })
 }
 
 export {
@@ -181,6 +205,6 @@ export {
   isPrivate,
   isLoopback,
   prepareUrls,
-
-  mergeCustomConfig
+  
+  patchCustomConfig
 }

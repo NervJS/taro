@@ -1,8 +1,9 @@
 import * as path from 'path'
 import * as Util from '../util'
-import webpack from 'webpack'
+import * as webpack from 'webpack'
 import { BuildConfig } from '../util/types'
 
+/* remove illegal tsconfig */
 const tweakTsConfig = (tsConfig) => {
   const tsConfigKeys = [
     'silent',
@@ -119,5 +120,5 @@ export default (config: BuildConfig): webpack.Configuration => {
     resolveLoader: {
       modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
     }
-  }
+  } as webpack.Configuration
 }

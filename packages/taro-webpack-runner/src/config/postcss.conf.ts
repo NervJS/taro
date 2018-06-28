@@ -1,6 +1,7 @@
-import autoprefixer from 'autoprefixer'
-import pxtransform from 'postcss-pxtransform'
-import constparse from 'postcss-plugin-constparse'
+import * as autoprefixer from 'autoprefixer'
+import * as pxtransform from 'postcss-pxtransform'
+import * as constparse from 'postcss-plugin-constparse'
+
 import { isEmptyObject } from '../util'
 
 const defaultAutoprefixerConf = {
