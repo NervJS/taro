@@ -1,9 +1,5 @@
 /**
- * ✔ type
- * ✔ size
- * ✔ color
- *
- * @example <Icon type='success' color='green' />
+ * @see .android.js
  *
  * @flow
  */
@@ -32,14 +28,12 @@ type Props = {
   style?: StyleSheet.Styles,
   type: 'success' | 'success_no_circle' | 'info' | 'warn' | 'waiting' | 'cancel' | 'download' | 'search' | 'clear',
   size?: number,
-  color?: string,
 }
 
 module.exports = function _Icon ({
   style,
   type,
   size = 23,
-  color = 'black',
 }: Props) {
   const iconObj = WEUI[iconTypeMap[type]]
 
