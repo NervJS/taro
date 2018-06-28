@@ -18,7 +18,7 @@ function request (options) {
   const res = {}
   if (options.jsonp) {
     params.params = options.data
-    params.cache = options.cache
+    params.cache = options.jsonpCache
     if (typeof options.jsonp === 'string') {
       params.name = options.jsonp
     }
@@ -34,7 +34,6 @@ function request (options) {
   params.method = options.method || 'GET'
   params.mode = options.mode
   params.credentials = options.credentials
-  params.cache = options.cache
   return fetch(url, params)
     .then(response => {
       res.statusCode = response.status

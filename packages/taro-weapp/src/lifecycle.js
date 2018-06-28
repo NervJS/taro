@@ -10,7 +10,7 @@ const DEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
 
-export function updateComponent (component, update) {
+export function updateComponent (component, update, isFirst) {
   const { props, propTypes, type } = component
   if (DEV && propTypes) {
     const displayName = type.name || type.toString().match(/^function\s*([^\s(]+)/)[1]
@@ -30,11 +30,13 @@ export function updateComponent (component, update) {
   state.__data && (state.__data.$path = component.$path)
   const prevState = component.prevState || state
   let skip = false
-  if (typeof component.shouldComponentUpdate === 'function' &&
-    component.shouldComponentUpdate(props, state) === false) {
-    skip = true
-  } else if (typeof component.componentWillUpdate === 'function') {
-    component.componentWillUpdate(props, state)
+  if (!isFirst) {
+    if (typeof component.shouldComponentUpdate === 'function' &&
+      component.shouldComponentUpdate(props, state) === false) {
+      skip = true
+    } else if (typeof component.componentWillUpdate === 'function') {
+      component.componentWillUpdate(props, state)
+    }
   }
   component.props = props
   component.state = state
@@ -43,14 +45,14 @@ export function updateComponent (component, update) {
     for (let k in component.$props) {
       const childProps = component.$props[k].call(component)
       const subComponent = component.$$components[k]
-      const newChildProps = Object.assign(subComponent.props, childProps)
+      const newChildProps = Object.assign({}, subComponent.props, childProps)
       subComponent._disable = true
-      if (subComponent.componentWillReceiveProps) {
+      if (subComponent.componentWillReceiveProps && !isFirst) {
         subComponent.componentWillReceiveProps(newChildProps)
       }
       subComponent._disable = false
       subComponent.props = newChildProps
-      updateComponent(subComponent, false)
+      updateComponent(subComponent, false, isFirst)
     }
     const propsCopy = {}
     Object.keys(component.props).forEach(item => {
@@ -59,7 +61,7 @@ export function updateComponent (component, update) {
       }
     })
     Object.assign(component.$data, component.state, propsCopy)
-    if (component.componentDidUpdate) {
+    if (component.componentDidUpdate && !isFirst) {
       component.componentDidUpdate(prevProps, prevState)
     }
     doUpdate(component, update)

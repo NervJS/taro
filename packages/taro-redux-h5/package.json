@@ -24,7 +24,7 @@
   "scripts": {
     "build": "rollup -c --environment TARGET:umd",
     "build:esm": "rollup -c --environment TARGET:es",
-    "prebuild": "rm -rf lib es",
+    "_prebuild": "rimraf lib es",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src"
   },
