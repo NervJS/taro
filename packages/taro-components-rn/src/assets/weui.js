@@ -1,7 +1,6 @@
 import { ART } from 'react-native'
-import { noop } from '../utils'
 
-const { Path } = ART || { Path: noop }
+const { Path } = ART
 
 /**
  * @see icon default color: https://github.com/Tencent/weui/blob/master/src/style/icon/weui-icon_font.less

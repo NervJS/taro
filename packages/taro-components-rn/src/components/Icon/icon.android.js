@@ -56,7 +56,8 @@ module.exports = function _Icon ({
   }
 
   const iconPath = iconObj.path
-  const iconColor = color || iconObj.defaultColor || '#B2B2B2'
+  // @todo Back & Delete do not have default color. '#B2B2B2'
+  const iconColor = color || iconObj.defaultColor
 
   const transform = new Transform().scale(size / WEUI.VIEWBOX_SIZE)
 
