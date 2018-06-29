@@ -1,10 +1,18 @@
 import 'whatwg-fetch'
 import jsonpRetry from 'jsonp-retry'
 
+import { serializeParams } from './util'
 import { createSelectorQuery } from './api/createSelectorQuery'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
 import webSocket from './api/webSocket'
+
+function generateRequestUrlWithParams (url, params) {
+  params = typeof params === 'string' ? params : serializeParams(params)
+  url += (~url.indexOf('?') ? '&' : '?') + `${params}`
+  url = url.replace('?&', '?')
+  return url
+}
 
 function request (options) {
   options = options || {}
@@ -13,7 +21,7 @@ function request (options) {
       url: options
     }
   }
-  const url = options.url
+  let url = options.url
   const params = {}
   const res = {}
   if (options.jsonp) {
@@ -29,15 +37,23 @@ function request (options) {
         return res
       })
   }
-  params.body = options.data
-  params.headers = options.header
   params.method = options.method || 'GET'
+  const methodUpper = params.method.toUpperCase()
+  if (methodUpper === 'GET' || methodUpper === 'HEAD') {
+    url = generateRequestUrlWithParams(url, options.data)
+  } else {
+    params.body = options.data
+  }
+  params.headers = options.header
   params.mode = options.mode
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
       res.statusCode = response.status
-      res.header = response.headers
+      res.header = {}
+      response.headers.forEach((val, key) => {
+        res.header[key] = val
+      })
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
