@@ -149,6 +149,7 @@ export class RenderParser {
   private customComponentNames: Set<string>
   private renderScope: Scope
   private usedState: Set<string>
+  private loopStateName: Map<NodePath<t.CallExpression>, string>
 
   private finalReturnElement!: t.JSXElement
 
@@ -715,7 +716,8 @@ export class RenderParser {
     instanceName: string,
     referencedIdentifiers: Set<t.Identifier>,
     customComponentNames: Set<string>,
-    usedState: Set<string>
+    usedState: Set<string>,
+    loopStateName: Map<NodePath<t.CallExpression>, string>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -724,6 +726,7 @@ export class RenderParser {
     this.instanceName = instanceName
     this.referencedIdentifiers = referencedIdentifiers
     this.customComponentNames = customComponentNames
+    this.loopStateName = loopStateName
     this.usedState = usedState
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
@@ -856,6 +859,22 @@ export class RenderParser {
           } else {
             body.push(returnStatement)
             const stateName = 'loopArray' + loopArrayId()
+            this.loopStateName.forEach((newName, callExpr) => {
+              if (callExpr === callee) {
+                const classBody = this.renderPath.parent as t.ClassBody
+                for (const property of classBody.body) {
+                  if (t.isClassProperty(property) && property.key.name === '$dynamicComponents') {
+                    const objects = property.value as t.ObjectExpression
+                    for (const objProp of objects.properties) {
+                      if (t.isObjectProperty(objProp) && t.isIdentifier(objProp.key, { name: newName })) {
+                        const func = objProp.value as any
+                        func.body.body[0] = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
+                      }
+                    }
+                  }
+                }
+              }
+            })
             // setJSXAttr(returned, 'wx:for', t.identifier(stateName))
             this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))

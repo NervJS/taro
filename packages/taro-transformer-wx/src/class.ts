@@ -8,7 +8,8 @@ import {
   findFirstIdentifierFromMemberExpression,
   isArrayMapCallExpression,
   hasComplexExpression,
-  generateAnonymousState
+  generateAnonymousState,
+  buildConstVariableDeclaration
 } from './utils'
 import {
   buildRefTemplate
@@ -16,7 +17,7 @@ import {
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
-import { uniqBy, uniqueId } from 'lodash'
+import { uniqBy } from 'lodash'
 import { RenderParser } from './render'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -92,6 +93,7 @@ class Transformer {
   private componentSourceMap: Map<string, string[]>
   private customComponentNames = new Set<string>()
   private usedState = new Set<string>()
+  private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -305,11 +307,16 @@ class Transformer {
             ? ary[2] : ary[1]
         }
 
+        const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
+        const safeget = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
+          t.memberExpression(t.thisExpression(), t.identifier('state')),
+          t.identifier('stateName')
+        ])
         const returnStatement = t.returnStatement(
           t.objectExpression([
-            t.objectProperty(t.identifier('stateName'), t.stringLiteral(stateName)),
+            t.objectProperty(t.identifier('stateName'), t.identifier('stateName')),
             t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(stateName)
+              t.thisExpression(), t.identifier('nodes'), safeget, t.identifier('stateName')
             ]))
           ])
         )
@@ -318,9 +325,11 @@ class Transformer {
             nodes
           ))
         ])
+        blockStatement.push(stateNameDecl)
         blockStatement.push(nodeDeclare)
         blockStatement.push(returnStatement)
         const uuid = componentKey()
+        this.loopStateName.set(rootCallExpression, uuid)
         properties.push(
           // t.objectMethod('method', t.identifier(createUUID()), [], t.blockStatement(blockStatement)),
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
@@ -557,7 +566,8 @@ class Transformer {
           instanceName,
           this.jsxReferencedIdentifiers,
           this.customComponentNames,
-          this.usedState
+          this.usedState,
+          this.loopStateName
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
