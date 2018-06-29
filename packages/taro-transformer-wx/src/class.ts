@@ -5,7 +5,6 @@ import {
   isNumeric,
   pathResolver,
   incrementId,
-  createUUID,
   findFirstIdentifierFromMemberExpression,
   isArrayMapCallExpression,
   hasComplexExpression,
@@ -17,7 +16,7 @@ import {
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
-import { uniqBy } from 'lodash'
+import { uniqBy, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -36,6 +35,12 @@ function buildConstructor () {
     ])
   )
   return ctor
+}
+
+const componentId = incrementId()
+
+const componentKey = () => {
+  return `$component_${componentId()}`
 }
 
 interface LoopComponents {
@@ -315,9 +320,10 @@ class Transformer {
         ])
         blockStatement.push(nodeDeclare)
         blockStatement.push(returnStatement)
+        const uuid = componentKey()
         properties.push(
           // t.objectMethod('method', t.identifier(createUUID()), [], t.blockStatement(blockStatement)),
-          t.objectProperty(t.identifier(createUUID()), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
+          t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
       this.classPath.node.body.body.unshift(
@@ -336,7 +342,7 @@ class Transformer {
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
-    index?: string
+    index?: t.Identifier
   ) {
     const properties: t.ObjectProperty[] = []
     const self = this
@@ -364,8 +370,8 @@ class Transformer {
             )
             if (expresion.name === iterator) {
               replacement = t.identifier(MAP_CALL_ITERATOR)
-            } else if (expresion.name === index) {
-              replacement = t.identifier(index)
+            } else if (index && expresion.name === index.name) {
+              replacement = t.identifier(index.name)
             }
             expresionPath.replaceWith(replacement)
           } else if (t.isMemberExpression(expresion)) {
@@ -391,7 +397,7 @@ class Transformer {
             expresionPath.traverse({
               Identifier (path) {
                 const { parent, node } = path
-                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET) {
+                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && index && index.name !== node.name) {
                   let replacement = t.memberExpression(
                     t.memberExpression(
                       t.thisExpression(),
@@ -404,8 +410,6 @@ class Transformer {
                       t.identifier(MAP_CALL_ITERATOR),
                       t.identifier(iterator)
                     )
-                  } else if (node.name === index) {
-                    replacement = t.memberExpression()
                   }
                   path.replaceWith(replacement)
                 }
@@ -724,7 +728,7 @@ function findImportedName (name: string) {
 }
 
 function build$ComponentsProperty (
-  importedJSXElement: Map<NodePath<t.JSXElement>, string>,
+  importedJSXElement: Map<NodePath<t.JSXElement>, string>
   // loopComponents: TypeLoopComponents
 ) {
   const properties: Array<t.ObjectProperty> = []
