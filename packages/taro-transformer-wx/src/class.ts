@@ -16,7 +16,7 @@ import {
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
-import { uniqBy, uniqueId } from 'lodash'
+import { uniqBy } from 'lodash'
 import { RenderParser } from './render'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -304,12 +304,13 @@ class Transformer {
           stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
+        const uuid = componentKey()
 
         const returnStatement = t.returnStatement(
           t.objectExpression([
             t.objectProperty(t.identifier('stateName'), t.stringLiteral(stateName)),
             t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(stateName)
+              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
             ]))
           ])
         )
@@ -320,9 +321,32 @@ class Transformer {
         ])
         blockStatement.push(nodeDeclare)
         blockStatement.push(returnStatement)
-        const uuid = componentKey()
         properties.push(
-          // t.objectMethod('method', t.identifier(createUUID()), [], t.blockStatement(blockStatement)),
+          t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
+        )
+      })
+      this.customComponents.forEach((name, component) => {
+        let blockStatement: t.Statement[] = []
+        let nodes: t.ObjectExpression[] = []
+        const uuid = componentKey()
+        const returnStatement = t.returnStatement(
+          t.objectExpression([
+            t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
+            t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
+              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(''), t.stringLiteral(uuid)
+            ]))
+          ])
+        )
+        const nodeDeclare = t.variableDeclaration('const', [
+          t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
+            nodes
+          ))
+        ])
+        blockStatement.push(nodeDeclare)
+        blockStatement.push(returnStatement)
+        const node = this.generateTopLoopNodes(name, component, uid, '', null, undefined, undefined, false)
+        nodes.push(node)
+        properties.push(
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
@@ -342,7 +366,8 @@ class Transformer {
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
-    index?: t.Identifier
+    index?: t.Identifier,
+    isLoop = true
   ) {
     const properties: t.ObjectProperty[] = []
     const self = this
@@ -446,7 +471,7 @@ class Transformer {
         )
       }
     })
-    const argsFunction = t.objectMethod('method', t.identifier('args'), [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')],
+    const argsFunction = t.objectMethod('method', t.identifier('args'), isLoop ? [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')] : [],
       t.blockStatement(
         [
           t.returnStatement(t.objectExpression(properties))
