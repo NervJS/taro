@@ -71,7 +71,7 @@ const createCompiler = (webpackConf): webpack.Compiler => {
 
 const buildProd = (config: BuildConfig): void => {
   const conf = Object.assign({}, buildConf, config)
-  const webpackConf = webpackMerge(baseConf(conf), prodConf(conf), {
+  const baseWebpackConf = webpackMerge(baseConf(conf), prodConf(conf), {
     entry: conf.entry,
     output: {
       path: path.join(appPath, conf.outputRoot),
@@ -79,6 +79,7 @@ const buildProd = (config: BuildConfig): void => {
       publicPath: conf.publicPath
     }
   })
+  const webpackConf = patchCustomConfig(baseWebpackConf, conf)
   const compiler = webpack(webpackConf)
   compiler.run((err, stats) => {
     if (err) {
