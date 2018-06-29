@@ -40,7 +40,7 @@ class _Radio extends React.Component<Props, State> {
   state: State = {
     checked: !!this.props.checked
   }
-  $touchable: ?React.ElementRef<TouchableWithoutFeedback>
+  $touchable: React.ElementRef<TouchableWithoutFeedback>
 
   static defaultProps = {
     value: '',
@@ -48,7 +48,7 @@ class _Radio extends React.Component<Props, State> {
   }
 
   _simulateNativePress = () => {
-    this.$touchable && this.$touchable.touchableHandlePress()
+    this.$touchable.touchableHandlePress()
   }
 
   onPress = () => {
