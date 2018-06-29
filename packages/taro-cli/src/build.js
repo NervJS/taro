@@ -17,7 +17,7 @@ function build (args, buildConfig) {
   }
   switch (type) {
     case Util.BUILD_TYPES.H5:
-      buildForH5(buildConfig)
+      buildForH5({ watch })
       break
     case Util.BUILD_TYPES.WEAPP:
       buildForWeapp({ watch })

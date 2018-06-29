@@ -6,6 +6,7 @@ import { dynamicRecursive as internal_dynamic_recursive } from './internal/dynam
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
 import render from './render'
+import { noPromiseApis, onAndSyncApis, otherApis } from './native-apis'
 
 const eventCenter = new Events()
 
@@ -18,7 +19,10 @@ export {
   render,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  noPromiseApis,
+  onAndSyncApis,
+  otherApis
 }
 
 export default {
@@ -30,5 +34,8 @@ export default {
   render,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  noPromiseApis,
+  onAndSyncApis,
+  otherApis
 }

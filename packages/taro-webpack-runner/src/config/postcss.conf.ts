@@ -1,7 +1,8 @@
-const autoprefixer = require('autoprefixer')
-const pxtransform = require('postcss-pxtransform')
-const constparse = require('postcss-plugin-constparse')
-const { isEmptyObject } = require('../util')
+import * as autoprefixer from 'autoprefixer'
+import * as pxtransform from 'postcss-pxtransform'
+import * as constparse from 'postcss-plugin-constparse'
+
+import { isEmptyObject } from '../util'
 
 const defaultAutoprefixerConf = {
   browsers: [
@@ -11,9 +12,9 @@ const defaultAutoprefixerConf = {
   flexbox: 'no-2009'
 }
 
-const plugins = []
+const plugins = [] as any[]
 
-exports.getPostcssPlugins = function (config) {
+export const getPostcssPlugins = function (config) {
   const designWidth = config.designWidth || 750
   const useModuleConf = config.module || {}
   const customPostcssConf = useModuleConf.postcss || {}

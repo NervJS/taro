@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "0.0.60",
+  "version": "0.0.62",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "gulp-babel": "^7.0.1",
     "gulp-flow-remove-types": "^1.0.0",
     "jest": "^22.4.3",
+    "jest-environment-node": "^23.2.0",
     "jest-react-native": "^18.0.0",
     "pre-commit": "^1.2.2",
     "react": "^16.2.0",

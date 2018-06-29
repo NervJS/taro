@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   sourceRoot: 'src',
   outputRoot: 'dist',
   publicPath: '/',

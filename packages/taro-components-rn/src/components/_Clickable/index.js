@@ -50,30 +50,69 @@ export default function (WrappedComponent: React.ComponentType<*>) {
       },
       onPanResponderGrant: (evt, gestureState) => {
         const { onTouchstart } = this.props
-        onTouchstart && onTouchstart()
+        onTouchstart && onTouchstart(this.getWxAppEvent(evt))
         this.startTimestamp = evt.nativeEvent.timestamp
       },
       onPanResponderMove: (evt, gestureState) => {
         const { onTouchmove } = this.props
-        onTouchmove && onTouchmove()
+        onTouchmove && onTouchmove(this.getWxAppEvent(evt))
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
         const { onClick, onLongPress, onTouchend } = this.props
-        onTouchend && onTouchend()
+        onTouchend && onTouchend(this.getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
         const gapTime = endTimestamp - this.startTimestamp
         if (gapTime <= 350) {
-          onClick && onClick()
+          onClick && onClick(this.getWxAppEvent(evt))
         } else {
-          onLongPress && onLongPress()
+          onLongPress && onLongPress(this.getWxAppEvent(evt))
         }
       },
       onPanResponderTerminate: (evt, gestureState) => {
         const { onTouchcancel } = this.props
-        onTouchcancel && onTouchcancel()
+        onTouchcancel && onTouchcancel(this.getWxAppEvent(evt))
       },
     })
+
+    getWxAppEvent = (event: Object) => {
+      const nativeEvent = event.nativeEvent
+      const { timestamp, target, pageX, pageY, touches = [], changedTouches = [] } = nativeEvent
+      return {
+        type: 'tap',
+        timeStamp: timestamp,
+        target: {
+          id: target,
+          dataset: {}
+        },
+        currentTarget: {
+          id: target,
+          dataset: {}
+        },
+        detail: {
+          x: pageX,
+          y: pageY
+        },
+        touches: touches.map((item) => {
+          return {
+            identifier: item.identifier,
+            pageX: item.pageX,
+            pageY: item.pageY,
+            clientX: item.locationX,
+            clientY: item.locationY
+          }
+        }),
+        changedTouches: changedTouches.map((item) => {
+          return {
+            identifier: item.identifier,
+            pageX: item.pageX,
+            pageY: item.pageY,
+            clientX: item.locationX,
+            clientY: item.locationY
+          }
+        })
+      }
+    }
 
     render () {
       const {

@@ -116,9 +116,13 @@ postcss: {
 
 专属于 H5 的配置
 
-### h5.port
-
-更换 H5 编译模式预览时的端口号，默认是 `8080`
+### h5.devServer
+预览服务的配置，可以更改端口等参数。具体配置参考[webpack-dev-server](https://webpack.js.org/configuration/dev-server)。
+```
+devServer: {
+  port: 10086
+}
+```
 
 ### h5.publicPath
 

@@ -299,6 +299,47 @@ describe('Template', () => {
       })
     })
 
+    describe('JSX 元素引用', () => {
+
+      test('逻辑表达式破坏引用', () => {
+        const { template, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const numbers =[...Array(10).keys()]
+          const listItems = numbers.map((number) => {
+            return <View key={number}><Text class='li' >我是第{number+1}个数字</Text></View>
+          })
+          return (
+            <View className='container'>
+              {listItems}
+              <View>
+                {this.state.enable && listItems}
+              </View>
+            </View>
+          )
+          `)
+        })
+        expect(template).toMatch(prettyPrint(`
+          <block>
+              <view class=\"container\">
+                  <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                      <text class=\"li\">我是第{{number + 1}}个数字</text>
+                  </view>
+                  <view>
+                      <block wx:if=\"{{enable}}\">
+                          <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                              <text class=\"li\">我是第{{number + 1}}个数字</text>
+                          </view>
+                      </block>
+                  </view>
+              </view>
+          </block>
+        `))
+      })
+
+    })
+
     // test('本来是下划线不用再转', () => {
     //   const { template } = transform({
     //     ...baseOptions,

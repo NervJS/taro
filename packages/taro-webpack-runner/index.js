@@ -1,8 +1,2 @@
-const { buildProd, buildDev } = require('./src')
-
-module.exports = function (config, customWebpackConfig = {}) {
-  if (config.isWatch) {
-    return buildDev(config, customWebpackConfig)
-  }
-  buildProd(config, customWebpackConfig)
-}
+module.exports = require('./dist/index.js').default
+module.exports.default = module.exports

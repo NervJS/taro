@@ -1,4 +1,6 @@
-module.exports = function ({publicPath, contentBase, protocol, host, publicUrl}) {
+import * as webpackDevServer from 'webpack-dev-server'
+
+export default ({publicPath, contentBase, https, host, publicUrl}): webpackDevServer.Configuration => {
   return {
     disableHostCheck: process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
     compress: true,
@@ -8,16 +10,11 @@ module.exports = function ({publicPath, contentBase, protocol, host, publicUrl})
     inline: true,
     quiet: true,
     publicPath,
-    // stats: "errors-only",
-    watchOptions: {
-      ignored: /node_modules/
-    },
-    https: protocol === 'https',
+    watchOptions: { ignored: /node_modules/ },
+    https,
     host: host,
     overlay: true,
-    historyApiFallback: {
-      disableDotRule: true
-    },
+    historyApiFallback: { disableDotRule: true },
     public: publicUrl
   }
 }
