@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "0.0.62",
+  "version": "0.0.63",
   "description": "Taro framework",
   "main": "index.js",
   "typings": "types/index.d.ts",
