@@ -64,7 +64,7 @@ class _Button extends React.Component<Props, State> {
   state: State = {
     valve: new Animated.Value(0)
   }
-  $touchable: ?React.ElementRef<TouchableOpacity>
+  $touchable: React.ElementRef<TouchableOpacity>
 
   static defaultProps = {
     size: 'default',
@@ -72,7 +72,7 @@ class _Button extends React.Component<Props, State> {
   }
 
   _simulateNativePress = () => {
-    this.$touchable && this.$touchable.touchableHandlePress()
+    this.$touchable.touchableHandlePress()
   }
 
   animate = () => {

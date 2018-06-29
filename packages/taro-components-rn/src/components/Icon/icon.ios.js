@@ -46,7 +46,8 @@ module.exports = function _Icon ({
   }
 
   const imageAsset = iconObj.image
-  const iconColor = color || iconObj.defaultColor || '#B2B2B2'
+  // @todo Back & Delete do not have default color. '#B2B2B2'
+  const iconColor = color || iconObj.defaultColor
 
   return (
     <View style={[style, { width: size, height: size }]}>
