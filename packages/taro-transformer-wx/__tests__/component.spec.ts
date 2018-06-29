@@ -3,15 +3,6 @@ import { buildComponent, baseCode, baseOptions, evalClass, Custom } from './util
 import { isObject } from 'lodash'
 
 describe('$props', () => {
-  test('$props 一直存在并且是一个 Object', () => {
-    const { ast } = transform({
-      ...baseOptions,
-      code: buildComponent(baseCode)
-    })
-
-    const instance = evalClass(ast)
-    expect(isObject(instance.$props)).toBeTruthy()
-  })
 
   test('$usedState 加入被引用第三方组件的名字', () => {
     const { ast } = transform({
@@ -49,7 +40,7 @@ describe('$props', () => {
   })
 })
 
-describe('$components', () => {
+describe.skip('$components', () => {
   test('$components 一直存在并且是一个 Object', () => {
     const { ast } = transform({
       ...baseOptions,
