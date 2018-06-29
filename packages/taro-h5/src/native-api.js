@@ -98,7 +98,8 @@ function processApis (taro) {
     removeStorageSync: true,
     clearStorageSync: true,
     getSystemInfoSync: true,
-    getExtConfigSync: true
+    getExtConfigSync: true,
+    getLogManager: true
   }
   const noPromiseApis = {
     // 媒体
@@ -167,6 +168,7 @@ function processApis (taro) {
     seekBackgroundAudio: true,
     chooseVideo: true,
     saveVideoToPhotosAlbum: true,
+    loadFontFace: true,
 
     // 文件
     saveFile: true,
@@ -252,6 +254,9 @@ function processApis (taro) {
     hideTabBar: true,
     setTopBarText: true,
     startPullDownRefresh: true,
+    canvasToTempFilePath: true,
+    canvasGetImageData: true,
+    canvasPutImageData: true,
 
     // 第三方平台
     getExtConfig: true,
