@@ -2221,6 +2221,69 @@ describe('loop', () => {
     })
   })
 
+  describe('当有复杂表达式或循环体内有函数，item 单独使用时保留一份 item 的副本', () => {
+    test('no return', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = ['test1', 'test2', 'test3']
+          const bool = true
+          return (
+            <View>{array.map(item => bool && <View className={String('name')}>{item}</View>)}</View>
+          )
+        `)
+      })
+
+      const instance = evalClass(ast)
+      removeShadowData(instance.state)
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                    <view class=\"{{item.$loopState__temp2}}\">{{item.$$original}}</view>
+                </block>
+            </view>
+        </block>
+      `))
+      expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
+      expect(instance.state.loopArray0.map(i => i.$$original)).toEqual(['test1', 'test2', 'test3'])
+    })
+
+    test('return', () => {
+
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = ['test1', 'test2', 'test3']
+          const bool = true
+          return (
+            <View>{array.map(item => {
+              return bool && <View className={String('name')}>{item}</View>
+            })}</View>
+          )
+        `)
+      })
+
+      const instance = evalClass(ast)
+      removeShadowData(instance.state)
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                    <view class=\"{{item.$loopState__temp2}}\">{{item.$$original}}</view>
+                </block>
+            </view>
+        </block>
+      `))
+      expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
+      expect(instance.state.loopArray0.map(i => i.$$original)).toEqual(['test1', 'test2', 'test3'])
+    })
+  })
+
   describe('没有 block 包住', () => {
     describe('一层 loop', () => {
       test('简单情况', () => {
@@ -2242,35 +2305,6 @@ describe('loop', () => {
         expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
         expect(Object.keys(instance.state).length).toBe(2)
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
-      })
-
-      test('复杂表达式', () => {
-        const { template, ast, code } = transform({
-          ...baseOptions,
-          isRoot: true,
-          code: buildComponent(`
-            const array = ['test1', 'test2', 'test3']
-            const bool = true
-            return (
-              <View>{array.map(item => bool && <View className={String('name')}>{item}</View>)}</View>
-            )
-          `)
-        })
-
-        const instance = evalClass(ast)
-        removeShadowData(instance.state)
-
-        expect(template).toMatch(prettyPrint(`
-          <block>
-              <view>
-                  <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                      <view class=\"{{item.$loopState__temp2}}\">{{item.$$original}}</view>
-                  </block>
-              </view>
-          </block>
-        `))
-        expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
-        expect(instance.state.loopArray0.map(i => i.$$original)).toEqual(['test1', 'test2', 'test3'])
       })
 
       test('循环内 children props 有函数', () => {
