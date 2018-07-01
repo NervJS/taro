@@ -778,6 +778,7 @@ export class RenderParser {
       }
       const blockStatementPath = component.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
       const body = blockStatementPath.node.body
+      let hasOriginalRef = false
       let stateToBeAssign = new Set<string>(
         difference(
           Object.keys(blockStatementPath.scope.getAllBindings()),
@@ -812,18 +813,28 @@ export class RenderParser {
             }
           }
           const properties = Array.from(stateToBeAssign).map(state => t.objectProperty(t.identifier(state), t.identifier(state)))
-          const returnStatement = t.returnStatement(t.objectExpression(
-            [t.spreadProperty(t.identifier(item.name)), ...properties]
-          ))
           component.traverse({
             Identifier (path) {
-              if (stateToBeAssign.has(path.node.name) && path.isReferencedIdentifier()) {
+              const name = path.node.name
+              if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
                 path.replaceWith(
                   t.memberExpression(
                     t.identifier(item.name),
                     path.node
                   )
                 )
+              }
+
+              if (
+                path.parentPath.isJSXExpressionContainer() &&
+                path.isReferencedIdentifier() &&
+                name === item.name
+              ) {
+                path.replaceWith(t.memberExpression(
+                  t.identifier(item.name),
+                  t.identifier('$$original')
+                ))
+                hasOriginalRef = true
               }
             },
             MemberExpression (path) {
@@ -833,6 +844,15 @@ export class RenderParser {
               }
             }
           })
+          if (hasOriginalRef) {
+            properties.push(t.objectProperty(
+              t.identifier('$$original'),
+              t.identifier(item.name)
+            ))
+          }
+          const returnStatement = t.returnStatement(t.objectExpression(
+            [t.spreadProperty(t.identifier(item.name)), ...properties]
+          ))
           const parentCallee = callee.findParent(c => isArrayMapCallExpression(c))
           if (isArrayMapCallExpression(parentCallee)) {
             const [ func ] = parentCallee.node.arguments

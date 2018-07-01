@@ -2244,6 +2244,35 @@ describe('loop', () => {
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
 
+      test('复杂表达式', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = ['test1', 'test2', 'test3']
+            const bool = true
+            return (
+              <View>{array.map(item => bool && <View className={String('name')}>{item}</View>)}</View>
+            )
+          `)
+        })
+
+        const instance = evalClass(ast)
+        removeShadowData(instance.state)
+
+        expect(template).toMatch(prettyPrint(`
+          <block>
+              <view>
+                  <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                      <view class=\"{{item.$loopState__temp2}}\">{{item.$$original}}</view>
+                  </block>
+              </view>
+          </block>
+        `))
+        expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
+        expect(instance.state.loopArray0.map(i => i.$$original)).toEqual(['test1', 'test2', 'test3'])
+      })
+
       test('循环内 children props 有函数', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
@@ -2285,7 +2314,7 @@ describe('loop', () => {
         expect(template).toMatch(`wx:key="{{item}}"`)
       })
 
-      test('能使用 key', () => {
+      test('能使用 key 2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
@@ -2321,7 +2350,7 @@ describe('loop', () => {
         expect(instance.state[stateName]).toEqual(['test1'])
       })
 
-      test('callee 支持复杂表达式', () => {
+      test('callee 支持复杂表达式 2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
