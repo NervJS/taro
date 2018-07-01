@@ -299,8 +299,10 @@ describe('loop', () => {
           `
           <block>
               <view>
-                  <cover-view wx:for="{{array}}" wx:for-item="item">
-                      <text wx:if=\"{{b1}}\" wx:for="{{item.list}}" wx:for-item="item2">{{item2}}</text>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <text>{{item2}}</text>
+                      </block>
                   </cover-view>
               </view>
           </block>
@@ -338,10 +340,14 @@ describe('loop', () => {
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
-                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
-                          <map wx:if=\"{{b2}}\"></map>
-                          <text></text>
-                      </view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </view>
+                      </block>
                   </cover-view>
               </view>
           </block>
@@ -381,12 +387,16 @@ describe('loop', () => {
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
-                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
-                          <map wx:if=\"{{b2}}\"></map>
-                          <cover-view>
-                              <text></text>
-                          </cover-view>
-                      </view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <cover-view>
+                                  <text></text>
+                              </cover-view>
+                          </view>
+                      </block>
                   </cover-view>
               </view>
           </block>
@@ -428,13 +438,19 @@ describe('loop', () => {
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
-                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
-                          <map wx:if=\"{{b2}}\"></map>
-                          <cover-view>
-                              <text></text>
-                          </cover-view>
-                          <progress wx:if=\"{{b3}}\"></progress>
-                      </view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <cover-view>
+                                  <text></text>
+                              </cover-view>
+                              <block wx:if=\"{{b3}}\">
+                                  <progress></progress>
+                              </block>
+                          </view>
+                      </block>
                   </cover-view>
               </view>
           </block>
@@ -478,14 +494,22 @@ describe('loop', () => {
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
-                      <view wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
-                          <map wx:if=\"{{b2}}\"></map>
-                          <cover-view>
-                              <text></text>
-                              <button wx:if=\"{{b4}}\"></button>
-                          </cover-view>
-                          <progress wx:if=\"{{b3}}\"></progress>
-                      </view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{item.list}}\" wx:for-item=\"item2\">
+                          <view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <cover-view>
+                                  <text></text>
+                                  <block wx:if=\"{{b4}}\">
+                                      <button></button>
+                                  </block>
+                              </cover-view>
+                              <block wx:if=\"{{b3}}\">
+                                  <progress></progress>
+                              </block>
+                          </view>
+                      </block>
                   </cover-view>
               </view>
           </block>
@@ -717,22 +741,24 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                        <cover-view>
-                            <block wx:if=\"{{b2}}\">
-                                <map></map>
-                            </block>
-                            <text></text>
-                        </cover-view>
-                    </block>
-                    <view>
-                        <image wx:if=\"{{b4}}\" />
-                    </view>
-                </cover-view>
-            </view>
-        </block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <cover-view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </cover-view>
+                      </block>
+                      <view>
+                          <block wx:if=\"{{b4}}\">
+                              <image/>
+                          </block>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
           `
         ))
       })
@@ -783,7 +809,9 @@ describe('loop', () => {
                           </scroll-view>
                       </block>
                       <view>
-                          <image wx:if=\"{{b4}}\" />
+                          <block wx:if=\"{{b4}}\">
+                              <image/>
+                          </block>
                       </view>
                   </cover-view>
               </view>
@@ -827,22 +855,24 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-              <view>
-                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                          <scroll-view bindtap=\"onClick\">
-                              <block wx:if=\"{{b2}}\">
-                                  <map></map>
-                              </block>
-                              <text></text>
-                          </scroll-view>
-                      </block>
-                      <view>
-                          <image wx:if=\"{{b4}}\" />
-                      </view>
-                  </cover-view>
-              </view>
-          </block>
+        <view>
+            <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                    <scroll-view bindtap=\"onClick\">
+                        <block wx:if=\"{{b2}}\">
+                            <map></map>
+                        </block>
+                        <text></text>
+                    </scroll-view>
+                </block>
+                <view>
+                    <block wx:if=\"{{b4}}\">
+                        <image/>
+                    </block>
+                </view>
+            </cover-view>
+        </view>
+    </block>
           `
         ))
       })
@@ -882,23 +912,25 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                        <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
-                        data-component-path=\"{{$path}}\">
-                            <block wx:if=\"{{b2}}\">
-                                <map></map>
-                            </block>
-                            <text></text>
-                        </scroll-view>
-                    </block>
-                    <view>
-                        <image wx:if=\"{{b4}}\" />
-                    </view>
-                </cover-view>
-            </view>
-        </block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
+                          data-component-path=\"{{$path}}\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </scroll-view>
+                      </block>
+                      <view>
+                          <block wx:if=\"{{b4}}\">
+                              <image/>
+                          </block>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
           `
         ))
       })
@@ -938,23 +970,25 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                        <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
-                        data-component-path=\"{{$path}}\">
-                            <block wx:if=\"{{b2}}\">
-                                <map></map>
-                            </block>
-                            <text></text>
-                        </scroll-view>
+        <view>
+            <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                    <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
+                    data-component-path=\"{{$path}}\">
+                        <block wx:if=\"{{b2}}\">
+                            <map></map>
+                        </block>
+                        <text></text>
+                    </scroll-view>
+                </block>
+                <view>
+                    <block wx:if=\"{{b4}}\">
+                      <image/>
                     </block>
-                    <view>
-                        <image wx:if=\"{{b4}}\" />
-                    </view>
-                </cover-view>
-            </view>
-        </block>
+                </view>
+            </cover-view>
+        </view>
+    </block>
           `
         ))
       })
@@ -994,22 +1028,24 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <cover-view wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
-                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                        <scroll-view class=\"{{item.$loopState__temp2}}\">
-                            <block wx:if=\"{{b2}}\">
-                                <map></map>
-                            </block>
-                            <text></text>
-                        </scroll-view>
+        <view>
+            <cover-view wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
+                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                    <scroll-view class=\"{{item.$loopState__temp2}}\">
+                        <block wx:if=\"{{b2}}\">
+                            <map></map>
+                        </block>
+                        <text></text>
+                    </scroll-view>
+                </block>
+                <view>
+                    <block wx:if=\"{{b4}}\">
+                        <image/>
                     </block>
-                    <view>
-                        <image wx:if=\"{{b4}}\" />
-                    </view>
-                </cover-view>
-            </view>
-        </block>
+                </view>
+            </cover-view>
+        </view>
+    </block>
           `
         ))
       })
@@ -1056,23 +1092,25 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <cover-view class=\"{{arr.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\"
-                wx:for-item=\"arr\">
-                    <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                        <scroll-view>
-                            <block wx:if=\"{{b2}}\">
-                                <map></map>
-                            </block>
-                            <text></text>
-                        </scroll-view>
-                    </block>
-                    <view>
-                        <image wx:if=\"{{b4}}\" />
-                    </view>
-                </cover-view>
-            </view>
-        </block>
+              <view>
+                  <cover-view class=\"{{arr.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\"
+                  wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <scroll-view>
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </scroll-view>
+                      </block>
+                      <view>
+                          <block wx:if=\"{{b4}}\">
+                              <image/>
+                          </block>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
           `
         ))
       })
@@ -1129,18 +1167,20 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-              <view>
-                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view>
-                          <block wx:if=\"{{b2}}\">
-                              <map></map>
-                          </block>
-                          <text></text>
-                          <progress wx:if=\"{{b3}}\"></progress>
-                      </cover-view>
-                  </block>
-              </view>
-          </block>
+            <view>
+                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                    <cover-view>
+                        <block wx:if=\"{{b2}}\">
+                            <map></map>
+                        </block>
+                        <text></text>
+                        <block wx:if=\"{{b3}}\">
+                            <progress></progress>
+                        </block>
+                    </cover-view>
+                </block>
+            </view>
+        </block>
           `
         ))
       })
@@ -1187,9 +1227,13 @@ describe('loop', () => {
                           <text></text>
                           <cover-view>
                               <text></text>
-                              <button wx:if=\"{{b4}}\"></button>
+                              <block wx:if=\"{{b4}}\">
+                                  <button></button>
+                              </block>
                           </cover-view>
-                          <progress wx:if=\"{{b3}}\"></progress>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
                       </cover-view>
                   </block>
               </view>
@@ -1231,22 +1275,26 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-              <view>
-                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view bindtap=\"handleClick\">
-                          <block wx:if=\"{{b2}}\">
-                              <map></map>
-                          </block>
-                          <text></text>
-                          <cover-view>
-                              <text></text>
-                              <button wx:if=\"{{b4}}\"></button>
-                          </cover-view>
-                          <progress wx:if=\"{{b3}}\"></progress>
-                      </cover-view>
-                  </block>
-              </view>
-          </block>
+                <view>
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                        <cover-view bindtap=\"handleClick\">
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                            <cover-view>
+                                <text></text>
+                                <block wx:if=\"{{b4}}\">
+                                    <button></button>
+                                </block>
+                            </cover-view>
+                            <block wx:if=\"{{b3}}\">
+                                <progress></progress>
+                            </block>
+                        </cover-view>
+                    </block>
+                </view>
+            </block>
           `
         ))
       })
@@ -1293,9 +1341,13 @@ describe('loop', () => {
                           <text></text>
                           <cover-view>
                               <text></text>
-                              <button wx:if=\"{{b4}}\"></button>
+                              <block wx:if=\"{{b4}}\">
+                                  <button></button>
+                              </block>
                           </cover-view>
-                          <progress wx:if=\"{{b3}}\"></progress>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
                       </cover-view>
                   </block>
               </view>
@@ -1337,23 +1389,27 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                    data-component-path=\"{{$path}}\">
-                        <block wx:if=\"{{b2}}\">
-                            <map bindtap=\"handleClick\"></map>
-                        </block>
-                        <text></text>
-                        <cover-view>
-                            <text></text>
-                            <button wx:if=\"{{b4}}\"></button>
-                        </cover-view>
-                        <progress wx:if=\"{{b3}}\"></progress>
-                    </cover-view>
-                </block>
-            </view>
-        </block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                      data-component-path=\"{{$path}}\">
+                          <block wx:if=\"{{b2}}\">
+                              <map bindtap=\"handleClick\"></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
+                              <text></text>
+                              <block wx:if=\"{{b4}}\">
+                                  <button></button>
+                              </block>
+                          </cover-view>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
           `
         ))
       })
@@ -1391,23 +1447,27 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                    data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
-                        <block wx:if=\"{{b2}}\">
-                            <map bindtap=\"handleClick\"></map>
-                        </block>
-                        <text></text>
-                        <cover-view>
-                            <text></text>
-                            <button wx:if=\"{{b4}}\"></button>
-                        </cover-view>
-                        <progress wx:if=\"{{b3}}\"></progress>
-                    </cover-view>
-                </block>
-            </view>
-        </block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                      data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                          <block wx:if=\"{{b2}}\">
+                              <map bindtap=\"handleClick\"></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
+                              <text></text>
+                              <block wx:if=\"{{b4}}\">
+                                  <button></button>
+                              </block>
+                          </cover-view>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
           `
         ))
       })
@@ -1445,24 +1505,28 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                    data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
-                        <block wx:if=\"{{b2}}\">
-                            <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
-                            data-component-path=\"{{$path}}\"></map>
-                        </block>
+        <view>
+            <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                    <block wx:if=\"{{b2}}\">
+                        <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                        data-component-path=\"{{$path}}\"></map>
+                    </block>
+                    <text></text>
+                    <cover-view>
                         <text></text>
-                        <cover-view>
-                            <text></text>
-                            <button wx:if=\"{{b4}}\"></button>
-                        </cover-view>
-                        <progress wx:if=\"{{b3}}\"></progress>
+                        <block wx:if=\"{{b4}}\">
+                            <button></button>
+                        </block>
                     </cover-view>
-                </block>
-            </view>
-        </block>
+                    <block wx:if=\"{{b3}}\">
+                        <progress></progress>
+                    </block>
+                </cover-view>
+            </block>
+        </view>
+    </block>
           `
         ))
       })
@@ -1500,25 +1564,29 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-            <view>
-                <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                    <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                    data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
-                        <block wx:if=\"{{b2}}\">
-                            <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
-                            data-component-path=\"{{$path}}\"></map>
-                        </block>
+        <view>
+            <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                    <block wx:if=\"{{b2}}\">
+                        <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                        data-component-path=\"{{$path}}\"></map>
+                    </block>
+                    <text></text>
+                    <cover-view>
                         <text></text>
-                        <cover-view>
-                            <text></text>
-                            <button bindtap=\"handleClick\" wx:if=\"{{b4}}\" data-event-handleClick-scope=\"this\"
-                            data-event-handleClick-arg-a=\"{{b2}}\" data-component-path=\"{{$path}}\"></button>
-                        </cover-view>
-                        <progress wx:if=\"{{b3}}\"></progress>
+                        <block wx:if=\"{{b4}}\">
+                            <button bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                            data-component-path=\"{{$path}}\"></button>
+                        </block>
                     </cover-view>
-                </block>
-            </view>
-        </block>
+                    <block wx:if=\"{{b3}}\">
+                        <progress></progress>
+                    </block>
+                </cover-view>
+            </block>
+        </view>
+    </block>
           `
         ))
       })
@@ -1567,10 +1635,14 @@ describe('loop', () => {
                               <text></text>
                               <cover-view>
                                   <text></text>
-                                  <button bindtap=\"Index__handleClick\" wx:if=\"{{b4}}\" data-component-path=\"{{$path}}\"
-                                  data-component-class=\"Index\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                  <block wx:if=\"{{b4}}\">
+                                      <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                      data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                  </block>
                               </cover-view>
-                              <progress wx:if=\"{{b3}}\"></progress>
+                              <block wx:if=\"{{b3}}\">
+                                  <progress></progress>
+                              </block>
                           </cover-view>
                       </block>
                   </view>
@@ -1613,27 +1685,31 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <template name=\"Index\">
-            <block>
-                <view>
-                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                        <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
-                        data-component-class=\"Index\" data-event-onCoverClick-scope=\"this\" data-event-onCoverClick-arg-a=\"{{b1}}\">
-                            <block wx:if=\"{{b2}}\">
-                                <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                data-event-onMapCick-scope=\"this\" data-event-onMapCick-arg-a=\"{{b2}}\"></map>
-                            </block>
-                            <text></text>
-                            <cover-view>
-                                <text></text>
-                                <button bindtap=\"Index__handleClick\" wx:if=\"{{b4}}\" data-component-path=\"{{$path}}\"
-                                data-component-class=\"Index\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
-                            </cover-view>
-                            <progress wx:if=\"{{b3}}\"></progress>
-                        </cover-view>
-                    </block>
-                </view>
-            </block>
-        </template>
+              <block>
+                  <view>
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                          <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
+                          data-component-class=\"Index\" data-event-onCoverClick-scope=\"this\" data-event-onCoverClick-arg-a=\"{{b1}}\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                  data-event-onMapCick-scope=\"this\" data-event-onMapCick-arg-a=\"{{b2}}\"></map>
+                              </block>
+                              <text></text>
+                              <cover-view>
+                                  <text></text>
+                                  <block wx:if=\"{{b4}}\">
+                                      <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                      data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                  </block>
+                              </cover-view>
+                              <block wx:if=\"{{b3}}\">
+                                  <progress></progress>
+                              </block>
+                          </cover-view>
+                      </block>
+                  </view>
+              </block>
+          </template>
           `
         ))
       })
@@ -1683,11 +1759,15 @@ describe('loop', () => {
                               <text></text>
                               <cover-view>
                                   <text></text>
-                                  <button bindtap=\"Index__handleClick\" wx:if=\"{{b4}}\" data-component-path=\"{{$path}}\"
-                                  data-component-class=\"Index\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                  <block wx:if=\"{{b4}}\">
+                                      <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
+                                      data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                  </block>
                               </cover-view>
-                              <progress bindtap=\"Index__onProgressClick\" wx:if=\"{{b3}}\" data-component-path=\"{{$path}}\"
-                              data-component-class=\"Index\" data-event-onProgressClick-scope=\"this\" data-event-onProgressClick-arg-a=\"{{b2}}\"></progress>
+                              <block wx:if=\"{{b3}}\">
+                                  <progress bindtap=\"Index__onProgressClick\" data-component-path=\"{{$path}}\"
+                                  data-component-class=\"Index\" data-event-onProgressClick-scope=\"this\" data-event-onProgressClick-arg-a=\"{{b2}}\"></progress>
+                              </block>
                           </cover-view>
                       </block>
                   </view>
@@ -1714,7 +1794,15 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           const stateName = Object.keys(instance.state)[0]
-          expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
+          expect(template).toMatch(prettyPrint(`
+          <block>
+              <view>
+                  <block wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view>{{item}}</view>
+                  </block>
+              </view>
+          </block>
+          `))
         })
 
         test('子元素有逻辑表达式', () => {
@@ -1739,7 +1827,20 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(3)
-          expect(template).toMatch(prettyPrint(`<block><view><view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\"><map wx:if=\"{{b2}}\"></map><text></text></view></view></block>`))
+          expect(template).toMatch(prettyPrint(`
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <text></text>
+                      </view>
+                  </block>
+              </view>
+          </block>
+          `))
         })
 
         test('子元素有条件表达式', () => {
@@ -1820,7 +1921,22 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(3)
-          expect(template).toMatch(prettyPrint(`<block><view><view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\"><map wx:if=\"{{b2}}\"></map><cover-view><text></text></cover-view></view></view></block>`))
+          expect(template).toMatch(prettyPrint(`
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <cover-view>
+                              <text></text>
+                          </cover-view>
+                      </view>
+                  </block>
+              </view>
+          </block>
+          `))
         })
 
         test('子元素有逻辑表达式3', () => {
@@ -1852,13 +1968,19 @@ describe('loop', () => {
           expect(template).toMatch(prettyPrint(`
           <block>
               <view>
-                  <view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
-                      <map wx:if=\"{{b2}}\"></map>
-                      <cover-view>
-                          <text></text>
-                      </cover-view>
-                      <progress wx:if=\"{{b3}}\"></progress>
-                  </view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                      <view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
+                          </block>
+                          <cover-view>
+                              <text></text>
+                          </cover-view>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
+                      </view>
+                  </block>
               </view>
           </block>
           `))
@@ -1895,14 +2017,22 @@ describe('loop', () => {
           expect(template).toMatch(prettyPrint(`
             <block>
                 <view>
-                    <view wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
-                        <map wx:if=\"{{b2}}\"></map>
-                        <cover-view>
-                            <text></text>
-                            <button wx:if=\"{{b4}}\"></button>
-                        </cover-view>
-                        <progress wx:if=\"{{b3}}\"></progress>
-                    </view>
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                        <view>
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <cover-view>
+                                <text></text>
+                                <block wx:if=\"{{b4}}\">
+                                    <button></button>
+                                </block>
+                            </cover-view>
+                            <block wx:if=\"{{b3}}\">
+                                <progress></progress>
+                            </block>
+                        </view>
+                    </block>
                 </view>
             </block>
           `))
@@ -2065,7 +2195,9 @@ describe('loop', () => {
                               <map></map>
                           </block>
                           <text></text>
-                          <progress wx:if=\"{{b3}}\"></progress>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
                       </cover-view>
                   </block>
               </view>
@@ -2103,6 +2235,7 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(5)
+
           expect(template).toMatch(
             prettyPrint(`
             <block>
@@ -2126,11 +2259,6 @@ describe('loop', () => {
           )
         })
       })
-
-      // test('支持写条件表达式', () => {
-
-      //   expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
-      // })
 
       test('有 template string', () => {
         const { template, ast, code } = transform({
@@ -2302,7 +2430,7 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<view wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">{{item}}</view>`)
+        expect(template).toMatch(`<block wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">`)
         expect(Object.keys(instance.state).length).toBe(2)
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })

@@ -10,6 +10,7 @@ describe('$props', () => {
     })
 
     const instance = evalClass(ast)
+
     expect(isObject(instance.$props)).toBeTruthy()
   })
 
