@@ -373,7 +373,6 @@ export class RenderParser {
             const blockStatement = parentPath.findParent(p => p.isBlockStatement())
             const block = this.finalReturnElement || buildBlockElement()
             if (isBlockIfStatement(ifStatement, blockStatement)) {
-              debugger
               const { test, alternate, consequent } = ifStatement.node
               if (alternate === blockStatement.node) {
                 throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')

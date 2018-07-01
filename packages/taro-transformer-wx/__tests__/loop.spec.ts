@@ -2239,22 +2239,26 @@ describe('loop', () => {
           expect(template).toMatch(
             prettyPrint(`
             <block>
-              <view>
-                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
-                      <cover-view>
-                          <block wx:if=\"{{b2}}\">
-                              <map></map>
-                          </block>
-                          <text></text>
-                          <cover-view>
-                              <text></text>
-                              <button wx:if=\"{{b4}}\"></button>
-                          </cover-view>
-                          <progress wx:if=\"{{b3}}\"></progress>
-                      </cover-view>
-                  </block>
-              </view>
-          </block>
+                <view>
+                    <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
+                        <cover-view>
+                            <block wx:if=\"{{b2}}\">
+                                <map></map>
+                            </block>
+                            <text></text>
+                            <cover-view>
+                                <text></text>
+                                <block wx:if=\"{{b4}}\">
+                                    <button></button>
+                                </block>
+                            </cover-view>
+                            <block wx:if=\"{{b3}}\">
+                                <progress></progress>
+                            </block>
+                        </cover-view>
+                    </block>
+                </view>
+            </block>
             `)
           )
         })
