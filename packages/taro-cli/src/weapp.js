@@ -96,7 +96,8 @@ function parseAst (type, ast, sourceFilePath, filePath) {
       const properties = node.properties
       obj = {}
       properties.forEach((p, index) => {
-        obj[p.key.name] = traverseObjectNode(p.value)
+        const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+        obj[key] = traverseObjectNode(p.value)
       })
       return obj
     }
