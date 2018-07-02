@@ -1012,6 +1012,12 @@ function compileDepScripts (scriptFiles) {
   })
 }
 
+function buildWxsFiles () {
+  const wsxDir = path.join(outputDir, 'wxs')
+  fs.ensureDirSync(wsxDir)
+  fs.copyFileSync(path.join(__dirname, 'extra/util_wxs'), path.join(wsxDir, 'utils.wxs'))
+}
+
 function watchFiles () {
   console.log()
   console.log(chalk.gray('监听文件修改中...'))
@@ -1156,6 +1162,7 @@ function watchFiles () {
 async function build ({ watch }) {
   isProduction = !watch
   buildProjectConfig()
+  // buildWxsFiles()
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {
