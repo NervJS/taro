@@ -1,4 +1,4 @@
-import { NodePath, Scope } from 'babel-traverse'
+import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
@@ -258,15 +258,6 @@ class Transformer {
     })
   }
 
-  setProps () {
-    const body = this.classPath.node.body.body
-    this.classPath.node.body.body = [
-      build$PropsProperty(this.customComponents, body, this.jsxReferencedIdentifiers, this.renderMethod!.get('body').scope),
-      build$ComponentsProperty(this.customComponents),
-      ...body
-    ]
-  }
-
   handleLoopComponents () {
     const uid = incrementId()
     if (this.loopComponents.size > 0) {
@@ -306,17 +297,13 @@ class Transformer {
           stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
-
+        const uuid = componentKey()
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
-        const safeget = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
-          t.memberExpression(t.thisExpression(), t.identifier('state')),
-          t.identifier('stateName')
-        ])
         const returnStatement = t.returnStatement(
           t.objectExpression([
             t.objectProperty(t.identifier('stateName'), t.identifier('stateName')),
             t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), safeget, t.identifier('stateName')
+              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
             ]))
           ])
         )
@@ -328,10 +315,33 @@ class Transformer {
         blockStatement.push(stateNameDecl)
         blockStatement.push(nodeDeclare)
         blockStatement.push(returnStatement)
-        const uuid = componentKey()
         this.loopStateName.set(rootCallExpression, uuid)
         properties.push(
-          // t.objectMethod('method', t.identifier(createUUID()), [], t.blockStatement(blockStatement)),
+          t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
+        )
+      })
+      this.customComponents.forEach((name, component) => {
+        let blockStatement: t.Statement[] = []
+        let nodes: t.ObjectExpression[] = []
+        const uuid = componentKey()
+        const returnStatement = t.returnStatement(
+          t.objectExpression([
+            t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
+            t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
+              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(''), t.stringLiteral(uuid)
+            ]))
+          ])
+        )
+        const nodeDeclare = t.variableDeclaration('const', [
+          t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
+            nodes
+          ))
+        ])
+        blockStatement.push(nodeDeclare)
+        blockStatement.push(returnStatement)
+        const node = this.generateTopLoopNodes(name, component, uid, '', null, undefined, undefined, false)
+        nodes.push(node)
+        properties.push(
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
@@ -351,7 +361,8 @@ class Transformer {
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
-    index?: t.Identifier
+    index?: t.Identifier,
+    isLoop = true
   ) {
     const properties: t.ObjectProperty[] = []
     const self = this
@@ -455,7 +466,7 @@ class Transformer {
         )
       }
     })
-    const argsFunction = t.objectMethod('method', t.identifier('args'), [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')],
+    const argsFunction = t.objectMethod('method', t.identifier('args'), isLoop ? [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')] : [],
       t.blockStatement(
         [
           t.returnStatement(t.objectExpression(properties))
@@ -578,7 +589,6 @@ class Transformer {
     this.traverse()
     this.handleLoopComponents()
     this.renameImportJSXElement()
-    this.setProps()
     this.setComponentResult()
     this.replaceImportedJSXElement()
     this.resetConstructor()
@@ -623,153 +633,10 @@ function buildAnonymousClassMethod (expresion: t.Expression, id: string) {
     ]))
 }
 
-function build$PropsProperty (
-  importedJSXElement: Map<NodePath<t.JSXElement>, string>,
-  body: Array<t.ClassProperty | t.ClassMethod>,
-  jsxReferencedIdentifiers: Set<t.Identifier>,
-  renderScope: Scope
-) {
-  const uid = incrementId()
-  const properties: Array<t.ObjectMethod> = []
-  importedJSXElement.forEach((name, path) => {
-    let attrObj = [t.objectProperty(t.identifier('$name'), t.stringLiteral(name))]
-    path.traverse({
-      Identifier (path) {
-        const parentPath = path.parentPath
-        if (
-          parentPath.isConditionalExpression() ||
-          parentPath.isLogicalExpression() ||
-          parentPath.isJSXExpressionContainer() ||
-          (renderScope.hasBinding(path.node.name) && path.isReferencedIdentifier())
-        ) {
-          jsxReferencedIdentifiers.add(path.node)
-        }
-      },
-      JSXAttribute (path) {
-        const attr = path.node
-        const name = attr.name as t.JSXIdentifier
-        let value!: t.Expression
-        // @TODO: 使用作用域的方法全部替换，现在 cover 的情况太少
-        if (t.isJSXElement(attr.value)) {
-          throw codeFrameError(attr.loc, 'JSX 参数不支持传入 JSX 元素')
-        } else if (t.isJSXExpressionContainer(attr.value)) {
-          const expresion = attr.value.expression
-          const expresionPath = path.get('value').get('expression')
-          if (t.isIdentifier(expresion)) {
-            jsxReferencedIdentifiers.add(expresion)
-            expresionPath.replaceWith(
-              t.memberExpression(
-                t.memberExpression(
-                  t.thisExpression(),
-                  t.identifier('state')
-                ),
-                expresion
-              )
-            )
-          } else if (t.isMemberExpression(expresion)) {
-            if (!t.isThisExpression(expresion.object) && !isContainThis(expresion)) {
-              if (t.isIdentifier(expresion.object)) {
-                jsxReferencedIdentifiers.add(expresion.object)
-              }
-              expresionPath.replaceWith(
-                buildInternalSafeGet(generate(expresion).code)
-              )
-            } else if (isNeedClassMethodWrapper(name.name, expresion)) {
-              const id = `$anonymousPropsFunction_${uid()}`
-              path.get('value').get('expression').replaceWith(
-                t.memberExpression(
-                  t.thisExpression(),
-                  t.identifier(id)
-                )
-              )
-              body.push(buildAnonymousClassMethod(expresion, id))
-            }
-          } else {
-            expresionPath.traverse({
-              Identifier (path) {
-                const { parent, node } = path
-                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET) {
-                  jsxReferencedIdentifiers.add(node)
-                  path.replaceWith(
-                    t.memberExpression(
-                      t.memberExpression(
-                        t.thisExpression(),
-                        t.identifier('state')
-                      ),
-                      node
-                    )
-                  )
-                }
-              },
-              MemberExpression (path) {
-                const { parent, node } = path
-                if ((parent === expresion) && !isContainThis(node)) {
-                  path.replaceWith(buildInternalSafeGet(generate(node).code))
-                }
-              }
-            })
-          }
-          value = attr.value.expression
-        } else {
-          value = attr.value
-        }
-        attrObj.push(
-          t.objectProperty(t.identifier(name.name), value === null ? t.booleanLiteral(true) : value)
-        )
-      }
-    })
-    properties.push(
-      t.objectMethod('method', t.identifier(name), [], t.blockStatement(
-        [t.returnStatement(t.objectExpression(attrObj))]
-      ))
-    )
-  })
-  // console.log(jsxReferencedIdentifiers)
-  return t.classProperty(
-    t.identifier('$props'),
-    t.objectExpression(properties)
-  )
-}
-
 function findImportedName (name: string) {
   return isNumeric(name.slice(-1)) && name.slice(-2)[0] === '_'
     ? name.slice(0, name.length - 2)
     : name
-}
-
-function build$ComponentsProperty (
-  importedJSXElement: Map<NodePath<t.JSXElement>, string>
-  // loopComponents: TypeLoopComponents
-) {
-  const properties: Array<t.ObjectProperty> = []
-  for (const name of importedJSXElement.values()) {
-    properties.push(
-      t.objectProperty(
-        t.identifier(name),
-        t.identifier(
-          findImportedName(name)
-        )
-      )
-    )
-  }
-  // loopComponents.forEach(lc => {
-  //   lc.forEach(c => {
-  //     if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
-  //       properties.push(
-  //         t.objectProperty(
-  //           t.identifier(c.name),
-  //           t.identifier(
-  //             findImportedName(c.name)
-  //           )
-  //         )
-  //       )
-  //     }
-  //   })
-  // })
-  return t.classProperty(
-    t.identifier('$components'),
-    t.objectExpression(properties)
-  )
 }
 
 export { Transformer }
