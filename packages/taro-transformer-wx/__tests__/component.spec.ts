@@ -40,7 +40,7 @@ describe('$props', () => {
   })
 })
 
-describe.skip('$components', () => {
+describe('$components', () => {
   test('$components 一直存在并且是一个 Object', () => {
     const { ast } = transform({
       ...baseOptions,

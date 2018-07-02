@@ -258,6 +258,14 @@ class Transformer {
     })
   }
 
+  setComponents () {
+    const body = this.classPath.node.body.body
+    this.classPath.node.body.body = [
+      build$ComponentsProperty(this.customComponents, this.loopComponents),
+      ...body
+    ]
+  }
+
   handleLoopComponents () {
     const uid = incrementId()
     if (this.loopComponents.size > 0) {
@@ -589,6 +597,7 @@ class Transformer {
     this.traverse()
     this.handleLoopComponents()
     this.renameImportJSXElement()
+    this.setComponents()
     this.setComponentResult()
     this.replaceImportedJSXElement()
     this.resetConstructor()
@@ -637,6 +646,41 @@ function findImportedName (name: string) {
   return isNumeric(name.slice(-1)) && name.slice(-2)[0] === '_'
     ? name.slice(0, name.length - 2)
     : name
+}
+
+function build$ComponentsProperty (
+  importedJSXElement: Map<NodePath<t.JSXElement>, string>,
+  loopComponents: TypeLoopComponents
+) {
+  const properties: Array<t.ObjectProperty> = []
+  for (const name of importedJSXElement.values()) {
+    properties.push(
+      t.objectProperty(
+        t.identifier(name),
+        t.identifier(
+          findImportedName(name)
+        )
+      )
+    )
+  }
+  loopComponents.forEach(lc => {
+    lc.forEach(c => {
+      if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
+        properties.push(
+          t.objectProperty(
+            t.identifier(c.name),
+            t.identifier(
+              findImportedName(c.name)
+            )
+          )
+        )
+      }
+    })
+  })
+  return t.classProperty(
+    t.identifier('$components'),
+    t.objectExpression(properties)
+  )
 }
 
 export { Transformer }
