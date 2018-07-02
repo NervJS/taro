@@ -121,7 +121,13 @@ export function processDynamicComponents (page, weappPageConf) {
         const loopRes = dynamicComponetFn()
         const stateName = loopRes.stateName
         const loopComponents = loopRes.loopComponents
-        const stateData = Object.assign({}, safeGet(component.state, stateName))
+        const oldStateData = safeGet(component.state, stateName)
+        let stateData
+        if (Array.isArray(oldStateData)) {
+          stateData = oldStateData.slice(0)
+        } else {
+          stateData = Object.assign({}, oldStateData)
+        }
         component._dyState = component._dyState || {}
         safeSet(component._dyState, stateName, stateData)
         recurrence(loopComponents, stateData, -1)

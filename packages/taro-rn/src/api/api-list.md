@@ -46,7 +46,7 @@
 
 😐 wx.chooseImage (IOS有官方API支持，但该API过于简单，表现与想象不同，且在真机上会闪退)
 
-☑️ wx.previewImage
+✅ wx.previewImage
 
 ✅ wx.getImageInfo (仅能返回宽高)
 
@@ -329,17 +329,17 @@
 
 #### 交互反馈
 
-☑️ wx.showToast
+✅️ wx.showToast
 
-☑️ wx.showLoading
+✅ wx.showLoading
 
-☑️ wx.hideToast
+✅ wx.hideToast
 
-☑️ wx.hideLoading
+✅ wx.hideLoading
 
-☑️ wx.showModal
+✅ wx.showModal
 
-☑️ wx.showActionSheet
+✅ wx.showActionSheet
 
 #### 设置导航条
 

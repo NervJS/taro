@@ -22,7 +22,11 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.63"
+    "@tarojs/taro": "0.0.63",
+    "react-native-image-viewer": "^0.0.3",
+    "react-native-root-siblings": "^3.1.0",
+    "react-native-root-toast": "^3.0.1",
+    "react-native-stylekit": "^1.0.0"
   },
   "devDependencies": {
     "babel-jest": "^23.0.1",
