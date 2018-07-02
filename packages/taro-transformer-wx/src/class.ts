@@ -476,6 +476,9 @@ class Transformer {
             expresionPath.traverse({
               Identifier (path) {
                 const { parent, node } = path
+                if (node.name === MAP_CALL_ITERATOR) {
+                  return
+                }
                 if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && index && index.name !== node.name) {
                   let replacement = t.memberExpression(
                     t.memberExpression(
@@ -483,12 +486,9 @@ class Transformer {
                       t.identifier('state')
                     ),
                     node
-                  )
+                  ) as any
                   if (node.name === iterator) {
-                    replacement = t.memberExpression(
-                      t.identifier(MAP_CALL_ITERATOR),
-                      t.identifier(iterator)
-                    )
+                    replacement = t.identifier(MAP_CALL_ITERATOR)
                   }
                   path.replaceWith(replacement)
                 }
