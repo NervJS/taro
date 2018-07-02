@@ -354,16 +354,26 @@ class Transformer {
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
+      let hasDynamicComponents = false
       for (const property of this.classPath.node.body.body) {
         if (
           t.isClassProperty(property) &&
           property.key.name === '$dynamicComponents' &&
           t.isObjectExpression(property.value)
         ) {
+          hasDynamicComponents = true
           property.value = t.objectExpression(
             property.value.properties.concat(properties)
           )
         }
+      }
+      if (!hasDynamicComponents) {
+        this.classPath.node.body.body.unshift(
+          t.classProperty(
+            t.identifier('$dynamicComponents'),
+            t.objectExpression(properties)
+          )
+        )
       }
     }
   }
