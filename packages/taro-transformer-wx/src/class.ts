@@ -524,10 +524,42 @@ class Transformer {
     this.result.components = uniqBy(this.result.components, 'name')
   }
 
+  handleUtilAssign (jsx: NodePath<t.JSXElement>, iterator?: string) {
+    const attrs = jsx.node.openingElement.attributes
+    // console.log('item', iterator)
+    let key!: t.JSXAttribute
+    let str = `utils.assign(${iterator || '{}'}, {`
+    let hasProp = false
+    for (const attr of attrs) {
+      const name = attr.name.name as string
+      if (name === 'key') {
+        key = attr
+      } else if (name.startsWith('on')) {
+        //
+      } else {
+        const value = t.isJSXExpressionContainer(attr.value) ? attr.value.expression : attr.value
+        str += name + ':' + generate(value).code.replace(/(this\.props\.)|(this\.state\.)/g, '')
+        .replace(/__item/g, iterator || 'item') + ','
+        hasProp = true
+      }
+    }
+    str = str.slice(0, str.length - 1)
+    if (!hasProp) {
+      str = str.slice(0, str.length - 2)
+      // str = str.replace('/\,/g', '')
+    }
+    str += `${hasProp ? '}' : ''})`
+    return {
+      key,
+      str
+    }
+  }
+
   replaceImportedJSXElement () {
     this.customComponents.forEach((name, path) => {
+      const { str, key } = this.handleUtilAssign(path)
       path.replaceWith(
-        buildRefTemplate(findImportedName(name), name)
+        buildRefTemplate(findImportedName(name), str, key)
       )
       this.customComponentNames.add('$$' + name)
     })
@@ -541,9 +573,9 @@ class Transformer {
         ) {
           const [ item ] = func.params
           if (t.isIdentifier(item)) {
-            const key = c.element.node.openingElement.attributes.find(attr => attr.name.name === 'key')
+            const { str, key } = this.handleUtilAssign(c.element, item.name)
             c.element.replaceWith(
-              buildRefTemplate(findImportedName(c.name), item.name, true, key)
+              buildRefTemplate(findImportedName(c.name), str, key)
             )
           }
         }
@@ -558,6 +590,7 @@ class Transformer {
         value: ''
       })
     }, '')
+    this.result.template = `<wxs src="../../wxs/utils.wxs" module="utils" />` + this.result.template
   }
 
   resetConstructor () {

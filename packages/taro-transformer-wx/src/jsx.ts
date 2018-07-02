@@ -24,10 +24,10 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function buildRefTemplate (name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
+export function buildRefTemplate (name: string, str: string, key?: t.JSXAttribute) {
   const attrs = [
     t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
-    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`))
+    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${str}}}`))
   ]
   if (key) {
     attrs.push(key)
