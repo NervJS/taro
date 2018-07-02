@@ -215,10 +215,8 @@ describe('Template', () => {
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
         expect(template).toMatch(prettyPrint(`
-        <wxs src=\"../../wxs/utils.wxs\" module=\"utils\" />
-        <import src=\"./utils.wxml\" />
         <block>
-            <template is=\"Custom\" data=\"{{...utils.assign({}, {hidden:true})}}\"></template>
+            <template is=\"Custom\" data=\"{{...$$Custom}}\"></template>
         </block>
         `))
       })

@@ -560,9 +560,8 @@ class Transformer {
 
   replaceImportedJSXElement () {
     this.customComponents.forEach((name, path) => {
-      const { str, key } = this.handleUtilAssign(path)
       path.replaceWith(
-        buildRefTemplate(findImportedName(name), str, key)
+        buildRefTemplate(findImportedName(name), name)
       )
       this.customComponentNames.add('$$' + name)
     })
@@ -576,9 +575,9 @@ class Transformer {
         ) {
           const [ item ] = func.params
           if (t.isIdentifier(item)) {
-            const { str, key } = this.handleUtilAssign(c.element, item.name)
+            const key = c.element.node.openingElement.attributes.find(attr => attr.name.name === 'key')
             c.element.replaceWith(
-              buildRefTemplate(findImportedName(c.name), str, key)
+              buildRefTemplate(findImportedName(c.name), item.name, true, key)
             )
           }
         }
@@ -593,7 +592,6 @@ class Transformer {
         value: ''
       })
     }, '')
-    this.result.template = `<wxs src="../../wxs/utils.wxs" module="utils" />` + this.result.template
   }
 
   resetConstructor () {
@@ -621,7 +619,8 @@ class Transformer {
           instanceName,
           this.jsxReferencedIdentifiers,
           this.usedState,
-          this.loopStateName
+          this.loopStateName,
+          this.customComponentNames
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
