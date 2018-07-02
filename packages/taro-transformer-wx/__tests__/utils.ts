@@ -49,7 +49,8 @@ export function removeShadowData (obj: any) {
 export const baseOptions = {
   isRoot: false,
   isApp: false,
-  path: __dirname,
+  sourcePath: __dirname,
+  outputPath: __dirname,
   code: '',
   isTyped: false
 }

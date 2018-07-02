@@ -537,6 +537,9 @@ class Transformer {
       } else if (name.startsWith('on')) {
         //
       } else {
+        if (attr.value === null) {
+          attr.value = t.jSXExpressionContainer(t.booleanLiteral(true))
+        }
         const value = t.isJSXExpressionContainer(attr.value) ? attr.value.expression : attr.value
         str += name + ':' + generate(value).code.replace(/(this\.props\.)|(this\.state\.)/g, '')
         .replace(/__item/g, iterator || 'item') + ','
@@ -617,7 +620,6 @@ class Transformer {
           this.isRoot,
           instanceName,
           this.jsxReferencedIdentifiers,
-          this.customComponentNames,
           this.usedState,
           this.loopStateName
         ).outputTemplate

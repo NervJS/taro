@@ -146,7 +146,6 @@ export class RenderParser {
   private isRoot: boolean
   private instanceName: string
   private referencedIdentifiers: Set<t.Identifier>
-  private customComponentNames: Set<string>
   private renderScope: Scope
   private usedState: Set<string>
   private loopStateName: Map<NodePath<t.CallExpression>, string>
@@ -716,7 +715,6 @@ export class RenderParser {
     isRoot: boolean,
     instanceName: string,
     referencedIdentifiers: Set<t.Identifier>,
-    customComponentNames: Set<string>,
     usedState: Set<string>,
     loopStateName: Map<NodePath<t.CallExpression>, string>
   ) {
@@ -726,7 +724,6 @@ export class RenderParser {
     this.isRoot = isRoot
     this.instanceName = instanceName
     this.referencedIdentifiers = referencedIdentifiers
-    this.customComponentNames = customComponentNames
     this.loopStateName = loopStateName
     this.usedState = usedState
     const renderBody = renderPath.get('body')
@@ -981,7 +978,7 @@ export class RenderParser {
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
-        .concat(Array.from(this.customComponentNames))
+        // .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
     )))
