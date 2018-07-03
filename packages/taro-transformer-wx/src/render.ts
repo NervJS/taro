@@ -1003,6 +1003,8 @@ export class RenderParser {
       .filter(i => !this.templates.has(i))
       .filter(i => !i.includes('.'))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
+      .filter(i => !i.startsWith('.'))
+      .filter(i => !i.startsWith('$$'))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)

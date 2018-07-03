@@ -276,6 +276,7 @@ class Transformer {
         const callee = rootCallExpression.node.callee
         const calleeCode = generate(callee).code
         let nodes: t.ObjectExpression[] = []
+        const uuid = createUUID()
         loopComponents.forEach((loopComponent) => {
           const { name, element: component, parent } = loopComponent
           let subscript = ''
@@ -291,7 +292,7 @@ class Transformer {
             const calleeCode = generate(callee).code
             subscript = calleeCode.split('.').slice(1, calleeCode.split('.').length).join('')
           }
-          const node = this.generateTopLoopNodes(name, component, anonymousPropsFunctionId, subscript.slice(0, subscript.length - 3), parent, iterator.name, index)
+          const node = this.generateTopLoopNodes(name, component, uuid, subscript.slice(0, subscript.length - 3), parent, iterator.name, index)
           nodes.push(node)
         })
         let stateName = ''
@@ -304,7 +305,6 @@ class Transformer {
           stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
-        const uuid = createUUID()
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
         const returnStatement = t.returnStatement(
           t.objectExpression([
@@ -394,7 +394,7 @@ class Transformer {
       ])
       blockStatement.push(nodeDeclare)
       blockStatement.push(returnStatement)
-      const node = this.generateTopLoopNodes(name, component, anonymousPropsFunctionId, '', null, undefined, undefined, false)
+      const node = this.generateTopLoopNodes(name, component, uuid, '', null, undefined, undefined, false)
       nodes.push(node)
       properties.push(
         t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
@@ -413,7 +413,7 @@ class Transformer {
   generateTopLoopNodes (
     name: string,
     component: NodePath<t.JSXElement>,
-    uid: () => number,
+    uuid: string,
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
@@ -460,7 +460,7 @@ class Transformer {
               }
               expresionPath.replaceWith(replacement)
             } else if (isNeedClassMethodWrapper(name.name, expresion)) {
-              const id = `$$anonymousPropsFunction_${uid()}`
+              const id = `$$anonymousPropsFunction_${anonymousPropsFunctionId()}`
               path.get('value').get('expression').replaceWith(
                 t.memberExpression(
                   t.thisExpression(),
@@ -525,7 +525,7 @@ class Transformer {
     const argsFunction = t.objectMethod('method', t.identifier('args'), isLoop ? [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')] : [],
       t.blockStatement(
         [
-          t.returnStatement(t.objectExpression(properties))
+          t.returnStatement(t.objectExpression(properties.concat([t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid))])))
         ]
       )
     )
@@ -613,6 +613,20 @@ class Transformer {
         jsx,
         'wx:for-item',
         t.stringLiteral('item')
+      )
+      setJSXAttr(
+        jsx,
+        'data',
+        t.jSXExpressionContainer(
+          t.identifier('...item')
+        )
+      )
+      setJSXAttr(
+        jsx,
+        'wx:for',
+        t.jSXExpressionContainer(
+          t.identifier('$$' + name)
+        )
       )
       path.replaceWith(jsx)
       this.customComponentNames.add('$$' + name)
