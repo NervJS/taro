@@ -1,5 +1,28 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.64...v) (2018-07-02)
+# [](https://github.com/NervJS/taro/compare/v0.0.65...v) (2018-07-03)
+
+
+
+<a name="0.0.65"></a>
+## [0.0.65](https://github.com/NervJS/taro/compare/v0.0.64...v0.0.65) (2018-07-03)
+
+
+### Bug Fixes
+
+* 修复ScrollView 组件 scrollWithAnimation 问题，修复radio 外部样式问题，修复checkbox 样式错乱问题，修复 switch color 值无效问题 等 ([8995f1f](https://github.com/NervJS/taro/commit/8995f1f))
+* 修复swiper 组件引用问题 ([a524b1c](https://github.com/NervJS/taro/commit/a524b1c))
+* **taro-h5:** H5 端 request cache 参数丢失 ([2bb0a1a](https://github.com/NervJS/taro/commit/2bb0a1a))
+* **taro-weapp:** 小程序组件化修正 ([f29d9e4](https://github.com/NervJS/taro/commit/f29d9e4))
+* **taro-weapp:** 所有组件引用当成动态组件处理 ([318a850](https://github.com/NervJS/taro/commit/318a850))
+* **transformer:** $usedState 不加入非标准 id ([e622500](https://github.com/NervJS/taro/commit/e622500))
+* **transformer:** 单独使用的自定义组件也当做循环自定义组件处理 ([47bdc55](https://github.com/NervJS/taro/commit/47bdc55))
+* **transformer:** 单独使用的自定义组件在 createData 加入索引 ([f2b8bdc](https://github.com/NervJS/taro/commit/f2b8bdc))
+* **transformer:** 自定义组件 props 不写值则默认赋值 true ([a64632a](https://github.com/NervJS/taro/commit/a64632a))
+
+
+### Features
+
+* **tcr:** Button 支持 hoverStyle ([96d0e4b](https://github.com/NervJS/taro/commit/96d0e4b))
 
 
 
