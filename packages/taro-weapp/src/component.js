@@ -31,9 +31,6 @@ class Component {
     this.defaultData = {}
     this.$data = $parent ? $parent.$data || {} : {}
 
-    let path = this.$path.split('$$').pop()
-    this.$data[`$$${path}`] = this.$data[`$$${path}`] || {}
-    this.$data = this.$data[`$$${path}`]
     let state = this.state
     if (this._dyState) {
       state = Object.assign({}, this.state, this._dyState)
