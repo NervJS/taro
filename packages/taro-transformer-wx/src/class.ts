@@ -353,7 +353,7 @@ class Transformer {
 
   generateCustomComponentState = (name: string, component: NodePath<t.JSXElement>, uuid: string) => {
     const properties: t.ObjectProperty[] = []
-    const pathObj = t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid))
+    const pathObj = t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid + '_0'))
     const attrs = component.node.openingElement.attributes
     for (const attr of attrs) {
       const name = attr.name.name as string
@@ -525,7 +525,7 @@ class Transformer {
     const argsFunction = t.objectMethod('method', t.identifier('args'), isLoop ? [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')] : [],
       t.blockStatement(
         [
-          t.returnStatement(t.objectExpression(properties.concat([t.objectProperty(t.identifier('$path'), t.stringLiteral(isLoop ? uuid : uuid + '_0'))])))
+          t.returnStatement(t.objectExpression(properties.concat([t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid))])))
         ]
       )
     )
