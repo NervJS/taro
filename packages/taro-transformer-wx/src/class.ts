@@ -525,7 +525,7 @@ class Transformer {
     const argsFunction = t.objectMethod('method', t.identifier('args'), isLoop ? [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')] : [],
       t.blockStatement(
         [
-          t.returnStatement(t.objectExpression(properties.concat([t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid))])))
+          t.returnStatement(t.objectExpression(properties.concat([t.objectProperty(t.identifier('$path'), t.stringLiteral(isLoop ? uuid : uuid + '_0'))])))
         ]
       )
     )
