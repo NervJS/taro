@@ -9,7 +9,8 @@ import {
   isArrayMapCallExpression,
   hasComplexExpression,
   generateAnonymousState,
-  buildConstVariableDeclaration
+  buildConstVariableDeclaration,
+  createUUID
 } from './utils'
 import {
   buildRefTemplate
@@ -36,12 +37,6 @@ function buildConstructor () {
     ])
   )
   return ctor
-}
-
-const componentId = incrementId()
-
-const componentKey = () => {
-  return `$component_${componentId()}`
 }
 
 interface LoopComponents {
@@ -305,7 +300,7 @@ class Transformer {
           stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
-        const uuid = componentKey()
+        const uuid = createUUID()
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
         const returnStatement = t.returnStatement(
           t.objectExpression([
@@ -331,7 +326,7 @@ class Transformer {
       this.customComponents.forEach((name, component) => {
         let blockStatement: t.Statement[] = []
         let nodes: t.ObjectExpression[] = []
-        const uuid = componentKey()
+        const uuid = createUUID()
         const returnStatement = t.returnStatement(
           t.objectExpression([
             t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
