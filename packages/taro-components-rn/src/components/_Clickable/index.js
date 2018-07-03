@@ -109,7 +109,7 @@ export default function (WrappedComponent: React.ComponentType<*>) {
       }
     }
 
-    setStayTimer = ()  => {
+    setStayTimer = () => {
       const { hoverStyle, hoverStayTime } = this.props
       this.startTimer && clearTimeout(this.startTimer)
       if (hoverStyle) {

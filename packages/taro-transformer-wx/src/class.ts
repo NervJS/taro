@@ -13,7 +13,8 @@ import {
   createUUID
 } from './utils'
 import {
-  buildRefTemplate
+  buildRefTemplate,
+  setJSXAttr
 } from './jsx'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
@@ -91,6 +92,7 @@ class Transformer {
   private customComponentNames = new Set<string>()
   private usedState = new Set<string>()
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
+  private customComponentData: Array<t.ObjectProperty> = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -243,16 +245,17 @@ class Transformer {
     })
   }
 
-  renameImportJSXElement () {
-    this.customComponents.forEach((name, path) => {
-      if (this.duplicateComponents.has(name)) {
-        const times = this.duplicateComponents.get(name)!
-        this.duplicateComponents.set(name, times + 1)
-        this.customComponents.set(path, `${name}_${times + 1}`)
-      } else {
-        this.duplicateComponents.set(name, 0)
-      }
-    })
+  renameImportJSXElement (name: string, path: NodePath<t.JSXElement>) {
+    if (this.duplicateComponents.has(name)) {
+      const times = this.duplicateComponents.get(name)!
+      this.duplicateComponents.set(name, times + 1)
+      const newName = `${name}_${times + 1}`
+      this.customComponents.set(path, newName)
+      return `$$${newName}`
+    } else {
+      this.duplicateComponents.set(name, 0)
+      return `$$${name}`
+    }
   }
 
   setComponents () {
@@ -324,31 +327,6 @@ class Transformer {
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
-      this.customComponents.forEach((name, component) => {
-        let blockStatement: t.Statement[] = []
-        let nodes: t.ObjectExpression[] = []
-        const uuid = createUUID()
-        const returnStatement = t.returnStatement(
-          t.objectExpression([
-            t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
-            t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(''), t.stringLiteral(uuid)
-            ]))
-          ])
-        )
-        const nodeDeclare = t.variableDeclaration('const', [
-          t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
-            nodes
-          ))
-        ])
-        blockStatement.push(nodeDeclare)
-        blockStatement.push(returnStatement)
-        const node = this.generateTopLoopNodes(name, component, anonymousPropsFunctionId, '', null, undefined, undefined, false)
-        nodes.push(node)
-        properties.push(
-          t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
-        )
-      })
       let hasDynamicComponents = false
       for (const property of this.classPath.node.body.body) {
         if (
@@ -371,6 +349,25 @@ class Transformer {
         )
       }
     }
+  }
+
+  generateCustomComponentState = (name: string, component: NodePath<t.JSXElement>, uuid: string) => {
+    const properties: t.ObjectProperty[] = []
+    const pathObj = t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid))
+    const attrs = component.node.openingElement.attributes
+    for (const attr of attrs) {
+      const name = attr.name.name as string
+      let value = attr.value as t.Expression
+      if (t.isJSXExpressionContainer(attr.value)) {
+        value = attr.value.expression
+      }
+      properties.push(t.objectProperty(t.identifier(name), value))
+    }
+    this.customComponentData.push(
+      t.objectProperty(t.identifier(name), t.arrayExpression(
+        [t.objectExpression([pathObj].concat(properties))]
+      ))
+    )
   }
 
   setCustomDynamicComponents () {
@@ -399,6 +396,8 @@ class Transformer {
       properties.push(
         t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
       )
+      const newName = this.renameImportJSXElement(name, component)
+      this.generateCustomComponentState(newName, component, uuid)
     })
     this.classPath.node.body.body.unshift(
       t.classProperty(
@@ -606,9 +605,13 @@ class Transformer {
 
   replaceImportedJSXElement () {
     this.customComponents.forEach((name, path) => {
-      path.replaceWith(
-        buildRefTemplate(findImportedName(name), name)
+      const jsx = buildRefTemplate(findImportedName(name), name)
+      setJSXAttr(
+        jsx,
+        'wx:for-item',
+        t.stringLiteral('item')
       )
+      path.replaceWith(jsx)
       this.customComponentNames.add('$$' + name)
     })
     this.loopComponents.forEach(lc => {
@@ -666,7 +669,8 @@ class Transformer {
           this.jsxReferencedIdentifiers,
           this.usedState,
           this.loopStateName,
-          this.customComponentNames
+          this.customComponentNames,
+          this.customComponentData
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
@@ -677,7 +681,6 @@ class Transformer {
     this.traverse()
     this.setCustomDynamicComponents()
     this.handleLoopComponents()
-    this.renameImportJSXElement()
     this.setComponents()
     this.setComponentResult()
     this.replaceImportedJSXElement()

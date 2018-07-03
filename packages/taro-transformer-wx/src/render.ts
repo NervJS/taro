@@ -150,6 +150,7 @@ export class RenderParser {
   private renderScope: Scope
   private usedState: Set<string>
   private loopStateName: Map<NodePath<t.CallExpression>, string>
+  private customComponentData: Array<t.ObjectProperty>
 
   private finalReturnElement!: t.JSXElement
 
@@ -718,7 +719,8 @@ export class RenderParser {
     referencedIdentifiers: Set<t.Identifier>,
     usedState: Set<string>,
     loopStateName: Map<NodePath<t.CallExpression>, string>,
-    customComponentNames: Set<string>
+    customComponentNames: Set<string>,
+    customComponentData: Array<t.ObjectProperty>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -729,6 +731,7 @@ export class RenderParser {
     this.loopStateName = loopStateName
     this.usedState = usedState
     this.customComponentNames = customComponentNames
+    this.customComponentData = customComponentData
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -988,8 +991,7 @@ export class RenderParser {
   }
 
   setPendingState () {
-    const pendingState = t.objectExpression(
-      Array.from(
+    let properties = Array.from(
         new Set(Array.from(this.referencedIdentifiers)
         .map(i => i.name))
       )
@@ -1002,7 +1004,10 @@ export class RenderParser {
       .filter(i => !i.includes('.'))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
-    )
+    if (this.customComponentData.length > 0) {
+      properties = properties.concat(this.customComponentData)
+    }
+    const pendingState = t.objectExpression(properties)
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       copyStateToShalowData(),
