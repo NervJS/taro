@@ -1,4 +1,7 @@
 [ignore]
+<PROJECT_ROOT>/App.js
+<PROJECT_ROOT>/example/.*
+.*/node_modules/xdl/.*
 
 [include]
 

@@ -17,7 +17,6 @@ gulp.task('scripts', function () {
 gulp.task('images', function () {
   gulp
     .src(['src/**/*.png'])
-    .pipe(flowRemoveTypes())
     .pipe(gulp.dest('dist'))
 })
 
