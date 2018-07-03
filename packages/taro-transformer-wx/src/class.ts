@@ -383,7 +383,7 @@ class Transformer {
         t.objectExpression([
           t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
           t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(''), t.stringLiteral(uuid)
+            t.thisExpression(), t.identifier('nodes'), t.arrayExpression([t.memberExpression(t.thisExpression(), t.identifier('state'))]), t.stringLiteral(uuid)
           ]))
         ])
       )
