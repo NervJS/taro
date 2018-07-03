@@ -984,6 +984,7 @@ export class RenderParser {
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
+        .filter(i => !i.includes('.'))
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
