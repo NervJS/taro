@@ -13,8 +13,9 @@ class Checkbox extends Nerv.Component {
     const key = this.props.for
     const cls = classNames('taro-checkbox_checked ', className)
     const style = { color: color }
+    const sty = this.props.style
     return (
-      <span className='weui-cells_checkbox'>
+      <span className='weui-cells_checkbox' style={sty}>
         <input
           {...omit(this.props, [
             'className',
