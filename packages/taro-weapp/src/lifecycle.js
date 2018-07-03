@@ -42,18 +42,6 @@ export function updateComponent (component, update, isFirst) {
   component.state = state
   component._dirty = false
   if (!skip) {
-    for (let k in component.$props) {
-      const childProps = component.$props[k].call(component)
-      const subComponent = component.$$components[k]
-      const newChildProps = Object.assign({}, subComponent.props, childProps)
-      subComponent._disable = true
-      if (subComponent.componentWillReceiveProps && !isFirst) {
-        subComponent.componentWillReceiveProps(newChildProps)
-      }
-      subComponent._disable = false
-      subComponent.props = newChildProps
-      updateComponent(subComponent, false, isFirst)
-    }
     const propsCopy = {}
     Object.keys(component.props).forEach(item => {
       if (typeof component.props[item] !== 'function') {
@@ -71,15 +59,16 @@ export function updateComponent (component, update, isFirst) {
 }
 
 function doUpdate (component, update) {
-  let $data = component.$root ? component.$root.$data : component.$data
+  const $root = component.$root ? component.$root : component
+  let $data = $root.$data
   if (update) {
-    processDynamicComponents(component.$root || component)
-    Object.assign(component.$data, component.state, component._dyState || {})
+    processDynamicComponents($root)
+    $data = Object.assign($data, $root.state, $root._dyState || {})
   }
-  if (!component.$isComponent && component.$usedState && component.$usedState.length) {
+  if ($root.$usedState && $root.$usedState.length) {
     const data = {}
-    component.$usedState.forEach(key => {
-      const value = safeGet(component.$data, key)
+    $root.$usedState.forEach(key => {
+      const value = safeGet($data, key)
       safeSet(data, key, value)
     })
     $data = data

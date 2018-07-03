@@ -177,9 +177,9 @@ export function processDynamicComponents (page, weappPageConf) {
                   updateComponent(child, false)
                   child._unsafeCallUpdate = false
                 }
-
+                recursiveDynamicComponents(child)
                 if (stateData) {
-                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child.state)
+                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child._dyState || child.state)
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child
@@ -201,7 +201,6 @@ export function processDynamicComponents (page, weappPageConf) {
                 if (item.children && item.children.length) {
                   recurrence(item.children, stateData[index], `${index}_${level}`)
                 }
-                recursiveDynamicComponents(child)
               })
             }
             if (children && children.length) {
@@ -220,9 +219,6 @@ function componentTrigger (component, key) {
     component._dirty = true
     component._disable = true
   }
-  Object.getOwnPropertyNames(component.$$components || {}).forEach(name => {
-    componentTrigger(component.$$components[name], key)
-  })
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
     if (component.$isComponent) {
