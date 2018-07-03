@@ -1,5 +1,5 @@
 /**
- * ✔ hoverStyle: Convert hoverClass to hoverStyle by CLI.
+ * ✔ hoverStyle: Convert hoverClass to hoverStyle.
  * ✔ hoverStartTime
  * ✔ hoverStayTime
  * ✘ hoverStopPropagation: Fixed value TRUE
@@ -205,6 +205,9 @@ export default function (WrappedComponent: React.ComponentType<*>) {
           <WrappedComponent
             {...omit(this.props, [
               'style',
+              'hoverStyle',
+              'hoverStartTime',
+              'hoverStayTime',
               'onClick',
               'onLongPress',
               'onTouchstart',

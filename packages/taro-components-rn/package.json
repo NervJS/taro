@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "test": "jest --coverage",
     "prepare": "npm run build",
-    "test-update": "jest --updateSnapshot"
+    "test-update": "jest --updateSnapshot",
+    "start": "react-native-scripts start",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios"
   },
   "pre-commit": [
     "lint",
@@ -52,6 +55,7 @@
     "react": "^16.2.0",
     "react-native": "^0.54.3",
     "react-native-mock-render": "0.0.25",
+    "react-native-scripts": "^1.14.0",
     "react-test-renderer": "^16.2.0",
     "sinon": "^6.0.0"
   }
