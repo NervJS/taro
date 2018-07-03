@@ -379,11 +379,12 @@ class Transformer {
       let blockStatement: t.Statement[] = []
       let nodes: t.ObjectExpression[] = []
       const uuid = createUUID()
+      const stateName = `$$${name}`
       const returnStatement = t.returnStatement(
         t.objectExpression([
-          t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
+          t.objectProperty(t.identifier('stateName'), t.stringLiteral(stateName)),
           t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-            t.thisExpression(), t.identifier('nodes'), t.arrayExpression([t.memberExpression(t.thisExpression(), t.identifier('state'))]), t.stringLiteral(uuid)
+            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
           ]))
         ])
       )
