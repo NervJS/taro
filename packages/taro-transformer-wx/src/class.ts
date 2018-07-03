@@ -39,6 +39,8 @@ function buildConstructor () {
   return ctor
 }
 
+const anonymousPropsFunctionId = incrementId()
+
 interface LoopComponents {
   level?: number,
   name: string,
@@ -262,7 +264,6 @@ class Transformer {
   }
 
   handleLoopComponents () {
-    const uid = incrementId()
     if (this.loopComponents.size > 0) {
       const properties: t.ObjectProperty[] = []
       this.loopComponents.forEach((loopComponents, rootCallExpression) => {
@@ -287,7 +288,7 @@ class Transformer {
             const calleeCode = generate(callee).code
             subscript = calleeCode.split('.').slice(1, calleeCode.split('.').length).join('')
           }
-          const node = this.generateTopLoopNodes(name, component, uid, subscript.slice(0, subscript.length - 3), parent, iterator.name, index)
+          const node = this.generateTopLoopNodes(name, component, anonymousPropsFunctionId, subscript.slice(0, subscript.length - 3), parent, iterator.name, index)
           nodes.push(node)
         })
         let stateName = ''
@@ -342,19 +343,69 @@ class Transformer {
         ])
         blockStatement.push(nodeDeclare)
         blockStatement.push(returnStatement)
-        const node = this.generateTopLoopNodes(name, component, uid, '', null, undefined, undefined, false)
+        const node = this.generateTopLoopNodes(name, component, anonymousPropsFunctionId, '', null, undefined, undefined, false)
         nodes.push(node)
         properties.push(
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
-      this.classPath.node.body.body.unshift(
-        t.classProperty(
-          t.identifier('$dynamicComponents'),
-          t.objectExpression(properties)
+      let hasDynamicComponents = false
+      for (const property of this.classPath.node.body.body) {
+        if (
+          t.isClassProperty(property) &&
+          property.key.name === '$dynamicComponents' &&
+          t.isObjectExpression(property.value)
+        ) {
+          hasDynamicComponents = true
+          property.value = t.objectExpression(
+            property.value.properties.concat(properties)
+          )
+        }
+      }
+      if (!hasDynamicComponents) {
+        this.classPath.node.body.body.unshift(
+          t.classProperty(
+            t.identifier('$dynamicComponents'),
+            t.objectExpression(properties)
+          )
         )
-      )
+      }
     }
+  }
+
+  setCustomDynamicComponents () {
+    const properties: t.ObjectProperty[] = []
+    this.customComponents.forEach((name, component) => {
+      let blockStatement: t.Statement[] = []
+      let nodes: t.ObjectExpression[] = []
+      const uuid = createUUID()
+      const returnStatement = t.returnStatement(
+        t.objectExpression([
+          t.objectProperty(t.identifier('stateName'), t.stringLiteral('')),
+          t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
+            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(''), t.stringLiteral(uuid)
+          ]))
+        ])
+      )
+      const nodeDeclare = t.variableDeclaration('const', [
+        t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
+          nodes
+        ))
+      ])
+      blockStatement.push(nodeDeclare)
+      blockStatement.push(returnStatement)
+      const node = this.generateTopLoopNodes(name, component, anonymousPropsFunctionId, '', null, undefined, undefined, false)
+      nodes.push(node)
+      properties.push(
+        t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
+      )
+    })
+    this.classPath.node.body.body.unshift(
+      t.classProperty(
+        t.identifier('$dynamicComponents'),
+        t.objectExpression(properties)
+      )
+    )
   }
 
   generateTopLoopNodes (
@@ -420,6 +471,9 @@ class Transformer {
             expresionPath.traverse({
               Identifier (path) {
                 const { parent, node } = path
+                if (node.name === MAP_CALL_ITERATOR) {
+                  return
+                }
                 if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && index && index.name !== node.name) {
                   let replacement = t.memberExpression(
                     t.memberExpression(
@@ -427,12 +481,9 @@ class Transformer {
                       t.identifier('state')
                     ),
                     node
-                  )
+                  ) as any
                   if (node.name === iterator) {
-                    replacement = t.memberExpression(
-                      t.identifier(MAP_CALL_ITERATOR),
-                      t.identifier(iterator)
-                    )
+                    replacement = t.identifier(MAP_CALL_ITERATOR)
                   }
                   path.replaceWith(replacement)
                 }
@@ -555,9 +606,8 @@ class Transformer {
 
   replaceImportedJSXElement () {
     this.customComponents.forEach((name, path) => {
-      const { str, key } = this.handleUtilAssign(path)
       path.replaceWith(
-        buildRefTemplate(findImportedName(name), str, key)
+        buildRefTemplate(findImportedName(name), name)
       )
       this.customComponentNames.add('$$' + name)
     })
@@ -571,9 +621,9 @@ class Transformer {
         ) {
           const [ item ] = func.params
           if (t.isIdentifier(item)) {
-            const { str, key } = this.handleUtilAssign(c.element, item.name)
+            const key = c.element.node.openingElement.attributes.find(attr => attr.name.name === 'key')
             c.element.replaceWith(
-              buildRefTemplate(findImportedName(c.name), str, key)
+              buildRefTemplate(findImportedName(c.name), item.name, true, key)
             )
           }
         }
@@ -588,7 +638,6 @@ class Transformer {
         value: ''
       })
     }, '')
-    this.result.template = `<wxs src="../../wxs/utils.wxs" module="utils" />` + this.result.template
   }
 
   resetConstructor () {
@@ -616,7 +665,8 @@ class Transformer {
           instanceName,
           this.jsxReferencedIdentifiers,
           this.usedState,
-          this.loopStateName
+          this.loopStateName,
+          this.customComponentNames
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
@@ -625,6 +675,7 @@ class Transformer {
 
   compile () {
     this.traverse()
+    this.setCustomDynamicComponents()
     this.handleLoopComponents()
     this.renameImportJSXElement()
     this.setComponents()
