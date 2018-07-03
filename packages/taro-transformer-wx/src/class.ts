@@ -358,6 +358,9 @@ class Transformer {
     for (const attr of attrs) {
       const name = attr.name.name as string
       let value = attr.value as t.Expression
+      if (value === null) {
+        attr.value = t.jSXExpressionContainer(t.booleanLiteral(true))
+      }
       if (t.isJSXExpressionContainer(attr.value)) {
         value = attr.value.expression
       }
