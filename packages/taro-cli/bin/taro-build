@@ -6,10 +6,7 @@ const chalk = require('chalk')
 const _ = require('lodash')
 
 const build = require('../src/build')
-const {
-  getPkgVersion,
-  PROJECT_CONFIG
-} = require('../src/util')
+const { PROJECT_CONFIG } = require('../src/util')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program
@@ -19,8 +16,7 @@ program
 
 const args = program.args
 const { type, watch } = program
-console.log(`👽 Taro v${getPkgVersion()}`)
-console.log()
+
 if (!fs.existsSync(projectConfPath)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
   process.exit(1)
@@ -34,7 +30,7 @@ if (watch) {
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
-build(args, Object.assign(projectConf, {
+build(args, {
   type,
   watch
-}))
+})

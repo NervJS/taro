@@ -5,12 +5,12 @@
 
 | 微信小程序 | H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| √ | √ |  | selectable | Boolean | false  | 文本是否可选 |
-| √ |  |  | space      | Boolean | false  | 显示连续空格 |
-| √ |  |  | decode     | Boolean | false  | 是否解码     |
+| √ | √ | √ | selectable | Boolean | false  | 文本是否可选 |
+| √ |  | x | space      | Boolean | false  | 显示连续空格 |
+| √ |  | x (true) | decode     | Boolean | false  | 是否解码     |
 
 ###### 示例：
-```
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 

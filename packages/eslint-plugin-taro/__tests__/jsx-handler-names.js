@@ -63,7 +63,19 @@ ruleTester.run('jsx-handler-names', rule, {
       code: testComponent(`<View key={this.handleClick} />`)
     },
     {
+      code: testComponent(`<View className={this.state.handleClick} />`)
+    },
+    {
       code: testComponent(`<View key={handleClick} />`)
+    },
+    {
+      code: testComponent(`<View src={a.b} />`)
+    },
+    {
+      code: testComponent(`<View src={this.state.img} />`)
+    },
+    {
+      code: testComponent(`<Image src={this.props.img} />`)
     }
   ],
   invalid: [{
@@ -92,6 +104,12 @@ ruleTester.run('jsx-handler-names', rule, {
     errors: [{ message: ERROR_MESSAGE }]
   }, {
     code: testComponent(`<View oTest={this.props.onClick} />`),
+    errors: [{ message: ERROR_MESSAGE }]
+  }, {
+    code: testComponent(`<View handleClick={this.stateChange} />`),
+    errors: [{ message: ERROR_MESSAGE }]
+  }, {
+    code: testComponent(`<View handleClick={this.propsChange} />`),
     errors: [{ message: ERROR_MESSAGE }]
   }]
 })

@@ -1,3 +1,5 @@
+const enc = encodeURIComponent
+
 export function isEmptyObject (obj) {
   if (!obj) {
     return false
@@ -52,4 +54,12 @@ export function getPrototypeChain (obj) {
     protoChain.push(obj)
   }
   return protoChain
+}
+
+export function serializeParams (params) {
+  if (!params) {
+    return ''
+  }
+  return Object.keys(params)
+    .map(item => (`${item}=${enc(params[item])}`)).join('&')
 }

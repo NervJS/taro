@@ -4,10 +4,6 @@ const program = require('commander')
 
 const Project = require('../src/project')
 
-const {
-  getPkgVersion
-} = require('../src/util')
-
 program
   .option('--name', '项目名称')
   .option('--description', '项目介绍')
@@ -26,8 +22,5 @@ const project = new Project({
   description,
   typescript
 })
-
-console.log(`👽 Taro v${getPkgVersion()}`)
-console.log()
 
 project.create()

@@ -222,34 +222,50 @@ function showActionSheet (options = {}) {
 
   // list item String
   if (!Array.isArray(options.itemList)) {
-    handler({errMsg: getParameterError('showActionSheet', 'itemList', 'Array', typeof options.itemList)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showActionSheet',
+        para: 'itemList',
+        correct: 'Array',
+        wrong: options.itemList
+      })
+    })
   }
 
   if (options.itemList.length < 1) {
-    handler({errMsg: 'showActionSheet:fail parameter error:parameter.itemList should have at least 1 item'})
-    return
+    return handler({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' })
   }
 
   if (options.itemList.length > 6) {
-    handler({errMsg: 'showActionSheet:fail parameter error:parameter.itemList should not be large than 6'})
-    return
+    return handler({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' })
   }
 
   for (let i = 0; i < options.itemList.length; i++) {
     if (typeof options.itemList[i] !== 'string') {
-      handler({errMsg: getParameterError('showActionSheet', `itemList[${i}]`, 'String', typeof options.itemList[i])})
-      return
+      return handler({
+        errMsg: getParameterError({
+          name: 'showActionSheet',
+          para: `itemList[${i}]`,
+          correct: 'String',
+          wrong: options.itemList[i]
+        })
+      })
     }
   }
 
   if (typeof options.itemColor !== 'string') {
-    handler({errMsg: getParameterError('showActionSheet', 'itemColor', 'String', typeof options.itemColor)})
-    return
+    return handler({
+      errMsg: getParameterError({
+        name: 'showActionSheet',
+        para: 'itemColor',
+        correct: 'String',
+        wrong: options.itemColor
+      })
+    })
   }
 
   if (!actionSheet.el) return actionSheet.create(options)
-  actionSheet.show(options)
+  return actionSheet.show(options)
 }
 
 export { showToast, hideToast, showLoading, hideLoading, showModal, showActionSheet }

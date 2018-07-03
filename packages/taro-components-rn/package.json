@@ -1,14 +1,19 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "0.0.54",
+  "version": "0.0.64",
   "description": "多端解决方案基础组件（RN）",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "gulp",
     "flow": "flow",
     "flow-stop": "flow stop",
     "lint": "eslint .",
     "test": "jest --coverage",
-    "test-update": "jest --updateSnapshot"
+    "prepare": "npm run build",
+    "test-update": "jest --updateSnapshot",
+    "start": "react-native-scripts start",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios"
   },
   "pre-commit": [
     "lint",
@@ -18,12 +23,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "react-dom": "^16.4.0",
-    "@nart/react-native-swiper": "^1.5.13"
+    "@nart/react-native-swiper": "^1.5.13",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "^4.0.0",
     "enzyme": "^3.3.0",
@@ -38,12 +45,17 @@
     "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-standard": "^3.0.1",
     "flow-bin": "^0.69.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-flow-remove-types": "^1.0.0",
     "jest": "^22.4.3",
+    "jest-environment-node": "^23.2.0",
     "jest-react-native": "^18.0.0",
     "pre-commit": "^1.2.2",
     "react": "^16.2.0",
     "react-native": "^0.54.3",
     "react-native-mock-render": "0.0.25",
+    "react-native-scripts": "^1.14.0",
     "react-test-renderer": "^16.2.0",
     "sinon": "^6.0.0"
   }

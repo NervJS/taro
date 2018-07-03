@@ -78,6 +78,8 @@ export const INTERNAL_DYNAMIC = 'internal_dynamic_recursive'
 
 export const LOOP_STATE = '$loopState'
 
+export const LOOP_CALLEE = '$anonymousCallee_'
+
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
 SPECIAL_COMPONENT_PROPS.set(

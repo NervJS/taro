@@ -114,6 +114,9 @@ class Project extends Creator {
     const templateChoices = [{
       name: '默认模板',
       value: 'default'
+    }, {
+      name: 'Redux 模板',
+      value: 'redux'
     }]
 
     if (typeof conf.template !== 'string') {

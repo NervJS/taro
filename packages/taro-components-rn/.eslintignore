@@ -1,3 +1,6 @@
 coverage/
 regions.js
 regions.object.js
+dist/
+example/
+App.js

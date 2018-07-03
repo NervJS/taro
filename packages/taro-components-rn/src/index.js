@@ -8,6 +8,7 @@ import Progress from './components/Progress'
 import Button from './components/Button'
 import Checkbox from './components/Checkbox'
 import CheckboxGroup from './components/Checkbox/checkbox-group'
+import Form from './components/Form'
 import Input from './components/Input'
 import Label from './components/Label'
 import Picker from './components/Picker'
@@ -17,6 +18,9 @@ import Slider from './components/Slider'
 import Switch from './components/Switch'
 import Textarea from './components/Textarea'
 import Image from './components/Image'
+import Tabbar from './components/Tabbar'
+import TabbarContainer from './components/Tabbar/Container'
+import TabbarPanel from './components/Tabbar/Panel'
 
 export {
   View,
@@ -29,6 +33,7 @@ export {
   Button,
   Checkbox,
   CheckboxGroup,
+  Form,
   Input,
   Label,
   Picker,
@@ -38,4 +43,7 @@ export {
   Switch,
   Textarea,
   Image,
+  Tabbar,
+  TabbarContainer,
+  TabbarPanel,
 }

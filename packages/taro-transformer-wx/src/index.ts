@@ -11,9 +11,11 @@ import { transform as babel7Transform } from '@babel/core'
 export interface Options {
   isRoot: boolean,
   isApp: boolean,
-  path: string,
+  outputPath: string,
+  sourcePath: string,
   code: string,
-  isTyped: boolean
+  isTyped: boolean,
+  isNormal?: boolean
 }
 
 export interface Result {
@@ -29,7 +31,7 @@ interface TransformResult extends Result {
   ast: t.File
 }
 
-export default function transform<T> (options: Options): TransformResult {
+export default function transform (options: Options): TransformResult {
   const code = options.isTyped
     ? babel7Transform(options.code, {
       parserOpts: {
@@ -71,6 +73,9 @@ export default function transform<T> (options: Options): TransformResult {
       ] as any[]
     }
   }).ast as t.File
+  if (options.isNormal) {
+    return { ast } as any
+  }
   // transformFromAst(ast, code)
   let result
   const componentSourceMap = new Map<string, string[]>()
@@ -87,7 +92,7 @@ export default function transform<T> (options: Options): TransformResult {
         renderMethod = path
       }
     },
-    AwaitExpression (path) {
+    AwaitExpression () {
       const isAsyncImported = ast.program.body.some(statement => {
         return t.isImportDeclaration(statement) && statement.source.value === ASYNC_PACKAGE_NAME
       })
@@ -97,6 +102,26 @@ export default function transform<T> (options: Options): TransformResult {
         )
       }
     },
+    // JSXIdentifier (path) {
+    //   const parentPath = path.parentPath
+    //   if (!parentPath.isJSXAttribute()) {
+    //     return
+    //   }
+    //   const element = parentPath.parentPath
+    //   if (!element.isJSXOpeningElement()) {
+    //     return
+    //   }
+    //   const elementName = element.get('name')
+    //   if (!elementName.isJSXIdentifier()) {
+    //     return
+    //   }
+    //   if (DEFAULT_Component_SET.has(elementName.node.name)) {
+    //     return
+    //   }
+
+    //   const expr = parentPath.get('value.expression')
+
+    // },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       if (name === 'Provider') {
@@ -182,9 +207,12 @@ export default function transform<T> (options: Options): TransformResult {
     renderMethod.remove()
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.path).result
+  result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.sourcePath).result
   result.code = generate(ast).code
   result.ast = ast
+  // if (process.env.NODE_ENV !== 'test') {
+  //   result.template = prettyPrint(result.template)
+  // }
   result.template = prettyPrint(result.template)
   result.imageSrcs = Array.from(imageSource)
   return result

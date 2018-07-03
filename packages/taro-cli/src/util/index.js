@@ -175,6 +175,15 @@ exports.getPkgVersion = function () {
   return require(path.join(exports.getRootPath(), 'package.json')).version
 }
 
+exports.getPkgItemByKey = function (key) {
+  const packageMap = require(path.join(exports.getRootPath(), 'package.json'))
+  if (Object.keys(packageMap).indexOf(key) === -1) {
+    return {}
+  } else {
+    return packageMap[key]
+  }
+}
+
 exports.printPkgVersion = function () {
   const taroVersion = exports.getPkgVersion()
   console.log(`👽 Taro v${taroVersion}`)

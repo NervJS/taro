@@ -1,13 +1,53 @@
 import * as t from 'babel-types'
 import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
-import { NodePath } from 'babel-traverse'
+import { NodePath, Scope } from 'babel-traverse'
+import { LOOP_STATE } from './constant'
 import * as fs from 'fs'
 import * as path from 'path'
 
 export const incrementId = () => {
   let id = 0
   return () => id++
+}
+
+export function generateAnonymousState (
+  scope: Scope,
+  expression: NodePath<t.Expression>,
+  refIds: Set<t.Identifier>,
+  isLogical?: boolean
+) {
+  let variableName = `anonymousState_${scope.generateUid()}`
+  let statementParent = expression.getStatementParent()
+  if (!statementParent) {
+    throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
+  }
+  const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
+  const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
+  if (!callExpr) {
+    refIds.add(t.identifier(variableName))
+    statementParent.insertBefore(
+      buildConstVariableDeclaration(variableName, expression.node)
+    )
+  } else {
+    variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
+    const func = callExpr.node.arguments[0]
+    if (t.isArrowFunctionExpression(func)) {
+      if (!t.isBlockStatement(func.body)) {
+        func.body = t.blockStatement([
+          buildConstVariableDeclaration(variableName, expression.node),
+          t.returnStatement(func.body)
+        ])
+      } else {
+        statementParent.insertBefore(
+          buildConstVariableDeclaration(variableName, expression.node)
+        )
+      }
+    }
+  }
+  expression.replaceWith(
+    t.identifier(variableName)
+  )
 }
 
 export function isArrayMapCallExpression (callExpression: NodePath<t.Node>): callExpression is NodePath<t.CallExpression> {
@@ -44,13 +84,25 @@ export function isContainFunction (p: NodePath<t.Node>) {
   return bool
 }
 
+function slash (input: string) {
+  const isExtendedLengthPath = /^\\\\\?\\/.test(input)
+  const hasNonAscii = /[^\u0000-\u0080]+/.test(input)
+  const hasChinese = /[^\u4e00-\u9fa5]+/.test(input)  // has Chinese characters
+
+  if (isExtendedLengthPath || (hasNonAscii && !hasChinese)) {
+    return input
+  }
+
+  return input.replace(/\\/g, '/')
+}
+
 export function pathResolver (p: string, location: string) {
   const extName = path.extname(p)
   const promotedPath = p
   if (extName === '') {
     try {
-      const pathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.js'))
-      const baseNameExist = fs.existsSync(path.resolve(path.dirname(location), p) + '.js')
+      const pathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.js')))
+      const baseNameExist = fs.existsSync(slash(path.resolve(path.dirname(location), p) + '.js'))
       if (pathExist) {
         return path.join(promotedPath, 'index.wxml')
       } else if (baseNameExist) {
@@ -79,7 +131,7 @@ export function createUUID () {
     let r = Math.random() * 16 | 0
     let v = c === 'x' ? r : (r & 0x3 | 0x8)
     return v.toString(16)
-  }).replace(/-/g, '')
+  }).replace(/-/g, '').slice(0, 8)
 }
 
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {
@@ -148,8 +200,11 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
         parentPath.isMemberExpression() &&
         parentPath.parentPath.isMemberExpression()
       ) {
-        matched = true
-        path.stop()
+        const sourceCode = parentPath.parentPath.getSource()
+        if (sourceCode.includes('[') && sourceCode.includes(']')) {
+          matched = true
+          path.stop()
+        }
       }
     }
   })
@@ -174,11 +229,11 @@ export function getArgumentName (arg) {
     return 'this'
   } else if (t.isNullLiteral(arg)) {
     return 'null'
-  } else if (t.isStringLiteral(arg)) {
+  } else if (t.isStringLiteral(arg) || t.isNumericLiteral(arg)) {
     return arg.value
   } else if (t.isIdentifier(arg)) {
     return arg.name
-  } else if (t.isMemberExpression(arg)) {
+  } else {
     return generate(arg).code
   }
   throw new Error(`bind 不支持传入该参数: ${arg}`)
@@ -191,7 +246,7 @@ export function isAllLiteral (...args) {
 export function reverseBoolean (expression: t.Expression) {
   return t.unaryExpression(
     '!',
-    t.callExpression(t.identifier('Boolean'), [expression])
+    expression
   )
 }
 

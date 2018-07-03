@@ -1,5 +1,6 @@
 import transform from '../src'
 import { buildComponent, baseOptions, evalClass } from './utils'
+import { prettyPrint } from 'html'
 
 describe('Template', () => {
 
@@ -123,6 +124,22 @@ describe('Template', () => {
       expect(template).toMatch('<scroll-view class="a"></scroll-view>')
     })
 
+    test('expression 有多个 this.props.xx 成员表达式', () => {
+      const { template, code, ast } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return <ScrollView className={this.props.iconList && this.props.iconList.length > 3 ? 'iconlist_wrap' : 'iconlist_wrap wrap-less'} />
+        `)
+      })
+
+      const instance = evalClass(ast)
+
+      expect(instance.$usedState).toEqual([ 'iconList' ])
+
+      expect(template).toMatch(`<scroll-view class=\"{{iconList && iconList.length > 3 ? 'iconlist_wrap' : 'iconlist_wrap wrap-less'}}\"></scroll-view>`)
+    })
+
     describe('props 为布尔值', () => {
       test('内置组件', () => {
         const { template } = transform({
@@ -184,7 +201,7 @@ describe('Template', () => {
         expect(template).toMatch('<view hidden="{{true}}"></view>')
       })
 
-      test('自定义组件', () => {
+      test('自定义组件不写值', () => {
         const { template, code, ast } = transform({
           ...baseOptions,
           isRoot: true,
@@ -194,15 +211,36 @@ describe('Template', () => {
         })
 
         const instance = evalClass(ast)
-        const props = instance.$props.Custom()
-        expect(props.$name).toBe('Custom')
-        expect(props.hidden).toBe(true)
-        expect(template).toMatch(`<template is="Custom" data="{{...$$Custom}}"></template>`)
+        // const props = instance.$props.Custom()
+        // expect(props.$name).toBe('Custom')
+        // expect(props.hidden).toBe(true)
+        expect(template).toMatch(`<template is=\"Custom\" data=\"{{...$$Custom}}\" wx:for-item=\"item\"></template>`)
+      })
+
+      test('自定义组件循环', () => {
+        const { template, code, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [1, 2, 3]
+            return (
+              <View>
+                {array.map(a1 => <Custom />)}
+              </View>
+            )
+          `, ``, `import { Custom } from './utils'`)
+        })
+
+        const instance = evalClass(ast)
+        // const props = instance.$props.Custom()
+        // expect(props.$name).toBe('Custom')
+        // expect(props.hidden).toBe(true)
+        expect(template).toMatch(`<template is=\"Custom\" data=\"{{...a1}}\" wx:for=\"{{array}}\" wx:for-item=\"a1\"></template>`)
       })
     })
 
     test('驼峰式应该变为下划线式', () => {
-      const { template } = transform({
+      const { template, ast } = transform({
         ...baseOptions,
         isRoot: true,
         code: buildComponent(`
@@ -211,6 +249,116 @@ describe('Template', () => {
       })
 
       expect(template).toMatch('<view hover-class="test"></view>')
+    })
+
+    describe('if statement', () => {
+      test('简单情况', () => {
+        const { template, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const tasks = []
+          if (tasks !== null) {
+            return <View className='page-body' >
+            </View>
+          }
+
+          return (
+            <View className='page-body'>
+              <Text>Hello world!</Text>
+            </View>
+          )
+          `)
+        })
+
+        expect(template).toMatch(prettyPrint(`
+        <block>
+            <view class=\"page-body\" wx:if=\"{{tasks !== null}}\"></view>
+            <view class=\"page-body\" wx:else>
+                <text>Hello world!</text>
+            </view>
+        </block>
+        `))
+      })
+
+      test('两个平级的 ifStatement', () => {
+        const { template, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const tasks = []
+          if (tasks !== null) {
+            return <View className='page-body' >
+            </View>
+          }
+
+          if (tasks.length === 0) {
+            return <View className='page-body'>
+              <Text>{tasks.length}</Text>
+            </View>
+          }
+
+          return (
+            <View className='page-body'>
+              <Text>Hello world!</Text>
+            </View>
+          )
+          `)
+        })
+
+        expect(template).toMatch(prettyPrint(`
+          <block>
+              <view class=\"page-body\" wx:if=\"{{tasks !== null}}\"></view>
+              <view class=\"page-body\" wx:elif=\"{{tasks.length === 0}}\">
+                  <text>{{tasks.length}}</text>
+              </view>
+              <view class=\"page-body\" wx:else>
+                  <text>Hello world!</text>
+              </view>
+          </block>
+        `))
+      })
+    })
+
+    describe('JSX 元素引用', () => {
+
+      test('逻辑表达式破坏引用', () => {
+        const { template, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const numbers =[...Array(10).keys()]
+          const listItems = numbers.map((number) => {
+            return <View key={number}><Text class='li' >我是第{number+1}个数字</Text></View>
+          })
+          return (
+            <View className='container'>
+              {listItems}
+              <View>
+                {this.state.enable && listItems}
+              </View>
+            </View>
+          )
+          `)
+        })
+        expect(template).toMatch(prettyPrint(`
+          <block>
+              <view class=\"container\">
+                  <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                      <text class=\"li\">我是第{{number + 1}}个数字</text>
+                  </view>
+                  <view>
+                      <block wx:if=\"{{enable}}\">
+                          <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                              <text class=\"li\">我是第{{number + 1}}个数字</text>
+                          </view>
+                      </block>
+                  </view>
+              </view>
+          </block>
+        `))
+      })
+
     })
 
     // test('本来是下划线不用再转', () => {

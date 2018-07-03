@@ -10,7 +10,8 @@ const allRules = {
   'no-ref': require('./no-ref'),
   'no-spread-in-props': require('./no-spread-in-props'),
   'no-stateless-component': require('./no-stateless-component'),
-  'jsx-handler-names': require('./jsx-handler-names')
+  'jsx-handler-names': require('./jsx-handler-names'),
+  'reserve-class-properties': require('./reserve-class-properties')
 }
 
 function configureAsError (rules) {

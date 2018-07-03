@@ -3,7 +3,6 @@ const os = require('os')
 const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const babylon = require('babylon')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
@@ -97,7 +96,8 @@ function parseAst (type, ast, sourceFilePath, filePath) {
       const properties = node.properties
       obj = {}
       properties.forEach((p, index) => {
-        obj[p.key.name] = traverseObjectNode(p.value)
+        const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+        obj[key] = traverseObjectNode(p.value)
       })
       return obj
     }
@@ -137,6 +137,9 @@ function parseAst (type, ast, sourceFilePath, filePath) {
       const node = astPath.node
       if (node.key.name === 'config') {
         configObj = traverseObjectNode(node)
+        if (type === PARSE_AST_TYPE.ENTRY) {
+          appConfig = configObj
+        }
         astPath.remove()
       }
     },
@@ -183,88 +186,6 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           styleFiles.push(stylePath)
         }
         astPath.remove()
-      } else if (value.indexOf('.') === 0) {
-        const pathArr = value.split('/')
-        if (pathArr.indexOf('pages') >= 0) {
-          astPath.remove()
-        } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-          if (scriptFiles.indexOf(value) < 0) {
-            scriptFiles.push(value)
-          }
-        } else if (Util.REG_JSON.test(valueExtname)) {
-          const vpath = path.resolve(sourceFilePath, '..', value)
-          if (jsonFiles.indexOf(vpath) < 0) {
-            jsonFiles.push(vpath)
-          }
-          if (fs.existsSync(vpath)) {
-            const obj = JSON.parse(fs.readFileSync(vpath).toString())
-            const specifiers = node.specifiers
-            let defaultSpecifier = null
-            specifiers.forEach(item => {
-              if (item.type === 'ImportDefaultSpecifier') {
-                defaultSpecifier = item.local.name
-              }
-            })
-            if (defaultSpecifier) {
-              let objArr = [t.nullLiteral()]
-              if (Array.isArray(obj)) {
-                objArr = convertArrayToAstExpression(obj)
-              } else {
-                objArr = convertObjectToAstExpression(obj)
-              }
-              astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
-            } else {
-              astPath.remove()
-            }
-          }
-        } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
-          const vpath = path.resolve(sourceFilePath, '..', value)
-          if (!fs.existsSync(vpath)) {
-            Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-            return
-          }
-          if (mediaFiles.indexOf(vpath) < 0) {
-            mediaFiles.push(vpath)
-          }
-          const specifiers = node.specifiers
-          let defaultSpecifier = null
-          specifiers.forEach(item => {
-            if (item.type === 'ImportDefaultSpecifier') {
-              defaultSpecifier = item.local.name
-            }
-          })
-          if (defaultSpecifier) {
-            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
-          } else {
-            astPath.remove()
-          }
-        } else if (!valueExtname) {
-          let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-          const outputVpath = vpath.replace(sourceDir, outputDir)
-          let relativePath = path.relative(filePath, outputVpath)
-          if (vpath && vpath !== sourceFilePath) {
-            if (!fs.existsSync(vpath)) {
-              Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-            } else {
-              if (fs.lstatSync(vpath).isDirectory()) {
-                if (fs.existsSync(path.join(vpath, 'index.js'))) {
-                  vpath = path.join(vpath, 'index.js')
-                  relativePath = path.join(relativePath, 'index.js')
-                } else {
-                  Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
-                  return
-                }
-              }
-              if (scriptFiles.indexOf(vpath) < 0) {
-                scriptFiles.push(vpath)
-              }
-              relativePath = Util.promoteRelativePath(relativePath)
-              relativePath = relativePath.replace(path.extname(relativePath), '.js')
-              source.value = relativePath
-              astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
-            }
-          }
-        }
       }
     },
 
@@ -326,61 +247,6 @@ function parseAst (type, ast, sourceFilePath, filePath) {
           astPath.remove()
         } else if (path.isAbsolute(value)) {
           Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
-        } else if (value.indexOf('.') === 0) {
-          const pathArr = value.split('/')
-          if (pathArr.indexOf('pages') >= 0) {
-            astPath.remove()
-          } else if (Util.REG_JSON.test(valueExtname)) {
-            const vpath = path.resolve(sourceFilePath, '..', value)
-            if (jsonFiles.indexOf(vpath) < 0) {
-              jsonFiles.push(vpath)
-            }
-            if (fs.existsSync(vpath)) {
-              const obj = JSON.parse(fs.readFileSync(vpath).toString())
-              let objArr = [t.nullLiteral()]
-              if (Array.isArray(obj)) {
-                objArr = convertArrayToAstExpression(obj)
-              } else {
-                objArr = convertObjectToAstExpression(obj)
-              }
-              astPath.replaceWith(t.objectExpression(objArr))
-            }
-          } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-            if (scriptFiles.indexOf(value) < 0) {
-              scriptFiles.push(value)
-            }
-          } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
-            const vpath = path.resolve(sourceFilePath, '..', value)
-            if (mediaFiles.indexOf(vpath) < 0) {
-              mediaFiles.push(vpath)
-            }
-            astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))
-          } else if (!valueExtname) {
-            let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-            const outputVpath = vpath.replace(sourceDir, outputDir)
-            let relativePath = path.relative(filePath, outputVpath)
-            if (vpath) {
-              if (!fs.existsSync(vpath)) {
-                Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-              } else {
-                if (fs.lstatSync(vpath).isDirectory()) {
-                  if (fs.existsSync(path.join(vpath, 'index.js'))) {
-                    vpath = path.join(vpath, 'index.js')
-                    relativePath = path.join(relativePath, 'index.js')
-                  } else {
-                    Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
-                    return
-                  }
-                }
-                if (scriptFiles.indexOf(vpath) < 0) {
-                  scriptFiles.push(vpath)
-                }
-                relativePath = Util.promoteRelativePath(relativePath)
-                relativePath = relativePath.replace(path.extname(relativePath), '.js')
-                args[0].value = relativePath
-              }
-            }
-          }
         }
       }
     },
@@ -423,6 +289,178 @@ function parseAst (type, ast, sourceFilePath, filePath) {
 
     Program: {
       exit (astPath) {
+        astPath.traverse({
+          ImportDeclaration (astPath) {
+            const node = astPath.node
+            const source = node.source
+            let value = source.value
+            const valueExtname = path.extname(value)
+            if (value.indexOf('.') === 0) {
+              let isPage = false
+              const pages = appConfig.pages
+              let importPath = path.resolve(path.dirname(sourceFilePath), value)
+              importPath = Util.resolveScriptPath(importPath)
+              pages.forEach(page => {
+                if (path.normalize(importPath).indexOf(path.normalize(page)) >= 0) {
+                  isPage = true
+                }
+              })
+              if (isPage) {
+                astPath.remove()
+              } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+                if (scriptFiles.indexOf(value) < 0) {
+                  scriptFiles.push(value)
+                }
+              } else if (Util.REG_JSON.test(valueExtname)) {
+                const vpath = path.resolve(sourceFilePath, '..', value)
+                if (jsonFiles.indexOf(vpath) < 0) {
+                  jsonFiles.push(vpath)
+                }
+                if (fs.existsSync(vpath)) {
+                  const obj = JSON.parse(fs.readFileSync(vpath).toString())
+                  const specifiers = node.specifiers
+                  let defaultSpecifier = null
+                  specifiers.forEach(item => {
+                    if (item.type === 'ImportDefaultSpecifier') {
+                      defaultSpecifier = item.local.name
+                    }
+                  })
+                  if (defaultSpecifier) {
+                    let objArr = [t.nullLiteral()]
+                    if (Array.isArray(obj)) {
+                      objArr = convertArrayToAstExpression(obj)
+                    } else {
+                      objArr = convertObjectToAstExpression(obj)
+                    }
+                    astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
+                  } else {
+                    astPath.remove()
+                  }
+                }
+              } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
+                const vpath = path.resolve(sourceFilePath, '..', value)
+                if (!fs.existsSync(vpath)) {
+                  Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+                  return
+                }
+                if (mediaFiles.indexOf(vpath) < 0) {
+                  mediaFiles.push(vpath)
+                }
+                const specifiers = node.specifiers
+                let defaultSpecifier = null
+                specifiers.forEach(item => {
+                  if (item.type === 'ImportDefaultSpecifier') {
+                    defaultSpecifier = item.local.name
+                  }
+                })
+                if (defaultSpecifier) {
+                  astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
+                } else {
+                  astPath.remove()
+                }
+              } else if (!valueExtname) {
+                let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+                const outputVpath = vpath.replace(sourceDir, outputDir)
+                let relativePath = path.relative(filePath, outputVpath)
+                if (vpath && vpath !== sourceFilePath) {
+                  if (!fs.existsSync(vpath)) {
+                    Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+                  } else {
+                    if (fs.lstatSync(vpath).isDirectory()) {
+                      if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                        vpath = path.join(vpath, 'index.js')
+                        relativePath = path.join(relativePath, 'index.js')
+                      } else {
+                        Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                        return
+                      }
+                    }
+                    if (scriptFiles.indexOf(vpath) < 0) {
+                      scriptFiles.push(vpath)
+                    }
+                    relativePath = Util.promoteRelativePath(relativePath)
+                    relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                    source.value = relativePath
+                    astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
+                  }
+                }
+              }
+            }
+          },
+          CallExpression (astPath) {
+            const node = astPath.node
+            const callee = node.callee
+            if (callee.name === 'require') {
+              const args = node.arguments
+              let value = args[0].value
+              const valueExtname = path.extname(value)
+              if (value.indexOf('.') === 0) {
+                let isPage = false
+                const pages = appConfig.pages
+                let importPath = path.resolve(path.dirname(sourceFilePath), value)
+                importPath = Util.resolveScriptPath(importPath)
+                pages.forEach(page => {
+                  if (path.normalize(importPath).indexOf(path.normalize(page)) >= 0) {
+                    isPage = true
+                  }
+                })
+                if (isPage) {
+                  astPath.remove()
+                } else if (Util.REG_JSON.test(valueExtname)) {
+                  const vpath = path.resolve(sourceFilePath, '..', value)
+                  if (jsonFiles.indexOf(vpath) < 0) {
+                    jsonFiles.push(vpath)
+                  }
+                  if (fs.existsSync(vpath)) {
+                    const obj = JSON.parse(fs.readFileSync(vpath).toString())
+                    let objArr = [t.nullLiteral()]
+                    if (Array.isArray(obj)) {
+                      objArr = convertArrayToAstExpression(obj)
+                    } else {
+                      objArr = convertObjectToAstExpression(obj)
+                    }
+                    astPath.replaceWith(t.objectExpression(objArr))
+                  }
+                } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+                  if (scriptFiles.indexOf(value) < 0) {
+                    scriptFiles.push(value)
+                  }
+                } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
+                  const vpath = path.resolve(sourceFilePath, '..', value)
+                  if (mediaFiles.indexOf(vpath) < 0) {
+                    mediaFiles.push(vpath)
+                  }
+                  astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))
+                } else if (!valueExtname) {
+                  let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+                  const outputVpath = vpath.replace(sourceDir, outputDir)
+                  let relativePath = path.relative(filePath, outputVpath)
+                  if (vpath) {
+                    if (!fs.existsSync(vpath)) {
+                      Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+                    } else {
+                      if (fs.lstatSync(vpath).isDirectory()) {
+                        if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                          vpath = path.join(vpath, 'index.js')
+                          relativePath = path.join(relativePath, 'index.js')
+                        } else {
+                          Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                          return
+                        }
+                      }
+                      if (scriptFiles.indexOf(vpath) < 0) {
+                        scriptFiles.push(vpath)
+                      }
+                      relativePath = Util.promoteRelativePath(relativePath)
+                      relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                      args[0].value = relativePath
+                    }
+                  }
+                }
+              }
+            }
+          }
+        })
         const node = astPath.node
         const exportVariableName = exportTaroReduxConnected || componentClassName
         if (needExportDefault) {
@@ -539,14 +577,28 @@ async function compileScriptFile (filePath, content) {
   return compileScriptRes.code
 }
 
+function buildProjectConfig () {
+  const projectConfigPath = path.join(appPath, 'project.config.json')
+  if (!fs.existsSync(projectConfigPath)) {
+    return
+  }
+  const origProjectConfig = fs.readJSONSync(projectConfigPath)
+  fs.writeFileSync(
+    path.join(outputDir, 'project.config.json'),
+    JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
+  )
+  Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/project.config.json`)
+}
+
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
   try {
     const transformResult = wxTransformer({
       code: entryFileCode,
-      path: outputEntryFilePath,
-      isApp: true
+      path: entryFilePath,
+      isApp: true,
+      isTyped: Util.REG_TYPESCRIPT.test(entryFilePath)
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, entryFilePath, outputEntryFilePath)
@@ -642,7 +694,7 @@ async function buildSinglePage (page) {
   try {
     const transformResult = wxTransformer({
       code: pageJsContent,
-      path: outputPageJSPath,
+      path: pageJs,
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs)
     })
@@ -819,13 +871,16 @@ async function buildSingleComponent (component) {
   try {
     const transformResult = wxTransformer({
       code: componentContent,
-      path: outputComponentJSPath,
-      isRoot: false
+      path: component,
+      isRoot: false,
+      isTyped: Util.REG_TYPESCRIPT.test(component)
     })
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, component, outputComponentJSPath)
     const componentDepComponents = transformResult.components
     let resCode = res.code
     resCode = await compileScriptFile(component, resCode)
+    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
+    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -898,12 +953,18 @@ async function buildSingleComponent (component) {
 function compileDepScripts (scriptFiles) {
   scriptFiles.forEach(async item => {
     if (path.isAbsolute(item)) {
-      const outputItem = item.replace(path.join(sourceDir), path.join(outputDir))
+      const outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
       if (!isBuildingScripts[outputItem]) {
         isBuildingScripts[outputItem] = true
         try {
           const code = fs.readFileSync(item).toString()
-          const ast = babylon.parse(code, babylonConfig)
+          const transformResult = wxTransformer({
+            code,
+            path: item,
+            isNormal: true,
+            isTyped: Util.REG_TYPESCRIPT.test(item)
+          })
+          const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
@@ -949,6 +1010,12 @@ function compileDepScripts (scriptFiles) {
       }
     }
   })
+}
+
+function buildWxsFiles () {
+  const wsxDir = path.join(outputDir, 'wxs')
+  fs.ensureDirSync(wsxDir)
+  fs.copyFileSync(path.join(__dirname, 'extra/util_wxs'), path.join(wsxDir, 'utils.wxs'))
 }
 
 function watchFiles () {
@@ -1094,6 +1161,8 @@ function watchFiles () {
 
 async function build ({ watch }) {
   isProduction = !watch
+  buildProjectConfig()
+  // buildWxsFiles()
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {

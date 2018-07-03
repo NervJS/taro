@@ -1,5 +1,5 @@
 import { getStore } from '../utils/store'
-import { mergeObjects } from '../utils'
+import { mergeObjects, isObject } from '../utils'
 
 export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
@@ -11,7 +11,11 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     let isChanged = false
     const newMapState = mapStateToProps(store.getState())
     Object.keys(newMapState).forEach(key => {
-      const val = newMapState[key]
+      let val = newMapState[key]
+      if (isObject(val) && isObject(initMapDispatch[key])) {
+        val = mergeObjects(val, initMapDispatch[key])
+      }
+      this.prevProps = Object.assign({}, this.props)
       if (this.props[key] !== val) {
         this.props[key] = val
         isChanged = true
@@ -38,7 +42,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
 
       componentWillMount () {
         const store = getStore()
-        Object.assign(this.props, mapStateToProps(store.getState()), initMapDispatch)
+        Object.assign(this.props, mergeObjects(mapStateToProps(store.getState()), initMapDispatch))
         unSubscribe = store.subscribe(stateListener.bind(this))
         if (super.componentWillMount) {
           super.componentWillMount()

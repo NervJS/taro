@@ -176,6 +176,10 @@ $ npx taro build --type h5
 
 本项目遵从 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)，更新日志由 `conventional-changelog` 自动生成。完整日志请点击 [CHANGELOG.md](./CHANGELOG.md)。
 
+## 开发交流
+
+[官方交流微信群](https://github.com/NervJS/taro/issues/198)
+
 ## License
 
 MIT License

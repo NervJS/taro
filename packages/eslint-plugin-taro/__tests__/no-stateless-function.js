@@ -52,6 +52,18 @@ ruleTester.run('no-stateless-component', rule, {
       return <View>{item}</View>
     })
     `
+  }, {
+    code: testComponent(`const searchbar = (
+      <View>
+        <View className="head">
+          <Input onConfirm="search_key" className="keyword" placeholder="目的地/关键字" placeholderClass="search-place" type="text" />
+        </View>
+        <View className="seek">
+          <Text className="seek_history">搜索历史：</Text>
+          {histories}
+        </View>
+      </View>
+    );`)
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
     `function Test () { return <View /> }`,

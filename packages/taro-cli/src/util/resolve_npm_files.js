@@ -107,8 +107,21 @@ function recursiveRequire (filePath, files, isProduction) {
 
 function npmCodeHack (filePath, content) {
   const basename = path.basename(filePath)
-  if (basename === '_freeGlobal.js') {
-    content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
+  switch (basename) {
+    case 'lodash.js':
+    case '_global.js':
+      content = content.replace('Function(\'return this\')()', 'this')
+      break
+    case '_html.js':
+      content = 'module.exports = false;'
+      break
+    case '_microtask.js':
+      content = content.replace('if(Observer)', 'if(false && Observer)')
+      // IOS 1.10.2 Promise BUG
+      content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
+      break
+    case '_freeGlobal.js':
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
   }
   return content
 }

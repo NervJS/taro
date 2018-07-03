@@ -19,7 +19,7 @@ $ yarn global add @tarojs/cli
 $ taro init myApp
 ```
 
-npm5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
+npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
 
 ```bash
 $ npx @tarojs/cli init myApp
@@ -46,4 +46,20 @@ $ npm run dev:h5
 $ taro build --type h5 --watch
 # npx用户也可以使用
 $ npx taro build --type h5 --watch
+```
+
+## 更新
+
+Taro 提供了更新命令来更新 CLI 工具自身和项目中 Taro 相关的依赖
+
+更新 Taro CLI 工具
+
+```bash
+$ taro update self
+```
+
+更新项目中 Taro 相关的依赖
+
+```bash
+$ taro update project
 ```

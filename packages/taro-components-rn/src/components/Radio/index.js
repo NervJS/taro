@@ -13,6 +13,7 @@ import {
   View,
   TouchableWithoutFeedback,
   StyleSheet,
+  Platform,
 } from 'react-native'
 import Icon from '../Icon'
 import styles from './styles'
@@ -36,14 +37,18 @@ class _Radio extends React.Component<Props, State> {
   }
 
   props: Props
+  state: State = {
+    checked: !!this.props.checked
+  }
+  $touchable: React.ElementRef<TouchableWithoutFeedback>
 
   static defaultProps = {
     value: '',
     color: '#09BB07',
   }
 
-  state: State = {
-    checked: !!this.props.checked
+  _simulateNativePress = () => {
+    this.$touchable.touchableHandlePress()
   }
 
   onPress = () => {
@@ -75,9 +80,13 @@ class _Radio extends React.Component<Props, State> {
     } = this.props
 
     const isChecked = this.state.checked
+    const iconSize = Platform.OS === 'ios' ? 24 : 21
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+      <TouchableWithoutFeedback
+        onPress={this.onPress}
+        ref={(touchable) => { this.$touchable = touchable }}
+      >
         <View style={[
           styles.wrapper,
           isChecked && styles.wrapperChecked,
@@ -86,7 +95,7 @@ class _Radio extends React.Component<Props, State> {
         ]}>
           <Icon
             type="success"
-            size={20}
+            size={iconSize}
             color={color}
             style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
           />
