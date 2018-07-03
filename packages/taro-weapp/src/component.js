@@ -11,6 +11,9 @@ class BaseComponent {
   __computed = {}
   // this.props,小程序中通过data.__props访问
   __props = {}
+  __isAttached = false
+  // 会在componentDidMount后置为true
+  __mounted = false
   nextProps = {}
   _dirty = true
   _disable = true

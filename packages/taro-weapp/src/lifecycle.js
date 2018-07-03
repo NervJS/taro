@@ -60,5 +60,11 @@ function doUpdate (component) {
         component._pendingCallbacks.pop().call(component)
       }
     }
+    if (!component.__mounted) {
+      component.__mounted = true
+      if (component.componentDidMount) {
+        component.componentDidMount()
+      }
+    }
   })
 }
