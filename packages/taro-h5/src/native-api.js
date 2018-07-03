@@ -40,13 +40,18 @@ function request (options) {
   }
   params.method = options.method || 'GET'
   const methodUpper = params.method.toUpperCase()
+  params.cache = options.cache || 'default'
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
   } else {
     params.body = options.data
   }
-  params.headers = options.header
-  params.mode = options.mode
+  if (options.header) {
+    params.headers = options.header
+  }
+  if (options.mode) {
+    params.mode = options.mode
+  }
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
