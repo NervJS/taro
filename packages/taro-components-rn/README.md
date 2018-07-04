@@ -86,7 +86,7 @@ npm run android
 ## pureDependencies
 
 - react: ^16.2.0
-- "react-native": "^0.54.3"
+- "react-native": "~0.55.2"
 
 ## 开发者日志
 
