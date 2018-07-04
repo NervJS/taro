@@ -273,11 +273,13 @@ describe('Template', () => {
 
         expect(template).toMatch(prettyPrint(`
         <block>
-            <view class=\"page-body\" wx:if=\"{{tasks !== null}}\"></view>
-            <view class=\"page-body\" wx:else>
-                <text>Hello world!</text>
-            </view>
+        <block wx:if=\"{{tasks !== null}}\">
+            <view class=\"page-body\"></view>
         </block>
+        <view class=\"page-body\" wx:else>
+            <text>Hello world!</text>
+        </view>
+    </block>
         `))
       })
 
@@ -307,15 +309,19 @@ describe('Template', () => {
         })
 
         expect(template).toMatch(prettyPrint(`
-          <block>
-              <view class=\"page-body\" wx:if=\"{{tasks !== null}}\"></view>
-              <view class=\"page-body\" wx:elif=\"{{tasks.length === 0}}\">
-                  <text>{{tasks.length}}</text>
-              </view>
-              <view class=\"page-body\" wx:else>
-                  <text>Hello world!</text>
-              </view>
-          </block>
+        <block>
+        <block wx:if=\"{{tasks !== null}}\">
+            <view class=\"page-body\"></view>
+        </block>
+        <block wx:elif=\"{{tasks.length === 0}}\">
+            <view class=\"page-body\">
+                <text>{{tasks.length}}</text>
+            </view>
+        </block>
+        <view class=\"page-body\" wx:else>
+            <text>Hello world!</text>
+        </view>
+    </block>
         `))
       })
     })
