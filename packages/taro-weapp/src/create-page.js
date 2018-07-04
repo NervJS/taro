@@ -180,7 +180,7 @@ export function processDynamicComponents (page, weappPageConf) {
                 }
                 recursiveDynamicComponents(child)
                 if (stateData) {
-                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child._dyState || child.state)
+                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, Object.assign({}, child.state, child._dyState || {}))
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child
