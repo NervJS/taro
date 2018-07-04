@@ -12,8 +12,7 @@ const styles = StyleSheet.create({
   },
   toastIcon: {
     width: 55,
-    height: 55,
-    tintColor: '#FFFFFF'
+    height: 55
   },
   toastContent: {
     color: '#FFFFFF',
@@ -23,6 +22,7 @@ const styles = StyleSheet.create({
 
 const iconList = ['success', 'loading', 'none']
 const sourceMap = {success, none: ''}
+let wx
 
 function showToast (obj) {
   let {title = '', icon = 'success', image, duration = 1500, mask, success, fail, complete} = obj || {} // eslint-disable-line
@@ -77,14 +77,10 @@ function hideToast () {
   global.wxToastRootSiblings = undefined
 }
 
-function hideLoading () {
-  global.wxToastRootSiblings && Toast.hide(global.wxToastRootSiblings)
-  global.wxToastRootSiblings = undefined
-}
-
-export {
+wx = {
   showToast,
   showLoading,
-  hideToast,
-  hideLoading
+  hideToast
 }
+
+export default wx
