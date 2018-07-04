@@ -1,7 +1,6 @@
 import { isEmptyObject, getPrototypeChain } from './util'
 import { updateComponent } from './lifecycle'
 const eventPreffix = '__event_'
-
 const privatePropValName = '__triggerObserer'
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -31,37 +30,52 @@ function processEvent (eventHandlerName, component, obj) {
       Object.assign(event.target, event.detail)
       Object.assign(event.currentTarget, event.detail)
     }
-    const dataset = event.currentTarget.dataset
 
     let scope = this.$component
-    const bindArgs = {}
-    const componentClassName = dataset['componentClass']
-    const originEventHandlerNameLower = originEventHandlerName.toLocaleLowerCase()
-    Object.keys(dataset).forEach(key => {
-      let keyLower = key.toLocaleLowerCase()
-      if (keyLower.indexOf('event') === 0) {
-        keyLower = keyLower.replace('event', '')
-        keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(originEventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(originEventHandlerNameLower, '')
-          bindArgs[argName] = dataset[key]
-        }
-      }
-    })
-    if (!isEmptyObject(bindArgs)) {
-      if (bindArgs['scope'] !== 'this') {
-        scope = bindArgs['scope']
-      }
-      delete bindArgs['scope']
-      const realArgs = Object.keys(bindArgs)
-        .sort()
-        .map(key => bindArgs[key])
+    const isCustomEvt = event.detail && event.detail.__isCustomEvt === true
+    let realArgs = []
 
-      realArgs.push(event)
-      component[eventHandlerName].apply(scope, realArgs)
+    if (!isCustomEvt) {
+      const dataset = event.currentTarget.dataset
+      const bindArgs = {}
+      const componentClassName = dataset['componentClass']
+      const originEventHandlerNameLower = originEventHandlerName.toLocaleLowerCase()
+      Object.keys(dataset).forEach(key => {
+        let keyLower = key.toLocaleLowerCase()
+        if (keyLower.indexOf('event') === 0) {
+          keyLower = keyLower.replace('event', '')
+          keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
+          keyLower = keyLower.toLocaleLowerCase()
+          if (keyLower.indexOf(originEventHandlerNameLower) >= 0) {
+            const argName = keyLower.replace(originEventHandlerNameLower, '')
+            bindArgs[argName] = dataset[key]
+          }
+        }
+      })
+      if (!isEmptyObject(bindArgs)) {
+        if (bindArgs['scope'] !== 'this') {
+          scope = bindArgs['scope']
+        }
+        delete bindArgs['scope']
+        realArgs = Object.keys(bindArgs)
+          .sort()
+          .map(key => bindArgs[key])
+
+        realArgs.push(event)
+      }
     } else {
+      realArgs = event.detail.__arguments || []
+      if (event.detail.__scope && event.detail.__scope !== 'this') {
+        scope = event.detail.__scope
+      }
+    }
+
+    if (realArgs.length > 0) {
+      component[eventHandlerName].apply(scope, realArgs)
+    } else if (!isCustomEvt) {
       component[eventHandlerName].call(scope, event)
+    } else {
+      component[eventHandlerName].call(scope)
     }
   }
 }
