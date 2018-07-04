@@ -266,6 +266,8 @@ function createPage (PageClass, options) {
   const weappPageConf = {
     onLoad (options) {
       page._init(this)
+      processDynamicComponents(page, weappPageConf)
+      page._initData()
       page.$router.params = options
       componentTrigger(page, 'componentWillMount')
     },
@@ -298,7 +300,6 @@ function createPage (PageClass, options) {
     }
   }
   let weappPageConfEvents = initPage(weappPageConf, page, options)
-  processDynamicComponents(page, weappPageConf)
   page._initData()
   pageExtraFns.forEach(fn => {
     if (typeof page[fn] === 'function') {
