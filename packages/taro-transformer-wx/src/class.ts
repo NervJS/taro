@@ -19,7 +19,7 @@ import {
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
-import { uniqBy } from 'lodash'
+import { uniqBy, cloneDeep } from 'lodash'
 import { RenderParser } from './render'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -364,7 +364,7 @@ class Transformer {
       if (t.isJSXExpressionContainer(attr.value)) {
         value = attr.value.expression
       }
-      properties.push(t.objectProperty(t.identifier(name), value))
+      properties.push(t.objectProperty(t.identifier(name), cloneDeep(value)))
     }
     this.customComponentData.push(
       t.objectProperty(t.identifier(name), t.arrayExpression(
@@ -379,6 +379,8 @@ class Transformer {
       let blockStatement: t.Statement[] = []
       let nodes: t.ObjectExpression[] = []
       const uuid = createUUID()
+      const newName = this.renameImportJSXElement(name, component)
+      this.generateCustomComponentState(newName, component, uuid)
       const nodeDeclare = t.variableDeclaration('const', [
         t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
           nodes
@@ -389,8 +391,6 @@ class Transformer {
       properties.push(
         t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
       )
-      const newName = this.renameImportJSXElement(name, component)
-      this.generateCustomComponentState(newName, component, uuid)
       const returnStatement = t.returnStatement(
         t.objectExpression([
           t.objectProperty(t.identifier('stateName'), t.stringLiteral(newName)),
@@ -473,11 +473,15 @@ class Transformer {
           } else {
             expresionPath.traverse({
               Identifier (path) {
+                /**
+                 * @TODO 这里应该判断 refid 是 state 还是 props
+                 */
                 const { parent, node } = path
-                if (node.name === MAP_CALL_ITERATOR) {
+                if (node.name === MAP_CALL_ITERATOR || !path.isReferencedIdentifier()) {
                   return
                 }
-                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && index && index.name !== node.name) {
+                const isIndex = index && index.name !== node.name
+                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && !isIndex) {
                   let replacement = t.memberExpression(
                     t.memberExpression(
                       t.thisExpression(),
