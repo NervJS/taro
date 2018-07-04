@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react'
 import {
   ScrollView,
@@ -28,9 +22,7 @@ import EXRichText from './example/EXRichText'
 import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
 
-type Props = {}
-
-export default class App extends Component<Props> {
+export default class App extends Component {
   state = {
     // 更改scrollTop可滚动
     scrollTop: 0

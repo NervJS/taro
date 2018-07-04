@@ -157,6 +157,7 @@ export function processDynamicComponents (page, weappPageConf) {
                 const props = transformPropsForComponent(item.body, _class.defaultProps)
                 if (!child) {
                   child = new _class(props)
+                  child.state = child._createData()
                   child.$path = comPath
                   child.props.$path = comPath
                   child._init(component.$scope)
@@ -177,9 +178,9 @@ export function processDynamicComponents (page, weappPageConf) {
                   updateComponent(child, false)
                   child._unsafeCallUpdate = false
                 }
-
+                recursiveDynamicComponents(child)
                 if (stateData) {
-                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child.state)
+                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child._dyState || child.state)
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child
@@ -201,7 +202,6 @@ export function processDynamicComponents (page, weappPageConf) {
                 if (item.children && item.children.length) {
                   recurrence(item.children, stateData[index], `${index}_${level}`)
                 }
-                recursiveDynamicComponents(child)
               })
             }
             if (children && children.length) {
@@ -220,9 +220,6 @@ function componentTrigger (component, key) {
     component._dirty = true
     component._disable = true
   }
-  Object.getOwnPropertyNames(component.$$components || {}).forEach(name => {
-    componentTrigger(component.$$components[name], key)
-  })
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
     if (component.$isComponent) {
@@ -263,11 +260,14 @@ function transformPropsForComponent (props, defaultProps, propTypes) {
 function createPage (PageClass, options) {
   const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.propTypes)
   const page = new PageClass(pageProps)
+  page.state = page._createData()
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {
     onLoad (options) {
       page._init(this)
+      processDynamicComponents(page, weappPageConf)
+      page._initData()
       page.$router.params = options
       componentTrigger(page, 'componentWillMount')
     },
@@ -300,7 +300,6 @@ function createPage (PageClass, options) {
     }
   }
   let weappPageConfEvents = initPage(weappPageConf, page, options)
-  processDynamicComponents(page, weappPageConf)
   page._initData()
   pageExtraFns.forEach(fn => {
     if (typeof page[fn] === 'function') {

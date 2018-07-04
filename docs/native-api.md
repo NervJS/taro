@@ -325,7 +325,7 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
 | Taro.chooseImage | ✔️ |  |  |
-| Taro.previewImage | ✔️ |  |  |
+| Taro.previewImage | ✔️ |  | ✔️ |
 | Taro.getImageInfo | ✔️ |  | ✔️ |
 | Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ |
 

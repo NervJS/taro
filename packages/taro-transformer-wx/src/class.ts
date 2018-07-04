@@ -1,4 +1,4 @@
-import { NodePath } from 'babel-traverse'
+import { NodePath, Scope } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
@@ -19,7 +19,7 @@ import {
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
-import { uniqBy } from 'lodash'
+import { uniqBy, cloneDeep } from 'lodash'
 import { RenderParser } from './render'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -40,6 +40,15 @@ function buildConstructor () {
   return ctor
 }
 
+function isBelongToProps (id: t.Identifier, scope: Scope) {
+  const binding = scope.getOwnBinding(id.name)
+  if (binding) {
+    const statementParent = binding.path.getStatementParent()
+    return generate(statementParent.node).code.includes('this.props')
+  }
+  return false
+}
+
 const anonymousPropsFunctionId = incrementId()
 
 interface LoopComponents {
@@ -48,20 +57,6 @@ interface LoopComponents {
   parent: NodePath<t.CallExpression> | null,
   element: NodePath<t.JSXElement>
 }
-
-function resetThisState () {
-  return t.expressionStatement(
-    t.assignmentExpression(
-      '=',
-      t.memberExpression(t.thisExpression(), t.identifier('state')),
-      t.callExpression(
-        t.memberExpression(t.thisExpression(), t.identifier('_createData')),
-        []
-      )
-    )
-  )
-}
-
 interface Result {
   template: string
   components: {
@@ -364,7 +359,7 @@ class Transformer {
       if (t.isJSXExpressionContainer(attr.value)) {
         value = attr.value.expression
       }
-      properties.push(t.objectProperty(t.identifier(name), value))
+      properties.push(t.objectProperty(t.identifier(name), cloneDeep(value)))
     }
     this.customComponentData.push(
       t.objectProperty(t.identifier(name), t.arrayExpression(
@@ -379,29 +374,28 @@ class Transformer {
       let blockStatement: t.Statement[] = []
       let nodes: t.ObjectExpression[] = []
       const uuid = createUUID()
-      const stateName = `$$${name}`
-      const returnStatement = t.returnStatement(
-        t.objectExpression([
-          t.objectProperty(t.identifier('stateName'), t.stringLiteral(stateName)),
-          t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
-          ]))
-        ])
-      )
+      const newName = this.renameImportJSXElement(name, component)
+      this.generateCustomComponentState(newName, component, uuid)
       const nodeDeclare = t.variableDeclaration('const', [
         t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
           nodes
         ))
       ])
-      blockStatement.push(nodeDeclare)
-      blockStatement.push(returnStatement)
       const node = this.generateTopLoopNodes(name, component, uuid, '', null, undefined, undefined, false)
       nodes.push(node)
       properties.push(
         t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
       )
-      const newName = this.renameImportJSXElement(name, component)
-      this.generateCustomComponentState(newName, component, uuid)
+      const returnStatement = t.returnStatement(
+        t.objectExpression([
+          t.objectProperty(t.identifier('stateName'), t.stringLiteral(newName)),
+          t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
+            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(newName), t.stringLiteral(uuid)
+          ]))
+        ])
+      )
+      blockStatement.push(nodeDeclare)
+      blockStatement.push(returnStatement)
     })
     this.classPath.node.body.body.unshift(
       t.classProperty(
@@ -441,7 +435,7 @@ class Transformer {
             let replacement: any = t.memberExpression(
               t.memberExpression(
                 t.thisExpression(),
-                t.identifier('state')
+                t.identifier(isBelongToProps(expresion, self.renderMethod!.scope) ? 'props' : 'state')
               ),
               expresion
             )
@@ -474,20 +468,20 @@ class Transformer {
             expresionPath.traverse({
               Identifier (path) {
                 const { parent, node } = path
-                if (node.name === MAP_CALL_ITERATOR) {
+                if (node.name === MAP_CALL_ITERATOR || !path.isReferencedIdentifier()) {
                   return
                 }
-                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && index && index.name !== node.name) {
-                  let replacement = t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-                      t.identifier('state')
-                    ),
-                    node
-                  ) as any
-                  if (node.name === iterator) {
-                    replacement = t.identifier(MAP_CALL_ITERATOR)
-                  }
+                const isIndex = index && index.name === node.name
+                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && !isIndex) {
+                  const replacement = node.name === iterator
+                    ? t.identifier(MAP_CALL_ITERATOR)
+                    : t.memberExpression(
+                      t.memberExpression(
+                        t.thisExpression(),
+                        t.identifier(isBelongToProps(path.node, self.renderMethod!.scope) ? 'props' : 'state')
+                      ),
+                      node
+                    )
                   path.replaceWith(replacement)
                 }
               },
@@ -499,8 +493,6 @@ class Transformer {
                   if (id.name === iterator) {
                     id.name = MAP_CALL_ITERATOR
                     replacement = node
-                    // console.log('fuck')
-                    // node.object = id
                   }
                   if (parent !== expresion && path.scope.hasBinding(
                     findFirstIdentifierFromMemberExpression(replacement).name
@@ -662,14 +654,8 @@ class Transformer {
   }
 
   resetConstructor () {
-    if (this.methods.has('constructor')) {
-      const ctor = this.methods.get('constructor')
-      if (ctor && ctor.isClassMethod()) {
-        ctor.node.body.body.push(resetThisState())
-      }
-    } else {
+    if (!this.methods.has('constructor')) {
       const ctor = buildConstructor()
-      ctor.body.body.push(resetThisState())
       this.classPath.node.body.body.unshift(ctor)
     }
   }

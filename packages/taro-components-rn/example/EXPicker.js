@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Picker } from '../src'
 
 export default class EXPicker extends Component {
+  pickerSelectorRange = [ 'Java', 'C++', 'PHP' ]
   state = {
     pickerRange: [
       [
@@ -14,11 +15,13 @@ export default class EXPicker extends Component {
         { id: 1, name: '二級' },
         { id: 2, name: '三級' },
       ]
-    ]
+    ],
+    pickerSelectorValue: 0
   }
 
   onSelectorChange = (event) => {
     console.log('Picker::selector onChange', event)
+    this.setState({ pickerSelectorValue: event.detail.value })
   }
 
   onMultiSelectorCancel = () => {
@@ -56,15 +59,11 @@ export default class EXPicker extends Component {
       <View>
         <Picker
           mode="selector"
-          range={[
-            'Java',
-            'C++',
-            'PHP'
-          ]}
+          range={this.pickerSelectorRange}
           onChange={this.onSelectorChange}
         >
           <View>
-            <Text>Picker&lt;selector&gt;</Text>
+            <Text>Picker&lt;selector&gt;: {this.pickerSelectorRange[this.state.pickerSelectorValue]}</Text>
           </View>
         </Picker>
 
@@ -80,6 +79,7 @@ export default class EXPicker extends Component {
             <Text>Picker&lt;multiSelector&gt;</Text>
           </View>
         </Picker>
+
         <Picker
           // disabled={true}
           // mode="date"
@@ -94,6 +94,7 @@ export default class EXPicker extends Component {
             console.log(event)
           }}
         />
+
         <Picker
           mode="region"
           customItem="不限"
@@ -103,6 +104,7 @@ export default class EXPicker extends Component {
         >
           <View><Text>Picker&lt;region&gt;</Text></View>
         </Picker>
+
         <Picker
           mode="date"
           onChange={(event) => {

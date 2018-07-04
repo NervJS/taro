@@ -1,5 +1,67 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="0.0.67-beta.1"></a>
+## [0.0.67-beta.1](https://github.com/NervJS/taro/compare/v0.0.67-beta.0...v0.0.67-beta.1) (2018-07-04)
+
+
+
+
+**Note:** Version bump only for package taro
+
+<a name="0.0.67-beta.0"></a>
+## [0.0.67-beta.0](https://github.com/NervJS/taro/compare/v0.0.66...v0.0.67-beta.0) (2018-07-04)
+
+
+### Bug Fixes
+
+* **taro-weapp:** 组件初始化放到页面 onLoad 里 ([5a8ede0](https://github.com/NervJS/taro/commit/5a8ede0))
+* **transformer:** 循环自定义组件的 iterator 重命名 ([a9cf461](https://github.com/NervJS/taro/commit/a9cf461))
+
+
+
+
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.64...v) (2018-07-02)
+# [](https://github.com/NervJS/taro/compare/v0.0.66...v) (2018-07-04)
+
+
+
+<a name="0.0.66"></a>
+## [0.0.66](https://github.com/NervJS/taro/compare/v0.0.65...v0.0.66) (2018-07-04)
+
+
+### Bug Fixes
+
+* **cli:** redux 模板变更 ([8912f9c](https://github.com/NervJS/taro/commit/8912f9c))
+* **taro-weapp:** 组件的 _createData() 不在 constructor 里调用 ([f759d52](https://github.com/NervJS/taro/commit/f759d52))
+* **transformer:** $DC 表达式解析失败 ([72b45bc](https://github.com/NervJS/taro/commit/72b45bc))
+* **transformer:** $dynamicComp 的 stateName 应该和 template data 的指向保持一致 ([e5140e4](https://github.com/NervJS/taro/commit/e5140e4))
+* **transformer:** 寻找 id 是属于 props 或 state ([5b5f42f](https://github.com/NervJS/taro/commit/5b5f42f))
+
+
+
+<a name="0.0.65"></a>
+## [0.0.65](https://github.com/NervJS/taro/compare/v0.0.64...v0.0.65) (2018-07-03)
+
+
+### Bug Fixes
+
+* 修复ScrollView 组件 scrollWithAnimation 问题，修复radio 外部样式问题，修复checkbox 样式错乱问题，修复 switch color 值无效问题 等 ([8995f1f](https://github.com/NervJS/taro/commit/8995f1f))
+* 修复swiper 组件引用问题 ([a524b1c](https://github.com/NervJS/taro/commit/a524b1c))
+* **taro-h5:** H5 端 request cache 参数丢失 ([2bb0a1a](https://github.com/NervJS/taro/commit/2bb0a1a))
+* **taro-weapp:** 小程序组件化修正 ([f29d9e4](https://github.com/NervJS/taro/commit/f29d9e4))
+* **taro-weapp:** 所有组件引用当成动态组件处理 ([318a850](https://github.com/NervJS/taro/commit/318a850))
+* **transformer:** $usedState 不加入非标准 id ([e622500](https://github.com/NervJS/taro/commit/e622500))
+* **transformer:** 单独使用的自定义组件也当做循环自定义组件处理 ([47bdc55](https://github.com/NervJS/taro/commit/47bdc55))
+* **transformer:** 单独使用的自定义组件在 createData 加入索引 ([f2b8bdc](https://github.com/NervJS/taro/commit/f2b8bdc))
+* **transformer:** 自定义组件 props 不写值则默认赋值 true ([a64632a](https://github.com/NervJS/taro/commit/a64632a))
+
+
+### Features
+
+* **tcr:** Button 支持 hoverStyle ([96d0e4b](https://github.com/NervJS/taro/commit/96d0e4b))
 
 
 
@@ -1258,6 +1320,3 @@
 
 <a name="0.0.1"></a>
 ## 0.0.1 (2018-04-08)
-
-
-
