@@ -32,7 +32,7 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.67-beta.1",
+  "version": "0.0.67-beta.2",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--no-lockfile"
