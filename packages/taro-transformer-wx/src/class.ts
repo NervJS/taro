@@ -621,6 +621,20 @@ class Transformer {
           t.identifier('$$' + name)
         )
       )
+      setJSXAttr(
+        jsx,
+        'wx:for',
+        t.jSXExpressionContainer(
+          t.identifier('$$' + name)
+        )
+      )
+      setJSXAttr(
+        jsx,
+        'wx:key',
+        t.jSXExpressionContainer(
+          t.numericLiteral(Math.floor(Math.random() * 1e8))
+        )
+      )
       path.replaceWith(jsx)
       this.customComponentNames.add('$$' + name)
     })
