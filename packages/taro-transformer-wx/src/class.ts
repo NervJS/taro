@@ -48,20 +48,6 @@ interface LoopComponents {
   parent: NodePath<t.CallExpression> | null,
   element: NodePath<t.JSXElement>
 }
-
-function resetThisState () {
-  return t.expressionStatement(
-    t.assignmentExpression(
-      '=',
-      t.memberExpression(t.thisExpression(), t.identifier('state')),
-      t.callExpression(
-        t.memberExpression(t.thisExpression(), t.identifier('_createData')),
-        []
-      )
-    )
-  )
-}
-
 interface Result {
   template: string
   components: {
