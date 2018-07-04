@@ -472,18 +472,17 @@ class Transformer {
                 if (node.name === MAP_CALL_ITERATOR || !path.isReferencedIdentifier()) {
                   return
                 }
-                const isIndex = index && index.name !== node.name
+                const isIndex = index && index.name === node.name
                 if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && !isIndex) {
-                  let replacement = t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-                      t.identifier(isBelongToProps(path.node, self.renderMethod!.scope) ? 'props' : 'state')
-                    ),
-                    node
-                  ) as any
-                  if (node.name === iterator) {
-                    replacement = t.identifier(MAP_CALL_ITERATOR)
-                  }
+                  const replacement = node.name === iterator
+                    ? t.identifier(MAP_CALL_ITERATOR)
+                    : t.memberExpression(
+                      t.memberExpression(
+                        t.thisExpression(),
+                        t.identifier(isBelongToProps(path.node, self.renderMethod!.scope) ? 'props' : 'state')
+                      ),
+                      node
+                    )
                   path.replaceWith(replacement)
                 }
               },
