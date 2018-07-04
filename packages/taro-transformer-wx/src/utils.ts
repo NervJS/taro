@@ -103,8 +103,9 @@ export function pathResolver (p: string, location: string) {
   if (extName === '') {
     try {
       const pathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.js')))
+      const tsxPathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.tsx')))
       const baseNameExist = fs.existsSync(slash(path.resolve(path.dirname(location), p) + '.js'))
-      if (pathExist) {
+      if (pathExist || tsxPathExist) {
         return path.join(promotedPath, 'index.wxml')
       } else if (baseNameExist) {
         return promotedPath + '.wxml'
