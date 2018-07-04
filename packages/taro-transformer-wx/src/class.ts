@@ -664,14 +664,8 @@ class Transformer {
   }
 
   resetConstructor () {
-    if (this.methods.has('constructor')) {
-      const ctor = this.methods.get('constructor')
-      if (ctor && ctor.isClassMethod()) {
-        ctor.node.body.body.push(resetThisState())
-      }
-    } else {
+    if (!this.methods.has('constructor')) {
       const ctor = buildConstructor()
-      ctor.body.body.push(resetThisState())
       this.classPath.node.body.body.unshift(ctor)
     }
   }
