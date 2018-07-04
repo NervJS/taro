@@ -47,6 +47,7 @@
     "postcss": "^6.0.22",
     "postcss-pxtransform": "0.0.67",
     "resolve": "^1.6.0",
+    "semver": "^5.5.0",
     "shelljs": "^0.8.1",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
