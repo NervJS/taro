@@ -157,6 +157,7 @@ export function processDynamicComponents (page, weappPageConf) {
                 const props = transformPropsForComponent(item.body, _class.defaultProps)
                 if (!child) {
                   child = new _class(props)
+                  child.state = child._createData()
                   child.$path = comPath
                   child.props.$path = comPath
                   child._init(component.$scope)
@@ -259,6 +260,7 @@ function transformPropsForComponent (props, defaultProps, propTypes) {
 function createPage (PageClass, options) {
   const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.propTypes)
   const page = new PageClass(pageProps)
+  page.state = page._createData()
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {
