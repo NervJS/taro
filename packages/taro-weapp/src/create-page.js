@@ -147,7 +147,7 @@ export function processDynamicComponents (page, weappPageConf) {
             }
             if (components && components.length) {
               components.forEach(function (item, index) {
-                const comPath = `${component.$path}$$${item.fn}_${level}`
+                const comPath = `${item.body.$path}_${index}`
                 let child
                 Object.getOwnPropertyNames(component.$$dynamicComponents).forEach(c => {
                   if (c === comPath) {
@@ -157,6 +157,7 @@ export function processDynamicComponents (page, weappPageConf) {
                 const props = transformPropsForComponent(item.body, _class.defaultProps)
                 if (!child) {
                   child = new _class(props)
+                  child.state = child._createData()
                   child.$path = comPath
                   child.props.$path = comPath
                   child._init(component.$scope)
@@ -165,22 +166,21 @@ export function processDynamicComponents (page, weappPageConf) {
                   events.on('page:onReady', () => {
                     componentTrigger(child, 'componentDidMount')
                   })
-                  recursiveDynamicComponents(child)
                 } else {
+                  props.$path = comPath
                   child.$path = comPath
                   child.props.$path = comPath
                   child.prevProps = child.props
                   child.props = props
                   child._unsafeCallUpdate = true
-                  updateComponent(child, false)
-                  child._unsafeCallUpdate = false
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
-                  recursiveDynamicComponents(child)
+                  updateComponent(child, false)
+                  child._unsafeCallUpdate = false
                 }
-
+                recursiveDynamicComponents(child)
                 if (stateData) {
-                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child.state)
+                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child._dyState || child.state)
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child
@@ -202,7 +202,6 @@ export function processDynamicComponents (page, weappPageConf) {
                 if (item.children && item.children.length) {
                   recurrence(item.children, stateData[index], `${index}_${level}`)
                 }
-                recursiveDynamicComponents(item)
               })
             }
             if (children && children.length) {
@@ -221,9 +220,6 @@ function componentTrigger (component, key) {
     component._dirty = true
     component._disable = true
   }
-  Object.getOwnPropertyNames(component.$$components || {}).forEach(name => {
-    componentTrigger(component.$$components[name], key)
-  })
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
     if (component.$isComponent) {
@@ -264,6 +260,7 @@ function transformPropsForComponent (props, defaultProps, propTypes) {
 function createPage (PageClass, options) {
   const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.propTypes)
   const page = new PageClass(pageProps)
+  page.state = page._createData()
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {

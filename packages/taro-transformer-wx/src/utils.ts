@@ -131,7 +131,7 @@ export function createUUID () {
     let r = Math.random() * 16 | 0
     let v = c === 'x' ? r : (r & 0x3 | 0x8)
     return v.toString(16)
-  }).replace(/-/g, '')
+  }).replace(/-/g, '').slice(0, 8)
 }
 
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {

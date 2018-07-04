@@ -11,7 +11,8 @@ import { transform as babel7Transform } from '@babel/core'
 export interface Options {
   isRoot: boolean,
   isApp: boolean,
-  path: string,
+  outputPath: string,
+  sourcePath: string,
   code: string,
   isTyped: boolean,
   isNormal?: boolean
@@ -206,7 +207,7 @@ export default function transform (options: Options): TransformResult {
     renderMethod.remove()
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.path).result
+  result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.sourcePath).result
   result.code = generate(ast).code
   result.ast = ast
   // if (process.env.NODE_ENV !== 'test') {

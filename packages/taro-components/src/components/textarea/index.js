@@ -15,7 +15,7 @@ class Textarea extends Nerv.Component {
       onChange,
       onFocus,
       onBlur,
-      autofocus
+      autoFocus
     } = this.props
     const cls = classNames('weui-textarea', className)
     return (
@@ -34,7 +34,7 @@ class Textarea extends Nerv.Component {
         placeholder={placeholder}
         disabled={disabled}
         maxlength={maxlength}
-        autofocus={autofocus}
+        autofocus={autoFocus}
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}

@@ -1,4 +1,4 @@
-import { NodePath, Scope } from 'babel-traverse'
+import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
@@ -9,15 +9,17 @@ import {
   isArrayMapCallExpression,
   hasComplexExpression,
   generateAnonymousState,
-  buildConstVariableDeclaration
+  buildConstVariableDeclaration,
+  createUUID
 } from './utils'
 import {
-  buildRefTemplate
+  buildRefTemplate,
+  setJSXAttr
 } from './jsx'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, MAP_CALL_ITERATOR, INTERNAL_DYNAMIC } from './constant'
 import { createHTMLElement } from './create-html-element'
 import generate from 'babel-generator'
-import { uniqBy } from 'lodash'
+import { uniqBy, cloneDeep } from 'lodash'
 import { RenderParser } from './render'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -38,11 +40,7 @@ function buildConstructor () {
   return ctor
 }
 
-const componentId = incrementId()
-
-const componentKey = () => {
-  return `$component_${componentId()}`
-}
+const anonymousPropsFunctionId = incrementId()
 
 interface LoopComponents {
   level?: number,
@@ -50,20 +48,6 @@ interface LoopComponents {
   parent: NodePath<t.CallExpression> | null,
   element: NodePath<t.JSXElement>
 }
-
-function resetThisState () {
-  return t.expressionStatement(
-    t.assignmentExpression(
-      '=',
-      t.memberExpression(t.thisExpression(), t.identifier('state')),
-      t.callExpression(
-        t.memberExpression(t.thisExpression(), t.identifier('_createData')),
-        []
-      )
-    )
-  )
-}
-
 interface Result {
   template: string
   components: {
@@ -94,6 +78,7 @@ class Transformer {
   private customComponentNames = new Set<string>()
   private usedState = new Set<string>()
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
+  private customComponentData: Array<t.ObjectProperty> = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -246,29 +231,28 @@ class Transformer {
     })
   }
 
-  renameImportJSXElement () {
-    this.customComponents.forEach((name, path) => {
-      if (this.duplicateComponents.has(name)) {
-        const times = this.duplicateComponents.get(name)!
-        this.duplicateComponents.set(name, times + 1)
-        this.customComponents.set(path, `${name}_${times + 1}`)
-      } else {
-        this.duplicateComponents.set(name, 0)
-      }
-    })
+  renameImportJSXElement (name: string, path: NodePath<t.JSXElement>) {
+    if (this.duplicateComponents.has(name)) {
+      const times = this.duplicateComponents.get(name)!
+      this.duplicateComponents.set(name, times + 1)
+      const newName = `${name}_${times + 1}`
+      this.customComponents.set(path, newName)
+      return `$$${newName}`
+    } else {
+      this.duplicateComponents.set(name, 0)
+      return `$$${name}`
+    }
   }
 
-  setProps () {
+  setComponents () {
     const body = this.classPath.node.body.body
     this.classPath.node.body.body = [
-      build$PropsProperty(this.customComponents, body, this.jsxReferencedIdentifiers, this.renderMethod!.get('body').scope),
-      build$ComponentsProperty(this.customComponents),
+      build$ComponentsProperty(this.customComponents, this.loopComponents),
       ...body
     ]
   }
 
   handleLoopComponents () {
-    const uid = incrementId()
     if (this.loopComponents.size > 0) {
       const properties: t.ObjectProperty[] = []
       this.loopComponents.forEach((loopComponents, rootCallExpression) => {
@@ -278,6 +262,7 @@ class Transformer {
         const callee = rootCallExpression.node.callee
         const calleeCode = generate(callee).code
         let nodes: t.ObjectExpression[] = []
+        const uuid = createUUID()
         loopComponents.forEach((loopComponent) => {
           const { name, element: component, parent } = loopComponent
           let subscript = ''
@@ -293,7 +278,7 @@ class Transformer {
             const calleeCode = generate(callee).code
             subscript = calleeCode.split('.').slice(1, calleeCode.split('.').length).join('')
           }
-          const node = this.generateTopLoopNodes(name, component, uid, subscript.slice(0, subscript.length - 3), parent, iterator.name, index)
+          const node = this.generateTopLoopNodes(name, component, uuid, subscript.slice(0, subscript.length - 3), parent, iterator.name, index)
           nodes.push(node)
         })
         let stateName = ''
@@ -306,17 +291,12 @@ class Transformer {
           stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
             ? ary[2] : ary[1]
         }
-
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
-        const safeget = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
-          t.memberExpression(t.thisExpression(), t.identifier('state')),
-          t.identifier('stateName')
-        ])
         const returnStatement = t.returnStatement(
           t.objectExpression([
             t.objectProperty(t.identifier('stateName'), t.identifier('stateName')),
             t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), safeget, t.identifier('stateName')
+              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
             ]))
           ])
         )
@@ -328,33 +308,107 @@ class Transformer {
         blockStatement.push(stateNameDecl)
         blockStatement.push(nodeDeclare)
         blockStatement.push(returnStatement)
-        const uuid = componentKey()
         this.loopStateName.set(rootCallExpression, uuid)
         properties.push(
-          // t.objectMethod('method', t.identifier(createUUID()), [], t.blockStatement(blockStatement)),
           t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
         )
       })
-      this.classPath.node.body.body.unshift(
-        t.classProperty(
-          t.identifier('$dynamicComponents'),
-          t.objectExpression(properties)
+      let hasDynamicComponents = false
+      for (const property of this.classPath.node.body.body) {
+        if (
+          t.isClassProperty(property) &&
+          property.key.name === '$dynamicComponents' &&
+          t.isObjectExpression(property.value)
+        ) {
+          hasDynamicComponents = true
+          property.value = t.objectExpression(
+            property.value.properties.concat(properties)
+          )
+        }
+      }
+      if (!hasDynamicComponents) {
+        this.classPath.node.body.body.unshift(
+          t.classProperty(
+            t.identifier('$dynamicComponents'),
+            t.objectExpression(properties)
+          )
         )
-      )
+      }
     }
+  }
+
+  generateCustomComponentState = (name: string, component: NodePath<t.JSXElement>, uuid: string) => {
+    const properties: t.ObjectProperty[] = []
+    const pathObj = t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid + '_0'))
+    const attrs = component.node.openingElement.attributes
+    for (const attr of attrs) {
+      const name = attr.name.name as string
+      let value = attr.value as t.Expression
+      if (value === null) {
+        attr.value = t.jSXExpressionContainer(t.booleanLiteral(true))
+      }
+      if (t.isJSXExpressionContainer(attr.value)) {
+        value = attr.value.expression
+      }
+      properties.push(t.objectProperty(t.identifier(name), cloneDeep(value)))
+    }
+    this.customComponentData.push(
+      t.objectProperty(t.identifier(name), t.arrayExpression(
+        [t.objectExpression([pathObj].concat(properties))]
+      ))
+    )
+  }
+
+  setCustomDynamicComponents () {
+    const properties: t.ObjectProperty[] = []
+    this.customComponents.forEach((name, component) => {
+      let blockStatement: t.Statement[] = []
+      let nodes: t.ObjectExpression[] = []
+      const uuid = createUUID()
+      const newName = this.renameImportJSXElement(name, component)
+      this.generateCustomComponentState(newName, component, uuid)
+      const nodeDeclare = t.variableDeclaration('const', [
+        t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
+          nodes
+        ))
+      ])
+      const node = this.generateTopLoopNodes(name, component, uuid, '', null, undefined, undefined, false)
+      nodes.push(node)
+      properties.push(
+        t.objectProperty(t.identifier(uuid), t.arrowFunctionExpression([], t.blockStatement(blockStatement)))
+      )
+      const returnStatement = t.returnStatement(
+        t.objectExpression([
+          t.objectProperty(t.identifier('stateName'), t.stringLiteral(newName)),
+          t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
+            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(newName), t.stringLiteral(uuid + '_0')
+          ]))
+        ])
+      )
+      blockStatement.push(nodeDeclare)
+      blockStatement.push(returnStatement)
+    })
+    this.classPath.node.body.body.unshift(
+      t.classProperty(
+        t.identifier('$dynamicComponents'),
+        t.objectExpression(properties)
+      )
+    )
   }
 
   generateTopLoopNodes (
     name: string,
     component: NodePath<t.JSXElement>,
-    uid: () => number,
+    oldId: string,
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
-    index?: t.Identifier
+    index?: t.Identifier,
+    isLoop = true
   ) {
     const properties: t.ObjectProperty[] = []
     const self = this
+    const uuid = isLoop ? oldId : oldId + '_0'
     component.traverse({
       JSXAttribute (path) {
         const attr = path.node
@@ -393,7 +447,7 @@ class Transformer {
               }
               expresionPath.replaceWith(replacement)
             } else if (isNeedClassMethodWrapper(name.name, expresion)) {
-              const id = `$$anonymousPropsFunction_${uid()}`
+              const id = `$$anonymousPropsFunction_${anonymousPropsFunctionId()}`
               path.get('value').get('expression').replaceWith(
                 t.memberExpression(
                   t.thisExpression(),
@@ -405,20 +459,24 @@ class Transformer {
           } else {
             expresionPath.traverse({
               Identifier (path) {
+                /**
+                 * @TODO 这里应该判断 refid 是 state 还是 props
+                 */
                 const { parent, node } = path
-                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && index && index.name !== node.name) {
+                if (node.name === MAP_CALL_ITERATOR || !path.isReferencedIdentifier()) {
+                  return
+                }
+                const isIndex = index && index.name !== node.name
+                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET && !isIndex) {
                   let replacement = t.memberExpression(
                     t.memberExpression(
                       t.thisExpression(),
                       t.identifier('state')
                     ),
                     node
-                  )
+                  ) as any
                   if (node.name === iterator) {
-                    replacement = t.memberExpression(
-                      t.identifier(MAP_CALL_ITERATOR),
-                      t.identifier(iterator)
-                    )
+                    replacement = t.identifier(MAP_CALL_ITERATOR)
                   }
                   path.replaceWith(replacement)
                 }
@@ -431,8 +489,6 @@ class Transformer {
                   if (id.name === iterator) {
                     id.name = MAP_CALL_ITERATOR
                     replacement = node
-                    // console.log('fuck')
-                    // node.object = id
                   }
                   if (parent !== expresion && path.scope.hasBinding(
                     findFirstIdentifierFromMemberExpression(replacement).name
@@ -455,10 +511,10 @@ class Transformer {
         )
       }
     })
-    const argsFunction = t.objectMethod('method', t.identifier('args'), [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')],
+    const argsFunction = t.objectMethod('method', t.identifier('args'), isLoop ? [t.identifier(MAP_CALL_ITERATOR), t.identifier('index')] : [],
       t.blockStatement(
         [
-          t.returnStatement(t.objectExpression(properties))
+          t.returnStatement(t.objectExpression(properties.concat([t.objectProperty(t.identifier('$path'), t.stringLiteral(uuid))])))
         ]
       )
     )
@@ -505,11 +561,63 @@ class Transformer {
     this.result.components = uniqBy(this.result.components, 'name')
   }
 
+  handleUtilAssign (jsx: NodePath<t.JSXElement>, iterator?: string) {
+    const attrs = jsx.node.openingElement.attributes
+    // console.log('item', iterator)
+    let key!: t.JSXAttribute
+    let str = `utils.assign(${iterator || '{}'}, {`
+    let hasProp = false
+    for (const attr of attrs) {
+      const name = attr.name.name as string
+      if (name === 'key') {
+        key = attr
+      } else if (name.startsWith('on')) {
+        //
+      } else {
+        if (attr.value === null) {
+          attr.value = t.jSXExpressionContainer(t.booleanLiteral(true))
+        }
+        const value = t.isJSXExpressionContainer(attr.value) ? attr.value.expression : attr.value
+        str += name + ':' + generate(value).code.replace(/(this\.props\.)|(this\.state\.)/g, '')
+        .replace(/__item/g, iterator || 'item') + ','
+        hasProp = true
+      }
+    }
+    str = str.slice(0, str.length - 1)
+    if (!hasProp) {
+      str = str.slice(0, str.length - 2)
+      // str = str.replace('/\,/g', '')
+    }
+    str += `${hasProp ? '}' : ''})`
+    return {
+      key,
+      str
+    }
+  }
+
   replaceImportedJSXElement () {
     this.customComponents.forEach((name, path) => {
-      path.replaceWith(
-        buildRefTemplate(findImportedName(name), name)
+      const jsx = buildRefTemplate(findImportedName(name), name)
+      setJSXAttr(
+        jsx,
+        'wx:for-item',
+        t.stringLiteral('item')
       )
+      setJSXAttr(
+        jsx,
+        'data',
+        t.jSXExpressionContainer(
+          t.identifier('...item')
+        )
+      )
+      setJSXAttr(
+        jsx,
+        'wx:for',
+        t.jSXExpressionContainer(
+          t.identifier('$$' + name)
+        )
+      )
+      path.replaceWith(jsx)
       this.customComponentNames.add('$$' + name)
     })
     this.loopComponents.forEach(lc => {
@@ -542,14 +650,8 @@ class Transformer {
   }
 
   resetConstructor () {
-    if (this.methods.has('constructor')) {
-      const ctor = this.methods.get('constructor')
-      if (ctor && ctor.isClassMethod()) {
-        ctor.node.body.body.push(resetThisState())
-      }
-    } else {
+    if (!this.methods.has('constructor')) {
       const ctor = buildConstructor()
-      ctor.body.body.push(resetThisState())
       this.classPath.node.body.body.unshift(ctor)
     }
   }
@@ -565,9 +667,10 @@ class Transformer {
           this.isRoot,
           instanceName,
           this.jsxReferencedIdentifiers,
-          this.customComponentNames,
           this.usedState,
-          this.loopStateName
+          this.loopStateName,
+          this.customComponentNames,
+          this.customComponentData
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
@@ -576,9 +679,9 @@ class Transformer {
 
   compile () {
     this.traverse()
+    this.setCustomDynamicComponents()
     this.handleLoopComponents()
-    this.renameImportJSXElement()
-    this.setProps()
+    this.setComponents()
     this.setComponentResult()
     this.replaceImportedJSXElement()
     this.resetConstructor()
@@ -623,114 +726,6 @@ function buildAnonymousClassMethod (expresion: t.Expression, id: string) {
     ]))
 }
 
-function build$PropsProperty (
-  importedJSXElement: Map<NodePath<t.JSXElement>, string>,
-  body: Array<t.ClassProperty | t.ClassMethod>,
-  jsxReferencedIdentifiers: Set<t.Identifier>,
-  renderScope: Scope
-) {
-  const uid = incrementId()
-  const properties: Array<t.ObjectMethod> = []
-  importedJSXElement.forEach((name, path) => {
-    let attrObj = [t.objectProperty(t.identifier('$name'), t.stringLiteral(name))]
-    path.traverse({
-      Identifier (path) {
-        const parentPath = path.parentPath
-        if (
-          parentPath.isConditionalExpression() ||
-          parentPath.isLogicalExpression() ||
-          parentPath.isJSXExpressionContainer() ||
-          (renderScope.hasBinding(path.node.name) && path.isReferencedIdentifier())
-        ) {
-          jsxReferencedIdentifiers.add(path.node)
-        }
-      },
-      JSXAttribute (path) {
-        const attr = path.node
-        const name = attr.name as t.JSXIdentifier
-        let value!: t.Expression
-        // @TODO: 使用作用域的方法全部替换，现在 cover 的情况太少
-        if (t.isJSXElement(attr.value)) {
-          throw codeFrameError(attr.loc, 'JSX 参数不支持传入 JSX 元素')
-        } else if (t.isJSXExpressionContainer(attr.value)) {
-          const expresion = attr.value.expression
-          const expresionPath = path.get('value').get('expression')
-          if (t.isIdentifier(expresion)) {
-            jsxReferencedIdentifiers.add(expresion)
-            expresionPath.replaceWith(
-              t.memberExpression(
-                t.memberExpression(
-                  t.thisExpression(),
-                  t.identifier('state')
-                ),
-                expresion
-              )
-            )
-          } else if (t.isMemberExpression(expresion)) {
-            if (!t.isThisExpression(expresion.object) && !isContainThis(expresion)) {
-              if (t.isIdentifier(expresion.object)) {
-                jsxReferencedIdentifiers.add(expresion.object)
-              }
-              expresionPath.replaceWith(
-                buildInternalSafeGet(generate(expresion).code)
-              )
-            } else if (isNeedClassMethodWrapper(name.name, expresion)) {
-              const id = `$anonymousPropsFunction_${uid()}`
-              path.get('value').get('expression').replaceWith(
-                t.memberExpression(
-                  t.thisExpression(),
-                  t.identifier(id)
-                )
-              )
-              body.push(buildAnonymousClassMethod(expresion, id))
-            }
-          } else {
-            expresionPath.traverse({
-              Identifier (path) {
-                const { parent, node } = path
-                if (!t.isMemberExpression(parent) && node.name !== INTERNAL_SAFE_GET) {
-                  jsxReferencedIdentifiers.add(node)
-                  path.replaceWith(
-                    t.memberExpression(
-                      t.memberExpression(
-                        t.thisExpression(),
-                        t.identifier('state')
-                      ),
-                      node
-                    )
-                  )
-                }
-              },
-              MemberExpression (path) {
-                const { parent, node } = path
-                if ((parent === expresion) && !isContainThis(node)) {
-                  path.replaceWith(buildInternalSafeGet(generate(node).code))
-                }
-              }
-            })
-          }
-          value = attr.value.expression
-        } else {
-          value = attr.value
-        }
-        attrObj.push(
-          t.objectProperty(t.identifier(name.name), value === null ? t.booleanLiteral(true) : value)
-        )
-      }
-    })
-    properties.push(
-      t.objectMethod('method', t.identifier(name), [], t.blockStatement(
-        [t.returnStatement(t.objectExpression(attrObj))]
-      ))
-    )
-  })
-  // console.log(jsxReferencedIdentifiers)
-  return t.classProperty(
-    t.identifier('$props'),
-    t.objectExpression(properties)
-  )
-}
-
 function findImportedName (name: string) {
   return isNumeric(name.slice(-1)) && name.slice(-2)[0] === '_'
     ? name.slice(0, name.length - 2)
@@ -738,8 +733,8 @@ function findImportedName (name: string) {
 }
 
 function build$ComponentsProperty (
-  importedJSXElement: Map<NodePath<t.JSXElement>, string>
-  // loopComponents: TypeLoopComponents
+  importedJSXElement: Map<NodePath<t.JSXElement>, string>,
+  loopComponents: TypeLoopComponents
 ) {
   const properties: Array<t.ObjectProperty> = []
   for (const name of importedJSXElement.values()) {
@@ -752,20 +747,20 @@ function build$ComponentsProperty (
       )
     )
   }
-  // loopComponents.forEach(lc => {
-  //   lc.forEach(c => {
-  //     if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
-  //       properties.push(
-  //         t.objectProperty(
-  //           t.identifier(c.name),
-  //           t.identifier(
-  //             findImportedName(c.name)
-  //           )
-  //         )
-  //       )
-  //     }
-  //   })
-  // })
+  loopComponents.forEach(lc => {
+    lc.forEach(c => {
+      if (!properties.some(p => t.isIdentifier(p.key) && p.key.name === c.name)) {
+        properties.push(
+          t.objectProperty(
+            t.identifier(c.name),
+            t.identifier(
+              findImportedName(c.name)
+            )
+          )
+        )
+      }
+    })
+  })
   return t.classProperty(
     t.identifier('$components'),
     t.objectExpression(properties)

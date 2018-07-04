@@ -201,7 +201,7 @@ describe('Template', () => {
         expect(template).toMatch('<view hidden="{{true}}"></view>')
       })
 
-      test('自定义组件', () => {
+      test('自定义组件不写值', () => {
         const { template, code, ast } = transform({
           ...baseOptions,
           isRoot: true,
@@ -211,10 +211,31 @@ describe('Template', () => {
         })
 
         const instance = evalClass(ast)
-        const props = instance.$props.Custom()
-        expect(props.$name).toBe('Custom')
-        expect(props.hidden).toBe(true)
-        expect(template).toMatch(`<template is="Custom" data="{{...$$Custom}}"></template>`)
+        // const props = instance.$props.Custom()
+        // expect(props.$name).toBe('Custom')
+        // expect(props.hidden).toBe(true)
+        expect(template).toMatch(`<template is=\"Custom\" data=\"{{...$$Custom}}\" wx:for-item=\"item\"></template>`)
+      })
+
+      test('自定义组件循环', () => {
+        const { template, code, ast } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+            const array = [1, 2, 3]
+            return (
+              <View>
+                {array.map(a1 => <Custom />)}
+              </View>
+            )
+          `, ``, `import { Custom } from './utils'`)
+        })
+
+        const instance = evalClass(ast)
+        // const props = instance.$props.Custom()
+        // expect(props.$name).toBe('Custom')
+        // expect(props.hidden).toBe(true)
+        expect(template).toMatch(`<template is=\"Custom\" data=\"{{...a1}}\" wx:for=\"{{array}}\" wx:for-item=\"a1\"></template>`)
       })
     })
 

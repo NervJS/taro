@@ -6,6 +6,7 @@ class Component {
   static defaultProps = {}
   $components = {}
   $$components = {}
+  $$dynamicComponents = {}
   $router = {
     params: {}
   }
@@ -29,11 +30,8 @@ class Component {
     this.$root = $root || null
     this.$parent = $parent || null
     this.defaultData = {}
-    this.$data = $parent ? $parent.$data || {} : {}
+    this.$data = {}
 
-    let path = this.$path.split('$$').pop()
-    this.$data[`$$${path}`] = this.$data[`$$${path}`] || {}
-    this.$data = this.$data[`$$${path}`]
     let state = this.state
     if (this._dyState) {
       state = Object.assign({}, this.state, this._dyState)
@@ -49,11 +47,6 @@ class Component {
       }
     }
 
-    if (this.$$components && !isEmptyObject(this.$$components)) {
-      Object.getOwnPropertyNames(this.$$components).forEach(name => {
-        this.$$components[name]._initData(this.$root || this, this)
-      })
-    }
     if (this.$$dynamicComponents && !isEmptyObject(this.$$dynamicComponents)) {
       Object.getOwnPropertyNames(this.$$dynamicComponents).forEach(name => {
         this.$$dynamicComponents[name]._initData(this.$root || this, this)
@@ -63,11 +56,6 @@ class Component {
   _init (scope) {
     this.$scope = scope
     this.$app = getApp()
-    if (this.$$components && !isEmptyObject(this.$$components)) {
-      Object.getOwnPropertyNames(this.$$components).forEach(name => {
-        this.$$components[name]._init(this.$scope)
-      })
-    }
     if (this.$$dynamicComponents && !isEmptyObject(this.$$dynamicComponents)) {
       Object.getOwnPropertyNames(this.$$dynamicComponents).forEach(name => {
         this.$$dynamicComponents[name]._init(this.$scope)
