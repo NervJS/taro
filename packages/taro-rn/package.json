@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "0.0.65",
+  "version": "0.0.66",
   "description": "Taro RN framework",
   "main": "./src/index.js",
   "files": [
@@ -22,7 +22,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.65",
+    "@tarojs/taro": "0.0.66",
     "react-native-image-viewer": "^0.0.3",
     "react-native-root-siblings": "^3.1.0",
     "react-native-root-toast": "^3.0.1",

@@ -1,5 +1,19 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.65...v) (2018-07-03)
+# [](https://github.com/NervJS/taro/compare/v0.0.66...v) (2018-07-04)
+
+
+
+<a name="0.0.66"></a>
+## [0.0.66](https://github.com/NervJS/taro/compare/v0.0.65...v0.0.66) (2018-07-04)
+
+
+### Bug Fixes
+
+* **cli:** redux 模板变更 ([8912f9c](https://github.com/NervJS/taro/commit/8912f9c))
+* **taro-weapp:** 组件的 _createData() 不在 constructor 里调用 ([f759d52](https://github.com/NervJS/taro/commit/f759d52))
+* **transformer:** $DC 表达式解析失败 ([72b45bc](https://github.com/NervJS/taro/commit/72b45bc))
+* **transformer:** $dynamicComp 的 stateName 应该和 template data 的指向保持一致 ([e5140e4](https://github.com/NervJS/taro/commit/e5140e4))
+* **transformer:** 寻找 id 是属于 props 或 state ([5b5f42f](https://github.com/NervJS/taro/commit/5b5f42f))
 
 
 
