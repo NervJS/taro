@@ -390,7 +390,7 @@ class Transformer {
         t.objectExpression([
           t.objectProperty(t.identifier('stateName'), t.stringLiteral(newName)),
           t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(newName), t.stringLiteral(uuid + '_0')
+            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(newName), t.stringLiteral(uuid)
           ]))
         ])
       )
@@ -408,7 +408,7 @@ class Transformer {
   generateTopLoopNodes (
     name: string,
     component: NodePath<t.JSXElement>,
-    oldId: string,
+    uuid: string,
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
@@ -417,7 +417,6 @@ class Transformer {
   ) {
     const properties: t.ObjectProperty[] = []
     const self = this
-    const uuid = isLoop ? oldId : oldId + '_0'
     component.traverse({
       JSXAttribute (path) {
         const attr = path.node
