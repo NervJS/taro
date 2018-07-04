@@ -383,17 +383,19 @@ export class RenderParser {
                   setJSXAttr(
                     jsxElementPath.node,
                     'wx:elif',
-                    t.jSXExpressionContainer(test)
+                    t.jSXExpressionContainer(test),
+                    jsxElementPath
                   )
                 } else {
                   if (this.topLevelIfStatement.size > 0) {
                     setJSXAttr(
                       jsxElementPath.node,
                       'wx:elif',
-                      t.jSXExpressionContainer(test)
+                      t.jSXExpressionContainer(test),
+                      jsxElementPath
                     )
                   } else {
-                    newJSXIfAttr(jsxElementPath.node, test)
+                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                     this.topLevelIfStatement.add(ifStatement)
                   }
                 }
@@ -429,13 +431,14 @@ export class RenderParser {
                     setJSXAttr(
                       jsxElementPath.node,
                       'wx:elif',
-                      t.jSXExpressionContainer(test)
+                      t.jSXExpressionContainer(test),
+                      jsxElementPath
                     )
                   } else {
                     if (parentIfStatement) {
-                      newJSXIfAttr(block, parentIfStatement.node.test)
+                      newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
                     }
-                    newJSXIfAttr(jsxElementPath.node, test)
+                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                   }
                 }
                 block.children.push(jsxElementPath.node)

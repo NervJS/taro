@@ -5,6 +5,7 @@ import { NodePath, Scope } from 'babel-traverse'
 import { LOOP_STATE } from './constant'
 import * as fs from 'fs'
 import * as path from 'path'
+import { buildBlockElement } from './jsx'
 
 export const incrementId = () => {
   let id = 0
@@ -152,8 +153,19 @@ export function buildJSXAttr (name: string, value: t.Identifier | t.Expression) 
   return t.jSXAttribute(t.jSXIdentifier(name), t.jSXExpressionContainer(value))
 }
 
-export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Expression) {
-  jsx.openingElement.attributes.push(buildJSXAttr('wx:if', value))
+export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Expression, path?: NodePath<t.JSXElement>) {
+  const element = jsx.openingElement
+  if (!t.isJSXIdentifier(element.name)) {
+    return
+  }
+  if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
+    element.attributes.push(buildJSXAttr('wx:if', value))
+  } else {
+    const block = buildBlockElement()
+    newJSXIfAttr(block, value)
+    block.children = [jsx]
+    path.node = block
+  }
 }
 
 export function isContainJSXElement (path: NodePath<t.Node>) {
