@@ -65,7 +65,7 @@ function processEvent (eventHandlerName, component, obj) {
       }
     } else {
       realArgs = event.detail.__arguments || []
-      if (event.detail.__scope && event.detail.__scope !== 'this') {
+      if (event.detail.__scope) {
         scope = event.detail.__scope
       }
     }
