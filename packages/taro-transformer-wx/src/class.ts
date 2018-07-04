@@ -379,22 +379,11 @@ class Transformer {
       let blockStatement: t.Statement[] = []
       let nodes: t.ObjectExpression[] = []
       const uuid = createUUID()
-      const stateName = `$$${name}`
-      const returnStatement = t.returnStatement(
-        t.objectExpression([
-          t.objectProperty(t.identifier('stateName'), t.stringLiteral(stateName)),
-          t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
-          ]))
-        ])
-      )
       const nodeDeclare = t.variableDeclaration('const', [
         t.variableDeclarator(t.identifier('nodes'), t.arrayExpression(
           nodes
         ))
       ])
-      blockStatement.push(nodeDeclare)
-      blockStatement.push(returnStatement)
       const node = this.generateTopLoopNodes(name, component, uuid, '', null, undefined, undefined, false)
       nodes.push(node)
       properties.push(
@@ -402,6 +391,16 @@ class Transformer {
       )
       const newName = this.renameImportJSXElement(name, component)
       this.generateCustomComponentState(newName, component, uuid)
+      const returnStatement = t.returnStatement(
+        t.objectExpression([
+          t.objectProperty(t.identifier('stateName'), t.stringLiteral(newName)),
+          t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
+            t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(newName), t.stringLiteral(uuid + '_0')
+          ]))
+        ])
+      )
+      blockStatement.push(nodeDeclare)
+      blockStatement.push(returnStatement)
     })
     this.classPath.node.body.body.unshift(
       t.classProperty(
@@ -414,7 +413,7 @@ class Transformer {
   generateTopLoopNodes (
     name: string,
     component: NodePath<t.JSXElement>,
-    uuid: string,
+    oldId: string,
     subscript: string,
     parent: NodePath<t.CallExpression> | null,
     iterator?: string,
@@ -423,6 +422,7 @@ class Transformer {
   ) {
     const properties: t.ObjectProperty[] = []
     const self = this
+    const uuid = isLoop ? oldId : oldId + '_0'
     component.traverse({
       JSXAttribute (path) {
         const attr = path.node
@@ -499,8 +499,6 @@ class Transformer {
                   if (id.name === iterator) {
                     id.name = MAP_CALL_ITERATOR
                     replacement = node
-                    // console.log('fuck')
-                    // node.object = id
                   }
                   if (parent !== expresion && path.scope.hasBinding(
                     findFirstIdentifierFromMemberExpression(replacement).name
