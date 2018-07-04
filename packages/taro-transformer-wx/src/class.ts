@@ -1,4 +1,4 @@
-import { NodePath } from 'babel-traverse'
+import { NodePath, Scope } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
@@ -38,6 +38,15 @@ function buildConstructor () {
     ])
   )
   return ctor
+}
+
+function isBelongToProps (id: t.Identifier, scope: Scope) {
+  const binding = scope.getOwnBinding(id.name)
+  if (binding) {
+    const statementParent = binding.path.getStatementParent()
+    return generate(statementParent.node).code.includes('this.props')
+  }
+  return false
 }
 
 const anonymousPropsFunctionId = incrementId()
@@ -427,7 +436,7 @@ class Transformer {
             let replacement: any = t.memberExpression(
               t.memberExpression(
                 t.thisExpression(),
-                t.identifier('state')
+                t.identifier(isBelongToProps(expresion, self.renderMethod!.scope) ? 'props' : 'state')
               ),
               expresion
             )
@@ -459,9 +468,6 @@ class Transformer {
           } else {
             expresionPath.traverse({
               Identifier (path) {
-                /**
-                 * @TODO 这里应该判断 refid 是 state 还是 props
-                 */
                 const { parent, node } = path
                 if (node.name === MAP_CALL_ITERATOR || !path.isReferencedIdentifier()) {
                   return
@@ -471,7 +477,7 @@ class Transformer {
                   let replacement = t.memberExpression(
                     t.memberExpression(
                       t.thisExpression(),
-                      t.identifier('state')
+                      t.identifier(isBelongToProps(path.node, self.renderMethod!.scope) ? 'props' : 'state')
                     ),
                     node
                   ) as any
