@@ -1,32 +1,32 @@
 import { onAndSyncApis, noPromiseApis, otherApis } from '@tarojs/taro'
 
-const RequestQueue = {
-  MAX_REQUEST: 5,
-  queue: [],
-  request (options) {
-    this.push(options)
-    this.run()
-  },
+// const RequestQueue = {
+//   MAX_REQUEST: 5,
+//   queue: [],
+//   request (options) {
+//     this.push(options)
+//     this.run()
+//   },
 
-  push (options) {
-    this.queue.push(options)
-  },
+//   push (options) {
+//     this.queue.push(options)
+//   },
 
-  run () {
-    if (!this.queue.length) {
-      return
-    }
-    if (this.queue.length <= this.MAX_REQUEST) {
-      let options = this.queue.shift()
-      let completeFn = options.complete
-      options.complete = () => {
-        completeFn && completeFn.apply(options, [...arguments])
-        this.run()
-      }
-      wx.request(options)
-    }
-  }
-}
+//   run () {
+//     if (!this.queue.length) {
+//       return
+//     }
+//     if (this.queue.length <= this.MAX_REQUEST) {
+//       let options = this.queue.shift()
+//       let completeFn = options.complete
+//       options.complete = () => {
+//         completeFn && completeFn.apply(options, [...arguments])
+//         this.run()
+//       }
+//       wx.request(options)
+//     }
+//   }
+// }
 
 function request (options) {
   options = options || {}
@@ -51,8 +51,8 @@ function request (options) {
     options['complete'] = res => {
       originComplete && originComplete(res)
     }
-
-    RequestQueue.request(options)
+    // just use wx.request, has been sloved in native
+    wx.request(options)
   })
   return p
 }
