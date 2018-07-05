@@ -446,9 +446,10 @@ class Transformer {
             }
             expresionPath.replaceWith(replacement)
           } else if (t.isMemberExpression(expresion)) {
+            debugger
             if (!t.isThisExpression(expresion.object) && !isContainThis(expresion)) {
-              let replacement: any = buildInternalSafeGet(generate(expresion).code, isLoop)
               const id = findFirstIdentifierFromMemberExpression(expresion)
+              let replacement: any = buildInternalSafeGet(generate(expresion).code, isLoop, isBelongToProps(id, path.scope))
               if (id.name === iterator) {
                 id.name = MAP_CALL_ITERATOR
                 replacement = expresion
