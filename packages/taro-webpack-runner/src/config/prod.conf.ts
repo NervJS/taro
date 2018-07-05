@@ -102,17 +102,8 @@ export default (config: BuildConfig): webpack.Configuration => {
     filename: 'css/[name].css'
   }))
 
-  const plugins = [
-    new UglifyJsPlugin({
-      cache: true,
-      parallel: true,
-      sourceMap,
-      uglifyOptions: compress.js
-    }),
-    ...cssExtractPlugins
-  ]
-
   return {
+    mode: 'production',
     devtool,
     module: {
       rules: [
@@ -126,6 +117,16 @@ export default (config: BuildConfig): webpack.Configuration => {
     resolve: {
       mainFields: ['main']
     },
-    plugins
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap,
+          uglifyOptions: compress.js
+        })
+      ]
+    },
+    plugins: cssExtractPlugins
   } as webpack.Configuration
 }
