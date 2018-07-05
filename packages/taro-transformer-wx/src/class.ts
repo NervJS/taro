@@ -447,7 +447,7 @@ class Transformer {
             expresionPath.replaceWith(replacement)
           } else if (t.isMemberExpression(expresion)) {
             if (!t.isThisExpression(expresion.object) && !isContainThis(expresion)) {
-              let replacement: any = buildInternalSafeGet(generate(expresion).code, true)
+              let replacement: any = buildInternalSafeGet(generate(expresion).code, isLoop)
               const id = findFirstIdentifierFromMemberExpression(expresion)
               if (id.name === iterator) {
                 id.name = MAP_CALL_ITERATOR
@@ -486,6 +486,7 @@ class Transformer {
                 }
               },
               MemberExpression (path) {
+                debugger
                 const { parent, node } = path
                 if (!isContainThis(node)) {
                   let replacement: t.Expression = node
@@ -494,10 +495,8 @@ class Transformer {
                     id.name = MAP_CALL_ITERATOR
                     replacement = node
                   }
-                  if (parent !== expresion && path.scope.hasBinding(
-                    findFirstIdentifierFromMemberExpression(replacement).name
-                  )) {
-                    replacement = buildInternalSafeGet(generate(node).code)
+                  if (path.scope.hasBinding(id.name)) {
+                    replacement = buildInternalSafeGet(generate(node).code, isLoop, isBelongToProps(id, self.renderMethod!.scope))
                   }
                   if (replacement !== node) {
                     path.replaceWith(replacement)
@@ -707,9 +706,9 @@ class Transformer {
   }
 }
 
-function buildInternalSafeGet (getter: string, isData?: boolean) {
+function buildInternalSafeGet (getter: string, isData?: boolean, isProps = false) {
   return t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
-    !isData ? t.memberExpression(t.thisExpression(), t.identifier('state')) : t.identifier(MAP_CALL_ITERATOR),
+    !isData ? t.memberExpression(t.thisExpression(), t.identifier(isProps ? 'props' : 'state')) : t.identifier(MAP_CALL_ITERATOR),
     t.stringLiteral(getter)
   ])
 }
