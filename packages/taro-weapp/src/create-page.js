@@ -167,15 +167,13 @@ export function processDynamicComponents (page, weappPageConf) {
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
                   componentTrigger(child, 'componentWillMount')
-                  events.on('page:onReady', () => {
-                    componentTrigger(child, 'componentDidMount')
-                  })
+                  componentTrigger(child, 'componentDidMount')
                 } else {
                   props.$path = comPath
                   child.$path = comPath
                   child.props.$path = comPath
-                  child.prevProps = child.props
-                  child.props = props
+                  child.prevProps = child.prevProps || child.props
+                  child.props = Object.assign({}, child.props, props)
                   child._unsafeCallUpdate = true
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
@@ -280,7 +278,6 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentWillMount')
     },
     onReady () {
-      events.trigger('page:onReady')
       componentTrigger(page, 'componentDidMount')
     },
     onShow () {
