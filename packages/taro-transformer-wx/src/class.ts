@@ -486,8 +486,7 @@ class Transformer {
                 }
               },
               MemberExpression (path) {
-                debugger
-                const { parent, node } = path
+                const { node } = path
                 if (!isContainThis(node)) {
                   let replacement: t.Expression = node
                   const id = findFirstIdentifierFromMemberExpression(node)
