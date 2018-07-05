@@ -800,12 +800,22 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     const customPxtransformConf = customPostcssConf.pxtransform || {}
 
     try {
+      const postcssPxtransformOption = {
+        designWidth: projectConfig.designWidth || 750,
+        platform: 'weapp'
+      }
+
+      const DEVICE_RATIO = 'deviceRatio'
+      if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+        postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
+      }
+
       const postcssResult = await postcss([
         autoprefixer({ browsers: browserList }),
-        pxtransform(Object.assign({
-          designWidth: projectConfig.designWidth || 750,
-          platform: 'weapp'
-        }, customPxtransformConf))
+        pxtransform(Object.assign(
+          postcssPxtransformOption,
+          customPxtransformConf
+        ))
       ]).process(resContent, {
         from: undefined
       })
