@@ -22,7 +22,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.67",
+    "@tarojs/taro": "0.0.68-beta.0",
     "prop-types": "^15.6.1"
   }
 }
