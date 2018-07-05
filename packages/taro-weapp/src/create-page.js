@@ -221,6 +221,16 @@ function componentTrigger (component, key) {
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
+    component.$components = {}
+    component.$$components = {}
+    component.$$dynamicComponents = {}
+    component.$router = {
+      params: {}
+    }
+    component._pendingStates = []
+    component._pendingCallbacks = []
+    component.state = {}
+    component.props = {}
   }
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
@@ -287,7 +297,6 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentDidHide')
     },
     onUnload () {
-      events.off('page:onReady')
       componentTrigger(page, 'componentWillUnmount')
     },
     _setData (data, cb, isRoot) {
