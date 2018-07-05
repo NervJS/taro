@@ -174,8 +174,8 @@ export function processDynamicComponents (page, weappPageConf) {
                   props.$path = comPath
                   child.$path = comPath
                   child.props.$path = comPath
-                  child.prevProps = child.props
-                  child.props = props
+                  child.prevProps = child.prevProps || child.props
+                  child.props = Object.assign({}, child.props, props)
                   child._unsafeCallUpdate = true
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
