@@ -160,7 +160,7 @@ export function processDynamicComponents (page, weappPageConf) {
                   try {
                     child.state = child._createData()
                   } catch (err) {
-                    child.state = {}
+                    console.error(err)
                   }
                   child.$path = comPath
                   child.props.$path = comPath
@@ -265,7 +265,7 @@ function createPage (PageClass, options) {
   try {
     page.state = page._createData()
   } catch (err) {
-    page.state = {}
+    console.error(err)
   }
   page.$isComponent = false
   page.path = options.path
