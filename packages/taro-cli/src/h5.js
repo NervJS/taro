@@ -462,28 +462,29 @@ function classifyFiles (filename) {
 function processFiles (filePath) {
   const file = fs.readFileSync(filePath)
   const fileType = classifyFiles(filePath)
-  const fileDir = path.dirname(filePath)
+  const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
-  const distDir = fileDir.replace(sourceDir, tempDir)
-  const distBase = path.format({
-    dir: distDir,
-    base: path.basename(filePath, extname)
+  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distPath = path.format({
+    dir: distDirname,
+    name: path.basename(filePath, extname),
+    ext: extname
   })
   try {
-    if (Util.REG_SCRIPTS.test(path.extname(filePath))) {
+    if (Util.REG_SCRIPTS.test(extname)) {
       // 脚本文件 处理一下
       const content = file.toString()
       const transformResult = fileType === FILE_TYPE.ENTRY
         ? processEntry(content, filePath)
         : processOthers(content, filePath)
       const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
-      fs.ensureDirSync(distDir)
-      fs.writeFileSync(`${distBase}.js`, Buffer.from(jsCode))
+      fs.ensureDirSync(distDirname)
+      fs.writeFileSync(distPath, Buffer.from(jsCode))
     } else {
       // 其他 直接复制
-      fs.ensureDirSync(distDir)
+      fs.ensureDirSync(distDirname)
       fs.createReadStream(filePath)
-        .pipe(fs.createWriteStream(`${distBase}${extname}`))
+        .pipe(fs.createWriteStream(distPath))
     }
   } catch (e) {
     console.log(e)
