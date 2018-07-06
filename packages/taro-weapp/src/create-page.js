@@ -1,7 +1,6 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet,
-  Events
+  internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { updateComponent } from './lifecycle'
 import { isEmptyObject, getPrototypeChain } from './util'
@@ -11,7 +10,6 @@ const rootScopeKey = '__root_'
 const componentPath = 'componentPath'
 const scopeMap = {}
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
-const events = new Events()
 
 function processEvent (pagePath, eventHandlerName, obj) {
   let newEventHandlerName = eventHandlerName.replace(eventPreffix, '')
@@ -30,24 +28,20 @@ function processEvent (pagePath, eventHandlerName, obj) {
     let scope = theComponent
     const bindArgs = {}
     const componentClassName = dataset['componentClass']
-    const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
+    const newEventHandlerNameCopy = componentClassName ? newEventHandlerName.replace(`${componentClassName}__`, '') : newEventHandlerName
+    const newEventHandlerNameLower = newEventHandlerNameCopy.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
-      let keyLower = key.toLocaleLowerCase()
-      if (keyLower.indexOf('event') === 0) {
-        keyLower = keyLower.replace('event', '')
-        keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(newEventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(newEventHandlerNameLower, '')
-          bindArgs[argName] = dataset[key]
-        }
+      const keyLower = key.toLocaleLowerCase()
+      if (keyLower[0] === 'e' && keyLower.indexOf(`e${newEventHandlerNameLower}`) === 0) {
+        const argName = keyLower.replace(`e${newEventHandlerNameLower}`, '')
+        bindArgs[argName] = dataset[key]
       }
     })
     if (!isEmptyObject(bindArgs)) {
-      if (bindArgs['scope'] !== 'this') {
-        scope = bindArgs['scope']
+      if (bindArgs['so'] !== 'this') {
+        scope = bindArgs['so']
       }
-      delete bindArgs['scope']
+      delete bindArgs['so']
       const realArgs = Object.keys(bindArgs)
         .sort()
         .map(key => bindArgs[key])
