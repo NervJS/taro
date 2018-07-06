@@ -493,7 +493,7 @@ export class RenderParser {
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
-                  `data-event-${bindCalleeName}-scope`,
+                  `data-e-${bindCalleeName}-so`,
                   t.stringLiteral(argName as string)
                 )
               } else {
@@ -511,7 +511,7 @@ export class RenderParser {
                 }
                 setJSXAttr(
                   JSXElement,
-                  `data-event-${bindCalleeName}-arg-${toLetters(index)}`,
+                  `data-e-${bindCalleeName}-a-${toLetters(index)}`,
                   expr!
                 )
               }

@@ -191,7 +191,6 @@ class Transformer {
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
-        debugger
         if (
           t.isJSXIdentifier(id) &&
           !DEFAULT_Component_SET.has(id.name) &&
