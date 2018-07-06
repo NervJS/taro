@@ -307,32 +307,26 @@ function processEntry (code, filePath) {
           })
           .join(',')
 
-        const importTaro = template(
+        node.body.unshift(template(
           `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
           babylonConfig
-        )()
-        const importTaroRouter = template(
+        )())
+        node.body.unshift(template(
           `import ${routerImportDefaultName} from '${PACKAGES['@tarojs/router']}'`,
           babylonConfig
-        )()
-        const importComponents = template(
+        )())
+        tabBar && node.body.unshift(template(
           `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
-        )()
-        const initRouter = template(
-          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
-          babylonConfig
-        )()
-        const initNativeApi = template(
+        )())
+        node.body.push(template(
           `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
           babylonConfig
-        )()
-
-        node.body.unshift(importTaro)
-        node.body.unshift(importTaroRouter)
-        tabBar && node.body.unshift(importComponents)
-        node.body.push(initNativeApi)
-        node.body.push(initRouter)
+        )())
+        node.body.push(template(
+          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
+          babylonConfig
+        )())
         node.body.push(template(renderCallCode, babylonConfig)())
       }
     }
@@ -458,6 +452,17 @@ function classifyFiles (filename) {
     return FILE_TYPE.NORMAL
   }
 }
+function getDist (filename) {
+  const dirname = path.dirname(filename)
+  const extname = path.extname(filename)
+  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distPath = path.format({
+    dir: distDirname,
+    name: path.basename(filename, extname),
+    ext: extname
+  })
+  return distPath
+}
 
 function processFiles (filePath) {
   const file = fs.readFileSync(filePath)
@@ -465,11 +470,8 @@ function processFiles (filePath) {
   const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
   const distDirname = dirname.replace(sourceDir, tempDir)
-  const distPath = path.format({
-    dir: distDirname,
-    name: path.basename(filePath, extname),
-    ext: extname
-  })
+  const distPath = getDist(filePath)
+
   try {
     if (Util.REG_SCRIPTS.test(extname)) {
       // 脚本文件 处理一下
@@ -498,22 +500,23 @@ function watchFiles () {
     ignoreInitial: true
   })
   watcher
-    .on('addDir', dirPath => {
-      Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件夹', dirPath)
-    })
     .on('add', filePath => {
       pages = []
-      let modifySource = filePath.replace(appPath + path.sep, '')
-      modifySource = modifySource.split(path.sep).join('/')
-      Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', modifySource)
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
       processFiles(filePath)
     })
     .on('change', filePath => {
       pages = []
-      let modifySource = filePath.replace(appPath + path.sep, '')
-      modifySource = modifySource.split(path.sep).join('/')
-      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', modifySource)
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)
+    })
+    .on('unlink', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      const dist = getDist(filePath)
+      Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
+      fs.unlinkSync(dist)
     })
 }
 
@@ -522,10 +525,9 @@ function buildTemp () {
   return new Promise((resolve, reject) => {
     klaw(sourceDir)
       .on('data', file => {
-        let modifySource = file.path.replace(appPath + path.sep, '')
-        modifySource = modifySource.split(path.sep).join('/')
-        Util.printLog(Util.pocessTypeEnum.CREATE, '发现文件', modifySource)
+        const relativePath = path.relative(appPath, file.path)
         if (!file.stats.isDirectory()) {
+          Util.printLog(Util.pocessTypeEnum.CREATE, '发现文件', relativePath)
           processFiles(file.path)
         }
       })

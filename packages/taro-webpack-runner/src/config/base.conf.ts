@@ -95,7 +95,7 @@ export default (config: BuildConfig): webpack.Configuration => {
       modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
     },
     resolveLoader: {
-      modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
+      modules: [path.join(Util.getRootPath(), 'node_modules')]
     }
   } as webpack.Configuration
 }

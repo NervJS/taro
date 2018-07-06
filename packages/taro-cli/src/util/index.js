@@ -12,7 +12,8 @@ const pocessTypeEnum = {
   GENERATE: 'generate',
   MODIFY: 'modify',
   ERROR: 'error',
-  WARNING: 'warning'
+  WARNING: 'warning',
+  UNLINK: 'unlink'
 }
 
 const processTypeMap = {
@@ -43,6 +44,10 @@ const processTypeMap = {
   [pocessTypeEnum.WARNING]: {
     name: '警告',
     color: 'yellow'
+  },
+  [pocessTypeEnum.UNLINK]: {
+    name: '删除',
+    color: 'magenta'
   }
 }
 
