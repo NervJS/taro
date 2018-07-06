@@ -648,6 +648,9 @@ export class RenderParser {
       }
     },
     Identifier: (path) => {
+      if (!path.isReferencedIdentifier()) {
+        return
+      }
       const parentPath = path.parentPath
       if (
         parentPath.isConditionalExpression() ||
@@ -655,11 +658,7 @@ export class RenderParser {
         parentPath.isJSXExpressionContainer() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
-        const codes = parentPath.getSource().split('.')
-        if (!(codes[0] === 'this' && codes[1] === 'state')) {
-          this.addRefIdentifier(path, path.node)
-          // referencedIdentifiers.add(path.node)
-        }
+        this.addRefIdentifier(path, path.node)
       }
     },
     ArrowFunctionExpression: (path) => {
@@ -988,8 +987,6 @@ export class RenderParser {
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
         .filter(i => !i.includes('.'))
-        .filter(i => !i.startsWith(LOOP_CALLEE))
-        .filter(i => !i.startsWith(LOOP_STATE))
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
@@ -1011,8 +1008,6 @@ export class RenderParser {
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('.'))
       .filter(i => !i.startsWith('$$'))
-      .filter(i => !i.startsWith(LOOP_CALLEE))
-      .filter(i => !i.startsWith(LOOP_STATE))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
