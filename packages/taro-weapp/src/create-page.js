@@ -104,7 +104,7 @@ function initPage (weappPageConf, page, options) {
   return recurrenceComponent(weappPageConf, page)
 }
 
-export function processDynamicComponents (page, weappPageConf) {
+export function processDynamicComponents (page, weappPageConf, updateFromComponent, isFirst) {
   const pagePath = page.path
   scopeMap[pagePath] = scopeMap[pagePath] || {}
   function recursiveDynamicComponents (component) {
@@ -163,16 +163,21 @@ export function processDynamicComponents (page, weappPageConf) {
                   componentTrigger(child, 'componentWillMount')
                   componentTrigger(child, 'componentDidMount')
                 } else {
+                  const isUpdateFromParent = typeof updateFromComponent === 'undefined' ||
+                    !updateFromComponent.$isComponent ||
+                    updateFromComponent.$components.hasOwnProperty(child.constructor.name)
                   props.$path = comPath
                   child.$path = comPath
                   child.props.$path = comPath
                   child.prevProps = child.prevProps || child.props
                   child.props = Object.assign({}, child.props, props)
-                  child._unsafeCallUpdate = true
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
-                  updateComponent(child, false)
-                  child._unsafeCallUpdate = false
+                  if (isUpdateFromParent && !isFirst) {
+                    child._unsafeCallUpdate = true
+                    updateComponent(child, false)
+                    child._unsafeCallUpdate = false
+                  }
                 }
                 recursiveDynamicComponents(child)
                 if (stateData) {
