@@ -21,6 +21,7 @@ export default function (config: BuildConfig): webpack.Configuration {
   const lessLoader = require.resolve('less-loader')
   const stylusLoader = require.resolve('stylus-loader')
   return {
+    mode: 'development',
     module: {
       rules: [
         {
@@ -59,9 +60,11 @@ export default function (config: BuildConfig): webpack.Configuration {
         }
       ]
     },
+    optimization: {
+      noEmitOnErrors: true
+    },
     plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.HotModuleReplacementPlugin()
     ],
     devtool: 'cheap-module-eval-source-map'
   } as webpack.Configuration

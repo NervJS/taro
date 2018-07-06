@@ -12,15 +12,17 @@ import devConf from './config/dev.conf'
 import devServerConf from './config/devServer.conf'
 import prodConf from './config/prod.conf'
 import buildConf from './config/build.conf'
-import { formatTime, prepareUrls, patchCustomConfig } from './util'
+// import { formatTime, prepareUrls, patchCustomConfig } from './util'
+import { prepareUrls, patchCustomConfig } from './util'
 import { BuildConfig } from './util/types'
 
 const appPath = process.cwd()
+let isFirst = true
 
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora(`Starting development server, please wait🤡~`)
+    if (!spinner) spinner = ora(`Starting development server, please wait~`)
     return spinner
   }
 })()
@@ -49,21 +51,35 @@ const printBuildError = (err: Error): void => {
 
 const createCompiler = (webpackConf): webpack.Compiler => {
   const compiler = webpack(webpackConf)
-  compiler.plugin('invalid', filepath => {
-    console.log(chalk.grey(`[${formatTime()}]Modified: ${filepath}`))
-    getServeSpinner().text = 'Compiling...🤡~'
+  compiler.hooks.invalid.tap('taroInvalid', filepath => {
+    // console.log(chalk.grey(`[${formatTime()}]Modified: ${filepath}`))
+    getServeSpinner().text = 'Compiling...'
     getServeSpinner().render()
   })
-  compiler.plugin('done', stats => {
-    const { errors, warnings } = formatWebpackMessage(stats.toJson({}, true))
+  compiler.hooks.done.tap('taroDone', stats => {
+    const { errors, warnings } = formatWebpackMessage(stats.toJson(true))
     const isSuccess = !errors.length && !warnings.length
     if (isSuccess) {
-      getServeSpinner().succeed(chalk.green('Compile successfully!\n'))
+      getServeSpinner().stopAndPersist({
+        symbol: '✅ ',
+        text: chalk.green('Compile successfully!\n')
+      })
     }
     if (errors.length) {
       errors.splice(1)
-      getServeSpinner().fail(chalk.red('Compile failed!\n'))
+      getServeSpinner().stopAndPersist({
+        symbol: '🙅  ',
+        text: chalk.red('Compile failed!\n')
+      })
       console.log(errors.join('\n\n') + '\n')
+    }
+    if (warnings.length) {
+      warnings.splice(1)
+      getServeSpinner().stopAndPersist({
+        symbol: '⚠️  ',
+        text: chalk.yellow('Compile completes with warnings.\n')
+      })
+      console.log(warnings.join('\n\n') + '\n')
     }
   })
   return compiler
@@ -81,6 +97,10 @@ const buildProd = (config: BuildConfig): void => {
   })
   const webpackConf = patchCustomConfig(baseWebpackConf, conf)
   const compiler = webpack(webpackConf)
+  console.log()
+  getServeSpinner().text = 'Compiling...'
+  getServeSpinner().start()
+
   compiler.run((err, stats) => {
     if (err) {
       return printBuildError(err)
@@ -89,7 +109,10 @@ const buildProd = (config: BuildConfig): void => {
     const { errors, warnings } = formatWebpackMessage(stats.toJson({}))
     const isSuccess = !errors.length && !warnings.length
     if (isSuccess) {
-      getServeSpinner().succeed(chalk.green('Compile successfully!\n'))
+      getServeSpinner().stopAndPersist({
+        symbol: '✅ ',
+        text: chalk.green('Compile successfully!\n')
+      })
       return process.stdout.write(
         stats.toString({
           colors: true,
@@ -102,11 +125,17 @@ const buildProd = (config: BuildConfig): void => {
     }
     if (errors.length) {
       errors.splice(1)
-      getServeSpinner().fail(chalk.red('Compile failed!\n'))
+      getServeSpinner().stopAndPersist({
+        symbol: '🙅  ',
+        text: chalk.red('Compile failed!\n')
+      })
       return printBuildError(new Error(errors.join('\n\n')))
     }
     if (warnings.length) {
-      getServeSpinner().warn(chalk.yellow('Compiled with warnings.\n'))
+      getServeSpinner().stopAndPersist({
+        symbol: '⚠️  ',
+        text: chalk.yellow('Compile completes with warnings.\n')
+      })
       console.log(warnings.join('\n\n'))
       console.log('\nSearch for the ' + chalk.underline(chalk.yellow('keywords')) + ' to learn more about each warning.')
       console.log('To ignore, add ' + chalk.cyan('// eslint-disable-next-line') + ' to the line before.\n')
@@ -119,16 +148,10 @@ const buildDev = (config: BuildConfig): void => {
   const publicPath = conf.publicPath
   const contentBase = path.join(appPath, conf.outputRoot)
   const customDevServerOptions = config.devServer || {}
-  const https = 'https' in customDevServerOptions
-    ? customDevServerOptions.https
-    : (conf.protocol === 'https')
+  const https = 'https' in customDevServerOptions ? customDevServerOptions.https : conf.protocol === 'https'
   const host = customDevServerOptions.host || conf.host
   const port = customDevServerOptions.port || conf.port
-  const urls = prepareUrls(
-    https ? 'https' : 'http',
-    host,
-    port
-  )
+  const urls = prepareUrls(https ? 'https' : 'http', host, port)
 
   const baseWebpackConf = webpackMerge(baseConf(conf), devConf(conf), {
     entry: conf.entry,
@@ -150,13 +173,23 @@ const buildDev = (config: BuildConfig): void => {
   const devServerOptions = Object.assign({}, baseDevServerOptions, customDevServerOptions)
   WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
   const compiler = createCompiler(webpackConf)
+  compiler.hooks.done.tap('taroDoneFirst', stats => {
+    if (isFirst) {
+      isFirst = false
+      getServeSpinner().clear()
+      console.log()
+      console.log(chalk.cyan(`ℹ️  Listening at ${urls.lanUrlForTerminal}`))
+      console.log(chalk.cyan(`ℹ️  Listening at ${urls.localUrlForBrowser}`))
+      console.log(chalk.gray('\n监听文件修改中...\n'))
+    }
+  })
   const server = new WebpackDevServer(compiler, devServerOptions)
+  console.log()
+  getServeSpinner().text = 'Compiling...'
+  getServeSpinner().start()
 
   server.listen(port, host, err => {
     if (err) return console.log(err)
-    getServeSpinner().start()
-    console.log(chalk.cyan(`> Listening at ${urls.lanUrlForTerminal}`))
-    console.log(chalk.cyan(`> Listening at ${urls.localUrlForBrowser}\n`))
     opn(urls.localUrlForBrowser)
   })
 }
