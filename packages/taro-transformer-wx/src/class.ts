@@ -44,7 +44,14 @@ function isBelongToProps (id: t.Identifier, scope: Scope) {
   const binding = scope.getOwnBinding(id.name)
   if (binding) {
     const statementParent = binding.path.getStatementParent()
-    return generate(statementParent.node).code.includes('this.props')
+    if (statementParent.isVariableDeclaration()) {
+      const dcls = statementParent.node.declarations
+      return dcls.some(dcl =>
+        t.isMemberExpression(dcl.init) &&
+        t.isThisExpression(dcl.init.object) &&
+        t.isIdentifier(dcl.init.property, { name: 'props' })
+      )
+    }
   }
   return false
 }
