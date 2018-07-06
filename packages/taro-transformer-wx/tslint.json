@@ -3,6 +3,7 @@
   "rules": {
     "no-console": true,
     "no-unused-variable": false,
-    "member-ordering": false
+    "member-ordering": false,
+    "no-debugger": true
   }
 }

@@ -191,6 +191,7 @@ class Transformer {
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
+        debugger
         if (
           t.isJSXIdentifier(id) &&
           !DEFAULT_Component_SET.has(id.name) &&
@@ -308,11 +309,15 @@ class Transformer {
             ? ary[2] : ary[1]
         }
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
+        const stateGetter = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
+          t.memberExpression(t.thisExpression(), t.identifier('state')),
+          t.identifier('stateName')
+        ])
         const returnStatement = t.returnStatement(
           t.objectExpression([
             t.objectProperty(t.identifier('stateName'), t.identifier('stateName')),
             t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
+              t.thisExpression(), t.identifier('nodes'), stateGetter, t.stringLiteral(uuid)
             ]))
           ])
         )
