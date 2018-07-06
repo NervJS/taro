@@ -52,17 +52,17 @@ export function updateComponent (component, update, isFirst) {
     if (component.componentDidUpdate && !isFirst) {
       component.componentDidUpdate(prevProps, prevState)
     }
-    doUpdate(component, update)
+    doUpdate(component, update, isFirst)
   }
   component.prevProps = component.props
   component.prevState = component.state
 }
 
-function doUpdate (component, update) {
+function doUpdate (component, update, isFirst) {
   const $root = component.$root ? component.$root : component
   let $data = $root.$data
   if (update) {
-    processDynamicComponents($root)
+    processDynamicComponents($root, null, component, isFirst)
     $data = Object.assign($data, $root.state, $root._dyState || {})
   }
   if ($root.$usedState && $root.$usedState.length) {

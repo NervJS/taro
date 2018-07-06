@@ -1,7 +1,6 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet,
-  Events
+  internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { updateComponent } from './lifecycle'
 import { isEmptyObject, getPrototypeChain } from './util'
@@ -11,7 +10,6 @@ const rootScopeKey = '__root_'
 const componentPath = 'componentPath'
 const scopeMap = {}
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
-const events = new Events()
 
 function processEvent (pagePath, eventHandlerName, obj) {
   let newEventHandlerName = eventHandlerName.replace(eventPreffix, '')
@@ -30,24 +28,20 @@ function processEvent (pagePath, eventHandlerName, obj) {
     let scope = theComponent
     const bindArgs = {}
     const componentClassName = dataset['componentClass']
-    const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
+    const newEventHandlerNameCopy = componentClassName ? newEventHandlerName.replace(`${componentClassName}__`, '') : newEventHandlerName
+    const newEventHandlerNameLower = newEventHandlerNameCopy.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
-      let keyLower = key.toLocaleLowerCase()
-      if (keyLower.indexOf('event') === 0) {
-        keyLower = keyLower.replace('event', '')
-        keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(newEventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(newEventHandlerNameLower, '')
-          bindArgs[argName] = dataset[key]
-        }
+      const keyLower = key.toLocaleLowerCase()
+      if (keyLower[0] === 'e' && keyLower.indexOf(`e${newEventHandlerNameLower}`) === 0) {
+        const argName = keyLower.replace(`e${newEventHandlerNameLower}`, '')
+        bindArgs[argName] = dataset[key]
       }
     })
     if (!isEmptyObject(bindArgs)) {
-      if (bindArgs['scope'] !== 'this') {
-        scope = bindArgs['scope']
+      if (bindArgs['so'] !== 'this') {
+        scope = bindArgs['so']
       }
-      delete bindArgs['scope']
+      delete bindArgs['so']
       const realArgs = Object.keys(bindArgs)
         .sort()
         .map(key => bindArgs[key])
@@ -110,7 +104,7 @@ function initPage (weappPageConf, page, options) {
   return recurrenceComponent(weappPageConf, page)
 }
 
-export function processDynamicComponents (page, weappPageConf) {
+export function processDynamicComponents (page, weappPageConf, updateFromComponent, isFirst) {
   const pagePath = page.path
   scopeMap[pagePath] = scopeMap[pagePath] || {}
   function recursiveDynamicComponents (component) {
@@ -157,26 +151,33 @@ export function processDynamicComponents (page, weappPageConf) {
                 const props = transformPropsForComponent(item.body, _class.defaultProps)
                 if (!child) {
                   child = new _class(props)
-                  child.state = child._createData()
+                  try {
+                    child.state = child._createData()
+                  } catch (err) {
+                    console.error(err)
+                  }
                   child.$path = comPath
                   child.props.$path = comPath
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
                   componentTrigger(child, 'componentWillMount')
-                  events.on('page:onReady', () => {
-                    componentTrigger(child, 'componentDidMount')
-                  })
+                  componentTrigger(child, 'componentDidMount')
                 } else {
+                  const isUpdateFromParent = typeof updateFromComponent === 'undefined' ||
+                    !updateFromComponent.$isComponent ||
+                    updateFromComponent.$components.hasOwnProperty(child.constructor.name)
                   props.$path = comPath
                   child.$path = comPath
                   child.props.$path = comPath
-                  child.prevProps = child.props
-                  child.props = props
-                  child._unsafeCallUpdate = true
+                  child.prevProps = child.prevProps || child.props
+                  child.props = Object.assign({}, child.props, props)
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
-                  updateComponent(child, false)
-                  child._unsafeCallUpdate = false
+                  if (isUpdateFromParent && !isFirst) {
+                    child._unsafeCallUpdate = true
+                    updateComponent(child, false)
+                    child._unsafeCallUpdate = false
+                  }
                 }
                 recursiveDynamicComponents(child)
                 if (stateData) {
@@ -219,6 +220,16 @@ function componentTrigger (component, key) {
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
+    component.$components = {}
+    component.$$components = {}
+    component.$$dynamicComponents = {}
+    component.$router = {
+      params: {}
+    }
+    component._pendingStates = []
+    component._pendingCallbacks = []
+    component.state = {}
+    component.props = {}
   }
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
@@ -260,7 +271,11 @@ function transformPropsForComponent (props, defaultProps, propTypes) {
 function createPage (PageClass, options) {
   const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.propTypes)
   const page = new PageClass(pageProps)
-  page.state = page._createData()
+  try {
+    page.state = page._createData()
+  } catch (err) {
+    console.error(err)
+  }
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {
@@ -272,7 +287,6 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentWillMount')
     },
     onReady () {
-      events.trigger('page:onReady')
       componentTrigger(page, 'componentDidMount')
     },
     onShow () {
@@ -282,7 +296,6 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentDidHide')
     },
     onUnload () {
-      events.off('page:onReady')
       componentTrigger(page, 'componentWillUnmount')
     },
     _setData (data, cb, isRoot) {

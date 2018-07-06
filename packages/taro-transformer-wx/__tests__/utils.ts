@@ -88,6 +88,16 @@ export function evalClass (ast: t.File, props = '') {
     // constructor 即便没有被定义也会被加上
     if (t.isClassMethod(method) && method.kind === 'constructor') {
       const index = method.body.body.findIndex(node => t.isSuper(node))
+      method.body.body.push(
+        t.expressionStatement(t.assignmentExpression(
+          '=',
+          t.memberExpression(
+            t.thisExpression(),
+            t.identifier('state')
+          ),
+          t.callExpression(t.memberExpression(t.thisExpression(), t.identifier('_createData')), [])
+        ))
+      )
       method.body.body.splice(index, 0, ...statements)
     }
   }

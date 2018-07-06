@@ -1,11 +1,8 @@
 const fs = require('fs-extra')
 const path = require('path')
-const chalk = require('chalk')
 const chokidar = require('chokidar')
-// const babel = require('babel-core')
 const wxTransformer = require('@tarojs/transformer-wx')
-const vfs = require('vinyl-fs')
-const through2 = require('through2')
+const klaw = require('klaw')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -55,7 +52,7 @@ const sourceDir = path.join(appPath, sourceDirName)
 // const outputDir = path.join(appPath, outputDirName)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
-const entryFileName = path.basename(entryFilePath)
+const entryFileName = path.basename(entryFilePath, path.extname(entryFilePath))
 
 let pages = []
 let tabBar
@@ -247,62 +244,61 @@ function processEntry (code, filePath) {
         }
       }
     },
-    exit (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          const node = astPath.node
-          const key = node.key
-          let funcBody
-          if (key.name !== 'render') return
-          funcBody = `<${routerImportDefaultName}.Router />`
-
-          if (tabBar) {
-            const homePage = pages[0] || ''
-            if (tabbarPos === 'top') {
-              funcBody = `
-                <${tabBarContainerComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
-                  <${tabBarPanelComponentName}>
-                    ${funcBody}
-                  </${tabBarPanelComponentName}>
-                </${tabBarContainerComponentName}>`
-            } else {
-              funcBody = `
-                <${tabBarContainerComponentName}>
-                  <${tabBarPanelComponentName}>
-                    ${funcBody}
-                  </${tabBarPanelComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
-                </${tabBarContainerComponentName}>`
-            }
-          }
-
-          /* 插入<Provider /> */
-          if (providerComponentName && storeName) {
-            // 使用redux
-            funcBody = `
-              <${providorImportName} store={${storeName}}>
-                ${funcBody}
-              </${providorImportName}>`
-          }
-
-          /* 插入<TaroRouter.Router /> */
-          node.body = template(`{return (${funcBody});}`, babylonConfig)()
-
-          if (tabBar) {
-            astPath
-              .get('body')
-              .unshiftContainer('body', [
-                t.variableDeclaration('const', [
-                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
-                ])
-              ])
-          }
-        }
-      })
-    },
     Program: {
       exit (astPath) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            const node = astPath.node
+            const key = node.key
+            let funcBody
+            if (key.name !== 'render') return
+            funcBody = `<${routerImportDefaultName}.Router />`
+
+            if (tabBar) {
+              const homePage = pages[0] || ''
+              if (tabbarPos === 'top') {
+                funcBody = `
+                  <${tabBarContainerComponentName}>
+                    <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+                    <${tabBarPanelComponentName}>
+                      ${funcBody}
+                    </${tabBarPanelComponentName}>
+                  </${tabBarContainerComponentName}>`
+              } else {
+                funcBody = `
+                  <${tabBarContainerComponentName}>
+                    <${tabBarPanelComponentName}>
+                      ${funcBody}
+                    </${tabBarPanelComponentName}>
+                    <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+                  </${tabBarContainerComponentName}>`
+              }
+            }
+
+            /* 插入<Provider /> */
+            if (providerComponentName && storeName) {
+              // 使用redux
+              funcBody = `
+                <${providorImportName} store={${storeName}}>
+                  ${funcBody}
+                </${providorImportName}>`
+            }
+
+            /* 插入<TaroRouter.Router /> */
+            node.body = template(`{return (${funcBody});}`, babylonConfig)()
+
+            if (tabBar) {
+              astPath
+                .get('body')
+                .unshiftContainer('body', [
+                  t.variableDeclaration('const', [
+                    t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
+                  ])
+                ])
+            }
+          }
+        })
+
         const node = astPath.node
         const routerPages = pages
           .map(v => {
@@ -311,32 +307,26 @@ function processEntry (code, filePath) {
           })
           .join(',')
 
-        const importTaro = template(
+        node.body.unshift(template(
           `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
           babylonConfig
-        )()
-        const importTaroRouter = template(
+        )())
+        node.body.unshift(template(
           `import ${routerImportDefaultName} from '${PACKAGES['@tarojs/router']}'`,
           babylonConfig
-        )()
-        const importComponents = template(
+        )())
+        tabBar && node.body.unshift(template(
           `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
-        )()
-        const initRouter = template(
-          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
-          babylonConfig
-        )()
-        const initNativeApi = template(
+        )())
+        node.body.push(template(
           `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
           babylonConfig
-        )()
-
-        node.body.unshift(importTaro)
-        node.body.unshift(importTaroRouter)
-        tabBar && node.body.unshift(importComponents)
-        node.body.push(initNativeApi)
-        node.body.push(initRouter)
+        )())
+        node.body.push(template(
+          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
+          babylonConfig
+        )())
         node.body.push(template(renderCallCode, babylonConfig)())
       }
     }
@@ -462,74 +452,85 @@ function classifyFiles (filename) {
     return FILE_TYPE.NORMAL
   }
 }
+function getDist (filename) {
+  const dirname = path.dirname(filename)
+  const extname = path.extname(filename)
+  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distPath = path.format({
+    dir: distDirname,
+    name: path.basename(filename, extname),
+    ext: extname
+  })
+  return distPath
+}
+
+function processFiles (filePath) {
+  const file = fs.readFileSync(filePath)
+  const fileType = classifyFiles(filePath)
+  const dirname = path.dirname(filePath)
+  const extname = path.extname(filePath)
+  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distPath = getDist(filePath)
+
+  try {
+    if (Util.REG_SCRIPTS.test(extname)) {
+      // 脚本文件 处理一下
+      const content = file.toString()
+      const transformResult = fileType === FILE_TYPE.ENTRY
+        ? processEntry(content, filePath)
+        : processOthers(content, filePath)
+      const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
+      fs.ensureDirSync(distDirname)
+      fs.writeFileSync(distPath, Buffer.from(jsCode))
+    } else {
+      // 其他 直接复制
+      fs.ensureDirSync(distDirname)
+      fs.createReadStream(filePath)
+        .pipe(fs.createWriteStream(distPath))
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 function watchFiles () {
-  console.log(chalk.gray('\n监听文件修改中...\n'))
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
     ignoreInitial: true
   })
   watcher
-    .on('addDir', dirPath => {
-      console.log(dirPath)
-    })
     .on('add', filePath => {
-      console.log(filePath)
-    })
-    .on('change', async filePath => {
-      const extname = path.extname(filePath)
-      const fileType = classifyFiles(filePath)
-      let transformResult
       pages = []
-
-      let modifySource = filePath.replace(appPath + path.sep, '')
-      modifySource = modifySource.split(path.sep).join('/')
-      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', modifySource)
-
-      if (Util.REG_SCRIPT.test(extname)) {
-        // 脚本文件
-        const code = fs.readFileSync(filePath).toString()
-        if (fileType === FILE_TYPE.ENTRY) {
-          transformResult = processEntry(code, filePath)
-        } else {
-          transformResult = processOthers(code, filePath)
-        }
-        fs.writeFileSync(filePath.replace(sourceDir, tempDir), transformResult.code)
-      } else {
-        // 其他
-        const destDir = path.dirname(filePath.replace(sourceDir, tempDir))
-        vfs.src([modifySource]).pipe(vfs.dest(destDir))
-      }
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
+      processFiles(filePath)
+    })
+    .on('change', filePath => {
+      pages = []
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
+      processFiles(filePath)
+    })
+    .on('unlink', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      const dist = getDist(filePath)
+      Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
+      fs.unlinkSync(dist)
     })
 }
 
 function buildTemp () {
   fs.ensureDirSync(tempPath)
   return new Promise((resolve, reject) => {
-    vfs
-      .src(path.join(sourceDir, '**'))
-      .pipe(
-        through2.obj(function (file, enc, cb) {
-          if (file.isNull() || file.isStream()) {
-            return cb(null, file)
-          }
-          const filePath = file.path
-          const content = file.contents.toString()
-          if (entryFilePath === filePath) {
-            const transformResult = processEntry(content, filePath)
-            const jsCode = transformResult.code
-            file.contents = Buffer.from(jsCode)
-          } else if (Util.JS_EXT.indexOf(path.extname(filePath)) >= 0) {
-            const transformResult = processOthers(content, filePath)
-            let jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
-            file.contents = Buffer.from(jsCode)
-          }
-          this.push(file)
-          cb()
-        })
-      )
-      .pipe(vfs.dest(path.join(tempPath)))
+    klaw(sourceDir)
+      .on('data', file => {
+        const relativePath = path.relative(appPath, file.path)
+        if (!file.stats.isDirectory()) {
+          Util.printLog(Util.pocessTypeEnum.CREATE, '发现文件', relativePath)
+          processFiles(file.path)
+        }
+      })
       .on('end', () => {
         resolve()
       })

@@ -53,11 +53,23 @@ export function newJSXIfAttr (
 export function setJSXAttr (
   jsx: t.JSXElement,
   name: string,
-  value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement
+  value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement,
+  path?: NodePath<t.JSXElement>
 ) {
-  jsx.openingElement.attributes.push(
-    t.jSXAttribute(t.jSXIdentifier(name), value)
-  )
+  const element = jsx.openingElement
+  if (!t.isJSXIdentifier(element.name)) {
+    return
+  }
+  if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
+    jsx.openingElement.attributes.push(
+      t.jSXAttribute(t.jSXIdentifier(name), value)
+    )
+  } else {
+    const block = buildBlockElement()
+    setJSXAttr(block, name, value)
+    block.children = [jsx]
+    path.node = block
+  }
 }
 
 export function isAllLiteral (...args) {

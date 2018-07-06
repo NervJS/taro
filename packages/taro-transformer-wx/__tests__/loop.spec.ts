@@ -915,7 +915,7 @@ describe('loop', () => {
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                       <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                          <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
+                          <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"null\"
                           data-component-path=\"{{$path}}\">
                               <block wx:if=\"{{b2}}\">
                                   <map></map>
@@ -973,7 +973,7 @@ describe('loop', () => {
         <view>
             <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                 <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                    <scroll-view bindtap=\"onClick\" data-event-onClick-scope=\"this\" data-event-onClick-arg-a=\"null\"
+                    <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"null\"
                     data-component-path=\"{{$path}}\">
                         <block wx:if=\"{{b2}}\">
                             <map></map>
@@ -1391,7 +1391,7 @@ describe('loop', () => {
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
+                      <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
                       data-component-path=\"{{$path}}\">
                           <block wx:if=\"{{b2}}\">
                               <map bindtap=\"handleClick\"></map>
@@ -1449,8 +1449,8 @@ describe('loop', () => {
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                      data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                      <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
+                      data-e-handleClick-a-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
                           <block wx:if=\"{{b2}}\">
                               <map bindtap=\"handleClick\"></map>
                           </block>
@@ -1507,10 +1507,10 @@ describe('loop', () => {
           <block>
         <view>
             <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
+                data-e-handleClick-a-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
                     <block wx:if=\"{{b2}}\">
-                        <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                        <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"
                         data-component-path=\"{{$path}}\"></map>
                     </block>
                     <text></text>
@@ -1566,17 +1566,17 @@ describe('loop', () => {
           <block>
         <view>
             <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                <cover-view bindtap=\"handleClick\" data-event-handleClick-scope=\"this\"
-                data-event-handleClick-arg-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
+                data-e-handleClick-a-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
                     <block wx:if=\"{{b2}}\">
-                        <map bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                        <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"
                         data-component-path=\"{{$path}}\"></map>
                     </block>
                     <text></text>
                     <cover-view>
                         <text></text>
                         <block wx:if=\"{{b4}}\">
-                            <button bindtap=\"handleClick\" data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"
+                            <button bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"
                             data-component-path=\"{{$path}}\"></button>
                         </block>
                     </cover-view>
@@ -1630,14 +1630,14 @@ describe('loop', () => {
                           <cover-view bindtap=\"onClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\">
                               <block wx:if=\"{{b2}}\">
                                   <map bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                  data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></map>
+                                  data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></map>
                               </block>
                               <text></text>
                               <cover-view>
                                   <text></text>
                                   <block wx:if=\"{{b4}}\">
                                       <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                      data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                      data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
                                   </block>
                               </cover-view>
                               <block wx:if=\"{{b3}}\">
@@ -1689,17 +1689,17 @@ describe('loop', () => {
                   <view>
                       <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
                           <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
-                          data-component-class=\"Index\" data-event-onCoverClick-scope=\"this\" data-event-onCoverClick-arg-a=\"{{b1}}\">
+                          data-component-class=\"Index\" data-e-onCoverClick-so=\"this\" data-e-onCoverClick-a-a=\"{{b1}}\">
                               <block wx:if=\"{{b2}}\">
                                   <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                  data-event-onMapCick-scope=\"this\" data-event-onMapCick-arg-a=\"{{b2}}\"></map>
+                                  data-e-onMapCick-so=\"this\" data-e-onMapCick-a-a=\"{{b2}}\"></map>
                               </block>
                               <text></text>
                               <cover-view>
                                   <text></text>
                                   <block wx:if=\"{{b4}}\">
                                       <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                      data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                      data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
                                   </block>
                               </cover-view>
                               <block wx:if=\"{{b3}}\">
@@ -1751,22 +1751,22 @@ describe('loop', () => {
                   <view>
                       <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
                           <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
-                          data-component-class=\"Index\" data-event-onCoverClick-scope=\"this\" data-event-onCoverClick-arg-a=\"{{b1}}\">
+                          data-component-class=\"Index\" data-e-onCoverClick-so=\"this\" data-e-onCoverClick-a-a=\"{{b1}}\">
                               <block wx:if=\"{{b2}}\">
                                   <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                  data-event-onMapCick-scope=\"this\" data-event-onMapCick-arg-a=\"{{b2}}\"></map>
+                                  data-e-onMapCick-so=\"this\" data-e-onMapCick-a-a=\"{{b2}}\"></map>
                               </block>
                               <text></text>
                               <cover-view>
                                   <text></text>
                                   <block wx:if=\"{{b4}}\">
                                       <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                      data-event-handleClick-scope=\"this\" data-event-handleClick-arg-a=\"{{b2}}\"></button>
+                                      data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
                                   </block>
                               </cover-view>
                               <block wx:if=\"{{b3}}\">
                                   <progress bindtap=\"Index__onProgressClick\" data-component-path=\"{{$path}}\"
-                                  data-component-class=\"Index\" data-event-onProgressClick-scope=\"this\" data-event-onProgressClick-arg-a=\"{{b2}}\"></progress>
+                                  data-component-class=\"Index\" data-e-onProgressClick-so=\"this\" data-e-onProgressClick-a-a=\"{{b2}}\"></progress>
                               </block>
                           </cover-view>
                       </block>

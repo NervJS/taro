@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.68-beta.2"></a>
+## [0.0.68-beta.2](https://github.com/NervJS/taro/compare/v0.0.68-beta.1...v0.0.68-beta.2) (2018-07-05)
+
+
+### Bug Fixes
+
+* **taro-weapp:** createData try catch 后暴露错误 ([d0fef0d](https://github.com/NervJS/taro/commit/d0fef0d))
+
+
+
+
+<a name="0.0.68-beta.0"></a>
+## [0.0.68-beta.0](https://github.com/NervJS/taro/compare/v0.0.67...v0.0.68-beta.0) (2018-07-05)
+
+
+### Bug Fixes
+
+* **taro-weapp:** 自定义组件 componentDidMount 不触发 ([351b858](https://github.com/NervJS/taro/commit/351b858))
+* **taro-weapp:** 自定义组件无法接受来自 redux 等的外部 props ([76a397c](https://github.com/NervJS/taro/commit/76a397c))
+
+
+### Features
+
+* **cli:** 当 node 版本过低时报错 ([c35a91f](https://github.com/NervJS/taro/commit/c35a91f))
+
+
+
+
+<a name=""></a>
+# [](https://github.com/NervJS/taro/compare/v0.0.67...v) (2018-07-04)
+
+
+
+<a name="0.0.67"></a>
+## [0.0.67](https://github.com/NervJS/taro/compare/v0.0.67-beta.3...v0.0.67) (2018-07-04)
+
+
+### Bug Fixes
+
+* **cli:** 调用转换器时参数变更 ([622fa57](https://github.com/NervJS/taro/commit/622fa57))
+* **taro-weapp:** 第一次 createData 时 try catch 保证不报错 ([77bc685](https://github.com/NervJS/taro/commit/77bc685))
+* **transformer:** 处理 import tsx, xml 路径解析错误的情况 ([57b810b](https://github.com/NervJS/taro/commit/57b810b))
+
+
+
+<a name="0.0.67-beta.3"></a>
+## [0.0.67-beta.3](https://github.com/NervJS/taro/compare/v0.0.67-beta.2...v0.0.67-beta.3) (2018-07-04)
+
+
+### Bug Fixes
+
+* **transformer:** 单独使用的自定义也加入 key ([a231a90](https://github.com/NervJS/taro/commit/a231a90))
+
+
+
 <a name="0.0.67-beta.2"></a>
 ## [0.0.67-beta.2](https://github.com/NervJS/taro/compare/v0.0.67-beta.1...v0.0.67-beta.2) (2018-07-04)
 
@@ -10,12 +65,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 * **taro-weapp:** 组件状态被重置 ([fdf5ef2](https://github.com/NervJS/taro/commit/fdf5ef2))
+* **transformer:** 所有设置 if 条件都加入 block ([a32661e](https://github.com/NervJS/taro/commit/a32661e))
 
 
 ### Features
 
 * **tcr:** Picker 的 Dialog 模块重构，参考react-native-modal的思想 ([4562227](https://github.com/NervJS/taro/commit/4562227))
-
+* 重构swiper 组件 ([d10a9df](https://github.com/NervJS/taro/commit/d10a9df))
 
 
 
@@ -23,9 +79,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ## [0.0.67-beta.1](https://github.com/NervJS/taro/compare/v0.0.67-beta.0...v0.0.67-beta.1) (2018-07-04)
 
 
-
-
-**Note:** Version bump only for package taro
 
 <a name="0.0.67-beta.0"></a>
 ## [0.0.67-beta.0](https://github.com/NervJS/taro/compare/v0.0.66...v0.0.67-beta.0) (2018-07-04)
@@ -35,12 +88,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * **taro-weapp:** 组件初始化放到页面 onLoad 里 ([5a8ede0](https://github.com/NervJS/taro/commit/5a8ede0))
 * **transformer:** 循环自定义组件的 iterator 重命名 ([a9cf461](https://github.com/NervJS/taro/commit/a9cf461))
-
-
-
-
-<a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.66...v) (2018-07-04)
 
 
 

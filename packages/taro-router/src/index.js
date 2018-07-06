@@ -1,9 +1,10 @@
 import Nerv from 'nervjs'
-import history, {
+import history from './lib/history'
+import {
   navigateTo,
   navigateBack,
   redirectTo
-} from './lib/history'
+} from './lib/apis'
 import { Component } from '@tarojs/taro-h5'
 import './router.css'
 

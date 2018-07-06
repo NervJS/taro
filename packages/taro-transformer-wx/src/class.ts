@@ -44,7 +44,14 @@ function isBelongToProps (id: t.Identifier, scope: Scope) {
   const binding = scope.getOwnBinding(id.name)
   if (binding) {
     const statementParent = binding.path.getStatementParent()
-    return generate(statementParent.node).code.includes('this.props')
+    if (statementParent.isVariableDeclaration()) {
+      const dcls = statementParent.node.declarations
+      return dcls.some(dcl =>
+        t.isMemberExpression(dcl.init) &&
+        t.isThisExpression(dcl.init.object) &&
+        t.isIdentifier(dcl.init.property, { name: 'props' })
+      )
+    }
   }
   return false
 }
@@ -301,11 +308,15 @@ class Transformer {
             ? ary[2] : ary[1]
         }
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
+        const stateGetter = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
+          t.memberExpression(t.thisExpression(), t.identifier('state')),
+          t.identifier('stateName')
+        ])
         const returnStatement = t.returnStatement(
           t.objectExpression([
             t.objectProperty(t.identifier('stateName'), t.identifier('stateName')),
             t.objectProperty(t.identifier('loopComponents'), t.callExpression(t.identifier(INTERNAL_DYNAMIC), [
-              t.thisExpression(), t.identifier('nodes'), buildInternalSafeGet(stateName), t.stringLiteral(uuid)
+              t.thisExpression(), t.identifier('nodes'), stateGetter, t.stringLiteral(uuid)
             ]))
           ])
         )
@@ -447,8 +458,8 @@ class Transformer {
             expresionPath.replaceWith(replacement)
           } else if (t.isMemberExpression(expresion)) {
             if (!t.isThisExpression(expresion.object) && !isContainThis(expresion)) {
-              let replacement: any = buildInternalSafeGet(generate(expresion).code, true)
               const id = findFirstIdentifierFromMemberExpression(expresion)
+              let replacement: any = buildInternalSafeGet(generate(expresion).code, isLoop, isBelongToProps(id, path.scope))
               if (id.name === iterator) {
                 id.name = MAP_CALL_ITERATOR
                 replacement = expresion
@@ -486,7 +497,7 @@ class Transformer {
                 }
               },
               MemberExpression (path) {
-                const { parent, node } = path
+                const { node } = path
                 if (!isContainThis(node)) {
                   let replacement: t.Expression = node
                   const id = findFirstIdentifierFromMemberExpression(node)
@@ -494,10 +505,8 @@ class Transformer {
                     id.name = MAP_CALL_ITERATOR
                     replacement = node
                   }
-                  if (parent !== expresion && path.scope.hasBinding(
-                    findFirstIdentifierFromMemberExpression(replacement).name
-                  )) {
-                    replacement = buildInternalSafeGet(generate(node).code)
+                  if (path.scope.hasBinding(id.name)) {
+                    replacement = buildInternalSafeGet(generate(node).code, isLoop, isBelongToProps(id, self.renderMethod!.scope))
                   }
                   if (replacement !== node) {
                     path.replaceWith(replacement)
@@ -621,6 +630,20 @@ class Transformer {
           t.identifier('$$' + name)
         )
       )
+      setJSXAttr(
+        jsx,
+        'wx:for',
+        t.jSXExpressionContainer(
+          t.identifier('$$' + name)
+        )
+      )
+      setJSXAttr(
+        jsx,
+        'wx:key',
+        t.jSXExpressionContainer(
+          t.numericLiteral(Math.floor(Math.random() * 1e8))
+        )
+      )
       path.replaceWith(jsx)
       this.customComponentNames.add('$$' + name)
     })
@@ -693,9 +716,9 @@ class Transformer {
   }
 }
 
-function buildInternalSafeGet (getter: string, isData?: boolean) {
+function buildInternalSafeGet (getter: string, isData?: boolean, isProps = false) {
   return t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
-    !isData ? t.memberExpression(t.thisExpression(), t.identifier('state')) : t.identifier(MAP_CALL_ITERATOR),
+    !isData ? t.memberExpression(t.thisExpression(), t.identifier(isProps ? 'props' : 'state')) : t.identifier(MAP_CALL_ITERATOR),
     t.stringLiteral(getter)
   ])
 }
