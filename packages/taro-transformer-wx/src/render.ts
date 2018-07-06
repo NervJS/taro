@@ -136,7 +136,7 @@ export class RenderParser {
   private returnedPaths: NodePath<t.Node>[] = []
   private usedThisState = new Set<string>()
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
-  private loopRefIdentifiers = new Map<t.Identifier, NodePath<t.CallExpression>>()
+  private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
   private reserveStateWords = new Set(['state', 'props'])
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
   private customComponentNames: Set<string>
@@ -755,7 +755,7 @@ export class RenderParser {
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
-      this.loopRefIdentifiers.set(id, arrayMap)
+      this.loopRefIdentifiers.set(id.name, arrayMap)
     } else {
       this.referencedIdentifiers.add(id)
     }
@@ -816,6 +816,7 @@ export class RenderParser {
               body.splice(index, 1)
             }
           }
+          stateToBeAssign.forEach(s => this.loopRefIdentifiers.set(s, callee))
           const properties = Array.from(stateToBeAssign).map(state => t.objectProperty(t.identifier(state), t.identifier(state)))
           component.traverse({
             Identifier (path) {
@@ -902,7 +903,8 @@ export class RenderParser {
               }
             })
             // setJSXAttr(returned, 'wx:for', t.identifier(stateName))
-            this.referencedIdentifiers.add(t.identifier(stateName))
+            this.addRefIdentifier(callee, t.identifier(stateName))
+            // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
             this.renderPath.node.body.body.push(
               buildConstVariableDeclaration(stateName, callee.node)
@@ -987,6 +989,7 @@ export class RenderParser {
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
         .filter(i => !i.includes('.'))
+        .filter(i => !this.loopRefIdentifiers.has(i))
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
@@ -1008,6 +1011,7 @@ export class RenderParser {
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('.'))
       .filter(i => !i.startsWith('$$'))
+      .filter(i => !this.loopRefIdentifiers.has(i))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
