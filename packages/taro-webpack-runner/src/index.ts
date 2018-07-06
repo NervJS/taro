@@ -148,16 +148,10 @@ const buildDev = (config: BuildConfig): void => {
   const publicPath = conf.publicPath
   const contentBase = path.join(appPath, conf.outputRoot)
   const customDevServerOptions = config.devServer || {}
-  const https = 'https' in customDevServerOptions
-    ? customDevServerOptions.https
-    : (conf.protocol === 'https')
+  const https = 'https' in customDevServerOptions ? customDevServerOptions.https : conf.protocol === 'https'
   const host = customDevServerOptions.host || conf.host
   const port = customDevServerOptions.port || conf.port
-  const urls = prepareUrls(
-    https ? 'https' : 'http',
-    host,
-    port
-  )
+  const urls = prepareUrls(https ? 'https' : 'http', host, port)
 
   const baseWebpackConf = webpackMerge(baseConf(conf), devConf(conf), {
     entry: conf.entry,

@@ -12,6 +12,15 @@ export default (config: BuildConfig): webpack.Configuration => {
   const imgLimit = (config.module && config.module.base64 && config.module.base64.imageLimit) || 2000
   const fontLimit = (config.module && config.module.base64 && config.module.base64.fontLimit) || 2000
   const babelConfig = plugins.babel || {}
+  const tsConfig = {
+    onlyCompileBundledFiles: true,
+    compilerOptions: {
+      jsx: 'react',
+      jsxFactory: 'Nerv.createElement',
+      noUnusedLocals: false
+    }
+  }
+  
   babelConfig.plugins = (Array.isArray(babelConfig.plugins) ? babelConfig.plugins : []).concat([
     require.resolve('babel-plugin-syntax-dynamic-import'),
     [require.resolve('babel-plugin-transform-react-jsx'), {
@@ -24,6 +33,11 @@ export default (config: BuildConfig): webpack.Configuration => {
     options: babelConfig
   }
 
+  const tsLoader = {
+    loader: require.resolve('ts-loader'),
+    options: tsConfig
+  }
+
   return {
     module: {
       rules: [
@@ -33,6 +47,11 @@ export default (config: BuildConfig): webpack.Configuration => {
               test: /\.jsx?$/,
               exclude: /node_modules/,
               use: [ babelLoader ]
+            },
+            {
+              test: /\.tsx?$/,
+              exclude: /node_modules/,
+              use: [ babelLoader, tsLoader ]
             },
             {
               test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -70,6 +89,7 @@ export default (config: BuildConfig): webpack.Configuration => {
       ]
     },
     resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
       mainFields: ['main', 'module'],
       symlinks: false,
       modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
