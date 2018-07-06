@@ -1,4 +1,3 @@
-import resolvePathname from './resolvePathname'
 import EventEmitter from './eventEmitter'
 import {
   pushHash,
@@ -7,6 +6,7 @@ import {
   normalizeUrl,
   createLocation
 } from './utils'
+import { navigateTo } from './apis'
 
 const history = window.history
 const eventEmitter = new EventEmitter()
@@ -80,10 +80,9 @@ class History {
     const isBackPage = e.state < historyState
     if (typeof e.state !== 'number') return
     if (isBackPage) {
-      navigateBack({
+      this.goBack({
         url: nextUrl,
-        state: e.state,
-        delta: 1
+        state: e.state
       })
     } else {
       navigateTo({
@@ -181,14 +180,18 @@ class History {
    *
    * @param {object} param0 回退的配置项
    */
-  goBack = ({ delta, url, state }) => {
-    if (typeof delta !== 'number' || delta < 1) return console.warn('goBack delta out of range')
-
+  goBack = ({ url, state }) => {
     const len = this.len()
+    const foundStateIdx = this.locationStack.findIndex(v => {
+      return v.state === state
+    })
+    const delta = foundStateIdx > -1
+      ? this.locationStack.length - foundStateIdx - 1
+      : 1
+
     if (len > delta) {
       this.locationStack.splice(-delta)
       this.serializeStack()
-
       const location = this.now()
       historyState = location.state
       this.emit(location, 'BACK', { delta })
@@ -198,7 +201,6 @@ class History {
       this.locationStack.length = 1
       this.locationStack[0] = location
       this.serializeStack()
-
       this.emit(location, 'BACK', { delta })
     } else {
       return console.warn('goBack delta out of range')
@@ -206,52 +208,4 @@ class History {
   }
 }
 
-const h = new History()
-
-let navigateLock = false
-const waitForlock = (fn) => {
-  if (navigateLock) return false
-  navigateLock = true
-  setTimeout(() => {
-    navigateLock = false
-  }, 0)
-  return fn()
-}
-
-const navigateTo = function (opts) {
-  waitForlock(() => {
-    const current = h.now()
-    const currentUrl = current.url
-    opts.url = resolvePathname(opts.url, currentUrl)
-    h.push(opts)
-  })
-}
-
-const navigateBack = function (opts = { delta: 1 }) {
-  return waitForlock(() => {
-    h.goBack(opts)
-  })
-}
-
-const redirectTo = function (opts) {
-  waitForlock(() => {
-    const success = opts.success
-    const fail = opts.fail
-    const complete = opts.complete
-
-    h.replace({
-      url: opts.url,
-      success,
-      fail,
-      complete
-    })
-  })
-}
-
-export {
-  navigateTo,
-  navigateBack,
-  redirectTo
-}
-
-export default h
+export default new History()
