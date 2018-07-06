@@ -1,12 +1,32 @@
 import Nerv from 'nervjs'
 import classNames from 'classnames'
 import './style/swiper.scss'
+import _ from '../../../utils/parse-type'
 
+/**
+ * props 类型检测
+ *
+ * @param {Object} props
+ */
+function parseType (props) {
+  const {
+    current
+  } = props
+
+  // 抛出错误信息
+  const throwErrorMsg = type => {
+    throw new TypeError(type + ' must be number')
+  }
+
+  if (current) _.isNumber(current) ? '' : throwErrorMsg('current')
+}
 class Swiper extends Nerv.Component {
   constructor (props) {
     super(props)
+    parseType(this.props)
+
     this.state = {
-      currentIndex: this.props.current,
+      currentIndex: parseInt(this.props.current),
       containerWidth: 0,
       containerHeight: 0,
       // touch
@@ -60,7 +80,7 @@ class Swiper extends Nerv.Component {
       translate: offsetVal
     })
 
-    if (this.props.autoplay) this.autoplay(this.props.autoplay)
+    if (this.props.autoplay) this.autoplay(this.props.interval)
   }
 
   componentWillReceiveProps (nextProps) {
