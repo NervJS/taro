@@ -34,7 +34,8 @@
     "classnames": "^2.2.5",
     "nervjs": "^1.2.16",
     "omit.js": "^1.0.0",
-    "weui": "^1.1.2"
+    "weui": "^1.1.2",
+    "@types/react": "^16.4.6"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
