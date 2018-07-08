@@ -1,3 +1,19 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="0.0.69-beta.0"></a>
+## [0.0.69-beta.0](https://github.com/NervJS/taro/compare/v0.0.68...v0.0.69-beta.0) (2018-07-08)
+
+
+### Bug Fixes
+
+* **taro-weapp:** 页面退出清除缓存后，再次进入未能初始化 state ([08f63fd](https://github.com/NervJS/taro/commit/08f63fd))
+
+
+
+
 <a name=""></a>
 # [](https://github.com/NervJS/taro/compare/v0.0.68...v) (2018-07-07)
 
@@ -1437,6 +1453,3 @@
 
 <a name="0.0.1"></a>
 ## 0.0.1 (2018-04-08)
-
-
-
