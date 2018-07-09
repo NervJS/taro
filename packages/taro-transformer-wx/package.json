@@ -54,6 +54,7 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
+    "@tarojs/taro": "^0.0.68",
     "@types/babel-generator": "^6.25.1",
     "@types/babel-template": "^6.25.0",
     "@types/babel-traverse": "6.25.3",

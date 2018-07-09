@@ -9,7 +9,7 @@
 
 function dashify (str, options) {
   if (typeof str !== 'string') {
-    throw new TypeError('expected a string');
+    throw new TypeError('expected a string')
   }
 
   return str.trim()
@@ -21,8 +21,8 @@ function dashify (str, options) {
 }
 
 function isObject (val) {
-  return val != null && typeof val === 'object' && Array.isArray(val) === false;
-};
+  return val != null && typeof val === 'object' && Array.isArray(val) === false
+}
 
 export function inlineStyle (obj) {
   if (typeof obj === 'string') {
@@ -33,11 +33,5 @@ export function inlineStyle (obj) {
     throw new TypeError('style 只能是一个对象或字符串。')
   }
 
-  const styles = Object.keys(obj).map((key) => {
-    var prop = dashify(key)
-    var line = prop.concat(':').concat(obj[key])
-    return line
-  })
-
-  return styles.join(';')
+  return Object.keys(obj).map((key) => dashify(key).concat(':').concat(obj[key])).join(';')
 }

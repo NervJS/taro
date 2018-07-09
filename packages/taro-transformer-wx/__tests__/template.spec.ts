@@ -4,6 +4,25 @@ import { prettyPrint } from 'html'
 
 describe('Template', () => {
 
+  describe('inline style', () => {
+    test('简单情况', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style={{ color: 'red' }} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+
+      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(inst.state['anonymousState__temp']).toMatch(`color:red`)
+    })
+  })
+
   test('暂不支持 JSX 成员表达式', () => {
     expect(() => {
       transform({

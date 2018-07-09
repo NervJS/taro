@@ -4,7 +4,7 @@ import { Transformer } from './class'
 import { prettyPrint } from 'html'
 import { setting } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_OBJECT } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
 import { transform as babel7Transform } from '@babel/core'
 
@@ -166,7 +166,7 @@ export default function transform (options: Options): TransformResult {
       }
 
       path.get('value.expression').replaceWith(
-        t.callExpression(t.identifier(INTERNAL_INLINE_OBJECT), [expr])
+        t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
       )
     },
     ImportDeclaration (path) {
@@ -176,7 +176,7 @@ export default function transform (options: Options): TransformResult {
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_DYNAMIC), t.identifier(INTERNAL_DYNAMIC)),
-          t.importSpecifier(t.identifier(INTERNAL_INLINE_OBJECT), t.identifier(INTERNAL_INLINE_OBJECT))
+          t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
         )
       }
       if (
