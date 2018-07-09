@@ -76,6 +76,8 @@ export const MAP_CALL_ITERATOR = '__item'
 
 export const INTERNAL_DYNAMIC = 'internal_dynamic_recursive'
 
+export const INTERNAL_INLINE_OBJECT = 'internal_inline_object'
+
 export const LOOP_STATE = '$loopState'
 
 export const LOOP_CALLEE = '$anonymousCallee_'
