@@ -1,5 +1,5 @@
 import * as webpack from 'webpack'
-import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
 import { getPostcssPlugins } from './postcss.conf'
@@ -34,7 +34,6 @@ export default (config: BuildConfig): webpack.Configuration => {
     css: defaultCSSCompressConf,
     js: defaultJSCompressConf
   }, useModuleConf.compress)
-  const styleLoader = require.resolve('style-loader')
   const cssLoader = {
     loader: require.resolve('css-loader'),
     options: {
@@ -57,49 +56,32 @@ export default (config: BuildConfig): webpack.Configuration => {
   const cssLoaders = [{
     test: /\.(css|scss|sass)(\?.*)?$/,
     exclude: /node_modules/,
-    loader: ExtractTextPlugin.extract({
-      fallback: styleLoader,
-      use: [ cssLoader, postcssLoader, sassLoader ]
-    })
+    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, sassLoader ]
   }, {
     test: /\.less(\?.*)?$/,
     exclude: /node_modules/,
-    loader: ExtractTextPlugin.extract({
-      fallback: styleLoader,
-      use: [ cssLoader, postcssLoader, lessLoader ]
-    })
+    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, lessLoader ]
   }, {
     test: /\.styl(\?.*)?$/,
     exclude: /node_modules/,
-    loader: ExtractTextPlugin.extract({
-      fallback: styleLoader,
-      use: [ cssLoader, postcssLoader, stylusLoader ]
-    })
+    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, stylusLoader ]
   }, {
     test: /\.(css|scss|sass)(\?.*)?$/,
     include: /node_modules/,
-    loader: ExtractTextPlugin.extract({
-      fallback: styleLoader,
-      use: [ cssLoader, sassLoader ]
-    })
+    use: [ MiniCssExtractPlugin.loader, cssLoader, sassLoader ]
   }, {
     test: /\.less(\?.*)?$/,
     include: /node_modules/,
-    loader: ExtractTextPlugin.extract({
-      fallback: styleLoader,
-      use: [ cssLoader, lessLoader ]
-    })
+    use: [ MiniCssExtractPlugin.loader, cssLoader, lessLoader ]
   }, {
     test: /\.styl(\?.*)?$/,
     include: /node_modules/,
-    loader: ExtractTextPlugin.extract({
-      fallback: styleLoader,
-      use: [ cssLoader, stylusLoader ]
-    })
+    use: [ MiniCssExtractPlugin.loader, cssLoader, stylusLoader ]
   }]
 
-  cssExtractPlugins.push(new ExtractTextPlugin({
-    filename: 'css/[name].css'
+  cssExtractPlugins.push(new MiniCssExtractPlugin({
+    filename: 'css/[name].css',
+    chunkFilename: 'css/[id].css'
   }))
 
   return {
