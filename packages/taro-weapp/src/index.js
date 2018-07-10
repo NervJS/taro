@@ -7,7 +7,8 @@ import {
   render,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  internal_inline_style
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -29,7 +30,8 @@ export {
   ENV_TYPE,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  internal_inline_style
 }
 
 export default {
@@ -44,5 +46,6 @@ export default {
   ENV_TYPE,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  internal_inline_style
 }
