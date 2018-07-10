@@ -269,14 +269,14 @@ export default function connectAdvanced(
 
     const componentDidShow = WrappedComponent.prototype.componentDidShow
     const componentDidHide = WrappedComponent.prototype.componentDidHide
-    const originalComponentDidMount = Connect.prototype.componentDidMount
-    const originalComponentWillUnmount = Connect.prototype.componentWillUnmount
+    const originalComponentDidMount = WrappedComponent.prototype.componentDidMount
+    const originalComponentWillUnmount = WrappedComponent.prototype.componentWillUnmount
 
-    Connect.prototype.componentDidMount = function () {
+    WrappedComponent.prototype.componentDidMount = function () {
       originalComponentDidMount && originalComponentDidMount.call(this)
       componentDidShow && componentDidShow.call(this.wrappedInstance)
     }
-    Connect.prototype.componentWillUnmount = function () {
+    WrappedComponent.prototype.componentWillUnmount = function () {
       componentDidHide && componentDidHide.call(this.wrappedInstance)
       originalComponentWillUnmount && originalComponentWillUnmount.call(this)
     }
