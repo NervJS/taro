@@ -102,20 +102,20 @@ export function pathResolver (p: string, location: string) {
   const promotedPath = p
   if (extName === '') {
     try {
-      const pathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.js')))
-      const tsxPathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.tsx')))
-      const baseNameExist = fs.existsSync(slash(path.resolve(path.dirname(location), p) + '.js'))
+      const pathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.js'))
+      const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.tsx'))
+      const baseNameExist = fs.existsSync(path.resolve(path.dirname(location), p) + '.js')
       if (pathExist || tsxPathExist) {
-        return path.join(promotedPath, 'index.wxml')
+        return slash(path.join(promotedPath, 'index.wxml'))
       } else if (baseNameExist) {
-        return promotedPath + '.wxml'
+        return slash(promotedPath + '.wxml')
       }
     } catch (error) {
-      return promotedPath + '.wxml'
+      return slash(promotedPath + '.wxml')
     }
-    return promotedPath + '.wxml'
+    return slash(promotedPath + '.wxml')
   }
-  return promotedPath.slice(0, promotedPath.length - extName.length) + '.wxml'
+  return slash(promotedPath.slice(0, promotedPath.length - extName.length) + '.wxml')
 }
 
 export function codeFrameError (loc: t.SourceLocation, msg: string) {
