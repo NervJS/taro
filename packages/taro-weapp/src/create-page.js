@@ -228,8 +228,6 @@ function componentTrigger (component, key) {
     }
     component._pendingStates = []
     component._pendingCallbacks = []
-    component.state = {}
-    component.props = {}
   }
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
@@ -276,6 +274,10 @@ function createPage (PageClass, options) {
   } catch (err) {
     console.error(err)
   }
+  const initPageInfo = {
+    props: Object.assign({}, page.props),
+    state: Object.assign({}, page.state)
+  }
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {
@@ -296,6 +298,8 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentDidHide')
     },
     onUnload () {
+      page.state = initPageInfo.state
+      page.props = initPageInfo.props
       componentTrigger(page, 'componentWillUnmount')
     },
     _setData (data, cb, isRoot) {

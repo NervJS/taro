@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
 interface Text {
-  
+
   /**
    * 文本字符串，支持 entities
    *
@@ -12,22 +12,22 @@ interface Text {
 }
 
 interface HTMLElement {
-  
+
   /**
    * 支持部分受信任的HTML节点
    *
    */
   name: string,
-  
+
   /**
    * 支持部分受信任的属性，遵循Pascal命名法
    */
-  attrs: Object,
-  
+  attrs?: Object,
+
   /**
    * 结构和nodes一致
    */
-  children: Nodes
+  children?: Nodes
 }
 
 type Nodes = Array<Text | HTMLElement> | string

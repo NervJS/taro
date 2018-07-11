@@ -55,7 +55,7 @@ export const baseOptions = {
   isTyped: false
 }
 
-export function evalClass (ast: t.File, props = '') {
+export function evalClass (ast: t.File, props = '', isRequire = false) {
   let mainClass!: t.ClassDeclaration
   const statements = new Set<t.ExpressionStatement>()
 
@@ -102,9 +102,12 @@ export function evalClass (ast: t.File, props = '') {
     }
   }
 
-  const code = `function f() {};` +
+  let code = `function f() {};` +
     generate(t.classDeclaration(t.identifier('Test'), t.identifier('f'), mainClass.body, [])).code +
     ';' + `new Test(${props})`
+  if (isRequire) {
+    code = 'const { internal_inline_style } = require("@tarojs/taro");' + code
+  }
   // tslint:disable-next-line
   return eval(code)
 }

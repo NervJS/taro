@@ -31,9 +31,10 @@ module.exports = {
 
         const propIsEventHandler = PROP_EVENT_HANDLER_REGEX.test(propKey)
         const isPropValueFunction = source.startsWith('this.props.on') ||
-          (source.startsWith('this.') &&
-          !source.startsWith('this.state.') &&
-          !source.startsWith('this.props.'))
+          (
+            source.startsWith('this.') &&
+            !['this.state.', 'this.props.', 'this.$router.'].some(v => source.startsWith(v))
+          )
 
         if (!propIsEventHandler && isPropValueFunction) {
           context.report({
