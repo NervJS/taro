@@ -83,20 +83,20 @@ class Swiper extends Nerv.Component {
   updateContainerBox (children) {
     let $container = Nerv.findDOMNode(this.SwiperWp)
     let childLen = children.length
-
+    let currentIndex = this.state.currentIndex
     // 默认偏移量
     let offsetVal =
-      this.props.current <= children + 2
+      currentIndex <= children + 2
         ? !this.props.vertical
-          ? $container.offsetWidth * -this.props.current
-          : $container.offsetHeight * -this.props.current
+          ? $container.offsetWidth * -currentIndex
+          : $container.offsetHeight * -currentIndex
         : 0
 
     // 是否衔接滑动
     // if (this.props.circular) {
     offsetVal = this.props.vertical
-      ? -$container.offsetHeight * (this.props.current + 1)
-      : -$container.offsetWidth * (this.props.current + 1)
+      ? -$container.offsetHeight * (currentIndex + 1)
+      : -$container.offsetWidth * (currentIndex + 1)
 
     childLen = childLen + 2
     // }
