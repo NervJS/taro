@@ -44,46 +44,17 @@ class Swiper extends Nerv.Component {
     this.pauseAutoPlay = this.pauseAutoPlay.bind(this)
     this.autoplay = this.autoplay.bind(this)
     this.computedChangeContainer = this.computedChangeContainer.bind(this)
+    this.updateContainerBox = this.updateContainerBox.bind(this)
   }
 
   componentDidMount () {
-    let $container = Nerv.findDOMNode(this.SwiperWp)
-
-    // 默认偏移量
-    let offsetVal =
-      this.props.current <= this.props.children.length + 2
-        ? !this.props.vertical
-          ? $container.offsetWidth * -this.props.current
-          : $container.offsetHeight * -this.props.current
-        : 0
-    let childLen = this.props.children.length
-
-    // 是否衔接滑动
-    // if (this.props.circular) {
-    offsetVal = this.props.vertical
-      ? -$container.offsetHeight * (this.props.current + 1)
-      : -$container.offsetWidth * (this.props.current + 1)
-
-    childLen = childLen + 2
-    // }
-
-    this.setState({
-      containerWidth: $container.offsetWidth, // 外层容器宽
-      containerHeight: $container.offsetHeight, // 外层容器高
-      wrapperWidth: !this.props.vertical // 轮播容器 是否纵向滑动，不是的话计算总宽度
-        ? $container.offsetWidth * childLen
-        : $container.offsetWidth,
-      wrapperHeight: this.props.vertical // 轮播容器 是否纵向滑动，是的话计算总高度
-        ? $container.offsetHeight * childLen
-        : $container.offsetHeight,
-      // 计算指定下标位置
-      translate: offsetVal
-    })
+    this.updateContainerBox(this.props.children)
 
     if (this.props.autoplay) this.autoplay(this.props.interval)
   }
 
   componentWillReceiveProps (nextProps) {
+    this.updateContainerBox(nextProps.children)
     const { interval, autoplay, circular } = nextProps
     this.pauseAutoPlay()
     // this.updateCurrentIndex(current)
@@ -106,6 +77,42 @@ class Swiper extends Nerv.Component {
       return true
     }
     return false
+  }
+
+  // 更新容器的宽高
+  updateContainerBox (children) {
+    let $container = Nerv.findDOMNode(this.SwiperWp)
+    let childLen = children.length
+
+    // 默认偏移量
+    let offsetVal =
+      this.props.current <= children + 2
+        ? !this.props.vertical
+          ? $container.offsetWidth * -this.props.current
+          : $container.offsetHeight * -this.props.current
+        : 0
+
+    // 是否衔接滑动
+    // if (this.props.circular) {
+    offsetVal = this.props.vertical
+      ? -$container.offsetHeight * (this.props.current + 1)
+      : -$container.offsetWidth * (this.props.current + 1)
+
+    childLen = childLen + 2
+    // }
+
+    this.setState({
+      containerWidth: $container.offsetWidth, // 外层容器宽
+      containerHeight: $container.offsetHeight, // 外层容器高
+      wrapperWidth: !this.props.vertical // 轮播容器 是否纵向滑动，不是的话计算总宽度
+        ? $container.offsetWidth * childLen
+        : $container.offsetWidth,
+      wrapperHeight: this.props.vertical // 轮播容器 是否纵向滑动，是的话计算总高度
+        ? $container.offsetHeight * childLen
+        : $container.offsetHeight,
+      // 计算指定下标位置
+      translate: offsetVal
+    })
   }
 
   // 更新下标
