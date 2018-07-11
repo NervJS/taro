@@ -279,6 +279,8 @@ class Transformer {
         const calleeCode = generate(callee).code
         let nodes: t.ObjectExpression[] = []
         const uuid = createUUID()
+        const isProps = calleeCode.startsWith('this.props')
+          || (t.isMemberExpression(callee) && isBelongToProps(findFirstIdentifierFromMemberExpression(callee), this.renderMethod!.scope))
         loopComponents.forEach((loopComponent) => {
           const { name, element: component, parent } = loopComponent
           let subscript = ''
@@ -309,7 +311,7 @@ class Transformer {
         }
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
         const stateGetter = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
-          t.memberExpression(t.thisExpression(), t.identifier('state')),
+          t.memberExpression(t.thisExpression(), t.identifier(isProps ? 'props' : 'state')),
           t.identifier('stateName')
         ])
         const returnStatement = t.returnStatement(
