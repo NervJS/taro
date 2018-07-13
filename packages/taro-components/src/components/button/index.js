@@ -30,7 +30,7 @@ class Button extends Nerv.Component {
       loading = false,
       type = 'default'
     } = this.props
-    const cls = className || classNames(
+    const cls = classNames(
       'weui-btn',
       {
         [`${hoverClass}`]: this.state.hover && !disabled,
@@ -39,7 +39,8 @@ class Button extends Nerv.Component {
         'weui-btn_mini': size === 'mini',
         'weui-btn_loading': loading,
         'weui-btn_disabled': disabled
-      }
+      }，
+      className
     )
 
     const _onTouchStart = e => {
