@@ -1,5 +1,5 @@
 html, body {
-	height: 100%;
+  height: 100%;
 }
 #app {
 	height: 100%;
@@ -21,7 +21,7 @@ html, body {
   	flex: 1;
   	position: relative;
   	overflow: auto;
-
+    -webkit-overflow-scrolling: touch;
   }
   &__tabbar {
   	position: relative;
