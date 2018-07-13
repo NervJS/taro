@@ -4,12 +4,12 @@
 
 > 下文中示例代码均在 [taro-redux-sample](https://github.com/NervJS/taro-redux-sample)
 
-首先请安装 `redux` 和 `@tarojs/redux`，以及一些需要用到的 `redux` 中间件
+首先请安装 `redux` 、 `@tarojs/redux` 和 `@tarojs/redux-h5`，以及一些需要用到的 `redux` 中间件
 
 ```bash
-$ yarn add redux @tarojs/redux redux-thunk redux-logger
+$ yarn add redux @tarojs/redux @tarojs/redux-h5 redux-thunk redux-logger
 # 或者使用 npm
-$ npm install --save redux @tarojs/redux redux-thunk redux-logger
+$ npm install --save redux @tarojs/redux @tarojs/redux-h5 redux-thunk redux-logger
 ```
 
 随后可以在项目 `src` 目录下新增一个 `store` 目录，在目录下增加 `index.js` 文件用来配置 `store`，按自己喜好设置 `redux` 的中间件，例如下面例子中使用 `redux-thunk` 和 `redux-logger` 这两个中间件

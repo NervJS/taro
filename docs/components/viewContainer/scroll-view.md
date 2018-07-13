@@ -22,7 +22,7 @@
 使用竖向滚动时，需要给 `<scroll-view/>` 一个固定高度，通过 WXSS 设置 height。
 
 ###### 示例：
-```
+```jsx
 <ScrollView className='scrollview'
             scrollY
             scrollWithAnimation
@@ -37,3 +37,6 @@
   <View style='height:150px;background-color:rgb(241,241,241);color: #333;'>C</View>
 </ScrollView>
 ```
+
+###### Tips:
+* H5中ScrollView组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果ScrollView的高度将body撑开，就会同时存在两个滚动条（body下的滚动条，以及ScrollView的滚动条）。

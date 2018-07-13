@@ -3,21 +3,21 @@ import { StandardProps, BaseEventFunction } from './common'
 
 interface FormProps extends StandardProps {
   /**
-   * 是否返回 formId 用于发送模板消息	
+   * 是否返回 formId 用于发送模板消息
    */
-  reportSubmit: boolean,
-  
+  reportSubmit?: boolean,
+
   /**
    * 携带 form 中的数据触发 submit 事件
-   * 
-   * event.detail = {value : {'name': 'value'} , formId: ''}	
+   *
+   * event.detail = {value : {'name': 'value'} , formId: ''}
    */
-  onSubmit: BaseEventFunction,
-  
+  onSubmit?: BaseEventFunction,
+
   /**
    * 表单重置时会触发 reset 事件
    */
-  onReset: BaseEventFunction
+  onReset?: BaseEventFunction
 }
 
 declare const Form: ComponentType<FormProps>

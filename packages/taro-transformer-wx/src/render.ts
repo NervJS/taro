@@ -136,7 +136,10 @@ export class RenderParser {
   private returnedPaths: NodePath<t.Node>[] = []
   private usedThisState = new Set<string>()
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
-  private loopRefIdentifiers = new Map<t.Identifier, NodePath<t.CallExpression>>()
+  private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
+  private reserveStateWords = new Set(['state', 'props'])
+  private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
+  private customComponentNames: Set<string>
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -144,9 +147,10 @@ export class RenderParser {
   private isRoot: boolean
   private instanceName: string
   private referencedIdentifiers: Set<t.Identifier>
-  private customComponentNames: Set<string>
   private renderScope: Scope
   private usedState: Set<string>
+  private loopStateName: Map<NodePath<t.CallExpression>, string>
+  private customComponentData: Array<t.ObjectProperty>
 
   private finalReturnElement!: t.JSXElement
 
@@ -158,8 +162,10 @@ export class RenderParser {
         if (hasComplexExpression(leftExpression)) {
           generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
         }
-        newJSXIfAttr(jsxElementPath.node, leftExpression.node)
-        parentPath.replaceWith(jsxElementPath.node)
+        const block = buildBlockElement()
+        newJSXIfAttr(block, leftExpression.node)
+        block.children = [jsxElementPath.node]
+        parentPath.replaceWith(block)
         if (statementParent) {
           const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
           setTemplate(name, jsxElementPath, this.templates)
@@ -167,7 +173,6 @@ export class RenderParser {
         }
       }
     } else if (t.isConditionalExpression(parentNode)) {
-      debugger
       const { consequent, alternate } = parentNode
       const testExpression = parentPath.get('test') as NodePath<t.Expression>
       const block = buildBlockElement()
@@ -378,10 +383,21 @@ export class RenderParser {
                   setJSXAttr(
                     jsxElementPath.node,
                     'wx:elif',
-                    t.jSXExpressionContainer(test)
+                    t.jSXExpressionContainer(test),
+                    jsxElementPath
                   )
                 } else {
-                  newJSXIfAttr(jsxElementPath.node, test)
+                  if (this.topLevelIfStatement.size > 0) {
+                    setJSXAttr(
+                      jsxElementPath.node,
+                      'wx:elif',
+                      t.jSXExpressionContainer(test),
+                      jsxElementPath
+                    )
+                  } else {
+                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+                    this.topLevelIfStatement.add(ifStatement)
+                  }
                 }
               }
             } else if (block.children.length !== 0) {
@@ -415,13 +431,14 @@ export class RenderParser {
                     setJSXAttr(
                       jsxElementPath.node,
                       'wx:elif',
-                      t.jSXExpressionContainer(test)
+                      t.jSXExpressionContainer(test),
+                      jsxElementPath
                     )
                   } else {
                     if (parentIfStatement) {
-                      newJSXIfAttr(block, parentIfStatement.node.test)
+                      newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
                     }
-                    newJSXIfAttr(jsxElementPath.node, test)
+                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                   }
                 }
                 block.children.push(jsxElementPath.node)
@@ -476,7 +493,7 @@ export class RenderParser {
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
-                  `data-event-${bindCalleeName}-scope`,
+                  `data-e-${bindCalleeName}-so`,
                   t.stringLiteral(argName as string)
                 )
               } else {
@@ -494,7 +511,7 @@ export class RenderParser {
                 }
                 setJSXAttr(
                   JSXElement,
-                  `data-event-${bindCalleeName}-arg-${toLetters(index)}`,
+                  `data-e-${bindCalleeName}-a-${toLetters(index)}`,
                   expr!
                 )
               }
@@ -543,7 +560,25 @@ export class RenderParser {
           }
         }
         if (name.name === 'key') {
-          path.get('name').replaceWith(t.jSXIdentifier('wx:key'))
+          const jsx = path.findParent(p => p.isJSXElement())
+          const loopBlock = jsx.findParent(p => {
+            if (p.isJSXElement()) {
+              const element = p.get('openingElement') as NodePath<t.JSXOpeningElement>
+              if (element.get('name').isJSXIdentifier({ name: 'block' })) {
+                const attrs = element.node.attributes
+                const hasWXForLoop = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: 'wx:for' }))
+                const hasWXKey = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: 'wx:key' }))
+                return hasWXForLoop && !hasWXKey
+              }
+            }
+            return false
+          }) as NodePath<t.JSXElement>
+          if (loopBlock) {
+            setJSXAttr(loopBlock.node, 'wx:key', value)
+            path.remove()
+          } else {
+            path.get('name').replaceWith(t.jSXIdentifier('wx:key'))
+          }
         } else if (
           name.name.startsWith('on')
         ) {
@@ -613,6 +648,9 @@ export class RenderParser {
       }
     },
     Identifier: (path) => {
+      if (!path.isReferencedIdentifier()) {
+        return
+      }
       const parentPath = path.parentPath
       if (
         parentPath.isConditionalExpression() ||
@@ -620,11 +658,7 @@ export class RenderParser {
         parentPath.isJSXExpressionContainer() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
-        const codes = parentPath.getSource().split('.')
-        if (!(codes[0] === 'this' && codes[1] === 'state')) {
-          this.addRefIdentifier(path, path.node)
-          // referencedIdentifiers.add(path.node)
-        }
+        this.addRefIdentifier(path, path.node)
       }
     },
     ArrowFunctionExpression: (path) => {
@@ -637,7 +671,7 @@ export class RenderParser {
   private visitors: Visitor = {
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
-      if (statementParent && statementParent.isReturnStatement()) {
+      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent)) {
         path.replaceWith(
           t.jSXElement(
             t.jSXOpeningElement(
@@ -685,8 +719,10 @@ export class RenderParser {
     isRoot: boolean,
     instanceName: string,
     referencedIdentifiers: Set<t.Identifier>,
+    usedState: Set<string>,
+    loopStateName: Map<NodePath<t.CallExpression>, string>,
     customComponentNames: Set<string>,
-    usedState: Set<string>
+    customComponentData: Array<t.ObjectProperty>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -694,8 +730,10 @@ export class RenderParser {
     this.isRoot = isRoot
     this.instanceName = instanceName
     this.referencedIdentifiers = referencedIdentifiers
-    this.customComponentNames = customComponentNames
+    this.loopStateName = loopStateName
     this.usedState = usedState
+    this.customComponentNames = customComponentNames
+    this.customComponentData = customComponentData
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -717,7 +755,7 @@ export class RenderParser {
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
-      this.loopRefIdentifiers.set(id, arrayMap)
+      this.loopRefIdentifiers.set(id.name, arrayMap)
     } else {
       this.referencedIdentifiers.add(id)
     }
@@ -744,6 +782,7 @@ export class RenderParser {
       }
       const blockStatementPath = component.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
       const body = blockStatementPath.node.body
+      let hasOriginalRef = false
       let stateToBeAssign = new Set<string>(
         difference(
           Object.keys(blockStatementPath.scope.getAllBindings()),
@@ -777,19 +816,30 @@ export class RenderParser {
               body.splice(index, 1)
             }
           }
+          stateToBeAssign.forEach(s => this.loopRefIdentifiers.set(s, callee))
           const properties = Array.from(stateToBeAssign).map(state => t.objectProperty(t.identifier(state), t.identifier(state)))
-          const returnStatement = t.returnStatement(t.objectExpression(
-            [t.spreadProperty(t.identifier(item.name)), ...properties]
-          ))
           component.traverse({
             Identifier (path) {
-              if (stateToBeAssign.has(path.node.name) && path.isReferencedIdentifier()) {
+              const name = path.node.name
+              if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
                 path.replaceWith(
                   t.memberExpression(
                     t.identifier(item.name),
                     path.node
                   )
                 )
+              }
+
+              if (
+                path.parentPath.isJSXExpressionContainer() &&
+                path.isReferencedIdentifier() &&
+                name === item.name
+              ) {
+                path.replaceWith(t.memberExpression(
+                  t.identifier(item.name),
+                  t.identifier('$$original')
+                ))
+                hasOriginalRef = true
               }
             },
             MemberExpression (path) {
@@ -799,6 +849,15 @@ export class RenderParser {
               }
             }
           })
+          if (hasOriginalRef) {
+            properties.push(t.objectProperty(
+              t.identifier('$$original'),
+              t.identifier(item.name)
+            ))
+          }
+          const returnStatement = t.returnStatement(t.objectExpression(
+            [t.spreadProperty(t.identifier(item.name)), ...properties]
+          ))
           const parentCallee = callee.findParent(c => isArrayMapCallExpression(c))
           if (isArrayMapCallExpression(parentCallee)) {
             const [ func ] = parentCallee.node.arguments
@@ -827,8 +886,25 @@ export class RenderParser {
           } else {
             body.push(returnStatement)
             const stateName = 'loopArray' + loopArrayId()
+            this.loopStateName.forEach((newName, callExpr) => {
+              if (callExpr === callee) {
+                const classBody = this.renderPath.parent as t.ClassBody
+                for (const property of classBody.body) {
+                  if (t.isClassProperty(property) && property.key.name === '$dynamicComponents') {
+                    const objects = property.value as t.ObjectExpression
+                    for (const objProp of objects.properties) {
+                      if (t.isObjectProperty(objProp) && t.isIdentifier(objProp.key, { name: newName })) {
+                        const func = objProp.value as any
+                        func.body.body[0] = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
+                      }
+                    }
+                  }
+                }
+              }
+            })
             // setJSXAttr(returned, 'wx:for', t.identifier(stateName))
-            this.referencedIdentifiers.add(t.identifier(stateName))
+            this.addRefIdentifier(callee, t.identifier(stateName))
+            // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
             this.renderPath.node.body.body.push(
               buildConstVariableDeclaration(stateName, callee.node)
@@ -863,7 +939,36 @@ export class RenderParser {
     this.returnedPaths.forEach(p => p.remove())
   }
 
+  setReserveWord = (word: string) => {
+    const binding = this.renderScope.getOwnBinding(word)
+    let hasStateId = false
+    if (binding) {
+      const path = binding.path
+      const id = path.get('id')
+      const init = path.get('init')
+      if (init.isThisExpression()) {
+        return hasStateId
+      }
+      if (id.isObjectPattern()) {
+        hasStateId = id.node.properties.some(p => {
+          return (t.isObjectProperty(p) && t.isIdentifier(p.key, { name: word }))
+            || (t.isRestProperty(p) && t.isIdentifier(p.argument, { name: word }))
+        })
+      } else if (id.isIdentifier({ name: word })) {
+        hasStateId = true
+      }
+      if (hasStateId) {
+        this.referencedIdentifiers.add(t.identifier(word))
+      }
+    }
+    if (hasStateId) {
+      this.reserveStateWords.delete(word)
+    }
+  }
+
   setUsedState () {
+    Array.from(this.reserveStateWords).forEach(this.setReserveWord)
+
     const usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
@@ -882,7 +987,9 @@ export class RenderParser {
       [...new Set(
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
-        .filter(i => i !== MAP_CALL_ITERATOR && i !== 'state' && i !== 'props')
+        .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
+        .filter(i => !i.includes('.'))
+        .filter(i => !this.loopRefIdentifiers.has(i))
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
@@ -890,8 +997,7 @@ export class RenderParser {
   }
 
   setPendingState () {
-    const pendingState = t.objectExpression(
-      Array.from(
+    let properties = Array.from(
         new Set(Array.from(this.referencedIdentifiers)
         .map(i => i.name))
       )
@@ -902,9 +1008,15 @@ export class RenderParser {
       .filter(i => !this.initState.has(i))
       .filter(i => !this.templates.has(i))
       .filter(i => !i.includes('.'))
-      .filter(i => i !== MAP_CALL_ITERATOR && i !== 'state' && i !== 'props')
+      .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
+      .filter(i => !i.startsWith('.'))
+      .filter(i => !i.startsWith('$$'))
+      .filter(i => !this.loopRefIdentifiers.has(i))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
-    )
+    if (this.customComponentData.length > 0) {
+      properties = properties.concat(this.customComponentData)
+    }
+    const pendingState = t.objectExpression(properties)
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       copyStateToShalowData(),

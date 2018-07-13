@@ -23,9 +23,7 @@ function testComponent (code) {
   return `
 class App extends Component {
   render () {
-    return (
       ${code}
-    )
   }
 }
 `

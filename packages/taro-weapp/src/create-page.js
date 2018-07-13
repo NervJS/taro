@@ -1,7 +1,6 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet,
-  Events
+  internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { updateComponent } from './lifecycle'
 import { isEmptyObject, getPrototypeChain } from './util'
@@ -11,7 +10,6 @@ const rootScopeKey = '__root_'
 const componentPath = 'componentPath'
 const scopeMap = {}
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
-const events = new Events()
 
 function processEvent (pagePath, eventHandlerName, obj) {
   let newEventHandlerName = eventHandlerName.replace(eventPreffix, '')
@@ -30,24 +28,20 @@ function processEvent (pagePath, eventHandlerName, obj) {
     let scope = theComponent
     const bindArgs = {}
     const componentClassName = dataset['componentClass']
-    const newEventHandlerNameLower = newEventHandlerName.toLocaleLowerCase()
+    const newEventHandlerNameCopy = componentClassName ? newEventHandlerName.replace(`${componentClassName}__`, '') : newEventHandlerName
+    const newEventHandlerNameLower = newEventHandlerNameCopy.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
-      let keyLower = key.toLocaleLowerCase()
-      if (keyLower.indexOf('event') === 0) {
-        keyLower = keyLower.replace('event', '')
-        keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(newEventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(newEventHandlerNameLower, '')
-          bindArgs[argName] = dataset[key]
-        }
+      const keyLower = key.toLocaleLowerCase()
+      if (keyLower[0] === 'e' && keyLower.indexOf(`e${newEventHandlerNameLower}`) === 0) {
+        const argName = keyLower.replace(`e${newEventHandlerNameLower}`, '')
+        bindArgs[argName] = dataset[key]
       }
     })
     if (!isEmptyObject(bindArgs)) {
-      if (bindArgs['scope'] !== 'this') {
-        scope = bindArgs['scope']
+      if (bindArgs['so'] !== 'this') {
+        scope = bindArgs['so']
       }
-      delete bindArgs['scope']
+      delete bindArgs['so']
       const realArgs = Object.keys(bindArgs)
         .sort()
         .map(key => bindArgs[key])
@@ -110,7 +104,7 @@ function initPage (weappPageConf, page, options) {
   return recurrenceComponent(weappPageConf, page)
 }
 
-export function processDynamicComponents (page) {
+export function processDynamicComponents (page, weappPageConf, updateFromComponent, isFirst) {
   const pagePath = page.path
   scopeMap[pagePath] = scopeMap[pagePath] || {}
   function recursiveDynamicComponents (component) {
@@ -121,7 +115,13 @@ export function processDynamicComponents (page) {
         const loopRes = dynamicComponetFn()
         const stateName = loopRes.stateName
         const loopComponents = loopRes.loopComponents
-        const stateData = Object.assign({}, safeGet(component.state, stateName))
+        const oldStateData = safeGet(component.state, stateName)
+        let stateData
+        if (Array.isArray(oldStateData)) {
+          stateData = oldStateData.slice(0)
+        } else {
+          stateData = Object.assign({}, oldStateData)
+        }
         component._dyState = component._dyState || {}
         safeSet(component._dyState, stateName, stateData)
         recurrence(loopComponents, stateData, -1)
@@ -141,7 +141,7 @@ export function processDynamicComponents (page) {
             }
             if (components && components.length) {
               components.forEach(function (item, index) {
-                const comPath = `${component.$path}$$${item.fn}_${level}`
+                const comPath = `${item.body.$path}_${index}`
                 let child
                 Object.getOwnPropertyNames(component.$$dynamicComponents).forEach(c => {
                   if (c === comPath) {
@@ -151,50 +151,58 @@ export function processDynamicComponents (page) {
                 const props = transformPropsForComponent(item.body, _class.defaultProps)
                 if (!child) {
                   child = new _class(props)
+                  try {
+                    child.state = child._createData()
+                  } catch (err) {
+                    console.error(err)
+                  }
                   child.$path = comPath
                   child.props.$path = comPath
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
                   componentTrigger(child, 'componentWillMount')
-                  events.on('page:onReady', () => {
-                    componentTrigger(child, 'componentDidMount')
-                  })
-                  recursiveDynamicComponents(child)
+                  componentTrigger(child, 'componentDidMount')
                 } else {
+                  const isUpdateFromParent = typeof updateFromComponent === 'undefined' ||
+                    !updateFromComponent.$isComponent ||
+                    updateFromComponent.$components.hasOwnProperty(child.constructor.name)
+                  props.$path = comPath
                   child.$path = comPath
                   child.props.$path = comPath
-                  child.prevProps = child.props
-                  child.props = props
-                  child._unsafeCallUpdate = true
-                  updateComponent(child, false)
-                  child._unsafeCallUpdate = false
+                  child.prevProps = child.prevProps || child.props
+                  child.props = Object.assign({}, child.props, props)
                   child._init(component.$scope)
                   child._initData(component.$root || component, component)
-                  recursiveDynamicComponents(child)
+                  if (isUpdateFromParent && !isFirst) {
+                    child._unsafeCallUpdate = true
+                    updateComponent(child, false)
+                    child._unsafeCallUpdate = false
+                  }
                 }
-
+                recursiveDynamicComponents(child)
                 if (stateData) {
-                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, child.state)
+                  stateData[index] = Object.assign({}, child.props, { ...stateData[index] }, Object.assign({}, child.state, child._dyState || {}))
                 }
                 component.$$dynamicComponents[comPath] = child
                 scopeMap[pagePath][comPath] = child
-                for (const k in child) {
-                  if (k.indexOf(eventPreffix) >= 0) {
-                    processEvent(pagePath, k, component)
-                  }
-                }
-                const prototypeChain = getPrototypeChain(child)
-                prototypeChain.forEach(item => {
-                  Object.getOwnPropertyNames(item).forEach(fn => {
-                    if (fn.indexOf(eventPreffix) >= 0) {
-                      processEvent(pagePath, fn, component)
+                if (weappPageConf) {
+                  for (const k in child) {
+                    if (k.indexOf(eventPreffix) >= 0) {
+                      processEvent(pagePath, k, weappPageConf)
                     }
+                  }
+                  const prototypeChain = getPrototypeChain(child)
+                  prototypeChain.forEach(item => {
+                    Object.getOwnPropertyNames(item).forEach(fn => {
+                      if (fn.indexOf(eventPreffix) >= 0) {
+                        processEvent(pagePath, fn, weappPageConf)
+                      }
+                    })
                   })
-                })
+                }
                 if (item.children && item.children.length) {
                   recurrence(item.children, stateData[index], `${index}_${level}`)
                 }
-                recursiveDynamicComponents(item)
               })
             }
             if (children && children.length) {
@@ -212,10 +220,15 @@ function componentTrigger (component, key) {
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
+    component.$components = {}
+    component.$$components = {}
+    component.$$dynamicComponents = {}
+    component.$router = {
+      params: {}
+    }
+    component._pendingStates = []
+    component._pendingCallbacks = []
   }
-  Object.getOwnPropertyNames(component.$$components || {}).forEach(name => {
-    componentTrigger(component.$$components[name], key)
-  })
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
     if (component.$isComponent) {
@@ -225,7 +238,7 @@ function componentTrigger (component, key) {
     component._disable = false
     component.state = component.getState()
     if (!component.$isComponent) {
-      component.forceUpdate()
+      updateComponent(component, true, true)
     }
   }
 }
@@ -256,16 +269,26 @@ function transformPropsForComponent (props, defaultProps, propTypes) {
 function createPage (PageClass, options) {
   const pageProps = transformPropsForComponent({}, PageClass.defaultProps, PageClass.propTypes)
   const page = new PageClass(pageProps)
+  try {
+    page.state = page._createData()
+  } catch (err) {
+    console.error(err)
+  }
+  const initPageInfo = {
+    props: Object.assign({}, page.props),
+    state: Object.assign({}, page.state)
+  }
   page.$isComponent = false
   page.path = options.path
   const weappPageConf = {
     onLoad (options) {
       page._init(this)
+      processDynamicComponents(page, weappPageConf)
+      page._initData()
       page.$router.params = options
       componentTrigger(page, 'componentWillMount')
     },
     onReady () {
-      events.trigger('page:onReady')
       componentTrigger(page, 'componentDidMount')
     },
     onShow () {
@@ -275,7 +298,8 @@ function createPage (PageClass, options) {
       componentTrigger(page, 'componentDidHide')
     },
     onUnload () {
-      events.off('page:onReady')
+      page.state = initPageInfo.state
+      page.props = initPageInfo.props
       componentTrigger(page, 'componentWillUnmount')
     },
     _setData (data, cb, isRoot) {
@@ -293,7 +317,6 @@ function createPage (PageClass, options) {
     }
   }
   let weappPageConfEvents = initPage(weappPageConf, page, options)
-  processDynamicComponents(page)
   page._initData()
   pageExtraFns.forEach(fn => {
     if (typeof page[fn] === 'function') {

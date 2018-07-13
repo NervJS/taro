@@ -22,7 +22,7 @@
 
 ###### 示例：
 
-```
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Checkbox } from '@tarojs/components'
 

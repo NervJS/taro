@@ -7,6 +7,25 @@ import {
 const deviceWidth = Dimensions.get('window').width
 
 export default StyleSheet.create({
+  backdrop: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0,
+    backgroundColor: 'black'
+  },
+  content: {
+    // flex: 1,
+    // justifyContent: 'center'
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'white'
+  },
+
   dialogOverlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     position: 'absolute',
@@ -19,6 +38,11 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  dialogOverlayForIOS: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   dialogContainer: {
     width: deviceWidth,

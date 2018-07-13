@@ -83,4 +83,11 @@ describe('<Button />', () => {
       ])
     )
   })
+
+  it('onClick', () => {
+    const spy = sinon.spy()
+    const wrapper = shallow(<Button onClick={spy} />)
+    wrapper.find(TouchableOpacity).at(0).props().onPress()
+    expect(spy.calledOnce).toBe(true)
+  })
 })

@@ -1,16 +1,7 @@
 import SocketTask from './socketTask'
 
-let socketsCounter = 0
+let socketsCounter = 1
 let socketTasks = []
-
-// 最多同时存在两个SocketTask
-function limitSocketTask (SocketTask) {
-  if (socketTasks.length >= 2) {
-    const oldSocketTask = socketTasks.shift()
-    oldSocketTask.close()
-  }
-  socketTasks.push(SocketTask)
-}
 
 export function connectSocket (opts = {}) {
   return new Promise((resolve, reject) => {
@@ -19,9 +10,9 @@ export function connectSocket (opts = {}) {
     const res = { errMsg: 'connectSocket:ok' }
 
     if (typeof url !== 'string') {
-      const error = new Error(`url必须是字符串`)
+      const error = new Error(`connectSocket:fail parameter error: parameter.url should be String`)
       res.errMsg = error.message
-      console.error(error)
+      console.error(res.errMsg)
       fail && fail(res)
       complete && complete(res)
       return reject(res)
@@ -31,10 +22,25 @@ export function connectSocket (opts = {}) {
       protocols = null
     }
 
+    // 最多同时存在两个SocketTask
+    if (socketTasks.length >= 2) {
+      const error = new Error(`同时最多发起 2 个 socket 请求，更多请参考文档。`)
+      res.errMsg = error.message
+      console.error(res.errMsg)
+      fail && fail(res)
+      complete && complete(res)
+      return reject(res)
+    }
+
     const task = new SocketTask(url, protocols)
-    limitSocketTask(task)
+    task._destroyWhenClose = () => {
+      socketTasks = socketTasks.filter(socketTask => { return socketTask !== task })
+    }
+    socketTasks.push(task)
 
     res.socketTaskId = socketsCounter++
+    res.socketTask = task
+
     success && success(res)
     complete && complete(res)
 

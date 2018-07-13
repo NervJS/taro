@@ -28,16 +28,28 @@ class Switch extends Nerv.Component {
       }
     })
     onChange && onChange(e)
+    this.setState({
+      checked: e.target.checked
+    })
   }
 
   render () {
-    const { type = 'switch', className } = this.props
+    const { type = 'switch', className, color } = this.props
     const cls = classNames(
       {
         [`weui-${parseType(type)}`]: true
       },
       className
     )
+    let sty
+    if (this.state.checked) {
+      sty = {
+        borderColor: color || '04BE02',
+        backgroundColor: color || '04BE02'
+      }
+    } else {
+      sty = ''
+    }
     return (
       <input
         {...omit(this.props, ['className', 'checked', 'onChange'])}
@@ -45,6 +57,7 @@ class Switch extends Nerv.Component {
         checked={this.state.checked}
         type='checkbox'
         onChange={this.switchChange}
+        style={sty}
       />
     )
   }

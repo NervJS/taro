@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint packages/*/src --fix",
-    "precommit": "lint-staged",
     "docs": "cd docs && gitbook build",
     "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json",
     "bootstrap:lerna": "lerna bootstrap -- --ignore-engines",
@@ -81,7 +80,6 @@
     "sass-loader": "^6.0.7",
     "shelljs": "^0.8.1",
     "style-loader": "^0.20.3",
-    "ts-loader": "^3.5.0",
     "typescript": "^2.7.2",
     "webpack": "^3.11.0",
     "webpack-cli": "^1.0.12",

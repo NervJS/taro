@@ -10,7 +10,7 @@ const DEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
 
-export function updateComponent (component, update) {
+export function updateComponent (component, update, isFirst) {
   const { props, propTypes, type } = component
   if (DEV && propTypes) {
     const displayName = type.name || type.toString().match(/^function\s*([^\s(]+)/)[1]
@@ -30,28 +30,18 @@ export function updateComponent (component, update) {
   state.__data && (state.__data.$path = component.$path)
   const prevState = component.prevState || state
   let skip = false
-  if (typeof component.shouldComponentUpdate === 'function' &&
-    component.shouldComponentUpdate(props, state) === false) {
-    skip = true
-  } else if (typeof component.componentWillUpdate === 'function') {
-    component.componentWillUpdate(props, state)
+  if (!isFirst) {
+    if (typeof component.shouldComponentUpdate === 'function' &&
+      component.shouldComponentUpdate(props, state) === false) {
+      skip = true
+    } else if (typeof component.componentWillUpdate === 'function') {
+      component.componentWillUpdate(props, state)
+    }
   }
   component.props = props
   component.state = state
   component._dirty = false
   if (!skip) {
-    for (let k in component.$props) {
-      const childProps = component.$props[k].call(component)
-      const subComponent = component.$$components[k]
-      const newChildProps = Object.assign(subComponent.props, childProps)
-      subComponent._disable = true
-      if (subComponent.componentWillReceiveProps) {
-        subComponent.componentWillReceiveProps(newChildProps)
-      }
-      subComponent._disable = false
-      subComponent.props = newChildProps
-      updateComponent(subComponent, false)
-    }
     const propsCopy = {}
     Object.keys(component.props).forEach(item => {
       if (typeof component.props[item] !== 'function') {
@@ -59,25 +49,26 @@ export function updateComponent (component, update) {
       }
     })
     Object.assign(component.$data, component.state, propsCopy)
-    if (component.componentDidUpdate) {
+    if (component.componentDidUpdate && !isFirst) {
       component.componentDidUpdate(prevProps, prevState)
     }
-    doUpdate(component, update)
+    doUpdate(component, update, isFirst)
   }
   component.prevProps = component.props
   component.prevState = component.state
 }
 
-function doUpdate (component, update) {
-  let $data = component.$root ? component.$root.$data : component.$data
+function doUpdate (component, update, isFirst) {
+  const $root = component.$root ? component.$root : component
+  let $data = $root.$data
   if (update) {
-    processDynamicComponents(component.$root || component)
-    Object.assign(component.$data, component.state, component._dyState || {})
+    processDynamicComponents($root, null, component, isFirst)
+    $data = Object.assign($data, $root.state, $root._dyState || {})
   }
-  if (!component.$isComponent && component.$usedState && component.$usedState.length) {
+  if ($root.$usedState && $root.$usedState.length) {
     const data = {}
-    component.$usedState.forEach(key => {
-      const value = safeGet(component.$data, key)
+    $root.$usedState.forEach(key => {
+      const value = safeGet($data, key)
       safeSet(data, key, value)
     })
     $data = data

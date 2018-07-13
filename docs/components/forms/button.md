@@ -13,17 +13,17 @@
 | √ |   | x | formType | String  | | 用于 form 组件，点击分别会触发 form 组件的 submit/reset 事件   |
 | √ |   | x | openType | String  | | 微信开放能力  |
 | √ |   | x | appParameter   | String  | | 打开 APP 时，向 APP 传递的参数   |
-| √ | √ | x | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果  |
+| √ | √ | √ | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果  |
 | √ |   | x | hoverStopPropagation | Boolean | false | 指定是否阻止本节点的祖先节点出现点击态  |
-| √ | √ | x | hoverStartTime    | Number  | 20    | 按住后多久出现点击态，单位毫秒   |
-| √ | √ | x | hoverStayTime | Number  | 70    | 手指松开后点击态保留时间，单位毫秒   |
+| √ | √ | √ | hoverStartTime    | Number  | 20    | 按住后多久出现点击态，单位毫秒   |
+| √ | √ | √ | hoverStayTime | Number  | 70    | 手指松开后点击态保留时间，单位毫秒   |
 | √ |   | x | onGetUserInfo | Handler | | 用户点击该按钮时，会返回获取到的用户信息，从返回参数的 detail 中获取到的值同 wx.getUserInfo |
 | √ |   | x | onGetPhoneNumber | Handler | | 获取用户手机号回调 |
 | √ |   | x | lang   | String  | en    | 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。 |
 
 
 ###### 示例：
-```
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 
@@ -101,5 +101,4 @@ export default class PageButton extends Component {
         )
     }
 }
-
 ```
