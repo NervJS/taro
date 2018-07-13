@@ -6,6 +6,8 @@
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "Taro.createElement",
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "outDir": "lib",
@@ -14,18 +16,8 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "rootDir": ".",
+    "jsx": "preserve"
   },
-  "include": ["src"],
-  "exclude": [
-    "__tests__",
-    "node_modules",
-    "dist",
-    "tests",
-    "jest",
-    "lib",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ],
   "compileOnSave": false
 }

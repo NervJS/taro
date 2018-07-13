@@ -5,6 +5,7 @@ import { NodePath, Scope } from 'babel-traverse'
 import { LOOP_STATE } from './constant'
 import * as fs from 'fs'
 import * as path from 'path'
+import { buildBlockElement } from './jsx'
 
 export const incrementId = () => {
   let id = 0
@@ -101,19 +102,20 @@ export function pathResolver (p: string, location: string) {
   const promotedPath = p
   if (extName === '') {
     try {
-      const pathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.js')))
-      const baseNameExist = fs.existsSync(slash(path.resolve(path.dirname(location), p) + '.js'))
-      if (pathExist) {
-        return path.join(promotedPath, 'index.wxml')
+      const pathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.js'))
+      const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.tsx'))
+      const baseNameExist = fs.existsSync(path.resolve(path.dirname(location), p) + '.js')
+      if (pathExist || tsxPathExist) {
+        return slash(path.join(promotedPath, 'index.wxml'))
       } else if (baseNameExist) {
-        return promotedPath + '.wxml'
+        return slash(promotedPath + '.wxml')
       }
     } catch (error) {
-      return promotedPath + '.wxml'
+      return slash(promotedPath + '.wxml')
     }
-    return promotedPath + '.wxml'
+    return slash(promotedPath + '.wxml')
   }
-  return promotedPath.slice(0, promotedPath.length - extName.length) + '.wxml'
+  return slash(promotedPath.slice(0, promotedPath.length - extName.length) + '.wxml')
 }
 
 export function codeFrameError (loc: t.SourceLocation, msg: string) {
@@ -152,8 +154,19 @@ export function buildJSXAttr (name: string, value: t.Identifier | t.Expression) 
   return t.jSXAttribute(t.jSXIdentifier(name), t.jSXExpressionContainer(value))
 }
 
-export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Expression) {
-  jsx.openingElement.attributes.push(buildJSXAttr('wx:if', value))
+export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Expression, path?: NodePath<t.JSXElement>) {
+  const element = jsx.openingElement
+  if (!t.isJSXIdentifier(element.name)) {
+    return
+  }
+  if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
+    element.attributes.push(buildJSXAttr('wx:if', value))
+  } else {
+    const block = buildBlockElement()
+    newJSXIfAttr(block, value)
+    block.children = [jsx]
+    path.node = block
+  }
 }
 
 export function isContainJSXElement (path: NodePath<t.Node>) {

@@ -1,8 +1,8 @@
+import React from 'react'
 import { Animated, StyleSheet, Easing } from 'react-native'
-import { Component } from 'react'
 import loading from './loading.png'
 
-class LoadingView extends Component {
+class LoadingView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -36,7 +36,8 @@ class LoadingView extends Component {
                   outputRange: ['0deg', '360deg']
                 })
               }]
-          }]} />
+          }]}
+      />
     )
   }
 }
@@ -45,8 +46,7 @@ const styles = StyleSheet.create({
   toastLoading: {
     width: 35,
     height: 35,
-    margin: 10,
-    tintColor: '#FFFFFF'
+    margin: 10
   }
 })
 

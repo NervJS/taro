@@ -3,38 +3,6 @@ import * as Util from '../util'
 import * as webpack from 'webpack'
 import { BuildConfig } from '../util/types'
 
-/* remove illegal tsconfig */
-const tweakTsConfig = (tsConfig) => {
-  const tsConfigKeys = [
-    'silent',
-    'logLevel',
-    'logInfoToStdOut',
-    'instance',
-    'compiler',
-    'context',
-    'configFile',
-    'transpileOnly',
-    'ignoreDiagnostics',
-    'errorFormatter',
-    'colors',
-    'compilerOptions',
-    'appendTsSuffixTo',
-    'appendTsxSuffixTo',
-    'entryFileCannotBeJs',
-    'onlyCompileBundledFiles',
-    'happyPackMode',
-    'getCustomTransformers',
-    'reportFiles',
-    'experimentalWatchApi'
-  ]
-  for (const tsConfigKey of Object.keys(tsConfig)) {
-    if (!tsConfigKeys.includes(tsConfigKey)) {
-      delete tsConfig[tsConfigKey]
-    }
-  }
-  tsConfig.onlyCompileBundledFiles = true
-}
-
 export default (config: BuildConfig): webpack.Configuration => {
   const { staticDirectory = 'static', plugins = {} } = config
   const imgName = `${staticDirectory}/images/[name].[ext]`
@@ -44,19 +12,27 @@ export default (config: BuildConfig): webpack.Configuration => {
   const imgLimit = (config.module && config.module.base64 && config.module.base64.imageLimit) || 2000
   const fontLimit = (config.module && config.module.base64 && config.module.base64.fontLimit) || 2000
   const babelConfig = plugins.babel || {}
-  const tsConfig = plugins.typescript || {}
+  const tsConfig = {
+    onlyCompileBundledFiles: true,
+    compilerOptions: {
+      jsx: 'react',
+      jsxFactory: 'Nerv.createElement',
+      noUnusedLocals: false
+    }
+  }
+  
   babelConfig.plugins = (Array.isArray(babelConfig.plugins) ? babelConfig.plugins : []).concat([
     require.resolve('babel-plugin-syntax-dynamic-import'),
     [require.resolve('babel-plugin-transform-react-jsx'), {
       pragma: 'Nerv.createElement'
     }]
   ])
-  tweakTsConfig(tsConfig)
 
   const babelLoader = {
     loader: require.resolve('babel-loader'),
     options: babelConfig
   }
+
   const tsLoader = {
     loader: require.resolve('ts-loader'),
     options: tsConfig
@@ -113,12 +89,13 @@ export default (config: BuildConfig): webpack.Configuration => {
       ]
     },
     resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
       mainFields: ['main', 'module'],
       symlinks: false,
       modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
     },
     resolveLoader: {
-      modules: [path.join(Util.getRootPath(), 'node_modules'), 'node_modules']
+      modules: [path.join(Util.getRootPath(), 'node_modules')]
     }
   } as webpack.Configuration
 }

@@ -20,7 +20,7 @@ function parseType (type, isPassword, confirmType) {
   } else if (confirmType) {
     return 'search'
   } else {
-    return 'text'
+    return types[type]
   }
 }
 class Input extends Nerv.Component {
@@ -59,6 +59,7 @@ class Input extends Nerv.Component {
         disabled={disabled}
         max={maxlength}
         onChange={onInput}
+        onInput={onInput}
         onFocus={onFocus}
         onBlur={onBlur}
         type={parseType(type, password, confirmType)}

@@ -12,7 +12,8 @@ const pocessTypeEnum = {
   GENERATE: 'generate',
   MODIFY: 'modify',
   ERROR: 'error',
-  WARNING: 'warning'
+  WARNING: 'warning',
+  UNLINK: 'unlink'
 }
 
 const processTypeMap = {
@@ -43,6 +44,10 @@ const processTypeMap = {
   [pocessTypeEnum.WARNING]: {
     name: '警告',
     color: 'yellow'
+  },
+  [pocessTypeEnum.UNLINK]: {
+    name: '删除',
+    color: 'magenta'
   }
 }
 
@@ -55,6 +60,7 @@ exports.TS_EXT = ['.ts', '.tsx']
 exports.REG_JS = /\.js(\?.*)?$/
 exports.REG_SCRIPT = /\.(js|jsx)(\?.*)?$/
 exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
+exports.REG_SCRIPTS = /\.[tj]sx?$/i
 exports.REG_STYLE = /\.(css|scss|sass|less|styl)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/

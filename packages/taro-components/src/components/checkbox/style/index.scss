@@ -2,6 +2,8 @@
   position: relative;
   display: inline-block;
   &_checked {
+    display: inline-block;
+    min-height: 0;
     -webkit-appearance: none;
     appearance: none;
     outline: 0;
@@ -13,7 +15,7 @@
     height: 23px;
     position: relative;
     vertical-align: 0;
-    top: 2px;
+    top: 5px;
     &:checked::before {
       font-family: "weui";
       font-style: normal;

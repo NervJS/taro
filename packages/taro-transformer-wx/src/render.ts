@@ -136,7 +136,7 @@ export class RenderParser {
   private returnedPaths: NodePath<t.Node>[] = []
   private usedThisState = new Set<string>()
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
-  private loopRefIdentifiers = new Map<t.Identifier, NodePath<t.CallExpression>>()
+  private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
   private reserveStateWords = new Set(['state', 'props'])
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
   private customComponentNames: Set<string>
@@ -150,6 +150,7 @@ export class RenderParser {
   private renderScope: Scope
   private usedState: Set<string>
   private loopStateName: Map<NodePath<t.CallExpression>, string>
+  private customComponentData: Array<t.ObjectProperty>
 
   private finalReturnElement!: t.JSXElement
 
@@ -382,17 +383,19 @@ export class RenderParser {
                   setJSXAttr(
                     jsxElementPath.node,
                     'wx:elif',
-                    t.jSXExpressionContainer(test)
+                    t.jSXExpressionContainer(test),
+                    jsxElementPath
                   )
                 } else {
                   if (this.topLevelIfStatement.size > 0) {
                     setJSXAttr(
                       jsxElementPath.node,
                       'wx:elif',
-                      t.jSXExpressionContainer(test)
+                      t.jSXExpressionContainer(test),
+                      jsxElementPath
                     )
                   } else {
-                    newJSXIfAttr(jsxElementPath.node, test)
+                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                     this.topLevelIfStatement.add(ifStatement)
                   }
                 }
@@ -428,13 +431,14 @@ export class RenderParser {
                     setJSXAttr(
                       jsxElementPath.node,
                       'wx:elif',
-                      t.jSXExpressionContainer(test)
+                      t.jSXExpressionContainer(test),
+                      jsxElementPath
                     )
                   } else {
                     if (parentIfStatement) {
-                      newJSXIfAttr(block, parentIfStatement.node.test)
+                      newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
                     }
-                    newJSXIfAttr(jsxElementPath.node, test)
+                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                   }
                 }
                 block.children.push(jsxElementPath.node)
@@ -489,7 +493,7 @@ export class RenderParser {
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
-                  `data-event-${bindCalleeName}-scope`,
+                  `data-e-${bindCalleeName}-so`,
                   t.stringLiteral(argName as string)
                 )
               } else {
@@ -507,7 +511,7 @@ export class RenderParser {
                 }
                 setJSXAttr(
                   JSXElement,
-                  `data-event-${bindCalleeName}-arg-${toLetters(index)}`,
+                  `data-e-${bindCalleeName}-a-${toLetters(index)}`,
                   expr!
                 )
               }
@@ -644,6 +648,9 @@ export class RenderParser {
       }
     },
     Identifier: (path) => {
+      if (!path.isReferencedIdentifier()) {
+        return
+      }
       const parentPath = path.parentPath
       if (
         parentPath.isConditionalExpression() ||
@@ -651,11 +658,7 @@ export class RenderParser {
         parentPath.isJSXExpressionContainer() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
-        const codes = parentPath.getSource().split('.')
-        if (!(codes[0] === 'this' && codes[1] === 'state')) {
-          this.addRefIdentifier(path, path.node)
-          // referencedIdentifiers.add(path.node)
-        }
+        this.addRefIdentifier(path, path.node)
       }
     },
     ArrowFunctionExpression: (path) => {
@@ -718,7 +721,8 @@ export class RenderParser {
     referencedIdentifiers: Set<t.Identifier>,
     usedState: Set<string>,
     loopStateName: Map<NodePath<t.CallExpression>, string>,
-    customComponentNames: Set<string>
+    customComponentNames: Set<string>,
+    customComponentData: Array<t.ObjectProperty>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -729,6 +733,7 @@ export class RenderParser {
     this.loopStateName = loopStateName
     this.usedState = usedState
     this.customComponentNames = customComponentNames
+    this.customComponentData = customComponentData
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -750,7 +755,7 @@ export class RenderParser {
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
-      this.loopRefIdentifiers.set(id, arrayMap)
+      this.loopRefIdentifiers.set(id.name, arrayMap)
     } else {
       this.referencedIdentifiers.add(id)
     }
@@ -811,6 +816,7 @@ export class RenderParser {
               body.splice(index, 1)
             }
           }
+          stateToBeAssign.forEach(s => this.loopRefIdentifiers.set(s, callee))
           const properties = Array.from(stateToBeAssign).map(state => t.objectProperty(t.identifier(state), t.identifier(state)))
           component.traverse({
             Identifier (path) {
@@ -897,7 +903,8 @@ export class RenderParser {
               }
             })
             // setJSXAttr(returned, 'wx:for', t.identifier(stateName))
-            this.referencedIdentifiers.add(t.identifier(stateName))
+            this.addRefIdentifier(callee, t.identifier(stateName))
+            // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
             this.renderPath.node.body.body.push(
               buildConstVariableDeclaration(stateName, callee.node)
@@ -981,6 +988,8 @@ export class RenderParser {
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
+        .filter(i => !i.includes('.'))
+        .filter(i => !this.loopRefIdentifiers.has(i))
         .concat(Array.from(this.customComponentNames))
       )]
         .map(s => t.stringLiteral(s))
@@ -988,8 +997,7 @@ export class RenderParser {
   }
 
   setPendingState () {
-    const pendingState = t.objectExpression(
-      Array.from(
+    let properties = Array.from(
         new Set(Array.from(this.referencedIdentifiers)
         .map(i => i.name))
       )
@@ -1001,8 +1009,14 @@ export class RenderParser {
       .filter(i => !this.templates.has(i))
       .filter(i => !i.includes('.'))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
+      .filter(i => !i.startsWith('.'))
+      .filter(i => !i.startsWith('$$'))
+      .filter(i => !this.loopRefIdentifiers.has(i))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
-    )
+    if (this.customComponentData.length > 0) {
+      properties = properties.concat(this.customComponentData)
+    }
+    const pendingState = t.objectExpression(properties)
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       copyStateToShalowData(),

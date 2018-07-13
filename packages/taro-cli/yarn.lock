@@ -142,9 +142,9 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/transformer-wx@0.0.55":
-  version "0.0.55"
-  resolved "https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-0.0.55.tgz#67c810305b7cc85821094314ca23626d3a7efcdc"
+"@tarojs/transformer-wx@0.0.67":
+  version "0.0.67"
+  resolved "https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-0.0.67.tgz#58fff7145f3d56139ee99e0ca44148b58ac24f58"
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     "@babel/core" "^7.0.0-beta.42"
@@ -1976,9 +1976,9 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@0.0.55:
-  version "0.0.55"
-  resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-0.0.55.tgz#66f5244622c9bcfbb6049ca9b2865b4a88ea55c8"
+postcss-pxtransform@0.0.67:
+  version "0.0.67"
+  resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-0.0.67.tgz#dc687d2b224d8bf525198e7cda81f576d122d411"
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"

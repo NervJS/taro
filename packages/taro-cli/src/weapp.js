@@ -308,8 +308,13 @@ function parseAst (type, ast, sourceFilePath, filePath) {
               if (isPage) {
                 astPath.remove()
               } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-                if (scriptFiles.indexOf(value) < 0) {
-                  scriptFiles.push(value)
+                const vpath = path.resolve(sourceFilePath, '..', value)
+                let fPath = value
+                if (fs.existsSync(vpath)) {
+                  fPath = vpath
+                }
+                if (scriptFiles.indexOf(fPath) < 0) {
+                  scriptFiles.push(fPath)
                 }
               } else if (Util.REG_JSON.test(valueExtname)) {
                 const vpath = path.resolve(sourceFilePath, '..', value)
@@ -422,8 +427,13 @@ function parseAst (type, ast, sourceFilePath, filePath) {
                     astPath.replaceWith(t.objectExpression(objArr))
                   }
                 } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-                  if (scriptFiles.indexOf(value) < 0) {
-                    scriptFiles.push(value)
+                  const vpath = path.resolve(sourceFilePath, '..', value)
+                  let fPath = value
+                  if (fs.existsSync(vpath)) {
+                    fPath = vpath
+                  }
+                  if (scriptFiles.indexOf(fPath) < 0) {
+                    scriptFiles.push(fPath)
                   }
                 } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
                   const vpath = path.resolve(sourceFilePath, '..', value)
@@ -596,7 +606,8 @@ async function buildEntry () {
   try {
     const transformResult = wxTransformer({
       code: entryFileCode,
-      path: entryFilePath,
+      sourcePath: entryFilePath,
+      outputPath: outputEntryFilePath,
       isApp: true,
       isTyped: Util.REG_TYPESCRIPT.test(entryFilePath)
     })
@@ -694,7 +705,8 @@ async function buildSinglePage (page) {
   try {
     const transformResult = wxTransformer({
       code: pageJsContent,
-      path: pageJs,
+      sourcePath: pageJs,
+      outputPath: outputPageJSPath,
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs)
     })
@@ -871,7 +883,8 @@ async function buildSingleComponent (component) {
   try {
     const transformResult = wxTransformer({
       code: componentContent,
-      path: component,
+      sourcePath: component,
+      outputPath: outputComponentJSPath,
       isRoot: false,
       isTyped: Util.REG_TYPESCRIPT.test(component)
     })
@@ -960,7 +973,8 @@ function compileDepScripts (scriptFiles) {
           const code = fs.readFileSync(item).toString()
           const transformResult = wxTransformer({
             code,
-            path: item,
+            sourcePath: item,
+            outputPath: outputItem,
             isNormal: true,
             isTyped: Util.REG_TYPESCRIPT.test(item)
           })

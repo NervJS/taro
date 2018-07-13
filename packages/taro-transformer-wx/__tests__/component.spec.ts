@@ -40,9 +40,9 @@ describe('$props', () => {
   })
 })
 
-describe('$components', () => {
+describe.only('$components', () => {
   test('$components 一直存在并且是一个 Object', () => {
-    const { ast } = transform({
+    const { ast, code } = transform({
       ...baseOptions,
       code: buildComponent(baseCode)
     })

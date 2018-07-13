@@ -76,6 +76,7 @@ class Slider extends Nerv.Component {
     this.handleTouchStart = this.handleTouchStart.bind(this)
     this.handleTouchMove = this.handleTouchMove.bind(this)
     this.handleTouchEnd = this.handleTouchEnd.bind(this)
+    this.updateValue = this.updateValue.bind(this)
   }
 
   componentDidMount () {
@@ -165,7 +166,7 @@ class Slider extends Nerv.Component {
             enumerable: true,
             value: {
               detail: e.detail,
-              value: percent
+              value: this.state.value
             }
           })
           if (onChanging) onChanging(e)
@@ -186,6 +187,13 @@ class Slider extends Nerv.Component {
       touchId: false,
       ogPercent: 0
     }, () => {
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          detail: e.detail,
+          value: this.state.value
+        }
+      })
       if (onChange) onChange(e)
     })
   }
