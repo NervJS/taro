@@ -275,7 +275,7 @@ class Transformer {
         let iterator
         let index
         let blockStatement: t.Statement[] = []
-        const callee = rootCallExpression.node.callee
+        const callee = rootCallExpression.node.callee as t.MemberExpression
         const calleeCode = generate(callee).code
         let nodes: t.ObjectExpression[] = []
         const uuid = createUUID()
@@ -304,10 +304,9 @@ class Transformer {
         if (!isContainThis(rootCallExpression.node.callee)) {
           stateName = calleeCode.slice(0, calleeCode.length - 4)
         } else {
-          // todo 找倒数第二个 callee id
-          let ary = calleeCode.split('.')
-          stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
-            ? ary[2] : ary[1]
+          stateName = generate(callee.object).code
+            .replace(/(this\.props\.)|(this\.state\.)/, '')
+            .replace(/this\./, '')
         }
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
         const stateGetter = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
