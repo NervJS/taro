@@ -27,7 +27,8 @@
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
     "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%>
     "@tarojs/plugin-uglifyjs": "^<%= version %>",
-    "@tarojs/webpack-runner": "^<%= version %>",
+    "@tarojs/webpack-runner": "^<%= version %>",<% if (typescript) {%>
+    "@tarojs/plugin-typescript": "^<%= version %>",<%}%>
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -37,7 +38,7 @@
     "eslint-config-taro": "^<%= version %>",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-taro": "^<%= version %>",
-    "typescript": "^2.9.2"
+    "eslint-plugin-taro": "^<%= version %>",<% if (typescript) {%>
+    "typescript": "^2.9.2"<%}%>
   }
 }
