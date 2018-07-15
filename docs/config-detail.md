@@ -123,6 +123,12 @@ devServer: {
   port: 10086
 }
 ```
+默认是`http`服务，如果想开启`https`服务需要做如下配置。
+```
+devServer: {
+  https: true
+}
+```
 
 ### h5.publicPath
 
