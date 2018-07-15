@@ -20,7 +20,7 @@ console.log(doubled);
 下面，我们使用 JavaScript 中的 `map()` 方法遍历 `numbers` 数组。对数组中的每个元素返回`<Text>`标签，最后我们得到一个数组 `listItems`：
 
 ```javascript
-const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 99, 100]
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 99]
 const listItems = numbers.map((number) => {
   return <Text class='li'> 我是第 {number + 1} 个数字</Text>
 })
