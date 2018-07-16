@@ -22,8 +22,7 @@ import { difference } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
-  parseJSXElement,
-  generateHTMLTemplate
+  parseJSXElement
 } from './jsx'
 import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE } from './constant'
 import generate from 'babel-generator'
