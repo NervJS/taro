@@ -198,11 +198,7 @@ class Transformer {
 
   compile () {
     this.traverse()
-    // this.setCustomDynamicComponents()
-    // this.handleLoopComponents()
     this.setComponents()
-    // this.setComponentResult()
-    // this.replaceImportedJSXElement()
     this.resetConstructor()
     this.parseRender()
   }

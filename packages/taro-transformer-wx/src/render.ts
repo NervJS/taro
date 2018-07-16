@@ -941,12 +941,7 @@ export class RenderParser {
   }
 
   setOutputTemplate () {
-    this.outputTemplate = !this.isRoot
-      ? generateHTMLTemplate(this.finalReturnElement, this.instanceName)
-      : parseJSXElement(this.finalReturnElement)
-    this.templates.forEach((template, name) => {
-      this.outputTemplate += ` ${generateHTMLTemplate(template, name)}`
-    })
+    this.outputTemplate = parseJSXElement(this.finalReturnElement)
   }
 
   removeJSXStatement () {
