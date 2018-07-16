@@ -33,8 +33,5 @@
     }
   },
   "version": "0.0.69",
-  "npmClient": "yarn",
-  "npmClientArgs": [
-    "--no-lockfile"
-  ]
+  "npmClient": "npm"
 }
