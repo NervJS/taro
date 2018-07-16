@@ -12,6 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c rollup.config.js --watch",
     "prepare": "npm run build"
   },
   "repository": {

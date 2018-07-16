@@ -14,6 +14,7 @@ const eventEmitter = new EventEmitter()
 let historyState = parseInt(history.state, 10) || 0
 const initUrl = normalizeUrl(getCurrentHash())
 const initLocation = createLocation(initUrl, historyState)
+let ignoredUrl = null
 
 const HISTORYKEY = 'taroRouterHistory'
 
@@ -77,8 +78,15 @@ class History {
 
   onPopstate = (e) => {
     const nextUrl = normalizeUrl(getCurrentHash())
+    if (typeof e.state !== 'number') {
+      if (nextUrl === ignoredUrl) return
+      ignoredUrl = null
+      navigateTo({
+        url: nextUrl
+      })
+      return
+    }
     const isBackPage = e.state < historyState
-    if (typeof e.state !== 'number') return
     if (isBackPage) {
       this.goBack({
         url: nextUrl,
@@ -146,7 +154,7 @@ class History {
     this.locationStack.push(location)
     this.serializeStack()
     this.emit(location, 'PUSH')
-    // ignoredUrl = nextUrl
+    ignoredUrl = nextUrl
     if (!isForward) {
       pushHash(nextUrl)
     }
@@ -167,7 +175,7 @@ class History {
     this.locationStack.push(location)
     this.serializeStack()
     this.emit(location, 'REPLACE')
-    // ignoredUrl = nextUrl
+    ignoredUrl = nextUrl
     replaceHash({
       url: nextUrl,
       state: historyState
