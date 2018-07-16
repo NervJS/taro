@@ -755,9 +755,7 @@ function buildAnonymousClassMethod (expresion: t.Expression, id: string) {
 }
 
 function findImportedName (name: string) {
-  return isNumeric(name.slice(-1)) && name.slice(-2)[0] === '_'
-    ? name.slice(0, name.length - 2)
-    : name
+  return name.split('_')[0]
 }
 
 function build$ComponentsProperty (
