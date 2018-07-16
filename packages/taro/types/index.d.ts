@@ -60,12 +60,12 @@ declare namespace Taro {
 
   // eventCenter
 
-  interface eventCenter {
-    on(eventName: string | symbol, listener: (...args: any[]) => void): this;
+  namespace eventCenter {
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
-    off(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    function off(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
-    trigger(eventName: string | symbol, ...args: any[]): boolean;
+    function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
 
   // ENV_TYPE
