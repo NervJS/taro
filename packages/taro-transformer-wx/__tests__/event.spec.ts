@@ -14,8 +14,8 @@ describe('event', () => {
     })
     const instance = evalClass(ast)
     removeShadowData(instance.state)
-
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`bindtap="handleClick"`)
   })
 
@@ -34,6 +34,7 @@ describe('event', () => {
 
     expect(instance.state).toEqual({})
     expect(template).toMatch(`bindtap="handleClick"`)
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-so="this"`)
   })
 
@@ -50,6 +51,7 @@ describe('event', () => {
     const instance = evalClass(ast)
     removeShadowData(instance.state)
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-a-a="{{666}}`)
   })
 
@@ -66,6 +68,7 @@ describe('event', () => {
     const instance = evalClass(ast)
     removeShadowData(instance.state)
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-a-a="{{666}}`)
     expect(template).toMatch(`data-e-handleClick-a-b="{{777}}`)
   })
@@ -83,6 +86,7 @@ describe('event', () => {
     const instance = evalClass(ast)
     removeShadowData(instance.state)
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-a-a=\"{{{`)
     expect(template).toMatch(`a: 1`)
     expect(template).toMatch(`}}}\">`)

@@ -130,6 +130,7 @@ export class RenderParser {
   private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
   private reserveStateWords = new Set(['state', 'props'])
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
+  private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
 
   private renderPath: NodePath<t.ClassMethod>
@@ -606,7 +607,7 @@ export class RenderParser {
             if (this.methods.has(methodName)) {
               const method = this.methods.get(methodName)!
               if (t.isIdentifier(method.node.key)) {
-                method.node.key = t.identifier('__event_' + methodName)
+                this.usedEvents.add(methodName)
               }
               if (!this.isRoot && !generate(value.expression).code.includes('.bind')) {
                 path.node.value = t.stringLiteral(`${methodName}`)
@@ -738,6 +739,7 @@ export class RenderParser {
     this.removeJSXStatement()
     this.setUsedState()
     this.setPendingState()
+    this.setCustomEvent()
     this.createData()
   }
 
@@ -948,6 +950,13 @@ export class RenderParser {
     if (hasStateId) {
       this.reserveStateWords.delete(word)
     }
+  }
+
+  setCustomEvent () {
+    const classPath = this.renderPath.findParent(p => p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+    let classProp = t.classProperty(t.identifier('$$events'), t.arrayExpression(Array.from(this.usedEvents).map(s => t.stringLiteral(s)))) as any // babel 6 typing 没有 static
+    classProp.static = true
+    classPath.node.body.body.unshift(classProp)
   }
 
   setUsedState () {
