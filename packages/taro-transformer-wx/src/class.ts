@@ -160,15 +160,12 @@ class Transformer {
   }
 
   setComponents () {
-    const body = this.classPath.node.body.body
-    const properties: t.ObjectProperty[] = []
     this.customComponents.forEach((path, name) => {
-      properties.push(t.objectProperty(t.stringLiteral(kebabCase(name)), t.stringLiteral(path)))
+      this.result.components.push({
+        path,
+        name: kebabCase(name)
+      })
     })
-    this.classPath.node.body.body = [
-      t.classProperty(t.identifier('properties'), t.objectExpression(properties)),
-      ...body
-    ]
   }
 
   resetConstructor () {
