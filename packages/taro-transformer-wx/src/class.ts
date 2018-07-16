@@ -177,14 +177,12 @@ class Transformer {
 
   parseRender () {
     if (this.renderMethod) {
-      const instanceName = this.classPath.node.id.name
       this.result.template = this.result.template
         + new RenderParser(
           this.renderMethod,
           this.methods,
           this.initState,
           this.isRoot,
-          instanceName,
           this.jsxReferencedIdentifiers,
           this.usedState,
           this.loopStateName,

@@ -16,9 +16,7 @@ describe('event', () => {
     removeShadowData(instance.state)
 
     expect(instance.state).toEqual({})
-    expect(template).toMatch(`bindtap="Index__handleClick"`)
-    expect(template).toMatch(`data-component-path=\"{{$path}}\"`)
-    expect(template).toMatch(`data-component-class="Index"`)
+    expect(template).toMatch(`bindtap="handleClick"`)
   })
 
   test('bind 绑定', () => {
@@ -35,9 +33,7 @@ describe('event', () => {
     removeShadowData(instance.state)
 
     expect(instance.state).toEqual({})
-    expect(template).toMatch(`bindtap="Index__handleClick"`)
-    expect(template).toMatch(`data-component-path=\"{{$path}}\"`)
-    expect(template).toMatch(`data-component-class="Index"`)
+    expect(template).toMatch(`bindtap="handleClick"`)
     expect(template).toMatch(`data-e-handleClick-so="this"`)
   })
 

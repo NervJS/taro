@@ -84,18 +84,6 @@ function isContainStopPropagation (path: NodePath<t.Node>) {
   return matched
 }
 
-function buildComponentPathDataset (path: NodePath<t.Node>) {
-  const parentPath = path.parentPath
-  if (parentPath.isJSXOpeningElement()) {
-    parentPath.node.attributes.push(
-      t.jSXAttribute(
-        t.jSXIdentifier('data-component-path'),
-        t.stringLiteral('{{$path}}')
-      )
-    )
-  }
-}
-
 function buildAssignState (
   pendingState: t.ObjectExpression
 ) {
@@ -148,7 +136,6 @@ export class RenderParser {
   private methods: ClassMethodsMap
   private initState: Set<string>
   private isRoot: boolean
-  private instanceName: string
   private referencedIdentifiers: Set<t.Identifier>
   private renderScope: Scope
   private usedState: Set<string>
@@ -521,8 +508,7 @@ export class RenderParser {
                 )
               }
             })
-            setJSXAttr(JSXElement, 'data-component-path', t.stringLiteral('{{$path}}'))
-            expression.replaceWith(t.stringLiteral(`${!this.isRoot ? `${this.instanceName}__` : ''}${bindCalleeName}`))
+            expression.replaceWith(t.stringLiteral(`${bindCalleeName}`))
           }
         }
       }
@@ -558,15 +544,6 @@ export class RenderParser {
       let eventShouldBeCatched = false
       const jsxElementPath = path.parentPath.parentPath
       if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
-        if (!this.isRoot && name.name.startsWith('on')) {
-          buildComponentPathDataset(path)
-          const alreadySet = jsxElementPath.node.openingElement.attributes.some(attr => {
-            return t.isJSXIdentifier(attr.name) && attr.name.name === 'data-component-class'
-          })
-          if (!alreadySet) {
-            setJSXAttr(jsxElementPath.node, 'data-component-class', t.stringLiteral(this.instanceName))
-          }
-        }
         if (name.name === 'key') {
           const jsx = path.findParent(p => p.isJSXElement())
           const loopBlock = jsx.findParent(p => {
@@ -629,10 +606,10 @@ export class RenderParser {
             if (this.methods.has(methodName)) {
               const method = this.methods.get(methodName)!
               if (t.isIdentifier(method.node.key)) {
-                method.node.key = t.identifier('__event_' + `${this.isRoot ? '' : `${this.instanceName}__`}` + methodName)
+                method.node.key = t.identifier('__event_' + methodName)
               }
               if (!this.isRoot && !generate(value.expression).code.includes('.bind')) {
-                path.node.value = t.stringLiteral(`${this.instanceName}__${methodName}`)
+                path.node.value = t.stringLiteral(`${methodName}`)
               }
               eventShouldBeCatched = isContainStopPropagation(method)
             }
@@ -731,7 +708,6 @@ export class RenderParser {
     methods: ClassMethodsMap,
     initState: Set<string>,
     isRoot: boolean,
-    instanceName: string,
     referencedIdentifiers: Set<t.Identifier>,
     usedState: Set<string>,
     loopStateName: Map<NodePath<t.CallExpression>, string>,
@@ -742,7 +718,6 @@ export class RenderParser {
     this.methods = methods
     this.initState = initState
     this.isRoot = isRoot
-    this.instanceName = instanceName
     this.referencedIdentifiers = referencedIdentifiers
     this.loopStateName = loopStateName
     this.usedState = usedState
