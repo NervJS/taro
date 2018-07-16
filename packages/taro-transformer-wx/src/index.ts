@@ -223,7 +223,7 @@ export default function transform (options: Options): TransformResult {
     renderMethod.remove()
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.sourcePath).result
+  result = new Transformer(mainClass, options.isRoot).result
   result.code = generate(ast).code
   result.ast = ast
   // if (process.env.NODE_ENV !== 'test') {

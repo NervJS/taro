@@ -2,7 +2,7 @@ import transform from '../src'
 import { buildComponent, baseCode, baseOptions, evalClass, Custom } from './utils'
 import { isObject } from 'lodash'
 
-describe('$props', () => {
+describe.skip('$props', () => {
 
   test('$usedState 加入被引用第三方组件的名字', () => {
     const { ast } = transform({
@@ -40,7 +40,7 @@ describe('$props', () => {
   })
 })
 
-describe.only('$components', () => {
+describe.skip('$components', () => {
   test('$components 一直存在并且是一个 Object', () => {
     const { ast, code } = transform({
       ...baseOptions,

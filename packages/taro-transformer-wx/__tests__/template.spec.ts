@@ -455,10 +455,7 @@ describe('Template', () => {
         // const props = instance.$props.Custom()
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
-        expect(template).toMatch(`data=\"{{...item}}\"`)
-        expect(template).toMatch(`wx:for-item=\"item\"`)
-        expect(template).toMatch(`wx:for=\"{{$$Custom}}\"`)
-        expect(template).toMatch(`wx:key=`)
+        expect(template).toMatch(`<custom hidden=\"{{true}}\"></custom>`)
       })
 
       test('自定义组件循环', () => {
@@ -479,7 +476,7 @@ describe('Template', () => {
         // const props = instance.$props.Custom()
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
-        expect(template).toMatch(`<template is=\"Custom\" data=\"{{...a1}}\" wx:for=\"{{array}}\" wx:for-item=\"a1\"></template>`)
+        expect(template).toMatch(`<custom wx:for=\"{{array}}\" wx:for-item=\"a1\"></custom>`)
       })
     })
 
