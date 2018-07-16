@@ -26,7 +26,7 @@ export default class Index extends Component {
 export const baseCode = `
 return (
   <View className='index'>
-    <View className='title'>{this.state.title}</View>
+    <View className='title'>title</View>
     <View className='content'>
       {this.state.list.map(item => {
         return (
