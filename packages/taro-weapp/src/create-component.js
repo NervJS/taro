@@ -2,6 +2,7 @@ import { isEmptyObject, getPrototypeChain } from './util'
 import { updateComponent } from './lifecycle'
 const eventPreffix = '__event_'
 const privatePropValName = '__triggerObserer'
+const anonymousFnNamePreffix = 'func__'
 
 function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties = ComponentClass.properties || {}
@@ -19,11 +20,9 @@ function bindProperties (weappComponentConf, ComponentClass) {
 }
 
 function processEvent (eventHandlerName, component, obj) {
-  if (eventHandlerName.indexOf(eventHandlerName) === -1) return
-  let originEventHandlerName = eventHandlerName.replace(eventPreffix, '')
-  if (obj[originEventHandlerName]) return
+  if (obj[eventHandlerName]) return
 
-  obj[originEventHandlerName] = function (event) {
+  obj[eventHandlerName] = function (event) {
     if (event) {
       event.preventDefault = function () {}
       event.stopPropagation = function () {}
@@ -33,42 +32,55 @@ function processEvent (eventHandlerName, component, obj) {
 
     let scope = this.$component
     const isCustomEvt = event.detail && event.detail.__isCustomEvt === true
+    const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
 
     if (!isCustomEvt) {
       const dataset = event.currentTarget.dataset
       const bindArgs = {}
-      const componentClassName = dataset['componentClass']
-      const originEventHandlerNameLower = originEventHandlerName.toLocaleLowerCase()
+      const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
       Object.keys(dataset).forEach(key => {
         let keyLower = key.toLocaleLowerCase()
         if (keyLower.indexOf('event') === 0) {
-          keyLower = keyLower.replace('event', '')
-          keyLower = componentClassName ? `${componentClassName}__${keyLower}` : keyLower
+          // 小程序属性里中划线后跟一个下划线会解析成不同的结果
+          keyLower = keyLower.replace(/event\-?/, '')
           keyLower = keyLower.toLocaleLowerCase()
-          if (keyLower.indexOf(originEventHandlerNameLower) >= 0) {
-            const argName = keyLower.replace(originEventHandlerNameLower, '')
+          if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
+            const argName = keyLower.replace(eventHandlerNameLower, '')
             bindArgs[argName] = dataset[key]
           }
         }
       })
       if (!isEmptyObject(bindArgs)) {
-        if (bindArgs['scope'] !== 'this') {
-          scope = bindArgs['scope']
+        if (!isAnonymousFn) {
+          if (bindArgs['so'] !== 'this') {
+            scope = bindArgs['so']
+          }
+          delete bindArgs['so']
+          realArgs = Object.keys(bindArgs)
+            .sort()
+            .map(key => bindArgs[key])
+          realArgs.push(event)
+        } else {
+          let _scope = null
+          if (bindArgs['so'] !== 'this') {
+            _scope = bindArgs['so']
+          }
+          delete bindArgs['so']
+          realArgs = Object.keys(bindArgs)
+            .sort()
+            .map(key => bindArgs[key])
+          realArgs = [_scope].concat(realArgs)
         }
-        delete bindArgs['scope']
-        realArgs = Object.keys(bindArgs)
-          .sort()
-          .map(key => bindArgs[key])
-
-        realArgs.push(event)
       }
     } else {
       realArgs = event.detail.__arguments || []
-      if (event.detail.__scope) {
-        scope = event.detail.__scope
+      if (!isAnonymousFn && realArgs.length > 0) {
+        realArgs[0] && (scope = realArgs[0])
+        realArgs.shift()
       }
     }
+    // 如果是匿名函数，scope指向自己，并且将传入的scope作为第一个参数传递下去
 
     if (realArgs.length > 0) {
       component[eventHandlerName].apply(scope, realArgs)
@@ -80,18 +92,11 @@ function processEvent (eventHandlerName, component, obj) {
   }
 }
 
-function bindEvents (weappComponentConf, taroComponent) {
+function bindEvents (weappComponentConf, taroComponent, events) {
   weappComponentConf.methods = weappComponentConf.methods || {}
 
-  Object.getOwnPropertyNames(taroComponent).forEach(name => {
+  events.forEach(name => {
     processEvent(name, taroComponent, weappComponentConf.methods)
-  })
-
-  const prototypeChain = getPrototypeChain(taroComponent)
-  prototypeChain.forEach(item => {
-    Object.getOwnPropertyNames(item).forEach(name => {
-      processEvent(name, taroComponent, weappComponentConf.methods)
-    })
   })
 }
 
@@ -159,7 +164,7 @@ function createComponent (ComponentClass, isPage) {
     }
   }
   bindProperties(weappComponentConf, ComponentClass)
-  bindEvents(weappComponentConf, component)
+  ComponentClass['$$events'] && bindEvents(weappComponentConf, component, ComponentClass['$$events'])
   return weappComponentConf
 }
 

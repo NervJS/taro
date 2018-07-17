@@ -1,5 +1,8 @@
-import shallowEqual from './shallow-equal'
-import { objClone } from './util'
+import {
+  internal_safe_get as safeGet,
+  internal_safe_set as safeSet
+} from '@tarojs/taro'
+
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
   const { props } = component
@@ -10,7 +13,8 @@ export function updateComponent (component) {
     component.componentWillReceiveProps(props)
     component._disable = false
   }
-  const state = component.getState()
+  let state = component.getState()
+
   const prevState = component.prevState || state
 
   let skip = false
@@ -35,23 +39,23 @@ export function updateComponent (component) {
 }
 
 function doUpdate (component) {
+  const {state, props = {}} = component
+  let data = state || {}
   if (component._createData) {
-    component._createData(component.state, component.props)
+    data = component._createData(state, props)
   }
-  const {state, __computed = {}, props = {}} = component
-
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
-  let data = { __computed }
-  // privatePropKeyVal更新用于触发子组件obsever
-  if (!shallowEqual(component.$scope.data.__state, state)) {
-    data['__state'] = objClone(state)
+
+  data = Object.assign(data, props)
+  if (component.$usedState && component.$usedState.length) {
+    const _data = {}
+    component.$usedState.forEach(key => {
+      const val = safeGet(data, key)
+      safeSet(_data, key, val)
+    })
+    data = _data
   }
-  if (!shallowEqual(component.$scope.data.__computed, __computed)) {
-    data['__computed'] = objClone(__computed)
-  }
-  if (!shallowEqual(component.$scope.data.__props, props)) {
-    data['__props'] = objClone(props)
-  }
+
   data[privatePropKeyName] = !privatePropKeyVal
 
   component.$scope.setData(data, function () {
