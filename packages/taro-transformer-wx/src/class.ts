@@ -6,8 +6,9 @@ import {
   generateAnonymousState
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
-import { kebabCase } from 'lodash'
+import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
+import generate from '../node_modules/@types/babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -140,6 +141,25 @@ class Transformer {
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+        }
+
+        const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+        if (!attr) return
+        const key = attr.node.name
+        const value = attr.node.value
+        if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
+          const expr = value.expression
+          if (
+            t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' }) ||
+            t.isMemberExpression(expr)
+          ) {
+            const { code } = generate(expr)
+            if (code.startsWith('this.props')) {
+              const funcName = uniqueId('func__')
+            }
+          } else {
+            throw codeFrameError(expr.loc, '事件传参只能在类作用域下的值(this.handleXX || this.props.handleXX)，或使用 bind。')
+          }
         }
       },
       JSXElement (path) {
