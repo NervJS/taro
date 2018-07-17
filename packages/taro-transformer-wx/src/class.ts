@@ -2,7 +2,6 @@ import { NodePath, Scope } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
-  isNumeric,
   pathResolver,
   incrementId,
   findFirstIdentifierFromMemberExpression,
