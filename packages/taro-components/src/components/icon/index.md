@@ -1,4 +1,4 @@
-icon
+# Icon
 
 ## API
 
