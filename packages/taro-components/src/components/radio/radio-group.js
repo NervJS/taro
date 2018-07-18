@@ -31,7 +31,7 @@ class RadioGroup extends Nerv.Component {
         value: checkValue
       }
     })
-    onChange(e)
+    onChange && onChange(e)
   }
 
   render () {
