@@ -12,6 +12,45 @@ export const incrementId = () => {
   return () => id++
 }
 
+export function findMethodName (expression: t.Expression) {
+  let methodName
+  if (
+    t.isIdentifier(expression) ||
+    t.isJSXIdentifier(expression)
+  ) {
+    methodName = expression.name
+  } else if (
+    t.isMemberExpression(expression) &&
+    t.isIdentifier(expression.property)
+  ) {
+    const { code } = generate(expression)
+    const ids = code.split('.')
+    if (ids[0] === 'this' && ids[1] === 'props' && ids[2]) {
+      methodName = ids[2]
+    } else {
+      methodName = expression.property.name
+    }
+  } else if (
+    t.isCallExpression(expression) &&
+    t.isMemberExpression(expression.callee) &&
+    t.isIdentifier(expression.callee.object)
+  ) {
+    methodName = expression.callee.object.name
+  } else if (
+    t.isCallExpression(expression) &&
+    t.isMemberExpression(expression.callee) &&
+    t.isMemberExpression(expression.callee.object) &&
+    t.isIdentifier(expression.callee.property) &&
+    expression.callee.property.name === 'bind' &&
+    t.isIdentifier(expression.callee.object.property)
+  ) {
+    methodName = expression.callee.object.property.name
+  } else {
+    throw codeFrameError(expression.loc, '当 props 为事件时(props name 以 `on` 开头)，只能传入一个 this 作用域下的函数。')
+  }
+  return methodName
+}
+
 export function generateAnonymousState (
   scope: Scope,
   expression: NodePath<t.Expression>,

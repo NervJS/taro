@@ -3,12 +3,13 @@ import * as t from 'babel-types'
 import {
   codeFrameError,
   hasComplexExpression,
-  generateAnonymousState
+  generateAnonymousState,
+  findMethodName
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
-import generate from '../node_modules/@types/babel-generator'
+import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -45,6 +46,7 @@ class Transformer {
   private initState: Set<string> = new Set()
   private jsxReferencedIdentifiers = new Set<t.Identifier>()
   private customComponents: Map<string, string> = new Map()
+  private anonymousMethod: Map<string, string> = new Map()
   private renderMethod: null | NodePath<t.ClassMethod> = null
   private moduleNames: string[]
   private classPath: NodePath<t.ClassDeclaration>
@@ -142,21 +144,16 @@ class Transformer {
         ) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
         }
-
         const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
         if (!attr) return
         const key = attr.node.name
         const value = attr.node.value
         if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
           const expr = value.expression
-          if (
-            t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' }) ||
-            t.isMemberExpression(expr)
-          ) {
-            const { code } = generate(expr)
-            if (code.startsWith('this.props')) {
-              const funcName = uniqueId('func__')
-            }
+          if (t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' })) {
+            self.buildAnonymousFunc(attr, expr, true)
+          } else if (t.isMemberExpression(expr)) {
+            self.buildAnonymousFunc(attr, expr as any, false)
           } else {
             throw codeFrameError(expr.loc, '事件传参只能在类作用域下的值(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
@@ -177,6 +174,34 @@ class Transformer {
         }
       }
     })
+  }
+
+  buildAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
+    const { code } = generate(expr)
+    if (code.startsWith('this.props')) {
+      const funcName = uniqueId('func__')
+      const methodName = findMethodName(expr)
+      if (this.anonymousMethod.has(methodName) || !methodName) {
+        return
+      }
+      this.anonymousMethod.set(methodName, funcName)
+      const newVal = isBind
+        ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
+        : t.memberExpression(t.thisExpression(), t.identifier(funcName))
+      attr.get('value.expression').replaceWith(newVal)
+      const properties = [
+        t.objectProperty(t.identifier('__isCustomEvt'), t.booleanLiteral(true)),
+        t.objectProperty(t.identifier('__arguments'), t.arrayExpression([t.thisExpression(), t.spreadElement(t.identifier('aruguments'))]))
+      ]
+      const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
+        t.expressionStatement(t.callExpression(
+          t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('$scope')), t.identifier('triggerEvent')),
+          [t.stringLiteral(methodName), t.objectExpression(properties)]
+        ))
+      ]))
+
+      this.classPath.node.body.body.unshift(method)
+    }
   }
 
   setComponents () {

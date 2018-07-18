@@ -16,7 +16,8 @@ import {
   incrementId,
   isArrayMapCallExpression,
   generateAnonymousState,
-  hasComplexExpression
+  hasComplexExpression,
+  findMethodName
 } from './utils'
 import { difference } from 'lodash'
 import {
@@ -569,47 +570,13 @@ export class RenderParser {
           name.name.startsWith('on')
         ) {
           if (t.isJSXExpressionContainer(value)) {
-            let methodName
-            if (
-              t.isIdentifier(value.expression) ||
-              t.isJSXIdentifier(value.expression)
-            ) {
-              methodName = value.expression.name
-            } else if (
-              t.isMemberExpression(value.expression) &&
-              t.isIdentifier(value.expression.property)
-            ) {
-              const { code } = generate(value.expression)
-              const ids = code.split('.')
-              if (ids[0] === 'this' && ids[1] === 'props' && ids[2]) {
-                // const method = ids
-              } else {
-                methodName = value.expression.property.name
-              }
-            } else if (
-              t.isCallExpression(value.expression) &&
-              t.isMemberExpression(value.expression.callee) &&
-              t.isIdentifier(value.expression.callee.object)
-            ) {
-              methodName = value.expression.callee.object.name
-            } else if (
-              t.isCallExpression(value.expression) &&
-              t.isMemberExpression(value.expression.callee) &&
-              t.isMemberExpression(value.expression.callee.object) &&
-              t.isIdentifier(value.expression.callee.property) &&
-              value.expression.callee.property.name === 'bind' &&
-              t.isIdentifier(value.expression.callee.object.property)
-            ) {
-              methodName = value.expression.callee.object.property.name
-            } else {
-              throw codeFrameError(path.node.loc, '当 props 为事件时(props name 以 `on` 开头)，只能传入一个 this 作用域下的函数。')
-            }
+            let methodName = findMethodName(value.expression)
             if (this.methods.has(methodName)) {
               const method = this.methods.get(methodName)!
               if (t.isIdentifier(method.node.key)) {
                 this.usedEvents.add(methodName)
               }
-              if (!this.isRoot && !generate(value.expression).code.includes('.bind')) {
+              if (!generate(value.expression).code.includes('.bind')) {
                 path.node.value = t.stringLiteral(`${methodName}`)
               }
               eventShouldBeCatched = isContainStopPropagation(method)
