@@ -729,7 +729,7 @@ async function buildSinglePage (page) {
       }
     }
     fs.ensureDirSync(outputPagePath)
-    fs.writeFileSync(outputPageJSONPath, JSON.stringify(res.configObj, null, 2))
+    fs.writeFileSync(outputPageJSONPath, JSON.stringify(Object.assign({}, buildUsingComponents(transformResult.components), res.configObj), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
     fs.writeFileSync(outputPageJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${outputDirName}/${page}.js`)
@@ -867,6 +867,16 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
   return depWXSSList
 }
 
+function buildUsingComponents (components) {
+  const usingComponents = Object.create(null)
+  for (const component of components) {
+    usingComponents[component.name] = component.path
+  }
+  return Object.assign({}, { components: true }, components.length ? {
+    usingComponents
+  } : {})
+}
+
 async function buildSingleComponent (component) {
   if (hasBeenBuiltComponents.indexOf(component) >= 0 && componentsBuildResult[component]) {
     return componentsBuildResult[component]
@@ -880,6 +890,7 @@ async function buildSingleComponent (component) {
   const outputComponentJSPath = component.replace(sourceDir, outputDir).replace(path.extname(component), '.js')
   const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxml')
   const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
+  const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.json')
   try {
     const transformResult = wxTransformer({
       code: componentContent,
@@ -907,6 +918,8 @@ async function buildSingleComponent (component) {
         }
       }
     }
+    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(buildUsingComponents(transformResult.components), null, 2))
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
     fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
@@ -1026,11 +1039,11 @@ function compileDepScripts (scriptFiles) {
   })
 }
 
-function buildWxsFiles () {
-  const wsxDir = path.join(outputDir, 'wxs')
-  fs.ensureDirSync(wsxDir)
-  fs.copyFileSync(path.join(__dirname, 'extra/util_wxs'), path.join(wsxDir, 'utils.wxs'))
-}
+// function buildWxsFiles () {
+//   const wsxDir = path.join(outputDir, 'wxs')
+//   fs.ensureDirSync(wsxDir)
+//   fs.copyFileSync(path.join(__dirname, 'extra/util_wxs'), path.join(wsxDir, 'utils.wxs'))
+// }
 
 function watchFiles () {
   console.log()
