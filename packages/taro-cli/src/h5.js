@@ -454,12 +454,10 @@ function classifyFiles (filename) {
 }
 function getDist (filename) {
   const dirname = path.dirname(filename)
-  const extname = path.extname(filename)
   const distDirname = dirname.replace(sourceDir, tempDir)
   const distPath = path.format({
     dir: distDirname,
-    name: path.basename(filename, extname),
-    ext: extname
+    base: path.basename(filename)
   })
   return distPath
 }
@@ -485,8 +483,7 @@ function processFiles (filePath) {
     } else {
       // 其他 直接复制
       fs.ensureDirSync(distDirname)
-      fs.createReadStream(filePath)
-        .pipe(fs.createWriteStream(distPath))
+      fs.copyFileSync(filePath, distPath)
     }
   } catch (e) {
     console.log(e)
