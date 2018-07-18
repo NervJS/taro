@@ -54,6 +54,7 @@ class Transformer {
   private usedState = new Set<string>()
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
   private customComponentData: Array<t.ObjectProperty> = []
+  private componentProperies = new Set<string>()
 
   constructor (
     path: NodePath<t.ClassDeclaration>
@@ -169,6 +170,33 @@ class Transformer {
             self.customComponents.set(name, binding.path.parent.source.value)
           }
         }
+      },
+      MemberExpression (path) {
+        const object = path.get('object')
+        const property = path.get('property')
+        if (object.isThisExpression() && property.isIdentifier({ name: 'props' })) {
+          return
+        }
+
+        const parentPath = path.parentPath
+        if (parentPath.isMemberExpression()) {
+          const siblingProp = parentPath.get('property')
+          if (siblingProp.isIdentifier()) {
+            self.componentProperies.add(siblingProp.node.name)
+          }
+        } else if (parentPath.isVariableDeclarator()) {
+          const siblingId = parentPath.get('id')
+          if (siblingId.isObjectPattern()) {
+            const properties = siblingId.node.properties
+            for (const prop of properties) {
+              if (t.isRestProperty(prop)) {
+                throw codeFrameError(prop.loc, 'this.props 不支持使用 rest property 语法，请把每一个 prop 都单独列出来')
+              } else if (t.isIdentifier(prop.key)) {
+                self.componentProperies.add(prop.key.name)
+              }
+            }
+          }
+        }
       }
     })
   }
@@ -235,6 +263,21 @@ class Transformer {
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
     }
+  }
+
+  setProperies () {
+    const properties: t.ObjectProperty[] = []
+    this.componentProperies.forEach((propName) => {
+      properties.push(
+        t.objectProperty(t.stringLiteral(propName), t.nullLiteral())
+      )
+    })
+    let classProp = t.classProperty(
+      t.identifier('properties'),
+      t.objectExpression(properties)
+    ) as any
+    classProp.static = true
+    this.classPath.node.body.body.unshift(classProp)
   }
 
   compile () {
