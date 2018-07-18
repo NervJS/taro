@@ -119,10 +119,11 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (t.isJSXMemberExpression(name)) {
     throw codeFrameError(name.loc, '暂不支持 JSX 成员表达式')
   }
-  const isDefaultComponent = DEFAULT_Component_SET.has(name.name)
-  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(name.name)
+  const componentName = name.name
+  const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
+  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
   return createHTMLElement({
-    name: kebabCase(name.name),
+    name: kebabCase(componentName),
     attributes: attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
@@ -155,6 +156,9 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else {
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
+      }
+      if (!isDefaultComponent && !['block', 'Block'].includes(componentName)) {
+        obj['__triggerObserer'] = '{{ _triggerObserer }}'
       }
       return obj
     }, {}),
