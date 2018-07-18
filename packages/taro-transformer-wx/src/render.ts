@@ -41,6 +41,10 @@ interface JSXHandler {
   isFinalReturn: boolean
 }
 
+function isChildrenOfJSXAttr (p: NodePath<t.Node>) {
+  return !!p.findParent(p => p.isJSXAttribute())
+}
+
 function handleJSXElement (
   jsxElementPath: NodePath<t.JSXElement>,
   func: ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }: JSXHandler) => void
@@ -458,13 +462,15 @@ export class RenderParser {
       })
 
       // handle jsx attrs
-      const openingElementPath = jsxElementPath.get('openingElement')
-      openingElementPath.traverse(this.jsxAttrVisitor)
+      jsxElementPath.traverse(this.jsxAttrVisitor)
     }
   }
 
   private jsxAttrVisitor: Visitor = {
     JSXExpressionContainer: (path) => {
+      if (!isChildrenOfJSXAttr(path)) {
+        return
+      }
       const expression = path.get('expression') as NodePath<t.Expression>
       if (expression.isStringLiteral()) {
         path.replaceWith(expression)
@@ -523,6 +529,9 @@ export class RenderParser {
       }
     },
     MemberExpression: (path) => {
+      if (!isChildrenOfJSXAttr(path)) {
+        return
+      }
       const id = findFirstIdentifierFromMemberExpression(path.node)
       const bindId = this.renderScope.getOwnBindingIdentifier(id.name)
       const { object, property } = path.node
@@ -648,6 +657,9 @@ export class RenderParser {
       }
     },
     Identifier: (path) => {
+      if (!isChildrenOfJSXAttr(path)) {
+        return
+      }
       if (!path.isReferencedIdentifier()) {
         return
       }
@@ -662,6 +674,9 @@ export class RenderParser {
       }
     },
     ArrowFunctionExpression: (path) => {
+      if (!isChildrenOfJSXAttr(path)) {
+        return
+      }
       const uid = path.scope.generateUid('_anonymous_function_')
       const c = t.classProperty(t.identifier(uid), path.node)
       this.classProperties.add(c)

@@ -164,7 +164,7 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)
-    block.children = [jsx]
+    block.children.push(jsx)
     path.node = block
   }
 }

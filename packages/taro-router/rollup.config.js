@@ -45,7 +45,11 @@ const baseConfig = {
         }]
       ]
     })
-  ]
+  ],
+  watch: {
+    include: 'src/**',
+    clearScreen: true
+  }
 }
 const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {

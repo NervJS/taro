@@ -28,6 +28,7 @@
     "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%>
     "@tarojs/plugin-uglifyjs": "^<%= version %>",
     "@tarojs/webpack-runner": "^<%= version %>",
+    "@types/react": "16.3.14",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

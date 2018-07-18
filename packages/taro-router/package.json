@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "0.0.68",
+  "version": "0.0.70",
   "description": "Taro-router",
   "main": "index.js",
   "module": "dist/index.esm.js",
@@ -12,6 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c rollup.config.js --watch",
     "prepare": "npm run build"
   },
   "repository": {
@@ -27,6 +28,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro-h5": "0.0.68"
+    "@tarojs/taro-h5": "0.0.70"
   }
 }

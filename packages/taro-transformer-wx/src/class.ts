@@ -2,7 +2,6 @@ import { NodePath, Scope } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
-  isNumeric,
   pathResolver,
   incrementId,
   findFirstIdentifierFromMemberExpression,
@@ -275,10 +274,12 @@ class Transformer {
         let iterator
         let index
         let blockStatement: t.Statement[] = []
-        const callee = rootCallExpression.node.callee
+        const callee = rootCallExpression.node.callee as t.MemberExpression
         const calleeCode = generate(callee).code
         let nodes: t.ObjectExpression[] = []
         const uuid = createUUID()
+        const isProps = calleeCode.startsWith('this.props')
+          || (t.isMemberExpression(callee) && isBelongToProps(findFirstIdentifierFromMemberExpression(callee), this.renderMethod!.scope))
         loopComponents.forEach((loopComponent) => {
           const { name, element: component, parent } = loopComponent
           let subscript = ''
@@ -302,14 +303,13 @@ class Transformer {
         if (!isContainThis(rootCallExpression.node.callee)) {
           stateName = calleeCode.slice(0, calleeCode.length - 4)
         } else {
-          // todo 找倒数第二个 callee id
-          let ary = calleeCode.split('.')
-          stateName = ary[1] === 'state' || ary[1] === 'props' || ary[1] === '__state' || ary[1] === '__props'
-            ? ary[2] : ary[1]
+          stateName = generate(callee.object).code
+            .replace(/(this\.props\.)|(this\.state\.)/, '')
+            .replace(/this\./, '')
         }
         const stateNameDecl = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
         const stateGetter = t.callExpression(t.identifier(INTERNAL_SAFE_GET), [
-          t.memberExpression(t.thisExpression(), t.identifier('state')),
+          t.memberExpression(t.thisExpression(), t.identifier(isProps ? 'props' : 'state')),
           t.identifier('stateName')
         ])
         const returnStatement = t.returnStatement(
@@ -754,9 +754,7 @@ function buildAnonymousClassMethod (expresion: t.Expression, id: string) {
 }
 
 function findImportedName (name: string) {
-  return isNumeric(name.slice(-1)) && name.slice(-2)[0] === '_'
-    ? name.slice(0, name.length - 2)
-    : name
+  return name.split('_')[0]
 }
 
 function build$ComponentsProperty (

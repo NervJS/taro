@@ -15,7 +15,7 @@ module.exports = function compileStylus (content, file, config) {
     const opath = path.parse(file)
     config.paths = [opath.dir]
     config.filename = opath.base
-    const instance = stylus(content)
+    const instance = stylus(content, { filename: file })
     for (const k in config) {
       instance.set(k, config[k])
     }

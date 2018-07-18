@@ -11,7 +11,9 @@ module.exports = function compileLess (content, file, config) {
     if (!content) {
       content = fs.readFileSync(file).toString()
     }
-    less.render(content, config).then((res, imports) => {
+    config = config || {}
+    config.filename = file
+    less.render(content, config).then(res => {
       resolve({ css: res.css, imports: res.imports })
     }).catch(reject)
   })

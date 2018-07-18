@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-typescript",
-  "version": "0.0.68",
+  "version": "0.0.70",
   "description": "Taro TypeScript 编译插件",
   "main": "index.js",
   "scripts": {
