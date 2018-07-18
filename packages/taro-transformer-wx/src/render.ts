@@ -139,7 +139,6 @@ export class RenderParser {
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
   private initState: Set<string>
-  private isRoot: boolean
   private referencedIdentifiers: Set<t.Identifier>
   private renderScope: Scope
   private usedState: Set<string>
@@ -679,7 +678,6 @@ export class RenderParser {
     renderPath: NodePath<t.ClassMethod>,
     methods: ClassMethodsMap,
     initState: Set<string>,
-    isRoot: boolean,
     referencedIdentifiers: Set<t.Identifier>,
     usedState: Set<string>,
     loopStateName: Map<NodePath<t.CallExpression>, string>,
@@ -689,7 +687,6 @@ export class RenderParser {
     this.renderPath = renderPath
     this.methods = methods
     this.initState = initState
-    this.isRoot = isRoot
     this.referencedIdentifiers = referencedIdentifiers
     this.loopStateName = loopStateName
     this.usedState = usedState

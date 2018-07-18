@@ -9,7 +9,7 @@ import { transform as parse } from 'babel-core'
 import { transform as babel7Transform } from '@babel/core'
 
 export interface Options {
-  isRoot: boolean,
+  isRoot?: boolean,
   isApp: boolean,
   outputPath: string,
   sourcePath: string,
@@ -223,7 +223,7 @@ export default function transform (options: Options): TransformResult {
     renderMethod.remove()
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.isRoot).result
+  result = new Transformer(mainClass).result
   result.code = generate(ast).code
   result.ast = ast
   // if (process.env.NODE_ENV !== 'test') {

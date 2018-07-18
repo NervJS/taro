@@ -50,18 +50,15 @@ class Transformer {
   private renderMethod: null | NodePath<t.ClassMethod> = null
   private moduleNames: string[]
   private classPath: NodePath<t.ClassDeclaration>
-  private isRoot: boolean
   private customComponentNames = new Set<string>()
   private usedState = new Set<string>()
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
   private customComponentData: Array<t.ObjectProperty> = []
 
   constructor (
-    path: NodePath<t.ClassDeclaration>,
-    isRoot: boolean
+    path: NodePath<t.ClassDeclaration>
   ) {
     this.classPath = path
-    this.isRoot = isRoot
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.compile()
   }
@@ -229,7 +226,6 @@ class Transformer {
           this.renderMethod,
           this.methods,
           this.initState,
-          this.isRoot,
           this.jsxReferencedIdentifiers,
           this.usedState,
           this.loopStateName,
