@@ -78,7 +78,9 @@ function parseJSCode (code, filePath) {
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
 
+      // 引入的包为 npm 包
       if (!Util.isNpmPkg(value)) {
+        // import 样式处理
         if (Util.REG_STYLE.test(valueExtname)) {
           const basename = path.basename(value, valueExtname)
           const stylePath = path.resolve(path.dirname(filePath), value)
@@ -136,13 +138,14 @@ function parseJSCode (code, filePath) {
         source.value = PACKAGES['@tarojs/components-rn']
       }
     },
+    // 转换 className 和 id
     JSXElement (astPath) {
       const node = astPath.node
       const openingElement = node.openingElement
       if (openingElement && openingElement.attributes.length) {
         const attributes = openingElement.attributes
         const newAttributes = []
-        let styleAttrs = []
+        let styleAttrs = [] // classNames 值
         attributes.forEach(attr => {
           const name = attr.name
           if (name.name === 'className' || name.name === 'id') {
@@ -155,6 +158,7 @@ function parseJSCode (code, filePath) {
         })
         if (styleAttrs.length) {
           styleAttrs = _.uniq(styleAttrs)
+          // 合成 RN style
           const styleArr = styleAttrs.map(item => {
             const styleName = `${importStyleName}.${item}`
             return t.identifier(styleName)
@@ -166,7 +170,7 @@ function parseJSCode (code, filePath) {
         openingElement.attributes = newAttributes
       }
     },
-
+    // 获取 classRenderReturnJSX
     ClassMethod (astPath) {
       let node = astPath.node
       const key = node.key
@@ -406,6 +410,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
+        // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
         const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
         const crnaEntry = new Vinyl({
@@ -431,14 +436,14 @@ function buildTemp () {
           } else {
             command = 'npm install'
           }
-          shelljs.exec(command, { silent: false })
+          shelljs.exec(command, {silent: false})
         }
         resolve()
       })
   })
 }
 
-async function buildDist ({ watch }) {
+async function buildDist ({watch}) {
   const entry = {
     app: path.join(tempPath, entryFileName)
   }
@@ -459,10 +464,10 @@ function watchFiles () {
 
 }
 
-async function build ({ watch }) {
+async function build ({watch}) {
   fs.ensureDirSync(tempPath)
   await buildTemp()
-  await buildDist({ watch })
+  await buildDist({watch})
   if (watch) {
     watchFiles()
   }
