@@ -70,18 +70,20 @@ function handleJSXElement (
   }
 }
 
-function isContainStopPropagation (path: NodePath<t.Node>) {
+function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
   let matched = false
-  path.traverse({
-    Identifier (p) {
-      if (
-        p.node.name === 'stopPropagation' &&
-        p.parentPath.parentPath.isCallExpression()
-      ) {
-        matched = true
+  if (path) {
+    path.traverse({
+      Identifier (p) {
+        if (
+          p.node.name === 'stopPropagation' &&
+          p.parentPath.parentPath.isCallExpression()
+        ) {
+          matched = true
+        }
       }
-    }
-  })
+    })
+  }
   return matched
 }
 
@@ -572,8 +574,10 @@ export class RenderParser {
           if (t.isJSXExpressionContainer(value)) {
             let methodName = findMethodName(value.expression)
             if (this.methods.has(methodName)) {
-              const method = this.methods.get(methodName)!
-              if (t.isIdentifier(method.node.key)) {
+              const method = this.methods.get(methodName)
+              if (method && t.isIdentifier(method.node.key)) {
+                this.usedEvents.add(methodName)
+              } else if (method === null) {
                 this.usedEvents.add(methodName)
               }
               if (!generate(value.expression).code.includes('.bind')) {

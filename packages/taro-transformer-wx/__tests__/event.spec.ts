@@ -93,4 +93,48 @@ describe('event', () => {
     // expect(template).toMatch(`data-e-handleClick-a-b="{{777}}`)
   })
 
+  describe('this.props.func', () => {
+    test('简单情况', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+        return (
+          <View onClick={this.props.handleClick} />
+        )
+        `, 'handleClick = () => ({})', `import { Custom } from './utils'`)
+      })
+
+      const instance = evalClass(ast)
+
+      expect(template).toMatch(`<view bindtap="func__1"></view>`)
+      expect(instance.$$events).toEqual(['func__1'])
+    })
+
+    test('相同的事件', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+        return (
+          <View>
+            <Text onClick={this.props.handleClick} />
+            <Text onClick={this.props.handleClick} />
+          </View>
+        )
+        `, 'handleClick = () => ({})', `import { Custom } from './utils'`)
+      })
+
+      const instance = evalClass(ast)
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <view>
+              <text bindtap=\"func__2\"></text>
+              <text bindtap=\"func__2\"></text>
+          </view>
+      </block>
+      `))
+      expect(instance.$$events).toEqual(['func__2'])
+    })
+  })
+
 })

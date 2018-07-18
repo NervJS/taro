@@ -179,16 +179,18 @@ class Transformer {
   buildAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
     const { code } = generate(expr)
     if (code.startsWith('this.props')) {
-      const funcName = uniqueId('func__')
       const methodName = findMethodName(expr)
-      if (this.anonymousMethod.has(methodName) || !methodName) {
-        return
-      }
+      const hasMethodName = this.anonymousMethod.has(methodName) || !methodName
+      const funcName = hasMethodName ? this.anonymousMethod.get(methodName)! : uniqueId('func__')
       this.anonymousMethod.set(methodName, funcName)
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
         : t.memberExpression(t.thisExpression(), t.identifier(funcName))
       attr.get('value.expression').replaceWith(newVal)
+      this.methods.set(funcName, null as any)
+      if (!hasMethodName) {
+        return
+      }
       const properties = [
         t.objectProperty(t.identifier('__isCustomEvt'), t.booleanLiteral(true)),
         t.objectProperty(t.identifier('__arguments'), t.arrayExpression([t.thisExpression(), t.spreadElement(t.identifier('aruguments'))]))
@@ -200,7 +202,7 @@ class Transformer {
         ))
       ]))
 
-      this.classPath.node.body.body.unshift(method)
+      this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
     }
   }
 
