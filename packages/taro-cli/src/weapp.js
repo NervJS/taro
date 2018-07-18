@@ -485,7 +485,11 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createPage(${exportVariableName}, { path: '${sourceFilePath.replace(appPath + path.sep, '').replace(/\\/g, '/')}' }))`, babylonConfig)()
+            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponents(${exportVariableName}))`, babylonConfig)()
+            node.body.push(insert)
+            break
+          case PARSE_AST_TYPE.COMPONENT:
+            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponents(${exportVariableName}))`, babylonConfig)()
             node.body.push(insert)
             break
           default:
