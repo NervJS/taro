@@ -11,7 +11,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties[privatePropValName] = {
     type: null,
     observer: function (newState) {
-      if (!this.$component.__isAttached) return
+      if (!this.$component || !this.$component.__isAttached) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component.props = nextProps
       updateComponent(this.$component, true, 'observer')
