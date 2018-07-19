@@ -136,25 +136,18 @@ function slash (input: string) {
   return input.replace(/\\/g, '/')
 }
 
-export function pathResolver (p: string, location: string) {
-  const extName = path.extname(p)
-  const promotedPath = p
+export function pathResolver (source: string, location: string) {
+  const extName = path.extname(source)
+  const promotedPath = source
   if (extName === '') {
-    try {
-      const pathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.js'))
-      const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), p, 'index.tsx'))
-      const baseNameExist = fs.existsSync(path.resolve(path.dirname(location), p) + '.js')
-      if (pathExist || tsxPathExist) {
-        return slash(path.join(promotedPath, 'index.wxml'))
-      } else if (baseNameExist) {
-        return slash(promotedPath + '.wxml')
-      }
-    } catch (error) {
-      return slash(promotedPath + '.wxml')
+    const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
+    const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
+    if (pathExist || tsxPathExist) {
+      return slash(path.join(promotedPath, 'index'))
     }
-    return slash(promotedPath + '.wxml')
+    return slash(promotedPath)
   }
-  return slash(promotedPath.slice(0, promotedPath.length - extName.length) + '.wxml')
+  return slash(promotedPath.split('.').slice(0, -1).join('.'))
 }
 
 export function codeFrameError (loc: t.SourceLocation, msg: string) {

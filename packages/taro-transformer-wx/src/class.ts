@@ -4,7 +4,8 @@ import {
   codeFrameError,
   hasComplexExpression,
   generateAnonymousState,
-  findMethodName
+  findMethodName,
+  pathResolver
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
@@ -55,11 +56,14 @@ class Transformer {
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
   private customComponentData: Array<t.ObjectProperty> = []
   private componentProperies = new Set<string>()
+  private sourcePath: string
 
   constructor (
-    path: NodePath<t.ClassDeclaration>
+    path: NodePath<t.ClassDeclaration>,
+    sourcePath: string
   ) {
     this.classPath = path
+    this.sourcePath = sourcePath
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.compile()
   }
@@ -244,7 +248,7 @@ class Transformer {
   setComponents () {
     this.customComponents.forEach((path, name) => {
       this.result.components.push({
-        path,
+        path: pathResolver(path, this.sourcePath),
         name: kebabCase(name)
       })
     })
