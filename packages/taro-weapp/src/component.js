@@ -1,19 +1,20 @@
-import { isEmptyObject } from './util'
 import { enqueueRender } from './render-queue'
-import { updateComponent } from './lifecycle'
 
-class Component {
-  static defaultProps = {}
-  $components = {}
-  $$components = {}
-  $$dynamicComponents = {}
-  $router = {
-    params: {}
-  }
-  $path = ''
-  $name = ''
-  $isComponent = true
-  $props = {}
+
+// #组件state对应小程序组件data
+// #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
+// #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟reciveProps生命周期
+// 执行顺序：组件setState -> 组件_createData() -> 对应的小程序组件setData（组件更新）-> 子组件的__componentProps.observer执行
+//          -> 触发子组件componentWillReciveProps，更新子组件props,componentShouldUpdate -> 子组件_createData -> 子组件setData
+
+class BaseComponent {
+  // _createData的时候生成，小程序中通过data.__createData访问
+  __computed = {}
+  // this.props,小程序中通过data.__props访问
+  __props = {}
+  __isAttached = false
+  // 会在componentDidMount后置为true
+  __mounted = false
   nextProps = {}
   _dirty = true
   _disable = true
@@ -24,49 +25,9 @@ class Component {
     this.state = {}
     this.props = props || {}
   }
-
-  _initData ($root, $parent) {
-    this.$app = getApp()
-    this.$root = $root || null
-    this.$parent = $parent || null
-    this.defaultData = {}
-    this.$data = {}
-
-    let state = this.state
-    if (this._dyState) {
-      state = Object.assign({}, this.state, this._dyState)
-    }
-    for (let k in state) {
-      this.$data[k] = state[k]
-    }
-    if (this.props) {
-      for (let k in this.props) {
-        if (typeof this.props[k] !== 'function') {
-          this.$data[k] = this.props[k]
-        }
-      }
-    }
-
-    if (this.$$dynamicComponents && !isEmptyObject(this.$$dynamicComponents)) {
-      Object.getOwnPropertyNames(this.$$dynamicComponents).forEach(name => {
-        this.$$dynamicComponents[name]._initData(this.$root || this, this)
-      })
-    }
-  }
   _init (scope) {
     this.$scope = scope
-    this.$app = getApp()
-    if (this.$$dynamicComponents && !isEmptyObject(this.$$dynamicComponents)) {
-      Object.getOwnPropertyNames(this.$$dynamicComponents).forEach(name => {
-        this.$$dynamicComponents[name]._init(this.$scope)
-      })
-    }
   }
-  // rewrite when compile
-  _createData () {
-    return this.state
-  }
-
   setState (state, callback) {
     if (state) {
       (this._pendingStates = this._pendingStates || []).push(state)
@@ -96,13 +57,6 @@ class Component {
     })
     return stateClone
   }
-
-  forceUpdate (callback) {
-    if (typeof callback === 'function') {
-      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
-    }
-    updateComponent(this, true)
-  }
 }
 
-export default Component
+export default BaseComponent
