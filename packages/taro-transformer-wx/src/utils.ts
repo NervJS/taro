@@ -140,12 +140,16 @@ export function pathResolver (source: string, location: string) {
   const extName = path.extname(source)
   const promotedPath = source
   if (extName === '') {
-    const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
-    const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
-    if (pathExist || tsxPathExist) {
-      return slash(path.join(promotedPath, 'index'))
+    try {
+      const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
+      const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
+      if (pathExist || tsxPathExist) {
+        return slash(path.join(promotedPath, 'index'))
+      }
+      return slash(promotedPath)
+    } catch (error) {
+      return slash(promotedPath)
     }
-    return slash(promotedPath)
   }
   return slash(promotedPath.split('.').slice(0, -1).join('.'))
 }

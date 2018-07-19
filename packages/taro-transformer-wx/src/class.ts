@@ -227,7 +227,7 @@ class Transformer {
       attr.get('value.expression').replaceWith(newVal)
       this.methods.set(funcName, null as any)
       this.componentProperies.add(methodName)
-      if (!hasMethodName) {
+      if (hasMethodName) {
         return
       }
       const properties = [
