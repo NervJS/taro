@@ -230,14 +230,10 @@ class Transformer {
       if (hasMethodName) {
         return
       }
-      const properties = [
-        t.objectProperty(t.identifier('__isCustomEvt'), t.booleanLiteral(true)),
-        t.objectProperty(t.identifier('__arguments'), t.arrayExpression([t.thisExpression(), t.spreadElement(t.identifier('aruguments'))]))
-      ]
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
           t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('$scope')), t.identifier('triggerEvent')),
-          [t.stringLiteral(methodName), t.objectExpression(properties)]
+          [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('aruguments'))])]
         ))
       ]))
 
