@@ -29,8 +29,8 @@ function processEvent (eventHandlerName, obj) {
       Object.assign(event.currentTarget, event.detail)
     }
 
-    let scope = this.$component
-    
+    const scope = this.$component
+    let callScope = scope
     const isCustomEvt = event.detail && event.detail.__isCustomEvt === true
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
@@ -55,7 +55,7 @@ function processEvent (eventHandlerName, obj) {
       // 普通的事件（非匿名函数），会直接call
       if (!isAnonymousFn) {
         if ('so' in bindArgs && bindArgs['so'] !== 'this') {
-          scope = bindArgs['so']
+          callScope = bindArgs['so']
           delete bindArgs['so']
         }
         if(!isEmptyObject(bindArgs)) {
@@ -84,7 +84,7 @@ function processEvent (eventHandlerName, obj) {
       // 如果不是匿名函数，则将scope从参数中取出来，执行。
       // 否则继续作为参数传递下去
       if (!isAnonymousFn && realArgs.length > 0) {
-        realArgs[0] && (scope = realArgs[0])
+        realArgs[0] && (callScope = realArgs[0])
         realArgs.shift()
       }
     }
@@ -92,11 +92,9 @@ function processEvent (eventHandlerName, obj) {
     // 如果是匿名函数，scope指向自己，并且将传入的scope作为第一个参数传递下去
 
     if (realArgs.length > 0) {
-      scope[eventHandlerName].apply(scope, realArgs)
-    } else if (!isCustomEvt) {
-      scope[eventHandlerName].call(scope, event)
+      scope[eventHandlerName].apply(callScope, realArgs)
     } else {
-      scope[eventHandlerName].call(scope)
+      scope[eventHandlerName].call(callScope)
     }
   }
 }
