@@ -259,6 +259,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
         const superClass = declaration.superClass
         if (superClass &&
           (superClass.name === 'Component' ||
+          superClass.name === 'BaseComponent' ||
           (superClass.type === 'MemberExpression' &&
           superClass.object.name === taroImportDefaultName))) {
           needExportDefault = true
@@ -485,11 +486,11 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponents(${exportVariableName}))`, babylonConfig)()
+            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)()
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.COMPONENT:
-            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponents(${exportVariableName}))`, babylonConfig)()
+            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)()
             node.body.push(insert)
             break
           default:
