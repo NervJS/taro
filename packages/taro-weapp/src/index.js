@@ -15,6 +15,7 @@ import Component from './component'
 import PureComponent from './pure-component'
 import createApp from './create-app'
 import createPage from './create-page'
+import createComponent from './create-component'
 import initNativeApi from './native-api'
 
 export {
@@ -31,7 +32,8 @@ export {
   internal_safe_get,
   internal_safe_set,
   internal_dynamic_recursive,
-  internal_inline_style
+  internal_inline_style,
+  createComponent
 }
 
 export default {
@@ -47,5 +49,6 @@ export default {
   internal_safe_get,
   internal_safe_set,
   internal_dynamic_recursive,
-  internal_inline_style
+  internal_inline_style,
+  createComponent
 }
