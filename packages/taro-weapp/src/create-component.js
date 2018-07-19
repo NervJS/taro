@@ -18,7 +18,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
   }
 }
 
-function processEvent (eventHandlerName, component, obj) {
+function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
   obj[eventHandlerName] = function (event) {
@@ -82,20 +82,20 @@ function processEvent (eventHandlerName, component, obj) {
     // 如果是匿名函数，scope指向自己，并且将传入的scope作为第一个参数传递下去
 
     if (realArgs.length > 0) {
-      component[eventHandlerName].apply(scope, realArgs)
+      scope[eventHandlerName].apply(scope, realArgs)
     } else if (!isCustomEvt) {
-      component[eventHandlerName].call(scope, event)
+      scope[eventHandlerName].call(scope, event)
     } else {
-      component[eventHandlerName].call(scope)
+      scope[eventHandlerName].call(scope)
     }
   }
 }
 
-function bindEvents (weappComponentConf, taroComponent, events, isPage) {
+function bindEvents (weappComponentConf, events, isPage) {
   weappComponentConf.methods = weappComponentConf.methods || {}
   const target = isPage ? weappComponentConf : weappComponentConf.methods
   events.forEach(name => {
-    processEvent(name, taroComponent, target)
+    processEvent(name, target)
   })
 }
 
@@ -122,7 +122,6 @@ function componentTrigger (component, key) {
 }
 
 function createComponent (ComponentClass, isPage) {
-  const component = new ComponentClass()
   const weappComponentConf = {
     data: {
       _componentProps: 1
@@ -163,7 +162,7 @@ function createComponent (ComponentClass, isPage) {
     }
   }
   bindProperties(weappComponentConf, ComponentClass)
-  ComponentClass['$$events'] && bindEvents(weappComponentConf, component, ComponentClass['$$events'], isPage)
+  ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   return weappComponentConf
 }
 
