@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const chokidar = require('chokidar')
 const chalk = require('chalk')
 const vfs = require('vinyl-fs')
 const Vinyl = require('vinyl')
@@ -460,8 +461,33 @@ async function buildDist ({watch}) {
   rnRunner(rnConfig)
 }
 
-function watchFiles () {
+function processFiles (filePath) {
+  // 后期可以优化，不编译全部
+  buildTemp()
+}
 
+function watchFiles () {
+  console.log()
+  console.log(chalk.gray('监听文件修改中...'))
+  console.log()
+  const watcher = chokidar.watch(path.join(sourceDir), {
+    ignored: /(^|[/\\])\../,
+    persistent: true,
+    ignoreInitial: true
+  })
+
+  watcher
+    .on('add', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
+      processFiles(filePath)
+    })
+    .on('change', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
+      processFiles(filePath)
+    })
+  // .on('unlink', filePath => {})
 }
 
 async function build ({watch}) {
