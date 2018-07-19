@@ -19,6 +19,8 @@ export function findMethodName (expression: t.Expression) {
     t.isJSXIdentifier(expression)
   ) {
     methodName = expression.name
+  } else if (t.isStringLiteral(expression)) {
+    methodName = expression
   } else if (
     t.isMemberExpression(expression) &&
     t.isIdentifier(expression.property)
