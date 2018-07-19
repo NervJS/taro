@@ -54,11 +54,13 @@ function processEvent (eventHandlerName, obj) {
       
       // 普通的事件（非匿名函数），会直接call
       if (!isAnonymousFn) {
-        if ('so' in bindArgs && bindArgs['so'] !== 'this') {
-          callScope = bindArgs['so']
+        if ('so' in bindArgs) {
+          if (bindArgs['so'] !== 'this') {
+            callScope = bindArgs['so'] 
+          }
           delete bindArgs['so']
         }
-        if(!isEmptyObject(bindArgs)) {
+        if (!isEmptyObject(bindArgs)) {
           realArgs = Object.keys(bindArgs)
             .sort()
             .map(key => bindArgs[key])
@@ -67,8 +69,10 @@ function processEvent (eventHandlerName, obj) {
       } else {
       // 匿名函数，会将scope作为第一个参数
         let _scope = null
-        if ('so' in bindArgs && bindArgs['so'] !== 'this') {
-          _scope = bindArgs['so']
+        if ('so' in bindArgs) {
+          if (bindArgs['so'] !== 'this') {
+            _scope = bindArgs['so']
+          }
           delete bindArgs['so']
         }
         if (!isEmptyObject(bindArgs)) {
