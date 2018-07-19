@@ -1,6 +1,5 @@
 import { isEmptyObject, getPrototypeChain } from './util'
 import { updateComponent } from './lifecycle'
-const eventPreffix = '__event_'
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
 
@@ -92,11 +91,11 @@ function processEvent (eventHandlerName, component, obj) {
   }
 }
 
-function bindEvents (weappComponentConf, taroComponent, events) {
+function bindEvents (weappComponentConf, taroComponent, events, isPage) {
   weappComponentConf.methods = weappComponentConf.methods || {}
-
+  const target = isPage ? weappComponentConf : weappComponentConf.methods
   events.forEach(name => {
-    processEvent(name, taroComponent, weappComponentConf.methods)
+    processEvent(name, taroComponent, target)
   })
 }
 
@@ -164,7 +163,7 @@ function createComponent (ComponentClass, isPage) {
     }
   }
   bindProperties(weappComponentConf, ComponentClass)
-  ComponentClass['$$events'] && bindEvents(weappComponentConf, component, ComponentClass['$$events'])
+  ComponentClass['$$events'] && bindEvents(weappComponentConf, component, ComponentClass['$$events'], isPage)
   return weappComponentConf
 }
 
