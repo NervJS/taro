@@ -30,10 +30,11 @@ function processEvent (eventHandlerName, obj) {
     }
 
     let scope = this.$component
+    
     const isCustomEvt = event.detail && event.detail.__isCustomEvt === true
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
-
+    // 如果是系统触发的事件，则需要解析从dataset中传过来的参数
     if (!isCustomEvt) {
       const dataset = event.currentTarget.dataset
       const bindArgs = {}
@@ -50,35 +51,44 @@ function processEvent (eventHandlerName, obj) {
           }
         }
       })
-      if (!isEmptyObject(bindArgs)) {
-        if (!isAnonymousFn) {
-          if (bindArgs['so'] !== 'this') {
-            scope = bindArgs['so']
-          }
+      
+      // 普通的事件（非匿名函数），会直接call
+      if (!isAnonymousFn) {
+        if (so in bindArgs && bindArgs['so'] !== 'this') {
+          scope = bindArgs['so']
           delete bindArgs['so']
-          realArgs = Object.keys(bindArgs)
-            .sort()
-            .map(key => bindArgs[key])
-          realArgs.push(event)
-        } else {
-          let _scope = null
-          if (bindArgs['so'] !== 'this') {
-            _scope = bindArgs['so']
-          }
-          delete bindArgs['so']
-          realArgs = Object.keys(bindArgs)
-            .sort()
-            .map(key => bindArgs[key])
-          realArgs = [_scope].concat(realArgs)
         }
+        if(!isEmptyObject(bindArgs)) {
+          realArgs = Object.keys(bindArgs)
+            .sort()
+            .map(key => bindArgs[key])
+        }
+        realArgs.push(event)
+      } else {
+      // 匿名函数，会将scope作为第一个参数
+        let _scope = null
+        if (so in bindArgs && bindArgs['so'] !== 'this') {
+          _scope = bindArgs['so']
+          delete bindArgs['so']
+        }
+        if (!isEmptyObject(bindArgs)) {
+          realArgs = Object.keys(bindArgs)
+            .sort()
+            .map(key => bindArgs[key])
+        }
+        realArgs = [_scope, ...realArgs, event]
       }
     } else {
+      // 如果是通过triggerEvent触发的自定义事件，只需要从__arguments中获取参数即可
       realArgs = event.detail.__arguments || []
+      // 如果不是匿名函数，则将scope从参数中取出来，执行。
+      // 否则继续作为参数传递下去
       if (!isAnonymousFn && realArgs.length > 0) {
         realArgs[0] && (scope = realArgs[0])
         realArgs.shift()
       }
     }
+
     // 如果是匿名函数，scope指向自己，并且将传入的scope作为第一个参数传递下去
 
     if (realArgs.length > 0) {
