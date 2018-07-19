@@ -56,6 +56,22 @@ class BaseComponent {
     })
     return stateClone
   }
+  // 会被匿名函数调用
+  __triggerPropsFn (key, args) {
+    const reduxFnPrefix = '__event_'
+    const reduxFnName = reduxFnPrefix + key
+    // redux标识过的方法，直接调用
+    if (reduxFnName in this) {
+      const scope = args.shift()
+      this[reduxFnName].apply(scope, args)
+    } else {
+      // 普通的
+      this.$scope.triggerEvent(key, {
+        __isCustomEvt: true,
+        __arguments: args
+      })
+    }
+  }
 }
 
 export default BaseComponent
