@@ -14,7 +14,6 @@ import {
 import Component from './component'
 import PureComponent from './pure-component'
 import createApp from './create-app'
-import createPage from './create-page'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
 
@@ -22,7 +21,6 @@ export {
   Component,
   PureComponent,
   createApp,
-  createPage,
   initNativeApi,
   Events,
   eventCenter,
@@ -39,7 +37,6 @@ export {
 export default {
   Component,
   createApp,
-  createPage,
   initNativeApi,
   Events,
   eventCenter,
