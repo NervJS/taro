@@ -197,14 +197,18 @@ export default function transform (options: Options): TransformResult {
           DEFAULT_Component_SET.has(name) || names.push(name)
         },
         ImportSpecifier (path) {
-          const name = path.node.local.name
+          const name = path.node.imported.name
           DEFAULT_Component_SET.has(name) || names.push(name)
+          if (source === TARO_PACKAGE_NAME && name === 'Component') {
+            path.node.local = t.identifier('BaseComponent')
+          }
         }
       })
       componentSourceMap.set(source, names)
     }
   })
   const storeBinding = mainClass.scope.getBinding(storeName)
+  mainClass.scope.rename('Component', 'BaseComponent')
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {

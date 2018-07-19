@@ -117,6 +117,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
       const node = astPath.node
       if (node.superClass) {
         if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'BaseComponent' ||
         (node.superClass.type === 'MemberExpression' &&
         node.superClass.object.name === taroImportDefaultName)) {
           needExportDefault = true
@@ -259,6 +260,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
         const superClass = declaration.superClass
         if (superClass &&
           (superClass.name === 'Component' ||
+          superClass.name === 'BaseComponent' ||
           (superClass.type === 'MemberExpression' &&
           superClass.object.name === taroImportDefaultName))) {
           needExportDefault = true
@@ -485,11 +487,11 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponents(${exportVariableName}))`, babylonConfig)()
+            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)()
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.COMPONENT:
-            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponents(${exportVariableName}))`, babylonConfig)()
+            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)()
             node.body.push(insert)
             break
           default:
@@ -871,12 +873,12 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
   return depWXSSList
 }
 
-function buildUsingComponents (components) {
+function buildUsingComponents (components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
     usingComponents[component.name] = component.path
   }
-  return Object.assign({}, { components: true }, components.length ? {
+  return Object.assign({}, isComponent ? { component: true } : {}, components.length ? {
     usingComponents
   } : {})
 }
@@ -922,7 +924,7 @@ async function buildSingleComponent (component) {
         }
       }
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(buildUsingComponents(transformResult.components), null, 2))
+    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(buildUsingComponents(transformResult.components, true), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
