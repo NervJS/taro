@@ -434,9 +434,9 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@tarojs/taro@0.0.63":
-  version "0.0.63"
-  resolved "http://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-0.0.63.tgz#18bfb626272d972d9b4ab4864ab01f45afe97aea"
+"@tarojs/taro@0.0.70":
+  version "0.0.70"
+  resolved "http://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-0.0.70.tgz#ff753340c63e8e97e2af1f5040c9062953200159"
 
 abab@^1.0.4:
   version "1.0.4"
@@ -4180,15 +4180,15 @@ react-devtools-core@3.1.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-image-progress@^0.6.0:
-  version "0.6.0"
-  resolved "http://registry.npm.taobao.org/react-native-image-progress/download/react-native-image-progress-0.6.0.tgz#14614add12beaa247a052e5a52e6a9fee0fb8c67"
+react-native-image-pan-zoom@^2.1.7:
+  version "2.1.7"
+  resolved "http://registry.npm.taobao.org/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.1.7.tgz#1c066e66f8f345f5e1fc187f02d92c482952bb59"
 
-react-native-image-viewer@^0.0.3:
-  version "0.0.3"
-  resolved "http://registry.npm.taobao.org/react-native-image-viewer/download/react-native-image-viewer-0.0.3.tgz#312266f173ae4362c2da318094163358d8862037"
+react-native-image-zoom-viewer@^2.2.13:
+  version "2.2.13"
+  resolved "http://registry.npm.taobao.org/react-native-image-zoom-viewer/download/react-native-image-zoom-viewer-2.2.13.tgz#05d085dae399129970c3c6e58b03276bf25f032e"
   dependencies:
-    react-native-image-progress "^0.6.0"
+    react-native-image-pan-zoom "^2.1.7"
 
 react-native-root-siblings@^3.0.0, react-native-root-siblings@^3.1.0:
   version "3.1.0"

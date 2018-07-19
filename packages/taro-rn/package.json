@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/taro": "0.0.70",
-    "react-native-image-viewer": "^0.0.3",
+    "react-native-image-zoom-viewer": "^2.2.13",
     "react-native-root-siblings": "^3.1.0",
     "react-native-root-toast": "^3.0.1",
     "react-native-stylekit": "^1.0.0"
