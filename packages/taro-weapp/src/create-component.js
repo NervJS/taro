@@ -40,9 +40,9 @@ function processEvent (eventHandlerName, obj) {
       const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
       Object.keys(dataset).forEach(key => {
         let keyLower = key.toLocaleLowerCase()
-        if (keyLower.indexOf('event') === 0) {
+        if (/^e/.test(keyLower)) {
           // 小程序属性里中划线后跟一个下划线会解析成不同的结果
-          keyLower = keyLower.replace(/event\-?/, '')
+          keyLower = keyLower.replace(/^e/, '')
           keyLower = keyLower.toLocaleLowerCase()
           if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
             const argName = keyLower.replace(eventHandlerNameLower, '')
