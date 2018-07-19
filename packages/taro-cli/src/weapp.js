@@ -487,7 +487,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)()
+            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)()
             node.body.push(insert)
             break
           case PARSE_AST_TYPE.COMPONENT:
@@ -873,12 +873,12 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
   return depWXSSList
 }
 
-function buildUsingComponents (components) {
+function buildUsingComponents (components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
     usingComponents[component.name] = component.path
   }
-  return Object.assign({}, { components: true }, components.length ? {
+  return Object.assign({}, isComponent ? { component: true } : {}, components.length ? {
     usingComponents
   } : {})
 }
@@ -924,7 +924,7 @@ async function buildSingleComponent (component) {
         }
       }
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(buildUsingComponents(transformResult.components), null, 2))
+    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(buildUsingComponents(transformResult.components, true), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
