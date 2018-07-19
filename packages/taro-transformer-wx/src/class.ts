@@ -232,8 +232,8 @@ class Transformer {
       }
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
-          t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('$scope')), t.identifier('triggerEvent')),
-          [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('aruguments'))])]
+          t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+          [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
         ))
       ]))
 
