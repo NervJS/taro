@@ -54,7 +54,7 @@ function processEvent (eventHandlerName, obj) {
       
       // 普通的事件（非匿名函数），会直接call
       if (!isAnonymousFn) {
-        if (so in bindArgs && bindArgs['so'] !== 'this') {
+        if ('so' in bindArgs && bindArgs['so'] !== 'this') {
           scope = bindArgs['so']
           delete bindArgs['so']
         }
@@ -67,7 +67,7 @@ function processEvent (eventHandlerName, obj) {
       } else {
       // 匿名函数，会将scope作为第一个参数
         let _scope = null
-        if (so in bindArgs && bindArgs['so'] !== 'this') {
+        if ('so' in bindArgs && bindArgs['so'] !== 'this') {
           _scope = bindArgs['so']
           delete bindArgs['so']
         }
