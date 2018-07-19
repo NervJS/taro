@@ -174,7 +174,11 @@ class Transformer {
       MemberExpression (path) {
         const object = path.get('object')
         const property = path.get('property')
-        if (object.isThisExpression() && property.isIdentifier({ name: 'props' })) {
+        if (
+          !(
+            object.isThisExpression() && property.isIdentifier({ name: 'props' })
+          )
+        ) {
           return
         }
 
@@ -182,7 +186,12 @@ class Transformer {
         if (parentPath.isMemberExpression()) {
           const siblingProp = parentPath.get('property')
           if (siblingProp.isIdentifier()) {
-            self.componentProperies.add(siblingProp.node.name)
+            const name = siblingProp.node.name
+            if (name === 'children') {
+              parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true))
+            } else {
+              self.componentProperies.add(siblingProp.node.name)
+            }
           }
         } else if (parentPath.isVariableDeclarator()) {
           const siblingId = parentPath.get('id')
@@ -213,6 +222,7 @@ class Transformer {
         : t.memberExpression(t.thisExpression(), t.identifier(funcName))
       attr.get('value.expression').replaceWith(newVal)
       this.methods.set(funcName, null as any)
+      this.componentProperies.add(methodName)
       if (!hasMethodName) {
         return
       }
@@ -284,6 +294,7 @@ class Transformer {
     this.traverse()
     this.setComponents()
     this.resetConstructor()
+    this.setProperies()
     this.parseRender()
   }
 }
