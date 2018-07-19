@@ -3,7 +3,7 @@ export function isEmptyObject (obj) {
     return false
   }
   for (const n in obj) {
-    if (obj.hasOwnProperty(n) && obj[n]) {
+    if (obj.hasOwnProperty(n)) {
       return false
     }
   }
