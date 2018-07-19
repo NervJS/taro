@@ -1,0 +1,27 @@
+{
+  "name": "@tarojs/router-rn",
+  "version": "0.0.70",
+  "description": "taro-router-rn",
+  "main": "./src/index.js",
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "router"
+  ],
+  "peerDependencies": {},
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "react-navigation": "^2.7.0"
+  },
+  "devDependencies": {}
+}
