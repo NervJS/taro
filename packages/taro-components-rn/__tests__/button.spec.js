@@ -10,12 +10,9 @@ describe('<Button />', () => {
     expect(wrapper.find(Text)).toHaveProperty('length', 1)
   })
 
-  it('loading view', (done) => {
+  it('loading view', () => {
     const wrapper = shallow(<Button loading />)
-    setTimeout(() => {
-      expect(wrapper.find(Animated.View)).toHaveProperty('length', 1)
-      done()
-    }, 2000)
+    expect(wrapper.find(Animated.View)).toHaveProperty('length', 1)
   })
 
   it('simulates trigger loading', () => {

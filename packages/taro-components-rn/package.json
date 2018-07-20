@@ -22,6 +22,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@nart/react-native-swiper": "^1.5.13",
     "react-dom": "^16.4.0",
