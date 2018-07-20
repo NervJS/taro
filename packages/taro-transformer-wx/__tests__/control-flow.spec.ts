@@ -139,5 +139,23 @@ describe('inline 表达式', () => {
       const inst = evalClass(ast)
       expect(inst.state.anonymousState__temp).toBe(null) // 默认设置为 null
     })
+
+    test('逻辑表达式', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return (
+          tasks && tasks.length && <View className={\`page\`}>
+            <Text>Hello world!</Text>
+          </View>
+        )
+        `)
+      })
+
+      const inst = evalClass(ast)
+      expect(inst.state.anonymousState__temp).toBe(null) // 默认设置为 null
+    })
   })
 })

@@ -27,11 +27,18 @@ export function generateAnonymousState (
   const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
   const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
   const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
+  const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
   let expr = cloneDeep(expression.node)
   if (conditionExpr && conditionExpr.isConditionalExpression()) {
     const consequent = conditionExpr.get('consequent')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
       expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, t.nullLiteral())
+    }
+  }
+  if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
+    const consequent = logicExpr.get('right')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, t.nullLiteral())
     }
   }
   if (!callExpr) {
