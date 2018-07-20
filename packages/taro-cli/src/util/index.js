@@ -48,6 +48,10 @@ const processTypeMap = {
   [pocessTypeEnum.UNLINK]: {
     name: '删除',
     color: 'magenta'
+  },
+  [pocessTypeEnum.START]: {
+    name: '启动',
+    color: 'green'
   }
 }
 

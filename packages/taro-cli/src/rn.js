@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
 const vfs = require('vinyl-fs')
@@ -461,9 +462,12 @@ async function buildDist ({watch}) {
   rnRunner(rnConfig)
 }
 
-function processFiles (filePath) {
+async function processFiles (filePath) {
   // 后期可以优化，不编译全部
-  buildTemp()
+  let t0 = performance.now()
+  await buildTemp()
+  let t1 = performance.now()
+  Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 }
 
 function watchFiles () {
@@ -492,7 +496,10 @@ function watchFiles () {
 
 async function build ({watch}) {
   fs.ensureDirSync(tempPath)
+  let t0 = performance.now()
   await buildTemp()
+  let t1 = performance.now()
+  Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
   await buildDist({watch})
   if (watch) {
     watchFiles()
