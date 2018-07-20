@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "0.0.70",
+  "version": "0.0.71",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
