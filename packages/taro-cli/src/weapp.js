@@ -75,7 +75,7 @@ function getExactedNpmFilePath (npmName, filePath) {
   }
 }
 
-function parseAst (type, ast, sourceFilePath, filePath) {
+function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
   const styleFiles = []
   const scriptFiles = []
   const jsonFiles = []
@@ -87,7 +87,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
     if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
       const properties = node.value.properties
       obj = {}
-      properties.forEach((p, index) => {
+      properties.forEach(p => {
         obj[p.key.name] = traverseObjectNode(p.value)
       })
       return obj
@@ -95,7 +95,7 @@ function parseAst (type, ast, sourceFilePath, filePath) {
     if (node.type === 'ObjectExpression') {
       const properties = node.properties
       obj = {}
-      properties.forEach((p, index) => {
+      properties.forEach(p => {
         const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
         obj[key] = traverseObjectNode(p.value)
       })
@@ -309,22 +309,61 @@ function parseAst (type, ast, sourceFilePath, filePath) {
               })
               if (isPage) {
                 astPath.remove()
-              } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-                const vpath = path.resolve(sourceFilePath, '..', value)
-                let fPath = value
-                if (fs.existsSync(vpath)) {
-                  fPath = vpath
+              } else {
+                let isDepComponent = false
+                if (depComponents && depComponents.length) {
+                  depComponents.forEach(item => {
+                    if (item.path === value) {
+                      isDepComponent = true
+                    }
+                  })
                 }
-                if (scriptFiles.indexOf(fPath) < 0) {
-                  scriptFiles.push(fPath)
-                }
-              } else if (Util.REG_JSON.test(valueExtname)) {
-                const vpath = path.resolve(sourceFilePath, '..', value)
-                if (jsonFiles.indexOf(vpath) < 0) {
-                  jsonFiles.push(vpath)
-                }
-                if (fs.existsSync(vpath)) {
-                  const obj = JSON.parse(fs.readFileSync(vpath).toString())
+                if (isDepComponent) {
+                  astPath.remove()
+                } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+                  const vpath = path.resolve(sourceFilePath, '..', value)
+                  let fPath = value
+                  if (fs.existsSync(vpath)) {
+                    fPath = vpath
+                  }
+                  if (scriptFiles.indexOf(fPath) < 0) {
+                    scriptFiles.push(fPath)
+                  }
+                } else if (Util.REG_JSON.test(valueExtname)) {
+                  const vpath = path.resolve(sourceFilePath, '..', value)
+                  if (jsonFiles.indexOf(vpath) < 0) {
+                    jsonFiles.push(vpath)
+                  }
+                  if (fs.existsSync(vpath)) {
+                    const obj = JSON.parse(fs.readFileSync(vpath).toString())
+                    const specifiers = node.specifiers
+                    let defaultSpecifier = null
+                    specifiers.forEach(item => {
+                      if (item.type === 'ImportDefaultSpecifier') {
+                        defaultSpecifier = item.local.name
+                      }
+                    })
+                    if (defaultSpecifier) {
+                      let objArr = [t.nullLiteral()]
+                      if (Array.isArray(obj)) {
+                        objArr = convertArrayToAstExpression(obj)
+                      } else {
+                        objArr = convertObjectToAstExpression(obj)
+                      }
+                      astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
+                    } else {
+                      astPath.remove()
+                    }
+                  }
+                } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
+                  const vpath = path.resolve(sourceFilePath, '..', value)
+                  if (!fs.existsSync(vpath)) {
+                    Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+                    return
+                  }
+                  if (mediaFiles.indexOf(vpath) < 0) {
+                    mediaFiles.push(vpath)
+                  }
                   const specifiers = node.specifiers
                   let defaultSpecifier = null
                   specifiers.forEach(item => {
@@ -333,62 +372,35 @@ function parseAst (type, ast, sourceFilePath, filePath) {
                     }
                   })
                   if (defaultSpecifier) {
-                    let objArr = [t.nullLiteral()]
-                    if (Array.isArray(obj)) {
-                      objArr = convertArrayToAstExpression(obj)
-                    } else {
-                      objArr = convertObjectToAstExpression(obj)
-                    }
-                    astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
+                    astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
                   } else {
                     astPath.remove()
                   }
-                }
-              } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
-                const vpath = path.resolve(sourceFilePath, '..', value)
-                if (!fs.existsSync(vpath)) {
-                  Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-                  return
-                }
-                if (mediaFiles.indexOf(vpath) < 0) {
-                  mediaFiles.push(vpath)
-                }
-                const specifiers = node.specifiers
-                let defaultSpecifier = null
-                specifiers.forEach(item => {
-                  if (item.type === 'ImportDefaultSpecifier') {
-                    defaultSpecifier = item.local.name
-                  }
-                })
-                if (defaultSpecifier) {
-                  astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))]))
-                } else {
-                  astPath.remove()
-                }
-              } else if (!valueExtname) {
-                let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-                const outputVpath = vpath.replace(sourceDir, outputDir)
-                let relativePath = path.relative(filePath, outputVpath)
-                if (vpath && vpath !== sourceFilePath) {
-                  if (!fs.existsSync(vpath)) {
-                    Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-                  } else {
-                    if (fs.lstatSync(vpath).isDirectory()) {
-                      if (fs.existsSync(path.join(vpath, 'index.js'))) {
-                        vpath = path.join(vpath, 'index.js')
-                        relativePath = path.join(relativePath, 'index.js')
-                      } else {
-                        Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
-                        return
+                } else if (!valueExtname) {
+                  let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+                  const outputVpath = vpath.replace(sourceDir, outputDir)
+                  let relativePath = path.relative(filePath, outputVpath)
+                  if (vpath && vpath !== sourceFilePath) {
+                    if (!fs.existsSync(vpath)) {
+                      Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+                    } else {
+                      if (fs.lstatSync(vpath).isDirectory()) {
+                        if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                          vpath = path.join(vpath, 'index.js')
+                          relativePath = path.join(relativePath, 'index.js')
+                        } else {
+                          Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                          return
+                        }
                       }
+                      if (scriptFiles.indexOf(vpath) < 0) {
+                        scriptFiles.push(vpath)
+                      }
+                      relativePath = Util.promoteRelativePath(relativePath)
+                      relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                      source.value = relativePath
+                      astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
                     }
-                    if (scriptFiles.indexOf(vpath) < 0) {
-                      scriptFiles.push(vpath)
-                    }
-                    relativePath = Util.promoteRelativePath(relativePath)
-                    relativePath = relativePath.replace(path.extname(relativePath), '.js')
-                    source.value = relativePath
-                    astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
                   }
                 }
               }
@@ -413,59 +425,71 @@ function parseAst (type, ast, sourceFilePath, filePath) {
                 })
                 if (isPage) {
                   astPath.remove()
-                } else if (Util.REG_JSON.test(valueExtname)) {
-                  const vpath = path.resolve(sourceFilePath, '..', value)
-                  if (jsonFiles.indexOf(vpath) < 0) {
-                    jsonFiles.push(vpath)
+                } else {
+                  let isDepComponent = false
+                  if (depComponents && depComponents.length) {
+                    depComponents.forEach(item => {
+                      if (item.path === value) {
+                        isDepComponent = true
+                      }
+                    })
                   }
-                  if (fs.existsSync(vpath)) {
-                    const obj = JSON.parse(fs.readFileSync(vpath).toString())
-                    let objArr = [t.nullLiteral()]
-                    if (Array.isArray(obj)) {
-                      objArr = convertArrayToAstExpression(obj)
-                    } else {
-                      objArr = convertObjectToAstExpression(obj)
+                  if (isDepComponent) {
+                    astPath.remove()
+                  } else if (Util.REG_JSON.test(valueExtname)) {
+                    const vpath = path.resolve(sourceFilePath, '..', value)
+                    if (jsonFiles.indexOf(vpath) < 0) {
+                      jsonFiles.push(vpath)
                     }
-                    astPath.replaceWith(t.objectExpression(objArr))
-                  }
-                } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-                  const vpath = path.resolve(sourceFilePath, '..', value)
-                  let fPath = value
-                  if (fs.existsSync(vpath)) {
-                    fPath = vpath
-                  }
-                  if (scriptFiles.indexOf(fPath) < 0) {
-                    scriptFiles.push(fPath)
-                  }
-                } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
-                  const vpath = path.resolve(sourceFilePath, '..', value)
-                  if (mediaFiles.indexOf(vpath) < 0) {
-                    mediaFiles.push(vpath)
-                  }
-                  astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))
-                } else if (!valueExtname) {
-                  let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-                  const outputVpath = vpath.replace(sourceDir, outputDir)
-                  let relativePath = path.relative(filePath, outputVpath)
-                  if (vpath) {
-                    if (!fs.existsSync(vpath)) {
-                      Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-                    } else {
-                      if (fs.lstatSync(vpath).isDirectory()) {
-                        if (fs.existsSync(path.join(vpath, 'index.js'))) {
-                          vpath = path.join(vpath, 'index.js')
-                          relativePath = path.join(relativePath, 'index.js')
-                        } else {
-                          Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
-                          return
+                    if (fs.existsSync(vpath)) {
+                      const obj = JSON.parse(fs.readFileSync(vpath).toString())
+                      let objArr = [t.nullLiteral()]
+                      if (Array.isArray(obj)) {
+                        objArr = convertArrayToAstExpression(obj)
+                      } else {
+                        objArr = convertObjectToAstExpression(obj)
+                      }
+                      astPath.replaceWith(t.objectExpression(objArr))
+                    }
+                  } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+                    const vpath = path.resolve(sourceFilePath, '..', value)
+                    let fPath = value
+                    if (fs.existsSync(vpath)) {
+                      fPath = vpath
+                    }
+                    if (scriptFiles.indexOf(fPath) < 0) {
+                      scriptFiles.push(fPath)
+                    }
+                  } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
+                    const vpath = path.resolve(sourceFilePath, '..', value)
+                    if (mediaFiles.indexOf(vpath) < 0) {
+                      mediaFiles.push(vpath)
+                    }
+                    astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDir, '').replace(/\\/g, '/')))
+                  } else if (!valueExtname) {
+                    let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+                    const outputVpath = vpath.replace(sourceDir, outputDir)
+                    let relativePath = path.relative(filePath, outputVpath)
+                    if (vpath) {
+                      if (!fs.existsSync(vpath)) {
+                        Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+                      } else {
+                        if (fs.lstatSync(vpath).isDirectory()) {
+                          if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                            vpath = path.join(vpath, 'index.js')
+                            relativePath = path.join(relativePath, 'index.js')
+                          } else {
+                            Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                            return
+                          }
                         }
+                        if (scriptFiles.indexOf(vpath) < 0) {
+                          scriptFiles.push(vpath)
+                        }
+                        relativePath = Util.promoteRelativePath(relativePath)
+                        relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                        args[0].value = relativePath
                       }
-                      if (scriptFiles.indexOf(vpath) < 0) {
-                        scriptFiles.push(vpath)
-                      }
-                      relativePath = Util.promoteRelativePath(relativePath)
-                      relativePath = relativePath.replace(path.extname(relativePath), '.js')
-                      args[0].value = relativePath
                     }
                   }
                 }
@@ -618,7 +642,7 @@ async function buildEntry () {
       isTyped: Util.REG_TYPESCRIPT.test(entryFilePath)
     })
     // app.js的template忽略
-    const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, entryFilePath, outputEntryFilePath)
+    const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
     resCode = await compileScriptFile(entryFilePath, resCode)
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
@@ -716,8 +740,8 @@ async function buildSinglePage (page) {
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs)
     })
-    const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageJs, outputPageJSPath)
     const pageDepComponents = transformResult.components
+    const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(pageJs, resCode)
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
@@ -826,12 +850,6 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
         from: undefined
       })
       resContent = postcssResult.css
-      if (depStyleList && depStyleList.length) {
-        const importStyles = depStyleList.map(item => {
-          return `@import "${item}";\n`
-        }).join('')
-        resContent = importStyles + resContent
-      }
       if (isProduction) {
         const cssoPuginConfig = pluginsConfig.csso || { enable: true }
         if (cssoPuginConfig.enable) {
@@ -905,8 +923,8 @@ async function buildSingleComponent (component) {
       isRoot: false,
       isTyped: Util.REG_TYPESCRIPT.test(component)
     })
-    const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, component, outputComponentJSPath)
     const componentDepComponents = transformResult.components
+    const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(component, resCode)
     resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
@@ -998,7 +1016,7 @@ function compileDepScripts (scriptFiles) {
             isTyped: Util.REG_TYPESCRIPT.test(item)
           })
           const ast = transformResult.ast
-          const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, item, outputItem)
+          const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
           resCode = await compileScriptFile(item, res.code)

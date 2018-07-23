@@ -92,15 +92,15 @@ import Taro, { Component } from '@tarojs/taro'
 
 class App extends Components {
 	render () {
-		return (
-		  let description;
-		  if (props.number % 2 == 0) {
-		    description = <Text>even</Text>;
-		  } else {
-		    description = <Text>odd</Text>;
-		  }
-  	      return <View>{this.props.number} is an {description} number</View>;
-		)
+    let description;
+
+    if (props.number % 2 == 0) {
+      description = <Text>even</Text>;
+    } else {
+      description = <Text>odd</Text>;
+    }
+    
+    return <View>{this.props.number} is an {description} number</View>;
 	}
 }
 ```
