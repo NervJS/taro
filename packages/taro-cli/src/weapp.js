@@ -850,12 +850,6 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
         from: undefined
       })
       resContent = postcssResult.css
-      if (depStyleList && depStyleList.length) {
-        const importStyles = depStyleList.map(item => {
-          return `@import "${item}";\n`
-        }).join('')
-        resContent = importStyles + resContent
-      }
       if (isProduction) {
         const cssoPuginConfig = pluginsConfig.csso || { enable: true }
         if (cssoPuginConfig.enable) {
