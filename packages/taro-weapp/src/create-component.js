@@ -126,6 +126,11 @@ function componentTrigger (component, key) {
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
+    component.$router = {
+      params: {}
+    }
+    component._pendingStates = []
+    component._pendingCallbacks = []
   }
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
@@ -140,12 +145,13 @@ function createComponent (ComponentClass, isPage) {
       _componentProps: 1
     },
 
-    attached () {
+    attached (options) {
       const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component = new ComponentClass(props)
       this.$component._init(this)
       // attached之后才可以setData,
       // attached之前，小程序组件初始化时仍然会触发observer，__isAttached为否的时候放弃处理observer
+      this.$component.$router.params = options
       this.$component.__isAttached = true
       componentTrigger(this.$component, 'componentWillMount')
     },

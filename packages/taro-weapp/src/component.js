@@ -19,7 +19,9 @@ class BaseComponent {
   _disable = true
   _pendingStates = []
   _pendingCallbacks = []
-
+  $router = {
+    params: {}
+  }
   constructor (props) {
     this.state = {}
     this.props = props || {}
