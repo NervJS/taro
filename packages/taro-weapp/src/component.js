@@ -22,6 +22,7 @@ class BaseComponent {
   $router = {
     params: {}
   }
+
   constructor (props) {
     this.state = {}
     this.props = props || {}
