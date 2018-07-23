@@ -398,19 +398,11 @@ function buildTemp () {
             }
           }, null, 2))
         })
+        // 后期可以改为模版实现
+        const pkgObj = Object.assign({}, {name: projectConfig.projectName}, require('./rn/pkg'))
         const pkg = new Vinyl({
           path: 'package.json',
-          contents: Buffer.from(JSON.stringify({
-            name: projectConfig.projectName,
-            main: './bin/crna-entry.js',
-            dependencies: {
-              '@tarojs/components-rn': `^${Util.getPkgVersion()}`,
-              '@tarojs/taro-rn': `^${Util.getPkgVersion()}`,
-              'expo': '^27.0.1',
-              'react': '16.3.1',
-              'react-native': '~0.55.2'
-            }
-          }, null, 2))
+          contents: Buffer.from(JSON.stringify(pkgObj, null, 2))
         })
         // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
