@@ -24,7 +24,7 @@ var legacyOptions = {
   'propWhiteList': 'propList'
 }
 
-const DEVICE_RATIO = {
+const deviceRatio = {
   '640': 2.34 / 2,
   '750': 1,
   '828': 1.81 / 2
@@ -34,17 +34,18 @@ const baseFontSize = 40
 
 const DEFAULT_WEAPP_OPTIONS = {
   platform: 'weapp',
-  designWidth: 750
+  designWidth: 750,
+  deviceRatio,
 }
 
 var targetUnit
 
 module.exports = postcss.plugin('postcss-pxtransform', function (options) {
-  options = options || DEFAULT_WEAPP_OPTIONS
+  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {});
 
   switch (options.platform) {
     case 'weapp': {
-      options.rootValue = DEVICE_RATIO[options.designWidth]
+      options.rootValue = options.deviceRatio[options.designWidth]
       targetUnit = 'rpx'
       break
     }
