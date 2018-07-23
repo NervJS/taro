@@ -2,6 +2,7 @@ import { isEmptyObject, getPrototypeChain } from './util'
 import { updateComponent } from './lifecycle'
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
 function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties = ComponentClass.properties || {}
@@ -125,6 +126,11 @@ function componentTrigger (component, key) {
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
+    component.$router = {
+      params: {}
+    }
+    component._pendingStates = []
+    component._pendingCallbacks = []
   }
   component[key] && typeof component[key] === 'function' && component[key]()
   if (key === 'componentWillMount') {
@@ -138,7 +144,6 @@ function createComponent (ComponentClass, isPage) {
     data: {
       _componentProps: 1
     },
-
     attached (options = {}) {
       const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component = new ComponentClass(props)
@@ -146,6 +151,7 @@ function createComponent (ComponentClass, isPage) {
       Object.assign(this.$component.$router.params, options)
       // attached之后才可以setData,
       // attached之前，小程序组件初始化时仍然会触发observer，__isAttached为否的时候放弃处理observer
+      this.$component.$router.params = options
       this.$component.__isAttached = true
       componentTrigger(this.$component, 'componentWillMount')
     },
@@ -156,9 +162,6 @@ function createComponent (ComponentClass, isPage) {
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')
-    },
-    onHide () {
-      componentTrigger(this.$component, 'componentDidHide')
     }
   }
   if (isPage) {
@@ -171,6 +174,11 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf['onHide'] = function () {
       componentTrigger(this.$component, 'componentDidHide')
     }
+    pageExtraFns.forEach(fn => {
+      weappComponentConf[fn] = function () {
+        componentTrigger(this.$component, fn)
+      }
+    })
   }
   bindProperties(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)

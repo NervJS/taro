@@ -19,7 +19,6 @@ class BaseComponent {
   _disable = true
   _pendingStates = []
   _pendingCallbacks = []
-
   $router = {
     params: {}
   }
