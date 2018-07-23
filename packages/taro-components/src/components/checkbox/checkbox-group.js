@@ -28,7 +28,7 @@ class CheckboxGroup extends Nerv.Component {
         value: resp
       }
     })
-    onChange(e)
+    onChange && onChange(e)
   }
 
   render () {
