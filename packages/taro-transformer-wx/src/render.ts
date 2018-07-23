@@ -587,14 +587,17 @@ export class RenderParser {
           }
           if (
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
-            && DEFAULT_Component_SET.has(jsxElementPath.node.openingElement.name.name)
           ) {
-            let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
-              + name.name.slice(2, name.name.length).toLowerCase()
-            if (name.name === 'onClick') {
-              transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
+            if (DEFAULT_Component_SET.has(jsxElementPath.node.openingElement.name.name)) {
+              let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
+                + name.name.slice(2, name.name.length).toLowerCase()
+              if (name.name === 'onClick') {
+                transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
+              }
+              path.node.name = t.jSXIdentifier(transformName)
+            } else {
+              path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
-            path.node.name = t.jSXIdentifier(transformName)
           }
           // let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}` + name.name.slice(2, name.name.length)
           // transformName = eventShouldBeCatched
