@@ -2,6 +2,7 @@ import { isEmptyObject, getPrototypeChain } from './util'
 import { updateComponent } from './lifecycle'
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
 function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties = ComponentClass.properties || {}
@@ -51,12 +52,12 @@ function processEvent (eventHandlerName, obj) {
           }
         }
       })
-      
+
       // 普通的事件（非匿名函数），会直接call
       if (!isAnonymousFn) {
         if ('so' in bindArgs) {
           if (bindArgs['so'] !== 'this') {
-            callScope = bindArgs['so'] 
+            callScope = bindArgs['so']
           }
           delete bindArgs['so']
         }
@@ -157,9 +158,6 @@ function createComponent (ComponentClass, isPage) {
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')
-    },
-    onHide () {
-      componentTrigger(this.$component, 'componentDidHide')
     }
   }
   if (isPage) {
@@ -172,6 +170,11 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf['onHide'] = function () {
       componentTrigger(this.$component, 'componentDidHide')
     }
+    pageExtraFns.forEach(fn => {
+      weappComponentConf[fn] = function () {
+        componentTrigger(this.$component, fn)
+      }
+    })
   }
   bindProperties(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
