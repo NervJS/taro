@@ -51,12 +51,12 @@ function processEvent (eventHandlerName, obj) {
           }
         }
       })
-      
+
       // 普通的事件（非匿名函数），会直接call
       if (!isAnonymousFn) {
         if ('so' in bindArgs) {
           if (bindArgs['so'] !== 'this') {
-            callScope = bindArgs['so'] 
+            callScope = bindArgs['so']
           }
           delete bindArgs['so']
         }
@@ -139,10 +139,11 @@ function createComponent (ComponentClass, isPage) {
       _componentProps: 1
     },
 
-    attached () {
+    attached (options = {}) {
       const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component = new ComponentClass(props)
       this.$component._init(this)
+      Object.assign(this.$component.$router.params, options)
       // attached之后才可以setData,
       // attached之前，小程序组件初始化时仍然会触发observer，__isAttached为否的时候放弃处理observer
       this.$component.__isAttached = true
@@ -151,9 +152,7 @@ function createComponent (ComponentClass, isPage) {
     ready () {
       // 页面Ready的时候setData更新，并通过observer触发子组件更新
       // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
-      if (isPage) {
-        updateComponent(this.$component, true, 'attached', this.$component.__isPage)
-      }
+      updateComponent(this.$component)
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')
