@@ -196,6 +196,16 @@ class Transformer {
             } else {
               self.componentProperies.add(siblingProp.node.name)
             }
+            const grandParentPath = parentPath.parentPath
+            if (grandParentPath.isCallExpression()) {
+              const args = grandParentPath.node.arguments
+              grandParentPath.replaceWith(
+                t.callExpression(
+                  t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+                  [t.stringLiteral(name), t.arrayExpression(args)]
+                )
+              )
+            }
           }
         } else if (parentPath.isVariableDeclarator()) {
           const siblingId = parentPath.get('id')
