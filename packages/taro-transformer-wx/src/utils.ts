@@ -29,7 +29,7 @@ export function findMethodName (expression: t.Expression) {
     const { code } = generate(expression)
     const ids = code.split('.')
     if (ids[0] === 'this' && ids[1] === 'props' && ids[2]) {
-      methodName = ids[2]
+      methodName = code.replace('this.props.', '')
     } else {
       methodName = expression.property.name
     }

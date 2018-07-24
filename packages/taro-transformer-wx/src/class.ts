@@ -31,6 +31,33 @@ function buildConstructor () {
   return ctor
 }
 
+function processThisPropsFnMemberProperties (member: t.MemberExpression, path: NodePath, args: Array<t.Expression | t.SpreadElement>) {
+  const propertyArray: string[] = []
+  function traverseMember (member: t.MemberExpression) {
+    const object = member.object
+    const property = member.property
+
+    if (t.isIdentifier(property)) {
+      propertyArray.push(property.name)
+    }
+
+    if (t.isMemberExpression(object)) {
+      if (t.isThisExpression(object.object) &&
+      t.isIdentifier(object.property) &&
+      object.property.name === 'props') {
+        path.replaceWith(
+          t.callExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+            [t.stringLiteral(propertyArray.join('.')), t.arrayExpression(args)]
+          )
+        )
+      }
+      traverseMember(object)
+    }
+  }
+  traverseMember(member)
+}
+
 interface Result {
   template: string
   components: {
@@ -197,16 +224,6 @@ class Transformer {
             } else {
               self.componentProperies.add(siblingProp.node.name)
             }
-            const grandParentPath = parentPath.parentPath
-            if (grandParentPath.isCallExpression()) {
-              const args = grandParentPath.node.arguments
-              grandParentPath.replaceWith(
-                t.callExpression(
-                  t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-                  [t.stringLiteral(name), t.arrayExpression(args)]
-                )
-              )
-            }
           }
         } else if (parentPath.isVariableDeclarator()) {
           const siblingId = parentPath.get('id')
@@ -220,6 +237,20 @@ class Transformer {
               }
             }
           }
+        }
+      },
+
+      CallExpression (path) {
+        const node = path.node
+        const callee = node.callee
+        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object)) {
+          let member = callee
+          if (t.isIdentifier(callee.property) &&
+            (callee.property.name === 'call' ||
+            callee.property.name === 'apply')) {
+            member = callee.object
+          }
+          processThisPropsFnMemberProperties(member, path, node.arguments)
         }
       }
     })
@@ -244,10 +275,12 @@ class Transformer {
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
           t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-          [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
+          [t.stringLiteral(methodName), t.callExpression(
+            t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
+            [t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
+          )]
         ))
       ]))
-
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
     }
   }
