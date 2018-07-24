@@ -34,4 +34,13 @@ export default class MockStorage {
   getAllKeys = jest.fn((key) => {
     return new Promise((resolve, reject) => resolve(Object.keys(this.storageCache)))
   })
+
+  multiRemove = jest.fn((keys) => {
+    return new Promise((resolve, reject) => {
+      keys.forEach(key => {
+        this.removeItem(key)
+      })
+      resolve()
+    })
+  })
 }
