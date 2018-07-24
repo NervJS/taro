@@ -542,6 +542,9 @@ async function buildDist (buildConfig) {
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
   h5Config.designWidth = projectConfig.designWidth
+  if (projectConfig.deviceRatio) {
+    h5Config.deviceRatio = projectConfig.deviceRatio
+  }
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
   h5Config.entry = {
