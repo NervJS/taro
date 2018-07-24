@@ -339,9 +339,12 @@ function parseJSCode (code, filePath) {
                 t.objectExpression([
                   t.objectProperty(
                     t.stringLiteral('screen'),
-                    t.callExpression(
-                      t.identifier('require'),
-                      [t.stringLiteral(pagePath)]
+                    t.memberExpression(
+                      t.callExpression(
+                        t.identifier('require'),
+                        [t.stringLiteral(pagePath)]
+                      ),
+                      t.identifier('default')
                     )
                   )
                 ])
@@ -569,7 +572,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  // await buildDist({watch})
+  await buildDist({watch})
   if (watch) {
     watchFiles()
   }
