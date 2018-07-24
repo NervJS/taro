@@ -2,7 +2,7 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
-
+import { componentTrigger } from './create-component'
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
   const { props } = component
@@ -31,6 +31,9 @@ export function updateComponent (component) {
   if (!skip) {
     if (component.componentDidUpdate) {
       component.componentDidUpdate(prevProps, prevState)
+    }
+    if (!component.__mounted) {
+      componentTrigger(component, 'componentWillMount')
     }
     doUpdate(component)
   }
