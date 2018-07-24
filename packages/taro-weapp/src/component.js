@@ -69,7 +69,7 @@ class BaseComponent {
       this[reduxFnName].apply(scope, args)
     } else {
       // 普通的
-      this.$scope.triggerEvent(key, {
+      this.$scope.triggerEvent(key.toLocaleLowerCase(), {
         __isCustomEvt: true,
         __arguments: args
       })
