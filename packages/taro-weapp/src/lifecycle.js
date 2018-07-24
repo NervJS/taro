@@ -55,7 +55,7 @@ function doUpdate (component) {
     })
     data = _data
   }
-
+  // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
 
   component.$scope.setData(data, function () {
