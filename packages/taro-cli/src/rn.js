@@ -32,6 +32,7 @@ const pluginsConfig = projectConfig.plugins || {}
 
 const isBuildingStyles = {}
 const styleDenpendencyTree = {}
+const pages = [] // Class 里面的config 配置里面的 pages
 
 const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
@@ -50,6 +51,7 @@ const taroApis = [
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-rn': '@tarojs/taro-rn',
+  '@tarojs/taro-router-rn': '@tarojs/taro-router-rn',
   '@tarojs/redux': '@tarojs/redux',
   '@tarojs/components': '@tarojs/components',
   '@tarojs/components-rn': '@tarojs/components-rn',
@@ -63,6 +65,7 @@ function parseJSCode (code, filePath) {
     parserOpts: babylonConfig
   }).ast
   const styleFiles = []
+  const isEntryFile = path.basename(filePath) === entryFileName
   let taroImportDefaultName
   let hasAddReactImportDefaultName = false
   let providorImportName
@@ -138,6 +141,30 @@ function parseJSCode (code, filePath) {
         source.value = PACKAGES['react-redux']
       } else if (value === PACKAGES['@tarojs/components']) {
         source.value = PACKAGES['@tarojs/components-rn']
+      }
+    },
+    ClassProperty: {
+      enter (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const value = node.value
+        if (key.name !== 'config' || !t.isObjectExpression(value)) return
+        // 读取 config 配置
+        astPath.traverse({
+          ObjectProperty (astPath) {
+            const node = astPath.node
+            const key = node.key
+            const value = node.value
+            // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+            if (key.name === 'pages' && t.isArrayExpression(value)) {
+              value.elements.forEach(v => {
+                pages.push(v.value)
+              })
+            }
+            // TODO tabBar position iconPath
+          }
+        })
+        astPath.remove()
       }
     },
     // 转换 className 和 id
@@ -291,17 +318,39 @@ function parseJSCode (code, filePath) {
             }
           }
         })
+        // import @tarojs/taro-rn
         const importTaro = template(
           `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
           babylonConfig
         )()
         node.body.unshift(importTaro)
-        if (filePath === entryFilePath) {
+
+        if (isEntryFile) {
+          const routerPages = {}
+          pages.forEach(v => {
+            const pagePath = v.startsWith('/') ? v : `/${v}`
+            const pageKey = pagePath.replace(/\.\/|\//g, '')
+            routerPages[pageKey] = pagePath
+          })
+          node.body.push(template(
+            `const RootStack = createStackNavigator(${JSON.stringify(routerPages)})`,
+            babylonConfig
+          )())
+          // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
             babylonConfig
           )()
           node.body.push(initNativeApi)
+          // import @tarojs/taro-router-rn
+          if (isEntryFile) {
+            const importTaroRouter = template(
+              `import { createStackNavigator } from '${PACKAGES['@tarojs/taro-router-rn']}'`,
+              babylonConfig
+            )()
+            node.body.unshift(importTaroRouter)
+          }
+          // export default App
           if (!hasAppExportDefault) {
             const appExportDefault = template(
               `export default ${componentClassName}`,

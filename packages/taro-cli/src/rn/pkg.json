@@ -1,7 +1,7 @@
 {
   "main": "./bin/crna-entry.js",
   "scripts": {
-    "postinstall": "install-local /Users/chengshuai/Work/taro/packages/taro-components-rn"
+    "postinstall": "install-local /Users/chengshuai/Work/taro/packages/taro-components-rn && install-local /Users/chengshuai/Work/taro/packages/taro-router-rn"
   },
   "dependencies": {
     "@tarojs/components-rn": "^0.0.70",

@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/router-rn",
+  "name": "@tarojs/taro-router-rn",
   "version": "0.0.70",
   "description": "taro-router-rn",
   "main": "./src/index.js",

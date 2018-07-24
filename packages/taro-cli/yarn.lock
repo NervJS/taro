@@ -142,9 +142,9 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/transformer-wx@0.0.67":
-  version "0.0.67"
-  resolved "https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-0.0.67.tgz#58fff7145f3d56139ee99e0ca44148b58ac24f58"
+"@tarojs/transformer-wx@0.0.70":
+  version "0.0.70"
+  resolved "http://registry.npm.taobao.org/@tarojs/transformer-wx/download/@tarojs/transformer-wx-0.0.70.tgz#c658c41fc3421b4ff8b7d99ca72f1810ccfbfd7c"
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     "@babel/core" "^7.0.0-beta.42"
@@ -1115,7 +1115,7 @@ got@^8.3.1:
     url-parse-lax "^3.0.0"
     url-to-options "^1.0.1"
 
-graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -1531,6 +1531,12 @@ kind-of@^5.0.0:
 kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
+
+klaw@^2.1.1:
+  version "2.1.1"
+  resolved "http://registry.npm.taobao.org/klaw/download/klaw-2.1.1.tgz#42b76894701169cc910fd0d19ce677b5fb378af1"
+  dependencies:
+    graceful-fs "^4.1.9"
 
 latest-version@^4.0.0:
   version "4.0.0"
@@ -1976,9 +1982,9 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@0.0.67:
-  version "0.0.67"
-  resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-0.0.67.tgz#dc687d2b224d8bf525198e7cda81f576d122d411"
+postcss-pxtransform@0.0.70:
+  version "0.0.70"
+  resolved "http://registry.npm.taobao.org/postcss-pxtransform/download/postcss-pxtransform-0.0.70.tgz#23a89e01610395813d1f3cf64e8bf4149ee7ac79"
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
