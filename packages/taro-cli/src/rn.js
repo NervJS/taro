@@ -158,7 +158,9 @@ function parseJSCode (code, filePath) {
             // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
             if (key.name === 'pages' && t.isArrayExpression(value)) {
               value.elements.forEach(v => {
-                pages.push(v.value)
+                const path = v.value
+                const pagePath = path.startsWith('/') ? `.${path}` : `./${path}`
+                pages.push(pagePath)
               })
             }
             // TODO tabBar position iconPath
@@ -326,16 +328,39 @@ function parseJSCode (code, filePath) {
         node.body.unshift(importTaro)
 
         if (isEntryFile) {
-          const routerPages = {}
-          pages.forEach(v => {
-            const pagePath = v.startsWith('/') ? v : `/${v}`
-            const pageKey = pagePath.replace(/\.\/|\//g, '')
-            routerPages[pageKey] = pagePath
-          })
-          node.body.push(template(
-            `const RootStack = createStackNavigator(${JSON.stringify(routerPages)})`,
-            babylonConfig
-          )())
+          const RouteConfigsAst = t.objectExpression(
+            pages.map(pagePath => {
+              const pageKey = pagePath.replace(/\.\/|\//g, '')
+              return t.objectProperty(
+                t.stringLiteral(pageKey),
+                t.objectExpression([
+                  t.objectProperty(
+                    t.stringLiteral('screen'),
+                    t.callExpression(
+                      t.identifier('require'),
+                      [t.stringLiteral(pagePath)]
+                    )
+                  )
+                ])
+              )
+            })
+          )
+          const StackNavigatorConfigAst = t.objectExpression([
+            t.objectProperty(
+              t.stringLiteral('initialRouteName'),
+              t.stringLiteral(pages[0].replace(/\.\/|\//g, ''))
+            )
+          ])
+          const RootStackAst = t.variableDeclaration('const', [
+            t.variableDeclarator(
+              t.identifier('RootStack'),
+              t.callExpression(
+                t.identifier('createStackNavigator'),
+                [RouteConfigsAst, StackNavigatorConfigAst]
+              )
+            )
+          ])
+          node.body.push(RootStackAst)
           // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
@@ -541,7 +566,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  await buildDist({watch})
+  // await buildDist({watch})
   if (watch) {
     watchFiles()
   }
