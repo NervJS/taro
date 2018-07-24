@@ -122,9 +122,9 @@ export function parseJSXElement (element: t.JSXElement): string {
   const componentName = name.name
   const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
   const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
-  return createHTMLElement({
-    name: kebabCase(componentName),
-    attributes: attributes.reduce((obj, attr) => {
+  let attributesTrans = {}
+  if (attributes.length) {
+    attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
@@ -161,7 +161,13 @@ export function parseJSXElement (element: t.JSXElement): string {
         obj['__triggerObserer'] = '{{ _triggerObserer }}'
       }
       return obj
-    }, {}),
+    }, {})
+  } else if (!isDefaultComponent && !['block', 'Block'].includes(componentName)) {
+    attributesTrans['__triggerObserer'] = '{{ _triggerObserer }}'
+  }
+  return createHTMLElement({
+    name: kebabCase(componentName),
+    attributes: attributesTrans,
     value: parseJSXChildren(children)
   })
 }
