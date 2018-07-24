@@ -10,7 +10,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
   // 调用小程序setData或会造成性能消耗
   weappComponentConf.properties[privatePropValName] = {
     type: null,
-    observer: function (newState) {
+    observer: function () {
       if (!this.$component || !this.$component.__isAttached) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component.props = nextProps
@@ -122,7 +122,7 @@ function filterProps (properties, defaultProps = {}, weappComponentData) {
   return res
 }
 
-function componentTrigger (component, key) {
+export function componentTrigger (component, key) {
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -152,7 +152,6 @@ function createComponent (ComponentClass, isPage) {
       // attached之后才可以setData,
       // attached之前，小程序组件初始化时仍然会触发observer，__isAttached为否的时候放弃处理observer
       this.$component.__isAttached = true
-      componentTrigger(this.$component, 'componentWillMount')
     },
     ready () {
       // 页面Ready的时候setData更新，并通过observer触发子组件更新
