@@ -281,6 +281,9 @@ function parseJSCode (code, filePath) {
             const key = node.key
             if (key.name !== 'render' || filePath !== entryFilePath) return
             let funcBody = classRenderReturnJSX
+            if (pages.length > 0) {
+              funcBody = `<RootStack/>`
+            }
             if (providerComponentName && storeName) {
               // 使用redux
               funcBody = `
@@ -288,7 +291,7 @@ function parseJSCode (code, filePath) {
                   ${funcBody}
                 </${providorImportName}>`
             }
-            // node.body = template(`{return (${funcBody});}`, babylonConfig)()
+            node.body = template(`{return (${funcBody});}`, babylonConfig)()
           },
 
           CallExpression (astPath) {
