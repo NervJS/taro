@@ -5,10 +5,11 @@ import {
   hasComplexExpression,
   generateAnonymousState,
   findMethodName,
-  pathResolver
+  pathResolver,
+  createRandomLetters
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
-import { kebabCase, uniqueId } from 'lodash'
+import { kebabCase } from 'lodash'
 import { RenderParser } from './render'
 import generate from 'babel-generator'
 
@@ -229,7 +230,7 @@ class Transformer {
     if (code.startsWith('this.props')) {
       const methodName = findMethodName(expr)
       const hasMethodName = this.anonymousMethod.has(methodName) || !methodName
-      const funcName = hasMethodName ? this.anonymousMethod.get(methodName)! : uniqueId('func__')
+      const funcName = hasMethodName ? this.anonymousMethod.get(methodName)! : `func__${createRandomLetters(5)}`
       this.anonymousMethod.set(methodName, funcName)
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])

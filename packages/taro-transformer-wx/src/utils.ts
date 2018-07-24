@@ -190,6 +190,11 @@ export function createUUID () {
   }).replace(/-/g, '').slice(0, 8)
 }
 
+export function createRandomLetters (n: number) {
+  const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+  return Array(n).join().split(',').map(function() { return str.charAt(Math.floor(Math.random() * str.length)); }).join('')
+}
+
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {
   return ifStatement && blockStatement &&
   ifStatement.isIfStatement() &&
