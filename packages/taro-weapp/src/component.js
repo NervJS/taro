@@ -1,5 +1,7 @@
 import { enqueueRender } from './render-queue'
-
+import {
+  internal_safe_get as safeGet
+} from '@tarojs/taro'
 // #组件state对应小程序组件data
 // #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
 // #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟reciveProps生命周期
@@ -61,12 +63,19 @@ class BaseComponent {
   }
   // 会被匿名函数调用
   __triggerPropsFn (key, args) {
+    const keyChain = key.split('.')
     const reduxFnPrefix = '__event_'
-    const reduxFnName = reduxFnPrefix + key
+    const reduxFnName = reduxFnPrefix + keyChain.shift()
     // redux标识过的方法，直接调用
     if (reduxFnName in this) {
       const scope = args.shift()
-      this[reduxFnName].apply(scope, args)
+      let fn
+      if (keyChain.length > 0) {
+        fn = safeGet(this[reduxFnName], keyChain.join('.'))
+      } else {
+        fn = this[reduxFnName]
+      }
+      fn.apply(scope, args)
     } else {
       // 普通的
       const keyLower = key.toLocaleLowerCase()
