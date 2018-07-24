@@ -1,4 +1,4 @@
-import { isEmptyObject, getPrototypeChain } from './util'
+import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
