@@ -32,75 +32,62 @@ function processEvent (eventHandlerName, obj) {
 
     const scope = this.$component
     let callScope = scope
-    const isCustomEvt = event.detail && event.detail.__isCustomEvt === true
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
-    // 如果是系统触发的事件，则需要解析从dataset中传过来的参数
-    if (!isCustomEvt) {
-      const dataset = event.currentTarget.dataset
-      const bindArgs = {}
-      const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
-      Object.keys(dataset).forEach(key => {
-        let keyLower = key.toLocaleLowerCase()
-        if (/^e/.test(keyLower)) {
-          // 小程序属性里中划线后跟一个下划线会解析成不同的结果
-          keyLower = keyLower.replace(/^e/, '')
-          keyLower = keyLower.toLocaleLowerCase()
-          if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-            const argName = keyLower.replace(eventHandlerNameLower, '')
-            bindArgs[argName] = dataset[key]
-          }
+    // 如果是通过triggerEvent触发,并且带有参数
+    if (event.detail && event.detail.__arguments && event.detail.__arguments.length > 0) {
+      realArgs = event.detail.__arguments
+      realArgs[0] && (callScope = realArgs[0])
+      realArgs.shift()
+    }
+    // 解析从dataset中传过来的参数
+    const dataset = event.currentTarget.dataset
+    const bindArgs = {}
+    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    Object.keys(dataset).forEach(key => {
+      let keyLower = key.toLocaleLowerCase()
+      if (/^e/.test(keyLower)) {
+        // 小程序属性里中划线后跟一个下划线会解析成不同的结果
+        keyLower = keyLower.replace(/^e/, '')
+        keyLower = keyLower.toLocaleLowerCase()
+        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
+          const argName = keyLower.replace(eventHandlerNameLower, '')
+          bindArgs[argName] = dataset[key]
         }
-      })
+      }
+    })
 
-      // 普通的事件（非匿名函数），会直接call
-      if (!isAnonymousFn) {
-        if ('so' in bindArgs) {
-          if (bindArgs['so'] !== 'this') {
-            callScope = bindArgs['so']
-          }
-          delete bindArgs['so']
+    // 普通的事件（非匿名函数），会直接call
+    if (!isAnonymousFn) {
+      if ('so' in bindArgs) {
+        if (bindArgs['so'] !== 'this') {
+          callScope = bindArgs['so']
         }
-        if (!isEmptyObject(bindArgs)) {
-          realArgs = Object.keys(bindArgs)
-            .sort()
-            .map(key => bindArgs[key])
-        }
-        realArgs.push(event)
-      } else {
+        delete bindArgs['so']
+      }
+      if (!isEmptyObject(bindArgs)) {
+        realArgs = Object.keys(bindArgs)
+          .sort()
+          .map(key => bindArgs[key]).concat(realArgs)
+      }
+      realArgs.push(event)
+    } else {
       // 匿名函数，会将scope作为第一个参数
-        let _scope = null
-        if ('so' in bindArgs) {
-          if (bindArgs['so'] !== 'this') {
-            _scope = bindArgs['so']
-          }
-          delete bindArgs['so']
+      let _scope = null
+      if ('so' in bindArgs) {
+        if (bindArgs['so'] !== 'this') {
+          _scope = bindArgs['so']
         }
-        if (!isEmptyObject(bindArgs)) {
-          realArgs = Object.keys(bindArgs)
-            .sort()
-            .map(key => bindArgs[key])
-        }
-        realArgs = [_scope, ...realArgs, event]
+        delete bindArgs['so']
       }
-    } else {
-      // 如果是通过triggerEvent触发的自定义事件，只需要从__arguments中获取参数即可
-      realArgs = event.detail.__arguments || []
-      // 如果不是匿名函数，则将scope从参数中取出来，执行。
-      // 否则继续作为参数传递下去
-      if (!isAnonymousFn && realArgs.length > 0) {
-        realArgs[0] && (callScope = realArgs[0])
-        realArgs.shift()
+      if (!isEmptyObject(bindArgs)) {
+        realArgs = Object.keys(bindArgs)
+          .sort()
+          .map(key => bindArgs[key]).concat(realArgs)
       }
+      realArgs = [callScope || _scope, ...realArgs, event]
     }
-
-    // 如果是匿名函数，scope指向自己，并且将传入的scope作为第一个参数传递下去
-
-    if (realArgs.length > 0) {
-      scope[eventHandlerName].apply(callScope, realArgs)
-    } else {
-      scope[eventHandlerName].call(callScope)
-    }
+    scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 
