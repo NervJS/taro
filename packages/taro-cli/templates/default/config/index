@@ -59,7 +59,10 @@ const config = {
     }
   },
   weapp: {
-
+    cssUrl: {
+      limit: 10240,
+      enable: true
+    }
   },
   h5: {
     publicPath: '/',

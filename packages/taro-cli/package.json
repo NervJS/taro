@@ -48,6 +48,7 @@
     "ora": "^2.0.0",
     "postcss": "^6.0.22",
     "postcss-pxtransform": "0.0.72",
+    "postcss-url": "^7.3.2",
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
     "shelljs": "^0.8.1",

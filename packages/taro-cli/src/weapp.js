@@ -11,6 +11,7 @@ const template = require('babel-template')
 const autoprefixer = require('autoprefixer')
 const postcss = require('postcss')
 const pxtransform = require('postcss-pxtransform')
+const cssUrlParse = require('postcss-url')
 const minimatch = require('minimatch')
 const _ = require('lodash')
 
@@ -781,6 +782,42 @@ async function buildSinglePage (page) {
   }
 }
 
+async function processStyleWithPostCSS (styleObj) {
+  const weappConf = projectConfig.weapp || {}
+  const useModuleConf = weappConf.module || {}
+  const customPostcssConf = useModuleConf.postcss || {}
+  const customPxtransformConf = customPostcssConf.pxtransform || {}
+  const postcssPxtransformOption = {
+    designWidth: projectConfig.designWidth || 750,
+    platform: 'weapp'
+  }
+
+  const DEVICE_RATIO = 'deviceRatio'
+  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+    postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
+  }
+  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, weappConf.cssUrl)
+  const maxSize = Math.round(cssUrlConf.limit / 1024)
+  const processors = [
+    autoprefixer({ browsers: browserList }),
+    pxtransform(Object.assign(
+      postcssPxtransformOption,
+      customPxtransformConf
+    ))
+  ]
+  if (cssUrlConf.enable) {
+    processors.push(cssUrlParse({
+      url: 'inline',
+      maxSize,
+      encodeType: 'base64'
+    }))
+  }
+  const postcssResult = await postcss(processors).process(styleObj.css, {
+    from: styleObj.filePath
+  })
+  return postcssResult.css
+}
+
 function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
   if (isBuildingStyles[outputFilePath]) {
     return Promise.resolve({})
@@ -792,6 +829,10 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
+        .then(res => ({
+          css: res.css,
+          filePath
+        }))
     }
     return new Promise((resolve, reject) => {
       fs.readFile(filePath, (err, content) => {
@@ -799,57 +840,32 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
           return reject(err)
         }
         resolve({
-          css: content
+          css: content,
+          filePath
         })
       })
     })
   })).then(async resList => {
-    let resContent = resList.map(res => res.css).join('\n')
-    const weappConf = projectConfig.weapp || {}
-    const useModuleConf = weappConf.module || {}
-    const customPostcssConf = useModuleConf.postcss || {}
-    const customPxtransformConf = customPostcssConf.pxtransform || {}
-
-    try {
-      const postcssPxtransformOption = {
-        designWidth: projectConfig.designWidth || 750,
-        platform: 'weapp'
-      }
-
-      const DEVICE_RATIO = 'deviceRatio'
-      if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
-        postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
-      }
-
-      const postcssResult = await postcss([
-        autoprefixer({ browsers: browserList }),
-        pxtransform(Object.assign(
-          postcssPxtransformOption,
-          customPxtransformConf
-        ))
-      ]).process(resContent, {
-        from: undefined
-      })
-      resContent = postcssResult.css
-      if (depStyleList && depStyleList.length) {
-        const importStyles = depStyleList.map(item => {
-          return `@import "${item}";\n`
-        }).join('')
-        resContent = importStyles + resContent
-      }
-      if (isProduction) {
-        const cssoPuginConfig = pluginsConfig.csso || { enable: true }
-        if (cssoPuginConfig.enable) {
-          const cssoConfig = cssoPuginConfig.config || {}
-          const cssoResult = npmProcess.callPluginSync('csso', resContent, outputFilePath, cssoConfig)
-          resContent = cssoResult.css
+    Promise.all(resList.map(res => processStyleWithPostCSS(res)))
+      .then(cssList => {
+        let resContent = cssList.map(res => res).join('\n')
+        if (depStyleList && depStyleList.length) {
+          const importStyles = depStyleList.map(item => {
+            return `@import "${item}";\n`
+          }).join('')
+          resContent = importStyles + resContent
         }
-      }
-      fs.ensureDirSync(path.dirname(outputFilePath))
-      fs.writeFileSync(outputFilePath, resContent)
-    } catch (err) {
-      console.log(err)
-    }
+        if (isProduction) {
+          const cssoPuginConfig = pluginsConfig.csso || { enable: true }
+          if (cssoPuginConfig.enable) {
+            const cssoConfig = cssoPuginConfig.config || {}
+            const cssoResult = npmProcess.callPluginSync('csso', resContent, outputFilePath, cssoConfig)
+            resContent = cssoResult.css
+          }
+        }
+        fs.ensureDirSync(path.dirname(outputFilePath))
+        fs.writeFileSync(outputFilePath, resContent)
+      })
   })
 }
 
