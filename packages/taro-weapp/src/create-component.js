@@ -34,12 +34,7 @@ function processEvent (eventHandlerName, obj) {
     let callScope = scope
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
-    // 如果是通过triggerEvent触发,并且带有参数
-    if (event.detail && event.detail.__arguments && event.detail.__arguments.length > 0) {
-      realArgs = event.detail.__arguments
-      realArgs[0] && (callScope = realArgs[0])
-      realArgs.shift()
-    }
+    let detailArgs = []
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset
     const bindArgs = {}
@@ -56,7 +51,10 @@ function processEvent (eventHandlerName, obj) {
         }
       }
     })
-
+    // 如果是通过triggerEvent触发,并且带有参数
+    if (event.detail && event.detail.__arguments && event.detail.__arguments.length > 0) {
+      detailArgs = event.detail.__arguments
+    }
     // 普通的事件（非匿名函数），会直接call
     if (!isAnonymousFn) {
       if ('so' in bindArgs) {
@@ -65,10 +63,14 @@ function processEvent (eventHandlerName, obj) {
         }
         delete bindArgs['so']
       }
+      if (detailArgs.length > 0) {
+        detailArgs[0] && (callScope = detailArgs[0])
+        detailArgs.shift()
+      }
       if (!isEmptyObject(bindArgs)) {
         realArgs = Object.keys(bindArgs)
           .sort()
-          .map(key => bindArgs[key]).concat(realArgs)
+          .map(key => bindArgs[key]).concat(detailArgs)
       }
       realArgs.push(event)
     } else {
@@ -80,10 +82,14 @@ function processEvent (eventHandlerName, obj) {
         }
         delete bindArgs['so']
       }
+      if (detailArgs.length > 0) {
+        detailArgs[0] && (callScope = detailArgs[0])
+        detailArgs.shift()
+      }
       if (!isEmptyObject(bindArgs)) {
         realArgs = Object.keys(bindArgs)
           .sort()
-          .map(key => bindArgs[key]).concat(realArgs)
+          .map(key => bindArgs[key]).concat(detailArgs)
       }
       realArgs = [callScope || _scope, ...realArgs, event]
     }
