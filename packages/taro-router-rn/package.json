@@ -21,6 +21,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "query-string": "^6.1.0",
     "react-navigation": "^2.7.0"
   },
   "devDependencies": {}

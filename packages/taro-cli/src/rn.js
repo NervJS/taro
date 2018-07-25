@@ -32,12 +32,13 @@ const pluginsConfig = projectConfig.plugins || {}
 
 const isBuildingStyles = {}
 const styleDenpendencyTree = {}
-const pages = [] // Class 里面的config 配置里面的 pages
+let pages = [] // Class 里面的config 配置里面的 pages
 
 const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
 const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
+const routerImportDefaultName = 'TaroRouter'
 
 const taroApis = [
   'getEnv',
@@ -158,9 +159,7 @@ function parseJSCode (code, filePath) {
             // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
             if (key.name === 'pages' && t.isArrayExpression(value)) {
               value.elements.forEach(v => {
-                const path = v.value
-                const pagePath = path.startsWith('/') ? `.${path}` : `./${path}`
-                pages.push(pagePath)
+                pages.push(v.value)
               })
             }
             // TODO tabBar position iconPath
@@ -331,42 +330,16 @@ function parseJSCode (code, filePath) {
         node.body.unshift(importTaro)
 
         if (isEntryFile) {
-          const RouteConfigsAst = t.objectExpression(
-            pages.map(pagePath => {
-              const pageKey = pagePath.replace(/\.\/|\//g, '')
-              return t.objectProperty(
-                t.stringLiteral(pageKey),
-                t.objectExpression([
-                  t.objectProperty(
-                    t.stringLiteral('screen'),
-                    t.memberExpression(
-                      t.callExpression(
-                        t.identifier('require'),
-                        [t.stringLiteral(pagePath)]
-                      ),
-                      t.identifier('default')
-                    )
-                  )
-                ])
-              )
+          const routerPages = pages
+            .map(v => {
+              const pageName = v.startsWith('/') ? v : `/${v}`
+              return `['${v}', '.${pageName}']`
             })
-          )
-          const StackNavigatorConfigAst = t.objectExpression([
-            t.objectProperty(
-              t.stringLiteral('initialRouteName'),
-              t.stringLiteral(pages[0].replace(/\.\/|\//g, ''))
-            )
-          ])
-          const RootStackAst = t.variableDeclaration('const', [
-            t.variableDeclarator(
-              t.identifier('RootStack'),
-              t.callExpression(
-                t.identifier('createStackNavigator'),
-                [RouteConfigsAst, StackNavigatorConfigAst]
-              )
-            )
-          ])
-          node.body.push(RootStackAst)
+            .join(',')
+          node.body.push(template(
+            `const RootStack = ${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
+            babylonConfig
+          )())
           // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
@@ -376,7 +349,7 @@ function parseJSCode (code, filePath) {
           // import @tarojs/taro-router-rn
           if (isEntryFile) {
             const importTaroRouter = template(
-              `import { createStackNavigator } from '${PACKAGES['@tarojs/taro-router-rn']}'`,
+              `import TaroRouter from '${PACKAGES['@tarojs/taro-router-rn']}'`,
               babylonConfig
             )()
             node.body.unshift(importTaroRouter)
@@ -535,6 +508,7 @@ async function buildDist ({watch}) {
 }
 
 async function processFiles (filePath) {
+  pages = []
   // 后期可以优化，不编译全部
   let t0 = performance.now()
   await buildTemp()
