@@ -11,7 +11,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties[privatePropValName] = {
     type: null,
     observer: function () {
-      if (!this.$component || !this.$component.__isAttached) return
+      if (!this.$component || !this.$component.__isAttached || !this.$component.__mounted) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component.props = nextProps
       this.$component._unsafeCallUpdate = true
@@ -150,11 +150,9 @@ function createComponent (ComponentClass, isPage) {
       this.$component.__isAttached = true
     },
     ready () {
-      // 页面Ready的时候setData更新，并通过observer触发子组件更新
+      // 页面Ready的时候setData更新，此时并未didMount,触发observer但不会触发子组件更新
       // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
-      if (isPage) {
-        updateComponent(this.$component)
-      }
+      updateComponent(this.$component)
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')
