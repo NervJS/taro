@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v0.0.72...v) (2018-07-24)
+# [](https://github.com/NervJS/taro/compare/v0.0.73...v) (2018-07-25)
+
+
+
+<a name="0.0.73"></a>
+## [0.0.73](https://github.com/NervJS/taro/compare/v0.0.72...v0.0.73) (2018-07-25)
+
+
+### Bug Fixes
+
+* **cli:** 将 tsConfig.json 移动至项目根目录下 ([da7f104](https://github.com/NervJS/taro/commit/da7f104))
+* **taro:** render 方法 typing 错误 ([779157f](https://github.com/NervJS/taro/commit/779157f))
+
+
+### Features
+
+* **cli:** 将 cssUrl 配置移入 module.postcss 下 ([8efe600](https://github.com/NervJS/taro/commit/8efe600))
+* **cli:** 小程序端编译增加 CSS 中引用本地资源替换成 base64 功能 ([db8e267](https://github.com/NervJS/taro/commit/db8e267))
+* **cli:** 小程序编译增加 copy 功能 ([0132a0e](https://github.com/NervJS/taro/commit/0132a0e))
+* **taro-rn:** 增加storage的测试用例 ([7b98274](https://github.com/NervJS/taro/commit/7b98274))
 
 
 
