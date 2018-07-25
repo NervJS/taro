@@ -2,11 +2,12 @@ import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
 import { Transformer } from './class'
 import { prettyPrint } from 'html'
-import { setting } from './utils'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement } from './utils'
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
 import { transform as babel7Transform } from '@babel/core'
+const template = require('babel-template')
 
 export interface Options {
   isRoot?: boolean,
@@ -16,6 +17,45 @@ export interface Options {
   code: string,
   isTyped: boolean,
   isNormal?: boolean
+}
+
+function getIdsFromMemberProps (member: t.MemberExpression) {
+  let ids: string[] = []
+  const { object, property } = member
+  if (t.isMemberExpression(object)) {
+    ids = ids.concat(getIdsFromMemberProps(object))
+  }
+  if (t.isThisExpression(object)) {
+    ids.push('this')
+  }
+  if (t.isIdentifier(object)) {
+    ids.push(object.name)
+  }
+  if (t.isIdentifier(property)) {
+    ids.push(property.name)
+  }
+  return ids
+}
+
+function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path: NodePath<t.Node>) {
+  const binding = path.scope.getOwnBinding(id.name)
+  if (binding) {
+    const bindingPath = binding.path
+    if (bindingPath.isVariableDeclarator()) {
+      const dclId = bindingPath.get('id')
+      const dclInit = bindingPath.get('init')
+      let dclInitIds: string[] = []
+      if (dclInit.isMemberExpression()) {
+        dclInitIds = getIdsFromMemberProps(dclInit.node)
+        if (dclId.isIdentifier()) {
+          memberIds.shift()
+        }
+        if (dclInitIds[0] === 'this' && dclInitIds[1] === 'props') {
+          return template(dclInitIds.concat(memberIds).join('.'))().expression
+        }
+      }
+    }
+  }
 }
 
 export interface Result {
@@ -90,6 +130,44 @@ export default function transform (options: Options): TransformResult {
     ClassMethod (path) {
       if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
         renderMethod = path
+      }
+    },
+    CallExpression (path) {
+      const callee = path.get('callee')
+      if (isContainJSXElement(path)) {
+        return
+      }
+
+      if (callee.isReferencedMemberExpression()) {
+        const id = findFirstIdentifierFromMemberExpression(callee.node)
+        const calleeIds = getIdsFromMemberProps(callee.node)
+        if (t.isIdentifier(id)) {
+          const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
+          if (fullPath) {
+            path.replaceWith(
+              t.callExpression(
+                fullPath,
+                path.node.arguments
+              )
+            )
+          }
+        }
+      }
+
+      if (callee.isReferencedIdentifier()) {
+        const id = callee.node
+        const ids = [id.name]
+        if (t.isIdentifier(id)) {
+          const fullPath = buildFullPathThisPropsRef(id, ids, path)
+          if (fullPath) {
+            path.replaceWith(
+              t.callExpression(
+                fullPath,
+                path.node.arguments
+              )
+            )
+          }
+        }
       }
     },
     AwaitExpression () {
