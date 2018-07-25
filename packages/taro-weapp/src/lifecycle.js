@@ -8,7 +8,7 @@ export function updateComponent (component) {
   const { props } = component
   const prevProps = component.prevProps || props
   component.props = prevProps
-  if (component.componentWillReceiveProps) {
+  if (component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
     component._disable = true
     component.componentWillReceiveProps(props)
     component._disable = false

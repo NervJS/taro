@@ -14,7 +14,9 @@ function bindProperties (weappComponentConf, ComponentClass) {
       if (!this.$component || !this.$component.__isAttached) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
       this.$component.props = nextProps
-      updateComponent(this.$component, true, 'observer')
+      this.$component._unsafeCallUpdate = true
+      updateComponent(this.$component)
+      this.$component._unsafeCallUpdate = false
     }
   }
 }
