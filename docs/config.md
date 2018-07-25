@@ -30,8 +30,28 @@ const config = {
   },
   // 全局变量设置
   defineConstants: {},
+  // 文件 copy 配置
+  copy: {
+    patterns: [
+    ],
+    options: {
+    }
+  },
   // 小程序端专用配置
-  weapp: {},
+  weapp: {
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        },
+        // 小程序端样式引用本地资源内联配置
+        url: {
+          enable: true,
+          limit: 10240
+        }
+      }
+    }
+  },
   // H5 端专用配置
   h5: {
     publicPath: '/',

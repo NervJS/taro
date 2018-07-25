@@ -82,9 +82,7 @@ export function removeStorage (opts = {}) {
 }
 
 export async function clearStorage () {
-  const res = await getStorageInfo()
-  const keys = res.keys
-  return AsyncStorage.multiRemove(keys)
+  return AsyncStorage.clear()
 }
 
 let unSupportApis = ['setStorageSync', 'getStorageSync', 'getStorageInfoSync', 'removeStorageSync', 'clearStorageSync']
