@@ -238,14 +238,36 @@ export default function transform (options: Options): TransformResult {
         return
       }
 
-      const expr = value.expression
-      if (t.isBinaryExpression(expr, { operator: '+' }) || t.isLiteral(expr) || name.name !== 'style') {
-        return
+      const expr = value.expression as any
+      const exprPath = path.get('value.expression')
+      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
+        exprPath.replaceWith(
+          t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
+        )
       }
 
-      path.get('value.expression').replaceWith(
-        t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
-      )
+      if (name.name.startsWith('on')) {
+        if (exprPath.isReferencedIdentifier()) {
+          const ids = [expr.name]
+          const fullPath = buildFullPathThisPropsRef(expr, ids, path)
+          if (fullPath) {
+            exprPath.replaceWith(fullPath)
+          }
+        }
+
+        if (exprPath.isReferencedMemberExpression()) {
+          const id = findFirstIdentifierFromMemberExpression(expr)
+          const ids = getIdsFromMemberProps(expr)
+          if (t.isIdentifier(id)) {
+            const fullPath = buildFullPathThisPropsRef(id, ids, path)
+            if (fullPath) {
+              exprPath.replaceWith(fullPath)
+            }
+          }
+        }
+
+        // @TODO: bind 的处理待定
+      }
     },
     ImportDeclaration (path) {
       const source = path.node.source.value
