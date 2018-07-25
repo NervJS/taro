@@ -787,6 +787,7 @@ async function processStyleWithPostCSS (styleObj) {
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customPxtransformConf = customPostcssConf.pxtransform || {}
+  const customUrlConf = customPostcssConf.url || {}
   const postcssPxtransformOption = {
     designWidth: projectConfig.designWidth || 750,
     platform: 'weapp'
@@ -796,7 +797,7 @@ async function processStyleWithPostCSS (styleObj) {
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
   }
-  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, weappConf.cssUrl)
+  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, customUrlConf)
   const maxSize = Math.round(cssUrlConf.limit / 1024)
   const processors = [
     autoprefixer({ browsers: browserList }),

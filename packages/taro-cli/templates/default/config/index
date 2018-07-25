@@ -59,9 +59,16 @@ const config = {
     }
   },
   weapp: {
-    cssUrl: {
-      limit: 10240,
-      enable: true
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        },
+        url: {
+          enable: true,
+          limit: 10240
+        }
+      }
     }
   },
   h5: {
