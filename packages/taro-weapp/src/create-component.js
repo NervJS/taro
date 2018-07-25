@@ -35,6 +35,7 @@ function processEvent (eventHandlerName, obj) {
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
     let detailArgs = []
+    let datasetArgs = []
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset
     const bindArgs = {}
@@ -68,11 +69,11 @@ function processEvent (eventHandlerName, obj) {
         detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
-        realArgs = Object.keys(bindArgs)
+        datasetArgs = Object.keys(bindArgs)
           .sort()
-          .map(key => bindArgs[key]).concat(detailArgs)
+          .map(key => bindArgs[key])
       }
-      realArgs.push(event)
+      realArgs = [...datasetArgs, ...detailArgs, event]
     } else {
       // 匿名函数，会将scope作为第一个参数
       let _scope = null
@@ -87,11 +88,11 @@ function processEvent (eventHandlerName, obj) {
         detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
-        realArgs = Object.keys(bindArgs)
+        datasetArgs = Object.keys(bindArgs)
           .sort()
-          .map(key => bindArgs[key]).concat(detailArgs)
+          .map(key => bindArgs[key])
       }
-      realArgs = [callScope || _scope, ...realArgs, event]
+      realArgs = [callScope || _scope, ...datasetArgs, ...detailArgs, event]
     }
     scope[eventHandlerName].apply(callScope, realArgs)
   }
