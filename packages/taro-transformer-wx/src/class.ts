@@ -278,10 +278,7 @@ class Transformer {
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
           t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-          [t.stringLiteral(methodName), t.callExpression(
-            t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
-            [t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
-          )]
+          [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
         ))
       ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
