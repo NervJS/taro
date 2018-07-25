@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "0.0.71",
+  "version": "0.0.73",
   "description": "Taro RN framework",
   "main": "./src/index.js",
   "files": [
@@ -22,17 +22,21 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "0.0.71",
+    "@tarojs/taro": "0.0.73",
     "react-native-image-zoom-viewer": "^2.2.13",
     "react-native-root-siblings": "^3.1.0",
     "react-native-root-toast": "^3.0.1",
     "react-native-stylekit": "^1.0.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-jest": "^23.0.1",
+    "babel-preset-env": "^1.7.0",
     "jest": "^23.1.0",
     "jest-react-native": "^18.0.0",
     "mock-socket": "^7.1.0",
-    "react-native": "^0.55.4"
+    "react": "^16.4.1",
+    "react-native": "^0.55.4",
+    "redux": "^4.0.0"
   }
 }

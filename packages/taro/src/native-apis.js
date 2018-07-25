@@ -190,6 +190,7 @@ const otherApis = {
 
   // 开放接口
   login: true,
+  checkSession: true,
   authorize: true,
   getUserInfo: true,
   requestPayment: true,

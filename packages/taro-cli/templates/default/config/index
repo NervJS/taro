@@ -52,8 +52,24 @@ const config = {
   },
   defineConstants: {
   },
+  copy: {
+     patterns: [
+    ],
+    options: {
+    }
+  },
   weapp: {
-
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        },
+        url: {
+          enable: true,
+          limit: 10240
+        }
+      }
+    }
   },
   h5: {
     publicPath: '/',
