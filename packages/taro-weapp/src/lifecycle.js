@@ -8,7 +8,7 @@ export function updateComponent (component) {
   const { props } = component
   const prevProps = component.prevProps || props
   component.props = prevProps
-  if (component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
+  if (component.__mounted && component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
     component._disable = true
     component.componentWillReceiveProps(props)
     component._disable = false
@@ -54,7 +54,7 @@ function doUpdate (component) {
     const _data = {}
     component.$usedState.forEach(key => {
       const val = safeGet(data, key)
-      safeSet(_data, key, val)
+      typeof val !== 'undefined' && safeSet(_data, key, val)
     })
     data = _data
   }
