@@ -114,6 +114,12 @@ function parseJSCode (code, filePath) {
             t.importDefaultSpecifier(t.identifier(reactImportDefaultName))
           )
         }
+        // 删除从@tarojs/taro引入的 React
+        specifiers.forEach((item, index) => {
+          if (item.type === 'ImportDefaultSpecifier') {
+            specifiers.splice(index, 1)
+          }
+        })
         const taroApisSpecifiers = []
         specifiers.forEach((item, index) => {
           if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
@@ -121,7 +127,9 @@ function parseJSCode (code, filePath) {
             specifiers.splice(index, 1)
           }
         })
-        source.value = PACKAGES['react']
+        source.value = PACKAGES['@tarojs/taro-rn']
+        // insert React
+        astPath.insertBefore(template(`import React from 'react'`, babylonConfig)())
 
         if (taroApisSpecifiers.length) {
           astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-rn'])))
