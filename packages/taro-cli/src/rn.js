@@ -330,10 +330,21 @@ function parseJSCode (code, filePath) {
         node.body.unshift(importTaro)
 
         if (isEntryFile) {
+          pages.forEach(v => {
+            const pageName = v.startsWith('/') ? v : `/${v}`
+            const screenName = pageName.replace(/\//g, '')
+            const importScreen = template(
+              `import ${screenName} from '.${pageName}'`,
+              babylonConfig
+            )()
+            node.body.unshift(importScreen)
+          })
+
           const routerPages = pages
             .map(v => {
               const pageName = v.startsWith('/') ? v : `/${v}`
-              return `['${v}', '.${pageName}']`
+              const screenName = pageName.replace(/\//g, '')
+              return `['${screenName}',${screenName}]`
             })
             .join(',')
           node.body.push(template(

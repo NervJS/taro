@@ -5,9 +5,9 @@ function getWrappedScreen (Screen, Taro) {
   class WrappedScreen extends Screen {
     constructor (props, context) {
       super(props, context)
-      Taro.navigateTo = this.navigateTo
-      Taro.redirectTo = this.redirectTo
-      Taro.navigateBack = this.navigateBack
+      Taro.navigateTo = this.wxNavigateTo.bind(this)
+      Taro.redirectTo = this.wxRedirectTo.bind(this)
+      Taro.navigateBack = this.wxNavigateBack.bind(this)
     }
 
     componentDidMount () {
@@ -20,11 +20,11 @@ function getWrappedScreen (Screen, Taro) {
       super.componentWillUnmount && super.componentWillUnmount()
     }
 
-    navigateTo (url, success, fail, complete) {
-      let {path, query} = queryString.parseUrl(url)
-
+    wxNavigateTo ({url, success, fail, complete}) {
+      let obj = queryString.parseUrl(url)
+      console.log(obj)
       try {
-        this.props.navigation.push(path, query)
+        this.props.navigation.push(obj.url.replace(/\//g, ''), obj.query)
       } catch (e) {
         fail && fail(e)
         complete && complete(e)
@@ -34,11 +34,11 @@ function getWrappedScreen (Screen, Taro) {
       complete && complete()
     }
 
-    redirectTo (url, success, fail, complete) {
-      let {path, query} = queryString.parseUrl(url)
-
+    wxRedirectTo ({url, success, fail, complete}) {
+      let obj = queryString.parseUrl(url)
+      console.log(obj)
       try {
-        this.props.navigation.replace(path, query)
+        this.props.navigation.replace(obj.url.replace(/\//g, ''), obj.query)
       } catch (e) {
         fail && fail(e)
         complete && complete(e)
@@ -48,7 +48,7 @@ function getWrappedScreen (Screen, Taro) {
       complete && complete()
     }
 
-    navigateBack (delta = 1) {
+    wxNavigateBack ({delta = 1}) {
       this.props.navigation.goBack()
     }
   }
@@ -57,11 +57,10 @@ function getWrappedScreen (Screen, Taro) {
 }
 
 const initRouter = (pageArr, Taro) => {
-  let RouteConfigs
+  let RouteConfigs = {}
   pageArr.forEach(v => {
     const pageKey = v[0]
-    const pagePath = v[1]
-    let Screen = require(pagePath).default
+    const Screen = v[1]
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro)
   })
   return createStackNavigator(RouteConfigs, {
