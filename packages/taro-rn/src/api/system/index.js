@@ -35,7 +35,7 @@ export function getSystemInfoSync () {
   const screenWidth = Dimensions.get('screen').width
   const screenHeight = Dimensions.get('screen').height
   const windowWidth = Dimensions.get('window').width
-  const windowHeight = Dimensions.get('window').width
+  const windowHeight = Dimensions.get('window').height
 
   res.brand = null
   res.model = null
