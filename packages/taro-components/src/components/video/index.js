@@ -52,7 +52,8 @@ class Video extends Nerv.Component {
       initialTime,
       id,
       loop,
-      muted
+      muted,
+      className
     } = this.props
     if (!controls) {
       poster = ''
@@ -67,6 +68,7 @@ class Video extends Nerv.Component {
         start={initialTime}
         loop={loop}
         muted={muted}
+        className={className}
         ref={(video) => { this.video = video }}>
         暂时不支持播放该视频
       </video>
