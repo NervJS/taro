@@ -11,6 +11,8 @@ const template = require('babel-template')
 const autoprefixer = require('autoprefixer')
 const postcss = require('postcss')
 const pxtransform = require('postcss-pxtransform')
+const cssUrlParse = require('postcss-url')
+const minimatch = require('minimatch')
 const _ = require('lodash')
 
 const Util = require('./util')
@@ -780,6 +782,43 @@ async function buildSinglePage (page) {
   }
 }
 
+async function processStyleWithPostCSS (styleObj) {
+  const weappConf = projectConfig.weapp || {}
+  const useModuleConf = weappConf.module || {}
+  const customPostcssConf = useModuleConf.postcss || {}
+  const customPxtransformConf = customPostcssConf.pxtransform || {}
+  const customUrlConf = customPostcssConf.url || {}
+  const postcssPxtransformOption = {
+    designWidth: projectConfig.designWidth || 750,
+    platform: 'weapp'
+  }
+
+  const DEVICE_RATIO = 'deviceRatio'
+  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+    postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
+  }
+  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, customUrlConf)
+  const maxSize = Math.round(cssUrlConf.limit / 1024)
+  const processors = [
+    autoprefixer({ browsers: browserList }),
+    pxtransform(Object.assign(
+      postcssPxtransformOption,
+      customPxtransformConf
+    ))
+  ]
+  if (cssUrlConf.enable) {
+    processors.push(cssUrlParse({
+      url: 'inline',
+      maxSize,
+      encodeType: 'base64'
+    }))
+  }
+  const postcssResult = await postcss(processors).process(styleObj.css, {
+    from: styleObj.filePath
+  })
+  return postcssResult.css
+}
+
 function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
   if (isBuildingStyles[outputFilePath]) {
     return Promise.resolve({})
@@ -791,6 +830,10 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
+        .then(res => ({
+          css: res.css,
+          filePath
+        }))
     }
     return new Promise((resolve, reject) => {
       fs.readFile(filePath, (err, content) => {
@@ -798,47 +841,32 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
           return reject(err)
         }
         resolve({
-          css: content
+          css: content,
+          filePath
         })
       })
     })
   })).then(async resList => {
-    let resContent = resList.map(res => res.css).join('\n')
-    const weappConf = projectConfig.weapp || {}
-    const useModuleConf = weappConf.module || {}
-    const customPostcssConf = useModuleConf.postcss || {}
-    const customPxtransformConf = customPostcssConf.pxtransform || {}
-
-    try {
-      const postcssResult = await postcss([
-        autoprefixer({ browsers: browserList }),
-        pxtransform(Object.assign({
-          designWidth: projectConfig.designWidth || 750,
-          platform: 'weapp'
-        }, customPxtransformConf))
-      ]).process(resContent, {
-        from: undefined
-      })
-      resContent = postcssResult.css
-      if (depStyleList && depStyleList.length) {
-        const importStyles = depStyleList.map(item => {
-          return `@import "${item}";\n`
-        }).join('')
-        resContent = importStyles + resContent
-      }
-      if (isProduction) {
-        const cssoPuginConfig = pluginsConfig.csso || { enable: true }
-        if (cssoPuginConfig.enable) {
-          const cssoConfig = cssoPuginConfig.config || {}
-          const cssoResult = npmProcess.callPluginSync('csso', resContent, outputFilePath, cssoConfig)
-          resContent = cssoResult.css
+    Promise.all(resList.map(res => processStyleWithPostCSS(res)))
+      .then(cssList => {
+        let resContent = cssList.map(res => res).join('\n')
+        if (depStyleList && depStyleList.length) {
+          const importStyles = depStyleList.map(item => {
+            return `@import "${item}";\n`
+          }).join('')
+          resContent = importStyles + resContent
         }
-      }
-      fs.ensureDirSync(path.dirname(outputFilePath))
-      fs.writeFileSync(outputFilePath, resContent)
-    } catch (err) {
-      console.log(err)
-    }
+        if (isProduction) {
+          const cssoPuginConfig = pluginsConfig.csso || { enable: true }
+          if (cssoPuginConfig.enable) {
+            const cssoConfig = cssoPuginConfig.config || {}
+            const cssoResult = npmProcess.callPluginSync('csso', resContent, outputFilePath, cssoConfig)
+            resContent = cssoResult.css
+          }
+        }
+        fs.ensureDirSync(path.dirname(outputFilePath))
+        fs.writeFileSync(outputFilePath, resContent)
+      })
   })
 }
 
@@ -1026,10 +1054,48 @@ function compileDepScripts (scriptFiles) {
   })
 }
 
-function buildWxsFiles () {
-  const wsxDir = path.join(outputDir, 'wxs')
-  fs.ensureDirSync(wsxDir)
-  fs.copyFileSync(path.join(__dirname, 'extra/util_wxs'), path.join(wsxDir, 'utils.wxs'))
+function copyFileSync (from, to, options) {
+  const filename = path.basename(from)
+  if (fs.statSync(from).isFile() && !path.extname(to)) {
+    fs.ensureDir(to)
+    return fs.copySync(from, path.join(to, filename), options)
+  }
+  fs.ensureDir(path.dirname(to))
+  return fs.copySync(from, to, options)
+}
+
+function copyFiles () {
+  const copyConfig = projectConfig.copy || { patterns: [], options: {} }
+  if (copyConfig.patterns && copyConfig.patterns.length) {
+    copyConfig.options = copyConfig.options || {}
+    const globalIgnore = copyConfig.options.ignore
+    const projectDir = appPath
+    copyConfig.patterns.forEach(pattern => {
+      if (typeof pattern === 'object' && pattern.from && pattern.to) {
+        const from = path.join(projectDir, pattern.from)
+        const to = path.join(projectDir, pattern.to)
+        let ignore = pattern.ignore || globalIgnore
+        if (fs.existsSync(from)) {
+          const copyOptions = {}
+          if (ignore) {
+            ignore = Array.isArray(ignore) || [ignore]
+            copyOptions.filter = src => {
+              let isMatch = false
+              ignore.forEach(iPa => {
+                if (minimatch(path.basename(src), iPa)) {
+                  isMatch = true
+                }
+              })
+              return !isMatch
+            }
+          }
+          copyFileSync(from, to, copyOptions)
+        } else {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
+        }
+      }
+    })
+  }
 }
 
 function watchFiles () {
@@ -1176,7 +1242,7 @@ function watchFiles () {
 async function build ({ watch }) {
   isProduction = !watch
   buildProjectConfig()
-  // buildWxsFiles()
+  copyFiles()
   appConfig = await buildEntry()
   await buildPages()
   if (watch) {

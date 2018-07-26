@@ -79,7 +79,7 @@ declare namespace Taro {
 
   function getEnv(): 'WEAPP' | 'WEB' | 'RN';
 
-  function render(component: Component, element: Element | null)
+  function render(component: Component | JSX.Element, element: Element | null)
 
   /**
    *

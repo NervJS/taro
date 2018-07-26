@@ -35,7 +35,8 @@ module.exports = function (creater, params, helper, cb) {
     description,
     projectName,
     version,
-    css
+    css,
+    typescript
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
@@ -49,7 +50,7 @@ module.exports = function (creater, params, helper, cb) {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
       css: currentStyleExt
     })
-    creater.template(template, 'tsconfigjson', path.join(sourceDir, 'tsconfig.json'))
+    creater.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
   } else {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
       css: currentStyleExt

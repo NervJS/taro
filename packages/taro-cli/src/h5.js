@@ -52,7 +52,7 @@ const sourceDir = path.join(appPath, sourceDirName)
 // const outputDir = path.join(appPath, outputDirName)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
-const entryFileName = path.basename(entryFilePath, path.extname(entryFilePath))
+const entryFileName = path.basename(entryFilePath)
 
 let pages = []
 let tabBar
@@ -442,10 +442,13 @@ function processOthers (code, filePath) {
 }
 
 function classifyFiles (filename) {
-  if (filename.indexOf(entryFileName) >= 0) return FILE_TYPE.ENTRY
+  const relPath = path.normalize(
+    path.relative(appPath, filename)
+  )
+  if (relPath.indexOf(entryFileName) >= 0) return FILE_TYPE.ENTRY
 
   if (pages.some(page => {
-    if (filename.indexOf(page) >= 0) return true
+    if (relPath.indexOf(page) >= 0) return true
   })) {
     return FILE_TYPE.PAGE
   } else {
@@ -542,6 +545,9 @@ async function buildDist (buildConfig) {
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
   h5Config.designWidth = projectConfig.designWidth
+  if (projectConfig.deviceRatio) {
+    h5Config.deviceRatio = projectConfig.deviceRatio
+  }
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
   h5Config.entry = {

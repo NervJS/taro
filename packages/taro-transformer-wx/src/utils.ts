@@ -3,6 +3,7 @@ import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
 import { NodePath, Scope } from 'babel-traverse'
 import { LOOP_STATE } from './constant'
+import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
@@ -25,10 +26,25 @@ export function generateAnonymousState (
   }
   const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
   const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
+  const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
+  const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
+  let expr = cloneDeep(expression.node)
+  if (conditionExpr && conditionExpr.isConditionalExpression()) {
+    const consequent = conditionExpr.get('consequent')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, t.nullLiteral())
+    }
+  }
+  if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
+    const consequent = logicExpr.get('right')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, t.nullLiteral())
+    }
+  }
   if (!callExpr) {
     refIds.add(t.identifier(variableName))
     statementParent.insertBefore(
-      buildConstVariableDeclaration(variableName, expression.node)
+      buildConstVariableDeclaration(variableName, expr)
     )
   } else {
     variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
@@ -36,12 +52,12 @@ export function generateAnonymousState (
     if (t.isArrowFunctionExpression(func)) {
       if (!t.isBlockStatement(func.body)) {
         func.body = t.blockStatement([
-          buildConstVariableDeclaration(variableName, expression.node),
+          buildConstVariableDeclaration(variableName, expr),
           t.returnStatement(func.body)
         ])
       } else {
         statementParent.insertBefore(
-          buildConstVariableDeclaration(variableName, expression.node)
+          buildConstVariableDeclaration(variableName, expr)
         )
       }
     }

@@ -26,7 +26,7 @@ export function getNetworkType (opts = {}) {
 }
 
 export function onNetworkStatusChange (callback) {
-  async function changeCallback (connectionInfo) {
+  function changeCallback (connectionInfo) {
     const res = {}
     const { type, effectiveType } = connectionInfo
     if (type === 'wifi' || type === 'none') {
@@ -34,10 +34,10 @@ export function onNetworkStatusChange (callback) {
     } else {
       res.networkType = effectiveType
     }
-    const isConnected = await NetInfo.isConnected.fetch()
-    res.isConnected = isConnected
-
-    callback && callback(res)
+    NetInfo.isConnected.fetch().then((isConnected) => {
+      res.isConnected = isConnected
+      callback && callback(res)
+    })
   }
 
   NetInfo.addEventListener('connectionChange', changeCallback)

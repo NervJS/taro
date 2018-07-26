@@ -142,9 +142,9 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/transformer-wx@0.0.67":
-  version "0.0.67"
-  resolved "https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-0.0.67.tgz#58fff7145f3d56139ee99e0ca44148b58ac24f58"
+"@tarojs/transformer-wx@0.0.72":
+  version "0.0.72"
+  resolved "https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-0.0.72.tgz#0e1900f3fd0f1c2b37006a3daa27e2a9321f5afd"
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     "@babel/core" "^7.0.0-beta.42"
@@ -733,6 +733,10 @@ css@^2.2.1:
     source-map-resolve "^0.5.1"
     urix "^0.1.0"
 
+cuint@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/cuint/-/cuint-0.2.2.tgz#408086d409550c2631155619e9fa7bcadc3b991b"
+
 debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -1115,7 +1119,7 @@ got@^8.3.1:
     url-parse-lax "^3.0.0"
     url-to-options "^1.0.1"
 
-graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -1532,6 +1536,12 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
 
+klaw@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/klaw/-/klaw-2.1.1.tgz#42b76894701169cc910fd0d19ce677b5fb378af1"
+  dependencies:
+    graceful-fs "^4.1.9"
+
 latest-version@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/latest-version/-/latest-version-4.0.0.tgz#9542393ac55a585861a4c4ebc02389a0b4a9c332"
@@ -1633,6 +1643,10 @@ micromatch@^3.1.10, micromatch@^3.1.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
+
+mime@^1.4.1:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
 
 mimic-fn@^1.0.0:
   version "1.2.0"
@@ -1976,12 +1990,22 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@0.0.67:
-  version "0.0.67"
-  resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-0.0.67.tgz#dc687d2b224d8bf525198e7cda81f576d122d411"
+postcss-pxtransform@0.0.72:
+  version "0.0.72"
+  resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-0.0.72.tgz#6dc1f0ba2d0fc8c402c434a2b07844b190d3fd7f"
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
+
+postcss-url@^7.3.2:
+  version "7.3.2"
+  resolved "https://registry.npmjs.org/postcss-url/-/postcss-url-7.3.2.tgz#5fea273807fb84b38c461c3c9a9e8abd235f7120"
+  dependencies:
+    mime "^1.4.1"
+    minimatch "^3.0.4"
+    mkdirp "^0.5.0"
+    postcss "^6.0.1"
+    xxhashjs "^0.2.1"
 
 postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
@@ -1996,7 +2020,7 @@ postcss@^5.2.10:
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.16, postcss@^6.0.22:
+postcss@^6.0.1, postcss@^6.0.16, postcss@^6.0.22:
   version "6.0.23"
   resolved "https://registry.npmjs.org/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   dependencies:
@@ -2684,6 +2708,12 @@ wrappy@1:
 xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
+
+xxhashjs@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/xxhashjs/-/xxhashjs-0.2.2.tgz#8a6251567621a1c46a5ae204da0249c7f8caa9d8"
+  dependencies:
+    cuint "^0.2.2"
 
 yallist@^3.0.0, yallist@^3.0.2:
   version "3.0.2"

@@ -15,8 +15,8 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       if (isObject(val) && isObject(initMapDispatch[key])) {
         val = mergeObjects(val, initMapDispatch[key])
       }
-      this.prevProps = Object.assign({}, this.props)
       if (this.props[key] !== val) {
+        this.prevProps = Object.assign({}, this.props)
         this.props[key] = val
         isChanged = true
       }

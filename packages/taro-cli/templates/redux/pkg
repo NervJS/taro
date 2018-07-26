@@ -31,7 +31,8 @@
     "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
-    "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%>
+    "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%><% if (typescript) {%>
+    "@tarojs/plugin-typescript": "^<%= version %>",<%}%>
     "@tarojs/plugin-uglifyjs": "^<%= version %>",
     "@tarojs/webpack-runner": "^<%= version %>",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -43,6 +44,7 @@
     "eslint-config-taro": "^<%= version %>",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-taro": "^<%= version %>"
+    "eslint-plugin-taro": "^<%= version %>"<% if (typescript) {%>,
+    "typescript": "^2.9.2"<%}%>
   }
 }

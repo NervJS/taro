@@ -12,7 +12,7 @@ export function setClipboardData (opts = {}) {
     return Promise.reject(res)
   }
 
-  Clipboard.setString()
+  Clipboard.setString(data)
   res.data = data
   success && success(res)
   complete && complete(res)
