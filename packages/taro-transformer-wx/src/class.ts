@@ -48,7 +48,7 @@ function processThisPropsFnMemberProperties (member: t.MemberExpression, path: N
         path.replaceWith(
           t.callExpression(
             t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-            [t.stringLiteral(propertyArray.join('.')), t.callExpression(
+            [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
               t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
               [t.arrayExpression(args)]
             )]
