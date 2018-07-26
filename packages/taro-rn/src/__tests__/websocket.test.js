@@ -1,10 +1,13 @@
 import { WebSocket, Server } from 'mock-socket'
 import Taro from '../index.js'
 
-global.WebSocket = WebSocket
 Taro.initNativeApi(Taro)
 
 describe('websocket', () => {
+  beforeEach(() => {
+    global.WebSocket = WebSocket
+  })
+
   test('url should be string', () => {
     const success = jest.fn()
     const fail = jest.fn()

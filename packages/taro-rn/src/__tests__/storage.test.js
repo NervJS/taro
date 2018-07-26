@@ -1,13 +1,16 @@
+import { AsyncStorage } from 'react-native'
 import MockStorage from './__mock__/mockAsyncStorage'
 import Taro from '../index.js'
-
-const storageCache = {}
-const AsyncStorage = new MockStorage(storageCache)
-jest.setMock('AsyncStorage', AsyncStorage)
 
 Taro.initNativeApi(Taro)
 
 describe('storage', () => {
+  beforeEach(() => {
+    const storageCache = {}
+    const AsyncStorage = new MockStorage(storageCache)
+    jest.setMock('AsyncStorage', AsyncStorage)
+  })
+
   describe('setStorage', () => {
     test('should set value into storage', async () => {
       const key = 'bar'
