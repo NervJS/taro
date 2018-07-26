@@ -118,7 +118,8 @@ function filterProps (properties, defaultProps = {}, weappComponentData) {
   return res
 }
 
-export function componentTrigger (component, key) {
+export function componentTrigger (component, key, args) {
+  args = args || []
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -128,7 +129,7 @@ export function componentTrigger (component, key) {
     component._pendingStates = []
     component._pendingCallbacks = []
   }
-  component[key] && typeof component[key] === 'function' && component[key]()
+  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
@@ -170,7 +171,7 @@ function createComponent (ComponentClass, isPage) {
     }
     pageExtraFns.forEach(fn => {
       weappComponentConf[fn] = function () {
-        componentTrigger(this.$component, fn)
+        componentTrigger(this.$component, fn, arguments)
       }
     })
   }
