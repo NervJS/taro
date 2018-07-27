@@ -56,7 +56,7 @@ function getWrappedScreen (Screen, Taro) {
   return WrappedScreen
 }
 
-const initRouter = (pageArr, Taro) => {
+const initRouter = (pageArr, Taro, navigationOptions) => {
   let RouteConfigs = {}
   pageArr.forEach(v => {
     const pageKey = v[0]
@@ -64,7 +64,8 @@ const initRouter = (pageArr, Taro) => {
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro)
   })
   return createStackNavigator(RouteConfigs, {
-    initialRouteName: pageArr[0][0]
+    initialRouteName: pageArr[0][0],
+    navigationOptions
   })
 }
 

@@ -19,6 +19,7 @@ const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
+const AstConvert = require('./util/astConvert')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -158,6 +159,7 @@ function parseJSCode (code, filePath) {
         const node = astPath.node
         const key = node.key
         const value = node.value
+        let navigationOptions = {}
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
         // 入口文件的 config ，与页面的分开处理
         if (isEntryFile) {
@@ -176,58 +178,58 @@ function parseJSCode (code, filePath) {
               }
               // window
               if (key.name === 'window') {
-                value.properties.forEach(v => {
-                  window[v.key.value] = v.value.value
+                astPath.traverse({
+                  ObjectProperty (astPath) {
+                    const node = astPath.node
+                    // 导航栏标题文字内容
+                    if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
+                      navigationOptions['title'] = node.value.value
+                    }
+                    // 导航栏标题颜色，仅支持 black/white
+                    if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
+                      navigationOptions['headerTintColor'] = node.value.value
+                    }
+                    // 导航栏背景颜色
+                    if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
+                      navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+                    }
+                  }
                 })
               }
               // TODO tabBar position iconPath
             }
           })
-          astPath.remove()
+          astPath.replaceWith(t.classProperty(
+            t.identifier('navigationOptions'),
+            t.objectExpression(AstConvert.obj(navigationOptions))
+          ))
+          astPath.node.static = 'true'
         } else {
+          let navigationOptions = {}
           astPath.traverse({
             ObjectProperty (astPath) {
               const node = astPath.node
               // 导航栏标题文字内容
-              if (node.key.name === 'navigationBarTitleText') {
-                astPath.replaceWith(t.objectProperty(
-                  t.identifier('title'),
-                  t.stringLiteral(node.value.value)
-                ))
+              if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
+                navigationOptions['title'] = node.value.value
               }
               // 导航栏标题颜色，仅支持 black/white
-              if (node.key.name === 'navigationBarTextStyle') {
-                astPath.replaceWith(t.objectProperty(
-                  t.identifier('headerTintColor'),
-                  t.stringLiteral(node.value.value)
-                ))
+              if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
+                navigationOptions['headerTintColor'] = node.value.value
               }
               // 导航栏背景颜色
-              if (node.key.name === 'navigationBarBackgroundColor') {
-                astPath.replaceWith(t.objectProperty(
-                  t.identifier('headerStyle'),
-                  t.objectExpression([
-                    t.objectProperty(
-                      t.identifier('backgroundColor'),
-                      t.stringLiteral(node.value.value)
-                    )
-                  ])
-                ))
+              if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
+                navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
               }
             }
           })
-          astPath.node.key.name = 'navigationOptions'
+          astPath.replaceWith(t.classProperty(
+            t.identifier('navigationOptions'),
+            t.objectExpression(AstConvert.obj(navigationOptions))
+          ))
           astPath.node.static = 'true'
         }
       }
-      // exit (astPath) {
-      //   const node = astPath.node
-      //   const key = node.key
-      //   const value = node.value
-      //   if (key.name !== 'config' || !t.isObjectExpression(value)) return
-      //   astPath.insertBefore(template(`static navigationOptions = ${window}`, babylonConfig)())
-      //   astPath.remove()
-      // }
     },
     // 转换 className 和 id
     JSXElement (astPath) {
@@ -410,7 +412,11 @@ function parseJSCode (code, filePath) {
             })
             .join(',')
           node.body.push(template(
-            `const RootStack = ${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
+            `const RootStack = ${routerImportDefaultName}.initRouter(
+            [${routerPages}], 
+            ${taroImportDefaultName},
+            App.navigationOptions
+            )`,
             babylonConfig
           )())
           // initNativeApi
@@ -618,7 +624,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  await buildDist({watch})
+  // await buildDist({watch})
   if (watch) {
     watchFiles()
   }
