@@ -18,22 +18,23 @@ export function updateComponent (component) {
   const prevState = component.prevState || state
 
   let skip = false
-  if (typeof component.shouldComponentUpdate === 'function' &&
-    component.shouldComponentUpdate(props, state) === false) {
-    skip = true
-  } else if (typeof component.componentWillUpdate === 'function') {
-    component.componentWillUpdate(props, state)
+  if (component.__mounted) {
+    if (typeof component.shouldComponentUpdate === 'function' &&
+      component.shouldComponentUpdate(props, state) === false) {
+      skip = true
+    } else if (typeof component.componentWillUpdate === 'function') {
+      component.componentWillUpdate(props, state)
+    }
   }
   component.props = props
   component.state = state
   component._dirty = false
-
+  if (!component.__mounted) {
+    componentTrigger(component, 'componentWillMount')
+  }
   if (!skip) {
-    if (component.componentDidUpdate) {
+    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
       component.componentDidUpdate(prevProps, prevState)
-    }
-    if (!component.__mounted) {
-      componentTrigger(component, 'componentWillMount')
     }
     doUpdate(component)
   }
@@ -69,7 +70,7 @@ function doUpdate (component) {
     }
     if (!component.__mounted) {
       component.__mounted = true
-      if (component.componentDidMount) {
+      if (typeof component.componentDidMount === 'function') {
         component.componentDidMount()
       }
     }
