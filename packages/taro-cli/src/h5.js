@@ -82,6 +82,129 @@ function processEntry (code, filePath) {
   let hasAddNervJsImportDefaultName = false
   let renderCallCode
 
+  let hasComponentDidMount
+  let hasComponentDidShow
+  let hasComponentDidHide
+  let hasComponentWillUnmount
+
+  /**
+   * ProgramExit使用的visitor
+   * 负责修改render函数的内容，在componentDidMount中增加componentDidShow调用，在componentWillUnmount中增加componentDidHide调用。
+   */
+  const programExitVisitor = {
+    ClassMethod: {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        let funcBody
+        if (!t.isIdentifier(key)) return
+
+        const isRender = key.name === 'render'
+        const isComponentDidMount = key.name === 'componentDidMount'
+        const isComponentWillUnmount = key.name === 'componentWillUnmount'
+
+        if (isRender) {
+          funcBody = `<${routerImportDefaultName}.Router />`
+
+          /* 插入Tabbar */
+          if (tabBar) {
+            const homePage = pages[0] || ''
+            if (tabbarPos === 'top') {
+              funcBody = `
+                <${tabBarContainerComponentName}>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+                  <${tabBarPanelComponentName}>
+                    ${funcBody}
+                  </${tabBarPanelComponentName}>
+                </${tabBarContainerComponentName}>`
+            } else {
+              funcBody = `
+                <${tabBarContainerComponentName}>
+                  <${tabBarPanelComponentName}>
+                    ${funcBody}
+                  </${tabBarPanelComponentName}>
+                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+                </${tabBarContainerComponentName}>`
+            }
+          }
+
+          /* 插入<Provider /> */
+          if (providerComponentName && storeName) {
+            // 使用redux
+            funcBody = `
+              <${providorImportName} store={${storeName}}>
+                ${funcBody}
+              </${providorImportName}>`
+          }
+
+          /* 插入<TaroRouter.Router /> */
+          node.body = template(`{return (${funcBody});}`, babylonConfig)()
+
+          if (tabBar) {
+            astPath
+              .get('body')
+              .unshiftContainer('body', [
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
+                ])
+              ])
+          }
+        }
+
+        if (hasComponentDidShow && isComponentDidMount) {
+          astPath.get('body').pushContainer('body', template(`this.componentDidShow()`, babylonConfig)())
+        }
+
+        if (hasComponentDidHide && isComponentWillUnmount) {
+          astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
+        }
+        t.statement
+      }
+    },
+    ClassBody: {
+      exit (astPath) {
+        if (hasComponentDidShow && !hasComponentDidMount) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidMount'), [],
+            t.blockStatement([]), false, false))
+        }
+        if (hasComponentDidHide && !hasComponentWillUnmount) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentWillUnmount'), [],
+            t.blockStatement([]), false, false))
+        }
+      }
+    }
+  }
+
+  /**
+   * ClassProperty使用的visitor
+   * 负责收集config中的pages，收集tabbar的position，替换icon。
+   */
+  const classPropertyVisitor = {
+    ObjectProperty (astPath) {
+      const node = astPath.node
+      const key = node.key
+      const value = node.value
+      // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+      if (key.name === 'pages' && t.isArrayExpression(value)) {
+        value.elements.forEach(v => {
+          pages.push(v.value)
+        })
+      } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+        // tabBar
+        tabBar = value
+        value.properties.forEach(node => {
+          if (node.key.name === 'position') tabbarPos = node.value.value
+        })
+      } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
+        astPath.replaceWith(
+          t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
+        )
+      }
+    }
+  }
+
   traverse(ast, {
     ClassDeclaration: {
       enter (astPath) {
@@ -124,29 +247,7 @@ function processEntry (code, filePath) {
         const key = node.key
         const value = node.value
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
-        astPath.traverse({
-          ObjectProperty (astPath) {
-            const node = astPath.node
-            const key = node.key
-            const value = node.value
-            // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-            if (key.name === 'pages' && t.isArrayExpression(value)) {
-              value.elements.forEach(v => {
-                pages.push(v.value)
-              })
-            } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
-              // tabBar
-              tabBar = value
-              value.properties.forEach(node => {
-                if (node.key.name === 'position') tabbarPos = node.value.value
-              })
-            } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
-              astPath.replaceWith(
-                t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
-              )
-            }
-          }
-        })
+        astPath.traverse(classPropertyVisitor)
         astPath.remove()
       }
     },
@@ -233,6 +334,23 @@ function processEntry (code, filePath) {
         }
       }
     },
+    ClassMethod: {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        if (t.isIdentifier(key)) {
+          if (key.name === 'componentDidMount') {
+            hasComponentDidMount = true
+          } else if (key.name === 'componentDidShow') {
+            hasComponentDidShow = true
+          } else if (key.name === 'componentDidHide') {
+            hasComponentDidHide = true
+          } else if (key.name === 'componentWillUnmount') {
+            hasComponentWillUnmount = true
+          }
+        }
+      }
+    },
     JSXOpeningElement: {
       enter (astPath) {
         if (astPath.node.name.name === 'Provider') {
@@ -246,58 +364,7 @@ function processEntry (code, filePath) {
     },
     Program: {
       exit (astPath) {
-        astPath.traverse({
-          ClassMethod (astPath) {
-            const node = astPath.node
-            const key = node.key
-            let funcBody
-            if (key.name !== 'render') return
-            funcBody = `<${routerImportDefaultName}.Router />`
-
-            if (tabBar) {
-              const homePage = pages[0] || ''
-              if (tabbarPos === 'top') {
-                funcBody = `
-                  <${tabBarContainerComponentName}>
-                    <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
-                    <${tabBarPanelComponentName}>
-                      ${funcBody}
-                    </${tabBarPanelComponentName}>
-                  </${tabBarContainerComponentName}>`
-              } else {
-                funcBody = `
-                  <${tabBarContainerComponentName}>
-                    <${tabBarPanelComponentName}>
-                      ${funcBody}
-                    </${tabBarPanelComponentName}>
-                    <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
-                  </${tabBarContainerComponentName}>`
-              }
-            }
-
-            /* 插入<Provider /> */
-            if (providerComponentName && storeName) {
-              // 使用redux
-              funcBody = `
-                <${providorImportName} store={${storeName}}>
-                  ${funcBody}
-                </${providorImportName}>`
-            }
-
-            /* 插入<TaroRouter.Router /> */
-            node.body = template(`{return (${funcBody});}`, babylonConfig)()
-
-            if (tabBar) {
-              astPath
-                .get('body')
-                .unshiftContainer('body', [
-                  t.variableDeclaration('const', [
-                    t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
-                  ])
-                ])
-            }
-          }
-        })
+        astPath.traverse(programExitVisitor)
 
         const node = astPath.node
         const routerPages = pages
