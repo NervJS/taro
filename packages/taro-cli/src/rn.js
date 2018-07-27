@@ -32,7 +32,6 @@ const pluginsConfig = projectConfig.plugins || {}
 
 const isBuildingStyles = {}
 const styleDenpendencyTree = {}
-let pages = [] // Class 里面的config 配置里面的 pages
 
 const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
@@ -66,6 +65,8 @@ function parseJSCode (code, filePath) {
     parserOpts: babylonConfig
   }).ast
   const styleFiles = []
+  let pages = [] // Class 里面的config 配置里面的 pages
+  let window = [] // Class 里面的config 配置里面的 window
   const isEntryFile = path.basename(filePath) === entryFileName
   let taroImportDefaultName
   let hasAddReactImportDefaultName = false
@@ -158,23 +159,75 @@ function parseJSCode (code, filePath) {
         const key = node.key
         const value = node.value
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
-        // 读取 config 配置
-        astPath.traverse({
-          ObjectProperty (astPath) {
-            const node = astPath.node
-            const key = node.key
-            const value = node.value
-            // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-            if (key.name === 'pages' && t.isArrayExpression(value)) {
-              value.elements.forEach(v => {
-                pages.push(v.value)
-              })
+        // 入口文件的 config ，与页面的分开处理
+        if (isEntryFile) {
+          // 读取 config 配置
+          astPath.traverse({
+            ObjectProperty (astPath) {
+              const node = astPath.node
+              const key = node.key
+              const value = node.value
+              // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+              if (key.name === 'pages' && t.isArrayExpression(value)) {
+                value.elements.forEach(v => {
+                  pages.push(v.value)
+                })
+                astPath.remove()
+              }
+              // window
+              if (key.name === 'window') {
+                value.properties.forEach(v => {
+                  window[v.key.value] = v.value.value
+                })
+              }
+              // TODO tabBar position iconPath
             }
-            // TODO tabBar position iconPath
-          }
-        })
-        astPath.remove()
+          })
+          astPath.remove()
+        } else {
+          astPath.traverse({
+            ObjectProperty (astPath) {
+              const node = astPath.node
+              // 导航栏标题文字内容
+              if (node.key.name === 'navigationBarTitleText') {
+                astPath.replaceWith(t.objectProperty(
+                  t.identifier('title'),
+                  t.stringLiteral(node.value.value)
+                ))
+              }
+              // 导航栏标题颜色，仅支持 black/white
+              if (node.key.name === 'navigationBarTextStyle') {
+                astPath.replaceWith(t.objectProperty(
+                  t.identifier('headerTintColor'),
+                  t.stringLiteral(node.value.value)
+                ))
+              }
+              // 导航栏背景颜色
+              if (node.key.name === 'navigationBarBackgroundColor') {
+                astPath.replaceWith(t.objectProperty(
+                  t.identifier('headerStyle'),
+                  t.objectExpression([
+                    t.objectProperty(
+                      t.identifier('backgroundColor'),
+                      t.stringLiteral(node.value.value)
+                    )
+                  ])
+                ))
+              }
+            }
+          })
+          astPath.node.key.name = 'navigationOptions'
+          astPath.node.static = 'true'
+        }
       }
+      // exit (astPath) {
+      //   const node = astPath.node
+      //   const key = node.key
+      //   const value = node.value
+      //   if (key.name !== 'config' || !t.isObjectExpression(value)) return
+      //   astPath.insertBefore(template(`static navigationOptions = ${window}`, babylonConfig)())
+      //   astPath.remove()
+      // }
     },
     // 转换 className 和 id
     JSXElement (astPath) {
@@ -338,6 +391,7 @@ function parseJSCode (code, filePath) {
         node.body.unshift(importTaro)
 
         if (isEntryFile) {
+          // import page
           pages.forEach(v => {
             const pageName = v.startsWith('/') ? v : `/${v}`
             const screenName = pageName.replace(/\//g, '')
@@ -347,7 +401,7 @@ function parseJSCode (code, filePath) {
             )()
             node.body.unshift(importScreen)
           })
-
+          // Taro.initRouter  生成 RootStack
           const routerPages = pages
             .map(v => {
               const pageName = v.startsWith('/') ? v : `/${v}`
@@ -527,7 +581,6 @@ async function buildDist ({watch}) {
 }
 
 async function processFiles (filePath) {
-  pages = []
   // 后期可以优化，不编译全部
   let t0 = performance.now()
   await buildTemp()
