@@ -247,13 +247,14 @@ class Transformer {
         const node = path.node
         const callee = node.callee
         if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object)) {
-          let member = callee
-          if (t.isIdentifier(callee.property) &&
-            (callee.property.name === 'call' ||
-            callee.property.name === 'apply')) {
-            member = callee.object
+          const property = callee.property
+          if (t.isIdentifier(property)) {
+            if (property.name.startsWith('on')) {
+              processThisPropsFnMemberProperties(callee, path, node.arguments)
+            } else if (property.name === 'call' || property.name === 'apply') {
+              processThisPropsFnMemberProperties(callee.object, path, node.arguments)
+            }
           }
-          processThisPropsFnMemberProperties(member, path, node.arguments)
         }
       }
     })
