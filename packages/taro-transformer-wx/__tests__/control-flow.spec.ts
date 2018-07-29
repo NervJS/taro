@@ -77,7 +77,7 @@ describe('if statement', () => {
   })
 
   test('if 的 test 含有复杂表达式', () => {
-    const { template, ast } = transform({
+    const { template, ast, code } = transform({
       ...baseOptions,
       isRoot: true,
       code: buildComponent(`
@@ -89,7 +89,15 @@ describe('if statement', () => {
       `)
     })
 
-    console.log(template)
+    const inst = evalClass(ast)
+    expect(inst.state.anonymousState__temp).toBe(false)
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <block wx:if=\"{{anonymousState__temp}}\">
+            <view class=\"page-body\"></view>
+        </block>
+    </block>
+    `))
   })
 
   test.skip('if-else', () => {
