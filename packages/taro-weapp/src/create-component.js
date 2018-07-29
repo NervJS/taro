@@ -136,6 +136,7 @@ export function componentTrigger (component, key, args) {
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
+    component.state = component.getState()
   }
 }
 
