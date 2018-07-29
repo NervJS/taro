@@ -10,7 +10,7 @@ import {
   isContainJSXElement
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
-import { kebabCase } from 'lodash'
+import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import generate from 'babel-generator'
 
@@ -274,7 +274,10 @@ class Transformer {
     if (code.startsWith('this.props')) {
       const methodName = findMethodName(expr)
       const hasMethodName = this.anonymousMethod.has(methodName) || !methodName
-      const funcName = hasMethodName ? this.anonymousMethod.get(methodName)! : `func__${createRandomLetters(5)}`
+      const funcName = hasMethodName
+        ? this.anonymousMethod.get(methodName)!
+        // 测试时使用1个稳定的 uniqueID 便于测试，实际使用5个英文字母，否则小程序不支持
+        : process.env.NODE_ENV === 'test' ? uniqueId('func__') : `func__${createRandomLetters(5)}`
       this.anonymousMethod.set(methodName, funcName)
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
