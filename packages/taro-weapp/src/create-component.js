@@ -12,7 +12,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
     type: null,
     observer: function () {
       if (!this.$component || !this.$component.__isAttached) return
-      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
+      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
       this.$component.props = nextProps
       this.$component._unsafeCallUpdate = true
       updateComponent(this.$component)
@@ -108,11 +108,14 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, weappComponentData) {
+function filterProps (properties, defaultProps = {}, componentProps, weappComponentData) {
   let res = {}
   Object.getOwnPropertyNames(properties).forEach(name => {
     if (name !== privatePropValName) {
-      res[name] = name in weappComponentData ? weappComponentData[name] : defaultProps[name]
+      if (typeof componentProps[name] === 'function') {
+        return res[name] = componentProps[name]
+      }
+      res[name] = (name in weappComponentData && weappComponentData[name] !== undefined) ? weappComponentData[name] : defaultProps[name]
     }
   })
   return res
@@ -144,7 +147,7 @@ function createComponent (ComponentClass, isPage) {
       _componentProps: 1
     },
     attached (options = {}) {
-      const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.data)
+      const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
       this.$component = new ComponentClass(props)
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
