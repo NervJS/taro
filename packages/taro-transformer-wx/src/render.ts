@@ -101,25 +101,6 @@ function buildAssignState (
   )
 }
 
-function copyStateToShalowData () {
-  return t.expressionStatement(
-    t.assignmentExpression(
-      '=',
-      t.memberExpression(
-        t.memberExpression(t.thisExpression(), t.identifier('state')),
-        t.identifier('__data')
-      ),
-      t.callExpression(
-        t.memberExpression(t.identifier('Object'), t.identifier('assign')),
-        [
-          t.objectExpression([]),
-          t.memberExpression(t.thisExpression(), t.identifier('state'))
-        ]
-      )
-    )
-  )
-}
-
 export class RenderParser {
   public outputTemplate: string
 
@@ -983,7 +964,6 @@ export class RenderParser {
     const pendingState = t.objectExpression(properties)
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
-      copyStateToShalowData(),
       t.returnStatement(
         t.memberExpression(t.thisExpression(), t.identifier('state'))
       )
@@ -1004,14 +984,6 @@ export class RenderParser {
       }
     })
 
-    renderBody.insertAfter(
-      template(`
-        delete this.__props;
-        const __state = this.__state;
-        delete this.__state;
-        return __state;
-      `)()
-    )
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)()

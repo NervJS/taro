@@ -4,7 +4,7 @@ import { prettyPrint } from 'html'
 
 describe('if statement', () => {
   test('简单情况', () => {
-    const { template, ast } = transform({
+    const { template, ast,code } = transform({
       ...baseOptions,
       isRoot: true,
       code: buildComponent(`
