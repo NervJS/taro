@@ -6,7 +6,8 @@ import {
   generateAnonymousState,
   findMethodName,
   pathResolver,
-  createRandomLetters
+  createRandomLetters,
+  isContainJSXElement
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase } from 'lodash'
@@ -130,6 +131,14 @@ class Transformer {
               }
             })
           }
+        }
+      },
+      IfStatement (path) {
+        const test = path.get('test') as NodePath<t.Expression>
+        const consequent = path.get('consequent')
+        if (isContainJSXElement(consequent) && hasComplexExpression(test)) {
+          const scope = self.renderMethod && self.renderMethod.scope || path.scope
+          generateAnonymousState(scope, test, self.jsxReferencedIdentifiers, true)
         }
       },
       ClassProperty (path) {

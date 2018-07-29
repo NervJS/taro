@@ -76,6 +76,22 @@ describe('if statement', () => {
     `))
   })
 
+  test('if 的 test 含有复杂表达式', () => {
+    const { template, ast } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      const tasks = []
+      if (JSON.stringify(tasks) !== '[]') {
+        return <View className='page-body' >
+        </View>
+      }
+      `)
+    })
+
+    console.log(template)
+  })
+
   test.skip('if-else', () => {
     const { template, ast } = transform({
       ...baseOptions,
