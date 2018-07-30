@@ -198,6 +198,9 @@ function createComponent (ComponentClass, isPage) {
   }
   bindProperties(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
+  if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
+    weappComponentConf['externalClasses'] = ComponentClass['externalClasses']
+  }
   return weappComponentConf
 }
 
