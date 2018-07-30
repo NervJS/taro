@@ -36,9 +36,20 @@ function errorHandler (fail, complete) {
   }
 }
 
+const enc = encodeURIComponent
+
+function serializeParams (params) {
+  if (!params) {
+    return ''
+  }
+  return Object.keys(params)
+    .map(item => (`${item}=${enc(params[item])}`)).join('&')
+}
+
 export {
   shouleBeObject,
   getParameterError,
   inlineStyle,
-  errorHandler
+  errorHandler,
+  serializeParams
 }
