@@ -259,8 +259,10 @@ class Transformer {
           const property = callee.property
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {
+              self.componentProperies.add(`__fn_${property.name}`)
               processThisPropsFnMemberProperties(callee, path, node.arguments)
             } else if (property.name === 'call' || property.name === 'apply') {
+              self.componentProperies.add(`__fn_${property.name}`)
               processThisPropsFnMemberProperties(callee.object, path, node.arguments)
             }
           }
@@ -287,6 +289,10 @@ class Transformer {
       this.componentProperies.add(methodName)
       if (hasMethodName) {
         return
+      }
+      const attrName = attr.node.name
+      if (t.isJSXIdentifier(attrName) && attrName.name.startsWith('on')) {
+        this.componentProperies.add(`__fn_${attrName.name}`)
       }
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
