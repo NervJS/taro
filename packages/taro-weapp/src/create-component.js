@@ -109,16 +109,26 @@ function bindEvents (weappComponentConf, events, isPage) {
 }
 
 function filterProps (properties, defaultProps = {}, componentProps, weappComponentData) {
-  let res = {}
-  Object.getOwnPropertyNames(properties).forEach(name => {
-    if (name !== privatePropValName) {
-      if (typeof componentProps[name] === 'function') {
-        return res[name] = componentProps[name]
-      }
-      res[name] = (name in weappComponentData && weappComponentData[name] !== undefined) ? weappComponentData[name] : defaultProps[name]
+  let newProps = {}
+  for (const propName in properties) {
+    if (propName === privatePropValName) {
+      continue
     }
-  })
-  return res
+    if (typeof componentProps[propName] === 'function') {
+      newProps[propName] = componentProps[propName]
+    } else if (propName in weappComponentData &&
+      (properties !== null || weappComponentData[propName] !== null)) {
+      newProps[propName] = weappComponentData[propName]
+    }
+  }
+  if (!isEmptyObject(defaultProps)) {
+    for (const propName in defaultProps) {
+      if (newProps[propName] === undefined) {
+        newProps[propName] = defaultProps[propName]
+      }
+    }
+  }
+  return newProps
 }
 
 export function componentTrigger (component, key, args) {
