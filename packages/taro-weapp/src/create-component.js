@@ -1,7 +1,8 @@
-import { isEmptyObject } from './util'
+import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
+const componentFnReg = /^__fn_/
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -119,6 +120,12 @@ function filterProps (properties, defaultProps = {}, componentProps, weappCompon
     } else if (propName in weappComponentData &&
       (properties !== null || weappComponentData[propName] !== null)) {
       newProps[propName] = weappComponentData[propName]
+    }
+    if (componentFnReg.test(propName) && weappComponentData[propName] === true) {
+      const fnName = propName.replace(componentFnReg)
+      if (fnName in properties) {
+        newProps[fnName] = noop
+      }
     }
   }
   if (!isEmptyObject(defaultProps)) {

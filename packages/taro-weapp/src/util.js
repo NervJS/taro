@@ -53,3 +53,5 @@ export function getPrototypeChain (obj) {
   }
   return protoChain
 }
+
+export function noop () {}
