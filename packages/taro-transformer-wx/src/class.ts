@@ -325,33 +325,18 @@ class Transformer {
           this.usedState,
           this.loopStateName,
           this.customComponentNames,
-          this.customComponentData
+          this.customComponentData,
+          this.componentProperies
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
     }
   }
 
-  setProperies () {
-    const properties: t.ObjectProperty[] = []
-    this.componentProperies.forEach((propName) => {
-      properties.push(
-        t.objectProperty(t.stringLiteral(propName), t.nullLiteral())
-      )
-    })
-    let classProp = t.classProperty(
-      t.identifier('properties'),
-      t.objectExpression(properties)
-    ) as any
-    classProp.static = true
-    this.classPath.node.body.body.unshift(classProp)
-  }
-
   compile () {
     this.traverse()
     this.setComponents()
     this.resetConstructor()
-    this.setProperies()
     this.parseRender()
   }
 }

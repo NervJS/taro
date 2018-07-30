@@ -125,6 +125,7 @@ export class RenderParser {
   private usedState: Set<string>
   private loopStateName: Map<NodePath<t.CallExpression>, string>
   private customComponentData: Array<t.ObjectProperty>
+  private componentProperies: Set<string>
 
   private finalReturnElement!: t.JSXElement
 
@@ -220,6 +221,22 @@ export class RenderParser {
         }
       }
     }
+  }
+
+  setProperies () {
+    const properties: t.ObjectProperty[] = []
+    this.componentProperies.forEach((propName) => {
+      properties.push(
+        t.objectProperty(t.stringLiteral(propName), t.nullLiteral())
+      )
+    })
+    let classProp = t.classProperty(
+      t.identifier('properties'),
+      t.objectExpression(properties)
+    ) as any
+    classProp.static = true
+    const classPath = this.renderPath.findParent(p => p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+    classPath.node.body.body.unshift(classProp)
   }
 
   private loopComponentVisitor: Visitor = {
@@ -582,6 +599,15 @@ export class RenderParser {
                 path.node.value = t.stringLiteral(`${methodName}`)
               }
               eventShouldBeCatched = isContainStopPropagation(method)
+              const componentName = jsxElementPath.node.openingElement.name
+              if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
+                const element = path.parent as t.JSXOpeningElement
+                const fnName = `__fn_${name.name}`
+                this.componentProperies.add(fnName)
+                if (process.env.NODE_ENV !== 'test') {
+                  element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
+                }
+              }
             }
           }
           if (
@@ -684,7 +710,8 @@ export class RenderParser {
     usedState: Set<string>,
     loopStateName: Map<NodePath<t.CallExpression>, string>,
     customComponentNames: Set<string>,
-    customComponentData: Array<t.ObjectProperty>
+    customComponentData: Array<t.ObjectProperty>,
+    componentProperies: Set<string>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -694,6 +721,7 @@ export class RenderParser {
     this.usedState = usedState
     this.customComponentNames = customComponentNames
     this.customComponentData = customComponentData
+    this.componentProperies = componentProperies
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -711,6 +739,7 @@ export class RenderParser {
     this.setPendingState()
     this.setCustomEvent()
     this.createData()
+    this.setProperies()
   }
 
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {

@@ -152,7 +152,8 @@ export function parseJSXElement (element: t.JSXElement): string {
         }
         if (
           componentSpecialProps &&
-          componentSpecialProps.has(name)
+          componentSpecialProps.has(name) ||
+          name.startsWith('__fn_')
         ) {
           obj[name] = value
         } else {
