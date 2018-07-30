@@ -145,6 +145,109 @@ describe('if statement', () => {
 })
 
 describe('inline 表达式', () => {
+  describe('work with this.props.children', () => {
+    test('|| 逻辑表达式', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const text = 'test'
+        return (
+          <View>
+            {text || this.props.children}
+          </View>
+        )
+        `)
+      })
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block>
+                    <block wx:if="{{text}}">{{text}}</block>
+                    <block wx:else>
+                        <slot></slot>
+                    </block>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('三元表达式', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const text = 'test'
+        return (
+          <View>
+            {text ? text : this.props.children}
+          </View>
+        )
+        `)
+      })
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block>
+                    <block wx:if="{{text}}">{{text}}</block>
+                    <block wx:else>
+                        <slot></slot>
+                    </block>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('逻辑非表达式', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const text = 'test'
+        return (
+          <View>
+            {!text && this.props.children}
+          </View>
+        )
+        `)
+      })
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <view>
+              <block wx:if=\"{{!text}}\">
+                  <slot></slot>
+              </block>
+          </view>
+      </block>
+      `))
+    })
+
+    test('逻辑非表达式 2', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const text = 'test'
+        return (
+          <View>
+            {!text && <Btn />}
+          </View>
+        )
+        `, '', `import Btn from './btn'`)
+      })
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <view>
+              <block wx:if=\"{{!text}}\">
+                <btn __triggerObserer=\"{{ _triggerObserer }}\"></btn>
+              </block>
+          </view>
+      </block>
+      `))
+    })
+  })
   describe('匿名 state 生成也需要带上表达式条件', () => {
     test('三元表达式', () => {
       const { template, ast, code } = transform({
