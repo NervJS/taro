@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../utils/utils')
+const { buildDocsMeta, isTaroComponent } = require('../utils/utils')
 
 function createErrorMsg (name, type) {
   return `${name} 是 Taro 的内部保留${type}，请改变变量名`
@@ -36,6 +36,9 @@ module.exports = {
   create (context) {
     return {
       MethodDefinition (node) {
+        if (!isTaroComponent(context, node)) {
+          return
+        }
         const name = node.key.name
         if (RESERVE_METHODS.has(name)) {
           context.report({
@@ -45,6 +48,9 @@ module.exports = {
         }
       },
       ClassProperty (node) {
+        if (!isTaroComponent(context, node)) {
+          return
+        }
         const name = node.key.name
         if (RESERVE_PROPERIES.has(name)) {
           context.report({

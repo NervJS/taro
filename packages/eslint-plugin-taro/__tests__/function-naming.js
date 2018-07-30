@@ -9,13 +9,13 @@ const UNDERSCOPE_ERROR = '方法名以下划线 `_` 开头或结尾可能在小�
 const LENGTH_ERROR = '方法名的长度大于 20 可能在小程序中无法使用'
 
 function testClassMethod (name) {
-  return `class A {
+  return `class A extends Component {
     ${name} () {}
   }`
 }
 
 function testClassPropFunction (name) {
-  return `class A {
+  return `class A extends Component {
     ${name} = () => {}
   }`
 }

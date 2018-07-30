@@ -1,4 +1,4 @@
-const { buildDocsMeta } = require('../utils/utils')
+const { buildDocsMeta, isTaroComponent } = require('../utils/utils')
 
 const NUMBER_ERROR = '方法名包含数字可能会在小程序中无法使用'
 const UNDERSCOPE_ERROR = '方法名以下划线 `_` 开头或结尾可能在小程序无法使用'
@@ -33,12 +33,18 @@ module.exports = {
 
     return {
       MethodDefinition (node) {
+        if (!isTaroComponent(context, node)) {
+          return
+        }
         const key = node.key
         if (key.type === 'Identifier') {
           examine(key)
         }
       },
       ClassProperty (node) {
+        if (!isTaroComponent(context, node)) {
+          return
+        }
         const key = node.key
         const value = node.value
         if (
