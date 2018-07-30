@@ -603,8 +603,8 @@ export class RenderParser {
               if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
                 const element = path.parent as t.JSXOpeningElement
                 const fnName = `__fn_${name.name}`
-                this.componentProperies.add(fnName)
                 if (process.env.NODE_ENV !== 'test') {
+                  this.componentProperies.add(fnName)
                   element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
                 }
               }

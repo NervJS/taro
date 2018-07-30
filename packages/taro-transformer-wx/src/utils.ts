@@ -97,9 +97,7 @@ export function generateAnonymousState (
           t.returnStatement(func.body)
         ])
       } else {
-        statementParent.insertBefore(
-          buildConstVariableDeclaration(variableName, expr)
-        )
+        func.body.body.splice(func.body.body.length - 1, 0, buildConstVariableDeclaration(variableName, expr))
       }
     }
   }
