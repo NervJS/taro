@@ -247,7 +247,7 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   }
   if (path.isArrayExpression()) {
     const { elements } = path.node
-    if (elements.some(el => t.isObjectExpression(el))) {
+    if (elements.some(el => t.isObjectExpression(el as any))) {
       return true
     }
   }
@@ -262,7 +262,7 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
     },
     ArrayExpression (p) {
       const { elements } = p.node
-      if (elements.some(el => t.isObjectExpression(el))) {
+      if (elements.some(el => t.isObjectExpression(el as any))) {
         return true
       }
     },
