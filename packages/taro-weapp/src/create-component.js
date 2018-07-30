@@ -121,11 +121,12 @@ function filterProps (properties, defaultProps = {}, componentProps, weappCompon
       (properties !== null || weappComponentData[propName] !== null)) {
       newProps[propName] = weappComponentData[propName]
     }
-    if (componentFnReg.test(propName) && weappComponentData[propName] === true) {
-      const fnName = propName.replace(componentFnReg)
-      if (fnName in properties) {
+    if (componentFnReg.test(propName)) {
+      if (weappComponentData[propName] === true) {
+        const fnName = propName.replace(componentFnReg, '')
         newProps[fnName] = noop
       }
+      delete newProps[propName]
     }
   }
   if (!isEmptyObject(defaultProps)) {
