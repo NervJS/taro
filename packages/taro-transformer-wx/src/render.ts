@@ -37,8 +37,8 @@ interface JSXHandler {
   parentNode: t.Node
   parentPath: NodePath<t.Node>
   statementParent: NodePath<t.Node>
-  isReturnStatement: boolean
-  isFinalReturn: boolean
+  isReturnStatement?: boolean
+  isFinalReturn?: boolean
 }
 
 function isChildrenOfJSXAttr (p: NodePath<t.Node>) {
@@ -130,7 +130,7 @@ export class RenderParser {
 
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
     if (t.isLogicalExpression(parentNode)) {
-      const { left, operator } = parentNode
+      const { left, operator, right } = parentNode
       const leftExpression = parentPath.get('left') as NodePath<t.Expression>
       if (operator === '&&' && t.isExpression(left)) {
         if (hasComplexExpression(leftExpression)) {
@@ -145,6 +145,11 @@ export class RenderParser {
           setTemplate(name, jsxElementPath, this.templates)
           // name && templates.set(name, path.node)
         }
+      }
+      if (operator === '||' && t.isExpression(left)) {
+        const newNode = t.conditionalExpression(left, left, right)
+        parentPath.replaceWith(newNode)
+        // this.handleConditionExpr({ parentNode: newNode, parentPath, statementParent }, jsxElementPath)
       }
     } else if (t.isConditionalExpression(parentNode)) {
       const { consequent, alternate } = parentNode
@@ -199,7 +204,20 @@ export class RenderParser {
           setTemplate(name, jsxElementPath, this.templates)
         }
       } else {
-        // console.log('todo')
+        block.children = [t.jSXExpressionContainer(consequent)]
+        newJSXIfAttr(block, test)
+        const block2 = buildBlockElement()
+        setJSXAttr(block2, 'wx:else')
+        block2.children = [t.jSXExpressionContainer(alternate)]
+        const parentBlock = buildBlockElement()
+        parentBlock.children = [block, block2]
+        parentPath.replaceWith(parentBlock)
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+        }
       }
     }
   }

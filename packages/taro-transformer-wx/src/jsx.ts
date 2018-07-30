@@ -10,6 +10,8 @@ export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
 }
 
+const specialComponentName = ['block', 'Block', 'slot', 'Slot']
+
 export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   if (!path.parentPath.isCallExpression()) {
     const p = path.getSibling('property')
@@ -157,12 +159,12 @@ export function parseJSXElement (element: t.JSXElement): string {
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
       }
-      if (!isDefaultComponent && !['block', 'Block'].includes(componentName)) {
+      if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
         obj['__triggerObserer'] = '{{ _triggerObserer }}'
       }
       return obj
     }, {})
-  } else if (!isDefaultComponent && !['block', 'Block'].includes(componentName)) {
+  } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
     attributesTrans['__triggerObserer'] = '{{ _triggerObserer }}'
   }
   return createHTMLElement({
