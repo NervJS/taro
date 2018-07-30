@@ -1,5 +1,9 @@
 const { buildDocsMeta } = require('../utils/utils')
 
+const NUMBER_ERROR = '方法名包含数字可能会在小程序中无法使用'
+const UNDERSCOPE_ERROR = '方法名以下划线 `_` 开头或结尾可能在小程序无法使用'
+const LENGTH_ERROR = '方法名的长度大于 20 可能在小程序中无法使用'
+
 module.exports = {
   meta: {
     docs: buildDocsMeta('方法命名规范', 'no-function-number-literal')
@@ -9,19 +13,19 @@ module.exports = {
     function examine (key) {
       if (/\d/g.test(key.name)) {
         context.report({
-          message: '方法名包含数字可能会在小程序中无法使用',
+          message: NUMBER_ERROR,
           node: key
         })
       }
       if (key.name.startsWith('_') || key.name.endsWith('_')) {
         context.report({
-          message: '方法名以下划线 `_` 开头或结尾可能在小程序无法使用',
+          message: UNDERSCOPE_ERROR,
           node: key
         })
       }
       if (key.name.length >= 20) {
         context.report({
-          message: '方法名的长度大于 20 可能在小程序中无法使用',
+          message: LENGTH_ERROR,
           node: key
         })
       }
