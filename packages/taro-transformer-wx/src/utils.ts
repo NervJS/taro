@@ -245,6 +245,12 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   if (path.isTemplateLiteral() || path.isCallExpression()) {
     return true
   }
+  if (path.isArrayExpression()) {
+    const { elements } = path.node
+    if (elements.some(el => t.isObjectExpression(el))) {
+      return true
+    }
+  }
   path.traverse({
     CallExpression: (p) => {
       matched = true
@@ -253,6 +259,12 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
     TemplateLiteral (p) {
       matched = true
       p.stop()
+    },
+    ArrayExpression (p) {
+      const { elements } = p.node
+      if (elements.some(el => t.isObjectExpression(el))) {
+        return true
+      }
     },
     TaggedTemplateExpression (p) {
       matched = true
