@@ -1,12 +1,15 @@
+import { NetInfo } from 'react-native'
 import MockNetInfo from './__mock__/mockNetwork'
 import Taro from '../index.js'
-
-const NetInfo = new MockNetInfo('wifi')
-jest.setMock('NetInfo', NetInfo)
 
 Taro.initNativeApi(Taro)
 
 describe('network', () => {
+  beforeEach(() => {
+    const NetInfo = new MockNetInfo('wifi')
+    jest.setMock('NetInfo', NetInfo)
+  })
+
   describe('getNetworkType', () => {
     test('能正常返回网络类型', () => {
       const networkType = expect.any(String)

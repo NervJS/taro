@@ -1,12 +1,15 @@
+import { Clipboard } from 'react-native'
 import MockClipboard from './__mock__/mockClipboard'
 import Taro from '../index.js'
-
-const Clipboard = new MockClipboard()
-jest.setMock('Clipboard', Clipboard)
 
 Taro.initNativeApi(Taro)
 
 describe('clipboard', () => {
+  beforeEach(() => {
+    const Clipboard = new MockClipboard()
+    jest.setMock('Clipboard', Clipboard)
+  })
+
   describe('setClipboardData', () => {
     test('should set value into Clipboard', async () => {
       const data = 'foo'

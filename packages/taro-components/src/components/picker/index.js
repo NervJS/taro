@@ -35,8 +35,7 @@ export default class Picker extends Nerv.Component {
         const v = value && value.length ? value[i] : undefined
         this.index.push(this.verifyValue(v, r) ? Math.floor(value[i]) : 0)
       })
-    }
-    if (mode === 'time') {
+    } else if (mode === 'time') {
       // check value...
       if (!this.verifyTime(value)) {
         console.warn('time picker value illegal')
@@ -207,7 +206,6 @@ export default class Picker extends Nerv.Component {
 
       // 除了 multiSeclector，都在点击确认时才改变记录的下标值
       this.index = this.state.height.map(h => (TOP - h) / LINE_HEIGHT)
-
       const eventObj = getEventObj(e, 'change', {
         value: this.index.length > 1 ? this.index : this.index[0]
       })
@@ -253,7 +251,6 @@ export default class Picker extends Nerv.Component {
           eventObj.detail.value = this.index
         }
       }
-
       this.setState({
         pickerValue: eventObj.detail.value
       })
