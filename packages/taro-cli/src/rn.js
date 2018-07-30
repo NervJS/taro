@@ -394,21 +394,21 @@ function parseJSCode (code, filePath) {
 
         if (isEntryFile) {
           // import page
-          pages.forEach(v => {
-            const pageName = v.startsWith('/') ? v : `/${v}`
-            const screenName = pageName.replace(/\//g, '')
+          pages.forEach(pageItem => {
+            const pagePath = pageItem.startsWith('/') ? pageItem : `/${pageItem}`
+            const screenName = pagePath.replace(/\//g, '')
             const importScreen = template(
-              `import ${screenName} from '.${pageName}'`,
+              `import ${screenName} from '.${pagePath}'`,
               babylonConfig
             )()
             node.body.unshift(importScreen)
           })
           // Taro.initRouter  生成 RootStack
           const routerPages = pages
-            .map(v => {
-              const pageName = v.startsWith('/') ? v : `/${v}`
+            .map(pageItem => {
+              const pageName = pageItem.startsWith('/') ? pageItem : `/${pageItem}`
               const screenName = pageName.replace(/\//g, '')
-              return `['${screenName}',${screenName}]`
+              return `['${pageItem}',${screenName}]`
             })
             .join(',')
           node.body.push(template(
@@ -624,7 +624,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  // await buildDist({watch})
+  await buildDist({watch})
   if (watch) {
     watchFiles()
   }

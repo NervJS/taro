@@ -5,6 +5,8 @@ function getWrappedScreen (Screen, Taro) {
   class WrappedScreen extends Screen {
     constructor (props, context) {
       super(props, context)
+      // 这样处理不一定合理，
+      // 有时间看一下 react-navigation 内部的实现机制再优化
       Taro.navigateTo = this.wxNavigateTo.bind(this)
       Taro.redirectTo = this.wxRedirectTo.bind(this)
       Taro.navigateBack = this.wxNavigateBack.bind(this)
@@ -24,7 +26,7 @@ function getWrappedScreen (Screen, Taro) {
       let obj = queryString.parseUrl(url)
       console.log(obj)
       try {
-        this.props.navigation.push(obj.url.replace(/\//g, ''), obj.query)
+        this.props.navigation.push(obj.url, obj.query)
       } catch (e) {
         fail && fail(e)
         complete && complete(e)
@@ -38,7 +40,7 @@ function getWrappedScreen (Screen, Taro) {
       let obj = queryString.parseUrl(url)
       console.log(obj)
       try {
-        this.props.navigation.replace(obj.url.replace(/\//g, ''), obj.query)
+        this.props.navigation.replace(obj.url, obj.query)
       } catch (e) {
         fail && fail(e)
         complete && complete(e)
