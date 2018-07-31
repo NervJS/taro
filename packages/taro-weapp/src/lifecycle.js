@@ -13,6 +13,10 @@ export function updateComponent (component) {
     component.componentWillReceiveProps(props)
     component._disable = false
   }
+  // 在willMount前执行构造函数的副本
+  if (!component.__mounted) {
+    component._constructor && component._constructor(props)
+  }
   let state = component.getState()
 
   const prevState = component.prevState || state
@@ -43,14 +47,14 @@ export function updateComponent (component) {
 }
 
 function doUpdate (component) {
-  const {state, props = {}} = component
+  const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
     data = component._createData(state, props)
   }
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
-  data = Object.assign(data, props)
+  data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
     const _data = {}
     component.$usedState.forEach(key => {
@@ -73,6 +77,7 @@ function doUpdate (component) {
       if (typeof component.componentDidMount === 'function') {
         component.componentDidMount()
       }
+      componentTrigger(component, 'componentDidShow')
     }
   })
 }
