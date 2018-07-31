@@ -1,8 +1,249 @@
 import transform from '../src'
-import { buildComponent, baseOptions, evalClass } from './utils'
+import { buildComponent, baseOptions, evalClass, removeShadowData } from './utils'
 import { prettyPrint } from 'html'
 
 describe('Template', () => {
+
+  describe('inline style', () => {
+    test('简单情况', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style={{ color: 'red' }} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+
+      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(inst.state['anonymousState__temp']).toMatch(`color:red`)
+    })
+
+    test('key 有 - 符号', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style={{ 'fontSize': '16px' }} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+
+      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(inst.state['anonymousState__temp']).toMatch(`font-size:16px`)
+    })
+
+    test('多个对象', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style={{ 'fontSize': '16px', color: 'red' }} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+
+      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(inst.state['anonymousState__temp']).toMatch(`font-size:16px;color:red`)
+    })
+
+    test('不转换字符串', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style={'color: red'} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+      removeShadowData(inst.state)
+      expect(inst.state).toEqual({})
+      expect(template).toMatch(`<view style=\"color: red\"></view>`)
+    })
+
+    test('不转换字符串 literal', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style='color: red' />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+      removeShadowData(inst.state)
+      expect(inst.state).toEqual({})
+      expect(template).toMatch(`<view style=\"color: red\"></view>`)
+    })
+
+    test('不转换字符串想加', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View style={'color:' + 'red'} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+      removeShadowData(inst.state)
+      expect(inst.state).toEqual({})
+      expect(template).toMatch(`<view style=\"{{'color:' + 'red'}}\"></view>`)
+    })
+
+    test('转换变量', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const style = 'color:' + 'red'
+          return (
+            <View style={style} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+      removeShadowData(inst.state)
+      expect(Object.keys(inst.state).length).toEqual(1)
+      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(inst.state['anonymousState__temp']).toMatch(`color:red`)
+    })
+
+    test('能在循环中使用, 无 return', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = ['test1', 'test2', 'test3']
+          return (
+            <View>{array.map(item => <View style={{ 'fontSize': '16px', color: 'red' }} />)}</View>
+          )
+        `)
+      })
+
+      const instance = evalClass(ast, '', true)
+      removeShadowData(instance.state)
+
+      expect(template).toMatch(`<view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item"></view>`)
+      const styles = instance.state.loopArray0.map(i => i.$loopState__temp2)
+      expect(styles[0]).toBe('font-size:16px;color:red')
+      expect(styles[1]).toBe('font-size:16px;color:red')
+    })
+
+    test('能在循环中使用, 有 return', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = ['test1', 'test2', 'test3']
+          return (
+            <View>{array.map(item => {
+              return <View style={{ 'fontSize': '16px', color: 'red' }} />
+            })}</View>
+          )
+        `)
+      })
+
+      const instance = evalClass(ast, '', true)
+      removeShadowData(instance.state)
+
+      expect(template).toMatch(`<view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item"></view>`)
+      const styles = instance.state.loopArray0.map(i => i.$loopState__temp2)
+      expect(styles[0]).toBe('font-size:16px;color:red')
+      expect(styles[1]).toBe('font-size:16px;color:red')
+    })
+
+    test('能在多层循环中使用', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [{}] }]
+          return (
+            <View>{array.map(item => {
+              return <View style={{ 'fontSize': '12px', color: 'red' }}>
+                {item.list.map(l => <Image style={{ 'fontSize': '16px', color: 'green' }} />)}
+              </View>
+            })}</View>
+          )
+        `)
+      })
+
+      const instance = evalClass(ast, '', true)
+      removeShadowData(instance.state)
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item">
+                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.list}}" wx:for-item="l"
+                    />
+                </view>
+            </view>
+        </block>
+      `))
+
+      expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
+      expect(instance.state.loopArray0[0].$loopState__temp2).toMatch(`font-size:12px;color:red`)
+      expect(instance.state.loopArray0[0].list[0].$loopState__temp4).toMatch(`font-size:16px;color:green`)
+    })
+
+    test('能在多层循环中使用 2', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [{}] }]
+          let a2 = ['test1', 'test2', 'test3']
+          return (
+            <View>{array.map(item => {
+              return <View style={{ 'fontSize': '12px', color: 'red' }}>
+                {item.list.map(l => <Image style={{ 'fontSize': '16px', color: 'green' }} />)}
+                {a2.map(a => <View style={{ 'fontSize': '20px', color: 'yellow' }} />)}
+              </View>
+            })}</View>
+          )
+        `)
+      })
+
+      const instance = evalClass(ast, '', true)
+      removeShadowData(instance.state)
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item">
+                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.list}}" wx:for-item="l"
+                    />
+                    <view style="{{a.$loopState__temp6}}" wx:for="{{a2}}" wx:for-item="a"></view>
+                </view>
+            </view>
+        </block>
+      `))
+
+      expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
+      expect(instance.state.loopArray0[0].$loopState__temp2).toMatch(`font-size:12px;color:red`)
+      expect(instance.state.loopArray0[0].list[0].$loopState__temp4).toMatch(`font-size:16px;color:green`)
+      expect(instance.state.a2[0].$loopState__temp6).toMatch(`font-size:20px;color:yellow`)
+    })
+  })
 
   test('暂不支持 JSX 成员表达式', () => {
     expect(() => {
@@ -214,10 +455,7 @@ describe('Template', () => {
         // const props = instance.$props.Custom()
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
-        expect(template).toMatch(`data=\"{{...item}}\"`)
-        expect(template).toMatch(`wx:for-item=\"item\"`)
-        expect(template).toMatch(`wx:for=\"{{$$Custom}}\"`)
-        expect(template).toMatch(`wx:key=`)
+        expect(template).toMatch(`<custom hidden=\"{{true}}\" __triggerObserer=\"{{ _triggerObserer }}\"></custom>`)
       })
 
       test('自定义组件循环', () => {
@@ -238,7 +476,7 @@ describe('Template', () => {
         // const props = instance.$props.Custom()
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
-        expect(template).toMatch(`<template is=\"Custom\" data=\"{{...a1}}\" wx:for=\"{{array}}\" wx:for-item=\"a1\"></template>`)
+        expect(template).toMatch(`<custom wx:for=\"{{array}}\" __triggerObserer=\"{{ _triggerObserer }}\" wx:for-item=\"a1\"></custom>`)
       })
     })
 

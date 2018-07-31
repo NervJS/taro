@@ -855,24 +855,24 @@ describe('loop', () => {
         expect(template).toMatch(prettyPrint(
           `
           <block>
-        <view>
-            <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                    <scroll-view bindtap=\"onClick\">
-                        <block wx:if=\"{{b2}}\">
-                            <map></map>
-                        </block>
-                        <text></text>
-                    </scroll-view>
-                </block>
-                <view>
-                    <block wx:if=\"{{b4}}\">
-                        <image/>
-                    </block>
-                </view>
-            </cover-view>
-        </view>
-    </block>
+              <view>
+                  <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                          <scroll-view bindtap=\"func__1\">
+                              <block wx:if=\"{{b2}}\">
+                                  <map></map>
+                              </block>
+                              <text></text>
+                          </scroll-view>
+                      </block>
+                      <view>
+                          <block wx:if=\"{{b4}}\">
+                              <image/>
+                          </block>
+                      </view>
+                  </cover-view>
+              </view>
+          </block>
           `
         ))
       })
@@ -915,8 +915,7 @@ describe('loop', () => {
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                       <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                          <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"null\"
-                          data-component-path=\"{{$path}}\">
+                          <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"null\">
                               <block wx:if=\"{{b2}}\">
                                   <map></map>
                               </block>
@@ -973,8 +972,7 @@ describe('loop', () => {
         <view>
             <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                 <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                    <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"null\"
-                    data-component-path=\"{{$path}}\">
+                    <scroll-view bindtap=\"func__2\" data-e-func__2-so=\"this\" data-e-func__2-a-a=\"null\">
                         <block wx:if=\"{{b2}}\">
                             <map></map>
                         </block>
@@ -983,7 +981,7 @@ describe('loop', () => {
                 </block>
                 <view>
                     <block wx:if=\"{{b4}}\">
-                      <image/>
+                        <image/>
                     </block>
                 </view>
             </cover-view>
@@ -1391,8 +1389,7 @@ describe('loop', () => {
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
-                      data-component-path=\"{{$path}}\">
+                      <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\">
                           <block wx:if=\"{{b2}}\">
                               <map bindtap=\"handleClick\"></map>
                           </block>
@@ -1450,7 +1447,7 @@ describe('loop', () => {
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
                       <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
-                      data-e-handleClick-a-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                      data-e-handleClick-a-a=\"{{b1}}\">
                           <block wx:if=\"{{b2}}\">
                               <map bindtap=\"handleClick\"></map>
                           </block>
@@ -1507,11 +1504,9 @@ describe('loop', () => {
           <block>
         <view>
             <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
-                data-e-handleClick-a-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b1}}\">
                     <block wx:if=\"{{b2}}\">
-                        <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"
-                        data-component-path=\"{{$path}}\"></map>
+                        <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></map>
                     </block>
                     <text></text>
                     <cover-view>
@@ -1567,17 +1562,15 @@ describe('loop', () => {
         <view>
             <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
                 <cover-view bindtap=\"handleClick\" data-e-handleClick-so=\"this\"
-                data-e-handleClick-a-a=\"{{b1}}\" data-component-path=\"{{$path}}\">
+                data-e-handleClick-a-a=\"{{b1}}\">
                     <block wx:if=\"{{b2}}\">
-                        <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"
-                        data-component-path=\"{{$path}}\"></map>
+                        <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></map>
                     </block>
                     <text></text>
                     <cover-view>
                         <text></text>
                         <block wx:if=\"{{b4}}\">
-                            <button bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"
-                            data-component-path=\"{{$path}}\"></button>
+                            <button bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
                         </block>
                     </cover-view>
                     <block wx:if=\"{{b3}}\">
@@ -1623,31 +1616,27 @@ describe('loop', () => {
         expect(instance.state.array).toEqual([{ list: [] }])
         expect(template).toMatch(prettyPrint(
           `
-          <template name=\"Index\">
-              <block>
-                  <view>
-                      <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                          <cover-view bindtap=\"onClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\">
-                              <block wx:if=\"{{b2}}\">
-                                  <map bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                  data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></map>
-                              </block>
-                              <text></text>
-                              <cover-view>
-                                  <text></text>
-                                  <block wx:if=\"{{b4}}\">
-                                      <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                      data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
-                                  </block>
-                              </cover-view>
-                              <block wx:if=\"{{b3}}\">
-                                  <progress></progress>
-                              </block>
-                          </cover-view>
+          <block>
+          <view>
+              <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                  <cover-view bindtap=\"func__3\">
+                      <block wx:if=\"{{b2}}\">
+                          <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></map>
                       </block>
-                  </view>
+                      <text></text>
+                      <cover-view>
+                          <text></text>
+                          <block wx:if=\"{{b4}}\">
+                              <button bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
+                          </block>
+                      </cover-view>
+                      <block wx:if=\"{{b3}}\">
+                          <progress></progress>
+                      </block>
+                  </cover-view>
               </block>
-          </template>
+          </view>
+      </block>
           `
         ))
       })
@@ -1684,32 +1673,27 @@ describe('loop', () => {
         expect(instance.state.array).toEqual([{ list: [] }])
         expect(template).toMatch(prettyPrint(
           `
-          <template name=\"Index\">
-              <block>
-                  <view>
-                      <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                          <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
-                          data-component-class=\"Index\" data-e-onCoverClick-so=\"this\" data-e-onCoverClick-a-a=\"{{b1}}\">
-                              <block wx:if=\"{{b2}}\">
-                                  <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                  data-e-onMapCick-so=\"this\" data-e-onMapCick-a-a=\"{{b2}}\"></map>
-                              </block>
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view bindtap=\"func__4\" data-e-func__4-so=\"this\" data-e-func__4-a-a=\"{{b1}}\">
+                          <block wx:if=\"{{b2}}\">
+                              <map bindtap=\"func__5\" data-e-func__5-so=\"this\" data-e-func__5-a-a=\"{{b2}}\"></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
                               <text></text>
-                              <cover-view>
-                                  <text></text>
-                                  <block wx:if=\"{{b4}}\">
-                                      <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                      data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
-                                  </block>
-                              </cover-view>
-                              <block wx:if=\"{{b3}}\">
-                                  <progress></progress>
+                              <block wx:if=\"{{b4}}\">
+                                  <button bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
                               </block>
                           </cover-view>
-                      </block>
-                  </view>
-              </block>
-          </template>
+                          <block wx:if=\"{{b3}}\">
+                              <progress></progress>
+                          </block>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
           `
         ))
       })
@@ -1746,33 +1730,27 @@ describe('loop', () => {
         expect(instance.state.array).toEqual([{ list: [] }])
         expect(template).toMatch(prettyPrint(
           `
-          <template name=\"Index\">
-              <block>
-                  <view>
-                      <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                          <cover-view bindtap=\"Index__onCoverClick\" data-component-path=\"{{$path}}\"
-                          data-component-class=\"Index\" data-e-onCoverClick-so=\"this\" data-e-onCoverClick-a-a=\"{{b1}}\">
-                              <block wx:if=\"{{b2}}\">
-                                  <map bindtap=\"Index__onMapCick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                  data-e-onMapCick-so=\"this\" data-e-onMapCick-a-a=\"{{b2}}\"></map>
-                              </block>
+          <block>
+              <view>
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                      <cover-view bindtap=\"func__6\" data-e-func__6-so=\"this\" data-e-func__6-a-a=\"{{b1}}\">
+                          <block wx:if=\"{{b2}}\">
+                              <map bindtap=\"func__7\" data-e-func__7-so=\"this\" data-e-func__7-a-a=\"{{b2}}\"></map>
+                          </block>
+                          <text></text>
+                          <cover-view>
                               <text></text>
-                              <cover-view>
-                                  <text></text>
-                                  <block wx:if=\"{{b4}}\">
-                                      <button bindtap=\"Index__handleClick\" data-component-path=\"{{$path}}\" data-component-class=\"Index\"
-                                      data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
-                                  </block>
-                              </cover-view>
-                              <block wx:if=\"{{b3}}\">
-                                  <progress bindtap=\"Index__onProgressClick\" data-component-path=\"{{$path}}\"
-                                  data-component-class=\"Index\" data-e-onProgressClick-so=\"this\" data-e-onProgressClick-a-a=\"{{b2}}\"></progress>
+                              <block wx:if=\"{{b4}}\">
+                                  <button bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></button>
                               </block>
                           </cover-view>
-                      </block>
-                  </view>
-              </block>
-          </template>
+                          <block wx:if=\"{{b3}}\">
+                              <progress bindtap=\"func__8\" data-e-func__8-so=\"this\" data-e-func__8-a-a=\"{{b2}}\"></progress>
+                          </block>
+                      </cover-view>
+                  </block>
+              </view>
+          </block>
           `
         ))
       })

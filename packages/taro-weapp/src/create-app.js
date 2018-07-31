@@ -28,6 +28,18 @@ function createApp (AppClass) {
       if (app.componentDidHide) {
         app.componentDidHide()
       }
+    },
+
+    onError () {
+      if (app.componentDidCatchError) {
+        app.componentDidCatchError()
+      }
+    },
+
+    onPageNotFound () {
+      if (app.componentDidNotFound) {
+        app.componentDidNotFound()
+      }
     }
   }
   return Object.assign(weappAppConf, app)

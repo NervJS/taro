@@ -233,17 +233,13 @@ export default function connectAdvanced(
       }
 
       addExtraProps(props) {
-        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return {
-          ...props,
-          ref: this.setWrappedInstance
-        }
+        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props
         // make a shallow copy so that fields added don't leak to the original selector.
         // this is especially important for 'ref' since that's a reference back to the component
         // instance. a singleton memoized selector would then be holding a reference to the
         // instance, preventing the instance from being garbage collected, and that would be bad
         const withExtras = { ...props }
-        // if (withRef) withExtras.ref = this.setWrappedInstance
-        withExtras.ref = this.setWrappedInstance
+        if (withRef) withExtras.ref = this.setWrappedInstance
         if (renderCountProp) withExtras[renderCountProp] = this.renderCount++
         if (this.propsMode && this.subscription) withExtras[subscriptionKey] = this.subscription
         return withExtras
@@ -269,15 +265,15 @@ export default function connectAdvanced(
 
     const componentDidShow = WrappedComponent.prototype.componentDidShow
     const componentDidHide = WrappedComponent.prototype.componentDidHide
-    const originalComponentDidMount = Connect.prototype.componentDidMount
-    const originalComponentWillUnmount = Connect.prototype.componentWillUnmount
+    const originalComponentDidMount = WrappedComponent.prototype.componentDidMount
+    const originalComponentWillUnmount = WrappedComponent.prototype.componentWillUnmount
 
-    Connect.prototype.componentDidMount = function () {
+    WrappedComponent.prototype.componentDidMount = function () {
       originalComponentDidMount && originalComponentDidMount.call(this)
-      componentDidShow && componentDidShow.call(this.wrappedInstance)
+      componentDidShow && componentDidShow.call(this)
     }
-    Connect.prototype.componentWillUnmount = function () {
-      componentDidHide && componentDidHide.call(this.wrappedInstance)
+    WrappedComponent.prototype.componentWillUnmount = function () {
+      componentDidHide && componentDidHide.call(this)
       originalComponentWillUnmount && originalComponentWillUnmount.call(this)
     }
 

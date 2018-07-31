@@ -43,7 +43,8 @@ module.exports = function (creater, params, helper, cb) {
     description,
     projectName,
     version,
-    css
+    css,
+    typescript
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,

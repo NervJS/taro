@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "0.0.68-beta.4",
+  "version": "1.0.0-beta.2",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -31,11 +31,11 @@
     "weui": "^1.1.2"
   },
   "peerDependencies": {
+    "@types/react": "^16.4.6",
     "classnames": "^2.2.5",
     "nervjs": "^1.2.16",
     "omit.js": "^1.0.0",
-    "weui": "^1.1.2",
-    "@types/react": "^16.4.6"
+    "weui": "^1.1.2"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",

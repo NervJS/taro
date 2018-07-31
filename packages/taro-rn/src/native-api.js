@@ -32,14 +32,17 @@ function request (options) {
     .then(response => {
       res.statusCode = response.status
       res.header = response.headers
+      if (options.dataType === 'json') {
+        return response.json()
+      }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
-      if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-        return response.json()
-      }
       if (options.responseType === 'text') {
         return response.text()
+      }
+      if (typeof options.dataType === 'undefined') {
+        return response.json()
       }
       return Promise.resolve(null)
     }).then(data => {

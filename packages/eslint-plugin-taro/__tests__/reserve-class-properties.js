@@ -54,7 +54,7 @@ ruleTester.run('no-stateless-component', rule, {
     `
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
-    `class A { _initData () {} }`,
+    `class A extends Component { _initData () {} }`,
     `class A extends Component { $data = []; initData () {} }`
   ])
 })

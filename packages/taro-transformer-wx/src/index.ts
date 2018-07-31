@@ -2,20 +2,60 @@ import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
 import { Transformer } from './class'
 import { prettyPrint } from 'html'
-import { setting } from './utils'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
 import { transform as babel7Transform } from '@babel/core'
+const template = require('babel-template')
 
 export interface Options {
-  isRoot: boolean,
+  isRoot?: boolean,
   isApp: boolean,
   outputPath: string,
   sourcePath: string,
   code: string,
   isTyped: boolean,
   isNormal?: boolean
+}
+
+function getIdsFromMemberProps (member: t.MemberExpression) {
+  let ids: string[] = []
+  const { object, property } = member
+  if (t.isMemberExpression(object)) {
+    ids = ids.concat(getIdsFromMemberProps(object))
+  }
+  if (t.isThisExpression(object)) {
+    ids.push('this')
+  }
+  if (t.isIdentifier(object)) {
+    ids.push(object.name)
+  }
+  if (t.isIdentifier(property)) {
+    ids.push(property.name)
+  }
+  return ids
+}
+
+function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path: NodePath<t.Node>) {
+  const binding = path.scope.getOwnBinding(id.name)
+  if (binding) {
+    const bindingPath = binding.path
+    if (bindingPath.isVariableDeclarator()) {
+      const dclId = bindingPath.get('id')
+      const dclInit = bindingPath.get('init')
+      let dclInitIds: string[] = []
+      if (dclInit.isMemberExpression()) {
+        dclInitIds = getIdsFromMemberProps(dclInit.node)
+        if (dclId.isIdentifier()) {
+          memberIds.shift()
+        }
+        if (dclInitIds[0] === 'this' && dclInitIds[1] === 'props') {
+          return template(dclInitIds.concat(memberIds).join('.'))().expression
+        }
+      }
+    }
+  }
 }
 
 export interface Result {
@@ -87,9 +127,50 @@ export default function transform (options: Options): TransformResult {
     ClassDeclaration (path) {
       mainClass = path
     },
+    ClassExpression (path) {
+      mainClass = path as any
+    },
     ClassMethod (path) {
       if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
         renderMethod = path
+      }
+    },
+    CallExpression (path) {
+      const callee = path.get('callee')
+      if (isContainJSXElement(path)) {
+        return
+      }
+
+      if (callee.isReferencedMemberExpression()) {
+        const id = findFirstIdentifierFromMemberExpression(callee.node)
+        const calleeIds = getIdsFromMemberProps(callee.node)
+        if (t.isIdentifier(id)) {
+          const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
+          if (fullPath) {
+            path.replaceWith(
+              t.callExpression(
+                fullPath,
+                path.node.arguments
+              )
+            )
+          }
+        }
+      }
+
+      if (callee.isReferencedIdentifier()) {
+        const id = callee.node
+        const ids = [id.name]
+        if (t.isIdentifier(id)) {
+          const fullPath = buildFullPathThisPropsRef(id, ids, path)
+          if (fullPath) {
+            path.replaceWith(
+              t.callExpression(
+                fullPath,
+                path.node.arguments
+              )
+            )
+          }
+        }
       }
     },
     AwaitExpression () {
@@ -154,13 +235,51 @@ export default function transform (options: Options): TransformResult {
         }
       }
     },
+    JSXAttribute (path) {
+      const { name, value } = path.node
+      if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
+        return
+      }
+
+      const expr = value.expression as any
+      const exprPath = path.get('value.expression')
+      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
+        exprPath.replaceWith(
+          t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
+        )
+      }
+
+      if (name.name.startsWith('on')) {
+        if (exprPath.isReferencedIdentifier()) {
+          const ids = [expr.name]
+          const fullPath = buildFullPathThisPropsRef(expr, ids, path)
+          if (fullPath) {
+            exprPath.replaceWith(fullPath)
+          }
+        }
+
+        if (exprPath.isReferencedMemberExpression()) {
+          const id = findFirstIdentifierFromMemberExpression(expr)
+          const ids = getIdsFromMemberProps(expr)
+          if (t.isIdentifier(id)) {
+            const fullPath = buildFullPathThisPropsRef(id, ids, path)
+            if (fullPath) {
+              exprPath.replaceWith(fullPath)
+            }
+          }
+        }
+
+        // @TODO: bind 的处理待定
+      }
+    },
     ImportDeclaration (path) {
       const source = path.node.source.value
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
-          t.importSpecifier(t.identifier(INTERNAL_DYNAMIC), t.identifier(INTERNAL_DYNAMIC))
+          t.importSpecifier(t.identifier(INTERNAL_DYNAMIC), t.identifier(INTERNAL_DYNAMIC)),
+          t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
         )
       }
       if (
@@ -181,14 +300,18 @@ export default function transform (options: Options): TransformResult {
           DEFAULT_Component_SET.has(name) || names.push(name)
         },
         ImportSpecifier (path) {
-          const name = path.node.local.name
+          const name = path.node.imported.name
           DEFAULT_Component_SET.has(name) || names.push(name)
+          if (source === TARO_PACKAGE_NAME && name === 'Component') {
+            path.node.local = t.identifier('BaseComponent')
+          }
         }
       })
       componentSourceMap.set(source, names)
     }
   })
   const storeBinding = mainClass.scope.getBinding(storeName)
+  mainClass.scope.rename('Component', 'BaseComponent')
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {
@@ -207,7 +330,7 @@ export default function transform (options: Options): TransformResult {
     renderMethod.remove()
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.isRoot, componentSourceMap, options.sourcePath).result
+  result = new Transformer(mainClass, options.sourcePath).result
   result.code = generate(ast).code
   result.ast = ast
   // if (process.env.NODE_ENV !== 'test') {

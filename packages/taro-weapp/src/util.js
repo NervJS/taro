@@ -3,7 +3,7 @@ export function isEmptyObject (obj) {
     return false
   }
   for (const n in obj) {
-    if (obj.hasOwnProperty(n) && obj[n]) {
+    if (obj.hasOwnProperty(n)) {
       return false
     }
   }
@@ -52,4 +52,26 @@ export function getPrototypeChain (obj) {
     protoChain.push(obj)
   }
   return protoChain
+}
+
+export function noop () {}
+
+export function shakeFnFromObject (obj) {
+  let newObj = {}
+  if (typeof obj === 'object') {
+    for (const key in obj) {
+      if (typeof obj[key] === 'function') {
+        continue
+      }
+      if (typeof obj[key] === 'object') {
+        const ret = shakeFnFromObject(obj[key])
+        if (!isEmptyObject(ret)) {
+          newObj[key] = ret
+        }
+      } else {
+        newObj[key] = obj[key]
+      }
+    }
+  }
+  return newObj
 }

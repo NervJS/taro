@@ -1,72 +1,40 @@
-import { isEmptyObject } from './util'
 import { enqueueRender } from './render-queue'
-import { updateComponent } from './lifecycle'
+import {
+  internal_safe_get as safeGet
+} from '@tarojs/taro'
+// #组件state对应小程序组件data
+// #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
+// #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟reciveProps生命周期
+// 执行顺序：组件setState -> 组件_createData() -> 对应的小程序组件setData（组件更新）-> 子组件的__componentProps.observer执行
+//          -> 触发子组件componentWillReciveProps，更新子组件props,componentShouldUpdate -> 子组件_createData -> 子组件setData
 
-class Component {
-  static defaultProps = {}
-  $components = {}
-  $$components = {}
-  $$dynamicComponents = {}
-  $router = {
-    params: {}
-  }
-  $path = ''
-  $name = ''
-  $isComponent = true
-  $props = {}
+class BaseComponent {
+  // _createData的时候生成，小程序中通过data.__createData访问
+  __computed = {}
+  // this.props,小程序中通过data.__props访问
+  __props = {}
+  __isReady = false
+  // 会在componentDidMount后置为true
+  __mounted = false
   nextProps = {}
   _dirty = true
   _disable = true
   _pendingStates = []
   _pendingCallbacks = []
-
-  constructor (props) {
-    this.state = {}
-    this.props = props || {}
+  $router = {
+    params: {}
   }
 
-  _initData ($root, $parent) {
-    this.$app = getApp()
-    this.$root = $root || null
-    this.$parent = $parent || null
-    this.defaultData = {}
-    this.$data = {}
-
-    let state = this.state
-    if (this._dyState) {
-      state = Object.assign({}, this.state, this._dyState)
-    }
-    for (let k in state) {
-      this.$data[k] = state[k]
-    }
-    if (this.props) {
-      for (let k in this.props) {
-        if (typeof this.props[k] !== 'function') {
-          this.$data[k] = this.props[k]
-        }
-      }
-    }
-
-    if (this.$$dynamicComponents && !isEmptyObject(this.$$dynamicComponents)) {
-      Object.getOwnPropertyNames(this.$$dynamicComponents).forEach(name => {
-        this.$$dynamicComponents[name]._initData(this.$root || this, this)
-      })
-    }
+  constructor () {
+    this.state = {}
+    this.props = {}
+  }
+  _constructor (props) {
+    this.props = props || {}
   }
   _init (scope) {
     this.$scope = scope
-    this.$app = getApp()
-    if (this.$$dynamicComponents && !isEmptyObject(this.$$dynamicComponents)) {
-      Object.getOwnPropertyNames(this.$$dynamicComponents).forEach(name => {
-        this.$$dynamicComponents[name]._init(this.$scope)
-      })
-    }
   }
-  // rewrite when compile
-  _createData () {
-    return this.state
-  }
-
   setState (state, callback) {
     if (state) {
       (this._pendingStates = this._pendingStates || []).push(state)
@@ -96,13 +64,30 @@ class Component {
     })
     return stateClone
   }
-
-  forceUpdate (callback) {
-    if (typeof callback === 'function') {
-      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
+  // 会被匿名函数调用
+  __triggerPropsFn (key, args) {
+    const keyChain = key.split('.')
+    const reduxFnPrefix = '__event_'
+    const reduxFnName = reduxFnPrefix + keyChain.shift()
+    // redux标识过的方法，直接调用
+    if (reduxFnName in this) {
+      const scope = args.shift()
+      let fn
+      if (keyChain.length > 0) {
+        fn = safeGet(this[reduxFnName], keyChain.join('.'))
+      } else {
+        fn = this[reduxFnName]
+      }
+      fn.apply(scope, args)
+    } else {
+      // 普通的
+      const keyLower = key.toLocaleLowerCase()
+      this.$scope.triggerEvent(keyLower, {
+        __isCustomEvt: true,
+        __arguments: args
+      })
     }
-    updateComponent(this, true)
   }
 }
 
-export default Component
+export default BaseComponent

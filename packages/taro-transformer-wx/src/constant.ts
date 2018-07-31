@@ -59,7 +59,9 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Canvas',
   'OpenData',
   'WebView',
-  'SwiperItem'
+  'SwiperItem',
+  'MovableArea',
+  'MovableView'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
@@ -75,6 +77,8 @@ export const REDUX_PACKAGE_NAME = '@tarojs/redux'
 export const MAP_CALL_ITERATOR = '__item'
 
 export const INTERNAL_DYNAMIC = 'internal_dynamic_recursive'
+
+export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
 
 export const LOOP_STATE = '$loopState'
 

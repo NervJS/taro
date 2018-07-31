@@ -15,14 +15,13 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       if (isObject(val) && isObject(initMapDispatch[key])) {
         val = mergeObjects(val, initMapDispatch[key])
       }
-      this.prevProps = Object.assign({}, this.props)
       if (this.props[key] !== val) {
+        this.prevProps = Object.assign({}, this.props)
         this.props[key] = val
         isChanged = true
       }
     })
-    const isPageHide = this.$root ? this.$root.$isPageHide : this.$isPageHide
-    if (isChanged && !isPageHide) {
+    if (isChanged) {
       this._unsafeCallUpdate = true
       this.setState({}, () => {
         delete this._unsafeCallUpdate
@@ -46,20 +45,6 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
         unSubscribe = store.subscribe(stateListener.bind(this))
         if (super.componentWillMount) {
           super.componentWillMount()
-        }
-      }
-
-      componentDidShow () {
-        this.$isPageHide = false
-        if (super.componentDidShow) {
-          super.componentDidShow()
-        }
-      }
-
-      componentDidHide () {
-        this.$isPageHide = true
-        if (super.componentDidHide) {
-          super.componentDidHide()
         }
       }
 

@@ -24,7 +24,7 @@ function upperCaseFirstLetter (string) {
 function inlineStyle (style) {
   let res = ''
   for (let attr in style) res += `${attr}: ${style[attr]};`
-  if (res.includes('display: flex;')) res += 'display: -webkit-box;display: -webkit-flex;'
+  if (res.indexOf('display: flex;') >= 0) res += 'display: -webkit-box;display: -webkit-flex;'
   return res
 }
 
@@ -36,9 +36,20 @@ function errorHandler (fail, complete) {
   }
 }
 
+const enc = encodeURIComponent
+
+function serializeParams (params) {
+  if (!params) {
+    return ''
+  }
+  return Object.keys(params)
+    .map(item => (`${item}=${enc(params[item])}`)).join('&')
+}
+
 export {
   shouleBeObject,
   getParameterError,
   inlineStyle,
-  errorHandler
+  errorHandler,
+  serializeParams
 }

@@ -21,14 +21,22 @@ export const getPostcssPlugins = function (config) {
   const customAutoprefixerConf = customPostcssConf.autoprefixer || {}
   const customPxtransformConf = customPostcssConf.pxtransform || {}
   const customPlugins = customPostcssConf.plugins || []
+
+  const postcssPxtransformOption = {
+    designWidth,
+    platform: 'h5'
+  }
+
+  const DEVICE_RATIO = 'deviceRatio'
+  if (config.hasOwnProperty(DEVICE_RATIO)) {
+    postcssPxtransformOption[DEVICE_RATIO] = config.deviceRatio
+  }
+
   if (isEmptyObject(customAutoprefixerConf) || customAutoprefixerConf.enable) {
     plugins.push(autoprefixer(Object.assign({}, defaultAutoprefixerConf, customAutoprefixerConf)))
   }
 
-  plugins.push(pxtransform(Object.assign({}, customPxtransformConf, {
-    designWidth,
-    platform: 'h5'
-  })))
+  plugins.push(pxtransform(Object.assign({}, postcssPxtransformOption, customPxtransformConf)))
 
   plugins.push(constparse({
     constants: [{

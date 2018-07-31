@@ -89,6 +89,39 @@ defineConstants: {
 }
 ```
 
+## copy
+
+文件 copy 配置，包含两个配置项 `patterns` 和 `options`
+
+### copy.patterns
+
+用来指定需要拷贝的文件或者目录，**数组类型**，每一项都必须包含 `from` 、`to` 的配置，分别代码来源和需要拷贝到的目录，同时可以设置 `ignore` 配置来指定需要忽略的文件， `ignore` 是指定的 [glob](https://github.com/isaacs/node-glob) 类型字符串，或者 glob 字符串数组
+
+值得注意的是，目前 `from` 必须指定存在的文件或者目录，暂不支持 glob 格式， `from` 和 `to` 直接置顶项目根目录下的文件目录，建议 `from` 以 `src` 目录开头，`to` 以 `dist` 目录开头
+
+一般有如下的使用形式
+
+```javascript
+copy: {
+  patterns: [
+    { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: '*.js' }, // 指定需要 copy 的目录
+    { from: 'src/asset/tt/sd.jpg', to: 'dist/asset/tt/sd.jpg' } // 指定需要 copy 的文件
+  ]
+},
+```
+
+### copy.options
+
+拷贝配置，目前可以指定全局的 ignore
+
+```javascript
+copy: {
+  options: {
+    ignore: ['*.js', '*.css'] // 全局的 ignore
+  }
+}
+```
+
 ## weapp
 
 专属于小程序的配置
@@ -108,6 +141,11 @@ postcss: {
   },
   pxtransform: {
     selectorBlackList: ['body']
+  },
+  // 小程序端样式引用本地资源内联
+  url: {
+    enable: true,
+    limit: 10240
   }
 }
 ```
@@ -121,6 +159,12 @@ postcss: {
 ```
 devServer: {
   port: 10086
+}
+```
+默认是`http`服务，如果想开启`https`服务需要做如下配置。
+```
+devServer: {
+  https: true
 }
 ```
 

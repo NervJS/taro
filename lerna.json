@@ -32,9 +32,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.68-beta.4",
-  "npmClient": "yarn",
-  "npmClientArgs": [
-    "--no-lockfile"
-  ]
+  "version": "1.0.0-beta.2",
+  "npmClient": "npm"
 }

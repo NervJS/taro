@@ -3,6 +3,7 @@ import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
 import { NodePath, Scope } from 'babel-traverse'
 import { LOOP_STATE } from './constant'
+import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
@@ -10,6 +11,47 @@ import { buildBlockElement } from './jsx'
 export const incrementId = () => {
   let id = 0
   return () => id++
+}
+
+export function findMethodName (expression: t.Expression) {
+  let methodName
+  if (
+    t.isIdentifier(expression) ||
+    t.isJSXIdentifier(expression)
+  ) {
+    methodName = expression.name
+  } else if (t.isStringLiteral(expression)) {
+    methodName = expression
+  } else if (
+    t.isMemberExpression(expression) &&
+    t.isIdentifier(expression.property)
+  ) {
+    const { code } = generate(expression)
+    const ids = code.split('.')
+    if (ids[0] === 'this' && ids[1] === 'props' && ids[2]) {
+      methodName = code.replace('this.props.', '')
+    } else {
+      methodName = expression.property.name
+    }
+  } else if (
+    t.isCallExpression(expression) &&
+    t.isMemberExpression(expression.callee) &&
+    t.isIdentifier(expression.callee.object)
+  ) {
+    methodName = expression.callee.object.name
+  } else if (
+    t.isCallExpression(expression) &&
+    t.isMemberExpression(expression.callee) &&
+    t.isMemberExpression(expression.callee.object) &&
+    t.isIdentifier(expression.callee.property) &&
+    expression.callee.property.name === 'bind' &&
+    t.isIdentifier(expression.callee.object.property)
+  ) {
+    methodName = expression.callee.object.property.name
+  } else {
+    throw codeFrameError(expression.loc, '当 props 为事件时(props name 以 `on` 开头)，只能传入一个 this 作用域下的函数。')
+  }
+  return methodName
 }
 
 export function generateAnonymousState (
@@ -25,10 +67,25 @@ export function generateAnonymousState (
   }
   const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
   const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
+  const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
+  const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
+  let expr = cloneDeep(expression.node)
+  if (conditionExpr && conditionExpr.isConditionalExpression()) {
+    const consequent = conditionExpr.get('consequent')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, t.nullLiteral())
+    }
+  }
+  if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
+    const consequent = logicExpr.get('right')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, t.nullLiteral())
+    }
+  }
   if (!callExpr) {
     refIds.add(t.identifier(variableName))
     statementParent.insertBefore(
-      buildConstVariableDeclaration(variableName, expression.node)
+      buildConstVariableDeclaration(variableName, expr)
     )
   } else {
     variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
@@ -36,13 +93,11 @@ export function generateAnonymousState (
     if (t.isArrowFunctionExpression(func)) {
       if (!t.isBlockStatement(func.body)) {
         func.body = t.blockStatement([
-          buildConstVariableDeclaration(variableName, expression.node),
+          buildConstVariableDeclaration(variableName, expr),
           t.returnStatement(func.body)
         ])
       } else {
-        statementParent.insertBefore(
-          buildConstVariableDeclaration(variableName, expression.node)
-        )
+        func.body.body.splice(func.body.body.length - 1, 0, buildConstVariableDeclaration(variableName, expr))
       }
     }
   }
@@ -97,31 +152,31 @@ function slash (input: string) {
   return input.replace(/\\/g, '/')
 }
 
-export function pathResolver (p: string, location: string) {
-  const extName = path.extname(p)
-  const promotedPath = p
+export function pathResolver (source: string, location: string) {
+  const extName = path.extname(source)
+  const promotedPath = source
   if (extName === '') {
     try {
-      const pathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.js')))
-      const tsxPathExist = fs.existsSync(slash(path.resolve(path.dirname(location), p, 'index.tsx')))
-      const baseNameExist = fs.existsSync(slash(path.resolve(path.dirname(location), p) + '.js'))
+      const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
+      const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
       if (pathExist || tsxPathExist) {
-        return path.join(promotedPath, 'index.wxml')
-      } else if (baseNameExist) {
-        return promotedPath + '.wxml'
+        return slash(path.join(promotedPath, 'index'))
       }
+      return slash(promotedPath)
     } catch (error) {
-      return promotedPath + '.wxml'
+      return slash(promotedPath)
     }
-    return promotedPath + '.wxml'
   }
-  return promotedPath.slice(0, promotedPath.length - extName.length) + '.wxml'
+  return slash(promotedPath.split('.').slice(0, -1).join('.'))
 }
 
-export function codeFrameError (loc: t.SourceLocation, msg: string) {
-  return new Error(`${msg}
------
-${codeFrameColumns(setting.sourceCode, loc)}`)
+export function codeFrameError (node, msg: string) {
+  if (node) {
+    return new Error(`${msg}
+    -----
+    ${codeFrameColumns(setting.sourceCode, node.type && node.loc ? node.loc : node)}`)
+  }
+  return new Error('出现未知错误，请去 https://github.com/NervJS/taro/issues/ 提交 issue')
 }
 
 export const setting = {
@@ -134,6 +189,11 @@ export function createUUID () {
     let v = c === 'x' ? r : (r & 0x3 | 0x8)
     return v.toString(16)
   }).replace(/-/g, '').slice(0, 8)
+}
+
+export function createRandomLetters (n: number) {
+  const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+  return Array(n).join().split(',').map(function () { return str.charAt(Math.floor(Math.random() * str.length)) }).join('')
 }
 
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {
@@ -164,7 +224,7 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)
-    block.children = [jsx]
+    block.children.push(jsx)
     path.node = block
   }
 }
@@ -188,6 +248,12 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   if (path.isTemplateLiteral() || path.isCallExpression()) {
     return true
   }
+  if (path.isArrayExpression()) {
+    const { elements } = path.node
+    if (elements.some(el => t.isObjectExpression(el as any))) {
+      return true
+    }
+  }
   path.traverse({
     CallExpression: (p) => {
       matched = true
@@ -196,6 +262,12 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
     TemplateLiteral (p) {
       matched = true
       p.stop()
+    },
+    ArrayExpression (p) {
+      const { elements } = p.node
+      if (elements.some(el => t.isObjectExpression(el as any))) {
+        return true
+      }
     },
     TaggedTemplateExpression (p) {
       matched = true

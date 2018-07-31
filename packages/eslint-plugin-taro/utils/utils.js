@@ -19,6 +19,23 @@ const parserOptions = {
   }
 }
 
+function isTaroComponent (context, node) {
+  const parents = context.getAncestors(node)
+  const classDcl = parents.find(p => p.type === 'ClassDeclaration')
+  if (
+    classDcl && classDcl.superClass
+  ) {
+    const superClass = classDcl.superClass
+    if (superClass.type === 'Identifier' && superClass.name === 'Component') {
+      return true
+    }
+    if (superClass.type === 'MemberExpression' && superClass.object.name === 'Taro' && superClass.property.name === 'Component') {
+      return true
+    }
+  }
+  return false
+}
+
 function testComponent (code) {
   return `
 class App extends Component {
@@ -50,5 +67,6 @@ module.exports = {
   parserOptions,
   testComponent,
   testValid,
-  testInvalid
+  testInvalid,
+  isTaroComponent
 }
