@@ -17,7 +17,8 @@ import {
   isArrayMapCallExpression,
   generateAnonymousState,
   hasComplexExpression,
-  findMethodName
+  findMethodName,
+  isVarName
 } from './utils'
 import { difference } from 'lodash'
 import {
@@ -983,7 +984,7 @@ export class RenderParser {
         usedState
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
-        .filter(i => !i.includes('.'))
+        .filter(i => isVarName(i))
         .filter(i => !this.loopRefIdentifiers.has(i))
         .concat(Array.from(this.customComponentNames))
       )]
@@ -1002,9 +1003,8 @@ export class RenderParser {
       .filter(i => !this.loopScopes.has(i))
       .filter(i => !this.initState.has(i))
       .filter(i => !this.templates.has(i))
-      .filter(i => !i.includes('.'))
+      .filter(i => isVarName(i))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
-      .filter(i => !i.startsWith('.'))
       .filter(i => !i.startsWith('$$'))
       .filter(i => !this.loopRefIdentifiers.has(i))
       .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))

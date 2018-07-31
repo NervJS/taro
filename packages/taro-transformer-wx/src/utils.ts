@@ -13,6 +13,25 @@ export const incrementId = () => {
   return () => id++
 }
 
+export function isVarName (str: string) {
+  if (typeof str !== 'string') {
+    return false
+  }
+
+  if (str.trim() !== str) {
+    return false
+  }
+
+  try {
+    // tslint:disable-next-line:no-unused-expression
+    new Function(str, 'var ' + str)
+  } catch (e) {
+    return false
+  }
+
+  return true
+}
+
 export function findMethodName (expression: t.Expression) {
   let methodName
   if (
