@@ -75,6 +75,7 @@ function getWrappedScreen (Screen, Taro) {
       complete && complete()
     }
 
+    // TODO delta
     wxNavigateBack ({delta = 1}) {
       this.props.navigation.goBack()
     }
@@ -95,6 +96,13 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
   })
 }
 
+/**
+ * @param pageList
+ * @param Taro
+ * @param navigationOptions
+ * @param tabBar
+ * @returns {*}
+ */
 const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
   let RouteConfigs = {}
 
@@ -108,6 +116,7 @@ const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
 
       RouteConfigs[tabPath] = getRootStack({pageList: newPageList, Taro, navigationOptions})
     })
+    // TODO tabBar.position
     return createBottomTabNavigator(RouteConfigs, {
       navigationOptions: ({navigation}) => ({
         tabBarIcon: ({focused, tintColor}) => {
@@ -124,8 +133,13 @@ const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
       }),
       tabBarOptions: {
         backBehavior: 'none',
-        activeTintColor: '#3cc51f',
-        inactiveTintColor: '#7A7E83'
+        activeTintColor: tabBar.selectedColor || '#3cc51f',
+        inactiveTintColor: tabBar.color || '#7A7E83',
+        activeBackgroundColor: tabBar.backgroundColor || '#ffffff',
+        inactiveBackgroundColor: tabBar.backgroundColor || '#ffffff',
+        style: {
+          borderColor: tabBar.borderTopColor || '#c6c6c6'
+        }
       }
     })
   } else {
