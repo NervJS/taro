@@ -1,5 +1,15 @@
+import React from 'react'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+import { Image } from 'react-native'
 import queryString from 'query-string'
+
+// 页面默认头部样式
+const defaultNavigationOptions = {
+  headerStyle: {
+    backgroundColor: 'grey'
+  },
+  headerTintColor: 'black'
+}
 
 function getWrappedScreen (Screen, Taro) {
   class WrappedScreen extends Screen {
@@ -81,7 +91,7 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro)
   })
   return createStackNavigator(RouteConfigs, {
-    navigationOptions
+    navigationOptions: Object.assign({}, defaultNavigationOptions, navigationOptions)
   })
 }
 
@@ -100,6 +110,16 @@ const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
     })
     return createBottomTabNavigator(RouteConfigs, {
       navigationOptions: ({navigation}) => ({
+        tabBarIcon: ({focused, tintColor}) => {
+          const {routeName} = navigation.state
+          const iconConfig = tabBar.list.find(item => item.pagePath === routeName)
+          return (
+            <Image
+              style={{width: 30, height: 30}}
+              source={focused ? iconConfig.selectedIconPath : iconConfig.iconPath}/>
+          )
+        },
+        tabBarLabel: tabBar.list.find(item => item.pagePath === navigation.state.routeName).text,
         tabBarVisible: navigation.state.index === 0 // 第一级不显示 tabBar
       }),
       tabBarOptions: {
