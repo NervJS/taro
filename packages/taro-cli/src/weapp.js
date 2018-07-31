@@ -1156,6 +1156,19 @@ function compileDepScripts (scriptFiles) {
   scriptFiles.forEach(async item => {
     if (path.isAbsolute(item)) {
       const outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
+      const weappConf = projectConfig.weapp || {}
+      const useCompileConf = Object.assign({}, weappConf.compile)
+      const compileExclude = useCompileConf.exclude || []
+      let isInCompileExclude = false
+      compileExclude.forEach(excludeItem => {
+        if (path.join(appPath, excludeItem) === item) {
+          isInCompileExclude = true
+        }
+      })
+      if (isInCompileExclude) {
+        copyFileSync(item, outputItem)
+        return
+      }
       if (!isBuildingScripts[outputItem]) {
         isBuildingScripts[outputItem] = true
         try {
