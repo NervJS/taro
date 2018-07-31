@@ -12,7 +12,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties[privatePropValName] = {
     type: null,
     observer: function () {
-      if (!this.$component || !this.$component.__isAttached) return
+      if (!this.$component || !this.$component.__isReady) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
       this.$component.props = nextProps
       this.$component._unsafeCallUpdate = true
@@ -109,7 +109,7 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, componentProps, weappComponentData) {
+function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
   let newProps = {}
   for (const propName in properties) {
     if (propName === privatePropValName) {
@@ -165,21 +165,27 @@ function createComponent (ComponentClass, isPage) {
     data: {
       _componentProps: 1
     },
-    attached (options = {}) {
-      const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
-      this.$component = new ComponentClass(props)
+    created (options = {}) {
+      // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
+      this.$component = new ComponentClass()
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
-      // attached之后才可以setData,
-      // attached之前，小程序组件初始化时仍然会触发observer，__isAttached为否的时候放弃处理observer
-      this.$component.__isAttached = true
     },
     ready () {
+      // ready之后才可以setData,
+      // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
+      this.$component.__isReady = true
+
       if (isPage && !hasPageInited) {
         hasPageInited = true
       }
       // 页面Ready的时候setData更新，此时并未didMount,触发observer但不会触发子组件更新
       // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
+      // 动态组件执行改造函数副本的时,在初始化数据前计算好props
+      if (hasPageInited && !isPage) {
+        const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
+        this.$component.props = nextProps
+      }
       if (hasPageInited || isPage) {
         updateComponent(this.$component)
       }
@@ -189,7 +195,7 @@ function createComponent (ComponentClass, isPage) {
     }
   }
   if (isPage) {
-    weappComponentConf['onLoad'] = weappComponentConf['attached']
+    weappComponentConf['onLoad'] = weappComponentConf['created']
     weappComponentConf['onReady'] = weappComponentConf['ready']
     weappComponentConf['onUnload'] = weappComponentConf['detached']
     weappComponentConf['onShow'] = function () {
