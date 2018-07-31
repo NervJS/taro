@@ -127,6 +127,9 @@ export default function transform (options: Options): TransformResult {
     ClassDeclaration (path) {
       mainClass = path
     },
+    ClassExpression (path) {
+      mainClass = path as any
+    },
     ClassMethod (path) {
       if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
         renderMethod = path
