@@ -170,10 +170,13 @@ export function pathResolver (source: string, location: string) {
   return slash(promotedPath.split('.').slice(0, -1).join('.'))
 }
 
-export function codeFrameError (loc: t.SourceLocation, msg: string) {
-  return new Error(`${msg}
------
-${codeFrameColumns(setting.sourceCode, loc)}`)
+export function codeFrameError (node, msg: string) {
+  if (node) {
+    return new Error(`${msg}
+    -----
+    ${codeFrameColumns(setting.sourceCode, node.type && node.loc ? node.loc : node)}`)
+  }
+  return new Error('出现未知错误，请去 https://github.com/NervJS/taro/issues/ 提交 issue')
 }
 
 export const setting = {

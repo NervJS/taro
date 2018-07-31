@@ -353,7 +353,7 @@ class Transformer {
         }
       }
     } else {
-      throw codeFrameError(propParam.loc, '此生命周期的第一个参数只支持写标识符或对象解构')
+      throw codeFrameError(propParam, '此生命周期的第一个参数只支持写标识符或对象解构')
     }
     return propsName
   }
