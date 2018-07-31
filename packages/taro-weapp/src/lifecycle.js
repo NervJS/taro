@@ -3,6 +3,8 @@ import {
   internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
+import { shakeFnFromObject, isEmptyObject } from './util'
+
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
   const { props } = component
@@ -59,7 +61,17 @@ function doUpdate (component) {
     const _data = {}
     component.$usedState.forEach(key => {
       const val = safeGet(data, key)
-      typeof val !== 'undefined' && safeSet(_data, key, val)
+      if (typeof val === 'undefined') {
+        return
+      }
+      if (typeof val === 'object') {
+        val = shakeFnFromObject(val)
+        if (!isEmptyObject(val)) {
+          safeSet(_data, key, val)
+        }
+      } else {
+        safeSet(_data, key, val)
+      }
     })
     data = _data
   }

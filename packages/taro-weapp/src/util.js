@@ -55,3 +55,23 @@ export function getPrototypeChain (obj) {
 }
 
 export function noop () {}
+
+export function shakeFnFromObject (obj) {
+  let newObj = {}
+  if (typeof obj === 'object') {
+    for (const key in obj) {
+      if (typeof obj[key] === 'function') {
+        continue
+      }
+      if (typeof obj[key] === 'object') {
+        const ret = shakeFnFromObject(obj[key])
+        if (!isEmptyObject(ret)) {
+          newObj[key] = ret
+        }
+      } else {
+        newObj[key] = obj[key]
+      }
+    }
+  }
+  return newObj
+}
