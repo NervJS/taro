@@ -77,6 +77,7 @@ function doUpdate (component) {
       if (typeof component.componentDidMount === 'function') {
         component.componentDidMount()
       }
+      componentTrigger(component, 'componentDidShow')
     }
   })
 }
