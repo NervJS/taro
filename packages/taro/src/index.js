@@ -2,6 +2,7 @@
 import Component from './component'
 import { get as internal_safe_get } from './internal/safe-get'
 import { set as internal_safe_set } from './internal/safe-set'
+import { inlineStyle as internal_inline_style } from './internal/inline-style'
 import { dynamicRecursive as internal_dynamic_recursive } from './internal/dynamic-recursive'
 import { inlineStyle as internal_inline_style } from './internal/inline-style'
 import { getEnv, ENV_TYPE } from './env'
