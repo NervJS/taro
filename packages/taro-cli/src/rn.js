@@ -66,8 +66,8 @@ function parseJSCode (code, filePath) {
     parserOpts: babylonConfig
   }).ast
   const styleFiles = []
-  let pages = [] // Class 里面的config 配置里面的 pages
-  let window = [] // Class 里面的config 配置里面的 window
+  let pages = [] // app.js 里面的config 配置里面的 pages
+  let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
   const isEntryFile = path.basename(filePath) === entryFileName
   let taroImportDefaultName
   let hasAddReactImportDefaultName = false
@@ -159,7 +159,6 @@ function parseJSCode (code, filePath) {
         const node = astPath.node
         const key = node.key
         const value = node.value
-        let navigationOptions = {}
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
         // 入口文件的 config ，与页面的分开处理
         if (isEntryFile) {
@@ -177,7 +176,8 @@ function parseJSCode (code, filePath) {
                 astPath.remove()
               }
               // window
-              if (key.name === 'window') {
+              if (key.name === 'window' && t.isObjectExpression(value)) {
+                let navigationOptions = {}
                 astPath.traverse({
                   ObjectProperty (astPath) {
                     const node = astPath.node
@@ -195,14 +195,35 @@ function parseJSCode (code, filePath) {
                     }
                   }
                 })
+                astPath.replaceWith(t.objectProperty(
+                  t.identifier('navigationOptions'),
+                  t.objectExpression(AstConvert.obj(navigationOptions))
+                ))
               }
-              // TODO tabBar position iconPath
+              if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+                astPath.traverse({
+                  ObjectProperty (astPath) {
+                    let node = astPath.node
+                    let value = node.value.value
+                    if (node.key.name === 'iconPath' ||
+                      node.key.value === 'iconPath' ||
+                      node.key.name === 'selectedIconPath' ||
+                      node.key.value === 'selectedIconPath'
+                    ) {
+                      if (typeof value !== 'string') return
+                      let iconName = value.replace(/\/|\./g, '')
+                      iconPaths.push(value)
+                      astPath.insertAfter(t.objectProperty(
+                        t.identifier(node.key.name || node.key.value),
+                        t.identifier(iconName)
+                      ))
+                      astPath.remove()
+                    }
+                  }
+                })
+              }
             }
           })
-          astPath.replaceWith(t.classProperty(
-            t.identifier('navigationOptions'),
-            t.objectExpression(AstConvert.obj(navigationOptions))
-          ))
           astPath.node.static = 'true'
         } else {
           let navigationOptions = {}
@@ -393,15 +414,24 @@ function parseJSCode (code, filePath) {
         node.body.unshift(importTaro)
 
         if (isEntryFile) {
-          // import page
-          pages.forEach(pageItem => {
-            const pagePath = pageItem.startsWith('/') ? pageItem : `/${pageItem}`
+          // 注入 import page from 'XXX'
+          pages.forEach(item => {
+            const pagePath = item.startsWith('/') ? item : `/${item}`
             const screenName = pagePath.replace(/\//g, '')
             const importScreen = template(
               `import ${screenName} from '.${pagePath}'`,
               babylonConfig
             )()
             node.body.unshift(importScreen)
+          })
+          iconPaths.forEach(item => {
+            const iconPath = item.startsWith('/') ? item : `/${item}`
+            const iconName = iconPath.replace(/\/|\./g, '')
+            const importIcon = template(
+              `import ${iconName} from '.${iconPath}'`,
+              babylonConfig
+            )()
+            node.body.unshift(importIcon)
           })
           // Taro.initRouter  生成 RootStack
           const routerPages = pages
@@ -415,7 +445,7 @@ function parseJSCode (code, filePath) {
             `const RootStack = ${routerImportDefaultName}.initRouter(
             [${routerPages}], 
             ${taroImportDefaultName},
-            App.navigationOptions
+            App.config
             )`,
             babylonConfig
           )())

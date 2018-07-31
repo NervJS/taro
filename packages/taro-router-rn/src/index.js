@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import queryString from 'query-string'
 
 function getWrappedScreen (Screen, Taro) {
@@ -10,6 +10,7 @@ function getWrappedScreen (Screen, Taro) {
       Taro.navigateTo = this.wxNavigateTo.bind(this)
       Taro.redirectTo = this.wxRedirectTo.bind(this)
       Taro.navigateBack = this.wxNavigateBack.bind(this)
+      Taro.switchTab = this.wxSwitchTab.bind(this)
     }
 
     componentDidMount () {
@@ -50,6 +51,20 @@ function getWrappedScreen (Screen, Taro) {
       complete && complete()
     }
 
+    wxSwitchTab ({url, success, fail, complete}) {
+      let obj = queryString.parseUrl(url)
+      console.log(obj)
+      try {
+        this.props.navigation.navigate(obj.url, obj.query)
+      } catch (e) {
+        fail && fail(e)
+        complete && complete(e)
+        throw e
+      }
+      success && success()
+      complete && complete()
+    }
+
     wxNavigateBack ({delta = 1}) {
       this.props.navigation.goBack()
     }
@@ -58,17 +73,44 @@ function getWrappedScreen (Screen, Taro) {
   return WrappedScreen
 }
 
-const initRouter = (pageArr, Taro, navigationOptions) => {
+function getRootStack ({pageList, Taro, navigationOptions}) {
   let RouteConfigs = {}
-  pageArr.forEach(v => {
+  pageList.forEach(v => {
     const pageKey = v[0]
     const Screen = v[1]
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro)
   })
   return createStackNavigator(RouteConfigs, {
-    initialRouteName: pageArr[0][0],
     navigationOptions
   })
+}
+
+const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
+  let RouteConfigs = {}
+
+  if (tabBar && tabBar.list) {
+    const tabPathList = tabBar.list.map(item => item.pagePath)
+
+    tabBar.list.forEach((item) => {
+      const tabPath = item.pagePath
+      const newTabPathList = tabPathList.filter(item => item !== tabPath) // 去除当前 tabPth
+      const newPageList = pageList.filter(item => newTabPathList.indexOf(item[0]) === -1) // 去除 newTabPathList 里的 pagePath
+
+      RouteConfigs[tabPath] = getRootStack({pageList: newPageList, Taro, navigationOptions})
+    })
+    return createBottomTabNavigator(RouteConfigs, {
+      navigationOptions: ({navigation}) => ({
+        tabBarVisible: navigation.state.index === 0 // 第一级不显示 tabBar
+      }),
+      tabBarOptions: {
+        backBehavior: 'none',
+        activeTintColor: '#3cc51f',
+        inactiveTintColor: '#7A7E83'
+      }
+    })
+  } else {
+    return getRootStack({pageList, Taro, navigationOptions})
+  }
 }
 
 export default {initRouter}
