@@ -33,6 +33,10 @@ type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 const calleeId = incrementId()
 
+function isClassDcl (p: NodePath<t.Node>) {
+  return p.isClassExpression() || p.isClassDeclaration()
+}
+
 interface JSXHandler {
   parentNode: t.Node
   parentPath: NodePath<t.Node>
@@ -235,7 +239,7 @@ export class RenderParser {
       t.objectExpression(properties)
     ) as any
     classProp.static = true
-    const classPath = this.renderPath.findParent(p => p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+    const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
     classPath.node.body.body.unshift(classProp)
   }
 
@@ -951,7 +955,7 @@ export class RenderParser {
   }
 
   setCustomEvent () {
-    const classPath = this.renderPath.findParent(p => p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+    const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
     let classProp = t.classProperty(t.identifier('$$events'), t.arrayExpression(Array.from(this.usedEvents).map(s => t.stringLiteral(s)))) as any // babel 6 typing 没有 static
     classProp.static = true
     classPath.node.body.body.unshift(classProp)
@@ -973,7 +977,7 @@ export class RenderParser {
     // })
     .filter(i => !this.loopScopes.has(i))
     .filter(i => !this.templates.has(i))
-    const classPath = this.renderPath.findParent(p => p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+    const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
     classPath.node.body.body.unshift(t.classProperty(t.identifier('$usedState'), t.arrayExpression(
       [...new Set(
         usedState

@@ -314,10 +314,101 @@ class Transformer {
   }
 
   resetConstructor () {
+    const body = this.classPath.node.body.body
     if (!this.methods.has('constructor')) {
       const ctor = buildConstructor()
-      this.classPath.node.body.body.unshift(ctor)
+      body.unshift(ctor)
     }
+    if (process.env.NODE_ENV === 'test') {
+      return
+    }
+    for (const method of body) {
+      if (t.isClassMethod(method) && method.kind === 'constructor') {
+        method.kind = 'method'
+        method.key = t.identifier('_constructor')
+        if (t.isBlockStatement(method.body)) {
+          for (const statement of method.body.body) {
+            if (t.isExpressionStatement(statement)) {
+              const expr = statement.expression
+              if (t.isCallExpression(expr) && (t.isIdentifier(expr.callee, { name: 'super' }) || t.isSuper(expr.callee))) {
+                expr.callee = t.memberExpression(t.identifier('super'), t.identifier('_constructor'))
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  handleLifecyclePropParam (propParam: t.LVal, properties: Set<string>) {
+    let propsName: string | null = null
+    if (t.isIdentifier(propParam)) {
+      propsName = propParam.name
+    } else if (t.isObjectPattern(propParam)) {
+      for (const prop of propParam.properties) {
+        if (t.isObjectProperty(prop) && t.isIdentifier(prop.key)) {
+          properties.add(prop.key.name)
+        } else if (t.isRestProperty(prop) && t.isIdentifier(prop.argument)) {
+          propsName = prop.argument.name
+        }
+      }
+    } else {
+      throw codeFrameError(propParam.loc, '此生命周期的第一个参数只支持写标识符或对象解构')
+    }
+    return propsName
+  }
+
+  findMoreProps () {
+    // 第一个参数是 props 的生命周期
+    const lifeCycles = new Set([
+      'constructor',
+      'componentDidUpdate',
+      'shouldComponentUpdate',
+      'getDerivedStateFromProps',
+      'getSnapshotBeforeUpdate',
+      'componentWillReceiveProps',
+      'componentWillUpdate'
+    ])
+    const properties = new Set<string>()
+    this.methods.forEach((method, name) => {
+      if (!lifeCycles.has(name)) {
+        return
+      }
+      const node = method.node
+      let propsName: null | string = null
+      if (t.isClassMethod(node)) {
+        propsName = this.handleLifecyclePropParam(node.params[0], properties)
+      } else if (t.isArrowFunctionExpression(node.value) || t.isFunctionExpression(node.value)) {
+        propsName = this.handleLifecyclePropParam(node.value.params[0], properties)
+      }
+      if (propsName === null) {
+        return
+      }
+      method.traverse({
+        MemberExpression (path) {
+          if (!path.isReferencedMemberExpression()) {
+            return
+          }
+          const { object, property } = path.node
+          if (t.isIdentifier(object, { name: propsName }) && t.isIdentifier(property)) {
+            properties.add(property.name)
+          }
+        },
+        VariableDeclarator (path) {
+          const { id, init } = path.node
+          if (t.isObjectPattern(id) && t.isIdentifier(init, { name: propsName })) {
+            for (const prop of id.properties) {
+              if (t.isObjectProperty(prop) && t.isIdentifier(prop.key)) {
+                properties.add(prop.key.name)
+              }
+            }
+          }
+        }
+      })
+      properties.forEach((value) => {
+        this.componentProperies.add(value)
+      })
+    })
   }
 
   parseRender () {
@@ -343,6 +434,7 @@ class Transformer {
     this.traverse()
     this.setComponents()
     this.resetConstructor()
+    this.findMoreProps()
     this.parseRender()
   }
 }

@@ -199,7 +199,7 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf['onReady'] = weappComponentConf['ready']
     weappComponentConf['onUnload'] = weappComponentConf['detached']
     weappComponentConf['onShow'] = function () {
-      componentTrigger(this.$component, 'componentDidShow')
+      this.$component && this.$component.__mounted && componentTrigger(this.$component, 'componentDidShow')
     }
     weappComponentConf['onHide'] = function () {
       componentTrigger(this.$component, 'componentDidHide')
