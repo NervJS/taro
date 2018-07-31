@@ -247,7 +247,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
           if (styleFiles.indexOf(stylePath) < 0) {
             styleFiles.push(stylePath)
           }
-          astPath.remove()
+          if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
+            astPath.parentPath.remove()
+          } else if (astPath.parent.type === 'VariableDeclarator') {
+            astPath.parentPath.parentPath.remove()
+          } else {
+            astPath.remove()
+          }
         } else if (path.isAbsolute(value)) {
           Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
         }
@@ -426,7 +432,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
                   }
                 })
                 if (isPage) {
-                  astPath.remove()
+                  if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
+                    astPath.parentPath.remove()
+                  } else if (astPath.parent.type === 'VariableDeclarator') {
+                    astPath.parentPath.parentPath.remove()
+                  } else {
+                    astPath.remove()
+                  }
                 } else {
                   let isDepComponent = false
                   if (depComponents && depComponents.length) {
@@ -437,7 +449,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
                     })
                   }
                   if (isDepComponent) {
-                    astPath.remove()
+                    if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
+                      astPath.parentPath.remove()
+                    } else if (astPath.parent.type === 'VariableDeclarator') {
+                      astPath.parentPath.parentPath.remove()
+                    } else {
+                      astPath.remove()
+                    }
                   } else if (Util.REG_JSON.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     if (jsonFiles.indexOf(vpath) < 0) {
@@ -721,9 +739,48 @@ async function buildPages () {
   await Promise.all(pagesPromises)
 }
 
+function transfromNativeComponents (configFile, componentConfig) {
+  const usingComponents = componentConfig.usingComponents
+  if (usingComponents && !Util.isEmptyObject(usingComponents)) {
+    Object.keys(usingComponents).map(async item => {
+      const componentPath = usingComponents[item]
+      const componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
+      const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), '.json')
+      const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), '.wxml')
+      const componentWXSSPath = componentJSPath.replace(path.extname(componentJSPath), '.wxss')
+      const outputComponentJSPath = componentJSPath.replace(sourceDir, outputDir).replace(path.extname(componentJSPath), '.js')
+      if (fs.existsSync(componentJSPath)) {
+        const componentJSContent = fs.readFileSync(componentJSPath).toString()
+        if (componentJSContent.indexOf(taroJsFramework) >= 0 && !fs.existsSync(componentWXMLPath)) {
+          return await buildDepComponents([componentJSPath])
+        }
+        compileDepScripts([componentJSPath])
+      } else {
+        return Util.printLog(Util.pocessTypeEnum.ERROR, '编译错误', `原生组件文件 ${componentJSPath} 不存在！`)
+      }
+      if (fs.existsSync(componentWXMLPath)) {
+        const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxml')
+        copyFileSync(componentWXMLPath, outputComponentWXMLPath)
+      }
+      if (fs.existsSync(componentWXSSPath)) {
+        const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
+        await compileDepStyles(outputComponentWXSSPath, [componentWXSSPath])
+      }
+      if (fs.existsSync(componentJSONPath)) {
+        const componentJSON = require(componentJSONPath)
+        const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.json')
+        copyFileSync(componentJSONPath, outputComponentJSONPath)
+        transfromNativeComponents(componentJSONPath, componentJSON)
+      }
+    })
+  }
+}
+
+// 小程序页面编译
 async function buildSinglePage (page) {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '页面文件', `${sourceDirName}/${page}`)
-  let pageJs = Util.resolveScriptPath(path.join(sourceDir, `${page}`))
+  const pagePath = path.join(sourceDir, `${page}`)
+  let pageJs = Util.resolveScriptPath(pagePath)
   if (!fs.existsSync(pageJs)) {
     Util.printLog(Util.pocessTypeEnum.ERROR, '页面文件', `${sourceDirName}/${page} 不存在！`)
     return
@@ -734,6 +791,23 @@ async function buildSinglePage (page) {
   const outputPageJSONPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.json')
   const outputPageWXMLPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.wxml')
   const outputPageWXSSPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.wxss')
+  // 判断是不是小程序原生代码页面
+  const pageWXMLPath = pageJs.replace(path.extname(pageJs), '.wxml')
+  if (fs.existsSync(pageWXMLPath) && pageJsContent.indexOf(taroJsFramework) < 0) {
+    const pageJSONPath = pageJs.replace(path.extname(pageJs), '.json')
+    const pageWXSSPath = pageJs.replace(path.extname(pageJs), '.wxss')
+    if (fs.existsSync(pageJSONPath)) {
+      const pageJSON = require(pageJSONPath)
+      copyFileSync(pageJSONPath, outputPageJSONPath)
+      transfromNativeComponents(pageJSONPath, pageJSON)
+    }
+    compileDepScripts([pageJs])
+    copyFileSync(pageWXMLPath, outputPageWXMLPath)
+    if (fs.existsSync(pageWXSSPath)) {
+      await compileDepStyles(outputPageWXSSPath, [pageWXSSPath])
+    }
+    return
+  }
   try {
     const transformResult = wxTransformer({
       code: pageJsContent,
