@@ -12,7 +12,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties[privatePropValName] = {
     type: null,
     observer: function () {
-      if (!this.$component || !this.$component.__isAttached) return
+      if (!this.$component || !this.$component.__isReady) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
       this.$component.props = nextProps
       this.$component._unsafeCallUpdate = true
@@ -165,16 +165,17 @@ function createComponent (ComponentClass, isPage) {
     data: {
       _componentProps: 1
     },
-    attached (options = {}) {
+    created (options = {}) {
       // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
       this.$component = new ComponentClass()
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
-      // attached之后才可以setData,
-      // attached之前，小程序组件初始化时仍然会触发observer，__isAttached为否的时候放弃处理observer
-      this.$component.__isAttached = true
     },
     ready () {
+      // ready之后才可以setData,
+      // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
+      this.$component.__isReady = true
+
       if (isPage && !hasPageInited) {
         hasPageInited = true
       }
@@ -194,7 +195,7 @@ function createComponent (ComponentClass, isPage) {
     }
   }
   if (isPage) {
-    weappComponentConf['onLoad'] = weappComponentConf['attached']
+    weappComponentConf['onLoad'] = weappComponentConf['created']
     weappComponentConf['onReady'] = weappComponentConf['ready']
     weappComponentConf['onUnload'] = weappComponentConf['detached']
     weappComponentConf['onShow'] = function () {
