@@ -206,7 +206,10 @@ function createComponent (ComponentClass, isPage) {
     }
     pageExtraFns.forEach(fn => {
       weappComponentConf[fn] = function () {
-        componentTrigger(this.$component, fn, arguments)
+        const component = this.$component
+        if (component[fn] && typeof component[fn] === 'function') {
+          return component[fn].call(component, ...arguments)
+        }
       }
     })
   }
