@@ -314,9 +314,26 @@ class Transformer {
   }
 
   resetConstructor () {
+    const body = this.classPath.node.body.body
     if (!this.methods.has('constructor')) {
       const ctor = buildConstructor()
-      this.classPath.node.body.body.unshift(ctor)
+      body.unshift(ctor)
+    }
+    for (const method of body) {
+      if (t.isClassMethod(method) && method.kind === 'constructor') {
+        method.kind = 'method'
+        method.key = t.identifier('_constructor')
+        if (t.isBlockStatement(method.body)) {
+          for (const statement of method.body.body) {
+            if (t.isExpressionStatement(statement)) {
+              const expr = statement.expression
+              if (t.isCallExpression(expr) && (t.isIdentifier(expr.callee, { name: 'super' }) || t.isSuper(expr.callee))) {
+                expr.callee = t.memberExpression(t.identifier('super'), t.identifier('_constructor'))
+              }
+            }
+          }
+        }
+      }
     }
   }
 
