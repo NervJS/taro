@@ -25,8 +25,10 @@ class BaseComponent {
     params: {}
   }
 
-  constructor (props) {
+  constructor () {
     this.state = {}
+  }
+  _constructor (props) {
     this.props = props || {}
   }
   _init (scope) {

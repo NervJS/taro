@@ -109,7 +109,7 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, componentProps, weappComponentData) {
+function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
   let newProps = {}
   for (const propName in properties) {
     if (propName === privatePropValName) {
@@ -166,8 +166,8 @@ function createComponent (ComponentClass, isPage) {
       _componentProps: 1
     },
     attached (options = {}) {
-      const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
-      this.$component = new ComponentClass(props)
+      // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
+      this.$component = new ComponentClass()
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
       // attached之后才可以setData,
@@ -180,6 +180,11 @@ function createComponent (ComponentClass, isPage) {
       }
       // 页面Ready的时候setData更新，此时并未didMount,触发observer但不会触发子组件更新
       // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
+      // 动态组件执行改造函数副本的时,在初始化数据前计算好props
+      if (hasPageInited && !isPage) {
+        const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
+        this.$component.props = nextProps
+      }
       if (hasPageInited || isPage) {
         updateComponent(this.$component)
       }

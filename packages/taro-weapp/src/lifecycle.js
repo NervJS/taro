@@ -13,6 +13,10 @@ export function updateComponent (component) {
     component.componentWillReceiveProps(props)
     component._disable = false
   }
+  // 在willMount前执行构造函数的副本
+  if (!component.__mounted) {
+    component._constructor && component._constructor(props)
+  }
   let state = component.getState()
 
   const prevState = component.prevState || state
