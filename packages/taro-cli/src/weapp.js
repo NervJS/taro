@@ -256,7 +256,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
       const node = astPath.node
       const callee = node.callee
       if (t.isMemberExpression(callee)) {
-        if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+        if (taroImportDefaultName && callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
           astPath.remove()
         }
       } else if (callee.name === 'require') {
@@ -861,7 +861,19 @@ async function buildSinglePage (page) {
       }
     }
     fs.ensureDirSync(outputPagePath)
-    fs.writeFileSync(outputPageJSONPath, JSON.stringify(Object.assign({}, buildUsingComponents(transformResult.components), res.configObj), null, 2))
+    const { usingComponents = {} } = res.configObj
+    if (usingComponents && !Util.isEmptyObject(usingComponents)) {
+      const keys = Object.keys(usingComponents)
+      keys.forEach(item => {
+        pageDepComponents.forEach(component => {
+          if (_.camelCase(item) === _.camelCase(component.name)) {
+            delete usingComponents[item]
+          }
+        })
+      })
+      transfromNativeComponents(outputPageJSONPath.replace(outputDir, sourceDir), res.configObj)
+    }
+    fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageDepComponents), res.configObj), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
     fs.writeFileSync(outputPageJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${outputDirName}/${page}.js`)
@@ -1070,7 +1082,19 @@ async function buildSingleComponent (component) {
         }
       }
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(buildUsingComponents(transformResult.components, true), null, 2))
+    const { usingComponents = {} } = res.configObj
+    if (usingComponents && !Util.isEmptyObject(usingComponents)) {
+      const keys = Object.keys(usingComponents)
+      keys.forEach(item => {
+        componentDepComponents.forEach(component => {
+          if (_.camelCase(item) === _.camelCase(component.name)) {
+            delete usingComponents[item]
+          }
+        })
+      })
+      transfromNativeComponents(outputComponentJSONPathh.replace(outputDir, sourceDir), res.configObj)
+    }
+    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(componentDepComponents, true), res.configObj), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
