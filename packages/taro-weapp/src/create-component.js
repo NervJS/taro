@@ -161,10 +161,17 @@ export function componentTrigger (component, key, args) {
 let hasPageInited = false
 
 function createComponent (ComponentClass, isPage) {
+  let initData = {
+    _componentProps: 1
+  }
+  if (isPage) {
+    const componentProps = filterProps({}, ComponentClass.defaultProps)
+    const componentInstance = new ComponentClass(componentProps)
+    componentInstance.state = componentInstance._createData()
+    initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
+  }
   const weappComponentConf = {
-    data: {
-      _componentProps: 1
-    },
+    data: initData,
     created (options = {}) {
       // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
       this.$component = new ComponentClass()

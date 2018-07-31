@@ -60,7 +60,7 @@ function doUpdate (component) {
   if (component.$usedState && component.$usedState.length) {
     const _data = {}
     component.$usedState.forEach(key => {
-      const val = safeGet(data, key)
+      let val = safeGet(data, key)
       if (typeof val === 'undefined') {
         return
       }
