@@ -343,7 +343,7 @@ class Transformer {
   handleLifecyclePropParam (propParam: t.LVal, properties: Set<string>) {
     let propsName: string | null = null
     if (!propParam) {
-      return
+      return null
     }
     if (t.isIdentifier(propParam)) {
       propsName = propParam.name
