@@ -11,6 +11,12 @@ const defaultNavigationOptions = {
   headerTintColor: 'black'
 }
 
+/**
+ * @description 包裹页面 Screen 组件，处理生命周期，注入方法
+ * @param Screen 页面的组件
+ * @param Taro 挂在方法到 Taro 上
+ * @returns {WrappedScreen}
+ */
 function getWrappedScreen (Screen, Taro) {
   class WrappedScreen extends Screen {
     constructor (props, context) {
@@ -21,6 +27,7 @@ function getWrappedScreen (Screen, Taro) {
       Taro.redirectTo = this.wxRedirectTo.bind(this)
       Taro.navigateBack = this.wxNavigateBack.bind(this)
       Taro.switchTab = this.wxSwitchTab.bind(this)
+      Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
     }
 
     componentDidMount () {
@@ -75,9 +82,20 @@ function getWrappedScreen (Screen, Taro) {
       complete && complete()
     }
 
-    // TODO delta
     wxNavigateBack ({delta = 1}) {
-      this.props.navigation.goBack()
+      while (delta > 0) {
+        this.props.navigation.goBack()
+        delta--
+      }
+    }
+
+    wxGetCurrentPages () {
+      let parentState = this.props.navigation.dangerouslyGetParent().state
+      if (parentState && parentState.routes) {
+        return parentState.routes.map(item => item.routeName)
+      } else {
+        return []
+      }
     }
   }
 
@@ -109,6 +127,8 @@ const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
   if (tabBar && tabBar.list) {
     const tabPathList = tabBar.list.map(item => item.pagePath)
 
+    // newPageList 去除了 tabBar 配置里面的页面，但包含当前 tabBar 页面
+    // 防止页面跳转时 tabBar 和 stack 相互干扰，保证每个 tabBar 堆栈的独立性
     tabBar.list.forEach((item) => {
       const tabPath = item.pagePath
       const newTabPathList = tabPathList.filter(item => item !== tabPath) // 去除当前 tabPth
@@ -125,7 +145,8 @@ const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
           return (
             <Image
               style={{width: 30, height: 30}}
-              source={focused ? iconConfig.selectedIconPath : iconConfig.iconPath}/>
+              source={focused ? iconConfig.selectedIconPath : iconConfig.iconPath}
+            />
           )
         },
         tabBarLabel: tabBar.list.find(item => item.pagePath === navigation.state.routeName).text,
