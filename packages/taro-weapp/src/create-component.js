@@ -167,7 +167,11 @@ function createComponent (ComponentClass, isPage) {
   if (isPage) {
     const componentProps = filterProps({}, ComponentClass.defaultProps)
     const componentInstance = new ComponentClass(componentProps)
-    componentInstance.state = componentInstance._createData()
+    try {
+      componentInstance.state = componentInstance._createData()
+    } catch (err) {
+      console.error(err)
+    }
     initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
   }
   const weappComponentConf = {
