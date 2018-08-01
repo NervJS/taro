@@ -197,7 +197,7 @@ class Transformer {
           } else if (t.isMemberExpression(expr)) {
             self.buildAnonymousFunc(attr, expr as any, false)
           } else {
-            throw codeFrameError(expr.loc, '事件传参只能在类作用域下的值(this.handleXX || this.props.handleXX)，或使用 bind。')
+            throw codeFrameError(expr.loc, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
       },
