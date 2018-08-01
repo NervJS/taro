@@ -13,7 +13,7 @@ const lifeCycles = new Set([
 
 module.exports = {
   meta: {
-    docs: buildDocsMeta('方法命名规范', 'no-function-number-literal')
+    docs: buildDocsMeta('方法命名规范', 'function-naming')
   },
 
   create (context) {
