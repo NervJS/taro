@@ -335,6 +335,13 @@ function processEntry (code, filePath) {
       }
     },
     ClassMethod: {
+      enter(astPath) {
+        const node = astPath.node
+        const key = node.key
+        if (key.name !== 'constructor') return
+        astPath.traverse(classPropertyVisitor)
+        astPath.remove()
+      },
       exit (astPath) {
         const node = astPath.node
         const key = node.key
