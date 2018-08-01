@@ -20,6 +20,7 @@
   * [条件渲染](condition.md)
   * [列表渲染](list.md)
   * [消息机制](events.md)
+  * [微信小程序原生作用域获取](wx-relations.md)
 * [组件库](components.md)
   * 视图容器
     * [View](components/viewContainer/view.md)
@@ -116,6 +117,7 @@
     * [plugins](config-detail.md#plugins)
     * [env](config-detail.md#env)
     * [defineConstants](config-detail.md#defineConstants)
+    * [copy](config-detail.md#copy)
     * [weapp](config-detail.md#weapp)
     * [h5](config-detail.md#h5)
   * [异步编程](async-await.md)
