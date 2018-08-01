@@ -6,7 +6,7 @@ import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement }
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
-import { transform as babel7Transform } from '@babel/core'
+import * as ts from 'typescript'
 const template = require('babel-template')
 
 export interface Options {
@@ -73,22 +73,10 @@ interface TransformResult extends Result {
 
 export default function transform (options: Options): TransformResult {
   const code = options.isTyped
-    ? babel7Transform(options.code, {
-      parserOpts: {
-        sourceType: 'module',
-        plugins: [
-          'typescript',
-          'classProperties',
-          'jsx',
-          'trailingFunctionCommas',
-          'asyncFunctions',
-          'exponentiationOperator',
-          'asyncGenerators',
-          'objectRestSpread',
-          'decorators'
-        ] as any[]
-      }
-    }).code
+    ? ts.transpile(options.code, {
+      jsx: ts.JsxEmit.Preserve,
+      target: ts.ScriptTarget.ESNext
+    })
     : options.code
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub

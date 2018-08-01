@@ -274,7 +274,9 @@ export class RenderParser {
       },
       exit: (jsxElementPath: NodePath<t.JSXElement>) => {
         handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isFinalReturn }) => {
-          this.jsxDeclarations.add(statementParent)
+          if (statementParent && statementParent.findParent(p => p === this.renderPath)) {
+            this.jsxDeclarations.add(statementParent)
+          }
           if (t.isReturnStatement(parentNode)) {
             if (!isFinalReturn) {
               const callExpr = parentPath.findParent(p => p.isCallExpression())
