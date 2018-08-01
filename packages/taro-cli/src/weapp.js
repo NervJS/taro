@@ -1148,6 +1148,7 @@ async function buildSingleComponent (component) {
     }
     return componentsBuildResult[component]
   } catch (err) {
+    hasBeenBuiltComponents.push(component)
     console.log(err)
   }
 }
