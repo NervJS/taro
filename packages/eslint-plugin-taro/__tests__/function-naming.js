@@ -6,7 +6,7 @@ const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
 
 const NUMBER_ERROR = '方法名包含数字可能会在小程序中无法使用'
 const UNDERSCOPE_ERROR = '方法名以下划线 `_` 开头或结尾可能在小程序无法使用'
-const LENGTH_ERROR = '方法名的长度大于 20 可能在小程序中无法使用'
+const LENGTH_ERROR = '方法名的长度大于 22 可能在小程序中无法使用'
 
 function testClassMethod (name) {
   return `class A extends Component {
