@@ -1,3 +1,4 @@
+import isPlainObject from 'lodash/isPlainObject'
 export function isEmptyObject (obj) {
   if (!obj) {
     return false
@@ -56,18 +57,26 @@ export function getPrototypeChain (obj) {
 
 export function noop () {}
 
+export function isFunction (arg) {
+  return typeof arg === 'function'
+}
+
+export function isArray (arg) {
+  return Array.isArray(arg)
+}
+
 export function shakeFnFromObject (obj) {
   let newObj
-  if (Array.isArray(obj)) {
+  if (isArray(obj)) {
     newObj = []
     const len = obj.length
     for (let i = 0; i < len; i++) {
       newObj.push(shakeFnFromObject(obj[i]))
     }
-  } else if (typeof obj === 'object') {
+  } else if (isPlainObject(obj)) {
     newObj = {}
     for (const key in obj) {
-      if (typeof obj[key] === 'function') {
+      if (isFunction(obj[key])) {
         continue
       }
       const ret = shakeFnFromObject(obj[key])
