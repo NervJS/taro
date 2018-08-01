@@ -56,26 +56,25 @@ export function getPrototypeChain (obj) {
 
 export function noop () {}
 
-function isPlainObj(val) {
-  return typeof val === 'object' && !Array.isArray(val)
-}
-
 export function shakeFnFromObject (obj) {
-  let newObj = {}
-  if (isPlainObj(obj)) {
+  let newObj
+  if (Array.isArray(obj)) {
+    newObj = []
+    const len = obj.length
+    for (let i = 0; i < len; i++) {
+      newObj.push(shakeFnFromObject(obj[i]))
+    }
+  } else if (typeof obj === 'object') {
+    newObj = {}
     for (const key in obj) {
       if (typeof obj[key] === 'function') {
         continue
       }
-      if (isPlainObj(obj[key])) {
-        const ret = shakeFnFromObject(obj[key])
-        if (!isEmptyObject(ret)) {
-          newObj[key] = ret
-        }
-      } else {
-        newObj[key] = obj[key]
-      }
+      const ret = shakeFnFromObject(obj[key])
+      newObj[key] = ret
     }
+  } else {
+    return obj
   }
   return newObj
 }
