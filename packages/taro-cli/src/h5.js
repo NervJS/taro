@@ -53,6 +53,8 @@ const sourceDir = path.join(appPath, sourceDirName)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
+// 不再经过ts-loader转换后, 实际文件是.temp下的app.jsx文件
+const entryJSXFileName = entryFileName.replace(Util.REG_TYPESCRIPT, (m, p1, p2) =>('.js' + p2))
 
 let pages = []
 let tabBar
@@ -545,7 +547,7 @@ function processFiles (filePath) {
   const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
   const distDirname = dirname.replace(sourceDir, tempDir)
-  const distPath = getDist(filePath)
+  let distPath = getDist(filePath)
 
   try {
     if (Util.REG_SCRIPTS.test(extname)) {
@@ -555,6 +557,12 @@ function processFiles (filePath) {
         ? processEntry(content, filePath)
         : processOthers(content, filePath)
       const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
+
+      // 经过ts-loader编译后不再需要在webpack里再编译, 直接输出js或者jsx文件
+      if(Util.REG_TYPESCRIPT.test(extname)) {
+        distPath = getDist(filePath.replace(Util.REG_TYPESCRIPT, (m, p1, p2) =>('.js' + p2)))
+      }
+
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
     } else {
@@ -625,7 +633,7 @@ async function buildDist (buildConfig) {
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
   h5Config.entry = {
-    app: path.join(tempPath, entryFileName)
+    app: path.join(tempPath, entryJSXFileName)
   }
   if (watch) {
     h5Config.isWatch = true
