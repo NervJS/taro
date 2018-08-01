@@ -91,7 +91,7 @@ declare namespace Taro {
    */
 
   namespace request {
-    type Promised = {
+    type Promised<T extends any | string | ArrayBuffer = any> = {
       /**
        * 开发者服务器返回的数据
        *
@@ -103,7 +103,7 @@ declare namespace Taro {
        * *   对于 `POST` 方法且 `header['content-type']` 为 `application/json` 的数据，会对数据进行 JSON 序列化
        * *   对于 `POST` 方法且 `header['content-type']` 为 `application/x-www-form-urlencoded` 的数据，会将数据转换成 query string （encodeURIComponent(k)=encodeURIComponent(v)&encodeURIComponent(k)=encodeURIComponent(v)...）
        */
-      data: any | string | ArrayBuffer
+      data: T
       /**
        * 开发者服务器返回的 HTTP 状态码
        */
@@ -115,7 +115,7 @@ declare namespace Taro {
        */
       header: any
     }
-    type Param = {
+    type Param<P extends any | string | ArrayBuffer = any> = {
       /**
        * 开发者服务器接口地址
        */
@@ -123,7 +123,7 @@ declare namespace Taro {
       /**
        * 请求的参数
        */
-      data?: any | string | ArrayBuffer
+      data?: P
       /**
        * 设置请求的 header，header 中不能设置 Referer。
        */
@@ -133,7 +133,7 @@ declare namespace Taro {
        *
        * @default GET
        */
-      method?: string
+      method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
        * 如果设为json，会尝试对返回的数据做一次 JSON.parse
        *
@@ -209,7 +209,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
    */
-  function request(OBJECT: request.Param): Promise<request.Promised>
+  function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
 
   namespace uploadFile {
     type Promised = {
@@ -400,7 +400,7 @@ declare namespace Taro {
       /**
        * 默认是GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
        */
-      method?: string
+      method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
        * 子协议数组
        *
@@ -432,7 +432,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject
    */
-  function connectSocket(OBJECT: connectSocket.Param): Promise<any>
+  function connectSocket(OBJECT: connectSocket.Param): Promise<connectSocket.Promised>
 
   namespace onSocketOpen {
     type Param = (res: ParamParam) => any
@@ -525,12 +525,12 @@ declare namespace Taro {
   function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>
 
   namespace onSocketMessage {
-    type Param = (res: ParamParam) => any
-    type ParamParam = {
+    type Param<T = any> = (res: ParamParam<T>) => any
+    type ParamParam<T extends any | string | ArrayBuffer = any> = {
       /**
        * 服务器返回的消息
        */
-      data: string | ArrayBuffer
+      data: T
     }
   }
   /**
@@ -549,7 +549,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketmessagecallback
    */
-  function onSocketMessage(CALLBACK: onSocketMessage.Param): void
+  function onSocketMessage<T = any>(CALLBACK?: onSocketMessage.Param<T>): void
 
   namespace closeSocket {
     type Param = {
@@ -606,7 +606,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketclosecallback
    */
-  function onSocketClose(CALLBACK: any): void
+  function onSocketClose(CALLBACK?: (res: any) => any): void
 
   namespace SocketTask {
     namespace send {
@@ -687,12 +687,12 @@ declare namespace Taro {
       }
     }
     namespace onMessage {
-      type Param = (res: ParamParam) => any
-      type ParamParam = {
+      type Param<T = any> = (res: ParamParam<T>) => any
+      type ParamParam<T extends any | string | ArrayBuffer = any> = {
         /**
          * 服务器返回的消息
          */
-        data: string | ArrayBuffer
+        data: T
       }
     }
   }
@@ -702,6 +702,36 @@ declare namespace Taro {
    * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html) 接口创建返回。
    */
   class SocketTask {
+    /**
+     * websocket 当前的连接状态。
+     */
+    readonly readyState: boolean;
+
+    /**
+     * websocket 状态值：连接中。
+     */
+    readonly CONNECTING: boolean;
+
+    /**
+     * websocket 状态值：已连接。
+     */
+    readonly OPEN: boolean;
+
+    /**
+     * websocket 状态值：关闭中。
+     */
+    readonly CLOSING: boolean;
+
+    /**
+     * websocket 状态值：已关闭。
+    */
+    readonly CLOSED: boolean;
+
+    /**
+     * 浏览器 websocket 实例。（h5 端独有）
+     */
+    readonly ws: WebSocket;
+
     /**
      *
      * **SocketTask.send(OBJECT)：**
@@ -722,28 +752,28 @@ declare namespace Taro {
      *
      * 监听 WebSocket 连接打开事件。
      */
-    onOpen(CALLBACK: any): void
+    onOpen(CALLBACK?: any): void
     /**
      *
      * **SocketTask.onClose(CALLBACK)：**
      *
      * 监听 WebSocket 连接关闭事件。
      */
-    onClose(CALLBACK: any): void
+    onClose(CALLBACK?: any): void
     /**
      *
      * **SocketTask.onError(CALLBACK)：**
      *
      * 监听 WebSocket 错误。
      */
-    onError(CALLBACK: SocketTask.onError.Param): void
+    onError(CALLBACK?: SocketTask.onError.Param): void
     /**
      *
      * **SocketTask.onMessage(CALLBACK)：**
      *
      * 监听WebSocket接受到服务器的消息事件。
      */
-    onMessage(CALLBACK: SocketTask.onMessage.Param): void
+    onMessage<T = any>(CALLBACK: SocketTask.onMessage.Param<T>): void
   }
   namespace chooseImage {
     type Promised = {
@@ -859,14 +889,14 @@ declare namespace Taro {
        *   down             |  180度旋转
        *   left             |  逆时针旋转90度
        *   right            |  顺时针旋转90度
-       *   up-mirrored      | 同up，但水平翻转
-       *   down-mirrored    |同down，但水平翻转
-       *   left-mirrored    |同left，但垂直翻转
-       *   right-mirrored   |同right，但垂直翻转
+       *   up-mirrored      |  同up，但水平翻转
+       *   down-mirrored    |  同down，但水平翻转
+       *   left-mirrored    |  同left，但垂直翻转
+       *   right-mirrored   |  同right，但垂直翻转
        *
        * @since 1.9.90
        */
-      orientation: string
+      orientation: 'up' | 'down' | 'left' | 'right' | 'up-mirrored' | 'down-mirrored ' | 'left-mirrored' | 'right-mirrored'
       /**
        * 返回图片的格式
        *
@@ -947,7 +977,7 @@ declare namespace Taro {
       /**
        * 录音文件的临时路径
        */
-      tempFilePath: any
+      tempFilePath: string
     }
     type Param = {}
   }
@@ -1103,39 +1133,39 @@ declare namespace Taro {
     /**
      * 开始录音
      */
-    start(options: RecorderManager.start.Param): any
+    start(options: RecorderManager.start.Param): void
     /**
      * 暂停录音
      */
-    pause(): any
+    pause(): void
     /**
      * 继续录音
      */
-    resume(): any
+    resume(): void
     /**
      * 停止录音
      */
-    stop(): any
+    stop(): void
     /**
      * 录音开始事件
      */
-    onStart(callback: any): any
+    onStart(callback?: () => void): void
     /**
      * 录音暂停事件
      */
-    onPause(callback: any): any
+    onPause(callback?: () => void): void
     /**
      * 录音停止事件，会回调文件地址
      */
-    onStop(callback: RecorderManager.onStop.Param): any
+    onStop(callback?: RecorderManager.onStop.Param): void
     /**
      * 已录制完指定帧大小的文件，会回调录音分片结果数据。如果设置了 frameSize ，则会回调此事件
      */
-    onFrameRecorded(callback: RecorderManager.onFrameRecorded.Param): any
+    onFrameRecorded(callback?: RecorderManager.onFrameRecorded.Param): void
     /**
      * 录音错误事件, 会回调错误信息
      */
-    onError(callback: RecorderManager.onError.Param): any
+    onError(callback?: RecorderManager.onError.Param): void
   }
   namespace playVoice {
     type Param = {
@@ -1226,23 +1256,23 @@ declare namespace Taro {
       /**
        * 选定音频的长度（单位：s），只有在当前有音乐播放时返回
        */
-      duration: any
+      duration: number
       /**
        * 选定音频的播放位置（单位：s），只有在当前有音乐播放时返回
        */
-      currentPosition: any
+      currentPosition: number
       /**
        * 播放状态（2：没有音乐在播放，1：播放中，0：暂停中）
        */
-      status: any
+      status: 0 | 1 | 2
       /**
        * 音频的下载进度（整数，80 代表 80%），只有在当前有音乐播放时返回
        */
-      downloadPercent: any
+      downloadPercent: number
       /**
        * 歌曲数据链接，只有在当前有音乐播放时返回
        */
-      dataUrl: any
+      dataUrl: string
     }
     type Param = {}
   }
@@ -1408,19 +1438,19 @@ declare namespace Taro {
      *
      * @readonly
      */
-    duration: number
+    readonly duration: number
     /**
      * 当前音频的播放位置（单位：s），只有在当前有合法的 src 时返回
      *
      * @readonly
      */
-    currentTime: number
+    readonly currentTime: number
     /**
      * 当前是是否暂停或停止状态，true 表示暂停或停止，false 表示正在播放
      *
      * @readonly
      */
-    paused: boolean
+    readonly paused: boolean
     /**
      * 音频的数据源，默认为空字符串，**当设置了新的 src 时，会自动开始播放** ，目前支持的格式有 m4a, aac, mp3, wav
      */
@@ -1464,59 +1494,59 @@ declare namespace Taro {
     /**
      * 播放
      */
-    play(): any
+    play(): void
     /**
      * 暂停
      */
-    pause(): any
+    pause(): void
     /**
      * 停止
      */
-    stop(): any
+    stop(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: any): any
+    seek(position: any): void
     /**
      * 背景音频进入可以播放状态，但不保证后面可以流畅播放
      */
-    onCanplay(callback: any): any
+    onCanplay(callback?: () => void): void
     /**
      * 背景音频播放事件
      */
-    onPlay(callback: any): any
+    onPlay(callback?: () => void): void
     /**
      * 背景音频暂停事件
      */
-    onPause(callback: any): any
+    onPause(callback?: () => void): void
     /**
      * 背景音频停止事件
      */
-    onStop(callback: any): any
+    onStop(callback?: () => void): void
     /**
      * 背景音频自然播放结束事件
      */
-    onEnded(callback: any): any
+    onEnded(callback?: () => void): void
     /**
      * 背景音频播放进度更新事件
      */
-    onTimeUpdate(callback: any): any
+    onTimeUpdate(callback?: () => void): void
     /**
      * 用户在系统音乐播放面板点击上一曲事件（iOS only）
      */
-    onPrev(callback: any): any
+    onPrev(callback?: () => void): void
     /**
      * 用户在系统音乐播放面板点击下一曲事件（iOS only）
      */
-    onNext(callback: any): any
+    onNext(callback?: () => void): void
     /**
      * 背景音频播放错误事件
      */
-    onError(callback: any): any
+    onError(callback?: () => void): void
     /**
      * 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      */
-    onWaiting(callback: any): any
+    onWaiting(callback?: () => void): void
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
@@ -1569,25 +1599,25 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-audio.html#wxcreateaudiocontextaudioid-this
    */
-  function createAudioContext(audioId: any, instance?: any): AudioContext
+  function createAudioContext(audioId: string, instance?: any): AudioContext
 
   class AudioContext {
     /**
      * 音频的地址
      */
-    setSrc(src: any): any
+    setSrc(src: string): void
     /**
      * 播放
      */
-    play(): any
+    play(): void
     /**
      * 暂停
      */
-    pause(): any
+    pause(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: any): any
+    seek(position: number): void
   }
   /**
    * @since 1.6.0
@@ -1676,146 +1706,146 @@ declare namespace Taro {
     /**
      * 播放
      */
-    play(): any
+    play(): void
     /**
      * 暂停
      */
-    pause(): any
+    pause(): void
     /**
      * 停止
      */
-    stop(): any
+    stop(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: any): any
+    seek(position: number): void
     /**
      * 销毁当前实例
      */
-    destroy(): any
+    destroy(): void
     /**
      * 音频进入可以播放状态，但不保证后面可以流畅播放
      */
-    onCanplay(callback: any): any
+    onCanplay(callback?: () => void): void
     /**
      * 音频播放事件
      */
-    onPlay(callback: any): any
+    onPlay(callback?: () => void): void
     /**
      * 音频暂停事件
      */
-    onPause(callback: any): any
+    onPause(callback?: () => void): void
     /**
      * 音频停止事件
      */
-    onStop(callback: any): any
+    onStop(callback?: () => void): void
     /**
      * 音频自然播放结束事件
      */
-    onEnded(callback: any): any
+    onEnded(callback?: () => void): void
     /**
      * 音频播放进度更新事件
      */
-    onTimeUpdate(callback: any): any
+    onTimeUpdate(callback?: () => void): void
     /**
      * 音频播放错误事件
      */
-    onError(callback: any): any
+    onError(callback?: () => void): void
     /**
      * 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      */
-    onWaiting(callback: any): any
+    onWaiting(callback?: () => void): void
     /**
      * 音频进行 seek 操作事件
      */
-    onSeeking(callback: any): any
+    onSeeking(callback?: () => void): void
     /**
      * 音频完成 seek 操作事件
      */
-    onSeeked(callback: any): any
+    onSeeked(callback?: () => void): void
     /**
      * 取消监听 onCanplay 事件
      *
      * @since 1.9.0
      */
-    offCanplay(callback: any): any
+    offCanplay(callback?: () => void): void
     /**
      * 取消监听 onPlay 事件
      *
      * @since 1.9.0
      */
-    offPlay(callback: any): any
+    offPlay(callback?: () => void): void
     /**
      * 取消监听 onPause 事件
      *
      * @since 1.9.0
      */
-    offPause(callback: any): any
+    offPause(callback?: () => void): void
     /**
      * 取消监听 onStop 事件
      *
      * @since 1.9.0
      */
-    offStop(callback: any): any
+    offStop(callback?: () => void): void
     /**
      * 取消监听 onEnded 事件
      *
      * @since 1.9.0
      */
-    offEnded(callback: any): any
+    offEnded(callback?: () => void): void
     /**
      * 取消监听 onTimeUpdate 事件
      *
      * @since 1.9.0
      */
-    offTimeUpdate(callback: any): any
+    offTimeUpdate(callback?: () => void): void
     /**
      * 取消监听 onError 事件
      *
      * @since 1.9.0
      */
-    offError(callback: any): any
+    offError(callback?: () => void): void
     /**
      * 取消监听 onWaiting 事件
      *
      * @since 1.9.0
      */
-    offWaiting(callback: any): any
+    offWaiting(callback?: () => void): void
     /**
      * 取消监听 onSeeking 事件
      *
      * @since 1.9.0
      */
-    offSeeking(callback: any): any
+    offSeeking(callback?: () => void): void
     /**
      * 取消监听 onSeeked 事件
      *
      * @since 1.9.0
      */
-    offSeeked(callback: any): any
+    offSeeked(callback?: () => void): void
   }
   namespace chooseVideo {
     type Promised = {
       /**
        * 选定视频的临时文件路径
        */
-      tempFilePath: any
+      tempFilePath: string
       /**
        * 选定视频的时间长度
        */
-      duration: any
+      duration: number
       /**
        * 选定视频的数据量大小
        */
-      size: any
+      size: number
       /**
        * 返回选定视频的长
        */
-      height: any
+      height: number
       /**
        * 返回选定视频的宽
        */
-      width: any
+      width: number
     }
     type Param = {
       /**
@@ -1962,37 +1992,37 @@ declare namespace Taro {
     /**
      * 播放
      */
-    play(): any
+    play(): void
     /**
      * 暂停
      */
-    pause(): any
+    pause(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: any): any
+    seek(position: number): void
     /**
      * 发送弹幕，danmu 包含两个属性 text, color。
      */
-    sendDanmu(danmu: any): any
+    sendDanmu(danmu: { text: string, color: string }): void
     /**
      * 设置倍速播放，支持的倍率有 0.5/0.8/1.0/1.25/1.5
      *
      * @since 1.4.0
      */
-    playbackRate(rate: any): any
+    playbackRate(rate: number): void
     /**
      * 进入全屏，可传入{direction}参数（1.7.0起支持），详见video组件文档
      *
      * @since 1.4.0
      */
-    requestFullScreen(): any
+    requestFullScreen(): void
     /**
      * 退出全屏
      *
      * @since 1.4.0
      */
-    exitFullScreen(): any
+    exitFullScreen(): void
   }
   /**
    * @since 1.6.0
@@ -2029,7 +2059,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempImagePath }
        */
-      type ParamPropSuccess = (res: any) => any
+      type ParamPropSuccess = (res: { tempImagePath: string }) => void
       /**
        * 接口调用失败的回调函数
        */
@@ -2061,7 +2091,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -2073,7 +2103,7 @@ declare namespace Taro {
       /**
        * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropTimeoutCallback = () => any
+      type ParamPropTimeoutCallback = (res: { tempThumbPath: string, tempVideoPath: string }) => void
     }
     namespace stopRecord {
       type Param = {
@@ -2093,7 +2123,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: any) => any
+      type ParamPropSuccess = (res: { tempThumbPath, tempVideoPath }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -3056,43 +3086,43 @@ declare namespace Taro {
       /**
        * 纬度，浮点数，范围为-90~90，负数表示南纬
        */
-      latitude: any
+      latitude: number
       /**
        * 经度，浮点数，范围为-180~180，负数表示西经
        */
-      longitude: any
+      longitude: number
       /**
        * 速度，浮点数，单位m/s
        */
-      speed: any
+      speed: number
       /**
        * 位置的精确度
        */
-      accuracy: any
+      accuracy: number
       /**
        * 高度，单位 m
        *
        * @since 1.2.0
        */
-      altitude: any
+      altitude: number
       /**
        * 垂直精度，单位 m（Android 无法获取，返回 0）
        *
        * @since 1.2.0
        */
-      verticalAccuracy: any
+      verticalAccuracy: number
       /**
        * 水平精度，单位 m
        *
        * @since 1.2.0
        */
-      horizontalAccuracy: any
+      horizontalAccuracy: number
     }
     type Param = {
       /**
        * 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于`Taro.openLocation`的坐标
        */
-      type?: string
+      type?: 'wgs84' | 'gcj02'
       /**
        * 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
        *
@@ -3293,7 +3323,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
        */
-      type ParamPropSuccess = (res: any) => any
+      type ParamPropSuccess = (res: { longitude: "经度", latitude: "纬度" }) => void
       /**
        * 接口调用失败的回调函数
        */
@@ -3420,7 +3450,7 @@ declare namespace Taro {
     /**
      * 将地图中心移动到当前定位点，需要配合map组件的show-location使用
      */
-    moveToLocation(): any
+    moveToLocation(): void
     /**
      * 平移marker，带动画
      *
@@ -3453,69 +3483,69 @@ declare namespace Taro {
        *
        * @since 1.5.0
        */
-      brand: any
+      brand: string
       /**
        * 手机型号
        */
-      model: any
+      model: string
       /**
        * 设备像素比
        */
-      pixelRatio: any
+      pixelRatio: string
       /**
        * 屏幕宽度
        *
        * @since 1.1.0
        */
-      screenWidth: any
+      screenWidth: number
       /**
        * 屏幕高度
        *
        * @since 1.1.0
        */
-      screenHeight: any
+      screenHeight: number
       /**
        * 可使用窗口宽度
        */
-      windowWidth: any
+      windowWidth: number
       /**
        * 可使用窗口高度
        */
-      windowHeight: any
+      windowHeight: number
       /**
        * 状态栏的高度
        *
        * @since 1.9.0
        */
-      statusBarHeight: any
+      statusBarHeight: number
       /**
        * 微信设置的语言
        */
-      language: any
+      language: string
       /**
        * 微信版本号
        */
-      version: any
+      version: string
       /**
        * 操作系统版本
        */
-      system: any
+      system: string
       /**
        * 客户端平台
        */
-      platform: any
+      platform: string
       /**
        * 用户字体大小设置。以“我-设置-通用-字体大小”中的设置为准，单位：px
        *
        * @since 1.5.0
        */
-      fontSizeSetting: any
+      fontSizeSetting: number
       /**
        * 客户端基础库版本
        *
        * @since 1.1.0
        */
-      SDKVersion: any
+      SDKVersion: string
     }
     type Param = {}
   }
@@ -3548,69 +3578,69 @@ declare namespace Taro {
        *
        * @since 1.5.0
        */
-      brand: any
+      brand: string
       /**
        * 手机型号
        */
-      model: any
+      model: string
       /**
        * 设备像素比
        */
-      pixelRatio: any
+      pixelRatio: number
       /**
        * 屏幕宽度
        *
        * @since 1.1.0
        */
-      screenWidth: any
+      screenWidth: number
       /**
        * 屏幕高度
        *
        * @since 1.1.0
        */
-      screenHeight: any
+      screenHeight: number
       /**
        * 可使用窗口宽度
        */
-      windowWidth: any
+      windowWidth: number
       /**
        * 可使用窗口高度
        */
-      windowHeight: any
+      windowHeight: number
       /**
        * 状态栏的高度
        *
        * @since 1.9.0
        */
-      statusBarHeight: any
+      statusBarHeight: number
       /**
        * 微信设置的语言
        */
-      language: any
+      language: string
       /**
        * 微信版本号
        */
-      version: any
+      version: string
       /**
        * 操作系统版本
        */
-      system: any
+      system: string
       /**
        * 客户端平台
        */
-      platform: any
+      platform: string
       /**
        * 用户字体大小设置。以“我-设置-通用-字体大小”中的设置为准，单位：px
        *
        * @since 1.5.0
        */
-      fontSizeSetting: any
+      fontSizeSetting: number
       /**
        * 客户端基础库版本
        *
        * @since 1.1.0
        */
-      SDKVersion: any
+      SDKVersion: string
     }
   }
   /**
