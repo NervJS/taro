@@ -167,6 +167,7 @@ function createComponent (ComponentClass, isPage) {
   if (isPage) {
     const componentProps = filterProps({}, ComponentClass.defaultProps)
     const componentInstance = new ComponentClass(componentProps)
+    componentInstance._constructor && componentInstance._constructor(componentProps)
     try {
       componentInstance.state = componentInstance._createData()
     } catch (err) {

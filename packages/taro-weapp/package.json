@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/taro": "1.0.0-beta.4",
+    "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }
 }

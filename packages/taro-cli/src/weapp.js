@@ -1092,7 +1092,7 @@ async function buildSingleComponent (component) {
           }
         })
       })
-      transfromNativeComponents(outputComponentJSONPathh.replace(outputDir, sourceDir), res.configObj)
+      transfromNativeComponents(outputComponentJSONPath.replace(outputDir, sourceDir), res.configObj)
     }
     fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(componentDepComponents, true), res.configObj), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
