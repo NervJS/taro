@@ -7,6 +7,12 @@ const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage',
 
 function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties = ComponentClass.properties || {}
+  const defaultProps = ComponentClass.defaultProps || {}
+  for (const key in defaultProps) {
+    if (defaultProps.hasOwnProperty(key)) {
+      weappComponentConf.properties[key] = null
+    }
+  }
   // 拦截props的更新，插入生命周期
   // 调用小程序setData或会造成性能消耗
   weappComponentConf.properties[privatePropValName] = {
