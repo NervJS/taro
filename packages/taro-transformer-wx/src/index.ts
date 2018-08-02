@@ -75,7 +75,9 @@ export default function transform (options: Options): TransformResult {
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
-      target: ts.ScriptTarget.ESNext
+      target: ts.ScriptTarget.ESNext,
+      noEmitHelpers: true, // 这两者
+      importHelpers: true, // 配合使用tslib helper函数
     })
     : options.code
   setting.sourceCode = code
