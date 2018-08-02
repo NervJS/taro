@@ -32,6 +32,7 @@
 | :-- | :-- | :-- | :-- | :-- |
 | jsonp | String/Boolean | 否 |  | 使用 jsonp，且使用此值作为回调函数名 |
 | jsonpCache | Boolean | 否 | false | jsonp 请求 url 是否需要被缓存 |
+| mode | String | 否 | same-origin | 是否允许跨域请求。有效值：no-cors, cors, same-origin |
 | credentials | String | 否 | omit | 是否携带 Cookie。有效值：include, same-origin, omit |
 | cache | String | 否 | default | 缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached |
 
@@ -2257,7 +2258,7 @@ Taro.switchTab(params).then(...)
 ```javascript
 import Taro from '@tarojs/taro'
 
-wx.navigateBack({ delta: 2 })
+Taro.navigateBack({ delta: 2 })
 ```
 
 #### Taro.reLaunch(OBJECT)

@@ -10,6 +10,8 @@ export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
 }
 
+const specialComponentName = ['block', 'Block', 'slot', 'Slot']
+
 export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   if (!path.parentPath.isCallExpression()) {
     const p = path.getSibling('property')
@@ -119,11 +121,12 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (t.isJSXMemberExpression(name)) {
     throw codeFrameError(name.loc, '暂不支持 JSX 成员表达式')
   }
-  const isDefaultComponent = DEFAULT_Component_SET.has(name.name)
-  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(name.name)
-  return createHTMLElement({
-    name: kebabCase(name.name),
-    attributes: attributes.reduce((obj, attr) => {
+  const componentName = name.name
+  const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
+  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
+  let attributesTrans = {}
+  if (attributes.length) {
+    attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
@@ -149,15 +152,25 @@ export function parseJSXElement (element: t.JSXElement): string {
         }
         if (
           componentSpecialProps &&
-          componentSpecialProps.has(name)
+          componentSpecialProps.has(name) ||
+          name.startsWith('__fn_')
         ) {
           obj[name] = value
         } else {
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
       }
+      if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
+        obj['__triggerObserer'] = '{{ _triggerObserer }}'
+      }
       return obj
-    }, {}),
+    }, {})
+  } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
+    attributesTrans['__triggerObserer'] = '{{ _triggerObserer }}'
+  }
+  return createHTMLElement({
+    name: kebabCase(componentName),
+    attributes: attributesTrans,
     value: parseJSXChildren(children)
   })
 }

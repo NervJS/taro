@@ -1,5 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
+const {performance} = require('perf_hooks')
+const chokidar = require('chokidar')
 const chalk = require('chalk')
 const vfs = require('vinyl-fs')
 const Vinyl = require('vinyl')
@@ -17,6 +19,7 @@ const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
+const AstConvert = require('./util/astConvert')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -35,6 +38,7 @@ const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
 const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
+const routerImportDefaultName = 'TaroRouter'
 
 const taroApis = [
   'getEnv',
@@ -48,6 +52,7 @@ const taroApis = [
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-rn': '@tarojs/taro-rn',
+  '@tarojs/taro-router-rn': '@tarojs/taro-router-rn',
   '@tarojs/redux': '@tarojs/redux',
   '@tarojs/components': '@tarojs/components',
   '@tarojs/components-rn': '@tarojs/components-rn',
@@ -61,6 +66,9 @@ function parseJSCode (code, filePath) {
     parserOpts: babylonConfig
   }).ast
   const styleFiles = []
+  let pages = [] // app.js 里面的config 配置里面的 pages
+  let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
+  const isEntryFile = path.basename(filePath) === entryFileName
   let taroImportDefaultName
   let hasAddReactImportDefaultName = false
   let providorImportName
@@ -78,7 +86,9 @@ function parseJSCode (code, filePath) {
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
 
+      // 引入的包为 npm 包
       if (!Util.isNpmPkg(value)) {
+        // import 样式处理
         if (Util.REG_STYLE.test(valueExtname)) {
           const basename = path.basename(value, valueExtname)
           const stylePath = path.resolve(path.dirname(filePath), value)
@@ -106,6 +116,12 @@ function parseJSCode (code, filePath) {
             t.importDefaultSpecifier(t.identifier(reactImportDefaultName))
           )
         }
+        // 删除从@tarojs/taro引入的 React
+        specifiers.forEach((item, index) => {
+          if (item.type === 'ImportDefaultSpecifier') {
+            specifiers.splice(index, 1)
+          }
+        })
         const taroApisSpecifiers = []
         specifiers.forEach((item, index) => {
           if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
@@ -113,7 +129,9 @@ function parseJSCode (code, filePath) {
             specifiers.splice(index, 1)
           }
         })
-        source.value = PACKAGES['react']
+        source.value = PACKAGES['@tarojs/taro-rn']
+        // insert React
+        astPath.insertBefore(template(`import React from 'react'`, babylonConfig)())
 
         if (taroApisSpecifiers.length) {
           astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-rn'])))
@@ -136,13 +154,112 @@ function parseJSCode (code, filePath) {
         source.value = PACKAGES['@tarojs/components-rn']
       }
     },
+    ClassProperty: {
+      enter (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const value = node.value
+        if (key.name !== 'config' || !t.isObjectExpression(value)) return
+        // 入口文件的 config ，与页面的分开处理
+        if (isEntryFile) {
+          // 读取 config 配置
+          astPath.traverse({
+            ObjectProperty (astPath) {
+              const node = astPath.node
+              const key = node.key
+              const value = node.value
+              // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+              if (key.name === 'pages' && t.isArrayExpression(value)) {
+                value.elements.forEach(v => {
+                  pages.push(v.value)
+                })
+                astPath.remove()
+              }
+              // window
+              if (key.name === 'window' && t.isObjectExpression(value)) {
+                let navigationOptions = {}
+                astPath.traverse({
+                  ObjectProperty (astPath) {
+                    const node = astPath.node
+                    // 导航栏标题文字内容
+                    if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
+                      navigationOptions['title'] = node.value.value
+                    }
+                    // 导航栏标题颜色，仅支持 black/white
+                    if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
+                      navigationOptions['headerTintColor'] = node.value.value
+                    }
+                    // 导航栏背景颜色
+                    if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
+                      navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+                    }
+                  }
+                })
+                astPath.replaceWith(t.objectProperty(
+                  t.identifier('navigationOptions'),
+                  t.objectExpression(AstConvert.obj(navigationOptions))
+                ))
+              }
+              if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+                astPath.traverse({
+                  ObjectProperty (astPath) {
+                    let node = astPath.node
+                    let value = node.value.value
+                    if (node.key.name === 'iconPath' ||
+                      node.key.value === 'iconPath' ||
+                      node.key.name === 'selectedIconPath' ||
+                      node.key.value === 'selectedIconPath'
+                    ) {
+                      if (typeof value !== 'string') return
+                      let iconName = value.replace(/\/|\./g, '')
+                      iconPaths.push(value)
+                      astPath.insertAfter(t.objectProperty(
+                        t.identifier(node.key.name || node.key.value),
+                        t.identifier(iconName)
+                      ))
+                      astPath.remove()
+                    }
+                  }
+                })
+              }
+            }
+          })
+          astPath.node.static = 'true'
+        } else {
+          let navigationOptions = {}
+          astPath.traverse({
+            ObjectProperty (astPath) {
+              const node = astPath.node
+              // 导航栏标题文字内容
+              if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
+                navigationOptions['title'] = node.value.value
+              }
+              // 导航栏标题颜色，仅支持 black/white
+              if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
+                navigationOptions['headerTintColor'] = node.value.value
+              }
+              // 导航栏背景颜色
+              if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
+                navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+              }
+            }
+          })
+          astPath.replaceWith(t.classProperty(
+            t.identifier('navigationOptions'),
+            t.objectExpression(AstConvert.obj(navigationOptions))
+          ))
+          astPath.node.static = 'true'
+        }
+      }
+    },
+    // 转换 className 和 id
     JSXElement (astPath) {
       const node = astPath.node
       const openingElement = node.openingElement
       if (openingElement && openingElement.attributes.length) {
         const attributes = openingElement.attributes
         const newAttributes = []
-        let styleAttrs = []
+        let styleAttrs = [] // classNames 值
         attributes.forEach(attr => {
           const name = attr.name
           if (name.name === 'className' || name.name === 'id') {
@@ -155,6 +272,7 @@ function parseJSCode (code, filePath) {
         })
         if (styleAttrs.length) {
           styleAttrs = _.uniq(styleAttrs)
+          // 合成 RN style
           const styleArr = styleAttrs.map(item => {
             const styleName = `${importStyleName}.${item}`
             return t.identifier(styleName)
@@ -166,7 +284,7 @@ function parseJSCode (code, filePath) {
         openingElement.attributes = newAttributes
       }
     },
-
+    // 获取 classRenderReturnJSX
     ClassMethod (astPath) {
       let node = astPath.node
       const key = node.key
@@ -246,6 +364,9 @@ function parseJSCode (code, filePath) {
             const key = node.key
             if (key.name !== 'render' || filePath !== entryFilePath) return
             let funcBody = classRenderReturnJSX
+            if (pages.length > 0) {
+              funcBody = `<RootStack/>`
+            }
             if (providerComponentName && storeName) {
               // 使用redux
               funcBody = `
@@ -253,7 +374,7 @@ function parseJSCode (code, filePath) {
                   ${funcBody}
                 </${providorImportName}>`
             }
-            // node.body = template(`{return (${funcBody});}`, babylonConfig)()
+            node.body = template(`{return (${funcBody});}`, babylonConfig)()
           },
 
           CallExpression (astPath) {
@@ -285,17 +406,64 @@ function parseJSCode (code, filePath) {
             }
           }
         })
+        // import @tarojs/taro-rn
         const importTaro = template(
           `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
           babylonConfig
         )()
         node.body.unshift(importTaro)
-        if (filePath === entryFilePath) {
+
+        if (isEntryFile) {
+          // 注入 import page from 'XXX'
+          pages.forEach(item => {
+            const pagePath = item.startsWith('/') ? item : `/${item}`
+            const screenName = pagePath.replace(/\//g, '')
+            const importScreen = template(
+              `import ${screenName} from '.${pagePath}'`,
+              babylonConfig
+            )()
+            node.body.unshift(importScreen)
+          })
+          iconPaths.forEach(item => {
+            const iconPath = item.startsWith('/') ? item : `/${item}`
+            const iconName = iconPath.replace(/\/|\./g, '')
+            const importIcon = template(
+              `import ${iconName} from '.${iconPath}'`,
+              babylonConfig
+            )()
+            node.body.unshift(importIcon)
+          })
+          // Taro.initRouter  生成 RootStack
+          const routerPages = pages
+            .map(pageItem => {
+              const pageName = pageItem.startsWith('/') ? pageItem : `/${pageItem}`
+              const screenName = pageName.replace(/\//g, '')
+              return `['${pageItem}',${screenName}]`
+            })
+            .join(',')
+          node.body.push(template(
+            `const RootStack = ${routerImportDefaultName}.initRouter(
+            [${routerPages}], 
+            ${taroImportDefaultName},
+            App.config
+            )`,
+            babylonConfig
+          )())
+          // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
             babylonConfig
           )()
           node.body.push(initNativeApi)
+          // import @tarojs/taro-router-rn
+          if (isEntryFile) {
+            const importTaroRouter = template(
+              `import TaroRouter from '${PACKAGES['@tarojs/taro-router-rn']}'`,
+              babylonConfig
+            )()
+            node.body.unshift(importTaroRouter)
+          }
+          // export default App
           if (!hasAppExportDefault) {
             const appExportDefault = template(
               `export default ${componentClassName}`,
@@ -392,20 +560,13 @@ function buildTemp () {
             }
           }, null, 2))
         })
+        // 后期可以改为模版实现
+        const pkgObj = Object.assign({}, {name: projectConfig.projectName}, require('./rn/pkg'))
         const pkg = new Vinyl({
           path: 'package.json',
-          contents: Buffer.from(JSON.stringify({
-            name: projectConfig.projectName,
-            main: './bin/crna-entry.js',
-            dependencies: {
-              '@tarojs/components-rn': `^${Util.getPkgVersion()}`,
-              '@tarojs/taro-rn': `^${Util.getPkgVersion()}`,
-              'expo': '^27.0.1',
-              'react': '16.3.1',
-              'react-native': '~0.55.2'
-            }
-          }, null, 2))
+          contents: Buffer.from(JSON.stringify(pkgObj, null, 2))
         })
+        // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
         const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
         const crnaEntry = new Vinyl({
@@ -431,14 +592,14 @@ function buildTemp () {
           } else {
             command = 'npm install'
           }
-          shelljs.exec(command, { silent: false })
+          shelljs.exec(command, {silent: false})
         }
         resolve()
       })
   })
 }
 
-async function buildDist ({ watch }) {
+async function buildDist ({watch}) {
   const entry = {
     app: path.join(tempPath, entryFileName)
   }
@@ -455,14 +616,45 @@ async function buildDist ({ watch }) {
   rnRunner(rnConfig)
 }
 
-function watchFiles () {
-
+async function processFiles (filePath) {
+  // 后期可以优化，不编译全部
+  let t0 = performance.now()
+  await buildTemp()
+  let t1 = performance.now()
+  Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 }
 
-async function build ({ watch }) {
+function watchFiles () {
+  console.log()
+  console.log(chalk.gray('监听文件修改中...'))
+  console.log()
+  const watcher = chokidar.watch(path.join(sourceDir), {
+    ignored: /(^|[/\\])\../,
+    persistent: true,
+    ignoreInitial: true
+  })
+
+  watcher
+    .on('add', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
+      processFiles(filePath)
+    })
+    .on('change', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
+      processFiles(filePath)
+    })
+  // .on('unlink', filePath => {})
+}
+
+async function build ({watch}) {
   fs.ensureDirSync(tempPath)
+  let t0 = performance.now()
   await buildTemp()
-  await buildDist({ watch })
+  let t1 = performance.now()
+  Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
+  await buildDist({watch})
   if (watch) {
     watchFiles()
   }

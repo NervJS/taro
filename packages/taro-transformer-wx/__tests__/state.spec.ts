@@ -97,6 +97,26 @@ describe('State', () => {
       expect(template).toMatch(`<view style="{{anonymousState__temp}}">`)
     })
 
+    test('可以使用array of object', () => {
+      const { template, ast } = transform({
+        ...baseOptions,
+        code: buildComponent(
+          `
+          const rate = 5;
+          return (
+            <View test={[{ a: 1 }]}>
+              <View />
+            </View>
+          )`
+        )
+      })
+
+      const instance = evalClass(ast)
+
+      expect(instance.state.anonymousState__temp).toEqual([{ a: 1 }])
+      expect(template).toMatch(`<view test="{{anonymousState__temp}}">`)
+    })
+
     test('多个 pattern', () => {
       const { ast, code } = transform({
         ...baseOptions,

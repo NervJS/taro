@@ -14,11 +14,9 @@ describe('event', () => {
     })
     const instance = evalClass(ast)
     removeShadowData(instance.state)
-
     expect(instance.state).toEqual({})
-    expect(template).toMatch(`bindtap="Index__handleClick"`)
-    expect(template).toMatch(`data-component-path=\"{{$path}}\"`)
-    expect(template).toMatch(`data-component-class="Index"`)
+    expect(instance.$$events).toEqual(['handleClick'])
+    expect(template).toMatch(`bindtap="handleClick"`)
   })
 
   test('bind 绑定', () => {
@@ -35,9 +33,8 @@ describe('event', () => {
     removeShadowData(instance.state)
 
     expect(instance.state).toEqual({})
-    expect(template).toMatch(`bindtap="Index__handleClick"`)
-    expect(template).toMatch(`data-component-path=\"{{$path}}\"`)
-    expect(template).toMatch(`data-component-class="Index"`)
+    expect(template).toMatch(`bindtap="handleClick"`)
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-so="this"`)
   })
 
@@ -54,6 +51,7 @@ describe('event', () => {
     const instance = evalClass(ast)
     removeShadowData(instance.state)
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-a-a="{{666}}`)
   })
 
@@ -70,6 +68,7 @@ describe('event', () => {
     const instance = evalClass(ast)
     removeShadowData(instance.state)
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-a-a="{{666}}`)
     expect(template).toMatch(`data-e-handleClick-a-b="{{777}}`)
   })
@@ -87,10 +86,55 @@ describe('event', () => {
     const instance = evalClass(ast)
     removeShadowData(instance.state)
     expect(instance.state).toEqual({})
+    expect(instance.$$events).toEqual(['handleClick'])
     expect(template).toMatch(`data-e-handleClick-a-a=\"{{{`)
     expect(template).toMatch(`a: 1`)
     expect(template).toMatch(`}}}\">`)
     // expect(template).toMatch(`data-e-handleClick-a-b="{{777}}`)
+  })
+
+  describe('this.props.func', () => {
+    test('简单情况', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+        return (
+          <View onClick={this.props.handleClick} />
+        )
+        `, 'handleClick = () => ({})', `import { Custom } from './utils'`)
+      })
+
+      const instance = evalClass(ast)
+
+      expect(template).toMatch(`<view bindtap="func__1"></view>`)
+      expect(instance.$$events).toEqual(['func__1'])
+    })
+
+    test('相同的事件', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+        return (
+          <View>
+            <Text onClick={this.props.handleClick} />
+            <Text onClick={this.props.handleClick} />
+          </View>
+        )
+        `, 'handleClick = () => ({})', `import { Custom } from './utils'`)
+      })
+
+      const instance = evalClass(ast)
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <view>
+              <text bindtap=\"func__2\"></text>
+              <text bindtap=\"func__2\"></text>
+          </view>
+      </block>
+      `))
+      expect(instance.$$events).toEqual(['func__2'])
+    })
   })
 
 })

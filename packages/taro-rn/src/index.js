@@ -11,6 +11,7 @@ import {
 } from '@tarojs/taro'
 
 import initNativeApi from './native-api'
+import Component from './component'
 
 export {
   getEnv,
@@ -21,7 +22,8 @@ export {
   initNativeApi,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  Component
 }
 
 export default {
@@ -33,5 +35,6 @@ export default {
   initNativeApi,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive
+  internal_dynamic_recursive,
+  Component
 }
