@@ -87,6 +87,43 @@ function processEntry (code, filePath) {
   let hasComponentDidHide
   let hasComponentWillUnmount
 
+  const ClassDeclarationOrExpression = {
+    enter (astPath) {
+      const node = astPath.node
+      if (!node.superClass) return
+      if (
+        node.superClass.type === 'MemberExpression' &&
+        node.superClass.object.name === taroImportDefaultName
+      ) {
+        node.superClass.object.name = nervJsImportDefaultName
+        if (node.id === null) {
+          const renameComponentClassName = '_TaroComponentClass'
+          astPath.replaceWith(
+            t.classDeclaration(
+              t.identifier(renameComponentClassName),
+              node.superClass,
+              node.body,
+              node.decorators || []
+            )
+          )
+        }
+      } else if (node.superClass.name === 'Component') {
+        resetTSClassProperty(node.body.body)
+        if (node.id === null) {
+          const renameComponentClassName = '_TaroComponentClass'
+          astPath.replaceWith(
+            t.classDeclaration(
+              t.identifier(renameComponentClassName),
+              node.superClass,
+              node.body,
+              node.decorators || []
+            )
+          )
+        }
+      }
+    }
+  }
+
   /**
    * ProgramExit使用的visitor
    * 负责修改render函数的内容，在componentDidMount中增加componentDidShow调用，在componentWillUnmount中增加componentDidHide调用。
@@ -381,6 +418,43 @@ function processOthers (code, filePath) {
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
 
+  const ClassDeclarationOrExpression = {
+    enter (astPath) {
+      const node = astPath.node
+      if (!node.superClass) return
+      if (
+        node.superClass.type === 'MemberExpression' &&
+        node.superClass.object.name === taroImportDefaultName
+      ) {
+        node.superClass.object.name = nervJsImportDefaultName
+        if (node.id === null) {
+          const renameComponentClassName = '_TaroComponentClass'
+          astPath.replaceWith(
+            t.classDeclaration(
+              t.identifier(renameComponentClassName),
+              node.superClass,
+              node.body,
+              node.decorators || []
+            )
+          )
+        }
+      } else if (node.superClass.name === 'Component') {
+        resetTSClassProperty(node.body.body)
+        if (node.id === null) {
+          const renameComponentClassName = '_TaroComponentClass'
+          astPath.replaceWith(
+            t.classDeclaration(
+              t.identifier(renameComponentClassName),
+              node.superClass,
+              node.body,
+              node.decorators || []
+            )
+          )
+        }
+      }
+    }
+  }
+
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
@@ -448,69 +522,29 @@ function processOthers (code, filePath) {
  * 所以当如构造器里有 this.func = () => {...} 的形式，就给他转换成普通的 classProperty function
  * 如果有 config 就给他还原
  */
-function resetTSClassProperty(body) {
+function resetTSClassProperty (body) {
   for (const method of body) {
     if (t.isClassMethod(method) && method.kind === 'constructor') {
-        for (const statement of method.body.body) {
-          if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
-            const expr = statement.expression
-            const { left, right } = expr
-            if (
-              t.isMemberExpression(left) &&
+      for (const statement of method.body.body) {
+        if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
+          const expr = statement.expression
+          const { left, right } = expr
+          if (
+            t.isMemberExpression(left) &&
               t.isThisExpression(left.object) &&
               t.isIdentifier(left.property)
-            ) {
-              if (
-                (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right))
-                ||
+          ) {
+            if (
+              (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right)) ||
                 (left.property.name === 'config' && t.isObjectExpression(right))
-              ) {
-                body.push(
-                  t.classProperty(left.property, right)
-                )
-                _.remove(method.body.body, statement)
-              }
+            ) {
+              body.push(
+                t.classProperty(left.property, right)
+              )
+              _.remove(method.body.body, statement)
             }
           }
         }
-    }
-  }
-}
-
-const ClassDeclarationOrExpression = {
-  enter(astPath) {
-    const node = astPath.node
-    if (!node.superClass) return
-    if (
-      node.superClass.type === 'MemberExpression' &&
-      node.superClass.object.name === taroImportDefaultName
-    ) {
-      node.superClass.object.name = nervJsImportDefaultName
-      if (node.id === null) {
-        const renameComponentClassName = '_TaroComponentClass'
-        astPath.replaceWith(
-          t.classDeclaration(
-            t.identifier(renameComponentClassName),
-            node.superClass,
-            node.body,
-            node.decorators || []
-          )
-        )
-      }
-    } else if (node.superClass.name === 'Component') {
-  
-      resetTSClassProperty(node.body.body);
-  
-      if (node.id === null) {
-        const renameComponentClassName = '_TaroComponentClass'
-        astPath.replaceWith(
-          t.classDeclaration(
-            t.identifier(renameComponentClassName),
-            node.superClass,
-            node.body,
-            node.decorators || []
-          )
-        )
       }
     }
   }
