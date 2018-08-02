@@ -89,6 +89,7 @@ export default class Toast {
 
     // wrapper
     this.el = document.createElement('div')
+    this.el.className = 'taro__toast'
     this.el.style.opacity = '0'
     this.el.style.transition = 'opacity 0.1s linear'
 

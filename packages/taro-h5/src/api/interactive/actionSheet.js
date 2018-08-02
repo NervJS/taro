@@ -67,6 +67,7 @@ export default class ActionSheet {
 
     // wrapper
     this.el = document.createElement('div')
+    this.el.className = 'taro__actionSheet'
     this.el.style.opacity = '0'
     this.el.style.transition = 'opacity 0.2s linear'
 
