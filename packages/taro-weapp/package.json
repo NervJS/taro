@@ -6,7 +6,8 @@
   "files": [
     "dist",
     "src",
-    "index.js"
+    "index.js",
+    "package.json"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
