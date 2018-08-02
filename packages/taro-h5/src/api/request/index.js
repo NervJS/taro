@@ -1,4 +1,5 @@
 import jsonpRetry from 'jsonp-retry'
+import 'whatwg-fetch'
 import { serializeParams } from '../utils'
 
 function generateRequestUrlWithParams (url, params) {
@@ -15,6 +16,7 @@ export default function request (options) {
       url: options
     }
   }
+  const { success, complete, fail } = options
   let url = options.url
   const params = {}
   const res = {}
@@ -28,7 +30,14 @@ export default function request (options) {
       .then(data => {
         res.statusCode = 200
         res.data = data
+        typeof success === 'function' && success(res)
+        typeof complete === 'function' && complete(res)
         return res
+      })
+      .catch(err => {
+        typeof fail === 'function' && fail(err)
+        typeof complete === 'function' && complete(res)
+        return Promise.reject(err)
       })
   }
   params.method = options.method || 'GET'
@@ -66,6 +75,13 @@ export default function request (options) {
     })
     .then(data => {
       res.data = data
+      typeof success === 'function' && success(res)
+      typeof complete === 'function' && complete(res)
       return res
+    })
+    .catch(err => {
+      typeof fail === 'function' && fail(err)
+      typeof complete === 'function' && complete(res)
+      return Promise.reject(err)
     })
 }
