@@ -229,6 +229,31 @@ function processEntry (code, filePath) {
             )
           }
         } else if (node.superClass.name === 'Component') {
+          astPath.traverse({
+            ClassMethod(astPath) {
+              const node = astPath.node
+              if (node.kind === 'constructor') {
+                astPath.traverse({
+                  ExpressionStatement(astPath) {
+                    const node = astPath.node
+                    if (node.expression &&
+                      node.expression.type === 'AssignmentExpression' &&
+                      node.expression.operator === '=') {
+                      const left = node.expression.left
+                      if (left.type === 'MemberExpression' &&
+                        left.object.type === 'ThisExpression' &&
+                        left.property.type === 'Identifier' &&
+                        left.property.name === 'config') {
+                        astPath.traverse(classPropertyVisitor);
+                        astPath.remove()
+                      }
+                    }
+                  }
+                })
+              }
+            }
+          })
+
           if (node.id === null) {
             const renameComponentClassName = '_TaroComponentClass'
             astPath.replaceWith(
@@ -337,13 +362,6 @@ function processEntry (code, filePath) {
       }
     },
     ClassMethod: {
-      enter(astPath) {
-        const node = astPath.node
-        const key = node.key
-        if (key.name !== 'constructor') return
-        astPath.traverse(classPropertyVisitor)
-        astPath.remove()
-      },
       exit (astPath) {
         const node = astPath.node
         const key = node.key
