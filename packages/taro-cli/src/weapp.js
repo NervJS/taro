@@ -412,8 +412,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
                         objArr = convertObjectToAstExpression(obj)
                       }
                       astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
-                    } else {
-                      astPath.remove()
                     }
                   }
                 } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
@@ -621,13 +619,13 @@ function convertObjectToAstExpression (obj) {
       return t.objectProperty(t.stringLiteral(key), t.booleanLiteral(value))
     }
     if (Array.isArray(value)) {
-      return t.objectProperty(t.stringLiteral(key), convertArrayToAstExpression(value))
+      return t.objectProperty(t.stringLiteral(key), t.arrayExpression(convertArrayToAstExpression(value)))
     }
     if (value == null) {
       return t.objectProperty(t.stringLiteral(key), t.nullLiteral())
     }
     if (typeof value === 'object') {
-      return t.objectProperty(t.stringLiteral(key), convertObjectToAstExpression(value))
+      return t.objectProperty(t.stringLiteral(key), t.objectExpression(convertObjectToAstExpression(value)))
     }
   })
   return objArr
@@ -1353,7 +1351,16 @@ function watchFiles () {
             if (hasbeenBuiltIndex >= 0) {
               hasBeenBuiltComponents.splice(hasbeenBuiltIndex, 1)
             }
-            await buildSingleComponent(filePath)
+            if (isWindows) {
+              await new Promise((resolve, reject) => {
+                setTimeout(async () => {
+                  await buildSingleComponent(filePath)
+                  resolve()
+                }, 300)
+              })
+            } else {
+              await buildSingleComponent(filePath)
+            }
           } else {
             let isImported = false
             for (const key in dependencyTree) {

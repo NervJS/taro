@@ -25,6 +25,9 @@ function isObject (val) {
 }
 
 export function inlineStyle (obj) {
+  if (obj == null) {
+    return ''
+  }
   if (typeof obj === 'string') {
     return obj
   }

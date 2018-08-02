@@ -2258,7 +2258,7 @@ Taro.switchTab(params).then(...)
 ```javascript
 import Taro from '@tarojs/taro'
 
-wx.navigateBack({ delta: 2 })
+Taro.navigateBack({ delta: 2 })
 ```
 
 #### Taro.reLaunch(OBJECT)

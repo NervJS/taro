@@ -1,5 +1,3 @@
-import 'whatwg-fetch'
-
 import { onAndSyncApis, noPromiseApis, otherApis } from '@tarojs/taro'
 import { createSelectorQuery } from './api/createSelectorQuery'
 import request from './api/request'
