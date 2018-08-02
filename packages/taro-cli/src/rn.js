@@ -31,7 +31,7 @@ const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const pluginsConfig = projectConfig.plugins || {}
 
-const isBuildingStyles = {}
+let isBuildingStyles = {}
 const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
@@ -525,6 +525,8 @@ function compileDepStyles (filePath, styleFiles) {
     } catch (err) {
       console.log(err)
     }
+  }).catch((e) => {
+    throw new Error(e)
   })
 }
 
@@ -617,6 +619,7 @@ async function buildDist ({watch}) {
 }
 
 async function processFiles (filePath) {
+  isBuildingStyles = {} // 清空
   // 后期可以优化，不编译全部
   let t0 = performance.now()
   await buildTemp()
