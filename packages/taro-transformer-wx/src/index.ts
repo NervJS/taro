@@ -113,7 +113,9 @@ export default function transform (options: Options): TransformResult {
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
-      target: ts.ScriptTarget.ESNext
+      target: ts.ScriptTarget.ESNext,
+      importHelpers: true,
+      noEmitHelpers: true
     })
     : options.code
   setting.sourceCode = code
