@@ -10,7 +10,7 @@ import {
   isContainJSXElement
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
-import { kebabCase, uniqueId, remove } from 'lodash'
+import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import generate from 'babel-generator'
 
@@ -340,36 +340,6 @@ class Transformer {
     }
   }
 
-  /**
-   * 如果构造器里有 this.func = () => {...} 的形式，就给他转换成普通的 classProperty function
-   */
-  rebuildClassPropertyMethod () {
-    const body = this.classPath.node.body.body
-    for (const method of body) {
-      if (t.isClassMethod(method) && method.kind === 'constructor') {
-        if (t.isBlockStatement(method.body)) {
-          for (const statement of method.body.body) {
-            if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
-              const expr = statement.expression
-              const { left, right } = expr
-              if (
-                t.isMemberExpression(left) &&
-                t.isThisExpression(left.object) &&
-                t.isIdentifier(left.property) &&
-                (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right))
-              ) {
-                body.push(
-                  t.classProperty(left.property, right)
-                )
-                remove(body, method)
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
   handleLifecyclePropParam (propParam: t.LVal, properties: Set<string>) {
     let propsName: string | null = null
     if (!propParam) {
@@ -464,7 +434,6 @@ class Transformer {
   }
 
   compile () {
-    this.rebuildClassPropertyMethod()
     this.traverse()
     this.setComponents()
     this.resetConstructor()
