@@ -123,6 +123,33 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
         (node.superClass.type === 'MemberExpression' &&
         node.superClass.object.name === taroImportDefaultName)) {
           needExportDefault = true
+          astPath.traverse({
+            ClassMethod (astPath) {
+              const node = astPath.node
+              if (node.kind === 'constructor') {
+                astPath.traverse({
+                  ExpressionStatement (astPath) {
+                    const node = astPath.node
+                    if (node.expression &&
+                      node.expression.type === 'AssignmentExpression' &&
+                      node.expression.operator === '=') {
+                      const left = node.expression.left
+                      if (left.type === 'MemberExpression' &&
+                        left.object.type === 'ThisExpression' &&
+                        left.property.type === 'Identifier' &&
+                        left.property.name === 'config') {
+                        configObj = traverseObjectNode(node.expression.right)
+                        if (type === PARSE_AST_TYPE.ENTRY) {
+                          appConfig = configObj
+                        }
+                        astPath.remove()
+                      }
+                    }
+                  }
+                })
+              }
+            }
+          })
           if (node.id === null) {
             componentClassName = '_TaroComponentClass'
             astPath.replaceWith(t.classDeclaration(t.identifier(componentClassName), node.superClass, node.body, node.decorators || []))
