@@ -66,7 +66,9 @@ function doUpdate (component) {
       }
       if (typeof val === 'object') {
         val = shakeFnFromObject(val)
-        safeSet(_data, key, val)
+        if (!isEmptyObject(val)) {
+          safeSet(_data, key, val)
+        }
       } else {
         safeSet(_data, key, val)
       }
