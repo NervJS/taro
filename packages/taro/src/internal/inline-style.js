@@ -32,6 +32,10 @@ export function inlineStyle (obj) {
     return obj
   }
 
+  if (obj === null || obj === undefined) {
+    return ''
+  }
+
   if (!isObject(obj)) {
     throw new TypeError('style 只能是一个对象或字符串。')
   }

@@ -206,41 +206,8 @@ function processEntry (code, filePath) {
   }
 
   traverse(ast, {
-    ClassDeclaration: {
-      enter (astPath) {
-        const node = astPath.node
-        if (!node.superClass) return
-        if (
-          node.superClass.type === 'MemberExpression' &&
-          node.superClass.object.name === taroImportDefaultName
-        ) {
-          node.superClass.object.name = nervJsImportDefaultName
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classDeclaration(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
-        } else if (node.superClass.name === 'Component') {
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classDeclaration(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
-        }
-      }
-    },
+    ClassExpression: ClassDeclarationOrExpression,
+    ClassDeclaration: ClassDeclarationOrExpression,
     ClassProperty: {
       enter (astPath) {
         const node = astPath.node
@@ -415,41 +382,8 @@ function processOthers (code, filePath) {
   let hasAddNervJsImportDefaultName = false
 
   traverse(ast, {
-    ClassDeclaration: {
-      enter (astPath) {
-        const node = astPath.node
-        if (!node.superClass) return
-        if (
-          node.superClass.type === 'MemberExpression' &&
-          node.superClass.object.name === taroImportDefaultName
-        ) {
-          node.superClass.object.name = nervJsImportDefaultName
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classDeclaration(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
-        } else if (node.superClass.name === 'Component') {
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classDeclaration(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
-        }
-      }
-    },
+    ClassExpression: ClassDeclarationOrExpression,
+    ClassDeclaration: ClassDeclarationOrExpression,
     ImportDeclaration: {
       enter (astPath) {
         const node = astPath.node
@@ -505,6 +439,80 @@ function processOthers (code, filePath) {
   const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
   return {
     code: generateCode
+  }
+}
+
+/**
+ * TS 编译器会把 class property 移到构造器，
+ * 而小程序要求 `config` 和所有函数在初始化(after new Class)之后就收集到所有的函数和 config 信息，
+ * 所以当如构造器里有 this.func = () => {...} 的形式，就给他转换成普通的 classProperty function
+ * 如果有 config 就给他还原
+ */
+function resetTSClassProperty(body) {
+  for (const method of body) {
+    if (t.isClassMethod(method) && method.kind === 'constructor') {
+        for (const statement of method.body.body) {
+          if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
+            const expr = statement.expression
+            const { left, right } = expr
+            if (
+              t.isMemberExpression(left) &&
+              t.isThisExpression(left.object) &&
+              t.isIdentifier(left.property)
+            ) {
+              if (
+                (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right))
+                ||
+                (left.property.name === 'config' && t.isObjectExpression(right))
+              ) {
+                body.push(
+                  t.classProperty(left.property, right)
+                )
+                _.remove(method.body.body, statement)
+              }
+            }
+          }
+        }
+    }
+  }
+}
+
+const ClassDeclarationOrExpression = {
+  enter(astPath) {
+    const node = astPath.node
+    if (!node.superClass) return
+    if (
+      node.superClass.type === 'MemberExpression' &&
+      node.superClass.object.name === taroImportDefaultName
+    ) {
+      node.superClass.object.name = nervJsImportDefaultName
+      if (node.id === null) {
+        const renameComponentClassName = '_TaroComponentClass'
+        astPath.replaceWith(
+          t.classDeclaration(
+            t.identifier(renameComponentClassName),
+            node.superClass,
+            node.body,
+            node.decorators || []
+          )
+        )
+      }
+    } else if (node.superClass.name === 'Component') {
+  
+      resetTSClassProperty(node.body.body);
+  
+      if (node.id === null) {
+        const renameComponentClassName = '_TaroComponentClass'
+        astPath.replaceWith(
+          t.classDeclaration(
+            t.identifier(renameComponentClassName),
+            node.superClass,
+            node.body,
+            node.decorators || []
+          )
+        )
+      }
+    }
   }
 }
 

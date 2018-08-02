@@ -387,7 +387,21 @@ export class RenderParser {
             //
           } else {
             const ifStatement = parentPath.findParent(p => p.isIfStatement())
-            const blockStatement = parentPath.findParent(p => p.isBlockStatement())
+            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && p.parentPath === ifStatement) as NodePath<t.BlockStatement>
+            if (blockStatement) {
+              blockStatement.traverse({
+                VariableDeclarator: (p) => {
+                  const { id, init } = p.node
+                  if (t.isIdentifier(id)) {
+                    const newId = this.renderScope.generateDeclaredUidIdentifier(id.name)
+                    blockStatement.scope.rename(id.name, newId.name)
+                    p.parentPath.replaceWith(
+                      template('ID = INIT;')({ ID: id, INIT: init })
+                    )
+                  }
+                }
+              })
+            }
             const block = this.finalReturnElement || buildBlockElement()
             if (isBlockIfStatement(ifStatement, blockStatement)) {
               const { test, alternate, consequent } = ifStatement.node
