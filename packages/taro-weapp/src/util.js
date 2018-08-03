@@ -1,6 +1,7 @@
 import isPlainObject from 'lodash/isPlainObject'
+
 export function isEmptyObject (obj) {
-  if (!obj) {
+  if (!obj || !isPlainObject(obj)) {
     return false
   }
   for (const n in obj) {

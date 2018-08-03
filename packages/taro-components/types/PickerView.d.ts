@@ -36,4 +36,9 @@ interface PickerViewProps extends StandardProps {
 
 declare const PickerView: ComponentType<PickerViewProps>
 
-export { PickerView }
+/**
+ * 仅可放置于<picker-view />中，其孩子节点的高度会自动设置成与picker-view的选中框的高度一致
+ */
+declare const PickerViewColumn: ComponentType<StandardProps>
+
+export { PickerView, PickerViewColumn }

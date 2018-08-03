@@ -25,6 +25,8 @@ function inlineStyle (style) {
   let res = ''
   for (let attr in style) res += `${attr}: ${style[attr]};`
   if (res.indexOf('display: flex;') >= 0) res += 'display: -webkit-box;display: -webkit-flex;'
+  res = res.replace(/transform:(.+?);/g, (s, $1) => `${s}-webkit-transform:${$1};`)
+  res = res.replace(/flex-direction:(.+?);/g, (s, $1) => `${s}-webkit-flex-direction:${$1};`)
   return res
 }
 

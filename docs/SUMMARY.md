@@ -52,8 +52,12 @@
     * [Image](components/media/image.md)
     * [Video](components/media/video.md)
     * [Camera](components/media/camera.md)
+    * [LivePlayer](components/media/live-player.md)
+    * [LivePusher](components/media/live-pusher.md)
   * 地图
     * [Map](components/maps/map.md)
+  * 画布
+    * [Canvas](components/canvas/canvas.md)
 * API
   * [Taro.Component](component.md)
   * [Taro.Events](events.md)

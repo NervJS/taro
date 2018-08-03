@@ -79,6 +79,7 @@ export default class Modal {
 
     // wrapper
     this.el = document.createElement('div')
+    this.el.className = 'taro__modal'
     this.el.style.opacity = '0'
     this.el.style.transition = 'opacity 0.2s linear'
 

@@ -20,4 +20,33 @@
 | √ |   | √ | onAnimationfinish     | EventHandle |                   | 动画结束时会触发 animationfinish 事件                        |
 
 ###### 示例：
-待补充~
+```jsx
+import Taro, { Component } from '@tarojs/taro'
+// 引入 Swiper, SwiperItem 组件
+import { Swiper, SwiperItem } from '@tarojs/components'
+
+class App extends Components {
+	render () {
+	    return (
+	        <Swiper
+                    className='test-h'
+                    indicatorColor='#999'
+                    indicatorActiveColor='#333'
+                    vertical
+                    circular
+                    indicatorDots
+                    autoplay>
+                <SwiperItem>
+                  <View className='demo-text-1'>1</View>
+                </SwiperItem>
+                <SwiperItem>
+                  <View className='demo-text-2'>2</View>
+                </SwiperItem>
+                <SwiperItem>
+                  <View className='demo-text-3'>3</View>
+                </SwiperItem>
+              </Swiper>
+		)
+	}
+}
+```

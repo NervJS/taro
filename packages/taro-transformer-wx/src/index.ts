@@ -7,6 +7,7 @@ import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
+import { remove } from 'lodash'
 const template = require('babel-template')
 
 export interface Options {
@@ -35,6 +36,43 @@ function getIdsFromMemberProps (member: t.MemberExpression) {
     ids.push(property.name)
   }
   return ids
+}
+
+  /**
+   * TS 编译器会把 class property 移到构造器，
+   * 而小程序要求 `config` 和所有函数在初始化(after new Class)之后就收集到所有的函数和 config 信息，
+   * 所以当如构造器里有 this.func = () => {...} 的形式，就给他转换成普通的 classProperty function
+   * 如果有 config 就给他还原
+   */
+function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
+  for (const method of body) {
+    if (t.isClassMethod(method) && method.kind === 'constructor') {
+      if (t.isBlockStatement(method.body)) {
+        for (const statement of method.body.body) {
+          if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
+            const expr = statement.expression
+            const { left, right } = expr
+            if (
+              t.isMemberExpression(left) &&
+              t.isThisExpression(left.object) &&
+              t.isIdentifier(left.property)
+            ) {
+              if (
+                (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right))
+                ||
+                (left.property.name === 'config' && t.isObjectExpression(right))
+              ) {
+                body.push(
+                  t.classProperty(left.property, right)
+                )
+                remove(method.body.body, statement)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path: NodePath<t.Node>) {
@@ -75,7 +113,9 @@ export default function transform (options: Options): TransformResult {
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
-      target: ts.ScriptTarget.ESNext
+      target: ts.ScriptTarget.ESNext,
+      importHelpers: true,
+      noEmitHelpers: true
     })
     : options.code
   setting.sourceCode = code
@@ -298,6 +338,9 @@ export default function transform (options: Options): TransformResult {
       componentSourceMap.set(source, names)
     }
   })
+  if (!mainClass) {
+    throw new Error('未找到 Taro.Component 的类定义')
+  }
   const storeBinding = mainClass.scope.getBinding(storeName)
   mainClass.scope.rename('Component', 'BaseComponent')
   if (storeBinding) {
@@ -314,6 +357,7 @@ export default function transform (options: Options): TransformResult {
       })
     }
   }
+  resetTSClassProperty(mainClass.node.body.body)
   if (options.isApp) {
     renderMethod.remove()
     return { ast } as TransformResult
@@ -321,9 +365,6 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath).result
   result.code = generate(ast).code
   result.ast = ast
-  // if (process.env.NODE_ENV !== 'test') {
-  //   result.template = prettyPrint(result.template)
-  // }
   result.template = prettyPrint(result.template)
   result.imageSrcs = Array.from(imageSource)
   return result
