@@ -18,7 +18,7 @@
 | √ | √ | √ | checked    | Boolean     | false  | 当前是否选中   |
 | √ | √ | √ | disabled   | Boolean     | false  | 是否禁用   |
 | √ | √ | √ | color      | Color       |   | checkbox 的颜色，同 css 的 color       |
-| x | √ | √ | onChange | EventHandle |  | 选中项发生变化时触发 change 事件，小程序无此API   |
+| x | √ | √ | onChange | EventHandle |  | 选中项发生变化时触发 change 事件，小程序无此 API   |
 
 ###### 示例：
 
