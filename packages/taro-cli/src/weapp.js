@@ -42,6 +42,7 @@ const weappNpmConfig = Object.assign({
   name: CONFIG.NPM_DIR,
   dir: null
 }, weappConf.npm)
+const appOutput = typeof weappConf.appOutput === 'boolean' ? weappConf.appOutput : true
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
@@ -742,10 +743,12 @@ async function buildEntry () {
         }
       }
     }
-    fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
-    fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
+    if (appOutput) {
+      fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
+      fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
+    }
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
