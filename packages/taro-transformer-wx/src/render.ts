@@ -553,32 +553,6 @@ export class RenderParser {
         }
       }
     },
-    MemberExpression: (path) => {
-      if (!isChildrenOfJSXAttr(path)) {
-        return
-      }
-      const id = findFirstIdentifierFromMemberExpression(path.node)
-      const bindId = this.renderScope.getOwnBindingIdentifier(id.name)
-      const { object, property } = path.node
-      if (
-        t.isMemberExpression(object) &&
-        t.isThisExpression(object.object) &&
-        t.isIdentifier(object.property, { name: 'state' })
-      ) {
-        if (t.isIdentifier(property)) {
-          this.usedThisState.add(property.name)
-        } else if (t.isMemberExpression(property)) {
-          const id = findFirstIdentifierFromMemberExpression(property)
-          if (id && this.renderScope.hasBinding(id.name)) {
-            this.usedThisState.add(id.name)
-          }
-        }
-      }
-      if (bindId) {
-        this.addRefIdentifier(path, bindId)
-        // referencedIdentifiers.add(bindId)
-      }
-    },
     JSXAttribute: (path) => {
       const { name, value } = path.node
       let eventShouldBeCatched = false
@@ -668,6 +642,24 @@ export class RenderParser {
         this.addRefIdentifier(path, path.node)
       }
     },
+    MemberExpression: (path) => {
+      if (!isChildrenOfJSXAttr(path)) {
+        return
+      }
+      if (!path.isReferencedMemberExpression()) {
+        return
+      }
+      const parentPath = path.parentPath
+      const id = findFirstIdentifierFromMemberExpression(path.node)
+      if (
+        parentPath.isConditionalExpression() ||
+        parentPath.isLogicalExpression() ||
+        parentPath.isJSXExpressionContainer() ||
+        this.renderScope.hasOwnBinding(id.name)
+      ) {
+        this.addRefIdentifier(path, id)
+      }
+    },
     ArrowFunctionExpression: (path) => {
       if (!isChildrenOfJSXAttr(path)) {
         return
@@ -681,8 +673,7 @@ export class RenderParser {
   private visitors: Visitor = {
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
-      const jsxAttr = path.findParent(p => p.isJSXAttribute())
-      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !jsxAttr) {
+      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
         path.replaceWith(
           t.jSXElement(
             t.jSXOpeningElement(
