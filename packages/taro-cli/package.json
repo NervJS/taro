@@ -36,6 +36,7 @@
     "commander": "^2.15.0",
     "cross-spawn": "^6.0.5",
     "css-to-react-native-transform": "^1.4.0",
+    "ejs": "^2.6.1",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "inquirer": "^5.2.0",

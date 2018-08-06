@@ -4,6 +4,7 @@ const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
 const vfs = require('vinyl-fs')
+const ejs = require('ejs')
 const Vinyl = require('vinyl')
 const through2 = require('through2')
 const babel = require('babel-core')
@@ -20,6 +21,7 @@ const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 const AstConvert = require('./util/astConvert')
+const {getPkgVersion} = require('./util')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -30,6 +32,8 @@ const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const pluginsConfig = projectConfig.plugins || {}
+
+const pkgPath = path.join(__dirname, './rn/pkg')
 
 let isBuildingStyles = {}
 const styleDenpendencyTree = {}
@@ -571,10 +575,13 @@ function buildTemp () {
           }, null, 2))
         })
         // 后期可以改为模版实现
-        const pkgObj = Object.assign({}, {name: projectConfig.projectName}, require('./rn/pkg'))
+        const pkgContent = ejs.render(fs.readFileSync(pkgPath, 'utf-8'), {
+          projectName: projectConfig.projectName,
+          version: getPkgVersion()
+        })
         const pkg = new Vinyl({
           path: 'package.json',
-          contents: Buffer.from(JSON.stringify(pkgObj, null, 2))
+          contents: Buffer.from(pkgContent)
         })
         // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
@@ -665,7 +672,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  await buildDist({watch})
+  // await buildDist({watch})
   if (watch) {
     watchFiles()
   }

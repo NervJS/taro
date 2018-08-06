@@ -17,6 +17,7 @@
     "packages/taro-redux",
     "packages/taro-redux-h5",
     "packages/taro-rn",
+    "packages/taro-router-rn",
     "packages/taro-rn-runner",
     "packages/taro-router",
     "packages/taro-weapp",
