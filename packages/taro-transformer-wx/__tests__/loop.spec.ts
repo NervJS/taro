@@ -915,7 +915,7 @@ describe('loop', () => {
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                       <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                          <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"null\">
+                          <scroll-view bindtap=\"onClick\" data-e-onClick-so=\"this\" data-e-onClick-a-a=\"{{null}}\">
                               <block wx:if=\"{{b2}}\">
                                   <map></map>
                               </block>
@@ -972,7 +972,7 @@ describe('loop', () => {
         <view>
             <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                 <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                    <scroll-view bindtap=\"func__2\" data-e-func__2-so=\"this\" data-e-func__2-a-a=\"null\">
+                    <scroll-view bindtap=\"func__2\" data-e-func__2-so=\"this\" data-e-func__2-a-a=\"{{null}}\">
                         <block wx:if=\"{{b2}}\">
                             <map></map>
                         </block>

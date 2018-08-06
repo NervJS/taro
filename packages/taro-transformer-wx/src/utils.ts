@@ -7,6 +7,7 @@ import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
+const template = require('babel-template')
 
 export const incrementId = () => {
   let id = 0
@@ -85,9 +86,12 @@ export function generateAnonymousState (
     throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
   }
   const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
+  jsx.getAncestry()
   const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
   const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
   const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
+  const ifExpr = jsx.findParent(p => p.isIfStatement())
+  const blockStatement = jsx.findParent(p => p.isBlockStatement() && p.parentPath === ifExpr) as NodePath<t.BlockStatement>
   let expr = cloneDeep(expression.node)
   if (conditionExpr && conditionExpr.isConditionalExpression()) {
     const consequent = conditionExpr.get('consequent')
@@ -106,6 +110,27 @@ export function generateAnonymousState (
     statementParent.insertBefore(
       buildConstVariableDeclaration(variableName, expr)
     )
+    if (blockStatement && blockStatement.isBlockStatement()) {
+      blockStatement.traverse({
+        VariableDeclarator: (p) => {
+          const { id, init } = p.node
+          if (t.isIdentifier(id)) {
+            const newId = scope.generateDeclaredUidIdentifier(id.name)
+            refIds.forEach((refId) => {
+              if (refId.name === variableName) {
+                refIds.delete(refId)
+              }
+            })
+            variableName = newId.name
+            refIds.add(t.identifier(variableName))
+            blockStatement.scope.rename(id.name, newId.name)
+            p.parentPath.replaceWith(
+              template('ID = INIT;')({ ID: newId, INIT: init })
+            )
+          }
+        }
+      })
+    }
   } else {
     variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
     const func = callExpr.node.arguments[0]
@@ -120,9 +145,9 @@ export function generateAnonymousState (
       }
     }
   }
-  expression.replaceWith(
-    t.identifier(variableName)
-  )
+  const id = t.identifier(variableName)
+  expression.replaceWith(id)
+  return id
 }
 
 export function isArrayMapCallExpression (callExpression: NodePath<t.Node>): callExpression is NodePath<t.CallExpression> {
@@ -267,6 +292,9 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   if (isContainJSXElement(path)) {
     return false
   }
+  if (path.isObjectExpression()) {
+    return true
+  }
   if (path.isTemplateLiteral() || path.isCallExpression()) {
     return true
   }
@@ -282,6 +310,10 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
       p.stop()
     },
     TemplateLiteral (p) {
+      matched = true
+      p.stop()
+    },
+    ObjectExpression (p) {
       matched = true
       p.stop()
     },

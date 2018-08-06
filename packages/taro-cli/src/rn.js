@@ -4,6 +4,7 @@ const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
 const vfs = require('vinyl-fs')
+const ejs = require('ejs')
 const Vinyl = require('vinyl')
 const through2 = require('through2')
 const babel = require('babel-core')
@@ -20,6 +21,7 @@ const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 const AstConvert = require('./util/astConvert')
+const {getPkgVersion} = require('./util')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -31,7 +33,9 @@ const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const pluginsConfig = projectConfig.plugins || {}
 
-const isBuildingStyles = {}
+const pkgPath = path.join(__dirname, './rn/pkg')
+
+let isBuildingStyles = {}
 const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
@@ -193,6 +197,10 @@ function parseJSCode (code, filePath) {
                     if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
                       navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
                     }
+                    // 开启下拉刷新
+                    if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
+                      navigationOptions['enablePullDownRefresh'] = node.value.value
+                    }
                   }
                 })
                 astPath.replaceWith(t.objectProperty(
@@ -241,6 +249,10 @@ function parseJSCode (code, filePath) {
               // 导航栏背景颜色
               if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
                 navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+              }
+              // 开启下拉刷新
+              if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
+                navigationOptions['enablePullDownRefresh'] = node.value.value
               }
             }
           })
@@ -525,6 +537,8 @@ function compileDepStyles (filePath, styleFiles) {
     } catch (err) {
       console.log(err)
     }
+  }).catch((e) => {
+    throw new Error(e)
   })
 }
 
@@ -561,10 +575,13 @@ function buildTemp () {
           }, null, 2))
         })
         // 后期可以改为模版实现
-        const pkgObj = Object.assign({}, {name: projectConfig.projectName}, require('./rn/pkg'))
+        const pkgContent = ejs.render(fs.readFileSync(pkgPath, 'utf-8'), {
+          projectName: projectConfig.projectName,
+          version: getPkgVersion()
+        })
         const pkg = new Vinyl({
           path: 'package.json',
-          contents: Buffer.from(JSON.stringify(pkgObj, null, 2))
+          contents: Buffer.from(pkgContent)
         })
         // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
@@ -617,6 +634,7 @@ async function buildDist ({watch}) {
 }
 
 async function processFiles (filePath) {
+  isBuildingStyles = {} // 清空
   // 后期可以优化，不编译全部
   let t0 = performance.now()
   await buildTemp()

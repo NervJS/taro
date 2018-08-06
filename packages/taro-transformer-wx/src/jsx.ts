@@ -108,6 +108,7 @@ function parseJSXChildren (
           generate(child)
           .code
           .replace(/(this\.props\.)|(this\.state\.)/, '')
+          .replace(/(props\.)|(state\.)/, '')
           .replace(/this\./, '')
         }}`
       }

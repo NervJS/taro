@@ -4,7 +4,6 @@ import {
   newJSXIfAttr,
   reverseBoolean,
   findIdentifierFromStatement,
-  getArgumentName,
   toLetters,
   isEmptyDeclarator,
   codeFrameError,
@@ -387,8 +386,8 @@ export class RenderParser {
             //
           } else {
             const ifStatement = parentPath.findParent(p => p.isIfStatement())
-            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && p.parentPath === ifStatement) as NodePath<t.BlockStatement>
-            if (blockStatement) {
+            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && p.parentPath === ifStatement)
+            if (blockStatement && blockStatement.isBlockStatement()) {
               blockStatement.traverse({
                 VariableDeclarator: (p) => {
                   const { id, init } = p.node
@@ -396,7 +395,7 @@ export class RenderParser {
                     const newId = this.renderScope.generateDeclaredUidIdentifier(id.name)
                     blockStatement.scope.rename(id.name, newId.name)
                     p.parentPath.replaceWith(
-                      template('ID = INIT;')({ ID: id, INIT: init })
+                      template('ID = INIT;')({ ID: newId, INIT: init })
                     )
                   }
                 }
@@ -519,27 +518,28 @@ export class RenderParser {
             }
           }
           if (bindCalleeName !== null) {
-            node.arguments.forEach((arg, index) => {
-              const argName = getArgumentName(arg)
-              const isLiteral = t.isLiteral(arg)
+            const args = expression.get('arguments') as any
+            (args as NodePath<t.Node>[]).forEach((arg, index) => {
+              const node = arg.node
+              const argName = generate(node).code
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
                   `data-e-${bindCalleeName}-so`,
-                  t.stringLiteral(argName as string)
+                  t.stringLiteral(argName)
                 )
               } else {
-                if (typeof argName === 'string' && path.scope.hasBinding(argName) && t.isIdentifier(arg)) {
-                  this.addRefIdentifier(path, arg)
-                  // referencedIdentifiers.add(arg)
-                }
                 let expr: any = null
-                if (isLiteral) {
-                  expr = typeof argName === 'string'
-                    ? t.stringLiteral(argName)
-                    : t.jSXExpressionContainer({ type: 'NumericLiteral', value: argName } as t.Expression)
+                if (t.isIdentifier(node) && path.scope.hasBinding(argName)) {
+                  this.addRefIdentifier(path, node as t.Identifier)
+                  expr = t.jSXExpressionContainer(node)
+                } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
+                  expr = t.jSXExpressionContainer(node as any)
+                } else if (hasComplexExpression(arg)) {
+                  const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
+                  expr = t.jSXExpressionContainer(id)
                 } else {
-                  expr = t.jSXExpressionContainer(t.identifier(argName as string))
+                  expr = t.jSXExpressionContainer(t.identifier(argName))
                 }
                 setJSXAttr(
                   JSXElement,
@@ -551,32 +551,6 @@ export class RenderParser {
             expression.replaceWith(t.stringLiteral(`${bindCalleeName}`))
           }
         }
-      }
-    },
-    MemberExpression: (path) => {
-      if (!isChildrenOfJSXAttr(path)) {
-        return
-      }
-      const id = findFirstIdentifierFromMemberExpression(path.node)
-      const bindId = this.renderScope.getOwnBindingIdentifier(id.name)
-      const { object, property } = path.node
-      if (
-        t.isMemberExpression(object) &&
-        t.isThisExpression(object.object) &&
-        t.isIdentifier(object.property, { name: 'state' })
-      ) {
-        if (t.isIdentifier(property)) {
-          this.usedThisState.add(property.name)
-        } else if (t.isMemberExpression(property)) {
-          const id = findFirstIdentifierFromMemberExpression(property)
-          if (id && this.renderScope.hasBinding(id.name)) {
-            this.usedThisState.add(id.name)
-          }
-        }
-      }
-      if (bindId) {
-        this.addRefIdentifier(path, bindId)
-        // referencedIdentifiers.add(bindId)
       }
     },
     JSXAttribute: (path) => {
@@ -668,6 +642,43 @@ export class RenderParser {
         this.addRefIdentifier(path, path.node)
       }
     },
+    MemberExpression: (path) => {
+      if (!isChildrenOfJSXAttr(path)) {
+        return
+      }
+      if (!path.isReferencedMemberExpression()) {
+        return
+      }
+      const { object, property } = path.node
+      if (
+        t.isMemberExpression(object) &&
+        t.isThisExpression(object.object) &&
+        t.isIdentifier(object.property, { name: 'state' })
+      ) {
+        if (t.isIdentifier(property)) {
+          this.usedThisState.add(property.name)
+        } else if (t.isMemberExpression(property)) {
+          const id = findFirstIdentifierFromMemberExpression(property)
+          if (id && this.renderScope.hasBinding(id.name)) {
+            this.usedThisState.add(id.name)
+          }
+        }
+        return
+      }
+      const parentPath = path.parentPath
+      const id = findFirstIdentifierFromMemberExpression(path.node)
+      if (t.isThisExpression(id)) {
+        return
+      }
+      if (
+        parentPath.isConditionalExpression() ||
+        parentPath.isLogicalExpression() ||
+        parentPath.isJSXExpressionContainer() ||
+        (this.renderScope.hasOwnBinding(id.name))
+      ) {
+        this.addRefIdentifier(path, id)
+      }
+    },
     ArrowFunctionExpression: (path) => {
       if (!isChildrenOfJSXAttr(path)) {
         return
@@ -681,7 +692,7 @@ export class RenderParser {
   private visitors: Visitor = {
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
-      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent)) {
+      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
         path.replaceWith(
           t.jSXElement(
             t.jSXOpeningElement(
