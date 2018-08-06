@@ -26,7 +26,8 @@ const defaultBabelConfig = require('./config/babel')
 const defaultTSConfig = require('./config/tsconfig.json')
 
 const appPath = process.cwd()
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
+const configDir = path.join(appPath, Util.PROJECT_CONFIG)
+const projectConfig = require(configDir)(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 const sourceDir = path.join(appPath, sourceDirName)
@@ -36,6 +37,12 @@ const entryFileName = path.basename(entryFilePath)
 const outputEntryFilePath = path.join(outputDir, entryFileName)
 
 const pluginsConfig = projectConfig.plugins || {}
+const weappConf = projectConfig.weapp || {}
+const weappNpmConfig = Object.assign({
+  name: CONFIG.NPM_DIR,
+  dir: null
+}, weappConf.npm)
+const appOutput = typeof weappConf.appOutput === 'boolean' ? weappConf.appOutput : true
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
@@ -64,9 +71,15 @@ const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
     const npmInfoMainPath = npmInfo.main
-    const outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(outputDirName, CONFIG.NPM_DIR))
+    let outputNpmPath
+    if (!weappNpmConfig.dir) {
+      outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(outputDirName, weappNpmConfig.name))
+    } else {
+      const npmFilePath = npmInfoMainPath.replace(/(.*)node_modules/, '')
+      outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+    }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
   } catch (err) {
@@ -117,11 +130,16 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
   traverse(ast, {
     ClassDeclaration (astPath) {
       const node = astPath.node
+      let hasCreateData = false
       if (node.superClass) {
-        if (node.superClass.name === 'Component' ||
-        node.superClass.name === 'BaseComponent' ||
-        (node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName)) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+              hasCreateData = true
+            }
+          }
+        })
+        if (hasCreateData) {
           needExportDefault = true
           astPath.traverse({
             ClassMethod (astPath) {
@@ -166,10 +184,15 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
     ClassExpression (astPath) {
       const node = astPath.node
       if (node.superClass) {
-        if (node.superClass.name === 'Component' ||
-        node.superClass.name === 'BaseComponent' ||
-        (node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName)) {
+        let hasCreateData = false
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+              hasCreateData = true
+            }
+          }
+        })
+        if (hasCreateData) {
           needExportDefault = true
           if (node.id === null) {
             componentClassName = '_TaroComponentClass'
@@ -730,10 +753,12 @@ async function buildEntry () {
         }
       }
     }
-    fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
-    fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
+    if (appOutput) {
+      fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
+      fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
+    }
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
@@ -950,7 +975,6 @@ async function buildSinglePage (page) {
 }
 
 async function processStyleWithPostCSS (styleObj) {
-  const weappConf = projectConfig.weapp || {}
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customPxtransformConf = customPostcssConf.pxtransform || {}
@@ -1182,7 +1206,6 @@ function compileDepScripts (scriptFiles) {
   scriptFiles.forEach(async item => {
     if (path.isAbsolute(item)) {
       const outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
-      const weappConf = projectConfig.weapp || {}
       const useCompileConf = Object.assign({}, weappConf.compile)
       const compileExclude = useCompileConf.exclude || []
       let isInCompileExclude = false

@@ -15,7 +15,6 @@ const {
 } = require('./index')
 
 const npmProcess = require('./npm')
-const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
 const excludeNpmPkgs = ['ReactPropTypes']
@@ -24,10 +23,12 @@ const resolvedCache = {}
 const copyedFiles = {}
 
 const basedir = process.cwd()
-const projectConfig = require(path.join(basedir, PROJECT_CONFIG))(_.merge)
+const configDir = path.join(basedir, PROJECT_CONFIG)
+const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
+const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 
-function resolveNpmFilesPath (pkgName, isProduction) {
+function resolveNpmFilesPath (pkgName, isProduction, npmConfig) {
   if (!resolvedCache[pkgName]) {
     try {
       const res = resolvePath.sync(pkgName, { basedir })
@@ -36,7 +37,7 @@ function resolveNpmFilesPath (pkgName, isProduction) {
         files: []
       }
       resolvedCache[pkgName].files.push(res)
-      recursiveRequire(res, resolvedCache[pkgName].files, isProduction)
+      recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig)
     } catch (err) {
       if (err.code === 'MODULE_NOT_FOUND') {
         console.log(`缺少npm包${pkgName}，开始安装...`)
@@ -45,14 +46,14 @@ function resolveNpmFilesPath (pkgName, isProduction) {
           installOptions.dev = true
         }
         npmProcess.installNpmPkg(pkgName, installOptions)
-        return resolveNpmFilesPath(pkgName, isProduction)
+        return resolveNpmFilesPath(pkgName, isProduction, npmConfig)
       }
     }
   }
   return resolvedCache[pkgName]
 }
 
-function recursiveRequire (filePath, files, isProduction) {
+function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
@@ -61,7 +62,7 @@ function recursiveRequire (filePath, files, isProduction) {
       if (excludeNpmPkgs.indexOf(requirePath) >= 0) {
         return `require('${requirePath}')`
       }
-      const res = resolveNpmFilesPath(requirePath, isProduction)
+      const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig)
       const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
       return `require('${relativeRequirePath}')`
     }
@@ -78,11 +79,17 @@ function recursiveRequire (filePath, files, isProduction) {
     }
     if (files.indexOf(realRequirePath) < 0) {
       files.push(realRequirePath)
-      recursiveRequire(realRequirePath, files, isProduction)
+      recursiveRequire(realRequirePath, files, isProduction, npmConfig)
     }
     return `require('${requirePath}')`
   })
-  const outputNpmPath = filePath.replace('node_modules', path.join(OUTPUT_DIR, NPM_DIR))
+  let outputNpmPath
+  if (!npmConfig.dir) {
+    outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+  } else {
+    const npmFilePath = filePath.replace(/(.*)node_modules/, '')
+    outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
+  }
   if (!copyedFiles[outputNpmPath]) {
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
