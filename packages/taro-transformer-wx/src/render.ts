@@ -649,13 +649,32 @@ export class RenderParser {
       if (!path.isReferencedMemberExpression()) {
         return
       }
+      const { object, property } = path.node
+      if (
+        t.isMemberExpression(object) &&
+        t.isThisExpression(object.object) &&
+        t.isIdentifier(object.property, { name: 'state' })
+      ) {
+        if (t.isIdentifier(property)) {
+          this.usedThisState.add(property.name)
+        } else if (t.isMemberExpression(property)) {
+          const id = findFirstIdentifierFromMemberExpression(property)
+          if (id && this.renderScope.hasBinding(id.name)) {
+            this.usedThisState.add(id.name)
+          }
+        }
+        return
+      }
       const parentPath = path.parentPath
       const id = findFirstIdentifierFromMemberExpression(path.node)
+      if (t.isThisExpression(id)) {
+        return
+      }
       if (
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
-        this.renderScope.hasOwnBinding(id.name)
+        (this.renderScope.hasOwnBinding(id.name))
       ) {
         this.addRefIdentifier(path, id)
       }
