@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.6",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -25,9 +25,6 @@
   ],
   "author": "",
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
   "dependencies": {
     "@nart/react-native-swiper": "^1.5.13",
     "react-dom": "^16.4.0",

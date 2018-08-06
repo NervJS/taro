@@ -50,7 +50,7 @@ uglify: {
 用来配置 `csso` 工具，设置打包过程中的 CSS 代码压缩。可以通过 `plugins.csso.enable` 来设置是否开启压缩，若设置开启，则可以通过 `plugins.csso.config` 来设置 `csso` 的配置项，具体配置方式如下：
 
 ```javascript
-uglify: {
+csso: {
   enable: true,
   config: {
     // 配置项同 https://github.com/css/csso#minifysource-options

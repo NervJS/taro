@@ -10,15 +10,23 @@ describe('request', () => {
   })
 
   test('should return fetch data', () => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+
     fetch.once(JSON.stringify({ data: '12345' }))
 
+    expect.assertions(6)
     return Taro.request({
       url: 'https://github.com',
       data: {
         x: 123,
         y: 'abc',
         z: [1,2,3]
-      }
+      },
+      success,
+      fail,
+      complete
     })
       .then(res => {
         expect(fetch.mock.calls[0][0]).toBe('https://github.com?x=123&y=abc&z=1%2C2%2C3')
@@ -26,6 +34,9 @@ describe('request', () => {
         expect(res.data).toEqual({
           data: '12345'
         })
+        expect(success.mock.calls.length).toBe(1)
+        expect(fail.mock.calls.length).toBe(0)
+        expect(complete.mock.calls.length).toBe(1)
       })
   })
 
@@ -45,6 +56,7 @@ describe('request', () => {
   test('should set correct params', () => {
     fetch.once(JSON.stringify({ data: '12345' }), { status: 201 })
 
+    expect.assertions(4)
     return Taro.request({
       url: 'https://github.com',
       method: 'POST',
@@ -80,11 +92,24 @@ describe('request', () => {
   })
 
   test('should catch error', () => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+
     fetch.mockReject(new Error('fake error message'))
 
-    return Taro.request('https://github.com')
+    expect.assertions(4)
+    return Taro.request({
+      url: 'https://github.com',
+      success,
+      fail,
+      complete
+    })
       .catch(err => {
         expect(err.message).toBe('fake error message')
+        expect(success.mock.calls.length).toBe(0)
+        expect(fail.mock.calls.length).toBe(1)
+        expect(complete.mock.calls.length).toBe(1)
       })
   })
 })

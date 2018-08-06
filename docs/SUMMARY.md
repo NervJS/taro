@@ -20,6 +20,7 @@
   * [条件渲染](condition.md)
   * [列表渲染](list.md)
   * [消息机制](events.md)
+  * [微信小程序原生作用域获取](wx-relations.md)
 * [组件库](components.md)
   * 视图容器
     * [View](components/viewContainer/view.md)
@@ -51,8 +52,12 @@
     * [Image](components/media/image.md)
     * [Video](components/media/video.md)
     * [Camera](components/media/camera.md)
+    * [LivePlayer](components/media/live-player.md)
+    * [LivePusher](components/media/live-pusher.md)
   * 地图
     * [Map](components/maps/map.md)
+  * 画布
+    * [Canvas](components/canvas/canvas.md)
 * API
   * [Taro.Component](component.md)
   * [Taro.Events](events.md)
@@ -116,10 +121,13 @@
     * [plugins](config-detail.md#plugins)
     * [env](config-detail.md#env)
     * [defineConstants](config-detail.md#defineConstants)
+    * [copy](config-detail.md#copy)
     * [weapp](config-detail.md#weapp)
     * [h5](config-detail.md#h5)
   * [异步编程](async-await.md)
   * [使用Redux](redux.md)
-  * [技术原理](principle.md)
+  * [使用微信小程序第三方组件](wx-third-party.md)
+  * [Taro 代码与微信小程序代码混写](wx-hybrid.md)
   * [最佳实践](best-practice.md)
+  * [技术原理](principle.md)
   * [Debug 指南](debug.md)
