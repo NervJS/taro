@@ -130,11 +130,16 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
   traverse(ast, {
     ClassDeclaration (astPath) {
       const node = astPath.node
+      let hasCreateData = false
       if (node.superClass) {
-        if (node.superClass.name === 'Component' ||
-        node.superClass.name === 'BaseComponent' ||
-        (node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName)) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+              hasCreateData = true
+            }
+          }
+        })
+        if (hasCreateData) {
           needExportDefault = true
           astPath.traverse({
             ClassMethod (astPath) {
@@ -179,10 +184,15 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
     ClassExpression (astPath) {
       const node = astPath.node
       if (node.superClass) {
-        if (node.superClass.name === 'Component' ||
-        node.superClass.name === 'BaseComponent' ||
-        (node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName)) {
+        let hasCreateData = false
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+              hasCreateData = true
+            }
+          }
+        })
+        if (hasCreateData) {
           needExportDefault = true
           if (node.id === null) {
             componentClassName = '_TaroComponentClass'
