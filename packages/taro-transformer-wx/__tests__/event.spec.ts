@@ -85,11 +85,9 @@ describe('event', () => {
 
     const instance = evalClass(ast)
     removeShadowData(instance.state)
-    expect(instance.state).toEqual({})
+    expect(instance.state).toEqual({ anonymousState__temp: { a: 1 } })
     expect(instance.$$events).toEqual(['handleClick'])
-    expect(template).toMatch(`data-e-handleClick-a-a=\"{{{`)
-    expect(template).toMatch(`a: 1`)
-    expect(template).toMatch(`}}}\">`)
+    expect(template).toMatch(`data-e-handleClick-a-a=\"{{anonymousState__temp}}`)
     // expect(template).toMatch(`data-e-handleClick-a-b="{{777}}`)
   })
 
