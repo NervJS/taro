@@ -193,6 +193,10 @@ function parseJSCode (code, filePath) {
                     if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
                       navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
                     }
+                    // 开启下拉刷新
+                    if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
+                      navigationOptions['enablePullDownRefresh'] = node.value.value
+                    }
                   }
                 })
                 astPath.replaceWith(t.objectProperty(
@@ -241,6 +245,10 @@ function parseJSCode (code, filePath) {
               // 导航栏背景颜色
               if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
                 navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+              }
+              // 开启下拉刷新
+              if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
+                navigationOptions['enablePullDownRefresh'] = node.value.value
               }
             }
           })
