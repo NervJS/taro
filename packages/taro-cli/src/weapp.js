@@ -26,7 +26,8 @@ const defaultBabelConfig = require('./config/babel')
 const defaultTSConfig = require('./config/tsconfig.json')
 
 const appPath = process.cwd()
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
+const configDir = path.join(appPath, Util.PROJECT_CONFIG)
+const projectConfig = require(configDir)(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 const sourceDir = path.join(appPath, sourceDirName)
@@ -36,6 +37,11 @@ const entryFileName = path.basename(entryFilePath)
 const outputEntryFilePath = path.join(outputDir, entryFileName)
 
 const pluginsConfig = projectConfig.plugins || {}
+const weappConf = projectConfig.weapp || {}
+const weappNpmConfig = Object.assign({
+  name: CONFIG.NPM_DIR,
+  dir: null
+}, weappConf.npm)
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
@@ -64,9 +70,15 @@ const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
     const npmInfoMainPath = npmInfo.main
-    const outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(outputDirName, CONFIG.NPM_DIR))
+    let outputNpmPath
+    if (!weappNpmConfig.dir) {
+      outputNpmPath = npmInfoMainPath.replace('node_modules', path.join(outputDirName, weappNpmConfig.name))
+    } else {
+      const npmFilePath = npmInfoMainPath.replace(/(.*)node_modules/, '')
+      outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+    }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
   } catch (err) {
@@ -950,7 +962,6 @@ async function buildSinglePage (page) {
 }
 
 async function processStyleWithPostCSS (styleObj) {
-  const weappConf = projectConfig.weapp || {}
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customPxtransformConf = customPostcssConf.pxtransform || {}
@@ -1182,7 +1193,6 @@ function compileDepScripts (scriptFiles) {
   scriptFiles.forEach(async item => {
     if (path.isAbsolute(item)) {
       const outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
-      const weappConf = projectConfig.weapp || {}
       const useCompileConf = Object.assign({}, weappConf.compile)
       const compileExclude = useCompileConf.exclude || []
       let isInCompileExclude = false
