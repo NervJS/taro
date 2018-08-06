@@ -359,7 +359,9 @@ export default function transform (options: Options): TransformResult {
   }
   resetTSClassProperty(mainClass.node.body.body)
   if (options.isApp) {
-    renderMethod.remove()
+    renderMethod.replaceWith(
+      t.classMethod('method', t.identifier('_createData'), [], t.blockStatement([]))
+    )
     return { ast } as TransformResult
   }
   result = new Transformer(mainClass, options.sourcePath).result
