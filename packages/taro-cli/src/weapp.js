@@ -340,22 +340,28 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
         (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')
       ) {
         const superClass = declaration.superClass
-        if (superClass &&
-          (superClass.name === 'Component' ||
-          superClass.name === 'BaseComponent' ||
-          (superClass.type === 'MemberExpression' &&
-          superClass.object.name === taroImportDefaultName))) {
-          needExportDefault = true
-          if (declaration.id === null) {
-            componentClassName = '_TaroComponentClass'
-          } else if (declaration.id.name === 'App') {
-            componentClassName = '_App'
-          } else {
-            componentClassName = declaration.id.name
+        if (superClass) {
+          let hasCreateData = false
+          astPath.traverse({
+            ClassMethod (astPath) {
+              if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+                hasCreateData = true
+              }
+            }
+          })
+          if (hasCreateData) {
+            needExportDefault = true
+            if (declaration.id === null) {
+              componentClassName = '_TaroComponentClass'
+            } else if (declaration.id.name === 'App') {
+              componentClassName = '_App'
+            } else {
+              componentClassName = declaration.id.name
+            }
+            const isClassDcl = declaration.type === 'ClassDeclaration'
+            const classDclProps = [t.identifier(componentClassName), superClass, declaration.body, declaration.decorators || []]
+            astPath.replaceWith(isClassDcl ? t.classDeclaration.apply(null, classDclProps) : t.classExpression.apply(null, classDclProps))
           }
-          const isClassDcl = declaration.type === 'ClassDeclaration'
-          const classDclProps = [t.identifier(componentClassName), superClass, declaration.body, declaration.decorators || []]
-          astPath.replaceWith(isClassDcl ? t.classDeclaration.apply(null, classDclProps) : t.classExpression.apply(null, classDclProps))
         }
       } else if (declaration.type === 'CallExpression') {
         const callee = declaration.callee
