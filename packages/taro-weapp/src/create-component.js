@@ -28,6 +28,12 @@ function bindProperties (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindBehaviors (weappComponentConf, ComponentClass) {
+  if (ComponentClass.behaviors) {
+    weappComponentConf.behaviors = ComponentClass.behaviors
+  }
+}
+
 function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
@@ -142,7 +148,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
       }
     }
   }
-  return newProps
+  return Object.assign({}, componentProps, newProps)
 }
 
 export function componentTrigger (component, key, args) {
@@ -166,21 +172,44 @@ export function componentTrigger (component, key, args) {
 
 let hasPageInited = false
 
+function initComponent(ComponentClass, isPage) {
+  if (this.$component.__isReady) return
+  // ready之后才可以setData,
+  // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
+  this.$component.__isReady = true
+
+  if (isPage && !hasPageInited) {
+    hasPageInited = true
+  }
+  // 页面Ready的时候setData更新，此时并未didMount,触发observer但不会触发子组件更新
+  // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
+  // 动态组件执行改造函数副本的时,在初始化数据前计算好props
+  if (hasPageInited && !isPage) {
+    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
+    this.$component.props = nextProps
+  }
+  if (hasPageInited || isPage) {
+    updateComponent(this.$component)
+  }
+}
+
 function createComponent (ComponentClass, isPage) {
   let initData = {
     _componentProps: 1
   }
-  if (isPage) {
-    const componentProps = filterProps({}, ComponentClass.defaultProps)
-    const componentInstance = new ComponentClass(componentProps)
-    componentInstance._constructor && componentInstance._constructor(componentProps)
-    try {
-      componentInstance.state = componentInstance._createData()
-    } catch (err) {
-      console.error(err)
-    }
-    initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
+  const componentProps = filterProps({}, ComponentClass.defaultProps)
+  const componentInstance = new ComponentClass(componentProps)
+  componentInstance._constructor && componentInstance._constructor(componentProps)
+  try {
+    componentInstance.state = componentInstance._createData()
+  } catch (err) {
+    const errLine = /at\s(.*\))/.exec(err.stack.toString())[1] || ''
+    console.warn(`[Taro warn] 
+      ${err.message}
+      ${errLine}: 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
   }
+  initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
+
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
@@ -189,24 +218,11 @@ function createComponent (ComponentClass, isPage) {
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
     },
+    attached () {
+      initComponent.apply(this, [ComponentClass, isPage])
+    },
     ready () {
-      // ready之后才可以setData,
-      // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
-      this.$component.__isReady = true
-
-      if (isPage && !hasPageInited) {
-        hasPageInited = true
-      }
-      // 页面Ready的时候setData更新，此时并未didMount,触发observer但不会触发子组件更新
-      // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
-      // 动态组件执行改造函数副本的时,在初始化数据前计算好props
-      if (hasPageInited && !isPage) {
-        const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
-        this.$component.props = nextProps
-      }
-      if (hasPageInited || isPage) {
-        updateComponent(this.$component)
-      }
+      initComponent.apply(this, [ComponentClass, isPage])
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')
@@ -232,6 +248,7 @@ function createComponent (ComponentClass, isPage) {
     })
   }
   bindProperties(weappComponentConf, ComponentClass)
+  bindBehaviors(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']

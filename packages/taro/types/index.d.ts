@@ -176,9 +176,11 @@ declare namespace Taro {
   }
 
 
-  function getEnv(): 'WEAPP' | 'WEB' | 'RN';
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
   function render(component: Component | JSX.Element, element: Element | null)
+
+  function pxTransform(size: number): string
 
   /**
    *

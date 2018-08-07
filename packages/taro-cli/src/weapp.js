@@ -67,6 +67,8 @@ const PARSE_AST_TYPE = {
   NORMAL: 'NORMAL'
 }
 
+const DEVICE_RATIO = 'deviceRatio'
+
 const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
@@ -340,22 +342,28 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
         (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')
       ) {
         const superClass = declaration.superClass
-        if (superClass &&
-          (superClass.name === 'Component' ||
-          superClass.name === 'BaseComponent' ||
-          (superClass.type === 'MemberExpression' &&
-          superClass.object.name === taroImportDefaultName))) {
-          needExportDefault = true
-          if (declaration.id === null) {
-            componentClassName = '_TaroComponentClass'
-          } else if (declaration.id.name === 'App') {
-            componentClassName = '_App'
-          } else {
-            componentClassName = declaration.id.name
+        if (superClass) {
+          let hasCreateData = false
+          astPath.traverse({
+            ClassMethod (astPath) {
+              if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+                hasCreateData = true
+              }
+            }
+          })
+          if (hasCreateData) {
+            needExportDefault = true
+            if (declaration.id === null) {
+              componentClassName = '_TaroComponentClass'
+            } else if (declaration.id.name === 'App') {
+              componentClassName = '_App'
+            } else {
+              componentClassName = declaration.id.name
+            }
+            const isClassDcl = declaration.type === 'ClassDeclaration'
+            const classDclProps = [t.identifier(componentClassName), superClass, declaration.body, declaration.decorators || []]
+            astPath.replaceWith(isClassDcl ? t.classDeclaration.apply(null, classDclProps) : t.classExpression.apply(null, classDclProps))
           }
-          const isClassDcl = declaration.type === 'ClassDeclaration'
-          const classDclProps = [t.identifier(componentClassName), superClass, declaration.body, declaration.decorators || []]
-          astPath.replaceWith(isClassDcl ? t.classDeclaration.apply(null, classDclProps) : t.classExpression.apply(null, classDclProps))
         }
       } else if (declaration.type === 'CallExpression') {
         const callee = declaration.callee
@@ -598,19 +606,22 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
           node.body.push(exportDefault)
         }
         const taroWeappFrameworkPath = getExactedNpmFilePath(taroWeappFramework, filePath)
-        let insert
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
-            insert = template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)()
-            node.body.push(insert)
+            const pxTransformConfig = {
+              designWidth: projectConfig.designWidth || 750,
+            }
+            if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+              pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+            }
+            node.body.push(template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)())
+            node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig)())
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)()
-            node.body.push(insert)
+            node.body.push(template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
             break
           case PARSE_AST_TYPE.COMPONENT:
-            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)()
-            node.body.push(insert)
+            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
             break
           default:
             break
@@ -984,7 +995,6 @@ async function processStyleWithPostCSS (styleObj) {
     platform: 'weapp'
   }
 
-  const DEVICE_RATIO = 'deviceRatio'
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
   }

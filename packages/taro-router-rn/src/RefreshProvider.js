@@ -20,15 +20,15 @@ class RefreshProvider extends React.Component {
           />
         }
       >
-        {this.props.chldren && this.props.chldren}
+        {this.props.children && this.props.children}
       </ScrollView>
     )
   }
 
   onRefresh () {
-    console.log('onRefresh')
     this.setState({refreshing: true})
     try {
+      // TODO 处理异步的情况
       this.props.onPullDownRefresh && this.props.onPullDownRefresh()
     } catch (e) {
       throw new Error(e)
