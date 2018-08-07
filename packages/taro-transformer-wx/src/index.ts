@@ -272,9 +272,12 @@ export default function transform (options: Options): TransformResult {
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
       if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
-        exprPath.replaceWith(
-          t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
-        )
+        const jsxID = path.findParent(p => p.isJSXOpeningElement()).get('name')
+        if (jsxID && jsxID.isJSXIdentifier() && DEFAULT_Component_SET.has(jsxID.node.name)) {
+          exprPath.replaceWith(
+            t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
+          )
+        }
       }
 
       if (name.name.startsWith('on')) {
