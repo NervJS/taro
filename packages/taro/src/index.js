@@ -7,7 +7,7 @@ import { inlineStyle as internal_inline_style } from './internal/inline-style'
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
 import render from './render'
-import { noPromiseApis, onAndSyncApis, otherApis } from './native-apis'
+import { noPromiseApis, onAndSyncApis, otherApis, initPxTransform } from './native-apis'
 
 const eventCenter = new Events()
 
@@ -24,7 +24,8 @@ export {
   internal_inline_style,
   noPromiseApis,
   onAndSyncApis,
-  otherApis
+  otherApis,
+  initPxTransform
 }
 
 export default {
@@ -40,5 +41,6 @@ export default {
   internal_inline_style,
   noPromiseApis,
   onAndSyncApis,
-  otherApis
+  otherApis,
+  initPxTransform
 }

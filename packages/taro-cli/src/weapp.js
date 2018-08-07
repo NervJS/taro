@@ -67,6 +67,8 @@ const PARSE_AST_TYPE = {
   NORMAL: 'NORMAL'
 }
 
+const DEVICE_RATIO = 'deviceRatio'
+
 const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
@@ -604,19 +606,22 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
           node.body.push(exportDefault)
         }
         const taroWeappFrameworkPath = getExactedNpmFilePath(taroWeappFramework, filePath)
-        let insert
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
-            insert = template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)()
-            node.body.push(insert)
+            const pxTransformConfig = {
+              designWidth: projectConfig.designWidth || 750,
+            }
+            if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+              pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+            }
+            node.body.push(template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)())
+            node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig)())
             break
           case PARSE_AST_TYPE.PAGE:
-            insert = template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)()
-            node.body.push(insert)
+            node.body.push(template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
             break
           case PARSE_AST_TYPE.COMPONENT:
-            insert = template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)()
-            node.body.push(insert)
+            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
             break
           default:
             break
@@ -990,7 +995,6 @@ async function processStyleWithPostCSS (styleObj) {
     platform: 'weapp'
   }
 
-  const DEVICE_RATIO = 'deviceRatio'
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
   }
