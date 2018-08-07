@@ -93,7 +93,9 @@ function getWrappedScreen (Screen, Taro) {
       if (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh) {
         console.log('enablePullDownRefresh')
         return (
-          <RefreshProvider>
+          <RefreshProvider
+            onPullDownRefresh={this.onPullDownRefresh.bind(this)}
+          >
             {super.render()}
           </RefreshProvider>
         )
