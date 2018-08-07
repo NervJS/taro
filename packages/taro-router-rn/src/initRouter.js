@@ -1,3 +1,4 @@
+import React from 'react'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import getWrappedScreen from './getWrappedScreen'
 import { Image } from 'react-native'
