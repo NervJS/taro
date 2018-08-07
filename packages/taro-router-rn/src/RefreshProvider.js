@@ -9,22 +9,29 @@ class RefreshProvider extends React.Component {
     }
     this.handlePullDownRefresh = this.handlePullDownRefresh.bind(this)
     this.stopPullDownRefresh = this.stopPullDownRefresh.bind(this)
+    this.onScroll = this.onScroll.bind(this)
   }
 
   render () {
     return (
       <ScrollView
         style={{flex: 1}}
+        onScroll={this.onScroll}
+        scrollEventThrottle={5}
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
-            onRefresh={this.handlePullDownRefresh.bind(this)}
+            onRefresh={this.handlePullDownRefresh}
           />
         }
       >
         {this.props.children && this.props.children}
       </ScrollView>
     )
+  }
+
+  onScroll (e) {
+    this.props.onScroll && this.props.onScroll(e.nativeEvent.contentOffset.y)
   }
 
   handlePullDownRefresh () {

@@ -97,6 +97,7 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
         return (
           <RefreshProvider
             onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
+            onScroll={this.onScroll && this.onScroll.bind(this)}
             ref={this.refreshProviderRef}
           >
             {super.render()}
