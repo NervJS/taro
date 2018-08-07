@@ -7,6 +7,8 @@ class RefreshProvider extends React.Component {
     this.state = {
       refreshing: false
     }
+    this.handlePullDownRefresh = this.handlePullDownRefresh.bind(this)
+    this.stopPullDownRefresh = this.stopPullDownRefresh.bind(this)
   }
 
   render () {
@@ -16,7 +18,7 @@ class RefreshProvider extends React.Component {
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
-            onRefresh={this.onRefresh.bind(this)}
+            onRefresh={this.handlePullDownRefresh.bind(this)}
           />
         }
       >
@@ -25,7 +27,7 @@ class RefreshProvider extends React.Component {
     )
   }
 
-  onRefresh () {
+  handlePullDownRefresh () {
     this.setState({refreshing: true})
     try {
       // TODO 处理异步的情况
@@ -35,6 +37,10 @@ class RefreshProvider extends React.Component {
     } finally {
       this.setState({refreshing: false})
     }
+  }
+
+  stopPullDownRefresh () {
+    this.setState({refreshing: false})
   }
 }
 
