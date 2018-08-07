@@ -126,6 +126,25 @@ describe('Template', () => {
       expect(inst.state['anonymousState__temp']).toMatch(`color:red`)
     })
 
+    test('不转换自定义组件', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const style = 'color:' + 'red'
+          return (
+            <Test test={style} />
+          )
+        `)
+      })
+
+      const inst = evalClass(ast, '', true)
+      removeShadowData(inst.state)
+      expect(Object.keys(inst.state).length).toEqual(1)
+      expect(template).toMatch(`<test test=\"{{style}}\" __triggerObserer=\"{{ _triggerObserer }}\"></test>`)
+      expect(inst.state.style).toEqual('color:' + 'red')
+    })
+
     test('能在循环中使用, 无 return', () => {
       const { template, ast, code } = transform({
         ...baseOptions,
