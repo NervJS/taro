@@ -8,7 +8,7 @@ import RefreshProvider from './RefreshProvider'
  * @param Taro 挂在方法到 Taro 上
  * @returns {WrappedScreen}
  */
-function getWrappedScreen (Screen, Taro) {
+function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
   class WrappedScreen extends Screen {
     constructor (props, context) {
       super(props, context)
@@ -93,10 +93,10 @@ function getWrappedScreen (Screen, Taro) {
     }
 
     render () {
-      if (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh) {
+      if (enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)) {
         return (
           <RefreshProvider
-            onPullDownRefresh={this.onPullDownRefresh.bind(this)}
+            onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
             ref={this.refreshProviderRef}
           >
             {super.render()}
