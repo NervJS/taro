@@ -272,9 +272,12 @@ export default function transform (options: Options): TransformResult {
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
       if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
-        exprPath.replaceWith(
-          t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
-        )
+        const jsxID = path.findParent(p => p.isJSXOpeningElement()).get('name')
+        if (jsxID && jsxID.isJSXIdentifier() && DEFAULT_Component_SET.has(jsxID.node.name)) {
+          exprPath.replaceWith(
+            t.callExpression(t.identifier(INTERNAL_INLINE_STYLE), [expr])
+          )
+        }
       }
 
       if (name.name.startsWith('on')) {
@@ -331,7 +334,7 @@ export default function transform (options: Options): TransformResult {
           const name = path.node.imported.name
           DEFAULT_Component_SET.has(name) || names.push(name)
           if (source === TARO_PACKAGE_NAME && name === 'Component') {
-            path.node.local = t.identifier('BaseComponent')
+            path.node.local = t.identifier('__BaseComponent')
           }
         }
       })
@@ -342,7 +345,7 @@ export default function transform (options: Options): TransformResult {
     throw new Error('未找到 Taro.Component 的类定义')
   }
   const storeBinding = mainClass.scope.getBinding(storeName)
-  mainClass.scope.rename('Component', 'BaseComponent')
+  mainClass.scope.rename('Component', '__BaseComponent')
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {
