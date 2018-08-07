@@ -331,7 +331,7 @@ export default function transform (options: Options): TransformResult {
           const name = path.node.imported.name
           DEFAULT_Component_SET.has(name) || names.push(name)
           if (source === TARO_PACKAGE_NAME && name === 'Component') {
-            path.node.local = t.identifier('BaseComponent')
+            path.node.local = t.identifier('__BaseComponent')
           }
         }
       })
@@ -342,7 +342,7 @@ export default function transform (options: Options): TransformResult {
     throw new Error('未找到 Taro.Component 的类定义')
   }
   const storeBinding = mainClass.scope.getBinding(storeName)
-  mainClass.scope.rename('Component', 'BaseComponent')
+  mainClass.scope.rename('Component', '__BaseComponent')
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {
