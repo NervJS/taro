@@ -28,6 +28,12 @@ function bindProperties (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindBehaviors (weappComponentConf, ComponentClass) {
+  if (ComponentClass.behaviors) {
+    weappComponentConf.behaviors = ComponentClass.behaviors
+  }
+}
+
 function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
@@ -242,6 +248,7 @@ function createComponent (ComponentClass, isPage) {
     })
   }
   bindProperties(weappComponentConf, ComponentClass)
+  bindBehaviors(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']
