@@ -213,7 +213,6 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
-      // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
       this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
