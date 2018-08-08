@@ -122,7 +122,7 @@ function bindEvents (weappComponentConf, events, isPage) {
 }
 
 function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
-  let newProps = {}
+  let newProps = Object.assign({}, componentProps)
   for (const propName in properties) {
     if (propName === privatePropValName) {
       continue
@@ -148,7 +148,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
       }
     }
   }
-  return Object.assign({}, componentProps, newProps)
+  return newProps
 }
 
 export function componentTrigger (component, key, args) {
@@ -172,7 +172,7 @@ export function componentTrigger (component, key, args) {
 
 let hasPageInited = false
 
-function initComponent(ComponentClass, isPage) {
+function initComponent (ComponentClass, isPage) {
   if (this.$component.__isReady) return
   // ready之后才可以setData,
   // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
@@ -204,7 +204,7 @@ function createComponent (ComponentClass, isPage) {
     componentInstance.state = componentInstance._createData()
   } catch (err) {
     const errLine = /at\s(.*\))/.exec(err.stack.toString())[1] || ''
-    console.warn(`[Taro warn] 
+    console.warn(`[Taro warn]
       ${err.message}
       ${errLine}: 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
   }
@@ -213,8 +213,7 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
-      // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
-      this.$component = new ComponentClass()
+      this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
     },
