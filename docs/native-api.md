@@ -550,7 +550,7 @@ const backgroundAudioManager = Taro.getBackgroundAudioManager()
 
 ### 音频组件控制
 
-#### Taro.createAudioContext(audioId, this)
+#### Taro.createAudioContext(audioId, this.$scope)
 
 使用方式同 [`wx.createAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-audio.html#wxcreateaudiocontextaudioid)。
 
@@ -616,7 +616,7 @@ Taro.saveVideoToPhotosAlbum(params).then(...)
 
 ### 视频组件控制
 
-#### Taro.createVideoContext(videoId, this)
+#### Taro.createVideoContext(videoId, this.$scope)
 
 使用方式同 [`wx.createVideoContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-video.html#wxcreatevideocontextvideoid)。
 
@@ -636,7 +636,7 @@ const videoContext = Taro.createVideoContext('myVideo')
 
 ### 相机组件控制
 
-#### Taro.createCameraContext(this)
+#### Taro.createCameraContext(this.$scope)
 
 使用方式同 [`wx.createCameraContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-camera.html)。
 
@@ -1005,7 +1005,7 @@ Taro.openLocation(params).then(...)
 
 ### 地图组件控制
 
-#### Taro.createMapContext(mapId, this)
+#### Taro.createMapContext(mapId, this.$scope)
 
 使用方式同 [`wx.createMapContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-map.html#wxcreatemapcontextmapid)。
 
@@ -2330,7 +2330,7 @@ Taro.pageScrollTo(params).then(...)
 
 ### 绘图
 
-#### Taro.createCanvasContext(canvasId, this)
+#### Taro.createCanvasContext(canvasId, this.$scope)
 
 使用方式同 [`wx.createCanvasContext`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/create-canvas-context.html)。
 
@@ -2410,7 +2410,7 @@ import Taro from '@tarojs/taro'
 
 Component({
   ready () {
-    const query = Taro.createSelectorQuery().in(this)
+    const query = Taro.createSelectorQuery().in(this.$scope)
   })
 })
 ```
