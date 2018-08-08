@@ -2,7 +2,7 @@ import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
 import { Transformer } from './class'
 import { prettyPrint } from 'html'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement } from './utils'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
@@ -75,8 +75,17 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
   }
 }
 
+function findDeclarationScope (path: NodePath<t.Node>, id: t.Identifier) {
+  const scopePath = path.findParent(p => !!p.scope.getOwnBindingIdentifier(id.name))
+  if (scopePath) {
+    return scopePath
+  }
+  throw codeFrameError(path.node, '该引用从未被定义')
+}
+
 function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path: NodePath<t.Node>) {
-  const binding = path.scope.getOwnBinding(id.name)
+  const scopePath = findDeclarationScope(path, id)
+  const binding = scopePath.scope.getOwnBinding(id.name)
   if (binding) {
     const bindingPath = binding.path
     if (bindingPath.isVariableDeclarator()) {
@@ -168,11 +177,10 @@ export default function transform (options: Options): TransformResult {
       if (isContainJSXElement(path)) {
         return
       }
-
       if (callee.isReferencedMemberExpression()) {
         const id = findFirstIdentifierFromMemberExpression(callee.node)
         const calleeIds = getIdsFromMemberProps(callee.node)
-        if (t.isIdentifier(id)) {
+        if (t.isIdentifier(id) && id.name.startsWith('on')) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
           if (fullPath) {
             path.replaceWith(
@@ -188,7 +196,7 @@ export default function transform (options: Options): TransformResult {
       if (callee.isReferencedIdentifier()) {
         const id = callee.node
         const ids = [id.name]
-        if (t.isIdentifier(id)) {
+        if (t.isIdentifier(id) && id.name.startsWith('on')) {
           const fullPath = buildFullPathThisPropsRef(id, ids, path)
           if (fullPath) {
             path.replaceWith(
