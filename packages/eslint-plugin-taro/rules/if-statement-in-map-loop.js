@@ -11,31 +11,19 @@ module.exports = {
     return {
       JSXElement (node) {
         const parents = context.getAncestors(node)
-        let matchCallExpression = false
-        let matchIfStatement = false
-        let ifStatement = null
-
-        // 想念 for..of 的第一天
-        for (let index = 0; index < parents.length; index++) {
-          const statement = parents[index]
-          if (
-            statement.type === 'CallExpression' &&
-            statement.callee.type === 'MemberExpression' &&
-            statement.callee.property.name === 'map'
-          ) {
-            matchCallExpression = true
-          }
-          if (statement.type === 'IfStatement') {
-            matchIfStatement = true
-            ifStatement = statement
-          }
-        }
-
-        if (matchCallExpression && matchIfStatement) {
-          context.report({
-            message: ERROR_MESSAGE,
-            node: ifStatement
+        const ifStatement = parents.find(p => p.type === 'IfStatement')
+        if (ifStatement) {
+          const hasCallExpr = context.getAncestors(ifStatement).some(s => {
+            return s.type === 'CallExpression' &&
+            s.callee.type === 'MemberExpression' &&
+            s.callee.property.name === 'map'
           })
+          if (hasCallExpr) {
+            context.report({
+              message: ERROR_MESSAGE,
+              node: ifStatement
+            })
+          }
         }
       }
     }
