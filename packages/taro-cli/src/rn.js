@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const camelCase = require('camelcase')
 const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
@@ -219,7 +220,7 @@ function parseJSCode (code, filePath) {
                       node.key.value === 'selectedIconPath'
                     ) {
                       if (typeof value !== 'string') return
-                      let iconName = value.replace(/\/|\./g, '')
+                      let iconName = camelCase(value.split('/'))
                       iconPaths.push(value)
                       astPath.insertAfter(t.objectProperty(
                         t.identifier(node.key.name || node.key.value),
@@ -429,7 +430,7 @@ function parseJSCode (code, filePath) {
           // 注入 import page from 'XXX'
           pages.forEach(item => {
             const pagePath = item.startsWith('/') ? item : `/${item}`
-            const screenName = pagePath.replace(/\//g, '')
+            const screenName = camelCase(pagePath.split('/'), {pascalCase: true})
             const importScreen = template(
               `import ${screenName} from '.${pagePath}'`,
               babylonConfig
@@ -438,7 +439,7 @@ function parseJSCode (code, filePath) {
           })
           iconPaths.forEach(item => {
             const iconPath = item.startsWith('/') ? item : `/${item}`
-            const iconName = iconPath.replace(/\/|\./g, '')
+            const iconName = camelCase(iconPath.split('/'))
             const importIcon = template(
               `import ${iconName} from '.${iconPath}'`,
               babylonConfig
@@ -447,10 +448,10 @@ function parseJSCode (code, filePath) {
           })
           // Taro.initRouter  生成 RootStack
           const routerPages = pages
-            .map(pageItem => {
-              const pageName = pageItem.startsWith('/') ? pageItem : `/${pageItem}`
-              const screenName = pageName.replace(/\//g, '')
-              return `['${pageItem}',${screenName}]`
+            .map(item => {
+              const pagePath = item.startsWith('/') ? item : `/${item}`
+              const screenName = camelCase(pagePath.split('/'), {pascalCase: true})
+              return `['${item}',${screenName}]`
             })
             .join(',')
           node.body.push(template(
