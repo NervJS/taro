@@ -7,7 +7,6 @@ import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
-import { remove } from 'lodash'
 const template = require('babel-template')
 
 export interface Options {
@@ -48,7 +47,7 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
   for (const method of body) {
     if (t.isClassMethod(method) && method.kind === 'constructor') {
       if (t.isBlockStatement(method.body)) {
-        for (const statement of method.body.body) {
+        method.body.body = method.body.body.filter(statement => {
           if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
             const expr = statement.expression
             const { left, right } = expr
@@ -65,11 +64,12 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
                 body.push(
                   t.classProperty(left.property, right)
                 )
-                remove(method.body.body, statement)
+                return false
               }
             }
           }
-        }
+          return true
+        })
       }
     }
   }
