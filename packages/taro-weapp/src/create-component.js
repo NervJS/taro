@@ -172,7 +172,7 @@ export function componentTrigger (component, key, args) {
 
 let hasPageInited = false
 
-function initComponent(ComponentClass, isPage) {
+function initComponent (ComponentClass, isPage) {
   if (this.$component.__isReady) return
   // ready之后才可以setData,
   // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
@@ -214,7 +214,7 @@ function createComponent (ComponentClass, isPage) {
     data: initData,
     created (options = {}) {
       // const props = filterProps(ComponentClass.properties, ComponentClass.defaultProps, {}, this.data)
-      this.$component = new ComponentClass()
+      this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
       Object.assign(this.$component.$router.params, options)
     },
