@@ -2,8 +2,10 @@
   overflow: hidden;
   &__scroll-x {
     overflow-x: scroll;
+    overflow-y: hidden;
   }
   &__scroll-y {
+    overflow-x: hidden;
     overflow-y: scroll;
   }
 }

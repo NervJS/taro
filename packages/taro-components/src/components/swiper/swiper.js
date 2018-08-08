@@ -425,9 +425,12 @@ class Swiper extends Nerv.Component {
       width: this.state.wrapperWidth,
       height: this.state.wrapperHeight,
       transition: this.state.animating
-        ? `transform ${duration}ms ease-in-out`
+        ? `transform ${duration}ms ease-in-out; webkitTransform ${duration}ms ease-in-out;`
         : 'none',
       transform: `translate(${!vertical ? this.state.translate : 0}px, ${
+        vertical ? this.state.translate : 0
+      }px)`,
+      webkitTransform: `translate(${!vertical ? this.state.translate : 0}px, ${
         vertical ? this.state.translate : 0
       }px)`
     }
@@ -472,7 +475,8 @@ class Swiper extends Nerv.Component {
             return Nerv.cloneElement(c, {
               key: i,
               className: cls,
-              style: sty
+              style: sty,
+              onClick: child.props.onClick
             })
           })}
         </div>
