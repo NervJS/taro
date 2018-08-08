@@ -22,7 +22,7 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
   pageList.forEach(v => {
     const pageKey = v[0]
     const Screen = v[1]
-    RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro)
+    RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, {enablePullDownRefresh: navigationOptions.enablePullDownRefresh})
   })
   return createStackNavigator(RouteConfigs, {
     navigationOptions: Object.assign({}, defaultNavigationOptions, navigationOptions)

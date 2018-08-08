@@ -8,10 +8,11 @@ import RefreshProvider from './RefreshProvider'
  * @param Taro 挂在方法到 Taro 上
  * @returns {WrappedScreen}
  */
-function getWrappedScreen (Screen, Taro) {
+function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
   class WrappedScreen extends Screen {
     constructor (props, context) {
       super(props, context)
+      this.refreshProviderRef = React.createRef()
       // 这样处理不一定合理，
       // 有时间看一下 react-navigation 内部的实现机制再优化
       Taro.navigateTo = this.wxNavigateTo.bind(this)
@@ -22,6 +23,8 @@ function getWrappedScreen (Screen, Taro) {
     }
 
     componentDidMount () {
+      Taro.startPullDownRefresh = this.refreshProviderRef && this.refreshProviderRef.current.handlePullDownRefresh
+      Taro.stopPullDownRefresh = this.refreshProviderRef && this.refreshProviderRef.current.stopPullDownRefresh
       super.componentDidMount && super.componentDidMount()
       super.componentDidShow && super.componentDidShow()
     }
@@ -90,11 +93,12 @@ function getWrappedScreen (Screen, Taro) {
     }
 
     render () {
-      if (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh) {
-        console.log('enablePullDownRefresh')
+      if (enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)) {
         return (
           <RefreshProvider
-            onPullDownRefresh={this.onPullDownRefresh.bind(this)}
+            onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
+            onScroll={this.onScroll && this.onScroll.bind(this)}
+            ref={this.refreshProviderRef}
           >
             {super.render()}
           </RefreshProvider>

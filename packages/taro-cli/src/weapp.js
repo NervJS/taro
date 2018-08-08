@@ -630,7 +630,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
     }
   })
   return {
-    code: generate(ast).code,
+    code: unescape(generate(ast).code.replace(/\\u/g, '%u')),
     styleFiles,
     scriptFiles,
     jsonFiles,
@@ -683,7 +683,7 @@ function convertArrayToAstExpression (arr) {
       return t.nullLiteral()
     }
     if (typeof value === 'object') {
-      return convertObjectToAstExpression(value)
+      return t.objectExpression(convertObjectToAstExpression(value))
     }
   })
 }
