@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const camelCase = require('camelcase')
 const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
@@ -224,7 +223,7 @@ function parseJSCode (code, filePath) {
                       node.key.value === 'selectedIconPath'
                     ) {
                       if (typeof value !== 'string') return
-                      let iconName = camelCase(value.split('/'))
+                      let iconName = _.camelCase(value.split('/'))
                       iconPaths.push(value)
                       astPath.insertAfter(t.objectProperty(
                         t.identifier(node.key.name || node.key.value),
@@ -402,7 +401,7 @@ function parseJSCode (code, filePath) {
           // 注入 import page from 'XXX'
           pages.forEach(item => {
             const pagePath = item.startsWith('/') ? item : `/${item}`
-            const screenName = camelCase(pagePath.split('/'), {pascalCase: true})
+            const screenName = _.camelCase(pagePath.split('/'), {pascalCase: true})
             const importScreen = template(
               `import ${screenName} from '.${pagePath}'`,
               babylonConfig
@@ -411,7 +410,7 @@ function parseJSCode (code, filePath) {
           })
           iconPaths.forEach(item => {
             const iconPath = item.startsWith('/') ? item : `/${item}`
-            const iconName = camelCase(iconPath.split('/'))
+            const iconName = _.camelCase(iconPath.split('/'))
             const importIcon = template(
               `import ${iconName} from '.${iconPath}'`,
               babylonConfig
@@ -422,7 +421,7 @@ function parseJSCode (code, filePath) {
           const routerPages = pages
             .map(item => {
               const pagePath = item.startsWith('/') ? item : `/${item}`
-              const screenName = camelCase(pagePath.split('/'), {pascalCase: true})
+              const screenName = _.camelCase(pagePath.split('/'), {pascalCase: true})
               return `['${item}',${screenName}]`
             })
             .join(',')
@@ -474,6 +473,7 @@ function compileDepStyles (filePath, styleFiles) {
   return Promise.all(styleFiles.map(async p => {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
+    Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
@@ -530,6 +530,7 @@ function buildTemp () {
           return cb()
         }
         if (Util.REG_SCRIPT.test(filePath)) {
+          Util.printLog(Util.pocessTypeEnum.COMPILE, 'JS', filePath)
           let transformResult = parseJSCode(content, filePath)
           const jsCode = transformResult.code
           const styleFiles = transformResult.styleFiles
@@ -645,7 +646,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  // await buildDist({watch})
+  await buildDist({watch})
   if (watch) {
     watchFiles()
   }
