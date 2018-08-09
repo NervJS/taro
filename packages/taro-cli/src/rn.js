@@ -68,7 +68,8 @@ const PACKAGES = {
 
 function parseJSCode (code, filePath) {
   const ast = babel.transform(code, {
-    parserOpts: babylonConfig
+    parserOpts: babylonConfig,
+    plugins: ['babel-plugin-transform-jsx-stylesheet']
   }).ast
   const styleFiles = []
   let pages = [] // app.js 里面的config 配置里面的 pages
@@ -100,12 +101,8 @@ function parseJSCode (code, filePath) {
           if (styleFiles.indexOf(stylePath) < 0) {
             styleFiles.push(stylePath)
           }
-          importStyleName = _.camelCase(`${basename}_styles`)
-          const importSpecifiers = [t.importDefaultSpecifier(t.identifier(importStyleName))]
-          astPath.replaceWith(t.importDeclaration(
-            importSpecifiers,
-            t.stringLiteral(`${path.dirname(value)}/${basename}_styles`))
-          )
+          // index.css -> index_styles
+          astPath.node.source = t.stringLiteral(`${path.dirname(value)}/${basename}_styles`)
         }
         return
       }
@@ -263,38 +260,6 @@ function parseJSCode (code, filePath) {
           ))
           astPath.node.static = 'true'
         }
-      }
-    },
-    // 转换 className 和 id
-    JSXElement (astPath) {
-      const node = astPath.node
-      const openingElement = node.openingElement
-      if (openingElement && openingElement.attributes.length) {
-        const attributes = openingElement.attributes
-        const newAttributes = []
-        let styleAttrs = [] // classNames 值
-        attributes.forEach(attr => {
-          const name = attr.name
-          if (name.name === 'className' || name.name === 'id') {
-            if (attr.value) {
-              styleAttrs = styleAttrs.concat(attr.value.value.split(' '))
-            }
-          } else {
-            newAttributes.push(attr)
-          }
-        })
-        if (styleAttrs.length) {
-          styleAttrs = _.uniq(styleAttrs)
-          // 合成 RN style
-          const styleArr = styleAttrs.map(item => {
-            const styleName = `${importStyleName}.${item}`
-            return t.identifier(styleName)
-          })
-          newAttributes.push(
-            t.jSXAttribute(t.jSXIdentifier('style'), t.jSXExpressionContainer(t.arrayExpression(styleArr)))
-          )
-        }
-        openingElement.attributes = newAttributes
       }
     },
     // 获取 classRenderReturnJSX
@@ -575,7 +540,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // 后期可以改为模版实现
+        // .temp 下的 package.json
         const pkgContent = ejs.render(fs.readFileSync(pkgPath, 'utf-8'), {
           projectName: projectConfig.projectName,
           version: getPkgVersion()
