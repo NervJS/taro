@@ -58,6 +58,9 @@
     * [Map](components/maps/map.md)
   * 画布
     * [Canvas](components/canvas/canvas.md)
+  * 开放能力
+    * [OpenData](components/open/open-data.md)
+    * [WebView](components/open/web-view.md)
 * API
   * [Taro.Component](component.md)
   * [Taro.Events](events.md)
