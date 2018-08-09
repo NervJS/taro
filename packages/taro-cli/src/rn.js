@@ -67,10 +67,18 @@ const PACKAGES = {
 }
 
 function parseJSCode (code, filePath) {
-  const ast = babel.transform(code, {
-    parserOpts: babylonConfig,
-    plugins: ['babel-plugin-transform-jsx-stylesheet']
-  }).ast
+  let ast
+  try {
+    ast = babel.transform(code, {
+      parserOpts: babylonConfig,
+      plugins: ['babel-plugin-transform-jsx-stylesheet']
+    }).ast
+  } catch (e) {
+    if (e.name === 'ReferenceError') {
+      console.log(chalk.yellow('警告：请安装 npm 包 babel-plugin-transform-jsx-stylesheet'))
+    }
+    throw e
+  }
   const styleFiles = []
   let pages = [] // app.js 里面的config 配置里面的 pages
   let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
@@ -82,7 +90,6 @@ function parseJSCode (code, filePath) {
   let hasAppExportDefault
   let componentClassName
   let classRenderReturnJSX
-  let importStyleName
 
   traverse(ast, {
     ImportDeclaration (astPath) {
@@ -638,7 +645,7 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  await buildDist({watch})
+  // await buildDist({watch})
   if (watch) {
     watchFiles()
   }
