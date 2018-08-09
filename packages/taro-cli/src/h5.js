@@ -525,7 +525,7 @@ function processOthers (code, filePath) {
 function resetTSClassProperty (body) {
   for (const method of body) {
     if (t.isClassMethod(method) && method.kind === 'constructor') {
-      for (const statement of method.body.body) {
+      for (const statement of _.cloneDeep(method.body.body)) {
         if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
           const expr = statement.expression
           const { left, right } = expr
