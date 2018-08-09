@@ -28,6 +28,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@types/react": "^16.4.8",
     "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
