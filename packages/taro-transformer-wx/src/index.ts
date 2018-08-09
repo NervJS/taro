@@ -4,7 +4,7 @@ import { Transformer } from './class'
 import { prettyPrint } from 'html'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 const template = require('babel-template')
@@ -117,10 +117,10 @@ function handleThirdPartyComponent (expr: t.ClassMethod | t.ClassProperty) {
         for (const value of prop.value.properties) {
           if (t.isObjectProperty(value)) {
             if (t.isStringLiteral(value.key)) {
-              DEFAULT_Component_SET.add(value.key.value)
+              THIRD_PARTY_COMPONENTS.add(value.key.value)
             }
             if (t.isIdentifier(value.key)) {
-              DEFAULT_Component_SET.add(value.key.name)
+              THIRD_PARTY_COMPONENTS.add(value.key.name)
             }
           }
         }

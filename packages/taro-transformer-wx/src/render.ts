@@ -25,7 +25,7 @@ import {
   buildBlockElement,
   parseJSXElement
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE } from './constant'
+import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS } from './constant'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -607,13 +607,16 @@ export class RenderParser {
           if (
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
           ) {
-            if (DEFAULT_Component_SET.has(jsxElementPath.node.openingElement.name.name)) {
+            const componentName = jsxElementPath.node.openingElement.name.name
+            if (DEFAULT_Component_SET.has(componentName)) {
               let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
                 + name.name.slice(2, name.name.length).toLowerCase()
               if (name.name === 'onClick') {
                 transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
               }
               path.node.name = t.jSXIdentifier(transformName)
+            } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
+              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2).toLowerCase())
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
