@@ -61,9 +61,9 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
                 ||
                 (left.property.name === 'config' && t.isObjectExpression(right))
               ) {
-                body.push(
-                  t.classProperty(left.property, right)
-                )
+                const classProp = t.classProperty(left.property, right)
+                body.push(classProp)
+                handleThirdPartyComponent(classProp)
                 return false
               }
             }
@@ -99,6 +99,30 @@ function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path:
         }
         if (dclInitIds[0] === 'this' && dclInitIds[1] === 'props') {
           return template(dclInitIds.concat(memberIds).join('.'))().expression
+        }
+      }
+    }
+  }
+}
+
+function handleThirdPartyComponent (expr: t.ClassMethod | t.ClassProperty) {
+  if (t.isClassProperty(expr) && expr.key.name === 'config' && t.isObjectExpression(expr.value)) {
+    const properties = expr.value.properties
+    for (const prop of properties) {
+      if (
+        t.isObjectProperty(prop) &&
+        (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
+        t.isObjectExpression(prop.value)
+      ) {
+        for (const value of prop.value.properties) {
+          if (t.isObjectProperty(value)) {
+            if (t.isStringLiteral(value.key)) {
+              DEFAULT_Component_SET.add(value.key.value)
+            }
+            if (t.isIdentifier(value.key)) {
+              DEFAULT_Component_SET.add(value.key.name)
+            }
+          }
         }
       }
     }
@@ -353,6 +377,8 @@ export default function transform (options: Options): TransformResult {
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
   }
+
+  mainClass.node.body.body.forEach(handleThirdPartyComponent)
   const storeBinding = mainClass.scope.getBinding(storeName)
   mainClass.scope.rename('Component', '__BaseComponent')
   if (storeBinding) {
