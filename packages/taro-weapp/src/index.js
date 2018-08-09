@@ -17,7 +17,7 @@ import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
 
-export {
+export const Taro = {
   Component,
   PureComponent,
   createApp,
@@ -34,18 +34,6 @@ export {
   createComponent
 }
 
-export default {
-  Component,
-  createApp,
-  initNativeApi,
-  Events,
-  eventCenter,
-  getEnv,
-  render,
-  ENV_TYPE,
-  internal_safe_get,
-  internal_safe_set,
-  internal_dynamic_recursive,
-  internal_inline_style,
-  createComponent
-}
+export default Taro
+
+initNativeApi(Taro)

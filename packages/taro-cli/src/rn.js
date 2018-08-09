@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const camelCase = require('camelcase')
 const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
@@ -67,9 +66,18 @@ const PACKAGES = {
 }
 
 function parseJSCode (code, filePath) {
-  const ast = babel.transform(code, {
-    parserOpts: babylonConfig
-  }).ast
+  let ast
+  try {
+    ast = babel.transform(code, {
+      parserOpts: babylonConfig,
+      plugins: ['babel-plugin-transform-jsx-stylesheet']
+    }).ast
+  } catch (e) {
+    if (e.name === 'ReferenceError') {
+      console.log(chalk.yellow('警告：请安装 npm 包 babel-plugin-transform-jsx-stylesheet'))
+    }
+    throw e
+  }
   const styleFiles = []
   let pages = [] // app.js 里面的config 配置里面的 pages
   let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
@@ -81,7 +89,6 @@ function parseJSCode (code, filePath) {
   let hasAppExportDefault
   let componentClassName
   let classRenderReturnJSX
-  let importStyleName
 
   traverse(ast, {
     ImportDeclaration (astPath) {
@@ -100,12 +107,8 @@ function parseJSCode (code, filePath) {
           if (styleFiles.indexOf(stylePath) < 0) {
             styleFiles.push(stylePath)
           }
-          importStyleName = _.camelCase(`${basename}_styles`)
-          const importSpecifiers = [t.importDefaultSpecifier(t.identifier(importStyleName))]
-          astPath.replaceWith(t.importDeclaration(
-            importSpecifiers,
-            t.stringLiteral(`${path.dirname(value)}/${basename}_styles`))
-          )
+          // index.css -> index_styles
+          astPath.node.source = t.stringLiteral(`${path.dirname(value)}/${basename}_styles`)
         }
         return
       }
@@ -220,7 +223,7 @@ function parseJSCode (code, filePath) {
                       node.key.value === 'selectedIconPath'
                     ) {
                       if (typeof value !== 'string') return
-                      let iconName = camelCase(value.split('/'))
+                      let iconName = _.camelCase(value.split('/'))
                       iconPaths.push(value)
                       astPath.insertAfter(t.objectProperty(
                         t.identifier(node.key.name || node.key.value),
@@ -263,38 +266,6 @@ function parseJSCode (code, filePath) {
           ))
           astPath.node.static = 'true'
         }
-      }
-    },
-    // 转换 className 和 id
-    JSXElement (astPath) {
-      const node = astPath.node
-      const openingElement = node.openingElement
-      if (openingElement && openingElement.attributes.length) {
-        const attributes = openingElement.attributes
-        const newAttributes = []
-        let styleAttrs = [] // classNames 值
-        attributes.forEach(attr => {
-          const name = attr.name
-          if (name.name === 'className' || name.name === 'id') {
-            if (attr.value) {
-              styleAttrs = styleAttrs.concat(attr.value.value.split(' '))
-            }
-          } else {
-            newAttributes.push(attr)
-          }
-        })
-        if (styleAttrs.length) {
-          styleAttrs = _.uniq(styleAttrs)
-          // 合成 RN style
-          const styleArr = styleAttrs.map(item => {
-            const styleName = `${importStyleName}.${item}`
-            return t.identifier(styleName)
-          })
-          newAttributes.push(
-            t.jSXAttribute(t.jSXIdentifier('style'), t.jSXExpressionContainer(t.arrayExpression(styleArr)))
-          )
-        }
-        openingElement.attributes = newAttributes
       }
     },
     // 获取 classRenderReturnJSX
@@ -430,7 +401,7 @@ function parseJSCode (code, filePath) {
           // 注入 import page from 'XXX'
           pages.forEach(item => {
             const pagePath = item.startsWith('/') ? item : `/${item}`
-            const screenName = camelCase(pagePath.split('/'), {pascalCase: true})
+            const screenName = _.camelCase(pagePath.split('/'), {pascalCase: true})
             const importScreen = template(
               `import ${screenName} from '.${pagePath}'`,
               babylonConfig
@@ -439,7 +410,7 @@ function parseJSCode (code, filePath) {
           })
           iconPaths.forEach(item => {
             const iconPath = item.startsWith('/') ? item : `/${item}`
-            const iconName = camelCase(iconPath.split('/'))
+            const iconName = _.camelCase(iconPath.split('/'))
             const importIcon = template(
               `import ${iconName} from '.${iconPath}'`,
               babylonConfig
@@ -450,7 +421,7 @@ function parseJSCode (code, filePath) {
           const routerPages = pages
             .map(item => {
               const pagePath = item.startsWith('/') ? item : `/${item}`
-              const screenName = camelCase(pagePath.split('/'), {pascalCase: true})
+              const screenName = _.camelCase(pagePath.split('/'), {pascalCase: true})
               return `['${item}',${screenName}]`
             })
             .join(',')
@@ -502,6 +473,7 @@ function compileDepStyles (filePath, styleFiles) {
   return Promise.all(styleFiles.map(async p => {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
+    Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
@@ -558,6 +530,7 @@ function buildTemp () {
           return cb()
         }
         if (Util.REG_SCRIPT.test(filePath)) {
+          Util.printLog(Util.pocessTypeEnum.COMPILE, 'JS', filePath)
           let transformResult = parseJSCode(content, filePath)
           const jsCode = transformResult.code
           const styleFiles = transformResult.styleFiles
@@ -575,7 +548,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // 后期可以改为模版实现
+        // .temp 下的 package.json
         const pkgContent = ejs.render(fs.readFileSync(pkgPath, 'utf-8'), {
           projectName: projectConfig.projectName,
           version: getPkgVersion()
