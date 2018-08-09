@@ -148,7 +148,8 @@ export default function transform (options: Options): TransformResult {
         'objectRestSpread',
         'decorators'
       ] as any[]
-    }
+    },
+    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['Taro'] }]]
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
