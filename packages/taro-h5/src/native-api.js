@@ -4,6 +4,7 @@ import request from './api/request'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
 import webSocket from './api/webSocket'
+import * as system from './api/system'
 
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
@@ -25,5 +26,5 @@ export default function initNativeApi (taro) {
   taro.createSelectorQuery = createSelectorQuery
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
-  Object.assign(taro, storage, interactive, webSocket)
+  Object.assign(taro, storage, interactive, webSocket, system)
 }
