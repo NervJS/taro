@@ -649,7 +649,7 @@ export class RenderParser {
       if (!isChildrenOfJSXAttr(path)) {
         return
       }
-      if (!path.isReferencedMemberExpression()) {
+      if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
         return
       }
       const { object, property } = path.node
@@ -667,6 +667,13 @@ export class RenderParser {
           }
         }
         return
+      }
+      const code = generate(path.node).code
+      if (code.includes('this.$router.params') && t.isIdentifier(property)) {
+        const name = this.renderScope.generateUid(property.name)
+        const dcl = buildConstVariableDeclaration(name, path.node)
+        this.renderPath.node.body.body.unshift(dcl)
+        path.replaceWith(t.identifier(name))
       }
       const parentPath = path.parentPath
       const id = findFirstIdentifierFromMemberExpression(path.node)
