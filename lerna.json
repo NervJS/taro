@@ -17,6 +17,7 @@
     "packages/taro-redux",
     "packages/taro-redux-h5",
     "packages/taro-rn",
+    "packages/taro-router-rn",
     "packages/taro-rn-runner",
     "packages/taro-router",
     "packages/taro-weapp",
@@ -32,6 +33,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.9",
   "npmClient": "npm"
 }

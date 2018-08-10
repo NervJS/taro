@@ -18,8 +18,107 @@ declare namespace Taro {
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
 
+  interface PageConfig {
+        /**
+     * 导航栏背景颜色，HexColor
+     * default: #000000
+     */
+    navigationBarBackgroundColor?: string,
+    /**
+     * 导航栏标题颜色，仅支持 black/white
+     * default: 'white'
+     */
+    navigationBarTextStyle?: 'white' | 'black',
+    /**
+     * 导航栏标题文字内容
+     */
+    navigationBarTitleText?: string,
+    /**
+     * 窗口的背景色， HexColor
+     * default: #ffffff
+     */
+    backgroundColor?: string,
+    /**
+     * 下拉背景字体、loading 图的样式，仅支持 dark/light
+     * default: 'dark'
+     */
+    backgroundTextStyle?: 'dark' | 'light',
+    /**
+     * 是否开启下拉刷新
+     * default: false
+     */
+    enablePullDownRefresh?: boolean,
+    /**
+     * 页面上拉触底事件触发时距页面底部距离，单位为px
+     * default: 50
+     */
+    onReachBottomDistance?: number
+  }
+
+  interface TarbarList {
+    /**
+     * 页面路径，必须在 pages 中先定义
+     */
+    pagePath: string,
+    /**
+     * tab 上按钮文字
+     */
+    text: string,
+    /**
+     * 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
+     */
+    iconPath?: string,
+    /**
+     * 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
+     */
+    selectedIconPath?: string,
+  }
+
+  interface TabBar {
+    /**
+     * tab 上的文字默认颜色
+     */
+    color: string,
+    /**
+     * tab 上的文字选中时的颜色
+     */
+    selectedColor: string,
+    /**
+     * tab 的背景色
+     */
+    backgroundColor: string,
+    /**
+     * tabbar上边框的颜色， 仅支持 black/white
+     * default: black
+     */
+    borderStyle?: 'black' | 'white',
+    /**
+     * tabar 的位置，可选值 bottom、top
+     * default: 'bottom'
+     */
+    position?: 'bottom' | 'top'
+    list: TarbarList[]
+  }
+
+  interface AppConfig {
+    /**
+     * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
+     */
+    pages?: string[],
+    tabBar?: TabBar
+  }
+
+  interface Config extends PageConfig, AppConfig {
+    usingComponents?: {
+      [key?: string]: string
+    },
+    window?: PageConfig
+  }
+
   class Component<P, S> {
     constructor(props?: P, context?: any);
+
+    config?: Config;
 
     setState<K extends keyof S>(
         state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
@@ -77,14 +176,16 @@ declare namespace Taro {
   }
 
 
-  function getEnv(): 'WEAPP' | 'WEB' | 'RN';
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
   function render(component: Component | JSX.Element, element: Element | null)
+
+  function pxTransform(size: number): string
 
   /**
    *
    * 微信端能力
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/Taro.d.ts
+   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
    * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
    *
@@ -6489,7 +6590,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject
    */
-  function navigateBack(OBJECT: navigateBack.Param): void
+  function navigateBack(OBJECT?: navigateBack.Param): void
 
   namespace createAnimation {
     type Param = {

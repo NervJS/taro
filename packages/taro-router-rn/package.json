@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-router-rn",
-  "version": "0.0.70",
+  "version": "1.0.0-beta.9",
   "description": "taro-router-rn",
   "main": "./src/index.js",
   "files": [
@@ -17,12 +17,10 @@
   "keywords": [
     "router"
   ],
-  "peerDependencies": {},
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
     "query-string": "^6.1.0",
     "react-navigation": "^2.7.0"
-  },
-  "devDependencies": {}
+  }
 }

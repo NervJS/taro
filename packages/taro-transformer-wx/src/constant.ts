@@ -23,6 +23,8 @@ BIND_EVENT_MAP.forEach((value, key) => {
   CATCH_EVENT_MAP.set(key, value)
 })
 
+export const THIRD_PARTY_COMPONENTS = new Set<string>()
+
 // tslint:disable-next-line:variable-name
 export const DEFAULT_Component_SET = new Set<string>([
   'View',

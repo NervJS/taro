@@ -22,7 +22,7 @@ const config = {
         baseUrl: '.',
         declaration: false,
         experimentalDecorators: true,
-        jsx: 'react',
+        jsx: 'preserve',
         jsxFactory: 'Nerv.createElement',
         module: 'commonjs',
         moduleResolution: 'node',

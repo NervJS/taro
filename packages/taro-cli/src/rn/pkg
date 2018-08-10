@@ -1,0 +1,14 @@
+{
+  "name":"<%= projectName %>",
+  "main": "./bin/crna-entry.js",
+  "dependencies": {
+    "@tarojs/components-rn": "^<%= version %>",
+    "@tarojs/taro-rn": "^<%= version %>",
+    "@tarojs/taro-router-rn": "^<%= version %>",
+    "expo": "^27.0.1",
+    "react": "16.3.1",
+    "react-native-image-zoom-viewer": "^2.2.13",
+    "react-native": "~0.55.2",
+    "redux": "^4.0.0"
+  }
+}
