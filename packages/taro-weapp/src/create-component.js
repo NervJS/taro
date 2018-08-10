@@ -238,10 +238,12 @@ function createComponent (ComponentClass, isPage) {
       componentTrigger(this.$component, 'componentDidHide')
     }
     pageExtraFns.forEach(fn => {
-      weappComponentConf[fn] = function () {
-        const component = this.$component
-        if (component[fn] && typeof component[fn] === 'function') {
-          return component[fn].call(component, ...arguments)
+      if (componentInstance[fn] && typeof componentInstance[fn] === 'function') {
+        weappComponentConf[fn] = function () {
+          const component = this.$component
+          if (component[fn] && typeof component[fn] === 'function') {
+            return component[fn].call(component, ...arguments)
+          }
         }
       }
     })
