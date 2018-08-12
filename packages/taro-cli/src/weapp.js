@@ -640,6 +640,48 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath) {
   }
 }
 
+function parseComponentExportAst (ast, componentName, componentPath) {
+  let componentRealPath = null
+  let importExportName
+  traverse(ast, {
+    ExportNamedDeclaration (astPath) {
+      const node = astPath.node
+      const specifiers = node.specifiers
+      const source = node.source
+      if (source && source.type === 'StringLiteral') {
+        specifiers.forEach(specifier => {
+          const exported = specifier.exported
+          if (_.kebabCase(exported.name) === componentName) {
+            componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), source.value))
+          }
+        })
+      } else {
+        specifiers.forEach(specifier => {
+          const exported = specifier.exported
+          if (_.kebabCase(exported.name) === componentName) {
+            importExportName = exported.name
+          }
+        })
+      }
+    },
+
+    ImportDeclaration (astPath) {
+      const node = astPath.node
+      const specifiers = node.specifiers
+      const source = node.source
+      if (importExportName) {
+        specifiers.forEach(specifier => {
+          const local = specifier.local
+          if (local.name === importExportName) {
+            componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), source.value))
+          }
+        })
+      }
+    }
+  })
+  return componentRealPath
+}
+
 function convertObjectToAstExpression (obj) {
   const objArr = Object.keys(obj).map(key => {
     const value = obj[key]
@@ -947,7 +989,8 @@ async function buildSinglePage (page) {
       const realComponentsPathList = getRealComponentsPathList(pageJs, pageDepComponents)
       res.scriptFiles = res.scriptFiles.map(item => {
         for (let i = 0; i < realComponentsPathList.length; i++) {
-          const componentPath = realComponentsPathList[i]
+          const componentObj = realComponentsPathList[i]
+          const componentPath = componentObj.path
           if (item === componentPath) {
             return null
           }
@@ -1069,12 +1112,15 @@ function getRealComponentsPathList (filePath, components) {
   return components.map(component => {
     let componentPath = path.resolve(path.dirname(filePath), component.path)
     componentPath = Util.resolveScriptPath(componentPath)
-    return componentPath
+    return {
+      path: componentPath,
+      name: component.name
+    }
   })
 }
 
 function buildDepComponents (componentPathList) {
-  return Promise.all(componentPathList.map(componentPath => buildSingleComponent(componentPath)))
+  return Promise.all(componentPathList.map(componentObj => buildSingleComponent(componentObj)))
 }
 
 function getDepStyleList (outputFilePath, buildDepComponentsResult) {
@@ -1100,10 +1146,11 @@ function buildUsingComponents (components, isComponent) {
   } : {})
 }
 
-async function buildSingleComponent (component) {
-  if (hasBeenBuiltComponents.indexOf(component) >= 0 && componentsBuildResult[component]) {
-    return componentsBuildResult[component]
+async function buildSingleComponent (componentObj) {
+  if (hasBeenBuiltComponents.indexOf(componentObj.path) >= 0 && componentsBuildResult[componentObj.path]) {
+    return componentsBuildResult[componentObj.path]
   }
+  const component = componentObj.path
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
   let outputComponentShowPath = componentShowPath.replace(sourceDirName, outputDirName)
@@ -1115,13 +1162,26 @@ async function buildSingleComponent (component) {
   const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
   const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.json')
   try {
+    let isTaroComponent = true
+    if (componentContent.indexOf(taroJsFramework) < 0 &&
+      componentContent.indexOf('render') < 0) {
+      isTaroComponent = false
+    }
     const transformResult = wxTransformer({
       code: componentContent,
       sourcePath: component,
       outputPath: outputComponentJSPath,
       isRoot: false,
-      isTyped: Util.REG_TYPESCRIPT.test(component)
+      isTyped: Util.REG_TYPESCRIPT.test(component),
+      isNormal: !isTaroComponent
     })
+    if (!isTaroComponent) {
+      const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component)
+      return await buildSingleComponent({
+        path: componentRealPath,
+        name:  componentObj.name
+      })
+    }
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath)
     let resCode = res.code
@@ -1166,7 +1226,8 @@ async function buildSingleComponent (component) {
       const realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
       res.scriptFiles = res.scriptFiles.map(item => {
         for (let i = 0; i < realComponentsPathList.length; i++) {
-          const componentPath = realComponentsPathList[i]
+          const componentObj = realComponentsPathList[i]
+          const componentPath = componentObj.path
           if (item === componentPath) {
             return null
           }
