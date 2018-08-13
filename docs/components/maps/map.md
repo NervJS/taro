@@ -12,7 +12,7 @@
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 map 组件
-import { Map } from '@tarojs/components'
+import { Map } from '@tarojs/component'
 
 class App extends Components {
 	onTap () {}
