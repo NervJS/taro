@@ -75,7 +75,7 @@ module.exports = {
 
     // disallow require()
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-commonjs.md
-    'import/no-commonjs': 'error',
+    'import/no-commonjs': [2, { allowPrimitiveModules: true }],
 
     // disallow AMD require/define
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-amd.md

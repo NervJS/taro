@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import alias from 'rollup-plugin-alias'
-import virtual from 'rollup-plugin-virtual'
+import memory from 'rollup-plugin-memory-2'
 import babel from 'rollup-plugin-babel'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
@@ -28,8 +28,9 @@ export default {
   },
   external,
   plugins: [
-    format === 'umd' && virtual({
-      'src/index.js': "export { default } from './index';"
+    format === 'umd' && memory({
+      path: 'src/index.js',
+      contents: "export { default } from './index';"
     }),
     {
       // This insane thing transforms Lodash CommonJS modules to ESModules. Doing so shaves 500b (20%) off the library size.
