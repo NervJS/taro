@@ -7326,7 +7326,10 @@ declare namespace Taro {
        *
        * @since 1.9.90
        */
-      timeout?: number
+      timeout?: number,
+      success?: Function,
+      fail?: Function,
+      complete?: Function
     }
   }
   /**
