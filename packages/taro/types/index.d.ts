@@ -28,7 +28,7 @@ declare namespace Taro {
      * 导航栏标题颜色，仅支持 black/white
      * default: 'white'
      */
-    navigationBarTextStyle?: 'white' | 'black',
+    navigationBarTextStyle?: string,
     /**
      * 导航栏标题文字内容
      */
@@ -42,7 +42,7 @@ declare namespace Taro {
      * 下拉背景字体、loading 图的样式，仅支持 dark/light
      * default: 'dark'
      */
-    backgroundTextStyle?: 'dark' | 'light',
+    backgroundTextStyle?: string,
     /**
      * 是否开启下拉刷新
      * default: false
@@ -78,25 +78,25 @@ declare namespace Taro {
     /**
      * tab 上的文字默认颜色
      */
-    color: string,
+    color?: string,
     /**
      * tab 上的文字选中时的颜色
      */
-    selectedColor: string,
+    selectedColor?: string,
     /**
      * tab 的背景色
      */
-    backgroundColor: string,
+    backgroundColor?: string,
     /**
      * tabbar上边框的颜色， 仅支持 black/white
      * default: black
      */
-    borderStyle?: 'black' | 'white',
+    borderStyle?: string,
     /**
      * tabar 的位置，可选值 bottom、top
      * default: 'bottom'
      */
-    position?: 'bottom' | 'top'
+    position?: string
     list: TarbarList[]
   }
 
@@ -110,7 +110,7 @@ declare namespace Taro {
 
   interface Config extends PageConfig, AppConfig {
     usingComponents?: {
-      [key?: string]: string
+      [key: string]: string
     },
     window?: PageConfig
   }
