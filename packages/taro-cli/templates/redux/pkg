@@ -47,6 +47,7 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-taro": "^<%= version %>"<% if (typescript) {%>,
-    "typescript": "^2.9.2"<%}%>
+    "typescript": "^2.9.2"<%}%>,
+    "@types/node": "^10.5.8"
   }
 }
