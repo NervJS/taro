@@ -74,7 +74,8 @@ exports.REG_JSON = /\.json(\?.*)?$/
 exports.BUILD_TYPES = {
   WEAPP: 'weapp',
   H5: 'h5',
-  RN: 'rn'
+  RN: 'rn',
+  UI: 'ui'
 }
 
 exports.PROJECT_CONFIG = 'config/index.js'

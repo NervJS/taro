@@ -686,4 +686,7 @@ async function build (buildConfig) {
   }
 }
 
-module.exports = { build }
+module.exports = {
+  build,
+  buildTemp
+}
