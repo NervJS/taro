@@ -28,7 +28,7 @@ declare namespace Taro {
      * 导航栏标题颜色，仅支持 black/white
      * default: 'white'
      */
-    navigationBarTextStyle?: string,
+    navigationBarTextStyle?: 'white' | 'black',
     /**
      * 导航栏标题文字内容
      */
@@ -42,7 +42,7 @@ declare namespace Taro {
      * 下拉背景字体、loading 图的样式，仅支持 dark/light
      * default: 'dark'
      */
-    backgroundTextStyle?: string,
+    backgroundTextStyle?: 'dark' | 'light',
     /**
      * 是否开启下拉刷新
      * default: false
@@ -91,12 +91,13 @@ declare namespace Taro {
      * tabbar上边框的颜色， 仅支持 black/white
      * default: black
      */
-    borderStyle?: string,
+    borderStyle?: 'black' | 'white',
     /**
      * tabar 的位置，可选值 bottom、top
      * default: 'bottom'
      */
-    position?: string
+    position?: 'bottom' | 'top',
+
     list: TarbarList[]
   }
 
@@ -7327,10 +7328,22 @@ declare namespace Taro {
        * @since 1.9.90
        */
       timeout?: number,
-      success?: Function,
-      fail?: Function,
-      complete?: Function
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+     * 登录接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Promised) => void
+    /**
+     * 登录接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: Promised) => void
+    /**
+     * 登录接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 调用接口Taro.login() 获取**临时登录凭证（code）**
