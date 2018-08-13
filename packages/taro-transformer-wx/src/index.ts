@@ -133,7 +133,8 @@ export interface Result {
   template: string
   components: {
     name: string,
-    path: string
+    path: string,
+    type: string
   }[]
 }
 
