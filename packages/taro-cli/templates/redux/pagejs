@@ -1,10 +1,39 @@
+<%if (locals.useTypescript) {-%>
+import { ComponentClass } from 'react'
+import Taro, { Component, Config } from '@tarojs/taro'
+<%else -%>
 import Taro, { Component } from '@tarojs/taro'
+<%}-%>
 import { View, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
 
 import './index.<%= css %>'
+
+<% if (locals.useTypescript) {-%>
+type PageStateProps = {
+  counter: {
+    num: number
+  }
+}
+
+type PageDispatchProps = {
+  add: () => void
+  dec: () => void
+  asyncAdd: () => any
+}
+
+type PageOwnProps = {}
+
+type PageState = {}
+
+type IProps = PageStateProps & PageDispatchProps & PageOwnProps
+
+interface Index {
+  props: IProps;
+}
+<%}-%>
 
 @connect(({ counter }) => ({
   counter
@@ -20,7 +49,7 @@ import './index.<%= css %>'
   }
 }))
 class Index extends Component {
-  config = {
+  config<%if (locals.useTypescript) {%>:Config<%}%> = {
     navigationBarTitleText: '首页'
   }
 
@@ -47,4 +76,8 @@ class Index extends Component {
   }
 }
 
+<%if (locals.useTypescript) {-%>
+export default Index as ComponentClass<PageOwnProps, PageState>
+<%} else {-%>
 export default Index
+<%}-%>

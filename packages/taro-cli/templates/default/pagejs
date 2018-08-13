@@ -1,9 +1,13 @@
+<%if (locals.useTypescript) {-%>
+import Taro, { Component, Config } from '@tarojs/taro'
+<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
+<%}-%>
 import { View, Text } from '@tarojs/components'
 import './index.<%= css %>'
 
 export default class Index extends Component {
-  config = {
+  config<%if (locals.useTypescript) {%>:Config<%}%> = {
     navigationBarTitleText: '首页'
   }
 
