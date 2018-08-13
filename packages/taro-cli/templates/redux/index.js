@@ -92,7 +92,8 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
     creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
-      css: currentStyleExt
+      css: currentStyleExt,
+      useTypescript: typescript
     })
     creater.template(template, path.join('actions', 'counterjs'), path.join(sourceDir, 'actions', 'counter.ts'))
     creater.template(template, path.join('constants', 'counterjs'), path.join(sourceDir, 'constants', 'counter.ts'))
