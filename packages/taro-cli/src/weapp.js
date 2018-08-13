@@ -55,6 +55,7 @@ const depComponents = {}
 const hasBeenBuiltComponents = []
 const componentsBuildResult = {}
 const componentsNamedMap = {}
+const componentExportsMap = {}
 const wxssDepTree = {}
 let isBuildingScripts = {}
 let isBuildingStyles = {}
@@ -413,7 +414,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                 let isDepComponent = false
                 if (depComponents && depComponents.length) {
                   depComponents.forEach(item => {
-                    if (item.path === value) {
+                    const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
+                    const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
+                    if (resolvePath === resolveValuePath) {
                       isDepComponent = true
                     }
                   })
@@ -648,7 +651,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   }
 }
 
-function parseComponentExportAst (ast, componentName, componentPath) {
+function parseComponentExportAst (ast, componentName, componentPath, componentType) {
   let componentRealPath = null
   let importExportName
   traverse(ast, {
@@ -670,6 +673,14 @@ function parseComponentExportAst (ast, componentName, componentPath) {
             importExportName = exported.name
           }
         })
+      }
+    },
+
+    ExportDefaultDeclaration (astPath) {
+      const node = astPath.node
+      const declaration = node.declaration
+      if (componentType === 'default') {
+        importExportName = declaration.name
       }
     },
 
@@ -990,17 +1001,12 @@ async function buildSinglePage (page) {
       })
       transfromNativeComponents(outputPageJSONPath.replace(outputDir, sourceDir), res.configObj)
     }
-    fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageDepComponents), res.configObj), null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
-    fs.writeFileSync(outputPageJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${outputDirName}/${page}.js`)
-    fs.writeFileSync(outputPageWXMLPath, transformResult.template)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXML', `${outputDirName}/${page}.wxml`)
     const fileDep = dependencyTree[pageJs] || {}
     // 编译依赖的组件文件
     let buildDepComponentsResult = []
+    let realComponentsPathList = []
     if (pageDepComponents.length) {
-      const realComponentsPathList = getRealComponentsPathList(pageJs, pageDepComponents)
+      realComponentsPathList = getRealComponentsPathList(pageJs, pageDepComponents)
       res.scriptFiles = res.scriptFiles.map(item => {
         for (let i = 0; i < realComponentsPathList.length; i++) {
           const componentObj = realComponentsPathList[i]
@@ -1013,6 +1019,28 @@ async function buildSinglePage (page) {
       }).filter(item => item)
       buildDepComponentsResult = await buildDepComponents(realComponentsPathList)
     }
+    if (!Util.isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
+      const mapKeys = Object.keys(componentExportsMap)
+      realComponentsPathList.forEach(component => {
+        if (mapKeys.indexOf(component.path) >= 0) {
+          const componentMap = componentExportsMap[component.path]
+          componentMap.forEach(component => {
+            pageDepComponents.forEach(depComponent => {
+              if (depComponent.name === component.name) {
+                const realPath = Util.promoteRelativePath(path.relative(pageJs, component.path))
+                depComponent.path = realPath.replace(path.extname(realPath), '')
+              }
+            })
+          })
+        }
+      })
+    }
+    fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageDepComponents), res.configObj), null, 2))
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
+    fs.writeFileSync(outputPageJSPath, resCode)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${outputDirName}/${page}.js`)
+    fs.writeFileSync(outputPageWXMLPath, transformResult.template)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXML', `${outputDirName}/${page}.wxml`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(res.scriptFiles)
@@ -1128,7 +1156,8 @@ function getRealComponentsPathList (filePath, components) {
     componentPath = Util.resolveScriptPath(componentPath)
     return {
       path: componentPath,
-      name: component.name
+      name: component.name,
+      type: component.type
     }
   })
 }
@@ -1164,7 +1193,10 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   if (hasBeenBuiltComponents.indexOf(componentObj.path) >= 0 && componentsBuildResult[componentObj.path]) {
     return componentsBuildResult[componentObj.path]
   }
-  componentsNamedMap[componentObj.path] = componentObj.name
+  componentsNamedMap[componentObj.path] = {
+    name: componentObj.name,
+    type: componentObj.type
+  }
   const component = componentObj.path
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
@@ -1191,11 +1223,15 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       isNormal: !isTaroComponent
     })
     if (!isTaroComponent) {
-      const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component)
-      return await buildSingleComponent({
+      const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
+      const realComponentObj = {
         path: componentRealPath,
-        name:  componentObj.name
-      }, buildConfig)
+        name:  componentObj.name,
+        type: componentObj.type
+      }
+      componentExportsMap[component] = componentExportsMap[component] || []
+      componentExportsMap[component].push(realComponentObj)
+      return await buildSingleComponent(realComponentObj, buildConfig)
     }
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
@@ -1228,17 +1264,13 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       })
       transfromNativeComponents(outputComponentJSONPath.replace(outputDir, sourceDir), res.configObj)
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(componentDepComponents, true), res.configObj), null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
-    fs.writeFileSync(outputComponentJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
-    fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXML', `${outputDirName}/${outputComponentShowPath}.wxml`)
+
     const fileDep = dependencyTree[component] || {}
     // 编译依赖的组件文件
     let buildDepComponentsResult = []
+    let realComponentsPathList = []
     if (componentDepComponents.length) {
-      const realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
+      realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
       res.scriptFiles = res.scriptFiles.map(item => {
         for (let i = 0; i < realComponentsPathList.length; i++) {
           const componentObj = realComponentsPathList[i]
@@ -1251,6 +1283,28 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       }).filter(item => item)
       buildDepComponentsResult = await buildDepComponents(realComponentsPathList)
     }
+    if (!Util.isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
+      const mapKeys = Object.keys(componentExportsMap)
+      realComponentsPathList.forEach(componentObj => {
+        if (mapKeys.indexOf(componentObj.path) >= 0) {
+          const componentMap = componentExportsMap[componentObj.path]
+          componentMap.forEach(componentObj => {
+            componentDepComponents.forEach(depComponent => {
+              if (depComponent.name === componentObj.name) {
+                const realPath = Util.promoteRelativePath(path.relative(component, componentObj.path))
+                depComponent.path = realPath.replace(path.extname(realPath), '')
+              }
+            })
+          })
+        }
+      })
+    }
+    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(componentDepComponents, true), res.configObj), null, 2))
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
+    fs.writeFileSync(outputComponentJSPath, resCode)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
+    fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXML', `${outputDirName}/${outputComponentShowPath}.wxml`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(res.scriptFiles)
@@ -1464,18 +1518,16 @@ function watchFiles () {
             if (isWindows) {
               await new Promise((resolve, reject) => {
                 setTimeout(async () => {
-                  await buildSingleComponent({
-                    path: filePath,
-                    name: componentsNamedMap[filePath]
-                  })
+                  await buildSingleComponent(Object.assign({
+                    path: filePath
+                  }, componentsNamedMap[filePath]))
                   resolve()
                 }, 300)
               })
             } else {
-              await buildSingleComponent({
-                path: filePath,
-                name: componentsNamedMap[filePath]
-              })
+              await buildSingleComponent(Object.assign({
+                path: filePath
+              }, componentsNamedMap[filePath]))
             }
           } else {
             let isImported = false
