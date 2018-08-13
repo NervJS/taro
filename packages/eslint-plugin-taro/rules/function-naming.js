@@ -59,6 +59,7 @@ module.exports = {
         const value = node.value
         if (
           key.type === 'Identifier' &&
+          value &&
           (value.type === 'ArrowFunctionExpression' || value.type === 'FunctionExpression')
         ) {
           examine(key)
