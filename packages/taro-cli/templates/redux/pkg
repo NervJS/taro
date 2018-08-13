@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.4.8",
+    "@types/webpack-env": "^1.13.6",
     "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
@@ -47,7 +48,6 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-taro": "^<%= version %>"<% if (typescript) {%>,
-    "typescript": "^2.9.2"<%}%>,
-    "@types/node": "^10.5.8"
+    "typescript": "^3.0.1"<%}%>
   }
 }
