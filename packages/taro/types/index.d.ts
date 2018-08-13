@@ -110,7 +110,7 @@ declare namespace Taro {
 
   interface Config extends PageConfig, AppConfig {
     usingComponents?: {
-      [key?: string]: string
+      [key: string]: string
     },
     window?: PageConfig
   }
