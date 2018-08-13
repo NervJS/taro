@@ -28,7 +28,7 @@ declare namespace Taro {
      * 导航栏标题颜色，仅支持 black/white
      * default: 'white'
      */
-    navigationBarTextStyle?: string,
+    navigationBarTextStyle?: 'white' | 'black',
     /**
      * 导航栏标题文字内容
      */
@@ -42,7 +42,7 @@ declare namespace Taro {
      * 下拉背景字体、loading 图的样式，仅支持 dark/light
      * default: 'dark'
      */
-    backgroundTextStyle?: string,
+    backgroundTextStyle?: 'dark' | 'light',
     /**
      * 是否开启下拉刷新
      * default: false
@@ -91,12 +91,13 @@ declare namespace Taro {
      * tabbar上边框的颜色， 仅支持 black/white
      * default: black
      */
-    borderStyle?: string,
+    borderStyle?: 'black' | 'white',
     /**
      * tabar 的位置，可选值 bottom、top
      * default: 'bottom'
      */
-    position?: string
+    position?: 'bottom' | 'top',
+
     list: TarbarList[]
   }
 
