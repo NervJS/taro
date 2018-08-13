@@ -1,7 +1,9 @@
 <%if (locals.useTypescript) {-%>
 import { ComponentClass } from 'react'
-<%}-%>
+import Taro, { Component, Config } from '@tarojs/taro'
+<%else -%>
 import Taro, { Component } from '@tarojs/taro'
+<%}-%>
 import { View, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
@@ -47,7 +49,7 @@ interface Index {
   }
 }))
 class Index extends Component {
-  config = {
+  config<%if (locals.useTypescript) {%>:Config<%}%> = {
     navigationBarTitleText: '首页'
   }
 

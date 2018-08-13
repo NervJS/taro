@@ -56,7 +56,8 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   if (typescript) {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
-      css: currentStyleExt
+      css: currentStyleExt,
+      useTypescript: typescript
     })
     creater.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
   } else {

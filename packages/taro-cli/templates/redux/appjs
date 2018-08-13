@@ -1,4 +1,8 @@
+<%if (locals.useTypescript) {-%>
+import Taro, { Component, Config } from '@tarojs/taro'
+<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
+<%}-%>
 import '@tarojs/async-await'
 import { Provider } from '@tarojs/redux'
 
@@ -11,7 +15,7 @@ import './app.<%= css %>'
 const store = configStore()
 
 class App extends Component {
-  config = {
+  config<%if (locals.useTypescript) {%>:Config<%}%> = {
     pages: [
       'pages/index/index'
     ],
