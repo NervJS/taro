@@ -7327,10 +7327,22 @@ declare namespace Taro {
        * @since 1.9.90
        */
       timeout?: number,
-      success?: Function,
-      fail?: Function,
-      complete?: Function
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+     * 登录接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Promised) => void
+    /**
+     * 登录接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: Promised) => void
+    /**
+     * 登录接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 调用接口Taro.login() 获取**临时登录凭证（code）**
