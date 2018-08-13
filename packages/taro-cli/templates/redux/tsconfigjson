@@ -6,7 +6,6 @@
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "jsx": "react",
     "jsxFactory": "Taro.createElement",
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
