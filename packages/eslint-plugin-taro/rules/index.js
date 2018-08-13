@@ -1,7 +1,6 @@
 const has = require('has')
 
 const allRules = {
-  'custom-component-children': require('./custom-component-children'),
   'if-statement-in-map-loop': require('./if-statement-in-map-loop'),
   'manipulate-jsx-as-array': require('./manipulate-jsx-as-array'),
   'no-anonymous-function-in-props': require('./no-anonymous-function-in-props'),
