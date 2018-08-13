@@ -120,6 +120,10 @@ declare namespace Taro {
 
     config?: Config;
 
+    $router: {
+      params: any
+    }
+
     setState<K extends keyof S>(
         state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
         callback?: () => any
