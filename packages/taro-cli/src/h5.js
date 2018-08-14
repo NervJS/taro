@@ -564,14 +564,19 @@ function classifyFiles (filename) {
     return FILE_TYPE.NORMAL
   }
 }
-function getDist (filename) {
+function getDist (filename, isScriptFile) {
   const dirname = path.dirname(filename)
   const distDirname = dirname.replace(sourceDir, tempDir)
-  const distPath = path.format({
-    dir: distDirname,
-    base: path.basename(filename)
-  })
-  return distPath
+  return isScriptFile
+    ? path.format({
+      dir: distDirname,
+      ext: '.js',
+      name: path.basename(filename, path.extname(filename))
+    })
+    : path.format({
+      dir: distDirname,
+      base: path.basename(filename)
+    })
 }
 
 function processFiles (filePath) {
@@ -580,10 +585,11 @@ function processFiles (filePath) {
   const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
   const distDirname = dirname.replace(sourceDir, tempDir)
-  const distPath = getDist(filePath)
+  const isScriptFile = Util.REG_SCRIPTS.test(extname)
+  const distPath = getDist(filePath, isScriptFile)
 
   try {
-    if (Util.REG_SCRIPTS.test(extname)) {
+    if (isScriptFile) {
       // 脚本文件 处理一下
       const content = file.toString()
       const transformResult = fileType === FILE_TYPE.ENTRY
@@ -623,7 +629,9 @@ function watchFiles () {
     })
     .on('unlink', filePath => {
       const relativePath = path.relative(appPath, filePath)
-      const dist = getDist(filePath)
+      const extname = path.extname(relativePath)
+      const isScriptFile = Util.REG_SCRIPTS.test(extname)
+      const dist = getDist(filePath, isScriptFile)
       Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
       fs.unlinkSync(dist)
     })
@@ -648,8 +656,8 @@ function buildTemp () {
 
 async function buildDist (buildConfig) {
   const { watch } = buildConfig
-
   const h5Config = projectConfig.h5 || {}
+  const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   h5Config.env = projectConfig.env
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
@@ -660,7 +668,7 @@ async function buildDist (buildConfig) {
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
   h5Config.entry = {
-    app: path.join(tempPath, entryFileName)
+    app: path.join(tempPath, entryFile)
   }
   if (watch) {
     h5Config.isWatch = true
