@@ -1208,6 +1208,9 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxml')
   const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
   const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.json')
+  if (hasBeenBuiltComponents.indexOf(component) < 0) {
+    hasBeenBuiltComponents.push(component)
+  }
   try {
     let isTaroComponent = true
     if (componentContent.indexOf(taroJsFramework) < 0 &&
@@ -1323,7 +1326,6 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     if (Util.isDifferentArray(fileDep['media'], res.mediaFiles)) {
       copyFilesFromSrcToOutput(res.mediaFiles)
     }
-    hasBeenBuiltComponents.push(component)
     fileDep['style'] = res.styleFiles
     fileDep['script'] = res.scriptFiles
     fileDep['json'] = res.jsonFiles
@@ -1337,7 +1339,6 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     }
     return componentsBuildResult[component]
   } catch (err) {
-    hasBeenBuiltComponents.push(component)
     console.log(err)
   }
 }
