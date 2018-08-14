@@ -1,3 +1,6 @@
+.taro-scroll{
+  -webkit-overflow-scrolling: touch;
+}
 .taro-scroll-view {
   overflow: hidden;
   &__scroll-x {
