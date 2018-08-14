@@ -23,8 +23,14 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
     }
 
     componentDidMount () {
-      Taro.startPullDownRefresh = this.refreshProviderRef && this.refreshProviderRef.current.handlePullDownRefresh
-      Taro.stopPullDownRefresh = this.refreshProviderRef && this.refreshProviderRef.current.stopPullDownRefresh
+      try {
+        Taro.startPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.handlePullDownRefresh
+        Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh
+      } catch (e) {
+        console.log('this.refreshProviderRef: ')
+        console.log(this.refreshProviderRef)
+        throw e
+      }
       super.componentDidMount && super.componentDidMount()
       super.componentDidShow && super.componentDidShow()
     }
@@ -93,20 +99,20 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
     }
 
     render () {
-      if (enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)) {
-        return (
-          <RefreshProvider
-            onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
-            onScroll={this.onScroll && this.onScroll.bind(this)}
-            ref={this.refreshProviderRef}
-          >
-            {super.render()}
-          </RefreshProvider>
-        )
-      } else {
-        console.log('not enablePullDownRefresh')
-        return super.render()
-      }
+      // if (enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)) {
+      return (
+        <RefreshProvider
+          onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
+          onScroll={this.onScroll && this.onScroll.bind(this)}
+          ref={this.refreshProviderRef}
+        >
+          {super.render()}
+        </RefreshProvider>
+      )
+      // } else {
+      //   console.log('not enablePullDownRefresh')
+      //   return super.render()
+      // }
     }
   }
 

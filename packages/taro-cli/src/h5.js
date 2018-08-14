@@ -267,6 +267,13 @@ function processEntry (code, filePath) {
             const pathArr = value.split('/')
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
+            } else if (Util.REG_SCRIPTS.test(value)) {
+              const dirname = path.dirname(value)
+              const extname = path.extname(value)
+              node.source = t.stringLiteral(path.format({
+                dir: dirname,
+                base: path.basename(value, extname)
+              }))
             }
           }
           return
@@ -464,8 +471,16 @@ function processOthers (code, filePath) {
         const source = node.source
         const value = source.value
         const specifiers = node.specifiers
-        if (!Util.isNpmPkg(value)) return
-        if (value === PACKAGES['@tarojs/taro']) {
+        if (!Util.isNpmPkg(value)) {
+          if (Util.REG_SCRIPTS.test(value)) {
+            const dirname = path.dirname(value)
+            const extname = path.extname(value)
+            node.source = t.stringLiteral(path.format({
+              dir: dirname,
+              base: path.basename(value, extname)
+            }))
+          }
+        } else if (value === PACKAGES['@tarojs/taro']) {
           let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
           if (specifier) {
             hasAddNervJsImportDefaultName = true

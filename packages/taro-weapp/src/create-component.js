@@ -41,6 +41,7 @@ function processEvent (eventHandlerName, obj) {
     if (event) {
       event.preventDefault = function () {}
       event.stopPropagation = function () {}
+      event.currentTarget = event.currentTarget || event.target || {}
       Object.assign(event.target, event.detail)
       Object.assign(event.currentTarget, event.detail)
     }
@@ -52,7 +53,7 @@ function processEvent (eventHandlerName, obj) {
     let detailArgs = []
     let datasetArgs = []
     // 解析从dataset中传过来的参数
-    const dataset = event.currentTarget.dataset
+    const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
     const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
