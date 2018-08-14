@@ -12,7 +12,8 @@ const allRules = {
   'jsx-handler-names': require('./jsx-handler-names'),
   'reserve-class-properties': require('./reserve-class-properties'),
   'function-naming': require('./function-naming'),
-  'class-naming': require('./class-naming')
+  'class-naming': require('./class-naming'),
+  'props-reserve-keyword': require('./props-reserve-keyword')
 }
 
 function configureAsError (rules) {
