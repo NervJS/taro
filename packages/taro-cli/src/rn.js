@@ -82,7 +82,7 @@ function parseJSCode (code, filePath) {
   let pages = [] // app.js 里面的config 配置里面的 pages
   let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
   const isEntryFile = path.basename(filePath) === entryFileName
-  let taroImportDefaultName
+  let taroImportDefaultName // import default from @tarojs/taro
   let hasAddReactImportDefaultName = false
   let providorImportName
   let storeName
@@ -390,12 +390,14 @@ function parseJSCode (code, filePath) {
             }
           }
         })
-        // import @tarojs/taro-rn
-        const importTaro = template(
-          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
-          babylonConfig
-        )()
-        node.body.unshift(importTaro)
+        // import Taro from @tarojs/taro-rn
+        if (taroImportDefaultName) {
+          const importTaro = template(
+            `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
+            babylonConfig
+          )()
+          node.body.unshift(importTaro)
+        }
 
         if (isEntryFile) {
           // 注入 import page from 'XXX'

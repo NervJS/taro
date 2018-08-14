@@ -2,6 +2,7 @@
   "name":"<%= projectName %>",
   "main": "./bin/crna-entry.js",
   "dependencies": {
+    "@tarojs/async-await": "^<%= version %>",
     "@tarojs/components-rn": "^<%= version %>",
     "@tarojs/taro-rn": "^<%= version %>",
     "@tarojs/taro-router-rn": "^<%= version %>",
@@ -9,6 +10,9 @@
     "react": "16.3.1",
     "react-native-image-zoom-viewer": "^2.2.13",
     "react-native": "~0.55.2",
-    "redux": "^4.0.0"
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-actions": "^2.6.1",
+    "redux-thunk": "^2.3.0"
   }
 }
