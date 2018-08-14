@@ -56,7 +56,8 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   if (typescript) {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
-      css: currentStyleExt
+      css: currentStyleExt,
+      typescript: true
     })
     creater.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
   } else {
@@ -92,7 +93,8 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
     creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
-      css: currentStyleExt
+      css: currentStyleExt,
+      typescript: true
     })
     creater.template(template, path.join('actions', 'counterjs'), path.join(sourceDir, 'actions', 'counter.ts'))
     creater.template(template, path.join('constants', 'counterjs'), path.join(sourceDir, 'constants', 'counter.ts'))

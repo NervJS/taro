@@ -1,6 +1,7 @@
 import View from './components/View'
 import ScrollView from './components/ScrollView'
 import Swiper from './components/Swiper'
+import SwiperItem from './components/Swiper/SwiperItem'
 import Icon from './components/Icon'
 import Text from './components/Text'
 import RichText from './components/RichText'
@@ -26,6 +27,7 @@ export {
   View,
   ScrollView,
   Swiper,
+  SwiperItem,
   Icon,
   Text,
   RichText,

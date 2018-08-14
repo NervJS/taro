@@ -41,6 +41,7 @@ function processEvent (eventHandlerName, obj) {
     if (event) {
       event.preventDefault = function () {}
       event.stopPropagation = function () {}
+      event.currentTarget = event.currentTarget || event.target || {}
       Object.assign(event.target, event.detail)
       Object.assign(event.currentTarget, event.detail)
     }
@@ -52,7 +53,7 @@ function processEvent (eventHandlerName, obj) {
     let detailArgs = []
     let datasetArgs = []
     // 解析从dataset中传过来的参数
-    const dataset = event.currentTarget.dataset
+    const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
     const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
@@ -203,7 +204,7 @@ function createComponent (ComponentClass, isPage) {
   try {
     componentInstance.state = componentInstance._createData()
   } catch (err) {
-    const errLine = /at\s(.*\))/.exec(err.stack.toString())[1] || ''
+    const errLine = err.stack.toString().split(/\n/)[2] || ''
     console.warn(`[Taro warn]
       ${err.message}
       ${errLine}: 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
@@ -238,10 +239,12 @@ function createComponent (ComponentClass, isPage) {
       componentTrigger(this.$component, 'componentDidHide')
     }
     pageExtraFns.forEach(fn => {
-      weappComponentConf[fn] = function () {
-        const component = this.$component
-        if (component[fn] && typeof component[fn] === 'function') {
-          return component[fn].call(component, ...arguments)
+      if (componentInstance[fn] && typeof componentInstance[fn] === 'function') {
+        weappComponentConf[fn] = function () {
+          const component = this.$component
+          if (component[fn] && typeof component[fn] === 'function') {
+            return component[fn].call(component, ...arguments)
+          }
         }
       }
     })

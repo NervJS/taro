@@ -22,7 +22,7 @@
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-import { View, PickerView } from '@tarojs/components'
+import { View, PickerView, PickerViewColumn } from '@tarojs/components'
 
 export default class Picks extends Component {
 

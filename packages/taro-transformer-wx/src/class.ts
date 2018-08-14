@@ -66,7 +66,8 @@ interface Result {
   template: string
   components: {
     name: string,
-    path: string
+    path: string,
+    type: string
   }[]
 }
 
@@ -78,7 +79,7 @@ class Transformer {
   private methods: ClassMethodsMap = new Map()
   private initState: Set<string> = new Set()
   private jsxReferencedIdentifiers = new Set<t.Identifier>()
-  private customComponents: Map<string, string> = new Map()
+  private customComponents: Map<string, { sourcePath: string, type: string }> = new Map()
   private anonymousMethod: Map<string, string> = new Map()
   private renderMethod: null | NodePath<t.ClassMethod> = null
   private moduleNames: string[]
@@ -211,7 +212,18 @@ class Transformer {
           const name = id.name
           const binding = self.classPath.scope.getBinding(name)
           if (binding && t.isImportDeclaration(binding.path.parent)) {
-            self.customComponents.set(name, binding.path.parent.source.value)
+            const sourcePath = binding.path.parent.source.value
+            if (binding.path.isImportDefaultSpecifier()) {
+              self.customComponents.set(name, {
+                sourcePath,
+                type: 'default'
+              })
+            } else {
+              self.customComponents.set(name, {
+                sourcePath,
+                type: 'pattern'
+              })
+            }
           }
         }
       },
@@ -305,10 +317,11 @@ class Transformer {
   }
 
   setComponents () {
-    this.customComponents.forEach((path, name) => {
+    this.customComponents.forEach((component, name) => {
       this.result.components.push({
-        path: pathResolver(path, this.sourcePath),
-        name: kebabCase(name)
+        path: pathResolver(component.sourcePath, this.sourcePath),
+        name: kebabCase(name),
+        type: component.type
       })
     })
   }

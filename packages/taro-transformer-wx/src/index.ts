@@ -4,7 +4,7 @@ import { Transformer } from './class'
 import { prettyPrint } from 'html'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 const template = require('babel-template')
@@ -61,9 +61,9 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
                 ||
                 (left.property.name === 'config' && t.isObjectExpression(right))
               ) {
-                body.push(
-                  t.classProperty(left.property, right)
-                )
+                const classProp = t.classProperty(left.property, right)
+                body.push(classProp)
+                handleThirdPartyComponent(classProp)
                 return false
               }
             }
@@ -105,11 +105,36 @@ function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path:
   }
 }
 
+function handleThirdPartyComponent (expr: t.ClassMethod | t.ClassProperty) {
+  if (t.isClassProperty(expr) && expr.key.name === 'config' && t.isObjectExpression(expr.value)) {
+    const properties = expr.value.properties
+    for (const prop of properties) {
+      if (
+        t.isObjectProperty(prop) &&
+        (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
+        t.isObjectExpression(prop.value)
+      ) {
+        for (const value of prop.value.properties) {
+          if (t.isObjectProperty(value)) {
+            if (t.isStringLiteral(value.key)) {
+              THIRD_PARTY_COMPONENTS.add(value.key.value)
+            }
+            if (t.isIdentifier(value.key)) {
+              THIRD_PARTY_COMPONENTS.add(value.key.name)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 export interface Result {
   template: string
   components: {
     name: string,
-    path: string
+    path: string,
+    type: string
   }[]
 }
 
@@ -353,6 +378,8 @@ export default function transform (options: Options): TransformResult {
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
   }
+
+  mainClass.node.body.body.forEach(handleThirdPartyComponent)
   const storeBinding = mainClass.scope.getBinding(storeName)
   mainClass.scope.rename('Component', '__BaseComponent')
   if (storeBinding) {

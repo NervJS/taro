@@ -78,15 +78,15 @@ declare namespace Taro {
     /**
      * tab 上的文字默认颜色
      */
-    color: string,
+    color?: string,
     /**
      * tab 上的文字选中时的颜色
      */
-    selectedColor: string,
+    selectedColor?: string,
     /**
      * tab 的背景色
      */
-    backgroundColor: string,
+    backgroundColor?: string,
     /**
      * tabbar上边框的颜色， 仅支持 black/white
      * default: black
@@ -96,7 +96,8 @@ declare namespace Taro {
      * tabar 的位置，可选值 bottom、top
      * default: 'bottom'
      */
-    position?: 'bottom' | 'top'
+    position?: 'bottom' | 'top',
+
     list: TarbarList[]
   }
 
@@ -110,7 +111,7 @@ declare namespace Taro {
 
   interface Config extends PageConfig, AppConfig {
     usingComponents?: {
-      [key?: string]: string
+      [key: string]: string
     },
     window?: PageConfig
   }
@@ -119,6 +120,10 @@ declare namespace Taro {
     constructor(props?: P, context?: any);
 
     config?: Config;
+
+    $router: {
+      params: any
+    }
 
     setState<K extends keyof S>(
         state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
@@ -6590,7 +6595,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject
    */
-  function navigateBack(OBJECT: navigateBack.Param): void
+  function navigateBack(OBJECT?: navigateBack.Param): void
 
   namespace createAnimation {
     type Param = {
@@ -7322,8 +7327,23 @@ declare namespace Taro {
        *
        * @since 1.9.90
        */
-      timeout?: number
+      timeout?: number,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+     * 登录接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Promised) => void
+    /**
+     * 登录接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: Promised) => void
+    /**
+     * 登录接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 调用接口Taro.login() 获取**临时登录凭证（code）**

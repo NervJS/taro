@@ -11,22 +11,38 @@ const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program
   .option('--type [typeName]', 'Build type, weapp/rn/h5')
-  .option('--watch', 'Build type, weapp/rn/h5')
+  .option('--watch', 'Watch mode')
+  .option('--env [env]', 'Env type')
+  .option('--ui', 'Build Taro UI library')
   .parse(process.argv)
 
 const args = program.args
-const { type, watch } = program
+const { type, watch, env, ui } = program
+
+if (ui) {
+  console.log(chalk.green(`开始编译 UI 库`))
+  build(args, {
+    type: 'ui',
+    watch
+  })
+  return
+}
 
 if (!fs.existsSync(projectConfPath)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
   process.exit(1)
 }
 
-if (watch) {
-  process.env.NODE_ENV = 'development'
+if (env) {
+  process.env.NODE_ENV = env
 } else {
-  process.env.NODE_ENV = 'production'
+  if (watch) {
+    process.env.NODE_ENV = 'development'
+  } else {
+    process.env.NODE_ENV = 'production'
+  }
 }
+
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 

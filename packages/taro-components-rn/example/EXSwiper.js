@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
-import { View, Text, Swiper } from '../src'
+import { View, Text, Swiper, SwiperItem } from '../src'
 
 export default class EXSwiper extends Component {
   render () {
@@ -21,26 +20,17 @@ export default class EXSwiper extends Component {
             backgroundColor: 'black'
           }}
         >
-          <View style={[styles.page, { backgroundColor: 'red' }]}>
+          <SwiperItem style={{ backgroundColor: 'red' }}>
             <Text>Hello Swiper</Text>
-          </View>
-          <View style={[styles.page, { backgroundColor: 'green' }]}>
+          </SwiperItem>
+          <SwiperItem style={{ backgroundColor: 'green' }}>
             <Text>Beautiful</Text>
-          </View>
-          <View style={[styles.page, { backgroundColor: 'blue' }]}>
+          </SwiperItem>
+          <SwiperItem style={{ backgroundColor: 'blue' }}>
             <Text>And simple</Text>
-          </View>
+          </SwiperItem>
         </Swiper>
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
-
