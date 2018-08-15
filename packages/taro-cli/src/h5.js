@@ -712,6 +712,7 @@ function clean () {
 }
 
 async function build (buildConfig) {
+  process.env.TARO_ENV = Util.BUILD_TYPES.H5
   await clean()
   await buildTemp(buildConfig)
   await buildDist(buildConfig)
