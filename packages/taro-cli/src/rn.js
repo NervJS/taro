@@ -66,18 +66,24 @@ const PACKAGES = {
   'react-redux': 'react-redux'
 }
 
+function getJSAst (code) {
+  return babel.transform(code, {
+    parserOpts: babylonConfig,
+    plugins: ['babel-plugin-transform-jsx-stylesheet']
+  }).ast
+}
+
 function parseJSCode (code, filePath) {
   let ast
   try {
-    ast = babel.transform(code, {
-      parserOpts: babylonConfig,
-      plugins: ['babel-plugin-transform-jsx-stylesheet']
-    }).ast
+    ast = getJSAst(code)
   } catch (e) {
     if (e.name === 'ReferenceError') {
-      console.log(chalk.yellow('警告：请安装 npm 包 babel-plugin-transform-jsx-stylesheet'))
+      npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-stylesheet')
+      ast = getJSAst(code)
+    } else {
+      throw e
     }
-    throw e
   }
   const styleFiles = []
   let pages = [] // app.js 里面的config 配置里面的 pages
