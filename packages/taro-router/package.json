@@ -4,7 +4,7 @@
   "description": "Taro-router",
   "main": "index.js",
   "module": "dist/index.esm.js",
-  "types": "index.d.ts",
+  "typings": "types/index.d.ts",
   "files": [
     "dist",
     "src",
