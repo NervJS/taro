@@ -1,4 +1,5 @@
 import { enqueueRender } from './render-queue'
+import { updateComponent } from './lifecycle'
 import {
   internal_safe_get as safeGet
 } from '@tarojs/taro'
@@ -64,6 +65,13 @@ class BaseComponent {
     })
     return stateClone
   }
+
+  forceUpdate (callback) {
+    if (typeof callback === 'function') {
+      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
+    }
+  }
+
   // 会被匿名函数调用
   __triggerPropsFn (key, args) {
     const keyChain = key.split('.')
