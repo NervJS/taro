@@ -22,6 +22,7 @@ const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 const AstConvert = require('./util/astConvert')
 const {getPkgVersion} = require('./util')
+const {StyleSheetValidation} = require('./rn/StyleSheet/index')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -486,31 +487,44 @@ function compileDepStyles (filePath, styleFiles) {
           return reject(err)
         }
         resolve({
-          css: content
+          css: content,
+          filePath
         })
       })
     })
   })).then(async resList => {
-    let resContent = resList.map(res => res.css.toString()).join('\n')
     try {
       // 处理css文件
+      let styleObjectEntire = {}
+      resList.forEach(res => {
+        if (res.css) {
+          let styleObject = transformCSS(res.css.toString())
+          // validate styleObject
+          for (let name in styleObject) {
+            try {
+              StyleSheetValidation.validateStyle(name, styleObject)
+            } catch (e) {
+              Util.printLog(Util.pocessTypeEnum.WARNING, '样式不支持', res.filePath || (res.stats.entry.toString()))
+              throw e
+            }
+          }
+          Object.assign(styleObjectEntire, styleObject)
+        }
+      })
       let tempFilePath = filePath.replace(sourceDir, tempPath)
       const basename = path.basename(tempFilePath, path.extname(tempFilePath))
       tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
-      let styleObject = {}
-      if (resContent) {
-        styleObject = transformCSS(resContent)
-      }
-      const styleObjectStr = JSON.stringify(styleObject, null, 2)
+
+      const styleObjectStr = JSON.stringify(styleObjectEntire, null, 2)
       styleDenpendencyTree[filePath] = {
         styleFiles,
-        styleObject
+        styleObjectEntire
       }
       const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${styleObjectStr})`
       fs.ensureDirSync(path.dirname(tempFilePath))
       fs.writeFileSync(tempFilePath, fileContent)
     } catch (err) {
-      console.log(err)
+      console.log(chalk.red(err))
     }
   }).catch((e) => {
     throw new Error(e)
