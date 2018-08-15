@@ -69,6 +69,8 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
+const DEVICE_RATIO = 'deviceRatio'
+
 function processEntry (code, filePath) {
   const ast = wxTransformer({
     code,
@@ -376,7 +378,12 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         astPath.traverse(programExitVisitor)
-
+        const pxTransformConfig = {
+          designWidth: projectConfig.designWidth || 750,
+        }
+        if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+          pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+        }
         const node = astPath.node
         const routerPages = pages
           .map(v => {
@@ -399,6 +406,10 @@ function processEntry (code, filePath) {
         )())
         node.body.push(template(
           `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
+          babylonConfig
+        )())
+        node.body.push(template(
+          `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
           babylonConfig
         )())
         node.body.push(template(
