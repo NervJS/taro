@@ -921,7 +921,7 @@ async function buildEntry () {
       compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
-    if (Util.isDifferentArray(fileDep['style'], res.styleFiles)) {
+    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
       await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, [])
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app.wxss`)
     }
