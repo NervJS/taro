@@ -26,6 +26,46 @@ function parseType (type, isPassword, confirmType) {
 class Input extends Nerv.Component {
   constructor () {
     super(...arguments)
+    this.onInput = this.onInput.bind(this)
+    this.onFocus = this.onFocus.bind(this)
+    this.onBlur = this.onBlur.bind(this)
+  }
+
+  onInput (e) {
+    const { onInput, onChange = '' } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    if (onChange) {
+      onChange && onChange(e)
+    } else {
+      onInput && onInput(e)
+    }
+  }
+
+  onFocus (e) {
+    const { onFocus } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    onFocus && onFocus(e)
+  }
+
+  onBlur (e) {
+    const { onBlur } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    onBlur && onBlur(e)
   }
 
   render () {
@@ -36,9 +76,6 @@ class Input extends Nerv.Component {
       password,
       disabled,
       maxlength,
-      onInput,
-      onFocus,
-      onBlur,
       confirmType = ''
     } = this.props
     const cls = classNames('weui-input', className)
@@ -58,10 +95,10 @@ class Input extends Nerv.Component {
         placeholder={placeholder}
         disabled={disabled}
         max={maxlength}
-        onChange={onInput}
-        onInput={onInput}
-        onFocus={onFocus}
-        onBlur={onBlur}
+        onChange={this.onInput}
+        onInput={this.onInput}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
         type={parseType(type, password, confirmType)}
       />
     )
