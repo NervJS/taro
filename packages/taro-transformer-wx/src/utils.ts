@@ -107,7 +107,7 @@ export function generateAnonymousState (
   if (!callExpr) {
     refIds.add(t.identifier(variableName))
     statementParent.insertBefore(
-      buildConstVariableDeclaration(variableName, expression.node)
+      buildConstVariableDeclaration(variableName, expr)
     )
     if (blockStatement && blockStatement.isBlockStatement()) {
       blockStatement.traverse({
