@@ -392,7 +392,7 @@ export class RenderParser {
                 VariableDeclarator: (p) => {
                   const { id, init } = p.node
                   if (t.isIdentifier(id)) {
-                    const newId = this.renderScope.generateDeclaredUidIdentifier(id.name)
+                    const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
                     blockStatement.scope.rename(id.name, newId.name)
                     p.parentPath.replaceWith(
                       template('ID = INIT;')({ ID: newId, INIT: init })
@@ -1001,7 +1001,6 @@ export class RenderParser {
 
   setUsedState () {
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
-
     const usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
