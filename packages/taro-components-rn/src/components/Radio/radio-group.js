@@ -17,6 +17,7 @@ type Props = {
   children?: React.Node,
   style?: StyleSheet.Styles,
   onChange?: Function,
+  _onGroupDataInitial?: Function,
 }
 type State = {
   checkedValue: ?string
@@ -29,8 +30,34 @@ class _RadioGroup extends React.Component<Props, State> {
   }
 
   onValueChange = (radioOnChangeFn: ?Function, e: { value: * }) => {
+    const { onChange } = this.props
     this.setState({ checkedValue: e.value })
     radioOnChangeFn && radioOnChangeFn()
+    onChange && onChange({
+      detail: {
+        value: e.value
+      }
+    })
+  }
+
+  findAndAttachCb = (children: any) => {
+    return React.Children.toArray(children).map((child) => {
+      if (!child.type) return child
+
+      const childTypeName = child.type.name
+      if (childTypeName === '_Radio') {
+        const { checkedValue } = this.state
+        if (!checkedValue && child.props.checked) {
+          this.props._onGroupDataInitial && this.props._onGroupDataInitial(child.props.value)
+        }
+        return React.cloneElement(child, {
+          checked: checkedValue === child.props.value,
+          onChange: this.onValueChange.bind(this, child.props.onChange)
+        })
+      } else {
+        return React.cloneElement(child, { ...child.props }, this.findAndAttachCb(child.props.children))
+      }
+    })
   }
 
   render () {
@@ -38,18 +65,8 @@ class _RadioGroup extends React.Component<Props, State> {
       children,
       style,
     } = this.props
-    const { checkedValue } = this.state
 
-    const mapChildren = React.Children.toArray(children).map((child) => {
-      if (child.type.name === '_Radio') {
-        return React.cloneElement(child, {
-          ...child.props,
-          checked: checkedValue === child.props.value,
-          onChange: this.onValueChange.bind(this, child.props.onChange)
-        })
-      }
-      return child
-    })
+    const mapChildren = this.findAndAttachCb(children)
 
     return (
       <View style={style}>

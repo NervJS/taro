@@ -2,89 +2,94 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
-import * as PropTypes from 'prop-types'
+import { componentTrigger } from './create-component'
+import { shakeFnFromObject, isEmptyObject } from './util'
 
-import { processDynamicComponents } from './create-page'
-
-const DEV = typeof process === 'undefined' ||
-  !process.env ||
-  process.env.NODE_ENV !== 'production'
-
-export function updateComponent (component, update) {
-  const { props, propTypes, type } = component
-  if (DEV && propTypes) {
-    const displayName = type.name || type.toString().match(/^function\s*([^\s(]+)/)[1]
-    PropTypes.checkPropTypes(propTypes, props, 'prop', displayName)
+const privatePropKeyName = '_triggerObserer'
+export function updateComponent (component) {
+  const { props } = component
+  const prevProps = component.prevProps || props
+  component.props = prevProps
+  if (component.__mounted && component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
+    component._disable = true
+    component.componentWillReceiveProps(props)
+    component._disable = false
+  }
+  // 在willMount前执行构造函数的副本
+  if (!component.__mounted) {
+    component._constructor && component._constructor(props)
   }
   let state = component.getState()
-  if (component._createData) {
-    state = component._createData(state)
-  }
-  state.__data && (state.__data.$path = component.$path)
-  const prevProps = component.prevProps || props
+
   const prevState = component.prevState || state
-  component.props = prevProps
+
   let skip = false
-  if (typeof component.shouldComponentUpdate === 'function' &&
-    component.shouldComponentUpdate(props, state) === false) {
-    skip = true
-  } else if (typeof component.componentWillUpdate === 'function') {
-    component.componentWillUpdate(props, state)
+  if (component.__mounted) {
+    if (typeof component.shouldComponentUpdate === 'function' &&
+      component.shouldComponentUpdate(props, state) === false) {
+      skip = true
+    } else if (typeof component.componentWillUpdate === 'function') {
+      component.componentWillUpdate(props, state)
+    }
   }
   component.props = props
   component.state = state
   component._dirty = false
+  if (!component.__mounted) {
+    componentTrigger(component, 'componentWillMount')
+  }
   if (!skip) {
-    for (let k in component.$props) {
-      const childProps = component.$props[k].call(component)
-      const subComponent = component.$$components[k]
-      const newChildProps = Object.assign(subComponent.props, childProps)
-      component._disable = true
-      if (subComponent.componentWillReceiveProps) {
-        subComponent.componentWillReceiveProps(newChildProps)
-      }
-      component._disable = false
-      subComponent.props = newChildProps
-      updateComponent(subComponent, false)
-    }
-    const propsCopy = {}
-    Object.keys(component.props).forEach(item => {
-      if (typeof component.props[item] !== 'function') {
-        propsCopy[item] = component.props[item]
-      }
-    })
-    Object.assign(component.$data, component.state, propsCopy)
-    if (component.componentDidUpdate) {
+    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
       component.componentDidUpdate(prevProps, prevState)
     }
-    doUpdate(component, update)
+    doUpdate(component)
   }
   component.prevProps = component.props
   component.prevState = component.state
 }
 
-function doUpdate (component, update) {
-  let $data = component.$root ? component.$root.$data : component.$data
-  if (update) {
-    processDynamicComponents(component.$root || component)
+function doUpdate (component) {
+  const { state, props = {} } = component
+  let data = state || {}
+  if (component._createData) {
+    data = component._createData(state, props)
   }
-  if (!component.$isComponent && component.$usedState && component.$usedState.length) {
-    const data = {}
+  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
+
+  data = Object.assign({}, props, data)
+  if (component.$usedState && component.$usedState.length) {
+    const _data = {}
     component.$usedState.forEach(key => {
-      const value = safeGet(component.$data, key)
-      safeSet(data, key, value)
-    })
-    $data = data
-  }
-  component.$scope._setData(
-    { ...$data },
-    function () {
-      if (component._pendingCallbacks) {
-        while (component._pendingCallbacks.length) {
-          component._pendingCallbacks.pop().call(component)
-        }
+      let val = safeGet(data, key)
+      if (typeof val === 'undefined') {
+        return
       }
-    },
-    update
-  )
+      if (typeof val === 'object') {
+        val = shakeFnFromObject(val)
+        if (!isEmptyObject(val)) {
+          safeSet(_data, key, val)
+        }
+      } else {
+        safeSet(_data, key, val)
+      }
+    })
+    data = _data
+  }
+  // 改变这个私有的props用来触发(observer)子组件的更新
+  data[privatePropKeyName] = !privatePropKeyVal
+
+  component.$scope.setData(data, function () {
+    if (component._pendingCallbacks) {
+      while (component._pendingCallbacks.length) {
+        component._pendingCallbacks.pop().call(component)
+      }
+    }
+    if (!component.__mounted) {
+      component.__mounted = true
+      if (typeof component.componentDidMount === 'function') {
+        component.componentDidMount()
+      }
+      componentTrigger(component, 'componentDidShow')
+    }
+  })
 }

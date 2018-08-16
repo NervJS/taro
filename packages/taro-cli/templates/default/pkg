@@ -22,14 +22,18 @@
     "nervjs": "^1.3.0"
   },
   "devDependencies": {
+    "@types/react": "16.3.14",
+    "@types/webpack-env": "^1.13.6",
     "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
-    "@tarojs/plugin-csso": "^<%= version %>",
-    "@tarojs/plugin-sass": "^<%= version %>",
+    "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
+    "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%><% if (typescript) {%>
+    "@tarojs/plugin-typescript": "^<%= version %>",<%}%>
     "@tarojs/plugin-uglifyjs": "^<%= version %>",
     "@tarojs/webpack-runner": "^<%= version %>",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-jsx-stylesheet": "^0.6.5",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-eslint": "^8.2.3",
@@ -37,6 +41,7 @@
     "eslint-config-taro": "^<%= version %>",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-taro": "^<%= version %>"
+    "eslint-plugin-taro": "^<%= version %>"<% if (typescript) {%>,
+    "typescript": "^3.0.1"<%}%>
   }
 }

@@ -2,6 +2,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
+const semver = require('semver')
 
 const Creator = require('./creator')
 
@@ -15,6 +16,10 @@ const { SOURCE_DIR } = require('./config')
 class Project extends Creator {
   constructor (options) {
     super()
+    const unSupportedVer = semver.lt(process.version, 'v7.6.0')
+    if (unSupportedVer) {
+      throw new Error('Node.js 版本过低，推荐升级 Node.js 至 v8.0.0+')
+    }
     this.rootPath = this._rootPath
     this.conf = Object.assign({
       projectName: null,
@@ -82,9 +87,41 @@ class Project extends Creator {
       })
     }
 
+    if (typeof conf.typescript !== 'boolean') {
+      prompts.push({
+        type: 'confirm',
+        name: 'typescript',
+        message: '是否需要使用 TypeScript ？'
+      })
+    }
+
+    const cssChoices = [{
+      name: 'Sass',
+      value: 'sass'
+    }, {
+      name: 'Less',
+      value: 'less'
+    }, {
+      name: 'Stylus',
+      value: 'stylus'
+    }, {
+      name: '无',
+      value: 'none'
+    }]
+
+    prompts.push({
+      type: 'list',
+      name: 'css',
+      message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
+      choices: cssChoices
+    })
+
     const templateChoices = [{
       name: '默认模板',
       value: 'default'
+    }, {
+      name: 'Redux 模板',
+      value: 'redux'
     }]
 
     if (typeof conf.template !== 'string') {
@@ -115,7 +152,7 @@ class Project extends Creator {
     return inquirer.prompt(prompts)
   }
 
-  write () {
+  write (cb) {
     const { template } = this.conf
     this.conf.src = SOURCE_DIR
     const templateCreate = require(path.join(this.templatePath(), template, 'index.js'))
@@ -123,7 +160,7 @@ class Project extends Creator {
       shouldUseYarn,
       shouldUseCnpm,
       getPkgVersion
-    })
+    }, cb)
   }
 }
 

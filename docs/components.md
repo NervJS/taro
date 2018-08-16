@@ -5,7 +5,7 @@ Taro 以 [微信小程序组件库](https://developers.weixin.qq.com/miniprogram
 基于以上原则，在小程序端，我们可以使用所有的小程序原生组件，而在其他端，我们提供了对应的组件库实现
 
 - H5 端，`@tarojs/components`，同时也是需要引入的默认标准组件库
-- RN 端，`@tarojs/components-rn`
+- RN 端为，`@tarojs/components-rn`
 
 在使用时，我们需要先从 Taro 标准组件库 `@tarojs/components` 引用组件，再进行使用，例如使用 `<View />`、 `<Text />` 组件
 
@@ -40,10 +40,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { Map } from '@tarojs/components'
 
 class App extends Components {
-	handleTap () {}
+	onTap () {}
 	render () {
 		return (
-			<Map onTap={this.handleTap} />
+			<Map onClick={this.onTap} />
 		)
 	}
 }
@@ -51,4 +51,4 @@ class App extends Components {
 
 ### 组件的事件传递都要以 on 开头
 
-在微信小程序中 bindTap 这样的用法，都需要转成以 on 开头的形式。
+在微信小程序中 bind 开头这样的用法，都需要转成以 on 开头的形式。

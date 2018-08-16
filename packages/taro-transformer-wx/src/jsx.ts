@@ -10,6 +10,8 @@ export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
 }
 
+const specialComponentName = ['block', 'Block', 'slot', 'Slot']
+
 export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   if (!path.parentPath.isCallExpression()) {
     const p = path.getSibling('property')
@@ -24,12 +26,16 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function buildRefTemplate (name: string, refName?: string, loop?: boolean) {
+export function buildRefTemplate (name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
+  const attrs = [
+    t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
+    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`))
+  ]
+  if (key) {
+    attrs.push(key)
+  }
   return t.jSXElement(
-    t.jSXOpeningElement(t.jSXIdentifier('template'), [
-      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
-      t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`))
-    ]),
+    t.jSXOpeningElement(t.jSXIdentifier('template'), attrs),
     t.jSXClosingElement(t.jSXIdentifier('template')),
     []
   )
@@ -49,11 +55,23 @@ export function newJSXIfAttr (
 export function setJSXAttr (
   jsx: t.JSXElement,
   name: string,
-  value?: t.StringLiteral | t.JSXExpressionContainer
+  value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement,
+  path?: NodePath<t.JSXElement>
 ) {
-  jsx.openingElement.attributes.push(
-    t.jSXAttribute(t.jSXIdentifier(name), value)
-  )
+  const element = jsx.openingElement
+  if (!t.isJSXIdentifier(element.name)) {
+    return
+  }
+  if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
+    jsx.openingElement.attributes.push(
+      t.jSXAttribute(t.jSXIdentifier(name), value)
+    )
+  } else {
+    const block = buildBlockElement()
+    setJSXAttr(block, name, value)
+    block.children = [jsx]
+    path.node = block
+  }
 }
 
 export function isAllLiteral (...args) {
@@ -90,6 +108,7 @@ function parseJSXChildren (
           generate(child)
           .code
           .replace(/(this\.props\.)|(this\.state\.)/, '')
+          .replace(/(props\.)|(state\.)/, '')
           .replace(/this\./, '')
         }}`
       }
@@ -103,11 +122,12 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (t.isJSXMemberExpression(name)) {
     throw codeFrameError(name.loc, '暂不支持 JSX 成员表达式')
   }
-  const isDefaultComponent = DEFAULT_Component_SET.has(name.name)
-  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(name.name)
-  return createHTMLElement({
-    name: kebabCase(name.name),
-    attributes: attributes.reduce((obj, attr) => {
+  const componentName = name.name
+  const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
+  const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
+  let attributesTrans = {}
+  if (attributes.length) {
+    attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
@@ -122,24 +142,36 @@ export function parseJSXElement (element: t.JSXElement): string {
             name.startsWith('bind') || name.startsWith('catch')
           let { code } = generate(attrValue.expression)
           code = code
-            .replace(/(this\.props\.)|(this\.state\.)/, '')
-            .replace(/this\./, '')
+            .replace(/(this\.props\.)|(this\.state\.)/g, '')
+            .replace(/this\./g, '')
           value = isBindEvent ? code : `{{${code}}}`
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
+        } else if (attrValue === null && name !== 'wx:else') {
+          value = `{{true}}`
         }
         if (
           componentSpecialProps &&
-          componentSpecialProps.has(name)
+          componentSpecialProps.has(name) ||
+          name.startsWith('__fn_')
         ) {
           obj[name] = value
         } else {
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
       }
+      if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
+        obj['__triggerObserer'] = '{{ _triggerObserer }}'
+      }
       return obj
-    }, {}),
+    }, {})
+  } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
+    attributesTrans['__triggerObserer'] = '{{ _triggerObserer }}'
+  }
+  return createHTMLElement({
+    name: kebabCase(componentName),
+    attributes: attributesTrans,
     value: parseJSXChildren(children)
   })
 }

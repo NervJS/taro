@@ -36,19 +36,29 @@ type State = {
 
 class _Switch extends React.Component<Props, State> {
   props: Props
+  state: State = {
+    checked: !!this.props.checked
+  }
+  $touchable: ?React.ElementRef<Switch>
 
   static defaultProps = {
     type: 'switch',
     color: '#04BE02'
   }
 
-  state: State = {
-    checked: !!this.props.checked
+  _simulateNativePress = () => {
+    const { type } = this.props
+    if (type === 'checkbox') {
+      this.$touchable && this.$touchable._simulateNativePress()
+    } else {
+      // this.$touchable._onChange()
+      this.setState({ checked: !this.state.checked })
+    }
   }
 
   onCheckedChange = (isChecked: boolean) => {
     const { onChange } = this.props
-    onChange && onChange(isChecked)
+    onChange && onChange({ detail: { value: isChecked } })
     this.setState({ checked: isChecked })
   }
 
@@ -68,6 +78,7 @@ class _Switch extends React.Component<Props, State> {
         <Checkbox
           onChange={this.onCheckboxToggle}
           checked={this.state.checked}
+          ref={(touchable) => { this.$touchable = touchable }}
         />
       )
     }
@@ -78,6 +89,7 @@ class _Switch extends React.Component<Props, State> {
         onValueChange={this.onCheckedChange}
         onTintColor={color}
         style={style}
+        ref={(touchable) => { this.$touchable = touchable }}
       />
     )
   }

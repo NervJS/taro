@@ -74,7 +74,7 @@ class Welcome extends Component {
 
 ### constructor()
 
-```
+```javascript
 constructor(props)
 ```
 

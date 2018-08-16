@@ -51,7 +51,8 @@ class Audio extends Nerv.Component {
       initialTime,
       id,
       loop,
-      muted
+      muted,
+      className
     } = this.props
     return (
       <audio
@@ -62,6 +63,7 @@ class Audio extends Nerv.Component {
         start={initialTime}
         loop={loop}
         muted={muted}
+        className={className}
         ref={(audio) => { this.audio = audio }}>
         暂时不支持播放该视频
       </audio>

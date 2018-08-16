@@ -3,9 +3,9 @@
  * @property {Array} range mode为 selector 或 multiSelector 时，range 有效
  * @property {String} range-key 当 range 是一个 Object Array 时，通过 range-key 来指定 Object 中 key 的值作为选择器显示内容
  * @property {Number} value value 的值表示选择了 range 中的第几个（下标从 0 开始）
- * @property {EventHandle} bindchange value 改变时触发 change 事件，event.detail = {value: value}
+ * @property {EventHandle} onChange value 改变时触发 change 事件，event.detail = {value: value}
  * @property {Boolean} disabled 是否禁用
- * @property {EventHandle} bindcancel 取消选择或点遮罩层收起 picker 时触发
+ * @property {EventHandle} onCancel 取消选择或点遮罩层收起 picker 时触发
  */
 import Nerv from 'nervjs'
 import PickerGroup from './picker-group'
@@ -27,12 +27,15 @@ export default class Picker extends Nerv.Component {
     this.index = []
 
     if (mode === 'multiSelector') {
+      if (!range) {
+        range = []
+        this.props.range = []
+      }
       range.forEach((r, i) => {
         const v = value && value.length ? value[i] : undefined
         this.index.push(this.verifyValue(v, r) ? Math.floor(value[i]) : 0)
       })
-    }
-    if (mode === 'time') {
+    } else if (mode === 'time') {
       // check value...
       if (!this.verifyTime(value)) {
         console.warn('time picker value illegal')
@@ -203,7 +206,6 @@ export default class Picker extends Nerv.Component {
 
       // 除了 multiSeclector，都在点击确认时才改变记录的下标值
       this.index = this.state.height.map(h => (TOP - h) / LINE_HEIGHT)
-
       const eventObj = getEventObj(e, 'change', {
         value: this.index.length > 1 ? this.index : this.index[0]
       })
@@ -249,18 +251,17 @@ export default class Picker extends Nerv.Component {
           eventObj.detail.value = this.index
         }
       }
-
       this.setState({
         pickerValue: eventObj.detail.value
       })
-      this.props.bindchange && this.props.bindchange(eventObj)
+      this.props.onChange && this.props.onChange(eventObj)
     }
 
     // 点击取消或蒙层
     const onCancel = e => {
       this.hidePicker()
       const eventObj = getEventObj(e, 'cancel', {})
-      this.props.bindcancel && this.props.bindcancel(eventObj)
+      this.props.onCancel && this.props.onCancel(eventObj)
     }
 
     // 列改变
@@ -297,7 +298,7 @@ export default class Picker extends Nerv.Component {
         column: columnId,
         value: index[columnId]
       })
-      this.props.bindcolumnchange && this.props.bindcolumnchange(eventObj)
+      this.props.onColumnchange && this.props.onColumnchange(eventObj)
     }
 
     // 统一抛出的事件对象，和小程序对齐

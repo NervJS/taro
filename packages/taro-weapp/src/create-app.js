@@ -1,7 +1,4 @@
-import initNativeApi from './native-api'
-
 function createApp (AppClass) {
-  initNativeApi(this)
   const app = new AppClass()
   const weappAppConf = {
     onLaunch (options) {
@@ -27,6 +24,18 @@ function createApp (AppClass) {
     onHide () {
       if (app.componentDidHide) {
         app.componentDidHide()
+      }
+    },
+
+    onError () {
+      if (app.componentDidCatchError) {
+        app.componentDidCatchError()
+      }
+    },
+
+    onPageNotFound () {
+      if (app.componentDidNotFound) {
+        app.componentDidNotFound()
       }
     }
   }

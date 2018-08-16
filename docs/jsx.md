@@ -15,7 +15,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 
-class Home extends Components {
+class Home extends Component {
 	render () {
 		return (
 			<View>Hello World!</View>
@@ -42,7 +42,7 @@ import Taro, { Component } from '@tarojs/taro'
 import home_page from './page'
 
 // 错误！组件名应该首字母大写:
-class App extends Components {
+class App extends Component {
 	render () {
 		return (
 			<home_page message="Hello World!" />
@@ -58,7 +58,7 @@ import Taro, { Component } from '@tarojs/taro'
 // 引入一个自定义组件组件
 import HomePage from './page'
 
-class App extends Components {
+class App extends Component {
 	render () {
 		return (
 			<HomePage message="Hello World!" />
@@ -91,17 +91,17 @@ import Taro, { Component } from '@tarojs/taro'
 
 
 class App extends Components {
-	render () {
-		return (
-		  let description;
-		  if (props.number % 2 == 0) {
-		    description = <Text>even</Text>;
-		  } else {
-		    description = <Text>odd</Text>;
-		  }
-  	      return <View>{this.props.number} is an {description} number</View>;
-		)
-	}
+  render () {
+    let description;
+
+    if (this.props.number % 2 == 0) {
+      description = <Text>even</Text>;
+    } else {
+      description = <Text>odd</Text>;
+    }
+
+    return <View>{this.props.number} is an {description} number</View>;
+  }
 }
 ```
 
@@ -207,61 +207,6 @@ const element = <Content footer={<View />} />
 这样的代码在 Nerv/React 中使用是没有问题的，但是在 Taro 中不能这么做。
 
 > 由于微信小程序内置的组件化的系统不能通过属性（props） 传函数，而 props 传递函数可以说 React 体系的根基之一，我们只能自己实现了一套组件化系统。而自制的组件化系统则不能使用内置组件化的 `slot` 功能。两权相害取其轻，我们暂时只能对这个功能忍痛割爱了。
-
-### 自定义组件不能嵌套子元素
-
-考虑如下代码：
-
-```javascript
-// Tabs.js
-class Tabs extends Componenet {
-	render () {
-		return <View> {this.props.children} </View>
-	}
-}
-// App.js
-import Tabs from './tabs'
-import TabItem from './tab-item'
-class App extends Componenet {
-	render () {
-		return (
-			<Tabs>
-				<TabItem content='首屏' />
-				<TabItem content='二屏' />
-			</Tabs>
-		)
-	}
-}
-```
-
-这样的代码在 Taro 中也不能运行。在 Nerv/React 中，自定义组件嵌套实际上也是通过 `props` 来实现的，只是 `children` 是一个特殊的 `prop` 。而对于 Taro，前文已阐述过不能通过 `props` 来传递 JSX 元素。上述的代码可改写成：
-
-```javascript
-// Tabs.js
-class Tabs extends Componenet {
-	render () {
-		return <View>
-			{this.props.items.map(item => {
-				return <TabItem content ={item} />
-			})}
-		</View>
-	}
-}
-// App.js
-import Tabs from './tabs'
-class App extends Componenet {
-	state = {
-		items: ['首屏', '二屏']
-	}
-	render () {
-		return (
-			<Tabs items={this.state.items} />
-		)
-	}
-}
-```
-
-> 原生组件（从 `@tarojs/components` 引入进来的组件）是可以嵌套子元素的。
 
 ### 自定义组件的名称必须和引入时一致
 

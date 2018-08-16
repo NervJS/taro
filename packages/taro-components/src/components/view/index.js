@@ -1,6 +1,7 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
+import './style/index.scss'
 
 class View extends Nerv.Component {
   constructor () {

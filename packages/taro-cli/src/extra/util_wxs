@@ -1,0 +1,11 @@
+var assign = function (s, d) {
+  if (typeof s !== 'object') {
+    return d
+  }
+  s = s || {}
+  d = d || {}
+  return JSON.parse((JSON.stringify(s) + JSON.stringify(d)).replace('}{', ','))
+}
+module.exports = {
+  assign: assign
+};

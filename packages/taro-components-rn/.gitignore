@@ -8,6 +8,9 @@ node_modules
 .vs_code
 .idea
 
+# expo
+.expo/
+
 # build
 dist
 build
@@ -18,3 +21,6 @@ __snapshots__
 
 # tcr-testing
 tcr-testing.sh
+
+# 稳定版时释放
+package-lock.json

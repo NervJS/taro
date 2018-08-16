@@ -17,13 +17,16 @@ function build (args, buildConfig) {
   }
   switch (type) {
     case Util.BUILD_TYPES.H5:
-      buildForH5(buildConfig)
+      buildForH5({ watch })
       break
     case Util.BUILD_TYPES.WEAPP:
       buildForWeapp({ watch })
       break
     case Util.BUILD_TYPES.RN:
       buildForRN({ watch })
+      break
+    case Util.BUILD_TYPES.UI:
+      buildForUILibrary({ watch })
       break
     default:
       console.log(chalk.red('输入类型错误，目前只支持weapp/h5/rn三端类型'))
@@ -40,6 +43,10 @@ function buildForH5 (buildConfig) {
 
 function buildForRN ({ watch }) {
   require('./rn').build({ watch })
+}
+
+function buildForUILibrary ({ watch }) {
+  require('./ui').build({ watch })
 }
 
 module.exports = build

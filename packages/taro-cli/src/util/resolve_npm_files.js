@@ -15,7 +15,6 @@ const {
 } = require('./index')
 
 const npmProcess = require('./npm')
-const { NPM_DIR, OUTPUT_DIR } = require('../config')
 
 const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
 const excludeNpmPkgs = ['ReactPropTypes']
@@ -24,35 +23,41 @@ const resolvedCache = {}
 const copyedFiles = {}
 
 const basedir = process.cwd()
-const projectConfig = require(path.join(basedir, PROJECT_CONFIG))(_.merge)
+const configDir = path.join(basedir, PROJECT_CONFIG)
+const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
+const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 
-function resolveNpmFilesPath (pkgName, isProduction) {
-  if (!resolvedCache[pkgName]) {
-    try {
-      const res = resolvePath.sync(pkgName, { basedir })
-      resolvedCache[pkgName] = {
-        main: res,
-        files: []
+function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig) {
+  try {
+    return resolvePath.sync(pkgName, { basedir })
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      console.log(`缺少npm包${pkgName}，开始安装...`)
+      const installOptions = {}
+      if (pkgName.indexOf(npmProcess.taroPluginPrefix) >= 0) {
+        installOptions.dev = true
       }
-      resolvedCache[pkgName].files.push(res)
-      recursiveRequire(res, resolvedCache[pkgName].files, isProduction)
-    } catch (err) {
-      if (err.code === 'MODULE_NOT_FOUND') {
-        console.log(`缺少npm包${pkgName}，开始安装...`)
-        const installOptions = {}
-        if (pkgName.indexOf(npmProcess.taroPluginPrefix) >= 0) {
-          installOptions.dev = true
-        }
-        npmProcess.installNpmPkg(pkgName, installOptions)
-        return resolveNpmFilesPath(pkgName, isProduction)
-      }
+      npmProcess.installNpmPkg(pkgName, installOptions)
+      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
     }
+  }
+}
+
+function resolveNpmFilesPath (pkgName, isProduction, npmConfig) {
+  if (!resolvedCache[pkgName]) {
+    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+    resolvedCache[pkgName] = {
+      main: res,
+      files: []
+    }
+    resolvedCache[pkgName].files.push(res)
+    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig)
   }
   return resolvedCache[pkgName]
 }
 
-function recursiveRequire (filePath, files, isProduction) {
+function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
@@ -61,7 +66,7 @@ function recursiveRequire (filePath, files, isProduction) {
       if (excludeNpmPkgs.indexOf(requirePath) >= 0) {
         return `require('${requirePath}')`
       }
-      const res = resolveNpmFilesPath(requirePath, isProduction)
+      const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig)
       const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
       return `require('${relativeRequirePath}')`
     }
@@ -78,11 +83,17 @@ function recursiveRequire (filePath, files, isProduction) {
     }
     if (files.indexOf(realRequirePath) < 0) {
       files.push(realRequirePath)
-      recursiveRequire(realRequirePath, files, isProduction)
+      recursiveRequire(realRequirePath, files, isProduction, npmConfig)
     }
     return `require('${requirePath}')`
   })
-  const outputNpmPath = filePath.replace('node_modules', path.join(OUTPUT_DIR, NPM_DIR))
+  let outputNpmPath
+  if (!npmConfig.dir) {
+    outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+  } else {
+    const npmFilePath = filePath.replace(/(.*)node_modules/, '')
+    outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
+  }
   if (!copyedFiles[outputNpmPath]) {
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -107,8 +118,21 @@ function recursiveRequire (filePath, files, isProduction) {
 
 function npmCodeHack (filePath, content) {
   const basename = path.basename(filePath)
-  if (basename === '_freeGlobal.js') {
-    content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
+  switch (basename) {
+    case 'lodash.js':
+    case '_global.js':
+      content = content.replace('Function(\'return this\')()', 'this')
+      break
+    case '_html.js':
+      content = 'module.exports = false;'
+      break
+    case '_microtask.js':
+      content = content.replace('if(Observer)', 'if(false && Observer)')
+      // IOS 1.10.2 Promise BUG
+      content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
+      break
+    case '_freeGlobal.js':
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
   }
   return content
 }
@@ -119,5 +143,6 @@ function getResolvedCache () {
 
 module.exports = {
   getResolvedCache,
-  resolveNpmFilesPath
+  resolveNpmFilesPath,
+  resolveNpmPkgMainPath
 }

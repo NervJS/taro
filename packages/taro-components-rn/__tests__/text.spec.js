@@ -2,9 +2,7 @@ import React from 'react'
 // import 'react-native'
 import { shallow } from 'enzyme'
 import Text from '../src/components/text'
-import renderer from 'react-test-renderer'
-
-
+// import renderer from 'react-test-renderer'
 
 describe('<Text />', () => {
   // it('renders correctly', () => {

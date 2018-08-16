@@ -15,7 +15,7 @@ export interface StandardProps extends EventProps {
    * 如果列表中项目的位置会动态改变或者有新的项目添加到列表中，
    * 需要使用 `wx:key` 来指定列表中项目的唯一的标识符。
    */
-  key?: string,
+  key?: string | number,
   /**
    * 组件是否显示, 所有组件默认显示
    */
@@ -24,62 +24,62 @@ export interface StandardProps extends EventProps {
 
 interface EventProps {
   /**
-   * 手指触摸动作开始	
+   * 手指触摸动作开始
    */
   onTouchStart?: (event: ITouchEvent) => any,
 
   /**
-   * 手指触摸后移动	
+   * 手指触摸后移动
    */
   onTouchMove?: (event: ITouchEvent) => any,
 
   /**
-   * 手指触摸动作被打断，如来电提醒，弹窗	
+   * 手指触摸动作被打断，如来电提醒，弹窗
    */
   onTouchCancel?: (event: ITouchEvent) => any,
 
   /**
-   * 手指触摸动作结束	
+   * 手指触摸动作结束
    */
   onTouchEnd?: (event: ITouchEvent) => any,
 
   /**
-   * 手指触摸后马上离开	
+   * 手指触摸后马上离开
    */
   onClick?: (event: ITouchEvent) => any,
 
   /**
-   * 手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发	
+   * 手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发
    */
   onLongPress?: (event: BaseEvent) => any,
 
   /**
-   * 手指触摸后，超过350ms再离开（推荐使用longpress事件代替）	
+   * 手指触摸后，超过350ms再离开（推荐使用longpress事件代替）
    */
   onLongClick?: (event: BaseEvent) => any,
-  
+
   /**
-   * 会在 WXSS transition 或 wx.createAnimation 动画结束后触发	
+   * 会在 WXSS transition 或 wx.createAnimation 动画结束后触发
    */
   onTransitionEnd?: (event: BaseEvent) => any,
 
   /**
-   * 会在一个 WXSS animation 动画开始时触发	
+   * 会在一个 WXSS animation 动画开始时触发
    */
   onAnimationStart?: (event: BaseEvent) => any,
 
   /**
-   * 会在一个 WXSS animation 一次迭代结束时触发	
+   * 会在一个 WXSS animation 一次迭代结束时触发
    */
   onAnimationIteration?: (event: BaseEvent) => any,
 
   /**
-   * 会在一个 WXSS animation 动画完成时触发	
+   * 会在一个 WXSS animation 动画完成时触发
    */
   onAnimationEnd?: (event: BaseEvent) => any,
 
   /**
-   * 在支持 3D Touch 的 iPhone 设备，重按时会触发	
+   * 在支持 3D Touch 的 iPhone 设备，重按时会触发
    */
   onTouchForceChange?: (event: BaseEvent) => any
 }

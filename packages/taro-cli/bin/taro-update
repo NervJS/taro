@@ -1,0 +1,147 @@
+#!/usr/bin/env node
+const path = require('path')
+const fs = require('fs-extra')
+const program = require('commander')
+const chalk = require('chalk')
+const { getPkgItemByKey } = require('../src/util')
+const ora = require('ora')
+const exec = require('child_process').exec
+const getLatestVersion = require('latest-version')
+const { PROJECT_CONFIG } = require('../src/util')
+const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
+const pkgPath = path.join(process.cwd(), 'package.json')
+const { shouldUseYarn, shouldUseCnpm } = require('../src/util')
+
+const pkgName = getPkgItemByKey('name')
+
+const UPDATE_PACKAGE_LIST = [
+  '@tarojs/taro',
+  '@tarojs/async-await',
+  '@tarojs/cli',
+  '@tarojs/components',
+  '@tarojs/components-rn',
+  '@tarojs/taro-h5',
+  '@tarojs/plugin-babel',
+  '@tarojs/plugin-csso',
+  '@tarojs/plugin-sass',
+  '@tarojs/plugin-less',
+  '@tarojs/plugin-stylus',
+  '@tarojs/plugin-uglifyjs',
+  '@tarojs/redux',
+  '@tarojs/redux-h5',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
+  '@tarojs/router',
+  '@tarojs/taro-weapp',
+  '@tarojs/webpack-runner',
+  'postcss-plugin-constparse',
+  'eslint-config-taro',
+  'eslint-plugin-taro',
+  'taro-transformer-wx',
+  'postcss-pxtransform'
+]
+
+// 这里没有使用 command 的形式：taro-update-self
+program.parse(process.argv)
+
+const args = program.args
+
+if (args.length === 1) {
+  switch (args[0]) {
+    case 'self': {
+      updateSelf()
+      break
+    }
+    case 'project': {
+      updateProject()
+      break
+    }
+    default:
+      info()
+  }
+} else {
+  info()
+}
+
+function info () {
+  console.log(chalk.red('命令错误:'))
+  console.log(`${chalk.green('taro update self')} 更新 Taro 开发工具 taro-cli 到最新版本`)
+  console.log(`${chalk.green('taro update project')} 更新项目所有 Taro 相关依赖到最新版本...`)
+}
+
+function updateSelf () {
+  let command
+  if (shouldUseYarn()) {
+    command = 'yarn global add @tarojs/cli@latest'
+  } else if (shouldUseCnpm()) {
+    command = 'cnpm i -g @tarojs/cli@latest'
+  } else {
+    command = 'npm i -g @tarojs/cli@latest'
+  }
+
+  let child = exec(command)
+
+  const spinner = ora('即将将 Taro 开发工具 taro-cli 更新到最新版本...').start()
+
+  child.stdout.on('data', function (data) {
+    console.log(data)
+    spinner.stop()
+  })
+  child.stderr.on('data', function (data) {
+    console.log(data)
+    spinner.stop()
+  })
+}
+
+async function updateProject () {
+  if (!fs.existsSync(projectConfPath)) {
+    console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
+    process.exit(1)
+  }
+  const packageMap = require(pkgPath)
+
+  const version = await getLatestVersion(pkgName)
+
+  // 更新 @tarojs/* 版本
+  Object.keys(packageMap.dependencies).forEach((key) => {
+    if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
+      packageMap.dependencies[key] = version
+    }
+  })
+  Object.keys(packageMap.devDependencies).forEach((key) => {
+    if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
+      packageMap.devDependencies[key] = version
+    }
+  })
+
+  // 写入package.json
+  try {
+    await fs.writeJson(pkgPath, packageMap, {spaces: '\t'})
+    console.log(chalk.green('更新项目 package.json 成功！'))
+    console.log()
+  } catch (err) {
+    console.error(err)
+  }
+
+  let command
+  if (shouldUseYarn()) {
+    command = 'yarn install'
+  } else if (shouldUseCnpm()) {
+    command = 'cnpm install'
+  } else {
+    command = 'npm install'
+  }
+
+  let child = exec(command)
+
+  const spinner = ora('即将将项目所有 Taro 相关依赖更新到最新版本...').start()
+
+  child.stdout.on('data', function (data) {
+    spinner.stop()
+    console.log(data)
+  })
+  child.stderr.on('data', function (data) {
+    spinner.stop()
+    console.log(data)
+  })
+}

@@ -8,13 +8,21 @@ cache:
   directories:
   - node_modules
 
-script:
-  - npm run build:docs
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  local-dir: docs/_book
-  on:
-    branch: master
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm install
+        - npm run bootstrap
+        - npm run build
+        - npm run test
+    - stage: deploy
+      if: (branch = master) AND (NOT (type IN (pull_request)))
+      script: yarn run build:docs
+      deploy:
+        - provider: pages
+          skip-cleanup: true
+          github-token: $GITHUB_TOKEN
+          local-dir: docs/_book
+          on:
+            branch: master

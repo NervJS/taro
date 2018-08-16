@@ -26,7 +26,7 @@ export default class Index extends Component {
 export const baseCode = `
 return (
   <View className='index'>
-    <View className='title'>{this.state.title}</View>
+    <View className='title'>title</View>
     <View className='content'>
       {this.state.list.map(item => {
         return (
@@ -39,15 +39,23 @@ return (
 )
 `
 
+export function removeShadowData (obj: any) {
+  if (obj['__data']) {
+    delete obj['__data']
+  }
+  return obj
+}
+
 export const baseOptions = {
   isRoot: false,
   isApp: false,
-  path: __dirname,
+  sourcePath: __dirname,
+  outputPath: __dirname,
   code: '',
   isTyped: false
 }
 
-export function evalClass (ast: t.File, props = '') {
+export function evalClass (ast: t.File, props = '', isRequire = false) {
   let mainClass!: t.ClassDeclaration
   const statements = new Set<t.ExpressionStatement>()
 
@@ -80,13 +88,26 @@ export function evalClass (ast: t.File, props = '') {
     // constructor 即便没有被定义也会被加上
     if (t.isClassMethod(method) && method.kind === 'constructor') {
       const index = method.body.body.findIndex(node => t.isSuper(node))
+      method.body.body.push(
+        t.expressionStatement(t.assignmentExpression(
+          '=',
+          t.memberExpression(
+            t.thisExpression(),
+            t.identifier('state')
+          ),
+          t.callExpression(t.memberExpression(t.thisExpression(), t.identifier('_createData')), [])
+        ))
+      )
       method.body.body.splice(index, 0, ...statements)
     }
   }
 
-  const code = `function f() {};` +
+  let code = `function f() {};` +
     generate(t.classDeclaration(t.identifier('Test'), t.identifier('f'), mainClass.body, [])).code +
     ';' + `new Test(${props})`
+  if (isRequire) {
+    code = 'const { internal_inline_style } = require("@tarojs/taro");' + code
+  }
   // tslint:disable-next-line
   return eval(code)
 }

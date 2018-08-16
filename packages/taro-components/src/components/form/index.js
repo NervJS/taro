@@ -21,13 +21,18 @@ class Form extends Nerv.Component {
     let formItem = {}
     let hash = {}
     elements.forEach(item => {
-      if (item.className === 'weui-switch') {
+      if (item.className.indexOf('weui-switch') !== -1) {
         formItem[item.name] = item.checked
         return
       }
       if (item.type === 'radio') {
         if (item.checked) {
-          formItem['radio-group'] = item.value
+          hash[item.name] = true
+          formItem[item.name] = item.value
+        } else {
+          if (!hash[item.name]) {
+            formItem[item.name] = ''
+          }
         }
         return
       }
@@ -39,6 +44,10 @@ class Form extends Nerv.Component {
           } else {
             hash[item.name] = true
             formItem[item.name] = [item.value]
+          }
+        } else {
+          if (!hash[item.name]) {
+            formItem[item.name] = []
           }
         }
         return
@@ -55,9 +64,13 @@ class Form extends Nerv.Component {
     textareaEleArr.forEach(v => {
       formItem[v.name] = v.value
     })
-    this.props.onSubmit({
-      detail: { value: formItem }
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: formItem
+      }
     })
+    this.props.onSubmit(e)
   }
 
   onReset (e) {

@@ -4,7 +4,7 @@
 
 如下代码，我们使用 `map()` 函数让数组中的每一项翻倍,我们得到了一个新的数列 `doubled` 。
 
-```
+```javascript
 const numbers = [1, 2, 3, 4, 5];
 const doubled = numbers.map((number) => number * 2);
 console.log(doubled);
@@ -20,7 +20,7 @@ console.log(doubled);
 下面，我们使用 JavaScript 中的 `map()` 方法遍历 `numbers` 数组。对数组中的每个元素返回`<Text>`标签，最后我们得到一个数组 `listItems`：
 
 ```javascript
-const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 99, 100]
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
   return <Text class='li'> 我是第 {number + 1} 个数字</Text>
 })
@@ -33,7 +33,7 @@ const listItems = numbers.map((number) => {
 但是在上面的代码，你会得到一个报错：提醒你当循环一个数组时应该提供 keys。Keys 可以在DOM中的某些元素被增加或删除的时候帮助 Nerv/小程序 识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。
 
 ```javascript
-const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 99, 100]
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
   return <Text
 		key={String(number)}
@@ -121,7 +121,7 @@ class App extends Components {
     inputText: ''
   }
 
-  handleNewTodo () {
+  onNewTodo () {
     this.setState({
       todos: [...this.state.todos, createNewTodo(this.state.inputText)]
     })

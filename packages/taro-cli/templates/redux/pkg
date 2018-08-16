@@ -1,0 +1,53 @@
+{
+  "name": "<%= projectName %>",
+  "version": "1.0.0",
+  "private": true,
+  "description": "<%= description %>",
+  "main": "index.js",
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "build:h5": "taro build --type h5",
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:h5": "npm run build:h5 -- --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/async-await": "^<%= version %>",
+    "@tarojs/components": "^<%= version %>",
+    "@tarojs/redux": "^<%= version %>",
+    "@tarojs/redux-h5": "^<%= version %>",
+    "@tarojs/router": "^<%= version %>",
+    "@tarojs/taro": "^<%= version %>",
+    "@tarojs/taro-h5": "^<%= version %>",
+    "@tarojs/taro-weapp": "^<%= version %>",
+    "nervjs": "^1.3.0",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.8",
+    "@types/webpack-env": "^1.13.6",
+    "@tarojs/cli": "^<%= version %>",
+    "@tarojs/plugin-babel": "^<%= version %>",
+    "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
+    "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%><% if (typescript) {%>
+    "@tarojs/plugin-typescript": "^<%= version %>",<%}%>
+    "@tarojs/plugin-uglifyjs": "^<%= version %>",
+    "@tarojs/webpack-runner": "^<%= version %>",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-jsx-stylesheet": "^0.6.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-config-taro": "^<%= version %>",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-taro": "^<%= version %>"<% if (typescript) {%>,
+    "typescript": "^3.0.1"<%}%>
+  }
+}

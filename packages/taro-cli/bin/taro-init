@@ -4,28 +4,23 @@ const program = require('commander')
 
 const Project = require('../src/project')
 
-const {
-  getPkgVersion
-} = require('../src/util')
-
 program
   .option('--name', '项目名称')
-  .option('--template', '项目模板')
   .option('--description', '项目介绍')
+  .option('--typescript', '是否使用 TypeScript')
+  .option('--template', '项目模板')
   .parse(process.argv)
 
 const args = program.args
-const { template, description, name } = program
+const { template, description, name, typescript } = program
 
 const projectName = args[0] || name
 
 const project = new Project({
   projectName,
   template,
-  description
+  description,
+  typescript
 })
-
-console.log(`Taro v${getPkgVersion()}`)
-console.log()
 
 project.create()

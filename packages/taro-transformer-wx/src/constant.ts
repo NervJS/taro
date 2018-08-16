@@ -23,6 +23,8 @@ BIND_EVENT_MAP.forEach((value, key) => {
   CATCH_EVENT_MAP.set(key, value)
 })
 
+export const THIRD_PARTY_COMPONENTS = new Set<string>()
+
 // tslint:disable-next-line:variable-name
 export const DEFAULT_Component_SET = new Set<string>([
   'View',
@@ -59,7 +61,9 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Canvas',
   'OpenData',
   'WebView',
-  'SwiperItem'
+  'SwiperItem',
+  'MovableArea',
+  'MovableView'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
@@ -76,7 +80,11 @@ export const MAP_CALL_ITERATOR = '__item'
 
 export const INTERNAL_DYNAMIC = 'internal_dynamic_recursive'
 
+export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
+
 export const LOOP_STATE = '$loopState'
+
+export const LOOP_CALLEE = '$anonymousCallee_'
 
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
@@ -87,3 +95,8 @@ SPECIAL_COMPONENT_PROPS.set(
     'backgroundColor'
   ])
 )
+
+export const IMAGE_COMPONENTS = new Set<string>([
+  'Image',
+  'CoverImage'
+])

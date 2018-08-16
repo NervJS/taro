@@ -3,6 +3,7 @@
 .swiper {
   position: relative;
   overflow: hidden;
+  height: 150px;
 
   &_wrapper {
     position: relative;
@@ -12,10 +13,7 @@
 
   &_item {
     float: left;
-    img {
-      width: 100%;
-      height: auto;
-    }
+    height: 100%;
   }
 }
 
@@ -23,7 +21,7 @@
 .swiper_indicators {
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: center;

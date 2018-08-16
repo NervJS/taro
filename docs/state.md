@@ -64,7 +64,7 @@ constructor(props) {
 
 我们可以在组件类上声明特殊的方法，当组件挂载或卸载时，来运行一些代码：
 
-```
+```javascript
 class Clock extends Component {
 	constructor(props) {
     super(props);
@@ -163,7 +163,7 @@ class Clock extends React.Component {
 
 例如，此代码不会重新渲染组件：
 
-```
+```javascript
 // Wrong
 this.state.comment = 'Hello'
 ```

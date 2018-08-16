@@ -64,7 +64,6 @@ class Camera extends Nerv.Component {
   render () {
     return (
       <div>
-        <div class='weui-btn weui-btn_primary' ref={(getCamera) => { this.getCamera = getCamera }}>点击拍照</div>
         <video id='video' autoplay style='width: 480px;height: 320px' ref={(vide) => { this.vide = vide }} />
         <canvas
           id='canvas'

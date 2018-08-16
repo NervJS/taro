@@ -1,9 +1,11 @@
+import isPlainObject from 'lodash/isPlainObject'
+
 export function isEmptyObject (obj) {
-  if (!obj) {
+  if (!obj || !isPlainObject(obj)) {
     return false
   }
   for (const n in obj) {
-    if (obj.hasOwnProperty(n) && obj[n]) {
+    if (obj.hasOwnProperty(n)) {
       return false
     }
   }
@@ -52,4 +54,37 @@ export function getPrototypeChain (obj) {
     protoChain.push(obj)
   }
   return protoChain
+}
+
+export function noop () {}
+
+export function isFunction (arg) {
+  return typeof arg === 'function'
+}
+
+export function isArray (arg) {
+  return Array.isArray(arg)
+}
+
+export function shakeFnFromObject (obj) {
+  let newObj
+  if (isArray(obj)) {
+    newObj = []
+    const len = obj.length
+    for (let i = 0; i < len; i++) {
+      newObj.push(shakeFnFromObject(obj[i]))
+    }
+  } else if (isPlainObject(obj)) {
+    newObj = {}
+    for (const key in obj) {
+      if (isFunction(obj[key])) {
+        continue
+      }
+      const ret = shakeFnFromObject(obj[key])
+      newObj[key] = ret
+    }
+  } else {
+    return obj
+  }
+  return newObj
 }

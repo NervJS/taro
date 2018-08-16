@@ -7,6 +7,10 @@ import vibrate from './api/vibrate'
 import media from './api/media'
 import webSocket from './api/webSocket'
 import geolocation from './api/geolocation'
+import { showToast, showLoading, hideToast, hideLoading } from './api/WxToast'
+import showModal from './api/WxModal'
+import showActionSheet from './api/WxActionSheet'
+import previewImage from './api/WxPreviewImage'
 
 function request (options) {
   options = options || {}
@@ -28,14 +32,17 @@ function request (options) {
     .then(response => {
       res.statusCode = response.status
       res.header = response.headers
+      if (options.dataType === 'json') {
+        return response.json()
+      }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
-      if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-        return response.json()
-      }
       if (options.responseType === 'text') {
         return response.text()
+      }
+      if (typeof options.dataType === 'undefined') {
+        return response.json()
       }
       return Promise.resolve(null)
     }).then(data => {
@@ -253,7 +260,7 @@ function processApis (taro) {
     checkIsSoterEnrolledInDevice: true
     //
   }
-  const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
+  const weApis = Object.assign({}, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
     taro[key] = () => {
       console.log(`暂时不支持 ${key}`)
@@ -274,6 +281,13 @@ export default function initNativeApi (taro) {
     vibrate,
     media,
     webSocket,
-    geolocation
+    geolocation,
+    showToast,
+    showLoading,
+    hideToast,
+    hideLoading,
+    showModal,
+    showActionSheet,
+    previewImage
   )
 }

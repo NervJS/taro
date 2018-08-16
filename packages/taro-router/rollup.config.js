@@ -7,7 +7,7 @@ const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.js'),
-  external: ['nervjs'],
+  external: ['nervjs', '@tarojs/taro-h5'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -45,7 +45,11 @@ const baseConfig = {
         }]
       ]
     })
-  ]
+  ],
+  watch: {
+    include: 'src/**',
+    clearScreen: true
+  }
 }
 const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {

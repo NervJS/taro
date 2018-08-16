@@ -6,16 +6,17 @@ function vibrate (DURATION, API) {
     Vibration.vibrate(DURATION)
     return Promise.resolve(res)
   } catch (err) {
+    console.log(err)
     res.errMsg = err.message
     return Promise.reject(res)
   }
 }
 
-export function vibrateShort (DURATION, API) {
+export function vibrateShort () {
   return vibrate(15, 'vibrateShort')
 }
 
-export function vibrateLong (DURATION, API) {
+export function vibrateLong () {
   return vibrate(400, 'vibrateLong')
 }
 

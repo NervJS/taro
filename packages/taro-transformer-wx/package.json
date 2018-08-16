@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "0.0.49",
+  "version": "1.0.0-beta.10",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -43,22 +43,23 @@
   },
   "dependencies": {
     "@babel/code-frame": "^7.0.0-beta.44",
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/plugin-transform-flow-strip-types": "^7.0.0-beta.47",
-    "@babel/plugin-transform-typescript": "^7.0.0-beta.47",
     "babel-core": "^6.26.3",
+    "babel-plugin-danger-remove-unused-import": "^1.0.13",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "html": "^1.0.0",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "typescript": "^3.0.1"
   },
   "devDependencies": {
-    "@types/babel-core": "^6.25.3",
+    "@tarojs/taro": "1.0.0-beta.10",
+    "@types/babel-core": "^6.25.5",
     "@types/babel-generator": "^6.25.1",
     "@types/babel-template": "^6.25.0",
-    "@types/babel-traverse": "^6.25.3",
+    "@types/babel-traverse": "6.25.3",
+    "@types/babel-types": "^6.25.2",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
     "@types/node": "^9.6.2",
@@ -67,8 +68,7 @@
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.10.0",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.8.4"
+    "tslint-config-standard": "^7.0.0"
   },
   "publishConfig": {
     "access": "public"

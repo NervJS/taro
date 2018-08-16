@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "0.0.49",
+  "version": "1.0.0-beta.10",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -11,8 +11,6 @@
     "types"
   ],
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --env development --port 9090",
-    "deploy": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.prod.config.js",
     "test": "jest",
     "test-coverage": "jest --coverage",
@@ -33,6 +31,7 @@
     "weui": "^1.1.2"
   },
   "peerDependencies": {
+    "@types/react": "^16.4.6",
     "classnames": "^2.2.5",
     "nervjs": "^1.2.16",
     "omit.js": "^1.0.0",

@@ -6,14 +6,21 @@ const execSync = require('child_process').execSync
 const chalk = require('chalk')
 
 const pocessTypeEnum = {
+  CREATE: 'create',
   COMPILE: 'compile',
   COPY: 'copy',
   GENERATE: 'generate',
   MODIFY: 'modify',
-  ERROR: 'error'
+  ERROR: 'error',
+  WARNING: 'warning',
+  UNLINK: 'unlink'
 }
 
 const processTypeMap = {
+  [pocessTypeEnum.CREATE]: {
+    name: '创建',
+    color: 'cyan'
+  },
   [pocessTypeEnum.COMPILE]: {
     name: '编译',
     color: 'green'
@@ -33,16 +40,32 @@ const processTypeMap = {
   [pocessTypeEnum.ERROR]: {
     name: '错误',
     color: 'red'
+  },
+  [pocessTypeEnum.WARNING]: {
+    name: '警告',
+    color: 'yellow'
+  },
+  [pocessTypeEnum.UNLINK]: {
+    name: '删除',
+    color: 'magenta'
+  },
+  [pocessTypeEnum.START]: {
+    name: '启动',
+    color: 'green'
   }
 }
 
 exports.pocessTypeEnum = pocessTypeEnum
 
-exports.CSS_EXT = ['.css', '.scss']
+exports.CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss']
 exports.SCSS_EXT = ['.scss']
-exports.JS_EXT = ['.js']
-exports.REG_SCRIPT = /\.js(\?.*)?$/
-exports.REG_STYLE = /\.(css|scss)(\?.*)?$/
+exports.JS_EXT = ['.js', '.jsx']
+exports.TS_EXT = ['.ts', '.tsx']
+exports.REG_JS = /\.js(\?.*)?$/
+exports.REG_SCRIPT = /\.(js|jsx)(\?.*)?$/
+exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
+exports.REG_SCRIPTS = /\.[tj]sx?$/i
+exports.REG_STYLE = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
@@ -51,7 +74,8 @@ exports.REG_JSON = /\.json(\?.*)?$/
 exports.BUILD_TYPES = {
   WEAPP: 'weapp',
   H5: 'h5',
-  RN: 'rn'
+  RN: 'rn',
+  UI: 'ui'
 }
 
 exports.PROJECT_CONFIG = 'config/index.js'
@@ -64,7 +88,10 @@ exports.DEVICE_RATIO = {
 
 exports.FILE_PROCESSOR_MAP = {
   '.js': 'babel',
-  '.scss': 'sass'
+  '.scss': 'sass',
+  '.sass': 'sass',
+  '.less': 'less',
+  '.styl': 'stylus'
 }
 
 exports.isNpmPkg = function (name) {
@@ -159,6 +186,15 @@ exports.getPkgVersion = function () {
   return require(path.join(exports.getRootPath(), 'package.json')).version
 }
 
+exports.getPkgItemByKey = function (key) {
+  const packageMap = require(path.join(exports.getRootPath(), 'package.json'))
+  if (Object.keys(packageMap).indexOf(key) === -1) {
+    return {}
+  } else {
+    return packageMap[key]
+  }
+}
+
 exports.printPkgVersion = function () {
   const taroVersion = exports.getPkgVersion()
   console.log(`👽 Taro v${taroVersion}`)
@@ -214,13 +250,16 @@ exports.urlJoin = function () {
 
 exports.resolveScriptPath = function (p) {
   let realPath = p
-  exports.JS_EXT.forEach(item => {
+  const SCRIPT_EXT = exports.JS_EXT.concat(exports.TS_EXT)
+  for (let i = 0; i < SCRIPT_EXT.length; i++) {
+    const item = SCRIPT_EXT[i]
     if (fs.existsSync(`${p}${item}`)) {
-      realPath = `${p}${item}`
-    } else if (fs.existsSync(`${p}${path.sep}index${item}`)) {
-      realPath = `${p}${path.sep}index${item}`
+      return `${p}${item}`
     }
-  })
+    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
+      return `${p}${path.sep}index${item}`
+    }
+  }
   return realPath
 }
 
@@ -281,4 +320,15 @@ exports.replaceContentConstants = function (content, constants) {
     return content
   }
   return content
+}
+
+exports.cssImports = function (content) {
+  const re = /\@import (["'])(.+?)\1;/g
+  let match = {}
+  const results = []
+  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  while (match = re.exec(content)) {
+    results.push(match[2])
+  }
+  return results
 }

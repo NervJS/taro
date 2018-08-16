@@ -1,7 +1,6 @@
 const has = require('has')
 
 const allRules = {
-  'custom-component-children': require('./custom-component-children'),
   'if-statement-in-map-loop': require('./if-statement-in-map-loop'),
   'manipulate-jsx-as-array': require('./manipulate-jsx-as-array'),
   'no-anonymous-function-in-props': require('./no-anonymous-function-in-props'),
@@ -10,7 +9,11 @@ const allRules = {
   'no-ref': require('./no-ref'),
   'no-spread-in-props': require('./no-spread-in-props'),
   'no-stateless-component': require('./no-stateless-component'),
-  'jsx-handler-names': require('./jsx-handler-names')
+  'jsx-handler-names': require('./jsx-handler-names'),
+  'reserve-class-properties': require('./reserve-class-properties'),
+  'function-naming': require('./function-naming'),
+  'class-naming': require('./class-naming'),
+  'props-reserve-keyword': require('./props-reserve-keyword')
 }
 
 function configureAsError (rules) {
