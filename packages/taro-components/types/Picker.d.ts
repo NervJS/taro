@@ -18,7 +18,7 @@ interface PickerProps extends StandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: number[],
+  value: number[] | string[] | number | string,
   /**
    * 是否禁用
    *
