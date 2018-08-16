@@ -13,7 +13,7 @@ interface InputProps extends StandardProps {
    *
    * 默认值：`text`
    */
-  type?: 'text' | 'number' | 'idcard' | 'digit',
+  type?: 'text' | 'number' | 'password' | 'idcard' | 'digit',
 
   /**
    * 是否是密码类型
