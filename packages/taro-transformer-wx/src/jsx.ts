@@ -139,7 +139,7 @@ export function parseJSXElement (element: t.JSXElement): string {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {
           const isBindEvent =
-            name.startsWith('bind') || name.startsWith('catch')
+            (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
           let { code } = generate(attrValue.expression)
           code = code
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
