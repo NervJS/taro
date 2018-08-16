@@ -63,7 +63,9 @@ export const DEFAULT_Component_SET = new Set<string>([
   'WebView',
   'SwiperItem',
   'MovableArea',
-  'MovableView'
+  'MovableView',
+  'FunctionalPageNavigator',
+  'Ad'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
