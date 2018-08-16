@@ -87,10 +87,10 @@ async function buildForH5 (buildConfig) {
 
 function buildEntry () {
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
-    module.exports = require('./${h5OutputName}/index.js').default
+    module.exports = require('./${h5OutputName}/index.js')
     module.exports.default = module.exports
   } else if (process.env.TARO_ENV === '${BUILD_TYPES.WEAPP}') {
-    module.exports = require('./${weappOutputName}/index.js').default
+    module.exports = require('./${weappOutputName}/index.js')
     module.exports.default = module.exports
   }`
   const outputDir = path.join(appPath, outputDirName)

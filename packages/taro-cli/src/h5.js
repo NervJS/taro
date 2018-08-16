@@ -685,6 +685,9 @@ async function buildDist (buildConfig) {
   const h5Config = projectConfig.h5 || {}
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   h5Config.env = projectConfig.env
+  Object.assign(h5Config.env, {
+    TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
+  })
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
   h5Config.designWidth = projectConfig.designWidth
