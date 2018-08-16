@@ -1,5 +1,6 @@
 const resolvePath = require('resolve')
 const spawn = require('cross-spawn')
+const chalk = require('chalk')
 
 const Util = require('./')
 
@@ -16,7 +17,7 @@ const defaultInstallOptions = {
 function resolveNpm (pluginName) {
   if (!npmCached[pluginName]) {
     return new Promise((resolve, reject) => {
-      resolvePath(`${pluginName}`, { basedir }, (err, res) => {
+      resolvePath(`${pluginName}`, {basedir}, (err, res) => {
         if (err) {
           return reject(err)
         }
@@ -31,13 +32,13 @@ function resolveNpm (pluginName) {
 function resolveNpmSync (pluginName) {
   try {
     if (!npmCached[pluginName]) {
-      const res = resolvePath.sync(pluginName, { basedir })
+      const res = resolvePath.sync(pluginName, {basedir})
       return res
     }
     return npmCached[pluginName]
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
-      console.log(`缺少npm包${pluginName}，开始安装...`)
+      console.log(chalk.cyan(`缺少npm包${pluginName}，开始安装...`))
       const installOptions = {}
       if (pluginName.indexOf(taroPluginPrefix) >= 0) {
         installOptions.dev = true
@@ -126,7 +127,7 @@ async function getNpmPkg (npmName) {
     npmPath = await resolveNpm(npmName)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
-      console.log(`缺少npm包${npmName}，开始安装...`)
+      console.log(chalk.cyan(`缺少npm包${npmName}，开始安装...`))
       const installOptions = {}
       if (npmName.indexOf(taroPluginPrefix) >= 0) {
         installOptions.dev = true

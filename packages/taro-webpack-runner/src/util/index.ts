@@ -172,20 +172,13 @@ const patchCustomConfig = (
   buildConfig: Types.BuildConfig
 ): webpack.Configuration => {
   const customWebpackConfig = buildConfig.webpack || {}
-  let webpackConf
-  if (typeof customWebpackConfig === 'function') {
-    webpackConf = customWebpackConfig(baseConfig, webpack)
-  } else {
-    webpackConf = webpackMerge(baseConfig, customWebpackConfig)
-  }
-
   const constantConfig = buildConfig.defineConstants || {}
   const envConfig = {}
   for (const [envKey, envValue] of Object.entries(buildConfig.env || {})) {
     envConfig[`process.env.${envKey}`] = envValue
   }
   const definePluginConfig = Object.assign({}, envConfig, constantConfig)
-  return webpackMerge(webpackConf, {
+  let webpackConf = webpackMerge(baseConfig, {
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'index.html',
@@ -194,6 +187,12 @@ const patchCustomConfig = (
       new webpack.DefinePlugin(definePluginConfig)
     ]
   })
+  if (typeof customWebpackConfig === 'function') {
+    webpackConf = customWebpackConfig(webpackConf, webpack)
+  } else {
+    webpackConf = webpackMerge(webpackConf, customWebpackConfig)
+  }
+  return webpackConf
 }
 
 export {
@@ -205,6 +204,6 @@ export {
   isPrivate,
   isLoopback,
   prepareUrls,
-  
+
   patchCustomConfig
 }

@@ -100,6 +100,32 @@ describe('if statement', () => {
     `))
   })
 
+  test('if 的 block 含有复杂表达式', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      const tasks = []
+      if (true) {
+        return <View className={JSON.stringify(tasks)}  >
+        </View>
+      }
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+      <block>
+          <block wx:if="{{true}}">
+              <view class="{{_anonymousState__temp}}"></view>
+          </block>
+      </block>
+    `))
+
+    const inst = evalClass(ast)
+    expect(inst.state._anonymousState__temp).toEqual('[]')
+    expect(Object.keys(inst.state).length).toBe(1)
+  })
+
   test.skip('if-else', () => {
     const { template, ast } = transform({
       ...baseOptions,

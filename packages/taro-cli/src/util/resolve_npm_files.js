@@ -28,27 +28,31 @@ const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 
+function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig) {
+  try {
+    return resolvePath.sync(pkgName, { basedir })
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      console.log(`缺少npm包${pkgName}，开始安装...`)
+      const installOptions = {}
+      if (pkgName.indexOf(npmProcess.taroPluginPrefix) >= 0) {
+        installOptions.dev = true
+      }
+      npmProcess.installNpmPkg(pkgName, installOptions)
+      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+    }
+  }
+}
+
 function resolveNpmFilesPath (pkgName, isProduction, npmConfig) {
   if (!resolvedCache[pkgName]) {
-    try {
-      const res = resolvePath.sync(pkgName, { basedir })
-      resolvedCache[pkgName] = {
-        main: res,
-        files: []
-      }
-      resolvedCache[pkgName].files.push(res)
-      recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig)
-    } catch (err) {
-      if (err.code === 'MODULE_NOT_FOUND') {
-        console.log(`缺少npm包${pkgName}，开始安装...`)
-        const installOptions = {}
-        if (pkgName.indexOf(npmProcess.taroPluginPrefix) >= 0) {
-          installOptions.dev = true
-        }
-        npmProcess.installNpmPkg(pkgName, installOptions)
-        return resolveNpmFilesPath(pkgName, isProduction, npmConfig)
-      }
+    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+    resolvedCache[pkgName] = {
+      main: res,
+      files: []
     }
+    resolvedCache[pkgName].files.push(res)
+    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig)
   }
   return resolvedCache[pkgName]
 }
@@ -139,5 +143,6 @@ function getResolvedCache () {
 
 module.exports = {
   getResolvedCache,
-  resolveNpmFilesPath
+  resolveNpmFilesPath,
+  resolveNpmPkgMainPath
 }

@@ -69,6 +69,8 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
+const DEVICE_RATIO = 'deviceRatio'
+
 function processEntry (code, filePath) {
   const ast = wxTransformer({
     code,
@@ -195,7 +197,7 @@ function processEntry (code, filePath) {
         if (hasComponentDidHide && isComponentWillUnmount) {
           astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
         }
-        t.statement
+
       }
     },
     ClassBody: {
@@ -376,7 +378,12 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         astPath.traverse(programExitVisitor)
-
+        const pxTransformConfig = {
+          designWidth: projectConfig.designWidth || 750,
+        }
+        if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+          pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+        }
         const node = astPath.node
         const routerPages = pages
           .map(v => {
@@ -399,6 +406,10 @@ function processEntry (code, filePath) {
         )())
         node.body.push(template(
           `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
+          babylonConfig
+        )())
+        node.body.push(template(
+          `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
           babylonConfig
         )())
         node.body.push(template(
@@ -674,6 +685,9 @@ async function buildDist (buildConfig) {
   const h5Config = projectConfig.h5 || {}
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   h5Config.env = projectConfig.env
+  Object.assign(h5Config.env, {
+    TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
+  })
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
   h5Config.designWidth = projectConfig.designWidth
@@ -701,6 +715,7 @@ function clean () {
 }
 
 async function build (buildConfig) {
+  process.env.TARO_ENV = Util.BUILD_TYPES.H5
   await clean()
   await buildTemp(buildConfig)
   await buildDist(buildConfig)
