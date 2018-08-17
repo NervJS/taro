@@ -71,6 +71,8 @@ exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 exports.REG_JSON = /\.json(\?.*)?$/
 
+exports.CSS_IMPORT_REG = /\@import (["'])(.+?)\1;/g
+
 exports.BUILD_TYPES = {
   WEAPP: 'weapp',
   H5: 'h5',
@@ -323,12 +325,27 @@ exports.replaceContentConstants = function (content, constants) {
 }
 
 exports.cssImports = function (content) {
-  const re = /\@import (["'])(.+?)\1;/g
   let match = {}
   const results = []
   content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while (match = re.exec(content)) {
+  while (match = exports.CSS_IMPORT_REG.exec(content)) {
     results.push(match[2])
   }
   return results
+}
+
+exports.processWxssImports = function (content) {
+  const wxss = []
+  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
+    if (/\.wxss/.test($2)) {
+      wxss.push(m)
+      return ''
+    }
+    return m
+  })
+  return {
+    content,
+    wxss
+  }
 }

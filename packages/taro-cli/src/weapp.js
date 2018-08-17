@@ -830,6 +830,19 @@ function convertArrayToAstExpression (arr) {
   })
 }
 
+function isFileToBePage (filePath) {
+  let isPage = false
+  const extname = path.extname(filePath)
+  const pages = appConfig.pages || []
+  const filePathWithoutExt = filePath.replace(extname, '')
+  pages.forEach(page => {
+    if (filePathWithoutExt === path.join(sourceDir, page)) {
+      isPage = true
+    }
+  })
+  return isPage
+}
+
 function copyFilesFromSrcToOutput (files) {
   files.forEach(file => {
     let outputFilePath
@@ -924,7 +937,7 @@ async function buildEntry () {
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
-      await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, [])
+      await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, false)
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app.wxss`)
     }
     // 拷贝依赖文件
@@ -998,7 +1011,7 @@ function transfromNativeComponents (configFile, componentConfig) {
       }
       if (fs.existsSync(componentWXSSPath)) {
         const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
-        await compileDepStyles(outputComponentWXSSPath, [componentWXSSPath])
+        await compileDepStyles(outputComponentWXSSPath, [componentWXSSPath], true)
       }
       if (fs.existsSync(componentJSONPath)) {
         const componentJSON = require(componentJSONPath)
@@ -1038,7 +1051,7 @@ async function buildSinglePage (page) {
     compileDepScripts([pageJs])
     copyFileSync(pageWXMLPath, outputPageWXMLPath)
     if (fs.existsSync(pageWXSSPath)) {
-      await compileDepStyles(outputPageWXSSPath, [pageWXSSPath])
+      await compileDepStyles(outputPageWXSSPath, [pageWXSSPath], false)
     }
     return
   }
@@ -1134,7 +1147,7 @@ async function buildSinglePage (page) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${outputDirName}/${page}.wxss`)
       const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputPageWXSSPath] = depStyleList
-      await compileDepStyles(outputPageWXSSPath, res.styleFiles, depStyleList)
+      await compileDepStyles(outputPageWXSSPath, res.styleFiles, false)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1189,7 +1202,7 @@ async function processStyleWithPostCSS (styleObj) {
   return postcssResult.css
 }
 
-function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
+function compileDepStyles (outputFilePath, styleFiles, isComponent) {
   if (isBuildingStyles[outputFilePath]) {
     return Promise.resolve({})
   }
@@ -1198,22 +1211,23 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
+    const fileContent = fs.readFileSync(filePath).toString()
+    const cssImportsRes = Util.processWxssImports(fileContent)
+    if (isComponent) {
+      const entryWxssPath = path.join(outputDir, 'app.wxss')
+      cssImportsRes.wxss.unshift(`@import "${path.relative(path.dirname(outputFilePath), entryWxssPath)}";`)
+    }
     if (pluginName) {
-      return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
+      return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
         .then(res => ({
-          css: res.css,
+          css: cssImportsRes.wxss.join('\n') + '\n' + res.css,
           filePath
         }))
     }
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, (err, content) => {
-        if (err) {
-          return reject(err)
-        }
-        resolve({
-          css: content,
-          filePath
-        })
+    return new Promise(resolve => {
+      resolve({
+        css: cssImportsRes.wxss.join('\n') + '\n' + cssImportsRes.content,
+        filePath
       })
     })
   })).then(async resList => {
@@ -1432,7 +1446,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXSS', `${outputDirName}/${outputComponentShowPath}.wxss`)
       const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputComponentWXSSPath] = depStyleList
-      await compileDepStyles(outputComponentWXSSPath, res.styleFiles, depStyleList)
+      await compileDepStyles(outputComponentWXSSPath, res.styleFiles, true)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1614,7 +1628,7 @@ function watchFiles () {
             await buildPages()
           }
         } else {
-          let isPage = false
+          let isPage = isFileToBePage(filePath)
           const pages = appConfig.pages || []
           const filePathWithoutExt = filePath.replace(extname, '')
           pages.forEach(page => {
@@ -1692,16 +1706,19 @@ function watchFiles () {
             outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
-            const depStyleList = wxssDepTree[outputWXSSPath]
+            let isComponent = false
+            if (!isFileToBePage(item.filePath) && item.filePath !== entryFilePath) {
+              isComponent = true
+            }
             if (isWindows) {
               await new Promise((resolve, reject) => {
                 setTimeout(async () => {
-                  await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+                  await compileDepStyles(outputWXSSPath, item.styles, isComponent)
                   resolve()
                 }, 300)
               })
             } else {
-              await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+              await compileDepStyles(outputWXSSPath, item.styles, isComponent)
             }
             Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
           })
@@ -1717,12 +1734,12 @@ function watchFiles () {
           if (isWindows) {
             await new Promise((resolve, reject) => {
               setTimeout(async () => {
-                await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+                await compileDepStyles(outputWXSSPath, [filePath], false)
                 resolve()
               }, 300)
             })
           } else {
-            await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+            await compileDepStyles(outputWXSSPath, [filePath], false)
           }
           Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
         }
