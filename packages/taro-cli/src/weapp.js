@@ -432,8 +432,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
               const pages = appConfig.pages || []
               let importPath = path.resolve(path.dirname(sourceFilePath), value)
               importPath = Util.resolveScriptPath(importPath)
+              const filePathWithoutExt = importPath.replace(path.extname(importPath), '')
               pages.forEach(page => {
-                if (path.normalize(importPath).indexOf(path.normalize(page)) >= 0) {
+                if (filePathWithoutExt === path.join(sourceDir, page)) {
                   isPage = true
                 }
               })
@@ -558,8 +559,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                 const pages = appConfig.pages
                 let importPath = path.resolve(path.dirname(sourceFilePath), value)
                 importPath = Util.resolveScriptPath(importPath)
+                const filePathWithoutExt = importPath.replace(path.extname(importPath), '')
                 pages.forEach(page => {
-                  if (path.normalize(importPath).indexOf(path.normalize(page)) >= 0) {
+                  if (filePathWithoutExt === path.join(sourceDir, page)) {
                     isPage = true
                   }
                 })
@@ -1614,13 +1616,14 @@ function watchFiles () {
         } else {
           let isPage = false
           const pages = appConfig.pages || []
+          const filePathWithoutExt = filePath.replace(extname, '')
           pages.forEach(page => {
-            if (path.normalize(filePath).indexOf(path.normalize(page)) >= 0) {
+            if (filePathWithoutExt === path.join(sourceDir, page)) {
               isPage = true
             }
           })
           if (isPage) { // 编译页面
-            filePath = filePath.replace(path.extname(filePath), '')
+            filePath = filePathWithoutExt
             filePath = filePath.replace(path.join(sourceDir) + path.sep, '')
             filePath = filePath.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '页面文件', `${sourceDirName}/${filePath}`)
