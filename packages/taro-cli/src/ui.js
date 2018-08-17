@@ -58,20 +58,25 @@ async function buildForWeapp () {
   }
   try {
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
-    klaw(sourceDir)
-      .on('data', file => {
-        const relativePath = path.relative(appPath, file.path)
-        if (!file.stats.isDirectory()) {
-          printLog(pocessTypeEnum.CREATE, '发现文件', relativePath)
-          const dirname = path.dirname(file.path)
-          const distDirname = dirname.replace(sourceDir, outputDir)
-          fs.ensureDirSync(distDirname)
-          fs.copyFileSync(file.path, path.format({
-            dir: distDirname,
-            base: path.basename(file.path)
-          }))
-        }
-      })
+    await new Promise(resolve => {
+      klaw(sourceDir)
+        .on('data', file => {
+          const relativePath = path.relative(appPath, file.path)
+          if (!file.stats.isDirectory()) {
+            printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
+            const dirname = path.dirname(file.path)
+            const distDirname = dirname.replace(sourceDir, outputDir)
+            fs.ensureDirSync(distDirname)
+            fs.copyFileSync(file.path, path.format({
+              dir: distDirname,
+              base: path.basename(file.path)
+            }))
+          }
+        })
+        .on('end', () => {
+          resolve()
+        })
+    })
   } catch (err) {
     console.log(err)
   }
@@ -87,10 +92,10 @@ async function buildForH5 (buildConfig) {
 
 function buildEntry () {
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
-    module.exports = require('./${h5OutputName}/index.js').default
+    module.exports = require('./${h5OutputName}/index.js')
     module.exports.default = module.exports
   } else if (process.env.TARO_ENV === '${BUILD_TYPES.WEAPP}') {
-    module.exports = require('./${weappOutputName}/index.js').default
+    module.exports = require('./${weappOutputName}/index.js')
     module.exports.default = module.exports
   }`
   const outputDir = path.join(appPath, outputDirName)

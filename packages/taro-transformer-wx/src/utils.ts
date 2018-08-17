@@ -86,7 +86,6 @@ export function generateAnonymousState (
     throw codeFrameError(expression.node.loc, '无法生成匿名 State，尝试先把值赋到一个变量上再把变量调换。')
   }
   const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
-  jsx.getAncestry()
   const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
   const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
   const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))

@@ -70,6 +70,7 @@ class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    updateComponent(this)
   }
 
   // 会被匿名函数调用

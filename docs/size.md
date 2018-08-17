@@ -27,6 +27,14 @@ const DEVICE_RATIO = {
 
 建议使用 Taro 时，设计稿以 iPhone6 `750px` 作为设计尺寸标准。
 
+## API
+
+在编译时，Taro 会帮你对样式做尺寸转换操作，但是如果是在 JS 中书写了行内样式，那么编译时就无法做替换了，针对这种情况，Taro 提供了 API `Taro.pxTransform` 来做运行时的尺寸转换。
+
+```javascript
+Taro.pxTransform(10) // 小程序：rpx，H5：rem
+```
+
 ## 配置
 
 默认配置会对所有的 `px` 单位进行转换，有大写字母的 `Px` 或 `PX` 则会被忽略。

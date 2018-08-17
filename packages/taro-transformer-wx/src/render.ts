@@ -139,7 +139,7 @@ export class RenderParser {
       const leftExpression = parentPath.get('left') as NodePath<t.Expression>
       if (operator === '&&' && t.isExpression(left)) {
         if (hasComplexExpression(leftExpression)) {
-          generateAnonymousState(parentPath.scope, leftExpression, this.referencedIdentifiers, true)
+          generateAnonymousState(this.renderScope, leftExpression, this.referencedIdentifiers, true)
         }
         const block = buildBlockElement()
         newJSXIfAttr(block, leftExpression.node)
