@@ -553,9 +553,11 @@ function buildTemp () {
         }
         if (Util.REG_SCRIPT.test(filePath)) {
           Util.printLog(Util.pocessTypeEnum.COMPILE, 'JS', filePath)
+          // parseJSCode
           let transformResult = parseJSCode(content, filePath)
           const jsCode = transformResult.code
           const styleFiles = transformResult.styleFiles
+          // compileDepStyles
           await compileDepStyles(filePath, styleFiles)
           file.contents = Buffer.from(jsCode)
         }
@@ -587,8 +589,11 @@ function buildTemp () {
           contents: Buffer.from(crnaEntryCode)
         })
         this.push(appJson)
+        Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
         this.push(pkg)
+        Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
         this.push(crnaEntry)
+        Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
         cb()
       }))
       .pipe(vfs.dest(path.join(tempPath)))

@@ -49,14 +49,18 @@ export default (config: BuildConfig): webpack.Configuration => {
       plugins: () => getPostcssPlugins(config)
     }
   }
-  const sassLoader = require.resolve('sass-loader')
+  const sassLoader = {
+    loader: require.resolve('sass-loader'),
+    options: { sourceMap: true }
+  }
   const lessLoader = require.resolve('less-loader')
   const stylusLoader = require.resolve('stylus-loader')
+  const resolveUrlLoader = require.resolve('resolve-url-loader')
 
   const cssLoaders = [{
     test: /\.(css|scss|sass)(\?.*)?$/,
     exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, sassLoader ]
+    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader ]
   }, {
     test: /\.less(\?.*)?$/,
     exclude: /node_modules/,

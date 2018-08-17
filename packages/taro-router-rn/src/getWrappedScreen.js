@@ -100,9 +100,12 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
 
     render () {
       // if (enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)) {
+      let isScreenEnablePullDownRefresh = enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)
       return (
         <RefreshProvider
+          enablePullDownRefresh={isScreenEnablePullDownRefresh}
           onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
+          onReachBottom={this.onReachBottom && this.onReachBottom.bind(this)}
           onScroll={this.onScroll && this.onScroll.bind(this)}
           ref={this.refreshProviderRef}
         >
