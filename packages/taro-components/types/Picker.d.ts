@@ -10,7 +10,7 @@ interface PickerProps extends StandardProps {
   /**
    * mode为 selector 或 multiSelector 时，range 有效
    */
-  range?: string[] | number[] | Object[],
+  range?: (string|number|Object)[],
   /**
    * 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
    */
@@ -18,7 +18,7 @@ interface PickerProps extends StandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: number[] | string[] | number | string,
+  value: (number|string)[] | number | string,
   /**
    * 是否禁用
    *
