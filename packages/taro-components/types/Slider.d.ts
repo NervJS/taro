@@ -4,6 +4,11 @@ import { StandardProps, BaseEventFunction } from './common'
 interface SliderProps extends StandardProps {
 
   /**
+   * 组件名字，需要配和Form一起使用
+   */
+  name?: string;
+
+  /**
    * 最小值
    *
    * 默认值：`0`

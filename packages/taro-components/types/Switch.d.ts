@@ -4,6 +4,11 @@ import { StandardProps, BaseEventFunction } from './common'
 interface SwitchProps extends StandardProps {
 
   /**
+   * 组件名字，需要配和Form一起使用
+   */
+  name?: string;
+
+  /**
    * 是否选中
    *
    * 默认值：`false`

@@ -4,9 +4,14 @@ import { StandardProps, BaseEventFunction } from './common'
 interface TextareaProps extends StandardProps {
 
   /**
+   * 组件名字，需要配和Form一起使用
+   */
+  name?: string;
+
+  /**
    * 输入框的内容
    */
-  value: string,
+  value?: string,
 
   /**
    * 输入框为空时占位符

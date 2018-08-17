@@ -4,12 +4,17 @@ import { StandardProps, BaseEventFunction } from './common'
 interface CheckboxGroupProps extends StandardProps {
 
   /**
+   * 组件名字，需要配和Form一起使用
+   */
+  name?: string;
+
+  /**
    * <checkbox-group/>中选中项发生改变是触发 change 事件
    *
    * detail = {value:[选中的checkbox的value的数组]}
    *
    */
-  onChange: BaseEventFunction
+  onChange?: BaseEventFunction
 }
 
 declare const CheckboxGroup: ComponentType<CheckboxGroupProps>
