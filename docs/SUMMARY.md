@@ -67,6 +67,7 @@
   * [Taro.eventCenter](events.md)
   * [Taro.ENV_TYPE](env.md#Taro.ENV_TYPE)
   * [Taro.getEnv](env.md#Taro.getEnv())
+  * [Taro.pxTransform](size.md#API)
   * [端能力API](native-api.md)
     * [网络](native-api.md#网络)
       * [发起请求](native-api.md#发起请求)

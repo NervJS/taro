@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 export interface StandardProps extends EventProps {
   /**
    * 组件的唯一标示, 保持整个页面唯一
@@ -10,7 +12,7 @@ export interface StandardProps extends EventProps {
   /**
    * 组件的内联样式, 可以动态设置的内联样式
    */
-  style?: string,
+  style?: string | CSSProperties,
   /**
    * 如果列表中项目的位置会动态改变或者有新的项目添加到列表中，
    * 需要使用 `wx:key` 来指定列表中项目的唯一的标识符。

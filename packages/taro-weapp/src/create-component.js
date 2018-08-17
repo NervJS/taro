@@ -34,6 +34,15 @@ function bindBehaviors (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindStaticFns(weappComponentConf, ComponentClass) {
+  for (const key in ComponentClass) {
+    typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
+  }
+  Object.getOwnPropertyNames(ComponentClass).forEach(key => {
+    typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
+  })
+}
+
 function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
@@ -216,6 +225,7 @@ function createComponent (ComponentClass, isPage) {
     created (options = {}) {
       this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
+      this.$component.render = this.$component._createData
       Object.assign(this.$component.$router.params, options)
     },
     attached () {
@@ -251,6 +261,7 @@ function createComponent (ComponentClass, isPage) {
   }
   bindProperties(weappComponentConf, ComponentClass)
   bindBehaviors(weappComponentConf, ComponentClass)
+  bindStaticFns(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']

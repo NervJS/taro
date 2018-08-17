@@ -197,7 +197,7 @@ function processEntry (code, filePath) {
         if (hasComponentDidHide && isComponentWillUnmount) {
           astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
         }
-        t.statement
+
       }
     },
     ClassBody: {
@@ -685,6 +685,9 @@ async function buildDist (buildConfig) {
   const h5Config = projectConfig.h5 || {}
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   h5Config.env = projectConfig.env
+  Object.assign(h5Config.env, {
+    TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
+  })
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
   h5Config.designWidth = projectConfig.designWidth
@@ -712,6 +715,7 @@ function clean () {
 }
 
 async function build (buildConfig) {
+  process.env.TARO_ENV = Util.BUILD_TYPES.H5
   await clean()
   await buildTemp(buildConfig)
   await buildDist(buildConfig)

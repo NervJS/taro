@@ -18,7 +18,7 @@ interface PickerProps extends StandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: number[],
+  value: number[] | string[] | number | string,
   /**
    * 是否禁用
    *
@@ -46,15 +46,15 @@ interface PickerProps extends StandardProps {
   /**
    * 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
    */
-  onChange: BaseEventFunction,
+  onChange?: BaseEventFunction,
   /**
    * 某一列的值改变时触发 columnchange 事件，event.detail = {column: column, value: value}，column 的值表示改变了第几列（下标从0开始），value 的值表示变更值的下标
    */
-  onColumnChange: BaseEventFunction,
+  onColumnChange?: BaseEventFunction,
   /**
    * 取消选择或点遮罩层收起 picker 时触发
    */
-  onCancel: BaseEventFunction
+  onCancel?: BaseEventFunction
 }
 
 declare const Picker: ComponentType<PickerProps>
