@@ -7,22 +7,23 @@ class RefreshProvider extends React.Component {
     this.state = {
       refreshing: false
     }
-    this.handlePullDownRefresh = this.handlePullDownRefresh.bind(this)
-    this.stopPullDownRefresh = this.stopPullDownRefresh.bind(this)
-    this.onScroll = this.onScroll.bind(this)
   }
 
   render () {
+    const {enablePullDownRefresh} = this.props
     return (
       <ScrollView
         style={{flex: 1}}
-        onScroll={this.onScroll}
         scrollEventThrottle={5}
+        alwaysBounceVertical={false}
+        onScroll={this.onScroll}
         refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.handlePullDownRefresh}
-          />
+          enablePullDownRefresh
+            ? <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.handlePullDownRefresh}
+            />
+            : null
         }
       >
         {this.props.children && this.props.children}
@@ -30,11 +31,16 @@ class RefreshProvider extends React.Component {
     )
   }
 
-  onScroll (e) {
+  onScroll = (e) => {
     this.props.onScroll && this.props.onScroll(e.nativeEvent.contentOffset.y)
   }
 
-  handlePullDownRefresh () {
+  // TODO 滚动到底部事件
+  handleReachBottom = () => {
+    this.props.onReachBottom && this.props.onReachBottom()
+  }
+
+  handlePullDownRefresh = () => {
     this.setState({refreshing: true})
     try {
       // TODO 处理异步的情况
@@ -46,7 +52,7 @@ class RefreshProvider extends React.Component {
     }
   }
 
-  stopPullDownRefresh () {
+  stopPullDownRefresh = () => {
     this.setState({refreshing: false})
   }
 }

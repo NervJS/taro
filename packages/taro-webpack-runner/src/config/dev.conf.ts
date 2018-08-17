@@ -17,9 +17,14 @@ export default function (config: BuildConfig): webpack.Configuration {
       plugins: () => getPostcssPlugins(config)
     }
   }
-  const sassLoader = require.resolve('sass-loader')
+  const sassLoader = {
+    loader: require.resolve('sass-loader'),
+    options: { sourceMap: true }
+  }
   const lessLoader = require.resolve('less-loader')
   const stylusLoader = require.resolve('stylus-loader')
+  const resolveUrlLoader = require.resolve('resolve-url-loader')
+
   return {
     mode: 'development',
     module: {
@@ -29,7 +34,7 @@ export default function (config: BuildConfig): webpack.Configuration {
             {
               test: /\.(css|scss|sass)(\?.*)?$/,
               exclude: /node_modules/,
-              use: [ styleLoader, cssLoader, postcssLoader, sassLoader ]
+              use: [ styleLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader ]
             },
             {
               test: /\.less(\?.*)?$/,

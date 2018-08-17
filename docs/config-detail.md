@@ -126,6 +126,22 @@ copy: {
 
 专属于小程序的配置
 
+### weapp.compile
+
+小程序编译过程的相关配置
+
+#### weapp.compile.exclude
+
+配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，写文件路径，文件路径必须以源码所在 `src` 目录开头
+
+```javascript
+weapp: {
+  compile: {
+    exclude: ['src/components/ec-canvas/echarts.js']
+  }
+}
+```
+
 ### weapp.module
 
 配置一些小程序端用到的插件模块配置，例如 `postcss` 等
