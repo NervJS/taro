@@ -428,17 +428,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             let value = source.value
             const valueExtname = path.extname(value)
             if (value.indexOf('.') === 0) {
-              let isPage = false
-              const pages = appConfig.pages || []
               let importPath = path.resolve(path.dirname(sourceFilePath), value)
               importPath = Util.resolveScriptPath(importPath)
-              const filePathWithoutExt = importPath.replace(path.extname(importPath), '')
-              pages.forEach(page => {
-                if (filePathWithoutExt === path.join(sourceDir, page)) {
-                  isPage = true
-                }
-              })
-              if (isPage) {
+              if (isFileToBePage(importPath)) {
                 astPath.remove()
               } else {
                 let isDepComponent = false
@@ -555,17 +547,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
               let value = args[0].value
               const valueExtname = path.extname(value)
               if (value.indexOf('.') === 0) {
-                let isPage = false
-                const pages = appConfig.pages
                 let importPath = path.resolve(path.dirname(sourceFilePath), value)
                 importPath = Util.resolveScriptPath(importPath)
-                const filePathWithoutExt = importPath.replace(path.extname(importPath), '')
-                pages.forEach(page => {
-                  if (filePathWithoutExt === path.join(sourceDir, page)) {
-                    isPage = true
-                  }
-                })
-                if (isPage) {
+                if (isFileToBePage(importPath)) {
                   if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
                     astPath.parentPath.remove()
                   } else if (astPath.parent.type === 'VariableDeclarator') {
@@ -1628,15 +1612,8 @@ function watchFiles () {
             await buildPages()
           }
         } else {
-          let isPage = isFileToBePage(filePath)
-          const pages = appConfig.pages || []
           const filePathWithoutExt = filePath.replace(extname, '')
-          pages.forEach(page => {
-            if (filePathWithoutExt === path.join(sourceDir, page)) {
-              isPage = true
-            }
-          })
-          if (isPage) { // 编译页面
+          if (isFileToBePage(filePath)) { // 编译页面
             filePath = filePathWithoutExt
             filePath = filePath.replace(path.join(sourceDir) + path.sep, '')
             filePath = filePath.split(path.sep).join('/')
