@@ -103,6 +103,19 @@ function getExactedNpmFilePath (npmName, filePath) {
   }
 }
 
+function processIfTaroEnv (astPath, node, a, b) {
+  if (node[a].value !== Util.BUILD_TYPES.WEAPP) {
+    const consequentSibling = astPath.getSibling('consequent')
+    consequentSibling.set('body', [])
+  } else {
+    const alternateSibling = astPath.getSibling('alternate')
+    if (alternateSibling.node) {
+      alternateSibling.set('body', [])
+    }
+  }
+  node[b] = t.stringLiteral(Util.BUILD_TYPES.WEAPP)
+}
+
 function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip = false) {
   const styleFiles = []
   const scriptFiles = []
@@ -236,16 +249,11 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         BinaryExpression (astPath) {
           const node = astPath.node
           const left = node.left
-          if (generate(left).code === 'process.env.TARO_ENV' &&
-            node.right.value !== Util.BUILD_TYPES.WEAPP) {
-            const consequentSibling = astPath.getSibling('consequent')
-            consequentSibling.set('body', [])
-          } else {
-            node.left = t.stringLiteral(Util.BUILD_TYPES.WEAPP)
-            const alternateSibling = astPath.getSibling('alternate')
-            if (alternateSibling.node) {
-              alternateSibling.set('body', [])
-            }
+          const right = node.right
+          if (generate(left).code === 'process.env.TARO_ENV') {
+            processIfTaroEnv(astPath, node, 'right', 'left')
+          } else if (generate(right).code === 'process.env.TARO_ENV') {
+            processIfTaroEnv(astPath, node, 'left', 'right')
           }
         }
       })
