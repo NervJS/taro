@@ -1,6 +1,10 @@
 const fs = require('fs-extra')
 const path = require('path')
 const resolvePath = require('resolve')
+const wxTransformer = require('@tarojs/transformer-wx')
+const traverse = require('babel-traverse').default
+const t = require('babel-types')
+const generate = require('babel-generator').default
 const _ = require('lodash')
 
 const defaultUglifyConfig = require('../config/uglify')
@@ -11,12 +15,13 @@ const {
   printLog,
   pocessTypeEnum,
   PROJECT_CONFIG,
-  replaceContentEnv
+  replaceContentEnv,
+  REG_TYPESCRIPT,
+  BUILD_TYPES
 } = require('./index')
 
 const npmProcess = require('./npm')
 
-const requireRegex = /require\(['"]([\w\d_\-./@]+)['"]\)/ig
 const excludeNpmPkgs = ['ReactPropTypes']
 
 const resolvedCache = {}
@@ -57,42 +62,96 @@ function resolveNpmFilesPath (pkgName, isProduction, npmConfig) {
   return resolvedCache[pkgName]
 }
 
+function parseAst (ast, filePath, files, isProduction, npmConfig) {
+  const excludeRequire = []
+  traverse(ast, {
+    IfStatement (astPath) {
+      astPath.traverse({
+        BinaryExpression (astPath) {
+          const node = astPath.node
+          const left = node.left
+          if (generate(left).code === 'process.env.TARO_ENV' &&
+            node.right.value !== BUILD_TYPES.WEAPP) {
+            const consequentSibling = astPath.getSibling('consequent')
+            consequentSibling.traverse({
+              CallExpression (astPath) {
+                if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+                  const arg = astPath.get('arguments')[0]
+                  if (t.isStringLiteral(arg.node)) {
+                    excludeRequire.push(arg.node.value)
+                  }
+                }
+              }
+            })
+          }
+        }
+      })
+    },
+    Program: {
+      exit (astPath) {
+        astPath.traverse({
+          CallExpression (astPath) {
+            const node = astPath.node
+            const callee = node.callee
+            if (callee.name === 'require') {
+              const args = node.arguments
+              let requirePath = args[0].value
+              if (excludeRequire.indexOf(requirePath) < 0) {
+                if (isNpmPkg(requirePath)) {
+                  if (excludeNpmPkgs.indexOf(requirePath) < 0) {
+                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig)
+                    const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
+                    args[0].value = relativeRequirePath
+                  }
+                } else {
+                  let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
+                  let tempPathWithJS = `${realRequirePath}.js`
+                  let tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
+                  if (!path.extname(realRequirePath)) {
+                    if (fs.existsSync(tempPathWithJS)) {
+                      realRequirePath = tempPathWithJS
+                    } else if (fs.existsSync(tempPathWithIndexJS)) {
+                      realRequirePath = tempPathWithIndexJS
+                      requirePath += '/index.js'
+                    }
+                  }
+                  if (files.indexOf(realRequirePath) < 0) {
+                    files.push(realRequirePath)
+                    recursiveRequire(realRequirePath, files, isProduction, npmConfig)
+                  }
+                }
+              }
+            }
+          }
+        })
+      }
+    }
+  })
+  return generate(ast).code
+}
+
 function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   let fileContent = fs.readFileSync(filePath).toString()
   fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
-  fileContent = fileContent.replace(requireRegex, (m, requirePath) => {
-    if (isNpmPkg(requirePath)) {
-      if (excludeNpmPkgs.indexOf(requirePath) >= 0) {
-        return `require('${requirePath}')`
-      }
-      const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig)
-      const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
-      return `require('${relativeRequirePath}')`
-    }
-    let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
-    let tempPathWithJS = `${realRequirePath}.js`
-    let tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
-    if (!path.extname(realRequirePath)) {
-      if (fs.existsSync(tempPathWithJS)) {
-        realRequirePath = tempPathWithJS
-      } else if (fs.existsSync(tempPathWithIndexJS)) {
-        realRequirePath = tempPathWithIndexJS
-        requirePath += '/index.js'
-      }
-    }
-    if (files.indexOf(realRequirePath) < 0) {
-      files.push(realRequirePath)
-      recursiveRequire(realRequirePath, files, isProduction, npmConfig)
-    }
-    return `require('${requirePath}')`
-  })
   let outputNpmPath
   if (!npmConfig.dir) {
     outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
   } else {
     const npmFilePath = filePath.replace(/(.*)node_modules/, '')
     outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
+  }
+  try {
+    const transformResult = wxTransformer({
+      code: fileContent,
+      sourcePath: filePath,
+      outputPath: outputNpmPath,
+      isNormal: true,
+      isTyped: REG_TYPESCRIPT.test(filePath)
+    })
+    fileContent = parseAst(transformResult.ast, filePath, files, isProduction, npmConfig)
+  } catch (err) {
+    console.log(err)
   }
   if (!copyedFiles[outputNpmPath]) {
     if (isProduction) {
