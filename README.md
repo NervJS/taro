@@ -20,6 +20,19 @@ Taro 已经投入到了生产环境使用，超过 3 万行代码的 TOPLIFE 小
 
 ![qrcode.png](https://i.loli.net/2018/07/08/5b40f4e2ea279.png)
 
+### 业界案例
+
+<div>
+  <img src="https://user-images.githubusercontent.com/2441562/42329803-2c2871d0-80a4-11e8-9708-fdede6048ac5.jpg" width="125" title="罗网指数"/>
+  <img src="https://user-images.githubusercontent.com/5935390/43631321-765fdc46-9735-11e8-8312-798846c3f557.jpg" width="125" title="脑洞阅读"/>
+  <img src="https://user-images.githubusercontent.com/5653652/43824908-def1a8cc-9b25-11e8-8548-1e88d4c0296d.jpg" width="125" title="喵呜部落"/>
+  <img src="https://user-images.githubusercontent.com/7992920/43836676-b286c812-9b48-11e8-83fd-29ce92221498.png" width="125" title="小来打卡 Pro"/>
+  <img src="https://user-images.githubusercontent.com/3221928/43312867-1825ab16-91c1-11e8-8c04-513a746a2dc1.png" width="125" title="作业部落"/>
+  <img src="https://user-images.githubusercontent.com/15929863/43410114-6ba5ae00-9458-11e8-8f2a-e2ab9d8c4141.png" width="125" title="猫眼阅读"/>
+<div/>
+
+[贡献你的项目](https://github.com/NervJS/taro/issues/244)
+
 ## 示例项目
 
 * Taro Redux 示例 [taro-redux-sample](https://github.com/NervJS/taro-redux-sample)
