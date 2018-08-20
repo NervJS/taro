@@ -18,6 +18,10 @@ import {
     Dispatch
 } from 'redux';
 
+import {
+  ThunkDispatch
+} from 'redux-thunk';
+
 export type InferableComponentEnhancerWithProps<IInjectedProps, INeedsProps> =
     <IComponent extends ComponentClass<IInjectedProps & INeedsProps>>(component: IComponent) => IComponent
 
@@ -47,10 +51,8 @@ interface MapDispatchToPropsFunction<TDispatchProps, TOwnProps> {
 type MapDispatchToProps<TDispatchProps, TOwnProps> =
     MapDispatchToPropsFunction<TDispatchProps, TOwnProps> | TDispatchProps;
 
-type AsyncDispatch = Dispatch & {type?};
-
 interface MapDispatchToPropsFactory<TDispatchProps, TOwnProps> {
-    (dispatch: AsyncDispatch, ownProps: TOwnProps): MapDispatchToProps<TDispatchProps, TOwnProps>;
+    (dispatch: Dispatch | ThunkDispatch<any, any, any>, ownProps: TOwnProps): MapDispatchToProps<TDispatchProps, TOwnProps>;
 }
 
 type MapDispatchToPropsParam<TDispatchProps, TOwnProps> = MapDispatchToPropsFactory<TDispatchProps, TOwnProps> | MapDispatchToProps<TDispatchProps, TOwnProps>;
