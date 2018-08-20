@@ -17,7 +17,8 @@ const {
   PROJECT_CONFIG,
   replaceContentEnv,
   REG_TYPESCRIPT,
-  BUILD_TYPES
+  BUILD_TYPES,
+  REG_STYLE
 } = require('./index')
 
 const npmProcess = require('./npm')
@@ -132,8 +133,6 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
 
 function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   let fileContent = fs.readFileSync(filePath).toString()
-  fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
-  fileContent = npmCodeHack(filePath, fileContent)
   let outputNpmPath
   if (!npmConfig.dir) {
     outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
@@ -141,6 +140,11 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
     const npmFilePath = filePath.replace(/(.*)node_modules/, '')
     outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
   }
+  if (REG_STYLE.test(path.basename(filePath))) {
+    return
+  }
+  fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
+  fileContent = npmCodeHack(filePath, fileContent)
   try {
     const transformResult = wxTransformer({
       code: fileContent,
