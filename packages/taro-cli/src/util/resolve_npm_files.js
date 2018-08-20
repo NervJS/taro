@@ -108,13 +108,11 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
                   let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
                   let tempPathWithJS = `${realRequirePath}.js`
                   let tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
-                  if (!path.extname(realRequirePath)) {
-                    if (fs.existsSync(tempPathWithJS)) {
-                      realRequirePath = tempPathWithJS
-                    } else if (fs.existsSync(tempPathWithIndexJS)) {
-                      realRequirePath = tempPathWithIndexJS
-                      requirePath += '/index.js'
-                    }
+                  if (fs.existsSync(tempPathWithJS)) {
+                    realRequirePath = tempPathWithJS
+                  } else if (fs.existsSync(tempPathWithIndexJS)) {
+                    realRequirePath = tempPathWithIndexJS
+                    requirePath += '/index.js'
                   }
                   if (files.indexOf(realRequirePath) < 0) {
                     files.push(realRequirePath)

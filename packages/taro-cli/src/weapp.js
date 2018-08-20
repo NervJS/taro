@@ -523,7 +523,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     styleFiles.push(stylePath)
                   }
                   astPath.remove()
-                } else if (!valueExtname) {
+                } else {
                   let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                   let outputVpath
                   if (NODE_MODULES_REG.test(vpath)) {
@@ -641,7 +641,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                       sourceDirPath = nodeModulesPath
                     }
                     astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
-                  } else if (!valueExtname) {
+                  } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
                     if (NODE_MODULES_REG.test(vpath)) {
