@@ -114,9 +114,9 @@ export function generateAnonymousState (
         VariableDeclarator: (p) => {
           const { id, init } = p.node
           if (t.isIdentifier(id)) {
-            const newId = scope.generateDeclaredUidIdentifier(id.name)
+            const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
-              if (refId.name === variableName) {
+              if (refId.name === variableName && !variableName.startsWith('_$')) {
                 refIds.delete(refId)
               }
             })

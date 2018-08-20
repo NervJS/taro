@@ -116,13 +116,13 @@ describe('if statement', () => {
     expect(template).toMatch(prettyPrint(`
       <block>
           <block wx:if="{{true}}">
-              <view class="{{_anonymousState__temp}}"></view>
+              <view class="{{_$anonymousState__temp}}"></view>
           </block>
       </block>
     `))
 
     const inst = evalClass(ast)
-    expect(inst.state._anonymousState__temp).toEqual('[]')
+    expect(inst.state._$anonymousState__temp).toEqual('[]')
     expect(Object.keys(inst.state).length).toBe(1)
   })
 
