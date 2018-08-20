@@ -9,7 +9,8 @@ const types = {
   number: 'number',
   idcard: 'idcard',
   digit: 'digit',
-  password: 'password'
+  password: 'password',
+  file: 'file'
 }
 function parseType (type, isPassword, confirmType) {
   if (!types[type]) {
