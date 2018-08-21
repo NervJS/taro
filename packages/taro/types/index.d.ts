@@ -16,7 +16,9 @@ declare namespace Taro {
     componentDidHide?(): void;
   }
 
-  interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
+  interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
+    $scope?: any
+  }
 
   interface PageConfig {
         /**
@@ -7222,29 +7224,82 @@ declare namespace Taro {
    *     })
    *     ```
    */
+  interface nodesRef {
+    boundingClientRect: (callback?: clientRectCallback) => nodesRef;
+    scrollOffset: (callback?: scrollCallback) => nodesRef;
+    fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef;
+    exec: (callback?: execCallback) => void;
+  }
+  
+  interface baseElement {
+    id: string,
+    dataset: object,
+  }
+  
+  interface rectElement {
+    left: number,
+    right: number,
+    top: number,
+    bottom: number,
+  }
+  
+  interface sizeElement {
+    width: number,
+    height: number,
+  }
+  
+  interface scrollElement {
+    scrollLeft: number,
+    scrollTop: number
+  }
+  interface clientRectElement extends baseElement, rectElement, sizeElement {}
+  
+  interface scrollOffsetElement extends baseElement, scrollElement {}
+  
+  interface fieldsObject {
+    id?:boolean,
+    dataset?:boolean,
+    rect?:boolean,
+    size?:boolean,
+    scrollOffset?:boolean,
+    properties?: string[],
+    computedStyle?:string[],
+  }
+  
+  interface fieldElement extends baseElement, rectElement, sizeElement {
+    [key:string]: any
+  }
+  
+  
+  type execObject = clientRectElement & scrollOffsetElement & fieldElement
+  type clientRectCallback = (rect: clientRectElement | clientRectElement[]) => void
+  type scrollCallback = (res: scrollOffsetElement | scrollOffsetElement[]) => void
+  type fieldCallback = (res: fieldElement | fieldElement[]) => void
+  type execCallback = (res: execObject | execObject[]) => void
+  
   function createSelectorQuery(): SelectorQuery
 
   class SelectorQuery {
     /**
      * 参考下面详细介绍
      */
-    in(component: any): any
+    in(component?: any): SelectorQuery
     /**
      * 参考下面详细介绍
      */
-    select(selector: any): any
+    select(selector: string): nodesRef
     /**
      * 参考下面详细介绍
      */
-    selectAll(selector: any): any
+    selectAll(selector: string): nodesRef
     /**
      * 参考下面详细介绍
      */
-    selectViewport(): any
+    selectViewport(): nodesRef
     /**
      * 参考下面详细介绍
      */
-    exec(callback?: any): any
+    exec(callback?: execCallback): void
   }
   namespace getExtConfig {
     type Promised = {
