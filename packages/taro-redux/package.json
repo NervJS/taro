@@ -8,6 +8,13 @@
     "test": "jest",
     "build": "rollup -c rollup.config.js"
   },
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "types",
+    "package.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
