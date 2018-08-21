@@ -16,7 +16,9 @@ declare namespace Taro {
     componentDidHide?(): void;
   }
 
-  interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
+  interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
+    $scope?: any
+  }
 
   interface PageConfig {
         /**
