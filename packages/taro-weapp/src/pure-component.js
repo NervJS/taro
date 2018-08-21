@@ -1,5 +1,6 @@
+import { shallowEqual } from '@tarojs/utils'
+
 import Component from './component'
-import shallowEqual from './shallow-equal'
 
 class PureComponent extends Component {
   isPureComponent = true
