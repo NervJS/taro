@@ -47,6 +47,7 @@
     "babel-plugin-danger-remove-unused-import": "^1.0.13",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "html": "^1.0.0",

@@ -171,7 +171,8 @@ export default function transform (options: Options): TransformResult {
         'exponentiationOperator',
         'asyncGenerators',
         'objectRestSpread',
-        'decorators'
+        'decorators',
+        'dynamicImport'
       ] as any[]
     },
     plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['Taro'] }]]
