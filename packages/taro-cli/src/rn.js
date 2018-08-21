@@ -644,9 +644,6 @@ async function processFiles (filePath) {
 }
 
 function watchFiles () {
-  console.log()
-  console.log(chalk.gray('监听文件修改中...'))
-  console.log()
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
@@ -654,6 +651,11 @@ function watchFiles () {
   })
 
   watcher
+    .on('ready', () => {
+      console.log()
+      console.log(chalk.gray('初始化完毕，监听文件修改中...'))
+      console.log()
+    })
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
@@ -664,7 +666,15 @@ function watchFiles () {
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)
     })
-  // .on('unlink', filePath => {})
+    .on('unlink', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
+      processFiles(filePath)
+    })
+    .on('error', error => console.log(`Watcher error: ${error}`))
+    .on('raw', (event, path, details) => {
+      console.log('Raw event info:', event, path, details)
+    })
 }
 
 async function build ({watch}) {
