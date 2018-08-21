@@ -83,11 +83,15 @@ function getExactedNpmFilePath (npmName, filePath) {
     const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
-    if (!weappNpmConfig.dir) {
-      outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
+    if (Util.REG_STYLE.test(npmInfoMainPath)) {
+      outputNpmPath = npmInfoMainPath
     } else {
-      const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
-      outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+      if (!weappNpmConfig.dir) {
+        outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
+      } else {
+        const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
+        outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+      }
     }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
@@ -97,6 +101,19 @@ function getExactedNpmFilePath (npmName, filePath) {
     }
     return npmName
   }
+}
+
+function processIfTaroEnv (astPath, node, a, b) {
+  if (node[a].value !== Util.BUILD_TYPES.WEAPP) {
+    const consequentSibling = astPath.getSibling('consequent')
+    consequentSibling.set('body', [])
+  } else {
+    const alternateSibling = astPath.getSibling('alternate')
+    if (alternateSibling.node) {
+      alternateSibling.set('body', [])
+    }
+  }
+  node[b] = t.stringLiteral(Util.BUILD_TYPES.WEAPP)
 }
 
 function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip = false) {
@@ -227,11 +244,25 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       }
     },
 
+    IfStatement (astPath) {
+      astPath.traverse({
+        BinaryExpression (astPath) {
+          const node = astPath.node
+          const left = node.left
+          const right = node.right
+          if (generate(left).code === 'process.env.TARO_ENV') {
+            processIfTaroEnv(astPath, node, 'right', 'left')
+          } else if (generate(right).code === 'process.env.TARO_ENV') {
+            processIfTaroEnv(astPath, node, 'left', 'right')
+          }
+        }
+      })
+    },
+
     ImportDeclaration (astPath) {
       const node = astPath.node
       const source = node.source
       let value = source.value
-      const valueExtname = path.extname(value)
       if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
         if (value === taroJsComponents) {
           astPath.remove()
@@ -278,12 +309,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         }
       } else if (path.isAbsolute(value)) {
         Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
-      } else if (Util.REG_STYLE.test(valueExtname)) {
-        const stylePath = path.resolve(path.dirname(sourceFilePath), value)
-        if (styleFiles.indexOf(stylePath) < 0) {
-          styleFiles.push(stylePath)
-        }
-        astPath.remove()
       }
     },
 
@@ -352,20 +377,16 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       } else if (callee.name === 'require') {
         const args = node.arguments
         let value = args[0].value
-        const valueExtname = path.extname(value)
-        if (Util.REG_STYLE.test(valueExtname)) {
-          const stylePath = path.resolve(path.dirname(sourceFilePath), value)
-          if (styleFiles.indexOf(stylePath) < 0) {
-            styleFiles.push(stylePath)
+        if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
+          if (Util.REG_STYLE.test(value)) {
+            if (!npmSkip) {
+              args[0].value = getExactedNpmFilePath(value, filePath)
+            } else {
+              args[0].value = value
+            }
           }
-          if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
-            astPath.parentPath.remove()
-          } else if (astPath.parent.type === 'VariableDeclarator') {
-            astPath.parentPath.parentPath.remove()
-          } else {
-            astPath.remove()
-          }
-        } else if (path.isAbsolute(value)) {
+        }
+        if (path.isAbsolute(value)) {
           Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
         }
       }
@@ -428,16 +449,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             let value = source.value
             const valueExtname = path.extname(value)
             if (value.indexOf('.') === 0) {
-              let isPage = false
-              const pages = appConfig.pages || []
               let importPath = path.resolve(path.dirname(sourceFilePath), value)
               importPath = Util.resolveScriptPath(importPath)
-              pages.forEach(page => {
-                if (path.normalize(importPath).indexOf(path.normalize(page)) >= 0) {
-                  isPage = true
-                }
-              })
-              if (isPage) {
+              if (isFileToBePage(importPath)) {
                 astPath.remove()
               } else {
                 let isDepComponent = false
@@ -455,7 +469,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                 } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
                   const vpath = path.resolve(sourceFilePath, '..', value)
                   let fPath = value
-                  if (fs.existsSync(vpath)) {
+                  if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
                     fPath = vpath
                   }
                   if (scriptFiles.indexOf(fPath) < 0) {
@@ -511,7 +525,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                   } else {
                     astPath.remove()
                   }
-                } else if (!valueExtname) {
+                } else if (Util.REG_STYLE.test(valueExtname)) {
+                  const stylePath = path.resolve(path.dirname(sourceFilePath), value)
+                  if (styleFiles.indexOf(stylePath) < 0) {
+                    styleFiles.push(stylePath)
+                  }
+                  astPath.remove()
+                } else {
                   let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                   let outputVpath
                   if (NODE_MODULES_REG.test(vpath)) {
@@ -554,16 +574,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
               let value = args[0].value
               const valueExtname = path.extname(value)
               if (value.indexOf('.') === 0) {
-                let isPage = false
-                const pages = appConfig.pages
                 let importPath = path.resolve(path.dirname(sourceFilePath), value)
                 importPath = Util.resolveScriptPath(importPath)
-                pages.forEach(page => {
-                  if (path.normalize(importPath).indexOf(path.normalize(page)) >= 0) {
-                    isPage = true
-                  }
-                })
-                if (isPage) {
+                if (isFileToBePage(importPath)) {
                   if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
                     astPath.parentPath.remove()
                   } else if (astPath.parent.type === 'VariableDeclarator') {
@@ -590,6 +603,18 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     } else {
                       astPath.remove()
                     }
+                  } else if (Util.REG_STYLE.test(valueExtname)) {
+                    const stylePath = path.resolve(path.dirname(sourceFilePath), value)
+                    if (styleFiles.indexOf(stylePath) < 0) {
+                      styleFiles.push(stylePath)
+                    }
+                    if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
+                      astPath.parentPath.remove()
+                    } else if (astPath.parent.type === 'VariableDeclarator') {
+                      astPath.parentPath.parentPath.remove()
+                    } else {
+                      astPath.remove()
+                    }
                   } else if (Util.REG_JSON.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     if (jsonFiles.indexOf(vpath) < 0) {
@@ -608,7 +633,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                   } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     let fPath = value
-                    if (fs.existsSync(vpath)) {
+                    if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
                       fPath = vpath
                     }
                     if (scriptFiles.indexOf(fPath) < 0) {
@@ -624,7 +649,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                       sourceDirPath = nodeModulesPath
                     }
                     astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
-                  } else if (!valueExtname) {
+                  } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
                     if (NODE_MODULES_REG.test(vpath)) {
@@ -828,6 +853,19 @@ function convertArrayToAstExpression (arr) {
   })
 }
 
+function isFileToBePage (filePath) {
+  let isPage = false
+  const extname = path.extname(filePath)
+  const pages = appConfig.pages || []
+  const filePathWithoutExt = filePath.replace(extname, '')
+  pages.forEach(page => {
+    if (filePathWithoutExt === path.join(sourceDir, page)) {
+      isPage = true
+    }
+  })
+  return isPage && Util.REG_SCRIPTS.test(extname)
+}
+
 function copyFilesFromSrcToOutput (files) {
   files.forEach(file => {
     let outputFilePath
@@ -922,7 +960,7 @@ async function buildEntry () {
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
-      await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, [])
+      await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, false)
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app.wxss`)
     }
     // 拷贝依赖文件
@@ -996,7 +1034,7 @@ function transfromNativeComponents (configFile, componentConfig) {
       }
       if (fs.existsSync(componentWXSSPath)) {
         const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
-        await compileDepStyles(outputComponentWXSSPath, [componentWXSSPath])
+        await compileDepStyles(outputComponentWXSSPath, [componentWXSSPath], true)
       }
       if (fs.existsSync(componentJSONPath)) {
         const componentJSON = require(componentJSONPath)
@@ -1036,7 +1074,7 @@ async function buildSinglePage (page) {
     compileDepScripts([pageJs])
     copyFileSync(pageWXMLPath, outputPageWXMLPath)
     if (fs.existsSync(pageWXSSPath)) {
-      await compileDepStyles(outputPageWXSSPath, [pageWXSSPath])
+      await compileDepStyles(outputPageWXSSPath, [pageWXSSPath], false)
     }
     return
   }
@@ -1132,7 +1170,7 @@ async function buildSinglePage (page) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${outputDirName}/${page}.wxss`)
       const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputPageWXSSPath] = depStyleList
-      await compileDepStyles(outputPageWXSSPath, res.styleFiles, depStyleList)
+      await compileDepStyles(outputPageWXSSPath, res.styleFiles, false)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1187,7 +1225,7 @@ async function processStyleWithPostCSS (styleObj) {
   return postcssResult.css
 }
 
-function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
+function compileDepStyles (outputFilePath, styleFiles, isComponent) {
   if (isBuildingStyles[outputFilePath]) {
     return Promise.resolve({})
   }
@@ -1196,22 +1234,23 @@ function compileDepStyles (outputFilePath, styleFiles, depStyleList) {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
+    const fileContent = fs.readFileSync(filePath).toString()
+    const cssImportsRes = Util.processWxssImports(fileContent)
+    if (isComponent) {
+      const entryWxssPath = path.join(outputDir, 'app.wxss')
+      cssImportsRes.wxss.unshift(`@import "${path.relative(path.dirname(outputFilePath), entryWxssPath)}";`)
+    }
     if (pluginName) {
-      return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
+      return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
         .then(res => ({
-          css: res.css,
+          css: cssImportsRes.wxss.join('\n') + '\n' + res.css,
           filePath
         }))
     }
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, (err, content) => {
-        if (err) {
-          return reject(err)
-        }
-        resolve({
-          css: content,
-          filePath
-        })
+    return new Promise(resolve => {
+      resolve({
+        css: cssImportsRes.wxss.join('\n') + '\n' + cssImportsRes.content,
+        filePath
       })
     })
   })).then(async resList => {
@@ -1430,7 +1469,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXSS', `${outputDirName}/${outputComponentShowPath}.wxss`)
       const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputComponentWXSSPath] = depStyleList
-      await compileDepStyles(outputComponentWXSSPath, res.styleFiles, depStyleList)
+      await compileDepStyles(outputComponentWXSSPath, res.styleFiles, true)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1612,15 +1651,9 @@ function watchFiles () {
             await buildPages()
           }
         } else {
-          let isPage = false
-          const pages = appConfig.pages || []
-          pages.forEach(page => {
-            if (path.normalize(filePath).indexOf(path.normalize(page)) >= 0) {
-              isPage = true
-            }
-          })
-          if (isPage) { // 编译页面
-            filePath = filePath.replace(path.extname(filePath), '')
+          const filePathWithoutExt = filePath.replace(extname, '')
+          if (isFileToBePage(filePath)) { // 编译页面
+            filePath = filePathWithoutExt
             filePath = filePath.replace(path.join(sourceDir) + path.sep, '')
             filePath = filePath.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '页面文件', `${sourceDirName}/${filePath}`)
@@ -1689,16 +1722,19 @@ function watchFiles () {
             outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
-            const depStyleList = wxssDepTree[outputWXSSPath]
+            let isComponent = false
+            if (!isFileToBePage(item.filePath) && item.filePath !== entryFilePath) {
+              isComponent = true
+            }
             if (isWindows) {
               await new Promise((resolve, reject) => {
                 setTimeout(async () => {
-                  await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+                  await compileDepStyles(outputWXSSPath, item.styles, isComponent)
                   resolve()
                 }, 300)
               })
             } else {
-              await compileDepStyles(outputWXSSPath, item.styles, depStyleList)
+              await compileDepStyles(outputWXSSPath, item.styles, isComponent)
             }
             Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
           })
@@ -1714,12 +1750,12 @@ function watchFiles () {
           if (isWindows) {
             await new Promise((resolve, reject) => {
               setTimeout(async () => {
-                await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+                await compileDepStyles(outputWXSSPath, [filePath], false)
                 resolve()
               }, 300)
             })
           } else {
-            await compileDepStyles(outputWXSSPath, [filePath], depStyleList)
+            await compileDepStyles(outputWXSSPath, [filePath], false)
           }
           Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
         }
@@ -1750,5 +1786,6 @@ async function build ({ watch }) {
 module.exports = {
   build,
   buildDepComponents,
-  buildSingleComponent
+  buildSingleComponent,
+  compileDepStyles
 }

@@ -2,6 +2,8 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const klaw = require('klaw')
+const wxTransformer = require('@tarojs/transformer-wx')
+const traverse = require('babel-traverse').default
 const _ = require('lodash')
 
 const CONFIG = require('./config')
@@ -10,7 +12,9 @@ const {
   PROJECT_CONFIG,
   BUILD_TYPES,
   printLog,
-  pocessTypeEnum
+  pocessTypeEnum,
+  REG_STYLE,
+  REG_TYPESCRIPT
 } = require('./util')
 const npmProcess = require('./util/npm')
 
@@ -49,6 +53,28 @@ async function buildH5Lib () {
   webpackRunner(h5Config)
 }
 
+function parseEntryAst (ast) {
+  const styleFiles = []
+  traverse(ast, {
+    ImportDeclaration (astPath) {
+      const node = astPath.node
+      const source = node.source
+      const value = source.value
+      const valueExtname = path.extname(value)
+      if (REG_STYLE.test(valueExtname)) {
+        const stylePath = path.resolve(path.dirname(entryFilePath), value)
+        if (styleFiles.indexOf(stylePath) < 0) {
+          styleFiles.push(stylePath)
+        }
+        astPath.remove()
+      }
+    }
+  })
+  return {
+    styleFiles
+  }
+}
+
 async function buildForWeapp () {
   console.log()
   console.log(chalk.green('开始编译微信小程序端组件库！'))
@@ -57,16 +83,33 @@ async function buildForWeapp () {
     return
   }
   try {
+    const { compileDepStyles } = require('./weapp')
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
+    const outputEntryFilePath = path.join(outputDir, entryFileName)
     await new Promise(resolve => {
       klaw(sourceDir)
-        .on('data', file => {
+        .on('data', async file => {
           const relativePath = path.relative(appPath, file.path)
           if (!file.stats.isDirectory()) {
             printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
             const dirname = path.dirname(file.path)
             const distDirname = dirname.replace(sourceDir, outputDir)
             fs.ensureDirSync(distDirname)
+            if (file.path === entryFilePath) {
+              const code = fs.readFileSync(entryFilePath)
+              const transformResult = wxTransformer({
+                code,
+                sourcePath: entryFilePath,
+                outputPath: outputEntryFilePath,
+                isNormal: true,
+                isTyped: REG_TYPESCRIPT.test(entryFilePath)
+              })
+              const { styleFiles } = parseEntryAst(transformResult.ast)
+              if (styleFiles.length) {
+                const outputStylePath = path.join(outputDir, 'css', 'index.css')
+                await compileDepStyles(outputStylePath, styleFiles, false)
+              }
+            }
             fs.copyFileSync(file.path, path.format({
               dir: distDirname,
               base: path.basename(file.path)

@@ -223,15 +223,6 @@ module.exports = [
     ]
   },
   {
-    'element': 'canvas',
-    'link': 'https://w3c.github.io/html/the-canvas-element.html#the-canvas-element',
-    'specs': [
-      '5',
-      '5.1',
-      '5.2'
-    ]
-  },
-  {
     'element': 'caption',
     'link': 'https://w3c.github.io/html/tabular-data.html#the-caption-element',
     'specs': [

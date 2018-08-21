@@ -34,7 +34,7 @@ function bindBehaviors (weappComponentConf, ComponentClass) {
   }
 }
 
-function bindStaticFns(weappComponentConf, ComponentClass) {
+function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
   }
@@ -223,6 +223,7 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
+      isPage && (hasPageInited = false)
       this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
       this.$component.render = this.$component._createData
