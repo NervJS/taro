@@ -1284,6 +1284,9 @@ function getRealComponentsPathList (filePath, components) {
       componentPath = path.resolve(path.dirname(filePath), componentPath)
       componentPath = Util.resolveScriptPath(componentPath)
     }
+    if (isFileToBePage(componentPath)) {
+      Util.printLog(Util.pocessTypeEnum.ERROR, '组件引用', `文件${component.path}已经在 app.js 中被指定为页面，不能再作为组件来引用！`)
+    }
     return {
       path: componentPath,
       name: component.name,
