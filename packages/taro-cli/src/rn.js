@@ -69,7 +69,10 @@ const PACKAGES = {
 function getJSAst (code) {
   return babel.transform(code, {
     parserOpts: babylonConfig,
-    plugins: ['babel-plugin-transform-jsx-stylesheet']
+    plugins: [
+      'transform-decorators-legacy',
+      'babel-plugin-transform-jsx-stylesheet'
+    ]
   }).ast
 }
 
@@ -79,6 +82,7 @@ function parseJSCode (code, filePath) {
     ast = getJSAst(code)
   } catch (e) {
     if (e.name === 'ReferenceError') {
+      npmProcess.getNpmPkgSync('babel-plugin-transform-decorators-legacy')
       npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-stylesheet')
       ast = getJSAst(code)
     } else {
