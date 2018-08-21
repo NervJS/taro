@@ -175,7 +175,7 @@ export default function transform (options: Options): TransformResult {
         'dynamicImport'
       ] as any[]
     },
-    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['Taro'] }]]
+    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]]
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
