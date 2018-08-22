@@ -118,6 +118,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
                     files.push(realRequirePath)
                     recursiveRequire(realRequirePath, files, isProduction, npmConfig)
                   }
+                  args[0].value = requirePath
                 }
               }
             }
