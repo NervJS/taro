@@ -118,6 +118,14 @@ class Transformer {
     })
   }
 
+  createFunctionRef (componentName: string, id: string, fn) {
+    this.refs.push({
+      type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
+      id,
+      fn
+    })
+  }
+
   handleRefs () {
     const objExpr = this.refs.map(ref => {
       return t.objectExpression([
@@ -179,6 +187,14 @@ class Transformer {
           const expr = refAttr.value.expression
           if (t.isStringLiteral(expr)) {
             this.createStringRef(componentName, id, expr.value)
+          } else if (t.isArrowFunctionExpression(expr) || t.isMemberExpression(expr)) {
+            this.refs.push({
+              type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
+              id,
+              fn: expr
+            })
+          } else {
+            throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
         }
         for (const [index, attr] of attrs.entries()) {
