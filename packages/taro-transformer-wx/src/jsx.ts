@@ -26,6 +26,18 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
+export function findJSXAttrByName (attrs: t.JSXAttribute[], name: string) {
+  for (const attr of attrs) {
+    if (!t.isJSXIdentifier(attr.name)) {
+      break
+    }
+    if (attr.name.name === name) {
+      return attr
+    }
+  }
+  return null
+}
+
 export function buildRefTemplate (name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
   const attrs = [
     t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
