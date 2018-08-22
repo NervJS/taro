@@ -87,9 +87,7 @@ function doUpdate (component) {
     }
     if (!component.__mounted) {
       component.__mounted = true
-      if (typeof component.componentDidMount === 'function') {
-        component.componentDidMount()
-      }
+      componentTrigger(component, 'componentDidMount')
       componentTrigger(component, 'componentDidShow')
     }
   })

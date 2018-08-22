@@ -34,6 +34,12 @@ function bindBehaviors (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindStaticOptions (weappComponentConf, ComponentClass) {
+  if (ComponentClass.options) {
+    weappComponentConf.options = ComponentClass.options
+  }
+}
+
 function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
@@ -163,6 +169,27 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 
 export function componentTrigger (component, key, args) {
   args = args || []
+  if (key === 'componentDidMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        const query = wx.createSelectorQuery().in(component.$scope)
+        if (ref.type === 'component') {
+          target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target.$component || target
+        } else {
+          target = query.select(`#${ref.id}`)
+        }
+        if ('refName' in ref) {
+          refs[ref.refName] = target
+        } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+          ref['fn'].call(component, target)
+        }
+      })
+      component.refs = refs
+    }
+  }
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -263,6 +290,7 @@ function createComponent (ComponentClass, isPage) {
   bindProperties(weappComponentConf, ComponentClass)
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
+  bindStaticOptions(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']

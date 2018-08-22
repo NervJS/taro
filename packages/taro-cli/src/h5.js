@@ -74,20 +74,21 @@ const DEVICE_RATIO = 'deviceRatio'
 function processEntry (code, filePath) {
   const ast = wxTransformer({
     code,
-    path: filePath,
+    sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath)
   }).ast
   let taroImportDefaultName
   let providorImportName
   let storeName
-  let hasAddNervJsImportDefaultName = false
   let renderCallCode
 
-  let hasComponentDidMount
-  let hasComponentDidShow
-  let hasComponentDidHide
-  let hasComponentWillUnmount
+  let hasAddNervJsImportDefaultName = false
+  let hasComponentDidMount = false
+  let hasComponentDidShow = false
+  let hasComponentDidHide = false
+  let hasComponentWillUnmount = false
+  let hasJSX = false
 
   const ClassDeclarationOrExpression = {
     enter (astPath) {
@@ -197,7 +198,6 @@ function processEntry (code, filePath) {
         if (hasComponentDidHide && isComponentWillUnmount) {
           astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
         }
-
       }
     },
     ClassBody: {
@@ -364,6 +364,11 @@ function processEntry (code, filePath) {
         }
       }
     },
+    JSXElement: {
+      enter (astPath) {
+        hasJSX = true
+      }
+    },
     JSXOpeningElement: {
       enter (astPath) {
         if (astPath.node.name.name === 'Provider') {
@@ -377,14 +382,21 @@ function processEntry (code, filePath) {
     },
     Program: {
       exit (astPath) {
+        const node = astPath.node
+
+        if (hasJSX && !hasAddNervJsImportDefaultName) {
+          node.body.unshift(
+            t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+          )
+        }
+
         astPath.traverse(programExitVisitor)
         const pxTransformConfig = {
-          designWidth: projectConfig.designWidth || 750,
+          designWidth: projectConfig.designWidth || 750
         }
         if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
           pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
         }
-        const node = astPath.node
         const routerPages = pages
           .map(v => {
             const pageName = v.startsWith('/') ? v : `/${v}`
@@ -429,12 +441,13 @@ function processEntry (code, filePath) {
 function processOthers (code, filePath) {
   const ast = wxTransformer({
     code,
-    path: filePath,
+    sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath)
   }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
+  let hasJSX = false
 
   const ClassDeclarationOrExpression = {
     enter (astPath) {
@@ -525,14 +538,27 @@ function processOthers (code, filePath) {
         }
       }
     },
+    JSXElement: {
+      enter (astPath) {
+        hasJSX = true
+      }
+    },
     Program: {
       exit (astPath) {
-        if (!taroImportDefaultName) return
         const node = astPath.node
-        const importTaro = template(`
-          import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'
-        `, babylonConfig)
-        node.body.unshift(importTaro())
+        if (hasJSX && !hasAddNervJsImportDefaultName) {
+          node.body.unshift(
+            t.importDeclaration([
+              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+            ], t.stringLiteral(PACKAGES['nervjs']))
+          )
+        }
+        if (taroImportDefaultName) {
+          const importTaro = template(`
+            import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'
+          `, babylonConfig)
+          node.body.unshift(importTaro())
+        }
       }
     }
   })
