@@ -1238,7 +1238,7 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
     const cssImportsRes = Util.processWxssImports(fileContent)
     if (isComponent) {
       const entryWxssPath = path.join(outputDir, 'app.wxss')
-      cssImportsRes.wxss.unshift(`@import "${path.relative(path.dirname(outputFilePath), entryWxssPath)}";`)
+      cssImportsRes.wxss.unshift(`@import "${path.relative(path.dirname(outputFilePath), entryWxssPath).split(path.sep).join('/')}";`)
     }
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
