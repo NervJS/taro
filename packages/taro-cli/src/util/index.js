@@ -336,7 +336,6 @@ exports.cssImports = function (content) {
 
 exports.processWxssImports = function (content) {
   const wxss = []
-  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
   content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
     if (/\.wxss/.test($2)) {
       wxss.push(m)
