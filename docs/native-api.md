@@ -164,7 +164,7 @@ socketTask.OPEN: websocket 状态值：已连接。
 
 socketTask.CLOSING: websocket 状态值：关闭中。
 
-socketTask.CLOSED: websocket 状态值：已关闭。 
+socketTask.CLOSED: websocket 状态值：已关闭。
 
 socketTask.ws: 浏览器 websocket 实例。（**h5 端独有**）
 
@@ -410,7 +410,7 @@ Taro.startRecord(params)
   .then(res => {
     const filePath = res.tempFilePath
     Taro.playVoice({ filePath })
-    
+
     setTimeout(Taro.pauseVoice, 5000)
   })
 ```
@@ -428,7 +428,7 @@ Taro.startRecord(params)
   .then(res => {
     const filePath = res.tempFilePath
     Taro.playVoice({ filePath })
-    
+
     setTimeout(Taro.stopVoice, 5000)
   })
 ```
@@ -2372,6 +2372,18 @@ import Taro from '@tarojs/taro'
 Taro.reLaunch(params).then(...)
 ```
 
+#### Taro.getCurrentPages(OBJECT)
+
+使用方式同 [`getCurrentPages`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigateBack)， 获取当前的页面栈，决定需要返回几层。
+
+**示例代码：**
+
+```javascript
+import Taro from '@tarojs/taro'
+
+Taro.getCurrentPages().length
+```
+
 > API 支持度
 
 | API | 微信小程序 | H5 | ReactNative |
@@ -2381,6 +2393,7 @@ Taro.reLaunch(params).then(...)
 | Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
 | Taro.reLaunch | ✔️ |  | ✔️ |
+| Taro.getCurrentPages | ✔️ |   |   |
 
 ### 动画
 
