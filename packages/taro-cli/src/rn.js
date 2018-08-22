@@ -41,7 +41,6 @@ const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
-const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
 const routerImportDefaultName = 'TaroRouter'
 
@@ -69,7 +68,10 @@ const PACKAGES = {
 function getJSAst (code) {
   return babel.transform(code, {
     parserOpts: babylonConfig,
-    plugins: ['babel-plugin-transform-jsx-stylesheet']
+    plugins: [
+      'transform-decorators-legacy',
+      'babel-plugin-transform-jsx-stylesheet'
+    ]
   }).ast
 }
 
@@ -79,6 +81,7 @@ function parseJSCode (code, filePath) {
     ast = getJSAst(code)
   } catch (e) {
     if (e.name === 'ReferenceError') {
+      npmProcess.getNpmPkgSync('babel-plugin-transform-decorators-legacy')
       npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-stylesheet')
       ast = getJSAst(code)
     } else {
@@ -305,12 +308,26 @@ function parseJSCode (code, filePath) {
         hasAppExportDefault = true
       }
     },
-
+    JSXOpeningElement: {
+      enter (astPath) {
+        if (astPath.node.name.name === 'Provider') {
+          for (let v of astPath.node.attributes) {
+            if (v.name.name !== 'store') continue
+            storeName = v.value.expression.name
+            break
+          }
+        }
+      }
+    },
     Program: {
       exit (astPath) {
         const node = astPath.node
         astPath.traverse({
-          ClassDeclaration (astPath) {
+          /**
+           * babel-plugin-transform-decorators-legacy 插件将 ClassDeclaration (class XXX { })
+           * 改写成了 ClassExpression （let XXX = class XXX { }）的形式。
+           */
+          ClassExpression (astPath) {
             const node = astPath.node
             if (!node.superClass) {
               return
@@ -379,15 +396,7 @@ function parseJSCode (code, filePath) {
                 astPath.remove()
               }
             } else {
-              if (calleeName === configStoreFuncName) {
-                if (parentPath.isAssignmentExpression()) {
-                  storeName = parentPath.node.left.name
-                } else if (parentPath.isVariableDeclarator()) {
-                  storeName = parentPath.node.id.name
-                } else {
-                  storeName = 'store'
-                }
-              } else if (calleeName === setStoreFuncName) {
+              if (calleeName === setStoreFuncName) {
                 if (parentPath.isAssignmentExpression() ||
                   parentPath.isExpressionStatement() ||
                   parentPath.isVariableDeclarator()) {
@@ -564,6 +573,7 @@ function buildTemp () {
         this.push(file)
         cb()
       }, function (cb) {
+        // generator app.json
         const appJson = new Vinyl({
           path: 'app.json',
           contents: Buffer.from(JSON.stringify({
@@ -572,14 +582,20 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // .temp 下的 package.json
-        const pkgContent = ejs.render(fs.readFileSync(pkgPath, 'utf-8'), {
-          projectName: projectConfig.projectName,
-          version: getPkgVersion()
-        })
+        // generator .temp/package.json TODO 这种写法可能会有隐患
+        const pkgTempObj = JSON.parse(
+          ejs.render(
+            fs.readFileSync(pkgPath, 'utf-8'), {
+              projectName: projectConfig.projectName,
+              version: getPkgVersion()
+            }
+          ).replace(/(\r\n|\n|\r|\s+)/gm, '')
+        )
+        const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
+        pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
         const pkg = new Vinyl({
           path: 'package.json',
-          contents: Buffer.from(pkgContent)
+          contents: Buffer.from(JSON.stringify(pkgTempObj, null, 2))
         })
         // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
@@ -644,9 +660,6 @@ async function processFiles (filePath) {
 }
 
 function watchFiles () {
-  console.log()
-  console.log(chalk.gray('监听文件修改中...'))
-  console.log()
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
@@ -654,6 +667,11 @@ function watchFiles () {
   })
 
   watcher
+    .on('ready', () => {
+      console.log()
+      console.log(chalk.gray('初始化完毕，监听文件修改中...'))
+      console.log()
+    })
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
@@ -664,7 +682,15 @@ function watchFiles () {
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)
     })
-  // .on('unlink', filePath => {})
+    .on('unlink', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
+      processFiles(filePath)
+    })
+    .on('error', error => console.log(`Watcher error: ${error}`))
+    .on('raw', (event, path, details) => {
+      console.log('Raw event info:', event, path, details)
+    })
 }
 
 async function build ({watch}) {

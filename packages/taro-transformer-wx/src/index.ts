@@ -161,7 +161,6 @@ export default function transform (options: Options): TransformResult {
     parserOpts: {
       sourceType: 'module',
       plugins: [
-        'typescript',
         'classProperties',
         'jsx',
         'flow',
@@ -171,10 +170,11 @@ export default function transform (options: Options): TransformResult {
         'exponentiationOperator',
         'asyncGenerators',
         'objectRestSpread',
-        'decorators'
+        'decorators',
+        'dynamicImport'
       ] as any[]
     },
-    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['Taro'] }]]
+    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]]
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any

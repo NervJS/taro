@@ -83,11 +83,15 @@ function getExactedNpmFilePath (npmName, filePath) {
     const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
-    if (!weappNpmConfig.dir) {
-      outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
+    if (Util.REG_STYLE.test(npmInfoMainPath)) {
+      outputNpmPath = npmInfoMainPath
     } else {
-      const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
-      outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+      if (!weappNpmConfig.dir) {
+        outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
+      } else {
+        const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
+        outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+      }
     }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
@@ -97,6 +101,19 @@ function getExactedNpmFilePath (npmName, filePath) {
     }
     return npmName
   }
+}
+
+function processIfTaroEnv (astPath, node, a, b) {
+  if (node[a].value !== Util.BUILD_TYPES.WEAPP) {
+    const consequentSibling = astPath.getSibling('consequent')
+    consequentSibling.set('body', [])
+  } else {
+    const alternateSibling = astPath.getSibling('alternate')
+    if (alternateSibling.node) {
+      alternateSibling.set('body', [])
+    }
+  }
+  node[b] = t.stringLiteral(Util.BUILD_TYPES.WEAPP)
 }
 
 function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip = false) {
@@ -227,11 +244,25 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       }
     },
 
+    IfStatement (astPath) {
+      astPath.traverse({
+        BinaryExpression (astPath) {
+          const node = astPath.node
+          const left = node.left
+          const right = node.right
+          if (generate(left).code === 'process.env.TARO_ENV') {
+            processIfTaroEnv(astPath, node, 'right', 'left')
+          } else if (generate(right).code === 'process.env.TARO_ENV') {
+            processIfTaroEnv(astPath, node, 'left', 'right')
+          }
+        }
+      })
+    },
+
     ImportDeclaration (astPath) {
       const node = astPath.node
       const source = node.source
       let value = source.value
-      const valueExtname = path.extname(value)
       if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
         if (value === taroJsComponents) {
           astPath.remove()
@@ -278,12 +309,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         }
       } else if (path.isAbsolute(value)) {
         Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
-      } else if (Util.REG_STYLE.test(valueExtname)) {
-        const stylePath = path.resolve(path.dirname(sourceFilePath), value)
-        if (styleFiles.indexOf(stylePath) < 0) {
-          styleFiles.push(stylePath)
-        }
-        astPath.remove()
       }
     },
 
@@ -352,20 +377,16 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       } else if (callee.name === 'require') {
         const args = node.arguments
         let value = args[0].value
-        const valueExtname = path.extname(value)
-        if (Util.REG_STYLE.test(valueExtname)) {
-          const stylePath = path.resolve(path.dirname(sourceFilePath), value)
-          if (styleFiles.indexOf(stylePath) < 0) {
-            styleFiles.push(stylePath)
+        if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
+          if (Util.REG_STYLE.test(value)) {
+            if (!npmSkip) {
+              args[0].value = getExactedNpmFilePath(value, filePath)
+            } else {
+              args[0].value = value
+            }
           }
-          if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
-            astPath.parentPath.remove()
-          } else if (astPath.parent.type === 'VariableDeclarator') {
-            astPath.parentPath.parentPath.remove()
-          } else {
-            astPath.remove()
-          }
-        } else if (path.isAbsolute(value)) {
+        }
+        if (path.isAbsolute(value)) {
           Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
         }
       }
@@ -448,7 +469,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                 } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
                   const vpath = path.resolve(sourceFilePath, '..', value)
                   let fPath = value
-                  if (fs.existsSync(vpath)) {
+                  if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
                     fPath = vpath
                   }
                   if (scriptFiles.indexOf(fPath) < 0) {
@@ -504,7 +525,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                   } else {
                     astPath.remove()
                   }
-                } else if (!valueExtname) {
+                } else if (Util.REG_STYLE.test(valueExtname)) {
+                  const stylePath = path.resolve(path.dirname(sourceFilePath), value)
+                  if (styleFiles.indexOf(stylePath) < 0) {
+                    styleFiles.push(stylePath)
+                  }
+                  astPath.remove()
+                } else {
                   let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                   let outputVpath
                   if (NODE_MODULES_REG.test(vpath)) {
@@ -576,6 +603,18 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     } else {
                       astPath.remove()
                     }
+                  } else if (Util.REG_STYLE.test(valueExtname)) {
+                    const stylePath = path.resolve(path.dirname(sourceFilePath), value)
+                    if (styleFiles.indexOf(stylePath) < 0) {
+                      styleFiles.push(stylePath)
+                    }
+                    if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
+                      astPath.parentPath.remove()
+                    } else if (astPath.parent.type === 'VariableDeclarator') {
+                      astPath.parentPath.parentPath.remove()
+                    } else {
+                      astPath.remove()
+                    }
                   } else if (Util.REG_JSON.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     if (jsonFiles.indexOf(vpath) < 0) {
@@ -594,7 +633,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                   } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     let fPath = value
-                    if (fs.existsSync(vpath)) {
+                    if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
                       fPath = vpath
                     }
                     if (scriptFiles.indexOf(fPath) < 0) {
@@ -610,7 +649,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                       sourceDirPath = nodeModulesPath
                     }
                     astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
-                  } else if (!valueExtname) {
+                  } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
                     if (NODE_MODULES_REG.test(vpath)) {
@@ -824,7 +863,7 @@ function isFileToBePage (filePath) {
       isPage = true
     }
   })
-  return isPage
+  return isPage && Util.REG_SCRIPTS.test(extname)
 }
 
 function copyFilesFromSrcToOutput (files) {
@@ -1197,10 +1236,6 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     const fileContent = fs.readFileSync(filePath).toString()
     const cssImportsRes = Util.processWxssImports(fileContent)
-    if (isComponent) {
-      const entryWxssPath = path.join(outputDir, 'app.wxss')
-      cssImportsRes.wxss.unshift(`@import "${path.relative(path.dirname(outputFilePath), entryWxssPath)}";`)
-    }
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
         .then(res => ({
@@ -1244,6 +1279,9 @@ function getRealComponentsPathList (filePath, components) {
     } else {
       componentPath = path.resolve(path.dirname(filePath), componentPath)
       componentPath = Util.resolveScriptPath(componentPath)
+    }
+    if (isFileToBePage(componentPath)) {
+      Util.printLog(Util.pocessTypeEnum.ERROR, '组件引用', `文件${component.path}已经在 app.js 中被指定为页面，不能再作为组件来引用！`)
     }
     return {
       path: componentPath,
@@ -1747,5 +1785,6 @@ async function build ({ watch }) {
 module.exports = {
   build,
   buildDepComponents,
-  buildSingleComponent
+  buildSingleComponent,
+  compileDepStyles
 }

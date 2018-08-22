@@ -16,17 +16,20 @@ type Props = {
   style?: StyleSheet.Styles,
   children?: any,
   selectable?: boolean,
+  onClick?: Function,
 }
 
 export default function _Text ({
   style,
   children,
   selectable,
+  onClick,
 }: Props) {
   return (
     <Text
       selectable={!!selectable}
       style={style}
+      onPress={onClick}
     >
       {children}
     </Text>

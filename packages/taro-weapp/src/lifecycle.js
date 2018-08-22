@@ -35,7 +35,8 @@ export function updateComponent (component) {
   component.props = props
   component.state = state
   component._dirty = false
-  if (!component.__mounted) {
+  if (!component.__componentWillMountTriggered) {
+    component.__componentWillMountTriggered = true
     componentTrigger(component, 'componentWillMount')
   }
   if (!skip) {
@@ -86,9 +87,7 @@ function doUpdate (component) {
     }
     if (!component.__mounted) {
       component.__mounted = true
-      if (typeof component.componentDidMount === 'function') {
-        component.componentDidMount()
-      }
+      componentTrigger(component, 'componentDidMount')
       componentTrigger(component, 'componentDidShow')
     }
   })

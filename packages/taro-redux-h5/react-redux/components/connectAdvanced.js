@@ -233,13 +233,14 @@ export default function connectAdvanced(
       }
 
       addExtraProps(props) {
-        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props
+        // if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props
         // make a shallow copy so that fields added don't leak to the original selector.
         // this is especially important for 'ref' since that's a reference back to the component
         // instance. a singleton memoized selector would then be holding a reference to the
         // instance, preventing the instance from being garbage collected, and that would be bad
         const withExtras = { ...props }
-        if (withRef) withExtras.ref = this.setWrappedInstance
+        // if (withRef) withExtras.ref = this.setWrappedInstance
+        withExtras.ref = this.setWrappedInstance
         if (renderCountProp) withExtras[renderCountProp] = this.renderCount++
         if (this.propsMode && this.subscription) withExtras[subscriptionKey] = this.subscription
         return withExtras
@@ -267,6 +268,17 @@ export default function connectAdvanced(
     const componentDidHide = WrappedComponent.prototype.componentDidHide
     const originalComponentDidMount = WrappedComponent.prototype.componentDidMount
     const originalComponentWillUnmount = WrappedComponent.prototype.componentWillUnmount
+    const originalConnectComponentDidMount = Connect.prototype.componentDidMount
+    const originalConnectComponentWillUnmount = Connect.prototype.componentWillUnmount
+
+    /**
+     * 调用过程
+     * 
+     * Connect.prototype.componentDidMount
+     * Connect.prototype.componentDidShow  [router调用]
+     * WrappedComponent.prototype.componentDidMount = didMount + didShow
+     * WrappedComponent.prototype.compomentDidShow [只有didMount用]
+     */
 
     WrappedComponent.prototype.componentDidMount = function () {
       originalComponentDidMount && originalComponentDidMount.call(this)
@@ -275,6 +287,21 @@ export default function connectAdvanced(
     WrappedComponent.prototype.componentWillUnmount = function () {
       componentDidHide && componentDidHide.call(this)
       originalComponentWillUnmount && originalComponentWillUnmount.call(this)
+    }
+
+    Connect.prototype.componentDidMount = function () {
+      originalConnectComponentDidMount.call(this)
+      this.componentDidShow = function () {
+        const comp = this.wrappedInstance
+        componentDidShow && componentDidShow.call(comp)
+      }
+    }
+    Connect.prototype.componentWillUnmount = function () {
+      originalConnectComponentWillUnmount.call(this)
+      this.componentDidHide = function () {
+        const comp = this.wrappedInstance
+        componentDidHide && componentDidHide.call(comp)
+      }
     }
 
     if (process.env.NODE_ENV !== 'production') {

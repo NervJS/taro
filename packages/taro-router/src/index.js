@@ -74,9 +74,15 @@ const getWrappedComponent = (component) => {
     }
 
     render () {
+      const containerStyle = this.__pageStatus === PAGESTATUS.SHOWING ? {
+        display: 'block'
+      } : {
+        display: 'none'
+      }
       return (
-        <div className='taro_page' dataState={this.locationState}>
-          {this.__pageStatus === PAGESTATUS.SHOWING && super.render()}
+        <div className='taro_page' dataState={this.locationState}
+          style={containerStyle}>
+          {super.render()}
         </div>
       )
     }

@@ -49,31 +49,6 @@ function isChildrenOfJSXAttr (p: NodePath<t.Node>) {
   return !!p.findParent(p => p.isJSXAttribute())
 }
 
-function handleJSXElement (
-  jsxElementPath: NodePath<t.JSXElement>,
-  func: ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }: JSXHandler) => void
-) {
-  const parentNode = jsxElementPath.parent
-  const parentPath = jsxElementPath.parentPath
-  const isJSXChildren = t.isJSXElement(parentNode)
-  if (!isJSXChildren) {
-    let statementParent = jsxElementPath.getStatementParent()
-    const isReturnStatement = statementParent.isReturnStatement()
-    const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
-    if (
-      !(
-        statementParent.isVariableDeclaration() ||
-        statementParent.isExpressionStatement()
-      )
-    ) {
-      statementParent = statementParent.findParent(
-        s => s.isVariableDeclaration() || s.isExpressionStatement()
-      ) as NodePath<t.Statement>
-    }
-    func({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn })
-  }
-}
-
 function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
   let matched = false
   if (path) {
@@ -132,6 +107,38 @@ export class RenderParser {
   private componentProperies: Set<string>
 
   private finalReturnElement!: t.JSXElement
+
+  handleJSXElement = (
+    jsxElementPath: NodePath<t.JSXElement>,
+    func: ({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn }: JSXHandler) => void
+  ) => {
+    const parentNode = jsxElementPath.parent
+    const parentPath = jsxElementPath.parentPath
+    const isJSXChildren = t.isJSXElement(parentNode)
+    if (!isJSXChildren) {
+      let statementParent = jsxElementPath.getStatementParent()
+      const isReturnStatement = statementParent.isReturnStatement()
+      const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
+      if (
+        !(
+          statementParent.isVariableDeclaration() ||
+          statementParent.isExpressionStatement()
+        )
+      ) {
+        statementParent = statementParent.findParent(
+          s => s.isVariableDeclaration() || s.isExpressionStatement()
+        ) as NodePath<t.Statement>
+      }
+      if (t.isVariableDeclarator(parentNode)) {
+        if (statementParent) {
+          const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
+          // setTemplate(name, path, templates)
+          name && this.templates.set(name, jsxElementPath.node)
+        }
+      }
+      func({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn })
+    }
+  }
 
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
     if (t.isLogicalExpression(parentNode)) {
@@ -267,12 +274,12 @@ export class RenderParser {
     },
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
-        handleJSXElement(jsxElementPath, (options) => {
+        this.handleJSXElement(jsxElementPath, (options) => {
           this.handleConditionExpr(options, jsxElementPath)
         })
       },
       exit: (jsxElementPath: NodePath<t.JSXElement>) => {
-        handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isFinalReturn }) => {
+        this.handleJSXElement(jsxElementPath, ({ parentNode, parentPath, statementParent, isFinalReturn }) => {
           if (statementParent && statementParent.findParent(p => p === this.renderPath)) {
             this.jsxDeclarations.add(statementParent)
           }
@@ -366,8 +373,8 @@ export class RenderParser {
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
-      handleJSXElement(jsxElementPath, (options) => {
-        const { parentNode, parentPath, statementParent, isFinalReturn } = options
+      this.handleJSXElement(jsxElementPath, (options) => {
+        const { parentNode, parentPath, isFinalReturn } = options
         this.handleConditionExpr(options, jsxElementPath)
         // this.jsxDeclarations.add(statementParent)
         /**
@@ -375,13 +382,7 @@ export class RenderParser {
          * 有空做一个 TS 的 pattern matching 函数
          * 把分支重构出来复用
          */
-        if (t.isVariableDeclarator(parentNode)) {
-          if (statementParent) {
-            const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
-            // setTemplate(name, path, templates)
-            name && this.templates.set(name, jsxElementPath.node)
-          }
-        } else if (t.isReturnStatement(parentNode)) {
+        if (t.isReturnStatement(parentNode)) {
           if (!isFinalReturn) {
             //
           } else {

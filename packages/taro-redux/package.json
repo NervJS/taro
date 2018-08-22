@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/redux",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.15",
   "description": "Redux for Taro",
   "main": "index.js",
   "typings": "types/index.d.ts",
@@ -8,6 +8,13 @@
     "test": "jest",
     "build": "rollup -c rollup.config.js"
   },
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "types",
+    "package.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
@@ -22,5 +29,8 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.0.1",
     "jest": "^23.1.0"
+  },
+  "dependencies": {
+    "@tarojs/utils": "1.0.0-beta.15"
   }
 }

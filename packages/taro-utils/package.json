@@ -1,10 +1,11 @@
 {
-  "name": "@tarojs/plugin-uglifyjs",
+  "name": "@tarojs/utils",
   "version": "1.0.0-beta.15",
-  "description": "Taro压缩JS文件",
+  "description": "Utils for Taro",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -13,9 +14,9 @@
   "keywords": [
     "taro"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "luckyadam",
-  "license": "MIT",
-  "dependencies": {
-    "uglify-js": "^3.3.24"
-  }
+  "license": "MIT"
 }
