@@ -20,10 +20,10 @@ describe('<Text />', () => {
     expect(wrapper.childAt(0).text()).toContain('Miao miao miao~')
   })
 
-  // it('onClick', () => {
-  //   const spy = sinon.spy()
-  //   const wrapper = shallow(<Text onClick={spy}>Test Text</Text>)
-  //   wrapper.find(ReactNativeText).props().onPress()
-  //   expect(spy.calledOnce).toBe(true)
-  // })
+  it('onClick', () => {
+    const spy = sinon.spy()
+    const wrapper = shallow(<Text onClick={spy}>Test Text</Text>)
+    wrapper.find(ReactNativeText).props().onPress()
+    expect(spy.calledOnce).toBe(true)
+  })
 })
