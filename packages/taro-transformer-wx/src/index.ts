@@ -161,7 +161,6 @@ export default function transform (options: Options): TransformResult {
     parserOpts: {
       sourceType: 'module',
       plugins: [
-        'typescript',
         'classProperties',
         'jsx',
         'flow',
