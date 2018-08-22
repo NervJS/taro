@@ -169,6 +169,42 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 
 export function componentTrigger (component, key, args) {
   args = args || []
+  if (key === 'componentWillMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        if (ref.type === 'component') {
+          target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target.$component || target
+          if ('refName' in ref && ref['refName']) {
+            refs[ref.refName] = target
+          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+            ref['fn'].call(component, target)
+          }
+        }
+      })
+      component.refs = Object.assign({}, component.refs || {}, refs)
+    }
+  }
+  if (key === 'componentDidMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        const query = wx.createSelectorQuery().in(component.$scope)
+        if (ref.type === 'dom') {
+          target = query.select(`#${ref.id}`)
+          if ('refName' in ref && ref['refName']) {
+            refs[ref.refName] = target
+          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+            ref['fn'].call(component, target)
+          }
+        }
+      })
+      component.refs = Object.assign({}, component.refs || {}, refs)
+    }
+  }
   if (key === 'componentDidMount') {
     if (component['$$refs'] && component['$$refs'].length > 0) {
       let refs = {}
@@ -181,7 +217,7 @@ export function componentTrigger (component, key, args) {
         } else {
           target = query.select(`#${ref.id}`)
         }
-        if ('refName' in ref) {
+        if ('refName' in ref && ref['refName']) {
           refs[ref.refName] = target
         } else if ('fn' in ref && typeof ref['fn'] === 'function') {
           ref['fn'].call(component, target)
