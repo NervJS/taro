@@ -34,6 +34,12 @@ function bindBehaviors (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindStaticOptions (weappComponentConf, ComponentClass) {
+  if (ComponentClass.options) {
+    weappComponentConf.options = ComponentClass.options
+  }
+}
+
 function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
@@ -284,6 +290,7 @@ function createComponent (ComponentClass, isPage) {
   bindProperties(weappComponentConf, ComponentClass)
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
+  bindStaticOptions(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']
