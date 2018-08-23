@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "Taro RN framework",
   "main": "./src/index.js",
   "files": [
@@ -22,7 +22,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "1.0.0-beta.15",
+    "@tarojs/taro": "1.0.0-beta.16",
     "react-native-image-zoom-viewer": "^2.2.13",
     "react-native-root-siblings": "^3.1.0",
     "react-native-root-toast": "^3.0.1",

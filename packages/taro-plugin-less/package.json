@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-less",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "Taro 编译 less 文件",
   "main": "index.js",
   "scripts": {

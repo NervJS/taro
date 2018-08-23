@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/redux-h5",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "Forked react-redux for taro",
   "keywords": [
     "react",
@@ -33,7 +33,7 @@
     "redux": "^2.0.0 || ^3.0.0 || ^4.0.0-0"
   },
   "dependencies": {
-    "@tarojs/taro-h5": "1.0.0-beta.15",
+    "@tarojs/taro-h5": "1.0.0-beta.16",
     "hoist-non-react-statics": "^2.5.0",
     "invariant": "^2.2.4",
     "loose-envify": "^1.1.0",
