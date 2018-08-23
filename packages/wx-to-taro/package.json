@@ -13,9 +13,12 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
+    "@babel/template": "^7.0.0-rc.2",
+    "@babel/traverse": "^7.0.0-rc.2",
+    "@babel/types": "^7.0.0-rc.2",
+    "himalaya": "^1.1.0",
     "lodash": "^4.17.5",
-    "typescript": "^3.0.1",
-    "himalaya": "^1.1.0"
+    "typescript": "^3.0.1"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
