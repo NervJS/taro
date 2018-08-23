@@ -166,4 +166,16 @@ Set the minimum pixel value to replace.
 ### 文件
 对于头部包含注释`/*postcss-pxtransform disable*/` 的文件，插件不予处理。
 
+## 剔除
+`/*postcss-pxtransform rn eject enable*/` 与 `/*postcss-pxtransform rn eject disable*/` 中间的代码，
+在编译成 RN 端的样式的时候，会被删除。建议将 RN 不支持的但 H5 端又必不可少的样式放到这里面。如：样式重制相关的代码。
+```css
+/*postcss-pxtransform rn eject enable*/
+
+.test {
+  color: black;
+}
+
+/*postcss-pxtransform rn eject disable*/
+```
 
