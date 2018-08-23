@@ -10,7 +10,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "mocha __tests__/*.js"
+    "test": "mocha -R progress __tests__/*.js"
   },
   "repository": {
     "type": "git",
