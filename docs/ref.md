@@ -50,8 +50,10 @@ class MyComponent extends Component {
     this.cat.miao()
   }
 
+  refCat = (node) => this.cat = node // `this.cat` 会变成 `Cat` 组件实例的引用
+
   render () {
-    return <Cat ref={node => this.cat = node} />
+    return <Cat ref={this.refCat} />
   }
 }
 

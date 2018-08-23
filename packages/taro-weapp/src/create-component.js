@@ -243,25 +243,25 @@ export function componentTrigger (component, key, args) {
   }
 }
 
-let hasPageInited = false
+let hasPageInited = {}
 
 function initComponent (ComponentClass, isPage) {
   if (this.$component.__isReady) return
   // ready之后才可以setData,
   // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
   this.$component.__isReady = true
-
-  if (isPage && !hasPageInited) {
-    hasPageInited = true
+  const wxWebviewId = this.__wxWebviewId__
+  if (isPage && !hasPageInited[wxWebviewId]) {
+    hasPageInited[wxWebviewId] = true
   }
   // 页面Ready的时候setData更新，此时并未didMount,触发observer但不会触发子组件更新
   // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
   // 动态组件执行改造函数副本的时,在初始化数据前计算好props
-  if (hasPageInited && !isPage) {
+  if (hasPageInited[wxWebviewId] && !isPage) {
     const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
     this.$component.props = nextProps
   }
-  if (hasPageInited || isPage) {
+  if (hasPageInited[wxWebviewId] || isPage) {
     updateComponent(this.$component)
   }
 }
@@ -286,7 +286,6 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
-      isPage && (hasPageInited = false)
       this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
       this.$component.render = this.$component._createData
@@ -299,6 +298,7 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     detached () {
+      delete hasPageInited[this.__wxWebviewId__]
       componentTrigger(this.$component, 'componentWillUnmount')
     }
   }
