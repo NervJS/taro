@@ -23,6 +23,11 @@ class MyComponent extends Component {
   componentDidMount () {
     // 如果 ref 的是小程序原生组件，那只有在 didMount 生命周期之后才能通过
     // this.refs.input 访问到小程序原生组件
+    if (process.env.TARO_ENV === 'weapp') {
+      // 这里 this.refs.input 访问的时候通过 `wx.createSeletorQuery` 取到的小程序原生组件
+    } else if (process.env.TARO_ENV === 'h5') {
+      // 这里 this.refs.input 访问到的是 `@tarojs/components` 的 `Input` 组件实例
+    }
   }
 
   render () {
