@@ -3,6 +3,18 @@ import { shallowEqual } from '@tarojs/utils'
 import { getStore } from '../utils/store'
 import { mergeObjects, isObject } from '../utils'
 
+function isEqual (a, b) {
+  const typeA = typeof a
+  const typeB = typeof b
+  if (typeA !== typeB) {
+    return false
+  }
+  if (typeA === 'object') {
+    return shallowEqual(a, b)
+  }
+  return a === b
+}
+
 export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
@@ -17,7 +29,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       if (isObject(val) && isObject(initMapDispatch[key])) {
         val = mergeObjects(val, initMapDispatch[key])
       }
-      if (!shallowEqual(this.props[key], val)) {
+      if (!isEqual(this.props[key], val)) {
         this.prevProps = Object.assign({}, this.props)
         this.props[key] = val
         isChanged = true
