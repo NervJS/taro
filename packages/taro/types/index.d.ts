@@ -3431,7 +3431,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
        */
-      type ParamPropSuccess = (res: { longitude: "经度", latitude: "纬度" }) => void
+      type ParamPropSuccess = (res: { longitude: number, latitude: number }) => void
       /**
        * 接口调用失败的回调函数
        */
