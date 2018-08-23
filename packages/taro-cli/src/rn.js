@@ -15,6 +15,8 @@ const template = require('babel-template')
 const _ = require('lodash')
 const transformCSS = require('css-to-react-native-transform').default
 const shelljs = require('shelljs')
+const postcss = require('postcss')
+const pxtransform = require('postcss-pxtransform')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
@@ -488,7 +490,7 @@ function compileDepStyles (filePath, styleFiles) {
     return Promise.resolve({})
   }
   isBuildingStyles[filePath] = true
-  return Promise.all(styleFiles.map(async p => {
+  return Promise.all(styleFiles.map(async p => { // to css string
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
     Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
@@ -507,7 +509,25 @@ function compileDepStyles (filePath, styleFiles) {
         })
       })
     })
-  })).then(async resList => {
+  })).then(resList => {
+    return resList.map(item => ({
+      css: item.css.toString(),
+      filePath: item.filePath || item.stats.entry.toString()
+    }))
+  }).then(resList => { // postcss
+    return Promise.all(
+      resList.map(async item => {
+        const postcssResult = await postcss(pxtransform({
+          platform: 'rn',
+          designWidth: projectConfig.designWidth || 750
+        }))
+          .process(item.css, {from: item.filePath})
+        return {
+          css: postcssResult.css,
+          filePath: item.filePath
+        }
+      }))
+  }).then(async resList => {
     try {
       // 处理css文件
       let styleObjectEntire = {}
@@ -519,7 +539,7 @@ function compileDepStyles (filePath, styleFiles) {
             try {
               StyleSheetValidation.validateStyle(name, styleObject)
             } catch (e) {
-              Util.printLog(Util.pocessTypeEnum.WARNING, '样式不支持', res.filePath || (res.stats.entry.toString()))
+              Util.printLog(Util.pocessTypeEnum.WARNING, '样式不支持', res.filePath)
               throw e
             }
           }
@@ -630,6 +650,8 @@ function buildTemp () {
         }
         resolve()
       })
+  }).catch(e => {
+    throw e
   })
 }
 
@@ -688,9 +710,6 @@ function watchFiles () {
       processFiles(filePath)
     })
     .on('error', error => console.log(`Watcher error: ${error}`))
-    .on('raw', (event, path, details) => {
-      console.log('Raw event info:', event, path, details)
-    })
 }
 
 async function build ({watch}) {

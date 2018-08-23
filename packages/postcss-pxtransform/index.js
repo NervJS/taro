@@ -35,13 +35,13 @@ const baseFontSize = 40
 const DEFAULT_WEAPP_OPTIONS = {
   platform: 'weapp',
   designWidth: 750,
-  deviceRatio,
+  deviceRatio
 }
 
 var targetUnit
 
 module.exports = postcss.plugin('postcss-pxtransform', function (options) {
-  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {});
+  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
 
   switch (options.platform) {
     case 'weapp': {
@@ -52,6 +52,11 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
     case 'h5': {
       options.rootValue = baseFontSize * options.designWidth / 640
       targetUnit = 'rem'
+      break
+    }
+    case 'rn': {
+      options.rootValue = options.deviceRatio[options.designWidth] * 2
+      targetUnit = 'px'
       break
     }
   }
@@ -73,6 +78,24 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
           break
         }
       }
+    }
+
+    // delete code between comment in RN
+    if (options.platform === 'rn') {
+      css.walkComments(comment => {
+        if (comment.text === 'postcss-pxtransform rn eject enable') {
+          let next = comment.next()
+          while (next) {
+            console.log(next.text)
+            if (next.type === 'comment' && next.text === 'postcss-pxtransform rn eject disable') {
+              break
+            }
+            const temp = next.next()
+            next.remove()
+            next = temp
+          }
+        }
+      })
     }
 
     css.walkDecls(function (decl, i) {
