@@ -1,5 +1,28 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.14...v) (2018-08-22)
+# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.15...v) (2018-08-22)
+
+
+
+<a name="1.0.0-beta.15"></a>
+# [1.0.0-beta.15](https://github.com/NervJS/taro/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2018-08-22)
+
+
+### Bug Fixes
+
+* **cli:** 修复ast转换后缺失nervjs的问题 ([01c4c58](https://github.com/NervJS/taro/commit/01c4c58))
+* **cli:** 小程序端 npm 抽离文件没有补全文件完整路径 ([c08aba0](https://github.com/NervJS/taro/commit/c08aba0))
+* **cli:** 小程序端自定义组件不再引用 app.wxss ([3b0431f](https://github.com/NervJS/taro/commit/3b0431f))
+* **eslint:** 使用 ref 不报错 ([e5afc21](https://github.com/NervJS/taro/commit/e5afc21))
+
+
+### Features
+
+* **tcr:** 支持Text onClick事件 ([874002d](https://github.com/NervJS/taro/commit/874002d))
+* **transformer:** 支持函数 ref ([86d396e](https://github.com/NervJS/taro/commit/86d396e))
+* **transformer:** 支持字符串 ref ([8ea9366](https://github.com/NervJS/taro/commit/8ea9366))
+* **weapp:** ref获取组件示例的时机提前 ([a03c203](https://github.com/NervJS/taro/commit/a03c203))
+* **weapp:** 支持refs选择节点或组件 ([7f6403e](https://github.com/NervJS/taro/commit/7f6403e))
+* **weapp:** 支持设置的static options ([c7edab4](https://github.com/NervJS/taro/commit/c7edab4))
 
 
 

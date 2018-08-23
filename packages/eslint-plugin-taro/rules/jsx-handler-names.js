@@ -25,7 +25,7 @@ module.exports = {
         const propKey = typeof node.name === 'object' ? node.name.name : node.name
         const source = sourceCode.getText(node.value.expression)
 
-        if (propKey === 'ref' || propKey === 'key') {
+        if (propKey === 'key') {
           return
         }
 
