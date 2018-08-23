@@ -1,0 +1,34 @@
+{
+  "name": "@tarojs/wx-to-taro",
+  "version": "0.0.1",
+  "description": "转换原生微信小程序代码为 Taro 代码",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NervJS/taro/tree/master/packages/wx-to-taro"
+  },
+  "author": "yuche",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "typescript": "^3.0.1",
+    "himalaya": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "@types/lodash": "^4.14.105",
+    "@types/node": "^9.6.2",
+    "jest": "^23.0.1",
+    "jest-cli": "^22.1.4",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-config-standard": "^7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
