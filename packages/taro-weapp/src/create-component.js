@@ -298,7 +298,9 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     detached () {
-      delete hasPageInited[this.__wxWebviewId__]
+      if (isPage) {
+        delete hasPageInited[this.__wxWebviewId__]
+      }
       componentTrigger(this.$component, 'componentWillUnmount')
     }
   }
