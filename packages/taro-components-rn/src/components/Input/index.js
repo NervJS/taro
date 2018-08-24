@@ -105,9 +105,12 @@ class _Input extends React.Component<Props, State> {
   onChangeText = (text: string) => {
     const { onInput } = this.props
     const { returnValue } = this.state
-    this.tmpValue = text
+    this.tmpValue = text || ''
     if (onInput) {
-      const result = onInput({ detail: { value: text } })
+      const result = onInput({
+        target: { value: text },
+        detail: { value: text }
+      })
       // Be care of flickering
       // @see https://facebook.github.io/react-native/docs/textinput.html#value
       if (typeof result === 'string') {
@@ -121,12 +124,18 @@ class _Input extends React.Component<Props, State> {
   onFocus = () => {
     const { onFocus } = this.props
     // event.detail = { value, height }
-    onFocus && onFocus({ detail: { value: this.tmpValue || '' } })
+    onFocus && onFocus({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
   }
 
   onBlur = () => {
     const { onBlur } = this.props
-    onBlur && onBlur({ detail: { value: this.tmpValue || '' } })
+    onBlur && onBlur({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
   }
 
   /**
@@ -148,7 +157,10 @@ class _Input extends React.Component<Props, State> {
       detail: { value: this.tmpValue || '' }
     })
     if (keyValue !== 'Enter') return
-    onConfirm && onConfirm({ detail: { value: this.tmpValue || '' } })
+    onConfirm && onConfirm({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
   }
 
   onContentSizeChange = (event: Object) => {
