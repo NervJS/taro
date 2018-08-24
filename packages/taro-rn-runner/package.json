@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "scripts": {

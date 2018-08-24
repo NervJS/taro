@@ -80,6 +80,24 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       }
     }
 
+    // delete code between comment in RN
+    if (options.platform === 'rn') {
+      css.walkComments(comment => {
+        if (comment.text === 'postcss-pxtransform rn eject enable') {
+          let next = comment.next()
+          while (next) {
+            console.log(next.text)
+            if (next.type === 'comment' && next.text === 'postcss-pxtransform rn eject disable') {
+              break
+            }
+            const temp = next.next()
+            next.remove()
+            next = temp
+          }
+        }
+      })
+    }
+
     css.walkDecls(function (decl, i) {
       // This should be the fastest test and will remove most declarations
       if (decl.value.indexOf('px') === -1) return

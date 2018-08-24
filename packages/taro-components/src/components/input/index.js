@@ -4,11 +4,12 @@ import classNames from 'classnames'
 
 import './index.scss'
 
-function getTrueType (type, confirmType) {
+function getTrueType (type, confirmType, password) {
   if (!type) {
     throw new Error('unexpected type')
   }
   if (confirmType === 'search') type = 'search'
+  if (password) type = 'password'
 
   return type
 }
@@ -89,7 +90,7 @@ class Input extends Nerv.Component {
         onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
-        type={getTrueType(type, confirmType)}
+        type={getTrueType(type, confirmType, password)}
       />
     )
   }

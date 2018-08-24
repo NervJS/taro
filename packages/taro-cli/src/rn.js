@@ -650,6 +650,8 @@ function buildTemp () {
         }
         resolve()
       })
+  }).catch(e => {
+    throw e
   })
 }
 
@@ -708,9 +710,6 @@ function watchFiles () {
       processFiles(filePath)
     })
     .on('error', error => console.log(`Watcher error: ${error}`))
-    .on('raw', (event, path, details) => {
-      console.log('Raw event info:', event, path, details)
-    })
 }
 
 async function build ({watch}) {
