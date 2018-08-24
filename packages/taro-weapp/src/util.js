@@ -88,3 +88,93 @@ export function shakeFnFromObject (obj) {
   }
   return newObj
 }
+
+const keyList = Object.keys
+const hasProp = Object.prototype.hasOwnProperty
+
+function diffArrToPath (to, from, res = {}, keyPrev = '') {
+  const len = to.length
+  for (let i = len; i-- !== 0;) {
+    const toItem = to[i]
+    const fromItem = from[i]
+    const targetKey = `${keyPrev}[${i}]`
+    if (toItem === fromItem) {
+      continue
+    } else if (typeof toItem !== typeof fromItem) {
+      res[targetKey] = toItem
+    } else {
+      if (typeof toItem !== 'object') {
+        res[targetKey] = toItem
+      } else {
+        const arrTo = isArray(toItem)
+        const arrFrom = isArray(fromItem)
+        if (arrTo !== arrFrom) {
+          res[targetKey] = toItem
+        } else if (arrTo && arrFrom) {
+          if (toItem.length < fromItem.length) {
+            res[targetKey] = toItem
+          } else {
+            // 数组
+            diffArrToPath(toItem, fromItem, res, `${targetKey}`)
+          }
+        } else {
+          if (!toItem || !fromItem) {
+            res[targetKey] = toItem
+          } else {
+            // 对象
+            diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+          }
+        }
+      }
+    }
+  }
+  return res
+}
+
+// 比较的对象均为plainObject，且函数已被过滤
+export function diffObjToPath (to, from, res = {}, keyPrev = '') {
+  const keys = keyList(to)
+  const len = keys.length
+
+  for (let i = len; i-- !== 0;) {
+    const key = keys[i]
+    const toItem = to[key]
+    const fromItem = from[key]
+    const targetKey = `${keyPrev}${key}`
+    if (toItem === fromItem) {
+      continue
+    } else
+    if (!hasProp.call(from, key)) {
+      res[targetKey] = toItem
+    } else
+    if (typeof toItem !== typeof fromItem) {
+      res[targetKey] = toItem
+    } else {
+      if (typeof toItem !== 'object') {
+        res[targetKey] = toItem
+      } else {
+        const arrTo = isArray(toItem)
+        const arrFrom = isArray(fromItem)
+        if (arrTo !== arrFrom) {
+          res[targetKey] = toItem
+        } else if (arrTo && arrFrom) {
+          if (toItem.length < fromItem.length) {
+            res[targetKey] = toItem
+          } else {
+            // 数组
+            diffArrToPath(toItem, fromItem, res, `${targetKey}`)
+          }
+        } else {
+          // null
+          if (!toItem || !fromItem) {
+            res[targetKey] = toItem
+          } else {
+          // 对象
+            diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+          }
+        }
+      }
+    }
+  }
+  return res
+}

@@ -3,7 +3,7 @@ import {
   internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject } from './util'
+import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
 
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
@@ -78,8 +78,8 @@ function doUpdate (component) {
   }
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
-
-  component.$scope.setData(data, function () {
+  const dataDiff = diffObjToPath(data, component.$scope.data)
+  component.$scope.setData(dataDiff, function () {
     if (component._pendingCallbacks) {
       while (component._pendingCallbacks.length) {
         component._pendingCallbacks.pop().call(component)
