@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "Taro h5 framework",
   "main": "index.js",
   "typings": "types/index.d.ts",
@@ -29,7 +29,7 @@
     "nervjs": "^1.3.0"
   },
   "dependencies": {
-    "@tarojs/taro": "1.0.0-beta.15",
+    "@tarojs/taro": "1.0.0-beta.16",
     "jsonp-retry": "^1.0.3",
     "mobile-detect": "^1.4.2",
     "whatwg-fetch": "^2.0.4"

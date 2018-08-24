@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "Taro-router",
   "main": "index.js",
   "module": "dist/index.esm.js",
@@ -30,6 +30,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro-h5": "1.0.0-beta.15"
+    "@tarojs/taro-h5": "1.0.0-beta.16"
   }
 }

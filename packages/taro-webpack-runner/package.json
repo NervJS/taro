@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
@@ -50,8 +50,8 @@
     "ora": "^2.1.0",
     "postcss-csso": "^3.0.0",
     "postcss-loader": "^2.1.3",
-    "postcss-plugin-constparse": "1.0.0-beta.15",
-    "postcss-pxtransform": "1.0.0-beta.15",
+    "postcss-plugin-constparse": "1.0.0-beta.16",
+    "postcss-pxtransform": "1.0.0-beta.16",
     "resolve-url-loader": "^2.3.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",

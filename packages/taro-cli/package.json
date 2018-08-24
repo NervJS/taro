@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/transformer-wx": "1.0.0-beta.15",
+    "@tarojs/transformer-wx": "1.0.0-beta.16",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
@@ -48,7 +48,7 @@
     "minimatch": "^3.0.4",
     "ora": "^2.0.0",
     "postcss": "^6.0.22",
-    "postcss-pxtransform": "1.0.0-beta.15",
+    "postcss-pxtransform": "1.0.0-beta.16",
     "postcss-url": "^7.3.2",
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
