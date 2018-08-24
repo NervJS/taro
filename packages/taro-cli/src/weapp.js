@@ -1445,7 +1445,11 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
           componentMap.forEach(componentObj => {
             componentDepComponents.forEach(depComponent => {
               if (depComponent.name === componentObj.name) {
-                const realPath = Util.promoteRelativePath(path.relative(component, componentObj.path))
+                let componentPath = componentObj.path
+                if (NODE_MODULES_REG.test(componentPath)) {
+                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                }
+                const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
             })
