@@ -4,7 +4,7 @@
 ## Installation
 
 ```sh
-npm install --save-dev babel-plugin-transform-jsx-stylesheet
+npm install --save-dev babel-plugin-transform-jsx-to-stylesheet
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install --save-dev babel-plugin-transform-jsx-stylesheet
 
 ```json
 {
-  "plugins": ["transform-jsx-stylesheet"]
+  "plugins": ["transform-jsx-to-stylesheet"]
 }
 ```
 
@@ -24,9 +24,8 @@ npm install --save-dev babel-plugin-transform-jsx-stylesheet
 Your `component.js` that contains this code:
 
 ```js
-import { createElement, Component } from 'rax';
+import { Component } from 'Taro';
 import './app.css';
-
 class App extends Component {
   render() {
     return <div className="header" />
@@ -37,8 +36,8 @@ class App extends Component {
 Will be transpiled into something like this:
 
 ```js
-import { createElement, Component } from 'rax';
-import appStyleSheet from './app.css';
+import { Component } from 'Taro';
+import appStyleSheet from './app_styles';
 
 class App extends Component {
   render() {
@@ -52,7 +51,7 @@ const styleSheet = appStyleSheet;
 Can write multiple classNames like this:
 
 ```js
-import { createElement, Component } from 'rax';
+import { Component } from 'Taro';
 import './app.css';
 
 class App extends Component {
@@ -65,8 +64,8 @@ class App extends Component {
 Will be transpiled into something like this:
 
 ```js
-import { createElement, Component } from 'rax';
-import appStyleSheet from './app.css';
+import {  Component } from 'Taro';
+import appStyleSheet from './app_styles';
 
 class App extends Component {
   render() {
@@ -77,10 +76,10 @@ class App extends Component {
 const styleSheet = appStyleSheet;
 ```
 
-Also support array, object and expressions like this: **（since 0.6.0）**
+Also support array, object and expressions like this:
 
 ```js
-import { createElement, Component } from 'rax';
+import { Component } from 'Taro';
 import './app.css';
 
 class App extends Component {
@@ -100,8 +99,8 @@ class App extends Component {
 Will be transpiled into something like this:
 
 ```js
-import { createElement, Component } from 'rax';
-import appStyleSheet from './app.css';
+import { Component } from 'Taro';
+import appStyleSheet from './app_styles';
 
 class App extends Component {
   render() {
@@ -126,7 +125,7 @@ function _getStyle(className) {
 And can also import multiple css file:
 
 ```js
-import { createElement, Component } from 'rax';
+import { Component } from 'Taro';
 import 'app1.css';
 import 'app2.css';
 
@@ -140,9 +139,8 @@ class App extends Component {
 Will be transpiled into something like this:
 
 ```js
-import { createElement, Component } from 'rax';
-import app1StyleSheet from 'app1.css';
-import app2StyleSheet from 'app2.css';
+import { Component } from 'Taro';
+import app1StyleSheet from 'app1_styles'
 
 class App extends Component {
   render() {
@@ -150,5 +148,5 @@ class App extends Component {
   }
 }
 
-const styleSheet = Object.assign({}, app1StyleSheet, app2StyleSheet);
+const styleSheet = app1StyleSheet;
 ```

@@ -1,5 +1,4 @@
-import path from 'path'
-import camelcase from 'camelcase'
+const path = require('path')
 
 const STYLE_SHEET_NAME = '_styleSheet'
 const GET_STYLE_FUNC_NAME = '_getStyle'
@@ -8,7 +7,7 @@ const GET_CLS_NAME_FUNC_NAME = '_getClassName'
 const NAME_SUFFIX = 'StyleSheet'
 const cssSuffixs = ['.css', '.scss', '.sass', '.less']
 
-export default function ({types: t, template}) {
+module.exports = function ({types: t, template}) {
   const mergeStylesFunctionTemplate = template(`
 function ${MERGE_STYLES_FUNC_NAME}() {
   var newTarget = {};
@@ -119,14 +118,14 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
     visitor: {
       Program: {
         exit ({node}, {file}) {
-          const cssFileCount = file.get('cssFileCount')
+          // const cssFileCount = file.get('cssFileCount')
           const injectGetStyle = file.get('injectGetStyle')
           const lastImportIndex = findLastImportIndex(node.body)
           let cssParamIdentifiers = file.get('cssParamIdentifiers')
           let callExpression
 
           if (cssParamIdentifiers) {
-            // only one css file
+            // only one css file，由于样式文件合并，永远只有一个
             if (cssParamIdentifiers.length === 1) {
               callExpression = t.variableDeclaration('var', [t.variableDeclarator(t.identifier(STYLE_SHEET_NAME), cssParamIdentifiers[0])])
             } else if (cssParamIdentifiers.length > 1) {
@@ -142,9 +141,10 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             }
           }
 
-          if (cssFileCount > 1) { // 控制合并
-            node.body.unshift(mergeStylesFunctionAst)
-          }
+          // 全部合并成一个，也就不需要 mergeStylesFunctionAst 了
+          // if (cssFileCount > 1) {
+          //   node.body.unshift(mergeStylesFunctionAst)
+          // }
         }
       },
       JSXOpeningElement ({container}, {file}) {
@@ -217,19 +217,29 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         }
       },
       // 由于目前 js 引入的文件样式默认会全部合并，故进插入一个就好，其余的全部 remove
-      ImportDeclaration ({node}, {file}) {
+      ImportDeclaration (astPath, {file}) {
+        const node = astPath.node
         const sourceValue = node.source.value
         const extname = path.extname(sourceValue)
         const cssIndex = cssSuffixs.indexOf(extname)
+        let cssFileCount = file.get('cssFileCount') || 0
+        let cssParamIdentifiers = file.get('cssParamIdentifiers') || []
         // Do not convert `import styles from './foo.css'` kind
         if (node.importKind !== 'value' && cssIndex > -1) {
-          let cssFileCount = file.get('cssFileCount') || 0
-          let cssParamIdentifiers = file.get('cssParamIdentifiers') || []
-          const cssFileBaseName = camelcase(path.basename(sourceValue, extname))
-          const styleSheetIdentifier = t.identifier(`${cssFileBaseName + NAME_SUFFIX}`)
+          // 第一个引入的样式文件
+          if (cssFileCount === 0) {
+            const cssFileBaseName = path.basename(sourceValue, extname)
+            // 引入样式对应的变量名
+            const styleSheetIdentifierValue = `${cssFileBaseName + NAME_SUFFIX}`
+            const styleSheetIdentifierPath = `${path.dirname(sourceValue)}${path.sep}${cssFileBaseName}_styles`
+            const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
 
-          node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
-          cssParamIdentifiers.push(styleSheetIdentifier)
+            node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
+            node.source = t.stringLiteral(styleSheetIdentifierPath)
+            cssParamIdentifiers.push(styleSheetIdentifier)
+          } else {
+            astPath.remove()
+          }
           cssFileCount++
 
           file.set('cssParamIdentifiers', cssParamIdentifiers)
@@ -238,4 +248,4 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
       }
     }
   }
-};
+}

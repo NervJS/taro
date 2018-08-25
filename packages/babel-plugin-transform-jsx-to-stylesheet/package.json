@@ -18,8 +18,5 @@
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-plugin-syntax-jsx": "^6.18.0"
-  },
-  "dependencies": {
-    "camelcase": "^3.0.0"
   }
 }
