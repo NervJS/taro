@@ -146,7 +146,7 @@ interface VideoProps extends StandardProps {
    *
    * event.detail = {currentTime, duration}
    */
-  onTimeUpdate?: BaseEventFunction,
+  onTimeupdate?: BaseEventFunction,
 
   /**
    * 当视频进入和退出全屏是触发
