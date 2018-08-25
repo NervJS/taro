@@ -62,9 +62,9 @@ function doUpdate (component) {
     const _data = {}
     component.$usedState.forEach(key => {
       let val = safeGet(data, key)
-      // if (typeof val === 'undefined') {
-      //   return
-      // }
+      if (typeof val === 'undefined') {
+        return
+      }
       if (typeof val === 'object') {
         val = shakeFnFromObject(val)
         if (!isEmptyObject(val)) {

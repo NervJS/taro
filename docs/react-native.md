@@ -57,8 +57,7 @@ Expo 移动客户端使用文档可以查看 [这里](https://docs.expo.io/versi
 
 RN 编译预览模式:
 
-~~~shell
-```bash
+```shell
 # npm script
 $ npm run dev:rn
 # 仅限全局安装
@@ -66,7 +65,6 @@ $ taro build --type rn --watch
 # npx用户也可以使用
 $ npx taro build --type rn --watch
 ```
-~~~
 
 Taro 将会开始编译文件：
 
@@ -183,7 +181,7 @@ open "rndebugger://set-debugger-loc?host=localhost&port=19001"
 
 Use the same API as [`redux-devtools-extension`](https://github.com/zalmoxisus/redux-devtools-extension#1-with-redux) is very simple:
 
-```
+```javascript
 const store = createStore(
   reducer, /* preloadedState, */
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
