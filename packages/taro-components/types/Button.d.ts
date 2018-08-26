@@ -49,7 +49,7 @@ interface ButtonProps extends StandardProps {
   /**
    * 微信开放能力
    */
-  openType?: 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber' | 'launchApp' | 'openSetting' | 'feedback',
+  openType?: 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber' | 'launchApp' | 'openSetting' | 'feedback' | 'getRealnameAuthInfo',
   /**
    * 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    *
@@ -148,6 +148,13 @@ interface ButtonProps extends StandardProps {
    * 生效时机：`open-type="getphonenumber"`
    */
   onGetPhoneNumber?: BaseEventFunction,
+
+  /**
+   * 获取用户实名
+   *
+   * 生效时机：`open-type="getRealnameAuthInfo"`
+   */
+  onGetRealnameAuthInfo?: BaseEventFunction,
 
   /**
    * 打开 APP 时，向 APP 传递的参数
