@@ -36,14 +36,20 @@ type AllKindNode = Element | Comment | Text
 type Node = Element | Text
 
 interface List<T extends t.JSXElement | t.JSXText> {
-  prev: T | null,
-  value: T,
-  next: T | null
+  prev: T,
+  curr: T,
+  next: T
 }
 
 function parseWXML (wxml: string) {
-  const nodes = parse(wxml)
-    .filter(node => node.type !== NodeType.Comment) as Node[]
+  const nodes = (
+    (parse(wxml) as AllKindNode[])
+      .filter(node => node.type !== NodeType.Comment) as Node[])
+      .map((node, index, arr) => ({
+        prev: arr[index - 1],
+        curr: node,
+        next: arr[index + 1]
+      }))
 }
 
 function parseNode (node: Node) {
