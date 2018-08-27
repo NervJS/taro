@@ -65,7 +65,7 @@ interface AudioProps extends StandardProps {
   /**
    * 当播放进度改变时触发 timeupdate 事件，detail = {currentTime, duration}
    */
-  onTimeUpdate?: BaseEventFunction,
+  onTimeupdate?: BaseEventFunction,
 
   /**
    * 当播放到末尾时触发 ended 事件
