@@ -14,7 +14,6 @@ class Welcome extends Component {
 }
 ```
 
-
 ## 组件渲染
 
 在前面，我们遇到的 Taro 元素都是内置组件：
@@ -49,7 +48,6 @@ class App extends Component {
 }
 ```
 
-
 ### Props的只读性
 
 一个声明的组件决不能修改它自己的 `props`。来看这个`sum`函数：
@@ -76,3 +74,14 @@ Taro 和 React 一样，也有一个严格的规则：
 
 当然，应用的界面是随时间动态变化的，我们将在下一节介绍一种称为`state`的新概念，State可以在不违反上述规则的情况下，根据用户操作、网络响应、或者其他状态变化，使组件动态的响应并改变组件的输出。
 
+### 全局样式类
+
+使用外部样式类可以让组件使用指定的组件外样式类，如果希望组件外样式类能够完全影响组件内部，可以将组件构造器中的 options.addGlobalClass 字段置为 true。这个特性从小程序基础库版本 2.2.3 开始支持。
+
+```javascript
+  static options = {
+    addGlobalClass: true
+  };
+```
+
+更多内容参见[微信官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html)
