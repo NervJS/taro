@@ -8,7 +8,7 @@ const navigateTo = function (opts = {}) {
   h.push(opts)
 }
 
-const navigateBack = ({delta = 1}) => {
+const navigateBack = ({delta} = {delta: 1}) => {
   window.history.go(-1 * delta)
 }
 
