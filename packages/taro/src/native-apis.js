@@ -42,8 +42,6 @@ const noPromiseApis = {
   createVideoContext: true,
   createCameraContext: true,
 
-  navigateBack: true,
-
   // 位置
   createMapContext: true,
 
@@ -113,6 +111,7 @@ const otherApis = {
   clearStorage: true,
 
   // 导航
+  navigateBack: true,
   navigateTo: true,
   redirectTo: true,
   switchTab: true,
