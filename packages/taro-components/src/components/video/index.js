@@ -18,7 +18,7 @@ class Video extends Nerv.Component {
           currentTime: e.srcElement.currentTime
         }
       })
-      this.props.onTimeupdate && this.props.onTimeupdate(e)
+      this.props.onTimeUpdate && this.props.onTimeUpdate(e)
     })
 
     this.video.addEventListener('ended', (e) => {
