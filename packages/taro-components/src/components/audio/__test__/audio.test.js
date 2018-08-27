@@ -22,7 +22,7 @@ describe('Audio', () => {
   })
 
   // it('should trigger listeners and remove listeners', () => {
-  // const onTimeupdate = jest.fn()
+  // const onTimeUpdate = jest.fn()
   // const onEnded = jest.fn()
   // const onPlay = jest.fn()
   // const onPause = jest.fn()
@@ -32,7 +32,7 @@ describe('Audio', () => {
   //   <Audio
   //     id='audio'
   //     ref={c => (audioInd = c)}
-  //     onTimeupdate={onTimeupdate}
+  //     onTimeUpdate={onTimeUpdate}
   //     onEnded={onEnded}
   //     onPlay={onPlay}
   //     onPause={onPause}
