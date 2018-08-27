@@ -44,8 +44,12 @@ function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
   }
+  // 低版本 IOS 下部分属性不能直接访问
   Object.getOwnPropertyNames(ComponentClass).forEach(key => {
-    typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
+    const excludes = ['arguments', 'caller', 'length', 'name', 'prototype']
+    if (excludes.indexOf(key) < 0) {
+      typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
+    }
   })
 }
 
