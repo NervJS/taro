@@ -6597,7 +6597,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject
    */
-  function navigateBack(OBJECT?: navigateBack.Param): void
+  function navigateBack(OBJECT?: navigateBack.Param): Promise<any>
 
   namespace createAnimation {
     type Param = {
@@ -7230,32 +7230,32 @@ declare namespace Taro {
     fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef;
     exec: (callback?: execCallback) => void;
   }
-  
+
   interface baseElement {
     id: string,
     dataset: object,
   }
-  
+
   interface rectElement {
     left: number,
     right: number,
     top: number,
     bottom: number,
   }
-  
+
   interface sizeElement {
     width: number,
     height: number,
   }
-  
+
   interface scrollElement {
     scrollLeft: number,
     scrollTop: number
   }
   interface clientRectElement extends baseElement, rectElement, sizeElement {}
-  
+
   interface scrollOffsetElement extends baseElement, scrollElement {}
-  
+
   interface fieldsObject {
     id?:boolean,
     dataset?:boolean,
@@ -7265,18 +7265,18 @@ declare namespace Taro {
     properties?: string[],
     computedStyle?:string[],
   }
-  
+
   interface fieldElement extends baseElement, rectElement, sizeElement {
     [key:string]: any
   }
-  
-  
+
+
   type execObject = clientRectElement & scrollOffsetElement & fieldElement
   type clientRectCallback = (rect: clientRectElement | clientRectElement[]) => void
   type scrollCallback = (res: scrollOffsetElement | scrollOffsetElement[]) => void
   type fieldCallback = (res: fieldElement | fieldElement[]) => void
   type execCallback = (res: execObject | execObject[]) => void
-  
+
   function createSelectorQuery(): SelectorQuery
 
   class SelectorQuery {
@@ -7616,6 +7616,45 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open.html#wxgetuserinfoobject
    */
   function getUserInfo(OBJECT?: getUserInfo.Param): Promise<getUserInfo.Promised>
+
+  namespace checkIsSupportFacialRecognition {
+    type Promised = {
+      errMsg: string
+      errCode: number
+    }
+    type Param = {
+      checkAliveType?: number
+    }
+  }
+  function checkIsSupportFacialRecognition(OBJECT?: checkIsSupportFacialRecognition.Param): Promise<checkIsSupportFacialRecognition.Promised>
+
+  namespace startFacialRecognitionVerify {
+    type Promised = {
+      errMsg: string
+      errCode: number
+      verifyResult: string
+    }
+    type Param = {
+      name: string
+      idCardNumber: string
+      checkAliveType?: number
+    }
+  }
+  function startFacialRecognitionVerify(OBJECT?: startFacialRecognitionVerify.Param): Promise<startFacialRecognitionVerify.Promised>
+
+  namespace startFacialRecognitionVerifyAndUploadVideo {
+    type Promised = {
+      errMsg: string
+      errCode: number
+      verifyResult: string
+    }
+    type Param = {
+      name: string
+      idCardNumber: string
+      checkAliveType?: number
+    }
+  }
+  function startFacialRecognitionVerifyAndUploadVideo(OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
 
   namespace requestPayment {
     type Param = {
