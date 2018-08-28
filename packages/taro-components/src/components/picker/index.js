@@ -87,6 +87,10 @@ export default class Picker extends Nerv.Component {
 
       // this.index = dateHandle.
     } else {
+      if (!range) {
+        range = []
+        this.props.range = []
+      }
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
 
@@ -378,7 +382,7 @@ export default class Picker extends Nerv.Component {
       return (
         <PickerGroup
           range={this.props.range}
-          rangeKey={this.props['range-key']}
+          rangeKey={this.props.rangeKey}
           height={this.state.height[0]}
           updateHeight={updateHeight}
           columnId='0'
@@ -392,7 +396,7 @@ export default class Picker extends Nerv.Component {
         return (
           <PickerGroup
             range={range}
-            rangeKey={this.props['range-key']}
+            rangeKey={this.props.rangeKey}
             height={this.state.height[index]}
             updateHeight={updateHeight}
             onColumnChange={onColumnChange}
