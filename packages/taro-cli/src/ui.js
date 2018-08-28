@@ -1,7 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
-const klaw = require('klaw')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const _ = require('lodash')
@@ -9,12 +8,14 @@ const _ = require('lodash')
 const CONFIG = require('./config')
 const {
   resolveScriptPath,
+  resolveStylePath,
   printLog,
   pocessTypeEnum,
   PROJECT_CONFIG,
   BUILD_TYPES,
   REG_STYLE,
-  REG_TYPESCRIPT
+  REG_TYPESCRIPT,
+  cssImports
 } = require('./util')
 const npmProcess = require('./util/npm')
 
@@ -157,6 +158,39 @@ function analyzeFiles (files) {
       if (scriptFiles.length) {
         analyzeFiles(scriptFiles)
       }
+      if (styleFiles.length) {
+        analyzeStyleFilesImport(styleFiles)
+      }
+    }
+  })
+}
+
+function analyzeStyleFilesImport (styleFiles) {
+  const outputDir = path.join(appPath, outputDirName, weappOutputName)
+  styleFiles.forEach(item => {
+    if (!fs.existsSync(item)) {
+      return
+    }
+    const content = fs.readFileSync(item).toString()
+    let imports = cssImports(content)
+    if (imports.length > 0) {
+      imports = imports.map(importItem => {
+        const filePath = resolveStylePath(path.resolve(path.dirname(item), importItem))
+        if (!fs.existsSync(filePath)) {
+          return filePath
+        }
+        const dirname = path.dirname(filePath)
+        const distDirname = dirname.replace(sourceDir, outputDir)
+        const relativePath = path.relative(appPath, filePath)
+        printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
+        fs.ensureDirSync(distDirname)
+        fs.copyFileSync(filePath, path.format({
+          dir: distDirname,
+          base: path.basename(filePath)
+        }))
+        return filePath
+      })
+      analyzeStyleFilesImport(imports)
     }
   })
 }
