@@ -140,6 +140,9 @@ function analyzeFiles (files) {
       const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
       if (resFiles.length) {
         resFiles.forEach(item => {
+          if (!path.isAbsolute(item)) {
+            return
+          }
           const dirname = path.dirname(item)
           const distDirname = dirname.replace(sourceDir, outputDir)
           const relativePath = path.relative(appPath, item)
