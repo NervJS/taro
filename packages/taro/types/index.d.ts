@@ -136,7 +136,7 @@ declare namespace Taro {
 
     render(): any;
 
-    props: Readonly<P> & { children?: never };
+    props: Readonly<P> & Readonly<{ children?: any }>;
     state: Readonly<S>;
     context: any;
     refs: {
