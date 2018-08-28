@@ -118,10 +118,16 @@ declare namespace Taro {
     window?: PageConfig
   }
 
+  interface ComponentOptions {
+    addGlobalClass?: boolean
+  }
+
   class Component<P, S> {
     constructor(props?: P, context?: any);
 
     config?: Config;
+
+    options?: ComponentOptions;
 
     $router: {
       params: any
