@@ -92,6 +92,10 @@ class Parent extends Component {
 
 前面已经提到小程序端的组件传入函数的原理，所以在小程序端不要在组件中打印传入的函数，因为拿不到结果，但是 `this.props.onXxx && this.props.onXxx()` 这种判断函数是否传入来进行调用的写法是完全支持的。
 
+### 小程序端不要将在模板中用到的数据设置为 `undefined`
+
+由于小程序不支持将data中任何一项的value设为 `undefined` ，在setState的时候也请避免这么用。你可以使用null来替代。
+
 ### 小程序端不要在组件中打印 `this.props.children`
 
 在微信小程序端是通过 `<slot />` 来实现往自定义组件中传入元素的，而 Taro 利用 `this.props.children` 在编译时实现了这一功能， `this.props.children` 会直接被编译成 `<slot />` 标签，所以它在小程序端属于语法糖的存在，请不要在组件中打印它。

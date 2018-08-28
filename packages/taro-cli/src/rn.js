@@ -70,10 +70,7 @@ const PACKAGES = {
 function getJSAst (code) {
   return babel.transform(code, {
     parserOpts: babylonConfig,
-    plugins: [
-      'transform-decorators-legacy',
-      'babel-plugin-transform-jsx-stylesheet'
-    ]
+    plugins: ['transform-decorators-legacy']
   }).ast
 }
 
@@ -84,7 +81,6 @@ function parseJSCode (code, filePath) {
   } catch (e) {
     if (e.name === 'ReferenceError') {
       npmProcess.getNpmPkgSync('babel-plugin-transform-decorators-legacy')
-      npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-stylesheet')
       ast = getJSAst(code)
     } else {
       throw e
@@ -114,13 +110,10 @@ function parseJSCode (code, filePath) {
       if (!Util.isNpmPkg(value)) {
         // import 样式处理
         if (Util.REG_STYLE.test(valueExtname)) {
-          const basename = path.basename(value, valueExtname)
           const stylePath = path.resolve(path.dirname(filePath), value)
           if (styleFiles.indexOf(stylePath) < 0) {
             styleFiles.push(stylePath)
           }
-          // index.css -> index_styles
-          astPath.node.source = t.stringLiteral(`${path.dirname(value)}/${basename}_styles`)
         }
         return
       }
@@ -479,6 +472,21 @@ function parseJSCode (code, filePath) {
       }
     }
   })
+  try {
+    ast = babel.transformFromAst(ast, code, {
+      plugins: ['babel-plugin-transform-jsx-to-stylesheet']
+    }).ast
+  } catch (e) {
+    if (e.name === 'ReferenceError') {
+      npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-to-stylesheet')
+      ast = babel.transformFromAst(ast, code, {
+        plugins: ['babel-plugin-transform-jsx-to-stylesheet']
+      }).ast
+    } else {
+      throw e
+    }
+  }
+
   return {
     code: generate(ast).code,
     styleFiles
@@ -486,6 +494,10 @@ function parseJSCode (code, filePath) {
 }
 
 function compileDepStyles (filePath, styleFiles) {
+  // 合并 app.scss ，支持全局样式
+  if (filePath !== entryFileName) {
+    styleFiles.push(path.resolve(sourceDir, 'app.scss'))
+  }
   if (isBuildingStyles[filePath]) {
     return Promise.resolve({})
   }
@@ -602,7 +614,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // generator .temp/package.json TODO 这种写法可能会有隐患
+        // generator .temp/package.json TODO JSON.parse 这种写法可能会有隐患
         const pkgTempObj = JSON.parse(
           ejs.render(
             fs.readFileSync(pkgPath, 'utf-8'), {
