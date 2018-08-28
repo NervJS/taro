@@ -231,7 +231,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             const cssFileBaseName = path.basename(sourceValue, extname)
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `${path.dirname(sourceValue)}${path.sep}${cssFileBaseName}_styles`
+            const styleSheetIdentifierPath = `${path.dirname(sourceValue)}/${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
 
             node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
