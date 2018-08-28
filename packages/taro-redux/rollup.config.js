@@ -1,6 +1,7 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+const alias = require('rollup-plugin-alias')
 const cwd = __dirname
 
 const baseConfig = {
@@ -21,6 +22,9 @@ const baseConfig = {
     }
   ],
   plugins: [
+    alias({
+      '@tarojs/utils': join(cwd, '../taro-utils/dist/index')
+    }),
     resolve({
       preferBuiltins: false
     }),

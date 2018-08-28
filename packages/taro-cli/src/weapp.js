@@ -1236,10 +1236,6 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     const fileContent = fs.readFileSync(filePath).toString()
     const cssImportsRes = Util.processWxssImports(fileContent)
-    if (isComponent) {
-      const entryWxssPath = path.join(outputDir, 'app.wxss')
-      cssImportsRes.wxss.unshift(`@import "${path.relative(path.dirname(outputFilePath), entryWxssPath)}";`)
-    }
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
         .then(res => ({
@@ -1283,6 +1279,9 @@ function getRealComponentsPathList (filePath, components) {
     } else {
       componentPath = path.resolve(path.dirname(filePath), componentPath)
       componentPath = Util.resolveScriptPath(componentPath)
+    }
+    if (isFileToBePage(componentPath)) {
+      Util.printLog(Util.pocessTypeEnum.ERROR, '组件引用', `文件${component.path}已经在 app.js 中被指定为页面，不能再作为组件来引用！`)
     }
     return {
       path: componentPath,
@@ -1446,7 +1445,11 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
           componentMap.forEach(componentObj => {
             componentDepComponents.forEach(depComponent => {
               if (depComponent.name === componentObj.name) {
-                const realPath = Util.promoteRelativePath(path.relative(component, componentObj.path))
+                let componentPath = componentObj.path
+                if (NODE_MODULES_REG.test(componentPath)) {
+                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                }
+                const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
             })
@@ -1787,5 +1790,6 @@ module.exports = {
   build,
   buildDepComponents,
   buildSingleComponent,
-  compileDepStyles
+  compileDepStyles,
+  parseAst
 }

@@ -1,6 +1,6 @@
 # PostCSS Pxtransform 
 
-[PostCSS](https://github.com/ai/postcss) 插件，目前已支持 px 转小程序 rpx 及 h5 rem 单位。
+[PostCSS](https://github.com/ai/postcss) 单位转换插件，目前已支持小程序端（px 转rpx），H5 端（px 转 rem）及 RN 端。
 
 基于 [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem/)。
 
@@ -28,6 +28,14 @@ options = {
 }
 ```
 
+### RN
+```js
+options = {
+    platform: 'rn',
+    designWidth: 750,
+}
+```
+
 ### 输入/输出
 
 默认配置下，所有的 px 都会被转换。
@@ -44,7 +52,7 @@ h1 {
 /* weapp output */
 h1 {
     margin: 0 0 20rpx;
-    font-size: 40rpx;
+    font-size: 32rpx;
     line-height: 1.2;
     letter-spacing: 1rpx;
 }
@@ -56,6 +64,15 @@ h1 {
     line-height: 1.2;
     letter-spacing: 0.025rem;
 }
+
+/* rn output */
+h1 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+}
+
 ```
 
 ### example
@@ -95,7 +112,7 @@ fs.writeFile('main-rem.css', processedCss, function (err) {
 Type: `Object | Null`
 
 ###  `platform` （String）（必填）
-`weapp` 或 `h5`
+`weapp` 或 `h5` 或 `rn`
 
 ### `designWidth`（Number）（必填）
 `640` 或 `750` 或 `828`
@@ -149,4 +166,16 @@ Set the minimum pixel value to replace.
 ### 文件
 对于头部包含注释`/*postcss-pxtransform disable*/` 的文件，插件不予处理。
 
+## 剔除
+`/*postcss-pxtransform rn eject enable*/` 与 `/*postcss-pxtransform rn eject disable*/` 中间的代码，
+在编译成 RN 端的样式的时候，会被删除。建议将 RN 不支持的但 H5 端又必不可少的样式放到这里面。如：样式重制相关的代码。
+```css
+/*postcss-pxtransform rn eject enable*/
+
+.test {
+  color: black;
+}
+
+/*postcss-pxtransform rn eject disable*/
+```
 

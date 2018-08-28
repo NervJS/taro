@@ -34,12 +34,22 @@ function bindBehaviors (weappComponentConf, ComponentClass) {
   }
 }
 
-function bindStaticFns(weappComponentConf, ComponentClass) {
+function bindStaticOptions (weappComponentConf, ComponentClass) {
+  if (ComponentClass.options) {
+    weappComponentConf.options = ComponentClass.options
+  }
+}
+
+function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
   }
+  // 低版本 IOS 下部分属性不能直接访问
   Object.getOwnPropertyNames(ComponentClass).forEach(key => {
-    typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
+    const excludes = ['arguments', 'caller', 'length', 'name', 'prototype']
+    if (excludes.indexOf(key) < 0) {
+      typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
+    }
   })
 }
 
@@ -163,6 +173,63 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 
 export function componentTrigger (component, key, args) {
   args = args || []
+  if (key === 'componentWillMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        if (ref.type === 'component') {
+          target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target.$component || target
+          if ('refName' in ref && ref['refName']) {
+            refs[ref.refName] = target
+          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+            ref['fn'].call(component, target)
+          }
+        }
+      })
+      component.refs = Object.assign({}, component.refs || {}, refs)
+    }
+  }
+  if (key === 'componentDidMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        const query = wx.createSelectorQuery().in(component.$scope)
+        if (ref.type === 'dom') {
+          target = query.select(`#${ref.id}`)
+          if ('refName' in ref && ref['refName']) {
+            refs[ref.refName] = target
+          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+            ref['fn'].call(component, target)
+          }
+        }
+      })
+      component.refs = Object.assign({}, component.refs || {}, refs)
+    }
+  }
+  if (key === 'componentDidMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        const query = wx.createSelectorQuery().in(component.$scope)
+        if (ref.type === 'component') {
+          target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target.$component || target
+        } else {
+          target = query.select(`#${ref.id}`)
+        }
+        if ('refName' in ref && ref['refName']) {
+          refs[ref.refName] = target
+        } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+          ref['fn'].call(component, target)
+        }
+      })
+      component.refs = refs
+    }
+  }
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -223,6 +290,7 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
+      isPage && (hasPageInited = false)
       this.$component = componentInstance.$scope ? new ComponentClass() : componentInstance
       this.$component._init(this)
       this.$component.render = this.$component._createData
@@ -262,6 +330,7 @@ function createComponent (ComponentClass, isPage) {
   bindProperties(weappComponentConf, ComponentClass)
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
+  bindStaticOptions(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']

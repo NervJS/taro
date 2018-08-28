@@ -265,6 +265,18 @@ exports.resolveScriptPath = function (p) {
   return realPath
 }
 
+exports.resolveStylePath = function (p) {
+  let realPath = p
+  const CSS_EXT = exports.CSS_EXT
+  for (let i = 0; i < CSS_EXT.length; i++) {
+    const item = CSS_EXT[i]
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+  }
+  return realPath
+}
+
 exports.isDifferentArray = function (a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) {
     return true
@@ -336,7 +348,6 @@ exports.cssImports = function (content) {
 
 exports.processWxssImports = function (content) {
   const wxss = []
-  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
   content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
     if (/\.wxss/.test($2)) {
       wxss.push(m)

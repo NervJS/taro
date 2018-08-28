@@ -203,7 +203,11 @@ export function pathResolver (source: string, location: string) {
       const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
       const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
       if (pathExist || tsxPathExist) {
-        return slash(path.join(promotedPath, 'index'))
+        let p = path.join(promotedPath, 'index')
+        if (!p.startsWith('.')) {
+          p = './' + p
+        }
+        return slash(p)
       }
       return slash(promotedPath)
     } catch (error) {

@@ -15,6 +15,8 @@ const template = require('babel-template')
 const _ = require('lodash')
 const transformCSS = require('css-to-react-native-transform').default
 const shelljs = require('shelljs')
+const postcss = require('postcss')
+const pxtransform = require('postcss-pxtransform')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
@@ -41,7 +43,6 @@ const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
 const providerComponentName = 'Provider'
-const configStoreFuncName = 'configStore'
 const setStoreFuncName = 'setStore'
 const routerImportDefaultName = 'TaroRouter'
 
@@ -69,7 +70,7 @@ const PACKAGES = {
 function getJSAst (code) {
   return babel.transform(code, {
     parserOpts: babylonConfig,
-    plugins: ['babel-plugin-transform-jsx-stylesheet']
+    plugins: ['transform-decorators-legacy']
   }).ast
 }
 
@@ -79,7 +80,7 @@ function parseJSCode (code, filePath) {
     ast = getJSAst(code)
   } catch (e) {
     if (e.name === 'ReferenceError') {
-      npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-stylesheet')
+      npmProcess.getNpmPkgSync('babel-plugin-transform-decorators-legacy')
       ast = getJSAst(code)
     } else {
       throw e
@@ -109,13 +110,10 @@ function parseJSCode (code, filePath) {
       if (!Util.isNpmPkg(value)) {
         // import 样式处理
         if (Util.REG_STYLE.test(valueExtname)) {
-          const basename = path.basename(value, valueExtname)
           const stylePath = path.resolve(path.dirname(filePath), value)
           if (styleFiles.indexOf(stylePath) < 0) {
             styleFiles.push(stylePath)
           }
-          // index.css -> index_styles
-          astPath.node.source = t.stringLiteral(`${path.dirname(value)}/${basename}_styles`)
         }
         return
       }
@@ -305,12 +303,26 @@ function parseJSCode (code, filePath) {
         hasAppExportDefault = true
       }
     },
-
+    JSXOpeningElement: {
+      enter (astPath) {
+        if (astPath.node.name.name === 'Provider') {
+          for (let v of astPath.node.attributes) {
+            if (v.name.name !== 'store') continue
+            storeName = v.value.expression.name
+            break
+          }
+        }
+      }
+    },
     Program: {
       exit (astPath) {
         const node = astPath.node
         astPath.traverse({
-          ClassDeclaration (astPath) {
+          /**
+           * babel-plugin-transform-decorators-legacy 插件将 ClassDeclaration (class XXX { })
+           * 改写成了 ClassExpression （let XXX = class XXX { }）的形式。
+           */
+          ClassExpression (astPath) {
             const node = astPath.node
             if (!node.superClass) {
               return
@@ -379,15 +391,7 @@ function parseJSCode (code, filePath) {
                 astPath.remove()
               }
             } else {
-              if (calleeName === configStoreFuncName) {
-                if (parentPath.isAssignmentExpression()) {
-                  storeName = parentPath.node.left.name
-                } else if (parentPath.isVariableDeclarator()) {
-                  storeName = parentPath.node.id.name
-                } else {
-                  storeName = 'store'
-                }
-              } else if (calleeName === setStoreFuncName) {
+              if (calleeName === setStoreFuncName) {
                 if (parentPath.isAssignmentExpression() ||
                   parentPath.isExpressionStatement() ||
                   parentPath.isVariableDeclarator()) {
@@ -468,6 +472,21 @@ function parseJSCode (code, filePath) {
       }
     }
   })
+  try {
+    ast = babel.transformFromAst(ast, code, {
+      plugins: ['babel-plugin-transform-jsx-to-stylesheet']
+    }).ast
+  } catch (e) {
+    if (e.name === 'ReferenceError') {
+      npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-to-stylesheet')
+      ast = babel.transformFromAst(ast, code, {
+        plugins: ['babel-plugin-transform-jsx-to-stylesheet']
+      }).ast
+    } else {
+      throw e
+    }
+  }
+
   return {
     code: generate(ast).code,
     styleFiles
@@ -475,11 +494,15 @@ function parseJSCode (code, filePath) {
 }
 
 function compileDepStyles (filePath, styleFiles) {
+  // 合并 app.scss ，支持全局样式
+  if (filePath !== entryFileName) {
+    styleFiles.push(path.resolve(sourceDir, 'app.scss'))
+  }
   if (isBuildingStyles[filePath]) {
     return Promise.resolve({})
   }
   isBuildingStyles[filePath] = true
-  return Promise.all(styleFiles.map(async p => {
+  return Promise.all(styleFiles.map(async p => { // to css string
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
     Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
@@ -498,7 +521,25 @@ function compileDepStyles (filePath, styleFiles) {
         })
       })
     })
-  })).then(async resList => {
+  })).then(resList => {
+    return resList.map(item => ({
+      css: item.css.toString(),
+      filePath: item.filePath || item.stats.entry.toString()
+    }))
+  }).then(resList => { // postcss
+    return Promise.all(
+      resList.map(async item => {
+        const postcssResult = await postcss(pxtransform({
+          platform: 'rn',
+          designWidth: projectConfig.designWidth || 750
+        }))
+          .process(item.css, {from: item.filePath})
+        return {
+          css: postcssResult.css,
+          filePath: item.filePath
+        }
+      }))
+  }).then(async resList => {
     try {
       // 处理css文件
       let styleObjectEntire = {}
@@ -510,7 +551,7 @@ function compileDepStyles (filePath, styleFiles) {
             try {
               StyleSheetValidation.validateStyle(name, styleObject)
             } catch (e) {
-              Util.printLog(Util.pocessTypeEnum.WARNING, '样式不支持', res.filePath || (res.stats.entry.toString()))
+              Util.printLog(Util.pocessTypeEnum.WARNING, '样式不支持', res.filePath)
               throw e
             }
           }
@@ -564,6 +605,7 @@ function buildTemp () {
         this.push(file)
         cb()
       }, function (cb) {
+        // generator app.json
         const appJson = new Vinyl({
           path: 'app.json',
           contents: Buffer.from(JSON.stringify({
@@ -572,14 +614,20 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // .temp 下的 package.json
-        const pkgContent = ejs.render(fs.readFileSync(pkgPath, 'utf-8'), {
-          projectName: projectConfig.projectName,
-          version: getPkgVersion()
-        })
+        // generator .temp/package.json TODO JSON.parse 这种写法可能会有隐患
+        const pkgTempObj = JSON.parse(
+          ejs.render(
+            fs.readFileSync(pkgPath, 'utf-8'), {
+              projectName: projectConfig.projectName,
+              version: getPkgVersion()
+            }
+          ).replace(/(\r\n|\n|\r|\s+)/gm, '')
+        )
+        const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
+        pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
         const pkg = new Vinyl({
           path: 'package.json',
-          contents: Buffer.from(pkgContent)
+          contents: Buffer.from(JSON.stringify(pkgTempObj, null, 2))
         })
         // Copy bin/crna-entry.js ?
         const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
@@ -614,6 +662,8 @@ function buildTemp () {
         }
         resolve()
       })
+  }).catch(e => {
+    throw e
   })
 }
 
@@ -644,9 +694,6 @@ async function processFiles (filePath) {
 }
 
 function watchFiles () {
-  console.log()
-  console.log(chalk.gray('监听文件修改中...'))
-  console.log()
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
@@ -654,6 +701,11 @@ function watchFiles () {
   })
 
   watcher
+    .on('ready', () => {
+      console.log()
+      console.log(chalk.gray('初始化完毕，监听文件修改中...'))
+      console.log()
+    })
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
@@ -664,7 +716,12 @@ function watchFiles () {
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)
     })
-  // .on('unlink', filePath => {})
+    .on('unlink', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
+      processFiles(filePath)
+    })
+    .on('error', error => console.log(`Watcher error: ${error}`))
 }
 
 async function build ({watch}) {

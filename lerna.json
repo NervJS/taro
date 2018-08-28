@@ -2,6 +2,7 @@
   "lerna": "2.10.0",
   "packages": [
     "packages/taro",
+    "packages/taro-utils",
     "packages/taro-async-await",
     "packages/taro-cli",
     "packages/taro-components",
@@ -26,13 +27,14 @@
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
     "packages/taro-transformer-wx",
-    "packages/postcss-pxtransform"
+    "packages/postcss-pxtransform",
+    "packages/babel-plugin-transform-jsx-to-stylesheet"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.18",
   "npmClient": "npm"
 }

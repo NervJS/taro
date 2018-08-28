@@ -3,7 +3,7 @@ import {
   internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject } from './util'
+import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
 
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
@@ -35,7 +35,8 @@ export function updateComponent (component) {
   component.props = props
   component.state = state
   component._dirty = false
-  if (!component.__mounted) {
+  if (!component.__componentWillMountTriggered) {
+    component.__componentWillMountTriggered = true
     componentTrigger(component, 'componentWillMount')
   }
   if (!skip) {
@@ -77,8 +78,8 @@ function doUpdate (component) {
   }
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
-
-  component.$scope.setData(data, function () {
+  const dataDiff = diffObjToPath(data, component.$scope.data)
+  component.$scope.setData(dataDiff, function () {
     if (component._pendingCallbacks) {
       while (component._pendingCallbacks.length) {
         component._pendingCallbacks.pop().call(component)
@@ -86,9 +87,7 @@ function doUpdate (component) {
     }
     if (!component.__mounted) {
       component.__mounted = true
-      if (typeof component.componentDidMount === 'function') {
-        component.componentDidMount()
-      }
+      componentTrigger(component, 'componentDidMount')
       componentTrigger(component, 'componentDidShow')
     }
   })

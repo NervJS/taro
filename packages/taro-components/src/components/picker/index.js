@@ -87,6 +87,10 @@ export default class Picker extends Nerv.Component {
 
       // this.index = dateHandle.
     } else {
+      if (!range) {
+        range = []
+        this.props.range = []
+      }
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
 
