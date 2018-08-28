@@ -5,11 +5,11 @@
  *   ✔ onCancel(bindcancel)
  * Selector:
  *   ✔ range
- *   ✔ rangeKey(range-key)
+ *   ✔ rangeKey(rangeKey)
  *   ✔ disabled
  * MultiSelector:
  *   ✔ range
- *   ✔ rangeKey(range-key)
+ *   ✔ rangeKey(rangeKey)
  *   ✔ disabled
  *   ✔ onColumnChange(bindcolumnchange)
  * Time:
