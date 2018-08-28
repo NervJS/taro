@@ -21,43 +21,43 @@ interface MapProps extends StandardProps {
    * 缩放级别，取值范围为5-18
    * 默认值：`16`
    */
-  scale: number,
+  scale?: number,
 
   /**
    * 标记点
    */
-  markers: [],
+  markers?: [],
 
   /**
    * @deprecated
    * 即将移除，请使用 markers
    */
-  covers: [],
+  covers?: [],
 
   /**
    * 路线
    */
-  polyline: [],
+  polyline?: [],
 
   /**
    * 圆
    */
-  circles: [],
+  circles?: [],
 
   /**
    * 控件
    */
-  controls: [],
+  controls?: [],
 
   /**
    * 缩放视野以包含所有给定的坐标点
    */
-  includePoints: [],
+  includePoints?: [],
 
   /**
    * 显示带有方向的当前定位点
    */
-  showLocation: boolean,
+  showLocation?: boolean,
 
   /**
    * 点击标记点时触发，会返回marker的id

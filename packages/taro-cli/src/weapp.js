@@ -1790,5 +1790,6 @@ module.exports = {
   build,
   buildDepComponents,
   buildSingleComponent,
-  compileDepStyles
+  compileDepStyles,
+  parseAst
 }

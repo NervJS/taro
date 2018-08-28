@@ -143,7 +143,12 @@ export function parseJSXElement (element: t.JSXElement): string {
       if (t.isJSXSpreadAttribute(attr)) {
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
-      const name = attr.name.name === 'className' ? 'class' : attr.name.name
+      let name = attr.name.name
+      if (DEFAULT_Component_SET.has(componentName)) {
+        if (name === 'className') {
+          name = 'class'
+        }
+      }
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {

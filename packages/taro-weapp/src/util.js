@@ -94,7 +94,7 @@ const hasProp = Object.prototype.hasOwnProperty
 
 function diffArrToPath (to, from, res = {}, keyPrev = '') {
   const len = to.length
-  for (let i = len; i-- !== 0;) {
+  for (let i = 0; i < len; i++) {
     const toItem = to[i]
     const fromItem = from[i]
     const targetKey = `${keyPrev}[${i}]`
@@ -136,7 +136,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
   const keys = keyList(to)
   const len = keys.length
 
-  for (let i = len; i-- !== 0;) {
+  for (let i = 0; i < len; i++) {
     const key = keys[i]
     const toItem = to[key]
     const fromItem = from[key]
