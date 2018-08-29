@@ -4,7 +4,9 @@
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "dev": "tsc -w --pretty"
   },
   "repository": {
     "type": "git",
