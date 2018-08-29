@@ -708,6 +708,12 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
+    JSXEmptyExpression (path) {
+      const parent = path.parentPath
+      if (path.parentPath.isJSXExpressionContainer()) {
+        parent.remove()
+      }
+    },
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
       if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
