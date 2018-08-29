@@ -307,9 +307,11 @@ function createComponent (ComponentClass, isPage) {
       Object.assign(this.$component.$router.params, options)
     },
     attached () {
+      let hasParamsCache
       if (isPage) {
         let params = {}
-        if (cacheDataHas(this.data[routerParamsPrivateKey])) {
+        hasParamsCache = cacheDataHas(this.data[routerParamsPrivateKey])
+        if (hasParamsCache) {
           params = Object.assign({}, ComponentClass.defaultParams, cacheDataGet(this.data[routerParamsPrivateKey], true))
         } else {
           // 直接启动，非内部跳转
@@ -317,7 +319,9 @@ function createComponent (ComponentClass, isPage) {
         }
         Object.assign(this.$component.$router.params, params)
       }
-      initComponent.apply(this, [ComponentClass, isPage])
+      if (!isPage || hasParamsCache || ComponentClass.defaultParams) {
+        initComponent.apply(this, [ComponentClass, isPage])
+      }
     },
     ready () {
       if (!isPage && !this.$component.__mounted) {
@@ -331,6 +335,11 @@ function createComponent (ComponentClass, isPage) {
   }
   if (isPage) {
     weappComponentConf.methods = weappComponentConf.methods || {}
+    weappComponentConf.methods['onLoad'] = function (options = {}) {
+      if (this.$component.__isReady) return
+      Object.assign(this.$component.$router.params, options)
+      initComponent.apply(this, [ComponentClass, isPage])
+    }
     weappComponentConf.methods['onReady'] = function () {
       componentTrigger(this.$component, 'componentDidMount')
     }
