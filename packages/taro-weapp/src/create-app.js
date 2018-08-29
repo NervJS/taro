@@ -27,15 +27,15 @@ function createApp (AppClass) {
       }
     },
 
-    onError () {
+    onError (err) {
       if (app.componentDidCatchError) {
-        app.componentDidCatchError()
+        app.componentDidCatchError(err)
       }
     },
 
-    onPageNotFound () {
+    onPageNotFound (obj) {
       if (app.componentDidNotFound) {
-        app.componentDidNotFound()
+        app.componentDidNotFound(obj)
       }
     }
   }

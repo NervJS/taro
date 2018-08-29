@@ -87,6 +87,7 @@ npm run android
 
 - react: ^16.2.0
 - "react-native": "~0.55.2"
+- "expo": "~27.0.0"
 
 ## 开发者日志
 
