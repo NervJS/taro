@@ -51,21 +51,16 @@ function ${GET_CLS_NAME_FUNC_NAME}() {
   `)
   const getStyleFunctionTemplete = template(`
 function ${GET_STYLE_FUNC_NAME}(classNameExpression) { 
-  var cache = ${STYLE_SHEET_NAME}.__cache || (${STYLE_SHEET_NAME}.__cache = {});
   var className = ${GET_CLS_NAME_FUNC_NAME}(classNameExpression);
   var classNameArr = className.split(/\\s+/);
-  var style = cache[className];
 
-  if (!style) {
-    style = {};
-    if (classNameArr.length === 1) {
-      style = ${STYLE_SHEET_NAME}[classNameArr[0].trim()];
-    } else {
+  var style = [];
+  if (classNameArr.length === 1) {
+    style.push(${STYLE_SHEET_NAME}[classNameArr[0].trim()]);
+  } else {
       classNameArr.forEach(function(cls) {
-        style = Object.assign(style, ${STYLE_SHEET_NAME}[cls.trim()]);
-      });
-    }
-    cache[className] = style;
+      style.push(${STYLE_SHEET_NAME}[cls.trim()]);
+    });
   }
 
   return style;
@@ -231,7 +226,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             const cssFileBaseName = path.basename(sourceValue, extname)
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `${path.dirname(sourceValue)}${path.sep}${cssFileBaseName}_styles`
+            const styleSheetIdentifierPath = `${path.dirname(sourceValue)}/${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
 
             node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]

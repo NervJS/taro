@@ -8,12 +8,22 @@ export default class EXTextinput extends Component {
     }
   }
 
+  onKeyDown = (event) => {
+    console.log('onKeyDown', event)
+  }
+
+  onConfirm = (event) => {
+    console.log('onConfirm', event)
+  }
+
   render () {
     return (
       <View>
         <Input
           type="idcard"
           placeholder="placeholder"
+          onKeyDown={this.onKeyDown}
+          onConfirm={this.onConfirm}
           onInput={this.onInput}
         />
 

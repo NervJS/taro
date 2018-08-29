@@ -265,6 +265,18 @@ exports.resolveScriptPath = function (p) {
   return realPath
 }
 
+exports.resolveStylePath = function (p) {
+  let realPath = p
+  const CSS_EXT = exports.CSS_EXT
+  for (let i = 0; i < CSS_EXT.length; i++) {
+    const item = CSS_EXT[i]
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+  }
+  return realPath
+}
+
 exports.isDifferentArray = function (a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) {
     return true
