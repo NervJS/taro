@@ -10,6 +10,7 @@ function getTrueType (type, confirmType, password) {
   }
   if (confirmType === 'search') type = 'search'
   if (password) type = 'password'
+  if (type === 'number') type = 'number'
 
   return type
 }

@@ -163,6 +163,19 @@ class _Input extends React.Component<Props, State> {
     })
   }
 
+  onSubmitEditing = () => {
+    const { onKeyDown, onConfirm } = this.props
+    onKeyDown && onKeyDown({
+      which: 13,
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
+    onConfirm && onConfirm({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
+  }
+
   onContentSizeChange = (event: Object) => {
     const { width, height } = event.nativeEvent.contentSize
     // One of width and height may be 0.
@@ -221,6 +234,7 @@ class _Input extends React.Component<Props, State> {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onKeyPress={this.onKeyPress}
+        onSubmitEditing={this.onSubmitEditing}
         multiline={!!_multiline}
         onContentSizeChange={this.onContentSizeChange}
         style={[style, _multiline && { height: Math.max(35, this.state.height) }]}

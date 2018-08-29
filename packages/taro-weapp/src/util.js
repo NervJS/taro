@@ -118,7 +118,7 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             diffArrToPath(toItem, fromItem, res, `${targetKey}`)
           }
         } else {
-          if (!toItem || !fromItem) {
+          if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
             res[targetKey] = toItem
           } else {
             // 对象
@@ -166,7 +166,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
           }
         } else {
           // null
-          if (!toItem || !fromItem) {
+          if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
             res[targetKey] = toItem
           } else {
           // 对象

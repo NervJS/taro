@@ -3,6 +3,23 @@ export as namespace Taro;
 
 declare namespace Taro {
 
+  interface PageNotFoundObject {
+    /**
+     * 不存在页面的路径
+     */
+    path: string,
+
+    /**
+     * 打开不存在页面的 query
+     */
+    query: object,
+
+    /**
+     * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
+     */
+    isEntryPage: boolean
+  }
+
   // Components
   interface ComponentLifecycle<P, S> {
     componentWillMount?(): void;
@@ -14,6 +31,8 @@ declare namespace Taro {
     componentWillUnmount?(): void;
     componentDidShow?(): void;
     componentDidHide?(): void;
+    componentDidCatchError?(err: string): void;
+    componentDidNotFound?(obj: PageNotFoundObject): void;
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -21,7 +40,7 @@ declare namespace Taro {
   }
 
   interface PageConfig {
-        /**
+    /**
      * 导航栏背景颜色，HexColor
      * default: #000000
      */
@@ -118,10 +137,16 @@ declare namespace Taro {
     window?: PageConfig
   }
 
+  interface ComponentOptions {
+    addGlobalClass?: boolean
+  }
+
   class Component<P, S> {
     constructor(props?: P, context?: any);
 
     config?: Config;
+
+    options?: ComponentOptions;
 
     $router: {
       params: any

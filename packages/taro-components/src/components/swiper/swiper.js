@@ -222,7 +222,7 @@ class Swiper extends Nerv.Component {
       translate = -max
     } else {
       // default case
-      let changeV = this.isChangeSlide(translate, currentIndex)
+      let changeV = this.isChangeSlide(translate, currentIndex) 
       translate = changeV.translate
       currentIndex = changeV.currentIndex
     }
@@ -243,7 +243,16 @@ class Swiper extends Nerv.Component {
         }, this.props.duration)
     )
 
-    if (this.props.onChange) this.props.onChange(ogIndex, currentIndex)
+    if (this.props.onChange) {
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          current: currentIndex,
+          source: 'touch'
+        }
+      })
+      this.props.onChange(e)
+    }
     if (this.props.autoplay) this.pauseAutoPlay()
   }
 
@@ -333,6 +342,17 @@ class Swiper extends Nerv.Component {
         }, this.props.duration)
       }
     )
+    if (this.props.onChange) {
+      let e = new TouchEvent('touchend')
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          current: cur,
+          source: 'autoplay'
+        }
+      })
+      this.props.onChange(e)
+    }
   }
 
   isChangeSlide (translate, currentIndex) {
