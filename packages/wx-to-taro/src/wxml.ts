@@ -1,8 +1,11 @@
 import { parse } from 'himalaya'
 import * as t from '@babel/types'
-const template = require('@babel/template')
+import { camelCase } from 'lodash'
+import template from '@babel/template'
+// const template = require('@babel/template')
 
-const buildTemplate = (str: string) => template(str)() as t.Expression
+const buildTemplate = (str: string) => template(str)().expression as t.Expression
+const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
 enum NodeType {
   Element = 'element',
@@ -35,29 +38,29 @@ interface Text {
 type AllKindNode = Element | Comment | Text
 type Node = Element | Text
 
-interface List<T extends t.JSXElement | t.JSXText> {
-  prev: T,
-  curr: T,
-  next: T
+export function parseWXML (wxml: string) {
+  const nodes = (parse(wxml) as AllKindNode[]).filter(node => node.type !== NodeType.Comment) as Node[]
+  const a = nodes.map(parseNode)
+  return nodes.map(parseNode).find(node => t.isJSXElement(node))
 }
 
-function parseWXML (wxml: string) {
-  const nodes = (
-    (parse(wxml) as AllKindNode[])
-      .filter(node => node.type !== NodeType.Comment) as Node[])
-      .map((node, index, arr) => ({
-        prev: arr[index - 1],
-        curr: node,
-        next: arr[index + 1]
-      }))
+function parseNode (node: Node, index: number, nodes: Node[]) {
+  if (node.type === NodeType.Text) {
+    return parseText(node)
+  }
+  return parseElement(node, nodes[index + 1])
 }
 
-function parseNode (node: Node) {
-  return node.type === NodeType.Element ? parseElement(node) : parseText(node)
-}
-
-function parseElement (element: Element): t.JSXElement {
-  return
+function parseElement (element: Element, nextElement?: Node): t.JSXElement {
+  const tagName = t.jsxIdentifier(
+    allCamelCase(element.tagName)
+  )
+  return t.jsxElement(
+    t.jsxOpeningElement(tagName, element.attributes.map(parseAttribute)),
+    t.jsxClosingElement(tagName),
+    element.children.map(parseNode),
+    false
+  )
 }
 
 function parseText (node: Text) {
@@ -77,9 +80,12 @@ function parseContent (content: string) {
       content
     }
   }
-  const tokens = []
+  const tokens: string[] = []
   let lastIndex = handlebarsRE.lastIndex = 0
-  let match, index, tokenValue
+  let match
+  let index
+  let tokenValue
+  // tslint:disable-next-line
   while ((match = handlebarsRE.exec(content))) {
     index = match.index
     // push text token
@@ -107,8 +113,9 @@ function parseAttribute (attr: Attribute) {
   const { key, value } = attr
 
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
-  const { type, content } = parseContent(value)
+
   if (value) {
+    const { type, content } = parseContent(value)
     jsxValue = type === 'raw' ? t.stringLiteral(content) : t.jsxExpressionContainer(buildTemplate(content))
   }
 
