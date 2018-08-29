@@ -30,7 +30,7 @@ const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
-const tempDir = '.temp'
+const tempDir = '.rn_temp'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
@@ -614,7 +614,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // generator .temp/package.json TODO JSON.parse 这种写法可能会有隐患
+        // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
         const pkgTempObj = JSON.parse(
           ejs.render(
             fs.readFileSync(pkgPath, 'utf-8'), {
