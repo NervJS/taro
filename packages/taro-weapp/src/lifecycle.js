@@ -85,10 +85,5 @@ function doUpdate (component) {
         component._pendingCallbacks.pop().call(component)
       }
     }
-    if (!component.__mounted) {
-      component.__mounted = true
-      componentTrigger(component, 'componentDidMount')
-      componentTrigger(component, 'componentDidShow')
-    }
   })
 }

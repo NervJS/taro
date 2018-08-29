@@ -704,7 +704,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig)())
             break
           case PARSE_AST_TYPE.PAGE:
-            node.body.push(template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
             break
           case PARSE_AST_TYPE.COMPONENT:
             node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
@@ -1313,7 +1313,7 @@ function buildUsingComponents (components, isComponent) {
   for (const component of components) {
     usingComponents[component.name] = component.path
   }
-  return Object.assign({}, isComponent ? { component: true } : {}, components.length ? {
+  return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
   } : {})
 }
