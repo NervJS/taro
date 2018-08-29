@@ -805,6 +805,55 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
   return componentRealPath
 }
 
+function isFileToBeTaroComponent (code, sourcePath, outputPath) {
+  const transformResult = wxTransformer({
+    code,
+    sourcePath: sourcePath,
+    outputPath: outputPath,
+    isNormal: true,
+    isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
+  })
+  const { ast } = transformResult
+  let hasRender = false
+  let hasTaroJsFramework = false
+
+  traverse(ast, {
+    ImportDeclaration (astPath) {
+      const node = astPath.node
+      const source = node.source
+      const value = source.value
+      if (Util.isNpmPkg(value) && value === taroJsFramework) {
+        hasTaroJsFramework = true
+      }
+    },
+
+    ClassDeclaration (astPath) {
+      astPath.traverse({
+        ClassMethod (astPath) {
+          if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            hasRender = true
+          }
+        }
+      })
+    },
+
+    ClassExpression (astPath) {
+      astPath.traverse({
+        ClassMethod (astPath) {
+          if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            hasRender = true
+          }
+        }
+      })
+    }
+  })
+
+  return {
+    isTaroComponent: hasRender && hasTaroJsFramework,
+    transformResult
+  }
+}
+
 function convertObjectToAstExpression (obj) {
   const objArr = Object.keys(obj).map(key => {
     const value = obj[key]
@@ -1350,20 +1399,10 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     hasBeenBuiltComponents.push(component)
   }
   try {
-    let isTaroComponent = true
-    if (componentContent.indexOf(taroJsFramework) < 0 &&
-      componentContent.indexOf('render') < 0) {
-      isTaroComponent = false
-    }
-    const transformResult = wxTransformer({
-      code: componentContent,
-      sourcePath: component,
-      outputPath: outputComponentJSPath,
-      isRoot: false,
-      isTyped: Util.REG_TYPESCRIPT.test(component),
-      isNormal: !isTaroComponent
-    })
-    if (!isTaroComponent) {
+    let isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
+
+    if (!isTaroComponentRes.isTaroComponent) {
+      const transformResult = isTaroComponentRes.transformResult
       const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
       const realComponentObj = {
         path: componentRealPath,
@@ -1387,6 +1426,14 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       }
       return await buildSingleComponent(realComponentObj, buildConfig)
     }
+    const transformResult = wxTransformer({
+      code: componentContent,
+      sourcePath: component,
+      outputPath: outputComponentJSPath,
+      isRoot: false,
+      isTyped: Util.REG_TYPESCRIPT.test(component),
+      isNormal: false
+    })
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
