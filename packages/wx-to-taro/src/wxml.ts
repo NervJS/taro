@@ -1,7 +1,8 @@
 import { parse } from 'himalaya'
-import * as t from '@babel/types'
+import * as t from 'babel-types'
 import { camelCase } from 'lodash'
-import template from '@babel/template'
+import traverse from 'babel-traverse'
+import * as template from 'babel-template'
 // const template = require('@babel/template')
 
 const buildTemplate = (str: string) => template(str)().expression as t.Expression
@@ -40,7 +41,15 @@ type Node = Element | Text
 
 export function parseWXML (wxml: string) {
   const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(node => node.type !== NodeType.Comment) as Node[]
-  return nodes.map(parseNode).find(node => t.isJSXElement(node))
+  const ast = nodes.map(parseNode).find(node => t.isJSXElement(node))
+
+  traverse(t.file(t.program([t.expressionStatement(ast as t.Expression)], [])), {
+    JSXAttribute (path) {
+      // path.node.name = t.jSXIdentifier('fuck')
+    }
+  })
+
+  return ast
 }
 
 function parseNode (node: Node, index: number, nodes: Node[]) {
@@ -51,12 +60,12 @@ function parseNode (node: Node, index: number, nodes: Node[]) {
 }
 
 function parseElement (element: Element, nextElement?: Node): t.JSXElement {
-  const tagName = t.jsxIdentifier(
+  const tagName = t.jSXIdentifier(
     allCamelCase(element.tagName)
   )
-  return t.jsxElement(
-    t.jsxOpeningElement(tagName, element.attributes.map(parseAttribute)),
-    t.jsxClosingElement(tagName),
+  return t.jSXElement(
+    t.jSXOpeningElement(tagName, element.attributes.map(parseAttribute)),
+    t.jSXClosingElement(tagName),
     element.children.map(parseNode),
     false
   )
@@ -65,9 +74,9 @@ function parseElement (element: Element, nextElement?: Node): t.JSXElement {
 function parseText (node: Text) {
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
-    return t.jsxText(content)
+    return t.jSXText(content)
   }
-  return t.jsxExpressionContainer(buildTemplate(content))
+  return t.jSXExpressionContainer(buildTemplate(content))
 }
 
 const handlebarsRE = /\{\{((?:.|\n)+?)\}\}/g
@@ -111,15 +120,15 @@ function parseContent (content: string) {
 function parseAttribute (attr: Attribute) {
   const { key, value } = attr
 
-  const jsxKey = handleAttrKey(key)
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
 
   if (value) {
     const { type, content } = parseContent(value)
-    jsxValue = type === 'raw' ? t.stringLiteral(content) : t.jsxExpressionContainer(buildTemplate(content))
+    jsxValue = type === 'raw' ? t.stringLiteral(content) : t.jSXExpressionContainer(buildTemplate(content))
   }
 
-  return t.jsxAttribute(t.jsxIdentifier(jsxKey), jsxValue)
+  const jsxKey = handleAttrKey(key)
+  return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }
 
 function handleAttrKey (key: string) {
