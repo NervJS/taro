@@ -28,6 +28,17 @@ class Events {
     return this
   }
 
+  once (events, callback, context) {
+    const wrapper = (...args) => {
+      callback.apply(this, args)
+      this.off(events, callback, context)
+    }
+
+    this.on(events, wrapper, context)
+
+    return this
+  }
+
   off (events, callback, context) {
     let event, calls, node, tail, cb, ctx
     if (!(calls = this.callbacks)) {
