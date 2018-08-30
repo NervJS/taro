@@ -1235,6 +1235,7 @@ async function buildSinglePage (page) {
     fileDep['media'] = res.mediaFiles
     dependencyTree[pageJs] = fileDep
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '页面编译', `页面${pagePath}编译失败！`)
     console.log(err)
   }
 }
@@ -1376,6 +1377,14 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     type: componentObj.type
   }
   const component = componentObj.path
+  if (!component) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '组件错误', `组件${_.upperFirst(_.camelCase(componentObj.name))}路径错误，请检查！（可能原因是导出的组件名不正确）`)
+    return {
+      js: null,
+      wxss: null,
+      wxml: null
+    }
+  }
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
   let isComponentFromNodeModules = false
@@ -1541,6 +1550,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     }
     return componentsBuildResult[component]
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '组件编译', `组件${componentShowPath}编译失败！`)
     console.log(err)
   }
 }
