@@ -24,6 +24,7 @@
   * [内置环境变量](envs.md)
   * [微信小程序原生作用域获取](wx-relations.md)
   * [React Native](react-native.md)
+  * [最佳实践](best-practice.md)
 * [组件库](components.md)
   * 视图容器
     * [View](components/viewContainer/view.md)
@@ -135,6 +136,5 @@
   * [使用Redux](redux.md)
   * [使用微信小程序第三方组件](wx-third-party.md)
   * [Taro 代码与微信小程序代码混写](wx-hybrid.md)
-  * [最佳实践](best-practice.md)
   * [技术原理](principle.md)
   * [Debug 指南](debug.md)
