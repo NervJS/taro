@@ -15,14 +15,18 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@babel/template": "^7.0.0-rc.2",
-    "@babel/traverse": "^7.0.0-rc.2",
-    "@babel/types": "^7.0.0-rc.2",
+    "babel-generator": "^6.26.1",
+    "babel-template": "^6.26.0",
+    "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
     "himalaya": "^1.1.0",
     "lodash": "^4.17.5",
     "typescript": "^3.0.1"
   },
   "devDependencies": {
+    "@types/babel-generator": "^6.25.2",
+    "@types/babel-traverse": "^6.25.4",
+    "@types/babel-types": "^7.0.4",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
     "@types/node": "^9.6.2",
