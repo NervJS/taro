@@ -814,24 +814,18 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
   })
   const { ast } = transformResult
-  let hasRender = false
-  let hasTaroJsFramework = false
+  let isTaroComponent = false
 
   traverse(ast, {
-    ImportDeclaration (astPath) {
-      const node = astPath.node
-      const source = node.source
-      const value = source.value
-      if (Util.isNpmPkg(value) && value === taroJsFramework) {
-        hasTaroJsFramework = true
-      }
-    },
-
     ClassDeclaration (astPath) {
       astPath.traverse({
         ClassMethod (astPath) {
           if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            hasRender = true
+            astPath.traverse({
+              JSXElement () {
+                isTaroComponent = true
+              }
+            })
           }
         }
       })
@@ -841,7 +835,11 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
       astPath.traverse({
         ClassMethod (astPath) {
           if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            hasRender = true
+            astPath.traverse({
+              JSXElement () {
+                isTaroComponent = true
+              }
+            })
           }
         }
       })
@@ -849,7 +847,7 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
   })
 
   return {
-    isTaroComponent: hasRender && hasTaroJsFramework,
+    isTaroComponent,
     transformResult
   }
 }
@@ -1409,7 +1407,6 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   }
   try {
     let isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
-
     if (!isTaroComponentRes.isTaroComponent) {
       const transformResult = isTaroComponentRes.transformResult
       const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
