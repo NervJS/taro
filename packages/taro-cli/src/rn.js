@@ -30,7 +30,8 @@ const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
-const tempDir = '.temp'
+const appStylePath = path.resolve(sourceDir, 'app.scss')
+const tempDir = '.rn_temp'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
@@ -496,7 +497,7 @@ function parseJSCode (code, filePath) {
 function compileDepStyles (filePath, styleFiles) {
   // 合并 app.scss ，支持全局样式
   if (filePath !== entryFileName) {
-    styleFiles.push(path.resolve(sourceDir, 'app.scss'))
+    styleFiles.push(appStylePath)
   }
   if (isBuildingStyles[filePath]) {
     return Promise.resolve({})
@@ -505,7 +506,9 @@ function compileDepStyles (filePath, styleFiles) {
   return Promise.all(styleFiles.map(async p => { // to css string
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
-    Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
+    if (filePath !== appStylePath) {
+      Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
+    }
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
@@ -614,7 +617,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // generator .temp/package.json TODO JSON.parse 这种写法可能会有隐患
+        // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
         const pkgTempObj = JSON.parse(
           ejs.render(
             fs.readFileSync(pkgPath, 'utf-8'), {
