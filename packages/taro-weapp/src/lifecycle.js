@@ -16,7 +16,7 @@ export function updateComponent (component) {
     component._disable = false
   }
   // 在willMount前执行构造函数的副本
-  if (!component.__mounted) {
+  if (!component.__componentWillMountTriggered) {
     component._constructor && component._constructor(props)
   }
   let state = component.getState()

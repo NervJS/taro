@@ -341,6 +341,7 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     }
     weappComponentConf.methods['onReady'] = function () {
+      this.$component.__mounted = true
       componentTrigger(this.$component, 'componentDidMount')
     }
     weappComponentConf.methods['onShow'] = function () {
