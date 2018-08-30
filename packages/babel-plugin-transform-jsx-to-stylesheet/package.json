@@ -1,0 +1,22 @@
+{
+  "name": "babel-plugin-transform-jsx-to-stylesheet",
+  "version": "1.0.0-beta.22",
+  "description": "Transform stylesheet selector to style in JSX Elements.",
+  "license": "MIT",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "engines": {
+    "npm": ">=3.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-plugin-syntax-jsx": "^6.18.0"
+  }
+}

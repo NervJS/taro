@@ -387,7 +387,7 @@ export class RenderParser {
             //
           } else {
             const ifStatement = parentPath.findParent(p => p.isIfStatement())
-            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && p.parentPath === ifStatement)
+            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && p.parentPath === ifStatement) as NodePath<t.BlockStatement>
             if (blockStatement && blockStatement.isBlockStatement()) {
               blockStatement.traverse({
                 VariableDeclarator: (p) => {
@@ -405,6 +405,9 @@ export class RenderParser {
             const block = this.finalReturnElement || buildBlockElement()
             if (isBlockIfStatement(ifStatement, blockStatement)) {
               const { test, alternate, consequent } = ifStatement.node
+              // blockStatement.node.body.push(t.returnStatement(
+              //   t.memberExpression(t.thisExpression(), t.identifier('state'))
+              // ))
               if (alternate === blockStatement.node) {
                 throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')
               } else if (consequent === blockStatement.node) {
@@ -559,6 +562,10 @@ export class RenderParser {
       let eventShouldBeCatched = false
       const jsxElementPath = path.parentPath.parentPath
       if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
+        const componentName = (jsxElementPath.node.openingElement as any).name.name
+        if (THIRD_PARTY_COMPONENTS.has(componentName as string)) {
+          return
+        }
         if (name.name === 'key') {
           const jsx = path.findParent(p => p.isJSXElement())
           const loopBlock = jsx.findParent(p => {
@@ -701,6 +708,12 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
+    JSXEmptyExpression (path) {
+      const parent = path.parentPath
+      if (path.parentPath.isJSXExpressionContainer()) {
+        parent.remove()
+      }
+    },
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
       if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {

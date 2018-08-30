@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-taro",
-  "version": "1.0.0-beta.13",
+  "version": "1.0.0-beta.22",
   "description": "Taro specific linting plugin for ESLint",
   "main": "index.js",
   "files": [
@@ -10,7 +10,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "mocha __tests__/*.js"
+    "test": "mocha -R progress __tests__/*.js"
   },
   "repository": {
     "type": "git",

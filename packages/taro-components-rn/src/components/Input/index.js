@@ -68,6 +68,7 @@ type Props = {
   onInput?: Function,
   onFocus?: Function,
   onBlur?: Function,
+  onKeyDown?: Function,
   onConfirm?: Function,
   // Private
   _multiline?: boolean,
@@ -104,9 +105,12 @@ class _Input extends React.Component<Props, State> {
   onChangeText = (text: string) => {
     const { onInput } = this.props
     const { returnValue } = this.state
-    this.tmpValue = text
+    this.tmpValue = text || ''
     if (onInput) {
-      const result = onInput({ detail: { value: text } })
+      const result = onInput({
+        target: { value: text },
+        detail: { value: text }
+      })
       // Be care of flickering
       // @see https://facebook.github.io/react-native/docs/textinput.html#value
       if (typeof result === 'string') {
@@ -120,18 +124,56 @@ class _Input extends React.Component<Props, State> {
   onFocus = () => {
     const { onFocus } = this.props
     // event.detail = { value, height }
-    onFocus && onFocus({ detail: { value: this.tmpValue } })
+    onFocus && onFocus({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
   }
 
   onBlur = () => {
     const { onBlur } = this.props
-    onBlur && onBlur({ detail: { value: this.tmpValue } })
+    onBlur && onBlur({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
   }
 
+  /**
+   * Callback that is called when a key is pressed.
+   * This will be called with `{ nativeEvent: { key: keyValue } }`
+   * where `keyValue` is `'Enter'` or `'Backspace'` for respective keys and
+   * the typed-in character otherwise including `' '` for space.
+   * Fires before `onChange` callbacks.
+   */
   onKeyPress = (event: Object) => {
-    if (event.nativeEvent.key !== 'Enter') return
-    const { onConfirm } = this.props
-    onConfirm && onConfirm({ detail: { value: this.tmpValue } })
+    const { onKeyDown, onConfirm } = this.props
+    const keyValue = event.nativeEvent.key
+    let which
+    keyValue === 'Enter' && (which = 13)
+    keyValue === 'Backspace' && (which = 8)
+    onKeyDown && onKeyDown({
+      which,
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
+    if (keyValue !== 'Enter') return
+    onConfirm && onConfirm({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
+  }
+
+  onSubmitEditing = () => {
+    const { onKeyDown, onConfirm } = this.props
+    onKeyDown && onKeyDown({
+      which: 13,
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
+    onConfirm && onConfirm({
+      target: { value: this.tmpValue || '' },
+      detail: { value: this.tmpValue || '' }
+    })
   }
 
   onContentSizeChange = (event: Object) => {
@@ -192,6 +234,7 @@ class _Input extends React.Component<Props, State> {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onKeyPress={this.onKeyPress}
+        onSubmitEditing={this.onSubmitEditing}
         multiline={!!_multiline}
         onContentSizeChange={this.onContentSizeChange}
         style={[style, _multiline && { height: Math.max(35, this.state.height) }]}

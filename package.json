@@ -80,7 +80,7 @@
     "sass-loader": "^6.0.7",
     "shelljs": "^0.8.1",
     "style-loader": "^0.20.3",
-    "typescript": "^2.7.2",
+    "typescript": "^3.0.1",
     "webpack": "^3.11.0",
     "webpack-cli": "^1.0.12",
     "webpack-dev-server": "^2.1.1"

@@ -20,8 +20,6 @@
 
 微信小程序的[自定义组件样式](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html)默认是不能受外部样式影响的，例如在页面中引用了一个自定义组件，在页面样式中直接写自定义组件元素的样式是无法生效的。这一点，在 Taro 中也是一样，而这也是与大家认知的传统 web 开发不太一样。
 
-不过，自定义组件的样式文件中是可以通过 `@import` 来引入外部样式文件的，Taro 利用这一特性，在编译时默认引入了 `app.wxss` 这一全局样式文件，所以一些公共的组件样式是可以直接写在入口文件的全局样式中，在 Taro 中可以生效。
-
 ### 给组件设置 `defaultProps`
 
 在微信小程序端的自定义组件中，只有在 `properties` 中指定的属性，才能从父组件传入并接收
@@ -92,6 +90,10 @@ class Parent extends Component {
 
 前面已经提到小程序端的组件传入函数的原理，所以在小程序端不要在组件中打印传入的函数，因为拿不到结果，但是 `this.props.onXxx && this.props.onXxx()` 这种判断函数是否传入来进行调用的写法是完全支持的。
 
+### 小程序端不要将在模板中用到的数据设置为 `undefined`
+
+由于小程序不支持将data中任何一项的value设为 `undefined` ，在setState的时候也请避免这么用。你可以使用null来替代。
+
 ### 小程序端不要在组件中打印 `this.props.children`
 
 在微信小程序端是通过 `<slot />` 来实现往自定义组件中传入元素的，而 Taro 利用 `this.props.children` 在编译时实现了这一功能， `this.props.children` 会直接被编译成 `<slot />` 标签，所以它在小程序端属于语法糖的存在，请不要在组件中打印它。
@@ -99,6 +101,40 @@ class Parent extends Component {
 ### 组件属性传递注意
 
 不要以 `id`、`class`、`style` 作为自定义组件的属性与内部 state 的名称，因为这些属性名在微信小程序小程序中会丢失。
+
+### 组件 `state` 与 `props` 里字段重名的问题
+
+不要在 `state` 与 `props` 上用同名的字段，因为这些被字段在微信小程序中都会挂在 `data` 上。
+
+不要以 `id`、`class`、`style` 作为自定义组件的属性与内部 state 的名称，因为这些属性名在微信小程序小程序中会丢失。
+
+
+### 小程序中页面生命周期 `componentWillMount` 不一致问题
+
+由于微信小程序里页面在 `onLoad` 时才能拿到页面的路由参数，而页面onLoad前组件都已经 `attached` 了。因此页面的 `componentWillMount` 可能会与预期不太一致。例如：
+
+```jsx
+// 错误写法
+render () {
+  // 在willMount之前无法拿到路由参数
+  const abc = this.$router.params.abc
+  return <Custom adc={abc} />
+}
+
+// 正确写法
+componentWillMount () {
+  const abc = this.$router.params.abc
+  this.setState({
+    abc
+  })
+}
+render () {
+  // 增加一个兼容判断
+  return {this.state.abc && <Custom adc={abc} />}
+}
+```
+
+对于不需要等到页面willMount之后取路由参数的页面则没有任何影响。
 
 ### 组件的 `constructor` 与 `render` 提前调用
 

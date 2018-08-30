@@ -27,13 +27,14 @@
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
     "packages/taro-transformer-wx",
-    "packages/postcss-pxtransform"
+    "packages/postcss-pxtransform",
+    "packages/babel-plugin-transform-jsx-to-stylesheet"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.0.0-beta.13",
+  "version": "1.0.0-beta.22",
   "npmClient": "npm"
 }

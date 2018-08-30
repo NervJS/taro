@@ -1,7 +1,7 @@
 /**
  * @author chenjiajian
  * @property {Array} range mode为 selector 或 multiSelector 时，range 有效
- * @property {String} range-key 当 range 是一个 Object Array 时，通过 range-key 来指定 Object 中 key 的值作为选择器显示内容
+ * @property {String} rangeKey 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
  * @property {Number} value value 的值表示选择了 range 中的第几个（下标从 0 开始）
  * @property {EventHandle} onChange value 改变时触发 change 事件，event.detail = {value: value}
  * @property {Boolean} disabled 是否禁用
@@ -87,6 +87,10 @@ export default class Picker extends Nerv.Component {
 
       // this.index = dateHandle.
     } else {
+      if (!range) {
+        range = []
+        this.props.range = []
+      }
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
 
@@ -378,7 +382,7 @@ export default class Picker extends Nerv.Component {
       return (
         <PickerGroup
           range={this.props.range}
-          rangeKey={this.props['range-key']}
+          rangeKey={this.props['rangeKey']}
           height={this.state.height[0]}
           updateHeight={updateHeight}
           columnId='0'
@@ -392,7 +396,7 @@ export default class Picker extends Nerv.Component {
         return (
           <PickerGroup
             range={range}
-            rangeKey={this.props['range-key']}
+            rangeKey={this.props['rangeKey']}
             height={this.state.height[index]}
             updateHeight={updateHeight}
             onColumnChange={onColumnChange}

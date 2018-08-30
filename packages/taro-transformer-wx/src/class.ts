@@ -12,6 +12,7 @@ import {
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
+import { findJSXAttrByName } from './jsx'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -71,6 +72,13 @@ interface Result {
   }[]
 }
 
+interface Ref {
+  refName?: string,
+  type: 'component' | 'dom',
+  id: string,
+  fn?: t.FunctionExpression | t.ArrowFunctionExpression | t.MemberExpression
+}
+
 class Transformer {
   public result: Result = {
     template: '',
@@ -90,6 +98,7 @@ class Transformer {
   private customComponentData: Array<t.ObjectProperty> = []
   private componentProperies = new Set<string>()
   private sourcePath: string
+  private refs: Ref[] = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -101,9 +110,99 @@ class Transformer {
     this.compile()
   }
 
+  createStringRef (componentName: string, id: string, refName: string) {
+    this.refs.push({
+      type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
+      id,
+      refName
+    })
+  }
+
+  createFunctionRef (componentName: string, id: string, fn) {
+    this.refs.push({
+      type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
+      id,
+      fn
+    })
+  }
+
+  handleRefs () {
+    const objExpr = this.refs.map(ref => {
+      return t.objectExpression([
+        t.objectProperty(
+          t.identifier('type'),
+          t.stringLiteral(ref.type)
+        ),
+        t.objectProperty(
+          t.identifier('id'),
+          t.stringLiteral(ref.id)
+        ),
+        t.objectProperty(
+          t.identifier('refName'),
+          t.stringLiteral(ref.refName || '')
+        ),
+        t.objectProperty(
+          t.identifier('fn'),
+          ref.fn ? ref.fn : t.nullLiteral()
+        )
+      ])
+    })
+
+    this.classPath.node.body.body.push(t.classProperty(
+      t.identifier('$$refs'),
+      t.arrayExpression(objExpr)
+    ))
+  }
+
   traverse () {
     const self = this
     self.classPath.traverse({
+      JSXOpeningElement: (path) => {
+        const jsx = path.node
+        const attrs = jsx.attributes
+        if (!t.isJSXIdentifier(jsx.name)) {
+          return
+        }
+        const componentName = jsx.name.name
+        const refAttr = findJSXAttrByName(attrs, 'ref')
+        if (!refAttr) {
+          return
+        }
+        const idAttr = findJSXAttrByName(attrs, 'id')
+        let id = createRandomLetters(5)
+        if (!idAttr) {
+          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+        } else {
+          const idValue = idAttr.value
+          if (t.isStringLiteral(idValue)) {
+            id = idValue.value
+          } else if (t.isJSXExpressionContainer(idValue) && t.isStringLiteral(idValue.expression)) {
+            id = idValue.expression.value
+          }
+        }
+        if (t.isStringLiteral(refAttr.value)) {
+          this.createStringRef(componentName, id, refAttr.value.value)
+        }
+        if (t.isJSXExpressionContainer(refAttr.value)) {
+          const expr = refAttr.value.expression
+          if (t.isStringLiteral(expr)) {
+            this.createStringRef(componentName, id, expr.value)
+          } else if (t.isArrowFunctionExpression(expr) || t.isMemberExpression(expr)) {
+            this.refs.push({
+              type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
+              id,
+              fn: expr
+            })
+          } else {
+            throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
+          }
+        }
+        for (const [index, attr] of attrs.entries()) {
+          if (attr === refAttr) {
+            attrs.splice(index, 1)
+          }
+        }
+      },
       ClassMethod (path) {
         const node = path.node
         if (t.isIdentifier(node.key)) {
@@ -306,6 +405,9 @@ class Transformer {
       if (t.isJSXIdentifier(attrName) && attrName.name.startsWith('on')) {
         this.componentProperies.add(`__fn_${attrName.name}`)
       }
+      if (methodName.startsWith('on')) {
+        this.componentProperies.add(`__fn_${methodName}`)
+      }
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
           t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
@@ -451,6 +553,7 @@ class Transformer {
     this.setComponents()
     this.resetConstructor()
     this.findMoreProps()
+    this.handleRefs()
     this.parseRender()
   }
 }

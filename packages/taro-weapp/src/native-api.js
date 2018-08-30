@@ -4,7 +4,8 @@ import {
   otherApis,
   initPxTransform
 } from '@tarojs/taro'
-
+import { cacheDataSet } from './data-cache'
+import { queryToJson, getUniqueKey } from './util'
 const RequestQueue = {
   MAX_REQUEST: 5,
   queue: [],
@@ -64,6 +65,12 @@ function request (options) {
 
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
+  const useDataCacheApis = {
+    'navigateTo': true,
+    'redirectTo': true,
+    'reLaunch': true
+  }
+  const routerParamsPrivateKey = '__key_'
   Object.keys(weApis).forEach(key => {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = options => {
@@ -72,6 +79,14 @@ function processApis (taro) {
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
           return wx[key](options)
+        }
+        if (useDataCacheApis[key]) {
+          const url = obj['url'] = obj['url'] || ''
+          const MarkIndex = url.indexOf('?')
+          const params = queryToJson(url.substring(MarkIndex + 1, url.length))
+          const cacheKey = getUniqueKey()
+          obj.url += (MarkIndex > -1 ? '&' : '?') + `${routerParamsPrivateKey}=${cacheKey}`
+          cacheDataSet(cacheKey, params)
         }
         const p = new Promise((resolve, reject) => {
           ['fail', 'success', 'complete'].forEach((k) => {

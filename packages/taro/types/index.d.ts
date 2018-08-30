@@ -3,6 +3,23 @@ export as namespace Taro;
 
 declare namespace Taro {
 
+  interface PageNotFoundObject {
+    /**
+     * 不存在页面的路径
+     */
+    path: string,
+
+    /**
+     * 打开不存在页面的 query
+     */
+    query: object,
+
+    /**
+     * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
+     */
+    isEntryPage: boolean
+  }
+
   // Components
   interface ComponentLifecycle<P, S> {
     componentWillMount?(): void;
@@ -14,6 +31,8 @@ declare namespace Taro {
     componentWillUnmount?(): void;
     componentDidShow?(): void;
     componentDidHide?(): void;
+    componentDidCatchError?(err: string): void;
+    componentDidNotFound?(obj: PageNotFoundObject): void;
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -21,7 +40,7 @@ declare namespace Taro {
   }
 
   interface PageConfig {
-        /**
+    /**
      * 导航栏背景颜色，HexColor
      * default: #000000
      */
@@ -118,10 +137,16 @@ declare namespace Taro {
     window?: PageConfig
   }
 
+  interface ComponentOptions {
+    addGlobalClass?: boolean
+  }
+
   class Component<P, S> {
     constructor(props?: P, context?: any);
 
     config?: Config;
+
+    options?: ComponentOptions;
 
     $router: {
       params: any
@@ -136,7 +161,7 @@ declare namespace Taro {
 
     render(): any;
 
-    props: Readonly<P>;
+    props: Readonly<P> & Readonly<{ children?: any }>;
     state: Readonly<S>;
     context: any;
     refs: {
@@ -3431,7 +3456,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
        */
-      type ParamPropSuccess = (res: { longitude: "经度", latitude: "纬度" }) => void
+      type ParamPropSuccess = (res: { longitude: number, latitude: number }) => void
       /**
        * 接口调用失败的回调函数
        */
@@ -6597,7 +6622,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject
    */
-  function navigateBack(OBJECT?: navigateBack.Param): void
+  function navigateBack(OBJECT?: navigateBack.Param): Promise<any>
 
   namespace createAnimation {
     type Param = {
@@ -7230,32 +7255,32 @@ declare namespace Taro {
     fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef;
     exec: (callback?: execCallback) => void;
   }
-  
+
   interface baseElement {
     id: string,
     dataset: object,
   }
-  
+
   interface rectElement {
     left: number,
     right: number,
     top: number,
     bottom: number,
   }
-  
+
   interface sizeElement {
     width: number,
     height: number,
   }
-  
+
   interface scrollElement {
     scrollLeft: number,
     scrollTop: number
   }
   interface clientRectElement extends baseElement, rectElement, sizeElement {}
-  
+
   interface scrollOffsetElement extends baseElement, scrollElement {}
-  
+
   interface fieldsObject {
     id?:boolean,
     dataset?:boolean,
@@ -7265,18 +7290,18 @@ declare namespace Taro {
     properties?: string[],
     computedStyle?:string[],
   }
-  
+
   interface fieldElement extends baseElement, rectElement, sizeElement {
     [key:string]: any
   }
-  
-  
+
+
   type execObject = clientRectElement & scrollOffsetElement & fieldElement
   type clientRectCallback = (rect: clientRectElement | clientRectElement[]) => void
   type scrollCallback = (res: scrollOffsetElement | scrollOffsetElement[]) => void
   type fieldCallback = (res: fieldElement | fieldElement[]) => void
   type execCallback = (res: execObject | execObject[]) => void
-  
+
   function createSelectorQuery(): SelectorQuery
 
   class SelectorQuery {
@@ -7616,6 +7641,45 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open.html#wxgetuserinfoobject
    */
   function getUserInfo(OBJECT?: getUserInfo.Param): Promise<getUserInfo.Promised>
+
+  namespace checkIsSupportFacialRecognition {
+    type Promised = {
+      errMsg: string
+      errCode: number
+    }
+    type Param = {
+      checkAliveType?: number
+    }
+  }
+  function checkIsSupportFacialRecognition(OBJECT?: checkIsSupportFacialRecognition.Param): Promise<checkIsSupportFacialRecognition.Promised>
+
+  namespace startFacialRecognitionVerify {
+    type Promised = {
+      errMsg: string
+      errCode: number
+      verifyResult: string
+    }
+    type Param = {
+      name: string
+      idCardNumber: string
+      checkAliveType?: number
+    }
+  }
+  function startFacialRecognitionVerify(OBJECT?: startFacialRecognitionVerify.Param): Promise<startFacialRecognitionVerify.Promised>
+
+  namespace startFacialRecognitionVerifyAndUploadVideo {
+    type Promised = {
+      errMsg: string
+      errCode: number
+      verifyResult: string
+    }
+    type Param = {
+      name: string
+      idCardNumber: string
+      checkAliveType?: number
+    }
+  }
+  function startFacialRecognitionVerifyAndUploadVideo(OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
 
   namespace requestPayment {
     type Param = {
@@ -10414,4 +10478,17 @@ declare namespace Taro {
      */
     setTransform(): void
   }
+
+
+  interface Page {
+    /**
+     * 当前页面的路径
+     */
+    route: string
+
+    [k: string]: any
+  }
+
+  function getCurrentPages(): Page[]
+  function getApp(): any
 }
