@@ -39,8 +39,7 @@ type AllKindNode = Element | Comment | Text
 type Node = Element | Text
 
 export function parseWXML (wxml: string) {
-  const nodes = (parse(wxml) as AllKindNode[]).filter(node => node.type !== NodeType.Comment) as Node[]
-  const a = nodes.map(parseNode)
+  const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(node => node.type !== NodeType.Comment) as Node[]
   return nodes.map(parseNode).find(node => t.isJSXElement(node))
 }
 
@@ -112,6 +111,7 @@ function parseContent (content: string) {
 function parseAttribute (attr: Attribute) {
   const { key, value } = attr
 
+  const jsxKey = handleAttrKey(key)
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
 
   if (value) {
@@ -119,5 +119,30 @@ function parseAttribute (attr: Attribute) {
     jsxValue = type === 'raw' ? t.stringLiteral(content) : t.jsxExpressionContainer(buildTemplate(content))
   }
 
-  return t.jsxAttribute(t.jsxIdentifier(key), jsxValue)
+  return t.jsxAttribute(t.jsxIdentifier(jsxKey), jsxValue)
+}
+
+function handleAttrKey (key: string) {
+  if (key.startsWith('wx:') || key.startsWith('wx-')) {
+    return key
+  }
+
+  let jsxKey = camelCase(key)
+
+  switch (jsxKey) {
+    case 'onClick':
+      jsxKey = 'onClick'
+      break
+    case 'class':
+      jsxKey = 'className'
+      break
+    default:
+      jsxKey = jsxKey.replace(/^(bind|catch)/, 'on')
+      if (jsxKey.startsWith('on') && jsxKey.length > 2) {
+        jsxKey = jsxKey.substr(0, 2) + jsxKey[2].toUpperCase() + jsxKey.substr(3)
+      }
+      break
+  }
+
+  return jsxKey
 }
