@@ -1,10 +1,10 @@
 /**
  * 实现参考链接:
  * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/9951
- * 
+ *
  * ComponentClass 使用react, 保持和 taro-component 组件库一致
  * 也可以在 Taro 中重新声明
- * 
+ *
  */
 import { ComponentClass } from 'react';
 import {
@@ -17,6 +17,10 @@ import {
     Store,
     Dispatch
 } from 'redux';
+
+import {
+  ThunkDispatch
+} from 'redux-thunk';
 
 export type InferableComponentEnhancerWithProps<IInjectedProps, INeedsProps> =
     <IComponent extends ComponentClass<IInjectedProps & INeedsProps>>(component: IComponent) => IComponent
@@ -48,7 +52,7 @@ type MapDispatchToProps<TDispatchProps, TOwnProps> =
     MapDispatchToPropsFunction<TDispatchProps, TOwnProps> | TDispatchProps;
 
 interface MapDispatchToPropsFactory<TDispatchProps, TOwnProps> {
-    (dispatch: Dispatch, ownProps: TOwnProps): MapDispatchToProps<TDispatchProps, TOwnProps>;
+    (dispatch: Dispatch | ThunkDispatch<any, any, any>, ownProps: TOwnProps): MapDispatchToProps<TDispatchProps, TOwnProps>;
 }
 
 type MapDispatchToPropsParam<TDispatchProps, TOwnProps> = MapDispatchToPropsFactory<TDispatchProps, TOwnProps> | MapDispatchToProps<TDispatchProps, TOwnProps>;
