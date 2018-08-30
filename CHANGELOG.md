@@ -1,5 +1,26 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.20...v) (2018-08-29)
+# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.21...v) (2018-08-30)
+
+
+
+<a name="1.0.0-beta.21"></a>
+# [1.0.0-beta.21](https://github.com/NervJS/taro/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2018-08-30)
+
+
+### Bug Fixes
+
+* **cli:** 优化是否是 taro 组件的判断方式 ([d835113](https://github.com/NervJS/taro/commit/d835113))
+* **cli:** 添加 babel-plugin-transform-jsx-to-stylesheet 到 update 命令的更新列表 ([8bd231a](https://github.com/NervJS/taro/commit/8bd231a))
+* **weapp:** 修复setState时对象减少字段无法更新到的问题 ([05256c3](https://github.com/NervJS/taro/commit/05256c3))
+
+
+### Features
+
+* **cli:** ui 库编译引入静态资源中引入的文件 ([5aaa772](https://github.com/NervJS/taro/commit/5aaa772))
+* **cli:** 编译增加错误信息暴露 ([2d76055](https://github.com/NervJS/taro/commit/2d76055))
+* **RN:**  RN 的 temp 目录改为 .rn_temp ([0ba6069](https://github.com/NervJS/taro/commit/0ba6069))
+* **RN:** 去掉多余的log ([883be60](https://github.com/NervJS/taro/commit/883be60))
+* **weapp:** 对于非内部跳转的页面保持原有的处理的方式 ([48326f5](https://github.com/NervJS/taro/commit/48326f5))
 
 
 
@@ -11,6 +32,11 @@
 
 * **taro-components:** 修复 Swiper onChange 事件 && Input type 值优化 ([077f634](https://github.com/NervJS/taro/commit/077f634))
 * **transformer:** 在 JSX 中使用注释会导致 Windows 多出一个空行 ([1051b45](https://github.com/NervJS/taro/commit/1051b45))
+
+
+### Features
+
+* **weapp:** 生命周期与小程序靠齐,页面初始化时机提前至attached ([e9e089b](https://github.com/NervJS/taro/commit/e9e089b))
 
 
 
@@ -1160,11 +1186,14 @@
 * **eslint:** no-stateless 在 Array#map 方法中不报错, close [#131](https://github.com/NervJS/taro/issues/131) ([6f3c2f1](https://github.com/NervJS/taro/commit/6f3c2f1))
 * **taro:** api typings ([06e7535](https://github.com/NervJS/taro/commit/06e7535))
 * **transformer:** eslint 事件规则没有忽略 `key`, close [#129](https://github.com/NervJS/taro/issues/129) ([9b660df](https://github.com/NervJS/taro/commit/9b660df))
+* **transformer:** 拿掉去除所有未引用的 babel 插件 ([671fe33](https://github.com/NervJS/taro/commit/671fe33))
 * **transformer-wx:** 移除[@babel](https://github.com/babel)/plugin-transform-typescript ([31d5bac](https://github.com/NervJS/taro/commit/31d5bac))
 
 
 ### Features
 
+* **cli:** add prepublish.js ([7a5e21a](https://github.com/NervJS/taro/commit/7a5e21a))
+* **cli:** add yarn lockfile for template ([6a51b0e](https://github.com/NervJS/taro/commit/6a51b0e))
 * **cli:** 增加 ts/tsx 文件编译支持 ([e13bbf2](https://github.com/NervJS/taro/commit/e13bbf2))
 * **cli:** 增加更多 css 预处理器选择 ([3596172](https://github.com/NervJS/taro/commit/3596172))
 * **cli:** 模板增加 typescript 配置 ([97a3db2](https://github.com/NervJS/taro/commit/97a3db2))
@@ -1179,17 +1208,6 @@
 
 <a name="0.0.51"></a>
 ## [0.0.51](https://github.com/NervJS/taro/compare/v0.0.50...v0.0.51) (2018-06-15)
-
-
-### Bug Fixes
-
-* **transformer:** 拿掉去除所有未引用的 babel 插件 ([671fe33](https://github.com/NervJS/taro/commit/671fe33))
-
-
-### Features
-
-* **cli:** add prepublish.js ([7a5e21a](https://github.com/NervJS/taro/commit/7a5e21a))
-* **cli:** add yarn lockfile for template ([6a51b0e](https://github.com/NervJS/taro/commit/6a51b0e))
 
 
 
