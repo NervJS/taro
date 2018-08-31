@@ -1,6 +1,6 @@
 ## designWidth
 
-`designWidth` 用来设置设计稿尺寸，关于这一部分的配置说明请见[设计稿及尺寸单位](../size.md)这一章节
+`designWidth` 用来设置设计稿尺寸，关于这一部分的配置说明请见[设计稿及尺寸单位](./size.md)这一章节
 
 ## sourceRoot
 
