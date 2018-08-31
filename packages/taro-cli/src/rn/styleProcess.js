@@ -10,8 +10,8 @@ const npmProcess = require('../util/npm')
 
 /**
  * @description 读取 css/scss/less 文件，预处理后，返回 css string
- * @param filePath string
- * @param pluginsConfig object
+ * @param {string}filePath
+ * @param {object} pluginsConfig
  * @returns {*}
  */
 function loadStyle ({filePath, pluginsConfig}) {
@@ -41,9 +41,9 @@ function loadStyle ({filePath, pluginsConfig}) {
 
 /**
  * @description 传入 css string ，返回 postCSS 处理后的 css string
- * @param css string
- * @param filePath string
- * @param projectConfig object
+ * @param {string} css
+ * @param {string} filePath
+ * @param {object} projectConfig
  * @returns {Function | any}
  */
 function postCSS ({css, filePath, projectConfig}) {

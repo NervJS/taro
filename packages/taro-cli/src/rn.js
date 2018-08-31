@@ -27,7 +27,6 @@ const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
-const appStylePath = path.resolve(sourceDir, 'app.scss')
 const tempDir = '.rn_temp'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
@@ -492,10 +491,6 @@ function parseJSCode (code, filePath) {
 }
 
 function compileDepStyles (filePath, styleFiles) {
-  // 合并 app.scss ，支持全局样式
-  if (filePath !== entryFileName) {
-    styleFiles.push(appStylePath)
-  }
   if (isBuildingStyles[filePath]) {
     return Promise.resolve({})
   }
@@ -503,9 +498,7 @@ function compileDepStyles (filePath, styleFiles) {
   return Promise.all(styleFiles.map(async p => { // to css string
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
-    if (filePath !== appStylePath) {
-      Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
-    }
+    Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
     return StyleProcess.loadStyle({filePath, pluginsConfig})
   })).then(resList => { // postcss
     return Promise.all(
@@ -514,12 +507,15 @@ function compileDepStyles (filePath, styleFiles) {
       }))
   }).then(resList => {
     let styleObjectEntire = {}
-    resList.forEach(res => {
-      let styleObject = StyleProcess.getStyleObject(res.css)
+    resList.forEach(item => {
+      let styleObject = StyleProcess.getStyleObject(item.css)
       // validate styleObject
-      StyleProcess.validateStyle({styleObject, filePath: res.filePath})
+      StyleProcess.validateStyle({styleObject, filePath: item.filePath})
 
       Object.assign(styleObjectEntire, styleObject)
+      if (filePath !== entryFilePath) {
+        Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [entryFilePath, 'styleObjectEntire'], {}))
+      }
       styleDenpendencyTree[filePath] = {
         styleFiles,
         styleObjectEntire
