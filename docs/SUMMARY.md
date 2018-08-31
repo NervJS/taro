@@ -23,6 +23,7 @@
   * [消息机制](events.md)
   * [内置环境变量](envs.md)
   * [微信小程序原生作用域获取](wx-relations.md)
+  * [组件的外部样式和全局样式](component-style.md)
   * [React Native](react-native.md)
   * [最佳实践](best-practice.md)
 * [组件库](components.md)

@@ -20,8 +20,6 @@
 
 微信小程序的[自定义组件样式](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html)默认是不能受外部样式影响的，例如在页面中引用了一个自定义组件，在页面样式中直接写自定义组件元素的样式是无法生效的。这一点，在 Taro 中也是一样，而这也是与大家认知的传统 web 开发不太一样。
 
-不过，自定义组件的样式文件中是可以通过 `@import` 来引入外部样式文件的，Taro 利用这一特性，在编译时默认引入了 `app.wxss` 这一全局样式文件，所以一些公共的组件样式是可以直接写在入口文件的全局样式中，在 Taro 中可以生效。
-
 ### 给组件设置 `defaultProps`
 
 在微信小程序端的自定义组件中，只有在 `properties` 中指定的属性，才能从父组件传入并接收
