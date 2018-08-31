@@ -513,7 +513,7 @@ function compileDepStyles (filePath, styleFiles) {
       StyleProcess.validateStyle({styleObject, filePath: item.filePath})
 
       Object.assign(styleObjectEntire, styleObject)
-      if (filePath !== entryFilePath) {
+      if (filePath !== entryFilePath) { // 非入口文件，合并全局样式
         Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [entryFilePath, 'styleObjectEntire'], {}))
       }
       styleDenpendencyTree[filePath] = {
