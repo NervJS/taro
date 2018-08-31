@@ -132,8 +132,7 @@ $ npm install -g @tarojs/cli
 $ yarn global add @tarojs/cli
 ```
 
-使用命令创建模板项目
-
+使用命令创建模板项目（node版本需要 >= 8）
 ```bash
 $ taro init myApp
 ```
