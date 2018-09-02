@@ -285,7 +285,31 @@ declare namespace Taro {
        *
        * @default false
        */
-      jsonp?: boolean
+      jsonp?: boolean,          
+      /**
+       * 设置H5端 jsonp 请求 url 是否需要被缓存
+       *
+       * @default false
+       */
+      jsonpCache?: boolean,
+      /**
+       * 设置H5端是否允许跨域请求。有效值：no-cors, cors, same-origin
+       *
+       * @default same-origin
+       */
+      mode?: 'no-cors' | 'cors' | 'same-origin',
+      /**
+       * 设置H5端是否携带 Cookie。有效值：include, same-origin, omit
+       *
+       * @default omit
+       */
+      credentials?: 'include' | 'same-origin' | 'omit',
+      /**
+       * 设置H5端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
+       *
+       * @default default
+       */
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
     }
   }
   /**
