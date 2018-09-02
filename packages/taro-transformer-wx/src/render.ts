@@ -563,10 +563,10 @@ export class RenderParser {
       const jsxElementPath = path.parentPath.parentPath
       if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
         const componentName = (jsxElementPath.node.openingElement as any).name.name
-        if (THIRD_PARTY_COMPONENTS.has(componentName as string)) {
-          return
-        }
         if (name.name === 'key') {
+          if (THIRD_PARTY_COMPONENTS.has(componentName as string)) {
+            return
+          }
           const jsx = path.findParent(p => p.isJSXElement())
           const loopBlock = jsx.findParent(p => {
             if (p.isJSXElement()) {
