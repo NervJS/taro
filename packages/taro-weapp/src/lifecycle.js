@@ -53,7 +53,8 @@ function doUpdate (component) {
   const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
-    data = component._createData(state, props)
+    // 返回null或undefined则保持不变
+    data = component._createData(state, props) || data
   }
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 

@@ -289,7 +289,7 @@ function createComponent (ComponentClass, isPage) {
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
-    componentInstance.state = componentInstance._createData()
+    componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
     const errLine = err.stack.toString().split(/\n/)[2] || ''
     console.warn(`[Taro warn]
