@@ -291,10 +291,8 @@ function createComponent (ComponentClass, isPage) {
   try {
     componentInstance.state = componentInstance._createData()
   } catch (err) {
-    const errLine = err.stack.toString().split(/\n/)[2] || ''
-    console.warn(`[Taro warn]
-      ${err.message}
-      ${errLine}: 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    console.warn(err)
   }
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
 
