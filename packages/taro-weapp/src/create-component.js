@@ -82,6 +82,7 @@ function processEvent (eventHandlerName, obj) {
     let realArgs = []
     let detailArgs = []
     let datasetArgs = []
+    let isScopeBinded = false
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
@@ -107,11 +108,13 @@ function processEvent (eventHandlerName, obj) {
       if ('so' in bindArgs) {
         if (bindArgs['so'] !== 'this') {
           callScope = bindArgs['so']
+        } else {
+          isScopeBinded = true
         }
         delete bindArgs['so']
       }
       if (detailArgs.length > 0) {
-        detailArgs[0] && (callScope = detailArgs[0])
+        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
         detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
@@ -126,11 +129,13 @@ function processEvent (eventHandlerName, obj) {
       if ('so' in bindArgs) {
         if (bindArgs['so'] !== 'this') {
           _scope = bindArgs['so']
+        } else {
+          isScopeBinded = false
         }
         delete bindArgs['so']
       }
       if (detailArgs.length > 0) {
-        detailArgs[0] && (callScope = detailArgs[0])
+        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
         detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
