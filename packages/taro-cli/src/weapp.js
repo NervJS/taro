@@ -704,7 +704,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig)())
             break
           case PARSE_AST_TYPE.PAGE:
-            node.body.push(template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
             break
           case PARSE_AST_TYPE.COMPONENT:
             node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
@@ -803,6 +803,53 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
     }
   })
   return componentRealPath
+}
+
+function isFileToBeTaroComponent (code, sourcePath, outputPath) {
+  const transformResult = wxTransformer({
+    code,
+    sourcePath: sourcePath,
+    outputPath: outputPath,
+    isNormal: true,
+    isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
+  })
+  const { ast } = transformResult
+  let isTaroComponent = false
+
+  traverse(ast, {
+    ClassDeclaration (astPath) {
+      astPath.traverse({
+        ClassMethod (astPath) {
+          if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            astPath.traverse({
+              JSXElement () {
+                isTaroComponent = true
+              }
+            })
+          }
+        }
+      })
+    },
+
+    ClassExpression (astPath) {
+      astPath.traverse({
+        ClassMethod (astPath) {
+          if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            astPath.traverse({
+              JSXElement () {
+                isTaroComponent = true
+              }
+            })
+          }
+        }
+      })
+    }
+  })
+
+  return {
+    isTaroComponent,
+    transformResult
+  }
 }
 
 function convertObjectToAstExpression (obj) {
@@ -1186,6 +1233,7 @@ async function buildSinglePage (page) {
     fileDep['media'] = res.mediaFiles
     dependencyTree[pageJs] = fileDep
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '页面编译', `页面${pagePath}编译失败！`)
     console.log(err)
   }
 }
@@ -1313,7 +1361,7 @@ function buildUsingComponents (components, isComponent) {
   for (const component of components) {
     usingComponents[component.name] = component.path
   }
-  return Object.assign({}, isComponent ? { component: true } : {}, components.length ? {
+  return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
   } : {})
 }
@@ -1327,6 +1375,14 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     type: componentObj.type
   }
   const component = componentObj.path
+  if (!component) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '组件错误', `组件${_.upperFirst(_.camelCase(componentObj.name))}路径错误，请检查！（可能原因是导出的组件名不正确）`)
+    return {
+      js: null,
+      wxss: null,
+      wxml: null
+    }
+  }
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
   let isComponentFromNodeModules = false
@@ -1350,20 +1406,9 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     hasBeenBuiltComponents.push(component)
   }
   try {
-    let isTaroComponent = true
-    if (componentContent.indexOf(taroJsFramework) < 0 &&
-      componentContent.indexOf('render') < 0) {
-      isTaroComponent = false
-    }
-    const transformResult = wxTransformer({
-      code: componentContent,
-      sourcePath: component,
-      outputPath: outputComponentJSPath,
-      isRoot: false,
-      isTyped: Util.REG_TYPESCRIPT.test(component),
-      isNormal: !isTaroComponent
-    })
-    if (!isTaroComponent) {
+    let isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
+    if (!isTaroComponentRes.isTaroComponent) {
+      const transformResult = isTaroComponentRes.transformResult
       const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
       const realComponentObj = {
         path: componentRealPath,
@@ -1387,6 +1432,14 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       }
       return await buildSingleComponent(realComponentObj, buildConfig)
     }
+    const transformResult = wxTransformer({
+      code: componentContent,
+      sourcePath: component,
+      outputPath: outputComponentJSPath,
+      isRoot: false,
+      isTyped: Util.REG_TYPESCRIPT.test(component),
+      isNormal: false
+    })
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
@@ -1494,6 +1547,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     }
     return componentsBuildResult[component]
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '组件编译', `组件${componentShowPath}编译失败！`)
     console.log(err)
   }
 }

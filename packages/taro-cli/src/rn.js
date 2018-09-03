@@ -13,10 +13,7 @@ const t = require('babel-types')
 const generate = require('babel-generator').default
 const template = require('babel-template')
 const _ = require('lodash')
-const transformCSS = require('css-to-react-native-transform').default
 const shelljs = require('shelljs')
-const postcss = require('postcss')
-const pxtransform = require('postcss-pxtransform')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
@@ -24,13 +21,13 @@ const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
 const AstConvert = require('./util/astConvert')
 const {getPkgVersion} = require('./util')
-const {StyleSheetValidation} = require('./rn/StyleSheet/index')
+const StyleProcess = require('./rn/styleProcess')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
-const tempDir = '.temp'
+const tempDir = '.rn_temp'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
@@ -494,10 +491,6 @@ function parseJSCode (code, filePath) {
 }
 
 function compileDepStyles (filePath, styleFiles) {
-  // 合并 app.scss ，支持全局样式
-  if (filePath !== entryFileName) {
-    styleFiles.push(path.resolve(sourceDir, 'app.scss'))
-  }
   if (isBuildingStyles[filePath]) {
     return Promise.resolve({})
   }
@@ -506,73 +499,35 @@ function compileDepStyles (filePath, styleFiles) {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
     Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
-    const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
-    if (pluginName) {
-      return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
-    }
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, (err, content) => {
-        if (err) {
-          return reject(err)
-        }
-        resolve({
-          css: content,
-          filePath
-        })
-      })
-    })
-  })).then(resList => {
-    return resList.map(item => ({
-      css: item.css.toString(),
-      filePath: item.filePath || item.stats.entry.toString()
-    }))
-  }).then(resList => { // postcss
+    return StyleProcess.loadStyle({filePath, pluginsConfig})
+  })).then(resList => { // postcss
     return Promise.all(
-      resList.map(async item => {
-        const postcssResult = await postcss(pxtransform({
-          platform: 'rn',
-          designWidth: projectConfig.designWidth || 750
-        }))
-          .process(item.css, {from: item.filePath})
-        return {
-          css: postcssResult.css,
-          filePath: item.filePath
-        }
+      resList.map(item => {
+        return StyleProcess.postCSS({...item, projectConfig})
       }))
-  }).then(async resList => {
-    try {
-      // 处理css文件
-      let styleObjectEntire = {}
-      resList.forEach(res => {
-        if (res.css) {
-          let styleObject = transformCSS(res.css.toString())
-          // validate styleObject
-          for (let name in styleObject) {
-            try {
-              StyleSheetValidation.validateStyle(name, styleObject)
-            } catch (e) {
-              Util.printLog(Util.pocessTypeEnum.WARNING, '样式不支持', res.filePath)
-              throw e
-            }
-          }
-          Object.assign(styleObjectEntire, styleObject)
-        }
-      })
-      let tempFilePath = filePath.replace(sourceDir, tempPath)
-      const basename = path.basename(tempFilePath, path.extname(tempFilePath))
-      tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
+  }).then(resList => {
+    let styleObjectEntire = {}
+    resList.forEach(item => {
+      let styleObject = StyleProcess.getStyleObject(item.css)
+      // validate styleObject
+      StyleProcess.validateStyle({styleObject, filePath: item.filePath})
 
-      const styleObjectStr = JSON.stringify(styleObjectEntire, null, 2)
+      Object.assign(styleObjectEntire, styleObject)
+      if (filePath !== entryFilePath) { // 非入口文件，合并全局样式
+        Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [entryFilePath, 'styleObjectEntire'], {}))
+      }
       styleDenpendencyTree[filePath] = {
         styleFiles,
         styleObjectEntire
       }
-      const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${styleObjectStr})`
-      fs.ensureDirSync(path.dirname(tempFilePath))
-      fs.writeFileSync(tempFilePath, fileContent)
-    } catch (err) {
-      console.log(chalk.red(err))
-    }
+    })
+    return JSON.stringify(styleObjectEntire, null, 2)
+  }).then(css => {
+    let tempFilePath = filePath.replace(sourceDir, tempPath)
+    const basename = path.basename(tempFilePath, path.extname(tempFilePath))
+    tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
+
+    StyleProcess.writeStyleFile({css, tempFilePath})
   }).catch((e) => {
     throw new Error(e)
   })
@@ -614,7 +569,7 @@ function buildTemp () {
             }
           }, null, 2))
         })
-        // generator .temp/package.json TODO JSON.parse 这种写法可能会有隐患
+        // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
         const pkgTempObj = JSON.parse(
           ejs.render(
             fs.readFileSync(pkgPath, 'utf-8'), {

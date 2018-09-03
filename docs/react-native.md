@@ -259,15 +259,6 @@ Taro RN 端应用构建与 exp 保持一致，具体可以查看 ：[Building St
 
 Taro RN 端应用发布与 exp 保持一致，具体可以查看 ：[Publishing on Expo](https://blog.expo.io/publishing-on-exponent-790493660d24)
 
-## 常见问题
-### 样式和 CSS 一致吗？
-React Native 的样式基于开源的跨平台布局引擎 [Yaga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式。
-
-更多资料，可以查看 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
-
-
-### 是否支持引入 React Native 的第三方库？
-不支持需要自定义原生组件的第三方库。
 
 ## 常见错误
 

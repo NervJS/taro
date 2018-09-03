@@ -171,7 +171,27 @@ function analyzeStyleFilesImport (styleFiles) {
     if (!fs.existsSync(item)) {
       return
     }
-    const content = fs.readFileSync(item).toString()
+    let content = fs.readFileSync(item).toString()
+    content = content.replace(/(?:@import\s+)?\burl\s*\(\s*("(?:[^\\"\r\n\f]|\\[\s\S])*"|'(?:[^\\'\n\r\f]|\\[\s\S])*'|[^)}\s]+)\s*\)(\s*;?)/g, (m, $1) => {
+      if ($1) {
+        let filePath = $1.replace(/\'?\"?/g, '')
+        if (filePath.indexOf('.') === 0) {
+          filePath = path.resolve(path.dirname(item), filePath)
+          if (fs.existsSync(filePath)) {
+            const dirname = path.dirname(filePath)
+            const distDirname = dirname.replace(sourceDir, outputDir)
+            const relativePath = path.relative(appPath, filePath)
+            printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
+            fs.ensureDirSync(distDirname)
+            fs.copyFileSync(filePath, path.format({
+              dir: distDirname,
+              base: path.basename(filePath)
+            }))
+          }
+        }
+      }
+      return m
+    })
     let imports = cssImports(content)
     if (imports.length > 0) {
       imports = imports.map(importItem => {

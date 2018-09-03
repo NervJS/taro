@@ -38,7 +38,8 @@ const UPDATE_PACKAGE_LIST = [
   'eslint-config-taro',
   'eslint-plugin-taro',
   'taro-transformer-wx',
-  'postcss-pxtransform'
+  'postcss-pxtransform',
+  'babel-plugin-transform-jsx-to-stylesheet'
 ]
 
 // 这里没有使用 command 的形式：taro-update-self

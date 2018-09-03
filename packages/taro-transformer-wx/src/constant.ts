@@ -44,6 +44,7 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Label',
   'Picker',
   'PickerView',
+  'PickerViewColumn',
   'Radio',
   'RadioGroup',
   'CheckboxGroup',
