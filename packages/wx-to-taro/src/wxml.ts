@@ -1,9 +1,9 @@
 import { parse } from 'himalaya'
 import * as t from 'babel-types'
-import { camelCase } from 'lodash'
-import traverse from 'babel-traverse'
+import { camelCase, cloneDeep } from 'lodash'
+import traverse, { NodePath } from 'babel-traverse'
 import * as template from 'babel-template'
-// const template = require('@babel/template')
+import generate from 'babel-generator'
 
 const buildTemplate = (str: string) => template(str)().expression as t.Expression
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -38,37 +38,135 @@ interface Text {
 
 type AllKindNode = Element | Comment | Text
 type Node = Element | Text
+interface Condition {
+  condition: string,
+  path: NodePath<t.JSXElement>,
+  tester: t.JSXExpressionContainer
+}
+
+type Tester = t.StringLiteral | t.JSXElement | t.JSXExpressionContainer | null
+
+const WX_IF = 'wx:if'
+const WX_ELSE = 'wx:else'
+const WX_ELSE_IF = 'wx:elif'
 
 export function parseWXML (wxml: string) {
-  const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(node => node.type !== NodeType.Comment) as Node[]
-  const ast = nodes.map(parseNode).find(node => t.isJSXElement(node))
-
-  traverse(t.file(t.program([t.expressionStatement(ast as t.Expression)], [])), {
+  const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(removEmptyText).filter(node => node.type !== NodeType.Comment) as Node[]
+  const ast = t.file(t.program([t.expressionStatement(nodes.map(parseNode).find(node => t.isJSXElement(node)) as t.Expression)], []))
+  traverse(ast, {
     JSXAttribute (path) {
-      // path.node.name = t.jSXIdentifier('fuck')
+      const name = path.node.name as t.JSXIdentifier
+      const jsx = path.findParent(p => p.isJSXElement()) as NodePath<t.JSXElement>
+      const tester = cloneDeep(path.get('value').node)
+      const conditions: Condition[] = []
+      if (name.name === WX_IF) {
+        const siblings = jsx.getAllNextSiblings()
+        conditions.push({
+          condition: WX_IF,
+          path: jsx,
+          tester: tester as t.JSXExpressionContainer
+        })
+        path.remove()
+        for (const [ index, sibling ] of siblings.entries()) {
+          const next = siblings[index + 1]
+          const currMatches = findWXIfProps(sibling)
+          const nextMatches = findWXIfProps(next)
+          if (currMatches === null) {
+            break
+          }
+          conditions.push({
+            condition: currMatches.reg.input as string,
+            path: sibling as any,
+            tester: currMatches.tester as t.JSXExpressionContainer
+          })
+          if (nextMatches === null) {
+            break
+          }
+        }
+      }
+      handleConditions(conditions)
     }
   })
 
   return ast
 }
 
-function parseNode (node: Node, index: number, nodes: Node[]) {
+function handleConditions (conditions: Condition[]) {
+  if (conditions.length === 1) {
+    const ct = conditions[0]
+    ct.path.replaceWith(
+      t.jSXExpressionContainer(
+        t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+      )
+    )
+  }
+  if (conditions.length > 1) {
+    const lastLength = conditions.length - 1
+    const lastCon = conditions[lastLength]
+    let lastAlternate: t.Expression = cloneDeep(lastCon.path.node)
+    if (lastCon.condition === WX_ELSE_IF) {
+      lastAlternate = t.logicalExpression('&&', lastCon.tester.expression, lastAlternate)
+    }
+    const node = conditions.slice(0, lastLength).reduceRight((acc: t.Expression, condition) => {
+      return t.conditionalExpression(condition.tester.expression, cloneDeep(condition.path.node), acc)
+    }, lastAlternate)
+    conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
+    conditions.slice(1).forEach(c => c.path.remove())
+  }
+}
+
+function findWXIfProps (jsx: NodePath<t.Node>): { reg: RegExpMatchArray, tester: Tester } | null {
+  let matches: { reg: RegExpMatchArray, tester: Tester } | null = null
+  jsx && jsx.isJSXElement() && jsx
+    .get('openingElement')
+    .get('attributes')
+    .some(path => {
+      const attr = path.node
+      if (t.isJSXIdentifier(attr.name)) {
+        const name = attr.name.name
+        if (name === WX_IF) {
+          return true
+        }
+        const match = name.match(/wx:else|wx:elif/)
+        if (match) {
+          path.remove()
+          matches = {
+            reg: match,
+            tester: attr.value
+          }
+          return true
+        }
+      }
+      return false
+    })
+
+  return matches
+}
+
+function parseNode (node: Node) {
   if (node.type === NodeType.Text) {
     return parseText(node)
   }
-  return parseElement(node, nodes[index + 1])
+  return parseElement(node)
 }
 
-function parseElement (element: Element, nextElement?: Node): t.JSXElement {
+function parseElement (element: Element): t.JSXElement {
   const tagName = t.jSXIdentifier(
     allCamelCase(element.tagName)
   )
   return t.jSXElement(
     t.jSXOpeningElement(tagName, element.attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    element.children.map(parseNode),
+    element.children.filter(removEmptyText).map(parseNode),
     false
   )
+}
+
+function removEmptyText (node: Node) {
+  if (node.type === NodeType.Text && node.content.trim().length === 0) {
+    return false
+  }
+  return true
 }
 
 function parseText (node: Text) {
