@@ -69,6 +69,7 @@ function buildElement (
 export function parseWXML (wxml: string) {
   const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(removEmptyText).filter(node => node.type !== NodeType.Comment) as Node[]
   const ast = t.file(t.program([t.expressionStatement(parseNode(buildElement('block', nodes)) as t.Expression)], []))
+
   traverse(ast, {
     JSXAttribute (path) {
       const name = path.node.name as t.JSXIdentifier
@@ -79,7 +80,18 @@ export function parseWXML (wxml: string) {
     }
   })
 
-  return ast
+  return hydrate(ast)
+}
+
+function hydrate (file: t.File) {
+  const ast = file.program.body[0]
+  if (ast && t.isExpressionStatement(ast) && t.isJSXElement(ast.expression)) {
+    const jsx = ast.expression
+    if (jsx.children.length === 1) {
+      const children = jsx.children[0]
+      return t.isJSXExpressionContainer(children) ? children.expression : children
+    }
+  }
 }
 
 function transformLoop (
