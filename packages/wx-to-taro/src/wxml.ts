@@ -2,10 +2,9 @@ import { parse } from 'himalaya'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
-import * as template from 'babel-template'
+import { buildTemplate } from './utils'
 import generate from 'babel-generator'
 
-const buildTemplate = (str: string) => template(str)().expression as t.Expression
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
 enum NodeType {
