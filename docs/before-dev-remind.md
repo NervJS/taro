@@ -35,7 +35,7 @@ Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](htt
 
 /*postcss-pxtransform rn eject disable*/
 ```
-#### box-sahdow 能实现吗？
+#### box-shadow 能实现吗？
 很遗憾，React Native 这方面支持得并不好，建议你不要报太大希望。
 
 ### 其他注意事项
