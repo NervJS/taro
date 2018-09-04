@@ -44,12 +44,13 @@ interface Condition {
   tester: t.JSXExpressionContainer
 }
 
-type Tester = t.StringLiteral | t.JSXElement | t.JSXExpressionContainer | null
+type AttrValue = t.StringLiteral | t.JSXElement | t.JSXExpressionContainer | null
 
 const WX_IF = 'wx:if'
 const WX_ELSE_IF = 'wx:elif'
 const WX_FOR = 'wx:for'
-const WX_FOR_ITEM = ''
+const WX_FOR_ITEM = 'wx:for-item'
+const WX_FOR_INDEX = 'wx:for-index'
 const WX_KEY = 'wx:key'
 
 function buildElement (
@@ -74,20 +75,69 @@ export function parseWXML (wxml: string) {
       const jsx = path.findParent(p => p.isJSXElement()) as NodePath<t.JSXElement>
       const valueCopy = cloneDeep(path.get('value').node)
       transformIf(name.name, path, jsx, valueCopy)
-      if (name.name === 'wx:for') {
-
-      }
+      transformLoop(name.name, path, jsx, valueCopy)
     }
   })
 
   return ast
 }
 
+function transformLoop (
+  name: string,
+  attr: NodePath<t.JSXAttribute>,
+  jsx: NodePath<t.JSXElement>,
+  value: AttrValue
+) {
+  if (name !== WX_FOR) {
+    return
+  }
+  if (!value || !t.isJSXExpressionContainer(value)) {
+    throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
+  }
+  attr.remove()
+  let item = t.stringLiteral('item')
+  let index = t.stringLiteral('index')
+  jsx.get('openingElement').get('attributes').forEach(p => {
+    const node = p.node
+    if (node.name.name === WX_FOR_ITEM) {
+      if (!node.value || !t.isStringLiteral(node.value)) {
+        throw new Error(WX_FOR_ITEM + ' 的值必须是一个字符串')
+      }
+      item = node.value
+      p.remove()
+    }
+    if (node.name.name === WX_FOR_INDEX) {
+      if (!node.value || !t.isStringLiteral(node.value)) {
+        throw new Error(WX_FOR_INDEX + ' 的值必须是一个字符串')
+      }
+      index = node.value
+      p.remove()
+    }
+    if (node.name.name === WX_KEY) {
+      p.get('name').replaceWith(t.jSXIdentifier('key'))
+    }
+  })
+
+  jsx.replaceWith(
+    t.jSXExpressionContainer(
+      t.callExpression(
+        value.expression,
+        [t.arrowFunctionExpression(
+          [t.identifier(item.value), t.identifier(index.value)],
+          t.blockStatement([
+            t.returnStatement(jsx.node)
+          ])
+        )]
+      )
+    )
+  )
+}
+
 function transformIf (
   name: string,
   attr: NodePath<t.JSXAttribute>,
   jsx: NodePath<t.JSXElement>,
-  value: Tester
+  value: AttrValue
 ) {
   if (name !== WX_IF) {
     return
@@ -143,8 +193,8 @@ function handleConditions (conditions: Condition[]) {
   }
 }
 
-function findWXIfProps (jsx: NodePath<t.Node>): { reg: RegExpMatchArray, tester: Tester } | null {
-  let matches: { reg: RegExpMatchArray, tester: Tester } | null = null
+function findWXIfProps (jsx: NodePath<t.Node>): { reg: RegExpMatchArray, tester: AttrValue } | null {
+  let matches: { reg: RegExpMatchArray, tester: AttrValue } | null = null
   jsx && jsx.isJSXElement() && jsx
     .get('openingElement')
     .get('attributes')
@@ -270,9 +320,6 @@ function handleAttrKey (key: string) {
       break
     case 'class':
       jsxKey = 'className'
-      break
-    case 'wx:key':
-      jsxKey = 'key'
       break
     default:
       jsxKey = jsxKey.replace(/^(bind|catch)/, 'on')
