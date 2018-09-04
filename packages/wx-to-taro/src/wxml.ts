@@ -47,48 +47,76 @@ interface Condition {
 type Tester = t.StringLiteral | t.JSXElement | t.JSXExpressionContainer | null
 
 const WX_IF = 'wx:if'
-const WX_ELSE = 'wx:else'
 const WX_ELSE_IF = 'wx:elif'
+const WX_FOR = 'wx:for'
+const WX_FOR_ITEM = ''
+const WX_KEY = 'wx:key'
+
+function buildElement (
+  name: string,
+  children: Node[] = [] ,
+  attributes: Attribute[] = []
+): Element {
+  return {
+    tagName: name,
+    type: NodeType.Element,
+    attributes,
+    children
+  }
+}
 
 export function parseWXML (wxml: string) {
   const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(removEmptyText).filter(node => node.type !== NodeType.Comment) as Node[]
-  const ast = t.file(t.program([t.expressionStatement(nodes.map(parseNode).find(node => t.isJSXElement(node)) as t.Expression)], []))
+  const ast = t.file(t.program([t.expressionStatement(parseNode(buildElement('block', nodes)) as t.Expression)], []))
   traverse(ast, {
     JSXAttribute (path) {
       const name = path.node.name as t.JSXIdentifier
       const jsx = path.findParent(p => p.isJSXElement()) as NodePath<t.JSXElement>
-      const tester = cloneDeep(path.get('value').node)
-      const conditions: Condition[] = []
-      if (name.name === WX_IF) {
-        const siblings = jsx.getAllNextSiblings()
-        conditions.push({
-          condition: WX_IF,
-          path: jsx,
-          tester: tester as t.JSXExpressionContainer
-        })
-        path.remove()
-        for (const [ index, sibling ] of siblings.entries()) {
-          const next = siblings[index + 1]
-          const currMatches = findWXIfProps(sibling)
-          const nextMatches = findWXIfProps(next)
-          if (currMatches === null) {
-            break
-          }
-          conditions.push({
-            condition: currMatches.reg.input as string,
-            path: sibling as any,
-            tester: currMatches.tester as t.JSXExpressionContainer
-          })
-          if (nextMatches === null) {
-            break
-          }
-        }
+      const valueCopy = cloneDeep(path.get('value').node)
+      transformIf(name.name, path, jsx, valueCopy)
+      if (name.name === 'wx:for') {
+
       }
-      handleConditions(conditions)
     }
   })
 
   return ast
+}
+
+function transformIf (
+  name: string,
+  attr: NodePath<t.JSXAttribute>,
+  jsx: NodePath<t.JSXElement>,
+  value: Tester
+) {
+  if (name !== WX_IF) {
+    return
+  }
+  const conditions: Condition[] = []
+  const siblings = jsx.getAllNextSiblings()
+  conditions.push({
+    condition: WX_IF,
+    path: jsx,
+    tester: value as t.JSXExpressionContainer
+  })
+  attr.remove()
+  for (const [ index, sibling ] of siblings.entries()) {
+    const next = siblings[index + 1]
+    const currMatches = findWXIfProps(sibling)
+    const nextMatches = findWXIfProps(next)
+    if (currMatches === null) {
+      break
+    }
+    conditions.push({
+      condition: currMatches.reg.input as string,
+      path: sibling as any,
+      tester: currMatches.tester as t.JSXExpressionContainer
+    })
+    if (nextMatches === null) {
+      break
+    }
+  }
+  handleConditions(conditions)
 }
 
 function handleConditions (conditions: Condition[]) {
@@ -242,6 +270,9 @@ function handleAttrKey (key: string) {
       break
     case 'class':
       jsxKey = 'className'
+      break
+    case 'wx:key':
+      jsxKey = 'key'
       break
     default:
       jsxKey = jsxKey.replace(/^(bind|catch)/, 'on')
