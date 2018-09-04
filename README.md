@@ -29,6 +29,7 @@ Taro 已经投入到了生产环境使用，超过 3 万行代码的 TOPLIFE 小
   <img src="https://user-images.githubusercontent.com/7992920/43836676-b286c812-9b48-11e8-83fd-29ce92221498.png" width="125" title="小来打卡 Pro"/>
   <img src="https://user-images.githubusercontent.com/21174764/44625217-c0a27300-a936-11e8-9da9-04174f4699f1.jpg" width="125" title="小鱼的信"/>
   <img src="https://user-images.githubusercontent.com/3221928/43312867-1825ab16-91c1-11e8-8c04-513a746a2dc1.png" width="125" title="作业部落"/>
+  <img src="https://user-images.githubusercontent.com/12668546/44951956-e97db780-aea4-11e8-8266-a0606c161291.jpg" width="125" title="学区房app"/>
 
 <div/>
 
@@ -41,6 +42,7 @@ Taro 已经投入到了生产环境使用，超过 3 万行代码的 TOPLIFE 小
 * Taro 组件库示例 [taro-components-sample](https://github.com/NervJS/taro-components-sample)
 * Taro 实验性特性项目 [taro-todo](https://github.com/NervJS/taro-todo)
 * [仿知乎小程序](https://github.com/NervJS/taro-zhihu-sample)
+* [Taro整合Dva示例](https://github.com/zuoge85/taro-dva)
 * [V2ex小程序（TypeScript）](https://github.com/NervJS/taro-v2ex)
 
 ## Taro 特性
