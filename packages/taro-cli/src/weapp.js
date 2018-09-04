@@ -24,6 +24,7 @@ const browserList = require('./config/browser_list')
 const defaultUglifyConfig = require('./config/uglify')
 const defaultBabelConfig = require('./config/babel')
 const defaultTSConfig = require('./config/tsconfig.json')
+const astConvert = require('./util/ast_convert')
 
 const appPath = process.cwd()
 const configDir = path.join(appPath, Util.PROJECT_CONFIG)
@@ -492,11 +493,11 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     if (defaultSpecifier) {
                       let objArr = [t.nullLiteral()]
                       if (Array.isArray(obj)) {
-                        objArr = convertArrayToAstExpression(obj)
+                        objArr = t.arrayExpression(astConvert.array(obj))
                       } else {
-                        objArr = convertObjectToAstExpression(obj)
+                        objArr = t.objectExpression(astConvert.obj(obj))
                       }
-                      astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
+                      astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), objArr)]))
                     }
                   }
                 } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
@@ -624,9 +625,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                       const obj = JSON.parse(fs.readFileSync(vpath).toString())
                       let objArr = [t.nullLiteral()]
                       if (Array.isArray(obj)) {
-                        objArr = convertArrayToAstExpression(obj)
+                        objArr = t.arrayExpression(astConvert.array(obj))
                       } else {
-                        objArr = convertObjectToAstExpression(obj)
+                        objArr = t.objectExpression(astConvert.obj(obj))
                       }
                       astPath.replaceWith(t.objectExpression(objArr))
                     }
@@ -850,54 +851,6 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     isTaroComponent,
     transformResult
   }
-}
-
-function convertObjectToAstExpression (obj) {
-  const objArr = Object.keys(obj).map(key => {
-    const value = obj[key]
-    if (typeof value === 'string') {
-      return t.objectProperty(t.stringLiteral(key), t.stringLiteral(value))
-    }
-    if (typeof value === 'number') {
-      return t.objectProperty(t.stringLiteral(key), t.numericLiteral(value))
-    }
-    if (typeof value === 'boolean') {
-      return t.objectProperty(t.stringLiteral(key), t.booleanLiteral(value))
-    }
-    if (Array.isArray(value)) {
-      return t.objectProperty(t.stringLiteral(key), t.arrayExpression(convertArrayToAstExpression(value)))
-    }
-    if (value == null) {
-      return t.objectProperty(t.stringLiteral(key), t.nullLiteral())
-    }
-    if (typeof value === 'object') {
-      return t.objectProperty(t.stringLiteral(key), t.objectExpression(convertObjectToAstExpression(value)))
-    }
-  })
-  return objArr
-}
-
-function convertArrayToAstExpression (arr) {
-  return arr.map(value => {
-    if (typeof value === 'string') {
-      return t.stringLiteral(value)
-    }
-    if (typeof value === 'number') {
-      return t.numericLiteral(value)
-    }
-    if (typeof value === 'boolean') {
-      return t.booleanLiteral(value)
-    }
-    if (Array.isArray(value)) {
-      return convertArrayToAstExpression(value)
-    }
-    if (value == null) {
-      return t.nullLiteral()
-    }
-    if (typeof value === 'object') {
-      return t.objectExpression(convertObjectToAstExpression(value))
-    }
-  })
 }
 
 function isFileToBePage (filePath) {

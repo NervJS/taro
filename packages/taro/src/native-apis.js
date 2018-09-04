@@ -65,6 +65,7 @@ const noPromiseApis = {
   drawCanvas: true,
   hideKeyboard: true,
   stopPullDownRefresh: true,
+  createIntersectionObserver: true,
 
   // 拓展接口
   arrayBufferToBase64: true,

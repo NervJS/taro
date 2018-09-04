@@ -19,7 +19,7 @@ const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
-const AstConvert = require('./util/astConvert')
+const AstConvert = require('./util/ast_convert')
 const {getPkgVersion} = require('./util')
 const StyleProcess = require('./rn/styleProcess')
 
@@ -437,7 +437,7 @@ function parseJSCode (code, filePath) {
             .join(',')
           node.body.push(template(
             `const RootStack = ${routerImportDefaultName}.initRouter(
-            [${routerPages}], 
+            [${routerPages}],
             ${taroImportDefaultName},
             App.config
             )`,

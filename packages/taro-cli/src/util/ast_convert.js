@@ -13,7 +13,7 @@ function convertObjectToAstExpression (obj) {
       return t.objectProperty(t.stringLiteral(key), t.booleanLiteral(value))
     }
     if (Array.isArray(value)) {
-      return t.objectProperty(t.stringLiteral(key), convertArrayToAstExpression(value))
+      return t.objectProperty(t.stringLiteral(key), t.arrayExpression(convertArrayToAstExpression(value)))
     }
     if (value == null) {
       return t.objectProperty(t.stringLiteral(key), t.nullLiteral())
@@ -43,7 +43,7 @@ function convertArrayToAstExpression (arr) {
       return t.nullLiteral()
     }
     if (typeof value === 'object') {
-      return convertObjectToAstExpression(value)
+      return t.objectExpression(convertObjectToAstExpression(value))
     }
   })
 }
