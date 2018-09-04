@@ -3,7 +3,7 @@
 ## 简介
 Taro RN 端的开发基于开源项目 [Expo](https://expo.io/)，类似于 [create-react-native-app](https://github.com/react-community/create-react-native-app)。
 
-### Expo
+### Expo 简介
 > Expo is a set of tools, libraries and services which let you build native iOS and Android apps by writing JavaScript.
 
 Expo 是一组工具，库和服务，基于 React Native 可让您通过编写JavaScript 来构建原生 iOS 和 Android 应用程序。
@@ -15,6 +15,13 @@ Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一�
 更多资料，可以查看 [Expo 官方文档](https://docs.expo.io/versions/latest/)。
 
 > [Expo版本清单](https://expo.io/--/api/v2/versions)，这里可以看到每个版本Expo对应的版本关系，这很重要。
+
+### 为什么选择 Expo？
+从某种程度上而言，目前为止 RN 只是给拥有 Mac 电脑的开发者提供了跨平台开发的能力， 因为现在还不能使用 Windows 创建 iOS 的 RN 应用。还有一个比较普遍的问题是，有一些 iOS 程序员不会配置 Android 的编译环境，而一些 Android 程序员又搞不懂 XCode。而且，Taro 的使用者基本都是前端工程师，面对 iOS 和 Android 原生的库或者文件可能会不知所措。
+
+我们希望 Taro 的使用者，即使完全没有 RN 开发经验，也能够从配环境开始 5 分钟实现 Hello Wolrd 的编写，并且只需要专注于基于 Taro 实现功能，不用再去配置烦人的 iOS、Android 编译环境，还可以用 Windows 开发 iOS 版的 RN 应用。而恰好 Expo 可以完美实现。
+
+本质上，Expo 的移动客户端相当于一个壳，你只需关注 js 层面的开发即可。这点类似于 electron 或者小程序。
 
 ## 准备工作
 
@@ -92,52 +99,24 @@ Taro 将会开始编译文件：
 初始化完毕，监听文件修改中...
 ```
 
-生成的应用文件在根目录的 `.temp`目录下，常见的工程目录结构如下：
+生成的应用文件在根目录的 `.rn_temp`目录下，常见的工程目录结构如下：
 
 ```
-./.temp
-├── actions
-│   ├── index.js
-│   └── index_styles.js
-├── app.js
-├── app.json
-├── app_styles.js
-├── bin
-│   └── crna-entry.js
+./.rn_temp
 ├── components
 │   ├── Footer
 │   ├── TodoItem
 │   └── TodoTextInput
-├── constants
-│   ├── ActionTypes.js
-│   ├── ActionTypes_styles.js
-│   ├── TodoFilters.js
-│   └── TodoFilters_styles.js
-├── containers
-│   ├── FilterLink
-│   ├── Header
-│   ├── MainSection
-│   └── TodoList
-├── index.html
-├── package.json
 ├── pages
 │   └── index
-├── reducers
-│   ├── index.js
-│   ├── index_styles.js
-│   ├── todos.js
-│   ├── todos_styles.js
-│   ├── visibilityFilter.js
-│   └── visibilityFilter_styles.js
-├── selectors
-│   ├── index.js
-│   └── index_styles.js
-├── store
-│   ├── index.js
-│   └── index_styles.js
-├── utils
-│   ├── index.js
-│   └── index_styles.js
+│       ├── index.js
+│       └── index.scss
+├── node_modules
+├── app.js
+├── app_styles.js
+├── app.json
+├── README.md
+├── package.json
 └── yarn.lock
 ```
 
@@ -157,6 +136,10 @@ Taro 将会开始编译文件：
 - r : 重启 packager 
 - R : 重启 packager 并清空缓存
 - d : 开启 development 模式
+
+如果你使用真机，你只需要使用 Expo 应用扫描这个二维码就可以打开你编写的 RN 应用了。并且只要在 Expo 中打开过一次，就会在 App 中保留一个入口。
+
+本质上，Expo 相当于一个壳，你只需关注 js 层面的开发即可。这点类似于 electron 或者小程序。
 
 如果你在终端按下 `i`· ，Taro 将会自动启动 iOS 模拟器，启动 expo 客户端（如果已成功安装），然后加载应用。
 
