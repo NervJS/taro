@@ -24,7 +24,7 @@ const siteConfig = {
   title: 'Taro' /* title for your website */,
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信小程序、H5、React Native 等的应用。',
   url: 'https://taro.aotu.io' /* your website url */,
-  baseUrl: '/' /* base url for your project */,
+  baseUrl: '/taro/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
@@ -54,7 +54,7 @@ const siteConfig = {
   /* path to images for header/footer */
   headerIcon: 'img/logo-taro.png',
   footerIcon: 'img/logo-taro.png',
-  favicon: 'img/favicon.png',
+  favicon: 'img/favicon.ico',
 
   /* colors for website */
   colors: {
