@@ -802,7 +802,7 @@ export class RenderParser {
     if (arrayMap && arrayMap.isCallExpression()) {
       this.loopRefIdentifiers.set(id.name, arrayMap)
     } else {
-      this.referencedIdentifiers.add(id)
+      id && this.referencedIdentifiers.add(id)
     }
   }
 
