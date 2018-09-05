@@ -23,6 +23,6 @@ jobs:
         - provider: pages
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
-          local-dir: docs/_book
+          local-dir: website/build/TaroDocs
           on:
             branch: master

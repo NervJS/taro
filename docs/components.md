@@ -1,4 +1,6 @@
-# 组件库
+---
+title: 组件库说明
+---
 
 Taro 以 [微信小程序组件库](https://developers.weixin.qq.com/miniprogram/dev/component/) 为标准，结合 `jsx` 语法规范，定制了一套自己的组件库规范。
 
