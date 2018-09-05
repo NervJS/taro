@@ -2,8 +2,7 @@ import { parse } from 'himalaya'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
-import { buildTemplate } from './utils'
-import generate from 'babel-generator'
+import { buildTemplate, DEFAULT_Component_SET } from './utils'
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
@@ -64,6 +63,8 @@ function buildElement (
     children
   }
 }
+
+export const usedComponents = new Set<string>()
 
 export function parseWXML (wxml: string) {
   const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(removEmptyText).filter(node => node.type !== NodeType.Comment) as Node[]
@@ -243,6 +244,9 @@ function parseElement (element: Element): t.JSXElement {
   const tagName = t.jSXIdentifier(
     allCamelCase(element.tagName)
   )
+  if (DEFAULT_Component_SET.has(tagName.name)) {
+    usedComponents.add(tagName.name)
+  }
   return t.jSXElement(
     t.jSXOpeningElement(tagName, element.attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
