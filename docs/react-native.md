@@ -127,7 +127,7 @@ Taro 将会开始编译文件：
 ### 启动
 如果编译过程没有报错，`Packager Started` 后，你将会看到以下内容：
 
-![image](https://user-images.githubusercontent.com/9441951/44577413-a300cc80-a7c3-11e8-9ae1-e8257c9510b1.png)
+![image](https://user-images.githubusercontent.com/9441951/45069323-89824d80-b0fe-11e8-86ae-2bbe532087de.png)
 
 接下来，你可以直接在终端输入对应的字母，来进行对应的操作：
 
