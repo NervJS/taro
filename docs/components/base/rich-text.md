@@ -1,5 +1,9 @@
-##### RichText
-##### 富文本。
+---
+title: RichText
+sidebar_label: RichText
+---
+
+##### 富文本
 
 > 组件 支持度
 

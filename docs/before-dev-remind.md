@@ -1,4 +1,7 @@
-# 开发前注意
+---
+title: 开发前注意
+---
+
 ## 小程序
 
 * 若使用 **微信小程序预览模式** ，则需下载并使用[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)添加项目进行预览，此时需要注意微信开发者工具的项目设置

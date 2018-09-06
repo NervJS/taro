@@ -1,5 +1,9 @@
-##### Progress
-##### 进度条。
+---
+title: Progress
+sidebar_label: Progress
+---
+
+##### 进度条
 
 > 属性及支持度
 

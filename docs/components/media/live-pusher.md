@@ -1,4 +1,8 @@
-##### LivePusher
+---
+title: LivePusher
+sidebar_label: LivePusher
+---
+
 ##### 实时音视频录制
 
 > 组件 支持度
@@ -17,7 +21,7 @@ import { LivePusher } from '@tarojs/components'
 class App extends Components {
 	render () {
 		return (
-			<LivePusher url="url" mode="RTC" autopush  />
+			<LivePusher url='url' mode='RTC' autopush  />
 		)
 	}
 }

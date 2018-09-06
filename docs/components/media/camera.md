@@ -1,5 +1,9 @@
-##### Camera
-##### 系统相机。
+---
+title: Camera
+sidebar_label: Camera
+---
+
+##### 系统相机
 
 > 属性及支持度
 

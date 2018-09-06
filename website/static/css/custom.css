@@ -1,0 +1,80 @@
+/* your custom css */
+.flex{ display: flex !important; }
+.flex.middle{ align-items: center; }
+.flex.end { align-items: flex-end; }
+.flex.center{ justify-content: center; }
+.flex.spacebetween{ justify-content: space-between; }
+.flex.vertical{ flex-direction: column; }
+.col{ flex: 1; }
+
+.fixedHeaderContainer header .logo{width: 30px; height: auto;}
+.home_container{ background: rgb(40, 43, 46); }
+.projectTitle{ color: #fff; height: 300px; }
+.homeSplashFade .projectTitle small{ line-height: 1.5em; margin-top: 3em; }
+.home_container .button{ border-color: #fff; color: #fff; margin-right: 12px;}
+.home_container .button:hover { background: rgb(40, 43, 46); }
+.home_container .buttonWrapper:last-child .button{ margin-right: 0; }
+
+.footer {
+  background-color: #f7f9ff;
+  z-index: 10;
+}
+.footer-container {
+  position: relative;
+  max-width: 1400px;
+  min-width: 180px;
+  margin: 0 auto;
+  padding: 80px;
+}
+.footer-logo-container {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30%;
+  min-width: 148px;
+}
+
+.footer-logo {
+  margin: 10px 0 14px;
+  width: 148px;
+  height: 30px;
+  background-image: url('../img/o2logo@2x.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+.footer-link-container {
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  width: 70%;
+}
+
+.footer-link {
+  display: inline-block;
+  width: 33.33%;
+  min-width: 180px;
+  vertical-align: top;
+}
+
+h3 {
+  padding-bottom: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+.link {
+  color: #78A4FA;
+}
+
+a {
+  color: #666;
+}
+
+a:hover {
+  opacity: 0.6;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
