@@ -715,22 +715,6 @@ export class RenderParser {
         parent.remove()
       }
     },
-    NullLiteral (path) {
-      const statementParent = path.getStatementParent()
-      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
-        path.replaceWith(
-          t.jSXElement(
-            t.jSXOpeningElement(
-              t.jSXIdentifier('View'),
-              []
-            ),
-            undefined,
-            [],
-            true
-          )
-        )
-      }
-    },
     ...this.jsxElementVisitor,
     JSXExpressionContainer: (path) => {
       // todo
