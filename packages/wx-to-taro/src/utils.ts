@@ -1,5 +1,6 @@
 import * as template from 'babel-template'
 import * as t from 'babel-types'
+import { codeFrameColumns } from '@babel/code-frame'
 
 export const buildTemplate = (str: string) => template(str)().expression as t.Expression
 
@@ -13,6 +14,22 @@ export function buildImportStatement (source: string, specifiers: string[] = [],
     }) : specifiers.map(s => t.importSpecifier(t.identifier(s), t.identifier(s))),
     t.stringLiteral(source)
   )
+}
+
+export function codeFrameError (node, msg: string) {
+  let errMsg = ''
+  try {
+    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node)
+  } catch (error) {
+    errMsg = 'failed to locate source'
+  }
+  return new Error(`${msg}
+  -----
+  ${errMsg}`)
+}
+
+export const setting = {
+  sourceCode: ''
 }
 
 // tslint:disable-next-line
