@@ -1,5 +1,40 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.24...v) (2018-09-05)
+# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.25...v) (2018-09-06)
+
+
+
+<a name="1.0.0-beta.25"></a>
+# [1.0.0-beta.25](https://github.com/NervJS/taro/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2018-09-06)
+
+
+### Bug Fixes
+
+* **cli:** 更换清空目录 API ，解决部分机器上编译报错问题 ([a22c385](https://github.com/NervJS/taro/commit/a22c385))
+* **eslint:** 某些情况循环中使用 map 解析错误 ([b3ae01d](https://github.com/NervJS/taro/commit/b3ae01d))
+* **RN:** 修复了 redux  模版未用 Text 组件包裹导致不显示的问题 ([4a260ca](https://github.com/NervJS/taro/commit/4a260ca))
+* **RN:** 修复未引入样式的js也会生成对应的 style 文件的 bug ([0511580](https://github.com/NervJS/taro/commit/0511580))
+* **RN:** 兼容小程序的路有跳转规范 ([1b2875d](https://github.com/NervJS/taro/commit/1b2875d))
+* **router:** 修复某些情况获取不到$router问题 ([075ae2d](https://github.com/NervJS/taro/commit/075ae2d))
+* **taro-compontents:**  修复 Block 返回问题 && 修复 form 文档问题 ([0c9a4cc](https://github.com/NervJS/taro/commit/0c9a4cc))
+* **taro-redux:** connect时将redux而来的props从配置中剔除 ([42c8be6](https://github.com/NervJS/taro/commit/42c8be6))
+* **taro-redux:** 兼容properties配置可能为空或mapState返回空的情况 ([f7a6c27](https://github.com/NervJS/taro/commit/f7a6c27))
+* **tcr:** ScrollView在无外部元素的时候会全屏 ([2c7e981](https://github.com/NervJS/taro/commit/2c7e981))
+* **tcr:** 给ScrollView加了样式height导致无法滚动，fix [#577](https://github.com/NervJS/taro/issues/577) ([1e1999d](https://github.com/NervJS/taro/commit/1e1999d))
+* **transformer:**  增加 Block 组件 ([9635c1d](https://github.com/NervJS/taro/commit/9635c1d))
+* **transformer:** 即便在类中没有找到方法也要加到 $events, close [#563](https://github.com/NervJS/taro/issues/563) ([33c8c38](https://github.com/NervJS/taro/commit/33c8c38))
+* **transformer:** 多个 `this.props` 在 JSX children 中无法使用 ([5dd8f12](https://github.com/NervJS/taro/commit/5dd8f12))
+* **transformer:** 解析图片地址错误 ([3e6eb3a](https://github.com/NervJS/taro/commit/3e6eb3a))
+
+
+### Features
+
+* 文档底部导航兼容移动端 ([1a49e2f](https://github.com/NervJS/taro/commit/1a49e2f))
+* 更新.gitignore ([3fac0d9](https://github.com/NervJS/taro/commit/3fac0d9))
+* 更新siteConfig.js ([bebe4c0](https://github.com/NervJS/taro/commit/bebe4c0))
+* **cli:** 小程序支持插件引用 ([0d256fe](https://github.com/NervJS/taro/commit/0d256fe))
+* **cli:** 模板增加 rn 编译 script ([a216ee8](https://github.com/NervJS/taro/commit/a216ee8))
+* **taro:** 增加 Taro.requirePlugin 调用插件 JS 接口 ([f65c51f](https://github.com/NervJS/taro/commit/f65c51f))
+* **transformer:** 在 render 中提前 return null 可以终止 render ([a093b8e](https://github.com/NervJS/taro/commit/a093b8e))
 
 
 
