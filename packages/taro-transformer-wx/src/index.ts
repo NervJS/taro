@@ -283,7 +283,6 @@ export default function transform (options: Options): TransformResult {
       if (IMAGE_COMPONENTS.has(name)) {
         for (const attr of path.node.attributes) {
           if (
-            t.isIdentifier(attr) &&
             attr.name.name === 'src'
           ) {
             if (t.isStringLiteral(attr.value)) {
