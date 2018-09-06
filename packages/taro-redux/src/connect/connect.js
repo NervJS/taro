@@ -46,7 +46,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
   return function connectComponent (Component) {
     // 将从redux而来的props从配置中剔除
     const mapState = mapStateToProps(store.getState(), Component.defaultProps || {})
-    Object.keys(mapState).forEach(function (key) {
+    Component.properties && mapState && Object.keys(mapState).forEach(function (key) {
       delete Component.properties[key]
     })
 
