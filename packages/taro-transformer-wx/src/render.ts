@@ -590,14 +590,15 @@ export class RenderParser {
           name.name.startsWith('on')
         ) {
           if (t.isJSXExpressionContainer(value)) {
-            let methodName = findMethodName(value.expression)
+            const methodName = findMethodName(value.expression)
+            methodName && this.usedEvents.add(methodName)
             if (this.methods.has(methodName)) {
               const method = this.methods.get(methodName)
-              if (method && t.isIdentifier(method.node.key)) {
-                this.usedEvents.add(methodName)
-              } else if (method === null) {
-                this.usedEvents.add(methodName)
-              }
+              // if (method && t.isIdentifier(method.node.key)) {
+              //   this.usedEvents.add(methodName)
+              // } else if (method === null) {
+              //   this.usedEvents.add(methodName)
+              // }
               if (!generate(value.expression).code.includes('.bind')) {
                 path.node.value = t.stringLiteral(`${methodName}`)
               }
