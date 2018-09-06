@@ -1,5 +1,9 @@
-##### OpenData
-##### 用于展示微信开放的数据。
+---
+title: OpenData
+sidebar_label: OpenData
+---
+
+##### 用于展示微信开放的数据
 
 > 组件 支持度
 
@@ -17,7 +21,7 @@ import { OpenData } from '@tarojs/components'
 class App extends Components {
 	render () {
 		return (
-			<OpenData type="userAvatarUrl"  />
+			<OpenData type='userAvatarUrl'  />
 		)
 	}
 }

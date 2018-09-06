@@ -1,5 +1,9 @@
-##### Switch
-##### 开关选择器。
+---
+title: Switch
+sidebar_label: Switch
+---
+
+##### 开关选择器
 
 > 属性及支持度
 

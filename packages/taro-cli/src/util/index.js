@@ -360,3 +360,17 @@ exports.processWxssImports = function (content) {
     wxss
   }
 }
+
+exports.emptyDirectory = function (dirPath) {
+  if (fs.existsSync(dirPath)) {
+    fs.readdirSync(dirPath).forEach(file => {
+      const curPath = path.join(dirPath, file)
+      if (fs.lstatSync(curPath).isDirectory()) {
+        exports.emptyDirectory(curPath)
+        fs.rmdirSync(curPath)
+      } else {
+        fs.unlinkSync(curPath)
+      }
+    })
+  }
+}

@@ -1,4 +1,7 @@
-##### PickerView
+---
+title: PickerView
+sidebar_label: PickerView
+---
 
 ##### 嵌入页面的滚动选择器
 
@@ -66,7 +69,7 @@ export default class Picks extends Component {
     return (
       <View>
         <View>{this.state.year}年{this.state.month}月{this.state.day}日</View>
-        <PickerView indicatorStyle="height: 50px;" style="width: 100%; height: 300px;" value={this.state.value} onChange={this.onChange}>
+        <PickerView indicatorStyle='height: 50px;' style='width: 100%; height: 300px;' value={this.state.value} onChange={this.onChange}>
           <PickerViewColumn>
             {this.state.years.map(item => {
               return (

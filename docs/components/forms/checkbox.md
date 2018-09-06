@@ -1,5 +1,9 @@
-##### CheckboxGroup
-##### 多项选择器，内部由多个 checkbox 组成。
+---
+title: CheckboxGroup
+sidebar_label: CheckboxGroup
+---
+
+##### 多项选择器，内部由多个 checkbox 组成
 
 > 属性及支持度
 
@@ -67,18 +71,18 @@ export default class PageCheckbox extends Component {
     }
     render() {
         return (
-                <View className="page-body">
-                    <View className="page-section">
+                <View className='page-body'>
+                    <View className='page-section'>
                             <Text>默认样式</Text>
-                            <Checkbox value="选中" checked>选中</Checkbox>
-                            <Checkbox style="margin-left: 20rpx" value="未选中">未选中</Checkbox>
+                            <Checkbox value='选中' checked>选中</Checkbox>
+                            <Checkbox style='margin-left: 20rpx' value='未选中'>未选中</Checkbox>
                     </View>
-                    <View className="page-section">
+                    <View className='page-section'>
                             <Text>推荐展示样式</Text>
                             {this.state.list.map((item, i) => {
                                     return (
-                                        <Label className="checkbox-list__label" for={i} key={i}>
-                                            <Checkbox className="checkbox-list__checkbox" value={item.value} checked={item.checked}>{item.text}</Checkbox>
+                                        <Label className='checkbox-list__label' for={i} key={i}>
+                                            <Checkbox className='checkbox-list__checkbox' value={item.value} checked={item.checked}>{item.text}</Checkbox>
                                         </Label>
                                     )
                             })}

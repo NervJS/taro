@@ -1,5 +1,9 @@
-##### ScrollView
-##### 可滚动视图区域。
+---
+title: ScrollView
+sidebar_label: ScrollView
+---
+
+##### 可滚动视图区域
 
 > 属性及支持度
 
