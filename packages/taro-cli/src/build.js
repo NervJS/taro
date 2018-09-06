@@ -13,7 +13,7 @@ function build (args, buildConfig) {
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
   } else {
-    fs.emptyDirSync(outputPath)
+    Util.emptyDirectory(outputPath)
   }
   switch (type) {
     case Util.BUILD_TYPES.H5:

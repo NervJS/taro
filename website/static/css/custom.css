@@ -7,11 +7,13 @@
 .flex.vertical{ flex-direction: column; }
 .col{ flex: 1; }
 
+.fixedHeaderContainer header .logo{width: 30px; height: auto;}
 .home_container{ background: rgb(40, 43, 46); }
-.projectTitle{ color: #fff; }
-.projectTitle small{ line-height: 1.5em; }
-.home_container .button{ border-color: #fff; color: #fff; }
+.projectTitle{ color: #fff; height: 300px; }
+.homeSplashFade .projectTitle small{ line-height: 1.5em; margin-top: 3em; }
+.home_container .button{ border-color: #fff; color: #fff; margin-right: 12px;}
 .home_container .button:hover { background: rgb(40, 43, 46); }
+.home_container .buttonWrapper:last-child .button{ margin-right: 0; }
 
 .footer {
   background-color: #f7f9ff;
