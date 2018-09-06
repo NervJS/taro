@@ -1,0 +1,79 @@
+{
+  "docs": {
+    "关于Taro": [
+      "README"
+    ],
+    "快速开始": [
+      "GETTING-STARTED",
+      "composition",
+      "before-dev-remind",
+      "specials"
+    ],
+    "教程": [
+      "tutorial",
+      "router",
+      "size",
+      "static-reference",
+      "jsx",
+      "props",
+      "state",
+      "event",
+      "condition",
+      "list",
+      "ref",
+      "envs",
+      "wx-relations",
+      "component-style",
+      "react-native",
+      "best-practice"
+    ],
+    "组件库": [
+      "components",
+      "components/viewContainer/view",
+      "components/viewContainer/scroll-view",
+      "components/viewContainer/swiper",
+      "components/viewContainer/movable-view",
+      "components/viewContainer/cover-view",
+      "components/base/icon",
+      "components/base/text",
+      "components/base/progress",
+      "components/base/rich-text",
+      "components/forms/button",
+      "components/forms/checkbox",
+      "components/forms/form",
+      "components/forms/input",
+      "components/forms/label",
+      "components/forms/picker",
+      "components/forms/picker-view",
+      "components/forms/radio",
+      "components/forms/slider",
+      "components/forms/switch",
+      "components/forms/textarea",
+      "components/navig/navigator",
+      "components/media/audio",
+      "components/media/image",
+      "components/media/video",
+      "components/media/camera",
+      "components/media/live-player",
+      "components/media/live-pusher",
+      "components/maps/map",
+      "components/canvas/canvas",
+      "components/open/open-data",
+      "components/open/web-view"
+    ],
+    "API": [
+      "component",
+      "env",
+      "events",
+      "native-api"
+    ],
+    "进阶指南": [
+      "config",
+      "config-detail",
+      "async-await",
+      "redux",
+      "wx-third-party",
+      "wx-hybrid"
+    ]
+  }
+}

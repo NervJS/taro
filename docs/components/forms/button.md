@@ -1,5 +1,9 @@
-##### Button
-##### 按钮。
+---
+title: Button
+sidebar_label: Button
+---
+
+##### 按钮
 
 > 属性及支持度
 
@@ -13,7 +17,7 @@
 | √ |   | x | formType | String  | | 用于 form 组件，点击分别会触发 form 组件的 submit/reset 事件   |
 | √ |   | x | openType | String  | | 微信开放能力  |
 | √ |   | x | appParameter   | String  | | 打开 APP 时，向 APP 传递的参数   |
-| √ | √ | √ | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果  |
+| √ | √ | √ | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class='none' 时，没有点击态效果  |
 | √ |   | x | hoverStopPropagation | Boolean | false | 指定是否阻止本节点的祖先节点出现点击态  |
 | √ | √ | √ | hoverStartTime    | Number  | 20    | 按住后多久出现点击态，单位毫秒   |
 | √ | √ | √ | hoverStayTime | Number  | 70    | 手指松开后点击态保留时间，单位毫秒   |
@@ -23,82 +27,78 @@
 
 
 ###### 示例：
-```jsx
+```javascript
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 
 export default class PageButton extends Component {
-    constructor() {
-        super(...arguments)
-    }
-
-    state = {
-        btn: [
-            {
-                text: '页面主操作 Normal',
-                size: 'default',
-                type: 'primary'
-            },
-            {
-                text: '页面主操作 Loading',
-                size: 'default',
-                type: 'primary',
-                loading: true,
-            },
-            {
-                text: '页面主操作 Disabled',
-                size: 'default',
-                type: 'primary',
-                disabled: true,
-            },
-            {
-                text: '页面次要操作 Normal',
-                size: 'default',
-                type: 'default'
-            },
-            {
-                text: '页面次要操作 Disabled',
-                size: 'default',
-                type: 'default',
-                disabled: true,
-            },
-            {
-                text: '警告类操作 Normal',
-                size: 'default',
-                type: 'warn'
-            },
-            {
-                text: '警告类操作 Disabled',
-                size: 'default',
-                type: 'warn',
-                disabled: true,
-            },
-        ]
-    }
-    render() {
-        return (
-            <View className="container">
-                {this.state.btn.map(item => {
-                    return (
-                        <Button
-                            size={item.size ? item.size : ''}
-                            type={item.type ? item.type : ''}
-                            loading={item.loading ? item.loading : false}
-                            disabled={item.disabled ? item.disabled : false}
-                        >
-                            {item.text}
-                        </Button>
-                    )
-                })}
-                <Button className="btn-max-w" plain type="primary">按钮</Button>
-                <Button className="btn-max-w" plain type="primary" disabled>不可点击的按钮</Button>
-                <Button className="btn-max-w" plain >按钮</Button>
-                <Button className="btn-max-w" plain disabled >按钮</Button>
-                <Button size="mini" type="primary">按钮</Button>
-                <Button size="mini" >按钮</Button>
-                <Button size="mini" type="warn">按钮</Button>
-            </View>
-        )
-    }
+  state = {
+    btn: [
+      {
+        text: '页面主操作 Normal',
+        size: 'default',
+        type: 'primary'
+      },
+      {
+        text: '页面主操作 Loading',
+        size: 'default',
+        type: 'primary',
+        loading: true,
+      },
+      {
+        text: '页面主操作 Disabled',
+        size: 'default',
+        type: 'primary',
+        disabled: true,
+      },
+      {
+        text: '页面次要操作 Normal',
+        size: 'default',
+        type: 'default'
+      },
+      {
+        text: '页面次要操作 Disabled',
+        size: 'default',
+        type: 'default',
+        disabled: true,
+      },
+      {
+        text: '警告类操作 Normal',
+        size: 'default',
+        type: 'warn'
+      },
+      {
+        text: '警告类操作 Disabled',
+        size: 'default',
+        type: 'warn',
+        disabled: true,
+      }
+    ]
+  }
+  render () {
+    return (
+      <View className='container'>
+        {this.state.btn.map(item => {
+          return (
+            <Button
+              size={item.size ? item.size : ''}
+              type={item.type ? item.type : ''}
+              loading={item.loading ? item.loading : false}
+              disabled={item.disabled ? item.disabled : false}
+            >
+              {item.text}
+            </Button>
+          )
+        })}
+        <Button className='btn-max-w' plain type='primary'>按钮</Button>
+        <Button className='btn-max-w' plain type='primary' disabled>不可点击的按钮</Button>
+        <Button className='btn-max-w' plain >按钮</Button>
+        <Button className='btn-max-w' plain disabled >按钮</Button>
+        <Button size='mini' type='primary'>按钮</Button>
+        <Button size='mini' >按钮</Button>
+        <Button size='mini' type='warn'>按钮</Button>
+      </View>
+    )
+  }
 }
 ```

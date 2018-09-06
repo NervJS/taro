@@ -1,4 +1,8 @@
-##### MovableView
+---
+title: MovableView
+sidebar_label: MovableView
+---
+
 ##### 可移动的视图容器，在页面中可以拖拽滑动
 
 > 组件 支持度
@@ -18,8 +22,8 @@ import { MovableArea, MovableView } from '@tarojs/components'
 class App extends Components {
 	render () {
 		return (
-			  <MovableArea style="height: 200px; width: 200px; background: red;">
-                            <MovableView style="height: 50px; width: 50px; background: blue;" direction="all"></MovableView>
+			  <MovableArea style='height: 200px; width: 200px; background: red;'>
+                            <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'></MovableView>
                             </MovableArea>
 		)
 	}

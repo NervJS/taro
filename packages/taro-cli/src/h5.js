@@ -417,10 +417,6 @@ function processEntry (code, filePath) {
           babylonConfig
         )())
         node.body.push(template(
-          `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
-          babylonConfig
-        )())
-        node.body.push(template(
           `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
           babylonConfig
         )())

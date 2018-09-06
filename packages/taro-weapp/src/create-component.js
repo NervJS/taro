@@ -82,6 +82,7 @@ function processEvent (eventHandlerName, obj) {
     let realArgs = []
     let detailArgs = []
     let datasetArgs = []
+    let isScopeBinded = false
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
@@ -107,11 +108,13 @@ function processEvent (eventHandlerName, obj) {
       if ('so' in bindArgs) {
         if (bindArgs['so'] !== 'this') {
           callScope = bindArgs['so']
+        } else {
+          isScopeBinded = true
         }
         delete bindArgs['so']
       }
       if (detailArgs.length > 0) {
-        detailArgs[0] && (callScope = detailArgs[0])
+        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
         detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
@@ -126,11 +129,13 @@ function processEvent (eventHandlerName, obj) {
       if ('so' in bindArgs) {
         if (bindArgs['so'] !== 'this') {
           _scope = bindArgs['so']
+        } else {
+          isScopeBinded = false
         }
         delete bindArgs['so']
       }
       if (detailArgs.length > 0) {
-        detailArgs[0] && (callScope = detailArgs[0])
+        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
         detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
@@ -289,12 +294,10 @@ function createComponent (ComponentClass, isPage) {
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
-    componentInstance.state = componentInstance._createData()
+    componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
-    const errLine = err.stack.toString().split(/\n/)[2] || ''
-    console.warn(`[Taro warn]
-      ${err.message}
-      ${errLine}: 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    console.warn(err)
   }
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
 

@@ -590,14 +590,15 @@ export class RenderParser {
           name.name.startsWith('on')
         ) {
           if (t.isJSXExpressionContainer(value)) {
-            let methodName = findMethodName(value.expression)
+            const methodName = findMethodName(value.expression)
+            methodName && this.usedEvents.add(methodName)
             if (this.methods.has(methodName)) {
               const method = this.methods.get(methodName)
-              if (method && t.isIdentifier(method.node.key)) {
-                this.usedEvents.add(methodName)
-              } else if (method === null) {
-                this.usedEvents.add(methodName)
-              }
+              // if (method && t.isIdentifier(method.node.key)) {
+              //   this.usedEvents.add(methodName)
+              // } else if (method === null) {
+              //   this.usedEvents.add(methodName)
+              // }
               if (!generate(value.expression).code.includes('.bind')) {
                 path.node.value = t.stringLiteral(`${methodName}`)
               }
@@ -714,22 +715,6 @@ export class RenderParser {
         parent.remove()
       }
     },
-    NullLiteral (path) {
-      const statementParent = path.getStatementParent()
-      if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
-        path.replaceWith(
-          t.jSXElement(
-            t.jSXOpeningElement(
-              t.jSXIdentifier('View'),
-              []
-            ),
-            undefined,
-            [],
-            true
-          )
-        )
-      }
-    },
     ...this.jsxElementVisitor,
     JSXExpressionContainer: (path) => {
       // todo
@@ -802,7 +787,7 @@ export class RenderParser {
     if (arrayMap && arrayMap.isCallExpression()) {
       this.loopRefIdentifiers.set(id.name, arrayMap)
     } else {
-      this.referencedIdentifiers.add(id)
+      id && this.referencedIdentifiers.add(id)
     }
   }
 

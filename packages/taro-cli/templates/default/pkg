@@ -7,8 +7,10 @@
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:h5": "taro build --type h5",
+    "build:rn": "taro build --type rn",
     "dev:weapp": "npm run build:weapp -- --watch",
     "dev:h5": "npm run build:h5 -- --watch",
+    "dev:rn": "npm run build:rn -- --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -24,7 +26,6 @@
   "devDependencies": {
     "@types/react": "16.3.14",
     "@types/webpack-env": "^1.13.6",
-    "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
     "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%><% if (typescript) {%>

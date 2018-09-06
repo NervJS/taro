@@ -26,5 +26,8 @@ export default function initNativeApi (taro) {
   taro.createSelectorQuery = createSelectorQuery
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.requirePlugin = function () {
+    console.error('不支持 API requirePlugin')
+  }
   Object.assign(taro, storage, interactive, webSocket, system)
 }

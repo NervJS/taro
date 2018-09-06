@@ -19,7 +19,7 @@ const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const babylonConfig = require('./config/babylon')
-const AstConvert = require('./util/astConvert')
+const AstConvert = require('./util/ast_convert')
 const {getPkgVersion} = require('./util')
 const StyleProcess = require('./rn/styleProcess')
 
@@ -437,7 +437,7 @@ function parseJSCode (code, filePath) {
             .join(',')
           node.body.push(template(
             `const RootStack = ${routerImportDefaultName}.initRouter(
-            [${routerPages}], 
+            [${routerPages}],
             ${taroImportDefaultName},
             App.config
             )`,
@@ -491,7 +491,7 @@ function parseJSCode (code, filePath) {
 }
 
 function compileDepStyles (filePath, styleFiles) {
-  if (isBuildingStyles[filePath]) {
+  if (isBuildingStyles[filePath] || styleFiles.length === 0) {
     return Promise.resolve({})
   }
   isBuildingStyles[filePath] = true
@@ -501,10 +501,9 @@ function compileDepStyles (filePath, styleFiles) {
     Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
     return StyleProcess.loadStyle({filePath, pluginsConfig})
   })).then(resList => { // postcss
-    return Promise.all(
-      resList.map(item => {
-        return StyleProcess.postCSS({...item, projectConfig})
-      }))
+    return Promise.all(resList.map(item => {
+      return StyleProcess.postCSS({...item, projectConfig})
+    }))
   }).then(resList => {
     let styleObjectEntire = {}
     resList.forEach(item => {

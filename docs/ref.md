@@ -1,4 +1,6 @@
-# Refs 引用
+---
+title: Refs 引用
+---
 
 > Refs 提供了一种访问在 render 方法中创建的 DOM 节点（小程序原生组件）或 Taro 组件实例的方式。
 

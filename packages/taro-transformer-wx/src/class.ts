@@ -479,7 +479,7 @@ class Transformer {
   findMoreProps () {
     // 第一个参数是 props 的生命周期
     const lifeCycles = new Set([
-      'constructor',
+      // 'constructor',
       'componentDidUpdate',
       'shouldComponentUpdate',
       'getDerivedStateFromProps',

@@ -41,6 +41,10 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
     }
 
     wxNavigateTo ({url, success, fail, complete}) {
+      if (url.startWith('/')) {
+        url = url.substr(1)
+      }
+
       let obj = queryString.parseUrl(url)
       console.log(obj)
       try {
@@ -55,6 +59,10 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
     }
 
     wxRedirectTo ({url, success, fail, complete}) {
+      if (url.startWith('/')) {
+        url = url.substr(1)
+      }
+
       let obj = queryString.parseUrl(url)
       console.log(obj)
       try {
@@ -69,6 +77,10 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
     }
 
     wxSwitchTab ({url, success, fail, complete}) {
+      if (url.startWith('/')) {
+        url = url.substr(1)
+      }
+
       let obj = queryString.parseUrl(url)
       console.log(obj)
       try {

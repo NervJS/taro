@@ -1,4 +1,6 @@
-# Taro.Component
+---
+title: Taro.Component
+---
 
 `Taro.Component` 是一个抽象基础类，因此直接引用 `Taro.Component` 几乎没意义。相反，你通常会继承自它，并至少定义一个 `render()` 方法。
 

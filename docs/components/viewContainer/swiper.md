@@ -1,5 +1,9 @@
-##### Swiper
-##### 滑块视图容器。
+---
+title: Swiper
+sidebar_label: Swiper
+---
+
+##### 滑块视图容器
 
 > 属性及支持度
 

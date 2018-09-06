@@ -7,3 +7,5 @@ yarn-error.log
 _book
 .idea
 temp
+website/build
+website/package.json
