@@ -236,14 +236,31 @@ See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debu
 - [Troubleshooting](https://github.com/jhen0409/react-native-debugger/blob/master/docs/troubleshooting.md)
 - [Contributing](https://github.com/jhen0409/react-native-debugger/blob/master/docs/contributing.md)
 
-## 构建
+## 打包
 
-Taro RN 端应用构建与 exp 保持一致，具体可以查看 ：[Building Standalone Apps](https://docs.expo.io/versions/latest/distribution/building-standalone-apps)
+如何愉快地打包发布，可能你还在头疼安卓的签名、难缠的 gradle 和各种配置，还在头疼 iOS 打包发布时在 Xcode 来回折腾，为什么不能脱离这些原生开发才需要的步骤呢，ReactNative 本身就是为了统一安卓和 iOS，如今到打包这一步却要区别对待，颇为不妥，expo 就是个很好的解决方案，它提供壳子，我们只需要关心我们自己的代码，然后放进壳里即可。
+
+在打包发布步骤之前，我们先对开发者的源代码进行预处理打包，转成 ReactNative 代码：
+
+``` bash
+taro build --type rn
+```
+
+得到热腾腾的 React Native 代码，就可以开始进行打包了，打包教程可以查阅 expo 文档：[Building Standalone Apps](https://docs.expo.io/versions/latest/distribution/building-standalone-apps)。
 
 ## 发布
 
-Taro RN 端应用发布与 exp 保持一致，具体可以查看 ：[Publishing on Expo](https://blog.expo.io/publishing-on-exponent-790493660d24)
+### 发布到 expo
 
+expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versions/latest/guides/publishing.html)（发布到 expo 不需要先经过打包），通过 expo 客户端打开发布后的应用 CDN 链接来访问。
+
+![通过 expo 打开一个 app](http://storage.360buyimg.com/temporary/180906-fetch-app-production.png)
+
+发布后的应用有个专属的地址，比如应用 [Expo APIs](https://expo.io/@community/native-component-list)，通过 expo 客户端扫描页面中的二维码进行访问（二维码是个持久化地址 persistent URL）。
+
+### 发布到应用商店
+
+如果你需要正式发布你的独立版应用，可以把打包所得的 ipa 和 apk 发布到 Apple Store 和应用市场，详细参阅 [Distributing Your App](https://docs.expo.io/versions/latest/distribution/index.html)，后续的更新可以通过发布到 expo 更新 CDN 的资源来实现。
 
 ## 常见错误
 
