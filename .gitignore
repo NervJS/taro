@@ -8,3 +8,4 @@ _book
 .idea
 temp
 website/build
+website/package.json
