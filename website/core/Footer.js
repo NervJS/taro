@@ -27,9 +27,8 @@ class Footer extends React.Component {
             </div>
             <div className='footer-link'>
               <h3>社区</h3>
-              <p><a href='https://github.com/NervJS/taro-ui/issues'>反馈建议</a></p>
-              <p><a href='https://github.com/NervJS/taro-ui/blob/master/.github/CONTRIBUTING.md'>贡献指南</a></p>
-              <p><a href='https://github.com/NervJS/taro-ui'>GitHub</a></p>
+              <p><a href='https://github.com/NervJS/taro/issues'>反馈建议</a></p>
+              <p><a href='https://github.com/NervJS/taro'>GitHub</a></p>
             </div>
             <div className='footer-link'>
               <h3>关于我们</h3>
