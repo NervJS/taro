@@ -215,6 +215,11 @@ declare namespace Taro {
   function pxTransform(size: number): string
 
   /**
+   * 小程序引用插件 JS 接口
+   */
+  function requirePlugin(pluginName: string): any
+
+  /**
    *
    * 微信端能力
    * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
@@ -285,7 +290,7 @@ declare namespace Taro {
        *
        * @default false
        */
-      jsonp?: boolean,          
+      jsonp?: boolean,
       /**
        * 设置H5端 jsonp 请求 url 是否需要被缓存
        *
