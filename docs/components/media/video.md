@@ -1,4 +1,8 @@
-##### Video
+---
+title: Video
+sidebar_label: Video
+---
+
 ##### 视频。
 
 > 属性及支持度

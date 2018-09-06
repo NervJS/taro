@@ -1014,6 +1014,11 @@ function transfromNativeComponents (configFile, componentConfig) {
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
       const componentPath = usingComponents[item]
+      if (/^plugin\:\/\//.test(componentPath)) {
+        // 小程序 plugin
+        Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
+        return
+      }
       const componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
       const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), '.json')
       const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), '.wxml')

@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.23...v) (2018-09-03)
+# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.24...v) (2018-09-05)
+
+
+
+<a name="1.0.0-beta.24"></a>
+# [1.0.0-beta.24](https://github.com/NervJS/taro/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2018-09-05)
+
+
+### Bug Fixes
+
+* **cli:** h5 编译去掉 api 初始化 ([8d824cf](https://github.com/NervJS/taro/commit/8d824cf))
+* **cli:** 模板去掉 cli 依赖 ([84f33b7](https://github.com/NervJS/taro/commit/84f33b7))
+* **taro-h5:** api 初试化提前 ([b8b02fd](https://github.com/NervJS/taro/commit/b8b02fd))
+* **transformer:** this.$router 无法加入 state ([e9eacb4](https://github.com/NervJS/taro/commit/e9eacb4))
+
+
+### Features
+
+* **taro-components:** 新增 block 组件 (内置组件，小程序转 Taro使用到) ([6cb1364](https://github.com/NervJS/taro/commit/6cb1364))
+* **taro-components:** 新增 block 组件 (内置组件，小程序转 Taro使用到) ([b7096a9](https://github.com/NervJS/taro/commit/b7096a9))
 
 
 

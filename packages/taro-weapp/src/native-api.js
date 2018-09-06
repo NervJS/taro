@@ -140,6 +140,7 @@ export default function initNativeApi (taro) {
   taro.request = request
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
+  taro.requirePlugin = requirePlugin
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
 }

@@ -194,14 +194,9 @@ describe('loop', () => {
             `
             <block>
                 <view>
-                    <block>
-                        <block wx:if="{{anonymousState__temp}}">
-                            <view></view>
-                        </block>
-                        <block wx:else>
-                            <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{$anonymousCallee__4}}"
-                            wx:for-item="e" wx:for-index="i">loop1: {{i}}</view>
-                        </block>
+                    <block wx:if=\"{{!anonymousState__temp}}\">
+                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{$anonymousCallee__4}}\"
+                        wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
                     </block>
                 </view>
             </block>
@@ -249,28 +244,18 @@ describe('loop', () => {
           expect(template).toMatch(prettyPrint(
             `
             <block>
-              <view>
-                  <block>
-                      <block wx:if="{{a1.length === 0}}">
-                          <view></view>
-                      </block>
-                      <block wx:else>
-                          <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{a2}}"
-                          wx:for-item="e" wx:for-index="i">loop1: {{i}}
-                              <block>
-                                  <block wx:if="{{b1}}">
-                                      <view></view>
-                                  </block>
-                                  <block wx:else>
-                                      <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{a3}}"
-                                      wx:for-item="e" wx:for-index="i">loop1: {{i}}</view>
-                                  </block>
-                              </block>
-                          </view>
-                      </block>
-                  </block>
-              </view>
-          </block>
+                <view>
+                    <block wx:if=\"{{!(a1.length === 0)}}\">
+                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a2}}\"
+                        wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}
+                            <block wx:if=\"{{!b1}}\">
+                                <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a3}}\"
+                                wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
+                            </block>
+                        </view>
+                    </block>
+                </view>
+            </block>
             `
           ))
         })

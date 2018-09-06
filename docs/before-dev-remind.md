@@ -1,4 +1,7 @@
-# 开发前注意
+---
+title: 开发前注意
+---
+
 ## 小程序
 
 * 若使用 **微信小程序预览模式** ，则需下载并使用[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)添加项目进行预览，此时需要注意微信开发者工具的项目设置
@@ -35,7 +38,7 @@ Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](htt
 
 /*postcss-pxtransform rn eject disable*/
 ```
-#### box-sahdow 能实现吗？
+#### box-shadow 能实现吗？
 很遗憾，React Native 这方面支持得并不好，建议你不要报太大希望。
 
 ### 其他注意事项

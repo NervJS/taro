@@ -1,4 +1,6 @@
-# 异步编程
+---
+title: 异步编程
+---
 
 Taro 支持使用 `async functions` 来让开发者获得不错的异步编程体验，开启 `async functions` 支持需要安装包 `@tarojs/async-await`
 

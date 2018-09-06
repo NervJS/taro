@@ -2,6 +2,14 @@ const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '不能在包含 JSX 元素的 map 循环中使用 if 表达式'
 
+function findParent (node, cb) {
+  // eslint-disable-next-line
+  while (node = node.parent) {
+    if (cb(node)) return node
+  }
+  return null
+}
+
 module.exports = {
   meta: {
     docs: buildDocsMeta(ERROR_MESSAGE, 'if-statement-in-map-loop')
@@ -25,7 +33,7 @@ module.exports = {
         }
         const ifStatement = parents.find(p => p.type === 'IfStatement')
         if (ifStatement) {
-          const hasCallExpr = context.getAncestors(ifStatement).find(isArrayMapCall)
+          const hasCallExpr = findParent(ifStatement, isArrayMapCall)
           if (hasCallExpr) {
             context.report({
               message: ERROR_MESSAGE,

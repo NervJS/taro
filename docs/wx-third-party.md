@@ -1,4 +1,6 @@
-# 使用微信小程序第三方组件
+---
+title: 使用微信小程序第三方组件
+---
 
 Taro 支持使用使用微信小程序的第三方组件，例如 [echarts-for-weixin](https://github.com/ecomfe/echarts-for-weixin)，使用方式也异常的简单。
 
