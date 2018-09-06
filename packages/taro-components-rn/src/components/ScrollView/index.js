@@ -227,7 +227,7 @@ class _ScrollView extends React.Component<Props> {
         ref={this._captureScrollRef}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
-        style={wrapperStyle}
+        style={[{ flexGrow: 0 }, wrapperStyle]}
         contentContainerStyle={innerStyle}
       >
         {children}
