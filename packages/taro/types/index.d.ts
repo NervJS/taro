@@ -55,6 +55,12 @@ declare namespace Taro {
      */
     navigationBarTitleText?: string,
     /**
+     * 导航栏样式，仅支持以下值：
+     * default 默认样式
+     * custom 自定义导航栏
+     */
+    navigationStyle?: string,
+    /**
      * 窗口的背景色， HexColor
      * default: #ffffff
      */
