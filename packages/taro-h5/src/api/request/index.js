@@ -9,6 +9,17 @@ function generateRequestUrlWithParams (url, params) {
   return url
 }
 
+function generateRequestBodyWithData (data) {
+  if (typeof data === 'object' && !('append' in data)) {
+    let formData = new FormData()
+    Object.keys(data).forEach(function (key) {
+      formData.append(key, data[key])
+    })
+    data = formData
+  }
+  return data
+}
+
 export default function request (options) {
   options = options || {}
   if (typeof options === 'string') {
@@ -46,7 +57,7 @@ export default function request (options) {
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
   } else {
-    params.body = options.data
+    params.body = generateRequestBodyWithData(options.data)
   }
   if (options.header) {
     params.headers = options.header

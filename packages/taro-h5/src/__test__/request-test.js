@@ -72,11 +72,11 @@ describe('request', () => {
     })
       .then(res => {
         expect(fetch.mock.calls[0][0]).toBe('https://github.com')
+        let data = new FormData()
+        data.append('arg', 123)
         expect(fetch.mock.calls[0][1]).toEqual({
           method: 'POST',
-          body: {
-            arg: 123
-          },
+          body: data,
           headers: {
             'A': 'CCC'
           },
