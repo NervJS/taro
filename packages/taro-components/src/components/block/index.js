@@ -5,6 +5,6 @@ export default class Block extends Nerv.Component {
   }
 
   render () {
-    return ''
+    return this.props.children
   }
 }

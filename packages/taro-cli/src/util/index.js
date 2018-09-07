@@ -13,7 +13,8 @@ const pocessTypeEnum = {
   MODIFY: 'modify',
   ERROR: 'error',
   WARNING: 'warning',
-  UNLINK: 'unlink'
+  UNLINK: 'unlink',
+  REFERENCE: 'reference'
 }
 
 const processTypeMap = {
@@ -52,6 +53,10 @@ const processTypeMap = {
   [pocessTypeEnum.START]: {
     name: '启动',
     color: 'green'
+  },
+  [pocessTypeEnum.REFERENCE]: {
+    name: '引用',
+    color: 'blue'
   }
 }
 

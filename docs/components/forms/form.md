@@ -31,7 +31,7 @@ class App extends Components {
 
 	render () {
 		return (
-                    <Form onSubmit='formSubmit' onReset='formReset' >
+                    <Form onSubmit={this.formSubmit} onReset={this.formReset} >
                         <View className='example-body'>
                             <Switch name='switch' className='form-switch'></Switch>
                         </View>

@@ -20,7 +20,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native'
-import { dismemberStyle } from '../../utils'
+import { dismemberStyle, omit } from '../../utils'
 
 type Props = {
   children?: React.Node,
@@ -214,6 +214,8 @@ class _ScrollView extends React.Component<Props> {
     } = this.props
 
     const dismember = dismemberStyle(style)
+    const wrapperStyle = Object.assign(dismember.wrapperStyle, { height: dismember.innerStyle.height })
+    const innerStyle = omit(dismember.innerStyle, [ 'height' ])
 
     return (
       <ScrollView
@@ -225,8 +227,8 @@ class _ScrollView extends React.Component<Props> {
         ref={this._captureScrollRef}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
-        style={dismember.wrapperStyle}
-        contentContainerStyle={dismember.innerStyle}
+        style={[{ flexGrow: 0 }, wrapperStyle]}
+        contentContainerStyle={innerStyle}
       >
         {children}
       </ScrollView>

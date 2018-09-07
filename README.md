@@ -18,7 +18,7 @@
 
 Taro 已经投入到了生产环境使用，超过 3 万行代码的 TOPLIFE 小程序已全面上线。京东购物和一起有局小程序也在使用 Taro 部分重构中，即将上线。同时，未来也将接入更多京东业务。
 
-![qrcode.png](https://i.loli.net/2018/07/08/5b40f4e2ea279.png)
+![qrcode.png](https://i.loli.net/2018/09/06/5b914cf5c4fc8.png)
 
 ### 业界案例
 
