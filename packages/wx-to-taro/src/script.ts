@@ -5,7 +5,7 @@ import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents } from './wxml'
 import { PageLifecycle } from './lifecycle'
 
-export function parseScript (script: string) {
+export function parseScript (script: string, returned: t.Expression) {
   const { ast } = transform(script, {
     parserOpts: {
       sourceType: 'module',
@@ -26,14 +26,16 @@ export function parseScript (script: string) {
   }) as { ast: t.File }
   let classDecl!: t.ClassDeclaration
   traverse(ast, {
-    Program (path) {
+    BlockStatement (path) {
       path.scope.rename('wx', 'Taro')
     },
     CallExpression (path) {
       const callee = path.get('callee')
       if (callee.isIdentifier({ name: 'Page' })) {
-        classDecl = parsePage(path)!
-        path.insertAfter(classDecl)
+        classDecl = parsePage(path, returned)!
+        path.insertAfter(
+          t.exportDefaultDeclaration(classDecl)
+        )
         path.remove()
         path.stop()
       }
@@ -43,11 +45,28 @@ export function parseScript (script: string) {
   const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
   ast.program.body.unshift(taroComponentsImport, taroImport)
+
+  return ast
+}
+
+function buildRender (returned: t.Expression) {
+  const stateDecl = t.variableDeclaration('const', [t.variableDeclarator(
+    t.objectPattern(stateKeys.map(s => t.objectProperty(t.identifier(s), t.identifier(s))) as any),
+    t.memberExpression(t.thisExpression(), t.identifier('state'))
+  )])
+
+  const returnStatement = t.returnStatement(returned)
+  return t.classMethod('method', t.identifier('render'), [], t.blockStatement([
+    stateDecl,
+    returnStatement
+  ]))
 }
 
 const defaultClassName = 'C'
 
-function parsePage (path: NodePath<t.CallExpression>) {
+const stateKeys: string[] = []
+
+function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression) {
   const arg = path.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {
     return
@@ -66,11 +85,19 @@ function parsePage (path: NodePath<t.CallExpression>) {
     }
     const name = key.node.name
     if (name === 'data') {
+      if (value.isObjectExpression()) {
+        value.get('properties').map(p => p.node).forEach(prop => {
+          if (t.isObjectProperty(prop) && t.isIdentifier(prop.key)) {
+            stateKeys.push(prop.key.name)
+          }
+        })
+      }
       return t.classProperty(t.identifier('state'), value.node)
     }
     if (PageLifecycle.has(name)) {
       const lifecycle = PageLifecycle.get(name)!
-      return t.classMethod('method', t.identifier(lifecycle), [], value.node as any)
+      const node = value.node as t.FunctionExpression | t.ArrowFunctionExpression
+      return t.classMethod('method', t.identifier(lifecycle), [], node.body as any)
     }
     if (prop.isObjectMethod()) {
       const body = prop.get('body')
@@ -79,10 +106,13 @@ function parsePage (path: NodePath<t.CallExpression>) {
     return t.classProperty(t.identifier(name), value.isFunctionExpression() ? t.arrowFunctionExpression(value.node.params, value.node.body) : value.node)
   })
 
+  const renderFunc = buildRender(returned)
+
   return t.classDeclaration(
     t.identifier(defaultClassName),
     t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
-    t.classBody(classBody)
+    t.classBody(classBody.concat(renderFunc)),
+    []
   )
 }
 
