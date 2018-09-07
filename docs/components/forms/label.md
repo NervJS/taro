@@ -9,7 +9,7 @@ sidebar_label: Label
 
 | 微信小程序 | H5 | ReactNative | 属性值 | 类型 | 说明 |
 | :-: | :-: | :-: | :-: |:-: | :-: | :-: |
-| √ | √ | x | for | String | 绑定控件的 id |
+| √ | √ | x (仅限嵌套的形式使用) | for | String | 绑定控件的 id |
 
 
 ```jsx
