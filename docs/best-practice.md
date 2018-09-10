@@ -108,9 +108,6 @@ class Parent extends Component {
 
 不要在 `state` 与 `props` 上用同名的字段，因为这些被字段在微信小程序中都会挂在 `data` 上。
 
-不要以 `id`、`class`、`style` 作为自定义组件的属性与内部 state 的名称，因为这些属性名在微信小程序小程序中会丢失。
-
-
 ### 小程序中页面生命周期 `componentWillMount` 不一致问题
 
 由于微信小程序里页面在 `onLoad` 时才能拿到页面的路由参数，而页面onLoad前组件都已经 `attached` 了。因此页面的 `componentWillMount` 可能会与预期不太一致。例如：

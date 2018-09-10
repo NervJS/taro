@@ -8,9 +8,9 @@ title: Taro.Component
 
 ```javascript
 class Welcome extends Component {
-	render() {
-		return <h1>Hello, {this.props.name}</h1>;
-	}
+  render () {
+    return <h1>Hello, {this.props.name}</h1>
+  }
 }
 ```
 
@@ -141,6 +141,7 @@ shouldComponentUpdate(nextProps, nextState)
 ```javascript
 componentWillUpdate(nextProps, nextState)
 ```
+
 当接收到新的 props 或 state 时，`componentWillUpdate()` 在渲染之前立即被调用。在更新发生之前，使用这个方法可以作为执行准备更新的一个好机会。这个方法在第一次渲染时不会被调用。
 
 注意，这里不能调用 `this.setState()` 。 如果你需要更新 state 以响应 props 更改，请改用 `componentWillReceiveProps()`。
@@ -183,23 +184,23 @@ class CustomButton extends React.Component {
 
 CustomButton.defaultProps = {
   color: 'blue'
-};
+}
 ```
 
 若未设置 `props.color`，其将被设置默认为'blue':
 
 ```javascript
-render() {
-    return <CustomButton /> ; // props.color will be set to blue
-  }
+render () {
+  return <CustomButton /> // props.color will be set to blue
+}
 ```
 
 若props.color设为null，则其值则为null：
 
 ```javascript
 render() {
-    return <CustomButton color={null} /> ; // props.color will remain null
-  }
+  return <CustomButton color={null} />  // props.color will remain null
+}
 ```
 
 

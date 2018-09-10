@@ -29,7 +29,7 @@ import { View, PickerView, PickerViewColumn } from '@tarojs/components'
 
 export default class Picks extends Component {
 
-  constructor() {
+  constructor () {
     super(...arguments)
     const date = new Date()
     const years = []
@@ -51,7 +51,7 @@ export default class Picks extends Component {
       month: 2,
       days: days,
       day: 2,
-      value: [9999, 1, 1],
+      value: [9999, 1, 1]
     }
   }
 
@@ -81,14 +81,14 @@ export default class Picks extends Component {
             {this.state.months.map(item => {
               return (
                 <View>{item}月</View>
-              );
+              )
             })}
           </PickerViewColumn>
           <PickerViewColumn>
             {this.state.days.map(item => {
               return (
                 <View>{item}日</View>
-              );
+              )
             })}
           </PickerViewColumn>
         </PickerView>

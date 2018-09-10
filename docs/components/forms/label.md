@@ -19,19 +19,19 @@ import { RadioGroup, Radio, Label } from '@tarojs/components'
 
 class App extends Components {
 
-	render () {
-		return (
-                    <RadioGroup>
-                        <Label className='example-body__label' for='1' key='1'>
-                            <Radio value='USA'>USA</Radio>
-                        </Label>
-                        <Label className='example-body__label' for='2' key='2'>
-                            <Radio value='CHN' checked>
-                            CHN
-                            </Radio>
-                        </Label>
-                     </RadioGroup>
-		)
-	}
+  render () {
+    return (
+      <RadioGroup>
+        <Label className='example-body__label' for='1' key='1'>
+          <Radio value='USA'>USA</Radio>
+        </Label>
+        <Label className='example-body__label' for='2' key='2'>
+          <Radio value='CHN' checked>
+          CHN
+          </Radio>
+        </Label>
+      </RadioGroup>
+    )
+  }
 }
 ```

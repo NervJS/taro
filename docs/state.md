@@ -8,7 +8,7 @@ title: 生命周期 & State
 
 ```javascript
 class Clock extends Component {
-  render() {
+  render () {
     return (
       <View>
         <Text>Hello, world!</Text>
@@ -27,12 +27,12 @@ Clock 现在被定义为一个类，使用类就允许我们使用其它特性�
 
 ```javascript
 class Clock extends Component {
-	constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
+  constructor (props) {
+    super(props)
+    this.state = { date: new Date() }
   }
 
-  render() {
+  render () {
     return (
       <View>
         <Text>Hello, world!</Text>
@@ -47,9 +47,9 @@ class Clock extends Component {
 注意我们如何传递 props 到基础构造函数的：
 
 ```javascript
-constructor(props) {
-	super(props);
-	this.state = {date: new Date()};
+constructor (props) {
+  super(props)
+  this.state = { date: new Date() }
 }
 ```
 
@@ -69,12 +69,12 @@ constructor(props) {
 
 ```javascript
 class Clock extends Component {
-	constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
+  constructor (props) {
+    super(props)
+    this.state = { date: new Date() }
   }
 
-	componentDidMount() {
+  componentDidMount() {
 
   }
 
@@ -82,7 +82,7 @@ class Clock extends Component {
 
   }
 
-  render() {
+  render () {
     return (
       <View>
         <Text>Hello, world!</Text>
@@ -99,10 +99,10 @@ class Clock extends Component {
 
 ```javascript
 componentDidMount() {
-	this.timerID = setInterval(
-	  () => this.tick(),
-	  1000
-	);
+  this.timerID = setInterval(
+    () => this.tick(),
+    1000
+  )
 }
 ```
 
@@ -115,8 +115,8 @@ componentDidMount() {
 我们将在 `componentWillUnmount()` 生命周期钩子中卸载计时器：
 
 ```javascript
-componentWillUnmount() {
-	clearInterval(this.timerID);
+componentWillUnmount () {
+  clearInterval(this.timerID)
 }
 ```
 
@@ -125,24 +125,26 @@ componentWillUnmount() {
 它将使用 `this.setState()` 来更新组件局部状态：
 
 ```javascript
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
+import Taro, { Component } from '@tarojs/taro'
+
+class Clock extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { date: new Date() }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.timerID = setInterval(
       () => this.tick(),
       1000
     );
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timerID);
+  componentWillUnmount () {
+    clearInterval(this.timerID)
   }
 
-  tick() {
+  tick () {
     this.setState({
       date: new Date()
     });
@@ -154,7 +156,7 @@ class Clock extends React.Component {
         <Text>Hello, world!</Text>
         <Text>现在的时间是 {this.state.date.toLocaleTimeString()}.</Text>
       </View>
-	  )
+    )
   }
 }
 ```
@@ -175,7 +177,7 @@ this.state.comment = 'Hello'
 
 ```javascript
 // Correct
-this.setState({comment: 'Hello'})
+this.setState({ comment: 'Hello' })
 ```
 
 `setState()` 函数是唯一能够初始化 `this.state` 的地方。
@@ -190,10 +192,10 @@ Taro 可以将多个 `setState()` 调用合并成一个调用来提高性能。
 ```javascript
 // 假设我们之前设置了 this.state.counter = 0
 updateCounter () {
-	this.setState({
-		counter: 1
-	})
-	console.log(this.state.counter) // 这里 counter 还是 0
+  this.setState({
+    counter: 1
+  })
+  console.log(this.state.counter) // 这里 counter 还是 0
 }
 ```
 
@@ -202,11 +204,11 @@ updateCounter () {
 ```javascript
 // 假设我们之前设置了 this.state.counter = 0
 updateCounter () {
-	this.setState({
-		counter: 1
-	}, () => {
-		// 在这个函数内你可以拿到 setState 之后的值
-	})
+  this.setState({
+    counter: 1
+  }, () => {
+    // 在这个函数内你可以拿到 setState 之后的值
+  })
 }
 ```
 
@@ -220,30 +222,30 @@ updateCounter () {
 
 ```javascript
 constructor(props) {
-	super(props);
-	this.state = {
-	  posts: [],
-	  comments: []
-	};
+  super(props)
+  this.state = {
+    posts: [],
+    comments: []
+  }
 }
 ```
 
 然后通过调用独立的 `setState()` 调用分别更新它们:
 
 ```javascript
-  componentDidMount() {
-    fetchPosts().then(response => {
-      this.setState({
-        posts: response.posts
-      });
+componentDidMount() {
+  fetchPosts().then(response => {
+    this.setState({
+      posts: response.posts
     });
+  });
 
-    fetchComments().then(response => {
-      this.setState({
-        comments: response.comments
-      });
-    });
-  }
+  fetchComments().then(response => {
+    this.setState({
+      comments: response.comments
+    })
+  })
+}
 ```
 
 合并是浅合并，所以 `this.setState({comments})` 不会改变 `this.state.posts` 的值，但会完全替换 `this.state.comments` 的值。

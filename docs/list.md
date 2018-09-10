@@ -8,8 +8,8 @@ title: 列表渲染
 
 ```javascript
 const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map((number) => number * 2);
-console.log(doubled);
+const doubled = numbers.map((number) => number * 2)
+console.log(doubled)
 ```
 
 代码打印出`[2, 4, 6, 8, 10]`。
@@ -38,11 +38,11 @@ const listItems = numbers.map((number) => {
 const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
   return <Text
-		key={String(number)}
-		class='li'
-	>
-	我是第 {number + 1} 个数字
-	</Text>
+    key={String(number)}
+    class='li'
+    >
+    我是第 {number + 1} 个数字
+  </Text>
 })
 ```
 
@@ -52,15 +52,15 @@ const listItems = numbers.map((number) => {
 
 ```javascript
 class App extends Componenet {
-	state = {
-		posts: [
-		  {id: 1, title: 'Hello World', content: 'Welcome to learning Taro!'},
-		  {id: 2, title: 'Installation', content: 'You can install Taro from npm.'}
-		]
-	}
-	render () {
+  state = {
+    posts: [
+      {id: 1, title: 'Hello World', content: 'Welcome to learning Taro!'},
+      {id: 2, title: 'Installation', content: 'You can install Taro from npm.'}
+    ]
+  }
+  render () {
     const { posts } = this.state
-		const sidebar = (
+    const sidebar = (
       <View>
         {posts.map((post) =>
           <Text key={post.id}>
@@ -68,21 +68,21 @@ class App extends Componenet {
           </Text>
         )}
       </View>
-    );
+    )
     const content = posts.map((post) => {
       return <View key={post.id}>
         <Text>{post.title}</Text>
         <Text>{post.content}</Text>
       </View>
-    });
-		return (
-			<View>
+    })
+    return (
+      <View>
         {sidebar}
         <View class="divider" />
         {content}
       </View>
-		)
-	}
+    )
+  }
 }
 ```
 
@@ -94,7 +94,7 @@ const content = posts.map((post) => {
     <Text>{post.title}</Text>
     <Text>{post.content}</Text>
   </View>
-});
+})
 ```
 
 ### key 的取值
@@ -118,7 +118,7 @@ function createNewTodo(text) {
 }
 
 class App extends Components {
-  state ={
+  state = {
     todos: [],
     inputText: ''
   }
@@ -129,9 +129,9 @@ class App extends Components {
     })
   }
 
-	render () {
-		return ...
-	}
+  render () {
+    return ...
+  }
 }
 ```
 
@@ -143,9 +143,9 @@ class App extends Components {
 
 ```javascript
 const list = this.state.list.map(l => {
-	if (l.selected) {
-		return <li>{l.text}</li>
-	}
+  if (l.selected) {
+    return <li>{l.text}</li>
+  }
 }).filter(React.isValidElement)
 ```
 
@@ -153,15 +153,15 @@ const list = this.state.list.map(l => {
 
 ```javascript
 const list = this.state.list.map(l => {
-	if (l.selected) {
-		return {
+  if (l.selected) {
+    return {
       '$$typeof': Symbol(react.element),
       'props': {
         children: l.text
       },
       'type': 'li'
-		}
-	}
+    }
+  }
 }).filter(React.isValidElement)
 ```
 
@@ -169,8 +169,8 @@ const list = this.state.list.map(l => {
 
 ```javascript
 const list = this.state.list
-	.filter(l => l.selected)
-	.map(l => {
-		return <li>{l.text}</li>
-	})
+  .filter(l => l.selected)
+  .map(l => {
+    return <li>{l.text}</li>
+  })
 ```

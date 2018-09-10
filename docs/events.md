@@ -5,7 +5,7 @@ title: 消息机制
 Taro 提供了 `Taro.Events` 来实现消息机制，使用时需要实例化它，如下
 
 ```javascript
-import Taro, {Events} from '@tarojs/taro'
+import Taro, { Events } from '@tarojs/taro'
 
 const events = new Events()
 

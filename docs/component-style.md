@@ -30,25 +30,25 @@ button { } /* 在组件中不能使用 */
 
 如果想传递样式给引用的自定义组件，以下写法（直接传递 `className`）**不可行**：
 
-```jsx
+```javascript
 /* CustomComp.js */
 export default CustomComp extends Component {
-    static defaultProps = {
-        className: ''
-    }
+  static defaultProps = {
+    className: ''
+  }
 
-    render() {
-        return <View className={this.props.className}>这段文本的颜色不会由组件外的 class 决定</View>
-    }
+  render () {
+    return <View className={this.props.className}>这段文本的颜色不会由组件外的 class 决定</View>
+  }
 }
 ```
 
-```jsx
+```javascript
 /* MyPage.js */
 export default MyPage extends Component {
-    render() {
-        return <CustomComp className="red-text" />
-    }
+  render () {
+    return <CustomComp className="red-text" />
+  }
 }
 ```
 
@@ -61,23 +61,23 @@ export default MyPage extends Component {
 
 取而代之的，需要利用 `externalClasses` 定义段定义若干个外部样式类。这个特性从小程序基础库版本 [1.9.90](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始支持。
 
-```jsx
+```javascript
 /* CustomComp.js */
 export default CustomComp extends Component {
-    static externalClasses = ['my-class']
+  static externalClasses = ['my-class']
 
-    render() {
-        return <View className="my-class">这段文本的颜色由组件外的 class 决定</View>
-    }
+  render () {
+    return <View className="my-class">这段文本的颜色由组件外的 class 决定</View>
+  }
 }
 ```
 
-```jsx
+```javascript
 /* MyPage.js */
 export default MyPage extends Component {
-    render() {
-        return <CustomComp my-class="red-text" />
-    }
+  render () {
+    return <CustomComp my-class="red-text" />
+  }
 }
 ```
 
@@ -94,16 +94,16 @@ export default MyPage extends Component {
 
 使用外部样式类可以让组件使用指定的组件外样式类，如果希望组件外样式类能够完全影响组件内部，可以将组件构造器中的 `options.addGlobalClass` 字段置为 `true`。这个特性从小程序基础库版本 [2.2.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始支持。
 
-```jsx
+```javascript
 /* CustomComp.js */
 export default CustomComp extends Component {
-    static options = {
-    	addGlobalClass: true
-    }
+  static options = {
+    addGlobalClass: true
+  }
 
-    render() {
-        return <View className="red-text">这段文本的颜色由组件外的 class 决定</View>
-    }
+  render () {
+    return <View className="red-text">这段文本的颜色由组件外的 class 决定</View>
+  }
 }
 ```
 
