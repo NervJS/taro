@@ -67,7 +67,7 @@ function buildElement (
 export const usedComponents = new Set<string>()
 
 export function parseWXML (wxml: string) {
-  const nodes = (parse(wxml.trim()) as AllKindNode[]).filter(removEmptyText).filter(node => node.type !== NodeType.Comment) as Node[]
+  const nodes = removEmptyTextAndComment(parse(wxml.trim()))
   const ast = t.file(t.program([t.expressionStatement(parseNode(buildElement('block', nodes)) as t.Expression)], []))
 
   traverse(ast, {
@@ -250,16 +250,26 @@ function parseElement (element: Element): t.JSXElement {
   return t.jSXElement(
     t.jSXOpeningElement(tagName, element.attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    element.children.filter(removEmptyText).map(parseNode),
+    element.children.map(parseNode),
     false
   )
 }
 
-function removEmptyText (node: Node) {
-  if (node.type === NodeType.Text && node.content.trim().length === 0) {
-    return false
+function removEmptyTextAndComment (nodes: AllKindNode[]) {
+  for (let index = 0; index < nodes.length; index++) {
+    const node = nodes[index]
+    if (
+      (node.type === NodeType.Text && node.content.trim().length === 0)
+      ||
+      (node.type === NodeType.Comment)
+    ) {
+      nodes.splice(index, 1)
+    }
+    if (node.type === NodeType.Element) {
+      removEmptyTextAndComment(node.children)
+    }
   }
-  return true
+  return nodes as Node[]
 }
 
 function parseText (node: Text) {

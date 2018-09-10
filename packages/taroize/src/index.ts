@@ -8,7 +8,7 @@ interface Option {
   wxml: string
 }
 
-export default function parse (option: Option): t.File {
+export function parse (option: Option): t.File {
   const wxml = parseWXML(option.wxml)
   return parseScript(option.script, wxml as t.Expression)
 }
