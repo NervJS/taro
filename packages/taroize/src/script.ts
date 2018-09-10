@@ -115,15 +115,3 @@ function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression) {
     []
   )
 }
-
-// function renameSetData (path: NodePath<t.CallExpression>, guard?: (node: NodePath<t.Node>) => node is NodePath<t.Identifier>) {
-//   const callee = path.get('callee')
-//   if (callee.isMemberExpression() && callee.get('property').isIdentifier({ name: 'setData' })) {
-//     const obj = callee.get('object')
-//     const property = callee.get('property')
-//     if (obj.isThisExpression()) {
-//       property.replaceWith(t.identifier('setState'))
-//       return
-//     }
-//   }
-// }
