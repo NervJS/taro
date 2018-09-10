@@ -250,7 +250,7 @@ function parseElement (element: Element): t.JSXElement {
   return t.jSXElement(
     t.jSXOpeningElement(tagName, element.attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    element.children.map(parseNode),
+    removEmptyTextAndComment(element.children).map(parseNode),
     false
   )
 }
