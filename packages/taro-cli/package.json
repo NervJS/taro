@@ -18,7 +18,7 @@
     "weapp"
   ],
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=8"
   },
   "author": "O2Team",
   "license": "MIT",
