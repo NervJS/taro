@@ -127,13 +127,37 @@ declare namespace Taro {
 
     list: TarbarList[]
   }
+  // 1.0.0.beta.26 支持分包，补充分包声明定义
+  interface SubPackages {
+    /**
+     * 分包根路径
+     */
+    root: string,
+    /**
+     * 相对子包根路径的所有页面路径
+     */
+    pages: string[]
+  }
 
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
     pages?: string[],
-    tabBar?: TabBar
+    tabBar?: TabBar,
+    /**
+     * 分包配置
+     * 配置示例
+     * [
+     *   {
+     *     root: 'packages/[moduleName]',
+     *     pages: [
+     *       'pages/....'
+     *     ]
+     *   }
+     * ]
+     */
+    subPackages: SubPackages[]
   }
 
   interface Config extends PageConfig, AppConfig {
