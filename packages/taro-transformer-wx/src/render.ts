@@ -619,13 +619,13 @@ export class RenderParser {
             const componentName = jsxElementPath.node.openingElement.name.name
             if (DEFAULT_Component_SET.has(componentName)) {
               let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
-                + name.name.slice(2, name.name.length).toLowerCase()
+                + name.name.slice(2).toLowerCase()
               if (name.name === 'onClick') {
                 transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
-              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2).toLowerCase())
+              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
