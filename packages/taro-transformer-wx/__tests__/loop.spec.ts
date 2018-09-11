@@ -996,14 +996,14 @@ describe('loop', () => {
           ...baseOptions,
           isRoot: true,
           code: buildComponent(`
-            const array = [{ list: [{}] }]
+            const array = [{ list: [] }]
             const b1 = true
             const b2 = true
             const b3 = true
             const b4 = true
             return (
               <View>{array.map(arr => {
-                return <CoverView>
+                return <CoverView key={String(arr)}>
                 {arr.list.map(item => {
                   return b1 ? <ScrollView className={\`test\`} >
                     {b2 ? <Map /> : null}
@@ -1018,6 +1018,9 @@ describe('loop', () => {
             )
           `, `handleClick = () => ({})`)
         })
+
+        console.log(code)
+        console.log(template)
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)

@@ -88,6 +88,8 @@ export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
 
 export const LOOP_STATE = '$loopState'
 
+export const LOOP_ORIGINAL = '$$original'
+
 export const LOOP_CALLEE = '$anonymousCallee_'
 
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()

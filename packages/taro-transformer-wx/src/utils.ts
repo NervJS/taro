@@ -353,12 +353,15 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   return matched
 }
 
-export function findFirstIdentifierFromMemberExpression (node: t.MemberExpression): t.Identifier {
+export function findFirstIdentifierFromMemberExpression (node: t.MemberExpression, member?): t.Identifier {
   let id
   let object = node.object as any
   while (true) {
     if (t.identifier(object) && !t.isMemberExpression(object)) {
       id = object
+      if (member) {
+        object = member
+      }
       break
     }
     object = object.object
