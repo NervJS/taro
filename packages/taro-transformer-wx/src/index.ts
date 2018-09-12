@@ -174,7 +174,14 @@ export default function transform (options: Options): TransformResult {
         'dynamicImport'
       ] as any[]
     },
-    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }], 'transform-es2015-template-literals']
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
+      'transform-es2015-template-literals',
+      ['transform-define', {
+        'process.env.TARO_ENV': 'weapp'
+      }],
+      'remove-dead-code'
+    ]
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
