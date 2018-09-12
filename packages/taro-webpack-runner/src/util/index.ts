@@ -2,13 +2,6 @@ import * as os from 'os'
 import * as path from 'path'
 import * as url from 'url'
 
-import * as webpack from 'webpack'
-import * as webpackMerge from 'webpack-merge'
-import * as HtmlWebpackPlugin from 'html-webpack-plugin'
-import * as Types from './types'
-
-const appPath = process.cwd()
-
 const isEmptyObject = function (obj) {
   if (obj == null) {
     return true
@@ -109,7 +102,6 @@ const isPrivate = function (addr) {
     /^::$/.test(addr)
 }
 
-
 const loopback = function(family) {
   //
   // Default to `ipv4`
@@ -167,34 +159,6 @@ const prepareUrls = function (protocol, host, port) {
   }
 }
 
-const patchCustomConfig = (
-  baseConfig: webpack.Configuration,
-  buildConfig: Types.BuildConfig
-): webpack.Configuration => {
-  const customWebpackConfig = buildConfig.webpack || {}
-  const constantConfig = buildConfig.defineConstants || {}
-  const envConfig = {}
-  for (const [envKey, envValue] of Object.entries(buildConfig.env || {})) {
-    envConfig[`process.env.${envKey}`] = envValue
-  }
-  const definePluginConfig = Object.assign({}, envConfig, constantConfig)
-  let webpackConf = webpackMerge(baseConfig, {
-    plugins: [
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: path.join(appPath, buildConfig.sourceRoot, 'index.html')
-      }),
-      new webpack.DefinePlugin(definePluginConfig)
-    ]
-  })
-  if (typeof customWebpackConfig === 'function') {
-    webpackConf = customWebpackConfig(webpackConf, webpack)
-  } else {
-    webpackConf = webpackMerge(webpackConf, customWebpackConfig)
-  }
-  return webpackConf
-}
-
 export {
   isEmptyObject,
   getRootPath,
@@ -203,7 +167,5 @@ export {
   getLocalIp,
   isPrivate,
   isLoopback,
-  prepareUrls,
-
-  patchCustomConfig
+  prepareUrls
 }

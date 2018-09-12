@@ -1,18 +1,21 @@
-import * as webpack from 'webpack'
+import { merge } from 'lodash'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
-import { getPostcssPlugins } from './postcss.conf'
+import { getCssLoader, getExtractCssLoader, getLessLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getStylusLoader, getEntry, getOutput } from '../util/chain'
 import { BuildConfig } from '../util/types'
+import chain from './base.conf'
+import { getPostcssPlugins } from './postcss.conf'
 
-const defaultCSSCompressConf = {
+const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
   reduceIdents: false,
   discardUnused: false,
   minifySelectors: false
 }
-const defaultJSCompressConf = {
+
+const defaultUglifyJsOption = {
   keep_fnames: true,
   output: {
     comments: false,
@@ -23,85 +26,172 @@ const defaultJSCompressConf = {
   warnings: false
 }
 
-export default (config: BuildConfig): webpack.Configuration => {
-  const useModuleConf = config.module || {
-    compress: {}
-  }
-  const sourceMap = config.sourceMap
-  const cssExtractPlugins = [] as any[]
-  const devtool = 'hidden-source-map'
-  const compress = Object.assign({}, {
-    css: defaultCSSCompressConf,
-    js: defaultJSCompressConf
-  }, useModuleConf.compress)
-  const cssLoader = {
-    loader: require.resolve('css-loader'),
-    options: {
-      importLoaders: 1,
-      minimize: compress.css,
-      sourceMap
-    }
-  }
-  const postcssLoader = {
-    loader: require.resolve('postcss-loader'),
-    options: {
-      ident: 'postcss',
-      plugins: () => getPostcssPlugins(config)
-    }
-  }
-  const sassLoader = {
-    loader: require.resolve('sass-loader'),
-    options: { sourceMap: true }
-  }
-  const lessLoader = require.resolve('less-loader')
-  const stylusLoader = require.resolve('stylus-loader')
-  const resolveUrlLoader = require.resolve('resolve-url-loader')
+const emptyObj = {}
 
-  const cssLoaders = [{
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader ]
-  }, {
-    test: /\.less(\?.*)?$/,
-    exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, lessLoader ]
-  }, {
-    test: /\.styl(\?.*)?$/,
-    exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, stylusLoader ]
-  }, {
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    include: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, sassLoader ]
-  }, {
-    test: /\.less(\?.*)?$/,
-    include: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, lessLoader ]
-  }, {
-    test: /\.styl(\?.*)?$/,
-    include: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, stylusLoader ]
-  }]
+export default function (config: Partial<BuildConfig>): any {
+  const {
+    alias = emptyObj,
+    entry = emptyObj,
+    outputRoot,
+    publicPath,
+    staticDirectory = 'static',
 
-  cssExtractPlugins.push(new MiniCssExtractPlugin({
-    filename: 'css/[name].css',
-    chunkFilename: 'css/[id].css'
-  }))
+    designWidth = 750,
+    deviceRatio,
+    sourceMap = false,
 
-  return {
-    mode: 'production',
-    devtool,
-    module: {
-      rules: [
-        {
-          oneOf: [
-            ...cssLoaders
-          ]
-        }
-      ]
+    cssLoaderOption = emptyObj,
+    sassLoaderOption = emptyObj,
+    lessLoaderOption = emptyObj,
+    stylusLoaderOption = emptyObj,
+    mediaUrlLoaderOption = emptyObj,
+    fontUrlLoaderOption = emptyObj,
+    imageUrlLoaderOption = emptyObj,
+    miniCssExtractPluginOption = emptyObj,
+
+    module = {
+      postcss: emptyObj
     },
-    resolve: {
-      mainFields: ['main']
+    plugins = {
+      babel: emptyObj,
+      csso: emptyObj,
+      uglify: emptyObj
+    }
+  } = config
+
+  const postcssOption = module.postcss || {}
+
+  const cssLoader = getCssLoader([
+    {
+      importLoaders: 1,
+      sourceMap
+    },
+    cssLoaderOption,
+    {
+      minimize: merge(defaultCSSCompressOption, plugins.csso)
+    }
+  ])
+
+  const postcssLoader = getPostcssLoader([
+    { sourceMap },
+    {
+      ident: 'postcss',
+      plugins: () =>
+        getPostcssPlugins({
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+    }
+  ])
+
+  const resolveUrlLoader = getResolveUrlLoader([])
+
+  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
+
+  const lessLoader = getLessLoader([{ sourceMap }, lessLoaderOption])
+
+  const stylusLoader = getStylusLoader([{ sourceMap }, stylusLoaderOption])
+
+  const extractCssLoader = getExtractCssLoader()
+
+  const output = getOutput({
+    outputRoot,
+    publicPath
+  })
+
+  chain.merge({
+    mode: 'production',
+    devtool: 'hidden-source-map',
+    entry: Object.assign(getEntry(), entry),
+    output,
+    resolve: { alias },
+    module: {
+      rule: {
+        base: {
+          jsx: {
+            use: {
+              babelLoader: {
+                options: plugins.babel
+              }
+            }
+          },
+          media: {
+            use: {
+              urlLoader: {
+                options: {
+                  name: `${staticDirectory}/media/[name].[ext]`,
+                  ...mediaUrlLoaderOption
+                }
+              }
+            }
+          },
+          font: {
+            use: {
+              urlLoader: {
+                options: {
+                  name: `${staticDirectory}/fonts/[name].[ext]`,
+                  ...fontUrlLoaderOption
+                }
+              }
+            }
+          },
+          image: {
+            use: {
+              urlLoader: {
+                options: {
+                  name: `${staticDirectory}/images/[name].[ext]`,
+                  ...imageUrlLoaderOption
+                }
+              }
+            }
+          },
+          sass: {
+            test: /\.(css|scss|sass)(\?.*)?$/,
+            exclude: /node_modules/,
+            use: [extractCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
+          },
+          less: {
+            test: /\.less(\?.*)?$/,
+            exclude: /node_modules/,
+            use: [extractCssLoader, cssLoader, postcssLoader, lessLoader]
+          },
+          styl: {
+            test: /\.styl(\?.*)?$/,
+            exclude: /node_modules/,
+            use: [extractCssLoader, cssLoader, postcssLoader, stylusLoader]
+          },
+          sassInNodemodules: {
+            test: /\.(css|scss|sass)(\?.*)?$/,
+            include: /node_modules/,
+            use: [extractCssLoader, cssLoader, sassLoader]
+          },
+          lessInNodemodules: {
+            test: /\.less(\?.*)?$/,
+            include: /node_modules/,
+            use: [extractCssLoader, cssLoader, lessLoader]
+          },
+          stylInNodemodules: {
+            test: /\.styl(\?.*)?$/,
+            include: /node_modules/,
+            use: [extractCssLoader, cssLoader, stylusLoader]
+          }
+        }
+      }
+    },
+    plugin: {
+      extractCss: {
+        plugin: MiniCssExtractPlugin,
+        args: [
+          merge(
+            {
+              filename: 'css/[name].css',
+              chunkFilename: 'css/[id].css'
+            },
+            miniCssExtractPluginOption
+          )
+        ]
+      }
     },
     optimization: {
       minimizer: [
@@ -109,10 +199,11 @@ export default (config: BuildConfig): webpack.Configuration => {
           cache: true,
           parallel: true,
           sourceMap,
-          uglifyOptions: compress.js
+          uglifyOptions: merge(defaultUglifyJsOption, plugins.uglify)
         })
       ]
-    },
-    plugins: cssExtractPlugins
-  } as webpack.Configuration
+    }
+  })
+
+  return chain
 }

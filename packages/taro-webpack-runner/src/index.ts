@@ -1,20 +1,19 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
-import * as webpackMerge from 'webpack-merge'
-import * as WebpackDevServer from 'webpack-dev-server'
-import * as opn from 'opn'
-import * as ora from 'ora'
-import chalk from 'chalk'
+import chalk from 'chalk';
+import { merge } from 'lodash';
+import * as opn from 'opn';
+import * as ora from 'ora';
+import * as path from 'path';
+import * as webpack from 'webpack';
+import * as WebpackDevServer from 'webpack-dev-server';
+import * as webpackMerge from 'webpack-merge';
 
-import formatWebpackMessage from './util/format_webpack_message'
-import baseConf from './config/base.conf'
-import devConf from './config/dev.conf'
-import devServerConf from './config/devServer.conf'
-import prodConf from './config/prod.conf'
-import buildConf from './config/build.conf'
-// import { formatTime, prepareUrls, patchCustomConfig } from './util'
-import { prepareUrls, patchCustomConfig } from './util'
-import { BuildConfig } from './util/types'
+import buildConf from './config/build.conf';
+import devConf from './config/dev.conf';
+import devServerConf from './config/devServer.conf';
+import prodConf from './config/prod.conf';
+import { prepareUrls } from './util';
+import formatWebpackMessage from './util/format_webpack_message';
+import { BuildConfig } from './util/types';
 
 const appPath = process.cwd()
 let isFirst = true
@@ -86,18 +85,13 @@ const createCompiler = (webpackConf): webpack.Compiler => {
 }
 
 const buildProd = (config: BuildConfig): void => {
-  const conf = Object.assign({}, buildConf, config)
-  const baseWebpackConf = webpackMerge(baseConf(conf), prodConf(conf), {
-    entry: conf.entry,
-    output: {
-      path: path.join(appPath, conf.outputRoot),
-      filename: 'js/[name].js',
-      publicPath: conf.publicPath
-    }
-  })
-  const webpackConf = patchCustomConfig(baseWebpackConf, conf)
+  const webpackConf = webpackMerge({
+    entry: config.entry
+  }, prodConf(config).toConfig())
+
+  // TODO 处理webpackChain参数
   const compiler = webpack(webpackConf)
-  console.log()
+
   getServeSpinner().text = 'Compiling...'
   getServeSpinner().start()
 
@@ -144,33 +138,28 @@ const buildProd = (config: BuildConfig): void => {
 }
 
 const buildDev = (config: BuildConfig): void => {
-  const conf = Object.assign({}, buildConf, config)
+  const conf = buildConf(config)
   const publicPath = conf.publicPath
-  const contentBase = path.join(appPath, conf.outputRoot)
+  const outputPath = path.join(appPath, conf.outputRoot)
   const customDevServerOptions = config.devServer || {}
-  const https = 'https' in customDevServerOptions ? customDevServerOptions.https : conf.protocol === 'https'
+  const https = 'https' in customDevServerOptions ? customDevServerOptions.https : conf.https
   const host = customDevServerOptions.host || conf.host
   const port = customDevServerOptions.port || conf.port
   const urls = prepareUrls(https ? 'https' : 'http', host, port)
 
-  const baseWebpackConf = webpackMerge(baseConf(conf), devConf(conf), {
-    entry: conf.entry,
-    output: {
-      path: contentBase,
-      filename: 'js/[name].js',
-      publicPath
-    }
-  })
+  const webpackConf = webpackMerge({
+    entry: config.entry
+  }, devConf(config).toConfig())
 
-  const webpackConf = patchCustomConfig(baseWebpackConf, conf)
+  // TODO 处理webpackChain参数
   const baseDevServerOptions = devServerConf({
     publicPath,
-    contentBase,
+    contentBase: outputPath,
     https,
     host,
-    publicUrl: urls.lanUrlForConfig
+    public: urls.lanUrlForConfig
   })
-  const devServerOptions = Object.assign({}, baseDevServerOptions, customDevServerOptions)
+  const devServerOptions = merge({}, baseDevServerOptions, customDevServerOptions)
   WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
   const compiler = createCompiler(webpackConf)
   compiler.hooks.done.tap('taroDoneFirst', stats => {
