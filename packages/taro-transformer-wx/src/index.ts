@@ -179,9 +179,8 @@ export default function transform (options: Options): TransformResult {
       'transform-es2015-template-literals',
       ['transform-define', {
         'process.env.TARO_ENV': 'weapp'
-      }],
-      'remove-dead-code'
-    ]
+      }]
+    ].concat((process.env.NODE_ENV === 'test') ? [] : 'remove-dead-code')
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any

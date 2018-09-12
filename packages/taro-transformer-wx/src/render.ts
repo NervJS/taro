@@ -17,7 +17,8 @@ import {
   generateAnonymousState,
   hasComplexExpression,
   findMethodName,
-  isVarName
+  isVarName,
+  setParentCondition
 } from './utils'
 import { difference, set as setObject, cloneDeep } from 'lodash'
 import {
@@ -984,7 +985,7 @@ export class RenderParser {
             // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
             this.renderPath.node.body.body.push(
-              buildConstVariableDeclaration(stateName, callee.node)
+              buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
             )
           }
           // console.log(callee.getSource())
