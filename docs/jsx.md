@@ -20,11 +20,11 @@ import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 
 class Home extends Component {
-	render () {
-		return (
-			<View>Hello World!</View>
-		)
-	}
+  render () {
+    return (
+      <View>Hello World!</View>
+    )
+  }
 }
 ```
 
@@ -47,11 +47,11 @@ import home_page from './page'
 
 // 错误！组件名应该首字母大写:
 class App extends Component {
-	render () {
-		return (
-			<home_page message="Hello World!" />
-		)
-	}
+  render () {
+    return (
+      <home_page message="Hello World!" />
+    )
+  }
 }
 ```
 
@@ -63,11 +63,11 @@ import Taro, { Component } from '@tarojs/taro'
 import HomePage from './page'
 
 class App extends Component {
-	render () {
-		return (
-			<HomePage message="Hello World!" />
-		)
-	}
+  render () {
+    return (
+      <HomePage message="Hello World!" />
+    )
+  }
 }
 ```
 
@@ -96,15 +96,15 @@ import Taro, { Component } from '@tarojs/taro'
 
 class App extends Components {
   render () {
-    let description;
+    let description
 
     if (this.props.number % 2 == 0) {
-      description = <Text>even</Text>;
+      description = <Text>even</Text>
     } else {
-      description = <Text>odd</Text>;
+      description = <Text>odd</Text>
     }
 
-    return <View>{this.props.number} is an {description} number</View>;
+    return <View>{this.props.number} is an {description} number</View>
   }
 }
 ```
@@ -155,19 +155,19 @@ const element = (
     <Text>Hello!</Text>
     <Text>Good to see you here.</Text>
   </View>
-);
+)
 ```
 
 JavaScript 表达式也可以嵌套：
 
 ```javascript
 render () {
-	  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
   return (
     <ul>
       {todos.map((todo) => <Text>{todo}</Text>)}
     </ul>
-  );
+  )
 }
 ```
 
@@ -219,18 +219,18 @@ const element = <Content footer={<View />} />
 ```javascript
 // Tabs.js
 export default class Tabs extends Componenet {
-	render () {
-		return <View> {this.props.children} </View>
-	}
+  render () {
+    return <View> {this.props.children} </View>
+  }
 }
 // App.js
 import Tabset from './tabs'
 class App extends Componenet {
-	render () {
-		return (
-			<Tabset >
-		)
-	}
+  render () {
+    return (
+      <Tabset >
+    )
+  }
 }
 ```
 
@@ -239,18 +239,18 @@ class App extends Componenet {
 ```javascript
 // Tabs.js
 export default class Tabs extends Componenet {
-	render () {
-		return <View> {this.props.children} </View>
-	}
+  render () {
+    return <View> {this.props.children} </View>
+  }
 }
 // App.js
 // 定义 `Tabs`，引入名称也必须是 `Tabs`
 import Tabs from './tabs'
 class App extends Componenet {
-	render () {
-		return (
-			<Tabs >
-		)
-	}
+  render () {
+    return (
+      <Tabs >
+    )
+  }
 }
 ```

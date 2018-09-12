@@ -17,7 +17,7 @@ sidebar_label: Button
 | √ |   | x | formType | String  | | 用于 form 组件，点击分别会触发 form 组件的 submit/reset 事件   |
 | √ |   | x | openType | String  | | 微信开放能力  |
 | √ |   | x | appParameter   | String  | | 打开 APP 时，向 APP 传递的参数   |
-| √ | √ | √ | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class='none' 时，没有点击态效果  |
+| √ | √ | x (支持 hoverStyle 属性，但框架未支持 hoverClass) | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class='none' 时，没有点击态效果  |
 | √ |   | x | hoverStopPropagation | Boolean | false | 指定是否阻止本节点的祖先节点出现点击态  |
 | √ | √ | √ | hoverStartTime    | Number  | 20    | 按住后多久出现点击态，单位毫秒   |
 | √ | √ | √ | hoverStayTime | Number  | 70    | 手指松开后点击态保留时间，单位毫秒   |

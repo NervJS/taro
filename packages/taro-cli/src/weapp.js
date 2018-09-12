@@ -130,7 +130,8 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const properties = node.value.properties
       obj = {}
       properties.forEach(p => {
-        obj[p.key.name] = traverseObjectNode(p.value)
+        const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+        obj[key] = traverseObjectNode(p.value)
       })
       return obj
     }
@@ -1002,7 +1003,23 @@ async function buildEntry () {
 
 async function buildPages () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '所有页面')
+  // 支持分包，解析子包页面
   const pages = appConfig.pages || []
+  const subPackages = appConfig.subPackages
+  if (subPackages && subPackages.length) {
+    subPackages.forEach(item => {
+      if (item.pages && item.pages.length) {
+        const root = item.root
+        item.pages.forEach(page => {
+          let pagePath = `${root}/${page}`
+          pagePath = pagePath.replace(/\/{2,}/g, '/')
+          if (pages.indexOf(pagePath) < 0) {
+            pages.push(pagePath)
+          }
+        })
+      }
+    })
+  }
   const pagesPromises = pages.map(async page => {
     return buildSinglePage(page)
   })
@@ -1014,6 +1031,11 @@ function transfromNativeComponents (configFile, componentConfig) {
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
       const componentPath = usingComponents[item]
+      if (/^plugin\:\/\//.test(componentPath)) {
+        // 小程序 plugin
+        Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
+        return
+      }
       const componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
       const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), '.json')
       const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), '.wxml')

@@ -10,9 +10,9 @@ title: 组件化 & Props
 
 ```javascript
 class Welcome extends Component {
-	render() {
-		return <View>Hello, {this.props.name}</View>;
-	}
+  render () {
+    return <View>Hello, {this.props.name}</View>
+  }
 }
 ```
 
@@ -21,13 +21,13 @@ class Welcome extends Component {
 在前面，我们遇到的 Taro 元素都是内置组件：
 
 ```javascript
-const element = <View />;
+const element = <View />
 ```
 
 然而，Taro 元素也可以是用户自定义的组件：
 
 ```javascript
-const element = <Welcome name="Wallace" />;
+const element = <Welcome name="Wallace" />
 ```
 
 当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为“props”。
@@ -37,16 +37,16 @@ const element = <Welcome name="Wallace" />;
 ```javascript
 // welcome.js
 class Welcome extends Component {
-	render() {
-		return <View>Hello, {this.props.name}</View>;
-	}
+  render () {
+    return <View>Hello, {this.props.name}</View>
+  }
 }
 
 // app.js
 class App extends Component {
-	render() {
-		return <Welcome name="Wallace" />
-	}
+  render () {
+    return <Welcome name="Wallace" />
+  }
 }
 ```
 
@@ -55,8 +55,8 @@ class App extends Component {
 一个声明的组件决不能修改它自己的 `props`。来看这个`sum`函数：
 
 ```javascript
-function sum(a, b) {
-  return a + b;
+function sum (a, b) {
+  return a + b
 }
 ```
 
@@ -65,8 +65,8 @@ function sum(a, b) {
 与之相对的是非纯函数，它会改变它自身的输入值：
 
 ```javascript
-function withdraw(account, amount) {
-  account.total -= amount;
+function withdraw (account, amount) {
+  account.total -= amount
 }
 ```
 

@@ -55,6 +55,12 @@ declare namespace Taro {
      */
     navigationBarTitleText?: string,
     /**
+     * 导航栏样式，仅支持以下值：
+     * default 默认样式
+     * custom 自定义导航栏
+     */
+    navigationStyle?: string,
+    /**
      * 窗口的背景色， HexColor
      * default: #ffffff
      */
@@ -122,12 +128,37 @@ declare namespace Taro {
     list: TarbarList[]
   }
 
+  interface SubPackage {
+    /**
+     * 分包根路径
+     * - 注意：不能放在主包pages目录下
+     */
+    root: string,
+    /**
+     * 分包路径下的所有页面配置
+     */
+    pages: string[]
+  }
+
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
     pages?: string[],
-    tabBar?: TabBar
+    tabBar?: TabBar,
+    /**
+     * 分包加载配置
+     * 示例:
+     * [
+     *   {
+     *     root: 'packages/module',
+     *     pages: [
+     *       'pages/page/index'
+     *     ]
+     *   }
+     * ]
+     */
+    subPackages?: SubPackage[]
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -215,6 +246,11 @@ declare namespace Taro {
   function pxTransform(size: number): string
 
   /**
+   * 小程序引用插件 JS 接口
+   */
+  function requirePlugin(pluginName: string): any
+
+  /**
    *
    * 微信端能力
    * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
@@ -285,7 +321,7 @@ declare namespace Taro {
        *
        * @default false
        */
-      jsonp?: boolean,          
+      jsonp?: boolean,
       /**
        * 设置H5端 jsonp 请求 url 是否需要被缓存
        *

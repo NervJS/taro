@@ -20,12 +20,12 @@ import Taro, { Component } from '@tarojs/taro'
 import { MovableArea, MovableView } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			  <MovableArea style='height: 200px; width: 200px; background: red;'>
-                            <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'></MovableView>
-                            </MovableArea>
-		)
-	}
+  render () {
+    return (
+      <MovableArea style='height: 200px; width: 200px; background: red;'>
+        <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'></MovableView>
+      </MovableArea>
+    )
+  }
 }
 ```

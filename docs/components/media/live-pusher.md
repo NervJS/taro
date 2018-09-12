@@ -19,10 +19,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { LivePusher } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			<LivePusher url='url' mode='RTC' autopush  />
-		)
-	}
+  render () {
+    return (
+      <LivePusher url='url' mode='RTC' autopush  />
+    )
+  }
 }
 ```

@@ -60,7 +60,7 @@ class MyComponent extends Component {
 }
 
 class Cat extends Components {
-  miao() {
+  miao () {
     console.log('miao, miao, miao~')
   }
 

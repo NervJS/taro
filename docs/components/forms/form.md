@@ -21,22 +21,22 @@ import { View, Form } from '@tarojs/components'
 
 class App extends Components {
 
-    formSubmit = e => {
-        console.log(e)
-    }
+  formSubmit = e => {
+    console.log(e)
+  }
 
-    formReset = e => {
-        console.log(e)
-    }
+  formReset = e => {
+    console.log(e)
+  }
 
-	render () {
-		return (
-                    <Form onSubmit='formSubmit' onReset='formReset' >
-                        <View className='example-body'>
-                            <Switch name='switch' className='form-switch'></Switch>
-                        </View>
-                    </Form>
-		)
-	}
+  render () {
+    return (
+      <Form onSubmit={this.formSubmit} onReset={this.formReset} >
+        <View className='example-body'>
+          <Switch name='switch' className='form-switch'></Switch>
+        </View>
+      </Form>
+    )
+  }
 }
 ```

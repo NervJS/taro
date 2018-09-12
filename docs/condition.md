@@ -14,11 +14,11 @@ Taro 中的条件渲染和 JavaScript 中的一致，使用 Taro 操作符 if �
 ```javascript
 // LoginStatus.js
 class LoginStatus extends Component {
-  render() {
+  render () {
     const isLoggedIn = this.props.isLoggedIn
-	  // 这里最好初始化声明为 `null`，初始化又不赋值的话
+    // 这里最好初始化声明为 `null`，初始化又不赋值的话
     // 小程序可能会报警为变量为 undefined
-    let status = null;
+    let status = null
     if (isLoggedIn) {
       status = <Text>已登录</Text>
     } else {
@@ -29,7 +29,7 @@ class LoginStatus extends Component {
       <View>
         {status}
       </View>
-    );
+    )
   }
 }
 // app.js
@@ -37,12 +37,12 @@ import LoginStatus from './LoginStatus'
 
 // 这样会渲染 `已登录`
 class App extends Component {
-  render() {
+  render () {
     return (
       <View>
         <LoginStatus isLoggedIn={true} />
       </View>
-    );
+    )
   }
 }
 ```
@@ -57,15 +57,15 @@ class App extends Component {
 
 ```javascript
 class LoginStatus extends Component {
-  render() {
+  render () {
     const isLoggedIn = this.props.isLoggedIn
 
     return (
       <View>
         {isLoggedIn && <Text>已登录</Text>}
-		  {!isLoggedIn && <Text>未登录</Text>}
+        {!isLoggedIn && <Text>未登录</Text>}
       </View>
-    );
+    )
   }
 }
 ```
@@ -80,17 +80,17 @@ class LoginStatus extends Component {
 
 ```javascript
 class LoginStatus extends Component {
-  render() {
+  render () {
     const isLoggedIn = this.props.isLoggedIn
 
     return (
       <View>
-        {isLoggedIn
-			? <Text>已登录</Text>
-			: <Text>未登录</Text>
-		  }
+      {isLoggedIn
+        ? <Text>已登录</Text>
+        : <Text>未登录</Text>
+      }
       </View>
-    );
+    )
   }
 }
 ```
