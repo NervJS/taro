@@ -1019,9 +1019,6 @@ describe('loop', () => {
           `, `handleClick = () => ({})`)
         })
 
-        console.log(code)
-        console.log(template)
-
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
@@ -1868,7 +1865,7 @@ describe('loop', () => {
                           </navigator>
                       </block>
                       <block wx:else>
-                          <navigator wx:key=\"{{item.id}}\">
+                          <navigator wx:key=\"{{item.$$original.id}}\">
                               <view>2</view>
                           </navigator>
                       </block>
