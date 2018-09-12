@@ -595,24 +595,24 @@ export class RenderParser {
           if (t.isJSXExpressionContainer(value)) {
             const methodName = findMethodName(value.expression)
             methodName && this.usedEvents.add(methodName)
+            const method = this.methods.get(methodName)
+            // if (method && t.isIdentifier(method.node.key)) {
+            //   this.usedEvents.add(methodName)
+            // } else if (method === null) {
+            //   this.usedEvents.add(methodName)
+            // }
+            if (!generate(value.expression).code.includes('.bind')) {
+              path.node.value = t.stringLiteral(`${methodName}`)
+            }
             if (this.methods.has(methodName)) {
-              const method = this.methods.get(methodName)
-              // if (method && t.isIdentifier(method.node.key)) {
-              //   this.usedEvents.add(methodName)
-              // } else if (method === null) {
-              //   this.usedEvents.add(methodName)
-              // }
-              if (!generate(value.expression).code.includes('.bind')) {
-                path.node.value = t.stringLiteral(`${methodName}`)
-              }
               eventShouldBeCatched = isContainStopPropagation(method)
-              const componentName = jsxElementPath.node.openingElement.name
-              if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
-                const element = path.parent as t.JSXOpeningElement
-                if (process.env.NODE_ENV !== 'test') {
-                  const fnName = `__fn_${name.name}`
-                  element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
-                }
+            }
+            const componentName = jsxElementPath.node.openingElement.name
+            if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
+              const element = path.parent as t.JSXOpeningElement
+              if (process.env.NODE_ENV !== 'test') {
+                const fnName = `__fn_${name.name}`
+                element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
               }
             }
           }
