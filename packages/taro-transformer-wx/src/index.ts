@@ -1,7 +1,6 @@
 import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
 import * as fs from 'fs'
-import * as Path from 'path'
 import { Transformer } from './class'
 import { prettyPrint } from 'html'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
