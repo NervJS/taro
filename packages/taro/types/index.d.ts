@@ -208,11 +208,16 @@ declare namespace Taro {
      * 监听一个事件，接受参数
      */
     on(eventName: string | symbol, listener: (...args: any[]) => void): this;
-
+    
+    /**
+     * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
+     */
+    once(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    
     /**
      * 取消监听一个事件
      */
-    off(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
 
     /**
      * 触发一个事件，传参
@@ -224,8 +229,10 @@ declare namespace Taro {
 
   namespace eventCenter {
     function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
-    function off(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
 
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
