@@ -198,7 +198,7 @@ function slash (input: string) {
 export function pathResolver (source: string, location: string) {
   const extName = path.extname(source)
   const promotedPath = source
-  if (extName === '') {
+  if (!['js', 'tsx'].includes(extName)) {
     try {
       const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
       const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
