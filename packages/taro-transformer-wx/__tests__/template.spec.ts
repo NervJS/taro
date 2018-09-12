@@ -207,7 +207,6 @@ describe('Template', () => {
 
       const instance = evalClass(ast, '', true)
       removeShadowData(instance.state)
-      console.log(code)
 
       expect(template).toMatch(prettyPrint(`
         <block>
@@ -245,7 +244,6 @@ describe('Template', () => {
 
       const instance = evalClass(ast, '', true)
       removeShadowData(instance.state)
-      console.log(code)
 
       expect(template).toMatch(prettyPrint(`
         <block>

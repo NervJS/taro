@@ -174,7 +174,7 @@ export default function transform (options: Options): TransformResult {
         'dynamicImport'
       ] as any[]
     },
-    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]]
+    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }], 'transform-es2015-template-literals']
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
