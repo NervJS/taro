@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { partial } from 'lodash';
 import { pipe } from 'lodash/fp';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { Option } from './types';
 
@@ -25,7 +25,9 @@ const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
 const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
 const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 const getExtractCssLoader = () => {
-  return MiniCssExtractPlugin.loader
+  return {
+    loader: MiniCssExtractPlugin.loader
+  }
 }
 
 const appPath = process.cwd()
