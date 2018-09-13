@@ -58,9 +58,6 @@ export interface TaroBaseConfig {
 
   designWidth: number;
   deviceRatio?: number;
-  https: boolean;
-  host: string;
-  port: number;
 
   defineConstants?: Option;
   env?: Option;

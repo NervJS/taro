@@ -1,20 +1,20 @@
-import chalk from 'chalk';
-import { merge } from 'lodash';
-import * as opn from 'opn';
-import * as ora from 'ora';
-import * as path from 'path';
-import * as webpack from 'webpack';
-import * as WebpackDevServer from 'webpack-dev-server';
-import * as webpackMerge from 'webpack-merge';
-import { deprecate } from 'util';
+import chalk from 'chalk'
+import { merge } from 'lodash'
+import * as opn from 'opn'
+import * as ora from 'ora'
+import * as path from 'path'
+import { format as formatUrl } from 'url'
+import { deprecate } from 'util'
+import * as webpack from 'webpack'
+import * as WebpackDevServer from 'webpack-dev-server'
+import * as webpackMerge from 'webpack-merge'
 
-import buildConf from './config/build.conf';
-import devConf from './config/dev.conf';
-import devServerConf from './config/devServer.conf';
-import prodConf from './config/prod.conf';
-import { prepareUrls } from './util';
-import formatWebpackMessage from './util/format_webpack_message';
-import { BuildConfig } from './util/types';
+import buildConf from './config/build.conf'
+import devConf from './config/dev.conf'
+import baseDevServerOption from './config/devServer.conf'
+import prodConf from './config/prod.conf'
+import formatWebpackMessage from './util/format_webpack_message'
+import { BuildConfig } from './util/types'
 
 const appPath = process.cwd()
 let isFirst = true
@@ -38,8 +38,7 @@ const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
   } else if (customConfig instanceof Object) {
     return webpackMerge({}, baseConfig, customConfig)
   }
-}, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`));
-
+}, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
 
 const printBuildError = (err: Error): void => {
   const message = err != null && err.message
@@ -104,7 +103,7 @@ const buildProd = (config: BuildConfig): void => {
   let webpackConfig
 
   customizeChain(webpackChain, config)
-  
+
   if (config.webpack) {
     webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
   } else {
@@ -161,29 +160,31 @@ const buildDev = (config: BuildConfig): void => {
   const conf = buildConf(config)
   const publicPath = conf.publicPath
   const outputPath = path.join(appPath, conf.outputRoot)
-  const customDevServerOptions = config.devServer || {}
-  const https = 'https' in customDevServerOptions ? customDevServerOptions.https : conf.https
-  const host = customDevServerOptions.host || conf.host
-  const port = customDevServerOptions.port || conf.port
-  const urls = prepareUrls(https ? 'https' : 'http', host, port)
-
+  const customDevServerOption = config.devServer || {}
   const webpackChain = devConf(config)
   let webpackConfig
+
   customizeChain(webpackChain, config)
+
+  webpackConfig = webpackChain.toConfig()
   if (config.webpack) {
     webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
-  } else {
-    webpackConfig = webpackChain.toConfig()
   }
 
-  const baseDevServerOptions = devServerConf({
-    publicPath,
-    contentBase: outputPath,
-    https,
-    host,
-    public: urls.lanUrlForConfig
+  const devServerOptions = merge(
+    {
+      publicPath,
+      contentBase: outputPath
+    },
+    baseDevServerOption,
+    customDevServerOption
+  )
+  const devUrl = formatUrl({
+    protocol: devServerOptions.https ? 'https' : 'http',
+    hostname: devServerOptions.host,
+    port: devServerOptions.port,
+    pathname: publicPath
   })
-  const devServerOptions = merge({}, baseDevServerOptions, customDevServerOptions)
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
   const compiler = createCompiler(webpackConfig)
   compiler.hooks.done.tap('taroDoneFirst', stats => {
@@ -191,8 +192,7 @@ const buildDev = (config: BuildConfig): void => {
       isFirst = false
       getServeSpinner().clear()
       console.log()
-      console.log(chalk.cyan(`ℹ️  Listening at ${urls.lanUrlForTerminal}`))
-      console.log(chalk.cyan(`ℹ️  Listening at ${urls.localUrlForBrowser}`))
+      console.log(chalk.cyan(`ℹ️  Listening at ${devUrl}`))
       console.log(chalk.gray('\n监听文件修改中...\n'))
     }
   })
@@ -201,9 +201,9 @@ const buildDev = (config: BuildConfig): void => {
   getServeSpinner().text = 'Compiling...'
   getServeSpinner().start()
 
-  server.listen(port, host, err => {
+  server.listen(devServerOptions.port as number, devServerOptions.host as string, err => {
     if (err) return console.log(err)
-    opn(urls.localUrlForBrowser)
+    opn(devUrl)
   })
 }
 

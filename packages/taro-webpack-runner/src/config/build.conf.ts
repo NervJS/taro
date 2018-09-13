@@ -6,9 +6,6 @@ export default ({
   publicPath = '/',
   staticDirectory = 'static',
   chunkDirectory = 'chunk',
-  port = 10086,
-  host = '0.0.0.0',
-  https = false,
   designWidth = 750
 }: BuildConfig): TaroBaseConfig => {
   return {
@@ -17,9 +14,6 @@ export default ({
     publicPath,
     staticDirectory,
     chunkDirectory,
-    designWidth,
-    port,
-    host,
-    https
+    designWidth
   }
 }
