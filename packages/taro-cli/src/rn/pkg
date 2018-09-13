@@ -6,9 +6,9 @@
     "@tarojs/taro-rn": "^<%= version %>",
     "@tarojs/taro-router-rn": "^<%= version %>",
     "@tarojs/taro-redux-rn": "^<%= version %>",
-    "expo": "^27.0.1",
+    "expo": "27.0.1",
     "react": "16.3.1",
-    "react-native": "~0.55.2",
+    "react-native": "0.55.2",
     "redux": "^4.0.0"
   }
 }
