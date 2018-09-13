@@ -93,8 +93,8 @@ describe('State', () => {
 
       const instance = evalClass(ast)
 
-      expect(instance.state.anonymousState__temp).toBe(`width: 5px;`)
-      expect(template).toMatch(`<view style="{{anonymousState__temp}}">`)
+      expect(instance.state.anonymousState__temp).toBe(undefined)
+      expect(template).toMatch(`<view style="{{\" width: \" + rate + \"px; \"}}">`)
     })
 
     test('可以使用array of object', () => {

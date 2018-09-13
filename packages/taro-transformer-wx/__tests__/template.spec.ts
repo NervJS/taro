@@ -212,7 +212,7 @@ describe('Template', () => {
         <block>
             <view>
                 <view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item">
-                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.list}}" wx:for-item="l"
+                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.$$original.list}}" wx:for-item="l"
                     />
                 </view>
             </view>
@@ -221,7 +221,7 @@ describe('Template', () => {
 
       expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
       expect(instance.state.loopArray0[0].$loopState__temp2).toMatch(`font-size:12px;color:red`)
-      expect(instance.state.loopArray0[0].list[0].$loopState__temp4).toMatch(`font-size:16px;color:green`)
+      expect(instance.state.loopArray0[0].$$original.list[0].$loopState__temp4).toMatch(`font-size:16px;color:green`)
     })
 
     test('能在多层循环中使用 2', () => {
@@ -249,7 +249,7 @@ describe('Template', () => {
         <block>
             <view>
                 <view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item">
-                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.list}}" wx:for-item="l"
+                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.$$original.list}}" wx:for-item="l"
                     />
                     <view style="{{a.$loopState__temp6}}" wx:for="{{a2}}" wx:for-item="a"></view>
                 </view>
@@ -259,7 +259,7 @@ describe('Template', () => {
 
       expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
       expect(instance.state.loopArray0[0].$loopState__temp2).toMatch(`font-size:12px;color:red`)
-      expect(instance.state.loopArray0[0].list[0].$loopState__temp4).toMatch(`font-size:16px;color:green`)
+      expect(instance.state.loopArray0[0].$$original.list[0].$loopState__temp4).toMatch(`font-size:16px;color:green`)
       expect(instance.state.a2[0].$loopState__temp6).toMatch(`font-size:20px;color:yellow`)
     })
   })

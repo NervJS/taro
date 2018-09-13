@@ -1,4 +1,4 @@
-import { isEmptyObject, noop } from './util'
+import { isEmptyObject, noop, objClone } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 const privatePropValName = '__triggerObserer'
@@ -299,7 +299,7 @@ function createComponent (ComponentClass, isPage) {
     console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
     console.warn(err)
   }
-  initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
+  initData = objClone(Object.assign({}, initData, componentInstance.props, componentInstance.state))
 
   const weappComponentConf = {
     data: initData,

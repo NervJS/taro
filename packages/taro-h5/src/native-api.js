@@ -20,6 +20,11 @@ function pxTransform (size) {
   return Math.ceil((parseInt(size, 10) / 40 * 640 / designWidth) * 10000) / 10000 + 'rem'
 }
 
+function canIUseWebp () {
+  const canvas = document.createElement('canvas')
+  return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
@@ -29,5 +34,6 @@ export default function initNativeApi (taro) {
   taro.requirePlugin = function () {
     console.error('不支持 API requirePlugin')
   }
+  taro.canIUseWebp = canIUseWebp
   Object.assign(taro, storage, interactive, webSocket, system)
 }

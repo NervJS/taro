@@ -282,7 +282,7 @@ describe('inline 表达式', () => {
         code: buildComponent(`
         const tasks = []
         return (
-          tasks && tasks.length ? <View className={\`page\`}>
+          tasks && tasks.length ? <View className={String('page')}>
             <Text>Hello world!</Text>
           </View> : null
         )
@@ -300,7 +300,7 @@ describe('inline 表达式', () => {
         code: buildComponent(`
         const tasks = []
         return (
-          tasks && tasks.length && <View className={\`page\`}>
+          tasks && tasks.length && <View className={String('Page')}>
             <Text>Hello world!</Text>
           </View>
         )

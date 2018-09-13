@@ -12,6 +12,17 @@ describe('<Checkbox />', () => {
       expect(tree).toMatchSnapshot()
     })
 
+    describe('prop checked changed', () => {
+      it('should be checked', () => {
+        const wrapper = shallow(
+          <Checkbox checked={false} />
+        )
+        expect(wrapper.state('checked')).toBe(false)
+        wrapper.setProps({ checked: true })
+        expect(wrapper.state('checked')).toBe(true)
+      })
+    })
+
     describe('onPress', () => {
       it('normal', () => {
         const onChange = sinon.spy()

@@ -41,6 +41,8 @@ const noPromiseApis = {
   createInnerAudioContext: true,
   createVideoContext: true,
   createCameraContext: true,
+  createLivePlayerContext: true,
+  createLivePusherContext: true,
 
   // 位置
   createMapContext: true,
