@@ -371,8 +371,21 @@ exports.emptyDirectory = function (dirPath) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
       if (fs.lstatSync(curPath).isDirectory()) {
-        exports.emptyDirectory(curPath)
-        fs.rmdirSync(curPath)
+        let retries = (process.platform === "win32") ? 100 : 1;
+        let removed = false;
+        let i = 0; // retry counter
+        do {
+          try {
+            exports.emptyDirectory(curPath);
+            fs.rmdirSync(curPath);
+            removed = true;
+          }catch(e){
+            // console.error(e);
+          } finally {
+            if (++i < retries)
+              continue
+          }
+        } while (!removed)
       } else {
         fs.unlinkSync(curPath)
       }
