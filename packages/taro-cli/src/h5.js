@@ -225,20 +225,21 @@ function processEntry (code, filePath) {
       const node = astPath.node
       const key = node.key
       const value = node.value
+      const keyName = t.isIdentifier(key) ? key.name : key.value
       // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-      if (key.name === 'pages' && t.isArrayExpression(value)) {
+      if (keyName === 'pages' && t.isArrayExpression(value)) {
         value.elements.forEach(v => {
           pages.push(v.value)
         })
-      } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+      } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar
         tabBar = value
         value.properties.forEach(node => {
-          if (node.key.name === 'position') tabbarPos = node.value.value
+          if (node.keyName === 'position') tabbarPos = node.value.value
         })
-      } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
+      } else if ((keyName === 'iconPath' || keyName === 'selectedIconPath') && t.isStringLiteral(value)) {
         astPath.replaceWith(
-          t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
+          t.objectProperty(t.stringLiteral(keyName), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
         )
       }
     }
