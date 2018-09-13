@@ -15,11 +15,11 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
     }
 
     componentDidMount () {
-      this.screenRef.componentDidShow && this.screenRef.componentDidShow()
+      this.screenRef.current.componentDidShow && this.screenRef.current.componentDidShow()
     }
 
     componentWillUnmount () {
-      this.screenRef.componentDidHide && this.screenRef.componentDidHide()
+      this.screenRef.current.componentDidHide && this.screenRef.current.componentDidHide()
     }
 
     render () {
