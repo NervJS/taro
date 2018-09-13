@@ -5,7 +5,6 @@ import * as ora from 'ora';
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as WebpackDevServer from 'webpack-dev-server';
-import * as webpackMerge from 'webpack-merge';
 
 import buildConf from './config/build.conf';
 import devConf from './config/dev.conf';
@@ -85,12 +84,14 @@ const createCompiler = (webpackConf): webpack.Compiler => {
 }
 
 const buildProd = (config: BuildConfig): void => {
-  const webpackConf = webpackMerge({
-    entry: config.entry
-  }, prodConf(config).toConfig())
+  const webpackChain = prodConf(config)
 
-  // TODO 处理webpackChain参数
-  const compiler = webpack(webpackConf)
+  if (config.webpackChain instanceof Function) {
+    config.webpackChain(webpackChain, webpack)
+  }
+
+  const webpackConfig = webpackChain.toConfig()
+  const compiler = webpack(webpackConfig)
 
   getServeSpinner().text = 'Compiling...'
   getServeSpinner().start()
@@ -147,11 +148,13 @@ const buildDev = (config: BuildConfig): void => {
   const port = customDevServerOptions.port || conf.port
   const urls = prepareUrls(https ? 'https' : 'http', host, port)
 
-  const webpackConf = webpackMerge({
-    entry: config.entry
-  }, devConf(config).toConfig())
+  const webpackChain = devConf(config)
 
-  // TODO 处理webpackChain参数
+  if (config.webpackChain instanceof Function) {
+    config.webpackChain(webpackChain, webpack)
+  }
+  const webpackConfig = webpackChain.toConfig()
+
   const baseDevServerOptions = devServerConf({
     publicPath,
     contentBase: outputPath,
@@ -160,8 +163,8 @@ const buildDev = (config: BuildConfig): void => {
     public: urls.lanUrlForConfig
   })
   const devServerOptions = merge({}, baseDevServerOptions, customDevServerOptions)
-  WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
-  const compiler = createCompiler(webpackConf)
+  WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
+  const compiler = createCompiler(webpackConfig)
   compiler.hooks.done.tap('taroDoneFirst', stats => {
     if (isFirst) {
       isFirst = false

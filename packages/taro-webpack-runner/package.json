@@ -63,8 +63,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.14.0",
     "webpack-chain": "^4.9.0",
-    "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.2"
+    "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
     "@types/autoprefixer": "^6.7.3",
