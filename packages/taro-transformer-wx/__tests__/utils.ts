@@ -106,7 +106,7 @@ export function evalClass (ast: t.File, props = '', isRequire = false) {
     generate(t.classDeclaration(t.identifier('Test'), t.identifier('f'), mainClass.body, [])).code +
     ';' + `new Test(${props})`
   if (isRequire) {
-    code = 'const { internal_inline_style } = require("@tarojs/taro");' + code
+    code = 'const { internal_inline_style, internal_get_original } = require("@tarojs/taro");' + code
   }
   // tslint:disable-next-line
   return eval(code)
