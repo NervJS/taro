@@ -130,9 +130,17 @@ function pxTransform (size) {
   const { designWidth, deviceRatio } = this.config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    return
   }
   return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
+}
+
+function canIUseWebp () {
+  const { platform } = wx.getSystemInfoSync()
+  const platformLower = platform.toLowerCase()
+  if (platformLower === 'android' || platformLower === 'devtools') {
+    return true
+  }
+  return false
 }
 
 export default function initNativeApi (taro) {
@@ -143,4 +151,5 @@ export default function initNativeApi (taro) {
   taro.requirePlugin = requirePlugin
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.canIUseWebp = canIUseWebp
 }
