@@ -20,7 +20,7 @@ import {
   isVarName,
   setParentCondition
 } from './utils'
-import { difference, set as setObject, cloneDeep } from 'lodash'
+import { difference } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
@@ -869,7 +869,29 @@ export class RenderParser {
           }
           stateToBeAssign.forEach(s => this.loopRefIdentifiers.set(s, callee))
           const properties = Array.from(stateToBeAssign).map(state => t.objectProperty(t.identifier(state), t.identifier(state)))
-          const self = this
+          // tslint:disable-next-line:no-inner-declarations
+          function replaceOriginal (path, parent, name) {
+            if (
+              path.isReferencedIdentifier() &&
+              name === item.name &&
+              !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
+              !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE)))
+            ) {
+              path.replaceWith(t.memberExpression(
+                t.identifier(item.name),
+                t.identifier(LOOP_ORIGINAL)
+              ))
+              hasOriginalRef = true
+            }
+          }
+          const bodyPath = (callee.get('arguments') as any)[0].get('body')
+          bodyPath.traverse({
+            Identifier (path) {
+              const name = path.node.name
+              const parent = path.parent
+              replaceOriginal(path, parent, name)
+            }
+          })
           component.traverse({
             Identifier (path) {
               const name = path.node.name
@@ -884,43 +906,7 @@ export class RenderParser {
                 hasOriginalRef = true
               }
 
-              if (
-                path.isReferencedIdentifier() &&
-                name === item.name &&
-                !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
-                !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE)))
-              ) {
-                const parentCallExpr = path.findParent(c => isArrayMapCallExpression(c))
-                if (isArrayMapCallExpression(parentCallExpr)) {
-                  const { object } = parentCallExpr.node.callee as t.MemberExpression
-                  const isCallee = path.findParent(c => c.node === object)
-                  if (isCallee) {
-                    if (self.originalCallee.has(object)) {
-                      const jsx = self.originalCallee.get(object)!
-                      if (t.isMemberExpression(object)) {
-                        const arr: string[] = ['object']
-                        let obj = object.object as any
-                        while (true) {
-                          if (t.identifier(obj) && !t.isMemberExpression(obj)) {
-                            break
-                          }
-                          obj = obj.object
-                          arr.push('object')
-                        }
-                        const objectCopy = cloneDeep(object)
-                        setObject(objectCopy, arr, t.memberExpression(t.identifier(item.name), t.identifier(LOOP_ORIGINAL)))
-                        setJSXAttr(jsx, 'wx:for', t.jSXExpressionContainer(objectCopy))
-                      }
-                    }
-                    return
-                  }
-                }
-                path.replaceWith(t.memberExpression(
-                  t.identifier(item.name),
-                  t.identifier(LOOP_ORIGINAL)
-                ))
-                hasOriginalRef = true
-              }
+              replaceOriginal(path, parent, name)
             },
             MemberExpression (path) {
               const id = findFirstIdentifierFromMemberExpression(path.node)
@@ -930,10 +916,22 @@ export class RenderParser {
             }
           })
           if (hasOriginalRef) {
-            properties.push(t.objectProperty(
+            const originalProp = t.objectProperty(
               t.identifier(LOOP_ORIGINAL),
-              t.identifier(item.name)
-            ))
+              t.memberExpression(
+                t.identifier(item.name),
+                t.identifier(LOOP_ORIGINAL)
+              )
+            )
+            properties.push(originalProp)
+            body.unshift(
+              t.expressionStatement(t.assignmentExpression('=', t.identifier(item.name), t.objectExpression([
+                t.objectProperty(
+                  t.identifier(LOOP_ORIGINAL),
+                  t.identifier(item.name)
+                )
+              ])))
+            )
           }
           const returnStatement = t.returnStatement(properties.length ? t.objectExpression(properties) : item)
           const parentCallee = callee.findParent(c => isArrayMapCallExpression(c))
