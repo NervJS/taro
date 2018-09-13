@@ -4,7 +4,7 @@ import { serializeParams } from '../utils'
 
 function generateRequestUrlWithParams (url, params) {
   params = typeof params === 'string' ? params : serializeParams(params)
-  url += (~url.indexOf('?') ? '&' : '?') + `${params}`
+  url += (~url.indexOf('?') ? '&' : '?') + params
   url = url.replace('?&', '?')
   return url
 }
@@ -45,6 +45,15 @@ export default function request (options) {
   params.cache = options.cache || 'default'
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
+  } else if (methodUpper === 'POST' && typeof options.data === 'object') {
+    let contentType = options.header && (options.header['Content-Type'] || options.header['content-type'])
+    if (contentType === 'application/json') {
+      params.body = JSON.stringify(options.data)
+    } else if (contentType === 'application/x-www-form-urlencoded') {
+      params.body = serializeParams(options.data)
+    } else {
+      params.body = options.data
+    }
   } else {
     params.body = options.data
   }

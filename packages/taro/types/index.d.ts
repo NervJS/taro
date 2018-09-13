@@ -128,12 +128,37 @@ declare namespace Taro {
     list: TarbarList[]
   }
 
+  interface SubPackage {
+    /**
+     * 分包根路径
+     * - 注意：不能放在主包pages目录下
+     */
+    root: string,
+    /**
+     * 分包路径下的所有页面配置
+     */
+    pages: string[]
+  }
+
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
     pages?: string[],
-    tabBar?: TabBar
+    tabBar?: TabBar,
+    /**
+     * 分包加载配置
+     * 示例:
+     * [
+     *   {
+     *     root: 'packages/module',
+     *     pages: [
+     *       'pages/page/index'
+     *     ]
+     *   }
+     * ]
+     */
+    subPackages?: SubPackage[]
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -183,11 +208,16 @@ declare namespace Taro {
      * 监听一个事件，接受参数
      */
     on(eventName: string | symbol, listener: (...args: any[]) => void): this;
-
+    
+    /**
+     * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
+     */
+    once(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    
     /**
      * 取消监听一个事件
      */
-    off(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
 
     /**
      * 触发一个事件，传参
@@ -199,8 +229,10 @@ declare namespace Taro {
 
   namespace eventCenter {
     function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
-    function off(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
 
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }

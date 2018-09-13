@@ -1,5 +1,21 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.25...v) (2018-09-06)
+# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.26...v) (2018-09-10)
+
+
+
+<a name="1.0.0-beta.26"></a>
+# [1.0.0-beta.26](https://github.com/NervJS/taro/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2018-09-10)
+
+
+### Bug Fixes
+
+* **RN:**  startWith  to startsWith ([20f82b8](https://github.com/NervJS/taro/commit/20f82b8))
+* **taro-weapp:** 将 componentDidUpdate 放到 setData 回调中执行，close [#596](https://github.com/NervJS/taro/issues/596) ([ef51c81](https://github.com/NervJS/taro/commit/ef51c81))
+
+
+### Features
+
+* **cli:** 支持小程序分包 ([9bb3e98](https://github.com/NervJS/taro/commit/9bb3e98))
 
 
 

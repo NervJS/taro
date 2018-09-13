@@ -45,12 +45,12 @@ Taro.pxTransform(10) // 小程序：rpx，H5：rem
 
 ```js
 {
-    unitPrecision: 5,
-    propList: ['*'],
-    selectorBlackList: [],
-    replace: true,
-    mediaQuery: false,
-    minPixelValue: 0
+  unitPrecision: 5,
+  propList: ['*'],
+  selectorBlackList: [],
+  replace: true,
+  mediaQuery: false,
+  minPixelValue: 0
 }
 ```
 
@@ -124,13 +124,13 @@ REM单位允许的小数位。
 ```css
  /*`px` is converted to `rem`*/
 .convert {
-    font-size: 16px; // converted to 1rem
+  font-size: 16px; // converted to 1rem
 }
 
  /* `Px` or `PX` is ignored by `postcss-pxtorem` but still accepted by browsers*/
 .ignore {
-    border: 1Px solid; // ignored
-    border-width: 2PX; // ignored
+  border: 1Px solid; // ignored
+  border-width: 2PX; // ignored
 }
 ```
 

@@ -48,3 +48,5 @@ export default class Menu extends Component {
   }
 }
 ```
+
+> 请参考示例项目：https://github.com/NervJS/taro-sample-weapp

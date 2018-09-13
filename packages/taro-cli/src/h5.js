@@ -649,7 +649,7 @@ function processFiles (filePath) {
     } else {
       // 其他 直接复制
       fs.ensureDirSync(distDirname)
-      fs.copyFileSync(filePath, distPath)
+      fs.copySync(filePath, distPath)
     }
   } catch (e) {
     console.log(e)

@@ -18,23 +18,23 @@ import Taro, { Component } from '@tarojs/taro'
 import { RichText } from '@tarojs/components'
 
 class App extends Components {
-	state = {
-            nodes: [{
-                name: 'div',
-                attrs: {
-                    class: 'div_class',
-                    style: 'line-height: 60px; color: red;'
-                },
-            children: [{
-                    type: 'text',
-                    text: 'Hello World!'
-                }]
-            }]
-        }
-	render () {
-		return (
-			<RichText nodes={this.state.nodes} />
-		)
-	}
+  state = {
+    nodes: [{
+      name: 'div',
+      attrs: {
+        class: 'div_class',
+        style: 'line-height: 60px; color: red;'
+      },
+      children: [{
+        type: 'text',
+        text: 'Hello World!'
+      }]
+    }]
+  }
+  render () {
+    return (
+      <RichText nodes={this.state.nodes} />
+    )
+  }
 }
 ```

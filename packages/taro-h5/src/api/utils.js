@@ -45,7 +45,7 @@ function serializeParams (params) {
     return ''
   }
   return Object.keys(params)
-    .map(item => (`${item}=${enc(params[item])}`)).join('&')
+    .map(key => (`${enc(key)}=${enc(params[key])}`)).join('&')
 }
 
 export {
