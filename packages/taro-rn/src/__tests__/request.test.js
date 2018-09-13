@@ -4,7 +4,7 @@ Taro.initNativeApi(Taro)
 
 describe('request', () => {
   beforeEach(() => {
-    const fetch = jest.fn(() => {
+    const fetch = jest.fn((url, params) => {
       return new Promise((resolve, reject) => {
         resolve({
           ok: true,
@@ -55,6 +55,71 @@ describe('request', () => {
       }
       const res = await Taro.request(options)
       expect(res.data).toMatch(expectData)
+    })
+
+    test('数据被序列化', async () => {
+      const fetch = jest.fn((url, params) => {
+        return new Promise((resolve, reject) => {
+          resolve({
+            ok: true,
+            status: 200,
+            headers: {},
+            json: () => {
+              return Promise.resolve({ url, params })
+            },
+            text: () => {
+              return Promise.resolve('卡路里卡路里卡路')
+            }
+          })
+        })
+      })
+
+      global.fetch = fetch
+
+      const url = 'https://test.taro.com/v1'
+      const optionsOne = {
+        url,
+        responseType: 'json',
+        data: {
+          a: 1
+        }
+      }
+
+      const expectUrl = `https://test.taro.com/v1?${encodeURIComponent('a')}=${encodeURIComponent(1)}`
+      const res = await Taro.request(optionsOne)
+      expect(res.data.url).toMatch(expectUrl)
+
+      const optionsTwo = {
+        url,
+        method: 'post',
+        responseType: 'json',
+        header: {
+          'content-type': 'application/json'
+        },
+        data: {
+          a: 1
+        }
+      }
+
+      const expectBodyOne = JSON.stringify({ a: 1 })
+      const resTwo = await Taro.request(optionsTwo)
+      expect(resTwo.data.params.body).toMatch(expectBodyOne)
+
+      const optionsThree = {
+        url,
+        method: 'POST',
+        responseType: 'json',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+          a: 1
+        }
+      }
+
+      const expectBodyTwo = `${encodeURIComponent('a')}=${encodeURIComponent(1)}`
+      const resThree = await Taro.request(optionsThree)
+      expect(resThree.data.params.body).toMatch(expectBodyTwo)
     })
   })
 })
