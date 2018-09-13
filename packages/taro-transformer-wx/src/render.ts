@@ -26,7 +26,7 @@ import {
   buildBlockElement,
   parseJSXElement
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL } from './constant'
+import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -928,7 +928,7 @@ export class RenderParser {
               t.expressionStatement(t.assignmentExpression('=', t.identifier(item.name), t.objectExpression([
                 t.objectProperty(
                   t.identifier(LOOP_ORIGINAL),
-                  t.identifier(item.name)
+                  t.callExpression(t.identifier(INTERNAL_GET_ORIGNAL), [t.identifier(item.name)])
                 )
               ])))
             )

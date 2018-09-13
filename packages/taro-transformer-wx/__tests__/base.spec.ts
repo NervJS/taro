@@ -91,7 +91,6 @@ describe('基本功能', () => {
       code: buildComponent(baseCode)
     })
 
-    expect(code.includes(INTERNAL_DYNAMIC)).toBeTruthy()
     expect(code.includes(INTERNAL_SAFE_GET)).toBeTruthy()
   })
 

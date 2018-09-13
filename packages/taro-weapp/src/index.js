@@ -8,7 +8,8 @@ import {
   internal_safe_get,
   internal_safe_set,
   internal_dynamic_recursive,
-  internal_inline_style
+  internal_inline_style,
+  internal_get_original
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -31,7 +32,8 @@ export const Taro = {
   internal_safe_set,
   internal_dynamic_recursive,
   internal_inline_style,
-  createComponent
+  createComponent,
+  internal_get_original
 }
 
 export default Taro

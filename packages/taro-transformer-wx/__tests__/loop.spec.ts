@@ -2497,7 +2497,7 @@ describe('loop', () => {
             )
           `)
         })
-
+        console.log(code)
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         // const stateName = Object.keys(instance.state)[0]
