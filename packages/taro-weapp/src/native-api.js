@@ -93,11 +93,7 @@ function processApis (taro) {
             obj[k] = (res) => {
               options[k] && options[k](res)
               if (k === 'success') {
-                if (key === 'connectSocket') {
-                  resolve(task)
-                } else {
-                  resolve(res)
-                }
+                resolve(res)
               } else if (k === 'fail') {
                 reject(res)
               }
