@@ -1,3 +1,4 @@
+import request from './api/request'
 import storage from './api/storage'
 import system from './api/system'
 import network from './api/network'
@@ -11,45 +12,6 @@ import { showToast, showLoading, hideToast, hideLoading } from './api/WxToast'
 import showModal from './api/WxModal'
 import showActionSheet from './api/WxActionSheet'
 import previewImage from './api/WxPreviewImage'
-
-function request (options) {
-  options = options || {}
-  if (typeof options === 'string') {
-    options = {
-      url: options
-    }
-  }
-  const url = options.url
-  const params = {}
-  const res = {}
-  params.body = options.data
-  params.headers = options.header
-  params.method = options.method
-  params.mode = options.mode
-  params.credentials = options.credentials
-  params.cache = options.cache
-  return fetch(url, params)
-    .then(response => {
-      res.statusCode = response.status
-      res.header = response.headers
-      if (options.dataType === 'json') {
-        return response.json()
-      }
-      if (options.responseType === 'arraybuffer') {
-        return response.arrayBuffer()
-      }
-      if (options.responseType === 'text') {
-        return response.text()
-      }
-      if (typeof options.dataType === 'undefined') {
-        return response.json()
-      }
-      return Promise.resolve(null)
-    }).then(data => {
-      res.data = data
-      return res
-    })
-}
 
 function processApis (taro) {
   const onAndSyncApis = {
@@ -270,9 +232,9 @@ function processApis (taro) {
 
 export default function initNativeApi (taro) {
   processApis(taro)
-  taro.request = request
   Object.assign(
     taro,
+    request,
     storage,
     system,
     network,

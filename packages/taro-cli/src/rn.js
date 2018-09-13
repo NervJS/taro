@@ -61,7 +61,7 @@ const PACKAGES = {
   '@tarojs/components-rn': '@tarojs/components-rn',
   'react': 'react',
   'react-native': 'react-native',
-  'react-redux': 'react-redux'
+  'react-redux-rn': '@tarojs/taro-redux-rn'
 }
 
 function getJSAst (code) {
@@ -159,7 +159,7 @@ function parseJSCode (code, filePath) {
           providorImportName = providerComponentName
           specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
         }
-        source.value = PACKAGES['react-redux']
+        source.value = PACKAGES['react-redux-rn']
       } else if (value === PACKAGES['@tarojs/components']) {
         source.value = PACKAGES['@tarojs/components-rn']
       }
@@ -485,7 +485,7 @@ function parseJSCode (code, filePath) {
   }
 
   return {
-    code: generate(ast).code,
+    code: unescape(generate(ast).code.replace(/\\u/g, '%u')),
     styleFiles
   }
 }

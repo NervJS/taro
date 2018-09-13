@@ -5,10 +5,10 @@
     "@tarojs/components-rn": "^<%= version %>",
     "@tarojs/taro-rn": "^<%= version %>",
     "@tarojs/taro-router-rn": "^<%= version %>",
-    "expo": "^27.0.1",
+    "@tarojs/taro-redux-rn": "^<%= version %>",
+    "expo": "27.0.1",
     "react": "16.3.1",
-    "react-native": "~0.55.2",
-    "react-redux": "^5.0.7",
+    "react-native": "0.55.2",
     "redux": "^4.0.0"
   }
 }

@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import { View, Input, Textarea } from '../src'
 
 export default class EXTextinput extends Component {
+  state = {
+    inputValue: undefined
+  }
+
   onInput = (event) => {
-    if (event.detail.value.length >= 6) {
+    if (event.detail.value.length >= 8) {
       return 'hehe'
     }
   }
@@ -16,6 +20,12 @@ export default class EXTextinput extends Component {
     console.log('onConfirm', event)
   }
 
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({ inputValue: '123' })
+    }, 10000)
+  }
+
   render () {
     return (
       <View>
@@ -25,6 +35,7 @@ export default class EXTextinput extends Component {
           onKeyDown={this.onKeyDown}
           onConfirm={this.onConfirm}
           onInput={this.onInput}
+          value={this.state.inputValue}
         />
 
         <Textarea
