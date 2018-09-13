@@ -1,26 +1,32 @@
-import * as webpack from 'webpack';
+import * as path from 'path';
 
 import {
   getCssLoader,
+  getDefinePlugin,
+  getEntry,
+  getHtmlWebpackPlugin,
   getLessLoader,
+  getOutput,
   getPostcssLoader,
   getResolveUrlLoader,
   getSassLoader,
   getStyleLoader,
   getStylusLoader,
-  getEntry,
-  getOutput
+  processEnvOption,
+  getHotModuleReplacementPlugin
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import chain from './base.conf';
 import { getPostcssPlugins } from './postcss.conf';
 
+const appPath = process.cwd()
 const emptyObj = {}
 
 export default function (config: Partial<BuildConfig>): any {
   const {
     alias = emptyObj,
     entry = emptyObj,
+    sourceRoot = '',
     outputRoot,
     publicPath,
     staticDirectory = 'static',
@@ -28,7 +34,9 @@ export default function (config: Partial<BuildConfig>): any {
     designWidth = 750,
     deviceRatio,
     sourceMap = true,
-
+    
+    defineConstants = emptyObj,
+    env = emptyObj,
     cssLoaderOption = emptyObj,
     styleLoaderOption = emptyObj,
     sassLoaderOption = emptyObj,
@@ -82,6 +90,13 @@ export default function (config: Partial<BuildConfig>): any {
     outputRoot,
     publicPath
   })
+
+  const htmlWebpackPlugin = getHtmlWebpackPlugin([{
+    filename: 'index.html',
+    template: path.join(appPath, sourceRoot, 'index.html')
+  }])
+  const definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+  const hotModuleReplacementPlugin = getHotModuleReplacementPlugin([])
 
   chain.merge({
     mode: 'development',
@@ -161,9 +176,9 @@ export default function (config: Partial<BuildConfig>): any {
       }
     },
     plugin: {
-      hot: {
-        plugin: webpack.HotModuleReplacementPlugin
-      }
+      hotModuleReplacement: hotModuleReplacementPlugin,
+      define: definePlugin,
+      html: htmlWebpackPlugin
     },
     optimization: {
       noEmitOnErrors: true

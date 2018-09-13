@@ -1,15 +1,23 @@
-import * as path from 'path';
-import { partial } from 'lodash';
-import { pipe } from 'lodash/fp';
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as path from 'path'
+import { partial } from 'lodash'
+import { pipe, mapKeys } from 'lodash/fp'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as HtmlWebpackPlugin from 'html-webpack-plugin'
+import * as webpack from 'webpack'
 
-import { Option } from './types';
-
+import { Option } from './types'
 
 const getLoader = (loaderName: string, options: Option) => {
   return {
     loader: require.resolve(loaderName),
     options: options || {}
+  }
+}
+
+const getPlugin = (plugin: any, args: Option) => {
+  return {
+    plugin,
+    args: [args]
   }
 }
 
@@ -30,6 +38,13 @@ const getExtractCssLoader = () => {
   }
 }
 
+const getMiniCssExtractPlugin = pipe(mergeOption, partial(getPlugin, MiniCssExtractPlugin))
+const getHtmlWebpackPlugin = pipe(mergeOption, partial(getPlugin, HtmlWebpackPlugin))
+const getDefinePlugin = pipe(mergeOption, partial(getPlugin, webpack.DefinePlugin))
+const getHotModuleReplacementPlugin = pipe(mergeOption, partial(getPlugin, webpack.HotModuleReplacementPlugin))
+
+const processEnvOption = partial(mapKeys, key => `process.env.${key}`)
+
 const appPath = process.cwd()
 
 const getEntry = () => {
@@ -46,4 +61,4 @@ const getOutput = ({ outputRoot, publicPath }) => {
   }
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput }
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin } 

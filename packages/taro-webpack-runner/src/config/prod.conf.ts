@@ -1,12 +1,27 @@
-import { merge } from 'lodash'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import { merge } from 'lodash';
+import * as path from 'path';
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
-import { getCssLoader, getExtractCssLoader, getLessLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getStylusLoader, getEntry, getOutput } from '../util/chain'
-import { BuildConfig } from '../util/types'
-import chain from './base.conf'
-import { getPostcssPlugins } from './postcss.conf'
+import {
+  getCssLoader,
+  getDefinePlugin,
+  getEntry,
+  getExtractCssLoader,
+  getHtmlWebpackPlugin,
+  getLessLoader,
+  getMiniCssExtractPlugin,
+  getOutput,
+  getPostcssLoader,
+  getResolveUrlLoader,
+  getSassLoader,
+  getStylusLoader,
+  processEnvOption
+} from '../util/chain';
+import { BuildConfig } from '../util/types';
+import chain from './base.conf';
+import { getPostcssPlugins } from './postcss.conf';
 
+const appPath = process.cwd()
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
@@ -32,6 +47,7 @@ export default function (config: Partial<BuildConfig>): any {
   const {
     alias = emptyObj,
     entry = emptyObj,
+    sourceRoot = '',
     outputRoot,
     publicPath,
     staticDirectory = 'static',
@@ -40,6 +56,8 @@ export default function (config: Partial<BuildConfig>): any {
     deviceRatio,
     sourceMap = false,
 
+    defineConstants = emptyObj,
+    env = emptyObj,
     cssLoaderOption = emptyObj,
     sassLoaderOption = emptyObj,
     lessLoaderOption = emptyObj,
@@ -98,6 +116,16 @@ export default function (config: Partial<BuildConfig>): any {
     outputRoot,
     publicPath
   })
+
+  const miniCssExtractPlugin = getMiniCssExtractPlugin([{
+    filename: 'css/[name].css',
+    chunkFilename: 'css/[id].css'
+  }, miniCssExtractPluginOption])
+  const htmlWebpackPlugin = getHtmlWebpackPlugin([{
+    filename: 'index.html',
+    template: path.join(appPath, sourceRoot, 'index.html')
+  }])
+  const definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   chain.merge({
     mode: 'production',
@@ -177,18 +205,9 @@ export default function (config: Partial<BuildConfig>): any {
       }
     },
     plugin: {
-      extractCss: {
-        plugin: MiniCssExtractPlugin,
-        args: [
-          merge(
-            {
-              filename: 'css/[name].css',
-              chunkFilename: 'css/[id].css'
-            },
-            miniCssExtractPluginOption
-          )
-        ]
-      }
+      extractCss: miniCssExtractPlugin,
+      html: htmlWebpackPlugin,
+      define: definePlugin
     },
     optimization: {
       minimizer: [
