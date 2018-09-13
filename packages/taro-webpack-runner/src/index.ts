@@ -5,6 +5,8 @@ import * as ora from 'ora';
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as WebpackDevServer from 'webpack-dev-server';
+import * as webpackMerge from 'webpack-merge';
+import { deprecate } from 'util';
 
 import buildConf from './config/build.conf';
 import devConf from './config/dev.conf';
@@ -24,6 +26,20 @@ const getServeSpinner = (() => {
     return spinner
   }
 })()
+
+const customizeChain = (chain, config) => {
+  if (config.webpackChain instanceof Function) {
+    config.webpackChain(chain)
+  }
+}
+const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
+  if (customConfig instanceof Function) {
+    return customConfig(baseConfig, webpack)
+  } else if (customConfig instanceof Object) {
+    return webpackMerge({}, baseConfig, customConfig)
+  }
+}, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`));
+
 
 const printBuildError = (err: Error): void => {
   const message = err != null && err.message
@@ -85,12 +101,15 @@ const createCompiler = (webpackConf): webpack.Compiler => {
 
 const buildProd = (config: BuildConfig): void => {
   const webpackChain = prodConf(config)
+  let webpackConfig
 
-  if (config.webpackChain instanceof Function) {
-    config.webpackChain(webpackChain, webpack)
+  customizeChain(webpackChain, config)
+  
+  if (config.webpack) {
+    webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
+  } else {
+    webpackConfig = webpackChain.toConfig()
   }
-
-  const webpackConfig = webpackChain.toConfig()
   const compiler = webpack(webpackConfig)
 
   getServeSpinner().text = 'Compiling...'
@@ -149,11 +168,13 @@ const buildDev = (config: BuildConfig): void => {
   const urls = prepareUrls(https ? 'https' : 'http', host, port)
 
   const webpackChain = devConf(config)
-
-  if (config.webpackChain instanceof Function) {
-    config.webpackChain(webpackChain, webpack)
+  let webpackConfig
+  customizeChain(webpackChain, config)
+  if (config.webpack) {
+    webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
+  } else {
+    webpackConfig = webpackChain.toConfig()
   }
-  const webpackConfig = webpackChain.toConfig()
 
   const baseDevServerOptions = devServerConf({
     publicPath,
