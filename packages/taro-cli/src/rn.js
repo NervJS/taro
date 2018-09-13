@@ -485,7 +485,7 @@ function parseJSCode (code, filePath) {
   }
 
   return {
-    code: generate(ast).code,
+    code: unescape(generate(ast).code.replace(/\\u/g, '%u')),
     styleFiles
   }
 }
