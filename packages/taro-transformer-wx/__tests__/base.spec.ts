@@ -1,6 +1,6 @@
 import transform from '../src'
 import { buildComponent, baseCode, baseOptions } from './utils'
-import { INTERNAL_DYNAMIC, INTERNAL_SAFE_GET, DEFAULT_Component_SET } from '../src/constant'
+import { INTERNAL_SAFE_GET, DEFAULT_Component_SET } from '../src/constant'
 
 describe('基本功能', () => {
   test('导出包', () => {

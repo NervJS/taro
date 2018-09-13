@@ -7,7 +7,6 @@ import {
   render,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive,
   internal_inline_style,
   internal_get_original
 } from '@tarojs/taro'
@@ -30,7 +29,6 @@ export const Taro = {
   ENV_TYPE,
   internal_safe_get,
   internal_safe_set,
-  internal_dynamic_recursive,
   internal_inline_style,
   createComponent,
   internal_get_original
