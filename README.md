@@ -18,7 +18,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](//storage.360buyimg.com/taro-resource/articles.jpg)
+![案例](storage.360buyimg.com/taro-resource/articles.jpg)
 
 
 ## 示例项目
