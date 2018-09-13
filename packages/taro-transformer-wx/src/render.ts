@@ -982,11 +982,21 @@ export class RenderParser {
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
-            this.renderPath.node.body.body.push(
-              buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
-            )
+            const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
+            let inserted = false
+            const returnBody = this.renderPath.node.body.body
+            for (let index = 0; index < returnBody.length; index++) {
+              const node = returnBody[index]
+              if (node === callee.getStatementParent().node) {
+                returnBody.splice(index, 0, decl)
+                inserted = true
+                break
+              }
+            }
+            if (!inserted) {
+              returnBody.push(decl)
+            }
           }
-          // console.log(callee.getSource())
         }
       }
       replaceQueue.push(() => {
