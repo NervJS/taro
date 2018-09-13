@@ -62,12 +62,11 @@ export default function (config: Partial<BuildConfig>): any {
     { sourceMap },
     {
       ident: 'postcss',
-      plugins: () =>
-        getPostcssPlugins({
-          designWidth,
-          deviceRatio,
-          postcssOption
-        })
+      plugins: getPostcssPlugins({
+        designWidth,
+        deviceRatio,
+        postcssOption
+      })
     }
   ])
 
@@ -92,74 +91,72 @@ export default function (config: Partial<BuildConfig>): any {
     resolve: { alias },
     module: {
       rule: {
-        base: {
-          jsx: {
-            use: {
-              babelLoader: {
-                options: plugins.babel
-              }
+        jsx: {
+          use: {
+            babelLoader: {
+              options: plugins.babel
             }
-          },
-          media: {
-            use: {
-              urlLoader: {
-                options: {
-                  name: `${staticDirectory}/media/[name].[ext]`,
-                  ...mediaUrlLoaderOption
-                }
-              }
-            }
-          },
-          font: {
-            use: {
-              urlLoader: {
-                options: {
-                  name: `${staticDirectory}/fonts/[name].[ext]`,
-                  ...fontUrlLoaderOption
-                }
-              }
-            }
-          },
-          image: {
-            use: {
-              urlLoader: {
-                options: {
-                  name: `${staticDirectory}/images/[name].[ext]`,
-                  ...imageUrlLoaderOption
-                }
-              }
-            }
-          },
-          sass: {
-            test: /\.(css|scss|sass)(\?.*)?$/,
-            exclude: /node_modules/,
-            use: [styleLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
-          },
-          less: {
-            test: /\.less(\?.*)?$/,
-            exclude: /node_modules/,
-            use: [styleLoader, cssLoader, postcssLoader, lessLoader]
-          },
-          styl: {
-            test: /\.styl(\?.*)?$/,
-            exclude: /node_modules/,
-            use: [styleLoader, cssLoader, postcssLoader, stylusLoader]
-          },
-          sassInNodemodules: {
-            test: /\.(css|scss|sass)(\?.*)?$/,
-            include: /node_modules/,
-            use: [styleLoader, cssLoader, sassLoader]
-          },
-          lessInNodemodules: {
-            test: /\.less(\?.*)?$/,
-            include: /node_modules/,
-            use: [styleLoader, cssLoader, lessLoader]
-          },
-          stylInNodemodules: {
-            test: /\.styl(\?.*)?$/,
-            include: /node_modules/,
-            use: [styleLoader, cssLoader, stylusLoader]
           }
+        },
+        media: {
+          use: {
+            urlLoader: {
+              options: {
+                name: `${staticDirectory}/media/[name].[ext]`,
+                ...mediaUrlLoaderOption
+              }
+            }
+          }
+        },
+        font: {
+          use: {
+            urlLoader: {
+              options: {
+                name: `${staticDirectory}/fonts/[name].[ext]`,
+                ...fontUrlLoaderOption
+              }
+            }
+          }
+        },
+        image: {
+          use: {
+            urlLoader: {
+              options: {
+                name: `${staticDirectory}/images/[name].[ext]`,
+                ...imageUrlLoaderOption
+              }
+            }
+          }
+        },
+        sass: {
+          test: /\.(css|scss|sass)(\?.*)?$/,
+          exclude: [/node_modules/],
+          use: [styleLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
+        },
+        less: {
+          test: /\.less(\?.*)?$/,
+          exclude: [/node_modules/],
+          use: [styleLoader, cssLoader, postcssLoader, lessLoader]
+        },
+        styl: {
+          test: /\.styl(\?.*)?$/,
+          exclude: [/node_modules/],
+          use: [styleLoader, cssLoader, postcssLoader, stylusLoader]
+        },
+        sassInNodemodules: {
+          test: /\.(css|scss|sass)(\?.*)?$/,
+          include: [/node_modules/],
+          use: [styleLoader, cssLoader, sassLoader]
+        },
+        lessInNodemodules: {
+          test: /\.less(\?.*)?$/,
+          include: [/node_modules/],
+          use: [styleLoader, cssLoader, lessLoader]
+        },
+        stylInNodemodules: {
+          test: /\.styl(\?.*)?$/,
+          include: [/node_modules/],
+          use: [styleLoader, cssLoader, stylusLoader]
         }
       }
     },

@@ -7,52 +7,50 @@ const chain = new Chain()
 
 chain.merge({
   module: {
-    rules: {
-      base: {
-        jsx: {
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          use: {
-            babelLoader: {
-              loader: require.resolve('babel-loader'),
-              options: {
-                plugin: [
-                  require.resolve('babel-plugin-syntax-dynamic-import'),
-                  [require.resolve('babel-plugin-transform-react-jsx'), {
-                    pragma: 'Nerv.createElement'
-                  }]
-                ]
-              }
+    rule: {
+      jsx: {
+        test: /\.jsx?$/,
+        exclude: [/node_modules/],
+        use: {
+          babelLoader: {
+            loader: require.resolve('babel-loader'),
+            options: {
+              plugins: [
+                require.resolve('babel-plugin-syntax-dynamic-import'),
+                [require.resolve('babel-plugin-transform-react-jsx'), {
+                  pragma: 'Nerv.createElement'
+                }]
+              ]
             }
           }
-        },
-        media: {
-          test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-          use: {
-            urlLoader: {
-              loader: require.resolve('url-loader')
+        }
+      },
+      media: {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        use: {
+          urlLoader: {
+            loader: require.resolve('url-loader')
+          }
+        }
+      },
+      font: {
+        test: [/\.(woff2?|eot|ttf|otf)(\?.*)?$/],
+        use: {
+          urlLoader: {
+            loader: require.resolve('url-loader'),
+            options: {
+              limit: 2000
             }
           }
-        },
-        font: {
-          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-          use: {
-            urlLoader: {
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: 2000
-              }
-            }
-          }
-        },
-        image: {
-          test: /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/,
-          use: {
-            urlLoader: {
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: 2000
-              }
+        }
+      },
+      image: {
+        test: [/\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/],
+        use: {
+          urlLoader: {
+            loader: require.resolve('url-loader'),
+            options: {
+              limit: 2000
             }
           }
         }
@@ -60,7 +58,7 @@ chain.merge({
     }
   },
   resolve: {
-    extension: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     mainFields: ['main', 'module'],
     symlinks: true,
     modules: [

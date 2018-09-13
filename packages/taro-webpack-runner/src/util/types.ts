@@ -24,6 +24,9 @@ export interface Chain {
 }
 
 export interface TaroH5Config {
+
+  webpack: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
+
   webpackChain: (chain: any, webpack: any) => void;
 
   alias: Option;

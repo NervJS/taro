@@ -39,12 +39,12 @@ export const getPostcssPlugins = function ({
   const customPlugins = postcssOption.plugins || []
 
   if (isAutoprefixerEnabled) {
-    const customAutoprefixerOption = postcssOption!.autoprefixer!.config
+    const customAutoprefixerOption = postcssOption.autoprefixer ? postcssOption.autoprefixer.config : {}
     plugins.push(autoprefixer(Object.assign(defaultAutoprefixerOption, customAutoprefixerOption) as autoprefixer.Options))
   }
 
   if (isPxtransformEnabled) {
-    const customPxtransformOption = postcssOption!.pxtransform!.config || {}
+    const customPxtransformOption = postcssOption.pxtransform ? postcssOption.pxtransform.config : {}
 
     if (designWidth) {
       defaultPxtransformOption.designWidth = designWidth

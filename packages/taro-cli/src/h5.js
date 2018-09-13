@@ -720,7 +720,7 @@ async function buildDist (buildConfig) {
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
   h5Config.entry = Object.assign({
-    app: path.join(tempPath, entryFile)
+    app: [path.join(tempPath, entryFile)]
   }, h5Config.entry)
   if (watch) {
     h5Config.isWatch = true
