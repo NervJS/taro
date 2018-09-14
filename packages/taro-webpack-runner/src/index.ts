@@ -1,19 +1,19 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
-import * as webpackMerge from 'webpack-merge'
-import * as WebpackDevServer from 'webpack-dev-server'
+import chalk from 'chalk'
+import { merge } from 'lodash'
 import * as opn from 'opn'
 import * as ora from 'ora'
-import chalk from 'chalk'
+import * as path from 'path'
+import { format as formatUrl } from 'url'
+import { deprecate } from 'util'
+import * as webpack from 'webpack'
+import * as WebpackDevServer from 'webpack-dev-server'
+import * as webpackMerge from 'webpack-merge'
 
-import formatWebpackMessage from './util/format_webpack_message'
-import baseConf from './config/base.conf'
-import devConf from './config/dev.conf'
-import devServerConf from './config/devServer.conf'
-import prodConf from './config/prod.conf'
 import buildConf from './config/build.conf'
-// import { formatTime, prepareUrls, patchCustomConfig } from './util'
-import { prepareUrls, patchCustomConfig } from './util'
+import devConf from './config/dev.conf'
+import baseDevServerOption from './config/devServer.conf'
+import prodConf from './config/prod.conf'
+import formatWebpackMessage from './util/format_webpack_message'
 import { BuildConfig } from './util/types'
 
 const appPath = process.cwd()
@@ -26,6 +26,19 @@ const getServeSpinner = (() => {
     return spinner
   }
 })()
+
+const customizeChain = (chain, config) => {
+  if (config.webpackChain instanceof Function) {
+    config.webpackChain(chain)
+  }
+}
+const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
+  if (customConfig instanceof Function) {
+    return customConfig(baseConfig, webpack)
+  } else if (customConfig instanceof Object) {
+    return webpackMerge({}, baseConfig, customConfig)
+  }
+}, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
 
 const printBuildError = (err: Error): void => {
   const message = err != null && err.message
@@ -58,14 +71,12 @@ const createCompiler = (webpackConf): webpack.Compiler => {
   })
   compiler.hooks.done.tap('taroDone', stats => {
     const { errors, warnings } = formatWebpackMessage(stats.toJson(true))
-    const isSuccess = !errors.length && !warnings.length
-    if (isSuccess) {
+    if (!errors.length) {
       getServeSpinner().stopAndPersist({
         symbol: '✅ ',
         text: chalk.green('Compile successfully!\n')
       })
-    }
-    if (errors.length) {
+    } else {
       errors.splice(1)
       getServeSpinner().stopAndPersist({
         symbol: '🙅  ',
@@ -86,18 +97,18 @@ const createCompiler = (webpackConf): webpack.Compiler => {
 }
 
 const buildProd = (config: BuildConfig): void => {
-  const conf = Object.assign({}, buildConf, config)
-  const baseWebpackConf = webpackMerge(baseConf(conf), prodConf(conf), {
-    entry: conf.entry,
-    output: {
-      path: path.join(appPath, conf.outputRoot),
-      filename: 'js/[name].js',
-      publicPath: conf.publicPath
-    }
-  })
-  const webpackConf = patchCustomConfig(baseWebpackConf, conf)
-  const compiler = webpack(webpackConf)
-  console.log()
+  const webpackChain = prodConf(config)
+  let webpackConfig
+
+  customizeChain(webpackChain, config)
+
+  if (config.webpack) {
+    webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
+  } else {
+    webpackConfig = webpackChain.toConfig()
+  }
+  const compiler = webpack(webpackConfig)
+
   getServeSpinner().text = 'Compiling...'
   getServeSpinner().start()
 
@@ -107,8 +118,7 @@ const buildProd = (config: BuildConfig): void => {
     }
 
     const { errors, warnings } = formatWebpackMessage(stats.toJson({}))
-    const isSuccess = !errors.length && !warnings.length
-    if (isSuccess) {
+    if (!errors.length) {
       getServeSpinner().stopAndPersist({
         symbol: '✅ ',
         text: chalk.green('Compile successfully!\n')
@@ -122,8 +132,7 @@ const buildProd = (config: BuildConfig): void => {
           chunkModules: false
         }) + '\n'
       )
-    }
-    if (errors.length) {
+    } else {
       errors.splice(1)
       getServeSpinner().stopAndPersist({
         symbol: '🙅  ',
@@ -144,42 +153,42 @@ const buildProd = (config: BuildConfig): void => {
 }
 
 const buildDev = (config: BuildConfig): void => {
-  const conf = Object.assign({}, buildConf, config)
+  const conf = buildConf(config)
   const publicPath = conf.publicPath
-  const contentBase = path.join(appPath, conf.outputRoot)
-  const customDevServerOptions = config.devServer || {}
-  const https = 'https' in customDevServerOptions ? customDevServerOptions.https : conf.protocol === 'https'
-  const host = customDevServerOptions.host || conf.host
-  const port = customDevServerOptions.port || conf.port
-  const urls = prepareUrls(https ? 'https' : 'http', host, port)
+  const outputPath = path.join(appPath, conf.outputRoot)
+  const customDevServerOption = config.devServer || {}
+  const webpackChain = devConf(config)
+  let webpackConfig
 
-  const baseWebpackConf = webpackMerge(baseConf(conf), devConf(conf), {
-    entry: conf.entry,
-    output: {
-      path: contentBase,
-      filename: 'js/[name].js',
-      publicPath
-    }
-  })
+  customizeChain(webpackChain, config)
 
-  const webpackConf = patchCustomConfig(baseWebpackConf, conf)
-  const baseDevServerOptions = devServerConf({
-    publicPath,
-    contentBase,
-    https,
-    host,
-    publicUrl: urls.lanUrlForConfig
+  webpackConfig = webpackChain.toConfig()
+  if (config.webpack) {
+    webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
+  }
+
+  const devServerOptions = merge(
+    {
+      publicPath,
+      contentBase: outputPath
+    },
+    baseDevServerOption,
+    customDevServerOption
+  )
+  const devUrl = formatUrl({
+    protocol: devServerOptions.https ? 'https' : 'http',
+    hostname: devServerOptions.host,
+    port: devServerOptions.port,
+    pathname: publicPath
   })
-  const devServerOptions = Object.assign({}, baseDevServerOptions, customDevServerOptions)
-  WebpackDevServer.addDevServerEntrypoints(webpackConf, devServerOptions)
-  const compiler = createCompiler(webpackConf)
+  WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
+  const compiler = createCompiler(webpackConfig)
   compiler.hooks.done.tap('taroDoneFirst', stats => {
     if (isFirst) {
       isFirst = false
       getServeSpinner().clear()
       console.log()
-      console.log(chalk.cyan(`ℹ️  Listening at ${urls.lanUrlForTerminal}`))
-      console.log(chalk.cyan(`ℹ️  Listening at ${urls.localUrlForBrowser}`))
+      console.log(chalk.cyan(`ℹ️  Listening at ${devUrl}`))
       console.log(chalk.gray('\n监听文件修改中...\n'))
     }
   })
@@ -188,9 +197,9 @@ const buildDev = (config: BuildConfig): void => {
   getServeSpinner().text = 'Compiling...'
   getServeSpinner().start()
 
-  server.listen(port, host, err => {
+  server.listen(devServerOptions.port as number, devServerOptions.host as string, err => {
     if (err) return console.log(err)
-    opn(urls.localUrlForBrowser)
+    opn(devUrl)
   })
 }
 

@@ -1,50 +1,62 @@
-import * as autoprefixer from 'autoprefixer'
-import * as pxtransform from 'postcss-pxtransform'
-import * as constparse from 'postcss-plugin-constparse'
+import * as autoprefixer from 'autoprefixer';
+import * as constparse from 'postcss-plugin-constparse';
+import * as pxtransform from 'postcss-pxtransform';
 
-import { isEmptyObject } from '../util'
+import { PostcssOption } from '../util/types';
 
-const defaultAutoprefixerConf = {
+const defaultAutoprefixerOption = {
   browsers: [
     'Android >= 4',
     'iOS >= 6'
   ],
   flexbox: 'no-2009'
 }
+const defaultPxtransformOption: any = {
+  platform: 'h5'
+}
+
+const defaultConstparseOption = {
+  constants: [{
+    key: 'taro-tabbar-height',
+    val: '50PX'
+  }],
+  platform: 'h5'
+}
 
 const plugins = [] as any[]
 
-export const getPostcssPlugins = function (config) {
-  const designWidth = config.designWidth || 750
-  const useModuleConf = config.module || {}
-  const customPostcssConf = useModuleConf.postcss || {}
-  const customAutoprefixerConf = customPostcssConf.autoprefixer || {}
-  const customPxtransformConf = customPostcssConf.pxtransform || {}
-  const customPlugins = customPostcssConf.plugins || []
+export const getPostcssPlugins = function ({
+  designWidth,
+  deviceRatio,
+  postcssOption = {} as PostcssOption
+}) {
+  const isAutoprefixerEnabled = (postcssOption.autoprefixer && postcssOption.autoprefixer.enable === false)
+    ? false
+    : true
+  const isPxtransformEnabled = (postcssOption.pxtransform && postcssOption.pxtransform.enable === false)
+    ? false
+    : true
+  const customPlugins = postcssOption.plugins || []
 
-  const postcssPxtransformOption = {
-    designWidth,
-    platform: 'h5'
+  if (isAutoprefixerEnabled) {
+    const customAutoprefixerOption = postcssOption.autoprefixer ? postcssOption.autoprefixer.config : {}
+    plugins.push(autoprefixer(Object.assign(defaultAutoprefixerOption, customAutoprefixerOption) as autoprefixer.Options))
   }
 
-  const DEVICE_RATIO = 'deviceRatio'
-  if (config.hasOwnProperty(DEVICE_RATIO)) {
-    postcssPxtransformOption[DEVICE_RATIO] = config.deviceRatio
+  if (isPxtransformEnabled) {
+    const customPxtransformOption = postcssOption.pxtransform ? postcssOption.pxtransform.config : {}
+
+    if (designWidth) {
+      defaultPxtransformOption.designWidth = designWidth
+    }
+  
+    if (deviceRatio) {
+      defaultPxtransformOption.deviceRatio = deviceRatio
+    }
+    plugins.push(pxtransform(Object.assign(defaultPxtransformOption, customPxtransformOption)))
   }
 
-  if (isEmptyObject(customAutoprefixerConf) || customAutoprefixerConf.enable) {
-    plugins.push(autoprefixer(Object.assign({}, defaultAutoprefixerConf, customAutoprefixerConf)))
-  }
-
-  plugins.push(pxtransform(Object.assign({}, postcssPxtransformOption, customPxtransformConf)))
-
-  plugins.push(constparse({
-    constants: [{
-      key: 'taro-tabbar-height',
-      val: '50PX'
-    }],
-    platform: 'h5'
-  }))
+  plugins.push(constparse(defaultConstparseOption))
 
   return plugins.concat(customPlugins)
 }
