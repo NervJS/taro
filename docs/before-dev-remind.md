@@ -10,11 +10,13 @@ title: 开发前注意
   * 需要设置关闭代码压缩上传，开启可能报错
 
 ## React Native
+> Note: React Native 端暂时还未支持 TypeScript，在初始化项目时，如果要考虑 RN 端，请不要选择 TypeScript。
+
 > Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器的写法。
 
 ### 常见问题
 #### 样式和 CSS 一致吗？
-React Native 的样式基于开源的跨平台布局引擎 [Yaga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式：[React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
+React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式：[React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
 
 我们在React Native中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox可以在不同屏幕尺寸上提供一致的布局结构。因此，如果你要考虑 React Native 端，那你的样式布局就得采用 Flex 布局。
 
@@ -55,7 +57,7 @@ Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](htt
 
 一般来说，使用 `flexDirection`、`alignItems` 和 `justifyContent` 三个样式属性就已经能满足大多数布局需求。
 
-##### flex number
+##### Flex number
 在 React Native 中 flex 的表现和 CSS 有些区别。 flex 在 RN 中只能为整数值，其具体表现请参考 [yoga 引擎](https://github.com/facebook/yoga) 的文档，
 
 当 flex 为正整数时，组件是弹性的，尺寸和 flex 的值成正比。
@@ -67,7 +69,7 @@ Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](htt
 ##### Flex Direction
 在组件的 style 中指定 flexDirection 可以决定布局的主轴。子元素是应该沿着 `水平轴(row)`方向排列，还是沿着 `竖直轴(column)` 方向排列呢？**默认值是 `竖直轴(column)` 方向**，这点和 CSS 不一样，想要注意。
 
-#### Justify Content
+##### Justify Content
 在组件的 style 中指定 justifyContent 可以决定其子元素沿着主轴的排列方式。子元素是应该靠近主轴的起始端还是末尾段分布呢？亦或应该均匀分布？对应的这些可选项有：`flex-start`、`center`、`flex-end`、`space-around` 以及 `space-between`。
 
 ##### Align Items

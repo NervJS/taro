@@ -1,7 +1,8 @@
 {
   "docs": {
     "关于Taro": [
-      "README"
+      "README",
+      "team"
     ],
     "快速开始": [
       "GETTING-STARTED",

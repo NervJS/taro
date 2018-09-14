@@ -1,0 +1,29 @@
+{
+  "name": "@tarojs/taro-redux-rn",
+  "version": "1.0.0-beta.26",
+  "description": "taro-redux-rn",
+  "main": "./src/index.js",
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "router"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "16.3.0"
+  },
+  "dependencies": {
+    "react-redux": "^5.0.7"
+  }
+}
+

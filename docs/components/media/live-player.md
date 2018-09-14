@@ -19,10 +19,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { LivePlayer } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			<LivePlayer src='url' mode='live' autoplay  />
-		)
-	}
+  render () {
+    return (
+      <LivePlayer src='url' mode='live' autoplay  />
+    )
+  }
 }
 ```

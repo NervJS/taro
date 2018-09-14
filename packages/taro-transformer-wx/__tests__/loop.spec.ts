@@ -193,13 +193,18 @@ describe('loop', () => {
           expect(template).toMatch(prettyPrint(
             `
             <block>
-                <view>
-                    <block wx:if=\"{{!anonymousState__temp}}\">
+            <view>
+                <block>
+                    <block wx:if=\"{{anonymousState__temp}}\">
+                        <view></view>
+                    </block>
+                    <block wx:else>
                         <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{$anonymousCallee__4}}\"
                         wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
                     </block>
-                </view>
-            </block>
+                </block>
+            </view>
+        </block>
             `
           ))
         })
@@ -244,18 +249,28 @@ describe('loop', () => {
           expect(template).toMatch(prettyPrint(
             `
             <block>
-                <view>
-                    <block wx:if=\"{{!(a1.length === 0)}}\">
+            <view>
+                <block>
+                    <block wx:if=\"{{a1.length === 0}}\">
+                        <view></view>
+                    </block>
+                    <block wx:else>
                         <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a2}}\"
                         wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}
-                            <block wx:if=\"{{!b1}}\">
-                                <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a3}}\"
-                                wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
+                            <block>
+                                <block wx:if=\"{{b1}}\">
+                                    <view></view>
+                                </block>
+                                <block wx:else>
+                                    <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a3}}\"
+                                    wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
+                                </block>
                             </block>
                         </view>
                     </block>
-                </view>
-            </block>
+                </block>
+            </view>
+        </block>
             `
           ))
         })
@@ -988,7 +1003,7 @@ describe('loop', () => {
             const b4 = true
             return (
               <View>{array.map(arr => {
-                return <CoverView>
+                return <CoverView key={String(arr)}>
                 {arr.list.map(item => {
                   return b1 ? <ScrollView className={\`test\`} >
                     {b2 ? <Map /> : null}
@@ -1007,14 +1022,14 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
-        expect(instance.state.array).toEqual([{ list: [{ $loopState__temp2: 'test' }] }])
+        expect(instance.state.array).toEqual([{ list: [{}] }])
         expect(template).toMatch(prettyPrint(
           `
           <block>
         <view>
-            <cover-view wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
-                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                    <scroll-view class=\"{{item.$loopState__temp2}}\">
+            <cover-view wx:key=\"{{arr.$loopState__temp2}}\"  wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
+                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.$$original.list}}\" wx:for-item=\"item\">
+                    <scroll-view class=\"test\">
                         <block wx:if=\"{{b2}}\">
                             <map></map>
                         </block>
@@ -1063,37 +1078,29 @@ describe('loop', () => {
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
-        expect(Object.keys(instance.state).length).toBe(5)
-        expect(instance.state.loopArray0).toEqual([
-          {
-            'list': [
-              {}
-            ],
-            '$loopState__temp2': 'test'
-          }
-        ])
+        expect(Object.keys(instance.state).length).toBe(4)
+        expect(instance.state.loopArray0).toEqual(undefined)
         expect(template).toMatch(prettyPrint(
           `
           <block>
-              <view>
-                  <cover-view class=\"{{arr.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\"
-                  wx:for-item=\"arr\">
-                      <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                          <scroll-view>
-                              <block wx:if=\"{{b2}}\">
-                                  <map></map>
-                              </block>
-                              <text></text>
-                          </scroll-view>
-                      </block>
-                      <view>
-                          <block wx:if=\"{{b4}}\">
-                              <image/>
+          <view>
+              <cover-view class=\"test\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
+                  <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
+                      <scroll-view>
+                          <block wx:if=\"{{b2}}\">
+                              <map></map>
                           </block>
-                      </view>
-                  </cover-view>
-              </view>
-          </block>
+                          <text></text>
+                      </scroll-view>
+                  </block>
+                  <view>
+                      <block wx:if=\"{{b4}}\">
+                          <image/>
+                      </block>
+                  </view>
+              </cover-view>
+          </view>
+      </block>
           `
         ))
       })
@@ -1850,7 +1857,7 @@ describe('loop', () => {
                           </navigator>
                       </block>
                       <block wx:else>
-                          <navigator wx:key=\"{{item.id}}\">
+                          <navigator wx:key=\"{{item.$$original.id}}\">
                               <view>2</view>
                           </navigator>
                       </block>
@@ -2235,7 +2242,7 @@ describe('loop', () => {
             const array = ['test1', 'test2', 'test3']
             return (
               <View>{array.map(item => {
-                return <View>{\`\$\{item\}\`}</View>
+                return <View>{String(item)}</View>
               })}</View>
             )
           `)
@@ -2490,7 +2497,7 @@ describe('loop', () => {
             )
           `)
         })
-
+        console.log(code)
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         // const stateName = Object.keys(instance.state)[0]

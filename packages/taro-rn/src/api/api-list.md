@@ -379,7 +379,7 @@
 
 ✅ wx.redirectTo
 
-🤔 wx.switchTab
+✅ wx.switchTab
 
 ✅ wx.navigateBack
 
@@ -513,11 +513,11 @@
 
 #### 下拉刷新
 
-🤔 Page.onPullDownRefresh
+✅ Page.onPullDownRefresh
 
-🤔 wx.startPullDownRefresh
+✅ wx.startPullDownRefresh
 
-🤔 wx.stopPullDownRefresh
+✅ wx.stopPullDownRefresh
 
 #### WXML节点信息
 

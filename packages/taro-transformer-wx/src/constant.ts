@@ -82,11 +82,13 @@ export const REDUX_PACKAGE_NAME = '@tarojs/redux'
 
 export const MAP_CALL_ITERATOR = '__item'
 
-export const INTERNAL_DYNAMIC = 'internal_dynamic_recursive'
-
 export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
 
+export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
+
 export const LOOP_STATE = '$loopState'
+
+export const LOOP_ORIGINAL = '$$original'
 
 export const LOOP_CALLEE = '$anonymousCallee_'
 

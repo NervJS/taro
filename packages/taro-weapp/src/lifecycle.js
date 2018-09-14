@@ -40,16 +40,13 @@ export function updateComponent (component) {
     componentTrigger(component, 'componentWillMount')
   }
   if (!skip) {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
-    }
-    doUpdate(component)
+    doUpdate(component, prevProps, prevState)
   }
   component.prevProps = component.props
   component.prevState = component.state
 }
 
-function doUpdate (component) {
+function doUpdate (component, prevProps, prevState) {
   const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
@@ -81,6 +78,9 @@ function doUpdate (component) {
   data[privatePropKeyName] = !privatePropKeyVal
   const dataDiff = diffObjToPath(data, component.$scope.data)
   component.$scope.setData(dataDiff, function () {
+    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
+      component.componentDidUpdate(prevProps, prevState)
+    }
     if (component._pendingCallbacks) {
       while (component._pendingCallbacks.length) {
         component._pendingCallbacks.pop().call(component)
