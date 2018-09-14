@@ -397,11 +397,20 @@ export class RenderParser {
                 VariableDeclarator: (p) => {
                   const { id, init } = p.node
                   if (t.isIdentifier(id)) {
-                    const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-                    blockStatement.scope.rename(id.name, newId.name)
-                    p.parentPath.replaceWith(
-                      template('ID = INIT;')({ ID: newId, INIT: init })
-                    )
+                    if (id.name.startsWith('loopArray')) {
+                      this.renderPath.node.body.body.unshift(
+                        t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
+                      )
+                      p.parentPath.replaceWith(
+                        template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
+                      )
+                    } else {
+                      const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
+                      this.renderScope.rename(id.name, newId.name)
+                      p.parentPath.replaceWith(
+                        template('ID = INIT;')({ ID: newId, INIT: init })
+                      )
+                    }
                   }
                 }
               })
@@ -987,10 +996,24 @@ export class RenderParser {
             const returnBody = this.renderPath.node.body.body
             for (let index = 0; index < returnBody.length; index++) {
               const node = returnBody[index]
-              if (node === callee.getStatementParent().node) {
+              const statement = callee.getStatementParent().node
+              if (node === statement) {
                 returnBody.splice(index, 0, decl)
                 inserted = true
                 break
+              }
+              if (t.isIfStatement(node)) {
+                const block = node.consequent
+                if (t.isBlockStatement(block)) {
+                  for (let ii = 0; ii < block.body.length; ii++) {
+                    const st = block.body[ii]
+                    if (st === statement) {
+                      block.body.splice(ii, 0, decl)
+                      inserted = true
+                      break
+                    }
+                  }
+                }
               }
             }
             if (!inserted) {
@@ -1017,18 +1040,28 @@ export class RenderParser {
 
   removeJSXStatement () {
     this.jsxDeclarations.forEach(d => d && d.remove())
-    this.returnedPaths.forEach(p => {
+    this.returnedPaths.forEach((p: NodePath<t.ReturnStatement>) => {
       const ifStem = p.findParent(_ => _.isIfStatement())
       if (ifStem) {
         const node = p.node
-        if (t.isReturnStatement(node) && t.isJSXElement(node.argument)) {
+        if (t.isJSXElement(node.argument)) {
           const jsx = node.argument
           if (jsx.children.length === 0 && jsx.openingElement.attributes.length === 0) {
             node.argument = t.nullLiteral()
+          } else {
+            p.remove()
+          }
+        } else {
+          const isValid = p.get('argument').evaluateTruthy()
+          if (!isValid) {
+            node.argument = t.nullLiteral()
+          } else {
+            p.remove()
           }
         }
+      } else {
+        p.remove()
       }
-      p.remove()
     })
   }
 

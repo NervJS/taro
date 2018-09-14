@@ -46,11 +46,12 @@ const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
     // newPageList 去除了 tabBar 配置里面的页面，但包含当前 tabBar 页面
     // 防止页面跳转时 tabBar 和 stack 相互干扰，保证每个 tabBar 堆栈的独立性
     tabBar.list.forEach((item) => {
-      const tabPath = item.pagePath
-      const newTabPathList = tabPathList.filter(item => item !== tabPath) // 去除当前 tabPth
-      const newPageList = pageList.filter(item => newTabPathList.indexOf(item[0]) === -1) // 去除 newTabPathList 里的 pagePath
-
-      RouteConfigs[tabPath] = getRootStack({pageList: newPageList, Taro, navigationOptions})
+      const currentTabPath = item.pagePath
+      // const TabPathList = pageList.find(item => item === tabPath) // 去除当前 tabPth
+      const currentPage = pageList.find(item => item[0] === currentTabPath)
+      const newPageList = pageList.filter(item => tabPathList.indexOf(item[0]) === -1) // 去除 tabPathList 里的 pagePat
+      newPageList.unshift(currentPage)
+      RouteConfigs[currentTabPath] = getRootStack({pageList: newPageList, Taro, navigationOptions})
     })
     // TODO tabBar.position
     return createBottomTabNavigator(RouteConfigs, {

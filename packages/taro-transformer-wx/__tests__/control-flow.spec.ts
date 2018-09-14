@@ -107,7 +107,7 @@ describe('if statement', () => {
       code: buildComponent(`
       const tasks = []
       if (true) {
-        return <View className={JSON.stringify(tasks)}  >
+        return <View className={JSON.stringify(tasks)} >
         </View>
       }
       `)

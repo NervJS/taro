@@ -214,6 +214,18 @@ class Transformer {
           self.methods.set(name, path)
           if (name === 'render') {
             self.renderMethod = path
+            path.traverse({
+              ReturnStatement (returnPath) {
+                const arg = returnPath.node.argument
+                const ifStem = returnPath.findParent(p => p.isIfStatement())
+                if (ifStem && ifStem.isIfStatement() && arg === null) {
+                  const consequent = ifStem.get('consequent')
+                  if (consequent.isBlockStatement() && consequent.node.body.includes(returnPath.node)) {
+                    returnPath.get('argument').replaceWith(t.nullLiteral())
+                  }
+                }
+              }
+            })
           }
           if (name === 'constructor') {
             path.traverse({
