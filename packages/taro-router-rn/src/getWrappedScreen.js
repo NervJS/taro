@@ -27,7 +27,9 @@ function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
         <TaroProvider
           navigationOptions={Screen.navigationOptions || {}}
           Taro={Taro}
-          enablePullDownRefresh={enablePullDownRefresh}>
+          enablePullDownRefresh={enablePullDownRefresh}
+          {...this.props}
+        >
           <Screen ref={this.screenRef} {...this.props}/>
         </TaroProvider>
       )

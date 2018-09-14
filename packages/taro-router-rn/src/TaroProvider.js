@@ -103,11 +103,12 @@ class TaroProvider extends React.Component {
     let isScreenEnablePullDownRefresh = enablePullDownRefresh || (navigationOptions && navigationOptions.enablePullDownRefresh)
     return (
       <RefreshProvider
+        ref={this.refreshProviderRef}
         enablePullDownRefresh={isScreenEnablePullDownRefresh}
         onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
         onReachBottom={this.onReachBottom && this.onReachBottom.bind(this)}
         onScroll={this.onScroll && this.onScroll.bind(this)}
-        ref={this.refreshProviderRef}
+        {...this.props}
       >
         {this.props.children}
       </RefreshProvider>
