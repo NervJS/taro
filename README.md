@@ -27,6 +27,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 * Taro Redux 示例 [taro-redux-sample](https://github.com/NervJS/taro-redux-sample)
 * [TodoMVC](https://github.com/NervJS/TodoMVC)
 * Taro 组件库示例 [taro-components-sample](https://github.com/NervJS/taro-components-sample)
+* Taro 端能力示例 [taro-apis-sample](https://github.com/NervJS/taro-apis-sample)
 * Taro 实验性特性项目 [taro-todo](https://github.com/NervJS/taro-todo)
 * [仿知乎小程序](https://github.com/NervJS/taro-zhihu-sample)
 * [Taro整合Dva示例](https://github.com/zuoge85/taro-dva)
