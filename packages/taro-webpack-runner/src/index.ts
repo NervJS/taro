@@ -71,14 +71,12 @@ const createCompiler = (webpackConf): webpack.Compiler => {
   })
   compiler.hooks.done.tap('taroDone', stats => {
     const { errors, warnings } = formatWebpackMessage(stats.toJson(true))
-    const isSuccess = !errors.length && !warnings.length
-    if (isSuccess) {
+    if (!errors.length) {
       getServeSpinner().stopAndPersist({
         symbol: '✅ ',
         text: chalk.green('Compile successfully!\n')
       })
-    }
-    if (errors.length) {
+    } else {
       errors.splice(1)
       getServeSpinner().stopAndPersist({
         symbol: '🙅  ',
@@ -120,8 +118,7 @@ const buildProd = (config: BuildConfig): void => {
     }
 
     const { errors, warnings } = formatWebpackMessage(stats.toJson({}))
-    const isSuccess = !errors.length && !warnings.length
-    if (isSuccess) {
+    if (!errors.length) {
       getServeSpinner().stopAndPersist({
         symbol: '✅ ',
         text: chalk.green('Compile successfully!\n')
@@ -135,8 +132,7 @@ const buildProd = (config: BuildConfig): void => {
           chunkModules: false
         }) + '\n'
       )
-    }
-    if (errors.length) {
+    } else {
       errors.splice(1)
       getServeSpinner().stopAndPersist({
         symbol: '🙅  ',
