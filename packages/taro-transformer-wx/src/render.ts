@@ -18,7 +18,8 @@ import {
   hasComplexExpression,
   findMethodName,
   isVarName,
-  setParentCondition
+  setParentCondition,
+  isContainJSXElement
 } from './utils'
 import { difference } from 'lodash'
 import {
@@ -391,11 +392,15 @@ export class RenderParser {
             //
           } else {
             const ifStatement = parentPath.findParent(p => p.isIfStatement())
-            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && p.parentPath === ifStatement) as NodePath<t.BlockStatement>
+            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
             if (blockStatement && blockStatement.isBlockStatement()) {
               blockStatement.traverse({
                 VariableDeclarator: (p) => {
                   const { id, init } = p.node
+                  const ifStem = p.parentPath.parentPath.parentPath
+                  if (!ifStem.isIfStatement() || isContainJSXElement(p)) {
+                    return
+                  }
                   if (t.isIdentifier(id)) {
                     if (id.name.startsWith('loopArray')) {
                       this.renderPath.node.body.body.unshift(
@@ -406,7 +411,7 @@ export class RenderParser {
                       )
                     } else {
                       const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-                      this.renderScope.rename(id.name, newId.name)
+                      blockStatement.scope.rename(id.name, newId.name)
                       p.parentPath.replaceWith(
                         template('ID = INIT;')({ ID: newId, INIT: init })
                       )
@@ -901,21 +906,26 @@ export class RenderParser {
               replaceOriginal(path, parent, name)
             }
           })
+          const replacements = new Set()
           component.traverse({
             Identifier (path) {
               const name = path.node.name
               const parent = path.parent
+              if (replacements.has(parent)) {
+                return
+              }
               if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
-                path.replaceWith(
-                  t.memberExpression(
-                    t.identifier(item.name),
-                    path.node
-                  )
+                const replacement = t.memberExpression(
+                  t.identifier(item.name),
+                  path.node
                 )
+                path.replaceWith(replacement)
+                replacements.add(replacement)
                 hasOriginalRef = true
+              } else {
+                replaceOriginal(path, parent, name)
               }
 
-              replaceOriginal(path, parent, name)
             },
             MemberExpression (path) {
               const id = findFirstIdentifierFromMemberExpression(path.node)

@@ -1,5 +1,4 @@
 import generate from 'babel-generator'
-import * as prettier from 'prettier'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
@@ -164,13 +163,8 @@ export function parseJSXElement (element: t.JSXElement): string {
             quotes: 'single',
             concise: true
           })
-          code = prettier.format(code, {
-            singleQuote: true,
-            parser: 'babylon',
-            semi: false,
-            trailingComma: 'none'
-          }).slice(0, -1)
           code = code
+            .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
           value = isBindEvent ? code : `{{${code}}}`
