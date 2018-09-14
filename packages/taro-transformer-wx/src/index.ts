@@ -177,13 +177,13 @@ export default function transform (options: Options): TransformResult {
       ] as any[]
     },
     plugins: [
-      'transform-flow-strip-types',
+      require('babel-plugin-transform-flow-strip-types'),
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
-      'transform-es2015-template-literals',
-      ['transform-define', {
+      require('babel-plugin-transform-es2015-template-literals'),
+      [require('babel-plugin-transform-define').default, {
         'process.env.TARO_ENV': 'weapp'
       }]
-    ].concat((process.env.NODE_ENV === 'test') ? [] : 'remove-dead-code')
+    ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any

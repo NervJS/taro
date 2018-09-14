@@ -1,4 +1,5 @@
 import generate from 'babel-generator'
+import * as prettier from 'prettier'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
@@ -117,7 +118,9 @@ function parseJSXChildren (
           return str + parseJSXElement(child.expression)
         }
         return str + `{${
-          generate(child)
+          generate(child, {
+            quotes: 'single'
+          })
           .code
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
@@ -157,7 +160,16 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (t.isJSXExpressionContainer(attrValue)) {
           const isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
-          let { code } = generate(attrValue.expression)
+          let { code } = generate(attrValue.expression, {
+            quotes: 'single',
+            concise: true
+          })
+          code = prettier.format(code, {
+            singleQuote: true,
+            parser: 'babylon',
+            semi: false,
+            trailingComma: 'none'
+          }).slice(0, -1)
           code = code
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')

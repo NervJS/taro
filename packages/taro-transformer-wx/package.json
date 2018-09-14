@@ -55,6 +55,7 @@
     "babel-types": "^6.26.0",
     "html": "^1.0.0",
     "lodash": "^4.17.5",
+    "prettier": "^1.14.2",
     "typescript": "^3.0.1"
   },
   "devDependencies": {
