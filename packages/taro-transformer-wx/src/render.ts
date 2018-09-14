@@ -1025,6 +1025,8 @@ export class RenderParser {
           const jsx = node.argument
           if (jsx.children.length === 0 && jsx.openingElement.attributes.length === 0) {
             node.argument = t.nullLiteral()
+          } else {
+            p.remove()
           }
         } else {
           const isValid = p.get('argument').evaluateTruthy()
