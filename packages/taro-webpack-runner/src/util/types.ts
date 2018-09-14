@@ -31,8 +31,9 @@ export interface TaroH5Config {
 
   alias: Option;
   entry: webpack.Entry;
-  sourceMap: boolean;
   devServer: webpackDevServer.Configuration;
+  enableSourceMap: boolean;
+  enableExtract: boolean;
 
   cssLoaderOption: Option;
   styleLoaderOption: Option;

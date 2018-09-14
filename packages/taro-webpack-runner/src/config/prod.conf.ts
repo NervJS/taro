@@ -8,6 +8,7 @@ import {
   getEntry,
   getExtractCssLoader,
   getHtmlWebpackPlugin,
+  getStyleLoader,
   getLessLoader,
   getMiniCssExtractPlugin,
   getOutput,
@@ -54,10 +55,12 @@ export default function (config: Partial<BuildConfig>): any {
 
     designWidth = 750,
     deviceRatio,
-    sourceMap = false,
+    enableSourceMap = true,
+    enableExtract = false,
 
     defineConstants = emptyObj,
     env = emptyObj,
+    styleLoaderOption = emptyObj,
     cssLoaderOption = emptyObj,
     sassLoaderOption = emptyObj,
     lessLoaderOption = emptyObj,
@@ -65,6 +68,7 @@ export default function (config: Partial<BuildConfig>): any {
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
+
     miniCssExtractPluginOption = emptyObj,
 
     module = {
@@ -77,12 +81,20 @@ export default function (config: Partial<BuildConfig>): any {
     }
   } = config
 
+  const devtool = enableSourceMap ? 'hidden-source-map' : 'none'
+
   const postcssOption = module.postcss || {}
+
+  const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
+
+  const extractCssLoader = getExtractCssLoader()
+
+  const lastCssLoader = enableExtract ? extractCssLoader : styleLoader
 
   const cssLoader = getCssLoader([
     {
       importLoaders: 1,
-      sourceMap
+      sourceMap: enableSourceMap
     },
     cssLoaderOption,
     {
@@ -91,7 +103,7 @@ export default function (config: Partial<BuildConfig>): any {
   ])
 
   const postcssLoader = getPostcssLoader([
-    { sourceMap },
+    { sourceMap: enableSourceMap },
     {
       ident: 'postcss',
       plugins: getPostcssPlugins({
@@ -106,30 +118,34 @@ export default function (config: Partial<BuildConfig>): any {
 
   const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
 
-  const lessLoader = getLessLoader([{ sourceMap }, lessLoaderOption])
+  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
-  const stylusLoader = getStylusLoader([{ sourceMap }, stylusLoaderOption])
-
-  const extractCssLoader = getExtractCssLoader()
+  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const output = getOutput({
     outputRoot,
     publicPath
   })
 
-  const miniCssExtractPlugin = getMiniCssExtractPlugin([{
-    filename: 'css/[name].css',
-    chunkFilename: 'css/[id].css'
-  }, miniCssExtractPluginOption])
-  const htmlWebpackPlugin = getHtmlWebpackPlugin([{
+  const plugin = {} as any
+
+  if (enableExtract) {
+    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[id].css'
+    }, miniCssExtractPluginOption])
+  }
+
+  plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
     filename: 'index.html',
     template: path.join(appPath, sourceRoot, 'index.html')
   }])
-  const definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+
+  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   chain.merge({
     mode: 'production',
-    devtool: 'hidden-source-map',
+    devtool,
     entry: Object.assign(getEntry(), entry),
     output,
     resolve: { alias },
@@ -138,7 +154,10 @@ export default function (config: Partial<BuildConfig>): any {
         jsx: {
           use: {
             babelLoader: {
-              options: plugins.babel
+              options: {
+                ...plugins.babel,
+                sourceMap: enableSourceMap
+              }
             }
           }
         },
@@ -175,46 +194,42 @@ export default function (config: Partial<BuildConfig>): any {
         sass: {
           test: /\.(css|scss|sass)(\?.*)?$/,
           exclude: [/node_modules/],
-          use: [extractCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
+          use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
         },
         less: {
           test: /\.less(\?.*)?$/,
           exclude: [/node_modules/],
-          use: [extractCssLoader, cssLoader, postcssLoader, lessLoader]
+          use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
         },
         styl: {
           test: /\.styl(\?.*)?$/,
           exclude: [/node_modules/],
-          use: [extractCssLoader, cssLoader, postcssLoader, stylusLoader]
+          use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
         },
         sassInNodemodules: {
           test: /\.(css|scss|sass)(\?.*)?$/,
           include: [/node_modules/],
-          use: [extractCssLoader, cssLoader, sassLoader]
+          use: [lastCssLoader, cssLoader, sassLoader]
         },
         lessInNodemodules: {
           test: /\.less(\?.*)?$/,
           include: [/node_modules/],
-          use: [extractCssLoader, cssLoader, lessLoader]
+          use: [lastCssLoader, cssLoader, lessLoader]
         },
         stylInNodemodules: {
           test: /\.styl(\?.*)?$/,
           include: [/node_modules/],
-          use: [extractCssLoader, cssLoader, stylusLoader]
+          use: [lastCssLoader, cssLoader, stylusLoader]
         }
       }
     },
-    plugin: {
-      extractCss: miniCssExtractPlugin,
-      html: htmlWebpackPlugin,
-      define: definePlugin
-    },
+    plugin,
     optimization: {
       minimizer: [
         new UglifyJsPlugin({
           cache: true,
           parallel: true,
-          sourceMap,
+          sourceMap: enableSourceMap,
           uglifyOptions: merge(defaultUglifyJsOption, plugins.uglify)
         })
       ]
