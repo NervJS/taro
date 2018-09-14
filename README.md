@@ -20,6 +20,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 ![案例](http://storage.360buyimg.com/taro-resource/articles.jpg)
 
+[征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
 ## 示例项目
 
@@ -30,6 +31,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 * [仿知乎小程序](https://github.com/NervJS/taro-zhihu-sample)
 * [Taro整合Dva示例](https://github.com/zuoge85/taro-dva)
 * [V2ex小程序（TypeScript）](https://github.com/NervJS/taro-v2ex)
+* [与微信小程序原生融合的示例](https://github.com/NervJS/taro-sample-weapp)
 
 ## Taro 特性
 
