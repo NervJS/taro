@@ -121,8 +121,6 @@ describe('if statement', () => {
       </block>
     `))
 
-    console.log(code)
-
     const inst = evalClass(ast)
     expect(inst.state._$anonymousState__temp).toEqual('[]')
     expect(Object.keys(inst.state).length).toBe(1)
