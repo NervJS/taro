@@ -1007,18 +1007,26 @@ export class RenderParser {
 
   removeJSXStatement () {
     this.jsxDeclarations.forEach(d => d && d.remove())
-    this.returnedPaths.forEach(p => {
+    this.returnedPaths.forEach((p: NodePath<t.ReturnStatement>) => {
       const ifStem = p.findParent(_ => _.isIfStatement())
       if (ifStem) {
         const node = p.node
-        if (t.isReturnStatement(node) && t.isJSXElement(node.argument)) {
+        if (t.isJSXElement(node.argument)) {
           const jsx = node.argument
           if (jsx.children.length === 0 && jsx.openingElement.attributes.length === 0) {
             node.argument = t.nullLiteral()
           }
+        } else {
+          const isValid = p.get('argument').evaluateTruthy()
+          if (!isValid) {
+            node.argument = t.nullLiteral()
+          } else {
+            p.remove()
+          }
         }
+      } else {
+        p.remove()
       }
-      p.remove()
     })
   }
 

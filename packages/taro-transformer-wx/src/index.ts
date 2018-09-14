@@ -231,6 +231,16 @@ export default function transform (options: Options): TransformResult {
         renderMethod = path
       }
     },
+    IfStatement (path) {
+      const consequent = path.get('consequent')
+      if (!consequent.isBlockStatement()) {
+        consequent.replaceWith(
+          t.blockStatement([
+            consequent.node as any
+          ])
+        )
+      }
+    },
     CallExpression (path) {
       const callee = path.get('callee')
       if (isContainJSXElement(path)) {
