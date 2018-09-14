@@ -7,15 +7,20 @@ class RichText extends Nerv.Component {
   }
 
   renderNodes (item) {
-    const child = this.renderChildrens(item.children)
-    return Nerv.createElement(
-      item.name,
-      {
-        className: item.attrs.class,
-        style: item.attrs.style
-      },
-      child
-    )
+    if (item.type === 'text') {
+      return Nerv.createElement('span', {}, item.text)
+    } else {
+      const child = this.renderChildrens(item.children)
+      let obj = {
+        className: '',
+        style: ''
+      }
+      if (item.hasOwnProperty('attrs')) {
+        obj.className = item.attrs.class || ''
+        obj.style = item.attrs.style || ''
+      }
+      return Nerv.createElement(item.name, obj, child)
+    }
   }
 
   renderChildrens (arr) {
