@@ -32,6 +32,7 @@ export default function (config: Partial<BuildConfig>): any {
     outputRoot,
     publicPath,
     staticDirectory = 'static',
+    chunkDirectory = 'chunk',
 
     designWidth = 750,
     deviceRatio,
@@ -99,7 +100,8 @@ export default function (config: Partial<BuildConfig>): any {
 
   const output = getOutput({
     outputRoot,
-    publicPath
+    publicPath,
+    chunkDirectory
   })
 
   const plugin = {} as any
