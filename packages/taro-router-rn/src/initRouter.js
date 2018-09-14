@@ -22,7 +22,7 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
   pageList.forEach(v => {
     const pageKey = v[0]
     const Screen = v[1]
-    RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, {enablePullDownRefresh: navigationOptions.enablePullDownRefresh})
+    RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, navigationOptions)
   })
   return createStackNavigator(RouteConfigs, {
     navigationOptions: Object.assign({}, defaultNavigationOptions, navigationOptions)
@@ -33,7 +33,7 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
  * @description
  * @param pageList  [['pages/index/index', pagesindexindex]]
  * @param Taro
- * @param navigationOptions 头部导航相关配置 App.config.navigationOptions
+ * @param navigationOptions 头部导航相关配置 App.config.navigationOptions 全局
  * @param tabBar  tabBar相关配置 App.config.tabBar
  * @returns {*}
  */

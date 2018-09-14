@@ -15,14 +15,14 @@ function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps 
         this.connectRef = React.createRef()
       }
 
-      componentDidMount () {
-        let wrappedInstance = this.connectRef.current.getWrappedInstance()
-        wrappedInstance.componentDidShow && wrappedInstance.componentDidShow()
-      }
+      static navigationOptions = WrappedComponent.navigationOptions || {}
 
-      componentWillUnmount () {
-        let wrappedInstance = this.connectRef.current.getWrappedInstance()
-        wrappedInstance.componentDidHide && wrappedInstance.componentDidHide()
+      /**
+       * @description 获取 被包裹组件的实例
+       * @returns {*}
+       */
+      getWrappedInstance () {
+        return this.connectRef.current && this.connectRef.current.getWrappedInstance()
       }
 
       render () {
