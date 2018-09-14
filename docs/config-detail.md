@@ -196,6 +196,10 @@ devServer: {
 
 h5 编译后的静态文件目录
 
+### h5.chunkDirectory
+
+编译后非entry的js文件的存放目录，主要影响动态引入的`pages`的存放路径。
+
 ### h5.webpackChain
 
 自定义webpack配置，接受函数形式的配置。
@@ -217,6 +221,52 @@ h5 编译后的静态文件目录
   }
 }
 
+```
+
+```javascript
+/* 这是一个添加ts-loader的例子，但事实上taro是默认支持ts的，并不需要这样做。 */
+{
+  webpackChain (chain, webpack) {
+    chain.merge({
+      module: {
+        rule: {
+          myloader: {
+            test: /.tsx?/,
+            use: [{
+              loader: 'ts-loader',
+              options: {}
+            }]
+          }
+        }
+      }
+    })
+  }
+}
+```
+
+```javascript
+/* 这是一个添加插件的例子： */
+{
+  webpackChain (chain, webpack) {
+    chain.merge({
+      plugin: {
+        install: {
+          plugin: require('npm-install-webpack-plugin'),
+          args: [{
+            // Use --save or --save-dev
+            dev: false,
+            // Install missing peerDependencies
+            peerDependencies: true,
+            // Reduce amount of console logging
+            quiet: false,
+            // npm command used inside company, yarn is not supported yet
+            npm: 'cnpm'
+          }]
+        }
+      }
+    })
+  }
+}
 ```
 
 ### [DEPRECATED]h5.webpack
@@ -282,19 +332,6 @@ sourceMap开关，影响js、css的sourceMap配置，默认 **开**。
 
 extract功能开关，开启后将使用`mini-css-extract-plugin`分离css文件，
 可通过`h5.miniCssExtractPluginOption`对插件进行配置，默认 **关**。
-
-### h5.devServer
-
-提供给`webpack-dev-server`的配置集合，可以进行监听主机、端口等配置。配置项参考[官方文档](https://webpack.js.org/configuration/dev-server/)，例如：
-
-```javascript
-{
-  devServer: {
-    host: '127.0.0.1',
-    port: 10086
-  }
-}
-```
 
 ### h5.cssLoaderOption
 
