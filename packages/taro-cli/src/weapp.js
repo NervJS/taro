@@ -784,6 +784,15 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
       })
     },
 
+    CallExpression (astPath) {
+      if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+        const arg = astPath.get('arguments')[0]
+        if (t.isStringLiteral(arg.node)) {
+          componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), arg.node.value))
+        }
+      }
+    },
+
     Program: {
       exit (astPath) {
         astPath.traverse({
