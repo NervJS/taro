@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "1.0.0-beta.26",
+  "version": "1.0.0-beta.27",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -23,8 +23,6 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "dependencies": {
-  },
   "peerDependencies": {
     "@types/react": "^16.4.6",
     "classnames": "^2.2.5",
