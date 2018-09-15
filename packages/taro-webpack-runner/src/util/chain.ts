@@ -53,10 +53,11 @@ const getEntry = () => {
   }
 }
 
-const getOutput = ({ outputRoot, publicPath }) => {
+const getOutput = ({ outputRoot,  publicPath, chunkDirectory }) => {
   return {
     path: path.join(appPath, outputRoot),
     filename: 'js/[name].js',
+    chunkFilename: `${chunkDirectory}/[name].js`,
     publicPath
   }
 }

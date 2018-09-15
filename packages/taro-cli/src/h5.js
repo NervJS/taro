@@ -58,10 +58,6 @@ let pages = []
 let tabBar
 let tabbarPos
 
-// let isBuildingScripts = {}
-// let isBuildingStyles = {}
-// let isCopyingFiles = {}
-
 const FILE_TYPE = {
   ENTRY: 'ENTRY',
   PAGE: 'PAGE',
@@ -70,6 +66,45 @@ const FILE_TYPE = {
 }
 
 const DEVICE_RATIO = 'deviceRatio'
+
+const buildRouterImporter = v => {
+  const pagename = v.startsWith('/') ? v : `/${v}`
+  /* substr 跳过"/pages/" */
+  const chunkFilename = pagename.substr(7).replace(/[/\\]+/g, '_')
+
+  const keyPagenameNode = t.stringLiteral(pagename)
+
+  const valuePagenameNode = t.stringLiteral(`.${pagename}`)
+  valuePagenameNode.leadingComments = [{
+    type: 'CommentBlock',
+    value: ` webpackChunkName: "${chunkFilename}" `
+  }]
+  const callExpression = t.callExpression(t.import(), [ valuePagenameNode ])
+  const arrowFunctionNode = t.arrowFunctionExpression(
+    [],
+    callExpression
+  )
+
+  return t.arrayExpression([
+    keyPagenameNode,
+    arrowFunctionNode
+  ])
+}
+
+const buildRouterStarter = ({ pages, packageName }) => {
+  const importers = pages.map(buildRouterImporter)
+  const initArrNode = t.arrayExpression(importers)
+
+  return t.expressionStatement(
+    t.callExpression(
+      t.memberExpression(
+        t.identifier(packageName),
+        t.identifier('initRouter')
+      ),
+      [ initArrNode ]
+    )
+  )
+}
 
 function processEntry (code, filePath) {
   const ast = wxTransformer({
@@ -271,6 +306,7 @@ function processEntry (code, filePath) {
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
             } else if (Util.REG_SCRIPTS.test(value)) {
+              /* TODO windows下路径处理可能有问题 ../../lib/utils.js */
               const dirname = path.dirname(value)
               const extname = path.extname(value)
               node.source = t.stringLiteral(path.format({
@@ -398,12 +434,11 @@ function processEntry (code, filePath) {
         if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
           pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
         }
-        const routerPages = pages
-          .map(v => {
-            const pageName = v.startsWith('/') ? v : `/${v}`
-            return `['${pageName}', () => import('.${pageName}')]`
-          })
-          .join(',')
+
+        const routerStarter = buildRouterStarter({
+          pages,
+          packageName: routerImportDefaultName
+        })
 
         node.body.unshift(template(
           `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
@@ -421,10 +456,7 @@ function processEntry (code, filePath) {
           `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
           babylonConfig
         )())
-        node.body.push(template(
-          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
-          babylonConfig
-        )())
+        node.body.push(routerStarter)
         node.body.push(template(renderCallCode, babylonConfig)())
       }
     }

@@ -37,7 +37,7 @@ describe('RichText', () => {
       },
       {
         type: 'text',
-        text: 'xxx'
+        text: 'test'
       }
     ],
     string: '<span>string nodes: love</span>'
