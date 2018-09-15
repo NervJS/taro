@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-redux-rn",
-  "version": "1.0.0-beta.26",
+  "version": "1.0.0-beta.28",
   "description": "taro-redux-rn",
   "main": "./src/index.js",
   "files": [
@@ -26,4 +26,3 @@
     "react-redux": "^5.0.7"
   }
 }
-
