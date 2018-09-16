@@ -20,7 +20,7 @@
   "author": "O2Team",
   "license": "MIT",
   "peerDependencies": {
-    "react": "16.3.0"
+    "react":"^16.3.0"
   },
   "dependencies": {
     "react-redux": "^5.0.7"
