@@ -38,8 +38,6 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
     }
 
     render () {
-      console.log(this.getScreenInstance())
-      console.log(this.getScreenInstance().onPullDownRefresh)
       const {globalEnablePullDownRefresh = false} = globalNavigationOptions
       const navigationOptions = Screen.navigationOptions || {}
       // 页面配置优先级 > 全局配置
