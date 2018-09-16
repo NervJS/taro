@@ -20,6 +20,8 @@
   "author": "O2Team",
   "license": "MIT",
   "peerDependencies": {
+  },
+  "devDependencies":{
     "react":"^16.3.0"
   },
   "dependencies": {
