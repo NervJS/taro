@@ -91,7 +91,7 @@ const buildRouterImporter = v => {
   ])
 }
 
-const buildRouterStarter = ({ pages, packageName }) => {
+const buildRouterStarter = ({ pages, packageName, taroImportDefaultName }) => {
   const importers = pages.map(buildRouterImporter)
   const initArrNode = t.arrayExpression(importers)
 
@@ -101,7 +101,7 @@ const buildRouterStarter = ({ pages, packageName }) => {
         t.identifier(packageName),
         t.identifier('initRouter')
       ),
-      [ initArrNode ]
+      [initArrNode, t.identifier(taroImportDefaultName)]
     )
   )
 }
@@ -437,7 +437,8 @@ function processEntry (code, filePath) {
 
         const routerStarter = buildRouterStarter({
           pages,
-          packageName: routerImportDefaultName
+          packageName: routerImportDefaultName,
+          taroImportDefaultName
         })
 
         node.body.unshift(template(

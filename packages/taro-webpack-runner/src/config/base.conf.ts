@@ -34,7 +34,7 @@ chain.merge({
         }
       },
       font: {
-        test: [/\.(woff2?|eot|ttf|otf)(\?.*)?$/],
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
           urlLoader: {
             loader: require.resolve('url-loader'),
@@ -45,7 +45,7 @@ chain.merge({
         }
       },
       image: {
-        test: [/\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/],
+        test: /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/,
         use: {
           urlLoader: {
             loader: require.resolve('url-loader'),
