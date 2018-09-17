@@ -179,7 +179,6 @@ export default function transform (options: Options): TransformResult {
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
-      require('babel-plugin-transform-es2015-template-literals'),
       [require('babel-plugin-transform-define').default, {
         'process.env.TARO_ENV': 'weapp'
       }]

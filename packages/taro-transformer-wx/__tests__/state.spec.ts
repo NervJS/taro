@@ -77,7 +77,7 @@ describe('State', () => {
       expect(template).toMatch(`<view style="{{'width:' + rate + 'px;'}}">`)
     })
 
-    test('可以使用 template style', () => {
+    test.skip('可以使用 template style', () => {
       const { template, ast } = transform({
         ...baseOptions,
         code: buildComponent(

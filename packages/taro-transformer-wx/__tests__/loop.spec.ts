@@ -991,7 +991,7 @@ describe('loop', () => {
         ))
       })
 
-      test('支持字符串模板', () => {
+      test.skip('支持字符串模板', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
@@ -1048,7 +1048,7 @@ describe('loop', () => {
         ))
       })
 
-      test('支持字符串模板2', () => {
+      test.skip('支持字符串模板2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
