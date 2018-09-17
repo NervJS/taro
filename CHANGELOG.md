@@ -1,5 +1,21 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.28...v) (2018-09-15)
+# [](https://github.com/NervJS/taro/compare/v1.0.0-beta.29...v) (2018-09-17)
+
+
+
+<a name="1.0.0-beta.29"></a>
+# [1.0.0-beta.29](https://github.com/NervJS/taro/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2018-09-17)
+
+
+### Bug Fixes
+
+* **RN:** 将 taro-redux-rn 的peerDependencies react  改为 "^16.3.0" ([69f530c](https://github.com/NervJS/taro/commit/69f530c))
+* **transformer:**  所有字符串模板都生成一个新的 state ([7408f94](https://github.com/NervJS/taro/commit/7408f94))
+
+
+### Features
+
+* **cli:** cli编译ui兼容新配置 ([1c28774](https://github.com/NervJS/taro/commit/1c28774))
 
 
 
