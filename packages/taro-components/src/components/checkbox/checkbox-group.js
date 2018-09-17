@@ -6,6 +6,7 @@ class CheckboxGroup extends Nerv.Component {
     this.state = {
       value: []
     }
+    this.uniqueName = Date.now().toString(36)
     this.toggleChange = this.toggleChange.bind(this)
   }
 
@@ -32,7 +33,6 @@ class CheckboxGroup extends Nerv.Component {
   }
 
   render () {
-    const { name = '' } = this.props
     // 给 children 绑定事件
     const children = Nerv.Children.toArray(this.props.children).map(
       (item, i) => {
@@ -56,7 +56,7 @@ class CheckboxGroup extends Nerv.Component {
             return Nerv.cloneElement(ch, {
               onChange: e => this.toggleChange(e, i),
               for: _key,
-              name: name
+              name: this.uniqueName
             })
           }
           return ch
