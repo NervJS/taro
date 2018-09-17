@@ -46,9 +46,9 @@ async function buildH5Lib () {
   }
   h5Config.sourceRoot = sourceDirName
   h5Config.outputRoot = outputDirName
-  h5Config.entry = {
-    app: path.join(tempPath, entryFile)
-  }
+  h5Config.entry = Object.assign({
+    app: [path.join(tempPath, entryFile)]
+  }, h5Config.entry)
   h5Config.isWatch = false
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
   webpackRunner(h5Config)
