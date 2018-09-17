@@ -36,6 +36,7 @@ class RadioGroup extends Nerv.Component {
   }
 
   render () {
+    const { name = this.uniqueName } = this.props
     // 给 children 绑定事件
     const children = Nerv.Children.toArray(this.props.children).map(
       (item, i) => {
@@ -58,7 +59,7 @@ class RadioGroup extends Nerv.Component {
             return Nerv.cloneElement(ch, {
               onChange: e => this.toggleChange(e, i),
               for: _key,
-              name: this.uniqueName
+              name: name
             })
           }
           return ch
