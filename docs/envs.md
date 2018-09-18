@@ -18,3 +18,16 @@ if (process.env.TARO_ENV === 'weapp') {
   require('path/to/h5/name')
 }
 ```
+
+同时也可以在 JSX 中使用，决定不同端要加载的内容
+
+```javascript
+render () {
+  return (
+    <View>
+      {process.env.TARO_ENV === 'weapp' && <ScrollViewWeapp />}
+      {process.env.TARO_ENV === 'h5' && <ScrollViewH5 />}
+    </View>
+  )
+}
+```
