@@ -111,7 +111,10 @@ function processEntry (code, filePath) {
     code,
     sourcePath: filePath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(filePath)
+    isTyped: Util.REG_TYPESCRIPT.test(filePath),
+    env: {
+      TARO_ENV: Util.BUILD_TYPES.H5
+    }
   }).ast
   let taroImportDefaultName
   let providorImportName
@@ -473,7 +476,10 @@ function processOthers (code, filePath) {
     code,
     sourcePath: filePath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(filePath)
+    isTyped: Util.REG_TYPESCRIPT.test(filePath),
+    env: {
+      TARO_ENV: Util.BUILD_TYPES.H5
+    }
   }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false

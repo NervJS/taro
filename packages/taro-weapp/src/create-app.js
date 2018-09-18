@@ -3,7 +3,7 @@ function createApp (AppClass) {
   const weappAppConf = {
     onLaunch (options) {
       app.$app = this
-      app.$router = {
+      app.$app.$router = app.$router = {
         params: options
       }
       if (app.componentWillMount) {

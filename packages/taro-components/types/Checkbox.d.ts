@@ -2,14 +2,17 @@ import { ComponentType } from 'react'
 import { StandardProps, BaseEventFunction } from './common'
 
 interface CheckboxGroupProps extends StandardProps {
-
+  /**
+   * 表单组件中加上 name 来作为 key
+   */
+  name: string;
   /**
    * <checkbox-group/>中选中项发生改变是触发 change 事件
    *
    * detail = {value:[选中的checkbox的value的数组]}
    *
    */
-  onChange: BaseEventFunction
+  onChange?: BaseEventFunction
 }
 
 declare const CheckboxGroup: ComponentType<CheckboxGroupProps>

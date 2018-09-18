@@ -57,6 +57,15 @@ sidebar_label: Picker
 | √ | √ | √ | onCancel | EventHandle |            | 取消选择或点遮罩层收起 picker 时触发                      |
 | √ | √ | √ | disabled   | Boolean     | false      | 是否禁用                                                  |
 
+> fields 有效值：
+
+| 值 | 说明 |
+| :-: | :-: |
+| year | 选择器粒度为年 |
+| month | 选择器粒度为月份 |
+| day | 选择器粒度为天 |
+
+
 ###### 示例：
 ```jsx
 import Taro, { Component } from '@tarojs/taro'

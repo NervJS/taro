@@ -10,6 +10,10 @@ import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 const template = require('babel-template')
 
+interface ENVS {
+  TARO_ENV: string
+}
+
 export interface Options {
   isRoot?: boolean,
   isApp: boolean,
@@ -17,7 +21,8 @@ export interface Options {
   sourcePath: string,
   code: string,
   isTyped: boolean,
-  isNormal?: boolean
+  isNormal?: boolean,
+  env?: ENVS
 }
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
@@ -154,6 +159,8 @@ export default function transform (options: Options): TransformResult {
       noEmitHelpers: true
     })
     : options.code
+  options.env = Object.assign(options.env || {}, { TARO_ENV: 'weapp' })
+  const taroEnv = options.env.TARO_ENV
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
@@ -180,7 +187,7 @@ export default function transform (options: Options): TransformResult {
       require('babel-plugin-transform-flow-strip-types'),
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
       [require('babel-plugin-transform-define').default, {
-        'process.env.TARO_ENV': 'weapp'
+        'process.env.TARO_ENV': taroEnv
       }]
     ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
   }).ast as t.File

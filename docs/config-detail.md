@@ -326,12 +326,14 @@ webpack (defaultConfig, webpack) {
 
 ### h5.enableSourceMap
 
-sourceMap开关，影响js、css的sourceMap配置，默认 **开**。
+sourceMap开关，影响js、css的sourceMap配置。
+dev状态默认 **开**，prod状态默认 **关**。
 
 ### h5.enableExtract
 
 extract功能开关，开启后将使用`mini-css-extract-plugin`分离css文件，
-可通过`h5.miniCssExtractPluginOption`对插件进行配置，默认 **关**。
+可通过`h5.miniCssExtractPluginOption`对插件进行配置。
+dev状态默认 **关**，prod状态默认 **开**。
 
 ### h5.cssLoaderOption
 
