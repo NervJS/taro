@@ -18,17 +18,17 @@ export function isEmptyObject (obj) {
  * @return {Object | Json} 新的json对象
  */
 export function objClone (jsonObj) {
-  var buf
-  if (jsonObj instanceof Array) {
+  let buf
+  if (Array.isArray(jsonObj)) {
     buf = []
-    var i = jsonObj.length
+    let i = jsonObj.length
     while (i--) {
       buf[i] = objClone(jsonObj[i])
     }
     return buf
-  } else if (jsonObj instanceof Object) {
+  } else if (isPlainObject(jsonObj)) {
     buf = {}
-    for (var k in jsonObj) {
+    for (const k in jsonObj) {
       buf[k] = objClone(jsonObj[k])
     }
     return buf
@@ -180,7 +180,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
 }
 
 export function queryToJson (str) {
-  const dec = decodeURIComponent 
+  const dec = decodeURIComponent
   const qp = str.split('&')
   let ret = {}
   let name

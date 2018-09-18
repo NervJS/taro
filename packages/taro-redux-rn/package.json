@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-redux-rn",
-  "version": "1.0.0-beta.28",
+  "version": "1.0.0-beta.30",
   "description": "taro-redux-rn",
   "main": "./src/index.js",
   "files": [
@@ -19,10 +19,8 @@
   ],
   "author": "O2Team",
   "license": "MIT",
-  "peerDependencies": {
-  },
-  "devDependencies":{
-    "react":"^16.3.0"
+  "devDependencies": {
+    "react": "^16.3.0"
   },
   "dependencies": {
     "react-redux": "^5.0.7"

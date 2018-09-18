@@ -2,7 +2,11 @@ import { ComponentType } from 'react'
 import { StandardProps, BaseEventFunction } from './common'
 
 interface RadioGroupProps extends StandardProps {
-  onChange: BaseEventFunction
+  /**
+   * 表单组件中加上 name 来作为 key
+   */
+  name: string;
+  onChange?: BaseEventFunction
 }
 
 declare const RadioGroup: ComponentType<RadioGroupProps>
