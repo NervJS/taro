@@ -56,8 +56,8 @@ export default function (config: Partial<BuildConfig>): any {
 
     designWidth = 750,
     deviceRatio,
-    enableSourceMap = true,
-    enableExtract = false,
+    enableSourceMap = false,
+    enableExtract = true,
 
     defineConstants = emptyObj,
     env = emptyObj,

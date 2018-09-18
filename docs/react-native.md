@@ -197,7 +197,7 @@ $ brew update && brew cask install react-native-debugger
 
 ### 启动
 
-在启动 React Native Debugger 之前，请先确认一下内容：
+在启动 React Native Debugger 之前，请先确认以下内容：
 
 - 所有的 React Native 的 debugger 客户端已关闭，特别是 `http://localhost:<port>/debugger-ui`
 - React Native Debugger 会尝试连接 debugger 代理， expo 默认使用 `19001` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command+T`, Linux/Windows: `Ctrl+T`) 开定义端口

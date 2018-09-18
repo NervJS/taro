@@ -69,6 +69,9 @@ const noPromiseApis = {
   stopPullDownRefresh: true,
   createIntersectionObserver: true,
 
+  onWindowResize: true,
+  offWindowResize: true,
+
   // 拓展接口
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,
@@ -186,6 +189,9 @@ const otherApis = {
   canvasToTempFilePath: true,
   canvasGetImageData: true,
   canvasPutImageData: true,
+
+  setBackgroundColor: true,
+  setBackgroundTextStyle: true,
 
   // 第三方平台
   getExtConfig: true,

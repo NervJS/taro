@@ -67,7 +67,13 @@ const PACKAGES = {
 function getJSAst (code) {
   return babel.transform(code, {
     parserOpts: babylonConfig,
-    plugins: ['transform-decorators-legacy']
+    plugins: [
+      'transform-decorators-legacy',
+      [require('babel-plugin-transform-define').default, {
+        'process.env.TARO_ENV': 'rn'
+      }],
+      require('babel-plugin-remove-dead-code').default
+    ]
   }).ast
 }
 

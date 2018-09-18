@@ -29,7 +29,7 @@
       "best-practice"
     ],
     "组件库": [
-      "components",
+      "components-desc",
       "components/viewContainer/view",
       "components/viewContainer/scroll-view",
       "components/viewContainer/swiper",
