@@ -2,12 +2,21 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
+import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
 
+const isDEV = typeof process === 'undefined' ||
+  !process.env ||
+  process.env.NODE_ENV !== 'production'
+
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
-  const { props } = component
+  const { props, __propTypes } = component
+  if (isDEV && __propTypes) {
+    const componentName = component.constructor.name || component.constructor.toString().match(/^function\s*([^\s(]+)/)[1]
+    PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
+  }
   const prevProps = component.prevProps || props
   component.props = prevProps
   if (component.__mounted && component._unsafeCallUpdate === true && component.componentWillReceiveProps) {

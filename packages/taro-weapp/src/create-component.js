@@ -307,6 +307,7 @@ function createComponent (ComponentClass, isPage) {
       this.$component = new ComponentClass()
       this.$component._init(this)
       this.$component.render = this.$component._createData
+      this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
     },
     attached () {
