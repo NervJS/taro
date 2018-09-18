@@ -5,6 +5,7 @@ const wxTransformer = require('@tarojs/transformer-wx')
 const klaw = require('klaw')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
+const babel = require('babel-core')
 const generate = require('babel-generator').default
 const template = require('babel-template')
 const _ = require('lodash')
@@ -107,7 +108,7 @@ const buildRouterStarter = ({ pages, packageName, taroImportDefaultName }) => {
 }
 
 function processEntry (code, filePath) {
-  const ast = wxTransformer({
+  let ast = wxTransformer({
     code,
     sourcePath: filePath,
     isNormal: true,
@@ -127,6 +128,12 @@ function processEntry (code, filePath) {
   let hasComponentDidHide = false
   let hasComponentWillUnmount = false
   let hasJSX = false
+
+  ast = babel.transformFromAst(ast, generate(ast).code, {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+    ]
+  }).ast
 
   const ClassDeclarationOrExpression = {
     enter (astPath) {
@@ -472,7 +479,7 @@ function processEntry (code, filePath) {
 }
 
 function processOthers (code, filePath) {
-  const ast = wxTransformer({
+  let ast = wxTransformer({
     code,
     sourcePath: filePath,
     isNormal: true,
@@ -484,6 +491,12 @@ function processOthers (code, filePath) {
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
   let hasJSX = false
+
+  ast = babel.transformFromAst(ast, generate(ast).code, {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+    ]
+  }).ast
 
   const ClassDeclarationOrExpression = {
     enter (astPath) {
