@@ -18,8 +18,8 @@ sidebar_label: ScrollView
 | √ |   | x | scrollIntoView      | String      |        | 值应为某子元素 id（id 不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素 |
 | √ | √ | √ | scrollWithAnimation | Boolean     | false  | 在设置滚动条位置时使用动画过渡  |
 | √ |   | √ | enableBackToTop    | Boolean     | false  | iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向                     |
-| √ | √ | √ | onScrolltoupper     | EventHandle |        | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
-| √ | √ | √ | onScrolltolower     | EventHandle |        | 滚动到底部/右边，会触发 scrolltolower 事件 |
+| √ | √ | √ | onScrollToUpper     | EventHandle |        | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
+| √ | √ | √ | onScrollToLower     | EventHandle |        | 滚动到底部/右边，会触发 scrolltolower 事件 |
 | √ | √ | √ | onScroll            | EventHandle |        | 滚动时触发，event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY} |
 
 
