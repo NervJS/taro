@@ -1,28 +1,3 @@
-export const BIND_EVENT_MAP = new Map<string, string>()
-
-BIND_EVENT_MAP.set('onClick', 'bindtap')
-BIND_EVENT_MAP.set('onLongClick', 'bindlongtap')
-BIND_EVENT_MAP.set('onTouchMove', 'bindtouchmove')
-BIND_EVENT_MAP.set('onTouchEnd', 'bindtouchend')
-BIND_EVENT_MAP.set('onTouchstart', 'bindtouchend')
-BIND_EVENT_MAP.set('onChange', 'bindchange')
-BIND_EVENT_MAP.set('onInput', 'bindinput')
-BIND_EVENT_MAP.set('onScale', 'bindscale')
-BIND_EVENT_MAP.set('onAnimationFinish', 'bindanimationfinish')
-BIND_EVENT_MAP.set('onScroll', 'bindscroll')
-BIND_EVENT_MAP.set('onScrollToUpper', 'bindscrolltoupper')
-BIND_EVENT_MAP.set('onContact', 'bindcontact')
-BIND_EVENT_MAP.set('onGetPhoneNumber', 'bindgetphonenumber')
-BIND_EVENT_MAP.set('onError', 'binderror')
-BIND_EVENT_MAP.set('onSubmit', 'bindsubmit')
-BIND_EVENT_MAP.set('onReset', 'bindReset')
-
-export const CATCH_EVENT_MAP = new Map<string, string>()
-
-BIND_EVENT_MAP.forEach((value, key) => {
-  CATCH_EVENT_MAP.set(key, value)
-})
-
 export const THIRD_PARTY_COMPONENTS = new Set<string>()
 
 // tslint:disable-next-line:variable-name

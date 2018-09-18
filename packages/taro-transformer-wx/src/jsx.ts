@@ -174,7 +174,9 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (attrValue === null && name !== 'wx:else') {
           value = `{{true}}`
         }
-        if (
+        if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
+          obj['maxlength'] = value
+        } else if (
           componentSpecialProps &&
           componentSpecialProps.has(name) ||
           name.startsWith('__fn_')
