@@ -12,7 +12,7 @@ jobs:
   include:
     - stage: test
       script:
-        - npm ci
+        - npm install
         - npm run bootstrap:ci
         - npm run build
         - npm run test
