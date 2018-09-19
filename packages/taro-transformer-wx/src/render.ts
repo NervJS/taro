@@ -136,6 +136,9 @@ export class RenderParser {
         if (statementParent) {
           const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
           // setTemplate(name, path, templates)
+          if (name) {
+            debugger
+          }
           name && this.templates.set(name, jsxElementPath.node)
         }
       }
@@ -253,6 +256,30 @@ export class RenderParser {
     classPath.node.body.body.unshift(classProp)
   }
 
+  replaceIdWithTemplate = (handleRefId = false) => (path: NodePath<t.Node>) => {
+    if (!t.isJSXAttribute(path.parent)) {
+      path.traverse({
+        Identifier: (path) => {
+          const parentPath = path.parentPath
+          if (
+            parentPath.isConditionalExpression() ||
+            parentPath.isLogicalExpression() ||
+            path.isReferencedIdentifier()
+          ) {
+            const name = path.node.name
+            if (handleRefId && Object.keys(this.renderScope.getAllBindings()).includes(name)) {
+              this.addRefIdentifier(path, path.node)
+              // referencedIdentifiers.add(path.node)
+            }
+            if (this.templates.has(name)) {
+              path.replaceWith(this.templates.get(name)!)
+            }
+          }
+        }
+      })
+    }
+  }
+
   private loopComponentVisitor: Visitor = {
     VariableDeclarator (path) {
       const id = path.get('id')
@@ -275,6 +302,7 @@ export class RenderParser {
         }
       }
     },
+    JSXExpressionContainer: this.replaceIdWithTemplate(),
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
@@ -373,29 +401,6 @@ export class RenderParser {
           }
         })
       }
-    }
-  }
-  replaceIdWithTemplate = (path: NodePath<t.Node>) => {
-    if (!t.isJSXAttribute(path.parent)) {
-      path.traverse({
-        Identifier: (path) => {
-          const parentPath = path.parentPath
-          if (
-            parentPath.isConditionalExpression() ||
-            parentPath.isLogicalExpression() ||
-            path.isReferencedIdentifier()
-          ) {
-            const name = path.node.name
-            if (Object.keys(this.renderScope.getAllBindings()).includes(name)) {
-              this.addRefIdentifier(path, path.node)
-              // referencedIdentifiers.add(path.node)
-            }
-            if (this.templates.has(name)) {
-              path.replaceWith(this.templates.get(name)!)
-            }
-          }
-        }
-      })
     }
   }
 
@@ -785,12 +790,12 @@ export class RenderParser {
         parentPath.parentPath.isClassMethod() ||
         (parentPath.parentPath.isIfStatement() && parentPath.parentPath.parentPath.isClassMethod())
       ) {
-        this.replaceIdWithTemplate(path)
+        this.replaceIdWithTemplate()(path)
       }
     },
 
     ...this.jsxElementVisitor,
-    JSXExpressionContainer: this.replaceIdWithTemplate
+    JSXExpressionContainer: this.replaceIdWithTemplate(true)
   }
 
   constructor (
