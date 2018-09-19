@@ -12,8 +12,8 @@ jobs:
   include:
     - stage: test
       script:
-        - npm install
-        - npm run bootstrap
+        - npm ci
+        - npm run bootstrap:ci
         - npm run build
         - npm run test
     - stage: deploy
