@@ -727,6 +727,13 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
+    VariableDeclarator (path) {
+      const init = path.get('init')
+      const ifStem = init.findParent(p => p.isIfStatement())
+      if (ifStem && init.node === null) {
+        init.replaceWith(t.identifier('undefined'))
+      }
+    },
     JSXEmptyExpression (path) {
       const parent = path.parentPath
       if (path.parentPath.isJSXExpressionContainer()) {
