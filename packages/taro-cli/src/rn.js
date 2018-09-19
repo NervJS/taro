@@ -68,10 +68,11 @@ function getJSAst (code) {
   return babel.transform(code, {
     parserOpts: babylonConfig,
     plugins: [
-      'transform-decorators-legacy',
-      [require('babel-plugin-transform-define').default, {
-        'process.env.TARO_ENV': 'rn'
-      }],
+      require('babel-plugin-transform-decorators-legacy').default,
+      [
+        require('babel-plugin-transform-define').default,
+        {'process.env.TARO_ENV': 'rn'}
+      ],
       require('babel-plugin-remove-dead-code').default
     ]
   }).ast
@@ -82,12 +83,7 @@ function parseJSCode (code, filePath) {
   try {
     ast = getJSAst(code)
   } catch (e) {
-    if (e.name === 'ReferenceError') {
-      npmProcess.getNpmPkgSync('babel-plugin-transform-decorators-legacy')
-      ast = getJSAst(code)
-    } else {
-      throw e
-    }
+    throw e
   }
   const styleFiles = []
   let pages = [] // app.js 里面的config 配置里面的 pages
@@ -477,17 +473,10 @@ function parseJSCode (code, filePath) {
   })
   try {
     ast = babel.transformFromAst(ast, code, {
-      plugins: ['babel-plugin-transform-jsx-to-stylesheet']
+      plugins: [require('babel-plugin-transform-jsx-to-stylesheet')]
     }).ast
   } catch (e) {
-    if (e.name === 'ReferenceError') {
-      npmProcess.getNpmPkgSync('babel-plugin-transform-jsx-to-stylesheet')
-      ast = babel.transformFromAst(ast, code, {
-        plugins: ['babel-plugin-transform-jsx-to-stylesheet']
-      }).ast
-    } else {
-      throw e
-    }
+    throw e
   }
 
   return {
@@ -552,7 +541,7 @@ function buildTemp () {
         if (Util.REG_STYLE.test(filePath)) {
           return cb()
         }
-        if (Util.REG_SCRIPT.test(filePath)) {
+        if (Util.REG_SCRIPTS.test(filePath)) {
           Util.printLog(Util.pocessTypeEnum.COMPILE, 'JS', filePath)
           // parseJSCode
           let transformResult = parseJSCode(content, filePath)
