@@ -82,6 +82,7 @@ exports.BUILD_TYPES = {
   WEAPP: 'weapp',
   H5: 'h5',
   RN: 'rn',
+  SWAN: 'swan',
   UI: 'ui'
 }
 
