@@ -75,3 +75,27 @@ Taro 和 React 一样，也有一个严格的规则：
 所有的 Taro 组件必须像纯函数那样使用它们的props。
 
 当然，应用的界面是随时间动态变化的，我们将在下一节介绍一种称为`state`的新概念，State可以在不违反上述规则的情况下，根据用户操作、网络响应、或者其他状态变化，使组件动态的响应并改变组件的输出。
+
+### 使用 PropTypes 检查类型
+
+随着应用日渐庞大，你可以通过类型检查捕获大量错误。要检查组件的属性，你需要配置特殊的 `propTypes` 属性：
+```javascript
+import PropTypes from 'prop-types';
+
+class Greeting extends Component {
+  render() {
+    return (
+      <h1>Hello, {this.props.name}</h1>
+    );
+  }
+}
+
+Greeting.propTypes = {
+  name: PropTypes.string
+};
+```
+
+如上例，Taro与React一样，也支持`PropTypes` 检查类型，*目前在小程序端还有些问题*，但在 H5 端可以使用，用法和在 React 里一样。
+更多可参照[React的相关文档](https://reactjs.org.cn/doc/typechecking-with-proptypes.html)。
+
+
