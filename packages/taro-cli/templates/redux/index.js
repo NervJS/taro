@@ -60,6 +60,7 @@ module.exports = function (creater, params, helper, cb) {
       typescript: true
     })
     creater.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
+    creater.template(template, 'globaldts', path.join(projectPath, 'global.d.ts'))
   } else {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
       css: currentStyleExt
