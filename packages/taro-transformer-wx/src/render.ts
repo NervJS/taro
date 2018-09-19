@@ -136,9 +136,6 @@ export class RenderParser {
         if (statementParent) {
           const name = findIdentifierFromStatement(statementParent.node as t.VariableDeclaration)
           // setTemplate(name, path, templates)
-          if (name) {
-            debugger
-          }
           name && this.templates.set(name, jsxElementPath.node)
         }
       }

@@ -13,7 +13,7 @@ jobs:
     - stage: test
       script:
         - npm install
-        - npm run bootstrap:ci
+        - npm run bootstrap
         - npm run build
         - npm run test
     - stage: deploy
