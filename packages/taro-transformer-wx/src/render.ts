@@ -375,6 +375,29 @@ export class RenderParser {
       }
     }
   }
+  replaceIdWithTemplate = (path: NodePath<t.Node>) => {
+    if (!t.isJSXAttribute(path.parent)) {
+      path.traverse({
+        Identifier: (path) => {
+          const parentPath = path.parentPath
+          if (
+            parentPath.isConditionalExpression() ||
+            parentPath.isLogicalExpression() ||
+            path.isReferencedIdentifier()
+          ) {
+            const name = path.node.name
+            if (Object.keys(this.renderScope.getAllBindings()).includes(name)) {
+              this.addRefIdentifier(path, path.node)
+              // referencedIdentifiers.add(path.node)
+            }
+            if (this.templates.has(name)) {
+              path.replaceWith(this.templates.get(name)!)
+            }
+          }
+        }
+      })
+    }
+  }
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
@@ -756,32 +779,18 @@ export class RenderParser {
         )
       }
     },
+    ReturnStatement: (path) => {
+      const parentPath = path.parentPath
+      if (
+        parentPath.parentPath.isClassMethod() ||
+        (parentPath.parentPath.isIfStatement() && parentPath.parentPath.parentPath.isClassMethod())
+      ) {
+        this.replaceIdWithTemplate(path)
+      }
+    },
 
     ...this.jsxElementVisitor,
-    JSXExpressionContainer: (path) => {
-      // todo
-      if (!t.isJSXAttribute(path.parent)) {
-        path.traverse({
-          Identifier: (path) => {
-            const parentPath = path.parentPath
-            if (
-              parentPath.isConditionalExpression() ||
-              parentPath.isLogicalExpression() ||
-              path.isReferencedIdentifier()
-            ) {
-              const name = path.node.name
-              if (Object.keys(this.renderScope.getAllBindings()).includes(name)) {
-                this.addRefIdentifier(path, path.node)
-                // referencedIdentifiers.add(path.node)
-              }
-              if (this.templates.has(name)) {
-                path.replaceWith(this.templates.get(name)!)
-              }
-            }
-          }
-        })
-      }
-    }
+    JSXExpressionContainer: this.replaceIdWithTemplate
   }
 
   constructor (
