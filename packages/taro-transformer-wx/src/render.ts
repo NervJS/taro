@@ -253,6 +253,30 @@ export class RenderParser {
     classPath.node.body.body.unshift(classProp)
   }
 
+  replaceIdWithTemplate = (handleRefId = false) => (path: NodePath<t.Node>) => {
+    if (!t.isJSXAttribute(path.parent)) {
+      path.traverse({
+        Identifier: (path) => {
+          const parentPath = path.parentPath
+          if (
+            parentPath.isConditionalExpression() ||
+            parentPath.isLogicalExpression() ||
+            path.isReferencedIdentifier()
+          ) {
+            const name = path.node.name
+            if (handleRefId && Object.keys(this.renderScope.getAllBindings()).includes(name)) {
+              this.addRefIdentifier(path, path.node)
+              // referencedIdentifiers.add(path.node)
+            }
+            if (this.templates.has(name)) {
+              path.replaceWith(this.templates.get(name)!)
+            }
+          }
+        }
+      })
+    }
+  }
+
   private loopComponentVisitor: Visitor = {
     VariableDeclarator (path) {
       const id = path.get('id')
@@ -275,6 +299,7 @@ export class RenderParser {
         }
       }
     },
+    JSXExpressionContainer: this.replaceIdWithTemplate(),
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
@@ -727,6 +752,13 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
+    VariableDeclarator (path) {
+      const init = path.get('init')
+      const ifStem = init.findParent(p => p.isIfStatement())
+      if (ifStem && init.node === null) {
+        init.replaceWith(t.identifier('undefined'))
+      }
+    },
     JSXEmptyExpression (path) {
       const parent = path.parentPath
       if (path.parentPath.isJSXExpressionContainer()) {
@@ -749,32 +781,18 @@ export class RenderParser {
         )
       }
     },
+    ReturnStatement: (path) => {
+      const parentPath = path.parentPath
+      if (
+        parentPath.parentPath.isClassMethod() ||
+        (parentPath.parentPath.isIfStatement() && parentPath.parentPath.parentPath.isClassMethod())
+      ) {
+        this.replaceIdWithTemplate()(path)
+      }
+    },
 
     ...this.jsxElementVisitor,
-    JSXExpressionContainer: (path) => {
-      // todo
-      if (!t.isJSXAttribute(path.parent)) {
-        path.traverse({
-          Identifier: (path) => {
-            const parentPath = path.parentPath
-            if (
-              parentPath.isConditionalExpression() ||
-              parentPath.isLogicalExpression() ||
-              path.isReferencedIdentifier()
-            ) {
-              const name = path.node.name
-              if (Object.keys(this.renderScope.getAllBindings()).includes(name)) {
-                this.addRefIdentifier(path, path.node)
-                // referencedIdentifiers.add(path.node)
-              }
-              if (this.templates.has(name)) {
-                path.replaceWith(this.templates.get(name)!)
-              }
-            }
-          }
-        })
-      }
-    }
+    JSXExpressionContainer: this.replaceIdWithTemplate(true)
   }
 
   constructor (

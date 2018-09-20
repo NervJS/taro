@@ -14,6 +14,7 @@ const generate = require('babel-generator').default
 const template = require('babel-template')
 const _ = require('lodash')
 const shelljs = require('shelljs')
+const wxTransformer = require('@tarojs/transformer-wx')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
@@ -39,6 +40,8 @@ let isBuildingStyles = {}
 const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
+let taroImportDefaultName // import default from @tarojs/taro
+let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const routerImportDefaultName = 'TaroRouter'
@@ -64,24 +67,210 @@ const PACKAGES = {
   'react-redux-rn': '@tarojs/taro-redux-rn'
 }
 
-function getJSAst (code) {
-  return babel.transform(code, {
-    parserOpts: babylonConfig,
-    plugins: [
-      require('babel-plugin-transform-decorators-legacy').default,
-      [
-        require('babel-plugin-transform-define').default,
-        {'process.env.TARO_ENV': 'rn'}
-      ],
-      require('babel-plugin-remove-dead-code').default
-    ]
+function isEntryFile (filePath) {
+  return path.basename(filePath) === entryFileName
+}
+
+function getClassPropertyVisitor ({filePath, pages, iconPaths}) {
+  return (astPath) => {
+    const node = astPath.node
+    const key = node.key
+    const value = node.value
+    if (key.name !== 'config' || !t.isObjectExpression(value)) return
+    // 入口文件的 config ，与页面的分开处理
+    if (isEntryFile(filePath)) {
+      // 读取 config 配置
+      astPath.traverse({
+        ObjectProperty (astPath) {
+          const node = astPath.node
+          const key = node.key
+          const value = node.value
+          // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
+          if (key.name === 'pages' && t.isArrayExpression(value)) {
+            value.elements.forEach(v => {
+              pages.push(v.value)
+            })
+            astPath.remove()
+          }
+          // window
+          if (key.name === 'window' && t.isObjectExpression(value)) {
+            let navigationOptions = {}
+            astPath.traverse({
+              ObjectProperty (astPath) {
+                const node = astPath.node
+                // 导航栏标题文字内容
+                if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
+                  navigationOptions['title'] = node.value.value
+                }
+                // 导航栏标题颜色，仅支持 black/white
+                if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
+                  navigationOptions['headerTintColor'] = node.value.value
+                }
+                // 导航栏背景颜色
+                if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
+                  navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+                }
+                // 开启下拉刷新
+                if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
+                  navigationOptions['enablePullDownRefresh'] = node.value.value
+                }
+              }
+            })
+            astPath.replaceWith(t.objectProperty(
+              t.identifier('navigationOptions'),
+              t.objectExpression(AstConvert.obj(navigationOptions))
+            ))
+          }
+          if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+            astPath.traverse({
+              ObjectProperty (astPath) {
+                let node = astPath.node
+                let value = node.value.value
+                if (node.key.name === 'iconPath' ||
+                  node.key.value === 'iconPath' ||
+                  node.key.name === 'selectedIconPath' ||
+                  node.key.value === 'selectedIconPath'
+                ) {
+                  if (typeof value !== 'string') return
+                  let iconName = _.camelCase(value.split('/'))
+                  iconPaths.push(value)
+                  astPath.insertAfter(t.objectProperty(
+                    t.identifier(node.key.name || node.key.value),
+                    t.identifier(iconName)
+                  ))
+                  astPath.remove()
+                }
+              }
+            })
+          }
+        }
+      })
+      astPath.node.static = 'true'
+    } else {
+      let navigationOptions = {}
+      astPath.traverse({
+        ObjectProperty (astPath) {
+          const node = astPath.node
+          // 导航栏标题文字内容
+          if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
+            navigationOptions['title'] = node.value.value
+          }
+          // 导航栏标题颜色，仅支持 black/white
+          if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
+            navigationOptions['headerTintColor'] = node.value.value
+          }
+          // 导航栏背景颜色
+          if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
+            navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
+          }
+          // 开启下拉刷新
+          if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
+            navigationOptions['enablePullDownRefresh'] = node.value.value
+          }
+        }
+      })
+      astPath.replaceWith(t.classProperty(
+        t.identifier('navigationOptions'),
+        t.objectExpression(AstConvert.obj(navigationOptions))
+      ))
+      astPath.node.static = 'true'
+    }
+  }
+}
+
+function getJSAst (code, filePath) {
+  return wxTransformer({
+    code,
+    sourcePath: filePath,
+    isNormal: true,
+    isTyped: Util.REG_TYPESCRIPT.test(filePath),
+    env: {
+      TARO_ENV: Util.BUILD_TYPES.RN
+    }
   }).ast
+}
+
+/**
+ * TS 编译器会把 class property 移到构造器，
+ * 而小程序要求 `config` 和所有函数在初始化(after new Class)之后就收集到所有的函数和 config 信息，
+ * 所以当如构造器里有 this.func = () => {...} 的形式，就给他转换成普通的 classProperty function
+ * 如果有 config 就给他还原
+ */
+function resetTSClassProperty (body) {
+  for (const method of body) {
+    if (t.isClassMethod(method) && method.kind === 'constructor') {
+      for (const statement of _.cloneDeep(method.body.body)) {
+        if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
+          const expr = statement.expression
+          const {left, right} = expr
+          if (
+            t.isMemberExpression(left) &&
+            t.isThisExpression(left.object) &&
+            t.isIdentifier(left.property)
+          ) {
+            if (
+              (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right)) ||
+              (left.property.name === 'config' && t.isObjectExpression(right))
+            ) {
+              body.push(
+                t.classProperty(left.property, right)
+              )
+              _.remove(method.body.body, statement)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+const ClassDeclarationOrExpression = {
+  enter (astPath) {
+    const node = astPath.node
+    if (!node.superClass) return
+    if (
+      node.superClass.type === 'MemberExpression' &&
+      node.superClass.object.name === taroImportDefaultName
+    ) {
+      node.superClass.object.name = reactImportDefaultName
+      if (node.id === null) {
+        const renameComponentClassName = '_TaroComponentClass'
+        componentClassName = renameComponentClassName
+        astPath.replaceWith(
+          t.classDeclaration(
+            t.identifier(renameComponentClassName),
+            node.superClass,
+            node.body,
+            node.decorators || []
+          )
+        )
+      } else {
+        componentClassName = node.id.name
+      }
+    } else if (node.superClass.name === 'Component') {
+      resetTSClassProperty(node.body.body)
+      if (node.id === null) {
+        const renameComponentClassName = '_TaroComponentClass'
+        componentClassName = renameComponentClassName
+        astPath.replaceWith(
+          t.classDeclaration(
+            t.identifier(renameComponentClassName),
+            node.superClass,
+            node.body,
+            node.decorators || []
+          )
+        )
+      } else {
+        componentClassName = node.id.name
+      }
+    }
+  }
 }
 
 function parseJSCode (code, filePath) {
   let ast
   try {
-    ast = getJSAst(code)
+    ast = getJSAst(code, filePath)
   } catch (e) {
     throw e
   }
@@ -89,15 +278,15 @@ function parseJSCode (code, filePath) {
   let pages = [] // app.js 里面的config 配置里面的 pages
   let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
   const isEntryFile = path.basename(filePath) === entryFileName
-  let taroImportDefaultName // import default from @tarojs/taro
   let hasAddReactImportDefaultName = false
   let providorImportName
   let storeName
   let hasAppExportDefault
-  let componentClassName
   let classRenderReturnJSX
 
   traverse(ast, {
+    ClassExpression: ClassDeclarationOrExpression,
+    ClassDeclaration: ClassDeclarationOrExpression,
     ImportDeclaration (astPath) {
       const node = astPath.node
       const source = node.source
@@ -166,112 +355,7 @@ function parseJSCode (code, filePath) {
         source.value = PACKAGES['@tarojs/components-rn']
       }
     },
-    ClassProperty: {
-      enter (astPath) {
-        const node = astPath.node
-        const key = node.key
-        const value = node.value
-        if (key.name !== 'config' || !t.isObjectExpression(value)) return
-        // 入口文件的 config ，与页面的分开处理
-        if (isEntryFile) {
-          // 读取 config 配置
-          astPath.traverse({
-            ObjectProperty (astPath) {
-              const node = astPath.node
-              const key = node.key
-              const value = node.value
-              // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-              if (key.name === 'pages' && t.isArrayExpression(value)) {
-                value.elements.forEach(v => {
-                  pages.push(v.value)
-                })
-                astPath.remove()
-              }
-              // window
-              if (key.name === 'window' && t.isObjectExpression(value)) {
-                let navigationOptions = {}
-                astPath.traverse({
-                  ObjectProperty (astPath) {
-                    const node = astPath.node
-                    // 导航栏标题文字内容
-                    if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-                      navigationOptions['title'] = node.value.value
-                    }
-                    // 导航栏标题颜色，仅支持 black/white
-                    if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-                      navigationOptions['headerTintColor'] = node.value.value
-                    }
-                    // 导航栏背景颜色
-                    if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-                      navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-                    }
-                    // 开启下拉刷新
-                    if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-                      navigationOptions['enablePullDownRefresh'] = node.value.value
-                    }
-                  }
-                })
-                astPath.replaceWith(t.objectProperty(
-                  t.identifier('navigationOptions'),
-                  t.objectExpression(AstConvert.obj(navigationOptions))
-                ))
-              }
-              if (key.name === 'tabBar' && t.isObjectExpression(value)) {
-                astPath.traverse({
-                  ObjectProperty (astPath) {
-                    let node = astPath.node
-                    let value = node.value.value
-                    if (node.key.name === 'iconPath' ||
-                      node.key.value === 'iconPath' ||
-                      node.key.name === 'selectedIconPath' ||
-                      node.key.value === 'selectedIconPath'
-                    ) {
-                      if (typeof value !== 'string') return
-                      let iconName = _.camelCase(value.split('/'))
-                      iconPaths.push(value)
-                      astPath.insertAfter(t.objectProperty(
-                        t.identifier(node.key.name || node.key.value),
-                        t.identifier(iconName)
-                      ))
-                      astPath.remove()
-                    }
-                  }
-                })
-              }
-            }
-          })
-          astPath.node.static = 'true'
-        } else {
-          let navigationOptions = {}
-          astPath.traverse({
-            ObjectProperty (astPath) {
-              const node = astPath.node
-              // 导航栏标题文字内容
-              if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-                navigationOptions['title'] = node.value.value
-              }
-              // 导航栏标题颜色，仅支持 black/white
-              if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-                navigationOptions['headerTintColor'] = node.value.value
-              }
-              // 导航栏背景颜色
-              if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-                navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-              }
-              // 开启下拉刷新
-              if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-                navigationOptions['enablePullDownRefresh'] = node.value.value
-              }
-            }
-          })
-          astPath.replaceWith(t.classProperty(
-            t.identifier('navigationOptions'),
-            t.objectExpression(AstConvert.obj(navigationOptions))
-          ))
-          astPath.node.static = 'true'
-        }
-      }
-    },
+    ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths}),
     // 获取 classRenderReturnJSX
     ClassMethod (astPath) {
       let node = astPath.node
@@ -317,50 +401,6 @@ function parseJSCode (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         astPath.traverse({
-          /**
-           * babel-plugin-transform-decorators-legacy 插件将 ClassDeclaration (class XXX { })
-           * 改写成了 ClassExpression （let XXX = class XXX { }）的形式。
-           */
-          ClassExpression (astPath) {
-            const node = astPath.node
-            if (!node.superClass) {
-              return
-            }
-            if (node.superClass.type === 'MemberExpression' &&
-              node.superClass.object.name === taroImportDefaultName) {
-              node.superClass.object.name = reactImportDefaultName
-              if (node.id === null) {
-                const renameComponentClassName = '_TaroComponentClass'
-                componentClassName = renameComponentClassName
-                astPath.replaceWith(
-                  t.classDeclaration(
-                    t.identifier(renameComponentClassName),
-                    node.superClass,
-                    node.body,
-                    node.decorators || []
-                  )
-                )
-              } else {
-                componentClassName = node.id.name
-              }
-            } else if (node.superClass.name === 'Component') {
-              if (node.id === null) {
-                const renameComponentClassName = '_TaroComponentClass'
-                componentClassName = renameComponentClassName
-                astPath.replaceWith(
-                  t.classDeclaration(
-                    t.identifier(renameComponentClassName),
-                    node.superClass,
-                    node.body,
-                    node.decorators || []
-                  )
-                )
-              } else {
-                componentClassName = node.id.name
-              }
-            }
-          },
-
           ClassMethod (astPath) {
             const node = astPath.node
             const key = node.key
@@ -472,8 +512,12 @@ function parseJSCode (code, filePath) {
     }
   })
   try {
+    // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
     ast = babel.transformFromAst(ast, code, {
-      plugins: [require('babel-plugin-transform-jsx-to-stylesheet')]
+      plugins: [
+        require('babel-plugin-transform-jsx-to-stylesheet'),
+        require('babel-plugin-transform-decorators-legacy').default
+      ]
     }).ast
   } catch (e) {
     throw e
@@ -527,6 +571,47 @@ function compileDepStyles (filePath, styleFiles) {
   })
 }
 
+function initProjectFile (cb) {
+  // generator app.json
+  const appJson = new Vinyl({
+    path: 'app.json',
+    contents: Buffer.from(JSON.stringify({
+      expo: {
+        sdkVersion: '27.0.0'
+      }
+    }, null, 2))
+  })
+  // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
+  const pkgTempObj = JSON.parse(
+    ejs.render(
+      fs.readFileSync(pkgPath, 'utf-8'), {
+        projectName: projectConfig.projectName,
+        version: getPkgVersion()
+      }
+    ).replace(/(\r\n|\n|\r|\s+)/gm, '')
+  )
+  const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
+  pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
+  const pkg = new Vinyl({
+    path: 'package.json',
+    contents: Buffer.from(JSON.stringify(pkgTempObj, null, 2))
+  })
+  // Copy bin/crna-entry.js ?
+  const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
+  const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
+  const crnaEntry = new Vinyl({
+    path: 'bin/crna-entry.js',
+    contents: Buffer.from(crnaEntryCode)
+  })
+  this.push(appJson)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
+  this.push(pkg)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
+  this.push(crnaEntry)
+  Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
+  cb()
+}
+
 function buildTemp () {
   // fs.emptyDirSync(tempPath)
   fs.ensureDirSync(path.join(tempPath, 'bin'))
@@ -537,12 +622,15 @@ function buildTemp () {
           return cb(null, file)
         }
         const filePath = file.path
-        const content = file.contents.toString()
+        let content = file.contents.toString()
         if (Util.REG_STYLE.test(filePath)) {
           return cb()
         }
         if (Util.REG_SCRIPTS.test(filePath)) {
-          Util.printLog(Util.pocessTypeEnum.COMPILE, 'JS', filePath)
+          if (Util.REG_TYPESCRIPT.test(filePath)) {
+            file.path = file.path.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
+          }
+          Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
           // parseJSCode
           let transformResult = parseJSCode(content, filePath)
           const jsCode = transformResult.code
@@ -553,46 +641,7 @@ function buildTemp () {
         }
         this.push(file)
         cb()
-      }, function (cb) {
-        // generator app.json
-        const appJson = new Vinyl({
-          path: 'app.json',
-          contents: Buffer.from(JSON.stringify({
-            expo: {
-              sdkVersion: '27.0.0'
-            }
-          }, null, 2))
-        })
-        // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
-        const pkgTempObj = JSON.parse(
-          ejs.render(
-            fs.readFileSync(pkgPath, 'utf-8'), {
-              projectName: projectConfig.projectName,
-              version: getPkgVersion()
-            }
-          ).replace(/(\r\n|\n|\r|\s+)/gm, '')
-        )
-        const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
-        pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
-        const pkg = new Vinyl({
-          path: 'package.json',
-          contents: Buffer.from(JSON.stringify(pkgTempObj, null, 2))
-        })
-        // Copy bin/crna-entry.js ?
-        const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
-        const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
-        const crnaEntry = new Vinyl({
-          path: 'bin/crna-entry.js',
-          contents: Buffer.from(crnaEntryCode)
-        })
-        this.push(appJson)
-        Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
-        this.push(pkg)
-        Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
-        this.push(crnaEntry)
-        Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
-        cb()
-      }))
+      }, initProjectFile))
       .pipe(vfs.dest(path.join(tempPath)))
       .on('end', () => {
         if (!fs.existsSync(path.join(tempPath, 'node_modules'))) {

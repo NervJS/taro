@@ -67,8 +67,8 @@ class RadioGroup extends Nerv.Component {
         return Nerv.cloneElement(item, '', chd)
       }
     )
-
-    return children
+    /* TODO 规避Nerv数组diff问题 */
+    return (<div className='weui-cells_radiogroup'>{children}</div>)
   }
 }
 

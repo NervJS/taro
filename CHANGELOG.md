@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.0.1...v) (2018-09-18)
+# [](https://github.com/NervJS/taro/compare/v1.0.2...v) (2018-09-19)
+
+
+
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/NervJS/taro/compare/v1.0.1...v1.0.2) (2018-09-19)
+
+
+### Bug Fixes
+
+* **component:** 暂时规避Nerv diff数组的问题 ([e04df79](https://github.com/NervJS/taro/commit/e04df79))
+* **transformer:** 在 if block 中定义的 JSX 变量无法在 JSX children 替换 ([3878e84](https://github.com/NervJS/taro/commit/3878e84))
+* **transformer:** 在 if block 定义没有初始值的变量报错 ([fa5c6ec](https://github.com/NervJS/taro/commit/fa5c6ec))
+* **transformer:** 直接 return 一个 JSX 引用失效 ([8772038](https://github.com/NervJS/taro/commit/8772038))
+
+
+### Features
+
+* **cli:** ts 模板声明图片和 css 为模块 ([555ee9b](https://github.com/NervJS/taro/commit/555ee9b))
+* **RN:** RN 端支持 typescript ([f999a2c](https://github.com/NervJS/taro/commit/f999a2c))
 
 
 
