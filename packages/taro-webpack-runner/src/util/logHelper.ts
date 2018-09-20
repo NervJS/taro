@@ -164,26 +164,31 @@ const _printWhenDone = ({
   compiler.hooks.done.tap('taroDone', stats => {
     const { errors, warnings } = formatWebpackMessage(stats.toJson(true))
 
-    if (errors.length) {
+    if (stats.hasErrors()) {
       printFailed()
       printBuildError(new Error(errors.join('\n\n')))
+      return
     }
 
-    if (warnings.length) {
+    if (stats.hasWarnings()) {
       printWarning()
       console.log(warnings.join('\n\n'))
-    } else {
-      printSuccess()
-      verbose && console.log(
-        stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n'
-      )
     }
+    
+    printSuccess()
+
+    const enableWarnings = verbose
+
+    console.log(
+      stats.toString({
+        colors: true,
+        modules: false,
+        children: false,
+        chunks: false,
+        chunkModules: false,
+        warnings: enableWarnings
+      }) + '\n'
+    )
   })
   return compiler
 }
@@ -192,7 +197,7 @@ const printWhenDone = partial(_printWhenDone, [{ verbose: false }])
 
 const printWhenDoneVerbosely = partial(_printWhenDone, [{ verbose: true }])
 
-const bindDevLogger = ({ devUrl }, compiler) => {
+const bindDevLogger = (devUrl, compiler) => {
   pipe(
     printWhenBeforeCompile,
     partial(printWhenFirstDone, [devUrl]),
@@ -203,10 +208,19 @@ const bindDevLogger = ({ devUrl }, compiler) => {
   return compiler
 }
 
-const bindProdLogger = ({}, compiler) => {
+const bindProdLogger = (compiler) => {
   pipe(
     printWhenBeforeCompile,
     printWhenDoneVerbosely,
+    printWhenFailed
+  )(compiler)
+  return compiler
+}
+
+const bindDllLogger = (compiler) => {
+  pipe(
+    printWhenBeforeCompile,
+    printWhenDone,
     printWhenFailed
   )(compiler)
   return compiler
@@ -217,5 +231,6 @@ export {
   printCompiling,
   getServeSpinner,
   bindDevLogger,
-  bindProdLogger
+  bindProdLogger,
+  bindDllLogger
 }

@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import { merge } from 'lodash'
+import { partial, pipe } from 'lodash/fp'
 import * as opn from 'opn'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -7,16 +8,15 @@ import { deprecate } from 'util'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
 import * as webpackMerge from 'webpack-merge'
-import { pipe, partial } from 'lodash/fp'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
+import dllConf from './config/dll.conf'
 import prodConf from './config/prod.conf'
-import { bindDevLogger, bindProdLogger } from './util/logHelper'
+import { appPath } from './util'
+import { bindDevLogger, bindProdLogger, bindDllLogger } from './util/logHelper'
 import { BuildConfig } from './util/types'
-
-const appPath = process.cwd()
 
 const customizeChain = (chain, config) => {
   if (config.webpackChain instanceof Function) {
@@ -32,6 +32,19 @@ const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
   }
 }, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
 
+const buildDll = async (config: BuildConfig): Promise<any> => {
+  if (!config.enableDll) return Promise.resolve({})
+  return new Promise((resolve, reject) => {
+    const webpackChain = dllConf(config)
+    const webpackConfig = webpackChain.toConfig()
+    const compiler = pipe(webpack as (config: any) => any, bindDllLogger)(webpackConfig)
+    compiler.run((err) => {
+      if (err) reject(err)
+      resolve({})
+    })
+  })
+}
+
 const buildProd = (config: BuildConfig): void => {
   const webpackChain = prodConf(config)
   let webpackConfig
@@ -44,12 +57,27 @@ const buildProd = (config: BuildConfig): void => {
     webpackConfig = webpackChain.toConfig()
   }
 
-  const compiler = pipe(
-    webpack as (config: any) => any,
-    partial(bindProdLogger, [{}])
-  )(webpackConfig)
+  const compiler = pipe(webpack as (config: any) => any, bindProdLogger)(webpackConfig)
 
-  compiler.run()
+  compiler.run((err, stats) => {
+    if (err) {
+      console.error(err.stack || err);
+      if (err.details) {
+        console.error(err.details);
+      }
+      return;
+    }
+  
+    const info = stats.toJson();
+  
+    if (stats.hasErrors()) {
+      console.error(info.errors);
+    }
+  
+    if (stats.hasWarnings()) {
+      console.warn(info.warnings);
+    }
+  })
 }
 
 const buildDev = (config: BuildConfig): void => {
@@ -82,10 +110,7 @@ const buildDev = (config: BuildConfig): void => {
     pathname: publicPath
   })
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
-  const compiler = pipe(
-    webpack as (config: any) => any,
-    partial(bindDevLogger, [{ devUrl }])
-  )(webpackConfig)
+  const compiler = pipe(webpack as (config: any) => any, partial(bindDevLogger, [devUrl]))(webpackConfig)
   const server = new WebpackDevServer(compiler, devServerOptions)
   server.listen(devServerOptions.port as number, devServerOptions.host as string, err => {
     if (err) return console.log(err)
@@ -93,10 +118,11 @@ const buildDev = (config: BuildConfig): void => {
   })
 }
 
-export default (config: BuildConfig): void => {
+export default async (config: BuildConfig): Promise<void> => {
   if (config.isWatch) {
     buildDev(config)
   } else {
+    await buildDll(config)
     buildProd(config)
   }
 }

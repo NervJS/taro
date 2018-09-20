@@ -31,9 +31,11 @@ export interface TaroH5Config {
 
   alias: Option;
   entry: webpack.Entry;
+  output: webpack.Output;
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
   enableExtract: boolean;
+  enableDll: boolean;
 
   cssLoaderOption: Option;
   styleLoaderOption: Option;
@@ -44,6 +46,11 @@ export interface TaroH5Config {
   fontUrlLoaderOption: Option;
   imageUrlLoaderOption: Option;
   miniCssExtractPluginOption: Option;
+  dllDirectory: string;
+  dllFilename: string;
+  dllEntry: {
+    [key: string]: string[];
+  };
 
   module?: {
     postcss?: PostcssOption;
