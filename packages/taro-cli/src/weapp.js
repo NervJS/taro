@@ -1343,7 +1343,7 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
 function buildUsingComponents (components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
-    usingComponents[component.name] = component.path
+    usingComponents[component.name] = component.path.replace(path.extname(component.path), '')
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
