@@ -218,6 +218,12 @@ export class RenderParser {
           )
           setTemplate(name, jsxElementPath, this.templates)
         }
+      } else if (
+        (t.isJSXElement(consequent) && t.isCallExpression(alternate))
+        ||
+        (t.isJSXElement(alternate) && t.isCallExpression(consequent))
+      ) {
+        //
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
