@@ -19,10 +19,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { Canvas } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			<Canvas style='width: 300px; height: 200px;' canvas-id='canvas' />
-		)
-	}
+  render () {
+    return (
+      <Canvas style='width: 300px; height: 200px;' canvasId='canvas' />
+    )
+  }
 }
 ```

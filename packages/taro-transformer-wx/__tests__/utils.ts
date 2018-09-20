@@ -23,6 +23,52 @@ export default class Index extends Component {
 `
 }
 
+const internalFunction = `function isObject(arg) {
+  return arg === Object(arg) && typeof arg !== 'function';
+}
+
+function internal_get_original(item) {
+  if (isObject(item)) {
+    return item.$$original || item;
+  }
+
+  return item;
+};
+function dashify(str, options) {
+  if (typeof str !== 'string') {
+    throw new TypeError('expected a string');
+  }
+
+  return str.trim().replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\W/g, function (m) {
+    return /[À-ž]/.test(m) ? m : '-';
+  }).replace(/^-+|-+$/g, '').replace(/-{2,}/g, function (m) {
+    return options && options.condense ? '-' : m;
+  }).toLowerCase();
+}
+
+function internal_inline_style(obj) {
+  if (obj == null) {
+    return '';
+  }
+
+  if (typeof obj === 'string') {
+    return obj;
+  }
+
+  if (obj === null || obj === undefined) {
+    return '';
+  }
+
+  if (!isObject(obj)) {
+    throw new TypeError('style 只能是一个对象或字符串。');
+  }
+
+  return Object.keys(obj).map(function (key) {
+    return dashify(key).concat(':').concat(obj[key]);
+  }).join(';');
+}
+`
+
 export const baseCode = `
 return (
   <View className='index'>
@@ -105,9 +151,9 @@ export function evalClass (ast: t.File, props = '', isRequire = false) {
   let code = `function f() {};` +
     generate(t.classDeclaration(t.identifier('Test'), t.identifier('f'), mainClass.body, [])).code +
     ';' + `new Test(${props})`
-  if (isRequire) {
-    code = 'const { internal_inline_style } = require("@tarojs/taro");' + code
-  }
+
+  code = internalFunction + code
+
   // tslint:disable-next-line
   return eval(code)
 }

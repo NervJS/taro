@@ -117,10 +117,12 @@ function parseJSXChildren (
           return str + parseJSXElement(child.expression)
         }
         return str + `{${
-          generate(child)
+          generate(child, {
+            quotes: 'single'
+          })
           .code
-          .replace(/(this\.props\.)|(this\.state\.)/, '')
-          .replace(/(props\.)|(state\.)/, '')
+          .replace(/(this\.props\.)|(this\.state\.)/g, '')
+          .replace(/(props\.)|(state\.)/g, '')
           .replace(/this\./, '')
         }}`
       }
@@ -157,8 +159,12 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (t.isJSXExpressionContainer(attrValue)) {
           const isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
-          let { code } = generate(attrValue.expression)
+          let { code } = generate(attrValue.expression, {
+            quotes: 'single',
+            concise: true
+          })
           code = code
+            .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
           value = isBindEvent ? code : `{{${code}}}`
@@ -168,7 +174,9 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (attrValue === null && name !== 'wx:else') {
           value = `{{true}}`
         }
-        if (
+        if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
+          obj['maxlength'] = value
+        } else if (
           componentSpecialProps &&
           componentSpecialProps.has(name) ||
           name.startsWith('__fn_')

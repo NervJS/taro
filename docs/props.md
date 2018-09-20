@@ -10,9 +10,9 @@ title: 组件化 & Props
 
 ```javascript
 class Welcome extends Component {
-	render() {
-		return <View>Hello, {this.props.name}</View>;
-	}
+  render () {
+    return <View>Hello, {this.props.name}</View>
+  }
 }
 ```
 
@@ -21,13 +21,13 @@ class Welcome extends Component {
 在前面，我们遇到的 Taro 元素都是内置组件：
 
 ```javascript
-const element = <View />;
+const element = <View />
 ```
 
 然而，Taro 元素也可以是用户自定义的组件：
 
 ```javascript
-const element = <Welcome name="Wallace" />;
+const element = <Welcome name="Wallace" />
 ```
 
 当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为“props”。
@@ -37,16 +37,16 @@ const element = <Welcome name="Wallace" />;
 ```javascript
 // welcome.js
 class Welcome extends Component {
-	render() {
-		return <View>Hello, {this.props.name}</View>;
-	}
+  render () {
+    return <View>Hello, {this.props.name}</View>
+  }
 }
 
 // app.js
 class App extends Component {
-	render() {
-		return <Welcome name="Wallace" />
-	}
+  render () {
+    return <Welcome name="Wallace" />
+  }
 }
 ```
 
@@ -55,8 +55,8 @@ class App extends Component {
 一个声明的组件决不能修改它自己的 `props`。来看这个`sum`函数：
 
 ```javascript
-function sum(a, b) {
-  return a + b;
+function sum (a, b) {
+  return a + b
 }
 ```
 
@@ -65,8 +65,8 @@ function sum(a, b) {
 与之相对的是非纯函数，它会改变它自身的输入值：
 
 ```javascript
-function withdraw(account, amount) {
-  account.total -= amount;
+function withdraw (account, amount) {
+  account.total -= amount
 }
 ```
 
@@ -75,3 +75,27 @@ Taro 和 React 一样，也有一个严格的规则：
 所有的 Taro 组件必须像纯函数那样使用它们的props。
 
 当然，应用的界面是随时间动态变化的，我们将在下一节介绍一种称为`state`的新概念，State可以在不违反上述规则的情况下，根据用户操作、网络响应、或者其他状态变化，使组件动态的响应并改变组件的输出。
+
+### 使用 PropTypes 检查类型
+
+随着应用日渐庞大，你可以通过类型检查捕获大量错误。要检查组件的属性，你需要配置特殊的 `propTypes` 属性：
+```javascript
+import PropTypes from 'prop-types';
+
+class Greeting extends Component {
+  render() {
+    return (
+      <h1>Hello, {this.props.name}</h1>
+    );
+  }
+}
+
+Greeting.propTypes = {
+  name: PropTypes.string
+};
+```
+
+如上例，Taro与React一样，也支持`PropTypes` 检查类型，*目前在小程序端还有些问题*，但在 H5 端可以使用，用法和在 React 里一样。
+更多可参照[React的相关文档](https://reactjs.org.cn/doc/typechecking-with-proptypes.html)。
+
+

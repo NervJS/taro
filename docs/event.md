@@ -26,24 +26,24 @@ Taro 中稍稍有点不同：
 
 ```javascript
 class Toggle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {isToggleOn: true};
+  constructor (props) {
+    super(props)
+    this.state = {isToggleOn: true}
   }
 
   onClick = (e) => {
-	  e.stopPropagation();
+    e.stopPropagation()
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
-    }));
+    }))
   }
 
-  render() {
+  render () {
     return (
       <button onClick={this.onClick}>
         {this.state.isToggleOn ? 'ON' : 'OFF'}
       </button>
-    );
+    )
   }
 }
 ```
@@ -59,20 +59,20 @@ class Toggle extends React.Component {
 当你通过 bind 方式向监听函数传参，在类组件中定义的监听函数，事件对象 `e` 要排在所传递参数的后面。
 
 ```javascript
-class Popper extends Component{
-    constructor(){
-        super();
-        this.state = {name:'Hello world!'};
-    }
+class Popper extends Component {
+  constructor () {
+    super(...arguments)
+    this.state = { name:'Hello world!' }
+  }
 
-	// 你可以通过 bind 传入多个参数
-    preventPop(name, test, e){    //事件对象e要放在最后
-        e.preventDefault();
-    }
+  // 你可以通过 bind 传入多个参数
+  preventPop (name, test, e) {    //事件对象e要放在最后
+    e.preventDefault()
+  }
 
-    render(){
-        return <Button onClick={this.preventPop.bind(this, this.state.name, 'test')}></Button>;
-    }
+  render () {
+    return <Button onClick={this.preventPop.bind(this, this.state.name, 'test')}></Button>
+  }
 }
 ```
 

@@ -5,6 +5,7 @@ const wxTransformer = require('@tarojs/transformer-wx')
 const klaw = require('klaw')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
+const babel = require('babel-core')
 const generate = require('babel-generator').default
 const template = require('babel-template')
 const _ = require('lodash')
@@ -58,10 +59,6 @@ let pages = []
 let tabBar
 let tabbarPos
 
-// let isBuildingScripts = {}
-// let isBuildingStyles = {}
-// let isCopyingFiles = {}
-
 const FILE_TYPE = {
   ENTRY: 'ENTRY',
   PAGE: 'PAGE',
@@ -71,12 +68,54 @@ const FILE_TYPE = {
 
 const DEVICE_RATIO = 'deviceRatio'
 
+const buildRouterImporter = v => {
+  const pagename = v.startsWith('/') ? v : `/${v}`
+  /* substr 跳过"/pages/" */
+  const chunkFilename = pagename.substr(7).replace(/[/\\]+/g, '_')
+
+  const keyPagenameNode = t.stringLiteral(pagename)
+
+  const valuePagenameNode = t.stringLiteral(`.${pagename}`)
+  valuePagenameNode.leadingComments = [{
+    type: 'CommentBlock',
+    value: ` webpackChunkName: "${chunkFilename}" `
+  }]
+  const callExpression = t.callExpression(t.import(), [ valuePagenameNode ])
+  const arrowFunctionNode = t.arrowFunctionExpression(
+    [],
+    callExpression
+  )
+
+  return t.arrayExpression([
+    keyPagenameNode,
+    arrowFunctionNode
+  ])
+}
+
+const buildRouterStarter = ({ pages, packageName, taroImportDefaultName }) => {
+  const importers = pages.map(buildRouterImporter)
+  const initArrNode = t.arrayExpression(importers)
+
+  return t.expressionStatement(
+    t.callExpression(
+      t.memberExpression(
+        t.identifier(packageName),
+        t.identifier('initRouter')
+      ),
+      [initArrNode, t.identifier(taroImportDefaultName)]
+    )
+  )
+}
+
 function processEntry (code, filePath) {
-  const ast = wxTransformer({
+  let ast = wxTransformer({
     code,
     sourcePath: filePath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(filePath)
+    isTyped: Util.REG_TYPESCRIPT.test(filePath),
+    env: {
+      TARO_ENV: Util.BUILD_TYPES.H5
+    }
   }).ast
   let taroImportDefaultName
   let providorImportName
@@ -89,6 +128,12 @@ function processEntry (code, filePath) {
   let hasComponentDidHide = false
   let hasComponentWillUnmount = false
   let hasJSX = false
+
+  ast = babel.transformFromAst(ast, generate(ast).code, {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+    ]
+  }).ast
 
   const ClassDeclarationOrExpression = {
     enter (astPath) {
@@ -225,20 +270,21 @@ function processEntry (code, filePath) {
       const node = astPath.node
       const key = node.key
       const value = node.value
+      const keyName = t.isIdentifier(key) ? key.name : key.value
       // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-      if (key.name === 'pages' && t.isArrayExpression(value)) {
+      if (keyName === 'pages' && t.isArrayExpression(value)) {
         value.elements.forEach(v => {
           pages.push(v.value)
         })
-      } else if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+      } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar
         tabBar = value
         value.properties.forEach(node => {
-          if (node.key.name === 'position') tabbarPos = node.value.value
+          if (node.keyName === 'position') tabbarPos = node.value.value
         })
-      } else if ((key.name === 'iconPath' || key.name === 'selectedIconPath') && t.isStringLiteral(value)) {
+      } else if ((keyName === 'iconPath' || keyName === 'selectedIconPath') && t.isStringLiteral(value)) {
         astPath.replaceWith(
-          t.objectProperty(t.stringLiteral(key.name), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
+          t.objectProperty(t.stringLiteral(keyName), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
         )
       }
     }
@@ -270,6 +316,7 @@ function processEntry (code, filePath) {
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
             } else if (Util.REG_SCRIPTS.test(value)) {
+              /* TODO windows下路径处理可能有问题 ../../lib/utils.js */
               const dirname = path.dirname(value)
               const extname = path.extname(value)
               node.source = t.stringLiteral(path.format({
@@ -397,12 +444,12 @@ function processEntry (code, filePath) {
         if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
           pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
         }
-        const routerPages = pages
-          .map(v => {
-            const pageName = v.startsWith('/') ? v : `/${v}`
-            return `['${pageName}', () => import('.${pageName}')]`
-          })
-          .join(',')
+
+        const routerStarter = buildRouterStarter({
+          pages,
+          packageName: routerImportDefaultName,
+          taroImportDefaultName
+        })
 
         node.body.unshift(template(
           `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
@@ -420,10 +467,7 @@ function processEntry (code, filePath) {
           `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
           babylonConfig
         )())
-        node.body.push(template(
-          `${routerImportDefaultName}.initRouter([${routerPages}], ${taroImportDefaultName})`,
-          babylonConfig
-        )())
+        node.body.push(routerStarter)
         node.body.push(template(renderCallCode, babylonConfig)())
       }
     }
@@ -435,15 +479,24 @@ function processEntry (code, filePath) {
 }
 
 function processOthers (code, filePath) {
-  const ast = wxTransformer({
+  let ast = wxTransformer({
     code,
     sourcePath: filePath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(filePath)
+    isTyped: Util.REG_TYPESCRIPT.test(filePath),
+    env: {
+      TARO_ENV: Util.BUILD_TYPES.H5
+    }
   }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
   let hasJSX = false
+
+  ast = babel.transformFromAst(ast, generate(ast).code, {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+    ]
+  }).ast
 
   const ClassDeclarationOrExpression = {
     enter (astPath) {
@@ -649,7 +702,7 @@ function processFiles (filePath) {
     } else {
       // 其他 直接复制
       fs.ensureDirSync(distDirname)
-      fs.copyFileSync(filePath, distPath)
+      fs.copySync(filePath, distPath)
     }
   } catch (e) {
     console.log(e)
@@ -718,9 +771,9 @@ async function buildDist (buildConfig) {
   }
   h5Config.sourceRoot = projectConfig.sourceRoot
   h5Config.outputRoot = projectConfig.outputRoot
-  h5Config.entry = {
-    app: path.join(tempPath, entryFile)
-  }
+  h5Config.entry = Object.assign({
+    app: [path.join(tempPath, entryFile)]
+  }, h5Config.entry)
   if (watch) {
     h5Config.isWatch = true
   }

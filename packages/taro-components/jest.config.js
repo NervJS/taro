@@ -12,5 +12,6 @@ module.exports = {
     'react-addons-test-utils': 'nerv-test-utils',
     'react-dom': 'nervjs',
     '.scss$': '<rootDir>/__mock__/styleMock.js'
-  }
+  },
+  testURL: 'http://localhost'
 }

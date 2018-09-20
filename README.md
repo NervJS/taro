@@ -16,38 +16,23 @@
 
 ## 使用案例
 
-Taro 已经投入到了生产环境使用，超过 3 万行代码的 TOPLIFE 小程序已全面上线。京东购物和一起有局小程序也在使用 Taro 部分重构中，即将上线。同时，未来也将接入更多京东业务。
+Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![qrcode.png](https://i.loli.net/2018/07/08/5b40f4e2ea279.png)
+![案例](http://storage.360buyimg.com/taro-resource/articles.jpg)
 
-### 业界案例
-
-<div>
-  <img src="https://user-images.githubusercontent.com/2441562/42329803-2c2871d0-80a4-11e8-9708-fdede6048ac5.jpg" width="125" title="罗网指数"/>
-  <img src="https://user-images.githubusercontent.com/5935390/43631321-765fdc46-9735-11e8-8312-798846c3f557.jpg" width="125" title="脑洞阅读"/>
-  <img src="https://user-images.githubusercontent.com/5653652/43824908-def1a8cc-9b25-11e8-8548-1e88d4c0296d.jpg" width="125" title="喵呜部落"/>
-  <img src="https://user-images.githubusercontent.com/7992920/43836676-b286c812-9b48-11e8-83fd-29ce92221498.png" width="125" title="小来打卡 Pro"/>
-  <img src="https://user-images.githubusercontent.com/21174764/44625217-c0a27300-a936-11e8-9da9-04174f4699f1.jpg" width="125" title="小鱼的信"/>
-  <img src="https://i.loli.net/2018/09/04/5b8e230e8b04a.png" width="125" title="作业部落"/>
-  <img src="https://user-images.githubusercontent.com/12668546/44951956-e97db780-aea4-11e8-8266-a0606c161291.jpg" width="125" title="学区房app"/>
-  <img src="https://camo.githubusercontent.com/1798e5e987b56a7db4fdace8c2e20039ba2a7275/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036395256546467793166757279636b62686a346a3330373630373674396f2e6a7067" width="125" title="uCourse"/>
-  <img src="https://i.loli.net/2018/09/04/5b8e230bf0e9f.jpg" width="125" title="Taro UI"/>
-  <img src="https://i.loli.net/2018/09/04/5b8e230c01fc1.jpg" width="125" title="开始喝茶"/>
-  <img src="https://i.loli.net/2018/09/04/5b8e230c53dd4.png" width="125" title="多肉宝宝"/>
-
-<div/>
-
-[贡献你的项目](https://github.com/NervJS/taro/issues/244)
+[征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
 ## 示例项目
 
 * Taro Redux 示例 [taro-redux-sample](https://github.com/NervJS/taro-redux-sample)
 * [TodoMVC](https://github.com/NervJS/TodoMVC)
 * Taro 组件库示例 [taro-components-sample](https://github.com/NervJS/taro-components-sample)
+* Taro 端能力示例 [taro-apis-sample](https://github.com/NervJS/taro-apis-sample)
 * Taro 实验性特性项目 [taro-todo](https://github.com/NervJS/taro-todo)
 * [仿知乎小程序](https://github.com/NervJS/taro-zhihu-sample)
 * [Taro整合Dva示例](https://github.com/zuoge85/taro-dva)
 * [V2ex小程序（TypeScript）](https://github.com/NervJS/taro-v2ex)
+* [与微信小程序原生融合的示例](https://github.com/NervJS/taro-sample-weapp)
 
 ## Taro 特性
 

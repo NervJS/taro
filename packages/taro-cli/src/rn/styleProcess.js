@@ -22,8 +22,11 @@ function loadStyle ({filePath, pluginsConfig}) {
       .then((item) => {
         return {
           css: item.css.toString(),
-          filePath: item.stats.entry.toString() // 整理 filePath
+          filePath
         }
+      }).catch((e) => {
+        Util.printLog(Util.pocessTypeEnum.ERROR, '样式预处理', filePath)
+        console.log(e.stack)
       })
   }
   return new Promise((resolve, reject) => {

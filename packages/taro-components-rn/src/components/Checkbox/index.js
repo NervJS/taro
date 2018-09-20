@@ -65,6 +65,13 @@ class _Checkbox extends React.Component<Props, State> {
     this.setState({ checked: !this.state.checked })
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps (nextProps: Props) {
+    if (this.state.checked !== nextProps.checked) {
+      this.setState({ checked: !!nextProps.checked })
+    }
+  }
+
   render () {
     const {
       style,

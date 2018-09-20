@@ -19,10 +19,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { OpenData } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			<OpenData type='userAvatarUrl'  />
-		)
-	}
+  render () {
+    return (
+      <OpenData type='userAvatarUrl'  />
+    )
+  }
 }
 ```

@@ -69,7 +69,8 @@ interface Result {
     name: string,
     path: string,
     type: string
-  }[]
+  }[],
+  componentProperies: string[]
 }
 
 interface Ref {
@@ -82,7 +83,8 @@ interface Ref {
 class Transformer {
   public result: Result = {
     template: '',
-    components: []
+    components: [],
+    componentProperies: []
   }
   private methods: ClassMethodsMap = new Map()
   private initState: Set<string> = new Set()
@@ -96,17 +98,19 @@ class Transformer {
   private usedState = new Set<string>()
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
   private customComponentData: Array<t.ObjectProperty> = []
-  private componentProperies = new Set<string>()
+  private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
-    sourcePath: string
+    sourcePath: string,
+    componentProperies: string[]
   ) {
     this.classPath = path
     this.sourcePath = sourcePath
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
+    this.componentProperies = new Set(componentProperies)
     this.compile()
   }
 
@@ -210,6 +214,18 @@ class Transformer {
           self.methods.set(name, path)
           if (name === 'render') {
             self.renderMethod = path
+            path.traverse({
+              ReturnStatement (returnPath) {
+                const arg = returnPath.node.argument
+                const ifStem = returnPath.findParent(p => p.isIfStatement())
+                if (ifStem && ifStem.isIfStatement() && arg === null) {
+                  const consequent = ifStem.get('consequent')
+                  if (consequent.isBlockStatement() && consequent.node.body.includes(returnPath.node)) {
+                    returnPath.get('argument').replaceWith(t.nullLiteral())
+                  }
+                }
+              }
+            })
           }
           if (name === 'constructor') {
             path.traverse({
@@ -555,6 +571,7 @@ class Transformer {
     this.findMoreProps()
     this.handleRefs()
     this.parseRender()
+    this.result.componentProperies = [...this.componentProperies]
   }
 }
 

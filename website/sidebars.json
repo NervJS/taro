@@ -1,7 +1,8 @@
 {
   "docs": {
     "关于Taro": [
-      "README"
+      "README",
+      "team"
     ],
     "快速开始": [
       "GETTING-STARTED",
@@ -28,7 +29,7 @@
       "best-practice"
     ],
     "组件库": [
-      "components",
+      "components-desc",
       "components/viewContainer/view",
       "components/viewContainer/scroll-view",
       "components/viewContainer/swiper",

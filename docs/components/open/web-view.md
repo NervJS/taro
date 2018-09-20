@@ -19,10 +19,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { WebView } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			<WebView src='https://mp.weixin.qq.com/'  />
-		)
-	}
+  render () {
+    return (
+      <WebView src='https://mp.weixin.qq.com/'  />
+    )
+  }
 }
 ```

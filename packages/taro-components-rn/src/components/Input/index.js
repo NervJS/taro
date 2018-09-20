@@ -188,6 +188,13 @@ class _Input extends React.Component<Props, State> {
     }
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps (nextProps: Props) {
+    if (this.state.value !== nextProps.value) {
+      this.setState({ returnValue: nextProps.value })
+    }
+  }
+
   render () {
     const {
       style,
