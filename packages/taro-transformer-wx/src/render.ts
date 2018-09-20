@@ -1043,32 +1043,26 @@ export class RenderParser {
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
-            const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
-            let inserted = false
             const returnBody = this.renderPath.node.body.body
-            for (let index = 0; index < returnBody.length; index++) {
-              const node = returnBody[index]
-              const statement = callee.getStatementParent().node
-              if (node === statement) {
-                returnBody.splice(index, 0, decl)
-                inserted = true
-                break
+            const ifStem = callee.findParent(p => p.isIfStatement())
+            // @TEST
+            if (ifStem && ifStem.isIfStatement()) {
+              const consequent = ifStem.get('consequent')
+              if (consequent.isBlockStatement()) {
+                const assignment = t.expressionStatement(
+                  t.assignmentExpression(
+                    '=',
+                    t.identifier(stateName),
+                    setParentCondition(component, callee.node, true)
+                  )
+                )
+                returnBody.unshift(
+                  t.variableDeclaration('let', [t.variableDeclarator(t.identifier(stateName))])
+                )
+                consequent.node.body.push(assignment)
               }
-              if (t.isIfStatement(node)) {
-                const block = node.consequent
-                if (t.isBlockStatement(block)) {
-                  for (let ii = 0; ii < block.body.length; ii++) {
-                    const st = block.body[ii]
-                    if (st === statement) {
-                      block.body.splice(ii, 0, decl)
-                      inserted = true
-                      break
-                    }
-                  }
-                }
-              }
-            }
-            if (!inserted) {
+            } else {
+              const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
               returnBody.push(decl)
             }
           }
