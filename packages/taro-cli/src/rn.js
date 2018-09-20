@@ -41,7 +41,7 @@ const styleDenpendencyTree = {}
 
 const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
-let componentClassName  // get app.js class name
+let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const routerImportDefaultName = 'TaroRouter'
@@ -630,7 +630,7 @@ function buildTemp () {
           if (Util.REG_TYPESCRIPT.test(filePath)) {
             file.path = file.path.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
           }
-          Util.printLog(Util.pocessTypeEnum.COMPILE, 'JS', filePath)
+          Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
           // parseJSCode
           let transformResult = parseJSCode(content, filePath)
           const jsCode = transformResult.code
