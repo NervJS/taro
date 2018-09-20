@@ -108,9 +108,8 @@ function processEvent (eventHandlerName, obj) {
       if ('so' in bindArgs) {
         if (bindArgs['so'] !== 'this') {
           callScope = bindArgs['so']
-        } else {
-          isScopeBinded = true
         }
+        isScopeBinded = true
         delete bindArgs['so']
       }
       if (detailArgs.length > 0) {
@@ -129,9 +128,8 @@ function processEvent (eventHandlerName, obj) {
       if ('so' in bindArgs) {
         if (bindArgs['so'] !== 'this') {
           _scope = bindArgs['so']
-        } else {
-          isScopeBinded = false
         }
+        isScopeBinded = true
         delete bindArgs['so']
       }
       if (detailArgs.length > 0) {
@@ -143,7 +141,7 @@ function processEvent (eventHandlerName, obj) {
           .sort()
           .map(key => bindArgs[key])
       }
-      realArgs = [callScope || _scope, ...datasetArgs, ...detailArgs, event]
+      realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
     }
     scope[eventHandlerName].apply(callScope, realArgs)
   }
