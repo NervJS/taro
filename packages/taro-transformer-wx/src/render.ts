@@ -21,7 +21,7 @@ import {
   setParentCondition,
   isContainJSXElement
 } from './utils'
-import { difference } from 'lodash'
+import { difference, get as safeGet } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
@@ -34,6 +34,18 @@ const template = require('babel-template')
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 const calleeId = incrementId()
+
+function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
+  const parents: NodePath<t.Node>[] = []
+  // tslint:disable-next-line:no-conditional-assignment
+  while (path = path.parentPath) {
+    if (cb(path)) {
+      parents.push(path)
+    }
+  }
+
+  return parents
+}
 
 function isClassDcl (p: NodePath<t.Node>) {
   return p.isClassExpression() || p.isClassDeclaration()
@@ -889,6 +901,12 @@ export class RenderParser {
         const [ func ] = callee.node.arguments
         if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
           const [ item ] = func.params as t.Identifier[]
+          const parents = findParents(callee, (p) => isArrayMapCallExpression(p))
+          const iterators = new Set<string>(
+            [item.name, ...parents
+              .map((p) => safeGet(p, 'node.arguments[0].params[0].name', ''))
+              .filter(Boolean)]
+          )
           for (const [ index, statement ] of body.entries()) {
             if (t.isVariableDeclaration(statement)) {
               for (const dcl of statement.declarations) {
@@ -911,12 +929,12 @@ export class RenderParser {
           function replaceOriginal (path, parent, name) {
             if (
               path.isReferencedIdentifier() &&
-              name === item.name &&
+              iterators.has(name) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE)))
             ) {
               path.replaceWith(t.memberExpression(
-                t.identifier(item.name),
+                t.identifier(name),
                 t.identifier(LOOP_ORIGINAL)
               ))
               hasOriginalRef = true
