@@ -26,7 +26,7 @@ function loadStyle ({filePath, pluginsConfig}) {
         }
       }).catch((e) => {
         Util.printLog(Util.pocessTypeEnum.ERROR, '样式预处理', filePath)
-        throw e
+        console.log(e.stack)
       })
   }
   return new Promise((resolve, reject) => {
