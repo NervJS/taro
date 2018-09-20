@@ -21,7 +21,7 @@ import {
   setParentCondition,
   isContainJSXElement
 } from './utils'
-import { difference } from 'lodash'
+import { difference, get as safeGet } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
@@ -34,6 +34,18 @@ const template = require('babel-template')
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 const calleeId = incrementId()
+
+function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
+  const parents: NodePath<t.Node>[] = []
+  // tslint:disable-next-line:no-conditional-assignment
+  while (path = path.parentPath) {
+    if (cb(path)) {
+      parents.push(path)
+    }
+  }
+
+  return parents
+}
 
 function isClassDcl (p: NodePath<t.Node>) {
   return p.isClassExpression() || p.isClassDeclaration()
@@ -218,6 +230,12 @@ export class RenderParser {
           )
           setTemplate(name, jsxElementPath, this.templates)
         }
+      } else if (
+        (t.isJSXElement(consequent) && t.isCallExpression(alternate))
+        ||
+        (t.isJSXElement(alternate) && t.isCallExpression(consequent))
+      ) {
+        //
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
@@ -883,6 +901,12 @@ export class RenderParser {
         const [ func ] = callee.node.arguments
         if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
           const [ item ] = func.params as t.Identifier[]
+          const parents = findParents(callee, (p) => isArrayMapCallExpression(p))
+          const iterators = new Set<string>(
+            [item.name, ...parents
+              .map((p) => safeGet(p, 'node.arguments[0].params[0].name', ''))
+              .filter(Boolean)]
+          )
           for (const [ index, statement ] of body.entries()) {
             if (t.isVariableDeclaration(statement)) {
               for (const dcl of statement.declarations) {
@@ -905,12 +929,12 @@ export class RenderParser {
           function replaceOriginal (path, parent, name) {
             if (
               path.isReferencedIdentifier() &&
-              name === item.name &&
+              iterators.has(name) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE)))
             ) {
               path.replaceWith(t.memberExpression(
-                t.identifier(item.name),
+                t.identifier(name),
                 t.identifier(LOOP_ORIGINAL)
               ))
               hasOriginalRef = true
@@ -1019,32 +1043,26 @@ export class RenderParser {
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
             setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
-            const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
-            let inserted = false
             const returnBody = this.renderPath.node.body.body
-            for (let index = 0; index < returnBody.length; index++) {
-              const node = returnBody[index]
-              const statement = callee.getStatementParent().node
-              if (node === statement) {
-                returnBody.splice(index, 0, decl)
-                inserted = true
-                break
+            const ifStem = callee.findParent(p => p.isIfStatement())
+            // @TEST
+            if (ifStem && ifStem.isIfStatement()) {
+              const consequent = ifStem.get('consequent')
+              if (consequent.isBlockStatement()) {
+                const assignment = t.expressionStatement(
+                  t.assignmentExpression(
+                    '=',
+                    t.identifier(stateName),
+                    setParentCondition(component, callee.node, true)
+                  )
+                )
+                returnBody.unshift(
+                  t.variableDeclaration('let', [t.variableDeclarator(t.identifier(stateName))])
+                )
+                consequent.node.body.push(assignment)
               }
-              if (t.isIfStatement(node)) {
-                const block = node.consequent
-                if (t.isBlockStatement(block)) {
-                  for (let ii = 0; ii < block.body.length; ii++) {
-                    const st = block.body[ii]
-                    if (st === statement) {
-                      block.body.splice(ii, 0, decl)
-                      inserted = true
-                      break
-                    }
-                  }
-                }
-              }
-            }
-            if (!inserted) {
+            } else {
+              const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
               returnBody.push(decl)
             }
           }
