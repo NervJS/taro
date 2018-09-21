@@ -956,7 +956,7 @@ function mkdirsSync (pathname, mode) {
         mkdirsSync(pathname, mode)
         break
       default:
-        var stat
+        let stat
         try {
           stat = fs.statSync(pathname)
         } catch (e) {
