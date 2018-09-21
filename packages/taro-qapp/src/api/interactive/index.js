@@ -1,21 +1,26 @@
 import prompt from '@system.prompt'
-import {generateUnSupportApi} from "../utils"
+import { generateUnSupportApi } from '../utils'
 
 export function showToast (options = {}) {
-
-  const { title = '', duration = 1500, success, complete } = options
+  const { title = '', duration = 1500, success, complete, fail } = options
   const res = { errMsg: 'showToast:ok' }
 
   return new Promise((resolve, reject) => {
-    prompt.showToast({
-      message: title,
-      duration: duration > 2000 ? 1 : 0
-    })
-    success && success(res)
-    complete && complete(res)
-    resolve(res)
+    try {
+      prompt.showToast({
+        message: title,
+        duration: duration > 2000 ? 1 : 0
+      })
+      success && success(res)
+      complete && complete(res)
+      resolve(res)
+    } catch (data) {
+      res.errMsg = 'showToast: error'
+      res.data = res.data
+      fail && fail(res)
+      reject(res)
+    }
   })
-
 }
 
 export function showModal (options = {}) {
@@ -118,7 +123,7 @@ export function showActionSheet (options = {}) {
 
 let unSupportApis = ['hideToast', 'showLoading', 'hideLoading']
 unSupportApis = generateUnSupportApi(
-  '快应用暂不支持storage的同步存取',
+  '快应用暂不支持Toast等隐藏方法',
   unSupportApis
 )
 
