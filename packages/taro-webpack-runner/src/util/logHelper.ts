@@ -1,8 +1,9 @@
 import chalk from 'chalk';
 import * as ora from 'ora';
 import { partial, pipe } from 'lodash/fp';
+import * as formatMessages from 'webpack-format-messages';
 
-const syntaxErrorLabel = 'Syntax error:';
+// const syntaxErrorLabel = 'Syntax error:';
 
 const getServeSpinner = (() => {
   let spinner
@@ -11,69 +12,6 @@ const getServeSpinner = (() => {
     return spinner
   }
 })()
-
-const isLikelyASyntaxError = (message: string): boolean => {
-  return message.indexOf(syntaxErrorLabel) >= 0;
-}
-
-const formatMessage = (message: string): string => {
-  let lines = message.split('\n');
-  if (lines.length > 2 && lines[1] === '') {
-    lines.splice(1, 1);
-  }
-  if (lines[0].lastIndexOf('!') >= 0) {
-    lines[0] = lines[0].substr(lines[0].lastIndexOf('!') + 1);
-  }
-  lines = lines.filter(line => line.indexOf(' @ ') !== 0);
-  if (!lines[0] || !lines[1]) {
-    return lines.join('\n');
-  }
-  if (lines[1].indexOf('Module not found: ') === 0) {
-    lines = [
-      lines[0],
-      lines[1]
-        .replace("Cannot resolve 'file' or 'directory' ", '')
-        .replace('Cannot resolve module ', '')
-        .replace('Error: ', '')
-        .replace('[CaseSensitivePathsPlugin] ', '')
-    ];
-  } else if (lines[1].indexOf('Module build failed: ') === 0) {
-    lines[1] = lines[1].replace(
-      'Module build failed: SyntaxError:',
-      syntaxErrorLabel
-    );
-  }
-
-  const exportError = /\s*(.+?)\s*(")?export '(.+?)' was not found in '(.+?)'/;
-  if (lines[1].match(exportError)) {
-    lines[1] = lines[1].replace(
-      exportError,
-      "$1 '$4' does not contain an export named '$3'."
-    );
-  }
-  lines[0] = chalk.inverse(lines[0]);
-  message = lines.join('\n');
-
-  message = message.replace(
-    /^\s*at\s((?!webpack:).)*:\d+:\d+[\s)]*(\n|$)/gm,
-    ''
-  );
-  return message.trim();
-}
-
-const formatWebpackMessage = (message): { errors, warnings } => {
-  const errors = message.errors.map(item => formatMessage(item));
-  const warnings = message.warnings.map(item => formatMessage(item));
-
-  const result = {
-    errors,
-    warnings
-  };
-  if (result.errors.some(isLikelyASyntaxError)) {
-    result.errors = result.errors.filter(isLikelyASyntaxError);
-  }
-  return result;
-}
 
 const printCompiling = () => {
   getServeSpinner().text = 'Compiling...'
@@ -105,21 +43,21 @@ const printBuildError = (err: Error): void => {
 const printSuccess = () => {
   getServeSpinner().stopAndPersist({
     symbol: '✅ ',
-    text: chalk.green('Compile successful!\n')
+    text: chalk.green('Compiled successfully!\n')
   })
 }
 
 const printWarning = () => {
   getServeSpinner().stopAndPersist({
-    symbol: '⚠️  ',
-    text: chalk.yellow('Compile completes with warnings.\n')
+    symbol: '⚠️ ',
+    text: chalk.yellow('Compiled with warnings.\n')
   })
 }
 
 const printFailed = () => {
   getServeSpinner().stopAndPersist({
     symbol: '🙅  ',
-    text: chalk.red('Compile failed!\n')
+    text: chalk.red('Failed to compile.\n')
   })
 }
 
@@ -162,33 +100,31 @@ const _printWhenDone = ({
   verbose = false
 }, compiler) => {
   compiler.hooks.done.tap('taroDone', stats => {
-    const { errors, warnings } = formatWebpackMessage(stats.toJson(true))
+    const { errors, warnings } = formatMessages(stats)
 
+    if (!stats.hasErrors() && !stats.hasWarnings()) {
+      printSuccess()
+    }
+  
     if (stats.hasErrors()) {
       printFailed()
-      printBuildError(new Error(errors.join('\n\n')))
-      return
+      errors.forEach(e => console.log(e + '\n'));
+      return;
     }
-
+  
     if (stats.hasWarnings()) {
       printWarning()
-      console.log(warnings.join('\n\n'))
+      warnings.forEach(w => console.log(w + '\n'));
     }
-    
-    printSuccess()
 
-    const enableWarnings = verbose
-
-    console.log(
-      stats.toString({
-        colors: true,
-        modules: false,
-        children: false,
-        chunks: false,
-        chunkModules: false,
-        warnings: enableWarnings
-      }) + '\n'
-    )
+    verbose && console.log(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false,
+      warnings: verbose
+    }) + '\n')
   })
   return compiler
 }
@@ -198,6 +134,7 @@ const printWhenDone = partial(_printWhenDone, [{ verbose: false }])
 const printWhenDoneVerbosely = partial(_printWhenDone, [{ verbose: true }])
 
 const bindDevLogger = (devUrl, compiler) => {
+  console.log()
   pipe(
     printWhenBeforeCompile,
     partial(printWhenFirstDone, [devUrl]),
@@ -209,6 +146,7 @@ const bindDevLogger = (devUrl, compiler) => {
 }
 
 const bindProdLogger = (compiler) => {
+  console.log()
   pipe(
     printWhenBeforeCompile,
     printWhenDoneVerbosely,
@@ -218,6 +156,7 @@ const bindProdLogger = (compiler) => {
 }
 
 const bindDllLogger = (compiler) => {
+  console.log()
   pipe(
     printWhenBeforeCompile,
     printWhenDone,

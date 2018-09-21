@@ -10,6 +10,7 @@ import { appPath } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
 import { Option } from './types'
 
+
 const defaultUglifyJsOption = {
   keep_fnames: true,
   output: {

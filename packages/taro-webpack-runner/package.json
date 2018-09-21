@@ -36,6 +36,7 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "chalk": "^2.4.1",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.1.0",
@@ -60,6 +61,7 @@
     "webpack": "^4.14.0",
     "webpack-chain": "^4.9.0",
     "webpack-dev-server": "^3.1.4",
+    "webpack-format-messages": "^2.0.3",
     "webpack-merge": "^4.1.4"
   },
   "devDependencies": {
