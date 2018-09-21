@@ -15,6 +15,8 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       this.screenRef = React.createRef()
     }
 
+    static navigationOptions = Screen.navigationOptions || {}
+
     /**
      * @description 如果 Screen 被包裹过（如：@connect），
      * 需提供获取包裹前 Screen 实例的方法 getWrappedInstance 并暴露出被包裹组件的 navigationOptions
