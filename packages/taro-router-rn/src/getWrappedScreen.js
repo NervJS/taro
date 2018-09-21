@@ -15,7 +15,18 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       this.screenRef = React.createRef()
     }
 
-    static navigationOptions = Screen.navigationOptions || {}
+    static navigationOptions = ({navigation}) => {
+      const navigationOptions = Screen.navigationOptions
+      return {
+        title: navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title,
+        headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
+        headerStyle: {
+          backgroundColor: navigation.getParam('backgroundColor') ||
+          (navigationOptions.headerStyle && navigationOptions.headerStyle.backgroundColor) ||
+          (globalNavigationOptions.headerStyle && globalNavigationOptions.headerStyle.backgroundColor)
+        }
+      }
+    }
 
     /**
      * @description 如果 Screen 被包裹过（如：@connect），
@@ -30,9 +41,31 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       }
     }
 
+    setNavigationBarColor (obj) {
+      if (typeof obj !== 'object') {
+        console.warn('Taro.setNavigationBarColor 参数必须为 object')
+        return
+      }
+      const {frontColor, backgroundColor} = obj
+      this.props.navigation.setParams({headerTintColor: frontColor, backgroundColor})
+    }
+
+    setNavigationBarTitle (obj) {
+      if (typeof obj !== 'object') {
+        console.warn('Taro.setNavigationBarTitle 参数必须为 object')
+        return
+      }
+      const {title} = obj
+      if (this.props.navigation) {
+        this.props.navigation.setParams({title})
+      }
+    }
+
     componentDidMount () {
+      Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
+      Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
       this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
-      this.screenRef.current && this.setState({})
+      this.screenRef.current && this.setState({}) // TODO 不然 current 为null
     }
 
     componentWillUnmount () {
