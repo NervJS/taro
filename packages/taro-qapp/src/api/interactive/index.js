@@ -82,7 +82,6 @@ export function showActionSheet (options = {}) {
   const res = { errMsg: 'showActionSheet:ok' }
 
   return new Promise((resolve, reject) => {
-
     if (!itemList) {
       console.warn('itemList必传')
       res.errMsg = 'itemList必传'
@@ -115,7 +114,6 @@ export function showActionSheet (options = {}) {
       }
     })
   })
-
 }
 
 let unSupportApis = ['hideToast', 'showLoading', 'hideLoading']
@@ -126,7 +124,8 @@ unSupportApis = generateUnSupportApi(
 
 const toast = {
   showToast,
-  showModal
+  showModal,
+  showActionSheet
 }
 
 Object.assign(toast, unSupportApis)
