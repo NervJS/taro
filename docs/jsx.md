@@ -15,7 +15,7 @@ title: JSX 简介
 
 请观察以下代码：
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 

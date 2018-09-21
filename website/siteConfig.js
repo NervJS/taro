@@ -82,10 +82,10 @@ const siteConfig = {
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: 'atom-one-dark',
+    theme: 'default',
   },
 
-  usePrism: ['jsx'],
+  usePrism: true,
 
   // Add custom scripts here that would be placed in <script> tags
   scripts: ['https://buttons.github.io/buttons.js', 'https://jdc.jd.com/demo/talenttest/js/url.js'],

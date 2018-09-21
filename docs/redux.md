@@ -16,7 +16,7 @@ $ npm install --save redux @tarojs/redux @tarojs/redux-h5 redux-thunk redux-logg
 
 随后可以在项目 `src` 目录下新增一个 `store` 目录，在目录下增加 `index.js` 文件用来配置 `store`，按自己喜好设置 `redux` 的中间件，例如下面例子中使用 `redux-thunk` 和 `redux-logger` 这两个中间件
 
-```javascript
+```jsx
 // src/store/index.js
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
@@ -36,7 +36,7 @@ export default function configStore () {
 
 接下来在项目入口文件 `app.js` 中使用 `@tarojs/redux` 中提供的 `Provider` 组件将前面写好的 `store` 接入应用中
 
-```javascript
+```jsx
 // src/app.js
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
@@ -81,7 +81,7 @@ Taro.render(<App />, document.getElementById('app'))
 
 新增 `action type`
 
-```javascript
+```jsx
 // src/constants/counter.js
 export const ADD = 'ADD'
 export const MINUS = 'MINUS'
@@ -89,7 +89,7 @@ export const MINUS = 'MINUS'
 
 新增 `reducer` 处理
 
-```javascript
+```jsx
 // src/reducers/counter.js
 import { ADD, MINUS } from '../constants/counter'
 
@@ -115,7 +115,7 @@ export default function counter (state = INITIAL_STATE, action) {
 }
 ```
 
-```javascript
+```jsx
 // src/reducers/index.js
 import { combineReducers } from 'redux'
 import counter from './counter'
@@ -128,7 +128,7 @@ export default combineReducers({
 
 新增 `action` 处理
 
-```javascript
+```jsx
 // src/actions/counter.js
 import {
   ADD,
@@ -159,7 +159,7 @@ export function asyncAdd () {
 
 最后，我们可以在页面（或者组件）中进行使用，我们将通过 `tarojs/redux` 提供的 `connect` 方法将 `redux` 与我们的页面进行连接
 
-```javascript
+```jsx
 // src/pages/index/index.js
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'

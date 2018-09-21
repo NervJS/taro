@@ -26,7 +26,7 @@ title: 项目说明
 
 一个普通的入口文件示例如下
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
 
@@ -88,7 +88,7 @@ Taro 项目的页面一般都放在 `src` 中的 `pages` 目录下，如果页�
 
 页面创建好后如果需要渲染展示，则需要在项目入口文件 `app.js` 中 `config` 的 `pages` 数组中进行指定，例如上面提到的 `index` 页面，需要如下进行配置，页面配置需要指定到页面具体的 `js` 文件，可以不带 `.js` 后缀
 
-```javascript
+```jsx
 
 ...
 class App extends Component {
@@ -107,7 +107,7 @@ class App extends Component {
 
 一个普通的页面文件示例如下
 
-```javascript
+```jsx
 
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
@@ -178,7 +178,7 @@ Taro 支持组件化开发，组件代码可以放在任意位置，不过建议
 
 ### 代码示例
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image, Button } from '@tarojs/components'
 import './tab.scss'
