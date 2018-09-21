@@ -11,7 +11,7 @@ Taro 中的条件渲染和 JavaScript 中的一致，使用 Taro 操作符 if �
 
 考虑如下代码：
 
-```javascript
+```jsx
 // LoginStatus.js
 class LoginStatus extends Component {
   render () {
@@ -55,7 +55,7 @@ class App extends Component {
 
 你可以通过用花括号包裹代码在 JSX 中嵌入几乎任何表达式 ，也包括 JavaScript 的逻辑与 &&，它可以方便地条件渲染一个元素。
 
-```javascript
+```jsx
 class LoginStatus extends Component {
   render () {
     const isLoggedIn = this.props.isLoggedIn
@@ -78,7 +78,7 @@ class LoginStatus extends Component {
 
 条件渲染的另一种方法是使用 JavaScript 的条件运算符 `condition ? true : false`。
 
-```javascript
+```jsx
 class LoginStatus extends Component {
   render () {
     const isLoggedIn = this.props.isLoggedIn

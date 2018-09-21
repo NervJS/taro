@@ -16,7 +16,7 @@ title: Taro 介绍
 
 代码示例
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button } from '@tarojs/components'
 

@@ -8,7 +8,7 @@ title: 组件化 & Props
 
 你也可以使用 ES6 class 来定义一个组件:
 
-```javascript
+```jsx
 class Welcome extends Component {
   render () {
     return <View>Hello, {this.props.name}</View>
@@ -20,13 +20,13 @@ class Welcome extends Component {
 
 在前面，我们遇到的 Taro 元素都是内置组件：
 
-```javascript
+```jsx
 const element = <View />
 ```
 
 然而，Taro 元素也可以是用户自定义的组件：
 
-```javascript
+```jsx
 const element = <Welcome name="Wallace" />
 ```
 
@@ -34,7 +34,7 @@ const element = <Welcome name="Wallace" />
 
 例如,这段代码会在页面上渲染出”Hello, Wallace”:
 
-```javascript
+```jsx
 // welcome.js
 class Welcome extends Component {
   render () {
@@ -54,7 +54,7 @@ class App extends Component {
 
 一个声明的组件决不能修改它自己的 `props`。来看这个`sum`函数：
 
-```javascript
+```jsx
 function sum (a, b) {
   return a + b
 }
@@ -64,7 +64,7 @@ function sum (a, b) {
 
 与之相对的是非纯函数，它会改变它自身的输入值：
 
-```javascript
+```jsx
 function withdraw (account, amount) {
   account.total -= amount
 }
@@ -79,7 +79,7 @@ Taro 和 React 一样，也有一个严格的规则：
 ### 使用 PropTypes 检查类型
 
 随着应用日渐庞大，你可以通过类型检查捕获大量错误。要检查组件的属性，你需要配置特殊的 `propTypes` 属性：
-```javascript
+```jsx
 import PropTypes from 'prop-types';
 
 class Greeting extends Component {

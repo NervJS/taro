@@ -10,13 +10,13 @@ title: 静态资源引用
 
 例如引用 CSS 文件
 
-```javascript
+```jsx
 import './css/path/name.css'
 ```
 
 引用 SCSS 文件
 
-```javascript
+```jsx
 import './css/path/name.scss'
 ```
 
@@ -24,7 +24,7 @@ import './css/path/name.scss'
 
 可以直接通过 ES6 的 `import` 语法来引用JS文件
 
-```javascript
+```jsx
 import { functionName } from './css/path/name.js'
 
 import defaultExportName from './css/path/name.js'
@@ -34,7 +34,7 @@ import defaultExportName from './css/path/name.js'
 
 可以直接通过 ES6 的 `import` 语法来引用此类文件，拿到文件引用后直接在 JSX 中进行使用
 
-```javascript
+```jsx
 
 // 引用文件
 import namedPng from '../../images/path/named.png'
@@ -49,7 +49,7 @@ import namedPng from '../../images/path/named.png'
 
 可以直接通过 ES6 的 `import` 语法来引用此类文件，拿到JSON文件输出的JSON数据
 
-```javascript
+```jsx
 // 引用json文件
 /**
 * named.json

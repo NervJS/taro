@@ -16,7 +16,7 @@ Taro 事件绑定属性的命名采用驼峰式写法，而不是小写。
 
 Taro 中稍稍有点不同：
 
-```javascript
+```jsx
 <button onClick={this.activateLasers}>
   Activate Lasers
 </button>
@@ -24,7 +24,7 @@ Taro 中稍稍有点不同：
 
 在 Taro 中另一个不同是你不能使用 `catchEvent` 的方式阻止事件冒泡。你必须明确的使用 `stopPropagation`。例如，阻止事件冒泡你可以这样写：
 
-```javascript
+```jsx
 class Toggle extends React.Component {
   constructor (props) {
     super(props)
@@ -52,13 +52,13 @@ class Toggle extends React.Component {
 
 通常我们会为事件处理程序传递额外的参数。例如，若是 `id` 是你要删除那一行的 `id`，以下两种方式都可以向事件处理程序传递参数：
 
-```javascript
+```jsx
 <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
 ```
 
 当你通过 bind 方式向监听函数传参，在类组件中定义的监听函数，事件对象 `e` 要排在所传递参数的后面。
 
-```javascript
+```jsx
 class Popper extends Component {
   constructor () {
     super(...arguments)
@@ -82,7 +82,7 @@ class Popper extends Component {
 
 在微信小程序中，可能你会看到像 `bindTap` 这样的用法，但在 Taro 中，事件参数(props)都以 `on` 开头:
 
-```javascript
+```jsx
 // 错误
 const element = <View bindtap={this.onTag} />
 const element2 = <Input bindfocus={this.onFocus} />
@@ -91,7 +91,7 @@ const element3 = <CustomElement animationEnd={this.props.onAnimationEnd} />
 
 只要当 JSX 组件传入的参数是函数，参数名就必须以 `on` 开头：
 
-```javascript
+```jsx
 // 正确
 const element = <View onClick={this.onTag} />
 const element2 = <Input onFocus={this.onFocus} />

@@ -8,7 +8,7 @@ title: 设计稿及尺寸单位
 
 结合过往的开发经验，Taro 默认以 `750px` 作为换算尺寸标准，如果设计稿不是以 `750px` 为标准，则需要在项目配置 `config/index.js` 中进行设置，例如设计稿尺寸是 `640px`，则需要修改项目配置 `config/index.js` 中的 `designWidth` 配置为 `640`：
 
-```javascript
+```jsx
 const config = {
   projectName: 'myProject',
   date: '2018-4-18',
@@ -19,7 +19,7 @@ const config = {
 
 目前 Taro 支持 `750`、 `640` 、 `828` 三种尺寸设计稿，他们的换算规则如下：
 
-```javascript
+```jsx
 const DEVICE_RATIO = {
   '640': 2.34 / 2,
   '750': 1,
@@ -33,7 +33,7 @@ const DEVICE_RATIO = {
 
 在编译时，Taro 会帮你对样式做尺寸转换操作，但是如果是在 JS 中书写了行内样式，那么编译时就无法做替换了，针对这种情况，Taro 提供了 API `Taro.pxTransform` 来做运行时的尺寸转换。
 
-```javascript
+```jsx
 Taro.pxTransform(10) // 小程序：rpx，H5：rem
 ```
 

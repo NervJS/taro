@@ -27,7 +27,7 @@ sidebar_label: Button
 
 
 ###### 示例：
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 

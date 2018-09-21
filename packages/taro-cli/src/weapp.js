@@ -921,11 +921,53 @@ function buildProjectConfig () {
     return
   }
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
+  if (!fs.existsSync(outputDir)) {
+    mkdirsSync(outputDir)
+  }
   fs.writeFileSync(
     path.join(outputDir, 'project.config.json'),
     JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
   )
   Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/project.config.json`)
+}
+
+/**
+ * 同步创建多级目录
+ * @param pathname 需要创建的文件夹路径
+ * @param mode 文件夹读写权限
+ */
+function mkdirsSync (pathname, mode) {
+  let made = null
+  const _0777 = parseInt('0777', 8)
+
+  if (mode === undefined) {
+    mode = _0777 || (~process.umask())
+  }
+
+  pathname = path.resolve(pathname)
+
+  try {
+    fs.mkdirSync(pathname, mode)
+    made = made || pathname
+  } catch (err) {
+    switch (err.code) {
+      case 'ENOENT' :
+        made = mkdirsSync(path.dirname(pathname), mode)
+        mkdirsSync(pathname, mode)
+        break
+      default:
+        let stat
+        try {
+          stat = fs.statSync(pathname)
+        } catch (e) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`)
+        }
+        if (!stat.isDirectory()) Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`)
+        break
+      }
+  }
+
+  return made
 }
 
 async function buildEntry () {
@@ -1343,7 +1385,7 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
 function buildUsingComponents (components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
-    usingComponents[component.name] = component.path
+    usingComponents[component.name] = component.path.replace(path.extname(component.path), '')
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
