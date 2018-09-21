@@ -13,7 +13,7 @@ sidebar_label: Map
 
 小程序全部支持，属性参考[地图](https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map)。属性值请改写为驼峰式命名。
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 map 组件
 import { Map } from '@tarojs/components'

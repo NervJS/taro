@@ -6,7 +6,7 @@ title: 生命周期 & State
 
 我们可以从封装时钟开始：
 
-```javascript
+```jsx
 class Clock extends Component {
   render () {
     return (
@@ -25,7 +25,7 @@ Clock 现在被定义为一个类，使用类就允许我们使用其它特性�
 
 首先，我们需要添加一个类构造函数来初始化状态 `this.state`：
 
-```javascript
+```jsx
 class Clock extends Component {
   constructor (props) {
     super(props)
@@ -46,7 +46,7 @@ class Clock extends Component {
 
 注意我们如何传递 props 到基础构造函数的：
 
-```javascript
+```jsx
 constructor (props) {
   super(props)
   this.state = { date: new Date() }
@@ -67,7 +67,7 @@ constructor (props) {
 
 我们可以在组件类上声明特殊的方法，当组件挂载或卸载时，来运行一些代码：
 
-```javascript
+```jsx
 class Clock extends Component {
   constructor (props) {
     super(props)
@@ -97,7 +97,7 @@ class Clock extends Component {
 
 当组件输出到 DOM 后会执行 `componentDidMount()` 钩子，这是一个建立定时器的好地方：
 
-```javascript
+```jsx
 componentDidMount() {
   this.timerID = setInterval(
     () => this.tick(),
@@ -114,7 +114,7 @@ componentDidMount() {
 
 我们将在 `componentWillUnmount()` 生命周期钩子中卸载计时器：
 
-```javascript
+```jsx
 componentWillUnmount () {
   clearInterval(this.timerID)
 }
@@ -124,7 +124,7 @@ componentWillUnmount () {
 
 它将使用 `this.setState()` 来更新组件局部状态：
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 
 class Clock extends Component {
@@ -168,14 +168,14 @@ class Clock extends Component {
 
 例如，此代码不会重新渲染组件：
 
-```javascript
+```jsx
 // Wrong
 this.state.comment = 'Hello'
 ```
 
 应当使用 `setState()`:
 
-```javascript
+```jsx
 // Correct
 this.setState({ comment: 'Hello' })
 ```
@@ -189,7 +189,7 @@ Taro 可以将多个 `setState()` 调用合并成一个调用来提高性能。
 
 因为 `this.state` 和 `props` 一定是异步更新的，所以你不能在 `setState` 马上拿到 `state` 的值，例如：
 
-```javascript
+```jsx
 // 假设我们之前设置了 this.state.counter = 0
 updateCounter () {
   this.setState({
@@ -201,7 +201,7 @@ updateCounter () {
 
 正确的做法是这样，在 `setState` 的第二个参数传入一个 callback：
 
-```javascript
+```jsx
 // 假设我们之前设置了 this.state.counter = 0
 updateCounter () {
   this.setState({
@@ -220,7 +220,7 @@ updateCounter () {
 
 例如，你的状态可能包含几个独立的变量：
 
-```javascript
+```jsx
 constructor(props) {
   super(props)
   this.state = {
@@ -232,7 +232,7 @@ constructor(props) {
 
 然后通过调用独立的 `setState()` 调用分别更新它们:
 
-```javascript
+```jsx
 componentDidMount() {
   fetchPosts().then(response => {
     this.setState({

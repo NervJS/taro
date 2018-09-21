@@ -11,7 +11,7 @@ Taro 以 [微信小程序组件库](https://developers.weixin.qq.com/miniprogram
 
 在使用时，我们需要先从 Taro 标准组件库 `@tarojs/components` 引用组件，再进行使用，例如使用 `<View />`、 `<Text />` 组件
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 

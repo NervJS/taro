@@ -10,7 +10,7 @@ title: 项目配置
 
 ## index.js —— 通用配置
 
-```javascript
+```jsx
 const config = {
   // 项目名称
   projectName: 'kj',

@@ -215,7 +215,7 @@ open "rndebugger://set-debugger-loc?host=localhost&port=19001"
 
 Use the same API as [`redux-devtools-extension`](https://github.com/zalmoxisus/redux-devtools-extension#1-with-redux) is very simple:
 
-```javascript
+```jsx
 const store = createStore(
   reducer, /* preloadedState, */
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

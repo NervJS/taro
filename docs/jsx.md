@@ -15,7 +15,7 @@ title: JSX 简介
 
 请观察以下代码：
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 
@@ -124,7 +124,7 @@ class App extends Components {
 
 如果你没有给属性传值，它默认为 true。因此下面两个 JSX 是等价的：
 
-```js
+```jsx
 <MyTextBox autocomplete />
 
 <MyTextBox autocomplete={true} />
@@ -143,13 +143,13 @@ class App extends Components {
 
 如果 JSX 标签是闭合式的，那么你需要在结尾处用 />, 就好像 XML/HTML 一样：
 
-```javascript
+```jsx
 const element = <Image src={user.avatarUrl} />;
 ```
 
 JSX 标签同样可以相互嵌套：
 
-```javascript
+```jsx
 const element = (
   <View>
     <Text>Hello!</Text>
@@ -160,7 +160,7 @@ const element = (
 
 JavaScript 表达式也可以嵌套：
 
-```javascript
+```jsx
 render () {
   const todos = ['finish doc', 'submit pr', 'nag dan to review'];
   return (
@@ -175,7 +175,7 @@ render () {
 
 false、null、undefined 和 true 都是有效的 children，但它们不会直接被渲染。下面的表达式是等价的：
 
-```javascript
+```jsx
 <View />
 
 <View></View>
@@ -191,7 +191,7 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 
 这在根据条件来确定是否渲染 元素时非常有用。以下的JSX只会在showHeader为true时渲染<Header />组件。
 
-```javascript
+```jsx
 <View>
   {showHeader && <Header />}
   <Content />
@@ -204,19 +204,18 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 
 考虑如下代码：
 
-```javascript
+```jsx
 const element = <Content footer={<View />} />
 ```
 
 这样的代码在 Nerv/React 中使用是没有问题的，但是在 Taro 中不能这么做。
 
-> 由于微信小程序内置的组件化的系统不能通过属性（props） 传函数，而 props 传递函数可以说 React 体系的根基之一，我们只能自己实现了一套组件化系统。而自制的组件化系统则不能使用内置组件化的 `slot` 功能。两权相害取其轻，我们暂时只能对这个功能忍痛割爱了。
 
 ### 自定义组件的名称必须和引入时一致
 
 考虑如下代码：
 
-```javascript
+```jsx
 // Tabs.js
 export default class Tabs extends Componenet {
   render () {
@@ -236,7 +235,7 @@ class App extends Componenet {
 
 在 React/Nerv 中，你可以把组件的名称命名为任何遵循 JavaScript 规范的名字，通过 `export default` 导出时再通过 `import` 引入，又可以给他命名为一个不同的名字。但在 Taro 中你不能这么做，当转换成小程序时，自定义组件实际上会包一层 `template` 组件，而 `template` 的 `name` 属性必须是和 `class` 定义的名称一致的，否则 Taro 无法找到对应的组件：
 
-```javascript
+```jsx
 // Tabs.js
 export default class Tabs extends Componenet {
   render () {

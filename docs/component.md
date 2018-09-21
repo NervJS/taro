@@ -6,7 +6,7 @@ title: Taro.Component
 
 通常你定义一个 `Taro` 组件相当于一个纯 `JavaScript` 类：
 
-```javascript
+```jsx
 class Welcome extends Component {
   render () {
     return <h1>Hello, {this.props.name}</h1>
@@ -76,7 +76,7 @@ class Welcome extends Component {
 
 ### constructor()
 
-```javascript
+```jsx
 constructor(props)
 ```
 
@@ -90,7 +90,7 @@ React组件的构造函数将会在装配之前被调用。当为一个 `Taro.Co
 
 ### componentWillMount()
 
-```javascript
+```jsx
 componentWillMount()
 ```
 
@@ -104,7 +104,7 @@ componentWillMount()
 
 ### componentDidMount()
 
-```javascript
+```jsx
 componentDidMount()
 ```
 
@@ -113,7 +113,7 @@ componentDidMount() 在组件被装载后立即调用。初始化使得DOM节点
 
 ### componentWillReceiveProps()
 
-```javascript
+```jsx
 componentWillReceiveProps(nextProps)
 ```
 
@@ -125,7 +125,7 @@ componentWillReceiveProps(nextProps)
 
 ### shouldComponentUpdate()
 
-```javascript
+```jsx
 shouldComponentUpdate(nextProps, nextState)
 ```
 
@@ -138,7 +138,7 @@ shouldComponentUpdate(nextProps, nextState)
 
 ### componentWillUpdate()
 
-```javascript
+```jsx
 componentWillUpdate(nextProps, nextState)
 ```
 
@@ -151,7 +151,7 @@ componentWillUpdate(nextProps, nextState)
 
 ### componentDidUpdate()
 
-```javascript
+```jsx
 componentDidUpdate(prevProps, prevState)
 ```
 
@@ -159,7 +159,7 @@ componentDidUpdate(prevProps, prevState)
 
 ### componentWillUnmount()
 
-```javascript
+```jsx
 componentWillUnmount()
 ```
 
@@ -177,7 +177,7 @@ componentWillUnmount()
 
 `defaultProps` 可以被定义为组件类的一个属性，用以为类设置默认的属性。这对于未定义（undefined）的属性来说有用，而对于设为空（null）的属性并没用。例如：
 
-```javascript
+```jsx
 class CustomButton extends React.Component {
   // ...
 }
@@ -189,7 +189,7 @@ CustomButton.defaultProps = {
 
 若未设置 `props.color`，其将被设置默认为'blue':
 
-```javascript
+```jsx
 render () {
   return <CustomButton /> // props.color will be set to blue
 }
@@ -197,7 +197,7 @@ render () {
 
 若props.color设为null，则其值则为null：
 
-```javascript
+```jsx
 render() {
   return <CustomButton color={null} />  // props.color will remain null
 }
