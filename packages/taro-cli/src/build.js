@@ -5,11 +5,14 @@ const chalk = require('chalk')
 const Util = require('./util')
 const CONFIG = require('./config')
 
+const _ = require('lodash')
 const appPath = process.cwd()
+const configDir = path.join(appPath, Util.PROJECT_CONFIG)
+const projectConfig = require(configDir)(_.merge)
 
 function build (args, buildConfig) {
   const { type, watch } = buildConfig
-  const outputPath = path.join(appPath, CONFIG.OUTPUT_DIR)
+  const outputPath = path.join(appPath, projectConfig.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
   } else {
