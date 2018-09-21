@@ -10,7 +10,7 @@ const { PROJECT_CONFIG } = require('../src/util')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program
-  .option('--type [typeName]', 'Build type, weapp/rn/h5')
+  .option('--type [typeName]', 'Build type, weapp/h5/rn/swan')
   .option('--watch', 'Watch mode')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
