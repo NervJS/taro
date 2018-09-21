@@ -922,7 +922,7 @@ function buildProjectConfig () {
   }
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
   if (!fs.existsSync(outputDir)) {
-    mkdirsSync(outputDir);
+    mkdirsSync(outputDir)
   }
   fs.writeFileSync(
     path.join(outputDir, 'project.config.json'),
@@ -937,40 +937,38 @@ function buildProjectConfig () {
  * @param mode 文件夹读写权限
  */
 function mkdirsSync (pathname, mode) {
-  let made = null;
-  const _0777 = parseInt('0777', 8);
+  let made = null
+  const _0777 = parseInt('0777', 8)
 
   if (mode === undefined) {
-    mode = _0777 || (~process.umask());
+    mode = _0777 || (~process.umask())
   }
 
-  pathname = path.resolve(pathname);
+  pathname = path.resolve(pathname)
 
   try {
-    fs.mkdirSync(pathname, mode);
-    made = made || pathname;
-  }
-  catch (err) {
+    fs.mkdirSync(pathname, mode)
+    made = made || pathname
+  } catch (err) {
     switch (err.code) {
       case 'ENOENT' :
-        made = mkdirsSync(path.dirname(pathname), mode);
-        mkdirsSync(pathname, mode);
-        break;
+        made = mkdirsSync(path.dirname(pathname), mode)
+        mkdirsSync(pathname, mode)
+        break
       default:
-        var stat;
+        var stat
         try {
-          stat = fs.statSync(pathname);
+          stat = fs.statSync(pathname)
+        } catch (e) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`)
         }
-        catch (e) {
-          Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`);
-        }
-        if (!stat.isDirectory()) Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`);
-        break;
+        if (!stat.isDirectory()) Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`)
+        break
       }
   }
 
-  return made;
-};
+  return made
+}
 
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
