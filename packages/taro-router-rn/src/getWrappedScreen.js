@@ -41,13 +41,25 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       }
     }
 
+    // TODO animation 动画效果支持
     setNavigationBarColor (obj) {
       if (typeof obj !== 'object') {
         console.warn('Taro.setNavigationBarColor 参数必须为 object')
         return
       }
-      const {frontColor, backgroundColor} = obj
-      this.props.navigation.setParams({headerTintColor: frontColor, backgroundColor})
+      const {frontColor, backgroundColor, success, fail, complete} = obj
+      if (this.props.navigation) {
+        try {
+          this.props.navigation.setParams({headerTintColor: frontColor, backgroundColor})
+          success && success()
+          complete && complete()
+        } catch (e) {
+          fail && fail({errMsg: e.message})
+          complete && complete({errMsg: e.message})
+        }
+      } else {
+        console.warn('this.props.navigation 不存在')
+      }
     }
 
     setNavigationBarTitle (obj) {
@@ -55,9 +67,18 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
         console.warn('Taro.setNavigationBarTitle 参数必须为 object')
         return
       }
-      const {title} = obj
+      const {title, success, fail, complete} = obj
       if (this.props.navigation) {
-        this.props.navigation.setParams({title})
+        try {
+          this.props.navigation.setParams({title})
+          success && success()
+          complete && complete()
+        } catch (e) {
+          fail && fail({errMsg: e.message})
+          complete && complete({errMsg: e.message})
+        }
+      } else {
+        console.warn('this.props.navigation 不存在')
       }
     }
 
