@@ -2,15 +2,16 @@ const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const postcss = require('rollup-plugin-postcss')
+const typescript = require('rollup-plugin-typescript')
 
 const cwd = __dirname
 
 const baseConfig = {
-  input: join(cwd, 'src/index.js'),
+  input: join(cwd, 'src/index.tsx'),
   external: ['nervjs', '@tarojs/taro-h5'],
   output: [
     {
-      file: join(cwd, 'dist/index.js'),
+      file: join(cwd, 'dist/index.ts'),
       format: 'cjs',
       sourcemap: true,
       exports: 'named'
@@ -24,6 +25,7 @@ const baseConfig = {
     }
   ],
   plugins: [
+    typescript(),
     postcss({
       extensions: [ '.css' ]
     }),
