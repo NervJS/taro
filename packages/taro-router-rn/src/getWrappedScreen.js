@@ -15,6 +15,19 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       this.screenRef = React.createRef()
     }
 
+    static navigationOptions = ({navigation}) => {
+      const navigationOptions = Screen.navigationOptions
+      return {
+        title: navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title,
+        headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
+        headerStyle: {
+          backgroundColor: navigation.getParam('backgroundColor') ||
+          (navigationOptions.headerStyle && navigationOptions.headerStyle.backgroundColor) ||
+          (globalNavigationOptions.headerStyle && globalNavigationOptions.headerStyle.backgroundColor)
+        }
+      }
+    }
+
     /**
      * @description 如果 Screen 被包裹过（如：@connect），
      * 需提供获取包裹前 Screen 实例的方法 getWrappedInstance 并暴露出被包裹组件的 navigationOptions
@@ -28,9 +41,52 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       }
     }
 
+    // TODO animation 动画效果支持
+    setNavigationBarColor (obj) {
+      if (typeof obj !== 'object') {
+        console.warn('Taro.setNavigationBarColor 参数必须为 object')
+        return
+      }
+      const {frontColor, backgroundColor, success, fail, complete} = obj
+      if (this.props.navigation) {
+        try {
+          this.props.navigation.setParams({headerTintColor: frontColor, backgroundColor})
+          success && success()
+          complete && complete()
+        } catch (e) {
+          fail && fail({errMsg: e.message})
+          complete && complete({errMsg: e.message})
+        }
+      } else {
+        console.warn('this.props.navigation 不存在')
+      }
+    }
+
+    setNavigationBarTitle (obj) {
+      if (typeof obj !== 'object') {
+        console.warn('Taro.setNavigationBarTitle 参数必须为 object')
+        return
+      }
+      const {title, success, fail, complete} = obj
+      if (this.props.navigation) {
+        try {
+          this.props.navigation.setParams({title})
+          success && success()
+          complete && complete()
+        } catch (e) {
+          fail && fail({errMsg: e.message})
+          complete && complete({errMsg: e.message})
+        }
+      } else {
+        console.warn('this.props.navigation 不存在')
+      }
+    }
+
     componentDidMount () {
+      Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
+      Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
       this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
-      this.screenRef.current && this.setState({})
+      this.screenRef.current && this.setState({}) // TODO 不然 current 为null
     }
 
     componentWillUnmount () {

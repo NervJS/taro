@@ -28,7 +28,12 @@ class TaroProvider extends React.Component {
     }
   }
 
-  wxNavigateTo ({url, success, fail, complete}) {
+  wxNavigateTo (params) {
+    if (typeof params !== 'object') {
+      console.warn('Taro.NavigateTo 参数必须为 object')
+      return
+    }
+    let {url, success, fail, complete} = params
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
@@ -46,7 +51,12 @@ class TaroProvider extends React.Component {
     complete && complete()
   }
 
-  wxRedirectTo ({url, success, fail, complete}) {
+  wxRedirectTo (params) {
+    if (typeof params !== 'object') {
+      console.warn('Taro.RedirectTo 参数必须为 object')
+      return
+    }
+    let {url, success, fail, complete} = params
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
@@ -64,7 +74,12 @@ class TaroProvider extends React.Component {
     complete && complete()
   }
 
-  wxSwitchTab ({url, success, fail, complete}) {
+  wxSwitchTab (params) {
+    if (typeof params !== 'object') {
+      console.warn('Taro.SwitchTab 参数必须为 object')
+      return
+    }
+    let {url, success, fail, complete} = params
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
@@ -82,7 +97,12 @@ class TaroProvider extends React.Component {
     complete && complete()
   }
 
-  wxNavigateBack ({delta = 1}) {
+  wxNavigateBack (params) {
+    if (typeof params !== 'object') {
+      console.warn('Taro.NavigateBack 参数必须为 object')
+      return
+    }
+    let {delta = 1} = params
     while (delta > 0) {
       this.props.navigation.goBack()
       delta--
