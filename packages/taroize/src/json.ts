@@ -1,5 +1,9 @@
 import { buildTemplate } from './utils'
+import * as t from 'babel-types'
 
-function parseJSON (json: string) {
-  return buildTemplate(json)
+export function parseJSON (json?: string) {
+  if (!json) {
+    return
+  }
+  return buildTemplate(`(${json})`) as t.ObjectExpression
 }
