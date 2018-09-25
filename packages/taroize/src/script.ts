@@ -31,6 +31,23 @@ export function parseScript (script: string, returned: t.Expression, json?: t.Ob
     },
     CallExpression (path) {
       const callee = path.get('callee')
+      if (callee.isIdentifier()) {
+        const name = callee.node.name
+        if (name === 'getApp' || name === 'getCurrentPages') {
+          callee.replaceWith(
+            t.memberExpression(
+              t.identifier('Taro'),
+              callee.node
+            )
+          )
+        }
+      }
+      if (callee.isMemberExpression()) {
+        const object = callee.get('object')
+        if (object.isIdentifier({ name: 'wx' })) {
+          object.replaceWith(t.identifier('Taro'))
+        }
+      }
       if (callee.isIdentifier({ name: 'Page' })) {
         classDecl = parsePage(path, returned, json)!
         path.insertAfter(
