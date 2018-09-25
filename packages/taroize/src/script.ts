@@ -48,7 +48,7 @@ export function parseScript (script: string, returned: t.Expression, json?: t.Ob
           object.replaceWith(t.identifier('Taro'))
         }
       }
-      if (callee.isIdentifier({ name: 'Page' })) {
+      if (callee.isIdentifier({ name: 'Page' }) || callee.isIdentifier({ name: 'Component' })) {
         classDecl = parsePage(path, returned, json)!
         path.insertAfter(
           t.exportDefaultDeclaration(classDecl)
