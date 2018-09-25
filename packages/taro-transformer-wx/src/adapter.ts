@@ -32,7 +32,7 @@ const swanAdapter: Adapter = {
   else: 's-else',
   elseif: 's-elif',
   for: 's-for',
-  forItem: 'wx:for-item',
+  forItem: 's-for-item',
   forIndex: 's-for-index',
   key: 's-key',
   type: Adapters.swan

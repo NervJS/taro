@@ -5,7 +5,7 @@ import { kebabCase } from 'lodash'
 import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError } from './utils'
-import { Adapter } from './adapter'
+import { Adapter, Adapters } from './adapter'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -169,6 +169,9 @@ export function parseJSXElement (element: t.JSXElement): string {
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
           value = isBindEvent ? code : `{{${code}}}`
+          if (Adapter.type === Adapters.swan && name === Adapter.for) {
+            value = code
+          }
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
