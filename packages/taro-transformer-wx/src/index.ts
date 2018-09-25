@@ -8,7 +8,7 @@ import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL } from './constant'
-import { Adapters, setAdapter } from './adapter'
+import { Adapters, setAdapter, Adapter } from './adapter'
 const template = require('babel-template')
 
 interface ENVS {
@@ -255,6 +255,14 @@ export default function transform (options: Options): TransformResult {
     },
     CallExpression (path) {
       const callee = path.get('callee')
+      if (Adapter.type === Adapters.swan && callee.isIdentifier({ name: 'getapp' })) {
+        callee.replaceWith(
+          t.memberExpression(
+            t.identifier('Taro'),
+            t.identifier('getApp')
+          )
+        )
+      }
       if (isContainJSXElement(path)) {
         return
       }
