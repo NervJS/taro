@@ -2,6 +2,7 @@ import React from 'react'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import getWrappedScreen from './getWrappedScreen'
 import { Image } from 'react-native'
+import { getNavigationOptions } from './utils'
 
 /**
  * @param pageList
@@ -27,8 +28,9 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
  * @param tabBar  tabBar相关配置 App.config.tabBar
  * @returns {*}
  */
-const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
+const initRouter = (pageList, Taro, {window = {}, tabBar}) => {
   let RouteConfigs = {}
+  const navigationOptions = getNavigationOptions(window)
 
   if (tabBar && tabBar.list) {
     const tabPathList = tabBar.list.map(item => item.pagePath)

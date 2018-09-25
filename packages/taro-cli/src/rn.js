@@ -94,32 +94,7 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths}) {
           }
           // window
           if (key.name === 'window' && t.isObjectExpression(value)) {
-            let navigationOptions = {}
-            astPath.traverse({
-              ObjectProperty (astPath) {
-                const node = astPath.node
-                // 导航栏标题文字内容
-                if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-                  navigationOptions['title'] = node.value.value
-                }
-                // 导航栏标题颜色，仅支持 black/white
-                if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-                  navigationOptions['headerTintColor'] = node.value.value
-                }
-                // 导航栏背景颜色
-                if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-                  navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-                }
-                // 开启下拉刷新
-                if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-                  navigationOptions['enablePullDownRefresh'] = node.value.value
-                }
-              }
-            })
-            astPath.replaceWith(t.objectProperty(
-              t.identifier('navigationOptions'),
-              t.objectExpression(AstConvert.obj(navigationOptions))
-            ))
+            return
           }
           if (key.name === 'tabBar' && t.isObjectExpression(value)) {
             astPath.traverse({
@@ -145,36 +120,8 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths}) {
           }
         }
       })
-      astPath.node.static = 'true'
-    } else {
-      let navigationOptions = {}
-      astPath.traverse({
-        ObjectProperty (astPath) {
-          const node = astPath.node
-          // 导航栏标题文字内容
-          if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-            navigationOptions['title'] = node.value.value
-          }
-          // 导航栏标题颜色，仅支持 black/white
-          if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-            navigationOptions['headerTintColor'] = node.value.value
-          }
-          // 导航栏背景颜色
-          if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-            navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-          }
-          // 开启下拉刷新
-          if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-            navigationOptions['enablePullDownRefresh'] = node.value.value
-          }
-        }
-      })
-      astPath.replaceWith(t.classProperty(
-        t.identifier('navigationOptions'),
-        t.objectExpression(AstConvert.obj(navigationOptions))
-      ))
-      astPath.node.static = 'true'
     }
+    astPath.node.static = 'true'
   }
 }
 

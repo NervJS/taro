@@ -1,5 +1,6 @@
 import React from 'react'
 import TaroProvider from './TaroProvider'
+import { getNavigationOptions } from './utils'
 
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
@@ -16,7 +17,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
     }
 
     static navigationOptions = ({navigation}) => {
-      const navigationOptions = Screen.navigationOptions
+      const navigationOptions = getNavigationOptions(Screen.config)
       return {
         title: navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title,
         headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
@@ -95,7 +96,8 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
 
     render () {
       const {globalEnablePullDownRefresh = false} = globalNavigationOptions
-      const navigationOptions = Screen.navigationOptions || {}
+      const navigationOptions = getNavigationOptions(Screen.config)
+
       // 页面配置优先级 > 全局配置
       let isScreenEnablePullDownRefresh = navigationOptions.enablePullDownRefresh === undefined
         ? globalEnablePullDownRefresh
