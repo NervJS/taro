@@ -2175,10 +2175,10 @@ Taro.setNavigationBarColor(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.setNavigationBarTitle | ✔️ |  |  |
-| Taro.showNavigationBarLoading | ✔️ |  |  |
-| Taro.hideNavigationBarLoading | ✔️ |  |  |
-| Taro.setNavigationBarColor | ✔️ |  |  |
+| Taro.setNavigationBarTitle | ✔️ |  |✔️  |
+| Taro.showNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.hideNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.setNavigationBarColor | ✔️ |  | ✔️(不支持 animation 参数) |
 
 ### 设置tabBar
 
@@ -2394,7 +2394,7 @@ Taro.getCurrentPages().length
 | Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
 | Taro.reLaunch | ✔️ |  | ✔️ |
-| Taro.getCurrentPages | ✔️ |   |   |
+| Taro.getCurrentPages | ✔️ |   | ✔️|
 
 ### 动画
 
@@ -2493,8 +2493,8 @@ Taro.stopPullDownRefresh()
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.startPullDownRefresh | ✔️ |  |  |
-| Taro.stopPullDownRefresh | ✔️ |  |  |
+| Taro.startPullDownRefresh | ✔️ |  |  ✔️（无动画效果）  |
+| Taro.stopPullDownRefresh | ✔️ |  |  ✔️  |
 
 ### WXML节点信息
 
