@@ -5,13 +5,7 @@ import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents } from './wxml'
 import { PageLifecycle } from './lifecycle'
 
-const buildDecorator = (type: string) => t.decorator(t.callExpression(
-  t.identifier('withWeapp'),
-  [t.stringLiteral(type)]
-))
-
-export function parseScript (script?: string, returned?: t.Expression, json?: t.ObjectExpression) {
-  script = script || 'Page({})'
+export function parseScript (script: string, returned: t.Expression, json?: t.ObjectExpression) {
   const { ast } = transform(script, {
     parserOpts: {
       sourceType: 'module',
@@ -37,26 +31,8 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
     },
     CallExpression (path) {
       const callee = path.get('callee')
-      if (callee.isIdentifier()) {
-        const name = callee.node.name
-        if (name === 'getApp' || name === 'getCurrentPages') {
-          callee.replaceWith(
-            t.memberExpression(
-              t.identifier('Taro'),
-              callee.node
-            )
-          )
-        }
-      }
-      if (callee.isMemberExpression()) {
-        const object = callee.get('object')
-        if (object.isIdentifier({ name: 'wx' })) {
-          object.replaceWith(t.identifier('Taro'))
-        }
-      }
-      if (callee.isIdentifier({ name: 'Page' }) || callee.isIdentifier({ name: 'Component' })) {
-        classDecl = parsePage(path, returned || t.nullLiteral(), json)!
-        classDecl.decorators = [buildDecorator(callee.node.name)]
+      if (callee.isIdentifier({ name: 'Page' })) {
+        classDecl = parsePage(path, returned, json)!
         path.insertAfter(
           t.exportDefaultDeclaration(classDecl)
         )
@@ -129,7 +105,7 @@ function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression, js
     return t.classProperty(t.identifier(name), value.isFunctionExpression() ? t.arrowFunctionExpression(value.node.params, value.node.body) : value.node)
   })
 
-  if (json && t.isObjectExpression(json)) {
+  if (json) {
     classBody.push(
       t.classProperty(
         t.identifier('config'),
