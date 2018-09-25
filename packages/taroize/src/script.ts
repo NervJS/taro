@@ -122,7 +122,7 @@ function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression, js
     return t.classProperty(t.identifier(name), value.isFunctionExpression() ? t.arrowFunctionExpression(value.node.params, value.node.body) : value.node)
   })
 
-  if (json) {
+  if (json && t.isObjectExpression(json)) {
     classBody.push(
       t.classProperty(
         t.identifier('config'),
