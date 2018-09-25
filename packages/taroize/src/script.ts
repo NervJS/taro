@@ -5,7 +5,7 @@ import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents } from './wxml'
 import { PageLifecycle } from './lifecycle'
 
-export function parseScript (script: string, returned: t.Expression) {
+export function parseScript (script: string, returned: t.Expression, json?: t.ObjectExpression) {
   const { ast } = transform(script, {
     parserOpts: {
       sourceType: 'module',
@@ -32,7 +32,7 @@ export function parseScript (script: string, returned: t.Expression) {
     CallExpression (path) {
       const callee = path.get('callee')
       if (callee.isIdentifier({ name: 'Page' })) {
-        classDecl = parsePage(path, returned)!
+        classDecl = parsePage(path, returned, json)!
         path.insertAfter(
           t.exportDefaultDeclaration(classDecl)
         )
@@ -66,7 +66,7 @@ const defaultClassName = 'C'
 
 const stateKeys: string[] = []
 
-function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression) {
+function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression, json?: t.ObjectExpression) {
   const arg = path.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {
     return
@@ -105,6 +105,15 @@ function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression) {
     }
     return t.classProperty(t.identifier(name), value.isFunctionExpression() ? t.arrowFunctionExpression(value.node.params, value.node.body) : value.node)
   })
+
+  if (json) {
+    classBody.push(
+      t.classProperty(
+        t.identifier('config'),
+        json
+      )
+    )
+  }
 
   const renderFunc = buildRender(returned)
 
