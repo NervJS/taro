@@ -283,6 +283,7 @@ function parseText (node: Text) {
 const handlebarsRE = /\{\{((?:.|\n)+?)\}\}/g
 
 function parseContent (content: string) {
+  content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
       type: 'raw',
@@ -340,7 +341,7 @@ function handleAttrKey (key: string) {
   let jsxKey = camelCase(key)
 
   switch (jsxKey) {
-    case 'onClick':
+    case 'bindtap':
       jsxKey = 'onClick'
       break
     case 'class':
