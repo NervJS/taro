@@ -1,4 +1,6 @@
 import React from 'react'
+import { View, Text } from 'react-native'
+import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
 
@@ -18,8 +20,12 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
 
     static navigationOptions = ({navigation}) => {
       const navigationOptions = getNavigationOptions(Screen.config)
+      const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
       return {
-        title: navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title,
+        headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView/>}
+          <Text>{title}</Text>
+        </View>,
         headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
         headerStyle: {
           backgroundColor: navigation.getParam('backgroundColor') ||
@@ -39,6 +45,30 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
         return this.screenRef.current.getWrappedInstance()
       } else {
         return this.screenRef.current || {}
+      }
+    }
+
+    showNavigationBarLoading (obj) {
+      const {success, fail, complete} = obj || {}
+      try {
+        this.props.navigation.setParams({isNavigationBarLoadingShow: true})
+        success && success()
+        complete && complete()
+      } catch (e) {
+        fail && fail({errMsg: e.message})
+        complete && complete({errMsg: e.message})
+      }
+    }
+
+    hideNavigationBarLoading (obj) {
+      const {success, fail, complete} = obj || {}
+      try {
+        this.props.navigation.setParams({isNavigationBarLoadingShow: false})
+        success && success()
+        complete && complete()
+      } catch (e) {
+        fail && fail({errMsg: e.message})
+        complete && complete({errMsg: e.message})
       }
     }
 
@@ -86,6 +116,8 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
     componentDidMount () {
       Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
       Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
+      Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
+      Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
       this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
       this.screenRef.current && this.setState({}) // TODO 不然 current 为null
     }

@@ -2176,8 +2176,8 @@ Taro.setNavigationBarColor(params).then(...)
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
 | Taro.setNavigationBarTitle | ✔️ |  |✔️  |
-| Taro.showNavigationBarLoading | ✔️ |  |  |
-| Taro.hideNavigationBarLoading | ✔️ |  |  |
+| Taro.showNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.hideNavigationBarLoading | ✔️ |  | ✔️ |
 | Taro.setNavigationBarColor | ✔️ |  | ✔️(不支持 animation 参数) |
 
 ### 设置tabBar
