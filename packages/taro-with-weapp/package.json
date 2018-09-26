@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c -w rollup.config.js"
+    "build": "rollup -c rollup.config.js"
   },
   "files": [
     "dist",

@@ -16,10 +16,6 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@tarojs/taro@^1.0.0-beta.24":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.0.3.tgz#5bab6f5e5d6f59f9baa31403ceb05c6a16b54e48"
-
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
