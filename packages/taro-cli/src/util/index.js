@@ -330,6 +330,20 @@ exports.replaceContentEnv = function (content, env) {
   return content
 }
 
+exports.generateEnvList = function (env) {
+  const res = { }
+  if (env && !exports.isEmptyObject(env)) {
+    for (const key in env) {
+      try {
+        res[`process.env.${key}`] = JSON.parse(env[key])
+      } catch (err) {
+        res[`process.env.${key}`] = env[key]
+      }
+    }
+  }
+  return res
+}
+
 exports.replaceContentConstants = function (content, constants) {
   if (constants && !exports.isEmptyObject(constants)) {
     for (const key in constants) {
@@ -339,6 +353,20 @@ exports.replaceContentConstants = function (content, constants) {
     return content
   }
   return content
+}
+
+exports.generateConstantsList = function (constants) {
+  const res = { }
+  if (constants && !exports.isEmptyObject(constants)) {
+    for (const key in constants) {
+      try {
+        res[key] = JSON.parse(constants[key])
+      } catch (err) {
+        res[key] = constants[key]
+      }
+    }
+  }
+  return res
 }
 
 exports.cssImports = function (content) {

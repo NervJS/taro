@@ -21,16 +21,16 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
     static navigationOptions = ({navigation}) => {
       const navigationOptions = getNavigationOptions(Screen.config)
       const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
+      const rest = globalNavigationOptions.navigationStyle === 'custom' ? {header: null} : {}
       return {
+        ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView/>}
-          <Text>{title}</Text>
+          <Text style={{fontSize: 17, fontWeight: 600}}>{title}</Text>
         </View>,
         headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
         headerStyle: {
-          backgroundColor: navigation.getParam('backgroundColor') ||
-          (navigationOptions.headerStyle && navigationOptions.headerStyle.backgroundColor) ||
-          (globalNavigationOptions.headerStyle && globalNavigationOptions.headerStyle.backgroundColor)
+          backgroundColor: navigation.getParam('backgroundColor') || navigationOptions.backgroundColor || globalNavigationOptions.backgroundColor
         }
       }
     }

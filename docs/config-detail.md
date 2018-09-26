@@ -156,16 +156,26 @@ weapp: {
 
 ```jsx
 postcss: {
+  // 可以进行`autoprefixer`的配置。配置项参考[官方文档](https://github.com/postcss/autoprefixer）
   autoprefixer: {
-    enable: true
+    enable: true,
+    config: {
+      /* autoprefixer配置项 */
+    }
   },
   pxtransform: {
-    selectorBlackList: ['body']
+    enable: true,
+    config: {
+      /* pxtransform 配置项，参考尺寸章节 */
+      selectorBlackList: ['body']
+    }
   },
   // 小程序端样式引用本地资源内联
   url: {
     enable: true,
-    limit: 10240
+    config: {
+      limit: 10240 // 设定转换尺寸上限
+    }
   }
 }
 ```
