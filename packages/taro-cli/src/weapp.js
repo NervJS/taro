@@ -1231,8 +1231,22 @@ async function buildSinglePage (page) {
 async function processStyleWithPostCSS (styleObj) {
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
-  const customPxtransformConf = customPostcssConf.pxtransform || {}
-  const customUrlConf = customPostcssConf.url || {}
+  const customPxtransformConf =  Object.assign({
+    enable: true,
+    config: {}
+  }, customPostcssConf.pxtransform || {})
+  const customUrlConf =  Object.assign({
+    enable: true,
+    config: {
+      limit: 10240
+    }
+  }, customPostcssConf.url || {})
+  const customAutoprefixerConf = Object.assign({
+    enable: true,
+    config: {
+      browsers: browserList
+    }
+  }, customPostcssConf.autoprefixer || {})
   const postcssPxtransformOption = {
     designWidth: projectConfig.designWidth || 750,
     platform: 'weapp'
@@ -1241,15 +1255,16 @@ async function processStyleWithPostCSS (styleObj) {
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
   }
-  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, customUrlConf)
-  const maxSize = Math.round(cssUrlConf.limit / 1024)
-  const processors = [
-    autoprefixer({ browsers: browserList }),
-    pxtransform(Object.assign(
-      postcssPxtransformOption,
-      customPxtransformConf
-    ))
-  ]
+  const cssUrlConf = Object.assign({ limit: 10240 }, customUrlConf)
+  const maxSize = Math.round((customUrlConf.config.limit || cssUrlConf.limit) / 1024)
+  const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
+  const processors = []
+  if (customAutoprefixerConf.enable) {
+    processors.push(autoprefixer(customAutoprefixerConf.config))
+  }
+  if (customPxtransformConf.enable) {
+    processors.push(pxtransform(postcssPxtransformConf))
+  }
   if (cssUrlConf.enable) {
     processors.push(cssUrlParse({
       url: 'inline',

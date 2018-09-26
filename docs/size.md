@@ -99,7 +99,10 @@ REM单位允许的小数位。
           enable: true
         },
         pxtransform: {
-          selectorBlackList: ['body']
+          enable: true,
+          config: {
+            selectorBlackList: ['body']
+          }
         }
       }
     }
@@ -109,7 +112,10 @@ REM单位允许的小数位。
     module: {
       postcss: {
         pxtransform: {
-          selectorBlackList: ['body']
+          enable: true,
+          config: {
+            selectorBlackList: ['body']
+          }
         }
       }
     }
