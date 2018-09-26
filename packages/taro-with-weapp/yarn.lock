@@ -16,6 +16,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@tarojs/taro@^1.0.0-beta.24":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.0.3.tgz#5bab6f5e5d6f59f9baa31403ceb05c6a16b54e48"
+
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -2495,6 +2499,21 @@ needle@^2.2.1:
     debug "^2.1.2"
     iconv-lite "^0.4.4"
     sax "^1.2.4"
+
+nerv-shared@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/nerv-shared/-/nerv-shared-1.3.2.tgz#a389c2dcce35940577009e9da9ab63b5ffb06a61"
+
+nerv-utils@1.3.2-beta.0:
+  version "1.3.2-beta.0"
+  resolved "https://registry.yarnpkg.com/nerv-utils/-/nerv-utils-1.3.2-beta.0.tgz#ff776bfacaf058c8f8732adecb993db64ed14378"
+
+nervjs@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/nervjs/-/nervjs-1.3.3.tgz#b9cf361452c8af9b781a2673532cebb33364e23b"
+  dependencies:
+    nerv-shared "1.3.2"
+    nerv-utils "1.3.2-beta.0"
 
 node-int64@^0.4.0:
   version "0.4.0"
