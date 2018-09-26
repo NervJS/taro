@@ -16,7 +16,7 @@ import {
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
 
-export default function (config: Partial<BuildConfig>): any {
+export default function (config: BuildConfig): any {
   const chain = getBaseChain()
   const {
     alias = emptyObj,
@@ -54,11 +54,7 @@ export default function (config: Partial<BuildConfig>): any {
     module = {
       postcss: emptyObj
     },
-    plugins = {
-      babel: emptyObj,
-      csso: emptyObj,
-      uglify: emptyObj
-    }
+    plugins
   } = config
 
   const plugin: any = {}
@@ -86,6 +82,11 @@ export default function (config: Partial<BuildConfig>): any {
   }
 
   const mode = 'production'
+
+  const minimizer: any[] = []
+  if (plugins.uglify && plugins.uglify.enable) {
+    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify.config]))
+  }
 
   chain.merge({
     mode,
@@ -119,11 +120,7 @@ export default function (config: Partial<BuildConfig>): any {
       staticDirectory
     }),
     plugin,
-    optimization: {
-      minimizer: [
-        getUglifyPlugin([enableSourceMap, plugins.uglify])
-      ]
-    }
+    optimization: { minimizer }
   })
   return chain
 }

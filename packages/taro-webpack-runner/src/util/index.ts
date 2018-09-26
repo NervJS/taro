@@ -37,10 +37,15 @@ const formatTime = function (date?) {
 
 const appPath = process.cwd()
 const emptyObj = {}
+const emptyTogglableObj = {
+  enable: false,
+  config: {}
+}
 
 export {
   appPath,
   emptyObj,
+  emptyTogglableObj,
   isEmptyObject,
   getRootPath,
   zeroPad,

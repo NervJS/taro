@@ -79,7 +79,7 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
   return new Promise((resolve, reject) => {
     const conf = buildConf(config)
     const publicPath = conf.publicPath
-    const outputPath = path.join(appPath, conf.outputRoot)
+    const outputPath = path.join(appPath, conf.outputRoot as string)
     const customDevServerOption = config.devServer || {}
     const webpackChain = devConf(config)
     let webpackConfig

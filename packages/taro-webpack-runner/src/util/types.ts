@@ -57,6 +57,12 @@ export interface TaroH5Config {
   };
 }
 
+export interface TaroPlugins {
+  babel: Option;
+  csso?: TogglableOptions;
+  uglify?: TogglableOptions
+}
+
 export interface TaroBaseConfig {
   sourceRoot: string;
   outputRoot: string;
@@ -70,11 +76,7 @@ export interface TaroBaseConfig {
   defineConstants?: Option;
   env?: Option;
 
-  plugins?: {
-    babel?: Option;
-    csso?: TogglableOptions;
-    uglify?: TogglableOptions
-  };
+  plugins: TaroPlugins;
 }
 
 export interface BuildConfig extends TaroBaseConfig, TaroH5Config {

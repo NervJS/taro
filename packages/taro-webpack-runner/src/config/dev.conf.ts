@@ -50,9 +50,7 @@ export default function (config: Partial<BuildConfig>): any {
     module = {
       postcss: emptyObj
     },
-    plugins = {
-      babel: emptyObj
-    }
+    plugins
   } = config
 
   const plugin = {} as any

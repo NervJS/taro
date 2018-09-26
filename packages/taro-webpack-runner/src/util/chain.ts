@@ -148,9 +148,9 @@ const getModule = ({
     },
     cssLoaderOption
   ]
-  if (mode !== 'development') {
+  if (mode !== 'development' && plugins.csso && plugins.csso.enable) {
     cssOptions.push({
-      minimize: merge(defaultCSSCompressOption, plugins.csso)
+      minimize: merge(defaultCSSCompressOption, plugins.csso.config)
     })
   }
 
