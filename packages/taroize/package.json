@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NervJS/taro/tree/master/packages/wx-to-taro"
+    "url": "https://github.com/NervJS/taro/tree/master/packages/taroize"
   },
   "author": "yuche",
   "license": "MIT",
