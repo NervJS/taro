@@ -4,6 +4,7 @@ const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
 const wxTransformer = require('@tarojs/transformer-wx')
+const babel = require('babel-core')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -155,6 +156,11 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
+  ast = babel.transformFromAst(ast, '', {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+    ]
+  }).ast
   traverse(ast, {
     ClassDeclaration (astPath) {
       const node = astPath.node
