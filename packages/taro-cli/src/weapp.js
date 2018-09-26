@@ -911,8 +911,8 @@ function copyFilesFromSrcToOutput (files) {
 }
 
 async function compileScriptFile (filePath, content) {
-  const babelConfig = Object.assign({}, pluginsConfig.babel, defaultBabelConfig)
-  const tsConfig = Object.assign({}, pluginsConfig.typescript, defaultTSConfig)
+  const babelConfig = Object.assign({}, defaultBabelConfig, pluginsConfig.babel)
+  const tsConfig = Object.assign({}, defaultTSConfig, pluginsConfig.typescript)
   if (Util.REG_TYPESCRIPT.test(filePath)) {
     const compileTSRes = await npmProcess.callPlugin('typescript', content, entryFilePath, tsConfig)
     if (compileTSRes && compileTSRes.outputText) {
