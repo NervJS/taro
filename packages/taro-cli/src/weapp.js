@@ -4,6 +4,7 @@ const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
 const wxTransformer = require('@tarojs/transformer-wx')
+const babel = require('babel-core')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -155,6 +156,12 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
+  ast = babel.transformFromAst(ast, '', {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
+      [require('babel-plugin-transform-define').default, Util.generateEnvList(projectConfig.env || {})]
+    ]
+  }).ast
   traverse(ast, {
     ClassDeclaration (astPath) {
       const node = astPath.node
@@ -921,53 +928,12 @@ function buildProjectConfig () {
     return
   }
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
-  if (!fs.existsSync(outputDir)) {
-    mkdirsSync(outputDir)
-  }
+  fs.ensureDirSync(outputDir)
   fs.writeFileSync(
     path.join(outputDir, 'project.config.json'),
     JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
   )
   Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/project.config.json`)
-}
-
-/**
- * 同步创建多级目录
- * @param pathname 需要创建的文件夹路径
- * @param mode 文件夹读写权限
- */
-function mkdirsSync (pathname, mode) {
-  let made = null
-  const _0777 = parseInt('0777', 8)
-
-  if (mode === undefined) {
-    mode = _0777 || (~process.umask())
-  }
-
-  pathname = path.resolve(pathname)
-
-  try {
-    fs.mkdirSync(pathname, mode)
-    made = made || pathname
-  } catch (err) {
-    switch (err.code) {
-      case 'ENOENT' :
-        made = mkdirsSync(path.dirname(pathname), mode)
-        mkdirsSync(pathname, mode)
-        break
-      default:
-        let stat
-        try {
-          stat = fs.statSync(pathname)
-        } catch (e) {
-          Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`)
-        }
-        if (!stat.isDirectory()) Util.printLog(Util.pocessTypeEnum.ERROR, '创建文件夹', `文件夹 ${pathname} 创建失败 ！`)
-        break
-      }
-  }
-
-  return made
 }
 
 async function buildEntry () {
@@ -985,7 +951,6 @@ async function buildEntry () {
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
     resCode = await compileScriptFile(entryFilePath, resCode)
-    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -1163,7 +1128,6 @@ async function buildSinglePage (page) {
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(pageJs, resCode)
-    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -1470,7 +1434,6 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
     resCode = await compileScriptFile(component, resCode)
-    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
     resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
@@ -1616,7 +1579,6 @@ function compileDepScripts (scriptFiles) {
           let resCode = res.code
           resCode = await compileScriptFile(item, res.code)
           fs.ensureDirSync(path.dirname(outputItem))
-          resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
           resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
           if (isProduction) {
             const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }

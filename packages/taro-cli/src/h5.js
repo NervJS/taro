@@ -129,7 +129,7 @@ function processEntry (code, filePath) {
   let hasComponentWillUnmount = false
   let hasJSX = false
 
-  ast = babel.transformFromAst(ast, generate(ast).code, {
+  ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
     ]
@@ -492,7 +492,7 @@ function processOthers (code, filePath) {
   let hasAddNervJsImportDefaultName = false
   let hasJSX = false
 
-  ast = babel.transformFromAst(ast, generate(ast).code, {
+  ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
     ]
