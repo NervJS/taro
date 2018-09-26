@@ -11,7 +11,8 @@ import {
   processEnvOption,
   getUglifyPlugin,
   getDevtool,
-  getDllReferencdPlugins
+  getDllReferencePlugins,
+  getHtmlWebpackIncludeAssetsPlugin
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
@@ -74,18 +75,31 @@ export default function (config: BuildConfig): any {
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   if (enableDll) {
-    Object.assign(plugin, getDllReferencdPlugins({
+    Object.assign(plugin, getDllReferencePlugins({
       dllDirectory,
       dllEntry,
       outputRoot
     }))
+    const dllFiles = Object.keys(dllEntry).map(v => {
+      return path.join(dllDirectory, `${v}.dll.js`)
+    })
+    if (dllFiles.length) {
+      plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
+        append: true,
+        assets: dllFiles
+      })
+    }
   }
 
   const mode = 'production'
 
   const minimizer: any[] = []
-  if (plugins.uglify && plugins.uglify.enable) {
-    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify.config]))
+  const isUglifyEnabled = (plugins.uglify && plugins.uglify.enable === false)
+    ? false
+    : true
+
+  if (isUglifyEnabled) {
+    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify]))
   }
 
   chain.merge({

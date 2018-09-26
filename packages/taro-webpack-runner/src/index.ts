@@ -32,7 +32,7 @@ const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
 }, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
 
 const buildDll = async (config: BuildConfig): Promise<any> => {
-  if (!config.enableDll) return Promise.resolve()
+  if (config.enableDll === false) return Promise.resolve()
   return new Promise((resolve, reject) => {
     const webpackChain = dllConf(config)
     const webpackConfig = webpackChain.toConfig()

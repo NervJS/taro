@@ -4,6 +4,7 @@ import { mapKeys, pipe, map, toPairs, fromPairs } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as path from 'path'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import * as htmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin'
 import * as webpack from 'webpack'
 
 import { appPath } from '.'
@@ -93,15 +94,17 @@ const getHtmlWebpackPlugin = pipe(mergeOption, partial(getPlugin, HtmlWebpackPlu
 const getDefinePlugin = pipe(mergeOption, partial(getPlugin, webpack.DefinePlugin))
 const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, {})
 const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
+  const customUglifyOption = uglifyOptions ? uglifyOptions.config : {}
   return new UglifyJsPlugin({
     cache: true,
     parallel: true,
     sourceMap: enableSourceMap,
-    uglifyOptions: merge({}, defaultUglifyJsOption, uglifyOptions)
+    uglifyOptions: merge({}, defaultUglifyJsOption, customUglifyOption)
   })
 }
 const getDllPlugin = pipe(getDllContext, processDllOption, partial(getPlugin, webpack.DllPlugin))
 const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, partial(getPlugin, webpack.DllReferencePlugin))
+const getHtmlWebpackIncludeAssetsPlugin = partial(getPlugin, htmlWebpackIncludeAssetsPlugin)
 
 const getEntry = (customEntry = {}) => {
   return Object.assign(
@@ -148,9 +151,13 @@ const getModule = ({
     },
     cssLoaderOption
   ]
-  if (mode !== 'development' && plugins.csso && plugins.csso.enable) {
+  const isCssoEnabled = (plugins.csso && postcssOption.csso.enable === false)
+      ? false
+      : true
+  if (mode !== 'development' && isCssoEnabled) {
+    const customCssoOption = plugins.csso ? plugins.csso.config : {}
     cssOptions.push({
-      minimize: merge(defaultCSSCompressOption, plugins.csso.config)
+      minimize: merge(defaultCSSCompressOption, customCssoOption)
     })
   }
 
@@ -264,10 +271,10 @@ const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) =
   )
 }
 
-const getDllOutput = ({ outputRoot, dllDirectory, dllFilename }) => {
+const getDllOutput = ({ outputRoot, dllDirectory }) => {
   return {
     path: path.join(appPath, outputRoot, dllDirectory),
-    filename: dllFilename,
+    filename: '[name].dll.js',
     library: '[name]_library'
   }
 }
@@ -276,7 +283,7 @@ const getDevtool = enableSourceMap => {
   return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
 }
 
-const getDllReferencdPlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
+const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   return pipe(
     toPairs,
     map(([key]) => {
@@ -286,4 +293,4 @@ const getDllReferencdPlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   )(dllEntry)
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencdPlugins }
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin }

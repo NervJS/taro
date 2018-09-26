@@ -18,7 +18,6 @@ export default function (config: BuildConfig): any {
     outputRoot = '',
     staticDirectory,
     dllDirectory = 'lib',
-    dllFilename = '[name].dll.js',
     dllEntry = {
       lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
     },
@@ -47,8 +46,12 @@ export default function (config: BuildConfig): any {
   const mode = 'production'
 
   const minimizer: any[] = []
-  if (plugins.uglify && plugins.uglify.enable) {
-    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify.config]))
+  const isUglifyEnabled = (plugins.uglify && plugins.uglify.enable === false)
+    ? false
+    : true
+
+  if (isUglifyEnabled) {
+    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify]))
   }
 
   chain.merge({
@@ -57,8 +60,7 @@ export default function (config: BuildConfig): any {
     entry: dllEntry,
     output: getDllOutput({
       outputRoot,
-      dllDirectory,
-      dllFilename
+      dllDirectory
     }),
     resolve: { alias },
     module: getModule({
