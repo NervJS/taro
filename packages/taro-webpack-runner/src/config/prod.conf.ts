@@ -85,7 +85,7 @@ export default function (config: BuildConfig): any {
     })
     if (dllFiles.length) {
       plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
-        append: true,
+        append: false,
         assets: dllFiles
       })
     }
