@@ -6,7 +6,7 @@ export const HEADER_CONFIG_MAP = {
   navigationStyle: 'navigationStyle' // 导航栏样式，仅支持以下值：default 默认样式 custom 自定义导航栏，只保留右上角胶囊按钮
 }
 
-export function getNavigationOptions (config) {
+export function getNavigationOptions (config = {}) {
   let navigationOptions = {}
   Object.keys(config).forEach(function (key) {
     if (key in HEADER_CONFIG_MAP) {
