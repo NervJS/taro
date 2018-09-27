@@ -34,8 +34,7 @@
     "@types/webpack-env": "^1.13.6",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
-    "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%><% if (typescript) {%>
-    "@tarojs/plugin-typescript": "^<%= version %>",<%}%>
+    "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%>
     "@tarojs/plugin-uglifyjs": "^<%= version %>",
     "@tarojs/webpack-runner": "^<%= version %>",
     "babel-plugin-transform-class-properties": "^6.24.1",
