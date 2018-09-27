@@ -13,7 +13,9 @@ function build (args, buildConfig) {
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
   } else {
-    Util.emptyDirectory(outputPath)
+    if (type !== Util.BUILD_TYPES.H5) {
+      Util.emptyDirectory(outputPath)
+    }
   }
   switch (type) {
     case Util.BUILD_TYPES.H5:
