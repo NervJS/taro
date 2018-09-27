@@ -38,6 +38,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 * [【小程序taro最佳实践】http请求封装（方便使用，增加token，统一错误日志记录和上报）](https://segmentfault.com/a/1190000016533592)
 * [【小程序taro 最佳实践】异步action优雅实践(简化流程)](https://segmentfault.com/a/1190000016534001)
+* [使用Taro框架开发小程序](https://juejin.im/post/5ba0a53af265da0ab5037234)
 * [试用React语法的多端框架Taro问题汇总](https://segmentfault.com/a/1190000016247153)
 * [Taro 在京东购物小程序上的实践](https://juejin.im/entry/5b987859e51d450ea2465ddd)
 * [Taro实践 - TOPLIFE小程序 开发体验](https://juejin.im/post/5b3b786a6fb9a04f89780a9f)
