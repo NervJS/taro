@@ -34,6 +34,16 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 * [V2ex小程序（TypeScript）](https://github.com/NervJS/taro-v2ex)
 * [与微信小程序原生融合的示例](https://github.com/NervJS/taro-sample-weapp)
 
+## 文章教程
+
+* [【小程序taro最佳实践】http请求封装（方便使用，增加token，统一错误日志记录和上报）](https://segmentfault.com/a/1190000016533592)
+* [【小程序taro 最佳实践】异步action优雅实践(简化流程)](https://segmentfault.com/a/1190000016534001)
+* [试用React语法的多端框架Taro问题汇总](https://segmentfault.com/a/1190000016247153)
+* [Taro 在京东购物小程序上的实践](https://juejin.im/entry/5b987859e51d450ea2465ddd)
+* [Taro实践 - TOPLIFE小程序 开发体验](https://juejin.im/post/5b3b786a6fb9a04f89780a9f)
+* [Taro 技术揭秘：taro-cli](https://juejin.im/post/5b3ce041e51d45194832aaf6)
+* [为何我们要用 React 来写小程序 - Taro 诞生记](https://juejin.im/post/5b30b476518825749e4a1d91)
+
 ## Taro 特性
 
 #### React 语法风格
