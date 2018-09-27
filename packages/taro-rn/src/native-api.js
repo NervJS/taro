@@ -6,6 +6,7 @@ import network from './api/network'
 import clipboard from './api/clipboard'
 import phone from './api/phone'
 import vibrate from './api/vibrate'
+import others from './api/others'
 import media from './api/media'
 import webSocket from './api/webSocket'
 import geolocation from './api/geolocation'
@@ -43,6 +44,7 @@ export default function initNativeApi (taro) {
     hideLoading,
     showModal,
     showActionSheet,
-    previewImage
+    previewImage,
+    others
   )
 }

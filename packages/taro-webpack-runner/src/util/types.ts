@@ -31,9 +31,11 @@ export interface TaroH5Config {
 
   alias: Option;
   entry: webpack.Entry;
+  output: webpack.Output;
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
   enableExtract: boolean;
+  enableDll: boolean;
 
   cssLoaderOption: Option;
   styleLoaderOption: Option;
@@ -44,10 +46,21 @@ export interface TaroH5Config {
   fontUrlLoaderOption: Option;
   imageUrlLoaderOption: Option;
   miniCssExtractPluginOption: Option;
+  dllDirectory: string;
+  dllFilename: string;
+  dllEntry: {
+    [key: string]: string[];
+  };
 
   module?: {
     postcss?: PostcssOption;
   };
+}
+
+export interface TaroPlugins {
+  babel: Option;
+  csso?: TogglableOptions;
+  uglify?: TogglableOptions
 }
 
 export interface TaroBaseConfig {
@@ -63,11 +76,7 @@ export interface TaroBaseConfig {
   defineConstants?: Option;
   env?: Option;
 
-  plugins?: {
-    babel?: Option;
-    csso?: TogglableOptions;
-    uglify?: TogglableOptions
-  };
+  plugins: TaroPlugins;
 }
 
 export interface BuildConfig extends TaroBaseConfig, TaroH5Config {

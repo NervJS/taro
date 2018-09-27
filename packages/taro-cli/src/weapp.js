@@ -156,10 +156,11 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
+  const constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
-      [require('babel-plugin-transform-define').default, Util.generateEnvList(projectConfig.env || {})]
+      [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
   }).ast
   traverse(ast, {
@@ -910,8 +911,8 @@ function copyFilesFromSrcToOutput (files) {
 }
 
 async function compileScriptFile (filePath, content) {
-  const babelConfig = Object.assign({}, pluginsConfig.babel, defaultBabelConfig)
-  const tsConfig = Object.assign({}, pluginsConfig.typescript, defaultTSConfig)
+  const babelConfig = Object.assign({}, defaultBabelConfig, pluginsConfig.babel)
+  const tsConfig = Object.assign({}, defaultTSConfig, pluginsConfig.typescript)
   if (Util.REG_TYPESCRIPT.test(filePath)) {
     const compileTSRes = await npmProcess.callPlugin('typescript', content, entryFilePath, tsConfig)
     if (compileTSRes && compileTSRes.outputText) {
@@ -951,7 +952,6 @@ async function buildEntry () {
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
     resCode = await compileScriptFile(entryFilePath, resCode)
-    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1128,7 +1128,6 @@ async function buildSinglePage (page) {
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(pageJs, resCode)
-    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1231,8 +1230,22 @@ async function buildSinglePage (page) {
 async function processStyleWithPostCSS (styleObj) {
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
-  const customPxtransformConf = customPostcssConf.pxtransform || {}
-  const customUrlConf = customPostcssConf.url || {}
+  const customPxtransformConf =  Object.assign({
+    enable: true,
+    config: {}
+  }, customPostcssConf.pxtransform || {})
+  const customUrlConf =  Object.assign({
+    enable: true,
+    config: {
+      limit: 10240
+    }
+  }, customPostcssConf.url || {})
+  const customAutoprefixerConf = Object.assign({
+    enable: true,
+    config: {
+      browsers: browserList
+    }
+  }, customPostcssConf.autoprefixer || {})
   const postcssPxtransformOption = {
     designWidth: projectConfig.designWidth || 750,
     platform: 'weapp'
@@ -1241,15 +1254,16 @@ async function processStyleWithPostCSS (styleObj) {
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
   }
-  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, customUrlConf)
-  const maxSize = Math.round(cssUrlConf.limit / 1024)
-  const processors = [
-    autoprefixer({ browsers: browserList }),
-    pxtransform(Object.assign(
-      postcssPxtransformOption,
-      customPxtransformConf
-    ))
-  ]
+  const cssUrlConf = Object.assign({ limit: 10240 }, customUrlConf)
+  const maxSize = Math.round((customUrlConf.config.limit || cssUrlConf.limit) / 1024)
+  const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
+  const processors = []
+  if (customAutoprefixerConf.enable) {
+    processors.push(autoprefixer(customAutoprefixerConf.config))
+  }
+  if (customPxtransformConf.enable) {
+    processors.push(pxtransform(postcssPxtransformConf))
+  }
   if (cssUrlConf.enable) {
     processors.push(cssUrlParse({
       url: 'inline',
@@ -1434,7 +1448,6 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
     resCode = await compileScriptFile(component, resCode)
-    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -1579,7 +1592,6 @@ function compileDepScripts (scriptFiles) {
           let resCode = res.code
           resCode = await compileScriptFile(item, res.code)
           fs.ensureDirSync(path.dirname(outputItem))
-          resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
           if (isProduction) {
             const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
             if (uglifyPluginConfig.enable) {
