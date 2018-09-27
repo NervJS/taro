@@ -7,6 +7,9 @@ Object.is = Object.is || function (x, y) {
 }
 
 export default function shallowEqual (obj1, obj2) {
+  if (obj1 === null && obj2 === null) {
+    return true
+  }
   if (obj1 === null || obj2 === null) {
     return false
   }
