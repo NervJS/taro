@@ -5,28 +5,9 @@ import {
   navigateBack,
   redirectTo
 } from './lib/apis'
-import { Component } from '@tarojs/taro-h5'
+import Taro, { Component } from '@tarojs/taro-h5'
 import './router.css'
 import { VNode } from 'nerv-shared';
-
-const registeredPages = {}
-let registeredPagesArr = []
-
-const hasPage = (pathname) => {
-  const isNormalPage = registeredPagesArr.some(v => {
-    return pathname === v[0]
-  })
-  const isIndex = /^\/(index(\.html)?)?[^/]*$/.test(pathname)
-  if (isNormalPage || isIndex) return true
-  return false
-}
-const getPage = (pathname) => {
-  if (pathname in registeredPages) {
-    return registeredPages[pathname]
-  } else {
-    return registeredPagesArr[0][1]
-  }
-}
 
 const PAGESTATUS = {
   HIDDEN: 1,
@@ -109,7 +90,29 @@ interface RouterPayload {
 let pageStack: Component[] = []
 let pageInstStack: VNode[] = []
 
-class Router extends Component {
+type route = [string, Function]
+
+interface Props {
+  routes: route[]
+}
+
+class Router extends Component<Props> {
+  hasPage = (pathname) => {
+    const isNormalPage = this.props.routes.some(([routePathname]) => {
+      return pathname === routePathname
+    })
+    const isIndex = /^\/(index(\.html)?)?[^/]*$/.test(pathname)
+    if (isNormalPage || isIndex) return true
+    return false
+  }
+
+  getPage = (pathname) => {
+    const res = this.props.routes.find(([routePathname]) => {
+      if (pathname === routePathname) return true
+      else return false
+    })
+    return res ? res[1] : this.props.routes[0][1]
+  }
 
   /**
    * 根据提供的location跳转
@@ -118,7 +121,6 @@ class Router extends Component {
    * @param {string} action 跳转的种类
    * @param {any} payload 附加参数
    */
-
   navigate = (location, action, payload = {} as RouterPayload) => {
     const { fail, complete, success, delta } = payload
     let pathname
@@ -128,27 +130,24 @@ class Router extends Component {
     } else if (action === 'PUSH' || action === 'REPLACE') {
       pathname = location.url
     }
-
+    
     /* loadPage */
-    if (!hasPage(pathname)) {
+    if (!this.hasPage(pathname)) {
       fail && fail()
       complete && complete()
       return console.warn('page not found')
     }
-    getPage(pathname)()
-      .then(loaded => {
-        const comp = getWrappedComponent(loaded.default)
-        // this.commit(action, Nerv.createElement(comp, {
-        //   _$router: location
-        // }), payload)
-        this.commit(action, comp, payload)
-        success && success()
-      }).catch(e => {
-        console.error(e)
-        fail && fail()
-      }).then(() => {
-        complete && complete()
-      })
+    
+    const pageComp = this.getPage(pathname)
+
+    if (pageComp) {
+      const comp = getWrappedComponent(pageComp)
+      this.commit(action, comp, payload)
+      success && success()
+    } else {
+      complete && complete()
+      fail && fail()
+    }
   }
 
   commit (action, el, payload) {
@@ -205,25 +204,14 @@ const getCurrentPages = function (opts) {
   return pageStack
 }
 
-const initRouter = (pageArr, taro) => {
-  registeredPagesArr = pageArr
-  pageArr.forEach(v => {
-    const pageName = v[0]
-    const pageLoader = v[1]
-    registeredPages[pageName] = pageLoader
-  })
-  taro.navigateTo = navigateTo
-  taro.navigateBack = navigateBack
-  taro.redirectTo = redirectTo
-  taro.getCurrentPages = getCurrentPages
-}
+Taro.navigateTo = navigateTo
+Taro.navigateBack = navigateBack
+Taro.redirectTo = redirectTo
 
 export default {
-  Router,
-  initRouter
+  Router
 }
 
 export {
-  Router,
-  initRouter
+  Router
 }

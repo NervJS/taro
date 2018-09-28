@@ -36,7 +36,7 @@ const taroApis = [
   'internal_dynamic_recursive'
 ]
 const nervJsImportDefaultName = 'Nerv'
-const routerImportDefaultName = 'TaroRouter'
+const routerImportName = 'Router'
 const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
 const tabBarPanelComponentName = 'TabbarPanel'
@@ -56,6 +56,7 @@ const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 
 let pages = []
+let pageIdentifiers
 let tabBar
 let tabbarPos
 
@@ -67,45 +68,6 @@ const FILE_TYPE = {
 }
 
 const DEVICE_RATIO = 'deviceRatio'
-
-const buildRouterImporter = v => {
-  const pagename = v.startsWith('/') ? v : `/${v}`
-  /* substr 跳过"/pages/" */
-  const chunkFilename = pagename.substr(7).replace(/[/\\]+/g, '_')
-
-  const keyPagenameNode = t.stringLiteral(pagename)
-
-  const valuePagenameNode = t.stringLiteral(`.${pagename}`)
-  valuePagenameNode.leadingComments = [{
-    type: 'CommentBlock',
-    value: ` webpackChunkName: "${chunkFilename}" `
-  }]
-  const callExpression = t.callExpression(t.import(), [ valuePagenameNode ])
-  const arrowFunctionNode = t.arrowFunctionExpression(
-    [],
-    callExpression
-  )
-
-  return t.arrayExpression([
-    keyPagenameNode,
-    arrowFunctionNode
-  ])
-}
-
-const buildRouterStarter = ({ pages, packageName, taroImportDefaultName }) => {
-  const importers = pages.map(buildRouterImporter)
-  const initArrNode = t.arrayExpression(importers)
-
-  return t.expressionStatement(
-    t.callExpression(
-      t.memberExpression(
-        t.identifier(packageName),
-        t.identifier('initRouter')
-      ),
-      [initArrNode, t.identifier(taroImportDefaultName)]
-    )
-  )
-}
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
@@ -192,7 +154,16 @@ function processEntry (code, filePath) {
         const isComponentWillUnmount = key.name === 'componentWillUnmount'
 
         if (isRender) {
-          funcBody = `<${routerImportDefaultName}.Router />`
+          pageIdentifiers = pages.map(v => {
+            const absPagename = v.startsWith('/') ? v : `/${v}`
+            const pageIdentifier = astPath.scope.generateUidIdentifier(absPagename)
+            return [absPagename, pageIdentifier]
+          })
+          const routerpageConfig = pageIdentifiers.map(([pagename, identifier]) => {
+            const currentLine = `['${pagename}', ${identifier.name}]`
+            return currentLine
+          }).join(',')
+          funcBody = `<${routerImportName} routes={[${routerpageConfig}]} />`
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -470,30 +441,39 @@ function processEntry (code, filePath) {
           pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
         }
 
-        const routerStarter = buildRouterStarter({
-          pages,
-          packageName: routerImportDefaultName,
-          taroImportDefaultName
+        const pageImporters = pageIdentifiers.map(([pagename, identifier]) => {
+          const relPagename = `.${pagename}`
+          return t.importDeclaration(
+            [t.importDefaultSpecifier(identifier)],
+            t.stringLiteral(relPagename)
+          )
         })
 
-        node.body.unshift(template(
-          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
-          babylonConfig
-        )())
-        node.body.unshift(template(
-          `import ${routerImportDefaultName} from '${PACKAGES['@tarojs/router']}'`,
-          babylonConfig
-        )())
-        tabBar && node.body.unshift(template(
+        const newBody = [
+          template(
+            `import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`,
+            babylonConfig
+          )(),
+          template(
+            `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
+            babylonConfig
+          )(),
+          ...pageImporters,
+          ...node.body,
+          template(
+            `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
+            babylonConfig
+          )(),
+          template(renderCallCode, babylonConfig)()
+        ]
+
+        tabBar && newBody.unshift(template(
           `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
         )())
-        node.body.push(template(
-          `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
-          babylonConfig
-        )())
-        node.body.push(routerStarter)
-        node.body.push(template(renderCallCode, babylonConfig)())
+
+        node.body = newBody
+        // node.body.push(routerStarter)
       }
     }
   })

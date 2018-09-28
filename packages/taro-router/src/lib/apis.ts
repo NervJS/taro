@@ -4,6 +4,7 @@ import resolvePathname from 'resolve-pathname'
 export interface NavigateOpts {
   url?: string;
   state?: number;
+  delta?: number;
   isForward?: boolean;
   success?: Function;
   fail?: Function;
@@ -15,9 +16,14 @@ const navigateTo = function (opts = {} as NavigateOpts) {
   const currentUrl = current.url
   const url = resolvePathname(opts.url, currentUrl)
   h.push({ url })
+  return Promise.resolve()
 }
 
-const navigateBack = ({delta} = {delta: 1}) => {
+const navigateBack = (opts = {} as NavigateOpts) => {
+  let delta = opts.delta
+  if (typeof delta !== 'number') {
+    delta = 1
+  }
   window.history.go(-1 * delta)
 }
 
@@ -30,6 +36,7 @@ const redirectTo = function (opts = {} as NavigateOpts) {
     url: opts.url
     /* TODO: success fail complete*/
   })
+  return Promise.resolve()
 }
 
 export {
