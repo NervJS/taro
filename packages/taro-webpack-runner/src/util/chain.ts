@@ -150,7 +150,7 @@ const getModule = ({
     },
     cssLoaderOption
   ]
-  const isCssoEnabled = (plugins.csso && postcssOption.csso.enable === false)
+  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
       ? false
       : true
   if (mode !== 'development' && isCssoEnabled) {
