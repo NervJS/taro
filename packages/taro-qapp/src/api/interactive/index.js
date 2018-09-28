@@ -141,7 +141,7 @@ export function setNavigationBarTitle (options = {}) {
 }
 
 export function setNavigationBarColor (options = {}) {
-  const { frontColor = '', backgroundColor='', success, complete, fail } = options
+  const { frontColor = '', backgroundColor = '', success, complete, fail } = options
   const res = { errMsg: 'setNavigationBarColor: ok' }
 
   return new Promise((resolve, reject) => {
