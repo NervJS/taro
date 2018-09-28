@@ -200,13 +200,14 @@ class Router extends Component<Props> {
   }
 }
 
-const getCurrentPages = function (opts) {
+const getCurrentPages = function () {
   return pageStack
 }
 
 Taro.navigateTo = navigateTo
 Taro.navigateBack = navigateBack
 Taro.redirectTo = redirectTo
+Taro.getCurrentPages = getCurrentPages
 
 export default {
   Router
