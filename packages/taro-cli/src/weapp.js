@@ -47,7 +47,6 @@ const appOutput = typeof weappConf.appOutput === 'boolean' ? weappConf.appOutput
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
-const taroWeappFramework = '@tarojs/taro-weapp'
 const taroJsComponents = '@tarojs/components'
 const taroJsRedux = '@tarojs/redux'
 let appConfig = {}
@@ -127,6 +126,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let configObj = {}
   let componentClassName = null
   let taroJsReduxConnect = null
+  let taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   function traverseObjectNode (node, obj) {
     if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
       const properties = node.value.properties
@@ -293,7 +293,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
               if (defaultSpecifier) {
                 taroImportDefaultName = defaultSpecifier
               }
-              value = taroWeappFramework
+              value = taroMiniAppFramework
             } else if (value === taroJsRedux) {
               specifiers.forEach(item => {
                 if (item.type === 'ImportSpecifier') {
@@ -342,7 +342,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             } else {
               if (value === taroJsFramework && id.type === 'Identifier') {
                 taroImportDefaultName = id.name
-                value = taroWeappFramework
+                value = taroMiniAppFramework
               } else if (value === taroJsRedux) {
                 const declarations = node.declarations
                 declarations.forEach(item => {
@@ -695,7 +695,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
           const exportDefault = template(`export default ${exportVariableName}`, babylonConfig)()
           node.body.push(exportDefault)
         }
-        const taroWeappFrameworkPath = !npmSkip ? getExactedNpmFilePath(taroWeappFramework, filePath) : taroWeappFramework
+        const taroMiniAppFrameworkPath = !npmSkip ? getExactedNpmFilePath(taroMiniAppFramework, filePath) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
             const pxTransformConfig = {
@@ -704,14 +704,18 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
               pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
             }
-            node.body.push(template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)())
+            node.body.push(template(`App(require('${taroMiniAppFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)())
             node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig)())
             break
           case PARSE_AST_TYPE.PAGE:
-            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            if (buildAdapter === Util.BUILD_TYPES.WEAPP) {
+              node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            } else {
+              node.body.push(template(`Page(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            }
             break
           case PARSE_AST_TYPE.COMPONENT:
-            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
+            node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
             break
           default:
             break
