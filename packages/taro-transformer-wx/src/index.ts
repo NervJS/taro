@@ -432,8 +432,7 @@ export default function transform (options: Options): TransformResult {
         t.importDefaultSpecifier(t.identifier('Taro')),
         t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
         t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-        t.importSpecifier(t.identifier('Component'), t.identifier('Component'))
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
       ], t.stringLiteral('@tarojs/taro'))
     )
   }

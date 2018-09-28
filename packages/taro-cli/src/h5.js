@@ -123,11 +123,13 @@ function processEntry (code, filePath) {
   let renderCallCode
 
   let hasAddNervJsImportDefaultName = false
+  let hasComponentWillMount = false
   let hasComponentDidMount = false
   let hasComponentDidShow = false
   let hasComponentDidHide = false
   let hasComponentWillUnmount = false
   let hasJSX = false
+  let hasState = false
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -185,6 +187,7 @@ function processEntry (code, filePath) {
         if (!t.isIdentifier(key)) return
 
         const isRender = key.name === 'render'
+        const isComponentWillMount = key.name === 'componentWillMount'
         const isComponentDidMount = key.name === 'componentDidMount'
         const isComponentWillUnmount = key.name === 'componentWillUnmount'
 
@@ -208,7 +211,7 @@ function processEntry (code, filePath) {
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+                  <${tabBarComponentName} conf={this.state.${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
                 </${tabBarContainerComponentName}>`
             }
           }
@@ -224,16 +227,9 @@ function processEntry (code, filePath) {
 
           /* 插入<TaroRouter.Router /> */
           node.body = template(`{return (${funcBody});}`, babylonConfig)()
-
-          if (tabBar) {
-            astPath
-              .get('body')
-              .unshiftContainer('body', [
-                t.variableDeclaration('const', [
-                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
-                ])
-              ])
-          }
+        }
+        if (tabBar && isComponentWillMount) {
+          astPath.get('body').pushContainer('body', template(`Taro.initTabBarApis(this, Taro)`, babylonConfig)())
         }
 
         if (hasComponentDidShow && isComponentDidMount) {
@@ -243,6 +239,18 @@ function processEntry (code, filePath) {
         if (hasComponentDidHide && isComponentWillUnmount) {
           astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
         }
+      }
+    },
+    ClassProperty: {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const value = node.value
+        if (key.name !== 'state' || !t.isObjectExpression(value)) return
+        astPath.node.value.properties.push(t.objectProperty(
+          t.identifier(tabBarConfigName),
+          tabBar
+        ))
       }
     },
     ClassBody: {
@@ -256,6 +264,19 @@ function processEntry (code, filePath) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentWillUnmount'), [],
             t.blockStatement([]), false, false))
+        }
+        if (tabBar) {
+          if (!hasComponentWillMount) {
+            astPath.pushContainer('body', t.classMethod(
+              'method', t.identifier('componentWillMount'), [],
+              t.blockStatement([]), false, false))
+          }
+          if (!hasState) {
+            astPath.unshiftContainer('body', t.classProperty(
+              t.identifier('state'),
+              t.objectExpression([])
+            ))
+          }
         }
       }
     }
@@ -298,6 +319,7 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         const value = node.value
+        if (key.name === 'state') hasState = true
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
         astPath.traverse(classPropertyVisitor)
         astPath.remove()
@@ -399,6 +421,9 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         if (t.isIdentifier(key)) {
+          if (key.name === 'componentWillMount') {
+            hasComponentWillMount = true
+          }
           if (key.name === 'componentDidMount') {
             hasComponentDidMount = true
           } else if (key.name === 'componentDidShow') {

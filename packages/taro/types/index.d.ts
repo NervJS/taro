@@ -1,3 +1,5 @@
+import { buffer } from "rxjs/operators";
+
 export = Taro;
 export as namespace Taro;
 
@@ -343,7 +345,6 @@ declare namespace Taro {
     RN = 'RN'
   }
 
-
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
   function render(component: Component | JSX.Element, element: Element | null)
@@ -508,6 +509,28 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
+
+  type arrayBuffer = Uint8Array |
+    Int8Array |
+    Uint8Array |
+    Uint8ClampedArray |
+    Int16Array |
+    Uint16Array |
+    Int32Array |
+    Uint32Array |
+    Float32Array |
+    Float64Array |
+    ArrayBuffer
+
+  /**
+   * 将 ArrayBuffer 数据转成 Base64 字符串
+   */
+  function arrayBufferToBase64(buffer: arrayBuffer): string
+
+  /**
+   * 将 Base64 字符串转成 ArrayBuffer 数据
+   */
+  function base64ToArrayBuffer(base64: string): arrayBuffer
 
   namespace uploadFile {
     type Promised = {

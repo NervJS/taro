@@ -73,7 +73,7 @@ interface MapProps extends StandardProps {
   /**
    * 点击控件时触发，会返回 control 的 id
    */
-  onCcontrolTap?: BaseEventFunction,
+  onControlTap?: BaseEventFunction,
 
   /**
    * 视野发生变化时触发

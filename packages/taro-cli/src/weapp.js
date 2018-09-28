@@ -24,7 +24,6 @@ const babylonConfig = require('./config/babylon')
 const browserList = require('./config/browser_list')
 const defaultUglifyConfig = require('./config/uglify')
 const defaultBabelConfig = require('./config/babel')
-const defaultTSConfig = require('./config/tsconfig.json')
 const astConvert = require('./util/ast_convert')
 
 const appPath = process.cwd()
@@ -910,15 +909,13 @@ function copyFilesFromSrcToOutput (files) {
   })
 }
 
-async function compileScriptFile (filePath, content) {
-  const babelConfig = Object.assign({}, defaultBabelConfig, pluginsConfig.babel)
-  const tsConfig = Object.assign({}, defaultTSConfig, pluginsConfig.typescript)
-  if (Util.REG_TYPESCRIPT.test(filePath)) {
-    const compileTSRes = await npmProcess.callPlugin('typescript', content, entryFilePath, tsConfig)
-    if (compileTSRes && compileTSRes.outputText) {
-      content = compileTSRes.outputText
-    }
+const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+  if (Array.isArray(objValue)) {
+    return Array.from(new Set(objValue.concat(srcValue)))
   }
+})
+
+async function compileScriptFile (content) {
   const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
   return compileScriptRes.code
 }
@@ -951,7 +948,7 @@ async function buildEntry () {
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
-    resCode = await compileScriptFile(entryFilePath, resCode)
+    resCode = await compileScriptFile(resCode)
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1127,7 +1124,7 @@ async function buildSinglePage (page) {
     const pageDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
-    resCode = await compileScriptFile(pageJs, resCode)
+    resCode = await compileScriptFile(resCode)
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1447,7 +1444,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
-    resCode = await compileScriptFile(component, resCode)
+    resCode = await compileScriptFile(resCode)
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -1590,7 +1587,7 @@ function compileDepScripts (scriptFiles) {
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
-          resCode = await compileScriptFile(item, res.code)
+          resCode = await compileScriptFile(res.code)
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction) {
             const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }

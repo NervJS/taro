@@ -4,6 +4,7 @@ import request from './api/request'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
 import webSocket from './api/webSocket'
+import * as tabBar from './api/tabBar'
 import * as system from './api/system'
 import * as others from './api/others'
 
@@ -36,5 +37,5 @@ export default function initNativeApi (taro) {
     console.error('不支持 API requirePlugin')
   }
   taro.canIUseWebp = canIUseWebp
-  Object.assign(taro, storage, interactive, webSocket, system, others)
+  Object.assign(taro, storage, interactive, webSocket, tabBar, system, others)
 }
