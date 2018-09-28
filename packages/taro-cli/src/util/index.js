@@ -86,6 +86,21 @@ exports.BUILD_TYPES = {
   UI: 'ui'
 }
 
+exports.MINI_APP_FILES = {
+  [exports.BUILD_TYPES.WEAPP]: {
+    TEMPL: '.wxml',
+    STYLE: '.wxss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.SWAN]: {
+    TEMPL: '.swan',
+    STYLE: '.css',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  }
+}
+
 exports.PROJECT_CONFIG = 'config/index.js'
 
 exports.DEVICE_RATIO = {
@@ -352,18 +367,18 @@ exports.cssImports = function (content) {
   return results
 }
 
-exports.processWxssImports = function (content) {
-  const wxss = []
+exports.processStyleImports = function (content, adapter) {
+  const style = []
   content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
-    if (/\.wxss/.test($2)) {
-      wxss.push(m)
+    if (new RegExp(`\.${adapter}`).test($2)) {
+      style.push(m)
       return ''
     }
     return m
   })
   return {
     content,
-    wxss
+    style
   }
 }
 

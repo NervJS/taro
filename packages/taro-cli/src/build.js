@@ -22,6 +22,9 @@ function build (args, buildConfig) {
     case Util.BUILD_TYPES.WEAPP:
       buildForWeapp({ watch })
       break
+    case Util.BUILD_TYPES.SWAN:
+      buildForSwan({ watch })
+      break
     case Util.BUILD_TYPES.RN:
       buildForRN({ watch })
       break
@@ -34,7 +37,17 @@ function build (args, buildConfig) {
 }
 
 function buildForWeapp ({ watch }) {
-  require('./weapp').build({ watch })
+  require('./weapp').build({
+    watch,
+    adapter: Util.BUILD_TYPES.WEAPP
+  })
+}
+
+function buildForSwan ({ watch }) {
+  require('./weapp').build({
+    watch,
+    adapter: Util.BUILD_TYPES.SWAN
+  })
 }
 
 function buildForH5 (buildConfig) {
