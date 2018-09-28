@@ -9,7 +9,7 @@ export function showToast (options = {}) {
     try {
       prompt.showToast({
         message: title,
-        duration: duration > 2000 ? 1 : 0
+        duration
       })
       success && success(res)
       complete && complete(res)
