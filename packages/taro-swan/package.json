@@ -1,0 +1,31 @@
+{
+  "name": "@tarojs/taro-swan",
+  "version": "1.0.3",
+  "description": "Taro swan framework",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "package.json"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/taro": "1.0.3",
+    "@tarojs/utils": "1.0.3",
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6.1"
+  }
+}
