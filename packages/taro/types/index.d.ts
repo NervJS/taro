@@ -1,4 +1,4 @@
-import { buffer, buffer } from "rxjs/operators";
+import { buffer } from "rxjs/operators";
 
 export = Taro;
 export as namespace Taro;
