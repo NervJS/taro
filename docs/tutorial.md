@@ -76,7 +76,7 @@ class App extends Component {
 | componentDidShow | 程序展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
 | componentDidHide | 程序被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
 
-> 微信小程序中 `onLaunch` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期方法中通过 `this.$router.params` 访问到，在其他端也适用
+> 微信小程序中 `onLaunch` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期和普通事件方法中通过 `this.$router.params` 访问到，在其他端也适用
 
 入口文件需要包含一个 `render` 方法，一般返回程序的第一个页面，但值得注意的是不要在入口文件中的 `render` 方法里写逻辑及引用其他页面、组件，因为编译时 `render` 方法的内容会被直接替换掉，你的逻辑代码不会起作用。
 
@@ -158,7 +158,7 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 | componentDidShow | 页面展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
 | componentDidHide | 页面被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
 
-> 微信小程序中 `onLoad` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期方法中通过 `this.$router.params` 访问到，在其他端也适用
+> 微信小程序中 `onLoad` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期和普通事件方法中通过 `this.$router.params` 访问到，在其他端也适用
 
 在小程序中，页面还有在一些专属的方法成员，如下
 
