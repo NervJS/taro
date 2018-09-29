@@ -365,7 +365,7 @@ export class RenderParser {
                       this.referencedIdentifiers.add(ary)
                     }
                   }
-                  setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
+                  setJSXAttr(jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
                   this.loopCalleeId.add(findFirstIdentifierFromMemberExpression(callee))
                   const [func] = callExpr.node.arguments
                   if (
