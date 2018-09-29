@@ -156,7 +156,7 @@ function processEntry (code, filePath) {
           const pageRequires = pages.map(v => {
             const absPagename = v.startsWith('/') ? v : `/${v}`
             const relPagename = `.${absPagename}`
-            return `['${absPagename}', require('${relPagename}')]`
+            return `['${absPagename}', require('${relPagename}').default]`
           }).join(',')
           funcBody = `<${routerImportName} routes={[${pageRequires}]} />`
 
