@@ -56,7 +56,6 @@ const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 
 let pages = []
-let pageIdentifiers
 let tabBar
 let tabbarPos
 
@@ -154,16 +153,12 @@ function processEntry (code, filePath) {
         const isComponentWillUnmount = key.name === 'componentWillUnmount'
 
         if (isRender) {
-          pageIdentifiers = pages.map(v => {
+          const pageRequires = pages.map(v => {
             const absPagename = v.startsWith('/') ? v : `/${v}`
-            const pageIdentifier = astPath.scope.generateUidIdentifier(absPagename)
-            return [absPagename, pageIdentifier]
-          })
-          const routerpageConfig = pageIdentifiers.map(([pagename, identifier]) => {
-            const currentLine = `['${pagename}', ${identifier.name}]`
-            return currentLine
+            const relPagename = `.${absPagename}`
+            return `['${absPagename}', require('${relPagename}')]`
           }).join(',')
-          funcBody = `<${routerImportName} routes={[${routerpageConfig}]} />`
+          funcBody = `<${routerImportName} routes={[${pageRequires}]} />`
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -441,14 +436,6 @@ function processEntry (code, filePath) {
           pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
         }
 
-        const pageImporters = pageIdentifiers.map(([pagename, identifier]) => {
-          const relPagename = `.${pagename}`
-          return t.importDeclaration(
-            [t.importDefaultSpecifier(identifier)],
-            t.stringLiteral(relPagename)
-          )
-        })
-
         const newBody = [
           template(
             `import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`,
@@ -458,7 +445,6 @@ function processEntry (code, filePath) {
             `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
             babylonConfig
           )(),
-          ...pageImporters,
           ...node.body,
           template(
             `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
