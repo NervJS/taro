@@ -26,7 +26,10 @@ const onAndSyncApis = {
   clearStorageSync: true,
   getSystemInfoSync: true,
   getExtConfigSync: true,
-  getLogManager: true
+  getLogManager: true,
+  onMemoryWarning: true,
+  reportAnalytics: true,
+  navigateToSmartGameProgram: true
 }
 const noPromiseApis = {
   // 媒体
@@ -222,8 +225,35 @@ const otherApis = {
   chooseInvoiceTitle: true,
   checkIsSupportSoterAuthentication: true,
   startSoterAuthentication: true,
-  checkIsSoterEnrolledInDevice: true
-  //
+  checkIsSoterEnrolledInDevice: true,
+
+  setEnableDebug: true,
+
+  // 百度小程序专有 API
+  // 百度小程序 AI 相关
+  ocrIdCard: true,
+  ocrBankCard: true,
+  ocrDrivingLicense: true,
+  ocrVehicleLicense: true,
+  textReview: true,
+  textToAudio: true,
+  imageAudit: true,
+  advancedGeneralIdentify: true,
+  objectDetectIdentify: true,
+  carClassify: true,
+  dishClassify: true,
+  logoClassify: true,
+  animalClassify: true,
+  plantClassify: true,
+
+  // 用户信息
+  getSwanId: true,
+  // 百度收银台支付
+  requestPolymerPayment: true,
+  // 打开小程序
+  navigateToSmartProgram: true,
+  navigateBackSmartProgram: true,
+  preloadSubPackage: true
 }
 
 function initPxTransform (config) {
