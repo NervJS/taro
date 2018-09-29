@@ -725,7 +725,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
     }
   })
   return {
-    code: unescape(generate(ast).code.replace(/\\u/g, '%u')),
+    code: generate(ast).code,
     styleFiles,
     scriptFiles,
     jsonFiles,
