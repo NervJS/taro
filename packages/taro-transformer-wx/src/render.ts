@@ -956,10 +956,13 @@ export class RenderParser {
             Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
-              if (replacements.has(parent) || this.loopCalleeId.has(path.node)) {
+              if (replacements.has(parent) || this.renderScope.hasOwnBinding(path.node.name)) {
                 return
               }
               if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
+                if (this.loopCalleeId.has(path.node)) {
+                  return
+                }
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
@@ -971,12 +974,6 @@ export class RenderParser {
                 replaceOriginal(path, parent, name)
               }
 
-            },
-            MemberExpression: (path) => {
-              const id = findFirstIdentifierFromMemberExpression(path.node)
-              if (stateToBeAssign.has(id.name) && !this.loopCalleeId.has(id)) {
-                path.node.object = t.identifier(item.name + '.' + id.name)
-              }
             }
           })
           if (hasOriginalRef) {
@@ -1005,53 +1002,27 @@ export class RenderParser {
             if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
               const funcBody = func.body
               if (t.isBlockStatement(funcBody)) {
-                if (t.isIdentifier(object)) {
-                  if (this.loopCalleeId.has(object)) {
-                    const variableName = `${LOOP_CALLEE}_${calleeId()}`
-                    funcBody.body.splice(
-                      funcBody.body.length - 1,
-                      0,
-                      buildConstVariableDeclaration(
-                        variableName,
-                        callee.node
-                      )
-                    )
-                    const iterator = func.params[0]
-                    component.node.openingElement.attributes.forEach(attr => {
-                      if (attr.name.name === Adapter.for && t.isIdentifier(iterator)) {
-                        attr.value = t.jSXExpressionContainer(
-                          t.memberExpression(
-                            iterator,
-                            t.identifier(variableName)
-                          )
-                        )
-                      }
-                    })
-                  } else {
-                    funcBody.body.splice(
-                      funcBody.body.length - 1,
-                      0,
-                      t.expressionStatement(
-                        t.assignmentExpression(
-                          '=',
-                          object,
-                          callee.node
-                        )
-                      )
-                    )
-                  }
-                } else if (t.isMemberExpression(object)) {
+                if (t.isIdentifier(object) || t.isMemberExpression(object)) {
+                  const variableName = `${LOOP_CALLEE}_${calleeId()}`
                   funcBody.body.splice(
                     funcBody.body.length - 1,
                     0,
-                    t.expressionStatement(
-                      t.assignmentExpression(
-                        '=',
-                        object,
-                        callee.node
-                      )
+                    buildConstVariableDeclaration(
+                      variableName,
+                      callee.node
                     )
                   )
+                  const iterator = func.params[0]
+                  component.node.openingElement.attributes.forEach(attr => {
+                    if (attr.name.name === Adapter.for && t.isIdentifier(iterator)) {
+                      attr.value = t.jSXExpressionContainer(
+                        t.memberExpression(
+                          iterator,
+                          t.identifier(variableName)
+                        )
+                      )
+                    }
+                  })
                 } else {
                   throw codeFrameError(object.loc, '请简化该表达式为标识符或成员表达式')
                 }
