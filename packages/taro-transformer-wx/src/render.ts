@@ -956,13 +956,10 @@ export class RenderParser {
             Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
-              if (replacements.has(parent) || this.renderScope.hasOwnBinding(path.node.name)) {
+              if (replacements.has(parent) || (this.renderScope.hasOwnBinding(name) && this.loopCalleeId.has(path.node))) {
                 return
               }
               if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
-                if (this.loopCalleeId.has(path.node)) {
-                  return
-                }
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
@@ -1189,7 +1186,17 @@ export class RenderParser {
         .map(i => i.name))
       )
       .filter(i => {
-        return !this.methods.has(i)
+        const method = this.methods.get(i)
+        let isGet = false
+        if (method) {
+          if (method.isClassMethod()) {
+            const kind = method.node.kind
+            if (kind === 'get') {
+              isGet = true
+            }
+          }
+        }
+        return !this.methods.has(i) || isGet
       })
       .filter(i => !this.loopScopes.has(i))
       .filter(i => !this.initState.has(i))
