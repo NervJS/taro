@@ -37,6 +37,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.0.5",
+  "version": "1.0.7",
   "npmClient": "npm"
 }

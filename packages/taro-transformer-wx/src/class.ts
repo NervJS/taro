@@ -293,6 +293,7 @@ class Transformer {
         const expression = path.get('expression') as NodePath<t.Expression>
         const scope = self.renderMethod && self.renderMethod.scope || path.scope
         const calleeExpr = expression.get('callee')
+        const parentPath = path.parentPath
         if (
           hasComplexExpression(expression) &&
           !(calleeExpr &&
@@ -301,6 +302,12 @@ class Transformer {
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+        } else {
+          if (parentPath.isJSXAttribute()) {
+            if (!(expression.isMemberExpression() || expression.isIdentifier()) && parentPath.node.name.name === 'key') {
+              generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+            }
+          }
         }
         const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
         if (!attr) return
