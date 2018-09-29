@@ -2175,10 +2175,10 @@ Taro.setNavigationBarColor(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.setNavigationBarTitle | ✔️ |  |  |
-| Taro.showNavigationBarLoading | ✔️ |  |  |
-| Taro.hideNavigationBarLoading | ✔️ |  |  |
-| Taro.setNavigationBarColor | ✔️ |  |  |
+| Taro.setNavigationBarTitle | ✔️ |  |✔️  |
+| Taro.showNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.hideNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.setNavigationBarColor | ✔️ |  | ✔️(不支持 animation 参数) |
 
 ### 设置tabBar
 
@@ -2394,7 +2394,7 @@ Taro.getCurrentPages().length
 | Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
 | Taro.reLaunch | ✔️ |  | ✔️ |
-| Taro.getCurrentPages | ✔️ |   |   |
+| Taro.getCurrentPages | ✔️ |   | ✔️|
 
 ### 动画
 
@@ -2493,8 +2493,8 @@ Taro.stopPullDownRefresh()
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.startPullDownRefresh | ✔️ |  |  |
-| Taro.stopPullDownRefresh | ✔️ |  |  |
+| Taro.startPullDownRefresh | ✔️ |  |  ✔️（无动画效果）  |
+| Taro.stopPullDownRefresh | ✔️ |  |  ✔️  |
 
 ### WXML节点信息
 
@@ -2524,7 +2524,7 @@ import Taro from '@tarojs/taro'
 Component({
   ready () {
     const query = Taro.createSelectorQuery().in(this.$scope)
-  })
+  }
 })
 ```
 
@@ -2603,7 +2603,7 @@ Taro.createSelectorQuery()
 获取节点的相关信息，需要获取的字段在 fields 中指定。返回值是 nodesRef 对应的 selectorQuery。可指定获取的字段包括：
 
 | 字段名 | 默认值 | 说明 |
-| :-: | :-: | :-: | :-: |
+| :-: | :-: | :-: |
 | id | 否 | 是否返回节点 `id` |
 | dataset | 否 | 是否返回节点 `dataset` |
 | rect | 否 | 是否返回节点布局位置（`left` `right` `top` `bottom`） |
@@ -2660,3 +2660,385 @@ Taro.createSelectorQuery()
 | nodesRef.scrollOffset | ✔️ | ✔️ |  |
 | nodesRef.fields | ✔️ | ✔️ |  |
 | selectorQuery.exec | ✔️ | ✔️ |  |
+
+## 开放接口
+
+### 设置
+
+#### Taro.getSetting(OBJECT)
+
+使用方式同 [`wx.getSetting`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getSetting(params).then(...)
+```
+
+#### Taro.openSetting(OBJECT)
+
+使用方式同 [`wx.openSetting`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.openSetting.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.openSetting(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getSetting | ✔️ |  |  |
+| Taro.openSetting | ✔️ |  |  |
+
+### 收货地址
+
+#### Taro.chooseAddress(OBJECT)
+
+使用方式同 [`wx.chooseAddress`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.chooseAddress(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.chooseAddress | ✔️ |  |  |
+
+### 授权
+
+#### Taro.authorize(OBJECT)
+
+使用方式同 [`wx.authorize`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/authorize/wx.authorize.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.authorize(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.authorize | ✔️ |  |  |
+
+### 卡券
+
+#### Taro.addCard(OBJECT)
+
+使用方式同 [`wx.addCard`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.addCard(params).then(...)
+```
+
+#### Taro.openCard(OBJECT)
+
+使用方式同 [`wx.openCard`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.openCard(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.addCard | ✔️ |  |  |
+| Taro.openCard | ✔️ |  |  |
+
+### 发票
+
+#### Taro.chooseInvoice(OBJECT)
+
+使用方式同 [`wx.chooseInvoice`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoice.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.chooseInvoice(params).then(...)
+```
+
+#### Taro.chooseInvoiceTitle(OBJECT)
+
+使用方式同 [`wx.chooseInvoiceTitle`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoiceTitle.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.chooseInvoiceTitle(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.chooseInvoice | ✔️ |  |  |
+| Taro.chooseInvoiceTitle | ✔️ |  |  |
+
+### 支付
+
+#### Taro.faceVerifyForPay(OBJECT)
+
+使用方式同 [`wx.faceVerifyForPay`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.faceVerifyForPay(params).then(...)
+```
+
+#### Taro.requestPayment(OBJECT)
+
+使用方式同 [`wx.requestPayment`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.requestPayment(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.faceVerifyForPay | ✔️ |  |  |
+| Taro.requestPayment | ✔️ |  |  |
+
+### 用户信息
+
+#### Taro.getUserInfo(OBJECT)
+
+使用方式同 [`wx.getUserInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getUserInfo(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getUserInfo | ✔️ |  |  |
+
+### 微信运动
+
+#### Taro.getWeRunData(OBJECT)
+
+使用方式同 [`wx.getWeRunData`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.getWeRunData.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getWeRunData(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getWeRunData | ✔️ |  |  |
+
+### 登录
+
+#### Taro.login(OBJECT)
+
+使用方式同 [`wx.login`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.login(params).then(...)
+```
+
+#### Taro.checkSession(OBJECT)
+
+使用方式同 [`wx.checkSession`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.checkSession.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.checkSession(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.login | ✔️ |  |  |
+| Taro.checkSession | ✔️ |  |  |
+
+### 生物认证
+
+#### Taro.checkIsSoterEnrolledInDevice(OBJECT)
+
+使用方式同 [`wx.checkIsSoterEnrolledInDevice`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSoterEnrolledInDevice.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.checkIsSoterEnrolledInDevice(params).then(...)
+```
+
+#### Taro.checkIsSupportSoterAuthentication(OBJECT)
+
+使用方式同 [`wx.checkIsSupportSoterAuthentication`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSupportSoterAuthentication.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.checkIsSupportSoterAuthentication(params).then(...)
+```
+
+#### Taro.startSoterAuthentication(OBJECT)
+
+使用方式同 [`wx.startSoterAuthentication`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.startSoterAuthentication.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.startSoterAuthentication(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.checkIsSoterEnrolledInDevice | ✔️ |  |  |
+| Taro.checkIsSupportSoterAuthentication | ✔️ |  |  |
+| Taro.startSoterAuthentication | ✔️ |  |  |
+
+### 小程序跳转
+
+#### Taro.navigateBackMiniProgram(OBJECT)
+
+使用方式同 [`wx.navigateBackMiniProgram`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateBackMiniProgram.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.navigateBackMiniProgram(params).then(...)
+```
+
+#### Taro.navigateToMiniProgram(OBJECT)
+
+使用方式同 [`wx.navigateToMiniProgram`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.navigateToMiniProgram(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.navigateBackMiniProgram | ✔️ |  |  |
+| Taro.navigateToMiniProgram | ✔️ |  |  |
+
+## 更新
+
+#### Taro.getUpdateManager()
+
+使用方式同 [`wx.getUpdateManager`](https://developers.weixin.qq.com/miniprogram/dev/api/update/wx.getUpdateManager.html)。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.navigateToMiniProgram()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.getUpdateManager | ✔️ |  |  |
+
+## 拓展接口
+
+#### Taro.arrayBufferToBase64(arrayBuffer)
+
+将 ArrayBuffer 数据转成 Base64 字符串。(小程序端基础库 1.1.0 开始支持，低版本需做兼容处理)
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+const arrayBuffer = new Uint8Array([11, 22, 33])
+const base64 = Taro.arrayBufferToBase64(arrayBuffer)
+```
+
+#### Taro.base64ToArrayBuffer(base64)
+
+将 Base64 字符串转成 ArrayBuffer 数据。(小程序端基础库 1.1.0 开始支持，低版本需做兼容处理)
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+const base64 = 'CxYh'
+const arrayBuffer = Taro.base64ToArrayBuffer(base64)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | ReactNative |
+| :-: | :-: | :-: | :-: |
+| Taro.arrayBufferToBase64 | ✔️ | ✔️ |  |
+| Taro.base64ToArrayBuffer | ✔️ | ✔️ |  |
+

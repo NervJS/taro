@@ -2,14 +2,7 @@ import React from 'react'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import getWrappedScreen from './getWrappedScreen'
 import { Image } from 'react-native'
-
-// 页面默认头部样式
-const defaultNavigationOptions = {
-  headerStyle: {
-    backgroundColor: 'grey'
-  },
-  headerTintColor: 'black'
-}
+import { getNavigationOptions } from './utils'
 
 /**
  * @param pageList
@@ -24,9 +17,7 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
     const Screen = v[1]
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, navigationOptions)
   })
-  return createStackNavigator(RouteConfigs, {
-    navigationOptions: Object.assign({}, defaultNavigationOptions, navigationOptions)
-  })
+  return createStackNavigator(RouteConfigs)
 }
 
 /**
@@ -37,8 +28,9 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
  * @param tabBar  tabBar相关配置 App.config.tabBar
  * @returns {*}
  */
-const initRouter = (pageList, Taro, {navigationOptions = {}, tabBar}) => {
+const initRouter = (pageList, Taro, {window = {}, tabBar}) => {
   let RouteConfigs = {}
+  const navigationOptions = getNavigationOptions(window)
 
   if (tabBar && tabBar.list) {
     const tabPathList = tabBar.list.map(item => item.pagePath)

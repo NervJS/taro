@@ -4,6 +4,7 @@ module.exports = {
     'env'
   ],
   plugins: [
+    require('babel-plugin-transform-react-jsx'),
     'transform-class-properties',
     'transform-decorators-legacy',
     'transform-object-rest-spread'

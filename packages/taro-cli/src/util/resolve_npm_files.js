@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const resolvePath = require('resolve')
 const wxTransformer = require('@tarojs/transformer-wx')
+const babel = require('babel-core')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -15,7 +16,7 @@ const {
   printLog,
   pocessTypeEnum,
   PROJECT_CONFIG,
-  replaceContentEnv,
+  generateEnvList,
   REG_TYPESCRIPT,
   BUILD_TYPES,
   REG_STYLE
@@ -142,7 +143,6 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   if (REG_STYLE.test(path.basename(filePath))) {
     return
   }
-  fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
   fileContent = npmCodeHack(filePath, fileContent)
   try {
     const transformResult = wxTransformer({
@@ -152,7 +152,12 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(filePath)
     })
-    fileContent = parseAst(transformResult.ast, filePath, files, isProduction, npmConfig)
+    const ast = babel.transformFromAst(transformResult.ast, '', {
+      plugins: [
+        [require('babel-plugin-transform-define').default, generateEnvList(projectConfig.env || {})]
+      ]
+    }).ast
+    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig)
   } catch (err) {
     console.log(err)
   }

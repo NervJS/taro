@@ -94,32 +94,7 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths}) {
           }
           // window
           if (key.name === 'window' && t.isObjectExpression(value)) {
-            let navigationOptions = {}
-            astPath.traverse({
-              ObjectProperty (astPath) {
-                const node = astPath.node
-                // 导航栏标题文字内容
-                if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-                  navigationOptions['title'] = node.value.value
-                }
-                // 导航栏标题颜色，仅支持 black/white
-                if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-                  navigationOptions['headerTintColor'] = node.value.value
-                }
-                // 导航栏背景颜色
-                if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-                  navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-                }
-                // 开启下拉刷新
-                if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-                  navigationOptions['enablePullDownRefresh'] = node.value.value
-                }
-              }
-            })
-            astPath.replaceWith(t.objectProperty(
-              t.identifier('navigationOptions'),
-              t.objectExpression(AstConvert.obj(navigationOptions))
-            ))
+            return
           }
           if (key.name === 'tabBar' && t.isObjectExpression(value)) {
             astPath.traverse({
@@ -145,36 +120,8 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths}) {
           }
         }
       })
-      astPath.node.static = 'true'
-    } else {
-      let navigationOptions = {}
-      astPath.traverse({
-        ObjectProperty (astPath) {
-          const node = astPath.node
-          // 导航栏标题文字内容
-          if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-            navigationOptions['title'] = node.value.value
-          }
-          // 导航栏标题颜色，仅支持 black/white
-          if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-            navigationOptions['headerTintColor'] = node.value.value
-          }
-          // 导航栏背景颜色
-          if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-            navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-          }
-          // 开启下拉刷新
-          if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-            navigationOptions['enablePullDownRefresh'] = node.value.value
-          }
-        }
-      })
-      astPath.replaceWith(t.classProperty(
-        t.identifier('navigationOptions'),
-        t.objectExpression(AstConvert.obj(navigationOptions))
-      ))
-      astPath.node.static = 'true'
     }
+    astPath.node.static = 'true'
   }
 }
 
@@ -512,11 +459,14 @@ function parseJSCode (code, filePath) {
     }
   })
   try {
+    const constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
     // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
     ast = babel.transformFromAst(ast, code, {
       plugins: [
         require('babel-plugin-transform-jsx-to-stylesheet'),
-        require('babel-plugin-transform-decorators-legacy').default
+        require('babel-plugin-transform-decorators-legacy').default,
+        [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs'] }],
+        [require('babel-plugin-transform-define').default, constantsReplaceList]
       ]
     }).ast
   } catch (e) {

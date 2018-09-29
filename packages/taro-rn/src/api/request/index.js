@@ -39,7 +39,10 @@ function request (options) {
     }
   }
 
-  params.body = data
+  if (method !== 'GET' && method !== 'HEAD') {
+    params.body = data
+  }
+
   params.headers = options.header
   params.mode = options.mode
   params.credentials = options.credentials

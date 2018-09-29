@@ -1,5 +1,6 @@
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
+import { isFunction } from './util'
 import {
   internal_safe_get as safeGet
 } from '@tarojs/taro'
@@ -40,7 +41,7 @@ class BaseComponent {
     if (state) {
       (this._pendingStates = this._pendingStates || []).push(state)
     }
-    if (typeof callback === 'function') {
+    if (isFunction(callback)) {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
@@ -58,7 +59,7 @@ class BaseComponent {
     const queue = _pendingStates.concat()
     this._pendingStates.length = 0
     queue.forEach((nextState) => {
-      if (typeof nextState === 'function') {
+      if (isFunction(nextState)) {
         nextState = nextState.call(this, stateClone, props)
       }
       Object.assign(stateClone, nextState)
@@ -67,7 +68,7 @@ class BaseComponent {
   }
 
   forceUpdate (callback) {
-    if (typeof callback === 'function') {
+    if (isFunction(callback)) {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     updateComponent(this)

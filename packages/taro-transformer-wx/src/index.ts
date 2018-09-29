@@ -190,7 +190,6 @@ export default function transform (options: Options): TransformResult {
     },
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
       [require('babel-plugin-transform-define').default, {
         'process.env.TARO_ENV': taroEnv
       }]
@@ -207,6 +206,7 @@ export default function transform (options: Options): TransformResult {
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
   let renderMethod!: NodePath<t.ClassMethod>
+  let isImportTaro = false
   traverse(ast, {
     ClassDeclaration (path) {
       mainClass = path
@@ -403,6 +403,7 @@ export default function transform (options: Options): TransformResult {
       const source = path.node.source.value
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
+        isImportTaro = true
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
@@ -437,6 +438,18 @@ export default function transform (options: Options): TransformResult {
       componentSourceMap.set(source, names)
     }
   })
+
+  if (!isImportTaro) {
+    ast.program.body.unshift(
+      t.importDeclaration([
+        t.importDefaultSpecifier(t.identifier('Taro')),
+        t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
+        t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+      ], t.stringLiteral('@tarojs/taro'))
+    )
+  }
+
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
   }

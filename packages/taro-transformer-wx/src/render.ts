@@ -110,7 +110,7 @@ export class RenderParser {
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
-  private originalCallee = new Map<t.Expression, t.JSXElement>()
+  private loopCalleeId = new Set<t.Identifier>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -362,9 +362,8 @@ export class RenderParser {
                       this.referencedIdentifiers.add(ary)
                     }
                   }
-                  setJSXAttr(jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
-                  this.originalCallee.set(ary, jsxElementPath.node)
-
+                  setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
+                  this.loopCalleeId.add(findFirstIdentifierFromMemberExpression(callee))
                   const [func] = callExpr.node.arguments
                   if (
                     t.isFunctionExpression(func) ||
@@ -913,7 +912,10 @@ export class RenderParser {
               for (const dcl of statement.declarations) {
                 if (t.isIdentifier(dcl.id)) {
                   const name = dcl.id.name
-                  if (name.startsWith(LOOP_STATE) || name.startsWith(LOOP_CALLEE)) {
+                  if (
+                    name.startsWith(LOOP_STATE) ||
+                    name.startsWith(LOOP_CALLEE)
+                  ) {
                     stateToBeAssign.add(name)
                     dcl.id = t.identifier(name)
                   }
@@ -951,10 +953,10 @@ export class RenderParser {
           })
           const replacements = new Set()
           component.traverse({
-            Identifier (path) {
+            Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
-              if (replacements.has(parent)) {
+              if (replacements.has(parent) || this.loopCalleeId.has(path.node)) {
                 return
               }
               if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
@@ -970,9 +972,9 @@ export class RenderParser {
               }
 
             },
-            MemberExpression (path) {
+            MemberExpression: (path) => {
               const id = findFirstIdentifierFromMemberExpression(path.node)
-              if (stateToBeAssign.has(id.name)) {
+              if (stateToBeAssign.has(id.name) && !this.loopCalleeId.has(id)) {
                 path.node.object = t.identifier(item.name + '.' + id.name)
               }
             }
@@ -1003,7 +1005,42 @@ export class RenderParser {
             if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
               const funcBody = func.body
               if (t.isBlockStatement(funcBody)) {
-                if (t.isIdentifier(object) || t.isMemberExpression(object)) {
+                if (t.isIdentifier(object)) {
+                  if (this.loopCalleeId.has(object)) {
+                    const variableName = `${LOOP_CALLEE}_${calleeId()}`
+                    funcBody.body.splice(
+                      funcBody.body.length - 1,
+                      0,
+                      buildConstVariableDeclaration(
+                        variableName,
+                        callee.node
+                      )
+                    )
+                    const iterator = func.params[0]
+                    component.node.openingElement.attributes.forEach(attr => {
+                      if (attr.name.name === Adapter.for && t.isIdentifier(iterator)) {
+                        attr.value = t.jSXExpressionContainer(
+                          t.memberExpression(
+                            iterator,
+                            t.identifier(variableName)
+                          )
+                        )
+                      }
+                    })
+                  } else {
+                    funcBody.body.splice(
+                      funcBody.body.length - 1,
+                      0,
+                      t.expressionStatement(
+                        t.assignmentExpression(
+                          '=',
+                          object,
+                          callee.node
+                        )
+                      )
+                    )
+                  }
+                } else if (t.isMemberExpression(object)) {
                   funcBody.body.splice(
                     funcBody.body.length - 1,
                     0,
