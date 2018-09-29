@@ -927,17 +927,34 @@ async function compileScriptFile (content) {
 }
 
 function buildProjectConfig () {
-  const projectConfigPath = path.join(appPath, 'project.config.json')
-  if (!fs.existsSync(projectConfigPath)) {
-    return
+  let projectConfigFileName = ''
+  if (buildAdapter === Util.BUILD_TYPES.WEAPP) {
+    projectConfigFileName = 'project.config.json'
+    const projectConfigPath = path.join(appPath, projectConfigFileName)
+    if (!fs.existsSync(projectConfigPath)) {
+      return
+    }
+    const origProjectConfig = fs.readJSONSync(projectConfigPath)
+    fs.ensureDirSync(outputDir)
+    fs.writeFileSync(
+      path.join(outputDir, projectConfigFileName),
+      JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
+    )
+  } else if (buildAdapter === Util.BUILD_TYPES.SWAN) {
+    projectConfigFileName = 'project.swan.json'
+    const projectConfigObj = {
+      appid: 'testappid',
+      setting: {
+        urlCheck: false
+      }
+    }
+    fs.ensureDirSync(outputDir)
+    fs.writeFileSync(
+      path.join(outputDir, projectConfigFileName),
+      JSON.stringify(projectConfigObj, null, 2)
+    )
   }
-  const origProjectConfig = fs.readJSONSync(projectConfigPath)
-  fs.ensureDirSync(outputDir)
-  fs.writeFileSync(
-    path.join(outputDir, 'project.config.json'),
-    JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
-  )
-  Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/project.config.json`)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/${projectConfigFileName}`)
 }
 
 async function buildEntry () {

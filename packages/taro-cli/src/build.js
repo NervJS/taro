@@ -34,7 +34,7 @@ function build (args, buildConfig) {
       buildForUILibrary({ watch })
       break
     default:
-      console.log(chalk.red('输入类型错误，目前只支持weapp/h5/rn三端类型'))
+      console.log(chalk.red('输入类型错误，目前只支持 weapp/h5/rn/swan 四端类型'))
   }
 }
 
