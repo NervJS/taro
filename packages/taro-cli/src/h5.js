@@ -477,7 +477,7 @@ function processEntry (code, filePath) {
       }
     }
   })
-  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
+  const generateCode = generate(ast).code
   return {
     code: generateCode
   }
@@ -616,7 +616,7 @@ function processOthers (code, filePath) {
       }
     }
   })
-  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
+  const generateCode = generate(ast).code
   return {
     code: generateCode
   }
