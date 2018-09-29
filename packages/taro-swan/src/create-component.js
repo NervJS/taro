@@ -10,7 +10,10 @@ function bindProperties (weappComponentConf, ComponentClass) {
   const defaultProps = ComponentClass.defaultProps || {}
   for (const key in defaultProps) {
     if (defaultProps.hasOwnProperty(key)) {
-      weappComponentConf.properties[key] = null
+      weappComponentConf.properties[key] = {
+        type: null,
+        value: null
+      }
     }
   }
   // 拦截props的更新，插入生命周期
@@ -153,7 +156,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
     } else if (propName in weappComponentData &&
-      (properties[propName] !== null || weappComponentData[propName] !== null)) {
+      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -199,7 +202,7 @@ export function componentTrigger (component, key, args) {
       let refs = {}
       component['$$refs'].forEach(ref => {
         let target
-        const query = wx.createSelectorQuery().in(component.$scope)
+        const query = swan.createSelectorQuery().in(component.$scope)
         if (ref.type === 'dom') {
           target = query.select(`#${ref.id}`)
           if ('refName' in ref && ref['refName']) {
@@ -217,7 +220,7 @@ export function componentTrigger (component, key, args) {
       let refs = {}
       component['$$refs'].forEach(ref => {
         let target
-        const query = wx.createSelectorQuery().in(component.$scope)
+        const query = swan.createSelectorQuery().in(component.$scope)
         if (ref.type === 'component') {
           target = component.$scope.selectComponent(`#${ref.id}`)
           target = target.$component || target
