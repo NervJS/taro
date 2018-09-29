@@ -260,7 +260,10 @@ export class RenderParser {
     const properties: t.ObjectProperty[] = []
     this.componentProperies.forEach((propName) => {
       properties.push(
-        t.objectProperty(t.stringLiteral(propName), t.nullLiteral())
+        t.objectProperty(t.stringLiteral(propName), t.objectExpression([
+          t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),
+          t.objectProperty(t.stringLiteral('value'), t.nullLiteral())
+        ]))
       )
     })
     let classProp = t.classProperty(
