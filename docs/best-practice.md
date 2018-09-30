@@ -14,7 +14,7 @@ title: 最佳实践
 * [不能在 JSX 参数中使用对象展开符](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-spread-in-props.md)
 * [不支持无状态组件](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-stateless-function.md)
 
-## 最佳撸码方式
+## 最佳编码方式
 
 经过较长时间的探索与验证，目前 Taro 在微信小程序端是采用依托于小程序原生自定义组件系统来设计实现 Taro 组件化的，所以目前小程序端的组件化会受到小程序原生组件系统的限制，而同时为了实现以 React 方式编写代码的目标，Taro 本身做了一些编译时以及运行时的处理，这样也带来了一些值得注意的约束，所以有必要阐述一下 Taro 编码上的最佳实践。
 
@@ -33,7 +33,7 @@ Component({
       type: String, // 类型（必填），目前接受的类型包括：String, Number, Boolean, Object, Array, null（表示任意类型）
       value: '', // 属性初始值（可选），如果未指定则会根据类型选择一个
       observer: function (newVal, oldVal, changedPath) {
-         // 属性被改变时执行的函数（可选），也可以写成在methods段中定义的方法名字符串, 如：'_propertyChange'
+         // 属性被改变时执行的函数（可选），也可以写成在 methods 段中定义的方法名字符串, 如：'_propertyChange'
          // 通常 newVal 就是新设置的数据， oldVal 是旧数据
       }
     },
@@ -94,7 +94,7 @@ class Parent extends Component {
 
 ### 小程序端不要将在模板中用到的数据设置为 `undefined`
 
-由于小程序不支持将data中任何一项的value设为 `undefined` ，在setState的时候也请避免这么用。你可以使用null来替代。
+由于小程序不支持将 data 中任何一项的 value 设为 `undefined` ，在 setState 的时候也请避免这么用。你可以使用 null 来替代。
 
 ### 小程序端不要在组件中打印 `this.props.children`
 
@@ -110,12 +110,12 @@ class Parent extends Component {
 
 ### 小程序中页面生命周期 `componentWillMount` 不一致问题
 
-由于微信小程序里页面在 `onLoad` 时才能拿到页面的路由参数，而页面onLoad前组件都已经 `attached` 了。因此页面的 `componentWillMount` 可能会与预期不太一致。例如：
+由于微信小程序里页面在 `onLoad` 时才能拿到页面的路由参数，而页面 onLoad 前组件都已经 `attached` 了。因此页面的 `componentWillMount` 可能会与预期不太一致。例如：
 
 ```jsx
 // 错误写法
 render () {
-  // 在willMount之前无法拿到路由参数
+  // 在 willMount 之前无法拿到路由参数
   const abc = this.$router.params.abc
   return <Custom adc={abc} />
 }
@@ -133,7 +133,7 @@ render () {
 }
 ```
 
-对于不需要等到页面willMount之后取路由参数的页面则没有任何影响。
+对于不需要等到页面 willMount 之后取路由参数的页面则没有任何影响。
 
 ### 组件的 `constructor` 与 `render` 提前调用
 

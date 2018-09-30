@@ -8,7 +8,7 @@ title: 环境判断
 
 `ENV_TYPE.WEB` WEB(H5)环境
 
-`ENV_TYPE.RN` ReactNative环境
+`ENV_TYPE.RN` ReactNative 环境
 
 ## Taro.getEnv()
 

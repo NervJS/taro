@@ -1,5 +1,5 @@
 ---
-title: 使用Redux
+title: 使用 Redux
 ---
 
 在 Taro 中可以自由地使用 `React` 生态中非常流行的数据流管理工具 [Redux](http://redux.js.org/) 来解决复杂项目的数据管理问题。而为了更方便地使用 `Redux` ，Taro 提供了与 [react-redux](https://redux.js.org/basics/usage-with-react) API 几乎一致的包 `@tarojs/redux` 来让开发人员获得更加良好的开发体验。
@@ -57,7 +57,7 @@ class App extends Component {
       navigationBarTitleText: 'Test'
     }
   }
-  
+
   render() {
     return (
       <Provider store={store}>
@@ -146,7 +146,7 @@ export const minus = () => {
   }
 }
 
-// 异步的action
+// 异步的 action
 export function asyncAdd () {
   return dispatch => {
     setTimeout(() => {
@@ -202,5 +202,5 @@ export default class Index extends Component {
 
 `connect` 方法接受两个参数 `mapStateToProps` 与 `mapDispatchToProps`
 
-- `mapStateToProps`，函数类型，接受最新的 `state` 作为参数，用于将 `state` 映射到组件的 `props` 
+- `mapStateToProps`，函数类型，接受最新的 `state` 作为参数，用于将 `state` 映射到组件的 `props`
 - `mapDispatchToProps`，函数类型，接收 `dispatch()` 方法并返回期望注入到展示组件的 `props` 中的回调方法

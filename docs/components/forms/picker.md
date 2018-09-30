@@ -37,11 +37,11 @@ sidebar_label: Picker
 | 微信小程序 | H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
 | √ | √ | √ | value      | String      |   | 表示选中的时间，格式为'hh:mm'       |
-| √ | √ | x (IOS支持) | start      | String      |   | 表示有效时间范围的开始，字符串格式为'hh:mm'               |
-| √ | √ | x (IOS支持) | end        | String      |   | 表示有效时间范围的结束，字符串格式为'hh:mm'               |
+| √ | √ | x (IOS 支持) | start      | String      |   | 表示有效时间范围的开始，字符串格式为'hh:mm'               |
+| √ | √ | x (IOS 支持) | end        | String      |   | 表示有效时间范围的结束，字符串格式为'hh:mm'               |
 | √ | √ | √ | onChange | EventHandle |   | value 改变时触发 change 事件，event.detail = value: value |
 | √ | √ | √ | onCancel | EventHandle |   | 取消选择或点遮罩层收起 picker 时触发                      |
-| √ | √ | x (IOS支持) | disabled   | Boolean     | false  | 是否禁用                                                  |
+| √ | √ | x (IOS 支持) | disabled   | Boolean     | false  | 是否禁用                                                  |
 
 ##### 日期选择器：mode = date
 
