@@ -7,14 +7,14 @@ class Textarea extends Nerv.Component {
 
   render () {
     const {
-      className,
-      placeholder,
+      className = '',
+      placeholder = '',
       disabled,
       maxlength = 140,
       onChange,
       onFocus,
       onBlur,
-      autoFocus
+      autoFocus = false
     } = this.props
     return (
       <textarea
