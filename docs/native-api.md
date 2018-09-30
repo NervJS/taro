@@ -2,7 +2,7 @@
 title: 端能力API
 ---
 
-由于不同的端自身会提供不同的端能力API，例如微信小程序中提供了网络请求、本地存储等等端能力的封装，目前在所有端中，微信小程序所提供的端能力API最为丰富，所以 Taro 在设计之初端能力的 API 便是采用微信小程序标准，在其他端各自对应实现，同时又对微信小程序的 API 进行了一些优化处理，例如异步的 API 支持 `Promise` 化，利用队列解决了 `wx.request` 的请求个数限制问题等等。
+由于不同的端自身会提供不同的端能力API，例如微信小程序中提供了网络请求、本地存储等等端能力的封装，目前在所有端中，微信小程序所提供的端能力 API 最为丰富，所以 Taro 在设计之初端能力的 API 便是采用微信小程序标准，在其他端各自对应实现，同时又对微信小程序的 API 进行了一些优化处理，例如异步的 API 支持 `Promise` 化，利用队列解决了 `wx.request` 的请求个数限制问题等等。
 
 因为采用微信小程序标准的缘故，Taro 项目在编译到微信小程序端 API 都是可以正常运行的，如果编译到其他端，则要视当前端的能力支持而定，例如H5端就无法调用扫码、蓝牙等端能力，所以这些 API 在H5端运行的时候将什么也不做。
 
@@ -225,7 +225,7 @@ SocketTask.onError(CALLBACK)
 
 SocketTask.onMessage(CALLBACK)
 
-监听WebSocket接受到服务器的消息事件。
+监听 WebSocket 接受到服务器的消息事件。
 
 **CALLBACK返回参数**
 
@@ -832,7 +832,7 @@ const data = Taro.getStorageSync('key')
 
 #### Taro.getStorageInfo(OBJECT)
 
-异步获取当前storage的相关信息，支持 `Promise` 化使用。
+异步获取当前 storage 的相关信息，支持 `Promise` 化使用。
 
 **OBJECT 参数说明：**
 
@@ -859,7 +859,7 @@ Taro.getStorageInfo()
 
 #### Taro.getStorageInfoSync()
 
-同步获取当前storage的相关信息。
+同步获取当前 storage 的相关信息。
 
 **示例代码：**
 
@@ -2500,7 +2500,7 @@ Taro.stopPullDownRefresh()
 
 #### Taro.createSelectorQuery()
 
-返回一个SelectorQuery对象实例。可以在这个实例上使用select等方法选择节点，并使用boundingClientRect等方法选择需要查询的信息。
+返回一个 SelectorQuery 对象实例。可以在这个实例上使用 select 等方法选择节点，并使用 boundingClientRect 等方法选择需要查询的信息。
 
 **示例代码：**
 
@@ -2512,7 +2512,7 @@ const query = Taro.createSelectorQuery()
 
 #### selectorQuery.in(component)
 
-将选择器的选取范围更改为自定义组件component内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
+将选择器的选取范围更改为自定义组件 component 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
 
 注意：对 h5 侧不起作用，h5 侧还是从全局查找。
 
@@ -2530,7 +2530,7 @@ Component({
 
 #### selectorQuery.select(selector)
 
-在当前页面下选择第一个匹配选择器selector的节点，返回一个NodesRef对象实例，可以用于获取节点信息。
+在当前页面下选择第一个匹配选择器 selector 的节点，返回一个 NodesRef 对象实例，可以用于获取节点信息。
 
 * ID 选择器：`#the-id`
 * class选择器（可以连续指定多个）：`.a-class.another-class`

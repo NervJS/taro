@@ -16,7 +16,7 @@ Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一�
 
 更多资料，可以查看 [Expo 官方文档](https://docs.expo.io/versions/latest/)。
 
-> [Expo版本清单](https://expo.io/--/api/v2/versions)，这里可以看到每个版本Expo对应的版本关系，这很重要。
+> [Expo版本清单](https://expo.io/--/api/v2/versions)，这里可以看到每个版本 Expo 对应的版本关系，这很重要。
 
 ### 为什么选择 Expo？
 从某种程度上而言，目前为止 RN 只是给拥有 Mac 电脑的开发者提供了跨平台开发的能力， 因为现在还不能使用 Windows 创建 iOS 的 RN 应用。还有一个比较普遍的问题是，有一些 iOS 程序员不会配置 Android 的编译环境，而一些 Android 程序员又搞不懂 XCode。而且，Taro 的使用者基本都是前端工程师，面对 iOS 和 Android 原生的库或者文件可能会不知所措。
@@ -48,7 +48,7 @@ Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一�
 
 如果遇到任何问题，请按照 Genymotion 指南进行操作。
 
-#### 移动客户端：Expo (适用于iOS和Android)
+#### 移动客户端：Expo (适用于 iOS 和Android)
 
 在模拟器或真机上安装 Expo 客户端。
 
@@ -135,7 +135,7 @@ Taro 将会开始编译文件：
 - i  : 打开 iOS 模拟器
 - s : 发送 app URL 到手机号或 email 地址
 - q : 显示二维码
-- r : 重启 packager 
+- r : 重启 packager
 - R : 重启 packager 并清空缓存
 - d : 开启 development 模式
 
@@ -178,7 +178,7 @@ Taro 将会开始编译文件：
 调试方面强烈推荐使用 [React Native Debugger ](https://github.com/jhen0409/react-native-debugger)，一个基于 React Native 官方调试方式、包含 React Inspector / Redux DevTools 独立应用：
 
 - 基于官方的 [Remote Debugger](https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools) 且提供了更为丰富的功能
-- 包含 [`react-devtools-core`](https://github.com/facebook/react-devtools/tree/master/packages/react-devtools-core) 的 [React Inspector](https://github.com/jhen0409/react-native-debugger/blob/master/docs/react-devtools-integration.md) 
+- 包含 [`react-devtools-core`](https://github.com/facebook/react-devtools/tree/master/packages/react-devtools-core) 的 [React Inspector](https://github.com/jhen0409/react-native-debugger/blob/master/docs/react-devtools-integration.md)
 - 包含 Redux DevTools, 且与 [`redux-devtools-extension`](https://github.com/zalmoxisus/redux-devtools-extension) 保持 [API](https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md) 一致
 
 ![image](https://user-images.githubusercontent.com/3001525/29451479-6621bf1a-83c8-11e7-8ebb-b4e98b1af91c.png)

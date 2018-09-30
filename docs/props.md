@@ -2,7 +2,7 @@
 title: 组件化 & Props
 ---
 
-组件可以将UI切分成一些的独立的、可复用的部件，这样你就只需专注于构建每一个单独的部件。
+组件可以将 UI 切分成一些的独立的、可复用的部件，这样你就只需专注于构建每一个单独的部件。
 
 组件从概念上看就像是函数，它可以接收任意的输入值（称之为“props”），并返回一个需要在页面上展示的 Taro 元素。
 
@@ -30,7 +30,7 @@ const element = <View />
 const element = <Welcome name="Wallace" />
 ```
 
-当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为“props”。
+当 React 遇到的元素是用户自定义的组件，它会将 JSX 属性作为单个对象传递给该组件，这个对象称之为“props”。
 
 例如,这段代码会在页面上渲染出”Hello, Wallace”:
 
@@ -95,7 +95,7 @@ Greeting.propTypes = {
 };
 ```
 
-如上例，Taro与React一样，也支持`PropTypes` 检查类型，*目前在小程序端还有些问题*，但在 H5 端可以使用，用法和在 React 里一样。
+如上例，Taro与 React 一样，也支持`PropTypes` 检查类型，*目前在小程序端还有些问题*，但在 H5 端可以使用，用法和在 React 里一样。
 更多可参照[React的相关文档](https://reactjs.org.cn/doc/typechecking-with-proptypes.html)。
 
 

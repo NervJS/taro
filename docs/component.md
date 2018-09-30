@@ -22,7 +22,7 @@ class Welcome extends Component {
 
 #### 装载(Mounting)
 
-这些方法会在组件实例被创建和插入DOM中时被调用：
+这些方法会在组件实例被创建和插入 DOM 中时被调用：
 
 * `constructor()`
 * `componentWillMount()`
@@ -41,7 +41,7 @@ class Welcome extends Component {
 
 #### 卸载(Unmounting)
 
-当一个组件被从DOM中移除时，该方法被调用：
+当一个组件被从 DOM 中移除时，该方法被调用：
 
 * `componentWillUnmount()`
 
@@ -108,7 +108,7 @@ componentWillMount()
 componentDidMount()
 ```
 
-componentDidMount() 在组件被装载后立即调用。初始化使得DOM节点应该进行到这里。若你需要从远端加载数据，这是一个适合实现网络请求的地方。在该方法里 `setState()` 将会触发重新渲染。
+componentDidMount() 在组件被装载后立即调用。初始化使得 DOM 节点应该进行到这里。若你需要从远端加载数据，这是一个适合实现网络请求的地方。在该方法里 `setState()` 将会触发重新渲染。
 
 
 ### componentWillReceiveProps()
@@ -213,9 +213,9 @@ render() {
 
 ### state
 
-状态是该组件的特定数据，其可能改变多次。状态由用户定义，且其应为纯JavaScript对象。
+状态是该组件的特定数据，其可能改变多次。状态由用户定义，且其应为纯 JavaScript 对象。
 
-若你不在 `render()` 方法中使用它，其不应该该被放在状态上。例如，你可直接将timer IDs放在实例上。
+若你不在 `render()` 方法中使用它，其不应该该被放在状态上。例如，你可直接将 timer IDs 放在实例上。
 
 查看 [生命周期 & State](.)了解更多关于状态的信息。
 

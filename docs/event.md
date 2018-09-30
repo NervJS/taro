@@ -66,7 +66,7 @@ class Popper extends Component {
   }
 
   // 你可以通过 bind 传入多个参数
-  preventPop (name, test, e) {    //事件对象e要放在最后
+  preventPop (name, test, e) {    //事件对象 e 要放在最后
     e.preventDefault()
   }
 

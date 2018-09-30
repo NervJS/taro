@@ -20,9 +20,9 @@ import './css/path/name.css'
 import './css/path/name.scss'
 ```
 
-## 引用JS文件
+## 引用 JS 文件
 
-可以直接通过 ES6 的 `import` 语法来引用JS文件
+可以直接通过 ES6 的 `import` 语法来引用 JS 文件
 
 ```jsx
 import { functionName } from './css/path/name.js'
@@ -45,12 +45,12 @@ import namedPng from '../../images/path/named.png'
 </View>
 ```
 
-## 引用JSON文件
+## 引用 JSON 文件
 
-可以直接通过 ES6 的 `import` 语法来引用此类文件，拿到JSON文件输出的JSON数据
+可以直接通过 ES6 的 `import` 语法来引用此类文件，拿到 JSON 文件输出的 JSON 数据
 
 ```jsx
-// 引用json文件
+// 引用 json 文件
 /**
 * named.json
 * {

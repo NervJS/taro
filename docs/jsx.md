@@ -133,7 +133,7 @@ class App extends Components {
 > 和 React/Nerv 的不同：
 > React 可以使用 `...` 拓展操作符来传递属性，但在 Taro 中你不能这么做。例如：
 > ```
-> const props = {firstName: ‘Plus’, lastName: ’Second’}
+> const props = {firstName: 'Plus', lastName: 'Second'}
 > return <Greeting {...props} />
 > ```
 > 这样的操作会报错。你只能手动地把所有需要引用的 props 写上去：
@@ -189,7 +189,7 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 <View>{true}</View>
 ```
 
-这在根据条件来确定是否渲染 元素时非常有用。以下的JSX只会在showHeader为true时渲染<Header />组件。
+这在根据条件来确定是否渲染 元素时非常有用。以下的 JSX 只会在 showHeader 为true时渲染<Header />组件。
 
 ```jsx
 <View>

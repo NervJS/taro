@@ -28,15 +28,15 @@ export default class Index extends Component {
       list: [1, 2, 3]
     }
   }
-  
+
   componentWillMount () {}
-  
+
   componentDidMount () {}
-  
+
   componentWillUpdate (nextProps, nextState) {}
-  
+
   componentDidUpdate (prevProps, prevState) {}
- 
+
   shouldComponentUpdate (nextProps, nextState) {
     return true
   }
@@ -65,17 +65,17 @@ export default class Index extends Component {
 
 #### 快速开发微信小程序
 
-Taro 立足于微信小程序开发，众所周知小程序的开发体验并不是非常友好，比如小程序中无法使用 npm 来进行第三方库的管理，无法使用一些比较新的ES规范等等，针对小程序端的开发弊端，Taro 具有以下的优秀特性
+Taro 立足于微信小程序开发，众所周知小程序的开发体验并不是非常友好，比如小程序中无法使用 npm 来进行第三方库的管理，无法使用一些比较新的 ES 规范等等，针对小程序端的开发弊端，Taro 具有以下的优秀特性
 
 ✅ 支持使用 npm/yarn 安装管理第三方依赖
 
-✅ 支持使用 ES7/ES8 甚至更新的ES规范，一切都可自行配置
+✅ 支持使用 ES7/ES8 甚至更新的 ES 规范，一切都可自行配置
 
 ✅ 支持使用 CSS 预编译器，例如 Sass 等
 
 ✅ 支持使用 Redux进行状态管理
 
-✅ 小程序API优化，异步API Promise化等等
+✅ 小程序 API 优化，异步 API Promise 化等等
 
 #### 支持多端开发转化
 

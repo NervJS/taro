@@ -18,7 +18,7 @@ title: 开发前注意
 #### 样式和 CSS 一致吗？
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式：[React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
 
-我们在React Native中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox可以在不同屏幕尺寸上提供一致的布局结构。因此，如果你要考虑 React Native 端，那你的样式布局就得采用 Flex 布局。
+我们在 React Native 中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox可以在不同屏幕尺寸上提供一致的布局结构。因此，如果你要考虑 React Native 端，那你的样式布局就得采用 Flex 布局。
 
 Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
@@ -91,7 +91,7 @@ alignSelf | `auto`, `flex-start`, `flex-end`, `center`, `stretch` | 对应 `CSS`
 #### 优先级与继承（Specificity and inheritance）
 组件的引入样式的优先级高于全局样式的优先级。
 
-#### 选择器 
+#### 选择器
 1. 基本选择器只支持类选择器
 2. 不支持组合选择器的写法
 3. 不支持伪类及伪元素

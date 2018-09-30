@@ -36,7 +36,7 @@ sidebar_label: Input
 <Text>控制最大输入长度的input</Text>
 <Input type='text' placeholder='最大输入长度为10' maxLength='10'/>
 <Text>实时获取输入值:{this.state.value}</Text>
-<Input type='text' placeholder='输入同步到view中' value={this.state.value} onInput={this.onInput}/>
+<Input type='text' placeholder='输入同步到 view 中' value={this.state.value} onInput={this.onInput}/>
 <Text>数字输入的input</Text>
 <Input type='number' placeholder='这是一个数字输入框'/>
 <Text>密码输入的input</Text>
