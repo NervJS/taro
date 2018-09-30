@@ -1028,7 +1028,7 @@ describe('loop', () => {
           <block>
         <view>
             <cover-view wx:key=\"{{arr.$loopState__temp2}}\"  wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
-                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.$$original.list}}\" wx:for-item=\"item\">
+                <block wx:if=\"{{b1}}\" wx:for=\"{{arr.$original.list}}\" wx:for-item=\"item\">
                     <scroll-view class=\"test\">
                         <block wx:if=\"{{b2}}\">
                             <map></map>
@@ -1857,7 +1857,7 @@ describe('loop', () => {
                           </navigator>
                       </block>
                       <block wx:else>
-                          <navigator wx:key=\"{{item.$$original.id}}\">
+                          <navigator wx:key=\"{{item.$original.id}}\">
                               <view>2</view>
                           </navigator>
                       </block>
@@ -2344,13 +2344,13 @@ describe('loop', () => {
         <block>
             <view>
                 <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                    <view class=\"{{item.$loopState__temp2}}\">{{item.$$original}}</view>
+                    <view class=\"{{item.$loopState__temp2}}\">{{item.$original}}</view>
                 </block>
             </view>
         </block>
       `))
       expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
-      expect(instance.state.loopArray0.map(i => i.$$original)).toEqual(['test1', 'test2', 'test3'])
+      expect(instance.state.loopArray0.map(i => i.$original)).toEqual(['test1', 'test2', 'test3'])
     })
 
     test('return', () => {
@@ -2376,13 +2376,13 @@ describe('loop', () => {
         <block>
             <view>
                 <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                    <view class=\"{{item.$loopState__temp2}}\">{{item.$$original}}</view>
+                    <view class=\"{{item.$loopState__temp2}}\">{{item.$original}}</view>
                 </block>
             </view>
         </block>
       `))
       expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
-      expect(instance.state.loopArray0.map(i => i.$$original)).toEqual(['test1', 'test2', 'test3'])
+      expect(instance.state.loopArray0.map(i => i.$original)).toEqual(['test1', 'test2', 'test3'])
     })
   })
 
