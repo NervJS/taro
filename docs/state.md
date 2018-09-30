@@ -61,7 +61,7 @@ constructor (props) {
 
 在具有许多组件的应用程序中，在销毁时释放组件所占用的资源非常重要。
 
-每当 `Clock` 组件第一次加载到 DOM 中的时候，我们都想生成定时器，这在Taro/React  中被称为挂载。
+每当 `Clock` 组件第一次加载到 DOM 中的时候，我们都想生成定时器，这在 Taro/React  中被称为挂载。
 
 同样，每当 Clock 生成的这个 DOM 被移除的时候，我们也会想要清除定时器，这在 Taro/React 中被称为卸载。
 
@@ -106,7 +106,7 @@ componentDidMount() {
 }
 ```
 
-注意我们如何在 this 中保存定时器ID。
+注意我们如何在 this 中保存定时器 ID。
 
 虽然 `this.props` 由 Taro 本身设置以及 `this.state` 具有特殊的含义，但如果需要存储不用于视觉输出的东西，则可以手动向类中添加其他字段。
 

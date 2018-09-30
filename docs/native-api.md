@@ -1,8 +1,8 @@
 ---
-title: 端能力API
+title: 端能力 API
 ---
 
-由于不同的端自身会提供不同的端能力API，例如微信小程序中提供了网络请求、本地存储等等端能力的封装，目前在所有端中，微信小程序所提供的端能力 API 最为丰富，所以 Taro 在设计之初端能力的 API 便是采用微信小程序标准，在其他端各自对应实现，同时又对微信小程序的 API 进行了一些优化处理，例如异步的 API 支持 `Promise` 化，利用队列解决了 `wx.request` 的请求个数限制问题等等。
+由于不同的端自身会提供不同的端能力 API，例如微信小程序中提供了网络请求、本地存储等等端能力的封装，目前在所有端中，微信小程序所提供的端能力 API 最为丰富，所以 Taro 在设计之初端能力的 API 便是采用微信小程序标准，在其他端各自对应实现，同时又对微信小程序的 API 进行了一些优化处理，例如异步的 API 支持 `Promise` 化，利用队列解决了 `wx.request` 的请求个数限制问题等等。
 
 因为采用微信小程序标准的缘故，Taro 项目在编译到微信小程序端 API 都是可以正常运行的，如果编译到其他端，则要视当前端的能力支持而定，例如H5端就无法调用扫码、蓝牙等端能力，所以这些 API 在H5端运行的时候将什么也不做。
 
@@ -22,7 +22,7 @@ title: 端能力API
 | data | Object/String/ArrayBuffer | 否 |  |请求的参数 |
 | header | Object | 否 |  | 设置请求的 header，header 中不能设置 Referer。 |
 | method | String | 否 | GET | （需大写）有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
-| dataType | String | 否 | json | 如果设为json，会尝试对返回的数据做一次 JSON.parse |
+| dataType | String | 否 | json | 如果设为 json，会尝试对返回的数据做一次 JSON.parse |
 | responseType | String | 否 | text | 设置响应的数据类型。合法值：text、arraybuffer |
 | success | Function | 否 |  | 接口调用成功的回调函数 |
 | fail | Function | 否 |  | 接口调用失败的回调函数 |
@@ -117,7 +117,7 @@ Taro.downloadFile(params).then(...)
 | :-- | :-- | :-- | :-- |
 | url | String | 是 | 开发者服务器接口地址，必须是 wss 协议 |
 | header | Object | 否 | HTTP Header , header 中不能设置 Referer |
-| method | String | 否 | 默认是GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
+| method | String | 否 | 默认是 GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
 | protocols | StringArray | 否 | 子协议数组 |
 | success | Function | 否 | 接口调用成功的回调函数 |
 | fail | Function | 否 | 接口调用失败的回调函数 |
@@ -2180,7 +2180,7 @@ Taro.setNavigationBarColor(params).then(...)
 | Taro.hideNavigationBarLoading | ✔️ |  | ✔️ |
 | Taro.setNavigationBarColor | ✔️ |  | ✔️(不支持 animation 参数) |
 
-### 设置tabBar
+### 设置 tabBar
 
 #### Taro.setTabBarBadge(OBJECT)
 
@@ -2562,8 +2562,8 @@ const query = Taro.createSelectorQuery()
 query
   .select('#the-id')
   .boundingClientRect(rect => {
-    rect.id      // 节点的ID
-    rect.dataset // 节点的dataset
+    rect.id      // 节点的 ID
+    rect.dataset // 节点的 dataset
     rect.left    // 节点的左边界坐标
     rect.right   // 节点的右边界坐标
     rect.top     // 节点的上边界坐标
@@ -2589,8 +2589,8 @@ import Taro from '@tarojs/taro'
 Taro.createSelectorQuery()
   .selectViewport()
   .scrollOffset(rect => {
-    rect.id      // 节点的ID
-    rect.dataset // 节点的dataset
+    rect.id      // 节点的 ID
+    rect.dataset // 节点的 dataset
     res.scrollLeft // 节点的水平滚动位置
     res.scrollTop  // 节点的竖直滚动位置
   })
@@ -2628,7 +2628,7 @@ Taro.createSelectorQuery()
     properties: ['scrollX', 'scrollY'],
     computedStyle: ['margin', 'backgroundColor']
   }, res => {
-    res.dataset    // 节点的dataset
+    res.dataset    // 节点的 dataset
     res.width      // 节点的宽度
     res.height     // 节点的高度
     res.scrollLeft // 节点的水平滚动位置

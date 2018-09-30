@@ -8,11 +8,11 @@ Taro RN 端的开发基于开源项目 [Expo](https://expo.io/)，类似于 [cre
 ### Expo 简介
 > Expo is a set of tools, libraries and services which let you build native iOS and Android apps by writing JavaScript.
 
-Expo 是一组工具，库和服务，基于 React Native 可让您通过编写JavaScript 来构建原生 iOS 和 Android 应用程序。
+Expo 是一组工具，库和服务，基于 React Native 可让您通过编写 JavaScript 来构建原生 iOS 和 Android 应用程序。
 
 Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一个 native-and-JS 库，可以访问设备的系统功能（如相机，联系人，本地存储和其他硬件）。这意味着您不需要使用 Xcode 或 Android Studio，也不需要编写任何本机代码，而且它还使得您的 pure-JS 项目非常便于携带，因为它可以在任何包含 Expo SDK 的本机环境中运行，方便开发及调试。
 
-最后，你可以使用Expo 托管应用，它可以为您提供推送通知，并且可以构建能部署到应用商店 ipa 包或者 apk 包。
+最后，你可以使用 Expo 托管应用，它可以为您提供推送通知，并且可以构建能部署到应用商店 ipa 包或者 apk 包。
 
 更多资料，可以查看 [Expo 官方文档](https://docs.expo.io/versions/latest/)。
 
@@ -44,11 +44,11 @@ Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一�
 
 #### Android 模拟器
 
-[下载Genymotion](https://www.genymotion.com/fun-zone/)（免费版）并按照 [Genymotion 安装指南](https://docs.genymotion.com/Content/01_Get_Started/Installation.htm)。安装Genymotion 后，创建一个虚拟设备，准备好后启动虚拟设备。
+[下载 Genymotion](https://www.genymotion.com/fun-zone/)（免费版）并按照 [Genymotion 安装指南](https://docs.genymotion.com/Content/01_Get_Started/Installation.htm)。安装 Genymotion 后，创建一个虚拟设备，准备好后启动虚拟设备。
 
 如果遇到任何问题，请按照 Genymotion 指南进行操作。
 
-#### 移动客户端：Expo (适用于 iOS 和Android)
+#### 移动客户端：Expo (适用于 iOS 和 Android)
 
 在模拟器或真机上安装 Expo 客户端。
 

@@ -208,7 +208,7 @@ h5 编译后的静态文件目录
 
 ### h5.chunkDirectory
 
-编译后非 entry 的js 文件的存放目录，主要影响动态引入的`pages`的存放路径。
+编译后非 entry 的 js 文件的存放目录，主要影响动态引入的`pages`的存放路径。
 
 ### h5.webpackChain
 
@@ -234,7 +234,7 @@ h5 编译后的静态文件目录
 ```
 
 ```jsx
-/* 这是一个添加ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。 */
+/* 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。 */
 {
   webpackChain (chain, webpack) {
     chain.merge({
@@ -336,7 +336,7 @@ webpack (defaultConfig, webpack) {
 
 ### h5.enableSourceMap
 
-sourceMap 开关，影响js、css 的 sourceMap 配置。
+sourceMap 开关，影响 js、css 的 sourceMap 配置。
 dev 状态默认 **开**，prod 状态默认 **关**。
 
 ### h5.enableExtract
@@ -400,7 +400,7 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 
 ### h5.mediaUrlLoaderOption
 
-针对`mp4|webm|ogg|mp3|wav|flac|aac`文件的url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
+针对`mp4|webm|ogg|mp3|wav|flac|aac`文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
 
 ```jsx
 {
@@ -412,11 +412,11 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 
 ### h5.fontUrlLoaderOption
 
-针对`woff|woff2|eot|ttf|otf`文件的url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+针对`woff|woff2|eot|ttf|otf`文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
 
 ### h5.imageUrlLoaderOption
 
-针对`png|jpg|jpeg|gif|bpm|svg`文件的url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+针对`png|jpg|jpeg|gif|bpm|svg`文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
 
 ### h5.miniCssExtractPluginOption
 

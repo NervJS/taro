@@ -47,7 +47,7 @@ class Welcome extends Component {
 
 #### 其他 API
 
-每一个组件还提供了其他的API：
+每一个组件还提供了其他的 API：
 
 * `setState()`
 * `forceUpdate()`
@@ -96,7 +96,7 @@ componentWillMount()
 
 `componentWillMount()` 在组件在装载发生前被立刻调用。
 
-避免在该方法中引入任何的副作用或订阅。对于这些使用场景，我们推荐使用constructor()来替代。
+避免在该方法中引入任何的副作用或订阅。对于这些使用场景，我们推荐使用 constructor()来替代。
 
 这是唯一的会在服务端渲染调起的生命周期钩子函数。
 
@@ -195,7 +195,7 @@ render () {
 }
 ```
 
-若props.color 设为null，则其值则为null：
+若 props.color 设为 null，则其值则为 null：
 
 ```jsx
 render() {
