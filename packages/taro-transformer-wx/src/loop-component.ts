@@ -16,6 +16,7 @@ import {
   buildBlockElement
 } from './jsx'
 import { LOOP_STATE } from './constant'
+import { Adapter } from './adapter'
 
 // @TODO
 // 重构 parseRender 和 parseLoop 失败
@@ -106,7 +107,7 @@ export function parseLoopBody (
             const block2 = buildBlockElement()
             block.children = [consequent]
             newJSXIfAttr(block, test)
-            setJSXAttr(block2, 'wx:else')
+            setJSXAttr(block2, Adapter.else)
             block2.children = [alternate]
             const parentBlock = buildBlockElement()
             parentBlock.children = [block, block2]
@@ -153,7 +154,7 @@ export function parseLoopBody (
                   )
                   ary = t.identifier(variableName)
                 }
-                setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
+                setJSXAttr(jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
                 const [func] = caller.node.arguments
                 if (
                   t.isFunctionExpression(func) ||
@@ -163,21 +164,21 @@ export function parseLoopBody (
                   if (t.isIdentifier(item)) {
                     setJSXAttr(
                       jsxElementPath.node,
-                      'wx:for-item',
+                      Adapter.forItem,
                       t.stringLiteral(item.name)
                     )
                     loopScopes.add(item.name)
                   } else {
                     setJSXAttr(
                       jsxElementPath.node,
-                      'wx:for-item',
+                      Adapter.forItem,
                       t.stringLiteral('__item')
                     )
                   }
                   if (t.isIdentifier(index)) {
                     setJSXAttr(
                       jsxElementPath.node,
-                      'wx:for-index',
+                      Adapter.forIndex,
                       t.stringLiteral(index.name)
                     )
                     loopScopes.add(index.name)
@@ -206,7 +207,7 @@ export function parseLoopBody (
                 if (parentIfStatement) {
                   setJSXAttr(
                     jsxElementPath.node,
-                    'wx:elif',
+                    Adapter.elseif,
                     t.jSXExpressionContainer(test)
                   )
                 } else {
@@ -214,7 +215,7 @@ export function parseLoopBody (
                 }
               }
             } else if (block.children.length !== 0) {
-              setJSXAttr(jsxElementPath.node, 'wx:else')
+              setJSXAttr(jsxElementPath.node, Adapter.else)
             }
             block.children.push(jsxElementPath.node)
             finalReturnElement = block
@@ -235,7 +236,7 @@ export function parseLoopBody (
               if (isBlockIfStatement(ifStatement, blockStatement)) {
                 const { test, alternate, consequent } = ifStatement.node
                 if (alternate === blockStatement.node) {
-                  setJSXAttr(jsxElementPath.node, 'wx:else')
+                  setJSXAttr(jsxElementPath.node, Adapter.else)
                 } else if (consequent === blockStatement.node) {
                   const parentIfStatement = ifStatement.findParent(p =>
                     p.isIfStatement()
@@ -243,7 +244,7 @@ export function parseLoopBody (
                   if (parentIfStatement && parentIfStatement.get('alternate') === ifStatement) {
                     setJSXAttr(
                       jsxElementPath.node,
-                      'wx:elif',
+                      Adapter.elseif,
                       t.jSXExpressionContainer(test)
                     )
                   } else {

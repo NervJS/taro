@@ -28,13 +28,13 @@ const weixinAdapter: Adapter = {
 }
 
 const swanAdapter: Adapter = {
-  if: 'wx:if',
-  else: 'wx:else',
-  elseif: 'wx:elif',
-  for: 'wx:for',
-  forItem: 'wx:for-item',
-  forIndex: 'wx:for-index',
-  key: 'wx:key',
+  if: 's-if',
+  else: 's-else',
+  elseif: 's-elif',
+  for: 's-for',
+  forItem: 's-for-item',
+  forIndex: 's-for-index',
+  key: 's-key',
   type: Adapters.swan
 }
 

@@ -24,6 +24,9 @@ function build (args, buildConfig) {
     case Util.BUILD_TYPES.WEAPP:
       buildForWeapp({ watch })
       break
+    case Util.BUILD_TYPES.SWAN:
+      buildForSwan({ watch })
+      break
     case Util.BUILD_TYPES.RN:
       buildForRN({ watch })
       break
@@ -31,12 +34,22 @@ function build (args, buildConfig) {
       buildForUILibrary({ watch })
       break
     default:
-      console.log(chalk.red('输入类型错误，目前只支持weapp/h5/rn三端类型'))
+      console.log(chalk.red('输入类型错误，目前只支持 weapp/h5/rn/swan 四端类型'))
   }
 }
 
 function buildForWeapp ({ watch }) {
-  require('./weapp').build({ watch })
+  require('./weapp').build({
+    watch,
+    adapter: Util.BUILD_TYPES.WEAPP
+  })
+}
+
+function buildForSwan ({ watch }) {
+  require('./weapp').build({
+    watch,
+    adapter: Util.BUILD_TYPES.SWAN
+  })
 }
 
 function buildForH5 (buildConfig) {
