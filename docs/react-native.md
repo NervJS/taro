@@ -58,7 +58,7 @@ expo 客户端就像是一个用 expo 建造的应用程序浏览器。当您在
 
  [iOS App Store 下载地址](https://itunes.com/apps/exponent)
 
-> **版本支持:** Android 4.4 及以上、 iOS 9.0及以上
+> **版本支持:** Android 4.4 及以上、 iOS 9.0 及以上
 
 更多资料可以查看 [Expo 移动客户端文档](https://docs.expo.io/versions/v29.0.0/workflow/up-and-running)
 
@@ -95,7 +95,7 @@ Taro 将会开始编译文件：
 生成  app.json  /Users/chengshuai/Taro/TodoMVC/.temp/app.json
 生成  package.json  /Users/chengshuai/Taro/TodoMVC/.temp/package.json
 拷贝  crna-entry.js  /Users/chengshuai/Taro/TodoMVC/.temp/bin/crna-entry.js
-编译  编译完成，花费780 ms
+编译  编译完成，花费 780 ms
 17:12:59: Starting packager...
 
 初始化完毕，监听文件修改中...

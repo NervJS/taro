@@ -189,7 +189,7 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 <View>{true}</View>
 ```
 
-这在根据条件来确定是否渲染 元素时非常有用。以下的 JSX 只会在 showHeader 为true时渲染<Header />组件。
+这在根据条件来确定是否渲染 元素时非常有用。以下的 JSX 只会在 showHeader 为 true 时渲染<Header />组件。
 
 ```jsx
 <View>

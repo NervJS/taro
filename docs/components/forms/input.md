@@ -27,14 +27,14 @@ sidebar_label: Input
 | √ | √ | √ | (onChange) onInput   | EventHandle | | 当键盘输入时，触发 input 事件，处理函数可以直接 return 一个字符串，将替换输入框的内容。  |
 | √ | √ | √ | (onFocus)  onFocus | EventHandle |        | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持    |
 | √ | √ | √ | (onBlur)   onBlur | EventHandle |        | 输入框失去焦点时触发  |
-| √ |   | √ |  onConfirm       | EventHandle |        | 点击完成按钮时触发。H5版中目前需借用[Form 组件](form.html)的`onSubmit`事件来替代   |
+| √ |   | √ |  onConfirm       | EventHandle |        | 点击完成按钮时触发。H5 版中目前需借用[Form 组件](form.html)的`onSubmit`事件来替代   |
 
 ###### 示例：
 ```jsx
 <Text>可以自动聚焦的 input</Text>
 <Input type='text' placeholder='将会获取焦点' focus/>
 <Text>控制最大输入长度的 input</Text>
-<Input type='text' placeholder='最大输入长度为10' maxLength='10'/>
+<Input type='text' placeholder='最大输入长度为 10' maxLength='10'/>
 <Text>实时获取输入值:{this.state.value}</Text>
 <Input type='text' placeholder='输入同步到 view 中' value={this.state.value} onInput={this.onInput}/>
 <Text>数字输入的 input</Text>

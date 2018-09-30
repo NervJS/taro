@@ -217,7 +217,7 @@ h5 编译后的静态文件目录
 这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)的 api 进行修改；第二个参数是`webpack`实例。例如：
 
 ```jsx
-/* 这是个失败的例子，可以通过h5.alias 实现完全一样的效果。 */
+/* 这是个失败的例子，可以通过 h5.alias 实现完全一样的效果。 */
 {
   webpackChain (chain, webpack) {
     chain.merge({
