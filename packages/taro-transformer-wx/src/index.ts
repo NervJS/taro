@@ -255,14 +255,6 @@ export default function transform (options: Options): TransformResult {
     },
     CallExpression (path) {
       const callee = path.get('callee')
-      if (Adapter.type === Adapters.swan && callee.isIdentifier({ name: 'getapp' })) {
-        callee.replaceWith(
-          t.memberExpression(
-            t.identifier('Taro'),
-            t.identifier('getApp')
-          )
-        )
-      }
       if (isContainJSXElement(path)) {
         return
       }
