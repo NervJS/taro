@@ -28,7 +28,7 @@ const listItems = numbers.map((number) => {
 })
 ```
 
-这段代码生成了一个 1 到100的数字列表。
+这段代码生成了一个 1 到 100 的数字列表。
 
 ## Keys
 
