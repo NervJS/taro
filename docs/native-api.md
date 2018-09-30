@@ -206,7 +206,7 @@ SocketTask.onClose(CALLBACK)
 
 监听 WebSocket 连接关闭事件。
 
-**CALLBACK返回参数**
+**CALLBACK 返回参数**
 
 | 参数 | 类型 | 说明 |
 | :-- | :-- | :-- |
@@ -217,7 +217,7 @@ SocketTask.onError(CALLBACK)
 
 监听 WebSocket 错误。
 
-**CALLBACK返回参数**
+**CALLBACK 返回参数**
 
 | 参数 | 类型 | 说明 |
 | :-- | :-- | :-- |
@@ -227,7 +227,7 @@ SocketTask.onMessage(CALLBACK)
 
 监听 WebSocket 接受到服务器的消息事件。
 
-**CALLBACK返回参数**
+**CALLBACK 返回参数**
 
 | 参数 | 类型 | 说明 |
 | :-- | :-- | :-- |
@@ -2496,7 +2496,7 @@ Taro.stopPullDownRefresh()
 | Taro.startPullDownRefresh | ✔️ |  |  ✔️（无动画效果）  |
 | Taro.stopPullDownRefresh | ✔️ |  |  ✔️  |
 
-### WXML节点信息
+### WXML 节点信息
 
 #### Taro.createSelectorQuery()
 
@@ -2533,7 +2533,7 @@ Component({
 在当前页面下选择第一个匹配选择器 selector 的节点，返回一个 NodesRef 对象实例，可以用于获取节点信息。
 
 * ID 选择器：`#the-id`
-* class选择器（可以连续指定多个）：`.a-class.another-class`
+* class 选择器（可以连续指定多个）：`.a-class.another-class`
 * 子元素选择器：`.the-parent > .the-child`
 * 后代选择器：`.the-ancestor .the-descendant`
 * 跨自定义组件的后代选择器：`.the-ancestor >>> .the-descendant`

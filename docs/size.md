@@ -57,7 +57,7 @@ Taro.pxTransform(10) // 小程序：rpx，H5：rem
 Type: `Object | Null`
 
 ### `unitPrecision` (Number)
-REM单位允许的小数位。
+REM 单位允许的小数位。
 
 ### `propList` (Array)
 允许转换的属性。

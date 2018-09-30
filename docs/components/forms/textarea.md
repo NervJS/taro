@@ -17,7 +17,7 @@ sidebar_label: Textarea
 | √ | √ | √ | maxlength         | Number      | 140  | 最大输入长度，设置为 -1 的时候不限制最大长度   |
 | √ | √ | x | autoFocus        | Boolean     | false  | 自动聚焦，拉起键盘。                           |
 | √ |   | √ | focus             | Boolean     | false | 获取焦点   |
-| √ |   | √ | autoHeight             | Boolean     | false | 是否自动增高，设置auto-height时，style.height不生效    |
+| √ |   | √ | autoHeight             | Boolean     | false | 是否自动增高，设置auto-height 时，style.height 不生效    |
 | √ |   | x | fixed             | Boolean     | false | 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true     |
 | √ |   | x | cursorSpacing    | Number      | 0 | 指定光标与键盘的距离，单位 px 。取 textarea 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
 | √ |   | x| showConfirmBar  | Boolean     | true | 是否显示键盘上方带有”完成“按钮那一栏   |

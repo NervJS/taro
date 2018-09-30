@@ -36,7 +36,7 @@ $ npx @tarojs/cli init myApp
 $ npm run dev:weapp
 # 仅限全局安装
 $ taro build --type weapp --watch
-# npx用户也可以使用
+# npx 用户也可以使用
 $ npx taro build --type weapp --watch
 ```
 
@@ -46,7 +46,7 @@ H5 编译预览模式
 $ npm run dev:h5
 # 仅限全局安装
 $ taro build --type h5 --watch
-# npx用户也可以使用
+# npx 用户也可以使用
 $ npx taro build --type h5 --watch
 ```
 
@@ -56,7 +56,7 @@ RN 编译预览模式
 $ npm run dev:rn
 # 仅限全局安装
 $ taro build --type rn --watch
-# npx用户也可以使用
+# npx 用户也可以使用
 $ npx taro build --type rn --watch
 ```
 
@@ -69,10 +69,10 @@ Taro 提供了更新命令来更新 CLI 工具自身和项目中 Taro 相关的�
 ```bash
 # taro
 $ taro update self
-# npm 
-npm i -g @tarojs/cli@latest 
-# yarn 
-yarn global add @tarojs/cli@latest 
+# npm
+npm i -g @tarojs/cli@latest
+# yarn
+yarn global add @tarojs/cli@latest
 ```
 
 更新项目中 Taro 相关的依赖

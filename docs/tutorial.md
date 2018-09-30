@@ -11,9 +11,9 @@ title: 项目说明
     |   └── prod.js            打包时配置
     ├── src                    源码目录
     |   ├── pages              页面文件目录
-    |   |   ├── index          index页面目录
-    |   |   |   ├── index.js   index页面逻辑
-    |   |   |   └── index.css  index页面样式
+    |   |   ├── index          index 页面目录
+    |   |   |   ├── index.js   index 页面逻辑
+    |   |   |   └── index.css  index 页面样式
     |   ├── app.css            项目总通用样式
     |   └── app.js             项目入口文件
     └── package.json
@@ -143,7 +143,7 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 
 页面的样式文件建议放在与页面 JS 的同级目录下，然后通过ES6规范 `import` 进行引入，支持使用 CSS 预编译处理器，目前提供了 `sass` 预编译插件 `@tarojs/plugin-sass`，需要自行在本地进行安装。
 
-页面 JS 要求必须有一个 `render` 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 [JSX章节](./jsx.md)。
+页面 JS 要求必须有一个 `render` 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 [JSX 章节](./jsx.md)。
 
 由于页面 JS 也继承自 `Component` 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：
 

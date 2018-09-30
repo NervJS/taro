@@ -86,7 +86,7 @@ class App extends Componenet {
 }
 ```
 
-key会作为给 Taro 的提示，但不会传递给你的组件。如果您的组件中需要使用和 key 相同的值，请将其作为属性传递：
+key 会作为给 Taro 的提示，但不会传递给你的组件。如果您的组件中需要使用和 key 相同的值，请将其作为属性传递：
 
 ```jsx
 const content = posts.map((post) => {
