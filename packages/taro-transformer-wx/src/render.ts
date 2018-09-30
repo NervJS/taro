@@ -318,7 +318,6 @@ export class RenderParser {
         }
       }
     },
-    JSXExpressionContainer: this.replaceIdWithTemplate(),
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
