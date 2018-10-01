@@ -157,7 +157,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
-  const constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
+  const constantsReplaceList = Object.assign({
+    'process.env.TARO_ENV': Util.BUILD_TYPES.WEAPP
+  }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
@@ -253,21 +255,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         }
         astPath.remove()
       }
-    },
-
-    IfStatement (astPath) {
-      astPath.traverse({
-        BinaryExpression (astPath) {
-          const node = astPath.node
-          const left = node.left
-          const right = node.right
-          if (generate(left).code === 'process.env.TARO_ENV') {
-            processIfTaroEnv(astPath, node, 'right', 'left')
-          } else if (generate(right).code === 'process.env.TARO_ENV') {
-            processIfTaroEnv(astPath, node, 'left', 'right')
-          }
-        }
-      })
     },
 
     ImportDeclaration (astPath) {
@@ -744,6 +731,14 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
 function parseComponentExportAst (ast, componentName, componentPath, componentType) {
   let componentRealPath = null
   let importExportName
+  const constantsReplaceList = Object.assign({
+    'process.env.TARO_ENV': Util.BUILD_TYPES.WEAPP
+  }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
+  ast = babel.transformFromAst(ast, '', {
+    plugins: [
+      [require('babel-plugin-transform-define').default, constantsReplaceList]
+    ]
+  }).ast
   traverse(ast, {
     ExportNamedDeclaration (astPath) {
       const node = astPath.node
@@ -772,29 +767,6 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
       if (componentType === 'default') {
         importExportName = declaration.name
       }
-    },
-
-    IfStatement (astPath) {
-      astPath.traverse({
-        BinaryExpression (astPath) {
-          const node = astPath.node
-          const left = node.left
-          if (generate(left).code === 'process.env.TARO_ENV' &&
-            node.right.value === Util.BUILD_TYPES.WEAPP) {
-            const consequentSibling = astPath.getSibling('consequent')
-            consequentSibling.traverse({
-              CallExpression (astPath) {
-                if (astPath.get('callee').isIdentifier({ name : 'require'})) {
-                  const arg = astPath.get('arguments')[0]
-                  if (t.isStringLiteral(arg.node)) {
-                    componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), arg.node.value))
-                  }
-                }
-              }
-            })
-          }
-        }
-      })
     },
 
     CallExpression (astPath) {
