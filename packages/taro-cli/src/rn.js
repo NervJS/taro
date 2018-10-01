@@ -459,7 +459,9 @@ function parseJSCode (code, filePath) {
     }
   })
   try {
-    const constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
+    const constantsReplaceList = Object.assign({
+      'process.env.TARO_ENV': Util.BUILD_TYPES.RN
+    }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
     // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
     ast = babel.transformFromAst(ast, code, {
       plugins: [

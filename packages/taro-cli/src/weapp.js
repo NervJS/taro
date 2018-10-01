@@ -105,19 +105,6 @@ function getExactedNpmFilePath (npmName, filePath) {
   }
 }
 
-function processIfTaroEnv (astPath, node, a, b) {
-  if (node[a].value !== Util.BUILD_TYPES.WEAPP) {
-    const consequentSibling = astPath.getSibling('consequent')
-    consequentSibling.set('body', [])
-  } else {
-    const alternateSibling = astPath.getSibling('alternate')
-    if (alternateSibling.node) {
-      alternateSibling.set('body', [])
-    }
-  }
-  node[b] = t.stringLiteral(Util.BUILD_TYPES.WEAPP)
-}
-
 function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip = false) {
   const styleFiles = []
   const scriptFiles = []
@@ -1824,7 +1811,7 @@ function watchFiles () {
 }
 
 async function build ({ watch, adapter }) {
-  process.env.TARO_ENV = Util.BUILD_TYPES.WEAPP
+  process.env.TARO_ENV = adapter
   isProduction = !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
