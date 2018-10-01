@@ -188,7 +188,8 @@ function npmCodeHack (filePath, content) {
   switch (basename) {
     case 'lodash.js':
     case '_global.js':
-      content = content.replace('Function(\'return this\')()', 'this')
+    case 'lodash.min.js':
+      content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
       break
     case '_html.js':
       content = 'module.exports = false;'
