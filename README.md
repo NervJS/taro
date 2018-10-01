@@ -36,6 +36,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 ## 文章教程
 
+* [从0到1构建适配不同端（微信小程序、H5、React-Native 等）的taro + dva应用](https://juejin.im/post/5bb1766d5188255c3272cdd0)
 * [【小程序taro最佳实践】http请求封装（方便使用，增加token，统一错误日志记录和上报）](https://segmentfault.com/a/1190000016533592)
 * [【小程序taro 最佳实践】异步action优雅实践(简化流程)](https://segmentfault.com/a/1190000016534001)
 * [使用Taro框架开发小程序](https://juejin.im/post/5ba0a53af265da0ab5037234)
