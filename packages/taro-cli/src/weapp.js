@@ -1258,6 +1258,17 @@ async function processStyleWithPostCSS (styleObj) {
   return postcssResult.css
 }
 
+function compileImportStyles (filePath, importStyles) {
+  if (importStyles.length) {
+    importStyles.forEach(async importItem => {
+      const importFilePath = path.resolve(filePath, '..', importItem)
+      if (fs.existsSync(importFilePath)) {
+        await compileDepStyles(importFilePath.replace(sourceDir, outputDir), [importFilePath])
+      }
+    })
+  }
+}
+
 function compileDepStyles (outputFilePath, styleFiles, isComponent) {
   if (isBuildingStyles[outputFilePath]) {
     return Promise.resolve({})
@@ -1269,6 +1280,7 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     const fileContent = fs.readFileSync(filePath).toString()
     const cssImportsRes = Util.processStyleImports(fileContent, buildAdapter)
+    compileImportStyles(filePath, cssImportsRes.imports)
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
         .then(res => ({
