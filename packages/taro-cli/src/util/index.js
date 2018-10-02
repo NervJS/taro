@@ -109,6 +109,36 @@ exports.MINI_APP_FILES = {
   }
 }
 
+exports.CONFIG_MAP = {
+  [exports.BUILD_TYPES.WEAPP]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.SWAN]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.ALIPAY]: {
+    navigationBarTitleText: 'defaultTitle',
+    navigationBarBackgroundColor: 'titleBarColor',
+    enablePullDownRefresh: 'pullRefresh',
+    list: 'items',
+    text: 'name',
+    iconPath: 'icon',
+    selectedIconPath: 'activeIcon'
+  }
+}
+
 exports.PROJECT_CONFIG = 'config/index.js'
 
 exports.DEVICE_RATIO = {

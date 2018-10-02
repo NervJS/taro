@@ -105,6 +105,37 @@ function getExactedNpmFilePath (npmName, filePath) {
   }
 }
 
+function traverseObjectNode (node, obj) {
+  if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
+    const properties = node.value.properties
+    obj = {}
+    properties.forEach(p => {
+      const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      obj[key] = traverseObjectNode(p.value)
+    })
+    return obj
+  }
+  if (node.type === 'ObjectExpression') {
+    const properties = node.properties
+    obj = {}
+    properties.forEach(p => {
+      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      if (Util.CONFIG_MAP[buildAdapter][key]) {
+        key = Util.CONFIG_MAP[buildAdapter][key]
+      }
+      obj[key] = traverseObjectNode(p.value)
+    })
+    return obj
+  }
+  if (node.type === 'ArrayExpression') {
+    return node.elements.map(item => traverseObjectNode(item))
+  }
+  if (node.type === 'NullLiteral') {
+    return null
+  }
+  return node.value
+}
+
 function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip = false) {
   const styleFiles = []
   const scriptFiles = []
@@ -114,33 +145,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let componentClassName = null
   let taroJsReduxConnect = null
   let taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
-  function traverseObjectNode (node, obj) {
-    if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
-      const properties = node.value.properties
-      obj = {}
-      properties.forEach(p => {
-        const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-        obj[key] = traverseObjectNode(p.value)
-      })
-      return obj
-    }
-    if (node.type === 'ObjectExpression') {
-      const properties = node.properties
-      obj = {}
-      properties.forEach(p => {
-        const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-        obj[key] = traverseObjectNode(p.value)
-      })
-      return obj
-    }
-    if (node.type === 'ArrayExpression') {
-      return node.elements.map(item => traverseObjectNode(item))
-    }
-    if (node.type === 'NullLiteral') {
-      return null
-    }
-    return node.value
-  }
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
