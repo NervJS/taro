@@ -62,7 +62,7 @@ const processTypeMap = {
 
 exports.pocessTypeEnum = pocessTypeEnum
 
-exports.CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss']
+exports.CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
 exports.SCSS_EXT = ['.scss']
 exports.JS_EXT = ['.js', '.jsx']
 exports.TS_EXT = ['.ts', '.tsx']
@@ -84,6 +84,7 @@ exports.BUILD_TYPES = {
   H5: 'h5',
   RN: 'rn',
   SWAN: 'swan',
+  ALIPAY: 'alipay',
   UI: 'ui'
 }
 
@@ -97,6 +98,12 @@ exports.MINI_APP_FILES = {
   [exports.BUILD_TYPES.SWAN]: {
     TEMPL: '.swan',
     STYLE: '.css',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.ALIPAY]: {
+    TEMPL: '.axml',
+    STYLE: '.acss',
     SCRIPT: '.js',
     CONFIG: '.json'
   }

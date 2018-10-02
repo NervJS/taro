@@ -38,12 +38,26 @@ const swanAdapter: Adapter = {
   type: Adapters.swan
 }
 
+const alipayAdapter: Adapter = {
+  if: 'a:if',
+  else: 'a:else',
+  elseif: 'a:elif',
+  for: 'a:for',
+  forItem: 'a:for-item',
+  forIndex: 'a:for-index',
+  key: 'a:key',
+  type: Adapters.swan
+}
+
 export let Adapter: Adapter = weixinAdapter
 
 export function setAdapter (adapter: Adapters) {
   switch (adapter) {
     case Adapters.swan:
       Adapter = swanAdapter
+      break
+    case Adapters.alipay:
+      Adapter = alipayAdapter
       break
     default:
       Adapter = weixinAdapter
