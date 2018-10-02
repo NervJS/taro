@@ -1022,6 +1022,35 @@ async function buildPages () {
   await Promise.all(pagesPromises)
 }
 
+function processNativeWxml (componentWXMLPath, componentWXMLContent, outputComponentWXMLPath) {
+  let wxmlContent
+  let needCopy = true
+  if (componentWXMLPath && fs.existsSync(componentWXMLPath)) {
+    wxmlContent = fs.readFileSync(componentWXMLPath).toString()
+  } else {
+    needCopy = false
+    wxmlContent = componentWXMLContent
+  }
+  const importWxmlPathList = []
+  let regResult
+  while ((regResult = Util.REG_WXML_IMPORT.exec(wxmlContent)) != null)  {
+    importWxmlPathList.push(regResult[2] || regResult[3])
+  }
+  if (importWxmlPathList.length) {
+    importWxmlPathList.forEach(item => {
+      const itemPath = path.resolve(componentWXMLPath, '..', item)
+      if (fs.existsSync(itemPath)) {
+        const outputItemPath = itemPath.replace(sourceDir, outputDir)
+        processNativeWxml(itemPath, null, outputItemPath)
+      }
+    })
+  }
+  if (componentWXMLPath === outputComponentWXMLPath || !needCopy) {
+    return
+  }
+  copyFileSync(componentWXMLPath, outputComponentWXMLPath)
+}
+
 function transfromNativeComponents (configFile, componentConfig) {
   const usingComponents = componentConfig.usingComponents
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
@@ -1048,7 +1077,7 @@ function transfromNativeComponents (configFile, componentConfig) {
       }
       if (fs.existsSync(componentWXMLPath)) {
         const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.TEMPL)
-        copyFileSync(componentWXMLPath, outputComponentWXMLPath)
+        processNativeWxml(componentWXMLPath, null, outputComponentWXMLPath)
       }
       if (fs.existsSync(componentWXSSPath)) {
         const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.STYLE)
@@ -1177,6 +1206,7 @@ async function buildSinglePage (page) {
     fs.writeFileSync(outputPageJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
     fs.writeFileSync(outputPageWXMLPath, transformResult.template)
+    processNativeWxml(outputPageWXMLPath.replace(outputDir, sourceDir), transformResult.template, outputPageWXMLPath)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面模板', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
@@ -1511,6 +1541,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
     fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
+    processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), transformResult.template, outputComponentWXMLPath)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
