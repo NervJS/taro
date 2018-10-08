@@ -7,25 +7,29 @@ const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
-const GENERATE_PROPS_TYPES = {
-  INIT: 'init',
-  UPDATE: 'update'
-}
-
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties = ComponentClass.properties || {}
   const defaultProps = ComponentClass.defaultProps || {}
   for (const key in defaultProps) {
     if (defaultProps.hasOwnProperty(key)) {
-      weappComponentConf.properties[key] = null
+      weappComponentConf.properties[key] = {
+        type: null,
+        value: null
+      }
     }
   }
   if (isPage) {
-    weappComponentConf.properties[routerParamsPrivateKey] = null
+    weappComponentConf.properties[routerParamsPrivateKey] = {
+      type: null,
+      value: null
+    }
     const defaultParams = ComponentClass.defaultParams || {}
     for (const key in defaultParams) {
       if (defaultParams.hasOwnProperty(key)) {
-        weappComponentConf.properties[key] = null
+        weappComponentConf.properties[key] = {
+          type: null,
+          value: null
+        }
       }
     }
   }
@@ -35,7 +39,7 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
     type: null,
     observer: function () {
       if (!this.$component || !this.$component.__isReady) return
-      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data, GENERATE_PROPS_TYPES.UPDATE)
+      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
       this.$component.props = nextProps
       this.$component._unsafeCallUpdate = true
       updateComponent(this.$component)
@@ -160,7 +164,7 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData, type = GENERATE_PROPS_TYPES.INIT) {
+function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
   let newProps = Object.assign({}, componentProps)
   for (const propName in properties) {
     if (propName === privatePropValName) {
@@ -168,12 +172,9 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData) {
-      if (type !== GENERATE_PROPS_TYPES.INIT) {
-        newProps[propName] = weappComponentData[propName]
-      } else if (properties[propName] !== null || weappComponentData[propName] !== null) {
-        newProps[propName] = weappComponentData[propName]
-      }
+    } else if (propName in weappComponentData &&
+      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+      newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
       if (weappComponentData[propName] === true) {

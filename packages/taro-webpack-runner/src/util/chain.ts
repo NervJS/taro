@@ -94,12 +94,11 @@ const getHtmlWebpackPlugin = pipe(mergeOption, partial(getPlugin, HtmlWebpackPlu
 const getDefinePlugin = pipe(mergeOption, partial(getPlugin, webpack.DefinePlugin))
 const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, {})
 const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
-  const customUglifyOption = uglifyOptions ? uglifyOptions.config : {}
   return new UglifyJsPlugin({
     cache: true,
     parallel: true,
     sourceMap: enableSourceMap,
-    uglifyOptions: merge({}, defaultUglifyJsOption, customUglifyOption)
+    uglifyOptions: merge({}, defaultUglifyJsOption, uglifyOptions)
   })
 }
 const getDllPlugin = pipe(getDllContext, processDllOption, partial(getPlugin, webpack.DllPlugin))
@@ -151,7 +150,7 @@ const getModule = ({
     },
     cssLoaderOption
   ]
-  const isCssoEnabled = (plugins.csso && postcssOption.csso.enable === false)
+  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
       ? false
       : true
   if (mode !== 'development' && isCssoEnabled) {

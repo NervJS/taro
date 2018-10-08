@@ -4,7 +4,7 @@ function isObject (arg) {
 
 export function getOriginal (item) {
   if (isObject(item)) {
-    return item.$$original || item
+    return item.$original || item
   }
   return item
 }

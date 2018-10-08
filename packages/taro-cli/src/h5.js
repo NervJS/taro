@@ -36,7 +36,7 @@ const taroApis = [
   'internal_dynamic_recursive'
 ]
 const nervJsImportDefaultName = 'Nerv'
-const routerImportDefaultName = 'TaroRouter'
+const routerImportName = 'Router'
 const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
 const tabBarPanelComponentName = 'TabbarPanel'
@@ -68,45 +68,6 @@ const FILE_TYPE = {
 
 const DEVICE_RATIO = 'deviceRatio'
 
-const buildRouterImporter = v => {
-  const pagename = v.startsWith('/') ? v : `/${v}`
-  /* substr 跳过"/pages/" */
-  const chunkFilename = pagename.substr(7).replace(/[/\\]+/g, '_')
-
-  const keyPagenameNode = t.stringLiteral(pagename)
-
-  const valuePagenameNode = t.stringLiteral(`.${pagename}`)
-  valuePagenameNode.leadingComments = [{
-    type: 'CommentBlock',
-    value: ` webpackChunkName: "${chunkFilename}" `
-  }]
-  const callExpression = t.callExpression(t.import(), [ valuePagenameNode ])
-  const arrowFunctionNode = t.arrowFunctionExpression(
-    [],
-    callExpression
-  )
-
-  return t.arrayExpression([
-    keyPagenameNode,
-    arrowFunctionNode
-  ])
-}
-
-const buildRouterStarter = ({ pages, packageName, taroImportDefaultName }) => {
-  const importers = pages.map(buildRouterImporter)
-  const initArrNode = t.arrayExpression(importers)
-
-  return t.expressionStatement(
-    t.callExpression(
-      t.memberExpression(
-        t.identifier(packageName),
-        t.identifier('initRouter')
-      ),
-      [initArrNode, t.identifier(taroImportDefaultName)]
-    )
-  )
-}
-
 function processEntry (code, filePath) {
   let ast = wxTransformer({
     code,
@@ -123,11 +84,13 @@ function processEntry (code, filePath) {
   let renderCallCode
 
   let hasAddNervJsImportDefaultName = false
+  let hasComponentWillMount = false
   let hasComponentDidMount = false
   let hasComponentDidShow = false
   let hasComponentDidHide = false
   let hasComponentWillUnmount = false
   let hasJSX = false
+  let hasState = false
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -185,11 +148,17 @@ function processEntry (code, filePath) {
         if (!t.isIdentifier(key)) return
 
         const isRender = key.name === 'render'
+        const isComponentWillMount = key.name === 'componentWillMount'
         const isComponentDidMount = key.name === 'componentDidMount'
         const isComponentWillUnmount = key.name === 'componentWillUnmount'
 
         if (isRender) {
-          funcBody = `<${routerImportDefaultName}.Router />`
+          const pageRequires = pages.map(v => {
+            const absPagename = v.startsWith('/') ? v : `/${v}`
+            const relPagename = `.${absPagename}`
+            return `['${absPagename}', require('${relPagename}').default]`
+          }).join(',')
+          funcBody = `<${routerImportName} routes={[${pageRequires}]} />`
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -208,7 +177,7 @@ function processEntry (code, filePath) {
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+                  <${tabBarComponentName} conf={this.state.${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
                 </${tabBarContainerComponentName}>`
             }
           }
@@ -224,16 +193,9 @@ function processEntry (code, filePath) {
 
           /* 插入<TaroRouter.Router /> */
           node.body = template(`{return (${funcBody});}`, babylonConfig)()
-
-          if (tabBar) {
-            astPath
-              .get('body')
-              .unshiftContainer('body', [
-                t.variableDeclaration('const', [
-                  t.variableDeclarator(t.identifier(tabBarConfigName), tabBar)
-                ])
-              ])
-          }
+        }
+        if (tabBar && isComponentWillMount) {
+          astPath.get('body').pushContainer('body', template(`Taro.initTabBarApis(this, Taro)`, babylonConfig)())
         }
 
         if (hasComponentDidShow && isComponentDidMount) {
@@ -243,6 +205,18 @@ function processEntry (code, filePath) {
         if (hasComponentDidHide && isComponentWillUnmount) {
           astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
         }
+      }
+    },
+    ClassProperty: {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const value = node.value
+        if (key.name !== 'state' || !t.isObjectExpression(value)) return
+        astPath.node.value.properties.push(t.objectProperty(
+          t.identifier(tabBarConfigName),
+          tabBar
+        ))
       }
     },
     ClassBody: {
@@ -256,6 +230,19 @@ function processEntry (code, filePath) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentWillUnmount'), [],
             t.blockStatement([]), false, false))
+        }
+        if (tabBar) {
+          if (!hasComponentWillMount) {
+            astPath.pushContainer('body', t.classMethod(
+              'method', t.identifier('componentWillMount'), [],
+              t.blockStatement([]), false, false))
+          }
+          if (!hasState) {
+            astPath.unshiftContainer('body', t.classProperty(
+              t.identifier('state'),
+              t.objectExpression([])
+            ))
+          }
         }
       }
     }
@@ -298,6 +285,7 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         const value = node.value
+        if (key.name === 'state') hasState = true
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
         astPath.traverse(classPropertyVisitor)
         astPath.remove()
@@ -399,6 +387,9 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         if (t.isIdentifier(key)) {
+          if (key.name === 'componentWillMount') {
+            hasComponentWillMount = true
+          }
           if (key.name === 'componentDidMount') {
             hasComponentDidMount = true
           } else if (key.name === 'componentDidShow') {
@@ -445,34 +436,34 @@ function processEntry (code, filePath) {
           pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
         }
 
-        const routerStarter = buildRouterStarter({
-          pages,
-          packageName: routerImportDefaultName,
-          taroImportDefaultName
-        })
+        const newBody = [
+          template(
+            `import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`,
+            babylonConfig
+          )(),
+          template(
+            `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
+            babylonConfig
+          )(),
+          ...node.body,
+          template(
+            `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
+            babylonConfig
+          )(),
+          template(renderCallCode, babylonConfig)()
+        ]
 
-        node.body.unshift(template(
-          `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
-          babylonConfig
-        )())
-        node.body.unshift(template(
-          `import ${routerImportDefaultName} from '${PACKAGES['@tarojs/router']}'`,
-          babylonConfig
-        )())
-        tabBar && node.body.unshift(template(
+        tabBar && newBody.unshift(template(
           `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
           babylonConfig
         )())
-        node.body.push(template(
-          `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
-          babylonConfig
-        )())
-        node.body.push(routerStarter)
-        node.body.push(template(renderCallCode, babylonConfig)())
+
+        node.body = newBody
+        // node.body.push(routerStarter)
       }
     }
   })
-  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
+  const generateCode = generate(ast).code
   return {
     code: generateCode
   }
@@ -611,7 +602,7 @@ function processOthers (code, filePath) {
       }
     }
   })
-  const generateCode = unescape(generate(ast).code.replace(/\\u/g, '%u'))
+  const generateCode = generate(ast).code
   return {
     code: generateCode
   }

@@ -35,9 +35,9 @@ const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 
-function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig) {
+function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, root = basedir) {
   try {
-    return resolvePath.sync(pkgName, { basedir })
+    return resolvePath.sync(pkgName, { basedir: root })
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(`缺少npm包${pkgName}，开始安装...`)
@@ -46,14 +46,23 @@ function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig) {
         installOptions.dev = true
       }
       npmProcess.installNpmPkg(pkgName, installOptions)
-      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, root)
     }
   }
 }
 
-function resolveNpmFilesPath (pkgName, isProduction, npmConfig) {
+function recursiveFindNodeModules (filePath) {
+  const dirname = path.dirname(filePath)
+  const nodeModules = path.join(dirname, 'node_modules')
+  if (fs.existsSync(nodeModules)) {
+    return nodeModules
+  }
+  return recursiveFindNodeModules(dirname)
+}
+
+function resolveNpmFilesPath (pkgName, isProduction, npmConfig, root = basedir) {
   if (!resolvedCache[pkgName]) {
-    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, root)
     resolvedCache[pkgName] = {
       main: res,
       files: []
@@ -101,8 +110,9 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
               if (excludeRequire.indexOf(requirePath) < 0) {
                 if (isNpmPkg(requirePath)) {
                   if (excludeNpmPkgs.indexOf(requirePath) < 0) {
-                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig)
-                    const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
+                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, path.dirname(recursiveFindNodeModules(filePath)))
+                    let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
+                    relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
                     args[0].value = relativeRequirePath
                   }
                 } else {
@@ -136,6 +146,7 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   let outputNpmPath
   if (!npmConfig.dir) {
     outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+    outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
     const npmFilePath = filePath.replace(/(.*)node_modules/, '')
     outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
@@ -188,7 +199,8 @@ function npmCodeHack (filePath, content) {
   switch (basename) {
     case 'lodash.js':
     case '_global.js':
-      content = content.replace('Function(\'return this\')()', 'this')
+    case 'lodash.min.js':
+      content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
       break
     case '_html.js':
       content = 'module.exports = false;'

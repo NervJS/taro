@@ -65,7 +65,7 @@ const config = {
         }
       }
     },
-    // 自定义webpack配置
+    // 自定义 webpack 配置
     webpack: {}
   }
 };

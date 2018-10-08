@@ -1,3 +1,5 @@
+import { buffer } from "rxjs/operators";
+
 export = Taro;
 export as namespace Taro;
 
@@ -343,7 +345,6 @@ declare namespace Taro {
     RN = 'RN'
   }
 
-
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
   function render(component: Component | JSX.Element, element: Element | null)
@@ -508,6 +509,28 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
+
+  type arrayBuffer = Uint8Array |
+    Int8Array |
+    Uint8Array |
+    Uint8ClampedArray |
+    Int16Array |
+    Uint16Array |
+    Int32Array |
+    Uint32Array |
+    Float32Array |
+    Float64Array |
+    ArrayBuffer
+
+  /**
+   * 将 ArrayBuffer 数据转成 Base64 字符串
+   */
+  function arrayBufferToBase64(buffer: arrayBuffer): string
+
+  /**
+   * 将 Base64 字符串转成 ArrayBuffer 数据
+   */
+  function base64ToArrayBuffer(base64: string): arrayBuffer
 
   namespace uploadFile {
     type Promised = {
@@ -10242,87 +10265,29 @@ declare namespace Taro {
      *     })
      *     ```
      */
-    drawImage(dx: number, dy: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(dx: number, dy: number, dWidth: number, dHeight: any): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: any): void
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+    ): void
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+      dWidth: number,
+      dHeight: number,
+    ): void
+    drawImage(
+      imageResource: string,
+      sx: number,
+      sy: number,
+      sWidth: number,
+      sHeight: number,
+      dx: number,
+      dy: number,
+      dWidth: number,
+      dHeight: number,
+    ): void
     /**
      *
      * **定义：**

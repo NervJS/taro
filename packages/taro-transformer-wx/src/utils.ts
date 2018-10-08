@@ -7,6 +7,7 @@ import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
+import { Adapter } from './adapter'
 const template = require('babel-template')
 
 export const incrementId = () => {
@@ -274,7 +275,7 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
-    element.attributes.push(buildJSXAttr('wx:if', value))
+    element.attributes.push(buildJSXAttr(Adapter.if, value))
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)

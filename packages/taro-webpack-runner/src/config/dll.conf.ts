@@ -51,7 +51,7 @@ export default function (config: BuildConfig): any {
     : true
 
   if (isUglifyEnabled) {
-    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify]))
+    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify ? plugins.uglify.config : {}]))
   }
 
   chain.merge({

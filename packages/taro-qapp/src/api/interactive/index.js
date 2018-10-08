@@ -9,7 +9,7 @@ export function showToast (options = {}) {
     try {
       prompt.showToast({
         message: title,
-        duration: duration > 2000 ? 1 : 0
+        duration
       })
       success && success(res)
       complete && complete(res)
@@ -141,7 +141,7 @@ export function setNavigationBarTitle (options = {}) {
 }
 
 export function setNavigationBarColor (options = {}) {
-  const { frontColor = '', backgroundColor='', success, complete, fail } = options
+  const { frontColor = '', backgroundColor = '', success, complete, fail } = options
   const res = { errMsg: 'setNavigationBarColor: ok' }
 
   return new Promise((resolve, reject) => {

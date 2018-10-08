@@ -72,9 +72,7 @@ function info () {
 
 function updateSelf () {
   let command
-  if (shouldUseYarn()) {
-    command = 'yarn global add @tarojs/cli@latest'
-  } else if (shouldUseCnpm()) {
+  if (shouldUseCnpm()) {
     command = 'cnpm i -g @tarojs/cli@latest'
   } else {
     command = 'npm i -g @tarojs/cli@latest'
@@ -126,7 +124,7 @@ async function updateProject () {
 
   let command
   if (shouldUseYarn()) {
-    command = 'yarn install'
+    command = 'yarn'
   } else if (shouldUseCnpm()) {
     command = 'cnpm install'
   } else {

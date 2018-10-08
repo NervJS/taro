@@ -22,7 +22,7 @@ class Welcome extends Component {
 
 #### 装载(Mounting)
 
-这些方法会在组件实例被创建和插入DOM中时被调用：
+这些方法会在组件实例被创建和插入 DOM 中时被调用：
 
 * `constructor()`
 * `componentWillMount()`
@@ -41,13 +41,13 @@ class Welcome extends Component {
 
 #### 卸载(Unmounting)
 
-当一个组件被从DOM中移除时，该方法被调用：
+当一个组件被从 DOM 中移除时，该方法被调用：
 
 * `componentWillUnmount()`
 
 #### 其他 API
 
-每一个组件还提供了其他的API：
+每一个组件还提供了其他的 API：
 
 * `setState()`
 * `forceUpdate()`
@@ -80,7 +80,7 @@ class Welcome extends Component {
 constructor(props)
 ```
 
-React组件的构造函数将会在装配之前被调用。当为一个 `Taro.Component` 子类定义构造函数时，你应该在任何其他的表达式之前调用 `super(props)`。否则，this.props在构造函数中将是未定义，并可能引发异常。
+React 组件的构造函数将会在装配之前被调用。当为一个 `Taro.Component` 子类定义构造函数时，你应该在任何其他的表达式之前调用 `super(props)`。否则，this.props 在构造函数中将是未定义，并可能引发异常。
 
 构造函数是初始化状态的合适位置。若你不初始化状态且不绑定方法，那你也不需要为你的 Taro 组件定义一个构造函数。
 
@@ -96,7 +96,7 @@ componentWillMount()
 
 `componentWillMount()` 在组件在装载发生前被立刻调用。
 
-避免在该方法中引入任何的副作用或订阅。对于这些使用场景，我们推荐使用constructor()来替代。
+避免在该方法中引入任何的副作用或订阅。对于这些使用场景，我们推荐使用 constructor()来替代。
 
 这是唯一的会在服务端渲染调起的生命周期钩子函数。
 
@@ -108,7 +108,7 @@ componentWillMount()
 componentDidMount()
 ```
 
-componentDidMount() 在组件被装载后立即调用。初始化使得DOM节点应该进行到这里。若你需要从远端加载数据，这是一个适合实现网络请求的地方。在该方法里 `setState()` 将会触发重新渲染。
+componentDidMount() 在组件被装载后立即调用。初始化使得 DOM 节点应该进行到这里。若你需要从远端加载数据，这是一个适合实现网络请求的地方。在该方法里 `setState()` 将会触发重新渲染。
 
 
 ### componentWillReceiveProps()
@@ -195,7 +195,7 @@ render () {
 }
 ```
 
-若props.color设为null，则其值则为null：
+若 props.color 设为 null，则其值则为 null：
 
 ```jsx
 render() {
@@ -213,9 +213,9 @@ render() {
 
 ### state
 
-状态是该组件的特定数据，其可能改变多次。状态由用户定义，且其应为纯JavaScript对象。
+状态是该组件的特定数据，其可能改变多次。状态由用户定义，且其应为纯 JavaScript 对象。
 
-若你不在 `render()` 方法中使用它，其不应该该被放在状态上。例如，你可直接将timer IDs放在实例上。
+若你不在 `render()` 方法中使用它，其不应该该被放在状态上。例如，你可直接将 timer IDs 放在实例上。
 
 查看 [生命周期 & State](.)了解更多关于状态的信息。
 
