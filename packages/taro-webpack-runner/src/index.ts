@@ -19,7 +19,7 @@ import { BuildConfig } from './util/types'
 
 const customizeChain = (chain, config) => {
   if (config.webpackChain instanceof Function) {
-    config.webpackChain(chain)
+    config.webpackChain(chain, webpack)
   }
 }
 
