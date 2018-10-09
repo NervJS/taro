@@ -920,6 +920,40 @@ function buildProjectConfig () {
   Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/${projectConfigFileName}`)
 }
 
+function buildWorkers (worker) {
+  Util.printLog(Util.pocessTypeEnum.COMPILE, 'Workers', '编译 worker 相关文件')
+  const workerDir = path.join(sourceDir, worker)
+  function fileRecursiveSearch (fileDir) {
+    fs.readdir(fileDir, (err, files) => {
+      if (err) {
+        console.warn(err)
+      } else {
+        files.forEach(filename => {
+          const filePath = path.join(fileDir, filename)
+          fs.stat(filePath, (err, stats) => {
+            if (err) {
+              console.warn(err)
+            } else {
+              const isFile = stats.isFile()
+              const isDir = stats.isDirectory()
+              if (isFile) {
+                if (Util.REG_SCRIPTS.test(filePath)) {
+                  compileDepScripts([filePath])
+                } else {
+                  copyFilesFromSrcToOutput([filePath])
+                }
+              } else if (isDir) {
+                fileRecursiveSearch(filePath)
+              }
+            }
+          })
+        })
+      }
+    })
+  }
+  fileRecursiveSearch(workerDir)
+}
+
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
@@ -953,6 +987,9 @@ async function buildEntry () {
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
       fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
+    }
+    if (res.configObj.workers) {
+      buildWorkers(res.configObj.workers)
     }
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
@@ -1518,6 +1555,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         }
         return item
       }).filter(item => item)
+      realComponentsPathList = realComponentsPathList.filter(item => hasBeenBuiltComponents.indexOf(item.path) < 0)
       buildDepComponentsResult = await buildDepComponents(realComponentsPathList)
     }
     if (!Util.isEmptyObject(componentExportsMap) && realComponentsPathList.length) {

@@ -61,3 +61,21 @@ import namedJson from '../../json/path/named.json'
 
 console.log(namedJson.x)
 ```
+
+## 小程序样式中引用本地资源
+
+在小程序的样式中，默认不能直接引用本地资源，只能通过网络地址、Base64 的方式来进行资源引用，为了方便开发，Taro 提供了直接在样式文件中引用本地资源的方式，其原理是通过 `PostCSS` 的 [`postcss-url`](https://github.com/postcss/postcss-url) 插件将样式中本地资源引用转换成 Base64 格式，从而能正常加载。
+
+Taro 默认会对 `10kb` 大小以下的资源进行转换，如果需要修改配置，可以在 `config/index.js` 中进行修改，配置位于 [`weapp.module.postcss`](https://nervjs.github.io/taro/docs/config-detail.html#weappmodulepostcss)。
+
+具体配置如下
+
+```javascript
+// 小程序端样式引用本地资源内联
+url: {
+  enable: true,
+  config: {
+    limit: 10240 // 设定转换尺寸上限
+  }
+}
+```

@@ -166,7 +166,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
           }
         } else {
           // null
-          if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
+          if (!toItem || !fromItem) {
             res[targetKey] = toItem
           } else {
           // 对象
