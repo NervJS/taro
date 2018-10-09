@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,20 @@
   "author": "O2Team",
   "license": "MIT",
   "devDependencies": {
-    "react": "^16.3.0"
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "jest-environment-enzyme": "^7.0.0",
+    "jest-enzyme": "^7.0.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.5.2",
+    "react-test-renderer": "^16.5.2",
+    "redux": "^4.0.0",
+    "regenerator-runtime": "^0.12.1"
   },
   "dependencies": {
     "react-redux": "^5.0.7"
