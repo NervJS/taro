@@ -81,7 +81,9 @@ function processEvent (eventHandlerName, obj) {
       event.preventDefault = function () {}
       event.stopPropagation = function () {}
       event.currentTarget = event.currentTarget || event.target || {}
-      Object.assign(event.target, event.detail)
+      if (event.target) {
+        Object.assign(event.target, event.detail)
+      }
       Object.assign(event.currentTarget, event.detail)
     }
 
