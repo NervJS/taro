@@ -25,15 +25,14 @@ const getWrappedComponent = (component) => {
     }
 
     componentWillReceiveProps (nextProps) {
-      super.componentWillReceiveProps && super.componentWillReceiveProps(nextProps)
-
       const nextLocation = nextProps._$router
       const lastShouldShow = this.props._$router.state === this.locationState
       const nextShouldShow = nextLocation.state === this.locationState
 
-      if (lastShouldShow === nextShouldShow) return
       this.$router = nextLocation
+      super.componentWillReceiveProps && super.componentWillReceiveProps(nextProps)
 
+      if (lastShouldShow === nextShouldShow) return
       if (nextShouldShow) {
         this.__pageStatus = PAGESTATUS.SHOWING
         this.forceUpdate()
@@ -165,11 +164,10 @@ class Router extends Component<Props> {
       case 'BACK':
         if (el) {
           pageStack = [ el ]
-          this.forceUpdate()
         } else {
           pageStack.splice(-delta)
-          this.forceUpdate()
         }
+        this.forceUpdate()
         break
       default:
         console.warn('wrong action')

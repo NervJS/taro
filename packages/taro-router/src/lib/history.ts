@@ -113,9 +113,6 @@ class History {
   listen = (fn) => {
     this.unlisten = transitionManager.appendListener(fn)
   }
-  emit = (location, type, opts = {}) => {
-    transitionManager.notifyListeners(location, type, opts)
-  }
 
   /**
    * 返回当前的location
@@ -159,7 +156,7 @@ class History {
 
     this.locationStack.push(location)
     this.serializeStack()
-    this.emit(location, 'PUSH')
+    transitionManager.notifyListeners(location, 'PUSH', {})
     ignoredUrl = nextUrl
     if (!isForward) {
       pushHash(nextUrl)
@@ -180,7 +177,7 @@ class History {
     this.locationStack.pop()
     this.locationStack.push(location)
     this.serializeStack()
-    this.emit(location, 'REPLACE')
+    transitionManager.notifyListeners(location, 'REPLACE', {})
     ignoredUrl = nextUrl
     replaceHash({
       url: nextUrl,
@@ -208,14 +205,14 @@ class History {
       this.serializeStack()
       const location = this.now()
       historyState = location.state
-      this.emit(location, 'BACK', { delta })
+      transitionManager.notifyListeners(location, 'BACK', { delta })
     } else if (delta <= 1 && url) {
       const location = createLocation(normalizeUrl(url), state)
       historyState = state
       this.locationStack.length = 1
       this.locationStack[0] = location
       this.serializeStack()
-      this.emit(location, 'BACK', { delta })
+      transitionManager.notifyListeners(location, 'BACK', { delta })
     } else {
       return console.warn('goBack delta out of range')
     }
