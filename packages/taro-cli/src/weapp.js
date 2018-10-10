@@ -187,9 +187,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                         left.property.type === 'Identifier' &&
                         left.property.name === 'config') {
                         configObj = traverseObjectNode(node.expression.right)
-                        if (type === PARSE_AST_TYPE.ENTRY) {
-                          appConfig = configObj
-                        }
                         astPath.remove()
                       }
                     }
@@ -241,9 +238,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const node = astPath.node
       if (node.key.name === 'config') {
         configObj = traverseObjectNode(node)
-        if (type === PARSE_AST_TYPE.ENTRY) {
-          appConfig = configObj
-        }
         astPath.remove()
       }
     },
@@ -1770,7 +1764,8 @@ function watchFiles () {
           Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
-          if (Util.checksum(JSON.stringify(config)) !== Util.checksum(JSON.stringify(appConfig))) {
+          if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages)))
+            || (Util.checksum(JSON.stringify(config.subPackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || {})))) {
             appConfig = config
             await buildPages()
           }
