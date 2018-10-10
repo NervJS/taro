@@ -267,7 +267,7 @@ export class RenderParser {
       )
     })
     let classProp = t.classProperty(
-      t.identifier(Adapter.type === Adapters.alipay ? 'props' : 'properties'),
+      t.identifier('properties'),
       t.objectExpression(properties)
     ) as any
     classProp.static = true

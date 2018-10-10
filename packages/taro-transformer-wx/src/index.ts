@@ -8,7 +8,7 @@ import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL } from './constant'
-import { Adapters, setAdapter } from './adapter'
+import { Adapters, setAdapter, Adapter } from './adapter'
 const template = require('babel-template')
 
 interface ENVS {
@@ -261,7 +261,7 @@ export default function transform (options: Options): TransformResult {
       if (callee.isReferencedMemberExpression()) {
         const id = findFirstIdentifierFromMemberExpression(callee.node)
         const calleeIds = getIdsFromMemberProps(callee.node)
-        if (t.isIdentifier(id) && id.name.startsWith('on')) {
+        if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
           if (fullPath) {
             path.replaceWith(
