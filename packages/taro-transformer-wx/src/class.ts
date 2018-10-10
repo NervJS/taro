@@ -13,6 +13,7 @@ import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
+import { Adapters, Adapter } from './adapter'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -389,7 +390,7 @@ class Transformer {
       CallExpression (path) {
         const node = path.node
         const callee = node.callee
-        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object)) {
+        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object) && Adapters.alipay !== Adapter.type) {
           const property = callee.property
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {

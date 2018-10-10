@@ -129,7 +129,7 @@ componentWillMount () {
 }
 render () {
   // 增加一个兼容判断
-  return {this.state.abc && <Custom adc={abc} />}
+  return this.state.abc && <Custom adc={abc} />
 }
 ```
 

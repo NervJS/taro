@@ -158,8 +158,11 @@ export function parseJSXElement (element: t.JSXElement): string {
         if (t.isStringLiteral(attrValue)) {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {
-          const isBindEvent =
+          let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
+          if (Adapter.type === Adapters.alipay && /(on[A-Z_])|(catch[A-Z_])/.test(name)) {
+            isBindEvent = true
+          }
           let { code } = generate(attrValue.expression, {
             quotes: 'single',
             concise: true

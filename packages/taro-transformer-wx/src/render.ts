@@ -28,7 +28,7 @@ import {
   parseJSXElement
 } from './jsx'
 import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
-import { Adapter } from './adapter'
+import { Adapter, Adapters } from './adapter'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -685,8 +685,13 @@ export class RenderParser {
                 + name.name.slice(2).toLowerCase()
               if (name.name === 'onClick') {
                 transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
+                if (Adapter.type === Adapters.alipay) {
+                  transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+                }
               }
               path.node.name = t.jSXIdentifier(transformName)
+            } else if (Adapter.type === Adapters.alipay) {
+              // 其他支付宝情况不用更改事件名
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
               path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
             } else {
