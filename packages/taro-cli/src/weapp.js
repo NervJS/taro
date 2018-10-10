@@ -1555,7 +1555,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         }
         return item
       }).filter(item => item)
-      realComponentsPathList = realComponentsPathList.filter(item => hasBeenBuiltComponents.indexOf(item.path) < 0)
+      realComponentsPathList = realComponentsPathList.filter(item => hasBeenBuiltComponents.indexOf(item.path) < 0 || NODE_MODULES_REG.test(item.path))
       buildDepComponentsResult = await buildDepComponents(realComponentsPathList)
     }
     if (!Util.isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
