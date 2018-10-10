@@ -46,7 +46,7 @@ const alipayAdapter: Adapter = {
   forItem: 'a:for-item',
   forIndex: 'a:for-index',
   key: 'a:key',
-  type: Adapters.swan
+  type: Adapters.alipay
 }
 
 export let Adapter: Adapter = weixinAdapter
