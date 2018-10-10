@@ -21,6 +21,8 @@ const UPDATE_PACKAGE_LIST = [
   '@tarojs/components',
   '@tarojs/components-rn',
   '@tarojs/taro-h5',
+  "@tarojs/taro-swan",
+  "@tarojs/taro-alipay",
   '@tarojs/plugin-babel',
   '@tarojs/plugin-csso',
   '@tarojs/plugin-sass',
