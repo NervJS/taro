@@ -76,7 +76,7 @@ function getStyleObject (css) {
   try {
     styleObject = transformCSS(css)
   } catch (err) {
-    console.log(chalk.red(err))
+    console.log(chalk.red(err.stack))
   }
   return styleObject
 }
