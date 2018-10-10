@@ -1,9 +1,8 @@
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
-const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
 const componentFnReg = /^__fn_/
-const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
+const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
 
 function bindProperties (weappComponentConf, ComponentClass) {
   weappComponentConf.properties = ComponentClass.properties || {}
@@ -15,31 +14,6 @@ function bindProperties (weappComponentConf, ComponentClass) {
         value: null
       }
     }
-  }
-  // 拦截props的更新，插入生命周期
-  // 调用小程序setData或会造成性能消耗
-  weappComponentConf.properties[privatePropValName] = {
-    type: null,
-    observer: function () {
-      if (!this.$component || !this.$component.__isReady) return
-      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
-      this.$component.props = nextProps
-      this.$component._unsafeCallUpdate = true
-      updateComponent(this.$component)
-      this.$component._unsafeCallUpdate = false
-    }
-  }
-}
-
-function bindBehaviors (weappComponentConf, ComponentClass) {
-  if (ComponentClass.behaviors) {
-    weappComponentConf.behaviors = ComponentClass.behaviors
-  }
-}
-
-function bindStaticOptions (weappComponentConf, ComponentClass) {
-  if (ComponentClass.options) {
-    weappComponentConf.options = ComponentClass.options
   }
 }
 
@@ -93,10 +67,6 @@ function processEvent (eventHandlerName, obj) {
         }
       }
     })
-    // 如果是通过triggerEvent触发,并且带有参数
-    if (event.detail && event.detail.__arguments && event.detail.__arguments.length > 0) {
-      detailArgs = event.detail.__arguments
-    }
     // 普通的事件（非匿名函数），会直接call
     if (!isAnonymousFn) {
       if ('so' in bindArgs) {
@@ -152,9 +122,6 @@ function bindEvents (weappComponentConf, events, isPage) {
 function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
   let newProps = Object.assign({}, componentProps)
   for (const propName in properties) {
-    if (propName === privatePropValName) {
-      continue
-    }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
     } else if (propName in weappComponentData &&
@@ -259,8 +226,7 @@ let hasPageInited = false
 
 function initComponent (ComponentClass, isPage) {
   if (this.$component.__isReady) return
-  // ready之后才可以setData,
-  // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
+
   this.$component.__isReady = true
 
   if (isPage && !hasPageInited) {
@@ -270,7 +236,7 @@ function initComponent (ComponentClass, isPage) {
   // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
   // 动态组件执行改造函数副本的时,在初始化数据前计算好props
   if (hasPageInited && !isPage) {
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
+    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.props)
     this.$component.props = nextProps
   }
   if (hasPageInited || isPage) {
@@ -294,35 +260,35 @@ function createComponent (ComponentClass, isPage) {
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
 
   const weappComponentConf = {
-    data: initData,
-    created (options = {}) {
-      isPage && (hasPageInited = false)
-      this.$component = new ComponentClass()
-      this.$component._init(this)
-      this.$component.render = this.$component._createData
-      this.$component.__propTypes = ComponentClass.propTypes
-      Object.assign(this.$component.$router.params, options)
-    },
-    attached () {
-      initComponent.apply(this, [ComponentClass, isPage])
-    },
-    ready () {
-      initComponent.apply(this, [ComponentClass, isPage])
-    },
-    detached () {
-      componentTrigger(this.$component, 'componentWillUnmount')
-    }
+    data: initData
   }
   if (isPage) {
-    weappComponentConf['onLoad'] = weappComponentConf['created']
-    weappComponentConf['onReady'] = weappComponentConf['ready']
-    weappComponentConf['onUnload'] = weappComponentConf['detached']
-    weappComponentConf['onShow'] = function () {
-      this.$component && this.$component.__mounted && componentTrigger(this.$component, 'componentDidShow')
-    }
-    weappComponentConf['onHide'] = function () {
-      componentTrigger(this.$component, 'componentDidHide')
-    }
+    Object.assign(weappComponentConf, {
+      onLoad (options = {}) {
+        hasPageInited = false
+        this.$component = new ComponentClass()
+        this.$component._init(this)
+        this.$component.render = this.$component._createData
+        this.$component.__propTypes = ComponentClass.propTypes
+        Object.assign(this.$component.$router.params, options)
+      },
+
+      onReady () {
+        initComponent.apply(this, [ComponentClass, isPage])
+      },
+
+      onUnload () {
+        componentTrigger(this.$component, 'componentWillUnmount')
+      },
+
+      onShow () {
+        this.$component && this.$component.__mounted && componentTrigger(this.$component, 'componentDidShow')
+      },
+
+      onHide () {
+        componentTrigger(this.$component, 'componentDidHide')
+      }
+    })
     pageExtraFns.forEach(fn => {
       if (componentInstance[fn] && typeof componentInstance[fn] === 'function') {
         weappComponentConf[fn] = function () {
@@ -333,15 +299,33 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
+  } else {
+    Object.assign(weappComponentConf, {
+      didMount () {
+        this.$component = new ComponentClass()
+        this.$component._init(this)
+        this.$component.render = this.$component._createData
+        this.$component.__propTypes = ComponentClass.propTypes
+        initComponent.apply(this, [ComponentClass, isPage])
+      },
+
+      didUpdate () {
+        if (!this.$component || !this.$component.__isReady) return
+        const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.props)
+        this.$component.props = nextProps
+        this.$component._unsafeCallUpdate = true
+        updateComponent(this.$component)
+        this.$component._unsafeCallUpdate = false
+      },
+
+      didUnmount () {
+        componentTrigger(this.$component, 'componentWillUnmount')
+      }
+    })
   }
   bindProperties(weappComponentConf, ComponentClass)
-  bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
-  bindStaticOptions(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
-  if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
-    weappComponentConf['externalClasses'] = ComponentClass['externalClasses']
-  }
   return weappComponentConf
 }
 

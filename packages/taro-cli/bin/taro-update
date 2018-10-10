@@ -31,6 +31,8 @@ const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-uglifyjs',
   '@tarojs/redux',
   '@tarojs/redux-h5',
+  '@tarojs/taro-redux-rn',
+  '@tarojs/taro-router-rn',
   '@tarojs/taro-rn',
   '@tarojs/rn-runner',
   '@tarojs/router',
