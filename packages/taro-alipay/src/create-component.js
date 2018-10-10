@@ -30,22 +30,30 @@ function bindStaticFns (weappComponentConf, ComponentClass) {
   })
 }
 
+function isToBeEvent (event) {
+  if (!event || typeof event !== 'object' || (!event.timeStamp && !event.target)) {
+    return false
+  }
+  return true
+}
+
 function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
   obj[eventHandlerName] = function (event) {
-    if (event) {
-      event.preventDefault = function () {}
-      event.stopPropagation = function () {}
-      event.currentTarget = event.currentTarget || event.target || {}
-      if (event.target) {
-        Object.assign(event.target, event.detail)
-      }
-      Object.assign(event.currentTarget, event.detail)
-    }
-
     const scope = this.$component
     let callScope = scope
+    if (!isToBeEvent(event)) {
+      scope[eventHandlerName].apply(callScope, arguments)
+      return
+    }
+    event.preventDefault = function () {}
+    event.stopPropagation = function () {}
+    event.currentTarget = event.currentTarget || event.target || {}
+    if (event.target) {
+      Object.assign(event.target, event.detail)
+    }
+    Object.assign(event.currentTarget, event.detail)
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
     let detailArgs = []
@@ -271,9 +279,6 @@ function createComponent (ComponentClass, isPage) {
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
         Object.assign(this.$component.$router.params, options)
-      },
-
-      onReady () {
         initComponent.apply(this, [ComponentClass, isPage])
       },
 
