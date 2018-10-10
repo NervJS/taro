@@ -680,18 +680,19 @@ export class RenderParser {
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
           ) {
             const componentName = jsxElementPath.node.openingElement.name.name
-            if (DEFAULT_Component_SET.has(componentName)) {
+            if (Adapter.type === Adapters.alipay) {
+              let transformName = name.name
+              if (name.name === 'onClick') {
+                transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+              }
+              path.node.name = t.jSXIdentifier(transformName)
+            } else if (DEFAULT_Component_SET.has(componentName)) {
               let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
                 + name.name.slice(2).toLowerCase()
               if (name.name === 'onClick') {
                 transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
-                if (Adapter.type === Adapters.alipay) {
-                  transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
-                }
               }
               path.node.name = t.jSXIdentifier(transformName)
-            } else if (Adapter.type === Adapters.alipay) {
-              // 其他支付宝情况不用更改事件名
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
               path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
             } else {
