@@ -22,6 +22,64 @@ declare namespace Taro {
     isEntryPage: boolean
   }
 
+  interface PageScrollObject {
+    /**
+     * 页面在垂直方向已滚动的距离（单位px）
+     */
+    scrollTop: number
+  }
+
+  interface ShareAppMessageObject {
+    /**
+     * 转发事件来源
+     */
+    from?: string,
+    /**
+     * 如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
+     */
+    target?: object,
+    /**
+     * 页面中包含<web-view>组件时，返回当前<web-view>的url
+     */
+    webViewUrl?: string
+  }
+
+  interface ShareAppMessageReturn {
+    /**
+     * 	转发标题，默认为当前小程序名称
+     */
+    title?: string,
+
+    /**
+     * 转发路径，必须是以 / 开头的完整路径，默认为当前页面 path
+     */
+    path?: string,
+
+    /**
+     * 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径
+     * 支持PNG及JPG
+     * 显示图片长宽比是 5:4
+     */
+    imageUrl?: string
+  }
+
+  interface TabItemTapObject {
+    /**
+     * 被点击tabItem的序号，从0开始
+     */
+    index: string,
+
+    /**
+     * 被点击tabItem的页面路径
+     */
+    pagePath: string,
+
+    /**
+     * 被点击tabItem的按钮文字
+     */
+    text: string
+  }
+
   // Components
   interface ComponentLifecycle<P, S> {
     componentWillMount?(): void;
@@ -35,6 +93,11 @@ declare namespace Taro {
     componentDidHide?(): void;
     componentDidCatchError?(err: string): void;
     componentDidNotFound?(obj: PageNotFoundObject): void;
+    onPullDownRefresh?(): void;
+    onReachBottom?(): void;
+    onPageScroll?(obj: PageScrollObject): void;
+    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
+    onTabItemTap?(obj: TabItemTapObject): void;
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -258,7 +321,13 @@ declare namespace Taro {
      * @default false
      * @since 2.3.0
      */
-    resizable?: boolean
+    resizable?: boolean,
+
+    /**
+     * Worker 代码放置的目录
+     * @since 1.9.90
+     */
+    workers: string
   }
 
   interface Config extends PageConfig, AppConfig {

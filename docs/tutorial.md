@@ -75,6 +75,8 @@ class App extends Component {
 | componentDidMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch`，在 `componentWillMount` 后执行 |
 | componentDidShow | 程序展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在 H5 中同样实现 |
 | componentDidHide | 程序被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在 H5 中同样实现 |
+| componentDidCatchError | 错误监听函数 | 在微信小程序中这一生命周期方法对应 `onError` |
+| componentDidNotFound | 页面不存在监听函数 | 在微信小程序中这一生命周期方法对应 `onPageNotFound` |
 
 > 微信小程序中 `onLaunch` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期和普通事件方法中通过 `this.$router.params` 访问到，在其他端也适用
 
