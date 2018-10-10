@@ -94,8 +94,8 @@ function processEvent (eventHandlerName, obj) {
       }
     })
     // 如果是通过triggerEvent触发,并且带有参数
-    if (event.detail && event.detail.__arguments && event.detail.__arguments.length > 0) {
-      detailArgs = event.detail.__arguments
+    if (event.__arguments && event.__arguments.length > 0) {
+      detailArgs = event.__arguments
     }
     // 普通的事件（非匿名函数），会直接call
     if (!isAnonymousFn) {
