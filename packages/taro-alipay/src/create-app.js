@@ -1,6 +1,6 @@
 function createApp (AppClass) {
   const app = new AppClass()
-  const weappAppConf = {
+  const alipayAppConf = {
     onLaunch (options) {
       app.$app = this
       app.$app.$router = app.$router = {
@@ -39,7 +39,7 @@ function createApp (AppClass) {
       }
     }
   }
-  return Object.assign(weappAppConf, app)
+  return Object.assign(alipayAppConf, app)
 }
 
 export default createApp
