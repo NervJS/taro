@@ -34,7 +34,7 @@ export function isVarName (str: string) {
   return true
 }
 
-export function findMethodName (expression: t.Expression) {
+export function findMethodName (expression: t.Expression): string {
   let methodName
   if (
     t.isIdentifier(expression) ||
@@ -42,7 +42,7 @@ export function findMethodName (expression: t.Expression) {
   ) {
     methodName = expression.name
   } else if (t.isStringLiteral(expression)) {
-    methodName = expression
+    methodName = expression.value
   } else if (
     t.isMemberExpression(expression) &&
     t.isIdentifier(expression.property)
