@@ -193,7 +193,7 @@ export default function transform (options: Options): TransformResult {
       [require('babel-plugin-transform-define').default, {
         'process.env.TARO_ENV': taroEnv
       }]
-    ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
+    ].concat((process.env.NODE_ENV === 'test') ? [] : require('./plugins/remove-dead-code'))
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
