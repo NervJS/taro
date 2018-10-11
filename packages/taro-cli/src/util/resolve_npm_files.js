@@ -19,7 +19,8 @@ const {
   generateEnvList,
   REG_TYPESCRIPT,
   BUILD_TYPES,
-  REG_STYLE
+  REG_STYLE,
+  findRoot
 } = require('./index')
 
 const npmProcess = require('./npm')
@@ -145,7 +146,7 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath
   if (!npmConfig.dir) {
-    outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+    outputNpmPath = filePath.replace(/(.*?)node_modules/, path.join(findRoot(), outputDirName, npmConfig.name))
     outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
     const npmFilePath = filePath.replace(/(.*)node_modules/, '')

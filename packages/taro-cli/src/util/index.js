@@ -155,6 +155,19 @@ exports.FILE_PROCESSOR_MAP = {
   '.styl': 'stylus'
 }
 
+exports.findRoot = function findRoot (sPath) {
+  sPath = sPath || process.cwd()
+  if (!sPath.length) return null
+  var dir = sPath.join(path.sep)
+  try {
+    const isRoot = fs.existsSync(path.join(dir, 'package.json'))
+    if (isRoot) return dir
+  } catch (e) {}
+  sPath = sPath.split(path.sep)
+  sPath.pop()
+  return findRoot(sPath)
+}
+
 exports.isNpmPkg = function (name) {
   if (/^(\.|\/)/.test(name)) {
     return false
