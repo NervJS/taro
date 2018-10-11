@@ -3,7 +3,7 @@ import {
   internal_safe_set as safeSet
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
+import { shakeFnFromObject, isEmptyObject } from './util'
 import PropTypes from 'prop-types'
 
 const isDEV = typeof process === 'undefined' ||
@@ -85,8 +85,7 @@ function doUpdate (component, prevProps, prevState) {
   }
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
-  const dataDiff = diffObjToPath(data, component.$scope.data)
-  component.$scope.setData(dataDiff, function () {
+  component.$scope.setData(data, function () {
     if (component.__mounted && typeof component.componentDidUpdate === 'function') {
       component.componentDidUpdate(prevProps, prevState)
     }
