@@ -18,7 +18,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://i.loli.net/2018/09/21/5ba4944f67b49.jpg)
+![案例](https://i.loli.net/2018/10/11/5bbf3604909b6.png)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
@@ -33,6 +33,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 * [Taro整合Dva示例](https://github.com/zuoge85/taro-dva)
 * [V2ex小程序（TypeScript）](https://github.com/NervJS/taro-v2ex)
 * [与微信小程序原生融合的示例](https://github.com/NervJS/taro-sample-weapp)
+* [基于Taro + Dva构建的时装衣橱(电商实战项目)](https://github.com/EasyTuan/taro-msparis)
 
 ## 文章教程
 

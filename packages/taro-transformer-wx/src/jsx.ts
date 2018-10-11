@@ -155,14 +155,12 @@ export function parseJSXElement (element: t.JSXElement): string {
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
+        const isAlipayEvent = Adapter.type === Adapters.alipay && /(on[A-Z_])|(catch[A-Z_])/.test(name)
         if (t.isStringLiteral(attrValue)) {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
-          if (Adapter.type === Adapters.alipay && /(on[A-Z_])|(catch[A-Z_])/.test(name)) {
-            isBindEvent = true
-          }
           let { code } = generate(attrValue.expression, {
             quotes: 'single',
             concise: true
@@ -171,7 +169,7 @@ export function parseJSXElement (element: t.JSXElement): string {
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
-          value = isBindEvent ? code : `{{${code}}}`
+          value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
           if (Adapter.type === Adapters.swan && name === Adapter.for) {
             value = code
           }
@@ -184,9 +182,9 @@ export function parseJSXElement (element: t.JSXElement): string {
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value
         } else if (
-          componentSpecialProps &&
-          componentSpecialProps.has(name) ||
-          name.startsWith('__fn_')
+          componentSpecialProps && componentSpecialProps.has(name) ||
+          name.startsWith('__fn_') ||
+          isAlipayEvent
         ) {
           obj[name] = value
         } else {

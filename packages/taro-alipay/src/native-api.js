@@ -71,7 +71,7 @@ function processApis (taro) {
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
-          return swan[key](options)
+          return my[key](options)
         }
         const p = new Promise((resolve, reject) => {
           ['fail', 'success', 'complete'].forEach((k) => {
@@ -84,7 +84,7 @@ function processApis (taro) {
               }
             }
           })
-          task = swan[key](obj)
+          task = my[key](obj)
         })
         if (key === 'uploadFile' || key === 'downloadFile') {
           p.progress = cb => {
@@ -101,7 +101,7 @@ function processApis (taro) {
       }
     } else {
       taro[key] = (...args) => {
-        return swan[key].apply(swan, args)
+        return my[key].apply(my, args)
       }
     }
   })
