@@ -51,8 +51,6 @@ export const TARO_PACKAGE_NAME = '@tarojs/taro'
 
 export const COMPONENTS_PACKAGE_NAME = '@tarojs/components'
 
-export const ASYNC_PACKAGE_NAME = '@tarojs/async-await'
-
 export const REDUX_PACKAGE_NAME = '@tarojs/redux'
 
 export const MAP_CALL_ITERATOR = '__item'
