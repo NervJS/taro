@@ -2,13 +2,14 @@
     &__container {
         position: relative;
         overflow: hidden;
-        height: 150px;
+        min-height: 150px;
+        height: 100%;
         width: 100%;
     }
     &__wrapper {
         position: relative;
         overflow: hidden;
-        height: 150px;
+        height: 100%;
     }
     &__item {
         height: 100%;
