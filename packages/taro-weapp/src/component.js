@@ -27,9 +27,9 @@ class BaseComponent {
     params: {}
   }
 
-  constructor () {
+  constructor (props = {}) {
     this.state = {}
-    this.props = {}
+    this.props = props
   }
   _constructor (props) {
     this.props = props || {}

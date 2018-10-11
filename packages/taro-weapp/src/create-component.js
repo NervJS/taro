@@ -1,10 +1,12 @@
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
-import { cacheDataGet, cacheDataHas } from './data-cache'
+import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'func__'
 const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
+const preloadPrivateKey = '__preload_'
+const preloadInitedComponent = '$preloadComponent'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
@@ -20,6 +22,10 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
   }
   if (isPage) {
     weappComponentConf.properties[routerParamsPrivateKey] = {
+      type: null,
+      value: null
+    }
+    weappComponentConf.properties[preloadPrivateKey] = {
       type: null,
       value: null
     }
@@ -313,7 +319,11 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
-      this.$component = new ComponentClass()
+      if (isPage && cacheDataHas(preloadInitedComponent)) {
+        this.$component = cacheDataGet(preloadInitedComponent, true)
+      } else {
+        this.$component = new ComponentClass()
+      }
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
@@ -322,6 +332,7 @@ function createComponent (ComponentClass, isPage) {
     attached () {
       let hasParamsCache
       if (isPage) {
+        // params
         let params = {}
         hasParamsCache = cacheDataHas(this.data[routerParamsPrivateKey])
         if (hasParamsCache) {
@@ -331,6 +342,12 @@ function createComponent (ComponentClass, isPage) {
           params = filterParams(this.data, ComponentClass.defaultParams)
         }
         Object.assign(this.$component.$router.params, params)
+        // preload
+        if (cacheDataHas(this.data[preloadPrivateKey])) {
+          this.$component.$preloadData = cacheDataGet(this.data[preloadPrivateKey], true)
+        } else {
+          this.$component.$preloadData = {}
+        }
       }
       if (!isPage || hasParamsCache || ComponentClass.defaultParams) {
         initComponent.apply(this, [ComponentClass, isPage])
@@ -373,6 +390,7 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
+    __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
   }
   bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)

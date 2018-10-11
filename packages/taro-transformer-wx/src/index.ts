@@ -7,7 +7,7 @@ import * as ts from 'typescript'
 import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 const template = require('babel-template')
 
@@ -288,16 +288,6 @@ export default function transform (options: Options): TransformResult {
             )
           }
         }
-      }
-    },
-    AwaitExpression () {
-      const isAsyncImported = ast.program.body.some(statement => {
-        return t.isImportDeclaration(statement) && statement.source.value === ASYNC_PACKAGE_NAME
-      })
-      if (!isAsyncImported) {
-        ast.program.body.unshift(
-          t.importDeclaration([], t.stringLiteral(ASYNC_PACKAGE_NAME))
-        )
       }
     },
     // JSXIdentifier (path) {

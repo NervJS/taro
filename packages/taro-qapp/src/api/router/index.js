@@ -8,6 +8,14 @@ export function redirectTo (options = {}) {
   return qappNavigate(options, 'replace')
 }
 
+export function navigateBack (options = {}) {
+  router.back()
+}
+
+export function switchTab (options = {}) {
+  return qappNavigate(options, 'replace')
+}
+
 function qappNavigate (options = {}, method = 'push') {
   const { url = '', success, fail, complete } = options
   const res = { errMsg: 'ok' }
@@ -47,7 +55,9 @@ function getUrlParams (url = '') {
   return params
 }
 
-export { 
+export default { 
   navigateTo,
-  redirectTo 
+  redirectTo,
+  navigateBack,
+  switchTab 
 }
