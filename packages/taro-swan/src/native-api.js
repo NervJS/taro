@@ -68,6 +68,11 @@ function processApis (taro) {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = options => {
         options = options || {}
+        if (key === 'connectSocket') {
+          if (options['protocols']) {
+            options['protocolsArray'] = options['protocols']
+          }
+        }
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
@@ -76,6 +81,11 @@ function processApis (taro) {
         const p = new Promise((resolve, reject) => {
           ['fail', 'success', 'complete'].forEach((k) => {
             obj[k] = (res) => {
+              if (k === 'success' || k === 'complete') {
+                if (key === 'showActionSheet') {
+                  res.index = res.tapIndex
+                }
+              }
               options[k] && options[k](res)
               if (k === 'success') {
                 resolve(res)
