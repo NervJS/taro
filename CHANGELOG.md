@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.5...v) (2018-10-12)
+# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.6...v) (2018-10-12)
+
+
+
+<a name="1.1.0-beta.6"></a>
+# [1.1.0-beta.6](https://github.com/NervJS/taro/compare/v1.1.0-beta.5...v1.1.0-beta.6) (2018-10-12)
+
+
+### Bug Fixes
+
+* **transformer:** 重新加入 remove-dead-code 插件 ([53e4107](https://github.com/NervJS/taro/commit/53e4107))
 
 
 
