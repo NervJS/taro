@@ -299,8 +299,10 @@ export class RenderParser {
     }
   }
 
+  hasStateOrProps = p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name)
+
   private loopComponentVisitor: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const id = path.get('id')
       const init = path.get('init')
       const parentPath = path.parentPath
@@ -310,6 +312,13 @@ export class RenderParser {
         parentPath.isVariableDeclaration()
       ) {
         const { properties } = id.node
+        const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name))
+        if (hasStateOrProps.length === 0) {
+          return
+        }
+        if (hasStateOrProps.length !== properties.length) {
+          throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
+        }
         const declareState = template('const state = this.state;')()
         if (properties.length > 1) {
           const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))

@@ -28,6 +28,18 @@ describe('State', () => {
       expect(code).toMatch(`const state = this.__state`)
     })
 
+    test('state 或 props 只能单独从 this 中解构', () => {
+      expect(() => transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { state, fuck } = this
+          return (
+            <View className={'icon-' + this.props.type}>测试 + {this.props.type}</View>
+          )
+        `, `state = { type: 'test' }`)
+      })).toThrowError(/state 或 props 只能单独从 this 中解构/)
+    })
+
     test('可以使用 state 关键字作为 state', () => {
       const { ast, code, template } = transform({
         ...baseOptions,
