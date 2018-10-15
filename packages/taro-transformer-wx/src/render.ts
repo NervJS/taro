@@ -462,6 +462,11 @@ export class RenderParser {
                       )
                     }
                   }
+                },
+                JSXElement: (jsxElementPath) => {
+                  this.handleJSXElement(jsxElementPath, (options) => {
+                    this.handleConditionExpr(options, jsxElementPath)
+                  })
                 }
               })
             }

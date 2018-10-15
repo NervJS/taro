@@ -49,7 +49,9 @@ const config = {
         // 小程序端样式引用本地资源内联配置
         url: {
           enable: true,
-          limit: 10240
+          config: {
+            limit: 10240
+          }
         }
       }
     }
@@ -66,7 +68,8 @@ const config = {
       }
     },
     // 自定义 webpack 配置
-    webpack: {}
+    webpackChain: {},
+    devServer: {}
   }
 };
 
