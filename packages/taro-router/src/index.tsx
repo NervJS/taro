@@ -28,9 +28,12 @@ const getWrappedComponent = (component) => {
       const nextLocation = nextProps._$router
       const lastShouldShow = this.props._$router.state === this.locationState
       const nextShouldShow = nextLocation.state === this.locationState
+      const canReceiveProps = lastShouldShow || nextShouldShow
 
       this.$router = nextLocation
-      super.componentWillReceiveProps && super.componentWillReceiveProps(nextProps)
+      if (canReceiveProps && super.componentWillReceiveProps) {
+        super.componentWillReceiveProps(nextProps)
+      }
 
       if (lastShouldShow === nextShouldShow) return
       if (nextShouldShow) {
