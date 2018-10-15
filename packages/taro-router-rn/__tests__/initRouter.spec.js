@@ -60,56 +60,59 @@ const navigationOptions = {
   'title': 'WeChat'
 }
 
+describe('initRouter', function () {
 // getRootStackPageList
-describe('getRootStackPageList', () => {
-  const pageList = [
-    ['pages/index/index', ''],
-    ['pages/hello/index', ''],
-    ['pages/expo/index', ''],
-    ['pages/about/index', '']
-  ]
-  it('pop tabPathList and unshift currentTabPath ', () => {
-    const currentTabPath = 'pages/expo/index'
-    const resPageList = getRootStackPageList({pageList, tabBar, currentTabPath})
-    expect(resPageList).toEqual(
-      [
-        ['pages/expo/index', ''],
-        ['pages/hello/index', ''],
-        ['pages/about/index', '']
-      ]
-    )
-  })
+  describe('getRootStackPageList', () => {
+    const pageList = [
+      ['pages/index/index', ''],
+      ['pages/hello/index', ''],
+      ['pages/expo/index', ''],
+      ['pages/about/index', '']
+    ]
+    it('pop tabPathList and unshift currentTabPath ', () => {
+      const currentTabPath = 'pages/expo/index'
+      const resPageList = getRootStackPageList({pageList, tabBar, currentTabPath})
+      expect(resPageList).toEqual(
+        [
+          ['pages/expo/index', ''],
+          ['pages/hello/index', ''],
+          ['pages/about/index', '']
+        ]
+      )
+    })
 
-  it('currentTabPath not in pageList', () => {
-    const pageList = []
-    const currentTabPath = 'pages/hello/index'
-    expect(() => {
-      getRootStackPageList({pageList, tabBar, currentTabPath})
-    }).toThrow('tabBar 的 pagePath 必须是 pages 配置页面')
+    it('currentTabPath not in pageList', () => {
+      const pageList = []
+      const currentTabPath = 'pages/hello/index'
+      expect(() => {
+        getRootStackPageList({pageList, tabBar, currentTabPath})
+      }).toThrow('tabBar 的 pagePath 必须是 pages 配置页面')
+    })
   })
-})
 
 // getRootStack
-describe('getRootStack', () => {
-  let Taro = {}
-  it('renders successfully', () => {
-    const RootStack = getRootStack({pageList, Taro, navigationOptions})
-    const wrapper = shallow(<RootStack/>)
-    expect(toJson(wrapper)).toMatchSnapshot()
+  describe('getRootStack', () => {
+    let Taro = {}
+    it('renders successfully', () => {
+      const RootStack = getRootStack({pageList, Taro, navigationOptions})
+      const wrapper = shallow(<RootStack />)
+      expect(toJson(wrapper)).toMatchSnapshot()
+    })
   })
-})
 
 // initRouter
-describe('initRouter', () => {
-  let Taro = {}
-  it('without tabBar', () => {
-    const RootStack = initRouter(pageList, Taro, {window})
-    const wrapper = shallow(<RootStack/>)
-    expect(toJson(wrapper)).toMatchSnapshot()
+  describe('initRouter', () => {
+    let Taro = {}
+    it('without tabBar', () => {
+      const RootStack = initRouter(pageList, Taro, {window})
+      const wrapper = shallow(<RootStack />)
+      expect(toJson(wrapper)).toMatchSnapshot()
+    })
+    it('with tabBar', () => {
+      const TabRootStack = initRouter(pageList, Taro, {window, tabBar})
+      const wrapper = shallow(<TabRootStack />)
+      expect(toJson(wrapper)).toMatchSnapshot()
+    })
   })
-  it('with tabBar', () => {
-    const TabRootStack = initRouter(pageList, Taro, {window, tabBar})
-    const wrapper = shallow(<TabRootStack/>)
-    expect(toJson(wrapper)).toMatchSnapshot()
-  })
+
 })
