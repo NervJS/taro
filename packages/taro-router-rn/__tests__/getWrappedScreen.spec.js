@@ -1,10 +1,7 @@
 import React from 'react'
-import { View } from 'react-native'
 import { shallow, mount } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import mockConsole from 'jest-mock-console'
 import getWrappedScreen from '../src/getWrappedScreen'
-import LoadingView from '../src/LoadingView'
 import HomeScreen from './HomeScreen'
 
 const globalNavigationOptions = {
@@ -67,7 +64,7 @@ describe('getWrappedScreen ', function () {
       console.warn.mockRestore()
     })
 
-    describe('Taro Navigation API be call', function () {
+    describe('Taro Navigation API can be call success', function () {
       let Taro = {}
       const mockCallback = jest.fn()
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
