@@ -63,6 +63,7 @@ let isCopyingFiles = {}
 let isProduction = false
 let buildAdapter = Util.BUILD_TYPES.WEAPP
 let outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
+let notTaroComponents = []
 
 const NODE_MODULES = 'node_modules'
 const NODE_MODULES_REG = /(.*)node_modules/
@@ -1478,6 +1479,9 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         type: componentObj.type
       }
       let isInMap = false
+      if (notTaroComponents.indexOf(component) < 0) {
+        notTaroComponents.push(component)
+      }
       if (!Util.isEmptyObject(componentExportsMap)) {
         Object.keys(componentExportsMap).forEach(key => {
           componentExportsMap[key].forEach(item => {
@@ -1549,7 +1553,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         }
         return item
       }).filter(item => item)
-      realComponentsPathList = realComponentsPathList.filter(item => hasBeenBuiltComponents.indexOf(item.path) < 0 || NODE_MODULES_REG.test(item.path))
+      realComponentsPathList = realComponentsPathList.filter(item => hasBeenBuiltComponents.indexOf(item.path) < 0 || notTaroComponents.indexOf(item.path) >= 0)
       buildDepComponentsResult = await buildDepComponents(realComponentsPathList)
     }
     if (!Util.isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
