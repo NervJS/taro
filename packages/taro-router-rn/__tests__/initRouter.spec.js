@@ -90,7 +90,7 @@ describe('initRouter', function () {
     })
   })
 
-// getRootStack
+  // getRootStack
   describe('getRootStack', () => {
     let Taro = {}
     it('renders successfully', () => {
@@ -98,9 +98,15 @@ describe('initRouter', function () {
       const wrapper = shallow(<RootStack />)
       expect(toJson(wrapper)).toMatchSnapshot()
     })
+
+    it('should has navigation props', () => {
+      const RootStack = getRootStack({pageList, Taro, navigationOptions})
+      const wrapper = shallow(<RootStack />)
+      expect(typeof wrapper.props().navigation).toEqual('object')
+    })
   })
 
-// initRouter
+  // initRouter
   describe('initRouter', () => {
     let Taro = {}
     it('without tabBar', () => {
