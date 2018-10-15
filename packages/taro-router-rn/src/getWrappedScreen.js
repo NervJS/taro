@@ -25,7 +25,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       return {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView/>}
+          {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
           <Text style={{fontSize: 17, fontWeight: '600'}}>{title}</Text>
         </View>,
         headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
@@ -42,7 +42,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
      */
     getScreenInstance () {
       if (this.screenRef.current && this.screenRef.current.getWrappedInstance) {
-        return this.screenRef.current.getWrappedInstance()
+        return this.screenRef.current.getWrappedInstance() || {}
       } else {
         return this.screenRef.current || {}
       }
@@ -134,17 +134,17 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       let isScreenEnablePullDownRefresh = navigationOptions.enablePullDownRefresh === undefined
         ? globalEnablePullDownRefresh
         : navigationOptions.enablePullDownRefresh
+      const screenInstance = this.getScreenInstance()
       return (
         <TaroProvider
-          ref={this.screenRef}
           Taro={Taro}
           enablePullDownRefresh={isScreenEnablePullDownRefresh}
-          onPullDownRefresh={this.getScreenInstance().onPullDownRefresh}
-          onReachBottom={this.getScreenInstance().onReachBottom}
-          onScroll={this.getScreenInstance().onScroll}
+          onPullDownRefresh={screenInstance.onPullDownRefresh}
+          onReachBottom={screenInstance.onReachBottom}
+          onScroll={screenInstance.onScroll}
           {...this.props}
         >
-          <Screen  {...this.props}/>
+          <Screen ref={this.screenRef} {...this.props} />
         </TaroProvider>
       )
     }

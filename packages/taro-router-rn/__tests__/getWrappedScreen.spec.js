@@ -1,27 +1,11 @@
 import React from 'react'
+import { View } from 'react-native'
 import { shallow, mount } from 'enzyme'
 import toJson from 'enzyme-to-json'
 import mockConsole from 'jest-mock-console'
 import getWrappedScreen from '../src/getWrappedScreen'
-
-class HomeScreen extends React.Component {
-  static config = {
-    navigationBarTitleText: '首页',
-    navigationBarBackgroundColor: 'white',
-    navigationBarTextStyle: 'black',
-    enablePullDownRefresh: true
-  }
-
-  onPullDownRefresh () {}
-
-  onReachBottom () {}
-
-  onScroll () {}
-
-  render () {
-    return null
-  }
-}
+import LoadingView from '../src/LoadingView'
+import HomeScreen from './HomeScreen'
 
 const globalNavigationOptions = {
   backgroundColor: 'grey',
@@ -119,34 +103,36 @@ describe('getWrappedScreen ', function () {
   describe('Taro lifecycle', function () {
     it('should call componentDidShow ', function () {
       const mockCallback = jest.fn()
-      HomeScreen.componentDidShow = mockCallback
+      HomeScreen.prototype.componentDidShow = mockCallback
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
-      shallow(<WrappedScreen />)
+      mount(<WrappedScreen />)
       expect(mockCallback.mock.calls.length).toBe(1)
     })
 
     it('should call componentDidHide ', function () {
       const mockCallback = jest.fn()
-      HomeScreen.componentDidHide = mockCallback
+      HomeScreen.prototype.componentDidHide = mockCallback
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
-      shallow(<WrappedScreen />)
+      const wrapper = mount(<WrappedScreen />)
+      wrapper.unmount()
       expect(mockCallback.mock.calls.length).toBe(1)
     })
   })
 
   describe('Taro screenRef', function () {
-    it('should screenRef current ref to Screen', function (done) {
-      const wrapper = getShallowWrapper()
+    // 传 HomeScreen 通不过
+    it('should screenRef current ref to Screen', function () {
+      const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
+      const wrapper = mount(<WrappedScreen />)
       expect(wrapper.instance().screenRef.current).toBeInstanceOf(HomeScreen)
     })
 
-    it('should call getWrappedInstance when Screen has this func', function (done) {
+    it('should call getWrappedInstance when Screen has this func', function () {
       const mockCallback = jest.fn()
-      HomeScreen.getWrappedInstance = mockCallback
+      HomeScreen.prototype.getWrappedInstance = mockCallback
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
-      const wrapper = shallow(<WrappedScreen />)
-      wrapper.instance().getWrappedInstance()
-      expect(mockCallback.mock.calls.length).toBe(1)
+      mount(<WrappedScreen />)
+      expect(mockCallback.mock.calls.length).toBe(2)
     })
   })
 })
