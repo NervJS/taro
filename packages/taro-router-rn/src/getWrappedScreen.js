@@ -11,7 +11,7 @@ import { getNavigationOptions } from './utils'
  * @param globalNavigationOptions 全局
  * @returns {WrappedScreen}
  */
-function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
+function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
   class WrappedScreen extends React.Component {
     constructor (props, context) {
       super(props, context)
@@ -25,7 +25,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       return {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView/>}
+          {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
           <Text style={{fontSize: 17, fontWeight: '600'}}>{title}</Text>
         </View>,
         headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
@@ -42,7 +42,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
      */
     getScreenInstance () {
       if (this.screenRef.current && this.screenRef.current.getWrappedInstance) {
-        return this.screenRef.current.getWrappedInstance()
+        return this.screenRef.current.getWrappedInstance() || {}
       } else {
         return this.screenRef.current || {}
       }
@@ -119,7 +119,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
       Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
       this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
-      this.screenRef.current && this.setState({}) // TODO 不然 current 为null
+      this.screenRef.current && this.setState({}) // TODO 不然 current 为null ??
     }
 
     componentWillUnmount () {
@@ -134,16 +134,17 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions) {
       let isScreenEnablePullDownRefresh = navigationOptions.enablePullDownRefresh === undefined
         ? globalEnablePullDownRefresh
         : navigationOptions.enablePullDownRefresh
+      const screenInstance = this.getScreenInstance()
       return (
         <TaroProvider
           Taro={Taro}
           enablePullDownRefresh={isScreenEnablePullDownRefresh}
-          onPullDownRefresh={this.getScreenInstance().onPullDownRefresh}
-          onReachBottom={this.getScreenInstance().onReachBottom}
-          onScroll={this.getScreenInstance().onScroll}
+          onPullDownRefresh={screenInstance.onPullDownRefresh}
+          onReachBottom={screenInstance.onReachBottom}
+          onScroll={screenInstance.onScroll}
           {...this.props}
         >
-          <Screen ref={this.screenRef} {...this.props}/>
+          <Screen ref={this.screenRef} {...this.props} />
         </TaroProvider>
       )
     }
