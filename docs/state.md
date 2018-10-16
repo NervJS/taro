@@ -180,7 +180,7 @@ this.state.comment = 'Hello'
 this.setState({ comment: 'Hello' })
 ```
 
-`setState()` 函数是唯一能够初始化 `this.state` 的地方。
+`setState()` 函数是唯一能够更新 `this.state` 的地方。
 
 
 ### 状态更新一定是异步的
@@ -212,7 +212,7 @@ updateCounter () {
 }
 ```
 
-> 这是 Taro 和 React 另一个不同的地方：React 的 `setState` 不一定总是异步的，他内部有一套事务机制控制，且 React 15/16 的实现也各不相同。而对于 Taro 而言，`setState` 之后 `state` 会把加入一个数组，然后在执行下一个[eventloop](https://github.com/aooy/blog/issues/5) 的时候合并它们。
+> 这是 Taro 和 React 另一个不同的地方：React 的 `setState` 不一定总是异步的，他内部有一套事务机制控制，且 React 15/16 的实现也各不相同。而对于 Taro 而言，`setState` 之后，你提供的对象会被加入一个数组，然后在执行下一个 [eventloop](https://github.com/aooy/blog/issues/5) 的时候合并它们。
 
 ### state 更新会被合并
 
