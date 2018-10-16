@@ -1,6 +1,8 @@
 ---
-title: React Native 教程
+title: React Native 端开发流程
 ---
+
+> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](https://nervjs.github.io/taro/docs/before-dev-remind.html)
 
 ## 简介
 Taro RN 端的开发基于开源项目 [Expo](https://expo.io/)，类似于 [create-react-native-app](https://github.com/react-community/create-react-native-app)。
