@@ -9,23 +9,8 @@ import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, 
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
+import { Options, setTransformOptions } from './options'
 const template = require('babel-template')
-
-interface ENVS {
-  TARO_ENV: string
-}
-
-export interface Options {
-  isRoot?: boolean,
-  isApp: boolean,
-  outputPath: string,
-  sourcePath: string,
-  code: string,
-  isTyped: boolean,
-  isNormal?: boolean,
-  env?: ENVS,
-  adapter?: Adapters
-}
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
   let ids: string[] = []
@@ -159,6 +144,7 @@ export default function transform (options: Options): TransformResult {
   if (Adapter.type === Adapters.swan) {
     setLoopOriginal('privateOriginal')
   }
+  setTransformOptions(options)
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,

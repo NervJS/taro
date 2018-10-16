@@ -29,6 +29,7 @@ import {
 } from './jsx'
 import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
 import { Adapter, Adapters } from './adapter'
+import { transformOptions } from './options'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -1262,7 +1263,12 @@ export class RenderParser {
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
     }
-    const pendingState = t.objectExpression(properties)
+    const pendingState = t.objectExpression(properties.concat(
+      Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
+        t.identifier('_triggerObserer'),
+        t.booleanLiteral(false)
+      ) : []
+    ))
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       t.returnStatement(
