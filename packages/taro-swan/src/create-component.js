@@ -19,7 +19,8 @@ function bindProperties (weappComponentConf, ComponentClass) {
   // 拦截props的更新，插入生命周期
   // 调用小程序setData或会造成性能消耗
   weappComponentConf.properties[privatePropValName] = {
-    type: null,
+    type: Boolean,
+    value: false,
     observer: function () {
       if (!this.$component || !this.$component.__isReady) return
       const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
@@ -302,6 +303,9 @@ function createComponent (ComponentClass, isPage) {
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
+      if (isPage) {
+        initComponent.apply(this, [ComponentClass, isPage])
+      }
     },
     attached () {
       initComponent.apply(this, [ComponentClass, isPage])
@@ -315,7 +319,6 @@ function createComponent (ComponentClass, isPage) {
   }
   if (isPage) {
     weappComponentConf['onLoad'] = weappComponentConf['created']
-    weappComponentConf['onReady'] = weappComponentConf['ready']
     weappComponentConf['onUnload'] = weappComponentConf['detached']
     weappComponentConf['onShow'] = function () {
       this.$component && this.$component.__mounted && componentTrigger(this.$component, 'componentDidShow')

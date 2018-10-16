@@ -3,7 +3,12 @@ import Taro, { Component, Config } from '@tarojs/taro'
 <%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
 <%}-%>
-import '@tarojs/async-await'
+/* eslint-disable */
+// 支付宝小程序不需要引用 @tarojs/async-await
+if (process.env.TARO_ENV !== 'alipay') {
+  require('@tarojs/async-await')
+}
+/* eslint-enable */
 import { Provider } from '@tarojs/redux'
 
 import Index from './pages/index'
