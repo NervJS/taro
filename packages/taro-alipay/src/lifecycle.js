@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
+  const privatePropKeyName = '_triggerObserer'
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
@@ -61,6 +62,7 @@ function doUpdate (component, prevProps, prevState) {
     // 返回null或undefined则保持不变
     data = component._createData(state, props) || data
   }
+  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -81,6 +83,7 @@ function doUpdate (component, prevProps, prevState) {
     })
     data = _data
   }
+  data[privatePropKeyName] = !privatePropKeyVal
   const dataDiff = diffObjToPath(data, component.$scope.data)
   component.$scope.setData(dataDiff, function () {
     if (component.__mounted && typeof component.componentDidUpdate === 'function') {
