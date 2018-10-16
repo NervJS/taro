@@ -91,11 +91,15 @@ class BaseComponent {
       fn.apply(scope, args)
     } else {
       // 普通的
-      const keyLower = key.toLocaleLowerCase()
-      this.$scope.triggerEvent(keyLower, {
+      let detail = {
         __isCustomEvt: true,
         __arguments: args
-      })
+      };
+      if( args.length > 0 ){
+        detail.value = args[1];
+      }
+      const keyLower = key.toLocaleLowerCase()
+      this.$scope.triggerEvent(keyLower, detail)
     }
   }
 }
