@@ -212,7 +212,7 @@ function npmCodeHack (filePath, content) {
       content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
       break
     case '_freeGlobal.js':
-      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || {};')
   }
   return content
 }
