@@ -112,7 +112,7 @@ export class RenderParser {
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
-  private usedThisProperties = new Set<t.Identifier>()
+  private usedThisProperties = new Set<string>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -710,7 +710,7 @@ export class RenderParser {
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
-              path.node.name = t.jSXIdentifier('bind' + name.name[3].toLowerCase() + name.name.slice(3))
+              path.node.name = t.jSXIdentifier('bind' + name.name[2].toLowerCase() + name.name.slice(3))
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
@@ -764,7 +764,7 @@ export class RenderParser {
           }
           if (t.isIdentifier(id)) {
             this.referencedIdentifiers.add(id)
-            this.usedThisProperties.add(id)
+            this.usedThisProperties.add(id.name)
           }
         }
       },
@@ -1299,8 +1299,8 @@ export class RenderParser {
         [
           t.variableDeclarator(
             t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
-              t.identifier(p.name),
-              t.identifier(p.name)
+              t.identifier(p),
+              t.identifier(p)
             ) as any)),
             t.thisExpression()
           )
