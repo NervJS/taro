@@ -179,6 +179,7 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
         if (uglifyResult.error) {
+          printLog(pocessTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
           console.log(uglifyResult.error)
         } else {
           fileContent = uglifyResult.code

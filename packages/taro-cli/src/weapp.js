@@ -960,6 +960,7 @@ async function buildEntry () {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, entryFilePath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${entryFilePath}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1169,6 +1170,7 @@ async function buildSinglePage (page) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputPageJSPath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${pageJs}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1507,6 +1509,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputComponentJSPath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${component}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1652,6 +1655,7 @@ function compileDepScripts (scriptFiles) {
               const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
               const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
               if (uglifyResult.error) {
+                Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${item}`)
                 console.log(uglifyResult.error)
               } else {
                 resCode = uglifyResult.code
