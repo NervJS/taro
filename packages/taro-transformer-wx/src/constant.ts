@@ -61,7 +61,9 @@ export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
 export const LOOP_STATE = '$loopState'
 
-export const LOOP_ORIGINAL = '$original'
+export let LOOP_ORIGINAL = '$original'
+
+export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 
 export const LOOP_CALLEE = '$anonymousCallee_'
 
