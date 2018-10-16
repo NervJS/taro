@@ -150,6 +150,81 @@ describe('State', () => {
 
   })
 
+  describe('可以从 this 中取值', () => {
+    test('直接写 this.xxx', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          return (
+            <View>{this.list}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+
+    test('可以写成员表达式', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          return (
+            <View>{this.list.length}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+
+    test('可以从 this 中解构', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { list } = this
+          return (
+            <View>{list}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+
+    test('可以从 this 中解构之后使用成员表达式', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { list } = this
+          return (
+            <View>{list.length}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+
+    test('不解构', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const list = this.list
+          return (
+            <View>{list.length}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+  })
+
   describe('$usedState', () => {
     test('$usedState 一直存在并且是一个 array', () => {
       const { ast } = transform({

@@ -111,6 +111,7 @@ export class RenderParser {
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
+  private usedThisProperties = new Set<t.Identifier>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -737,48 +738,78 @@ export class RenderParser {
         this.addRefIdentifier(path, path.node)
       }
     },
-    MemberExpression: (path) => {
-      if (!isChildrenOfJSXAttr(path)) {
-        return
-      }
-      if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
-        return
-      }
-      const { object, property } = path.node
-      if (
-        t.isMemberExpression(object) &&
-        t.isThisExpression(object.object) &&
-        t.isIdentifier(object.property, { name: 'state' })
-      ) {
-        if (t.isIdentifier(property)) {
-          this.usedThisState.add(property.name)
-        } else if (t.isMemberExpression(property)) {
-          const id = findFirstIdentifierFromMemberExpression(property)
-          if (id && this.renderScope.hasBinding(id.name)) {
-            this.usedThisState.add(id.name)
+    MemberExpression: {
+      exit: (path: NodePath<t.MemberExpression>) => {
+        const { object, property } = path.node
+        if (!path.isReferencedMemberExpression()) {
+          return
+        }
+        if (!t.isThisExpression(object)) {
+          return
+        }
+        const reserves = new Set([
+          'state',
+          'props',
+          ...this.methods.keys()
+        ])
+        if (t.isIdentifier(property) || t.isMemberExpression(property)) {
+          const id = t.isIdentifier(property) ? property : findFirstIdentifierFromMemberExpression(property)
+          if (reserves.has(id.name)) {
+            return
+          }
+          const jsxAttr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+          if (jsxAttr && t.isJSXIdentifier(jsxAttr.node.name) && jsxAttr.node.name.name.startsWith('on')) {
+            return
+          }
+          if (t.isIdentifier(id)) {
+            this.referencedIdentifiers.add(id)
+            this.usedThisProperties.add(id)
           }
         }
-        return
-      }
-      const code = generate(path.node).code
-      if (code.includes('this.$router.params') && t.isIdentifier(property)) {
-        const name = this.renderScope.generateUid(property.name)
-        const dcl = buildConstVariableDeclaration(name, path.node)
-        this.renderPath.node.body.body.unshift(dcl)
-        path.replaceWith(t.identifier(name))
-      }
-      const parentPath = path.parentPath
-      const id = findFirstIdentifierFromMemberExpression(path.node)
-      if (t.isThisExpression(id)) {
-        return
-      }
-      if (
-        parentPath.isConditionalExpression() ||
-        parentPath.isLogicalExpression() ||
-        parentPath.isJSXExpressionContainer() ||
-        (this.renderScope.hasOwnBinding(id.name))
-      ) {
-        this.addRefIdentifier(path, id)
+      },
+      enter: (path) => {
+        if (!isChildrenOfJSXAttr(path)) {
+          return
+        }
+        if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
+          return
+        }
+        const { object, property } = path.node
+        if (
+          t.isMemberExpression(object) &&
+          t.isThisExpression(object.object) &&
+          t.isIdentifier(object.property, { name: 'state' })
+        ) {
+          if (t.isIdentifier(property)) {
+            this.usedThisState.add(property.name)
+          } else if (t.isMemberExpression(property)) {
+            const id = findFirstIdentifierFromMemberExpression(property)
+            if (id && this.renderScope.hasBinding(id.name)) {
+              this.usedThisState.add(id.name)
+            }
+          }
+          return
+        }
+        const code = generate(path.node).code
+        if (code.includes('this.$router.params') && t.isIdentifier(property)) {
+          const name = this.renderScope.generateUid(property.name)
+          const dcl = buildConstVariableDeclaration(name, path.node)
+          this.renderPath.node.body.body.unshift(dcl)
+          path.replaceWith(t.identifier(name))
+        }
+        const parentPath = path.parentPath
+        const id = findFirstIdentifierFromMemberExpression(path.node)
+        if (t.isThisExpression(id)) {
+          return
+        }
+        if (
+          parentPath.isConditionalExpression() ||
+          parentPath.isLogicalExpression() ||
+          parentPath.isJSXExpressionContainer() ||
+          (this.renderScope.hasOwnBinding(id.name))
+        ) {
+          this.addRefIdentifier(path, id)
+        }
       }
     },
     ArrowFunctionExpression: (path) => {
@@ -1256,7 +1287,19 @@ export class RenderParser {
 
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
-      template(`this.__props = arguments[1] || this.props || {};`)()
+      template(`this.__props = arguments[1] || this.props || {};`)(),
+      t.variableDeclaration(
+        'const',
+        [
+          t.variableDeclarator(
+            t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
+              t.identifier(p.name),
+              t.identifier(p.name)
+            ) as any)),
+            t.thisExpression()
+          )
+        ]
+      )
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {
