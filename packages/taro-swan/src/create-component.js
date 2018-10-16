@@ -1,6 +1,6 @@
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
-const privatePropValName = '__triggerObserer'
+const privatePropValName = 'privateTriggerObserer'
 const anonymousFnNamePreffix = 'func__'
 const componentFnReg = /^__fn_/
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']

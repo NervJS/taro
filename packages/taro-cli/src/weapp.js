@@ -223,7 +223,12 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         if (hasCreateData) {
           needExportDefault = true
           if (node.id === null) {
-            componentClassName = '_TaroComponentClass'
+            const parentNode = astPath.parentPath.node
+            if (t.isVariableDeclarator(astPath.parentPath)) {
+              componentClassName = parentNode.id.name
+            } else {
+              componentClassName = '_TaroComponentClass'
+            }
             astPath.replaceWith(t.ClassExpression(t.identifier(componentClassName), node.superClass, node.body, node.decorators || []))
           } else if (node.id.name === 'App') {
             componentClassName = '_App'
@@ -296,15 +301,16 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       }
     },
 
-    VariableDeclaration (astPath) {
+    CallExpression (astPath) {
       const node = astPath.node
-      if (node.declarations.length === 1 && node.declarations[0].init &&
-        node.declarations[0].init.type === 'CallExpression' && node.declarations[0].init.callee &&
-        node.declarations[0].init.callee.name === 'require') {
-        const init = node.declarations[0].init
-        const args = init.arguments
+      const callee = node.callee
+      if (t.isMemberExpression(callee)) {
+        if (taroImportDefaultName && callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+          astPath.remove()
+        }
+      } else if (callee.name === 'require') {
+        const args = node.arguments
         let value = args[0].value
-        const id = node.declarations[0].id
         if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
           if (value === taroJsComponents) {
             astPath.remove()
@@ -320,53 +326,36 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             if (isDepComponent) {
               astPath.remove()
             } else {
-              if (value === taroJsFramework && id.type === 'Identifier') {
-                taroImportDefaultName = id.name
-                value = taroMiniAppFramework
-              } else if (value === taroJsRedux) {
-                const declarations = node.declarations
-                declarations.forEach(item => {
-                  const id = item.id
-                  if (id.type === 'ObjectPattern') {
-                    const properties = id.properties
-                    properties.forEach(p => {
-                      if (p.type === 'ObjectProperty') {
-                        if (p.value.type === 'Identifier' && p.value.name === 'connect') {
-                          taroJsReduxConnect = p.key.name
-                        }
+              if (t.isVariableDeclaration(astPath.parentPath.parentPath)) {
+                const parentNode = astPath.parentPath.parentPath.node
+                if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
+                  const id = parentNode.declarations[0].id
+                  if (value === taroJsFramework && id.type === 'Identifier') {
+                    taroImportDefaultName = id.name
+                    value = taroMiniAppFramework
+                  } else if (value === taroJsRedux) {
+                    const declarations = parentNode.declarations
+                    declarations.forEach(item => {
+                      const id = item.id
+                      if (id.type === 'ObjectPattern') {
+                        const properties = id.properties
+                        properties.forEach(p => {
+                          if (p.type === 'ObjectProperty') {
+                            if (p.value.type === 'Identifier' && p.value.name === 'connect') {
+                              taroJsReduxConnect = p.key.name
+                            }
+                          }
+                        })
                       }
                     })
                   }
-                })
+                }
               }
               if (!npmSkip) {
                 args[0].value = getExactedNpmFilePath(value, filePath)
               } else {
                 args[0].value = value
               }
-              astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
-            }
-          }
-        }
-      }
-    },
-
-    CallExpression (astPath) {
-      const node = astPath.node
-      const callee = node.callee
-      if (t.isMemberExpression(callee)) {
-        if (taroImportDefaultName && callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
-          astPath.remove()
-        }
-      } else if (callee.name === 'require') {
-        const args = node.arguments
-        let value = args[0].value
-        if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
-          if (Util.REG_STYLE.test(value)) {
-            if (!npmSkip) {
-              args[0].value = getExactedNpmFilePath(value, filePath)
-            } else {
-              args[0].value = value
             }
           }
         }
@@ -971,6 +960,7 @@ async function buildEntry () {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, entryFilePath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${entryFilePath}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1180,6 +1170,7 @@ async function buildSinglePage (page) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputPageJSPath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${pageJs}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1518,6 +1509,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputComponentJSPath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${component}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1663,6 +1655,7 @@ function compileDepScripts (scriptFiles) {
               const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
               const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
               if (uglifyResult.error) {
+                Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${item}`)
                 console.log(uglifyResult.error)
               } else {
                 resCode = uglifyResult.code
