@@ -1,0 +1,1245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`interactive Toast should render LoadingView success 1`] = `
+<LoadingView>
+  <AnimatedComponent
+    source={1}
+    style={
+      Array [
+        Object {
+          "height": 35,
+          "margin": 10,
+          "width": 35,
+        },
+        Object {
+          "transform": Array [
+            Object {
+              "rotateZ": "0deg",
+            },
+          ],
+        },
+      ]
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Object {
+          "height": 35,
+          "margin": 10,
+          "transform": Array [
+            Object {
+              "rotateZ": "0deg",
+            },
+          ],
+          "width": 35,
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 35,
+            "margin": 10,
+            "transform": Array [
+              Object {
+                "rotateZ": "0deg",
+              },
+            ],
+            "width": 35,
+          }
+        }
+      />
+    </Image>
+  </AnimatedComponent>
+</LoadingView>
+`;
+
+exports[`interactive showActionSheet should render ActionSheet success 1`] = `
+<Index
+  actions={
+    Array [
+      Object {
+        "label": "取消",
+        "onPress": [Function],
+        "textStyle": Object {
+          "color": "#000000",
+        },
+        "type": "default",
+      },
+    ]
+  }
+  autoDectect={true}
+  menus={
+    Array [
+      Object {
+        "label": "选项一",
+        "onPress": [Function],
+        "textStyle": Object {
+          "color": "#000000",
+        },
+        "type": "default",
+      },
+      Object {
+        "label": "选项二",
+        "onPress": [Function],
+        "textStyle": Object {
+          "color": "#000000",
+        },
+        "type": "default",
+      },
+    ]
+  }
+  onClose={[Function]}
+  type="ios"
+  visible={false}
+>
+  <Popup
+    onClose={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#EFEFF4",
+        },
+        undefined,
+      ]
+    }
+    visible={false}
+  >
+    <Component
+      hardwareAccelerated={false}
+      onRequestClose={[Function]}
+      transparent={true}
+      visible={false}
+    >
+      <Modal
+        hardwareAccelerated={false}
+        onRequestClose={[Function]}
+        transparent={true}
+        visible={false}
+      >
+        <Mask
+          onPress={[Function]}
+        >
+          <TouchableWithoutFeedback
+            onPress={[Function]}
+          >
+            <Component
+              accessible={true}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Object {
+                    "flex": 1,
+                    "zIndex": 1000,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,.6)",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "flex": 1,
+                      "zIndex": 1000,
+                    },
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,.6)",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <TouchableWithoutFeedback>
+                  <AnimatedComponent
+                    accessible={true}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#EFEFF4",
+                          "bottom": 0,
+                          "left": 0,
+                          "position": "absolute",
+                          "width": 750,
+                        },
+                        Array [
+                          Object {
+                            "backgroundColor": "#EFEFF4",
+                          },
+                          undefined,
+                        ],
+                        Object {
+                          "transform": Array [
+                            Object {
+                              "translateY": 1334,
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                  >
+                    <Component
+                      accessible={true}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "backgroundColor": "#EFEFF4",
+                          "bottom": 0,
+                          "left": 0,
+                          "position": "absolute",
+                          "transform": Array [
+                            Object {
+                              "translateY": 1334,
+                            },
+                          ],
+                          "width": 750,
+                        }
+                      }
+                    >
+                      <View
+                        accessible={true}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        style={
+                          Object {
+                            "backgroundColor": "#EFEFF4",
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "transform": Array [
+                              Object {
+                                "translateY": 1334,
+                              },
+                            ],
+                            "width": 750,
+                          }
+                        }
+                      >
+                        <Component
+                          onLayout={[Function]}
+                        >
+                          <View
+                            onLayout={[Function]}
+                          >
+                            <Component
+                              style={
+                                Array [
+                                  Object {
+                                    "backgroundColor": "#fff",
+                                  },
+                                ]
+                              }
+                            >
+                              <View
+                                style={
+                                  Array [
+                                    Object {
+                                      "backgroundColor": "#fff",
+                                    },
+                                  ]
+                                }
+                              >
+                                <TouchableHighlight
+                                  activeOpacity={0.85}
+                                  delayPressOut={100}
+                                  key="0"
+                                  onPress={[Function]}
+                                  style={
+                                    Array [
+                                      Object {
+                                        "borderColor": "#D9D9D9",
+                                        "borderStyle": "solid",
+                                        "borderTopWidth": 0.5,
+                                      },
+                                      Object {
+                                        "paddingBottom": 10,
+                                        "paddingTop": 10,
+                                      },
+                                      Object {
+                                        "borderTopWidth": 0,
+                                      },
+                                      undefined,
+                                    ]
+                                  }
+                                  underlayColor="#ECECEC"
+                                >
+                                  <Component
+                                    accessible={true}
+                                    isTVSelectable={true}
+                                    onResponderGrant={[Function]}
+                                    onResponderMove={[Function]}
+                                    onResponderRelease={[Function]}
+                                    onResponderTerminate={[Function]}
+                                    onResponderTerminationRequest={[Function]}
+                                    onStartShouldSetResponder={[Function]}
+                                    style={
+                                      Array [
+                                        Object {
+                                          "borderColor": "#D9D9D9",
+                                          "borderStyle": "solid",
+                                          "borderTopWidth": 0.5,
+                                        },
+                                        Object {
+                                          "paddingBottom": 10,
+                                          "paddingTop": 10,
+                                        },
+                                        Object {
+                                          "borderTopWidth": 0,
+                                        },
+                                        undefined,
+                                      ]
+                                    }
+                                  >
+                                    <View
+                                      accessible={true}
+                                      isTVSelectable={true}
+                                      onResponderGrant={[Function]}
+                                      onResponderMove={[Function]}
+                                      onResponderRelease={[Function]}
+                                      onResponderTerminate={[Function]}
+                                      onResponderTerminationRequest={[Function]}
+                                      onStartShouldSetResponder={[Function]}
+                                      style={
+                                        Array [
+                                          Object {
+                                            "borderColor": "#D9D9D9",
+                                            "borderStyle": "solid",
+                                            "borderTopWidth": 0.5,
+                                          },
+                                          Object {
+                                            "paddingBottom": 10,
+                                            "paddingTop": 10,
+                                          },
+                                          Object {
+                                            "borderTopWidth": 0,
+                                          },
+                                          undefined,
+                                        ]
+                                      }
+                                    >
+                                      <Text
+                                        accessible={true}
+                                        allowFontScaling={true}
+                                        ellipsizeMode="tail"
+                                        style={
+                                          Array [
+                                            undefined,
+                                            Object {
+                                              "fontSize": 18,
+                                              "marginBottom": 5.4,
+                                              "marginTop": 5.4,
+                                              "textAlign": "center",
+                                            },
+                                            Object {
+                                              "color": "#000",
+                                            },
+                                            Object {
+                                              "color": "#000000",
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={true}
+                                          allowFontScaling={true}
+                                          ellipsizeMode="tail"
+                                          style={
+                                            Array [
+                                              undefined,
+                                              Object {
+                                                "fontSize": 18,
+                                                "marginBottom": 5.4,
+                                                "marginTop": 5.4,
+                                                "textAlign": "center",
+                                              },
+                                              Object {
+                                                "color": "#000",
+                                              },
+                                              Object {
+                                                "color": "#000000",
+                                              },
+                                            ]
+                                          }
+                                        >
+                                          选项一
+                                        </Text>
+                                      </Text>
+                                    </View>
+                                  </Component>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                  activeOpacity={0.85}
+                                  delayPressOut={100}
+                                  key="1"
+                                  onPress={[Function]}
+                                  style={
+                                    Array [
+                                      Object {
+                                        "borderColor": "#D9D9D9",
+                                        "borderStyle": "solid",
+                                        "borderTopWidth": 0.5,
+                                      },
+                                      Object {
+                                        "paddingBottom": 10,
+                                        "paddingTop": 10,
+                                      },
+                                      Object {},
+                                      undefined,
+                                    ]
+                                  }
+                                  underlayColor="#ECECEC"
+                                >
+                                  <Component
+                                    accessible={true}
+                                    isTVSelectable={true}
+                                    onResponderGrant={[Function]}
+                                    onResponderMove={[Function]}
+                                    onResponderRelease={[Function]}
+                                    onResponderTerminate={[Function]}
+                                    onResponderTerminationRequest={[Function]}
+                                    onStartShouldSetResponder={[Function]}
+                                    style={
+                                      Array [
+                                        Object {
+                                          "borderColor": "#D9D9D9",
+                                          "borderStyle": "solid",
+                                          "borderTopWidth": 0.5,
+                                        },
+                                        Object {
+                                          "paddingBottom": 10,
+                                          "paddingTop": 10,
+                                        },
+                                        Object {},
+                                        undefined,
+                                      ]
+                                    }
+                                  >
+                                    <View
+                                      accessible={true}
+                                      isTVSelectable={true}
+                                      onResponderGrant={[Function]}
+                                      onResponderMove={[Function]}
+                                      onResponderRelease={[Function]}
+                                      onResponderTerminate={[Function]}
+                                      onResponderTerminationRequest={[Function]}
+                                      onStartShouldSetResponder={[Function]}
+                                      style={
+                                        Array [
+                                          Object {
+                                            "borderColor": "#D9D9D9",
+                                            "borderStyle": "solid",
+                                            "borderTopWidth": 0.5,
+                                          },
+                                          Object {
+                                            "paddingBottom": 10,
+                                            "paddingTop": 10,
+                                          },
+                                          Object {},
+                                          undefined,
+                                        ]
+                                      }
+                                    >
+                                      <Text
+                                        accessible={true}
+                                        allowFontScaling={true}
+                                        ellipsizeMode="tail"
+                                        style={
+                                          Array [
+                                            undefined,
+                                            Object {
+                                              "fontSize": 18,
+                                              "marginBottom": 5.4,
+                                              "marginTop": 5.4,
+                                              "textAlign": "center",
+                                            },
+                                            Object {
+                                              "color": "#000",
+                                            },
+                                            Object {
+                                              "color": "#000000",
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={true}
+                                          allowFontScaling={true}
+                                          ellipsizeMode="tail"
+                                          style={
+                                            Array [
+                                              undefined,
+                                              Object {
+                                                "fontSize": 18,
+                                                "marginBottom": 5.4,
+                                                "marginTop": 5.4,
+                                                "textAlign": "center",
+                                              },
+                                              Object {
+                                                "color": "#000",
+                                              },
+                                              Object {
+                                                "color": "#000000",
+                                              },
+                                            ]
+                                          }
+                                        >
+                                          选项二
+                                        </Text>
+                                      </Text>
+                                    </View>
+                                  </Component>
+                                </TouchableHighlight>
+                              </View>
+                            </Component>
+                            <Component
+                              style={
+                                Array [
+                                  Object {
+                                    "backgroundColor": "#fff",
+                                    "marginTop": 6,
+                                  },
+                                ]
+                              }
+                            >
+                              <View
+                                style={
+                                  Array [
+                                    Object {
+                                      "backgroundColor": "#fff",
+                                      "marginTop": 6,
+                                    },
+                                  ]
+                                }
+                              >
+                                <TouchableHighlight
+                                  activeOpacity={0.85}
+                                  delayPressOut={100}
+                                  key="0"
+                                  onPress={[Function]}
+                                  style={
+                                    Array [
+                                      Object {
+                                        "borderColor": "#D9D9D9",
+                                        "borderStyle": "solid",
+                                        "borderTopWidth": 0.5,
+                                      },
+                                      Object {
+                                        "paddingBottom": 10,
+                                        "paddingTop": 10,
+                                      },
+                                      Object {
+                                        "borderTopWidth": 0,
+                                      },
+                                      undefined,
+                                    ]
+                                  }
+                                  underlayColor="#ECECEC"
+                                >
+                                  <Component
+                                    accessible={true}
+                                    isTVSelectable={true}
+                                    onResponderGrant={[Function]}
+                                    onResponderMove={[Function]}
+                                    onResponderRelease={[Function]}
+                                    onResponderTerminate={[Function]}
+                                    onResponderTerminationRequest={[Function]}
+                                    onStartShouldSetResponder={[Function]}
+                                    style={
+                                      Array [
+                                        Object {
+                                          "borderColor": "#D9D9D9",
+                                          "borderStyle": "solid",
+                                          "borderTopWidth": 0.5,
+                                        },
+                                        Object {
+                                          "paddingBottom": 10,
+                                          "paddingTop": 10,
+                                        },
+                                        Object {
+                                          "borderTopWidth": 0,
+                                        },
+                                        undefined,
+                                      ]
+                                    }
+                                  >
+                                    <View
+                                      accessible={true}
+                                      isTVSelectable={true}
+                                      onResponderGrant={[Function]}
+                                      onResponderMove={[Function]}
+                                      onResponderRelease={[Function]}
+                                      onResponderTerminate={[Function]}
+                                      onResponderTerminationRequest={[Function]}
+                                      onStartShouldSetResponder={[Function]}
+                                      style={
+                                        Array [
+                                          Object {
+                                            "borderColor": "#D9D9D9",
+                                            "borderStyle": "solid",
+                                            "borderTopWidth": 0.5,
+                                          },
+                                          Object {
+                                            "paddingBottom": 10,
+                                            "paddingTop": 10,
+                                          },
+                                          Object {
+                                            "borderTopWidth": 0,
+                                          },
+                                          undefined,
+                                        ]
+                                      }
+                                    >
+                                      <Text
+                                        accessible={true}
+                                        allowFontScaling={true}
+                                        ellipsizeMode="tail"
+                                        style={
+                                          Array [
+                                            undefined,
+                                            Object {
+                                              "fontSize": 18,
+                                              "marginBottom": 5.4,
+                                              "marginTop": 5.4,
+                                              "textAlign": "center",
+                                            },
+                                            Object {
+                                              "color": "#000",
+                                            },
+                                            Object {
+                                              "color": "#000000",
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <Text
+                                          accessible={true}
+                                          allowFontScaling={true}
+                                          ellipsizeMode="tail"
+                                          style={
+                                            Array [
+                                              undefined,
+                                              Object {
+                                                "fontSize": 18,
+                                                "marginBottom": 5.4,
+                                                "marginTop": 5.4,
+                                                "textAlign": "center",
+                                              },
+                                              Object {
+                                                "color": "#000",
+                                              },
+                                              Object {
+                                                "color": "#000000",
+                                              },
+                                            ]
+                                          }
+                                        >
+                                          取消
+                                        </Text>
+                                      </Text>
+                                    </View>
+                                  </Component>
+                                </TouchableHighlight>
+                              </View>
+                            </Component>
+                          </View>
+                        </Component>
+                      </View>
+                    </Component>
+                  </AnimatedComponent>
+                </TouchableWithoutFeedback>
+              </View>
+            </Component>
+          </TouchableWithoutFeedback>
+        </Mask>
+      </Modal>
+    </Component>
+  </Popup>
+</Index>
+`;
+
+exports[`interactive showModal should render Dialog success 1`] = `
+<Index
+  autoDectect={true}
+  buttons={
+    Array [
+      Object {
+        "label": "取消",
+        "onPress": [Function],
+        "type": "#000000",
+      },
+      Object {
+        "label": "确定",
+        "onPress": [Function],
+        "type": "#3CC51F",
+      },
+    ]
+  }
+  onClose={[Function]}
+  title="title"
+  visible={true}
+>
+  <Component
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    transparent={true}
+    visible={true}
+  >
+    <Modal
+      hardwareAccelerated={false}
+      onRequestClose={[Function]}
+      transparent={true}
+      visible={true}
+    >
+      <Mask
+        onPress={[Function]}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
+        }
+      >
+        <TouchableWithoutFeedback
+          onPress={[Function]}
+        >
+          <Component
+            accessible={true}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "flex": 1,
+                  "zIndex": 1000,
+                },
+                Object {
+                  "backgroundColor": "rgba(0,0,0,.6)",
+                },
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Object {
+                    "flex": 1,
+                    "zIndex": 1000,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,.6)",
+                  },
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              <TouchableWithoutFeedback>
+                <Component
+                  accessible={true}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#FFFFFF",
+                        "borderRadius": 3,
+                        "overflow": "hidden",
+                        "width": 690,
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  <View
+                    accessible={true}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#FFFFFF",
+                          "borderRadius": 3,
+                          "overflow": "hidden",
+                          "width": 690,
+                        },
+                        undefined,
+                      ]
+                    }
+                  >
+                    <Component
+                      style={
+                        Array [
+                          Object {
+                            "paddingBottom": 8,
+                            "paddingLeft": 25.6,
+                            "paddingRight": 25.6,
+                            "paddingTop": 20.8,
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "paddingBottom": 8,
+                              "paddingLeft": 25.6,
+                              "paddingRight": 25.6,
+                              "paddingTop": 20.8,
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          style={
+                            Array [
+                              Object {
+                                "fontWeight": "400",
+                              },
+                              Object {
+                                "fontSize": 18,
+                                "textAlign": "center",
+                              },
+                              undefined,
+                            ]
+                          }
+                        >
+                          <Text
+                            accessible={true}
+                            allowFontScaling={true}
+                            ellipsizeMode="tail"
+                            style={
+                              Array [
+                                Object {
+                                  "fontWeight": "400",
+                                },
+                                Object {
+                                  "fontSize": 18,
+                                  "textAlign": "center",
+                                },
+                                undefined,
+                              ]
+                            }
+                          >
+                            title
+                          </Text>
+                        </Text>
+                      </View>
+                    </Component>
+                    <Component
+                      style={
+                        Array [
+                          Object {
+                            "paddingLeft": 25.6,
+                            "paddingRight": 25.6,
+                          },
+                          Object {
+                            "paddingBottom": 32,
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "paddingLeft": 25.6,
+                              "paddingRight": 25.6,
+                            },
+                            Object {
+                              "paddingBottom": 32,
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          key=".0"
+                          style={
+                            Array [
+                              Object {
+                                "color": "#999999",
+                                "lineHeight": 19.5,
+                              },
+                              Object {
+                                "fontSize": 15,
+                                "textAlign": "center",
+                              },
+                              undefined,
+                              undefined,
+                            ]
+                          }
+                        >
+                          <Text
+                            accessible={true}
+                            allowFontScaling={true}
+                            ellipsizeMode="tail"
+                            style={
+                              Array [
+                                Object {
+                                  "color": "#999999",
+                                  "lineHeight": 19.5,
+                                },
+                                Object {
+                                  "fontSize": 15,
+                                  "textAlign": "center",
+                                },
+                                undefined,
+                                undefined,
+                              ]
+                            }
+                          >
+                            Test
+                          </Text>
+                        </Text>
+                      </View>
+                    </Component>
+                    <Component
+                      style={
+                        Array [
+                          Object {
+                            "flexDirection": "row",
+                          },
+                          Object {
+                            "alignItems": "center",
+                            "borderColor": "#D5D5D6",
+                            "borderStyle": "solid",
+                            "borderTopWidth": 0.5,
+                            "height": 48,
+                            "justifyContent": "center",
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "flexDirection": "row",
+                            },
+                            Object {
+                              "alignItems": "center",
+                              "borderColor": "#D5D5D6",
+                              "borderStyle": "solid",
+                              "borderTopWidth": 0.5,
+                              "height": 48,
+                              "justifyContent": "center",
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <TouchableHighlight
+                          activeOpacity={0.85}
+                          delayPressOut={100}
+                          key="0"
+                          onPress={[Function]}
+                          style={
+                            Array [
+                              Object {
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                              },
+                              Object {
+                                "flex": 1,
+                                "height": 48,
+                              },
+                              Object {},
+                              Object {},
+                            ]
+                          }
+                          underlayColor="#EEEEEE"
+                        >
+                          <Component
+                            accessible={true}
+                            isTVSelectable={true}
+                            onResponderGrant={[Function]}
+                            onResponderMove={[Function]}
+                            onResponderRelease={[Function]}
+                            onResponderTerminate={[Function]}
+                            onResponderTerminationRequest={[Function]}
+                            onStartShouldSetResponder={[Function]}
+                            style={
+                              Array [
+                                Object {
+                                  "alignItems": "center",
+                                  "justifyContent": "center",
+                                },
+                                Object {
+                                  "flex": 1,
+                                  "height": 48,
+                                },
+                                Object {},
+                                Object {},
+                              ]
+                            }
+                          >
+                            <View
+                              accessible={true}
+                              isTVSelectable={true}
+                              onResponderGrant={[Function]}
+                              onResponderMove={[Function]}
+                              onResponderRelease={[Function]}
+                              onResponderTerminate={[Function]}
+                              onResponderTerminationRequest={[Function]}
+                              onStartShouldSetResponder={[Function]}
+                              style={
+                                Array [
+                                  Object {
+                                    "alignItems": "center",
+                                    "justifyContent": "center",
+                                  },
+                                  Object {
+                                    "flex": 1,
+                                    "height": 48,
+                                  },
+                                  Object {},
+                                  Object {},
+                                ]
+                              }
+                            >
+                              <Text
+                                accessible={true}
+                                allowFontScaling={true}
+                                ellipsizeMode="tail"
+                                style={
+                                  Array [
+                                    Object {
+                                      "fontSize": 18,
+                                    },
+                                    Object {
+                                      "color": "#000000",
+                                    },
+                                  ]
+                                }
+                              >
+                                <Text
+                                  accessible={true}
+                                  allowFontScaling={true}
+                                  ellipsizeMode="tail"
+                                  style={
+                                    Array [
+                                      Object {
+                                        "fontSize": 18,
+                                      },
+                                      Object {
+                                        "color": "#000000",
+                                      },
+                                    ]
+                                  }
+                                >
+                                  取消
+                                </Text>
+                              </Text>
+                            </View>
+                          </Component>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                          activeOpacity={0.85}
+                          delayPressOut={100}
+                          key="1"
+                          onPress={[Function]}
+                          style={
+                            Array [
+                              Object {
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                              },
+                              Object {
+                                "flex": 1,
+                                "height": 48,
+                              },
+                              Object {
+                                "borderColor": "#D5D5D6",
+                                "borderLeftWidth": 0.5,
+                                "borderStyle": "solid",
+                              },
+                              Object {},
+                            ]
+                          }
+                          underlayColor="#EEEEEE"
+                        >
+                          <Component
+                            accessible={true}
+                            isTVSelectable={true}
+                            onResponderGrant={[Function]}
+                            onResponderMove={[Function]}
+                            onResponderRelease={[Function]}
+                            onResponderTerminate={[Function]}
+                            onResponderTerminationRequest={[Function]}
+                            onStartShouldSetResponder={[Function]}
+                            style={
+                              Array [
+                                Object {
+                                  "alignItems": "center",
+                                  "justifyContent": "center",
+                                },
+                                Object {
+                                  "flex": 1,
+                                  "height": 48,
+                                },
+                                Object {
+                                  "borderColor": "#D5D5D6",
+                                  "borderLeftWidth": 0.5,
+                                  "borderStyle": "solid",
+                                },
+                                Object {},
+                              ]
+                            }
+                          >
+                            <View
+                              accessible={true}
+                              isTVSelectable={true}
+                              onResponderGrant={[Function]}
+                              onResponderMove={[Function]}
+                              onResponderRelease={[Function]}
+                              onResponderTerminate={[Function]}
+                              onResponderTerminationRequest={[Function]}
+                              onStartShouldSetResponder={[Function]}
+                              style={
+                                Array [
+                                  Object {
+                                    "alignItems": "center",
+                                    "justifyContent": "center",
+                                  },
+                                  Object {
+                                    "flex": 1,
+                                    "height": 48,
+                                  },
+                                  Object {
+                                    "borderColor": "#D5D5D6",
+                                    "borderLeftWidth": 0.5,
+                                    "borderStyle": "solid",
+                                  },
+                                  Object {},
+                                ]
+                              }
+                            >
+                              <Text
+                                accessible={true}
+                                allowFontScaling={true}
+                                ellipsizeMode="tail"
+                                style={
+                                  Array [
+                                    Object {
+                                      "fontSize": 18,
+                                    },
+                                    Object {
+                                      "color": "#3CC51F",
+                                    },
+                                  ]
+                                }
+                              >
+                                <Text
+                                  accessible={true}
+                                  allowFontScaling={true}
+                                  ellipsizeMode="tail"
+                                  style={
+                                    Array [
+                                      Object {
+                                        "fontSize": 18,
+                                      },
+                                      Object {
+                                        "color": "#3CC51F",
+                                      },
+                                    ]
+                                  }
+                                >
+                                  确定
+                                </Text>
+                              </Text>
+                            </View>
+                          </Component>
+                        </TouchableHighlight>
+                      </View>
+                    </Component>
+                  </View>
+                </Component>
+              </TouchableWithoutFeedback>
+            </View>
+          </Component>
+        </TouchableWithoutFeedback>
+      </Mask>
+    </Modal>
+  </Component>
+</Index>
+`;
