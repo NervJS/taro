@@ -710,7 +710,7 @@ export class RenderParser {
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
-              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
+              path.node.name = t.jSXIdentifier('bind' + name.name[3].toLowerCase() + name.name.slice(3))
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
