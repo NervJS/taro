@@ -180,7 +180,7 @@ this.state.comment = 'Hello'
 this.setState({ comment: 'Hello' })
 ```
 
-`setState()` 函数是唯一能够初始化 `this.state` 的地方。
+`setState()` 函数是唯一能够更新 `this.state` 的地方。
 
 
 ### 状态更新一定是异步的
