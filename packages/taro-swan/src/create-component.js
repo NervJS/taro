@@ -254,15 +254,9 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     ready () {
-      initComponent.apply(this, [ComponentClass, isPage])
-    },
-    detached () {
-      componentTrigger(this.$component, 'componentWillUnmount')
-    }
-  }
-  if (isPage) {
-    weappComponentConf['onLoad'] = weappComponentConf['created']
-    weappComponentConf['onReady'] = function () {
+      if (!isPage) {
+        initComponent.apply(this, [ComponentClass, isPage])
+      }
       setTimeout(() => {
         const component = this.$component
         if (component['$$refs'] && component['$$refs'].length > 0) {
@@ -285,7 +279,14 @@ function createComponent (ComponentClass, isPage) {
           component.refs = refs
         }
       }, 0)
+    },
+    detached () {
+      componentTrigger(this.$component, 'componentWillUnmount')
     }
+  }
+  if (isPage) {
+    weappComponentConf['onLoad'] = weappComponentConf['created']
+    weappComponentConf['onReady'] = weappComponentConf['ready']
     weappComponentConf['onUnload'] = weappComponentConf['detached']
     weappComponentConf['onShow'] = function () {
       componentTrigger(this.$component, 'componentDidShow')
