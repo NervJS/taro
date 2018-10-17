@@ -5,7 +5,7 @@ const GET_STYLE_FUNC_NAME = '_getStyle'
 const MERGE_STYLES_FUNC_NAME = '_mergeStyles'
 const GET_CLS_NAME_FUNC_NAME = '_getClassName'
 const NAME_SUFFIX = 'StyleSheet'
-const cssSuffixs = ['.css', '.scss', '.sass', '.less']
+const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
 
 module.exports = function ({types: t, template}) {
   const mergeStylesFunctionTemplate = template(`

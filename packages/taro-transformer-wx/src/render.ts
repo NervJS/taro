@@ -1291,6 +1291,13 @@ export class RenderParser {
       }
     })
 
+    this.usedThisProperties.forEach(prop => {
+      if (this.renderScope.hasBinding(prop)) {
+        const binding = this.renderScope.getBinding(prop)!
+        throw codeFrameError(binding.path.node, `此变量声明与 this.${prop} 的声明冲突，请更改其中一个变量名。详情见：https://github.com/NervJS/taro/issues/822`)
+      }
+    })
+
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
