@@ -77,7 +77,7 @@ exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 exports.REG_JSON = /\.json(\?.*)?$/
 exports.REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
 
-exports.CSS_IMPORT_REG = /\@import (["'])(.+?)\1;/g
+exports.CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 exports.BUILD_TYPES = {
   WEAPP: 'weapp',
