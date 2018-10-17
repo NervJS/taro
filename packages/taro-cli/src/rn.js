@@ -80,13 +80,14 @@ function compileDepStyles (filePath, styleFiles) {
 
 function initProjectFile (cb) {
   // generator app.json
+  const appJsonObject = Object.assign({}, projectConfig.rn && projectConfig.rn.appJson, {
+    expo: {
+      sdkVersion: '27.0.0'
+    }
+  })
   const appJson = new Vinyl({
     path: 'app.json',
-    contents: Buffer.from(JSON.stringify({
-      expo: {
-        sdkVersion: '27.0.0'
-      }
-    }, null, 2))
+    contents: Buffer.from(JSON.stringify(appJsonObject, null, 2))
   })
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
