@@ -74,7 +74,9 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
                 ) {
                   if (typeof value !== 'string') return
                   let iconName = _.camelCase(value.split('/'))
-                  iconPaths.push(value)
+                  if (iconPaths.indexOf(value) === -1) {
+                    iconPaths.push(value)
+                  }
                   astPath.insertAfter(t.objectProperty(
                     t.identifier(node.key.name || node.key.value),
                     t.identifier(iconName)
