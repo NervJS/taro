@@ -29,6 +29,7 @@ import {
 } from './jsx'
 import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
 import { Adapter, Adapters } from './adapter'
+import { transformOptions } from './options'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -111,7 +112,7 @@ export class RenderParser {
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
-  private usedThisProperties = new Set<t.Identifier>()
+  private usedThisProperties = new Set<string>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -709,7 +710,7 @@ export class RenderParser {
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
-              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
+              path.node.name = t.jSXIdentifier('bind' + name.name[2].toLowerCase() + name.name.slice(3))
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
@@ -763,7 +764,7 @@ export class RenderParser {
           }
           if (t.isIdentifier(id)) {
             this.referencedIdentifiers.add(id)
-            this.usedThisProperties.add(id)
+            this.usedThisProperties.add(id.name)
           }
         }
       },
@@ -1262,7 +1263,12 @@ export class RenderParser {
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
     }
-    const pendingState = t.objectExpression(properties)
+    const pendingState = t.objectExpression(properties.concat(
+      Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
+        t.identifier('_triggerObserer'),
+        t.booleanLiteral(false)
+      ) : []
+    ))
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       t.returnStatement(
@@ -1285,6 +1291,13 @@ export class RenderParser {
       }
     })
 
+    this.usedThisProperties.forEach(prop => {
+      if (this.renderScope.hasBinding(prop)) {
+        const binding = this.renderScope.getBinding(prop)!
+        throw codeFrameError(binding.path.node, `此变量声明与 this.${prop} 的声明冲突，请更改其中一个变量名。详情见：https://github.com/NervJS/taro/issues/822`)
+      }
+    })
+
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
@@ -1293,8 +1306,8 @@ export class RenderParser {
         [
           t.variableDeclarator(
             t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
-              t.identifier(p.name),
-              t.identifier(p.name)
+              t.identifier(p),
+              t.identifier(p)
             ) as any)),
             t.thisExpression()
           )
