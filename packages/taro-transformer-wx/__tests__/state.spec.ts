@@ -165,6 +165,35 @@ describe('State', () => {
       expect(instance.state.list).toEqual(['a'])
     })
 
+    test('从 this 解构出来出来的变量不会重复, 00269d4f55c21d5f8531ae2b6f70203f690ffa09', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          return (
+            <View class={this.list}>{this.list}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+
+    test('从 this 解构出来出来的变量不得与 render 作用域定义的变量重复', () => {
+      const { ast, code } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { list } = this
+          return (
+            <View class={list}>{this.list}</View>
+          )
+        `, `list = ['a']`)
+      })
+
+      const instance = evalClass(ast)
+      expect(instance.state.list).toEqual(['a'])
+    })
+
     test('可以写成员表达式', () => {
       const { ast, code } = transform({
         ...baseOptions,
