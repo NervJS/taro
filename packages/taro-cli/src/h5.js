@@ -264,10 +264,34 @@ function processEntry (code, filePath) {
       const key = node.key
       const value = node.value
       const keyName = t.isIdentifier(key) ? key.name : key.value
-      // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
       if (keyName === 'pages' && t.isArrayExpression(value)) {
         value.elements.forEach(v => {
           pages.push(v.value)
+        })
+      } else if (keyName === 'subPackages' && t.isArrayExpression(value)) {
+        // 处理分包逻辑
+        value.elements.forEach(v => {
+          if (!t.isObjectExpression(v)) return
+          let root = null
+          let subPages = []
+          v.properties.forEach(va => {
+            if (!t.isObjectProperty(va) || !t.isIdentifier(va.key)) return
+            const subPackageKey = va.key.name
+            const subPackageValue = va.value
+            if (subPackageKey === 'root') {
+              root = subPackageValue.value
+              return
+            }
+            if (subPackageKey === 'pages' && t.isArrayExpression(subPackageValue)) {
+              subPackageValue.elements.forEach(val => {
+                subPages.push(val.value)
+              })
+            }
+          })
+          if (root === null) return
+          subPages.forEach(va => {
+            pages.push(`${root}${va}`)
+          })
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar
