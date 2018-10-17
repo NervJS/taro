@@ -180,18 +180,17 @@ describe('State', () => {
     })
 
     test('从 this 解构出来出来的变量不得与 render 作用域定义的变量重复', () => {
-      const { ast, code } = transform({
-        ...baseOptions,
-        code: buildComponent(`
-          const { list } = this
-          return (
-            <View class={list}>{this.list}</View>
-          )
-        `, `list = ['a']`)
-      })
-
-      const instance = evalClass(ast)
-      expect(instance.state.list).toEqual(['a'])
+      expect(() => {
+        transform({
+          ...baseOptions,
+          code: buildComponent(`
+            const { list } = this
+            return (
+              <View class={list}>{this.list}</View>
+            )
+          `, `list = ['a']`)
+        })
+      }).toThrowError(/此变量声明与/)
     })
 
     test('可以写成员表达式', () => {
