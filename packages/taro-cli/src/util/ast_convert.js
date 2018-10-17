@@ -1,4 +1,6 @@
 const t = require('babel-types')
+const babylonConfig = require('../config/babylon')
+const template = require('babel-template')
 
 function convertObjectToAstExpression (obj) {
   const objArr = Object.keys(obj).map(key => {
@@ -48,5 +50,10 @@ function convertArrayToAstExpression (arr) {
   })
 }
 
+function convertSourceStringToAstExpression (str) {
+  return template(str, babylonConfig)()
+}
+
 exports.obj = convertObjectToAstExpression
 exports.array = convertArrayToAstExpression
+exports.source = convertSourceStringToAstExpression

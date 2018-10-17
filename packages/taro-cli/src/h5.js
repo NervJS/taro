@@ -7,14 +7,13 @@ const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const babel = require('babel-core')
 const generate = require('babel-generator').default
-const template = require('babel-template')
 const _ = require('lodash')
 const rimraf = require('rimraf')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
-const babylonConfig = require('./config/babylon')
+const { source: toAst } = require('./util/ast_convert')
 
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
@@ -44,16 +43,20 @@ const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
 const tempDir = '.temp'
+const DEVICE_RATIO = 'deviceRatio'
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-// const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 const sourceDir = path.join(appPath, sourceDirName)
-// const outputDir = path.join(appPath, outputDirName)
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
+let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
+
+if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+  pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+}
 
 let pages = []
 let tabBar
@@ -65,8 +68,6 @@ const FILE_TYPE = {
   COMPONENT: 'COMPONENT',
   NORMAL: 'NORMAL'
 }
-
-const DEVICE_RATIO = 'deviceRatio'
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
@@ -91,6 +92,8 @@ function processEntry (code, filePath) {
   let hasComponentWillUnmount = false
   let hasJSX = false
   let hasState = false
+
+  const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -192,18 +195,21 @@ function processEntry (code, filePath) {
           }
 
           /* 插入<TaroRouter.Router /> */
-          node.body = template(`{return (${funcBody});}`, babylonConfig)()
+          node.body = toAst(`{return (${funcBody});}`)
         }
         if (tabBar && isComponentWillMount) {
-          astPath.get('body').pushContainer('body', template(`Taro.initTabBarApis(this, Taro)`, babylonConfig)())
+          const initTabBarApisCallNode = toAst(`Taro.initTabBarApis(this, Taro)`)
+          astPath.get('body').pushContainer('body', initTabBarApisCallNode)
         }
 
         if (hasComponentDidShow && isComponentDidMount) {
-          astPath.get('body').pushContainer('body', template(`this.componentDidShow()`, babylonConfig)())
+          const componentDidShowCallNode = toAst(`this.componentDidShow()`)
+          astPath.get('body').pushContainer('body', componentDidShowCallNode)
         }
 
         if (hasComponentDidHide && isComponentWillUnmount) {
-          astPath.get('body').unshiftContainer('body', template(`this.componentDidHide()`, babylonConfig)())
+          const componentDidHideCallNode = toAst(`this.componentDidHide()`)
+          astPath.get('body').unshiftContainer('body', componentDidHideCallNode)
         }
       }
     },
@@ -296,7 +302,6 @@ function processEntry (code, filePath) {
         const source = node.source
         const value = source.value
         const specifiers = node.specifiers
-
         if (!Util.isNpmPkg(value)) {
           if (value.indexOf('.') === 0) {
             const pathArr = value.split('/')
@@ -419,46 +424,31 @@ function processEntry (code, filePath) {
     },
     Program: {
       exit (astPath) {
-        const node = astPath.node
-
-        if (hasJSX && !hasAddNervJsImportDefaultName) {
-          node.body.unshift(
-            t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-          )
-        }
-
-        astPath.traverse(programExitVisitor)
-        const pxTransformConfig = {
-          designWidth: projectConfig.designWidth || 750
-        }
-        if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
-          pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
-        }
-
-        const newBody = [
-          template(
-            `import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`,
-            babylonConfig
-          )(),
-          template(
-            `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`,
-            babylonConfig
-          )(),
-          ...node.body,
-          template(
-            `Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`,
-            babylonConfig
-          )(),
-          template(renderCallCode, babylonConfig)()
+        const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+        const importRouterNode = toAst(`import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`)
+        const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
+        const renderCallNode = toAst(renderCallCode)
+        const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
+        const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
+        const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
+        const extraNodes = [
+          importTaroH5Node,
+          importRouterNode,
+          initPxTransformNode
         ]
 
-        tabBar && newBody.unshift(template(
-          `import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`,
-          babylonConfig
-        )())
+        astPath.traverse(programExitVisitor)
 
-        node.body = newBody
-        // node.body.push(routerStarter)
+        if (hasJSX && !hasAddNervJsImportDefaultName) {
+          extraNodes.unshift(importNervjsNode)
+        }
+        if (tabBar) {
+          extraNodes.unshift(importComponentNode)
+        }
+
+        lastImportNode.insertAfter(extraNodes)
+
+        astPath.pushContainer('body', renderCallNode)
       }
     }
   })
@@ -593,10 +583,8 @@ function processOthers (code, filePath) {
           )
         }
         if (taroImportDefaultName) {
-          const importTaro = template(`
-            import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'
-          `, babylonConfig)
-          node.body.unshift(importTaro())
+          const importTaro = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
+          node.body.unshift(importTaro)
         }
       }
     }
