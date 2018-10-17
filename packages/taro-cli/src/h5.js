@@ -288,7 +288,6 @@ function processEntry (code, filePath) {
         if (key.name === 'state') hasState = true
         if (key.name !== 'config' || !t.isObjectExpression(value)) return
         astPath.traverse(classPropertyVisitor)
-        astPath.remove()
       }
     },
     ImportDeclaration: {

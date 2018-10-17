@@ -188,7 +188,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                         left.property.type === 'Identifier' &&
                         left.property.name === 'config') {
                         configObj = traverseObjectNode(node.expression.right)
-                        astPath.remove()
                       }
                     }
                   }
@@ -244,7 +243,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const node = astPath.node
       if (node.key.name === 'config') {
         configObj = traverseObjectNode(node)
-        astPath.remove()
       }
     },
 
