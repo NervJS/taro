@@ -5,6 +5,11 @@ import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents } from './wxml'
 import { PageLifecycle } from './lifecycle'
 
+const buildDecorator = (type: string) => t.decorator(t.callExpression(
+  t.identifier('withWeapp'),
+  [t.stringLiteral(type)]
+))
+
 export function parseScript (script?: string, returned?: t.Expression, json?: t.ObjectExpression) {
   script = script || 'Page({})'
   const { ast } = transform(script, {
@@ -51,6 +56,7 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
       }
       if (callee.isIdentifier({ name: 'Page' }) || callee.isIdentifier({ name: 'Component' })) {
         classDecl = parsePage(path, returned || t.nullLiteral(), json)!
+        classDecl.decorators = [buildDecorator(callee.node.name)]
         path.insertAfter(
           t.exportDefaultDeclaration(classDecl)
         )
