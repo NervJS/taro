@@ -66,7 +66,10 @@ function buildElement (
 
 export const usedComponents = new Set<string>()
 
-export function parseWXML (wxml: string) {
+export function parseWXML (wxml?: string) {
+  if (!wxml) {
+    return t.nullLiteral()
+  }
   const nodes = removEmptyTextAndComment(parse(wxml.trim()))
   const ast = t.file(t.program([t.expressionStatement(parseNode(buildElement('block', nodes)) as t.Expression)], []))
 

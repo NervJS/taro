@@ -5,7 +5,8 @@ import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents } from './wxml'
 import { PageLifecycle } from './lifecycle'
 
-export function parseScript (script: string, returned: t.Expression, json?: t.ObjectExpression) {
+export function parseScript (script?: string, returned?: t.Expression, json?: t.ObjectExpression) {
+  script = script || 'Page({})'
   const { ast } = transform(script, {
     parserOpts: {
       sourceType: 'module',
