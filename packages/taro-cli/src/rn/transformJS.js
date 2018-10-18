@@ -8,6 +8,7 @@ const template = require('babel-template')
 const wxTransformer = require('@tarojs/transformer-wx')
 const Util = require('../util')
 const babylonConfig = require('../config/babylon')
+const {source: toAst} = require('../util/ast_convert')
 
 const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
@@ -15,6 +16,7 @@ let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const routerImportDefaultName = 'TaroRouter'
+const DEVICE_RATIO = 'deviceRatio'
 
 const taroApis = [
   'getEnv',
@@ -35,6 +37,16 @@ const PACKAGES = {
   'react': 'react',
   'react-native': 'react-native',
   'react-redux-rn': '@tarojs/taro-redux-rn'
+}
+
+function getInitPxTransformNode (projectConfig) {
+  let pxTransformConfig = {designWidth: projectConfig.designWidth || 750}
+
+  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+    pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+  }
+  const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
+  return initPxTransformNode
 }
 
 function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
@@ -405,14 +417,17 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             babylonConfig
           )()
           node.body.push(initNativeApi)
+
           // import @tarojs/taro-router-rn
-          if (isEntryFile) {
-            const importTaroRouter = template(
-              `import TaroRouter from '${PACKAGES['@tarojs/taro-router-rn']}'`,
-              babylonConfig
-            )()
-            node.body.unshift(importTaroRouter)
-          }
+          const importTaroRouter = template(
+            `import TaroRouter from '${PACKAGES['@tarojs/taro-router-rn']}'`,
+            babylonConfig
+          )()
+          node.body.unshift(importTaroRouter)
+
+          // Taro.initPxTransform
+          node.body.push(getInitPxTransformNode(projectConfig))
+
           // export default App
           if (!hasAppExportDefault) {
             const appExportDefault = template(
