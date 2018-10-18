@@ -196,27 +196,46 @@ export class RenderParser {
           block.children = [ jsxElementPath.node ]
           // newJSXIfAttr(jsxElementPath.node, test)
           parentPath.replaceWith(block)
-          if (statementParent) {
-            const name = findIdentifierFromStatement(
-              statementParent.node as t.VariableDeclaration
-            )
-            setTemplate(name, jsxElementPath, this.templates)
-            // name && templates.set(name, path.node)
-          }
+        } else {
+          const block2 = buildBlockElement()
+          block.children = [consequent]
+          newJSXIfAttr(block, test)
+          setJSXAttr(block2, Adapter.else)
+          block2.children = [t.jSXExpressionContainer(alternate)]
+          const parentBlock = buildBlockElement()
+          parentBlock.children = [block, block2]
+          parentPath.replaceWith(parentBlock)
+        }
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
         }
       } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
-        if (t.isNullLiteral(consequent)) {
+        const { value, confident } = parentPath.get('consequent').evaluate()
+        if (confident && !value) {
           newJSXIfAttr(block, reverseBoolean(test))
-          // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
           block.children = [ jsxElementPath.node ]
+          // newJSXIfAttr(jsxElementPath.node, test)
           parentPath.replaceWith(block)
-          if (statementParent) {
-            const name = findIdentifierFromStatement(
-              statementParent.node as t.VariableDeclaration
-            )
-            setTemplate(name, jsxElementPath, this.templates)
-            // name && templates.set(name, path.node)
-          }
+        } else {
+          const block2 = buildBlockElement()
+          block.children = [t.jSXExpressionContainer(consequent)]
+          newJSXIfAttr(block, test)
+          setJSXAttr(block2, Adapter.else)
+          block2.children = [alternate]
+          const parentBlock = buildBlockElement()
+          parentBlock.children = [block, block2]
+          parentPath.replaceWith(parentBlock)
+        }
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
         }
       } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
         const block2 = buildBlockElement()
