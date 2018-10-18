@@ -182,63 +182,6 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 
 export function componentTrigger (component, key, args) {
   args = args || []
-  if (key === 'componentWillMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        if (ref.type === 'component') {
-          target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = swan.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'dom') {
-          target = query.select(`#${ref.id}`)
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = swan.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'component') {
-          target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
-        } else {
-          target = query.select(`#${ref.id}`)
-        }
-        if ('refName' in ref && ref['refName']) {
-          refs[ref.refName] = target
-        } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-          ref['fn'].call(component, target)
-        }
-      })
-      component.refs = refs
-    }
-  }
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -311,7 +254,31 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     ready () {
-      initComponent.apply(this, [ComponentClass, isPage])
+      if (!isPage) {
+        initComponent.apply(this, [ComponentClass, isPage])
+      }
+      setTimeout(() => {
+        const component = this.$component
+        if (component['$$refs'] && component['$$refs'].length > 0) {
+          let refs = {}
+          component['$$refs'].forEach(ref => {
+            let target
+            const query = swan.createSelectorQuery().in(this)
+            if (ref.type === 'component') {
+              target = this.selectComponent(`#${ref.id}`)
+              target = target.$component || target
+            } else {
+              target = query.select(`#${ref.id}`)
+            }
+            if ('refName' in ref && ref['refName']) {
+              refs[ref.refName] = target
+            } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+              ref['fn'].call(component, target)
+            }
+          })
+          component.refs = refs
+        }
+      }, 0)
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')
@@ -319,9 +286,10 @@ function createComponent (ComponentClass, isPage) {
   }
   if (isPage) {
     weappComponentConf['onLoad'] = weappComponentConf['created']
+    weappComponentConf['onReady'] = weappComponentConf['ready']
     weappComponentConf['onUnload'] = weappComponentConf['detached']
     weappComponentConf['onShow'] = function () {
-      this.$component && this.$component.__mounted && componentTrigger(this.$component, 'componentDidShow')
+      componentTrigger(this.$component, 'componentDidShow')
     }
     weappComponentConf['onHide'] = function () {
       componentTrigger(this.$component, 'componentDidHide')

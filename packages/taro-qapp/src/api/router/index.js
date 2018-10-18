@@ -13,6 +13,16 @@ export function navigateBack (options = {}) {
 }
 
 export function switchTab (options = {}) {
+  router.clear()
+  return qappNavigate(options, 'replace')
+}
+
+export function getCurrentPages () {
+  return router.getLength()
+}
+
+export function reLaunch (options = {}) {
+  router.clear()
   return qappNavigate(options, 'replace')
 }
 
@@ -56,8 +66,10 @@ function getUrlParams (url = '') {
 }
 
 export default { 
+  reLaunch,
+  switchTab,
   navigateTo,
   redirectTo,
   navigateBack,
-  switchTab 
+  getCurrentPages 
 }
