@@ -5,8 +5,8 @@ import { parseJSON } from './json'
 
 interface Option {
   json?: string,
-  script: string,
-  wxml: string
+  script?: string,
+  wxml?: string
 }
 
 export function parse (option: Option): t.File {
