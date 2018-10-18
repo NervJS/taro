@@ -24,7 +24,7 @@ function defineGetter (component: Component, key: string, getter: string) {
 }
 
 export function withWeapp (componentType: string) {
-  const isComponent = componentType === 'component'
+  const isComponent = componentType === 'Component'
 
   return (ConnectComponent: ComponentClass) => class BaseComponent<_ = {}, S = {}> extends ConnectComponent {
     constructor (props) {
