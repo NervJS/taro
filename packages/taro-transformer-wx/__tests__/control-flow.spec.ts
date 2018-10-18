@@ -372,8 +372,6 @@ describe('三元表达式', () => {
         `)
       })
 
-      console.log(code)
-
       expect(template).toMatch(prettyPrint(`
         <block>
             <view>
@@ -381,7 +379,7 @@ describe('三元表达式', () => {
                     <block wx:if=\"{{title}}\">
                         <text>yes</text>
                     </block>
-                    <block wx:else>{{test}}</block>
+                    <block wx:else>{{anonymousState__temp}}</block>
                 </block>
             </view>
         </block>

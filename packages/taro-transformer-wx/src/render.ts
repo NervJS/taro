@@ -254,15 +254,13 @@ export class RenderParser {
           )
           setTemplate(name, jsxElementPath, this.templates)
         }
-      } else if (
-        (t.isJSXElement(consequent) && t.isCallExpression(alternate))
-        // ||
-        // (t.isJSXElement(alternate) && t.isCallExpression(consequent))
-      ) {
+      } else if (t.isJSXElement(consequent) && t.isCallExpression(alternate)) {
         const id = generateAnonymousState(this.renderScope!, parentPath.get('alternate') as any, this.referencedIdentifiers, true)
-        // block.children = [t.jSXExpressionContainer(alternate)]
         parentPath.get('alternate').replaceWith(id)
         //
+      } else if (t.isJSXElement(alternate) && t.isCallExpression(consequent)) {
+        const id = generateAnonymousState(this.renderScope!, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
+        parentPath.get('consequent').replaceWith(id)
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
