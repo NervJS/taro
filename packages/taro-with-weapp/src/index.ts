@@ -1,5 +1,4 @@
-import { Component, ComponentLifecycle } from '@tarojs/taro'
-import { set as safeSet } from 'lodash'
+import { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
 
 type WeappLifeCycle = () => void
 
@@ -27,7 +26,7 @@ function defineGetter (component: Component, key: string, getter: string) {
 export function withWeapp (componentType: string) {
   const isComponent = componentType === 'component'
 
-  return (ConnectComponent: ComponentClass) => class Fuck<_ = {}, S = {}> extends ConnectComponent {
+  return (ConnectComponent: ComponentClass) => class BaseComponent<_ = {}, S = {}> extends ConnectComponent {
     constructor (props) {
       super(props)
       defineGetter(this, 'data', 'state')

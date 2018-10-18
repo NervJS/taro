@@ -421,6 +421,9 @@ declare namespace Taro {
 
   function render(component: Component | JSX.Element, element: Element | null)
 
+  function internal_safe_set (...arg): any
+  function internal_safe_get (...arg): any
+
   function pxTransform(size: number): string
 
   /**

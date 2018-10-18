@@ -50,7 +50,7 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
         }
       }
       if (callee.isIdentifier({ name: 'Page' }) || callee.isIdentifier({ name: 'Component' })) {
-        classDecl = parsePage(path, returned, json)!
+        classDecl = parsePage(path, returned || t.nullLiteral(), json)!
         path.insertAfter(
           t.exportDefaultDeclaration(classDecl)
         )
