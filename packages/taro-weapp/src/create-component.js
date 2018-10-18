@@ -346,7 +346,7 @@ function createComponent (ComponentClass, isPage) {
         if (cacheDataHas(this.data[preloadPrivateKey])) {
           this.$component.$preloadData = cacheDataGet(this.data[preloadPrivateKey], true)
         } else {
-          this.$component.$preloadData = {}
+          this.$component.$preloadData = null
         }
       }
       if (!isPage || hasParamsCache || ComponentClass.defaultParams) {
