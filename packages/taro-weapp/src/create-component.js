@@ -212,52 +212,17 @@ function filterParams (data, defaultParams = {}) {
 
 export function componentTrigger (component, key, args) {
   args = args || []
-  if (key === 'componentWillMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        if (ref.type === 'component') {
-          target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
+
   if (key === 'componentDidMount') {
     if (component['$$refs'] && component['$$refs'].length > 0) {
       let refs = {}
       component['$$refs'].forEach(ref => {
         let target
-        const query = wx.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'dom') {
-          target = query.select(`#${ref.id}`)
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = wx.createSelectorQuery().in(component.$scope)
         if (ref.type === 'component') {
           target = component.$scope.selectComponent(`#${ref.id}`)
           target = target.$component || target
         } else {
+          const query = wx.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
         if ('refName' in ref && ref['refName']) {
@@ -266,9 +231,10 @@ export function componentTrigger (component, key, args) {
           ref['fn'].call(component, target)
         }
       })
-      component.refs = refs
+      component.refs = Object.assign({}, component.refs || {}, refs)
     }
   }
+
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -283,6 +249,17 @@ export function componentTrigger (component, key, args) {
     component._dirty = false
     component._disable = false
     component.state = component.getState()
+  }
+  if (key === 'componentWillUnmount') {
+    // refs
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      component['$$refs'].forEach(ref => {
+        if ('fn' in ref && typeof ref['fn'] === 'function') {
+          ref['fn'].call(component, null)
+        }
+      })
+      component.refs = {}
+    }
   }
 }
 

@@ -552,6 +552,42 @@ describe('Template', () => {
 
     })
 
+    test('第三方组件事件首字母小写', () => {
+      const { template } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { list } = this.state
+          return (
+            <ec-chart onChange={this.handleChange} />
+          )
+          `, `config = { usingComponents: { 'ec-chart': '../path' } }`)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <ec-chart bindchange="handleChange" __triggerObserer="{{ _triggerObserer }}"></ec-chart>
+        </block>
+      `))
+    })
+
+    test('第三方组件事件首字母小写 2', () => {
+      const { template } = transform({
+        ...baseOptions,
+        code: buildComponent(`
+          const { list } = this.state
+          return (
+            <ec-chart onchange={this.handleChange} />
+          )
+          `, `config = { usingComponents: { 'ec-chart': '../path' } }`)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <ec-chart bindchange="handleChange" __triggerObserer="{{ _triggerObserer }}"></ec-chart>
+        </block>
+      `))
+    })
+
     // test('本来是下划线不用再转', () => {
     //   const { template } = transform({
     //     ...baseOptions,
