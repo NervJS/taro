@@ -45,6 +45,7 @@ Taro.pxTransform(10) // 小程序：rpx，H5：rem
 
 ```js
 {
+  onePxTransform: true,
   unitPrecision: 5,
   propList: ['*'],
   selectorBlackList: [],
@@ -55,6 +56,9 @@ Taro.pxTransform(10) // 小程序：rpx，H5：rem
 ```
 
 Type: `Object | Null`
+
+### `onePxTransform` (Boolean)
+设置 1px 是否需要被转换
 
 ### `unitPrecision` (Number)
 REM 单位允许的小数位。

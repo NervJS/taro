@@ -51,8 +51,6 @@ export const TARO_PACKAGE_NAME = '@tarojs/taro'
 
 export const COMPONENTS_PACKAGE_NAME = '@tarojs/components'
 
-export const ASYNC_PACKAGE_NAME = '@tarojs/async-await'
-
 export const REDUX_PACKAGE_NAME = '@tarojs/redux'
 
 export const MAP_CALL_ITERATOR = '__item'
@@ -63,7 +61,9 @@ export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
 export const LOOP_STATE = '$loopState'
 
-export const LOOP_ORIGINAL = '$original'
+export let LOOP_ORIGINAL = '$original'
+
+export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 
 export const LOOP_CALLEE = '$anonymousCallee_'
 

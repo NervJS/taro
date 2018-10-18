@@ -40,8 +40,8 @@ class RefreshProvider extends React.Component {
     this.props.onReachBottom && this.props.onReachBottom()
   }
 
-  handlePullDownRefresh = () => {
-    this.setState({refreshing: true})
+  handlePullDownRefresh = (callback) => {
+    this.setState({refreshing: true}, callback)
     try {
       // TODO 处理异步的情况
       this.props.onPullDownRefresh && this.props.onPullDownRefresh()
@@ -52,8 +52,8 @@ class RefreshProvider extends React.Component {
     }
   }
 
-  stopPullDownRefresh = () => {
-    this.setState({refreshing: false})
+  stopPullDownRefresh = (callback) => {
+    this.setState({refreshing: false}, callback)
   }
 }
 

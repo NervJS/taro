@@ -179,6 +179,7 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
         if (uglifyResult.error) {
+          printLog(pocessTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
           console.log(uglifyResult.error)
         } else {
           fileContent = uglifyResult.code
@@ -211,7 +212,7 @@ function npmCodeHack (filePath, content) {
       content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
       break
     case '_freeGlobal.js':
-      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || {};')
   }
   return content
 }

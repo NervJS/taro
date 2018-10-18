@@ -14,7 +14,7 @@ const voidHtmlTags = new Set<string>([
   'input',
   'isindex',
   'keygen',
-  'link',
+  // 'link',
   'menuitem',
   'meta',
   'nextid',

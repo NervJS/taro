@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaroProvider should render success 1`] = `
+<RefreshProvider
+  Taro={
+    Object {
+      "getCurrentPages": [Function],
+      "navigateBack": [Function],
+      "navigateTo": [Function],
+      "redirectTo": [Function],
+      "startPullDownRefresh": null,
+      "stopPullDownRefresh": null,
+      "switchTab": [Function],
+    }
+  }
+>
+  <HomeScreen />
+</RefreshProvider>
+`;

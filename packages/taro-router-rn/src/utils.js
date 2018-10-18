@@ -7,6 +7,9 @@ export const HEADER_CONFIG_MAP = {
 }
 
 export function getNavigationOptions (config = {}) {
+  if (typeof config !== 'object') {
+    throw new Error('window 必须是对象')
+  }
   let navigationOptions = {}
   Object.keys(config).forEach(function (key) {
     if (key in HEADER_CONFIG_MAP) {

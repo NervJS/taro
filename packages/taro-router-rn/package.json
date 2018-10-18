@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-router-rn",
-  "version": "1.1.0-beta.4",
+  "version": "1.1.0-beta.9",
   "description": "taro-router-rn",
   "main": "./src/index.js",
   "files": [
@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,25 @@
   "dependencies": {
     "query-string": "^6.1.0",
     "react-navigation": "^2.7.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
+    "jest": "^23.6.0",
+    "jest-environment-enzyme": "^7.0.0",
+    "jest-enzyme": "^7.0.0",
+    "jest-mock-console": "^0.4.0",
+    "jest-react-native": "^18.0.0",
+    "react": "^16.3.0",
+    "react-native": "^0.55.4",
+    "react-test-renderer": "^16.5.2",
+    "regenerator-runtime": "^0.12.1"
   }
 }

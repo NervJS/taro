@@ -273,4 +273,18 @@ import appStyleSheet from './app.css';
 var _styleSheet = appStyleSheet;
 render(<div style={_styleSheet["header"]} />);`)
   })
+
+  it('transform stylus in render', () => {
+    expect(getTransfromCode(`
+import { createElement, render } from 'rax';
+import './app.styl';
+
+render(<div className="header" />);
+`)).toBe(`
+import { createElement, render } from 'rax';
+import appStyleSheet from './app_styles';
+
+var _styleSheet = appStyleSheet;
+render(<div style={_styleSheet["header"]} />);`)
+  })
 })

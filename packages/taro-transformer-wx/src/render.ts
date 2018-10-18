@@ -29,6 +29,7 @@ import {
 } from './jsx'
 import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
 import { Adapter, Adapters } from './adapter'
+import { transformOptions } from './options'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -111,6 +112,7 @@ export class RenderParser {
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
+  private usedThisProperties = new Set<string>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -299,8 +301,10 @@ export class RenderParser {
     }
   }
 
+  hasStateOrProps = p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name)
+
   private loopComponentVisitor: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const id = path.get('id')
       const init = path.get('init')
       const parentPath = path.parentPath
@@ -310,6 +314,13 @@ export class RenderParser {
         parentPath.isVariableDeclaration()
       ) {
         const { properties } = id.node
+        const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name))
+        if (hasStateOrProps.length === 0) {
+          return
+        }
+        if (hasStateOrProps.length !== properties.length) {
+          throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
+        }
         const declareState = template('const state = this.state;')()
         if (properties.length > 1) {
           const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))
@@ -462,6 +473,11 @@ export class RenderParser {
                       )
                     }
                   }
+                },
+                JSXElement: (jsxElementPath) => {
+                  this.handleJSXElement(jsxElementPath, (options) => {
+                    this.handleConditionExpr(options, jsxElementPath)
+                  })
                 }
               })
             }
@@ -694,7 +710,7 @@ export class RenderParser {
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
-              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
+              path.node.name = t.jSXIdentifier('bind' + name.name[2].toLowerCase() + name.name.slice(3))
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
@@ -723,48 +739,78 @@ export class RenderParser {
         this.addRefIdentifier(path, path.node)
       }
     },
-    MemberExpression: (path) => {
-      if (!isChildrenOfJSXAttr(path)) {
-        return
-      }
-      if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
-        return
-      }
-      const { object, property } = path.node
-      if (
-        t.isMemberExpression(object) &&
-        t.isThisExpression(object.object) &&
-        t.isIdentifier(object.property, { name: 'state' })
-      ) {
-        if (t.isIdentifier(property)) {
-          this.usedThisState.add(property.name)
-        } else if (t.isMemberExpression(property)) {
-          const id = findFirstIdentifierFromMemberExpression(property)
-          if (id && this.renderScope.hasBinding(id.name)) {
-            this.usedThisState.add(id.name)
+    MemberExpression: {
+      exit: (path: NodePath<t.MemberExpression>) => {
+        const { object, property } = path.node
+        if (!path.isReferencedMemberExpression()) {
+          return
+        }
+        if (!t.isThisExpression(object)) {
+          return
+        }
+        const reserves = new Set([
+          'state',
+          'props',
+          ...this.methods.keys()
+        ])
+        if (t.isIdentifier(property) || t.isMemberExpression(property)) {
+          const id = t.isIdentifier(property) ? property : findFirstIdentifierFromMemberExpression(property)
+          if (reserves.has(id.name)) {
+            return
+          }
+          const jsxAttr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+          if (jsxAttr && t.isJSXIdentifier(jsxAttr.node.name) && jsxAttr.node.name.name.startsWith('on')) {
+            return
+          }
+          if (t.isIdentifier(id)) {
+            this.referencedIdentifiers.add(id)
+            this.usedThisProperties.add(id.name)
           }
         }
-        return
-      }
-      const code = generate(path.node).code
-      if (code.includes('this.$router.params') && t.isIdentifier(property)) {
-        const name = this.renderScope.generateUid(property.name)
-        const dcl = buildConstVariableDeclaration(name, path.node)
-        this.renderPath.node.body.body.unshift(dcl)
-        path.replaceWith(t.identifier(name))
-      }
-      const parentPath = path.parentPath
-      const id = findFirstIdentifierFromMemberExpression(path.node)
-      if (t.isThisExpression(id)) {
-        return
-      }
-      if (
-        parentPath.isConditionalExpression() ||
-        parentPath.isLogicalExpression() ||
-        parentPath.isJSXExpressionContainer() ||
-        (this.renderScope.hasOwnBinding(id.name))
-      ) {
-        this.addRefIdentifier(path, id)
+      },
+      enter: (path) => {
+        if (!isChildrenOfJSXAttr(path)) {
+          return
+        }
+        if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
+          return
+        }
+        const { object, property } = path.node
+        if (
+          t.isMemberExpression(object) &&
+          t.isThisExpression(object.object) &&
+          t.isIdentifier(object.property, { name: 'state' })
+        ) {
+          if (t.isIdentifier(property)) {
+            this.usedThisState.add(property.name)
+          } else if (t.isMemberExpression(property)) {
+            const id = findFirstIdentifierFromMemberExpression(property)
+            if (id && this.renderScope.hasBinding(id.name)) {
+              this.usedThisState.add(id.name)
+            }
+          }
+          return
+        }
+        const code = generate(path.node).code
+        if (code.includes('this.$router.params') && t.isIdentifier(property)) {
+          const name = this.renderScope.generateUid(property.name)
+          const dcl = buildConstVariableDeclaration(name, path.node)
+          this.renderPath.node.body.body.unshift(dcl)
+          path.replaceWith(t.identifier(name))
+        }
+        const parentPath = path.parentPath
+        const id = findFirstIdentifierFromMemberExpression(path.node)
+        if (t.isThisExpression(id)) {
+          return
+        }
+        if (
+          parentPath.isConditionalExpression() ||
+          parentPath.isLogicalExpression() ||
+          parentPath.isJSXExpressionContainer() ||
+          (this.renderScope.hasOwnBinding(id.name))
+        ) {
+          this.addRefIdentifier(path, id)
+        }
       }
     },
     ArrowFunctionExpression: (path) => {
@@ -1217,7 +1263,12 @@ export class RenderParser {
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
     }
-    const pendingState = t.objectExpression(properties)
+    const pendingState = t.objectExpression(properties.concat(
+      Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
+        t.identifier('_triggerObserer'),
+        t.booleanLiteral(false)
+      ) : []
+    ))
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       t.returnStatement(
@@ -1240,9 +1291,28 @@ export class RenderParser {
       }
     })
 
+    this.usedThisProperties.forEach(prop => {
+      if (this.renderScope.hasBinding(prop)) {
+        const binding = this.renderScope.getBinding(prop)!
+        throw codeFrameError(binding.path.node, `此变量声明与 this.${prop} 的声明冲突，请更改其中一个变量名。详情见：https://github.com/NervJS/taro/issues/822`)
+      }
+    })
+
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
-      template(`this.__props = arguments[1] || this.props || {};`)()
+      template(`this.__props = arguments[1] || this.props || {};`)(),
+      t.variableDeclaration(
+        'const',
+        [
+          t.variableDeclarator(
+            t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
+              t.identifier(p),
+              t.identifier(p)
+            ) as any)),
+            t.thisExpression()
+          )
+        ]
+      )
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {

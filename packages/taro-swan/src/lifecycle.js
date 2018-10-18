@@ -89,15 +89,16 @@ function doUpdate (component, prevProps, prevState) {
     if (component.__mounted && typeof component.componentDidUpdate === 'function') {
       component.componentDidUpdate(prevProps, prevState)
     }
-    if (component._pendingCallbacks) {
-      while (component._pendingCallbacks.length) {
-        component._pendingCallbacks.pop().call(component)
-      }
+    const cbs = component._pendingCallbacks
+    if (cbs && cbs.length) {
+      const len = cbs.length
+      let i = len
+      while (--i >= 0) cbs[i].call(component)
+      cbs.splice(0, len)
     }
     if (!component.__mounted) {
       component.__mounted = true
       componentTrigger(component, 'componentDidMount')
-      componentTrigger(component, 'componentDidShow')
     }
   })
 }

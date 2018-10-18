@@ -2998,7 +2998,7 @@ Taro.navigateToMiniProgram(params).then(...)
 ```jsx
 import Taro from '@tarojs/taro'
 
-Taro.navigateToMiniProgram()
+Taro.getUpdateManager()
 ```
 
 > API 支持度

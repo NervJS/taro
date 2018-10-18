@@ -14,7 +14,8 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "rootDir": ".",
+    "allowJs": true
   },
   "include": ["src"],
   "exclude": [
