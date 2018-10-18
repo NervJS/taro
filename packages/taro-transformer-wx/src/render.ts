@@ -756,6 +756,7 @@ export class RenderParser {
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
+        parentPath.isBinaryExpression() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
         this.addRefIdentifier(path, path.node)
@@ -829,6 +830,7 @@ export class RenderParser {
           parentPath.isConditionalExpression() ||
           parentPath.isLogicalExpression() ||
           parentPath.isJSXExpressionContainer() ||
+          parentPath.isBinaryExpression() ||
           (this.renderScope.hasOwnBinding(id.name))
         ) {
           this.addRefIdentifier(path, id)
@@ -930,6 +932,7 @@ export class RenderParser {
   }
 
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
+    debugger
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
       this.loopRefIdentifiers.set(id.name, arrayMap)
