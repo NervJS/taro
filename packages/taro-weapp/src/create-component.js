@@ -230,6 +230,7 @@ export function componentTrigger (component, key, args) {
         } else if ('fn' in ref && typeof ref['fn'] === 'function') {
           ref['fn'].call(component, target)
         }
+        ref.target = target
       })
       component.refs = Object.assign({}, component.refs || {}, refs)
     }
@@ -253,11 +254,7 @@ export function componentTrigger (component, key, args) {
   if (key === 'componentWillUnmount') {
     // refs
     if (component['$$refs'] && component['$$refs'].length > 0) {
-      component['$$refs'].forEach(ref => {
-        if ('fn' in ref && typeof ref['fn'] === 'function') {
-          ref['fn'].call(component, null)
-        }
-      })
+      component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))
       component.refs = {}
     }
   }
