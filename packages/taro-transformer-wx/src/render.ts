@@ -932,7 +932,6 @@ export class RenderParser {
   }
 
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
-    debugger
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
       this.loopRefIdentifiers.set(id.name, arrayMap)
@@ -1236,7 +1235,7 @@ export class RenderParser {
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
-          .concat([...this.initState, ...this.usedThisState])
+          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies])
         )
     )
     .concat(...this.usedState)
