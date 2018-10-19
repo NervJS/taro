@@ -15,6 +15,10 @@ export const incrementId = () => {
   return () => id++
 }
 
+export function decodeUnicode (s: string) {
+  return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
+}
+
 export function isVarName (str: string) {
   if (typeof str !== 'string') {
     return false
