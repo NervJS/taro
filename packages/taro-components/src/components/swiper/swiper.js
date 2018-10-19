@@ -357,13 +357,13 @@ class Swiper extends Nerv.Component {
 
   isChangeSlide (translate, currentIndex) {
     // 判读滑动到大于一半才过去
-    let threshold = !this.props.vertical
-      ? this.state.containerWidth / 2
-      : this.state.containerHeight / 2
+    // let threshold = !this.props.vertical
+    //   ? this.state.containerWidth / 2
+    //   : this.state.containerHeight / 2
     let diff = Math.abs(translate - this.state.ogTranslate)
     let isNext = translate - this.state.ogTranslate < 0
 
-    if (diff > threshold) {
+    if (diff > 0) {
       if (isNext) {
         // next slide
         translate =
