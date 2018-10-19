@@ -80,11 +80,11 @@ function compileDepStyles (filePath, styleFiles) {
 
 function initProjectFile (cb) {
   // generator app.json
-  const appJsonObject = Object.assign({}, projectConfig.rn && projectConfig.rn.appJson, {
+  const appJsonObject = Object.assign({}, {
     expo: {
       sdkVersion: '27.0.0'
     }
-  })
+  }, projectConfig.rn && projectConfig.rn.appJson)
   const appJson = new Vinyl({
     path: 'app.json',
     contents: Buffer.from(JSON.stringify(appJsonObject, null, 2))

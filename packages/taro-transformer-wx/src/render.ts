@@ -158,6 +158,8 @@ export class RenderParser {
     }
   }
 
+  isLiteralOrUndefined = (node: t.Node): node is t.Literal | t.Identifier => t.isLiteral(node) || t.isIdentifier(node, { name: 'undefined' })
+
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
     if (t.isLogicalExpression(parentNode)) {
       const { left, operator, right } = parentNode
@@ -189,34 +191,53 @@ export class RenderParser {
         generateAnonymousState(parentPath.scope, testExpression, this.referencedIdentifiers, true)
       }
       const test = testExpression.node
-      if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
+      if (t.isJSXElement(consequent) && this.isLiteralOrUndefined(alternate)) {
         const { value, confident } = parentPath.get('alternate').evaluate()
-        if (confident && !value) {
+        if (confident && !value || t.isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, test)
           block.children = [ jsxElementPath.node ]
           // newJSXIfAttr(jsxElementPath.node, test)
           parentPath.replaceWith(block)
-          if (statementParent) {
-            const name = findIdentifierFromStatement(
-              statementParent.node as t.VariableDeclaration
-            )
-            setTemplate(name, jsxElementPath, this.templates)
-            // name && templates.set(name, path.node)
-          }
+        } else {
+          const block2 = buildBlockElement()
+          block.children = [consequent]
+          newJSXIfAttr(block, test)
+          setJSXAttr(block2, Adapter.else)
+          block2.children = [t.jSXExpressionContainer(alternate)]
+          const parentBlock = buildBlockElement()
+          parentBlock.children = [block, block2]
+          parentPath.replaceWith(parentBlock)
         }
-      } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
-        if (t.isNullLiteral(consequent)) {
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
+        }
+      } else if (this.isLiteralOrUndefined(consequent) && t.isJSXElement(alternate)) {
+        const { value, confident } = parentPath.get('consequent').evaluate()
+        if (confident && !value || t.isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, reverseBoolean(test))
-          // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
           block.children = [ jsxElementPath.node ]
+          // newJSXIfAttr(jsxElementPath.node, test)
           parentPath.replaceWith(block)
-          if (statementParent) {
-            const name = findIdentifierFromStatement(
-              statementParent.node as t.VariableDeclaration
-            )
-            setTemplate(name, jsxElementPath, this.templates)
-            // name && templates.set(name, path.node)
-          }
+        } else {
+          const block2 = buildBlockElement()
+          block.children = [t.jSXExpressionContainer(consequent)]
+          newJSXIfAttr(block, test)
+          setJSXAttr(block2, Adapter.else)
+          block2.children = [alternate]
+          const parentBlock = buildBlockElement()
+          parentBlock.children = [block, block2]
+          parentPath.replaceWith(parentBlock)
+        }
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
         }
       } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
         const block2 = buildBlockElement()
@@ -233,12 +254,13 @@ export class RenderParser {
           )
           setTemplate(name, jsxElementPath, this.templates)
         }
-      } else if (
-        (t.isJSXElement(consequent) && t.isCallExpression(alternate))
-        ||
-        (t.isJSXElement(alternate) && t.isCallExpression(consequent))
-      ) {
+      } else if (t.isJSXElement(consequent) && t.isCallExpression(alternate)) {
+        const id = generateAnonymousState(this.renderScope!, parentPath.get('alternate') as any, this.referencedIdentifiers, true)
+        parentPath.get('alternate').replaceWith(id)
         //
+      } else if (t.isJSXElement(alternate) && t.isCallExpression(consequent)) {
+        const id = generateAnonymousState(this.renderScope!, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
+        parentPath.get('consequent').replaceWith(id)
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
@@ -734,6 +756,7 @@ export class RenderParser {
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
+        parentPath.isBinaryExpression() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
         this.addRefIdentifier(path, path.node)
@@ -807,6 +830,7 @@ export class RenderParser {
           parentPath.isConditionalExpression() ||
           parentPath.isLogicalExpression() ||
           parentPath.isJSXExpressionContainer() ||
+          parentPath.isBinaryExpression() ||
           (this.renderScope.hasOwnBinding(id.name))
         ) {
           this.addRefIdentifier(path, id)
@@ -908,6 +932,7 @@ export class RenderParser {
   }
 
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
+    debugger
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
       this.loopRefIdentifiers.set(id.name, arrayMap)

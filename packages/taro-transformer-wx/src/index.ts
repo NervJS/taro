@@ -197,6 +197,34 @@ export default function transform (options: Options): TransformResult {
   let renderMethod!: NodePath<t.ClassMethod>
   let isImportTaro = false
   traverse(ast, {
+    TemplateLiteral (path) {
+      const nodes: t.Expression[] = []
+      const { quasis, expressions } = path.node
+      let index = 0
+      for (const elem of quasis) {
+        if (elem.value.cooked) {
+          nodes.push(t.stringLiteral(elem.value.cooked))
+        }
+
+        if (index < expressions.length) {
+          const expr = expressions[index++]
+          if (!t.isStringLiteral(expr, { value: '' })) {
+            nodes.push(expr)
+          }
+        }
+      }
+
+      // + 号连接符必须保证第一和第二个 node 都是字符串
+      if (!t.isStringLiteral(nodes[0]) && !t.isStringLiteral(nodes[1])) {
+        nodes.unshift(t.stringLiteral(''))
+      }
+
+      let root = nodes[0]
+      for (let i = 1; i < nodes.length; i++) {
+        root = t.binaryExpression('+', root, nodes[i])
+      }
+      path.replaceWith(root)
+    },
     ClassDeclaration (path) {
       mainClass = path
       const superClass = path.node.superClass

@@ -12,6 +12,7 @@
     ],
     "教程": [
       "tutorial",
+      "spec-for-taro",
       "router",
       "size",
       "static-reference",
