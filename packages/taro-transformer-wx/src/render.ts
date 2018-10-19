@@ -611,8 +611,8 @@ export class RenderParser {
           t.isIdentifier(node.callee.property) &&
           node.callee.property.name === 'bind'
         ) {
-          const JSXElement: any = path.findParent(p => p.isJSXElement())
-            .node
+          const JSXElement = path.findParent(p => p.isJSXElement())
+            .node as t.JSXElement
           // const JSXAttribute = path.findParent(p => p.isJSXAttribute())
           let bindCalleeName: string | null = null
           if (t.isIdentifier(node.callee.object)) {
@@ -641,8 +641,13 @@ export class RenderParser {
                 } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
                   expr = t.jSXExpressionContainer(node as any)
                 } else if (hasComplexExpression(arg)) {
-                  const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
-                  expr = t.jSXExpressionContainer(id)
+                  const isCookedLoop = JSXElement.openingElement.attributes.some(attr => attr.name.name === Adapter.for)
+                  if (isCookedLoop) {
+                    throw codeFrameError(arg.node, '在循环中使用 bind 时，需要声明将此复杂表达式声明为一个变量再放入 bind 参数中。')
+                  } else {
+                    const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
+                    expr = t.jSXExpressionContainer(id)
+                  }
                 } else {
                   expr = t.jSXExpressionContainer(t.identifier(argName))
                 }
