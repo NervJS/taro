@@ -68,7 +68,8 @@ class Input extends Nerv.Component {
       password,
       disabled,
       maxLength,
-      confirmType = ''
+      confirmType = '',
+      focus = false
     } = this.props
     const cls = classNames('weui-input', className)
     return (
@@ -81,7 +82,8 @@ class Input extends Nerv.Component {
           'onChange',
           'onFocus',
           'onBlur',
-          'type'
+          'type',
+          'focus'
         ])}
         className={cls}
         placeholder={placeholder}
@@ -91,6 +93,7 @@ class Input extends Nerv.Component {
         onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
+        autofocus={focus}
         type={getTrueType(type, confirmType, password)}
       />
     )

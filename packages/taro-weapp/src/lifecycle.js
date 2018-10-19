@@ -86,8 +86,9 @@ function doUpdate (component, prevProps, prevState) {
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
   const dataDiff = diffObjToPath(data, component.$scope.data)
+  const __mounted = component.__mounted
   component.$scope.setData(dataDiff, function () {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
+    if (__mounted && typeof component.componentDidUpdate === 'function') {
       component.componentDidUpdate(prevProps, prevState)
     }
 

@@ -5,6 +5,17 @@ class Textarea extends Nerv.Component {
     super(...arguments)
   }
 
+  onChange (e) {
+    const { onChange } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    onChange && onChange(e)
+  }
+
   render () {
     const {
       className = '',
