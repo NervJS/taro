@@ -88,8 +88,27 @@ function doUpdate (component, prevProps, prevState) {
   const dataDiff = diffObjToPath(data, component.$scope.data)
   const __mounted = component.__mounted
   component.$scope.setData(dataDiff, function () {
-    if (__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
+    if (__mounted) {
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
+          if (ref.type !== 'component') return
+
+          let target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target ? (target.$component || target) : null
+
+          const prevRef = ref.target
+          if (target !== prevRef) {
+            if (ref.refName) component.refs[ref.refName] = target
+            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            ref.target = target
+          }
+        })
+      }
+
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
+      }
     }
 
     const cbs = component._pendingCallbacks
