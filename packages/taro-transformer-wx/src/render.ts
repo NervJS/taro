@@ -669,8 +669,9 @@ export class RenderParser {
       const jsxElementPath = path.parentPath.parentPath
       if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
         const componentName = (jsxElementPath.node.openingElement as any).name.name
-        if (name.name === 'key') {
-          if (THIRD_PARTY_COMPONENTS.has(componentName as string)) {
+        const isThirdPartyKey = name.name === 'taroKey'
+        if (name.name === 'key' || isThirdPartyKey) {
+          if (THIRD_PARTY_COMPONENTS.has(componentName as string) && !isThirdPartyKey) {
             return
           }
           const jsx = path.findParent(p => p.isJSXElement())
