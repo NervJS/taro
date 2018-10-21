@@ -290,7 +290,11 @@ function processEntry (code, filePath) {
           })
           if (root === null) return
           subPages.forEach(va => {
-            pages.push(`${root}${va}`)
+            let pagePath = `${root}/${va}`
+            pagePath = pagePath.replace(/\/{2,}/g, '/')
+            if (pages.indexOf(pagePath) < 0) {
+              pages.push(pagePath)
+            }
           })
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
