@@ -731,4 +731,85 @@ describe('字符不转义', () => {
     )
   })
 
+  describe('void component', () => {
+    test('input', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <Input></Input>
+          )
+        `)
+      })
+
+      expect(template).toMatch(
+        prettyPrint(`
+        <block>
+            <input/>
+        </block>
+      `)
+      )
+    })
+
+    test('image', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <Image></Image>
+          )
+        `)
+      })
+
+      expect(template).toMatch(
+        prettyPrint(`
+        <block>
+            <image/>
+        </block>
+      `)
+      )
+    })
+
+    test('import', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <Import></Import>
+          )
+        `)
+      })
+
+      expect(template).toMatch(
+        prettyPrint(`
+        <block>
+            <import/>
+        </block>
+      `)
+      )
+    })
+
+    test('link', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <Link />
+          )
+        `)
+      })
+
+      expect(template).toMatch(
+        prettyPrint(`
+        <block>
+            <link __triggerObserer=\"{{ _triggerObserer }}\"></link>
+        </block>
+      `)
+      )
+    })
+  })
 })
