@@ -54,12 +54,17 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
           object.replaceWith(t.identifier('Taro'))
         }
       }
-      if (callee.isIdentifier({ name: 'Page' }) || callee.isIdentifier({ name: 'Component' })) {
-        classDecl = parsePage(path, returned || t.nullLiteral(), json)!
-        classDecl.decorators = [buildDecorator(callee.node.name)]
-        path.insertAfter(
-          t.exportDefaultDeclaration(classDecl)
-        )
+      if (
+        callee.isIdentifier({ name: 'Page' }) ||
+        callee.isIdentifier({ name: 'Component' }) ||
+        callee.isIdentifier({ name: 'App' })
+      ) {
+        const componentType = callee.node.name
+        classDecl = parsePage(path, returned || t.nullLiteral(), json, componentType)!
+        if (componentType !== 'App') {
+          classDecl.decorators = [buildDecorator(componentType)]
+        }
+        path.insertAfter(t.exportDefaultDeclaration(classDecl))
         path.remove()
       }
     }
@@ -97,7 +102,12 @@ const defaultClassName = 'C'
 
 const stateKeys: string[] = []
 
-function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression, json?: t.ObjectExpression) {
+function parsePage (
+  path: NodePath<t.CallExpression>,
+  returned: t.Expression,
+  json?: t.ObjectExpression,
+  componentType?: string
+) {
   const arg = path.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {
     return
@@ -149,7 +159,7 @@ function parsePage (path: NodePath<t.CallExpression>, returned: t.Expression, js
   const renderFunc = buildRender(returned)
 
   return t.classDeclaration(
-    t.identifier(defaultClassName),
+    t.identifier(componentType === 'App' ? 'App' : defaultClassName),
     t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
     t.classBody(classBody.concat(renderFunc)),
     []
