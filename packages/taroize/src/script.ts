@@ -73,16 +73,24 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
 }
 
 function buildRender (returned: t.Expression) {
-  const stateDecl = t.variableDeclaration('const', [t.variableDeclarator(
-    t.objectPattern(stateKeys.map(s => t.objectProperty(t.identifier(s), t.identifier(s))) as any),
-    t.memberExpression(t.thisExpression(), t.identifier('state'))
-  )])
-
-  const returnStatement = t.returnStatement(returned)
-  return t.classMethod('method', t.identifier('render'), [], t.blockStatement([
-    stateDecl,
-    returnStatement
-  ]))
+  const returnStatement: t.Statement[] = [ t.returnStatement(returned) ]
+  if (stateKeys.length) {
+    const stateDecl = t.variableDeclaration('const', [
+      t.variableDeclarator(
+        t.objectPattern(stateKeys.map(s =>
+          t.objectProperty(t.identifier(s), t.identifier(s))
+        ) as any),
+        t.memberExpression(t.thisExpression(), t.identifier('state'))
+      )
+    ])
+    returnStatement.unshift(stateDecl)
+  }
+  return t.classMethod(
+    'method',
+    t.identifier('render'),
+    [],
+    t.blockStatement(returnStatement)
+  )
 }
 
 const defaultClassName = 'C'
