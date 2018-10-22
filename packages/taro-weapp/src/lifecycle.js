@@ -35,6 +35,7 @@ export function updateComponent (component) {
   let skip = false
   if (component.__mounted) {
     if (typeof component.shouldComponentUpdate === 'function' &&
+      !component._isForceUpdate &&
       component.shouldComponentUpdate(props, state) === false) {
       skip = true
     } else if (typeof component.componentWillUpdate === 'function') {
@@ -44,6 +45,7 @@ export function updateComponent (component) {
   component.props = props
   component.state = state
   component._dirty = false
+  component._isForceUpdate = false
   if (!component.__componentWillMountTriggered) {
     component.__componentWillMountTriggered = true
     componentTrigger(component, 'componentWillMount')
