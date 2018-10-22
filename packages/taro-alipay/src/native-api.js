@@ -239,13 +239,16 @@ function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
-      taro[key] = options => {
+      taro[key] = (options, ...args) => {
         const result = generateSpecialApis(key, options || {})
         key = result.api
         options = result.options
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
+          if (args.length) {
+            return my[key](options, ...args)
+          }
           return my[key](options)
         }
         const p = new Promise((resolve, reject) => {
@@ -272,8 +275,11 @@ function processApis (taro) {
               }
             }
           })
-
-          task = my[key](obj)
+          if (args.length) {
+            task = my[key](obj, ...args)
+          } else {
+            task = my[key](obj)
+          }
         })
         if (key === 'uploadFile' || key === 'downloadFile') {
           p.progress = cb => {
