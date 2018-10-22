@@ -21,7 +21,7 @@ class BaseComponent {
   nextProps = {}
   _dirty = true
   _disable = true
-  _isforceUpdate = false
+  _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
   $router = {
@@ -72,7 +72,7 @@ class BaseComponent {
     if (isFunction(callback)) {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
-    this._isforceUpdate = true
+    this._isForceUpdate = true
     updateComponent(this)
   }
 
