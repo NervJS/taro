@@ -98,7 +98,7 @@ function buildRender (returned: t.Expression) {
   )
 }
 
-const defaultClassName = 'C'
+const defaultClassName = '_C'
 
 const stateKeys: string[] = []
 
