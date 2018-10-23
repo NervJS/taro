@@ -1257,6 +1257,8 @@ export class RenderParser {
     // })
     .filter(i => !this.loopScopes.has(i))
     .filter(i => !this.templates.has(i))
+    .filter(Boolean)
+
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
     classPath.node.body.body.unshift(t.classProperty(t.identifier('$usedState'), t.arrayExpression(
       [...new Set(

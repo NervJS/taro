@@ -1,9 +1,64 @@
 import transform from '../src'
 import { LOOP_STATE } from '../src/constant'
-import { buildComponent, baseOptions, evalClass, removeShadowData } from './utils'
+import {
+  buildComponent,
+  baseOptions,
+  evalClass,
+  removeShadowData
+} from './utils'
 import { prettyPrint } from 'html'
 
 describe('loop', () => {
+  describe('含有语句或复杂表达式的循环', () => {
+    test.skip('callee 是复杂表达式', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(
+          `
+          const { keys } = this.state
+          return (
+              Object.keys(keys).map((key, index) => {
+                  const ks = Object.keys(keys[key])
+                  return (
+                      <View key={index}>
+                          <View>{key}</View>
+                          {
+                              ks.map((value, id) => {
+                                  const title = 'title'
+                                  return (
+                                      <View key={id}>{value}</View>
+                                  )
+                              }
+                          }
+                      </View>
+                  )
+              })
+          )
+          `,
+          `state = {
+            keys: {
+              '颜色': {
+                  '红': { active: false, disabled: false, name: '红' },
+                  '蓝': { active: false, disabled: false, name: '蓝' }
+              },
+              '大小': {
+                  'M': { active: false, disabled: false, name: 'M' },
+                  'L': { active: false, disabled: false, name: 'L' }
+              }
+            }
+          }`
+        )
+      })
+
+      const instance = evalClass(ast)
+      removeShadowData(instance.state)
+      // console.log(code)
+      // console.log(template)
+      // console.log(instance.state)
+      expect(instance.state.array).toEqual([{ list: [] }])
+    })
+  })
   describe('有 block 有 return', () => {
     describe('多层 loop', () => {
       test('简单情况', () => {
@@ -23,8 +78,9 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for="{{array}}" wx:for-item="item">
@@ -33,7 +89,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       describe('动态创建 callee', () => {
@@ -70,10 +127,13 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
-          expect(instance.state.loopArray0[0].$anonymousCallee__0.length).toBe(9)
+          expect(instance.state.loopArray0[0].$anonymousCallee__0.length).toBe(
+            9
+          )
 
-          expect(template).toMatch(prettyPrint(
-            `
+          expect(template).toMatch(
+            prettyPrint(
+              `
             <block>
                 <view>
                     <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}"
@@ -84,7 +144,8 @@ describe('loop', () => {
                 </view>
             </block>
             `
-          ))
+            )
+          )
         })
 
         test('支持条件表达式的 consequent 为空', () => {
@@ -113,8 +174,9 @@ describe('loop', () => {
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
           expect(instance.state.$anonymousCallee__2.length).toBe(9)
-          expect(template).toMatch(prettyPrint(
-            `
+          expect(template).toMatch(
+            prettyPrint(
+              `
             <block>
                 <view>
                     <block wx:if=\"{{!(arr1.length > 1)}}\" wx:for=\"{{$anonymousCallee__2}}\"
@@ -124,7 +186,8 @@ describe('loop', () => {
                 </view>
             </block>
             `
-          ))
+            )
+          )
         })
 
         test('支持条件表达式的 test 可以使用复杂表达式', () => {
@@ -152,8 +215,9 @@ describe('loop', () => {
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
           expect(instance.state.loopArray0[0].$loopState__temp2).toBe(true)
-          expect(template).toMatch(prettyPrint(
-            `
+          expect(template).toMatch(
+            prettyPrint(
+              `
             <block>
                 <view>
                     <block wx:if=\"{{!e.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"e\"
@@ -163,7 +227,8 @@ describe('loop', () => {
                 </view>
             </block>
             `
-          ))
+            )
+          )
         })
 
         test('calee 之前可以使用逻辑表达式', () => {
@@ -190,8 +255,9 @@ describe('loop', () => {
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBeLessThanOrEqual(2)
           expect(instance.state.anonymousState__temp).toBe(false)
-          expect(template).toMatch(prettyPrint(
-            `
+          expect(template).toMatch(
+            prettyPrint(
+              `
             <block>
             <view>
                 <block>
@@ -206,7 +272,8 @@ describe('loop', () => {
             </view>
         </block>
             `
-          ))
+            )
+          )
         })
 
         test('calee 之前可以使用逻辑表达式 2', () => {
@@ -246,8 +313,9 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(4)
-          expect(template).toMatch(prettyPrint(
-            `
+          expect(template).toMatch(
+            prettyPrint(
+              `
             <block>
             <view>
                 <block>
@@ -272,9 +340,9 @@ describe('loop', () => {
             </view>
         </block>
             `
-          ))
+            )
+          )
         })
-
       })
 
       test('支持逻辑表达式', () => {
@@ -295,8 +363,9 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -307,7 +376,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持逻辑表达式2', () => {
@@ -335,8 +405,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(3)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -352,7 +423,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持逻辑表达式3', () => {
@@ -382,8 +454,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(3)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -401,7 +474,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持逻辑表达式3', () => {
@@ -433,8 +507,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -455,7 +530,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持逻辑表达式4', () => {
@@ -489,8 +565,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -514,7 +591,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持条件表达式', () => {
@@ -541,8 +619,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(2)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -558,7 +637,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持条件表达式2', () => {
@@ -590,8 +670,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(3)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -609,7 +690,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持条件表达式2', () => {
@@ -639,8 +721,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(3)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -656,7 +739,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持条件表达式2', () => {
@@ -686,8 +770,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(3)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -703,7 +788,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持条件表达式2', () => {
@@ -738,8 +824,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -760,14 +847,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持写方法', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -788,15 +877,18 @@ describe('loop', () => {
                 </CoverView>
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -817,14 +909,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持写 props.method', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -845,15 +939,18 @@ describe('loop', () => {
                 </CoverView>
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -874,14 +971,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持写 bind', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -902,15 +1001,18 @@ describe('loop', () => {
                 </CoverView>
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -931,14 +1033,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持写 bind 2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -959,15 +1063,18 @@ describe('loop', () => {
                 </CoverView>
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
         <view>
             <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -988,14 +1095,16 @@ describe('loop', () => {
         </view>
     </block>
           `
-        ))
+          )
+        )
       })
 
       test.skip('支持字符串模板', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [{}] }]
             const b1 = true
             const b2 = true
@@ -1016,15 +1125,18 @@ describe('loop', () => {
                 </CoverView>
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [{}] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
         <view>
             <cover-view wx:key=\"{{arr.$loopState__temp2}}\"  wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
@@ -1045,14 +1157,16 @@ describe('loop', () => {
         </view>
     </block>
           `
-        ))
+          )
+        )
       })
 
       test.skip('支持字符串模板2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [{}] }]
             const b1 = true
             const b2 = true
@@ -1073,15 +1187,18 @@ describe('loop', () => {
                 </CoverView>
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.loopArray0).toEqual(undefined)
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
           <view>
               <cover-view class=\"test\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1102,7 +1219,8 @@ describe('loop', () => {
           </view>
       </block>
           `
-        ))
+          )
+        )
       })
     })
     describe('一层 loop', () => {
@@ -1123,7 +1241,9 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`)
+        expect(template).toMatch(
+          `<view wx:for="{{array}}" wx:for-item="item">{{item}}</view>`
+        )
         expect(Object.keys(instance.state).length).toBe(1)
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
@@ -1154,8 +1274,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(4)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
             <view>
                 <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1172,7 +1293,8 @@ describe('loop', () => {
             </view>
         </block>
           `
-        ))
+          )
+        )
       })
 
       test('支持条件表达式4', () => {
@@ -1205,8 +1327,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1229,14 +1352,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用方法', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1255,15 +1380,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
                 <view>
                     <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1286,14 +1414,16 @@ describe('loop', () => {
                 </view>
             </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用方法2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1312,15 +1442,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1343,14 +1476,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用bind', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1369,15 +1504,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1400,14 +1538,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用bind 2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1426,15 +1566,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1458,14 +1601,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用bind 3', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1484,15 +1629,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
         <view>
             <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1515,14 +1663,16 @@ describe('loop', () => {
         </view>
     </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用bind 3', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1541,15 +1691,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
         <view>
             <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1573,14 +1726,16 @@ describe('loop', () => {
         </view>
     </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用this.props.${event}.bind', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: false,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1599,15 +1754,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
           <view>
               <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1630,14 +1788,16 @@ describe('loop', () => {
           </view>
       </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用this.props.${event}.bind 2', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: false,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1656,15 +1816,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1687,14 +1850,16 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       test('能使用this.props.${event}.bind 3', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: false,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{ list: [] }]
             const b1 = true
             const b2 = true
@@ -1713,15 +1878,18 @@ describe('loop', () => {
                   </CoverView> : null
               })}</View>
             )
-          `, `handleClick = () => ({})`)
+          `,
+            `handleClick = () => ({})`
+          )
         })
 
         const instance = evalClass(ast)
         removeShadowData(instance.state)
         expect(Object.keys(instance.state).length).toBe(5)
         expect(instance.state.array).toEqual([{ list: [] }])
-        expect(template).toMatch(prettyPrint(
-          `
+        expect(template).toMatch(
+          prettyPrint(
+            `
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
@@ -1744,7 +1912,8 @@ describe('loop', () => {
               </view>
           </block>
           `
-        ))
+          )
+        )
       })
 
       describe('支持写逻辑表达式', () => {
@@ -1764,7 +1933,8 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           const stateName = Object.keys(instance.state)[0]
-          expect(template).toMatch(prettyPrint(`
+          expect(template).toMatch(
+            prettyPrint(`
           <block>
               <view>
                   <block wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -1772,7 +1942,8 @@ describe('loop', () => {
                   </block>
               </view>
           </block>
-          `))
+          `)
+          )
         })
 
         test('子元素有逻辑表达式', () => {
@@ -1797,7 +1968,8 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(3)
-          expect(template).toMatch(prettyPrint(`
+          expect(template).toMatch(
+            prettyPrint(`
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -1810,14 +1982,16 @@ describe('loop', () => {
                   </block>
               </view>
           </block>
-          `))
+          `)
+          )
         })
 
         test('子元素有条件表达式', () => {
           const { template, ast, code } = transform({
             ...baseOptions,
             isRoot: true,
-            code: buildComponent(`
+            code: buildComponent(
+              `
               const array = ['test1', 'test2', 'test3']
               const b1 = true
               const b2 = true
@@ -1840,13 +2014,16 @@ describe('loop', () => {
                   );
                 })}</View>
               )
-            `, `state = { activeIndex: 0, list: [] }`)
+            `,
+              `state = { activeIndex: 0, list: [] }`
+            )
           })
 
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(4)
-          expect(template).toMatch(prettyPrint(`
+          expect(template).toMatch(
+            prettyPrint(`
           <block>
               <view>
                   <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\" wx:for-index=\"index\"
@@ -1864,7 +2041,8 @@ describe('loop', () => {
                   </block>
               </view>
           </block>
-          `))
+          `)
+          )
         })
 
         test('子元素有逻辑表达式2', () => {
@@ -1891,7 +2069,8 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(3)
-          expect(template).toMatch(prettyPrint(`
+          expect(template).toMatch(
+            prettyPrint(`
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -1906,7 +2085,8 @@ describe('loop', () => {
                   </block>
               </view>
           </block>
-          `))
+          `)
+          )
         })
 
         test('子元素有逻辑表达式3', () => {
@@ -1935,7 +2115,8 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(4)
-          expect(template).toMatch(prettyPrint(`
+          expect(template).toMatch(
+            prettyPrint(`
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -1953,7 +2134,8 @@ describe('loop', () => {
                   </block>
               </view>
           </block>
-          `))
+          `)
+          )
         })
 
         test('子元素有逻辑表达式4', () => {
@@ -1984,7 +2166,8 @@ describe('loop', () => {
           const instance = evalClass(ast)
           removeShadowData(instance.state)
           expect(Object.keys(instance.state).length).toBe(5)
-          expect(template).toMatch(prettyPrint(`
+          expect(template).toMatch(
+            prettyPrint(`
             <block>
                 <view>
                     <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">
@@ -2005,12 +2188,12 @@ describe('loop', () => {
                     </block>
                 </view>
             </block>
-          `))
+          `)
+          )
         })
       })
 
       describe('支持条件表达式', () => {
-
         test('简单情况', () => {
           const { template, ast, code } = transform({
             ...baseOptions,
@@ -2251,15 +2434,19 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<view wx:for="{{loopArray0}}" wx:for-item="item">{{item.$loopState`)
-        expect(instance.state.loopArray0.some(a => {
-          for (const key in a) {
-            if (key.startsWith(LOOP_STATE)) {
-              return true
+        expect(template).toMatch(
+          `<view wx:for="{{loopArray0}}" wx:for-item="item">{{item.$loopState`
+        )
+        expect(
+          instance.state.loopArray0.some(a => {
+            for (const key in a) {
+              if (key.startsWith(LOOP_STATE)) {
+                return true
+              }
             }
-          }
-          return false
-        })).toBeTruthy()
+            return false
+          })
+        ).toBeTruthy()
       })
 
       test('循环内 children 有函数', () => {
@@ -2280,15 +2467,19 @@ describe('loop', () => {
         removeShadowData(instance.state)
         // const stateName = Object.keys(instance.state)[0]
 
-        expect(template).toMatch(`<view wx:for="{{loopArray0}}" wx:for-item="item">{{item.$loopState`)
-        expect(instance.state.loopArray0.some(a => {
-          for (const key in a) {
-            if (key.startsWith(LOOP_STATE)) {
-              return true
+        expect(template).toMatch(
+          `<view wx:for="{{loopArray0}}" wx:for-item="item">{{item.$loopState`
+        )
+        expect(
+          instance.state.loopArray0.some(a => {
+            for (const key in a) {
+              if (key.startsWith(LOOP_STATE)) {
+                return true
+              }
             }
-          }
-          return false
-        })).toBeTruthy()
+            return false
+          })
+        ).toBeTruthy()
         // expect(Object.keys(instance.state).length).toBe(1)
         // expect(instance.state[stateName]).toEqual(['test1'])
       })
@@ -2310,15 +2501,19 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<view class="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item"></view>`)
-        expect(instance.state.loopArray0.some(a => {
-          for (const key in a) {
-            if (key.startsWith(LOOP_STATE)) {
-              return true
+        expect(template).toMatch(
+          `<view class="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item"></view>`
+        )
+        expect(
+          instance.state.loopArray0.some(a => {
+            for (const key in a) {
+              if (key.startsWith(LOOP_STATE)) {
+                return true
+              }
             }
-          }
-          return false
-        })).toBeTruthy()
+            return false
+          })
+        ).toBeTruthy()
       })
     })
   })
@@ -2340,7 +2535,8 @@ describe('loop', () => {
       const instance = evalClass(ast)
       removeShadowData(instance.state)
 
-      expect(template).toMatch(prettyPrint(`
+      expect(template).toMatch(
+        prettyPrint(`
         <block>
             <view>
                 <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
@@ -2348,13 +2544,17 @@ describe('loop', () => {
                 </block>
             </view>
         </block>
-      `))
+      `)
+      )
       expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
-      expect(instance.state.loopArray0.map(i => i.$original)).toEqual(['test1', 'test2', 'test3'])
+      expect(instance.state.loopArray0.map(i => i.$original)).toEqual([
+        'test1',
+        'test2',
+        'test3'
+      ])
     })
 
     test('return', () => {
-
       const { template, ast, code } = transform({
         ...baseOptions,
         isRoot: true,
@@ -2372,7 +2572,8 @@ describe('loop', () => {
       const instance = evalClass(ast)
       removeShadowData(instance.state)
 
-      expect(template).toMatch(prettyPrint(`
+      expect(template).toMatch(
+        prettyPrint(`
         <block>
             <view>
                 <block wx:if=\"{{bool}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
@@ -2380,9 +2581,14 @@ describe('loop', () => {
                 </block>
             </view>
         </block>
-      `))
+      `)
+      )
       expect(Object.keys(instance.state).length).toBeLessThanOrEqual(3)
-      expect(instance.state.loopArray0.map(i => i.$original)).toEqual(['test1', 'test2', 'test3'])
+      expect(instance.state.loopArray0.map(i => i.$original)).toEqual([
+        'test1',
+        'test2',
+        'test3'
+      ])
     })
   })
 
@@ -2404,7 +2610,9 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<block wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">`)
+        expect(template).toMatch(
+          `<block wx:if=\"{{bool}}\" wx:for=\"{{array}}\" wx:for-item=\"item\">`
+        )
         expect(Object.keys(instance.state).length).toBe(2)
         expect(instance.state.array).toEqual(['test1', 'test2', 'test3'])
       })
@@ -2424,27 +2632,35 @@ describe('loop', () => {
         const instance = evalClass(ast)
         removeShadowData(instance.state)
 
-        expect(template).toMatch(`<view class="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item"></view>`)
-        expect(instance.state.loopArray0.some(a => {
-          for (const key in a) {
-            if (key.startsWith(LOOP_STATE)) {
-              return true
+        expect(template).toMatch(
+          `<view class="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item"></view>`
+        )
+        expect(
+          instance.state.loopArray0.some(a => {
+            for (const key in a) {
+              if (key.startsWith(LOOP_STATE)) {
+                return true
+              }
             }
-          }
-          return false
-        })).toBeTruthy()
+            return false
+          })
+        ).toBeTruthy()
       })
 
       test('能使用 key', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = ['test1', 'test2', 'test3']
             return (
               <View>{array.map(item => <Custom key={item}>{item}</Custom>)}</View>
             )
-          `, ``, `import { Custom } from './utils'`)
+          `,
+            ``,
+            `import { Custom } from './utils'`
+          )
         })
 
         expect(template).toMatch(`wx:key="{{item}}"`)
@@ -2454,12 +2670,16 @@ describe('loop', () => {
         const { template, ast, code } = transform({
           ...baseOptions,
           isRoot: true,
-          code: buildComponent(`
+          code: buildComponent(
+            `
             const array = [{id: 1}, {id: 2}, {id: 3}]
             return (
               <View>{array.map(item => <Custom key={item.id} />)}</View>
             )
-          `, ``, `import { Custom } from './utils'`)
+          `,
+            ``,
+            `import { Custom } from './utils'`
+          )
         })
 
         expect(template).toMatch(`wx:key="{{item.id}}"`)
@@ -2481,7 +2701,9 @@ describe('loop', () => {
         removeShadowData(instance.state)
         const stateName = Object.keys(instance.state)[0]
 
-        expect(template).toMatch(`<view wx:for="{{${stateName}}}" wx:for-item="item">{{item}}</view>`)
+        expect(template).toMatch(
+          `<view wx:for="{{${stateName}}}" wx:for-item="item">{{item}}</view>`
+        )
         expect(Object.keys(instance.state).length).toBe(1)
         expect(instance.state[stateName]).toEqual(['test1'])
       })
@@ -2501,15 +2723,19 @@ describe('loop', () => {
         removeShadowData(instance.state)
         // const stateName = Object.keys(instance.state)[0]
 
-        expect(template).toMatch(`<view wx:for="{{loopArray0}}" wx:for-item="item">{{item.$loopState`)
-        expect(instance.state.loopArray0.some(a => {
-          for (const key in a) {
-            if (key.startsWith(LOOP_STATE)) {
-              return true
+        expect(template).toMatch(
+          `<view wx:for="{{loopArray0}}" wx:for-item="item">{{item.$loopState`
+        )
+        expect(
+          instance.state.loopArray0.some(a => {
+            for (const key in a) {
+              if (key.startsWith(LOOP_STATE)) {
+                return true
+              }
             }
-          }
-          return false
-        })).toBeTruthy()
+            return false
+          })
+        ).toBeTruthy()
         // expect(Object.keys(instance.state).length).toBe(1)
         // expect(instance.state[stateName]).toEqual(['test1'])
       })
