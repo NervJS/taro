@@ -23,7 +23,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/transformer-wx": "1.1.9",
+    "@tarojs/taroize": "1.1.0-beta.10",
+    "@tarojs/transformer-wx": "1.1.0-beta.10",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
