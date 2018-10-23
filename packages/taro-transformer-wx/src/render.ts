@@ -611,8 +611,8 @@ export class RenderParser {
           t.isIdentifier(node.callee.property) &&
           node.callee.property.name === 'bind'
         ) {
-          const JSXElement: any = path.findParent(p => p.isJSXElement())
-            .node
+          const JSXElement = path.findParent(p => p.isJSXElement())
+            .node as t.JSXElement
           // const JSXAttribute = path.findParent(p => p.isJSXAttribute())
           let bindCalleeName: string | null = null
           if (t.isIdentifier(node.callee.object)) {
@@ -641,8 +641,13 @@ export class RenderParser {
                 } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
                   expr = t.jSXExpressionContainer(node as any)
                 } else if (hasComplexExpression(arg)) {
-                  const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
-                  expr = t.jSXExpressionContainer(id)
+                  const isCookedLoop = JSXElement.openingElement.attributes.some(attr => attr.name.name === Adapter.for)
+                  if (isCookedLoop) {
+                    throw codeFrameError(arg.node, '在循环中使用 bind 时，需要声明将此复杂表达式声明为一个变量再放入 bind 参数中。')
+                  } else {
+                    const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
+                    expr = t.jSXExpressionContainer(id)
+                  }
                 } else {
                   expr = t.jSXExpressionContainer(t.identifier(argName))
                 }
@@ -664,8 +669,9 @@ export class RenderParser {
       const jsxElementPath = path.parentPath.parentPath
       if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
         const componentName = (jsxElementPath.node.openingElement as any).name.name
-        if (name.name === 'key') {
-          if (THIRD_PARTY_COMPONENTS.has(componentName as string)) {
+        const isThirdPartyKey = name.name === 'taroKey'
+        if (name.name === 'key' || isThirdPartyKey) {
+          if (THIRD_PARTY_COMPONENTS.has(componentName as string) && !isThirdPartyKey) {
             return
           }
           const jsx = path.findParent(p => p.isJSXElement())
@@ -756,6 +762,7 @@ export class RenderParser {
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
+        parentPath.isBinaryExpression() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
         this.addRefIdentifier(path, path.node)
@@ -829,6 +836,7 @@ export class RenderParser {
           parentPath.isConditionalExpression() ||
           parentPath.isLogicalExpression() ||
           parentPath.isJSXExpressionContainer() ||
+          parentPath.isBinaryExpression() ||
           (this.renderScope.hasOwnBinding(id.name))
         ) {
           this.addRefIdentifier(path, id)
@@ -1233,7 +1241,7 @@ export class RenderParser {
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
-          .concat([...this.initState, ...this.usedThisState])
+          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies])
         )
     )
     .concat(...this.usedState)

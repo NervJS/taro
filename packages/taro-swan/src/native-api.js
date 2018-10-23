@@ -66,7 +66,7 @@ function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
-      taro[key] = options => {
+      taro[key] = (options, ...args) => {
         options = options || {}
         if (key === 'connectSocket') {
           if (options['protocols']) {
@@ -76,6 +76,9 @@ function processApis (taro) {
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
+          if (args.length) {
+            return swan[key](options, ...args)
+          }
           return swan[key](options)
         }
         const p = new Promise((resolve, reject) => {
@@ -94,7 +97,11 @@ function processApis (taro) {
               }
             }
           })
-          task = swan[key](obj)
+          if (args.length) {
+            task = swan[key](obj, ...args)
+          } else {
+            task = swan[key](obj)
+          }
         })
         if (key === 'uploadFile' || key === 'downloadFile') {
           p.progress = cb => {

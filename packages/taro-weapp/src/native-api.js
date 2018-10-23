@@ -75,11 +75,14 @@ function processApis (taro) {
   const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
-      taro[key] = options => {
+      taro[key] = (options, ...args) => {
         options = options || {}
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
+          if (args.length) {
+            return wx[key](options, ...args)
+          }
           return wx[key](options)
         }
 
@@ -121,7 +124,11 @@ function processApis (taro) {
               }
             }
           })
-          task = wx[key](obj)
+          if (args.length) {
+            task = wx[key](obj, ...args)
+          } else {
+            task = wx[key](obj)
+          }
         })
         if (key === 'uploadFile' || key === 'downloadFile') {
           p.progress = cb => {

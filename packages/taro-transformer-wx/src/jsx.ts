@@ -4,7 +4,7 @@ import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
 import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS } from './constant'
 import { createHTMLElement } from './create-html-element'
-import { codeFrameError } from './utils'
+import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters } from './adapter'
 
 export function isStartWithWX (str: string) {
@@ -118,10 +118,12 @@ function parseJSXChildren (
           return str + parseJSXElement(child.expression)
         }
         return str + `{${
-          generate(child, {
-            quotes: 'single'
-          })
-          .code
+          decodeUnicode(
+            generate(child, {
+              quotes: 'single'
+            })
+            .code
+          )
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
           .replace(/this\./, '')
@@ -162,11 +164,10 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (t.isJSXExpressionContainer(attrValue)) {
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
-          let { code } = generate(attrValue.expression, {
-            quotes: 'single',
-            concise: true
-          })
-          code = code
+          const code = decodeUnicode(generate(attrValue.expression, {
+              quotes: 'single',
+              concise: true
+            }).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')

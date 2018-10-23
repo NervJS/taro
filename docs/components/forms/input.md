@@ -18,7 +18,7 @@ sidebar_label: Input
 | √ | √ | √ | maxLength         | Number      |  140  | 最大输入长度，设置为 -1 的时候不限制最大长度      |
 | √ |   | x | cursorSpacing    | Number      |  0  | 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
 | √ |   | x | autoFocus        | Boolean     | false | (即将废弃，请直接使用 focus )自动聚焦，拉起键盘 |
-| √ |   | √ | focus             | Boolean     | false  | 获取焦点 |
+| √ | √ | √ | focus             | Boolean     | false  | 获取焦点 |
 | √ |   | √ | confirmType      | String      |  'done' | 设置键盘右下角按钮的文字   |
 | √ |   | √ | cursor            | Number      |        | 指定 focus 时的光标位置  |
 | √ |   | √ | selectionStart   | Number      |  -1 | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用   |

@@ -42,7 +42,8 @@ export const DEFAULT_Component_SET = new Set<string>([
   'MovableView',
   'FunctionalPageNavigator',
   'Ad',
-  'Block'
+  'Block',
+  'Import'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
