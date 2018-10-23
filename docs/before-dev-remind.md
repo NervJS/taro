@@ -10,9 +10,34 @@ title: 开发前注意
   * 需要设置关闭代码压缩上传，开启可能报错
 
 ## React Native
-> Note: React Native 端暂时还未支持 TypeScript，在初始化项目时，如果要考虑 RN 端，请不要选择 TypeScript。
+> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不支持 **组合器和选择器组**[Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
 
-> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器的写法。
+以下选择器的写法都是不支持的，在样式转换时会自动忽略。
+
+```css
+.button.button_theme_islands{
+  font-style: bold;
+}
+
+p, li {
+  font-size: 16px;
+}
+
+img + p {
+  font-style: bold;
+}
+
+p ~ span {
+  color: red;
+}
+
+div > span {
+  background-color: DodgerBlue;
+}
+
+div span { background-color: DodgerBlue; }
+
+```
 
 ### 常见问题
 #### 样式和 CSS 一致吗？
@@ -87,7 +112,7 @@ React Native 的样式基于开源的跨平台布局引擎 [Yaga](https://github
 ```
 同时，为了保证样式开发的友好度，我们还实现了 StyleSheet 的错误校验，如果你写的样式 RN 不支持，会在编译时在终端报错。
 
-下面是 React Native 样式表供大家参考，不熟悉 React Native样式的同学，在开发前，可以快速过一下：
+下面是 React Native 样式表供大家参考，列出了 React Native 支持的所有样式属性，不熟悉 React Native样式的同学，在开发前，可以快速过一下：
 
 ### Properties 属性
 #### Text 文本（18）
