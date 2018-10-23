@@ -500,7 +500,8 @@ export class RenderParser {
                   this.handleJSXElement(jsxElementPath, (options) => {
                     this.handleConditionExpr(options, jsxElementPath)
                   })
-                }
+                },
+                JSXExpressionContainer: this.replaceIdWithTemplate()
               })
             }
             const block = this.finalReturnElement || buildBlockElement()
