@@ -1,4 +1,4 @@
-import { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
+import Taro, { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
 
 type WeappLifeCycle = () => void
 
@@ -7,7 +7,8 @@ interface WeappComponent<P, S> extends Component<P, S> {
   ready?: WeappLifeCycle
   detached?: WeappLifeCycle
   attached?: WeappLifeCycle
-  moved?: WeappLifeCycle
+  moved?: WeappLifeCycle,
+  globalData?: any,
   setData: Function
 }
 
@@ -54,6 +55,7 @@ export default function withWeapp (componentType: string) {
     }
 
     componentWillMount () {
+      this.globalData = Taro.getApp().globalData
       this.executeComponentFunc(this.created)
       this.safeExecute(super.componentWillMount)
     }
