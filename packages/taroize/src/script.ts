@@ -77,13 +77,17 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
 
   const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
-  const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp')
+  const withWeappImport = buildImportStatement(
+    '@tarojs/with-weapp',
+    [],
+    'withWeapp'
+  )
   ast.program.body.unshift(taroComponentsImport, taroImport, withWeappImport)
 
   return ast
 }
 
-function buildRender (returned: t.Expression) {
+function buildRender (returned: t.Expression, stateKeys: string[]) {
   const returnStatement: t.Statement[] = [t.returnStatement(returned)]
   if (stateKeys.length) {
     const stateDecl = t.variableDeclaration('const', [
@@ -106,14 +110,13 @@ function buildRender (returned: t.Expression) {
 
 const defaultClassName = '_C'
 
-const stateKeys: string[] = []
-
 function parsePage (
   path: NodePath<t.CallExpression>,
   returned: t.Expression,
   json?: t.ObjectExpression,
   componentType?: string
 ) {
+  const stateKeys: string[] = []
   const arg = path.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {
     return
@@ -162,7 +165,7 @@ function parsePage (
     )
   }
 
-  const renderFunc = buildRender(returned)
+  const renderFunc = buildRender(returned, stateKeys)
 
   return t.classDeclaration(
     t.identifier(componentType === 'App' ? 'App' : defaultClassName),
