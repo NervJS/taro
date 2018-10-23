@@ -1043,7 +1043,14 @@ export class RenderParser {
               if (replacements.has(parent) || (this.renderScope.hasOwnBinding(name) && this.loopCalleeId.has(path.node))) {
                 return
               }
+
               if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
+                if (t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: 'map' })) {
+                  const grandParentPath = path.parentPath.parentPath
+                  if (grandParentPath.isCallExpression() && this.loopComponents.has(grandParentPath)) {
+                    return
+                  }
+                }
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
@@ -1105,7 +1112,7 @@ export class RenderParser {
                     }
                   })
                 } else {
-                  throw codeFrameError(object.loc, '请简化该表达式为标识符或成员表达式')
+                  throw codeFrameError(object.loc, '多层循环中循环的数组只能是一个变量或成员表达式')
                 }
               }
             }
@@ -1331,18 +1338,20 @@ export class RenderParser {
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
-      this.usedThisProperties.size ? t.variableDeclaration(
-        'const',
-        [
-          t.variableDeclarator(
-            t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
-              t.identifier(p),
-              t.identifier(p)
-            ) as any)),
-            t.thisExpression()
-          )
-        ]
-      ) : t.emptyStatement()
+      this.usedThisProperties.size
+        ? t.variableDeclaration(
+          'const',
+          [
+            t.variableDeclarator(
+              t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
+                t.identifier(p),
+                t.identifier(p)
+              ) as any)),
+              t.thisExpression()
+            )
+          ]
+        )
+        : t.emptyStatement()
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {
