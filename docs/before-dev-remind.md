@@ -10,17 +10,13 @@ title: 开发前注意
   * 需要设置关闭代码压缩上传，开启可能报错
 
 ## React Native
-> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不支持 **组合器和选择器组**[Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
+> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
 
 以下选择器的写法都是不支持的，在样式转换时会自动忽略。
 
 ```css
 .button.button_theme_islands{
   font-style: bold;
-}
-
-p, li {
-  font-size: 16px;
 }
 
 img + p {
