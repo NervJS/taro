@@ -60,7 +60,12 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
         callee.isIdentifier({ name: 'App' })
       ) {
         const componentType = callee.node.name
-        classDecl = parsePage(path, returned || t.nullLiteral(), json, componentType)!
+        classDecl = parsePage(
+          path,
+          returned || t.nullLiteral(),
+          json,
+          componentType
+        )!
         if (componentType !== 'App') {
           classDecl.decorators = [buildDecorator(componentType)]
         }
@@ -72,13 +77,14 @@ export function parseScript (script?: string, returned?: t.Expression, json?: t.
 
   const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
-  ast.program.body.unshift(taroComponentsImport, taroImport)
+  const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp')
+  ast.program.body.unshift(taroComponentsImport, taroImport, withWeappImport)
 
   return ast
 }
 
 function buildRender (returned: t.Expression) {
-  const returnStatement: t.Statement[] = [ t.returnStatement(returned) ]
+  const returnStatement: t.Statement[] = [t.returnStatement(returned)]
   if (stateKeys.length) {
     const stateDecl = t.variableDeclaration('const', [
       t.variableDeclarator(
