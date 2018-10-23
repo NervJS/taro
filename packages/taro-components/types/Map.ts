@@ -236,27 +236,27 @@ interface MapProps extends StandardProps {
    * @deprecated
    * 即将移除，请使用 markers
    */
-  covers?: [],
+  covers?: any[],
 
   /**
    * 路线
    */
-  polyline?: [],
+  polyline?: any[],
 
   /**
    * 圆
    */
-  circles?: [],
+  circles?: any[],
 
   /**
    * 控件
    */
-  controls?: [],
+  controls?: any[],
 
   /**
    * 缩放视野以包含所有给定的坐标点
    */
-  includePoints?: [],
+  includePoints?: any[],
 
   /**
    * 显示带有方向的当前定位点
