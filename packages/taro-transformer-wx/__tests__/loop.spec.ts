@@ -10,162 +10,6 @@ import { flatten } from 'lodash'
 import { prettyPrint } from 'html'
 
 describe('loop', () => {
-  describe('含有语句或复杂表达式的循环', () => {
-    test('callee 是复杂表达式', () => {
-      const keys = {
-        颜色: {
-          红: { active: false, disabled: false, name: '红' },
-          蓝: { active: false, disabled: false, name: '蓝' }
-        },
-        大小: {
-          M: { active: false, disabled: false, name: 'M' },
-          L: { active: false, disabled: false, name: 'L' }
-        }
-      }
-      const { template, ast, code } = transform({
-        ...baseOptions,
-        isRoot: true,
-        code: buildComponent(
-          `
-          const { keys } = this.state
-          return (
-              Object.keys(keys).map((key, index) => {
-                  const ks = Object.keys(keys[key])
-                  return (
-                      <View key={index}>
-                          <View>{key}</View>
-                          {
-                              ks.map((value, id) => {
-                                  const title = 'title'
-                                  return (
-                                      <View key={id}>{value}</View>
-                                  )
-                              })
-                          }
-                      </View>
-                  )
-              })
-          )
-          `,
-          `state = {
-            keys: {
-          '颜色': {
-            '红': {active: false, disabled: false, name: '红'},
-            '蓝': {active: false, disabled: false, name: '蓝'}
-          },
-          '大小': {
-            'M': {active: false, disabled: false, name: 'M'},
-            'L': {active: false, disabled: false, name: 'L'}
-          }
-        }
-          }`
-        )
-      })
-
-      const instance = evalClass(ast)
-      removeShadowData(instance.state)
-      expect(instance.state.loopArray0.length).toBe(2)
-      expect(instance.state.loopArray0.map(i => i.$original)).toEqual([
-        '颜色',
-        '大小'
-      ])
-      expect(
-        instance.state.loopArray0.map(i =>
-          i.$anonymousCallee__1.map(a => a.$original)
-        )
-      ).toEqual(
-        Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i))
-      )
-      expect(template).toMatch(
-        prettyPrint(`
-          <block>
-              <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
-                  <view>{{key.$original}}</view>
-                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__1}}"
-                  wx:for-item="value" wx:for-index="id">{{value.$original}}</view>
-              </view>
-          </block>
-      `)
-      )
-    })
-
-    test('callee 是复杂表达式, 第二个循环非复杂表达式', () => {
-      const keys = {
-        颜色: {
-          红: { active: false, disabled: false, name: '红' },
-          蓝: { active: false, disabled: false, name: '蓝' }
-        },
-        大小: {
-          M: { active: false, disabled: false, name: 'M' },
-          L: { active: false, disabled: false, name: 'L' }
-        }
-      }
-      const { template, ast, code } = transform({
-        ...baseOptions,
-        isRoot: true,
-        code: buildComponent(
-          `
-          const { keys } = this.state
-          return (
-              Object.keys(keys).map((key, index) => {
-                  const ks = Object.keys(keys[key])
-                  return (
-                      <View key={index}>
-                          <View>{key}</View>
-                          {
-                              ks.map((value, id) => {
-                                  return (
-                                      <View key={id}>{value}</View>
-                                  )
-                              })
-                          }
-                      </View>
-                  )
-              })
-          )
-          `,
-          `state = {
-            keys: {
-          '颜色': {
-            '红': {active: false, disabled: false, name: '红'},
-            '蓝': {active: false, disabled: false, name: '蓝'}
-          },
-          '大小': {
-            'M': {active: false, disabled: false, name: 'M'},
-            'L': {active: false, disabled: false, name: 'L'}
-          }
-        }
-          }`
-        )
-      })
-
-      const instance = evalClass(ast)
-      removeShadowData(instance.state)
-      expect(instance.state.loopArray0.length).toBe(2)
-      expect(instance.state.loopArray0.map(i => i.$original)).toEqual([
-        '颜色',
-        '大小'
-      ])
-      expect(
-        instance.state.loopArray0.map(i =>
-          i.ks
-        )
-      ).toEqual(
-        Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i))
-      )
-      expect(template).toMatch(
-        prettyPrint(`
-          <block>
-              <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
-                  <view>{{key.$original}}</view>
-                  <view wx:key="{{id}}" wx:for="{{key.ks}}"
-                  wx:for-item="value" wx:for-index="id">{{value}}</view>
-              </view>
-          </block>
-      `)
-      )
-    })
-  })
   describe('有 block 有 return', () => {
     describe('多层 loop', () => {
       test('简单情况', () => {
@@ -2846,6 +2690,157 @@ describe('loop', () => {
         // expect(Object.keys(instance.state).length).toBe(1)
         // expect(instance.state[stateName]).toEqual(['test1'])
       })
+    })
+  })
+
+  describe('含有语句或复杂表达式的循环', () => {
+    test('callee 是复杂表达式', () => {
+      const keys = {
+        颜色: {
+          红: { active: false, disabled: false, name: '红' },
+          蓝: { active: false, disabled: false, name: '蓝' }
+        },
+        大小: {
+          M: { active: false, disabled: false, name: 'M' },
+          L: { active: false, disabled: false, name: 'L' }
+        }
+      }
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(
+          `
+          const { keys } = this.state
+          return (
+              Object.keys(keys).map((key, index) => {
+                  const ks = Object.keys(keys[key])
+                  return (
+                      <View key={index}>
+                          <View>{key}</View>
+                          {
+                              ks.map((value, id) => {
+                                  const title = 'title'
+                                  return (
+                                      <View key={id}>{value}</View>
+                                  )
+                              })
+                          }
+                      </View>
+                  )
+              })
+          )
+          `,
+          `state = {
+            keys: {
+          '颜色': {
+            '红': {active: false, disabled: false, name: '红'},
+            '蓝': {active: false, disabled: false, name: '蓝'}
+          },
+          '大小': {
+            'M': {active: false, disabled: false, name: 'M'},
+            'L': {active: false, disabled: false, name: 'L'}
+          }
+        }
+          }`
+        )
+      })
+
+      const instance = evalClass(ast)
+      removeShadowData(instance.state)
+      expect(instance.state.loopArray0.length).toBe(2)
+      expect(instance.state.loopArray0.map(i => i.$original)).toEqual([
+        '颜色',
+        '大小'
+      ])
+      expect(
+        instance.state.loopArray0.map(i =>
+          i.$anonymousCallee__7.map(a => a.$original)
+        )
+      ).toEqual(Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i)))
+      expect(template).toMatch(
+        prettyPrint(`
+          <block>
+              <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
+                  <view>{{key.$original}}</view>
+                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__7}}"
+                  wx:for-item="value" wx:for-index="id">{{value.$original}}</view>
+              </view>
+          </block>
+      `)
+      )
+    })
+
+    test('callee 是复杂表达式, 第二个循环非复杂表达式', () => {
+      const keys = {
+        颜色: {
+          红: { active: false, disabled: false, name: '红' },
+          蓝: { active: false, disabled: false, name: '蓝' }
+        },
+        大小: {
+          M: { active: false, disabled: false, name: 'M' },
+          L: { active: false, disabled: false, name: 'L' }
+        }
+      }
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(
+          `
+          const { keys } = this.state
+          return (
+              Object.keys(keys).map((key, index) => {
+                  const ks = Object.keys(keys[key])
+                  return (
+                      <View key={index}>
+                          <View>{key}</View>
+                          {
+                              ks.map((value, id) => {
+                                  return (
+                                      <View key={id}>{value}</View>
+                                  )
+                              })
+                          }
+                      </View>
+                  )
+              })
+          )
+          `,
+          `state = {
+            keys: {
+          '颜色': {
+            '红': {active: false, disabled: false, name: '红'},
+            '蓝': {active: false, disabled: false, name: '蓝'}
+          },
+          '大小': {
+            'M': {active: false, disabled: false, name: 'M'},
+            'L': {active: false, disabled: false, name: 'L'}
+          }
+        }
+          }`
+        )
+      })
+
+      const instance = evalClass(ast)
+      removeShadowData(instance.state)
+      expect(instance.state.loopArray0.length).toBe(2)
+      expect(instance.state.loopArray0.map(i => i.$original)).toEqual([
+        '颜色',
+        '大小'
+      ])
+      expect(instance.state.loopArray0.map(i => i.ks)).toEqual(
+        Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i))
+      )
+      expect(template).toMatch(
+        prettyPrint(`
+          <block>
+              <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
+                  <view>{{key.$original}}</view>
+                  <view wx:key="{{id}}" wx:for="{{key.ks}}"
+                  wx:for-item="value" wx:for-index="id">{{value}}</view>
+              </view>
+          </block>
+      `)
+      )
     })
   })
 })
