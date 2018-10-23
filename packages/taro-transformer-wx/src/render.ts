@@ -1331,7 +1331,7 @@ export class RenderParser {
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
-      t.variableDeclaration(
+      this.usedThisProperties.size ? t.variableDeclaration(
         'const',
         [
           t.variableDeclarator(
@@ -1342,7 +1342,7 @@ export class RenderParser {
             t.thisExpression()
           )
         ]
-      )
+      ) : t.emptyStatement()
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {
