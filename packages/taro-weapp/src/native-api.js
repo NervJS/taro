@@ -118,7 +118,13 @@ function processApis (taro) {
             obj[k] = (res) => {
               options[k] && options[k](res)
               if (k === 'success') {
-                resolve(res)
+                if (key === 'connectSocket') {
+                  resolve(
+                    Promise.resolve().then(() => Object.assign(task, res))
+                  )
+                } else {
+                  resolve(res)
+                }
               } else if (k === 'fail') {
                 reject(res)
               }
