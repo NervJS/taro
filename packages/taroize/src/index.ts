@@ -10,7 +10,7 @@ interface Option {
 }
 
 export function parse (option: Option): t.File {
-  const wxml = parseWXML(option.wxml)
+  const { wxml, wxses } = parseWXML(option.wxml)
   const json = parseJSON(option.json)
-  return parseScript(option.script, wxml as t.Expression, json)
+  return parseScript(option.script, wxml as t.Expression, json, wxses)
 }
