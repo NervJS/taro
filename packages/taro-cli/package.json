@@ -57,6 +57,7 @@
     "postcss": "^6.0.22",
     "postcss-pxtransform": "1.1.9",
     "postcss-url": "^7.3.2",
+    "prettier": "^1.14.3",
     "prop-types": "^15.6.2",
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
