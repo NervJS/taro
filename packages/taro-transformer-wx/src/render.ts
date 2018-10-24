@@ -727,7 +727,7 @@ export class RenderParser {
             const componentName = jsxElementPath.node.openingElement.name.name
             if (Adapter.type === Adapters.alipay) {
               let transformName = name.name
-              if (name.name === 'onClick') {
+              if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
                 transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
               }
               path.node.name = t.jSXIdentifier(transformName)
