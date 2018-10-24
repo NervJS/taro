@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.11...v) (2018-10-23)
+# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.12...v) (2018-10-24)
+
+
+
+<a name="1.1.0-beta.12"></a>
+# [1.1.0-beta.12](https://github.com/NervJS/taro/compare/v1.1.0-beta.11...v1.1.0-beta.12) (2018-10-24)
+
+
+### Bug Fixes
+
+* **cli:** 修复h5分包功能出现没有Root的pages的问题 ([d6f0971](https://github.com/NervJS/taro/commit/d6f0971))
+* **cli:** 小程序类编译 TARO_ENV 设置有误 ([dc86832](https://github.com/NervJS/taro/commit/dc86832))
+* **taro-alipay:** 匿名函数也不需要通过 __triggerPropsFn 调用 props 的函数 ([682b91d](https://github.com/NervJS/taro/commit/682b91d))
+* **transformer:** Tagged template 不需要做优化处理，close [#926](https://github.com/NervJS/taro/issues/926) ([22be41c](https://github.com/NervJS/taro/commit/22be41c))
+* **transformer:** 支付宝自定义组件不处理 onClick 事件 ([4dd9ba3](https://github.com/NervJS/taro/commit/4dd9ba3))
+
+
+### Features
+
+* **taro-h5:** 设置 H5 端 Taro.request 保留 jsonp-retry 的参数 ([0a2f975](https://github.com/NervJS/taro/commit/0a2f975))
 
 
 
