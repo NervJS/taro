@@ -69,6 +69,8 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages/i.test(parentPath.node.key.name))
+
 function processEntry (code, filePath) {
   let ast = wxTransformer({
     code,
@@ -265,37 +267,18 @@ function processEntry (code, filePath) {
       const value = node.value
       const keyName = t.isIdentifier(key) ? key.name : key.value
       if (keyName === 'pages' && t.isArrayExpression(value)) {
-        value.elements.forEach(v => {
-          pages.push(v.value)
-        })
-      } else if (keyName === 'subPackages' && t.isArrayExpression(value)) {
-        // 处理分包逻辑
-        value.elements.forEach(v => {
-          if (!t.isObjectExpression(v)) return
-          let root = null
-          let subPages = []
-          v.properties.forEach(va => {
-            if (!t.isObjectProperty(va) || !t.isIdentifier(va.key)) return
-            const subPackageKey = va.key.name
-            const subPackageValue = va.value
-            if (subPackageKey === 'root') {
-              root = subPackageValue.value
-              return
-            }
-            if (subPackageKey === 'pages' && t.isArrayExpression(subPackageValue)) {
-              subPackageValue.elements.forEach(val => {
-                subPages.push(val.value)
-              })
-            }
+        const subPackageParent = astPath.findParent(isUnderSubPackages)
+        let root = ''
+        if (subPackageParent) {
+          /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
+          const rootNode = astPath.parent.properties.find(v => {
+            return t.isIdentifier(v.key, { name: 'root' })
           })
-          if (root === null) return
-          subPages.forEach(va => {
-            let pagePath = `${root}/${va}`
-            pagePath = pagePath.replace(/\/{2,}/g, '/')
-            if (pages.indexOf(pagePath) < 0) {
-              pages.push(pagePath)
-            }
-          })
+          root = rootNode ? rootNode.value.value : ''
+        }
+        value.elements.forEach(v => {
+          const pagePath = `${root}${v.value}`.replace(/\/{2,}/g, '/')
+          pages.push(pagePath)
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar
