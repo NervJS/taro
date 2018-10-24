@@ -18,7 +18,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://i.loli.net/2018/10/11/5bbf3604909b6.png)
+![案例](https://i.loli.net/2018/10/24/5bcfe16f1b7c7.png)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
