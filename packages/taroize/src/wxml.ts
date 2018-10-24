@@ -80,6 +80,7 @@ export function parseWXML (wxml?: string): {
   wxses: WXS[],
   wxml?: t.Node
 } {
+  usedComponents.clear()
   let wxses: WXS[] = []
   if (!wxml) {
     return {
@@ -116,7 +117,7 @@ export function parseWXML (wxml?: string): {
       if (!jsxName.isJSXIdentifier()) {
         return
       }
-      if (jsxName.node.name === 'wxs') {
+      if (jsxName.node.name === 'Wxs') {
         wxses.push(getWXS(attrs.map(a => a.node), path))
       }
     }
