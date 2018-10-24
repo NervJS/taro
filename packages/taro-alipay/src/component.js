@@ -72,31 +72,6 @@ class BaseComponent {
     }
     updateComponent(this)
   }
-
-  // 会被匿名函数调用
-  __triggerPropsFn (key, args) {
-    const keyChain = key.split('.')
-    const reduxFnPrefix = '__event_'
-    const reduxFnName = reduxFnPrefix + keyChain.shift()
-    // redux标识过的方法，直接调用
-    if (reduxFnName in this) {
-      const scope = args.shift()
-      let fn
-      if (keyChain.length > 0) {
-        fn = safeGet(this[reduxFnName], keyChain.join('.'))
-      } else {
-        fn = this[reduxFnName]
-      }
-      fn.apply(scope, args)
-    } else {
-      // 普通的
-      const keyLower = key.toLocaleLowerCase()
-      this.$scope.triggerEvent(keyLower, {
-        __isCustomEvt: true,
-        __arguments: args
-      })
-    }
-  }
 }
 
 export default BaseComponent

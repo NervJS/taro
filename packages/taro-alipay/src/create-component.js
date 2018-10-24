@@ -137,10 +137,6 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
-      if (weappComponentData[propName] === true) {
-        const fnName = propName.replace(componentFnReg, '')
-        newProps[fnName] = noop
-      }
       delete newProps[propName]
     }
   }

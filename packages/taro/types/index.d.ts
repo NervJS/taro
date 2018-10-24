@@ -412,7 +412,9 @@ declare namespace Taro {
   enum ENV_TYPE {
     WEAPP = 'WEAPP',
     WEB = 'WEB',
-    RN = 'RN'
+    RN = 'RN',
+    SWAN = 'SWAN',
+    ALIPAY = 'ALIPAY'
   }
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
