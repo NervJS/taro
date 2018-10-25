@@ -1,9 +1,10 @@
 import * as t from 'babel-types'
 import traverse, { NodePath } from 'babel-traverse'
 import { transform } from 'babel-core'
+import * as template from 'babel-template'
 import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents, WXS } from './wxml'
-import { PageLifecycle } from './lifecycle'
+import { PageLifecycle, Lifecycle } from './lifecycle'
 
 const buildDecorator = (type: string) => t.decorator(t.callExpression(
   t.identifier('withWeapp'),
@@ -154,7 +155,7 @@ function parsePage (
     throw new Error('不支持编译在 Page 对象中使用解构(`...` spread property)语法')
   }
 
-  const classBody = properties.map(prop => {
+  let classBody = properties.map(prop => {
     const key = prop.get('key')
     const value = prop.get('value')
     if (!key.isIdentifier()) {
@@ -216,6 +217,33 @@ function parsePage (
         json
       )
     )
+  }
+
+  if (componentType === 'App') {
+    let hasWillMount = false
+    const globalData = template(`this.$app.globalData = this.globalData`)()
+    for (const method of classBody) {
+      if (!method) {
+        continue
+      }
+      if (!t.isClassMethod(method)) {
+        continue
+      }
+      if (t.isIdentifier(method.key, { name: Lifecycle.componentWillMount })) {
+        hasWillMount = true
+        method.body.body.unshift(globalData)
+      }
+    }
+    if (!hasWillMount) {
+      classBody.push(
+        t.classMethod(
+          'method',
+          t.identifier(Lifecycle.componentWillMount),
+          [],
+          t.blockStatement([globalData])
+        )
+      )
+    }
   }
 
   const renderFunc = buildRender(returned, stateKeys, propsKeys)
