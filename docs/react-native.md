@@ -278,6 +278,11 @@ expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versi
 
 不支持 `npm link`，可以使用[nicojs/node-install-local](https://github.com/nicojs/node-install-local) 替代。
 
+### Image component does not resolve images with filenames that include '@' symbol
+![image](https://user-images.githubusercontent.com/192451/28133573-7f1b555c-670e-11e7-8647-8acae1df3a86.png)
+
+React Native 不支持路径中带 @ 符号，具体可以查看 [#14980](https://github.com/facebook/react-native/issues/14980)。
+
 ## 参考
 
 -  [expo 官方文档](https://docs.expo.io/versions/latest/)
