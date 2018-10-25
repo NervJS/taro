@@ -412,7 +412,9 @@ declare namespace Taro {
   enum ENV_TYPE {
     WEAPP = 'WEAPP',
     WEB = 'WEB',
-    RN = 'RN'
+    RN = 'RN',
+    SWAN = 'SWAN',
+    ALIPAY = 'ALIPAY'
   }
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
@@ -480,7 +482,7 @@ declare namespace Taro {
        */
       method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
-       * 如果设为json，会尝试对返回的数据做一次 JSON.parse
+       * 如果设为 json，会尝试对返回的数据做一次 JSON.parse
        *
        * @default json
        */
@@ -493,35 +495,73 @@ declare namespace Taro {
        */
       responseType?: string,
       /**
-       * 设置H5端是否使用jsonp方式获取数据
+       * 设置 H5 端是否使用jsonp方式获取数据
        *
        * @default false
        */
       jsonp?: boolean,
       /**
-       * 设置H5端 jsonp 请求 url 是否需要被缓存
+       * 设置 H5 端 jsonp 请求 url 是否需要被缓存
        *
        * @default false
        */
       jsonpCache?: boolean,
       /**
-       * 设置H5端是否允许跨域请求。有效值：no-cors, cors, same-origin
+       * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
        *
        * @default same-origin
        */
       mode?: 'no-cors' | 'cors' | 'same-origin',
       /**
-       * 设置H5端是否携带 Cookie。有效值：include, same-origin, omit
+       * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
        *
        * @default omit
        */
       credentials?: 'include' | 'same-origin' | 'omit',
       /**
-       * 设置H5端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
+       * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
        *
        * @default default
        */
-      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached',
+      /**
+       * 设置 H5 端请求响应超时时间
+       *
+       * @default 2000
+       */
+      timeout?: number,
+      /**
+       * 设置 H5 端请求重试次数
+       *
+       * @default 2
+       */
+      retryTimes?: number,
+      /**
+       * 设置 H5 端请求的兜底接口
+       */
+      backup?: string | string[],
+      /**
+       * 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
+       */
+      dataCheck?(): boolean,
+      /**
+       * 设置 H5 端请求是否使用缓存
+       *
+       * @default false
+       */
+      useStore: boolean,
+      /**
+       * 设置 H5 端请求缓存校验的 key
+       */
+      storeCheckKey?: string,
+      /**
+       * 设置 H5 端请求缓存签名
+       */
+      storeSign?: string,
+      /**
+       * 设置 H5 端请求校验函数，一般不需要设置
+       */
+      storeCheck?(): boolean
     }
   }
   /**

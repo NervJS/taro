@@ -271,7 +271,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let needExportDefault = false
   let exportTaroReduxConnected = null
   const constantsReplaceList = Object.assign({
-    'process.env.TARO_ENV': Util.BUILD_TYPES.WEAPP
+    'process.env.TARO_ENV': buildAdapter
   }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -727,7 +727,7 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
   let componentRealPath = null
   let importExportName
   const constantsReplaceList = Object.assign({
-    'process.env.TARO_ENV': Util.BUILD_TYPES.WEAPP
+    'process.env.TARO_ENV': buildAdapter
   }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [

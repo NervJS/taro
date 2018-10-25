@@ -432,11 +432,20 @@ class Transformer {
       if (methodName.startsWith('on')) {
         this.componentProperies.add(`__fn_${methodName}`)
       }
-      const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
-        t.expressionStatement(t.callExpression(
+      let funcBody
+      if (Adapters.alipay !== Adapter.type) {
+        funcBody = t.expressionStatement(t.callExpression(
           t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
           [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
         ))
+      } else {
+        funcBody = t.expressionStatement(t.callExpression(
+          t.memberExpression(t.thisExpression(), t.identifier(`props.${methodName}`)),
+          [t.spreadElement(t.identifier('arguments'))]
+        ))
+      }
+      const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
+        funcBody
       ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
     }
