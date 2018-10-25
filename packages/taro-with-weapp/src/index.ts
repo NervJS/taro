@@ -55,7 +55,6 @@ export default function withWeapp (componentType: string) {
     }
 
     componentWillMount () {
-      this.globalData = Taro.getApp().globalData
       this.executeComponentFunc(this.created)
       this.safeExecute(super.componentWillMount)
     }
