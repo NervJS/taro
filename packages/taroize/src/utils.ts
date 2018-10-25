@@ -72,5 +72,6 @@ export const DEFAULT_Component_SET = new Set<string>([
   'MovableArea',
   'MovableView',
   'FunctionalPageNavigator',
-  'Ad'
+  'Ad',
+  'Block'
 ])

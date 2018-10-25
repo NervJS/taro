@@ -181,6 +181,8 @@ function hydrate (file: t.File) {
       return t.isJSXExpressionContainer(children)
         ? children.expression
         : children
+    } else {
+      return jsx
     }
   }
 }
