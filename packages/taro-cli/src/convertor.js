@@ -17,7 +17,8 @@ const {
   isNpmPkg,
   resolveScriptPath,
   REG_SCRIPT,
-  REG_TYPESCRIPT
+  REG_TYPESCRIPT,
+  processStyleImports
 } = require('./util')
 
 const prettierJSConfig = {
@@ -75,6 +76,7 @@ class Convertor {
     this.pages = new Set()
     this.components = new Set()
     this.hadBeenCopyedFiles = new Set()
+    this.hadBeenBuiltComponents = new Set()
     this.init()
   }
 
@@ -266,6 +268,7 @@ class Convertor {
 
       try {
         const param = {}
+        const depComponents = new Set()
         if (!fs.existsSync(pageJSPath)) {
           throw new Error(`页面 ${page} 没有 JS 文件！`)
         }
@@ -279,7 +282,7 @@ class Convertor {
           if (pageUsingComponnets) {
             // 页面依赖组件
             Object.keys(pageUsingComponnets).forEach(component => {
-              this.components.add(path.resolve(pageConfigPath, '..', pageUsingComponnets[component]))
+              depComponents.add(path.resolve(pageConfigPath, '..', pageUsingComponnets[component]))
             })
           }
           param.json = pageConfigStr
@@ -306,14 +309,101 @@ class Convertor {
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
-          this.writeFileToTaro(pageDistStylePath, fs.readFileSync(pageStylePath))
+          this.writeFileToTaro(pageDistStylePath, pageStyle)
           printLog(pocessTypeEnum.GENERATE, '页面样式', this.generateShowPath(pageDistStylePath))
+          this.traverseStyle(pageStylePath, pageStyle)
         }
         this.generateScriptFiles(scriptFiles)
+        this.traverseComponents(depComponents)
       } catch (err) {
+        printLog(pocessTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
         console.log(err)
       }
     })
+  }
+
+  traverseComponents (components) {
+    if (!components || !components.size) {
+      return
+    }
+    components.forEach(component => {
+      if (this.hadBeenBuiltComponents.has(component)) return
+      const componentJSPath = component + this.fileTypes.SCRIPT
+      const componentDistJSPath = this.getDistFilePath(componentJSPath)
+      const componentConfigPath = component + this.fileTypes.CONFIG
+      const componentStylePath = component + this.fileTypes.STYLE
+      const componentDistStylePath = this.getDistFilePath(componentStylePath, '.css')
+      const componentTemplPath = component + this.fileTypes.TEMPL
+
+      try {
+        const param = {}
+        const depComponents = new Set()
+        if (!fs.existsSync(componentJSPath)) {
+          throw new Error(`组件 ${component} 没有 JS 文件！`)
+        }
+        printLog(pocessTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
+        if (fs.existsSync(componentConfigPath)) {
+          printLog(pocessTypeEnum.CONVERT, '组件配置', this.generateShowPath(componentConfigPath))
+          const componentConfigStr = String(fs.readFileSync(componentConfigPath))
+          const componentConfig = JSON.parse(componentConfigStr)
+          const componentUsingComponnets = componentConfig.usingComponents
+          if (componentUsingComponnets) {
+            // 页面依赖组件
+            Object.keys(componentUsingComponnets).forEach(component => {
+              depComponents.add(path.resolve(componentConfigPath, '..', componentUsingComponnets[component]))
+            })
+          }
+          param.json = componentConfigStr
+        }
+        param.script = String(fs.readFileSync(componentJSPath))
+        if (fs.existsSync(componentTemplPath)) {
+          printLog(pocessTypeEnum.CONVERT, '组件模板', this.generateShowPath(componentTemplPath))
+          param.wxml = String(fs.readFileSync(componentTemplPath))
+        }
+        let componentStyle = null
+        if (fs.existsSync(componentStylePath)) {
+          printLog(pocessTypeEnum.CONVERT, '组件样式', this.generateShowPath(componentStylePath))
+          componentStyle = String(fs.readFileSync(componentStylePath))
+        }
+
+        const taroizeAst = taroize(param)
+        const { ast, scriptFiles } = this.parseAst({
+          ast: taroizeAst,
+          sourceFilePath: componentJSPath,
+          outputFilePath: componentDistJSPath,
+          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), '.css') : null
+        })
+        const jsCode = generate(ast).code
+        this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
+        printLog(pocessTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
+        if (componentStyle) {
+          this.writeFileToTaro(componentDistStylePath, componentStyle)
+          printLog(pocessTypeEnum.GENERATE, '组件样式', this.generateShowPath(componentDistStylePath))
+          this.traverseStyle(componentStylePath, componentStyle)
+        }
+        this.generateScriptFiles(scriptFiles)
+        this.traverseComponents(depComponents)
+      } catch (err) {
+        printLog(pocessTypeEnum.ERROR, '组件转换', this.generateShowPath(componentJSPath))
+        console.log(err)
+      }
+    })
+  }
+
+  traverseStyle (filePath, style) {
+    const { imports } = processStyleImports(style, BUILD_TYPES.WEAPP)
+    if (imports && imports.length) {
+      imports.forEach(importItem => {
+        const importPath = path.resolve(path.dirname(filePath), importItem)
+        if (fs.existsSync(importPath)) {
+          const styleText = fs.readFileSync(importPath).toString()
+          const styleDist = importPath.replace(this.root, this.convertDir)
+          this.writeFileToTaro(styleDist, styleText)
+          printLog(pocessTypeEnum.COPY, '样式文件', this.generateShowPath(styleDist))
+          this.traverseStyle(filePath, styleText)
+        }
+      })
+    }
   }
 
   run () {
