@@ -337,7 +337,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
           t.variableDeclaration('const', [t.variableDeclarator(t.identifier(specifiersName), t.objectExpression(objectPropperties))])
         )
         if (styleFiles.indexOf(styleFilePath) < 0) { // add this css file to queue
-          styleFiles.push(`#css-module#styleFilePath`)
+          styleFiles.push(styleFilePath)
         }
       } else if (path.isAbsolute(value)) {
         Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
