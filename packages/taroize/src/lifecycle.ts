@@ -1,4 +1,4 @@
-const enum Lifecycle {
+export const enum Lifecycle {
   constructor = 'constructor',
   componentWillMount = 'componentWillMount',
   componentDidMount = 'componentDidMount',
