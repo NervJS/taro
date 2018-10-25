@@ -9,11 +9,18 @@ const t = require('babel-types')
 const generate = require('babel-generator').default
 const template = require('babel-template')
 const autoprefixer = require('autoprefixer')
+const minimatch = require('minimatch')
+const _ = require('lodash')
+
 const postcss = require('postcss')
 const pxtransform = require('postcss-pxtransform')
 const cssUrlParse = require('postcss-url')
-const minimatch = require('minimatch')
-const _ = require('lodash')
+const Scope = require('postcss-modules-scope')
+const Values = require('postcss-modules-values')
+const genericNames = require('generic-names')
+const LocalByDefault = require('postcss-modules-local-by-default')
+const ExtractImports = require('postcss-modules-extract-imports')
+const ResolveImports = require('postcss-modules-resolve-imports')
 
 const Util = require('./util')
 const CONFIG = require('./config')
@@ -265,6 +272,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const node = astPath.node
       const source = node.source
       let value = source.value
+      const specifiers = node.specifiers
       if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
         if (value === taroJsComponents) {
           astPath.remove()
@@ -308,6 +316,28 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
               source.value = value
             }
           }
+        }
+      } else if (Util.CSS_EXT.indexOf(path.extname(value)) !== -1 && specifiers.length > 0) { // 对 使用 import style from './style.css' 语法引入的做转化处理
+        const specifiersName = specifiers[0].local.name
+        Util.printLog(Util.pocessTypeEnum.GENERATE, '替换代码', `为文件 ${sourceFilePath} 生成css-module`)
+        const styleFilePath = path.join(path.dirname(sourceFilePath), value)
+        const styleCode = fs.readFileSync(styleFilePath).toString()
+        const result = processStyleUseCssModule({
+          css: styleCode,
+          filePath: styleFilePath
+        })
+        const tokens = result.root.exports || {}
+        const objectPropperties = []
+        for (const key in tokens) {
+          if (tokens.hasOwnProperty(key)) {
+            objectPropperties.push(t.objectProperty(t.identifier(key), t.stringLiteral(tokens[key])))
+          }
+        }
+        astPath.replaceWith(
+          t.variableDeclaration('const', [t.variableDeclarator(t.identifier(specifiersName), t.objectExpression(objectPropperties))])
+        )
+        if (styleFiles.indexOf(styleFilePath) < 0) { // add this css file to queue
+          styleFiles.push(`#css-module#styleFilePath`)
         }
       } else if (path.isAbsolute(value)) {
         Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
@@ -1264,10 +1294,42 @@ async function buildSinglePage (page) {
   }
 }
 
+/**
+ * css module processor
+ * @param styleObj { css: string, filePath: '' }
+ * @returns postcss.process()
+ */
+function processStyleUseCssModule (styleObj) {
+  // 对 xxx.global.[css|scss|less|styl] 等样式文件不做处理
+  const DO_NOT_USE_CSS_MODULE = '.global'
+  if (styleObj.filePath.indexOf(DO_NOT_USE_CSS_MODULE) > -1) return styleObj
+  const useModuleConf = weappConf.module || {}
+  const customPostcssConf = useModuleConf.postcss || {}
+  const generateScopedName = customPostcssConf.module.generateScopedName
+  const context = process.cwd()
+  let scopedName
+  if (generateScopedName) {
+    scopedName = genericNames(generateScopedName, { context })
+  } else {
+    scopedName = (local, filename) => Scope.generateScopedName(local, path.relative(context, filename))
+  }
+  const postcssPlugins = [
+    Values,
+    LocalByDefault,
+    ExtractImports,
+    new Scope({ generateScopedName: scopedName }),
+    new ResolveImports({ resolve: Object.assign({}, { extensions: Util.CSS_EXT }) }),
+  ]
+  const runner = postcss(postcssPlugins)
+  const result = runner.process(styleObj.css, Object.assign({}, { from: styleObj.filePath }))
+  return result
+}
+
 async function processStyleWithPostCSS (styleObj) {
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customPxtransformConf = customPostcssConf.pxtransform || {}
+  const useCssModule = customPostcssConf.module
   const customUrlConf = customPostcssConf.url || {}
   const postcssPxtransformOption = {
     designWidth: projectConfig.designWidth || 750,
@@ -1293,9 +1355,9 @@ async function processStyleWithPostCSS (styleObj) {
       encodeType: 'base64'
     }))
   }
-  const postcssResult = await postcss(processors).process(styleObj.css, {
-    from: styleObj.filePath
-  })
+  let css = styleObj.css
+  if (useCssModule) css = processStyleUseCssModule(styleObj).css
+  const postcssResult = await postcss(processors).process(css, { from: styleObj.filePath })
   return postcssResult.css
 }
 

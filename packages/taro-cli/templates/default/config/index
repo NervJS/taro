@@ -61,6 +61,9 @@ const config = {
   weapp: {
     module: {
       postcss: {
+        module: {
+          generateScopedName: '[name]__[local]___[hash:base64:5]',
+        },
         autoprefixer: {
           enable: true
         },
