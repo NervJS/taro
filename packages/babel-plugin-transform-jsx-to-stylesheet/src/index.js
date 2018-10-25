@@ -212,9 +212,11 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         }
       },
       // 由于目前 js 引入的文件样式默认会全部合并，故进插入一个就好，其余的全部 remove
-      ImportDeclaration (astPath, {file}) {
+      ImportDeclaration (astPath, state) {
+        const {file} = state
         const node = astPath.node
         const sourceValue = node.source.value
+        const jsFilePath = state.opts.filePath // 传进来的文件的 filePath ,Babel6 file.opts.filaname 为unknown
         const extname = path.extname(sourceValue)
         const cssIndex = cssSuffixs.indexOf(extname)
         let cssFileCount = file.get('cssFileCount') || 0
@@ -223,10 +225,11 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         if (node.importKind !== 'value' && cssIndex > -1) {
           // 第一个引入的样式文件
           if (cssFileCount === 0) {
-            const cssFileBaseName = path.basename(sourceValue, extname)
+            const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
+            console.log(cssFileBaseName)
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `${path.dirname(sourceValue)}/${cssFileBaseName}_styles`
+            const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
 
             node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
