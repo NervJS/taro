@@ -14,12 +14,14 @@ const {
   printLog,
   pocessTypeEnum,
   promoteRelativePath,
-  isNpmPkg,
   resolveScriptPath,
   REG_SCRIPT,
   REG_TYPESCRIPT,
-  processStyleImports
+  processStyleImports,
+  getPkgVersion
 } = require('./util')
+
+const Creator = require('./creator')
 
 const prettierJSConfig = {
   semi: false,
@@ -71,7 +73,8 @@ function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
 class Convertor {
   constructor () {
     this.root = process.cwd()
-    this.convertDir = path.join(this.root, 'taroConvert')
+    this.convertRoot = path.join(this.root, 'taroConvert')
+    this.convertDir = path.join(this.convertRoot, 'src')
     this.fileTypes = MINI_APP_FILES[BUILD_TYPES.WEAPP]
     this.pages = new Set()
     this.components = new Set()
@@ -89,14 +92,12 @@ class Convertor {
   }
 
   initConvert () {
-    if (fs.existsSync(this.convertDir)) {
-      fs.emptyDirSync(this.convertDir)
+    if (fs.existsSync(this.convertRoot)) {
+      fs.emptyDirSync(this.convertRoot)
     } else {
-      fs.mkdirpSync(this.convertDir)
+      fs.mkdirpSync(this.convertRoot)
     }
   }
-
-
 
   parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath }) {
     const scriptFiles = new Set()
@@ -406,9 +407,60 @@ class Convertor {
     }
   }
 
+  generateConfigFiles () {
+    const creator = new Creator()
+    const templateName = 'default'
+    const configDir = path.join(this.convertRoot, 'config')
+    const pkgPath = path.join(this.convertRoot, 'package.json')
+    const projectName = 'taroConvert'
+    const description = ''
+    const version = getPkgVersion()
+    const dateObj = new Date()
+    const date = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1)}-${dateObj.getDate()}`
+    creator.template(templateName, 'pkg', pkgPath, {
+      description,
+      projectName,
+      version,
+      css: 'none',
+      typescript: false
+    })
+    creator.template(templateName, path.join('config', 'index'), path.join(configDir, 'index.js'), {
+      date,
+      projectName
+    })
+    creator.template(templateName, path.join('config', 'dev'), path.join(configDir, 'dev.js'))
+    creator.template(templateName, path.join('config', 'prod'), path.join(configDir, 'prod.js'))
+    creator.template(templateName, 'project', path.join(this.convertRoot, 'project.config.json'), {
+      description,
+      projectName
+    })
+    creator.template(templateName, 'gitignore', path.join(this.convertRoot, '.gitignore'))
+    creator.template(templateName, 'editorconfig', path.join(this.convertRoot, '.editorconfig'))
+    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'))
+    creator.template(templateName, 'indexhtml', path.join(this.convertDir, 'index.html'))
+    creator.fs.commit(() => {
+      const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
+      pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
+      fs.writeJSONSync(pkgPath, pkgObj, {
+        spaces: 2,
+        EOL: '\n'
+      })
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(configDir, 'index.js')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(configDir, 'dev.js')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(configDir, 'prod.js')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(pkgPath))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'project.config.json')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.gitignore')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.editorconfig')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.eslintrc')))
+      printLog(pocessTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertDir, 'index.html')))
+    })
+  }
+
   run () {
     this.generateEntry()
     this.traversePages()
+    this.generateConfigFiles()
   }
 }
 
