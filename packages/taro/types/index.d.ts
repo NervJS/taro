@@ -296,7 +296,7 @@ declare namespace Taro {
     /**
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
-     * @since 1.9.9
+     * @since 1.9.90
       */
     workers?: string
     /**
@@ -322,13 +322,7 @@ declare namespace Taro {
      * @default false
      * @since 2.3.0
      */
-    resizable?: boolean,
-
-    /**
-     * Worker 代码放置的目录
-     * @since 1.9.90
-     */
-    workers: string
+    resizable?: boolean
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -549,7 +543,7 @@ declare namespace Taro {
        *
        * @default false
        */
-      useStore: boolean,
+      useStore?: boolean,
       /**
        * 设置 H5 端请求缓存校验的 key
        */
