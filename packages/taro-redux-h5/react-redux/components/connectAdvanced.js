@@ -10,11 +10,23 @@ function noop() {}
 function makeSelectorStateful(sourceSelector, store) {
   // wrap the selector in an object that tracks its results between runs.
   const selector = {
-    run: function runComponentSelector(props) {
+    run: function runComponentSelector(props, { ctx }) {
       try {
         const nextProps = sourceSelector(store.getState(), props)
         if (nextProps !== selector.props || selector.error) {
           selector.shouldComponentUpdate = true
+
+          /**
+           * 如果是页面 根据目前&未来展示状态判断是否需要update
+           */
+          if (props._$router) {
+            const lastShouldShow = ctx.props._$router.state === ctx.locationState
+            const nextShouldShow = props._$router.state === ctx.locationState
+            const canReceiveProps = lastShouldShow || nextShouldShow
+            if (!canReceiveProps) {
+              selector.shouldComponentUpdate = false
+            }
+          }
           selector.props = nextProps
           selector.error = null
         }
@@ -150,12 +162,12 @@ export default function connectAdvanced(
         // dispatching an action in its componentWillMount, we have to re-run the select and maybe
         // re-render.
         this.subscription.trySubscribe()
-        this.selector.run(this.props)
+        this.selector.run(this.props, { ctx: this })
         if (this.selector.shouldComponentUpdate) this.forceUpdate()
       }
 
       componentWillReceiveProps(nextProps) {
-        this.selector.run(nextProps)
+        this.selector.run(nextProps, { ctx: this })
       }
 
       shouldComponentUpdate() {
@@ -187,7 +199,7 @@ export default function connectAdvanced(
       initSelector() {
         const sourceSelector = selectorFactory(this.store.dispatch, selectorFactoryOptions)
         this.selector = makeSelectorStateful(sourceSelector, this.store)
-        this.selector.run(this.props)
+        this.selector.run(this.props, { ctx: this })
       }
 
       initSubscription() {
@@ -208,7 +220,7 @@ export default function connectAdvanced(
       }
 
       onStateChange() {
-        this.selector.run(this.props)
+        this.selector.run(this.props, { ctx: this })
 
         if (!this.selector.shouldComponentUpdate) {
           this.notifyNestedSubs()

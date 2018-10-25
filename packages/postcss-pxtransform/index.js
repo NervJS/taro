@@ -64,8 +64,9 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
   convertLegacyOptions(options)
 
   var opts = objectAssign({}, defaults, options)
+  var onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
   var pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
-    opts.minPixelValue)
+    opts.minPixelValue, onePxTransform)
 
   var satisfyPropList = createPropListMatcher(opts.propList)
 
@@ -150,9 +151,12 @@ function convertLegacyOptions (options) {
   })
 }
 
-function createPxReplace (rootValue, unitPrecision, minPixelValue) {
+function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransform) {
   return function (m, $1) {
     if (!$1) return m
+    if (!onePxTransform && parseInt($1, 10) === 1) {
+      return m
+    }
     var pixels = parseFloat($1)
     if (pixels < minPixelValue) return m
     var fixedVal = toFixed((pixels / rootValue), unitPrecision)

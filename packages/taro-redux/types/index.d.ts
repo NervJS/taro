@@ -1,10 +1,10 @@
 /**
  * 实现参考链接:
  * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/9951
- * 
+ *
  * ComponentClass 使用react, 保持和 taro-component 组件库一致
  * 也可以在 Taro 中重新声明
- * 
+ *
  */
 import { ComponentClass } from 'react';
 import {
@@ -22,10 +22,10 @@ export type InferableComponentEnhancerWithProps<IInjectedProps, INeedsProps> =
     <IComponent extends ComponentClass<IInjectedProps & INeedsProps>>(component: IComponent) => IComponent
 
 export interface IConnect {
-    <IStateProps = {}, IDispatchProps = {}, IOwnProps = {}>(
-        mapStateToProps?: MapStateToPropsParam<IStateProps, IOwnProps, any>,
-        mapDispatchToProps?: MapDispatchToPropsParam<IDispatchProps, IOwnProps>,
-    ): InferableComponentEnhancerWithProps<IStateProps & IDispatchProps, IOwnProps>
+  <IStateProps = {}, IDispatchProps = {}, IOwnProps = {}, IStore = any>(
+      mapStateToProps?: MapStateToPropsParam<IStateProps, IOwnProps, IStore>,
+      mapDispatchToProps?: MapDispatchToPropsParam<IDispatchProps, IOwnProps>,
+  ): InferableComponentEnhancerWithProps<IStateProps & IDispatchProps, IOwnProps>
 }
 
 export const connect: IConnect

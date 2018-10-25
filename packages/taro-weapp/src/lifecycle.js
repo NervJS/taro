@@ -35,6 +35,7 @@ export function updateComponent (component) {
   let skip = false
   if (component.__mounted) {
     if (typeof component.shouldComponentUpdate === 'function' &&
+      !component._isForceUpdate &&
       component.shouldComponentUpdate(props, state) === false) {
       skip = true
     } else if (typeof component.componentWillUpdate === 'function') {
@@ -44,6 +45,7 @@ export function updateComponent (component) {
   component.props = props
   component.state = state
   component._dirty = false
+  component._isForceUpdate = false
   if (!component.__componentWillMountTriggered) {
     component.__componentWillMountTriggered = true
     componentTrigger(component, 'componentWillMount')
@@ -86,14 +88,37 @@ function doUpdate (component, prevProps, prevState) {
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
   const dataDiff = diffObjToPath(data, component.$scope.data)
+  const __mounted = component.__mounted
   component.$scope.setData(dataDiff, function () {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
-    }
-    if (component._pendingCallbacks) {
-      while (component._pendingCallbacks.length) {
-        component._pendingCallbacks.pop().call(component)
+    if (__mounted) {
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
+          if (ref.type !== 'component') return
+
+          let target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target ? (target.$component || target) : null
+
+          const prevRef = ref.target
+          if (target !== prevRef) {
+            if (ref.refName) component.refs[ref.refName] = target
+            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            ref.target = target
+          }
+        })
       }
+
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
+      }
+    }
+
+    const cbs = component._pendingCallbacks
+    if (cbs && cbs.length) {
+      const len = cbs.length
+      let i = len
+      while (--i >= 0) cbs[i].call(component)
+      cbs.splice(0, len)
     }
   })
 }

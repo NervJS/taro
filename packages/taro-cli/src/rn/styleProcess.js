@@ -8,6 +8,8 @@ const {StyleSheetValidation} = require('./StyleSheet/index')
 const Util = require('../util')
 const npmProcess = require('../util/npm')
 
+const DEVICE_RATIO = 'deviceRatio'
+
 /**
  * @description 读取 css/scss/less 文件，预处理后，返回 css string
  * @param {string}filePath
@@ -50,9 +52,15 @@ function loadStyle ({filePath, pluginsConfig}) {
  * @returns {Function | any}
  */
 function postCSS ({css, filePath, projectConfig}) {
+  let pxTransformConfig = {
+    designWidth: projectConfig.designWidth || 750
+  }
+  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+    pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+  }
   return postcss(pxtransform({
     platform: 'rn',
-    designWidth: projectConfig.designWidth || 750
+    ...pxTransformConfig
   }))
     .process(css, {from: filePath})
     .then((result) => {
@@ -68,7 +76,7 @@ function getStyleObject (css) {
   try {
     styleObject = transformCSS(css)
   } catch (err) {
-    console.log(chalk.red(err))
+    console.log(chalk.red(err.stack))
   }
   return styleObject
 }

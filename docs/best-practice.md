@@ -14,7 +14,7 @@ title: 最佳实践
 * [不能在 JSX 参数中使用对象展开符](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-spread-in-props.md)
 * [不支持无状态组件](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-stateless-function.md)
 
-## 最佳撸码方式
+## 最佳编码方式
 
 经过较长时间的探索与验证，目前 Taro 在微信小程序端是采用依托于小程序原生自定义组件系统来设计实现 Taro 组件化的，所以目前小程序端的组件化会受到小程序原生组件系统的限制，而同时为了实现以 React 方式编写代码的目标，Taro 本身做了一些编译时以及运行时的处理，这样也带来了一些值得注意的约束，所以有必要阐述一下 Taro 编码上的最佳实践。
 
@@ -33,7 +33,7 @@ Component({
       type: String, // 类型（必填），目前接受的类型包括：String, Number, Boolean, Object, Array, null（表示任意类型）
       value: '', // 属性初始值（可选），如果未指定则会根据类型选择一个
       observer: function (newVal, oldVal, changedPath) {
-         // 属性被改变时执行的函数（可选），也可以写成在methods段中定义的方法名字符串, 如：'_propertyChange'
+         // 属性被改变时执行的函数（可选），也可以写成在 methods 段中定义的方法名字符串, 如：'_propertyChange'
          // 通常 newVal 就是新设置的数据， oldVal 是旧数据
       }
     },
@@ -53,7 +53,7 @@ const { property } = this.props
 const property = this.props.property
 ```
 
-但是一千个人心中有一千个哈姆雷特，不同人的代码写法肯定也不尽相同，所以 Taro 的编译肯定不能覆盖到所有的写法，而同时可能会有某一属性没有使用而是直接传递给子组件的情况，这种情况是编译时无论如何也处理不到的，这时候就需要大家在编码时给组件设置 [`defaultProps`](https://nervjs.github.io/taro/component.html#%E7%B1%BB%E5%B1%9E%E6%80%A7) 来解决了。
+但是一千个人心中有一千个哈姆雷特，不同人的代码写法肯定也不尽相同，所以 Taro 的编译肯定不能覆盖到所有的写法，而同时可能会有某一属性没有使用而是直接传递给子组件的情况，这种情况是编译时无论如何也处理不到的，这时候就需要大家在编码时给组件设置 [`defaultProps`](https://nervjs.github.io/taro/docs/component.html#defaultprops) 来解决了。
 
 组件设置的 `defaultProps` 会在运行时用来弥补编译时处理不到的情况，里面所有的属性都会被设置到 `properties` 中初始化组件，正确设置 `defaultProps` 可以避免很多异常的情况的出现。
 
@@ -94,7 +94,7 @@ class Parent extends Component {
 
 ### 小程序端不要将在模板中用到的数据设置为 `undefined`
 
-由于小程序不支持将data中任何一项的value设为 `undefined` ，在setState的时候也请避免这么用。你可以使用null来替代。
+由于小程序不支持将 data 中任何一项的 value 设为 `undefined` ，在 setState 的时候也请避免这么用。你可以使用 null 来替代。
 
 ### 小程序端不要在组件中打印 `this.props.children`
 
@@ -110,12 +110,12 @@ class Parent extends Component {
 
 ### 小程序中页面生命周期 `componentWillMount` 不一致问题
 
-由于微信小程序里页面在 `onLoad` 时才能拿到页面的路由参数，而页面onLoad前组件都已经 `attached` 了。因此页面的 `componentWillMount` 可能会与预期不太一致。例如：
+由于微信小程序里页面在 `onLoad` 时才能拿到页面的路由参数，而页面 onLoad 前组件都已经 `attached` 了。因此页面的 `componentWillMount` 可能会与预期不太一致。例如：
 
 ```jsx
 // 错误写法
 render () {
-  // 在willMount之前无法拿到路由参数
+  // 在 willMount 之前无法拿到路由参数
   const abc = this.$router.params.abc
   return <Custom adc={abc} />
 }
@@ -129,11 +129,11 @@ componentWillMount () {
 }
 render () {
   // 增加一个兼容判断
-  return {this.state.abc && <Custom adc={abc} />}
+  return this.state.abc && <Custom adc={abc} />
 }
 ```
 
-对于不需要等到页面willMount之后取路由参数的页面则没有任何影响。
+对于不需要等到页面 willMount 之后取路由参数的页面则没有任何影响。
 
 ### 组件的 `constructor` 与 `render` 提前调用
 
@@ -161,6 +161,34 @@ if (NODE_ENV === 'development') {
 // 正确写法
 if (process.env.NODE_ENV === 'development') {
 
+}
+```
+
+### 预加载
+
+在微信小程序中，从调用 `Taro.navigateTo`、`Taro.redirectTo` 或 `Taro.switchTab` 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
+
+Taro 提供了 `componentWillPreload` 钩子，它接收页面跳转的参数作为参数。可以把需要预加载的内容通过 `return` 返回，然后在组件触发 componentWillMount 后即可通过 `this.$preloadData` 获取到预加载的内容。
+
+```jsx
+class Index extends Component {
+  componentWillMount () {
+    console.log('isFetching: ', this.isFetching)
+    this.$preloadData
+      .then(res => {
+        console.log('res: ', res)
+        this.isFetching = false
+      })
+  }
+
+  componentWillPreload (params) {
+    return this.fetchData(params.url)
+  }
+
+  fetchData () {
+    this.isFetching = true
+    ...
+  }
 }
 ```
 

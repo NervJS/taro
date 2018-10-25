@@ -111,11 +111,10 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
         if (arrTo !== arrFrom) {
           res[targetKey] = toItem
         } else if (arrTo && arrFrom) {
-          if (toItem.length < fromItem.length) {
-            res[targetKey] = toItem
-          } else {
-            // 数组
+          if (toItem.length === fromItem.length) {
             diffArrToPath(toItem, fromItem, res, `${targetKey}`)
+          } else {
+            res[targetKey] = toItem
           }
         } else {
           if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
@@ -158,15 +157,14 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
         if (arrTo !== arrFrom) {
           res[targetKey] = toItem
         } else if (arrTo && arrFrom) {
-          if (toItem.length < fromItem.length) {
-            res[targetKey] = toItem
-          } else {
-            // 数组
+          if (toItem.length === fromItem.length) {
             diffArrToPath(toItem, fromItem, res, `${targetKey}`)
+          } else {
+            res[targetKey] = toItem
           }
         } else {
           // null
-          if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
+          if (!toItem || !fromItem) {
             res[targetKey] = toItem
           } else {
           // 对象

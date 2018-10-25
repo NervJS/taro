@@ -7,11 +7,16 @@ import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
+import { Adapter } from './adapter'
 const template = require('babel-template')
 
 export const incrementId = () => {
   let id = 0
   return () => id++
+}
+
+export function decodeUnicode (s: string) {
+  return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
 }
 
 export function isVarName (str: string) {
@@ -33,7 +38,7 @@ export function isVarName (str: string) {
   return true
 }
 
-export function findMethodName (expression: t.Expression) {
+export function findMethodName (expression: t.Expression): string {
   let methodName
   if (
     t.isIdentifier(expression) ||
@@ -41,7 +46,7 @@ export function findMethodName (expression: t.Expression) {
   ) {
     methodName = expression.name
   } else if (t.isStringLiteral(expression)) {
-    methodName = expression
+    methodName = expression.value
   } else if (
     t.isMemberExpression(expression) &&
     t.isIdentifier(expression.property)
@@ -274,7 +279,7 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
-    element.attributes.push(buildJSXAttr('wx:if', value))
+    element.attributes.push(buildJSXAttr(Adapter.if, value))
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)

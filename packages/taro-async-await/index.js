@@ -1,9 +1,9 @@
-var global = typeof window !== 'undefined' &&
-window.Math === Math ? window : typeof self !== 'undefined' && self.Math === Math ? self : this
+var g = typeof window !== 'undefined' &&
+window.Math === Math ? window : typeof global === 'object' ? global : this
 
-if (!global.Promise) {
-  global.Promise = require('promise-polyfill')
+if (!g.Promise) {
+  g.Promise = require('promise-polyfill')
 }
-if (!global.regeneratorRuntime) {
-  global.regeneratorRuntime = require('regenerator-runtime/runtime')
+if (!g.regeneratorRuntime) {
+  g.regeneratorRuntime = require('regenerator-runtime/runtime')
 }

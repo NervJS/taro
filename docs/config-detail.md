@@ -156,16 +156,26 @@ weapp: {
 
 ```jsx
 postcss: {
+  // 可以进行`autoprefixer`的配置。配置项参考[官方文档](https://github.com/postcss/autoprefixer）
   autoprefixer: {
-    enable: true
+    enable: true,
+    config: {
+      /* autoprefixer 配置项 */
+    }
   },
   pxtransform: {
-    selectorBlackList: ['body']
+    enable: true,
+    config: {
+      /* pxtransform 配置项，参考尺寸章节 */
+      selectorBlackList: ['body']
+    }
   },
   // 小程序端样式引用本地资源内联
   url: {
     enable: true,
-    limit: 10240
+    config: {
+      limit: 10240 // 设定转换尺寸上限
+    }
   }
 }
 ```
@@ -198,16 +208,16 @@ h5 编译后的静态文件目录
 
 ### h5.chunkDirectory
 
-编译后非entry的js文件的存放目录，主要影响动态引入的`pages`的存放路径。
+编译后非 entry 的 js 文件的存放目录，主要影响动态引入的`pages`的存放路径。
 
 ### h5.webpackChain
 
-自定义webpack配置，接受函数形式的配置。
+自定义 webpack 配置，接受函数形式的配置。
 
-这个函数会收到两个参数，第一个参数是webpackChain对象，可参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)的api进行修改；第二个参数是`webpack`实例。例如：
+这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)的 api 进行修改；第二个参数是`webpack`实例。例如：
 
 ```jsx
-/* 这是个失败的例子，可以通过h5.alias实现完全一样的效果。 */
+/* 这是个失败的例子，可以通过 h5.alias 实现完全一样的效果。 */
 {
   webpackChain (chain, webpack) {
     chain.merge({
@@ -224,7 +234,7 @@ h5 编译后的静态文件目录
 ```
 
 ```jsx
-/* 这是一个添加ts-loader的例子，但事实上taro是默认支持ts的，并不需要这样做。 */
+/* 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。 */
 {
   webpackChain (chain, webpack) {
     chain.merge({
@@ -270,9 +280,9 @@ h5 编译后的静态文件目录
 ```
 
 ### [DEPRECATED]h5.webpack
-自定义webpack配置。这个配置项支持两种形式的配置。
+自定义 webpack 配置。这个配置项支持两种形式的配置。
 
-1. 如果该配置项以**对象**的形态呈现，taro将会使用 `webpack-merge` 将这个对象合并到默认的配置项中。
+1. 如果该配置项以**对象**的形态呈现，taro 将会使用 `webpack-merge` 将这个对象合并到默认的配置项中。
 例子：
 ```jsx
 webpack: {
@@ -284,7 +294,7 @@ webpack: {
 }
 ```
 
-2. 如果该配置以**函数**的形态呈现，那这个函数将会接收到两个参数：默认配置（defaultConfig）和webpack实例（webpack）。taro将会以该函数的返回值作为最终的webpack配置。
+2. 如果该配置以**函数**的形态呈现，那这个函数将会接收到两个参数：默认配置（defaultConfig）和 webpack 实例（webpack）。taro 将会以该函数的返回值作为最终的 webpack 配置。
 例子：
 
 ```jsx
@@ -312,7 +322,7 @@ webpack (defaultConfig, webpack) {
 
 ### h5.entry
 
-`Taro`app的入口，同[webpack.entry](https://webpack.js.org/configuration/entry-context/#entry)。
+`Taro`app 的入口，同[webpack.entry](https://webpack.js.org/configuration/entry-context/#entry)。
 
 ```jsx
 {
@@ -326,18 +336,18 @@ webpack (defaultConfig, webpack) {
 
 ### h5.enableSourceMap
 
-sourceMap开关，影响js、css的sourceMap配置。
-dev状态默认 **开**，prod状态默认 **关**。
+sourceMap 开关，影响 js、css 的 sourceMap 配置。
+dev 状态默认 **开**，prod 状态默认 **关**。
 
 ### h5.enableExtract
 
-extract功能开关，开启后将使用`mini-css-extract-plugin`分离css文件，
+extract 功能开关，开启后将使用`mini-css-extract-plugin`分离 css 文件，
 可通过`h5.miniCssExtractPluginOption`对插件进行配置。
-dev状态默认 **关**，prod状态默认 **开**。
+dev 状态默认 **关**，prod 状态默认 **开**。
 
 ### h5.cssLoaderOption
 
-css-loader的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
+css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
 
 ```jsx
 {
@@ -349,7 +359,7 @@ css-loader的附加配置。配置项参考[官方文档](https://github.com/web
 
 ### h5.styleLoaderOption
 
-style-loader的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
+style-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
 
 ```jsx
 {
@@ -361,7 +371,7 @@ style-loader的附加配置。配置项参考[官方文档](https://github.com/w
 
 ### h5.sassLoaderOption
 
-sass-loader的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
+sass-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
 
 ```jsx
 {
@@ -373,7 +383,7 @@ sass-loader的附加配置。配置项参考[官方文档](https://github.com/we
 
 ### h5.lessLoaderOption
 
-less-loader的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
+less-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
 
 ```jsx
 {
@@ -386,11 +396,11 @@ less-loader的附加配置。配置项参考[官方文档](https://github.com/we
 
 ### h5.stylusLoaderOption
 
-stylus-loader的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
+stylus-loader 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
 
 ### h5.mediaUrlLoaderOption
 
-针对`mp4|webm|ogg|mp3|wav|flac|aac`文件的url-loader配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
+针对`mp4|webm|ogg|mp3|wav|flac|aac`文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
 
 ```jsx
 {
@@ -402,11 +412,11 @@ stylus-loader的附加配置。配置项参考[官方文档](https://github.com/
 
 ### h5.fontUrlLoaderOption
 
-针对`woff|woff2|eot|ttf|otf`文件的url-loader配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+针对`woff|woff2|eot|ttf|otf`文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
 
 ### h5.imageUrlLoaderOption
 
-针对`png|jpg|jpeg|gif|bpm|svg`文件的url-loader配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+针对`png|jpg|jpeg|gif|bpm|svg`文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
 
 ### h5.miniCssExtractPluginOption
 
@@ -435,7 +445,7 @@ postcss: {
   autoprefixer: {
     enable: true,
     config: {
-      /* autoprefixer配置项 */
+      /* autoprefixer 配置项 */
     }
   }
 }
@@ -450,7 +460,7 @@ postcss: {
   pxtransform: {
     enable: true,
     config: {
-      /* pxtransform配置项 */
+      /* pxtransform 配置项 */
     }
   }
 }
@@ -458,12 +468,12 @@ postcss: {
 
 ### h5.module.postcss.plugins
 
-可以添加其他postcss插件。
+可以添加其他 postcss 插件。
 
 ```jsx
 postcss: {
   plugins: [
-    /* 其他想使用的postcss插件 */
+    /* 其他想使用的 postcss 插件 */
   ]
 }
 ```

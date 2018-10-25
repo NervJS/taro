@@ -28,6 +28,8 @@ import {
   parseJSXElement
 } from './jsx'
 import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
+import { Adapter, Adapters } from './adapter'
+import { transformOptions } from './options'
 import generate from 'babel-generator'
 const template = require('babel-template')
 
@@ -109,7 +111,8 @@ export class RenderParser {
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
-  private originalCallee = new Map<t.Expression, t.JSXElement>()
+  private loopCalleeId = new Set<t.Identifier>()
+  private usedThisProperties = new Set<string>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -155,6 +158,8 @@ export class RenderParser {
     }
   }
 
+  isLiteralOrUndefined = (node: t.Node): node is t.Literal | t.Identifier => t.isLiteral(node) || t.isIdentifier(node, { name: 'undefined' })
+
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
     if (t.isLogicalExpression(parentNode)) {
       const { left, operator, right } = parentNode
@@ -186,40 +191,59 @@ export class RenderParser {
         generateAnonymousState(parentPath.scope, testExpression, this.referencedIdentifiers, true)
       }
       const test = testExpression.node
-      if (t.isJSXElement(consequent) && t.isLiteral(alternate)) {
+      if (t.isJSXElement(consequent) && this.isLiteralOrUndefined(alternate)) {
         const { value, confident } = parentPath.get('alternate').evaluate()
-        if (confident && !value) {
+        if (confident && !value || t.isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, test)
           block.children = [ jsxElementPath.node ]
           // newJSXIfAttr(jsxElementPath.node, test)
           parentPath.replaceWith(block)
-          if (statementParent) {
-            const name = findIdentifierFromStatement(
-              statementParent.node as t.VariableDeclaration
-            )
-            setTemplate(name, jsxElementPath, this.templates)
-            // name && templates.set(name, path.node)
-          }
+        } else {
+          const block2 = buildBlockElement()
+          block.children = [consequent]
+          newJSXIfAttr(block, test)
+          setJSXAttr(block2, Adapter.else)
+          block2.children = [t.jSXExpressionContainer(alternate)]
+          const parentBlock = buildBlockElement()
+          parentBlock.children = [block, block2]
+          parentPath.replaceWith(parentBlock)
         }
-      } else if (t.isLiteral(consequent) && t.isJSXElement(alternate)) {
-        if (t.isNullLiteral(consequent)) {
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
+        }
+      } else if (this.isLiteralOrUndefined(consequent) && t.isJSXElement(alternate)) {
+        const { value, confident } = parentPath.get('consequent').evaluate()
+        if (confident && !value || t.isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, reverseBoolean(test))
-          // newJSXIfAttr(jsxElementPath.node, reverseBoolean(test))
           block.children = [ jsxElementPath.node ]
+          // newJSXIfAttr(jsxElementPath.node, test)
           parentPath.replaceWith(block)
-          if (statementParent) {
-            const name = findIdentifierFromStatement(
-              statementParent.node as t.VariableDeclaration
-            )
-            setTemplate(name, jsxElementPath, this.templates)
-            // name && templates.set(name, path.node)
-          }
+        } else {
+          const block2 = buildBlockElement()
+          block.children = [t.jSXExpressionContainer(consequent)]
+          newJSXIfAttr(block, test)
+          setJSXAttr(block2, Adapter.else)
+          block2.children = [alternate]
+          const parentBlock = buildBlockElement()
+          parentBlock.children = [block, block2]
+          parentPath.replaceWith(parentBlock)
+        }
+        if (statementParent) {
+          const name = findIdentifierFromStatement(
+            statementParent.node as t.VariableDeclaration
+          )
+          setTemplate(name, jsxElementPath, this.templates)
+          // name && templates.set(name, path.node)
         }
       } else if (t.isJSXElement(consequent) && t.isJSXElement(alternate)) {
         const block2 = buildBlockElement()
         block.children = [consequent]
         newJSXIfAttr(block, test)
-        setJSXAttr(block2, 'wx:else')
+        setJSXAttr(block2, Adapter.else)
         block2.children = [alternate]
         const parentBlock = buildBlockElement()
         parentBlock.children = [block, block2]
@@ -230,17 +254,18 @@ export class RenderParser {
           )
           setTemplate(name, jsxElementPath, this.templates)
         }
-      } else if (
-        (t.isJSXElement(consequent) && t.isCallExpression(alternate))
-        ||
-        (t.isJSXElement(alternate) && t.isCallExpression(consequent))
-      ) {
+      } else if (t.isJSXElement(consequent) && t.isCallExpression(alternate)) {
+        const id = generateAnonymousState(this.renderScope!, parentPath.get('alternate') as any, this.referencedIdentifiers, true)
+        parentPath.get('alternate').replaceWith(id)
         //
+      } else if (t.isJSXElement(alternate) && t.isCallExpression(consequent)) {
+        const id = generateAnonymousState(this.renderScope!, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
+        parentPath.get('consequent').replaceWith(id)
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
         const block2 = buildBlockElement()
-        setJSXAttr(block2, 'wx:else')
+        setJSXAttr(block2, Adapter.else)
         block2.children = [t.jSXExpressionContainer(alternate)]
         const parentBlock = buildBlockElement()
         parentBlock.children = [block, block2]
@@ -259,7 +284,10 @@ export class RenderParser {
     const properties: t.ObjectProperty[] = []
     this.componentProperies.forEach((propName) => {
       properties.push(
-        t.objectProperty(t.stringLiteral(propName), t.nullLiteral())
+        t.objectProperty(t.stringLiteral(propName), t.objectExpression([
+          t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),
+          t.objectProperty(t.stringLiteral('value'), t.nullLiteral())
+        ]))
       )
     })
     let classProp = t.classProperty(
@@ -295,8 +323,10 @@ export class RenderParser {
     }
   }
 
+  hasStateOrProps = p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name)
+
   private loopComponentVisitor: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const id = path.get('id')
       const init = path.get('init')
       const parentPath = path.parentPath
@@ -306,6 +336,13 @@ export class RenderParser {
         parentPath.isVariableDeclaration()
       ) {
         const { properties } = id.node
+        const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name))
+        if (hasStateOrProps.length === 0) {
+          return
+        }
+        if (hasStateOrProps.length !== properties.length) {
+          throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
+        }
         const declareState = template('const state = this.state;')()
         if (properties.length > 1) {
           const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))
@@ -317,7 +354,6 @@ export class RenderParser {
         }
       }
     },
-    JSXExpressionContainer: this.replaceIdWithTemplate(),
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
@@ -361,9 +397,8 @@ export class RenderParser {
                       this.referencedIdentifiers.add(ary)
                     }
                   }
-                  setJSXAttr(jsxElementPath.node, 'wx:for', t.jSXExpressionContainer(ary))
-                  this.originalCallee.set(ary, jsxElementPath.node)
-
+                  setJSXAttr(jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
+                  this.loopCalleeId.add(findFirstIdentifierFromMemberExpression(callee))
                   const [func] = callExpr.node.arguments
                   if (
                     t.isFunctionExpression(func) ||
@@ -373,7 +408,7 @@ export class RenderParser {
                     if (t.isIdentifier(item)) {
                       setJSXAttr(
                         jsxElementPath.node,
-                        'wx:for-item',
+                        Adapter.forItem,
                         t.stringLiteral(item.name)
                       )
                       this.loopScopes.add(item.name)
@@ -382,14 +417,14 @@ export class RenderParser {
                     } else {
                       setJSXAttr(
                         jsxElementPath.node,
-                        'wx:for-item',
+                        Adapter.forItem,
                         t.stringLiteral('__item')
                       )
                     }
                     if (t.isIdentifier(index)) {
                       setJSXAttr(
                         jsxElementPath.node,
-                        'wx:for-index',
+                        Adapter.forIndex,
                         t.stringLiteral(index.name)
                       )
                       this.loopScopes.add(index.name)
@@ -460,7 +495,13 @@ export class RenderParser {
                       )
                     }
                   }
-                }
+                },
+                JSXElement: (jsxElementPath) => {
+                  this.handleJSXElement(jsxElementPath, (options) => {
+                    this.handleConditionExpr(options, jsxElementPath)
+                  })
+                },
+                JSXExpressionContainer: this.replaceIdWithTemplate()
               })
             }
             const block = this.finalReturnElement || buildBlockElement()
@@ -476,7 +517,7 @@ export class RenderParser {
                 if (parentIfStatement) {
                   setJSXAttr(
                     jsxElementPath.node,
-                    'wx:elif',
+                    Adapter.elseif,
                     t.jSXExpressionContainer(test),
                     jsxElementPath
                   )
@@ -484,7 +525,7 @@ export class RenderParser {
                   if (this.topLevelIfStatement.size > 0) {
                     setJSXAttr(
                       jsxElementPath.node,
-                      'wx:elif',
+                      Adapter.elseif,
                       t.jSXExpressionContainer(test),
                       jsxElementPath
                     )
@@ -495,7 +536,7 @@ export class RenderParser {
                 }
               }
             } else if (block.children.length !== 0) {
-              setJSXAttr(jsxElementPath.node, 'wx:else')
+              setJSXAttr(jsxElementPath.node, Adapter.else)
             }
             block.children.push(jsxElementPath.node)
             this.finalReturnElement = block
@@ -516,7 +557,7 @@ export class RenderParser {
               if (isBlockIfStatement(ifStatement, blockStatement)) {
                 const { test, alternate, consequent } = ifStatement.node
                 if (alternate === blockStatement.node) {
-                  setJSXAttr(jsxElementPath.node, 'wx:else')
+                  setJSXAttr(jsxElementPath.node, Adapter.else)
                 } else if (consequent === blockStatement.node) {
                   const parentIfStatement = ifStatement.findParent(p =>
                     p.isIfStatement()
@@ -524,7 +565,7 @@ export class RenderParser {
                   if (parentIfStatement && parentIfStatement.get('alternate') === ifStatement) {
                     setJSXAttr(
                       jsxElementPath.node,
-                      'wx:elif',
+                      Adapter.elseif,
                       t.jSXExpressionContainer(test),
                       jsxElementPath
                     )
@@ -571,8 +612,8 @@ export class RenderParser {
           t.isIdentifier(node.callee.property) &&
           node.callee.property.name === 'bind'
         ) {
-          const JSXElement: any = path.findParent(p => p.isJSXElement())
-            .node
+          const JSXElement = path.findParent(p => p.isJSXElement())
+            .node as t.JSXElement
           // const JSXAttribute = path.findParent(p => p.isJSXAttribute())
           let bindCalleeName: string | null = null
           if (t.isIdentifier(node.callee.object)) {
@@ -601,8 +642,13 @@ export class RenderParser {
                 } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
                   expr = t.jSXExpressionContainer(node as any)
                 } else if (hasComplexExpression(arg)) {
-                  const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
-                  expr = t.jSXExpressionContainer(id)
+                  const isCookedLoop = JSXElement.openingElement.attributes.some(attr => attr.name.name === Adapter.for)
+                  if (isCookedLoop) {
+                    throw codeFrameError(arg.node, '在循环中使用 bind 时，需要声明将此复杂表达式声明为一个变量再放入 bind 参数中。')
+                  } else {
+                    const id = generateAnonymousState(this.renderScope, arg as any, this.referencedIdentifiers)
+                    expr = t.jSXExpressionContainer(id)
+                  }
                 } else {
                   expr = t.jSXExpressionContainer(t.identifier(argName))
                 }
@@ -624,8 +670,9 @@ export class RenderParser {
       const jsxElementPath = path.parentPath.parentPath
       if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
         const componentName = (jsxElementPath.node.openingElement as any).name.name
-        if (name.name === 'key') {
-          if (THIRD_PARTY_COMPONENTS.has(componentName as string)) {
+        const isThirdPartyKey = name.name === 'taroKey'
+        if (name.name === 'key' || isThirdPartyKey) {
+          if (THIRD_PARTY_COMPONENTS.has(componentName as string) && !isThirdPartyKey) {
             return
           }
           const jsx = path.findParent(p => p.isJSXElement())
@@ -634,18 +681,18 @@ export class RenderParser {
               const element = p.get('openingElement') as NodePath<t.JSXOpeningElement>
               if (element.get('name').isJSXIdentifier({ name: 'block' })) {
                 const attrs = element.node.attributes
-                const hasWXForLoop = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: 'wx:for' }))
-                const hasWXKey = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: 'wx:key' }))
+                const hasWXForLoop = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: Adapter.for }))
+                const hasWXKey = attrs.some(attr => t.isJSXIdentifier(attr.name, { name: Adapter.key }))
                 return hasWXForLoop && !hasWXKey
               }
             }
             return false
           }) as NodePath<t.JSXElement>
           if (loopBlock) {
-            setJSXAttr(loopBlock.node, 'wx:key', value)
+            setJSXAttr(loopBlock.node, Adapter.key, value)
             path.remove()
           } else {
-            path.get('name').replaceWith(t.jSXIdentifier('wx:key'))
+            path.get('name').replaceWith(t.jSXIdentifier(Adapter.key))
           }
         } else if (
           name.name.startsWith('on')
@@ -678,7 +725,13 @@ export class RenderParser {
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
           ) {
             const componentName = jsxElementPath.node.openingElement.name.name
-            if (DEFAULT_Component_SET.has(componentName)) {
+            if (Adapter.type === Adapters.alipay) {
+              let transformName = name.name
+              if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
+                transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+              }
+              path.node.name = t.jSXIdentifier(transformName)
+            } else if (DEFAULT_Component_SET.has(componentName)) {
               let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
                 + name.name.slice(2).toLowerCase()
               if (name.name === 'onClick') {
@@ -686,7 +739,7 @@ export class RenderParser {
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
-              path.node.name = t.jSXIdentifier('bind' + name.name.slice(2))
+              path.node.name = t.jSXIdentifier('bind' + name.name[2].toLowerCase() + name.name.slice(3))
             } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
@@ -710,53 +763,85 @@ export class RenderParser {
         parentPath.isConditionalExpression() ||
         parentPath.isLogicalExpression() ||
         parentPath.isJSXExpressionContainer() ||
+        parentPath.isBinaryExpression() ||
         this.renderScope.hasOwnBinding(path.node.name)
       ) {
         this.addRefIdentifier(path, path.node)
       }
     },
-    MemberExpression: (path) => {
-      if (!isChildrenOfJSXAttr(path)) {
-        return
-      }
-      if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
-        return
-      }
-      const { object, property } = path.node
-      if (
-        t.isMemberExpression(object) &&
-        t.isThisExpression(object.object) &&
-        t.isIdentifier(object.property, { name: 'state' })
-      ) {
-        if (t.isIdentifier(property)) {
-          this.usedThisState.add(property.name)
-        } else if (t.isMemberExpression(property)) {
-          const id = findFirstIdentifierFromMemberExpression(property)
-          if (id && this.renderScope.hasBinding(id.name)) {
-            this.usedThisState.add(id.name)
+    MemberExpression: {
+      exit: (path: NodePath<t.MemberExpression>) => {
+        const { object, property } = path.node
+        if (!path.isReferencedMemberExpression()) {
+          return
+        }
+        if (!t.isThisExpression(object)) {
+          return
+        }
+        const reserves = new Set([
+          'state',
+          'props',
+          ...this.methods.keys()
+        ])
+        if (t.isIdentifier(property) || t.isMemberExpression(property)) {
+          const id = t.isIdentifier(property) ? property : findFirstIdentifierFromMemberExpression(property)
+          if (reserves.has(id.name)) {
+            return
+          }
+          const jsxAttr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+          if (jsxAttr && t.isJSXIdentifier(jsxAttr.node.name) && jsxAttr.node.name.name.startsWith('on')) {
+            return
+          }
+          if (t.isIdentifier(id)) {
+            this.referencedIdentifiers.add(id)
+            this.usedThisProperties.add(id.name)
           }
         }
-        return
-      }
-      const code = generate(path.node).code
-      if (code.includes('this.$router.params') && t.isIdentifier(property)) {
-        const name = this.renderScope.generateUid(property.name)
-        const dcl = buildConstVariableDeclaration(name, path.node)
-        this.renderPath.node.body.body.unshift(dcl)
-        path.replaceWith(t.identifier(name))
-      }
-      const parentPath = path.parentPath
-      const id = findFirstIdentifierFromMemberExpression(path.node)
-      if (t.isThisExpression(id)) {
-        return
-      }
-      if (
-        parentPath.isConditionalExpression() ||
-        parentPath.isLogicalExpression() ||
-        parentPath.isJSXExpressionContainer() ||
-        (this.renderScope.hasOwnBinding(id.name))
-      ) {
-        this.addRefIdentifier(path, id)
+      },
+      enter: (path) => {
+        if (!isChildrenOfJSXAttr(path)) {
+          return
+        }
+        if (!path.isReferencedMemberExpression() || path.parentPath.isMemberExpression()) {
+          return
+        }
+        const { object, property } = path.node
+        if (
+          t.isMemberExpression(object) &&
+          t.isThisExpression(object.object) &&
+          t.isIdentifier(object.property, { name: 'state' })
+        ) {
+          if (t.isIdentifier(property)) {
+            this.usedThisState.add(property.name)
+          } else if (t.isMemberExpression(property)) {
+            const id = findFirstIdentifierFromMemberExpression(property)
+            if (id && this.renderScope.hasBinding(id.name)) {
+              this.usedThisState.add(id.name)
+            }
+          }
+          return
+        }
+        const code = generate(path.node).code
+        if (code.includes('this.$router.params') && t.isIdentifier(property)) {
+          const name = this.renderScope.generateUid(property.name)
+          const dcl = buildConstVariableDeclaration(name, path.node)
+          this.renderPath.node.body.body.unshift(dcl)
+          path.replaceWith(t.identifier(name))
+        }
+        const parentPath = path.parentPath
+        const id = findFirstIdentifierFromMemberExpression(path.node)
+        if (t.isThisExpression(id)) {
+          return
+        }
+        if (
+          parentPath.isConditionalExpression() ||
+          parentPath.isLogicalExpression() ||
+          parentPath.isJSXExpressionContainer() ||
+          parentPath.isBinaryExpression() ||
+          (this.renderScope.hasOwnBinding(id.name))
+        ) {
+          this.addRefIdentifier(path, id)
+        }
       }
     },
     ArrowFunctionExpression: (path) => {
@@ -912,7 +997,10 @@ export class RenderParser {
               for (const dcl of statement.declarations) {
                 if (t.isIdentifier(dcl.id)) {
                   const name = dcl.id.name
-                  if (name.startsWith(LOOP_STATE) || name.startsWith(LOOP_CALLEE)) {
+                  if (
+                    name.startsWith(LOOP_STATE) ||
+                    name.startsWith(LOOP_CALLEE)
+                  ) {
                     stateToBeAssign.add(name)
                     dcl.id = t.identifier(name)
                   }
@@ -950,13 +1038,20 @@ export class RenderParser {
           })
           const replacements = new Set()
           component.traverse({
-            Identifier (path) {
+            Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
-              if (replacements.has(parent)) {
+              if (replacements.has(parent) || (this.renderScope.hasOwnBinding(name) && this.loopCalleeId.has(path.node))) {
                 return
               }
+
               if (stateToBeAssign.has(name) && path.isReferencedIdentifier()) {
+                if (t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: 'map' })) {
+                  const grandParentPath = path.parentPath.parentPath
+                  if (grandParentPath.isCallExpression() && this.loopComponents.has(grandParentPath)) {
+                    return
+                  }
+                }
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
@@ -968,12 +1063,6 @@ export class RenderParser {
                 replaceOriginal(path, parent, name)
               }
 
-            },
-            MemberExpression (path) {
-              const id = findFirstIdentifierFromMemberExpression(path.node)
-              if (stateToBeAssign.has(id.name)) {
-                path.node.object = t.identifier(item.name + '.' + id.name)
-              }
             }
           })
           if (hasOriginalRef) {
@@ -1003,19 +1092,28 @@ export class RenderParser {
               const funcBody = func.body
               if (t.isBlockStatement(funcBody)) {
                 if (t.isIdentifier(object) || t.isMemberExpression(object)) {
+                  const variableName = `${LOOP_CALLEE}_${calleeId()}`
                   funcBody.body.splice(
                     funcBody.body.length - 1,
                     0,
-                    t.expressionStatement(
-                      t.assignmentExpression(
-                        '=',
-                        object,
-                        callee.node
-                      )
+                    buildConstVariableDeclaration(
+                      variableName,
+                      callee.node
                     )
                   )
+                  const iterator = func.params[0]
+                  component.node.openingElement.attributes.forEach(attr => {
+                    if (attr.name.name === Adapter.for && t.isIdentifier(iterator)) {
+                      attr.value = t.jSXExpressionContainer(
+                        t.memberExpression(
+                          iterator,
+                          t.identifier(variableName)
+                        )
+                      )
+                    }
+                  })
                 } else {
-                  throw codeFrameError(object.loc, '请简化该表达式为标识符或成员表达式')
+                  throw codeFrameError(object.loc, '多层循环中循环的数组只能是一个变量或成员表达式')
                 }
               }
             }
@@ -1039,10 +1137,10 @@ export class RenderParser {
                 }
               }
             })
-            // setJSXAttr(returned, 'wx:for', t.identifier(stateName))
+            // setJSXAttr(returned, Adapter.for, t.identifier(stateName))
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
-            setJSXAttr(component.node, 'wx:for', t.jSXExpressionContainer(t.identifier(stateName)))
+            setJSXAttr(component.node, Adapter.for, t.jSXExpressionContainer(t.identifier(stateName)))
             const returnBody = this.renderPath.node.body.body
             const ifStem = callee.findParent(p => p.isIfStatement())
             // @TEST
@@ -1151,7 +1249,7 @@ export class RenderParser {
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
-          .concat([...this.initState, ...this.usedThisState])
+          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies])
         )
     )
     .concat(...this.usedState)
@@ -1160,6 +1258,8 @@ export class RenderParser {
     // })
     .filter(i => !this.loopScopes.has(i))
     .filter(i => !this.templates.has(i))
+    .filter(Boolean)
+
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
     classPath.node.body.body.unshift(t.classProperty(t.identifier('$usedState'), t.arrayExpression(
       [...new Set(
@@ -1180,7 +1280,17 @@ export class RenderParser {
         .map(i => i.name))
       )
       .filter(i => {
-        return !this.methods.has(i)
+        const method = this.methods.get(i)
+        let isGet = false
+        if (method) {
+          if (method.isClassMethod()) {
+            const kind = method.node.kind
+            if (kind === 'get') {
+              isGet = true
+            }
+          }
+        }
+        return !this.methods.has(i) || isGet
       })
       .filter(i => !this.loopScopes.has(i))
       .filter(i => !this.initState.has(i))
@@ -1193,7 +1303,12 @@ export class RenderParser {
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
     }
-    const pendingState = t.objectExpression(properties)
+    const pendingState = t.objectExpression(properties.concat(
+      Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
+        t.identifier('_triggerObserer'),
+        t.booleanLiteral(false)
+      ) : []
+    ))
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       t.returnStatement(
@@ -1216,9 +1331,30 @@ export class RenderParser {
       }
     })
 
+    this.usedThisProperties.forEach(prop => {
+      if (this.renderScope.hasBinding(prop)) {
+        const binding = this.renderScope.getBinding(prop)!
+        throw codeFrameError(binding.path.node, `此变量声明与 this.${prop} 的声明冲突，请更改其中一个变量名。详情见：https://github.com/NervJS/taro/issues/822`)
+      }
+    })
+
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
-      template(`this.__props = arguments[1] || this.props || {};`)()
+      template(`this.__props = arguments[1] || this.props || {};`)(),
+      this.usedThisProperties.size
+        ? t.variableDeclaration(
+          'const',
+          [
+            t.variableDeclarator(
+              t.objectPattern(Array.from(this.usedThisProperties).map(p => t.objectProperty(
+                t.identifier(p),
+                t.identifier(p)
+              ) as any)),
+              t.thisExpression()
+            )
+          ]
+        )
+        : t.emptyStatement()
     )
 
     if (t.isIdentifier(this.renderPath.node.key)) {

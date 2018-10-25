@@ -50,7 +50,7 @@ describe('基本功能', () => {
     })).not.toThrow()
   })
 
-  test('支持 async/await', () => {
+  test.skip('支持 async/await', () => {
     const { code } = transform({
       ...baseOptions,
       code: buildComponent(baseCode, `

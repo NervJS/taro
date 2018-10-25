@@ -14,7 +14,7 @@ events.on('eventName', (arg) => {
   // doSth
 })
 
-// 监听同个事件，同时绑定多个handler
+// 监听同个事件，同时绑定多个 handler
 events.on('eventName', handler1)
 events.on('eventName', handler2)
 events.on('eventName', handler3)
@@ -28,7 +28,7 @@ events.trigger('eventName', arg1, arg2, ...)
 // 取消监听一个事件
 events.off('eventName')
 
-// 取消监听一个事件某个handler
+// 取消监听一个事件某个 handler
 events.off('eventName', handler1)
 
 // 取消监听所有事件

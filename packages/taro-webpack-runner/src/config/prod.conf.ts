@@ -1,63 +1,43 @@
-import { merge } from 'lodash';
 import * as path from 'path';
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
+import { appPath, emptyObj } from '../util';
 import {
-  getCssLoader,
   getDefinePlugin,
   getEntry,
-  getExtractCssLoader,
   getHtmlWebpackPlugin,
-  getStyleLoader,
-  getLessLoader,
   getMiniCssExtractPlugin,
   getOutput,
-  getPostcssLoader,
-  getResolveUrlLoader,
-  getSassLoader,
-  getStylusLoader,
-  processEnvOption
+  getModule,
+  processEnvOption,
+  getUglifyPlugin,
+  getDevtool,
+  getDllReferencePlugins,
+  getHtmlWebpackIncludeAssetsPlugin
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
-import chain from './base.conf';
-import { getPostcssPlugins } from './postcss.conf';
+import getBaseChain from './base.conf';
 
-const appPath = process.cwd()
-const defaultCSSCompressOption = {
-  mergeRules: false,
-  mergeIdents: false,
-  reduceIdents: false,
-  discardUnused: false,
-  minifySelectors: false
-}
-
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
-
-const emptyObj = {}
-
-export default function (config: Partial<BuildConfig>): any {
+export default function (config: BuildConfig): any {
+  const chain = getBaseChain()
   const {
     alias = emptyObj,
     entry = emptyObj,
+    output = emptyObj,
     sourceRoot = '',
     outputRoot,
     publicPath,
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
+    dllDirectory = 'lib',
+    dllEntry = {
+      lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
+    },
 
     designWidth = 750,
     deviceRatio,
     enableSourceMap = false,
     enableExtract = true,
+    enableDll = true,
 
     defineConstants = emptyObj,
     env = emptyObj,
@@ -75,61 +55,10 @@ export default function (config: Partial<BuildConfig>): any {
     module = {
       postcss: emptyObj
     },
-    plugins = {
-      babel: emptyObj,
-      csso: emptyObj,
-      uglify: emptyObj
-    }
+    plugins
   } = config
 
-  const devtool = enableSourceMap ? 'hidden-source-map' : 'none'
-
-  const postcssOption = module.postcss || {}
-
-  const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
-
-  const extractCssLoader = getExtractCssLoader()
-
-  const lastCssLoader = enableExtract ? extractCssLoader : styleLoader
-
-  const cssLoader = getCssLoader([
-    {
-      importLoaders: 1,
-      sourceMap: enableSourceMap
-    },
-    cssLoaderOption,
-    {
-      minimize: merge(defaultCSSCompressOption, plugins.csso)
-    }
-  ])
-
-  const postcssLoader = getPostcssLoader([
-    { sourceMap: enableSourceMap },
-    {
-      ident: 'postcss',
-      plugins: getPostcssPlugins({
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
-    }
-  ])
-
-  const resolveUrlLoader = getResolveUrlLoader([])
-
-  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
-
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
-
-  const output = getOutput({
-    outputRoot,
-    publicPath,
-    chunkDirectory
-  })
-
-  const plugin = {} as any
+  const plugin: any = {}
 
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
@@ -145,98 +74,67 @@ export default function (config: Partial<BuildConfig>): any {
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
-  chain.merge({
-    mode: 'production',
-    devtool,
-    entry: Object.assign(getEntry(), entry),
-    output,
-    resolve: { alias },
-    module: {
-      rule: {
-        jsx: {
-          use: {
-            babelLoader: {
-              options: {
-                ...plugins.babel,
-                sourceMap: enableSourceMap
-              }
-            }
-          }
-        },
-        media: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/media/[name].[ext]`,
-                ...mediaUrlLoaderOption
-              }
-            }
-          }
-        },
-        font: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/fonts/[name].[ext]`,
-                ...fontUrlLoaderOption
-              }
-            }
-          }
-        },
-        image: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/images/[name].[ext]`,
-                ...imageUrlLoaderOption
-              }
-            }
-          }
-        },
-        sass: {
-          test: /\.(css|scss|sass)(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
-        },
-        less: {
-          test: /\.less(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
-        },
-        styl: {
-          test: /\.styl(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
-        },
-        sassInNodemodules: {
-          test: /\.(css|scss|sass)(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, sassLoader]
-        },
-        lessInNodemodules: {
-          test: /\.less(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, lessLoader]
-        },
-        stylInNodemodules: {
-          test: /\.styl(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, stylusLoader]
-        }
-      }
-    },
-    plugin,
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true,
-          sourceMap: enableSourceMap,
-          uglifyOptions: merge(defaultUglifyJsOption, plugins.uglify)
-        })
-      ]
+  if (enableDll) {
+    Object.assign(plugin, getDllReferencePlugins({
+      dllDirectory,
+      dllEntry,
+      outputRoot
+    }))
+    const dllFiles = Object.keys(dllEntry).map(v => {
+      return path.join(dllDirectory, `${v}.dll.js`)
+    })
+    if (dllFiles.length) {
+      plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
+        append: false,
+        assets: dllFiles
+      })
     }
-  })
+  }
 
+  const mode = 'production'
+
+  const minimizer: any[] = []
+  const isUglifyEnabled = (plugins.uglify && plugins.uglify.enable === false)
+    ? false
+    : true
+
+  if (isUglifyEnabled) {
+    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify ? plugins.uglify.config : {}]))
+  }
+
+  chain.merge({
+    mode,
+    devtool: getDevtool(enableSourceMap),
+    entry: getEntry(entry),
+    output: getOutput([{
+      outputRoot,
+      publicPath,
+      chunkDirectory
+    }, output]),
+    resolve: { alias },
+    module: getModule({
+      mode,
+  
+      designWidth,
+      deviceRatio,
+      enableExtract,
+      enableSourceMap,
+  
+      styleLoaderOption,
+      cssLoaderOption,
+      lessLoaderOption,
+      sassLoaderOption,
+      stylusLoaderOption,
+      fontUrlLoaderOption,
+      imageUrlLoaderOption,
+      mediaUrlLoaderOption,
+  
+      module,
+      plugins,
+      staticDirectory
+    }),
+    plugin,
+    optimization: { minimizer }
+  })
   return chain
 }

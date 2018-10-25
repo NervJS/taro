@@ -1,5 +1,6 @@
 export { ScrollView } from './ScrollView'
 export { View } from './View'
+export { Block } from './Block'
 export { Swiper, SwiperItem } from './Swiper'
 export { MovableArea, MovableView } from './MovableView'
 export { CoverView, CoverImage } from './CoverView'

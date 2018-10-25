@@ -29,7 +29,7 @@ const internalFunction = `function isObject(arg) {
 
 function internal_get_original(item) {
   if (isObject(item)) {
-    return item.$$original || item;
+    return item.$original || item;
   }
 
   return item;

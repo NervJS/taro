@@ -1,4 +1,4 @@
-import { onAndSyncApis, noPromiseApis, otherApis } from '@tarojs/taro'
+import { onAndSyncApis, noPromiseApis, otherApis, initPxTransform } from '@tarojs/taro'
 import request from './api/request'
 import storage from './api/storage'
 import system from './api/system'
@@ -6,6 +6,7 @@ import network from './api/network'
 import clipboard from './api/clipboard'
 import phone from './api/phone'
 import vibrate from './api/vibrate'
+import others from './api/others'
 import media from './api/media'
 import webSocket from './api/webSocket'
 import geolocation from './api/geolocation'
@@ -23,8 +24,18 @@ function processApis (taro) {
   })
 }
 
+function pxTransform (size) {
+  const {designWidth, deviceRatio} = this.config
+  if (!(designWidth in deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  return parseInt(size, 10) / deviceRatio[designWidth] * 2
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
+  taro.initPxTransform = initPxTransform.bind(taro)
+  taro.pxTransform = pxTransform.bind(taro)
   Object.assign(
     taro,
     request,
@@ -43,6 +54,7 @@ export default function initNativeApi (taro) {
     hideLoading,
     showModal,
     showActionSheet,
-    previewImage
+    previewImage,
+    others
   )
 }

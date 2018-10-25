@@ -170,6 +170,225 @@ describe('if statement', () => {
   })
 })
 
+describe('三元表达式', () => {
+
+  describe('consequet 为 JSX', () => {
+
+    test('alternate 为空字符串', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : '' }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block wx:if="{{title}}">
+                    <text>yes</text>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为字符串', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : 'no' }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block>
+                    <block wx:if=\"{{title}}\">
+                        <text>yes</text>
+                    </block>
+                    <block wx:else>{{'no'}}</block>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为 null', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : null }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block wx:if="{{title}}">
+                    <text>yes</text>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为 undefied', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : undefined }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block wx:if="{{title}}">
+                    <text>yes</text>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为 数字', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : 123 }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block>
+                    <block wx:if=\"{{title}}\">
+                        <text>yes</text>
+                    </block>
+                    <block wx:else>{{123}}</block>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为 数字 0', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : 0 }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block wx:if="{{title}}">
+                    <text>yes</text>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为变量', () => {
+      const { template } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title, test } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : test }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block>
+                    <block wx:if=\"{{title}}\">
+                        <text>yes</text>
+                    </block>
+                    <block wx:else>{{test}}</block>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+    test('alternate 为函数', () => {
+      const { template, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { title, test } = this.props
+          return (
+            <View>
+              { title ? <Text>yes</Text> : escape(test) }
+            </View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+        <block>
+            <view>
+                <block>
+                    <block wx:if=\"{{title}}\">
+                        <text>yes</text>
+                    </block>
+                    <block wx:else>{{anonymousState__temp}}</block>
+                </block>
+            </view>
+        </block>
+      `))
+    })
+
+  })
+})
+
 describe('inline 表达式', () => {
   describe('work with this.props.children', () => {
     test('|| 逻辑表达式', () => {

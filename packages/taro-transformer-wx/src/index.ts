@@ -1,29 +1,16 @@
 import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
 import * as fs from 'fs'
-import { Transformer } from './class'
 import { prettyPrint } from 'html'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
-import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
+import { Transformer } from './class'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
+import * as t from 'babel-types'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
+import { Adapters, setAdapter, Adapter } from './adapter'
+import { Options, setTransformOptions } from './options'
 const template = require('babel-template')
-
-interface ENVS {
-  TARO_ENV: string
-}
-
-export interface Options {
-  isRoot?: boolean,
-  isApp: boolean,
-  outputPath: string,
-  sourcePath: string,
-  code: string,
-  isTyped: boolean,
-  isNormal?: boolean,
-  env?: ENVS
-}
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
   let ids: string[] = []
@@ -151,6 +138,13 @@ interface TransformResult extends Result {
 }
 
 export default function transform (options: Options): TransformResult {
+  if (options.adapter) {
+    setAdapter(options.adapter)
+  }
+  if (Adapter.type === Adapters.swan) {
+    setLoopOriginal('privateOriginal')
+  }
+  setTransformOptions(options)
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
@@ -185,7 +179,6 @@ export default function transform (options: Options): TransformResult {
     },
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
       [require('babel-plugin-transform-define').default, {
         'process.env.TARO_ENV': taroEnv
       }]
@@ -202,7 +195,39 @@ export default function transform (options: Options): TransformResult {
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
   let renderMethod!: NodePath<t.ClassMethod>
+  let isImportTaro = false
   traverse(ast, {
+    TemplateLiteral (path) {
+      const nodes: t.Expression[] = []
+      const { quasis, expressions } = path.node
+      let index = 0
+      if (path.parentPath.isTaggedTemplateExpression()) {
+        return
+      }
+      for (const elem of quasis) {
+        if (elem.value.cooked) {
+          nodes.push(t.stringLiteral(elem.value.cooked))
+        }
+
+        if (index < expressions.length) {
+          const expr = expressions[index++]
+          if (!t.isStringLiteral(expr, { value: '' })) {
+            nodes.push(expr)
+          }
+        }
+      }
+
+      // + 号连接符必须保证第一和第二个 node 都是字符串
+      if (!t.isStringLiteral(nodes[0]) && !t.isStringLiteral(nodes[1])) {
+        nodes.unshift(t.stringLiteral(''))
+      }
+
+      let root = nodes[0]
+      for (let i = 1; i < nodes.length; i++) {
+        root = t.binaryExpression('+', root, nodes[i])
+      }
+      path.replaceWith(root)
+    },
     ClassDeclaration (path) {
       mainClass = path
       const superClass = path.node.superClass
@@ -256,7 +281,7 @@ export default function transform (options: Options): TransformResult {
       if (callee.isReferencedMemberExpression()) {
         const id = findFirstIdentifierFromMemberExpression(callee.node)
         const calleeIds = getIdsFromMemberProps(callee.node)
-        if (t.isIdentifier(id) && id.name.startsWith('on')) {
+        if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
           if (fullPath) {
             path.replaceWith(
@@ -283,16 +308,6 @@ export default function transform (options: Options): TransformResult {
             )
           }
         }
-      }
-    },
-    AwaitExpression () {
-      const isAsyncImported = ast.program.body.some(statement => {
-        return t.isImportDeclaration(statement) && statement.source.value === ASYNC_PACKAGE_NAME
-      })
-      if (!isAsyncImported) {
-        ast.program.body.unshift(
-          t.importDeclaration([], t.stringLiteral(ASYNC_PACKAGE_NAME))
-        )
       }
     },
     // JSXIdentifier (path) {
@@ -390,6 +405,7 @@ export default function transform (options: Options): TransformResult {
       const source = path.node.source.value
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
+        isImportTaro = true
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
@@ -424,6 +440,18 @@ export default function transform (options: Options): TransformResult {
       componentSourceMap.set(source, names)
     }
   })
+
+  if (!isImportTaro) {
+    ast.program.body.unshift(
+      t.importDeclaration([
+        t.importDefaultSpecifier(t.identifier('Taro')),
+        t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
+        t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+      ], t.stringLiteral('@tarojs/taro'))
+    )
+  }
+
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
   }

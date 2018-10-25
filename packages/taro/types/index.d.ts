@@ -1,3 +1,5 @@
+import { buffer } from "rxjs/operators";
+
 export = Taro;
 export as namespace Taro;
 
@@ -20,6 +22,64 @@ declare namespace Taro {
     isEntryPage: boolean
   }
 
+  interface PageScrollObject {
+    /**
+     * 页面在垂直方向已滚动的距离（单位px）
+     */
+    scrollTop: number
+  }
+
+  interface ShareAppMessageObject {
+    /**
+     * 转发事件来源
+     */
+    from?: string,
+    /**
+     * 如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
+     */
+    target?: object,
+    /**
+     * 页面中包含<web-view>组件时，返回当前<web-view>的url
+     */
+    webViewUrl?: string
+  }
+
+  interface ShareAppMessageReturn {
+    /**
+     * 	转发标题，默认为当前小程序名称
+     */
+    title?: string,
+
+    /**
+     * 转发路径，必须是以 / 开头的完整路径，默认为当前页面 path
+     */
+    path?: string,
+
+    /**
+     * 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径
+     * 支持PNG及JPG
+     * 显示图片长宽比是 5:4
+     */
+    imageUrl?: string
+  }
+
+  interface TabItemTapObject {
+    /**
+     * 被点击tabItem的序号，从0开始
+     */
+    index: string,
+
+    /**
+     * 被点击tabItem的页面路径
+     */
+    pagePath: string,
+
+    /**
+     * 被点击tabItem的按钮文字
+     */
+    text: string
+  }
+
   // Components
   interface ComponentLifecycle<P, S> {
     componentWillMount?(): void;
@@ -29,10 +89,16 @@ declare namespace Taro {
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
     componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
     componentWillUnmount?(): void;
+    componentWillPreload?(params: {[propName: string]: any}): any;
     componentDidShow?(): void;
     componentDidHide?(): void;
     componentDidCatchError?(err: string): void;
     componentDidNotFound?(obj: PageNotFoundObject): void;
+    onPullDownRefresh?(): void;
+    onReachBottom?(): void;
+    onPageScroll?(obj: PageScrollObject): void;
+    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
+    onTabItemTap?(obj: TabItemTapObject): void;
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -230,7 +296,7 @@ declare namespace Taro {
     /**
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
-     * @since 1.9.9
+     * @since 1.9.90
       */
     workers?: string
     /**
@@ -340,9 +406,10 @@ declare namespace Taro {
   enum ENV_TYPE {
     WEAPP = 'WEAPP',
     WEB = 'WEB',
-    RN = 'RN'
+    RN = 'RN',
+    SWAN = 'SWAN',
+    ALIPAY = 'ALIPAY'
   }
-
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
@@ -409,7 +476,7 @@ declare namespace Taro {
        */
       method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
-       * 如果设为json，会尝试对返回的数据做一次 JSON.parse
+       * 如果设为 json，会尝试对返回的数据做一次 JSON.parse
        *
        * @default json
        */
@@ -422,35 +489,73 @@ declare namespace Taro {
        */
       responseType?: string,
       /**
-       * 设置H5端是否使用jsonp方式获取数据
+       * 设置 H5 端是否使用jsonp方式获取数据
        *
        * @default false
        */
       jsonp?: boolean,
       /**
-       * 设置H5端 jsonp 请求 url 是否需要被缓存
+       * 设置 H5 端 jsonp 请求 url 是否需要被缓存
        *
        * @default false
        */
       jsonpCache?: boolean,
       /**
-       * 设置H5端是否允许跨域请求。有效值：no-cors, cors, same-origin
+       * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
        *
        * @default same-origin
        */
       mode?: 'no-cors' | 'cors' | 'same-origin',
       /**
-       * 设置H5端是否携带 Cookie。有效值：include, same-origin, omit
+       * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
        *
        * @default omit
        */
       credentials?: 'include' | 'same-origin' | 'omit',
       /**
-       * 设置H5端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
+       * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
        *
        * @default default
        */
-      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached',
+      /**
+       * 设置 H5 端请求响应超时时间
+       *
+       * @default 2000
+       */
+      timeout?: number,
+      /**
+       * 设置 H5 端请求重试次数
+       *
+       * @default 2
+       */
+      retryTimes?: number,
+      /**
+       * 设置 H5 端请求的兜底接口
+       */
+      backup?: string | string[],
+      /**
+       * 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
+       */
+      dataCheck?(): boolean,
+      /**
+       * 设置 H5 端请求是否使用缓存
+       *
+       * @default false
+       */
+      useStore?: boolean,
+      /**
+       * 设置 H5 端请求缓存校验的 key
+       */
+      storeCheckKey?: string,
+      /**
+       * 设置 H5 端请求缓存签名
+       */
+      storeSign?: string,
+      /**
+       * 设置 H5 端请求校验函数，一般不需要设置
+       */
+      storeCheck?(): boolean
     }
   }
   /**
@@ -508,6 +613,28 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
+
+  type arrayBuffer = Uint8Array |
+    Int8Array |
+    Uint8Array |
+    Uint8ClampedArray |
+    Int16Array |
+    Uint16Array |
+    Int32Array |
+    Uint32Array |
+    Float32Array |
+    Float64Array |
+    ArrayBuffer
+
+  /**
+   * 将 ArrayBuffer 数据转成 Base64 字符串
+   */
+  function arrayBufferToBase64(buffer: arrayBuffer): string
+
+  /**
+   * 将 Base64 字符串转成 ArrayBuffer 数据
+   */
+  function base64ToArrayBuffer(base64: string): arrayBuffer
 
   namespace uploadFile {
     type Promised = {
@@ -10242,87 +10369,29 @@ declare namespace Taro {
      *     })
      *     ```
      */
-    drawImage(dx: number, dy: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(dx: number, dy: number, dWidth: number, dHeight: any): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: any): void
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+    ): void
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+      dWidth: number,
+      dHeight: number,
+    ): void
+    drawImage(
+      imageResource: string,
+      sx: number,
+      sy: number,
+      sWidth: number,
+      sHeight: number,
+      dx: number,
+      dy: number,
+      dWidth: number,
+      dHeight: number,
+    ): void
     /**
      *
      * **定义：**

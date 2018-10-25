@@ -7,7 +7,7 @@ export default ({
   staticDirectory = 'static',
   chunkDirectory = 'chunk',
   designWidth = 750
-}: BuildConfig): TaroBaseConfig => {
+}: BuildConfig): Partial<TaroBaseConfig> => {
   return {
     sourceRoot,
     outputRoot,
