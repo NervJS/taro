@@ -76,8 +76,10 @@ function buildElement (
 
 export const usedComponents = new Set<string>()
 
-export function parseWXML (wxml?: string): {
-  wxses: WXS[],
+export function parseWXML (
+  wxml?: string
+): {
+  wxses: WXS[]
   wxml?: t.Node
 } {
   usedComponents.clear()
@@ -224,12 +226,15 @@ function transformLoop (
 
   jsx.replaceWith(
     t.jSXExpressionContainer(
-      t.callExpression(value.expression, [
-        t.arrowFunctionExpression(
-          [t.identifier(item.value), t.identifier(index.value)],
-          t.blockStatement([t.returnStatement(jsx.node)])
-        )
-      ])
+      t.callExpression(
+        t.memberExpression(value.expression, t.identifier('map')),
+        [
+          t.arrowFunctionExpression(
+            [t.identifier(item.value), t.identifier(index.value)],
+            t.blockStatement([t.returnStatement(jsx.node)])
+          )
+        ]
+      )
     )
   )
 }
@@ -441,28 +446,55 @@ function parseAttribute (attr: Attribute) {
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }
 
+const specialComponentProps = new Map<string, string>()
+
+specialComponentProps.set('bindtimeupdate', 'onTimeUpdate')
+specialComponentProps.set('bindgetphoneNumber', 'onGetPhoneNumber')
+specialComponentProps.set('bindgetrealnameauthinfo', 'onGetRealnameAuthInfo')
+specialComponentProps.set('bindopensetting', 'onOpenSetting')
+specialComponentProps.set('bindscancode', 'onScanCode')
+specialComponentProps.set('bindstatechange', 'onStateChange')
+specialComponentProps.set('bindhtouchmove', 'onHTouchMove')
+specialComponentProps.set('bindvtouchmove', 'onVTouchMove')
+specialComponentProps.set('bindcolumnchange', 'onColumnChange')
+specialComponentProps.set('bindscrolltoupper', 'onScrollToUpper')
+specialComponentProps.set('bindscrolltolower', 'onScrollToLower')
+specialComponentProps.set('bindanimationfinish', 'onAnimationFinish')
+specialComponentProps.set('bindfullscreenchange', 'onFullscreenChange')
+specialComponentProps.set('bindtouchstart', 'onTouchStart')
+specialComponentProps.set('bindtouchmove', 'onTouchMove')
+specialComponentProps.set('bindtouchcancel', 'onTouchCancel')
+specialComponentProps.set('bindtouchend', 'onTouchEnd')
+specialComponentProps.set('bindlongpress', 'onLongPress')
+specialComponentProps.set('bindlongclick', 'onLongClick')
+specialComponentProps.set('bindtransitionend', 'onTransitionEnd')
+specialComponentProps.set('bindanimationstart', 'onAnimationStart')
+specialComponentProps.set('bindanimationtteration', 'onAnimationIteration')
+specialComponentProps.set('bindanimationend', 'onAnimationEnd')
+specialComponentProps.set('bindtouchforcechange', 'onTouchForceChange')
+specialComponentProps.set('bindtap', 'onTouchForceChange')
+
+specialComponentProps.forEach((value, key) => {
+  specialComponentProps.set(key.replace(/^bind/, 'catch'), value)
+})
+
 function handleAttrKey (key: string) {
-  if (key.startsWith('wx:') || key.startsWith('wx-')) {
+  if (
+    key.startsWith('wx:') ||
+    key.startsWith('wx-') ||
+    key.startsWith('data-')
+  ) {
     return key
+  } else if (key === 'class') {
+    return 'className'
+  } else if (/^(bind|catch)[a-z]/.test(key)) {
+    if (specialComponentProps.has(key)) {
+      return specialComponentProps.get(key)!
+    } else {
+      key = key.replace(/^(bind|catch)[a-z]/, 'on')
+      return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
+    }
   }
 
-  let jsxKey = camelCase(key)
-
-  switch (jsxKey) {
-    case 'bindtap':
-      jsxKey = 'onClick'
-      break
-    case 'class':
-      jsxKey = 'className'
-      break
-    default:
-      jsxKey = jsxKey.replace(/^(bind|catch)/, 'on')
-      if (jsxKey.startsWith('on') && jsxKey.length > 2) {
-        jsxKey =
-          jsxKey.substr(0, 2) + jsxKey[2].toUpperCase() + jsxKey.substr(3)
-      }
-      break
-  }
-
-  return jsxKey
+  return camelCase(key)
 }
