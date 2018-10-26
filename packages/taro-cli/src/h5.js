@@ -748,6 +748,9 @@ async function buildDist (buildConfig) {
   const { watch } = buildConfig
   const h5Config = projectConfig.h5 || {}
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
+  const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+  const outputRoot = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+  Util.emptyDirectory(path.join(appPath, outputRoot))
   h5Config.env = projectConfig.env
   Object.assign(h5Config.env, {
     TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
@@ -758,8 +761,8 @@ async function buildDist (buildConfig) {
   if (projectConfig.deviceRatio) {
     h5Config.deviceRatio = projectConfig.deviceRatio
   }
-  h5Config.sourceRoot = projectConfig.sourceRoot
-  h5Config.outputRoot = projectConfig.outputRoot
+  h5Config.sourceRoot = sourceRoot
+  h5Config.outputRoot = outputRoot
   h5Config.entry = Object.assign({
     app: [path.join(tempPath, entryFile)]
   }, h5Config.entry)
