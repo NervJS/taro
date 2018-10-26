@@ -1,4 +1,8 @@
-import Taro, { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
+import {
+  Component,
+  ComponentLifecycle,
+  internal_safe_set as safeSet
+} from '@tarojs/taro'
 
 type WeappLifeCycle = () => void
 
