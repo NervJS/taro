@@ -153,7 +153,7 @@ export default function transform (options: Options): TransformResult {
       noEmitHelpers: true
     })
     : options.code
-  options.env = Object.assign({ TARO_ENV: 'weapp' }, options.env || {})
+  options.env = Object.assign({ TARO_ENV: options.adapter || 'weapp' }, options.env || {})
   const taroEnv = options.env.TARO_ENV
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
