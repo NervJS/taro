@@ -62,9 +62,14 @@ function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
             }
           }
           let relativePath = path.relative(sourceFilePath, vpath)
+          const relativePathExtname = path.extname(relativePath)
           scriptFiles.add(vpath)
           relativePath = promoteRelativePath(relativePath)
-          relativePath = relativePath.replace(path.extname(relativePath), '.js')
+          if (/\.wxs/.test(relativePathExtname)) {
+            relativePath += '.js'
+          } else {
+            relativePath = relativePath.replace(relativePathExtname, '.js')
+          }
           source.value = relativePath
         }
       }
@@ -205,7 +210,11 @@ class Convertor {
           return
         }
         const code = fs.readFileSync(file).toString()
-        const outputFilePath = file.replace(this.root, this.convertDir)
+        let outputFilePath = file.replace(this.root, this.convertDir)
+        const extname = path.extname(outputFilePath)
+        if (/\.wxs/.test(extname)) {
+          outputFilePath += '.js'
+        }
         const transformResult = wxTransformer({
           code,
           sourcePath: file,
