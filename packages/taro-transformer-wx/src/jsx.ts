@@ -158,7 +158,7 @@ export function parseJSXElement (element: t.JSXElement): string {
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
-        const isAlipayEvent = Adapter.type === Adapters.alipay && /(on[A-Z_])|(catch[A-Z_])/.test(name)
+        const isAlipayEvent = Adapter.type === Adapters.alipay && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
         if (t.isStringLiteral(attrValue)) {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {
