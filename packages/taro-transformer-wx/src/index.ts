@@ -330,6 +330,24 @@ export default function transform (options: Options): TransformResult {
     //   const expr = parentPath.get('value.expression')
 
     // },
+    JSXElement (path) {
+      const assignment = path.findParent(p => p.isAssignmentExpression())
+      if (!assignment || !assignment.isAssignmentExpression()) {
+        return
+      }
+      const left = assignment.node.left
+      if (t.isIdentifier(left)) {
+        const binding = assignment.scope.getBinding(left.name)
+        if (binding && binding.scope === assignment.scope) {
+          if (binding.path.isVariableDeclarator()) {
+            binding.path.node.init = path.node
+            assignment.remove()
+          } else {
+            throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+          }
+        }
+      }
+    },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       if (name === 'Provider') {
