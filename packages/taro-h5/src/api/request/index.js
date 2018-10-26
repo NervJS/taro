@@ -21,11 +21,13 @@ export default function request (options) {
   const params = {}
   const res = {}
   if (options.jsonp) {
+    Object.assign(params, options)
     params.params = options.data
     params.cache = options.jsonpCache
     if (typeof options.jsonp === 'string') {
       params.name = options.jsonp
     }
+    delete params.jsonp
     return jsonpRetry(url, params)
       .then(data => {
         res.statusCode = 200

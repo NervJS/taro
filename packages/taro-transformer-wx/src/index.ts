@@ -201,6 +201,9 @@ export default function transform (options: Options): TransformResult {
       const nodes: t.Expression[] = []
       const { quasis, expressions } = path.node
       let index = 0
+      if (path.parentPath.isTaggedTemplateExpression()) {
+        return
+      }
       for (const elem of quasis) {
         if (elem.value.cooked) {
           nodes.push(t.stringLiteral(elem.value.cooked))

@@ -33,7 +33,7 @@ title: Taro 规范
 
 ### 文件命名
 
-Taro 中普通 JS/TS 文件以小写字母命名，多个字母以下划线连接，例如 `util.js`、`util_helper.js`
+Taro 中普通 JS/TS 文件以小写字母命名，多个单词以下划线连接，例如 `util.js`、`util_helper.js`
 
 Taro 组件文件命名遵循 Pascal 命名法，例如 `ReservationCard.jsx`
 

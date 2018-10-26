@@ -277,7 +277,7 @@ function processEntry (code, filePath) {
           root = rootNode ? rootNode.value.value : ''
         }
         value.elements.forEach(v => {
-          const pagePath = `${root}${v.value}`.replace(/\/{2,}/g, '/')
+          const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
           pages.push(pagePath)
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {

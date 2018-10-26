@@ -268,15 +268,34 @@ expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versi
 
 ### No bundle url present
 
-可能是电脑开了代理。
+导致这个报错的原因很多，最常见的是电脑开了代理。具体可以参考 [#12754](https://github.com/facebook/react-native/issues/12754)
 
 ### UnableToResolveError: Unable to resolve module `AccessibilityInfo`
 
-重启电脑就好了。😂
+原因很多，我这边是重启电脑就好了😂。 具体可以查看 [#14209](https://github.com/facebook/react-native/issues/14209)
 
 ### Metro Bundler error: Expected path […] to be relative to one of the project roots
 
 不支持 `npm link`，可以使用[nicojs/node-install-local](https://github.com/nicojs/node-install-local) 替代。
+
+### Image component does not resolve images with filenames that include '@' symbol
+![image](https://user-images.githubusercontent.com/22125059/44312799-373dee80-a3d4-11e8-8367-9cf44e851739.PNG)
+
+React Native 不支持路径中带 @ 符号，具体可以查看 [#14980](https://github.com/facebook/react-native/issues/14980)。
+
+### The development server returned response error code 500
+![image](https://user-images.githubusercontent.com/25324938/41452372-42c1e766-708f-11e8-96ce-323eaa1eb03f.jpeg)
+多半是依赖的问题，进入 `.rn_temp/`目录，然后删除 npm 依赖，在重新安装就可以了。
+也可以试一下以下命令：
+
+```shell
+watchman watch-del-all 
+rm -rf node_modules && npm install 
+rm -fr $TMPDIR/react-*
+```
+
+具体可以参考 [#1282](https://github.com/expo/expo/issues/1282)
+
 
 ## 参考
 

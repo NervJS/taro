@@ -1238,7 +1238,7 @@ async function buildSinglePage (page) {
               if (depComponent.name === component.name) {
                 let componentPath = component.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1578,7 +1578,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
