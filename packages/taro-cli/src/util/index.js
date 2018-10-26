@@ -4,6 +4,7 @@ const os = require('os')
 const fs = require('fs-extra')
 const execSync = require('child_process').execSync
 const chalk = require('chalk')
+const _ = require('lodash')
 
 const pocessTypeEnum = {
   CREATE: 'create',
@@ -488,3 +489,5 @@ exports.emptyDirectory = function (dirPath) {
     })
   }
 }
+
+exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
