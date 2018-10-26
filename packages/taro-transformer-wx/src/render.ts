@@ -1098,7 +1098,7 @@ export class RenderParser {
                     0,
                     buildConstVariableDeclaration(
                       variableName,
-                      callee.node
+                      setParentCondition(component, callee.node, true)
                     )
                   )
                   const iterator = func.params[0]
