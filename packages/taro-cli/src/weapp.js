@@ -83,7 +83,7 @@ const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
@@ -802,7 +802,8 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     sourcePath: sourcePath,
     outputPath: outputPath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
+    isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
+    adapter: buildAdapter
   })
   const { ast } = transformResult
   let isTaroComponent = false
@@ -1394,7 +1395,7 @@ function getRealComponentsPathList (filePath, components) {
     let componentPath = component.path
     if (Util.isNpmPkg(componentPath)) {
       try {
-        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig)
+        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig, buildAdapter)
       } catch (err) {
         console.log(err)
       }
@@ -1661,7 +1662,8 @@ function compileDepScripts (scriptFiles) {
             sourcePath: item,
             outputPath: outputItem,
             isNormal: true,
-            isTyped: Util.REG_TYPESCRIPT.test(item)
+            isTyped: Util.REG_TYPESCRIPT.test(item),
+            adapter: buildAdapter
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
