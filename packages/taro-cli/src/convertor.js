@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const prettier = require('prettier')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
+const template = require('babel-template')
 const generate = require('babel-generator').default
 const taroize = require('@tarojs/taroize')
 const wxTransformer = require('@tarojs/transformer-wx')
@@ -18,7 +19,8 @@ const {
   REG_SCRIPT,
   REG_TYPESCRIPT,
   processStyleImports,
-  getPkgVersion
+  getPkgVersion,
+  pascalCase
 } = require('./util')
 
 const Creator = require('./creator')
@@ -99,7 +101,7 @@ class Convertor {
     }
   }
 
-  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath }) {
+  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents }) {
     const scriptFiles = new Set()
     traverse(ast, {
       Program: {
@@ -124,8 +126,19 @@ class Convertor {
         },
         exit (astPath) {
           const lastImport = astPath.get('body').filter(p => p.isImportDeclaration()).pop()
-          if (lastImport && importStylePath) {
-            lastImport.insertAfter(t.importDeclaration([], t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))))
+          if (lastImport) {
+            if (importStylePath) {
+              lastImport.insertAfter(t.importDeclaration([], t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))))
+            }
+            if (depComponents && depComponents.size) {
+              depComponents.forEach(componentObj => {
+                const name = pascalCase(componentObj.name)
+                const component = componentObj.path
+                lastImport.insertAfter(template(`import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`, {
+                  sourceType: 'module'
+                })())
+              })
+            }
           }
         }
       }
@@ -283,10 +296,14 @@ class Convertor {
           if (pageUsingComponnets) {
             // 页面依赖组件
             Object.keys(pageUsingComponnets).forEach(component => {
-              depComponents.add(path.resolve(pageConfigPath, '..', pageUsingComponnets[component]))
+              depComponents.add({
+                name: component,
+                path: path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
+              })
             })
+            delete pageConfig.usingComponents
           }
-          param.json = pageConfigStr
+          param.json = JSON.stringify(pageConfig)
         }
         param.script = String(fs.readFileSync(pageJSPath))
         if (fs.existsSync(pageTemplPath)) {
@@ -304,7 +321,8 @@ class Convertor {
           ast: taroizeAst,
           sourceFilePath: pageJSPath,
           outputFilePath: pageDistJSPath,
-          importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), '.css') : null
+          importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), '.css') : null,
+          depComponents
         })
         const jsCode = generate(ast).code
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
@@ -327,7 +345,8 @@ class Convertor {
     if (!components || !components.size) {
       return
     }
-    components.forEach(component => {
+    components.forEach(componentObj => {
+      const component = componentObj.path
       if (this.hadBeenBuiltComponents.has(component)) return
       const componentJSPath = component + this.fileTypes.SCRIPT
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
@@ -353,8 +372,9 @@ class Convertor {
             Object.keys(componentUsingComponnets).forEach(component => {
               depComponents.add(path.resolve(componentConfigPath, '..', componentUsingComponnets[component]))
             })
+            delete componentConfig.usingComponents
           }
-          param.json = componentConfigStr
+          param.json = JSON.stringify(componentConfig)
         }
         param.script = String(fs.readFileSync(componentJSPath))
         if (fs.existsSync(componentTemplPath)) {
@@ -372,7 +392,8 @@ class Convertor {
           ast: taroizeAst,
           sourceFilePath: componentJSPath,
           outputFilePath: componentDistJSPath,
-          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), '.css') : null
+          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), '.css') : null,
+          depComponents
         })
         const jsCode = generate(ast).code
         this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
