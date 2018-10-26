@@ -968,7 +968,6 @@ export class RenderParser {
       }
       const blockStatementPath = component.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
       const body = blockStatementPath.node.body
-      let hasOriginalRef = false
       let stateToBeAssign = new Set<string>(
         difference(
           Object.keys(blockStatementPath.scope.getAllBindings()),
@@ -1025,7 +1024,6 @@ export class RenderParser {
                 t.identifier(name),
                 t.identifier(LOOP_ORIGINAL)
               ))
-              hasOriginalRef = true
             }
           }
           const bodyPath = (callee.get('arguments') as any)[0].get('body')
@@ -1058,31 +1056,28 @@ export class RenderParser {
                 )
                 path.replaceWith(replacement)
                 replacements.add(replacement)
-                hasOriginalRef = true
               } else {
                 replaceOriginal(path, parent, name)
               }
 
             }
           })
-          if (hasOriginalRef) {
-            const originalProp = t.objectProperty(
-              t.identifier(LOOP_ORIGINAL),
-              t.memberExpression(
-                t.identifier(item.name),
-                t.identifier(LOOP_ORIGINAL)
+          const originalProp = t.objectProperty(
+            t.identifier(LOOP_ORIGINAL),
+            t.memberExpression(
+              t.identifier(item.name),
+              t.identifier(LOOP_ORIGINAL)
+            )
+          )
+          properties.push(originalProp)
+          body.unshift(
+            t.expressionStatement(t.assignmentExpression('=', t.identifier(item.name), t.objectExpression([
+              t.objectProperty(
+                t.identifier(LOOP_ORIGINAL),
+                t.callExpression(t.identifier(INTERNAL_GET_ORIGNAL), [t.identifier(item.name)])
               )
-            )
-            properties.push(originalProp)
-            body.unshift(
-              t.expressionStatement(t.assignmentExpression('=', t.identifier(item.name), t.objectExpression([
-                t.objectProperty(
-                  t.identifier(LOOP_ORIGINAL),
-                  t.callExpression(t.identifier(INTERNAL_GET_ORIGNAL), [t.identifier(item.name)])
-                )
-              ])))
-            )
-          }
+            ])))
+          )
           const returnStatement = t.returnStatement(properties.length ? t.objectExpression(properties) : item)
           const parentCallee = callee.findParent(c => isArrayMapCallExpression(c))
           if (isArrayMapCallExpression(parentCallee)) {
