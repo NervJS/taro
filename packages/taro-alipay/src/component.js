@@ -72,6 +72,26 @@ class BaseComponent {
     }
     updateComponent(this)
   }
+
+  __triggerPropsFn (key, args) {
+    const handler = this.props[`data-map-func-${key}`]
+    let eventBindArgs = []
+
+    if (typeof handler === 'string') {
+      const argsMap = {}
+      const prefix = `data-e-${handler}-`
+      for (const k in this.props) {
+        if (k.indexOf(prefix) > -1) argsMap[k.replace(prefix, '').replace('-', '')] = this.props[k]
+      }
+
+      argsMap['so'] && delete argsMap['so']
+
+      eventBindArgs = Object.keys(argsMap)
+        .sort()
+        .map(argName => argsMap[argName])
+    }
+    typeof this.props[key] === 'function' && this.props[key](...eventBindArgs, ...args)
+  }
 }
 
 export default BaseComponent
