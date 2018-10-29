@@ -12,4 +12,5 @@ program
   .command('build', 'Build a project with options')
   .command('update', 'Update packages of taro')
   .command('convert', 'Convert weapp to taro')
+  .command('doctor', 'Diagnose taro project')
   .parse(process.argv)

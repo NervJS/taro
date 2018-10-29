@@ -18,7 +18,7 @@ program
 
 const args = program.args
 const { type, watch, ui } = program
-let { env } =  program
+let { env } = program
 
 env = process.env.NODE_ENV || env
 

@@ -226,11 +226,12 @@ module.exports = {
     //   beforeSelfClosing: 'always',
     //   afterOpening: 'never'
     // }],
+    'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'always' }],
 
     // Enforce spaces before the closing bracket of self-closing JSX elements
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md
     // Deprecated in favor of jsx-tag-spacing
-    'react/jsx-space-before-closing': ['error', 'always'],
+    // 'react/jsx-space-before-closing': ['error', 'always'],
 
     // // Prevent usage of Array index in keys
     // // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md
