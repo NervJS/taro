@@ -6,7 +6,11 @@ const _ = require('lodash/fp')
 const ora = require('ora')
 const chalk = require('chalk')
 const fs = require('fs-extra')
+<<<<<<< HEAD
 const { PROJECT_CONFIG } = require('../dist/util/constants')
+=======
+const { PROJECT_CONFIG } = require('../src/util')
+>>>>>>> feat(doctor): 增加 doctor 子命令
 const PROJECT_CONF_PATH = path.join(process.cwd(), PROJECT_CONFIG)
 
 if (!fs.existsSync(PROJECT_CONF_PATH)) {
@@ -14,7 +18,11 @@ if (!fs.existsSync(PROJECT_CONF_PATH)) {
   process.exit(1)
 }
 
+<<<<<<< HEAD
 const { validators } = require('../dist/doctor').default
+=======
+const { validators } = require('../src/doctor')
+>>>>>>> feat(doctor): 增加 doctor 子命令
 
 const NOTE_ALL_RIGHT = chalk.green('[✓] ')
 const NOTE_VALID = chalk.yellow('[!] ')
@@ -57,7 +65,11 @@ program
 
 async function diagnose () {
   const spinner = ora('正在诊断项目...').start()
+<<<<<<< HEAD
   const reportsP = _.map(validator => validator(), validators)
+=======
+  const reportsP = _.invokeMap(_.call, validators)
+>>>>>>> feat(doctor): 增加 doctor 子命令
   const reports = await Promise.all(reportsP)
   spinner.succeed('诊断完成')
   printReport(reports)
