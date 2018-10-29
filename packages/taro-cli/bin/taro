@@ -21,4 +21,5 @@ program
   .command('update', 'Update packages of taro')
   .command('convert', 'Convert weapp to taro')
   .command('info', 'Diagnostics Taro env info')
+  .command('doctor', 'Diagnose taro project')
   .parse(process.argv)
