@@ -3,6 +3,10 @@
   "version": "1.2.0-alpha.0",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "lib"
+  ],
   "scripts": {
     "test": "jest",
     "build": "tsc",
