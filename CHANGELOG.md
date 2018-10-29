@@ -1,5 +1,70 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.13...v) (2018-10-26)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-alpha.0...v) (2018-10-29)
+
+
+
+<a name="1.2.0-alpha.0"></a>
+# [1.2.0-alpha.0](https://github.com/NervJS/taro/compare/v1.1.0-beta.13...v1.2.0-alpha.0) (2018-10-29)
+
+
+### Bug Fixes
+
+* **taroize:**  当 children 有空格的情况 ([00fe298](https://github.com/NervJS/taro/commit/00fe298))
+* **taroize:**  当 children 有空格的情况 ([2cc0890](https://github.com/NervJS/taro/commit/2cc0890))
+* **taroize:** 使用组件重复添加 ([eef3aa3](https://github.com/NervJS/taro/commit/eef3aa3))
+* **taroize:** 取消 this.state 的缓存 ([f606443](https://github.com/NervJS/taro/commit/f606443))
+* **taroize:** 没有 data 时报错 ([505fd2c](https://github.com/NervJS/taro/commit/505fd2c))
+* **taroize:** 注释或空的 text 节点导致编译错误 ([bcad716](https://github.com/NervJS/taro/commit/bcad716))
+* **taroize:** 生命周期 typo ([2baae9d](https://github.com/NervJS/taro/commit/2baae9d))
+* **taroize:** 生成文件没有import [@tarojs](https://github.com/tarojs)/with-weapp ([4e3e8eb](https://github.com/NervJS/taro/commit/4e3e8eb))
+* **tarozie:** props 需要在 render 结构 ([df2006b](https://github.com/NervJS/taro/commit/df2006b))
+* **transformer:**  globalData 无效的问题 ([c7522e2](https://github.com/NervJS/taro/commit/c7522e2))
+* **with-weapp:** 装饰器参数为`Component` ([fd41a2e](https://github.com/NervJS/taro/commit/fd41a2e))
+* **with-weapp:** 装饰器参数为`Component` ([557deaf](https://github.com/NervJS/taro/commit/557deaf))
+
+
+### Features
+
+* **cli:** 增加 taro convert 命令 ([f88f18f](https://github.com/NervJS/taro/commit/f88f18f))
+* **cli:** 小程序转 taro 代码 wxs 文件处理 ([3ad3db7](https://github.com/NervJS/taro/commit/3ad3db7))
+* **cli:** 小程序转 taro 处理组件以及样式依赖 ([366b9a0](https://github.com/NervJS/taro/commit/366b9a0))
+* **cli:** 小程序转 Taro 文件引用关系处理 ([45a8502](https://github.com/NervJS/taro/commit/45a8502))
+* **cli:** 小程序转 taro 组件依赖转换为 taro 写法 ([03ce09a](https://github.com/NervJS/taro/commit/03ce09a))
+* **cli:** 小程序转 taro 补充配置文件生成 ([7edbb2f](https://github.com/NervJS/taro/commit/7edbb2f))
+* **taroize:** class 带上 withWeapp 装饰器 ([904ad05](https://github.com/NervJS/taro/commit/904ad05))
+* **taroize:** class 带上 withWeapp 装饰器 ([09a12c2](https://github.com/NervJS/taro/commit/09a12c2))
+* **taroize:** json/script/wxml 均可传空值 ([31a3995](https://github.com/NervJS/taro/commit/31a3995))
+* **taroize:** json/script/wxml 均可传空值 ([9778183](https://github.com/NervJS/taro/commit/9778183))
+* **taroize:** render 函数和 parseWxml 结合 ([9ae79c0](https://github.com/NervJS/taro/commit/9ae79c0))
+* **taroize:** render 函数和 parseWxml 结合 ([1175ec5](https://github.com/NervJS/taro/commit/1175ec5))
+* **taroize:** setData polyfill ([de0c13c](https://github.com/NervJS/taro/commit/de0c13c))
+* **taroize:** setData polyfill ([1f78891](https://github.com/NervJS/taro/commit/1f78891))
+* **taroize:** 事件名需要加 this ([2c525b3](https://github.com/NervJS/taro/commit/2c525b3))
+* **taroize:** 加入 index.js 导出项目 ([3c976df](https://github.com/NervJS/taro/commit/3c976df))
+* **taroize:** 增加 taro convert 文件 ([da1acdb](https://github.com/NervJS/taro/commit/da1acdb))
+* **taroize:** 处理端能力 API ([e520db8](https://github.com/NervJS/taro/commit/e520db8))
+* **taroize:** 处理端能力 API ([c9ee979](https://github.com/NervJS/taro/commit/c9ee979))
+* **taroize:** 支持 App() 入口文件 ([674a151](https://github.com/NervJS/taro/commit/674a151))
+* **taroize:** 支持 wxs ([c4af756](https://github.com/NervJS/taro/commit/c4af756))
+* **taroize:** 支持编译组件 ([5b8e328](https://github.com/NervJS/taro/commit/5b8e328))
+* **taroize:** 支持编译组件 ([a2c91bb](https://github.com/NervJS/taro/commit/a2c91bb))
+* **taroize:** 支持解析 config.json ([2d9d9e3](https://github.com/NervJS/taro/commit/2d9d9e3))
+* **taroize:** 支持解析 config.json ([f6dbb81](https://github.com/NervJS/taro/commit/f6dbb81))
+* **taroize:** 支持解析多个根节点的 wxml ([7d35f8d](https://github.com/NervJS/taro/commit/7d35f8d))
+* **transformer:** 支持 parse wxml 的 Text 类型和 Coment 类型 ([27e506e](https://github.com/NervJS/taro/commit/27e506e))
+* **transformer:** 支持 parse wxml 的 Text 类型和 Coment 类型 ([85c2f2b](https://github.com/NervJS/taro/commit/85c2f2b))
+* **transformer:** 支持转换循环 ([3b6d84a](https://github.com/NervJS/taro/commit/3b6d84a))
+* **transformer:** 支持转换循环 ([159b0e7](https://github.com/NervJS/taro/commit/159b0e7))
+* **with-weapp:** 支持 globalData ([8fc084e](https://github.com/NervJS/taro/commit/8fc084e))
+* **with-weapp:** 更新 rollup 配置 ([61f6fbe](https://github.com/NervJS/taro/commit/61f6fbe))
+* **wx-to-taro:** 处理特殊键值 ([9abd405](https://github.com/NervJS/taro/commit/9abd405))
+* **wx-to-taro:** 处理特殊键值 ([d2bbcde](https://github.com/NervJS/taro/commit/d2bbcde))
+* **wx-to-taro:** 支持复杂的 if 的表达式 ([be7ba1e](https://github.com/NervJS/taro/commit/be7ba1e))
+* **wx-to-taro:** 支持复杂的 if 的表达式 ([10c0080](https://github.com/NervJS/taro/commit/10c0080))
+* **wx-to-taro:** 解析 attr ([72459ae](https://github.com/NervJS/taro/commit/72459ae))
+* **wx-to-taro:** 解析 attr ([0b23871](https://github.com/NervJS/taro/commit/0b23871))
+* **wx-to-taro:** 解析 Page 页面 ([e4f848e](https://github.com/NervJS/taro/commit/e4f848e))
+* **wx-to-taro:** 解析 Page 页面 ([2973e57](https://github.com/NervJS/taro/commit/2973e57))
 
 
 
