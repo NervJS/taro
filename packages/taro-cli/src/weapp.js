@@ -1078,7 +1078,10 @@ function transfromNativeComponents (configFile, componentConfig) {
         Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
         return
       }
-      const componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
+      let componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
+      if (!fs.existsSync(componentJSPath)) {
+        componentJSPath = Util.resolveScriptPath(path.join(sourceDir, componentPath))
+      }
       const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.CONFIG)
       const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.TEMPL)
       const componentWXSSPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.STYLE)
