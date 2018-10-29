@@ -414,7 +414,7 @@ class Transformer {
       const funcName = hasMethodName
         ? this.anonymousMethod.get(methodName)!
         // 测试时使用1个稳定的 uniqueID 便于测试，实际使用5个英文字母，否则小程序不支持
-        : process.env.NODE_ENV === 'test' ? uniqueId('func__') : `func__${createRandomLetters(5)}`
+        : process.env.NODE_ENV === 'test' ? uniqueId('funPrivate') : `funPrivate${createRandomLetters(5)}`
       this.anonymousMethod.set(methodName, funcName)
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
