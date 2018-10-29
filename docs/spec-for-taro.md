@@ -33,7 +33,7 @@ title: Taro 规范
 
 ### 文件命名
 
-Taro 中普通 JS/TS 文件以小写字母命名，多个字母以下划线连接，例如 `util.js`、`util_helper.js`
+Taro 中普通 JS/TS 文件以小写字母命名，多个单词以下划线连接，例如 `util.js`、`util_helper.js`
 
 Taro 组件文件命名遵循 Pascal 命名法，例如 `ReservationCard.jsx`
 
@@ -198,7 +198,7 @@ console.log(value)
 ```
 
 ```javascript
-// ✓ 错误
+// ✗ 错误
 const value = 'hello world'
 
 
@@ -572,7 +572,7 @@ const getName = (function () { })()   // ✓ 正确
 
 #### 不使用 Generator 函数语法
 
-> 使用 `Promise` 或者 `async functions` 来实现异步变成
+> 使用 `Promise` 或者 `async functions` 来实现异步编程
 
 ```javascript
 function* helloWorldGenerator() {     // ✗ 错误
@@ -938,7 +938,7 @@ run(function (err) {
 ```
 
 ```javascript
-// ✓ 错误
+// ✗ 错误
 run(function (err) {
   window.alert('done')
 })
@@ -1155,17 +1155,17 @@ render () {
 
 在 Taro 组件中会包含类静态属性、类属性、生命周期等的类成员，其书写顺序最好遵循以下约定（顺序从上至下）
 
-1、static静态方法
-2、constructor
-3、componentWillMount
-4、componentDidMount
-5、componentWillReceiveProps
-6、shouldComponentUpdate
-7、componentWillUpdate
-8、componentDidUpdate
-9、componentWillUnmount
-10、点击回调或者事件回调 比如 `onClickSubmit()` 或者 `onChangeDescription()`
-11、render
+1. static 静态方法
+2. constructor
+3. componentWillMount
+4. componentDidMount
+5. componentWillReceiveProps
+6. shouldComponentUpdate
+7. componentWillUpdate
+8. componentDidUpdate
+9. componentWillUnmount
+10. 点击回调或者事件回调 比如 `onClickSubmit()` 或者 `onChangeDescription()`
+11. render
 
 ### 通用约束与建议
 
@@ -1240,7 +1240,7 @@ this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
 #### map 循环时请给元素加上 key 属性
 
 ```javascript
-list.map(tem => {
+list.map(item => {
   return (
     <View className='list_item' key={item.id}>{item.name}</View>
   )
@@ -1514,14 +1514,14 @@ numbers.map((number) => {
 
 #### 不能使用 Array#map 之外的方法操作 JSX 数组 
 
-> Taro 在小程序端实际上把 JSX 转换成了字符串模板，而一个原生 JSX 表达式实际上是一个 React/Nerv 元素(react-element)的构造器，因此在原生 JSX 中你可以随意地一组 React 元素进行操作。但在 Taro 中你只能使用 `map` 方法，Taro 转换成小程序中 `wx:for`
+> Taro 在小程序端实际上把 JSX 转换成了字符串模板，而一个原生 JSX 表达式实际上是一个 React/Nerv 元素(react-element)的构造器，因此在原生 JSX 中你可以随意地对一组 React 元素进行操作。但在 Taro 中你只能使用 `map` 方法，Taro 转换成小程序中 `wx:for`
 
 以下代码会被 ESLint 提示警告，同时在 Taro（小程序端）也不会有效：
 
 ```javascript
 test.push(<View />)
 
-numbers.forEach(numbers => {
+numbers.forEach(number => {
   if (someCase) {
     a = <View />
   }

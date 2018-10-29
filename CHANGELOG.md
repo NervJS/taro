@@ -1,5 +1,31 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.12...v) (2018-10-24)
+# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.13...v) (2018-10-26)
+
+
+
+<a name="1.1.0-beta.13"></a>
+# [1.1.0-beta.13](https://github.com/NervJS/taro/compare/v1.1.0-beta.12...v1.1.0-beta.13) (2018-10-26)
+
+
+### Bug Fixes
+
+* **async-await:** 修正 async await 依赖的引入方式 ([5b2e858](https://github.com/NervJS/taro/commit/5b2e858))
+* **cli:** H5 分包配置与小程序保持一致 ([f2a0084](https://github.com/NervJS/taro/commit/f2a0084))
+* **cli:** H5 编译时清除 dist 目录，close [#936](https://github.com/NervJS/taro/issues/936) ([709a795](https://github.com/NervJS/taro/commit/709a795))
+* **cli:** 不再主动清除组件引用，close [#870](https://github.com/NervJS/taro/issues/870) ([ae6db2f](https://github.com/NervJS/taro/commit/ae6db2f))
+* **cli:** 解析 node_modules 文件时 TARO_ENV 不正确 ([50854c8](https://github.com/NervJS/taro/commit/50854c8))
+* **RN:** 修复同一文件夹下多个JS文件样式引用错误 ([74380ec](https://github.com/NervJS/taro/commit/74380ec))
+* **swan:** 修复 componentWillMount 中 setState 回调中获取 state 可能不正确 ([057bedb](https://github.com/NervJS/taro/commit/057bedb))
+* **taro-cli:** 修复 weapp.js 编译出的页面和组件配置 json 文件中，usingComponent 的 npm 包路径错误 ([990df26](https://github.com/NervJS/taro/commit/990df26))
+* **taro-weapp:** 修复 await Taro.connectSocket 获取不到 SocketTask 的错误 ([#930](https://github.com/NervJS/taro/issues/930)) ([771baba](https://github.com/NervJS/taro/commit/771baba))
+* **transformer:** 修复事件的正则判断 ([a282331](https://github.com/NervJS/taro/commit/a282331))
+* **transformer:** 多层循环内生成新的数组也要带上用户写的执行判断 ([067de85](https://github.com/NervJS/taro/commit/067de85))
+
+
+### Features
+
+* **eslint:** 检测来自于 this.props 的函数是否以 `on` 开头 ([9827866](https://github.com/NervJS/taro/commit/9827866))
+* **transformer:** 支持在同一作用域对 JSX 赋值（不推荐），close [#550](https://github.com/NervJS/taro/issues/550) ([243b237](https://github.com/NervJS/taro/commit/243b237))
 
 
 

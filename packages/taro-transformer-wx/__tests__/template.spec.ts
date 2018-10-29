@@ -22,7 +22,9 @@ describe('Template', () => {
 
       const inst = evalClass(ast, '', true)
 
-      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(template).toMatch(
+        `<view style="{{anonymousState__temp}}"></view>`
+      )
       expect(inst.state['anonymousState__temp']).toMatch(`color:red`)
     })
 
@@ -39,7 +41,9 @@ describe('Template', () => {
 
       const inst = evalClass(ast, '', true)
 
-      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(template).toMatch(
+        `<view style="{{anonymousState__temp}}"></view>`
+      )
       expect(inst.state['anonymousState__temp']).toMatch(`font-size:16px`)
     })
 
@@ -56,7 +60,9 @@ describe('Template', () => {
 
       const inst = evalClass(ast, '', true)
 
-      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(template).toMatch(
+        `<view style="{{anonymousState__temp}}"></view>`
+      )
       expect(inst.state['anonymousState__temp']).toMatch(
         `font-size:16px;color:red`
       )
@@ -128,7 +134,9 @@ describe('Template', () => {
       const inst = evalClass(ast, '', true)
       removeShadowData(inst.state)
       expect(Object.keys(inst.state).length).toEqual(1)
-      expect(template).toMatch(`<view style="{{anonymousState__temp}}"></view>`)
+      expect(template).toMatch(
+        `<view style="{{anonymousState__temp}}"></view>`
+      )
       expect(inst.state['anonymousState__temp']).toMatch(`color:red`)
     })
 
@@ -807,6 +815,28 @@ describe('字符不转义', () => {
         prettyPrint(`
         <block>
             <link __triggerObserer=\"{{ _triggerObserer }}\"></link>
+        </block>
+      `)
+      )
+    })
+
+    test('同一个作用域的JSX 变量延时赋值没有意义', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          let a;
+          a = <Text />
+          return (
+                <View>{a}</View>
+          )
+        `)
+      })
+
+      expect(template).toMatch(
+        prettyPrint(`
+        <block>
+            <view><text></text></view>
         </block>
       `)
       )

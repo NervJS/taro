@@ -559,7 +559,7 @@ declare namespace Taro {
     }
   }
   /**
-   * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
+   * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
    *
    * **返回值：**
    *
@@ -610,7 +610,7 @@ declare namespace Taro {
    *
    *     requestTask.abort() // 取消请求任务
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
 

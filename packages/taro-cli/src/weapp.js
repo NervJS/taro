@@ -83,7 +83,7 @@ const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
@@ -146,19 +146,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
     if (isFileToBePage(importPath)) {
       astPath.remove()
     } else {
-      let isDepComponent = false
-      if (depComponents && depComponents.length) {
-        depComponents.forEach(item => {
-          const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
-          const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
-          if (resolvePath === resolveValuePath) {
-            isDepComponent = true
-          }
-        })
-      }
-      if (isDepComponent) {
-        astPath.remove()
-      } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+      if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
         const vpath = path.resolve(sourceFilePath, '..', value)
         let fPath = value
         if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
@@ -578,25 +566,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     astPath.remove()
                   }
                 } else {
-                  let isDepComponent = false
-                  if (depComponents && depComponents.length) {
-                    depComponents.forEach(item => {
-                      const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
-                      const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
-                      if (resolvePath === resolveValuePath) {
-                        isDepComponent = true
-                      }
-                    })
-                  }
-                  if (isDepComponent) {
-                    if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
-                      astPath.parentPath.remove()
-                    } else if (astPath.parent.type === 'VariableDeclarator') {
-                      astPath.parentPath.parentPath.remove()
-                    } else {
-                      astPath.remove()
-                    }
-                  } else if (Util.REG_STYLE.test(valueExtname)) {
+                  if (Util.REG_STYLE.test(valueExtname)) {
                     const stylePath = path.resolve(path.dirname(sourceFilePath), value)
                     if (styleFiles.indexOf(stylePath) < 0) {
                       styleFiles.push(stylePath)
@@ -802,7 +772,8 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     sourcePath: sourcePath,
     outputPath: outputPath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
+    isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
+    adapter: buildAdapter
   })
   const { ast } = transformResult
   let isTaroComponent = false
@@ -1238,7 +1209,7 @@ async function buildSinglePage (page) {
               if (depComponent.name === component.name) {
                 let componentPath = component.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1394,7 +1365,7 @@ function getRealComponentsPathList (filePath, components) {
     let componentPath = component.path
     if (Util.isNpmPkg(componentPath)) {
       try {
-        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig)
+        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig, buildAdapter)
       } catch (err) {
         console.log(err)
       }
@@ -1578,7 +1549,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1661,7 +1632,8 @@ function compileDepScripts (scriptFiles) {
             sourcePath: item,
             outputPath: outputItem,
             isNormal: true,
-            isTyped: Util.REG_TYPESCRIPT.test(item)
+            isTyped: Util.REG_TYPESCRIPT.test(item),
+            adapter: buildAdapter
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)

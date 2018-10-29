@@ -35,7 +35,7 @@ const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 
-function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, root = basedir) {
+function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir) {
   try {
     return resolvePath.sync(pkgName, { basedir: root })
   } catch (err) {
@@ -46,7 +46,7 @@ function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, root = basedir
         installOptions.dev = true
       }
       npmProcess.installNpmPkg(pkgName, installOptions)
-      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, root)
+      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     }
   }
 }
@@ -60,20 +60,20 @@ function recursiveFindNodeModules (filePath) {
   return recursiveFindNodeModules(dirname)
 }
 
-function resolveNpmFilesPath (pkgName, isProduction, npmConfig, root = basedir) {
+function resolveNpmFilesPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir) {
   if (!resolvedCache[pkgName]) {
-    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, root)
+    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     resolvedCache[pkgName] = {
       main: res,
       files: []
     }
     resolvedCache[pkgName].files.push(res)
-    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig)
+    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig, buildAdapter)
   }
   return resolvedCache[pkgName]
 }
 
-function parseAst (ast, filePath, files, isProduction, npmConfig) {
+function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP) {
   const excludeRequire = []
   traverse(ast, {
     IfStatement (astPath) {
@@ -82,7 +82,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
           const node = astPath.node
           const left = node.left
           if (generate(left).code === 'process.env.TARO_ENV' &&
-            node.right.value !== BUILD_TYPES.WEAPP) {
+            node.right.value !== buildAdapter) {
             const consequentSibling = astPath.getSibling('consequent')
             consequentSibling.traverse({
               CallExpression (astPath) {
@@ -110,7 +110,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
               if (excludeRequire.indexOf(requirePath) < 0) {
                 if (isNpmPkg(requirePath)) {
                   if (excludeNpmPkgs.indexOf(requirePath) < 0) {
-                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, path.dirname(recursiveFindNodeModules(filePath)))
+                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)))
                     let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
                     relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
                     args[0].value = relativeRequirePath
@@ -127,7 +127,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
                   }
                   if (files.indexOf(realRequirePath) < 0) {
                     files.push(realRequirePath)
-                    recursiveRequire(realRequirePath, files, isProduction, npmConfig)
+                    recursiveRequire(realRequirePath, files, isProduction, npmConfig, buildAdapter)
                   }
                   args[0].value = requirePath
                 }
@@ -141,7 +141,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
   return generate(ast).code
 }
 
-function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
+function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildAdapter) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath
   if (!npmConfig.dir) {
@@ -161,14 +161,16 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
       sourcePath: filePath,
       outputPath: outputNpmPath,
       isNormal: true,
+      adapter: buildAdapter,
       isTyped: REG_TYPESCRIPT.test(filePath)
     })
+    const constantsReplaceList = generateEnvList(projectConfig.env || {})
     const ast = babel.transformFromAst(transformResult.ast, '', {
       plugins: [
-        [require('babel-plugin-transform-define').default, generateEnvList(projectConfig.env || {})]
+        [require('babel-plugin-transform-define').default, constantsReplaceList]
       ]
     }).ast
-    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig)
+    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig, buildAdapter)
   } catch (err) {
     console.log(err)
   }
