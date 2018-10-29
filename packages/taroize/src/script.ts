@@ -6,10 +6,10 @@ import { buildImportStatement, codeFrameError } from './utils'
 import { usedComponents, WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 
-const buildDecorator = (type: string) => t.decorator(t.callExpression(
-  t.identifier('withWeapp'),
-  [t.stringLiteral(type)]
-))
+const buildDecorator = (type: string) =>
+  t.decorator(
+    t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type)])
+  )
 
 export function parseScript (
   script?: string,
@@ -47,10 +47,7 @@ export function parseScript (
         const name = callee.node.name
         if (name === 'getApp' || name === 'getCurrentPages') {
           callee.replaceWith(
-            t.memberExpression(
-              t.identifier('Taro'),
-              callee.node
-            )
+            t.memberExpression(t.identifier('Taro'), callee.node)
           )
         }
       }
@@ -81,7 +78,9 @@ export function parseScript (
     }
   })
 
-  const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
+  const taroComponentsImport = buildImportStatement('@tarojs/components', [
+    ...usedComponents
+  ])
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
   const withWeappImport = buildImportStatement(
     '@tarojs/with-weapp',
@@ -150,14 +149,23 @@ function parsePage (
     return
   }
   const props = arg.get('properties')
-  const properties = props.filter(p => !p.isSpreadProperty()) as NodePath<t.ObjectProperty | t.ObjectMethod>[]
+  const properties = props.filter(p => !p.isSpreadProperty()) as NodePath<
+    t.ObjectProperty | t.ObjectMethod
+  >[]
   if (properties.length !== props.length) {
-    throw new Error('不支持编译在 Page 对象中使用解构(`...` spread property)语法')
+    throw new Error(
+      '不支持编译在 Page 对象中使用解构(`...` spread property)语法'
+    )
   }
 
   let classBody = properties.map(prop => {
     const key = prop.get('key')
     const value = prop.get('value')
+    const params = prop.isObjectMethod()
+      ? prop.node.params
+      : value.isFunctionExpression() || value.isArrowFunctionExpression()
+        ? value.node.params
+        : []
     if (!key.isIdentifier()) {
       throw codeFrameError(key.node, 'Page 对象的键值只能是字符串')
     }
@@ -200,23 +208,33 @@ function parsePage (
     }
     if (PageLifecycle.has(name)) {
       const lifecycle = PageLifecycle.get(name)!
-      const node = value.node as t.FunctionExpression | t.ArrowFunctionExpression
-      return t.classMethod('method', t.identifier(lifecycle), [], node.body as any)
+      const node = value.node as
+        | t.FunctionExpression
+        | t.ArrowFunctionExpression
+      return t.classMethod(
+        'method',
+        t.identifier(lifecycle),
+        params,
+        node.body as any
+      )
     }
     if (prop.isObjectMethod()) {
       const body = prop.get('body')
-      return t.classProperty(t.identifier(name), t.arrowFunctionExpression([], body.node))
+      return t.classProperty(
+        t.identifier(name),
+        t.arrowFunctionExpression(params, body.node)
+      )
     }
-    return t.classProperty(t.identifier(name), value.isFunctionExpression() ? t.arrowFunctionExpression(value.node.params, value.node.body) : value.node)
+    return t.classProperty(
+      t.identifier(name),
+      value.isFunctionExpression() || value.isArrowFunctionExpression()
+        ? t.arrowFunctionExpression(value.node.params, value.node.body)
+        : value.node
+    )
   })
 
   if (json && t.isObjectExpression(json)) {
-    classBody.push(
-      t.classProperty(
-        t.identifier('config'),
-        json
-      )
-    )
+    classBody.push(t.classProperty(t.identifier('config'), json))
   }
 
   if (componentType === 'App') {
