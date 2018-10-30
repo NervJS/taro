@@ -4,7 +4,7 @@ import { camelCase, cloneDeep, capitalize } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildRender, buildBlockElement } from './utils'
 import { specialEvents } from './events'
-const generate = require('babel-generator').default
+// const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -140,7 +140,7 @@ function parseTemplate (path: NodePath<t.JSXElement>) {
   const attrs = openingElement.get('attributes')
   const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
   const data = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'data' }))
-  const spread = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'spread' }))
+  // const spread = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'spread' }))
   const name = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'name' }))
   const refIds = new Set<string>()
   if (name) {
