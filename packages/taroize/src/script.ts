@@ -3,13 +3,13 @@ import traverse, { NodePath } from 'babel-traverse'
 import { transform } from 'babel-core'
 import * as template from 'babel-template'
 import { buildImportStatement, codeFrameError, buildRender } from './utils'
-import { usedComponents, WXS } from './wxml'
+import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
+import { usedComponents } from './global'
 
-const buildDecorator = (type: string) =>
-  t.decorator(
-    t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type)])
-  )
+const buildDecorator = (type: string) => t.decorator(
+  t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type)])
+)
 
 export function parseScript (
   script?: string,

@@ -2,6 +2,9 @@ import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { camelCase, capitalize } from 'lodash'
 import { buildRender, buildBlockElement } from './utils'
+import { relative } from 'path'
+import * as fs from 'fs'
+import { parseWXML } from './wxml'
 
 export function parseTemplate (path: NodePath<t.JSXElement>) {
   const openingElement = path.get('openingElement')
@@ -51,7 +54,10 @@ export function parseTemplate (path: NodePath<t.JSXElement>) {
       []
     )
     path.remove()
-    return classDecl
+    return {
+      name: className,
+      ast: classDecl
+    }
   } else if (is) {
     const value = is.node.value
     if (!value) {
@@ -118,4 +124,33 @@ export function parseTemplate (path: NodePath<t.JSXElement>) {
   }
 
   throw new Error('template 标签必须指名 `is` 或 `name` 任意一个标签')
+}
+
+export function parseImport (jsx: NodePath<t.JSXElement>, dirPath: string) {
+  const openingElement = jsx.get('openingElement')
+  const attrs = openingElement.get('attributes')
+  const src = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'src' }))
+  if (!src) {
+    throw new Error('import 标签必须包含 `src` 属性')
+  }
+  const value = src.get('value')
+  if (!value.isStringLiteral()) {
+    throw new Error('import 标签的 src 属性值必须是一个字符串')
+  }
+  const srcValue = value.node.value
+  const wxml = getWXMLsource(dirPath, srcValue)
+  const { imports } = parseWXML(dirPath, wxml)
+  return imports
+}
+
+function getWXMLsource (dirPath: string, src: string) {
+  try {
+    return fs.readFileSync(relative(dirPath, src), 'utf-8')
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
+export function parseInclude (jsx: NodePath<t.JSXElement>, dirPath: string) {
+  //
 }
