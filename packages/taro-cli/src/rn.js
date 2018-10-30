@@ -107,7 +107,7 @@ function initProjectFile () {
   Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
 }
 
-function processFile (filePath) {
+async function processFile (filePath) {
   if (!fs.existsSync(filePath)) {
     return
   }
@@ -130,7 +130,7 @@ function processFile (filePath) {
     // compileDepStyles
     const styleFiles = transformResult.styleFiles
     depTree[filePath] = styleFiles
-    compileDepStyles(filePath, styleFiles)
+    await compileDepStyles(filePath, styleFiles)
   } else {
     fs.ensureDirSync(distDirname)
     fs.copySync(filePath, distPath)
@@ -185,11 +185,11 @@ async function buildDist ({watch}) {
   rnRunner(rnConfig)
 }
 
-async function perfWrap (callback) {
+async function perfWrap (callback, args) {
   isBuildingStyles = {} // 清空
   // 后期可以优化，不编译全部
   let t0 = performance.now()
-  await callback()
+  await callback(args)
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 }
@@ -215,7 +215,16 @@ function watchFiles () {
     .on('change', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
-      perfWrap(buildTemp)
+      if (Util.REG_SCRIPTS.test(filePath)) {
+        perfWrap(processFile, filePath)
+      }
+      if (Util.REG_STYLE.test(filePath)) {
+        _.forIn(depTree, (styleFiles, jsFilePath) => {
+          if (styleFiles.indexOf(filePath) > -1) {
+            perfWrap(processFile, jsFilePath)
+          }
+        })
+      }
     })
     .on('unlink', filePath => {
       const relativePath = path.relative(appPath, filePath)
