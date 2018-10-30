@@ -985,15 +985,16 @@ async function buildEntry () {
     // 处理res.configObj 中的tabBar配置
     const tabBar = res.configObj.tabBar
     if (tabBar && typeof tabBar === 'object' && !Util.isEmptyObject(tabBar)) {
-      const list = tabBar.list || []
+      const {
+        list: listConfig,
+        iconPath: pathConfig,
+        selectedIconPath: selectedPathConfig
+      } = Util.CONFIG_MAP[buildAdapter]
+      const list = tabBar[listConfig] || []
       let tabBarIcons = []
       list.forEach(item => {
-        if (item.iconPath) {
-          tabBarIcons.push(item.iconPath)
-        }
-        if (item.selectedIconPath) {
-          tabBarIcons.push(item.selectedIconPath)
-        }
+        item[pathConfig] && tabBarIcons.push(item[pathConfig])
+        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
       })
       tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
       if (tabBarIcons && tabBarIcons.length) {
