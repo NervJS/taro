@@ -305,9 +305,13 @@ class Convertor {
           if (pageUsingComponnets) {
             // 页面依赖组件
             Object.keys(pageUsingComponnets).forEach(component => {
+              let componentPath = path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
+              if (!fs.existsSync(resolveScriptPath(componentPath))) {
+                componentPath = path.join(this.root, pageUsingComponnets[component])
+              }
               depComponents.add({
                 name: component,
-                path: path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
+                path: componentPath
               })
             })
             delete pageConfig.usingComponents
@@ -379,9 +383,13 @@ class Convertor {
           if (componentUsingComponnets) {
             // 页面依赖组件
             Object.keys(componentUsingComponnets).forEach(component => {
+              let componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
+              if (!fs.existsSync(resolveScriptPath(componentPath))) {
+                componentPath = path.join(this.root, componentUsingComponnets[component])
+              }
               depComponents.add({
                 name: component,
-                path: path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
+                path: componentPath
               })
             })
             delete componentConfig.usingComponents
