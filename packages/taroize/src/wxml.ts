@@ -184,7 +184,72 @@ function parseTemplate (path: NodePath<t.JSXElement>) {
     )
     path.remove()
     return classDecl
+  } else if (is) {
+    const value = is.node.value
+    if (!value) {
+      throw new Error('template 的 `is` 属性不能为空')
+    }
+    if (t.isStringLiteral(value)) {
+      const className = capitalize(camelCase(value.value))
+      let attributes: t.JSXAttribute[] = []
+      if (data) {
+        attributes.push(data.node)
+      }
+      path.replaceWith(t.jSXElement(
+        t.jSXOpeningElement(t.jSXIdentifier(className), attributes),
+        t.jSXClosingElement(t.jSXIdentifier(className)),
+        [],
+        true
+      ))
+    } else if (t.isJSXExpressionContainer(value)) {
+      if (t.isStringLiteral(value.expression)) {
+        const className = capitalize(camelCase(value.expression.value))
+        let attributes: t.JSXAttribute[] = []
+        if (data) {
+          attributes.push(data.node)
+        }
+        path.replaceWith(t.jSXElement(
+          t.jSXOpeningElement(t.jSXIdentifier(className), attributes),
+          t.jSXClosingElement(t.jSXIdentifier(className)),
+          [],
+          true
+        ))
+      } else if (t.isConditional(value.expression)) {
+        const { test, consequent, alternate } = value.expression
+        if (!t.isStringLiteral(consequent) || !t.isStringLiteral(alternate)) {
+          throw new Error('当 template is 标签是三元表达式时，他的两个值都必须为字符串')
+        }
+        let attributes: t.JSXAttribute[] = []
+        if (data) {
+          attributes.push(data.node)
+        }
+        const block = buildBlockElement()
+        block.children = [t.jSXExpressionContainer(t.conditionalExpression(
+          test,
+          t.jSXElement(
+            t.jSXOpeningElement(t.jSXIdentifier('Template'), attributes.concat(
+              [t.jSXAttribute(t.jSXIdentifier('is'), consequent)]
+            )),
+            t.jSXClosingElement(t.jSXIdentifier('Template')),
+            [],
+            true
+          ),
+          t.jSXElement(
+            t.jSXOpeningElement(t.jSXIdentifier('Template'), attributes.concat(
+              [t.jSXAttribute(t.jSXIdentifier('is'), alternate)]
+            )),
+            t.jSXClosingElement(t.jSXIdentifier('Template')),
+            [],
+            true
+          )
+        ))]
+        path.replaceWith(block)
+      }
+    }
+    return
   }
+
+  throw new Error('template 标签必须指名 `is` 或 `name` 任意一个标签')
 }
 
 function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>): WXS {
@@ -419,11 +484,14 @@ function parseElement (element: Element): t.JSXElement {
     attributes = attributes.map(attr => {
       if (attr.key === 'data') {
         const value = attr.value || ''
+        // debugger
         const content = parseContent(value)
         if (content.type === 'expression') {
           isSpread = true
-          const expression = expressionRE.exec(value)
-          attr.value = expression ? '{{expression[0]}}' : '{{item}}'
+          const expression = expressionRE.exec(content.content)
+          attr.value = expression ? `{{${expression[0]}}}` : attr.value
+        } else {
+          attr.value = content.content
         }
       }
       return attr
