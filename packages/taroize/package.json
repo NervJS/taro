@@ -25,7 +25,7 @@
     "babel-template": "^6.26.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
-    "himalaya": "^1.1.0",
+    "himalaya-wxml": "^1.1.0",
     "lodash": "^4.17.5",
     "typescript": "^3.0.1"
   },

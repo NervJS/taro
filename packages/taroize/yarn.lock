@@ -1284,9 +1284,9 @@ has@^1.0.1:
   dependencies:
     function-bind "^1.1.1"
 
-himalaya@^1.1.0:
+himalaya-wxml@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/himalaya/-/himalaya-1.1.0.tgz#31724ae9d35714cd7c6f4be94888953f3604606a"
+  resolved "https://registry.yarnpkg.com/himalaya-wxml/-/himalaya-wxml-1.1.0.tgz#85d0341af1c5f53f3b021be8e4be890cc8b4d7af"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
