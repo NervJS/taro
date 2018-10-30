@@ -1,6 +1,6 @@
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
-const anonymousFnNamePreffix = 'func__'
+const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
 

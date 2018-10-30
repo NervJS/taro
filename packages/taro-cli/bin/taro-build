@@ -17,7 +17,10 @@ program
   .parse(process.argv)
 
 const args = program.args
-const { type, watch, env, ui } = program
+const { type, watch, ui } = program
+let { env } =  program
+
+env = process.env.NODE_ENV || env
 
 if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
