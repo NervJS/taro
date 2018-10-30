@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import traverse, { NodePath } from 'babel-traverse'
 import { transform } from 'babel-core'
 import * as template from 'babel-template'
-import { buildImportStatement, codeFrameError } from './utils'
+import { buildImportStatement, codeFrameError, buildRender } from './utils'
 import { usedComponents, WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 
@@ -95,43 +95,6 @@ export function parseScript (
   )
 
   return ast
-}
-
-function buildRender (
-  returned: t.Expression,
-  stateKeys: string[],
-  propsKeys: string[]
-) {
-  const returnStatement: t.Statement[] = [t.returnStatement(returned)]
-  if (stateKeys.length) {
-    const stateDecl = t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.objectPattern(stateKeys.map(s =>
-          t.objectProperty(t.identifier(s), t.identifier(s))
-        ) as any),
-        t.memberExpression(t.thisExpression(), t.identifier('state'))
-      )
-    ])
-    returnStatement.unshift(stateDecl)
-  }
-
-  if (propsKeys.length) {
-    const stateDecl = t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.objectPattern(propsKeys.map(s =>
-          t.objectProperty(t.identifier(s), t.identifier(s))
-        ) as any),
-        t.memberExpression(t.thisExpression(), t.identifier('props'))
-      )
-    ])
-    returnStatement.unshift(stateDecl)
-  }
-  return t.classMethod(
-    'method',
-    t.identifier('render'),
-    [],
-    t.blockStatement(returnStatement)
-  )
 }
 
 const defaultClassName = '_C'
