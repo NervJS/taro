@@ -1,8 +1,6 @@
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
-import {
-  internal_safe_get as safeGet
-} from '@tarojs/taro'
+import { getObjChainValue } from './util'
 // #组件state对应小程序组件data
 // #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
 // #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟reciveProps生命周期
@@ -90,7 +88,8 @@ class BaseComponent {
         .sort()
         .map(argName => argsMap[argName])
     }
-    typeof this.props[key] === 'function' && this.props[key](...eventBindArgs, ...args)
+    const fn = getObjChainValue(this.props, key)
+    typeof fn === 'function' && fn(...eventBindArgs, ...args)
   }
 }
 
