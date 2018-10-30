@@ -379,7 +379,10 @@ class Convertor {
           if (componentUsingComponnets) {
             // 页面依赖组件
             Object.keys(componentUsingComponnets).forEach(component => {
-              depComponents.add(path.resolve(componentConfigPath, '..', componentUsingComponnets[component]))
+              depComponents.add({
+                name: component,
+                path: path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
+              })
             })
             delete componentConfig.usingComponents
           }
