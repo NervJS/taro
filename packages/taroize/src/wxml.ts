@@ -2,7 +2,7 @@ import { parse } from 'himalaya'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents } from './global'
@@ -120,48 +120,64 @@ export function parseWXML (dirPath: string, wxml?: string): {
       transformIf(name.name, path, jsx, valueCopy)
       transformLoop(name.name, path, jsx, valueCopy)
     },
-    JSXElement (path) {
-      const openingElement = path.get('openingElement')
-      const jsxName = openingElement.get('name')
-      const attrs = openingElement.get('attributes')
-      if (!jsxName.isJSXIdentifier()) {
-        return
-      }
-      const tagName = jsxName.node.name
-      if (tagName === 'Wxs') {
-        wxses.push(getWXS(attrs.map(a => a.node), path))
-      }
-      if (tagName === 'Template') {
-        const template = parseTemplate(path)
-        if (template) {
-          const { ast: classDecl, name } = template
-          const taroComponentsImport = buildImportStatement('@tarojs/components', [
-            ...usedComponents
-          ])
-          const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
-          const withWeappImport = buildImportStatement(
-            '@tarojs/with-weapp',
-            [],
-            'withWeapp'
-          )
-          const ast = t.file(t.program([]))
-          ast.program.body.unshift(
-            taroComponentsImport,
-            taroImport,
-            withWeappImport,
-            classDecl
-          )
-          imports.push({
-            ast,
-            name
-          })
+    JSXElement: {
+      enter (path: NodePath<t.JSXElement>) {
+        const openingElement = path.get('openingElement')
+        const jsxName = openingElement.get('name')
+        const attrs = openingElement.get('attributes')
+        if (!jsxName.isJSXIdentifier()) {
+          return
         }
-      }
-      if (tagName === 'Import') {
-        parseModule(path, dirPath, 'import')
-      }
-      if (tagName === 'Include') {
-        parseModule(path, dirPath, 'include')
+        const tagName = jsxName.node.name
+        if (tagName === 'Wxs') {
+          wxses.push(getWXS(attrs.map(a => a.node), path))
+        }
+        if (tagName === 'Template') {
+          const template = parseTemplate(path)
+          if (template) {
+            const { ast: classDecl, name } = template
+            const taroComponentsImport = buildImportStatement('@tarojs/components', [
+              ...usedComponents
+            ])
+            const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
+            const withWeappImport = buildImportStatement(
+              '@tarojs/with-weapp',
+              [],
+              'withWeapp'
+            )
+            const ast = t.file(t.program([]))
+            ast.program.body.unshift(
+              taroComponentsImport,
+              taroImport,
+              withWeappImport,
+              classDecl
+            )
+            imports.push({
+              ast,
+              name
+            })
+          }
+        }
+        if (tagName === 'Import') {
+          parseModule(path, dirPath, 'import')
+        }
+        if (tagName === 'Include') {
+          parseModule(path, dirPath, 'include')
+        }
+      },
+      exit (path: NodePath<t.JSXElement>) {
+        const openingElement = path.get('openingElement')
+        const jsxName = openingElement.get('name')
+        if (!jsxName.isJSXIdentifier({ name: 'Block' })) {
+          return
+        }
+        const children = path.node.children
+        if (children.length === 1) {
+          const caller = children[0]
+          if (t.isJSXExpressionContainer(caller) && t.isCallExpression(caller.expression) && !path.parentPath.isExpressionStatement()) {
+            path.replaceWith(caller)
+          }
+        }
       }
     }
   })
@@ -268,19 +284,21 @@ function transformLoop (
       }
     })
 
-  jsx.replaceWith(
-    t.jSXExpressionContainer(
-      t.callExpression(
-        t.memberExpression(value.expression, t.identifier('map')),
-        [
-          t.arrowFunctionExpression(
-            [t.identifier(item.value), t.identifier(index.value)],
-            t.blockStatement([t.returnStatement(jsx.node)])
-          )
-        ]
-      )
+  const replacement = t.jSXExpressionContainer(
+    t.callExpression(
+      t.memberExpression(value.expression, t.identifier('map')),
+      [
+        t.arrowFunctionExpression(
+          [t.identifier(item.value), t.identifier(index.value)],
+          t.blockStatement([t.returnStatement(jsx.node)])
+        )
+      ]
     )
   )
+
+  const block = buildBlockElement()
+  block.children = [replacement]
+  jsx.replaceWith(block)
 }
 
 function transformIf (
