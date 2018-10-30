@@ -226,7 +226,7 @@ async function buildForWeapp () {
     const { compileDepStyles } = require('./weapp')
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
     const outputEntryFilePath = path.join(outputDir, entryFileName)
-    const code = fs.readFileSync(entryFilePath)
+    const code = fs.readFileSync(entryFilePath).toString()
     const transformResult = wxTransformer({
       code,
       sourcePath: entryFilePath,
@@ -275,10 +275,10 @@ async function buildForH5 (buildConfig) {
 
 function buildEntry () {
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
-    module.exports = require('./${h5OutputName}/index.js')
+    module.exports = require('./${h5OutputName}/index')
     module.exports.default = module.exports
   } else {
-    module.exports = require('./${weappOutputName}/index.js')
+    module.exports = require('./${weappOutputName}/index')
     module.exports.default = module.exports
   }`
   const outputDir = path.join(appPath, outputDirName)
