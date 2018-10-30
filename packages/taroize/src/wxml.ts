@@ -95,7 +95,7 @@ export function parseWXML (wxml?: string): {
     t.program(
       [
         t.expressionStatement(parseNode(
-          buildElement('block', nodes)
+          buildElement('block', nodes as Node[])
         ) as t.Expression)
       ],
       []
@@ -444,19 +444,9 @@ function parseElement (element: Element): t.JSXElement {
 }
 
 function removEmptyTextAndComment (nodes: AllKindNode[]) {
-  for (let index = 0; index < nodes.length; index++) {
-    const node = nodes[index]
-    if (
-      (node.type === NodeType.Text && node.content.trim().length === 0) ||
-      node.type === NodeType.Comment
-    ) {
-      nodes.splice(index, 1)
-    }
-    if (node.type === NodeType.Element) {
-      removEmptyTextAndComment(node.children)
-    }
-  }
-  return nodes as Node[]
+  return nodes.filter(node => {
+    return node.type === NodeType.Element || (node.type === NodeType.Text && node.content.trim().length !== 0)
+  })
 }
 
 function parseText (node: Text) {
