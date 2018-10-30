@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "1.2.0-alpha.1",
+  "version": "1.2.0-alpha.2",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taroize": "1.2.0-alpha.1",
+    "@tarojs/taroize": "1.2.0-alpha.2",
     "@tarojs/transformer-wx": "1.1.0-beta.10",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
@@ -32,7 +32,7 @@
     "babel-plugin-remove-dead-code": "^1.3.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-define": "^1.3.0",
-    "babel-plugin-transform-jsx-to-stylesheet": "1.2.0-alpha.1",
+    "babel-plugin-transform-jsx-to-stylesheet": "1.2.0-alpha.2",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-template": "^6.26.0",
     "babel-traverse": "^6.26.0",
@@ -55,7 +55,7 @@
     "minimatch": "^3.0.4",
     "ora": "^2.0.0",
     "postcss": "^6.0.22",
-    "postcss-pxtransform": "1.2.0-alpha.1",
+    "postcss-pxtransform": "1.2.0-alpha.2",
     "postcss-url": "^7.3.2",
     "prettier": "^1.14.3",
     "prop-types": "^15.6.2",
