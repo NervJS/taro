@@ -1,8 +1,10 @@
 import { parse } from 'himalaya'
 import * as t from 'babel-types'
-import { camelCase, cloneDeep } from 'lodash'
+import { camelCase, cloneDeep, capitalize } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildRender, buildBlockElement } from './utils'
+import { specialEvents } from './events'
+const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -76,9 +78,7 @@ function buildElement (
 
 export const usedComponents = new Set<string>()
 
-export function parseWXML (
-  wxml?: string
-): {
+export function parseWXML (wxml?: string): {
   wxses: WXS[]
   wxml?: t.Node
 } {
@@ -119,8 +119,12 @@ export function parseWXML (
       if (!jsxName.isJSXIdentifier()) {
         return
       }
-      if (jsxName.node.name === 'Wxs') {
+      const tagName = jsxName.node.name
+      if (tagName === 'Wxs') {
         wxses.push(getWXS(attrs.map(a => a.node), path))
+      }
+      if (tagName === 'Template') {
+        parseTemplate(path)
       }
     }
   })
@@ -128,6 +132,58 @@ export function parseWXML (
   return {
     wxses,
     wxml: hydrate(ast)
+  }
+}
+
+function parseTemplate (path: NodePath<t.JSXElement>) {
+  const openingElement = path.get('openingElement')
+  const attrs = openingElement.get('attributes')
+  const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
+  const data = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'data' }))
+  const spread = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'spread' }))
+  const name = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'name' }))
+  const refIds = new Set<string>()
+  if (name) {
+    const value = name.node.value
+    if (value === null || !t.isStringLiteral(value)) {
+      throw new Error('template 的 `name` 属性只能是字符串')
+    }
+    const className = capitalize(camelCase(value.value))
+    path.traverse({
+      Identifier (p) {
+        if (!p.isReferencedIdentifier()) {
+          return
+        }
+        const jsxExprContainer = p.findParent(p => p.isJSXExpressionContainer())
+        if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
+          return
+        }
+        refIds.add(p.node.name)
+      }
+    })
+
+    const block = buildBlockElement()
+    block.children = path.node.children
+    let render: t.ClassMethod
+    if (refIds.size === 0) {
+      // 无状态组件
+      render = buildRender(block, [], [])
+    } else if (refIds.size === 1) {
+      // 只有一个数据源
+      render = buildRender(block, [], Array.from(refIds), Array.from(refIds)[0])
+    } else {
+      // 使用 ...spread
+      render = buildRender(block, [], Array.from(refIds), [])
+    }
+
+    const classDecl = t.classDeclaration(
+      t.identifier(className),
+      t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
+      t.classBody([render!]),
+      []
+    )
+    path.remove()
+    return classDecl
   }
 }
 
@@ -350,13 +406,37 @@ function parseNode (node: Node) {
   return parseElement(node)
 }
 
+const expressionRE = /(?<=\(\.\.\.).+(?=(\)))/g
+
 function parseElement (element: Element): t.JSXElement {
   const tagName = t.jSXIdentifier(allCamelCase(element.tagName))
   if (DEFAULT_Component_SET.has(tagName.name)) {
     usedComponents.add(tagName.name)
   }
+  let attributes = element.attributes
+  if (tagName.name === 'Template') {
+    let isSpread = false
+    attributes = attributes.map(attr => {
+      if (attr.key === 'data') {
+        const value = attr.value || ''
+        const content = parseContent(value)
+        if (content.type === 'expression') {
+          isSpread = true
+          const expression = expressionRE.exec(value)
+          attr.value = expression ? '{{expression[0]}}' : '{{item}}'
+        }
+      }
+      return attr
+    })
+    if (isSpread) {
+      attributes.push({
+        key: 'spread',
+        value: null
+      })
+    }
+  }
   return t.jSXElement(
-    t.jSXOpeningElement(tagName, element.attributes.map(parseAttribute)),
+    t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
     removEmptyTextAndComment(element.children).map(parseNode),
     false
@@ -425,7 +505,6 @@ function parseContent (content: string) {
   }
 }
 
-
 function parseAttribute (attr: Attribute) {
   const { key, value } = attr
 
@@ -448,38 +527,6 @@ function parseAttribute (attr: Attribute) {
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }
 
-const specialComponentProps = new Map<string, string>()
-
-specialComponentProps.set('bindtimeupdate', 'onTimeUpdate')
-specialComponentProps.set('bindgetphoneNumber', 'onGetPhoneNumber')
-specialComponentProps.set('bindgetrealnameauthinfo', 'onGetRealnameAuthInfo')
-specialComponentProps.set('bindopensetting', 'onOpenSetting')
-specialComponentProps.set('bindscancode', 'onScanCode')
-specialComponentProps.set('bindstatechange', 'onStateChange')
-specialComponentProps.set('bindhtouchmove', 'onHTouchMove')
-specialComponentProps.set('bindvtouchmove', 'onVTouchMove')
-specialComponentProps.set('bindcolumnchange', 'onColumnChange')
-specialComponentProps.set('bindscrolltoupper', 'onScrollToUpper')
-specialComponentProps.set('bindscrolltolower', 'onScrollToLower')
-specialComponentProps.set('bindanimationfinish', 'onAnimationFinish')
-specialComponentProps.set('bindfullscreenchange', 'onFullscreenChange')
-specialComponentProps.set('bindtouchstart', 'onTouchStart')
-specialComponentProps.set('bindtouchmove', 'onTouchMove')
-specialComponentProps.set('bindtouchcancel', 'onTouchCancel')
-specialComponentProps.set('bindtouchend', 'onTouchEnd')
-specialComponentProps.set('bindlongpress', 'onLongPress')
-specialComponentProps.set('bindlongclick', 'onLongClick')
-specialComponentProps.set('bindtransitionend', 'onTransitionEnd')
-specialComponentProps.set('bindanimationstart', 'onAnimationStart')
-specialComponentProps.set('bindanimationtteration', 'onAnimationIteration')
-specialComponentProps.set('bindanimationend', 'onAnimationEnd')
-specialComponentProps.set('bindtouchforcechange', 'onTouchForceChange')
-specialComponentProps.set('bindtap', 'onTouchForceChange')
-
-specialComponentProps.forEach((value, key) => {
-  specialComponentProps.set(key.replace(/^bind/, 'catch'), value)
-})
-
 function handleAttrKey (key: string) {
   if (
     key.startsWith('wx:') ||
@@ -490,8 +537,8 @@ function handleAttrKey (key: string) {
   } else if (key === 'class') {
     return 'className'
   } else if (/^(bind|catch)[a-z]/.test(key)) {
-    if (specialComponentProps.has(key)) {
-      return specialComponentProps.get(key)!
+    if (specialEvents.has(key)) {
+      return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind|catch)[a-z]/, 'on')
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
