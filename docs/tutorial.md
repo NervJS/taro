@@ -171,6 +171,7 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 | onShareAppMessage | 用户点击右上角转发 |
 | onPageScroll | 页面滚动触发事件的处理函数 |
 | onTabItemTap | 当前是 tab 页时，点击 tab 时触发 |
+| componentWillPreload | [预加载](best-practice.md#预加载)，只在**微信小程序**中可用 |
 
 以上成员方法在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有微信小程序端支持这些方法，编译到 H5 端后这些方法均会失效。
 
