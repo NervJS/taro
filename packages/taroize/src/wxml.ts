@@ -4,7 +4,7 @@ import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildImportStatement } from './utils'
 import { specialEvents } from './events'
-import { parseTemplate, parseImport, parseInclude } from './template'
+import { parseTemplate, parseModule } from './template'
 import { usedComponents } from './global'
 // const generate = require('babel-generator').default
 
@@ -158,10 +158,10 @@ export function parseWXML (dirPath: string, wxml?: string): {
         }
       }
       if (tagName === 'Import') {
-        parseImport(path, dirPath)
+        parseModule(path, dirPath, 'import')
       }
       if (tagName === 'Include') {
-        parseInclude(path, dirPath)
+        parseModule(path, dirPath, 'include')
       }
     }
   })
