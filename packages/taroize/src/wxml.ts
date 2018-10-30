@@ -140,17 +140,17 @@ export function parseWXML (dirPath: string, wxml?: string): {
               ...usedComponents
             ])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
-            const withWeappImport = buildImportStatement(
-              '@tarojs/with-weapp',
-              [],
-              'withWeapp'
-            )
+            // const withWeappImport = buildImportStatement(
+            //   '@tarojs/with-weapp',
+            //   [],
+            //   'withWeapp'
+            // )
             const ast = t.file(t.program([]))
             ast.program.body.unshift(
               taroComponentsImport,
               taroImport,
-              withWeappImport,
-              classDecl
+              // withWeappImport,
+              t.exportDefaultDeclaration(classDecl)
             )
             imports.push({
               ast,
@@ -159,7 +159,10 @@ export function parseWXML (dirPath: string, wxml?: string): {
           }
         }
         if (tagName === 'Import') {
-          parseModule(path, dirPath, 'import')
+          const mods = parseModule(path, dirPath, 'import')
+          if (mods) {
+            imports = imports.concat(mods)
+          }
         }
         if (tagName === 'Include') {
           parseModule(path, dirPath, 'include')

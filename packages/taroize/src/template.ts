@@ -2,7 +2,7 @@ import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { camelCase, capitalize } from 'lodash'
 import { buildRender, buildBlockElement } from './utils'
-import { relative, dirname } from 'path'
+import { relative, dirname, resolve } from 'path'
 import * as fs from 'fs'
 import { parseWXML } from './wxml'
 
@@ -126,11 +126,15 @@ export function parseTemplate (path: NodePath<t.JSXElement>) {
   throw new Error('template 标签必须指名 `is` 或 `name` 任意一个标签')
 }
 
-function getWXMLsource (dirPath: string, src: string) {
+function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
-    return fs.readFileSync(relative(dirPath, src), 'utf-8')
+    return fs.readFileSync(resolve(dirPath, src), 'utf-8')
   } catch (e) {
-    throw new Error(e)
+    // tslint:disable-next-line
+    console.error(`找不到这个路径的 wxml: <${type} src="${src}" />，该标签将会被忽略掉`)
+    console.log(dirPath)
+    console.log(resolve(dirPath, src))
+    return ''
   }
 }
 
@@ -147,12 +151,12 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   }
   const srcValue = value.node.value
   if (type === 'import') {
-    const wxml = getWXMLsource(dirPath, srcValue)
+    const wxml = getWXMLsource(dirPath, srcValue, type)
     const { imports } = parseWXML(dirname(relative(dirPath, srcValue)), wxml)
     jsx.remove()
     return imports
   } else {
-    const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue))
+    const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type))
     const block = buildBlockElement()
     block.children = [t.jSXExpressionContainer(t.jSXEmptyExpression())]
     jsx.replaceWith(wxml || block)
