@@ -178,7 +178,7 @@ function parsePage (
         'method',
         t.identifier(lifecycle),
         params,
-        node.body as any
+        node ? node.body as t.BlockStatement : (prop.get('body') as any).node
       )
     }
     if (prop.isObjectMethod()) {
