@@ -217,7 +217,7 @@ function analyzeStyleFilesImport (styleFiles) {
 
 async function buildForWeapp () {
   console.log()
-  console.log(chalk.green('开始编译微信小程序端组件库！'))
+  console.log(chalk.green('开始编译小程序端组件库！'))
   if (!fs.existsSync(entryFilePath)) {
     console.log(chalk.red('入口文件不存在，请检查！'))
     return
@@ -277,7 +277,7 @@ function buildEntry () {
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
     module.exports = require('./${h5OutputName}/index.js')
     module.exports.default = module.exports
-  } else if (process.env.TARO_ENV === '${BUILD_TYPES.WEAPP}') {
+  } else {
     module.exports = require('./${weappOutputName}/index.js')
     module.exports.default = module.exports
   }`
