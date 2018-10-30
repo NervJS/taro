@@ -2,9 +2,10 @@ import { parse } from 'himalaya'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement } from './utils'
 import { specialEvents } from './events'
-import { parseTemplate } from './template'
+import { parseTemplate, parseImport, parseInclude } from './template'
+import { usedComponents } from './global'
 // const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
@@ -57,6 +58,11 @@ type AttrValue =
   | t.JSXExpressionContainer
   | null
 
+interface Imports {
+  ast: t.File,
+  name: string
+}
+
 const WX_IF = 'wx:if'
 const WX_ELSE_IF = 'wx:elif'
 const WX_FOR = 'wx:for'
@@ -77,17 +83,18 @@ function buildElement (
   }
 }
 
-export const usedComponents = new Set<string>()
-
-export function parseWXML (wxml?: string): {
+export function parseWXML (dirPath: string, wxml?: string): {
   wxses: WXS[]
   wxml?: t.Node
+  imports: Imports[]
 } {
   usedComponents.clear()
   let wxses: WXS[] = []
+  let imports: Imports[] = []
   if (!wxml) {
     return {
       wxses,
+      imports,
       wxml: t.nullLiteral()
     }
   }
@@ -125,13 +132,43 @@ export function parseWXML (wxml?: string): {
         wxses.push(getWXS(attrs.map(a => a.node), path))
       }
       if (tagName === 'Template') {
-        parseTemplate(path)
+        const template = parseTemplate(path)
+        if (template) {
+          const { ast: classDecl, name } = template
+          const taroComponentsImport = buildImportStatement('@tarojs/components', [
+            ...usedComponents
+          ])
+          const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
+          const withWeappImport = buildImportStatement(
+            '@tarojs/with-weapp',
+            [],
+            'withWeapp'
+          )
+          const ast = t.file(t.program([]))
+          ast.program.body.unshift(
+            taroComponentsImport,
+            taroImport,
+            withWeappImport,
+            classDecl
+          )
+          imports.push({
+            ast,
+            name
+          })
+        }
+      }
+      if (tagName === 'Import') {
+        parseImport(path, dirPath)
+      }
+      if (tagName === 'Include') {
+        parseInclude(path, dirPath)
       }
     }
   })
 
   return {
     wxses,
+    imports,
     wxml: hydrate(ast)
   }
 }

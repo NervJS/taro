@@ -6,11 +6,12 @@ import { parseJSON } from './json'
 interface Option {
   json?: string,
   script?: string,
-  wxml?: string
+  wxml?: string,
+  path: string
 }
 
 export function parse (option: Option): t.File {
-  const { wxml, wxses } = parseWXML(option.wxml)
+  const { wxml, wxses } = parseWXML(option.path, option.wxml)
   const json = parseJSON(option.json)
   return parseScript(option.script, wxml as t.Expression, json, wxses)
 }
