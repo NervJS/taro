@@ -2754,7 +2754,7 @@ describe('loop', () => {
       ])
       expect(
         instance.state.loopArray0.map(i =>
-          i.$anonymousCallee__7.map(a => a.$original)
+          i.$anonymousCallee__1.map(a => a.$original)
         )
       ).toEqual(Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i)))
       expect(template).toMatch(
@@ -2762,7 +2762,7 @@ describe('loop', () => {
           <block>
               <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
                   <view>{{key.$original}}</view>
-                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__7}}"
+                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__1}}"
                   wx:for-item="value" wx:for-index="id">{{value.$original}}</view>
               </view>
           </block>
