@@ -10,8 +10,12 @@ interface Option {
   path: string
 }
 
-export function parse (option: Option): t.File {
-  const { wxml, wxses } = parseWXML(option.path, option.wxml)
+export function parse (option: Option) {
+  const { wxml, wxses, imports } = parseWXML(option.path, option.wxml)
   const json = parseJSON(option.json)
-  return parseScript(option.script, wxml as t.Expression, json, wxses)
+  const ast = parseScript(option.script, wxml as t.Expression, json, wxses)
+  return {
+    ast,
+    imports
+  }
 }
