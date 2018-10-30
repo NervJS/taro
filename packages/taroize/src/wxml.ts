@@ -408,9 +408,16 @@ function findWXIfProps (
   return matches
 }
 
-function parseNode (node: Node) {
+function parseNode (node: AllKindNode) {
   if (node.type === NodeType.Text) {
     return parseText(node)
+  } else if (node.type === NodeType.Comment) {
+    const emptyStatement = t.jSXEmptyExpression()
+    emptyStatement.innerComments = [{
+      type: 'CommentBlock',
+      value: ' ' + node.content + ' '
+    }] as any[]
+    return t.jSXExpressionContainer(emptyStatement)
   }
   return parseElement(node)
 }
@@ -457,7 +464,9 @@ function parseElement (element: Element): t.JSXElement {
 
 function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
-    return node.type === NodeType.Element || (node.type === NodeType.Text && node.content.trim().length !== 0)
+    return node.type === NodeType.Element
+      || (node.type === NodeType.Text && node.content.trim().length !== 0)
+      || node.type === NodeType.Comment
   })
 }
 
