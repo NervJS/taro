@@ -1,6 +1,6 @@
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
-const anonymousFnNamePreffix = 'func__'
+const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
 
@@ -44,8 +44,7 @@ function processEvent (eventHandlerName, obj) {
     const scope = this.$component
     let callScope = scope
     if (!isToBeEvent(event)) {
-      scope[eventHandlerName].apply(callScope, arguments)
-      return
+      return scope[eventHandlerName].apply(callScope, arguments)
     }
     event.preventDefault = function () {}
     event.stopPropagation = function () {}
@@ -56,9 +55,7 @@ function processEvent (eventHandlerName, obj) {
     Object.assign(event.currentTarget, event.detail)
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
-    let detailArgs = []
     let datasetArgs = []
-    let isScopeBinded = false
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
@@ -81,39 +78,25 @@ function processEvent (eventHandlerName, obj) {
         if (bindArgs['so'] !== 'this') {
           callScope = bindArgs['so']
         }
-        isScopeBinded = true
         delete bindArgs['so']
-      }
-      if (detailArgs.length > 0) {
-        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
-        detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
         datasetArgs = Object.keys(bindArgs)
           .sort()
           .map(key => bindArgs[key])
       }
-      realArgs = [...datasetArgs, ...detailArgs, event]
+      realArgs = [...datasetArgs, event]
     } else {
       // 匿名函数，会将scope作为第一个参数
-      let _scope = null
       if ('so' in bindArgs) {
-        if (bindArgs['so'] !== 'this') {
-          _scope = bindArgs['so']
-        }
-        isScopeBinded = true
         delete bindArgs['so']
-      }
-      if (detailArgs.length > 0) {
-        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
-        detailArgs.shift()
       }
       if (!isEmptyObject(bindArgs)) {
         datasetArgs = Object.keys(bindArgs)
           .sort()
           .map(key => bindArgs[key])
       }
-      realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
+      realArgs = [...datasetArgs, event]
     }
     scope[eventHandlerName].apply(callScope, realArgs)
   }
@@ -127,13 +110,14 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
+function filterProps (defaultProps = {}, componentProps = {}, weappComponentData) {
+  const properties = weappComponentData || {}
   let newProps = Object.assign({}, componentProps)
+
   for (const propName in properties) {
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+    } else if (weappComponentData[propName] !== null) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -240,7 +224,7 @@ function initComponent (ComponentClass, isPage) {
   // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
   // 动态组件执行改造函数副本的时,在初始化数据前计算好props
   if (hasPageInited && !isPage) {
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.props)
+    const nextProps = filterProps(ComponentClass.defaultProps, this.$component.props, this.props)
     this.$component.props = nextProps
   }
   if (hasPageInited || isPage) {
@@ -252,7 +236,7 @@ function createComponent (ComponentClass, isPage) {
   let initData = {
     _componentProps: 1
   }
-  const componentProps = filterProps({}, ComponentClass.defaultProps)
+  const componentProps = filterProps(ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
@@ -312,7 +296,7 @@ function createComponent (ComponentClass, isPage) {
 
       didUpdate () {
         if (!this.$component || !this.$component.__isReady) return
-        const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.props)
+        const nextProps = filterProps(ComponentClass.defaultProps, this.$component.props, this.props)
         this.$component.props = nextProps
         this.$component._unsafeCallUpdate = true
         updateComponent(this.$component)
