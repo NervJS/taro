@@ -5,6 +5,7 @@ import { buildRender, buildBlockElement } from './utils'
 import { relative, dirname, resolve } from 'path'
 import * as fs from 'fs'
 import { parseWXML } from './wxml'
+import { errors } from './global'
 
 export function parseTemplate (path: NodePath<t.JSXElement>) {
   const openingElement = path.get('openingElement')
@@ -130,8 +131,7 @@ function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
     return fs.readFileSync(resolve(dirPath, src), 'utf-8')
   } catch (e) {
-    // tslint:disable-next-line
-    console.error(`找不到这个路径的 wxml: <${type} src="${src}" />，该标签将会被忽略掉`)
+    errors.push(`找不到这个路径的 wxml: <${type} src="${src}" />，该标签将会被忽略掉`)
     return ''
   }
 }
@@ -150,7 +150,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   const srcValue = value.node.value
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
-    const { imports } = parseWXML(dirname(relative(dirPath, srcValue)), wxml)
+    const { imports } = parseWXML(dirname(relative(dirPath, srcValue)), wxml, true)
     jsx.remove()
     return imports
   } else {

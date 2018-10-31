@@ -5,7 +5,7 @@ import traverse, { NodePath } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
-import { usedComponents } from './global'
+import { usedComponents, errors } from './global'
 // const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
@@ -83,11 +83,14 @@ function buildElement (
   }
 }
 
-export function parseWXML (dirPath: string, wxml?: string): {
+export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): {
   wxses: WXS[]
   wxml?: t.Node
   imports: Imports[]
 } {
+  if (!parseImport) {
+    errors.length = 0
+  }
   usedComponents.clear()
   let wxses: WXS[] = []
   let imports: Imports[] = []
