@@ -154,7 +154,7 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildA
   if (REG_STYLE.test(path.basename(filePath))) {
     return
   }
-  fileContent = npmCodeHack(filePath, fileContent)
+  fileContent = npmCodeHack(filePath, fileContent, buildAdapter)
   try {
     const transformResult = wxTransformer({
       code: fileContent,
@@ -197,13 +197,17 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildA
   }
 }
 
-function npmCodeHack (filePath, content) {
+function npmCodeHack (filePath, content, buildAdapter) {
   const basename = path.basename(filePath)
   switch (basename) {
     case 'lodash.js':
     case '_global.js':
     case 'lodash.min.js':
-      content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
+      if (buildAdapter === BUILD_TYPES.ALIPAY) {
+        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, '{}')
+      } else {
+        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
+      }
       break
     case '_html.js':
       content = 'module.exports = false;'
