@@ -1,6 +1,7 @@
 import * as template from 'babel-template'
 import * as t from 'babel-types'
 import { codeFrameColumns } from '@babel/code-frame'
+import { camelCase, capitalize } from 'lodash'
 
 export const buildTemplate = (str: string) => template(str)().expression as t.Expression
 
@@ -10,6 +11,11 @@ export function buildBlockElement () {
     t.jSXClosingElement(t.jSXIdentifier('Block')),
     []
   )
+}
+
+export function pascalName (s: string) {
+  const str = camelCase(s)
+  return capitalize(str[0]) + str.slice(1)
 }
 
 export function buildRender (

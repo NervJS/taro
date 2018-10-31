@@ -136,7 +136,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
           wxses.push(getWXS(attrs.map(a => a.node), path))
         }
         if (tagName === 'Template') {
-          const template = parseTemplate(path)
+          const template = parseTemplate(path, dirPath)
           if (template) {
             const { ast: classDecl, name } = template
             const taroComponentsImport = buildImportStatement('@tarojs/components', [

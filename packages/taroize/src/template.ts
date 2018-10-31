@@ -1,13 +1,12 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { camelCase, capitalize } from 'lodash'
-import { buildRender, buildBlockElement } from './utils'
-import { relative, dirname, resolve } from 'path'
+import { buildRender, buildBlockElement, pascalName } from './utils'
+import { resolve, basename } from 'path'
 import * as fs from 'fs'
 import { parseWXML } from './wxml'
 import { errors } from './global'
 
-export function parseTemplate (path: NodePath<t.JSXElement>) {
+export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
@@ -20,7 +19,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>) {
     if (value === null || !t.isStringLiteral(value)) {
       throw new Error('template 的 `name` 属性只能是字符串')
     }
-    const className = capitalize(camelCase(value.value))
+    const className = pascalName(value.value) + pascalName(basename(dirPath))
     path.traverse({
       Identifier (p) {
         if (!p.isReferencedIdentifier()) {
@@ -65,7 +64,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>) {
       throw new Error('template 的 `is` 属性不能为空')
     }
     if (t.isStringLiteral(value)) {
-      const className = capitalize(camelCase(value.value))
+      const className = pascalName(value.value)
       let attributes: t.JSXAttribute[] = []
       if (data) {
         attributes.push(data.node)
@@ -78,7 +77,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>) {
       ))
     } else if (t.isJSXExpressionContainer(value)) {
       if (t.isStringLiteral(value.expression)) {
-        const className = capitalize(camelCase(value.expression.value))
+        const className = pascalName(value.expression.value)
         let attributes: t.JSXAttribute[] = []
         if (data) {
           attributes.push(data.node)
@@ -150,7 +149,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   const srcValue = value.node.value
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
-    const { imports } = parseWXML(dirname(relative(dirPath, srcValue)), wxml, true)
+    const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)
     jsx.remove()
     return imports
   } else {
