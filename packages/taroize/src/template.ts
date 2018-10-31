@@ -132,8 +132,6 @@ function getWXMLsource (dirPath: string, src: string, type: string) {
   } catch (e) {
     // tslint:disable-next-line
     console.error(`找不到这个路径的 wxml: <${type} src="${src}" />，该标签将会被忽略掉`)
-    console.log(dirPath)
-    console.log(resolve(dirPath, src))
     return ''
   }
 }

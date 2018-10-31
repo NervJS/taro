@@ -111,6 +111,7 @@ function parsePage (
   if (!arg || !arg.isObjectExpression()) {
     return
   }
+  const defaultProps: { name: string, value: any }[] = []
   const props = arg.get('properties')
   const properties = props.filter(p => !p.isSpreadProperty()) as NodePath<
     t.ObjectProperty | t.ObjectMethod
@@ -152,22 +153,63 @@ function parsePage (
       return t.classProperty(t.identifier('state'), value.node)
     }
     if (name === 'properties') {
+      const observeProps: { name: string, observer: any }[] = []
       if (value.isObjectExpression()) {
         value
           .get('properties')
           .map(p => p.node)
           .forEach(prop => {
             if (t.isObjectProperty(prop)) {
+              let propKey: string | null = null
               if (t.isStringLiteral(prop.key)) {
-                propsKeys.push(prop.key.value)
+                propKey = prop.key.value
               }
               if (t.isIdentifier(prop.key)) {
-                propsKeys.push(prop.key.name)
+                propKey = prop.key.name
+                // propsKeys.push(prop.key.name)
+              }
+              if (t.isObjectExpression(prop.value) && propKey) {
+                for (const p of prop.value.properties) {
+                  if (t.isObjectProperty(p)) {
+                    let key: string | null = null
+                    if (t.isStringLiteral(p.key)) {
+                      key = p.key.value
+                    }
+                    if (t.isIdentifier(p.key)) {
+                      key = p.key.name
+                    }
+                    if (key === 'value') {
+                      defaultProps.push({
+                        name: propKey,
+                        value: p.value
+                      })
+                    } else if (key === 'observer') {
+                      observeProps.push({
+                        name: propKey,
+                        observer: p.value
+                      })
+                    }
+                  }
+                }
+              }
+              if (propKey) {
+                propsKeys.push(propKey)
               }
             }
           })
       }
-      return false
+      return t.classProperty(t.identifier('_observeProps'), t.arrayExpression(
+        observeProps.map(p => t.objectExpression([
+          t.objectProperty(
+            t.identifier('name'),
+            t.stringLiteral(p.name)
+          ),
+          t.objectProperty(
+            t.identifier('observer'),
+            p.observer
+          )
+        ]))
+      ))
     }
     if (PageLifecycle.has(name)) {
       const lifecycle = PageLifecycle.get(name)!
@@ -195,6 +237,14 @@ function parsePage (
         : value.node
     )
   })
+
+  if (defaultProps.length) {
+    let classProp = t.classProperty(t.identifier('defaultProps'), t.objectExpression(
+      defaultProps.map(p => t.objectProperty(t.identifier(p.name), p.value))
+    )) as any
+    classProp.static = true
+    classBody.unshift(classProp)
+  }
 
   if (json && t.isObjectExpression(json)) {
     classBody.push(t.classProperty(t.identifier('config'), json))
@@ -233,7 +283,7 @@ function parsePage (
     t.identifier(componentType === 'App' ? 'App' : defaultClassName),
     t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
     t.classBody(
-      (classBody.filter(Boolean) as t.ClassMethod[]).concat(renderFunc)
+      classBody.concat(renderFunc)
     ),
     []
   )
