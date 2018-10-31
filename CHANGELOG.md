@@ -1,5 +1,21 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.14...v) (2018-10-30)
+# [](https://github.com/NervJS/taro/compare/v1.1.0-beta.15...v) (2018-10-31)
+
+
+
+<a name="1.1.0-beta.15"></a>
+# [1.1.0-beta.15](https://github.com/NervJS/taro/compare/v1.1.0-beta.14...v1.1.0-beta.15) (2018-10-31)
+
+
+### Bug Fixes
+
+* **cli:** 百度小程序编译找不到 scss 变量，close [#967](https://github.com/NervJS/taro/issues/967) ([9c4ff9c](https://github.com/NervJS/taro/commit/9c4ff9c))
+* **taro-transformer-wx:** 支付宝小程序不用编译出 Component.properties ([c1c47b8](https://github.com/NervJS/taro/commit/c1c47b8))
+
+
+### Features
+
+* update RN docs ([6c1431d](https://github.com/NervJS/taro/commit/6c1431d))
 
 
 
