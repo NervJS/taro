@@ -122,6 +122,9 @@ class Project extends Creator {
     }, {
       name: 'Redux 模板',
       value: 'redux'
+    }, {
+      name: 'Mobx 模板',
+      value: 'mobx'
     }]
 
     if (typeof conf.template !== 'string') {
