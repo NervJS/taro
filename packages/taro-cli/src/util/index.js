@@ -436,7 +436,7 @@ exports.cssImports = function (content) {
 exports.processStyleImports = function (content, adapter) {
   const style = []
   const imports = []
-  const styleReg = new RegExp(`\.${exports.MINI_APP_FILES[adapter].STYLE}`)
+  const styleReg = new RegExp(`\\${exports.MINI_APP_FILES[adapter].STYLE}`)
   content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
     if (styleReg.test($2)) {
       style.push(m)
