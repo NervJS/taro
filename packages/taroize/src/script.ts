@@ -130,6 +130,11 @@ function parsePage (
       : value.isFunctionExpression() || value.isArrowFunctionExpression()
         ? value.node.params
         : []
+    const isAsync = prop.isObjectMethod()
+      ? prop.node.async
+      : value.isFunctionExpression() || value.isArrowFunctionExpression()
+        ? value.node.async
+        : false
     if (!key.isIdentifier()) {
       throw codeFrameError(key.node, 'Page 对象的键值只能是字符串')
     }
@@ -216,24 +221,26 @@ function parsePage (
       const node = value.node as
         | t.FunctionExpression
         | t.ArrowFunctionExpression
-      return t.classMethod(
+      const method = t.classMethod(
         'method',
         t.identifier(lifecycle),
         params,
         node ? node.body as t.BlockStatement : (prop.get('body') as any).node
       )
+      method.async = isAsync
+      return method
     }
     if (prop.isObjectMethod()) {
       const body = prop.get('body')
       return t.classProperty(
         t.identifier(name),
-        t.arrowFunctionExpression(params, body.node)
+        t.arrowFunctionExpression(params, body.node, isAsync)
       )
     }
     return t.classProperty(
       t.identifier(name),
       value.isFunctionExpression() || value.isArrowFunctionExpression()
-        ? t.arrowFunctionExpression(value.node.params, value.node.body)
+        ? t.arrowFunctionExpression(value.node.params, value.node.body, isAsync)
         : value.node
     )
   })
