@@ -2,6 +2,7 @@ import * as t from 'babel-types'
 import { parseWXML } from './wxml'
 import { parseScript } from './script'
 import { parseJSON } from './json'
+import { errors } from './global'
 
 interface Option {
   json?: string,
@@ -16,6 +17,7 @@ export function parse (option: Option) {
   const ast = parseScript(option.script, wxml as t.Expression, json, wxses)
   return {
     ast,
-    imports
+    imports,
+    errors
   }
 }
