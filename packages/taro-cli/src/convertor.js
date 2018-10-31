@@ -222,7 +222,7 @@ class Convertor {
     }
     if (files.size) {
       files.forEach(file => {
-        if (!fs.existsSync(file) && this.hadBeenCopyedFiles.has(file)) {
+        if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
           return
         }
         const code = fs.readFileSync(file).toString()
