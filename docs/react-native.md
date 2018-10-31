@@ -296,6 +296,8 @@ rm -fr $TMPDIR/react-*
 
 具体可以参考 [#1282](https://github.com/expo/expo/issues/1282)
 
+### Expo client app 加载阻塞： "Building JavaScript bundle... 100%" 
+可能的原因很多，可以参考这个issue：[react-community/create-react-native-app#392](https://github.com/react-community/create-react-native-app/issues/392)
 
 ## 参考
 
