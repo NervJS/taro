@@ -82,11 +82,13 @@ class Convertor {
     this.root = process.cwd()
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
+    this.importsDir = path.join(this.convertDir, 'imports')
     this.fileTypes = MINI_APP_FILES[BUILD_TYPES.WEAPP]
     this.pages = new Set()
     this.components = new Set()
     this.hadBeenCopyedFiles = new Set()
     this.hadBeenBuiltComponents = new Set()
+    this.hadBeenBuiltImports = new Set()
     this.init()
   }
 
@@ -106,8 +108,9 @@ class Convertor {
     }
   }
 
-  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents }) {
+  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }) {
     const scriptFiles = new Set()
+    const self = this
     traverse(ast, {
       Program: {
         enter (astPath) {
@@ -134,6 +137,19 @@ class Convertor {
           if (lastImport) {
             if (importStylePath) {
               lastImport.insertAfter(t.importDeclaration([], t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))))
+            }
+            if (imports && imports.length) {
+              imports.forEach(({ name, ast }) => {
+                const importName = pascalCase(name)
+                const importPath = path.join(self.importsDir, importName + '.js')
+                if (!self.hadBeenBuiltImports.has(importPath)) {
+                  self.hadBeenBuiltImports.add(importPath)
+                  self.writeFileToTaro(importPath, prettier.format(generate(ast).code, prettierJSConfig))
+                }
+                lastImport.insertAfter(template(`import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`, {
+                  sourceType: 'module'
+                })())
+              })
             }
             if (depComponents && depComponents.size) {
               depComponents.forEach(componentObj => {
@@ -255,12 +271,13 @@ class Convertor {
       const entryJS = String(fs.readFileSync(this.entryJSPath))
       const entryJSON = JSON.stringify(this.entryJSON)
       const entryDistJSPath = this.getDistFilePath(this.entryJSPath)
-      const taroizeAst = taroize({
+      const taroizeResult = taroize({
         json: entryJSON,
-        script: entryJS
+        script: entryJS,
+        path: path.dirname(entryJS)
       })
       const { ast, scriptFiles } = this.parseAst({
-        ast: taroizeAst,
+        ast: taroizeResult.ast,
         sourceFilePath: this.entryJSPath,
         outputFilePath: entryDistJSPath,
         importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), '.css') : null
@@ -328,14 +345,15 @@ class Convertor {
           printLog(pocessTypeEnum.CONVERT, '页面样式', this.generateShowPath(pageStylePath))
           pageStyle = String(fs.readFileSync(pageStylePath))
         }
-
-        const taroizeAst = taroize(param)
+        param.path = path.dirname(pageJSPath)
+        const taroizeResult = taroize(param)
         const { ast, scriptFiles } = this.parseAst({
-          ast: taroizeAst,
+          ast: taroizeResult.ast,
           sourceFilePath: pageJSPath,
           outputFilePath: pageDistJSPath,
           importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), '.css') : null,
-          depComponents
+          depComponents,
+          imports: taroizeResult.imports
         })
         const jsCode = generate(ast).code
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
@@ -406,14 +424,15 @@ class Convertor {
           printLog(pocessTypeEnum.CONVERT, '组件样式', this.generateShowPath(componentStylePath))
           componentStyle = String(fs.readFileSync(componentStylePath))
         }
-
-        const taroizeAst = taroize(param)
+        param.path = path.dirname(componentJSPath)
+        const taroizeResult = taroize(param)
         const { ast, scriptFiles } = this.parseAst({
-          ast: taroizeAst,
+          ast: taroizeResult.ast,
           sourceFilePath: componentJSPath,
           outputFilePath: componentDistJSPath,
           importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), '.css') : null,
-          depComponents
+          depComponents,
+          imports: taroizeResult.imports
         })
         const jsCode = generate(ast).code
         this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
