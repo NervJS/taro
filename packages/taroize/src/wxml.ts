@@ -428,8 +428,6 @@ function parseNode (node: AllKindNode) {
   return parseElement(node)
 }
 
-const expressionRE = /(?<=\(\.\.\.).+(?=(\)))/g
-
 function parseElement (element: Element): t.JSXElement {
   const tagName = t.jSXIdentifier(allCamelCase(element.tagName))
   if (DEFAULT_Component_SET.has(tagName.name)) {
@@ -445,8 +443,8 @@ function parseElement (element: Element): t.JSXElement {
         const content = parseContent(value)
         if (content.type === 'expression') {
           isSpread = true
-          const expression = expressionRE.exec(content.content)
-          attr.value = expression ? `{{${expression[0]}}}` : attr.value
+          const str = content.content
+          attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
         } else {
           attr.value = content.content
         }
