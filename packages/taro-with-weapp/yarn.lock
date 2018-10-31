@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@tarojs/taro@^1.0.0-beta.24":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.0.3.tgz#5bab6f5e5d6f59f9baa31403ceb05c6a16b54e48"
+"@tarojs/taro@1.2.0-alpha.2":
+  version "1.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.2.0-alpha.2.tgz#82616cb10e87263718182893f75f2f6dee474194"
 
 "@types/estree@0.0.39":
   version "0.0.39"
@@ -2308,6 +2308,10 @@ locate-path@^2.0.0:
   dependencies:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

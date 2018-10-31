@@ -3,8 +3,15 @@ import {
   ComponentLifecycle,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
+import isEqual from 'lodash.isequal'
 
 type WeappLifeCycle = () => void
+type Observer = (newProps, oldProps, changePath: string) => void
+
+interface ObserverProperties {
+  name: string,
+  observer: string | Observer
+}
 
 interface WeappComponent<P, S> extends Component<P, S> {
   created?: WeappLifeCycle
@@ -14,6 +21,7 @@ interface WeappComponent<P, S> extends Component<P, S> {
   moved?: WeappLifeCycle,
   globalData?: any,
   setData: Function
+  _observeProps?: ObserverProperties[]
 }
 
 interface ComponentClass<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -26,6 +34,10 @@ function defineGetter (component: Component, key: string, getter: string) {
     configurable: true,
     get: () => component[getter]
   })
+}
+
+function isFunction (o): o is Function {
+  return typeof o === 'function'
 }
 
 export default function withWeapp (componentType: string) {
@@ -56,6 +68,27 @@ export default function withWeapp (componentType: string) {
         safeSet(state, key, obj[key])
       })
       this.setState(state)
+    }
+
+    componentWillReceiveProps (nextProps) {
+      if (Array.isArray(this._observeProps)) {
+        this._observeProps.forEach(({ name: key, observer }) => {
+          const prop = this.props[key]
+          const nextProp = nextProps[key]
+          // 小程序是深比较不同之后才 trigger observer
+          if (!isEqual(prop, nextProp)) {
+            if (typeof observer === 'string') {
+              const ob = this[observer]
+              if (isFunction(ob)) {
+                ob.call(this, nextProp, prop, key)
+              }
+            } else if (isFunction(observer)) {
+              observer.call(this, nextProp, prop, key)
+            }
+          }
+        })
+      }
+      this.executeComponentFunc(super.componentWillReceiveProps)
     }
 
     componentWillMount () {
