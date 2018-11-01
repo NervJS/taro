@@ -111,7 +111,10 @@ function traverseObjectNode (node, obj) {
     const properties = node.value.properties
     obj = {}
     properties.forEach(p => {
-      const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      if (Util.CONFIG_MAP[buildAdapter][key]) {
+        key = Util.CONFIG_MAP[buildAdapter][key]
+      }
       obj[key] = traverseObjectNode(p.value)
     })
     return obj

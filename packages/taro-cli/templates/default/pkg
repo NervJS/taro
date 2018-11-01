@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "<%= description %>",
-  "main": "index.js",
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
@@ -14,8 +13,7 @@
     "dev:swan": "npm run build:swan -- --watch",
     "dev:alipay": "npm run build:alipay -- --watch",
     "dev:h5": "npm run build:h5 -- --watch",
-    "dev:rn": "npm run build:rn -- --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:rn": "npm run build:rn -- --watch"
   },
   "author": "",
   "license": "MIT",
@@ -48,6 +46,7 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-taro": "^<%= version %>"<% if (typescript) {%>,
+    "eslint-plugin-typescript": "^0.12.0",
     "typescript": "^3.0.1"<%}%>
   }
 }
