@@ -121,6 +121,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
                   let tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
                   if (fs.existsSync(tempPathWithJS)) {
                     realRequirePath = tempPathWithJS
+                    requirePath += '.js'
                   } else if (fs.existsSync(tempPathWithIndexJS)) {
                     realRequirePath = tempPathWithIndexJS
                     requirePath += '/index.js'

@@ -859,9 +859,30 @@ const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objVal
   }
 })
 
-async function compileScriptFile (content) {
+const shouldTransformAgain = (function () {
+  const pluginsStr = JSON.stringify(babelConfig.plugins)
+  if (/transform-runtime/.test(pluginsStr)) {
+    return true
+  }
+  return false
+})()
+
+async function compileScriptFile (content, sourceFilePath, outputFilePath, adapter) {
   const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
-  return compileScriptRes.code
+  const code = compileScriptRes.code
+  if (!shouldTransformAgain) {
+    return code
+  }
+  const transformResult = wxTransformer({
+    code,
+    sourcePath: sourceFilePath,
+    outputPath: outputFilePath,
+    isNormal: true,
+    isTyped: false,
+    adapter
+  })
+  const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
+  return res.code
 }
 
 function buildProjectConfig () {
@@ -944,7 +965,7 @@ async function buildEntry () {
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
-    resCode = await compileScriptFile(resCode)
+    resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1158,7 +1179,7 @@ async function buildSinglePage (page) {
     const pageDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
-    resCode = await compileScriptFile(resCode)
+    resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1496,7 +1517,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
-    resCode = await compileScriptFile(resCode)
+    resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -1643,7 +1664,7 @@ function compileDepScripts (scriptFiles) {
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
-          resCode = await compileScriptFile(res.code)
+          resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction) {
             const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
