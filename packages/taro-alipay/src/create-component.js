@@ -37,6 +37,25 @@ function isToBeEvent (event) {
   return true
 }
 
+function processEventTarget (ev) {
+  const event = Object.assign({}, ev)
+  const { currentTarget, detail, target } = event
+
+  if (currentTarget && currentTarget.pageX && currentTarget.pageY) {
+    currentTarget.x = currentTarget.pageX
+    currentTarget.y = currentTarget.pageY
+  }
+  if (detail && detail.pageX && detail.pageY) {
+    detail.x = detail.pageX
+    detail.y = detail.pageY
+  }
+  if (target && target.pageX && target.pageY) {
+    target.x = target.pageX
+    target.y = target.pageY
+  }
+  return event
+}
+
 function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
@@ -45,6 +64,9 @@ function processEvent (eventHandlerName, obj) {
     let callScope = scope
     if (!isToBeEvent(event)) {
       return scope[eventHandlerName].apply(callScope, arguments)
+    } else {
+      // 将支付宝的 event 事件对象的字段，对齐微信小程序的
+      event = processEventTarget(event)
     }
     event.preventDefault = function () {}
     event.stopPropagation = function () {}
