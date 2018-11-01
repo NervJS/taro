@@ -296,7 +296,7 @@ export class RenderParser {
     ) as any
     classProp.static = true
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    classPath.node.body.body.unshift(classProp)
+    Adapter.type !== Adapters.alipay && classPath.node.body.body.unshift(classProp)
   }
 
   replaceIdWithTemplate = (handleRefId = false) => (path: NodePath<t.Node>) => {
