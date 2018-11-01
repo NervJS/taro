@@ -38,12 +38,12 @@ describe('connect Testing', () => {
   it('with config', () => {
     const WrappedConnect = connect()(App1)
     const wrapper = shallow(<WrappedConnect/>)
-    expect(WrappedConnect.navigationOptions).toEqual(App1.config)
+    expect(WrappedConnect.config).toEqual(App1.config)
     expect(wrapper.text()).toEqual('<Connect(App1) />')
   })
 
   it('without config', () => {
     const WrappedConnect = connect()(App2)
-    expect(WrappedConnect.navigationOptions).toEqual({})
+    expect(WrappedConnect.config).toEqual({})
   })
 })
