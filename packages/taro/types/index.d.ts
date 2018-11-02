@@ -323,6 +323,11 @@ declare namespace Taro {
      * @since 2.3.0
      */
     resizable?: boolean
+    /**
+     * 需要跳转的小程序列表
+     * @since 2.4.0 
+     */
+    navigateToMiniProgramAppIdList?: string[]
   }
 
   interface Config extends PageConfig, AppConfig {
