@@ -32,6 +32,10 @@ export interface TaroH5Config {
   alias: Option;
   entry: webpack.Entry;
   output: webpack.Output;
+  router?: {
+    mode?: 'hash' | 'browser';
+    custouRoutes?: Option;
+  },
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
   enableExtract: boolean;

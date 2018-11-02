@@ -15,6 +15,20 @@ const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const { source: toAst, getObjKey } = require('./util/ast_convert')
 
+const tempDir = '.temp'
+const appPath = process.cwd()
+const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
+const h5Config = projectConfig.h5 || {}
+const routerConfig = h5Config.router || {}
+const routerMode = routerConfig.mode
+const customRoutes = routerConfig.customRoutes
+const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+const sourceDir = path.join(appPath, sourceDirName)
+const tempPath = path.join(appPath, tempDir)
+const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+const entryFileName = path.basename(entryFilePath)
+let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
+
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-h5': '@tarojs/taro-h5',
@@ -22,11 +36,12 @@ const PACKAGES = {
   '@tarojs/redux-h5': '@tarojs/redux-h5',
   '@tarojs/mobx': '@tarojs/mobx',
   '@tarojs/mobx-h5': '@tarojs/mobx-h5',
-  '@tarojs/router': '@tarojs/router',
+  '@tarojs/router': `@tarojs/router/${routerMode === 'browser' ? 'dist/browserRouter' : 'dist/hashRouter'}`,
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
   'nerv-redux': 'nerv-redux'
 }
+
 const taroApis = [
   'Component',
   'getEnv',
@@ -37,24 +52,13 @@ const taroApis = [
   'internal_dynamic_recursive'
 ]
 const nervJsImportDefaultName = 'Nerv'
-const routerImportName = 'Router'
 const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
 const tabBarPanelComponentName = 'TabbarPanel'
 const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
-const tempDir = '.temp'
 const DEVICE_RATIO = 'deviceRatio'
-
-const appPath = process.cwd()
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
-const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-const sourceDir = path.join(appPath, sourceDirName)
-const tempPath = path.join(appPath, tempDir)
-const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
-const entryFileName = path.basename(entryFilePath)
-let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
 
 if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
   pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
@@ -72,6 +76,10 @@ const FILE_TYPE = {
 }
 
 const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
+
+function addLeadingSlash (str) {
+  return str.startsWith('/') ? str : `/${str}`
+}
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
@@ -160,12 +168,30 @@ function processEntry (code, filePath) {
         const isComponentWillUnmount = keyName === 'componentWillUnmount'
 
         if (isRender) {
-          const pageRequires = pages.map(v => {
-            const absPagename = v.startsWith('/') ? v : `/${v}`
+          const routes = pages.map((v, k) => {
+            const absPagename = addLeadingSlash(v)
             const relPagename = `.${absPagename}`
-            return `['${absPagename}', require('${relPagename}').default]`
-          }).join(',')
-          funcBody = `<${routerImportName} routes={[${pageRequires}]} />`
+            return `{
+              path: '${absPagename}',
+              component: () => import('${relPagename}'),
+              isIndex: ${k === 0}
+            }`
+          })
+
+          /* 处理自定义路由 */
+          if (typeof customRoutes === 'object') {
+            Object.entries(customRoutes).forEach(([matchedUrl, pageComponent]) => {
+              const absPagename = addLeadingSlash(matchedUrl)
+              const relPagename = `.${addLeadingSlash(pageComponent)}`
+              routes.push(`{
+                path: '${absPagename}',
+                component: () => import('${relPagename}'),
+                isIndex: false
+              }`)
+            })
+          }
+
+          funcBody = `<Router routes={[${routes.join(',')}]} />`
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -198,7 +224,7 @@ function processEntry (code, filePath) {
               </${providorImportName}>`
           }
 
-          /* 插入<TaroRouter.Router /> */
+          /* 插入<Router /> */
           node.body = toAst(`{return (${funcBody});}`)
         }
         if (tabBar && isComponentWillMount) {
@@ -450,7 +476,7 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import Router from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const renderCallNode = toAst(renderCallCode)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
@@ -668,6 +694,7 @@ function classifyFiles (filename) {
     return FILE_TYPE.NORMAL
   }
 }
+
 function getDist (filename, isScriptFile) {
   const dirname = path.dirname(filename)
   const distDirname = dirname.replace(sourceDir, tempDir)
@@ -760,7 +787,6 @@ function buildTemp () {
 
 async function buildDist (buildConfig) {
   const { watch } = buildConfig
-  const h5Config = projectConfig.h5 || {}
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
   const outputRoot = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
