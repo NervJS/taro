@@ -44,7 +44,9 @@ module.exports = function (creater, params, helper, cb) {
   })
   creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
   creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
-  creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'))
+  creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'), {
+    typescript
+  })
   creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   if (typescript) {
     creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
