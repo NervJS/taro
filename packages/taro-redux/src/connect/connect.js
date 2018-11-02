@@ -15,10 +15,29 @@ function isEqual (a, b) {
   return a === b
 }
 
+function wrapPropsWithDispatch (mapDispatchToProps, dispatch) {
+  if (typeof mapDispatchToProps === 'function') {
+    return mapDispatchToProps(dispatch)
+  } 
+
+  if (isObject(mapDispatchToProps)) {
+    return Object.keys(mapDispatchToProps)
+      .reduce((props, key) => {
+        const actionCreator = mapDispatchToProps[key]
+        if (typeof actionCreator === 'function') {
+          props[key] = (...args) => dispatch(actionCreator(...args))
+        }
+        return props
+      }, {})
+  }
+
+  return {}
+}
+
 export default function connect (mapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
-  const initMapDispatch = typeof mapDispatchToProps === 'function' ? mapDispatchToProps(dispatch) : {}
+  const initMapDispatch = wrapPropsWithDispatch(mapDispatchToProps, dispatch)
   initMapDispatch.dispatch = dispatch
 
   const stateListener = function () {
