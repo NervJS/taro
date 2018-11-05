@@ -43,7 +43,8 @@ export const DEFAULT_Component_SET = new Set<string>([
   'FunctionalPageNavigator',
   'Ad',
   'Block',
-  'Import'
+  'Import',
+  'OfficialAccount'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
