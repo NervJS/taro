@@ -27,6 +27,7 @@
       "wx-relations",
       "component-style",
       "react-native",
+      "ui-lib",
       "best-practice"
     ],
     "组件库": [

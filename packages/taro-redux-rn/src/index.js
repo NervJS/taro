@@ -20,7 +20,7 @@ function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps 
       }
 
       // 必须将 config 暴露出去
-      static navigationOptions = WrappedComponent.config || {}
+      static config = WrappedComponent.config || {}
 
       /**
        * @description 获取 被包裹组件的实例

@@ -34,7 +34,12 @@ function buildConstructor () {
   return ctor
 }
 
-function processThisPropsFnMemberProperties (member: t.MemberExpression, path: NodePath, args: Array<t.Expression | t.SpreadElement>) {
+function processThisPropsFnMemberProperties (
+  member: t.MemberExpression,
+  path: NodePath<t.CallExpression>,
+  args: Array<t.Expression | t.SpreadElement>,
+  binded: boolean
+) {
   const propertyArray: string[] = []
   function traverseMember (member: t.MemberExpression) {
     const object = member.object
@@ -46,17 +51,31 @@ function processThisPropsFnMemberProperties (member: t.MemberExpression, path: N
 
     if (t.isMemberExpression(object)) {
       if (t.isThisExpression(object.object) &&
-      t.isIdentifier(object.property) &&
-      object.property.name === 'props') {
-        path.replaceWith(
-          t.callExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-            [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
-              t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
-              [t.arrayExpression(args)]
-            )]
+        t.isIdentifier(object.property) &&
+        object.property.name === 'props'
+      ) {
+        if (Adapters.alipay === Adapter.type) {
+          if (binded) args.shift()
+          path.replaceWith(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+              [
+                t.stringLiteral(propertyArray.reverse().join('.')),
+                t.arrayExpression(args)
+              ]
+            )
           )
-        )
+        } else {
+          path.replaceWith(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+              [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
+                t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
+                [t.arrayExpression(args)]
+              )]
+            )
+          )
+        }
       }
       traverseMember(object)
     }
@@ -390,15 +409,15 @@ class Transformer {
       CallExpression (path) {
         const node = path.node
         const callee = node.callee
-        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object) && Adapters.alipay !== Adapter.type) {
+        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object)) {
           const property = callee.property
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {
               self.componentProperies.add(`__fn_${property.name}`)
-              processThisPropsFnMemberProperties(callee, path, node.arguments)
+              processThisPropsFnMemberProperties(callee, path, node.arguments, false)
             } else if (property.name === 'call' || property.name === 'apply') {
               self.componentProperies.add(`__fn_${property.name}`)
-              processThisPropsFnMemberProperties(callee.object, path, node.arguments)
+              processThisPropsFnMemberProperties(callee.object, path, node.arguments, true)
             }
           }
         }
@@ -432,20 +451,11 @@ class Transformer {
       if (methodName.startsWith('on')) {
         this.componentProperies.add(`__fn_${methodName}`)
       }
-      let funcBody
-      if (Adapters.alipay !== Adapter.type) {
-        funcBody = t.expressionStatement(t.callExpression(
+      const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
+        t.expressionStatement(t.callExpression(
           t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
           [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
         ))
-      } else {
-        funcBody = t.expressionStatement(t.callExpression(
-          t.memberExpression(t.thisExpression(), t.identifier(`props.${methodName}`)),
-          [t.spreadElement(t.identifier('arguments'))]
-        ))
-      }
-      const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
-        funcBody
       ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
     }

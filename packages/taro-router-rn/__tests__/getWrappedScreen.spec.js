@@ -27,6 +27,13 @@ describe('getWrappedScreen ', function () {
       expect(toJson(wrapper)).toMatchSnapshot()
     })
 
+    it('should render success with disableScroll true', function () {
+      HomeScreen.config.disableScroll = true
+      const WrappedScreen = getWrappedScreen(HomeScreen, Taro)
+      const wrapper = shallow(<WrappedScreen />)
+      expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     it('should render success with globalNavigationOptions', function () {
       const wrapper = getShallowWrapper()
       expect(toJson(wrapper)).toMatchSnapshot()

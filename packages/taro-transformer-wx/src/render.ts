@@ -296,7 +296,7 @@ export class RenderParser {
     ) as any
     classProp.static = true
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    classPath.node.body.body.unshift(classProp)
+    Adapter.type !== Adapters.alipay && classPath.node.body.body.unshift(classProp)
   }
 
   replaceIdWithTemplate = (handleRefId = false) => (path: NodePath<t.Node>) => {
@@ -701,6 +701,7 @@ export class RenderParser {
             const methodName = findMethodName(value.expression)
             methodName && this.usedEvents.add(methodName)
             const method = this.methods.get(methodName)
+            const componentName = jsxElementPath.node.openingElement.name
             // if (method && t.isIdentifier(method.node.key)) {
             //   this.usedEvents.add(methodName)
             // } else if (method === null) {
@@ -708,14 +709,22 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind')) {
               path.node.value = t.stringLiteral(`${methodName}`)
+            } else if (Adapter.type === Adapters.alipay &&
+              t.isJSXIdentifier(componentName) &&
+              !DEFAULT_Component_SET.has(componentName.name)
+            ) {
+              setJSXAttr(
+                jsxElementPath.node,
+                `data-map-func-${name.name}`,
+                t.stringLiteral(methodName)
+              )
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
             }
-            const componentName = jsxElementPath.node.openingElement.name
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
-              if (process.env.NODE_ENV !== 'test') {
+              if (process.env.NODE_ENV !== 'test' && Adapter.type !== Adapters.alipay) {
                 const fnName = `__fn_${name.name}`
                 element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
               }
