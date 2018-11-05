@@ -1281,50 +1281,16 @@ async function buildSinglePage (page) {
   }
 }
 
-async function processStyleWithPostCSS (styleObj) {
-  const useModuleConf = weappConf.module || {}
-  const customPostcssConf = useModuleConf.postcss || {}
-  const customPxtransformConf =  Object.assign({
-    enable: true,
-    config: {}
-  }, customPostcssConf.pxtransform || {})
-  const customUrlConf =  Object.assign({
-    enable: true,
-    config: {
-      limit: 10240
+async function processStyleWithPostCSS(styleObj) {
+  let configs = weappConf.module.postcss
+  let moduleNames = _.keys(configs)
+  const processors = _.map(moduleNames, name => {
+    let config = configs[name]
+    if(_.indexOf(name, '.') === 0){ // local plugin
+      name = path.join(appPath, name)
     }
-  }, customPostcssConf.url || {})
-  const customAutoprefixerConf = Object.assign({
-    enable: true,
-    config: {
-      browsers: browserList
-    }
-  }, customPostcssConf.autoprefixer || {})
-  const postcssPxtransformOption = {
-    designWidth: projectConfig.designWidth || 750,
-    platform: 'weapp'
-  }
-
-  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
-    postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
-  }
-  const cssUrlConf = Object.assign({ limit: 10240 }, customUrlConf)
-  const maxSize = Math.round((customUrlConf.config.limit || cssUrlConf.limit) / 1024)
-  const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
-  const processors = []
-  if (customAutoprefixerConf.enable) {
-    processors.push(autoprefixer(customAutoprefixerConf.config))
-  }
-  if (customPxtransformConf.enable) {
-    processors.push(pxtransform(postcssPxtransformConf))
-  }
-  if (cssUrlConf.enable) {
-    processors.push(cssUrlParse({
-      url: 'inline',
-      maxSize,
-      encodeType: 'base64'
-    }))
-  }
+    return require(name)(config)
+  })
   const postcssResult = await postcss(processors).process(styleObj.css, {
     from: styleObj.filePath
   })
