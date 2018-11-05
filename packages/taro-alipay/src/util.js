@@ -215,3 +215,12 @@ let _i = 1
 export function getUniqueKey () {
   return _loadTime + (_i++)
 }
+
+export function getObjChainValue (obj, keyChain) {
+  const keys = keyChain.split('.')
+  for (let i = 0, len = keys.length; i < len; i++) {
+    const key = keys[i]
+    if (i === len - 1) return obj[key]
+    obj = obj[key]
+  }
+}

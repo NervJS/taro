@@ -137,8 +137,8 @@ describe('event', () => {
 
       const instance = evalClass(ast)
 
-      expect(template).toMatch(`<view bindtap="func__1"></view>`)
-      expect(instance.$$events).toEqual(['func__1'])
+      expect(template).toMatch(`<view bindtap="funPrivate1"></view>`)
+      expect(instance.$$events).toEqual(['funPrivate1'])
     })
 
     test('相同的事件', () => {
@@ -164,13 +164,13 @@ describe('event', () => {
         prettyPrint(`
       <block>
           <view>
-              <text bindtap=\"func__2\"></text>
-              <text bindtap=\"func__2\"></text>
+              <text bindtap=\"funPrivate2\"></text>
+              <text bindtap=\"funPrivate2\"></text>
           </view>
       </block>
       `)
       )
-      expect(instance.$$events).toEqual(['func__2'])
+      expect(instance.$$events).toEqual(['funPrivate2'])
     })
   })
 

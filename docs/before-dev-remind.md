@@ -62,10 +62,20 @@ Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](htt
 /*postcss-pxtransform rn eject disable*/
 ```
 #### box-shadow 能实现吗？
-很遗憾，React Native 这方面支持得并不好，建议你不要报太大希望。
+很遗憾，React Native 这方面支持得并不好（仅 ios 支持且支持程度有限），建议你不要报太大希望。
+
+#### CSS 属性简写（Shorthands）支持吗？
+仅接受 React Native 支持的值。例如 background 只接受一种颜色 `backgroundColor`，因为 React Native 的 Background 仅支持 `backgroundColor` 属性。React Native 支持的属性可见下面的 React Native 样式表。
+
+#### border{Top,Right,Bottom,Left} 不支持？
+border{Top,Right,Bottom,Left} 的简写（shorthands）不支持，因为 `borderStyle` 不能应用于单个边框。
+
+#### React Native 不支持 background-image ，有什么解决办法吗？
+使用 `Image 组件`，配合 Flex 布局，基本可以实现你的大部分需求。阅读一下这篇文章：[Background Images in React Native](https://thekevinscott.com/background-images-in-react-native/)，有助于你理解。
+
 
 ### 其他注意事项
-1. **运行时** 报缺少包，要在 `.rn_temp` 里面安装。
+1. **运行时** 报缺少包，需要要在 `.rn_temp` 目录里面安装。
 2. 文字要包在 `Text` 组件里面，否则不显示。
 
 ## 样式

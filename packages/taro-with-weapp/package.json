@@ -1,0 +1,44 @@
+{
+  "name": "@tarojs/with-weapp",
+  "version": "1.2.0-alpha.3",
+  "description": "taroize 之后的运行时",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c -w rollup.config.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NervJS/taro/tree/master/packages/taro-with-weapp"
+  },
+  "author": "yuche",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/taro": "1.2.0-alpha.3",
+    "lodash.isequal": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "@types/lodash": "^4.14.105",
+    "@types/node": "^9.6.2",
+    "jest": "^23.0.1",
+    "jest-cli": "^22.1.4",
+    "rollup": "^0.66.2",
+    "rollup-plugin-typescript2": "^0.17.0",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^3.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

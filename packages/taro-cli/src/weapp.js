@@ -90,7 +90,7 @@ const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
@@ -153,19 +153,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
     if (isFileToBePage(importPath)) {
       astPath.remove()
     } else {
-      let isDepComponent = false
-      if (depComponents && depComponents.length) {
-        depComponents.forEach(item => {
-          const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
-          const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
-          if (resolvePath === resolveValuePath) {
-            isDepComponent = true
-          }
-        })
-      }
-      if (isDepComponent) {
-        astPath.remove()
-      } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+      if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
         const vpath = path.resolve(sourceFilePath, '..', value)
         let fPath = value
         if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
@@ -608,25 +596,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     astPath.remove()
                   }
                 } else {
-                  let isDepComponent = false
-                  if (depComponents && depComponents.length) {
-                    depComponents.forEach(item => {
-                      const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
-                      const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
-                      if (resolvePath === resolveValuePath) {
-                        isDepComponent = true
-                      }
-                    })
-                  }
-                  if (isDepComponent) {
-                    if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
-                      astPath.parentPath.remove()
-                    } else if (astPath.parent.type === 'VariableDeclarator') {
-                      astPath.parentPath.parentPath.remove()
-                    } else {
-                      astPath.remove()
-                    }
-                  } else if (Util.REG_STYLE.test(valueExtname)) {
+                  if (Util.REG_STYLE.test(valueExtname)) {
                     const stylePath = path.resolve(path.dirname(sourceFilePath), value)
                     if (styleFiles.indexOf(stylePath) < 0) {
                       styleFiles.push(stylePath)
@@ -832,7 +802,8 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     sourcePath: sourcePath,
     outputPath: outputPath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
+    isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
+    adapter: buildAdapter
   })
   const { ast } = transformResult
   let isTaroComponent = false
@@ -1044,15 +1015,16 @@ async function buildEntry () {
     // 处理res.configObj 中的tabBar配置
     const tabBar = res.configObj.tabBar
     if (tabBar && typeof tabBar === 'object' && !Util.isEmptyObject(tabBar)) {
-      const list = tabBar.list || []
+      const {
+        list: listConfig,
+        iconPath: pathConfig,
+        selectedIconPath: selectedPathConfig
+      } = Util.CONFIG_MAP[buildAdapter]
+      const list = tabBar[listConfig] || []
       let tabBarIcons = []
       list.forEach(item => {
-        if (item.iconPath) {
-          tabBarIcons.push(item.iconPath)
-        }
-        if (item.selectedIconPath) {
-          tabBarIcons.push(item.selectedIconPath)
-        }
+        item[pathConfig] && tabBarIcons.push(item[pathConfig])
+        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
       })
       tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
       if (tabBarIcons && tabBarIcons.length) {
@@ -1137,7 +1109,10 @@ function transfromNativeComponents (configFile, componentConfig) {
         Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
         return
       }
-      const componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
+      let componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
+      if (!fs.existsSync(componentJSPath)) {
+        componentJSPath = Util.resolveScriptPath(path.join(sourceDir, componentPath))
+      }
       const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.CONFIG)
       const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.TEMPL)
       const componentWXSSPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.STYLE)
@@ -1268,7 +1243,7 @@ async function buildSinglePage (page) {
               if (depComponent.name === component.name) {
                 let componentPath = component.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1456,7 +1431,7 @@ function getRealComponentsPathList (filePath, components) {
     let componentPath = component.path
     if (Util.isNpmPkg(componentPath)) {
       try {
-        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig)
+        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig, buildAdapter)
       } catch (err) {
         console.log(err)
       }
@@ -1640,7 +1615,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1723,7 +1698,8 @@ function compileDepScripts (scriptFiles) {
             sourcePath: item,
             outputPath: outputItem,
             isNormal: true,
-            isTyped: Util.REG_TYPESCRIPT.test(item)
+            isTyped: Util.REG_TYPESCRIPT.test(item),
+            adapter: buildAdapter
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)

@@ -3,12 +3,10 @@ const path = require('path')
 const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
-const vfs = require('vinyl-fs')
 const ejs = require('ejs')
-const Vinyl = require('vinyl')
-const through2 = require('through2')
 const _ = require('lodash')
 const shelljs = require('shelljs')
+const klaw = require('klaw')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
@@ -28,6 +26,8 @@ const entryFileName = path.basename(entryFilePath)
 const pluginsConfig = projectConfig.plugins || {}
 
 const pkgPath = path.join(__dirname, './rn/pkg')
+
+let depTree = {}
 
 let isBuildingStyles = {}
 const styleDenpendencyTree = {}
@@ -53,7 +53,7 @@ function compileDepStyles (filePath, styleFiles) {
   }).then(resList => {
     let styleObjectEntire = {}
     resList.forEach(item => {
-      let styleObject = StyleProcess.getStyleObject(item.css)
+      let styleObject = StyleProcess.getStyleObject({css: item.css, filePath: item.filePath})
       // validate styleObject
       StyleProcess.validateStyle({styleObject, filePath: item.filePath})
 
@@ -78,17 +78,13 @@ function compileDepStyles (filePath, styleFiles) {
   })
 }
 
-function initProjectFile (cb) {
+function initProjectFile () {
   // generator app.json
   const appJsonObject = Object.assign({}, {
     expo: {
       sdkVersion: '27.0.0'
     }
   }, projectConfig.rn && projectConfig.rn.appJson)
-  const appJson = new Vinyl({
-    path: 'app.json',
-    contents: Buffer.from(JSON.stringify(appJsonObject, null, 2))
-  })
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
     ejs.render(
@@ -100,58 +96,59 @@ function initProjectFile (cb) {
   )
   const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
   pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
-  const pkg = new Vinyl({
-    path: 'package.json',
-    contents: Buffer.from(JSON.stringify(pkgTempObj, null, 2))
-  })
   // Copy bin/crna-entry.js ?
   const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
-  const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
-  const crnaEntry = new Vinyl({
-    path: 'bin/crna-entry.js',
-    contents: Buffer.from(crnaEntryCode)
-  })
-  this.push(appJson)
+
+  fs.writeFileSync(path.join(tempDir, 'app.json'), JSON.stringify(appJsonObject, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
-  this.push(pkg)
+  fs.writeFileSync(path.join(tempDir, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
-  this.push(crnaEntry)
+  fs.copySync(crnaEntryPath, path.join(tempDir, 'bin/crna-entry.js'))
   Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
-  cb()
+}
+
+async function processFile (filePath) {
+  if (!fs.existsSync(filePath)) {
+    return
+  }
+  const dirname = path.dirname(filePath)
+  const distDirname = dirname.replace(sourceDir, tempDir)
+  let distPath = path.format({dir: distDirname, base: path.basename(filePath)})
+  const code = fs.readFileSync(filePath, 'utf-8')
+  if (Util.REG_STYLE.test(filePath)) {
+    // do something
+  } else if (Util.REG_SCRIPTS.test(filePath)) {
+    if (Util.REG_TYPESCRIPT.test(filePath)) {
+      distPath = distPath.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
+    }
+    Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+    // transformJSCode
+    let transformResult = transformJSCode({code, filePath, isEntryFile: isEntryFile(filePath), projectConfig})
+    const jsCode = transformResult.code
+    fs.ensureDirSync(distDirname)
+    fs.writeFileSync(distPath, Buffer.from(jsCode))
+    // compileDepStyles
+    const styleFiles = transformResult.styleFiles
+    depTree[filePath] = styleFiles
+    await compileDepStyles(filePath, styleFiles)
+  } else {
+    fs.ensureDirSync(distDirname)
+    fs.copySync(filePath, distPath)
+    Util.printLog(Util.pocessTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+  }
 }
 
 function buildTemp () {
-  // fs.emptyDirSync(tempPath)
   fs.ensureDirSync(path.join(tempPath, 'bin'))
   return new Promise((resolve, reject) => {
-    vfs.src(path.join(sourceDir, '**'))
-      .pipe(through2.obj(async function (file, enc, cb) {
-        if (file.isNull() || file.isStream()) {
-          return cb(null, file)
+    klaw(sourceDir)
+      .on('data', file => {
+        if (!file.stats.isDirectory()) {
+          processFile(file.path)
         }
-        const filePath = file.path
-        let code = file.contents.toString()
-        if (Util.REG_STYLE.test(filePath)) {
-          return cb()
-        }
-        if (Util.REG_SCRIPTS.test(filePath)) {
-          if (Util.REG_TYPESCRIPT.test(filePath)) {
-            file.path = file.path.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
-          }
-          Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
-          // transformJSCode
-          let transformResult = transformJSCode({code, filePath, isEntryFile: isEntryFile(filePath), projectConfig})
-          const jsCode = transformResult.code
-          const styleFiles = transformResult.styleFiles
-          // compileDepStyles
-          await compileDepStyles(filePath, styleFiles)
-          file.contents = Buffer.from(jsCode)
-        }
-        this.push(file)
-        cb()
-      }, initProjectFile))
-      .pipe(vfs.dest(path.join(tempPath)))
+      })
       .on('end', () => {
+        initProjectFile()
         if (!fs.existsSync(path.join(tempPath, 'node_modules'))) {
           console.log()
           console.log(chalk.yellow('开始安装依赖~'))
@@ -168,8 +165,6 @@ function buildTemp () {
         }
         resolve()
       })
-  }).catch(e => {
-    throw e
   })
 }
 
@@ -190,11 +185,11 @@ async function buildDist ({watch}) {
   rnRunner(rnConfig)
 }
 
-async function processFiles (filePath) {
+async function perfWrap (callback, args) {
   isBuildingStyles = {} // 清空
   // 后期可以优化，不编译全部
   let t0 = performance.now()
-  await buildTemp()
+  await callback(args)
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 }
@@ -215,17 +210,26 @@ function watchFiles () {
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
-      processFiles(filePath)
+      perfWrap(buildTemp)
     })
     .on('change', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
-      processFiles(filePath)
+      if (Util.REG_SCRIPTS.test(filePath)) {
+        perfWrap(processFile, filePath)
+      }
+      if (Util.REG_STYLE.test(filePath)) {
+        _.forIn(depTree, (styleFiles, jsFilePath) => {
+          if (styleFiles.indexOf(filePath) > -1) {
+            perfWrap(processFile, jsFilePath)
+          }
+        })
+      }
     })
     .on('unlink', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
-      processFiles(filePath)
+      perfWrap(buildTemp)
     })
     .on('error', error => console.log(`Watcher error: ${error}`))
 }

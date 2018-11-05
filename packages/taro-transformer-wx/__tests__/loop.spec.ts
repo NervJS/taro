@@ -906,7 +906,7 @@ describe('loop', () => {
               <view>
                   <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                       <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                          <scroll-view bindtap=\"func__1\">
+                          <scroll-view bindtap=\"funPrivate1\">
                               <block wx:if=\"{{b2}}\">
                                   <map></map>
                               </block>
@@ -1030,7 +1030,7 @@ describe('loop', () => {
         <view>
             <cover-view wx:for=\"{{array}}\" wx:for-item=\"arr\">
                 <block wx:if=\"{{b1}}\" wx:for=\"{{arr.list}}\" wx:for-item=\"item\">
-                    <scroll-view bindtap=\"func__2\" data-e-func__2-so=\"this\" data-e-func__2-a-a=\"{{null}}\">
+                    <scroll-view bindtap=\"funPrivate2\" data-e-funPrivate2-so=\"this\" data-e-funPrivate2-a-a=\"{{null}}\">
                         <block wx:if=\"{{b2}}\">
                             <map></map>
                         </block>
@@ -1720,7 +1720,7 @@ describe('loop', () => {
           <block>
           <view>
               <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                  <cover-view bindtap=\"func__3\">
+                  <cover-view bindtap=\"funPrivate3\">
                       <block wx:if=\"{{b2}}\">
                           <map bindtap=\"handleClick\" data-e-handleClick-so=\"this\" data-e-handleClick-a-a=\"{{b2}}\"></map>
                       </block>
@@ -1782,9 +1782,9 @@ describe('loop', () => {
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view bindtap=\"func__4\" data-e-func__4-so=\"this\" data-e-func__4-a-a=\"{{b1}}\">
+                      <cover-view bindtap=\"funPrivate4\" data-e-funPrivate4-so=\"this\" data-e-funPrivate4-a-a=\"{{b1}}\">
                           <block wx:if=\"{{b2}}\">
-                              <map bindtap=\"func__5\" data-e-func__5-so=\"this\" data-e-func__5-a-a=\"{{b2}}\"></map>
+                              <map bindtap=\"funPrivate5\" data-e-funPrivate5-so=\"this\" data-e-funPrivate5-a-a=\"{{b2}}\"></map>
                           </block>
                           <text></text>
                           <cover-view>
@@ -1844,9 +1844,9 @@ describe('loop', () => {
           <block>
               <view>
                   <block wx:if=\"{{b1}}\" wx:for=\"{{array}}\" wx:for-item=\"arr\">
-                      <cover-view bindtap=\"func__6\" data-e-func__6-so=\"this\" data-e-func__6-a-a=\"{{b1}}\">
+                      <cover-view bindtap=\"funPrivate6\" data-e-funPrivate6-so=\"this\" data-e-funPrivate6-a-a=\"{{b1}}\">
                           <block wx:if=\"{{b2}}\">
-                              <map bindtap=\"func__7\" data-e-func__7-so=\"this\" data-e-func__7-a-a=\"{{b2}}\"></map>
+                              <map bindtap=\"funPrivate7\" data-e-funPrivate7-so=\"this\" data-e-funPrivate7-a-a=\"{{b2}}\"></map>
                           </block>
                           <text></text>
                           <cover-view>
@@ -1856,7 +1856,7 @@ describe('loop', () => {
                               </block>
                           </cover-view>
                           <block wx:if=\"{{b3}}\">
-                              <progress bindtap=\"func__8\" data-e-func__8-so=\"this\" data-e-func__8-a-a=\"{{b2}}\"></progress>
+                              <progress bindtap=\"funPrivate8\" data-e-funPrivate8-so=\"this\" data-e-funPrivate8-a-a=\"{{b2}}\"></progress>
                           </block>
                       </cover-view>
                   </block>
@@ -2754,7 +2754,7 @@ describe('loop', () => {
       ])
       expect(
         instance.state.loopArray0.map(i =>
-          i.$anonymousCallee__7.map(a => a.$original)
+          i.$anonymousCallee__1.map(a => a.$original)
         )
       ).toEqual(Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i)))
       expect(template).toMatch(
@@ -2762,7 +2762,7 @@ describe('loop', () => {
           <block>
               <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
                   <view>{{key.$original}}</view>
-                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__7}}"
+                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__1}}"
                   wx:for-item="value" wx:for-index="id">{{value.$original}}</view>
               </view>
           </block>

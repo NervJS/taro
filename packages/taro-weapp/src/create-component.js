@@ -2,7 +2,7 @@ import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 const privatePropValName = '__triggerObserer'
-const anonymousFnNamePreffix = 'func__'
+const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'

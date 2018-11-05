@@ -12,7 +12,8 @@ const allRules = {
   'reserve-class-properties': require('./reserve-class-properties'),
   'function-naming': require('./function-naming'),
   'class-naming': require('./class-naming'),
-  'props-reserve-keyword': require('./props-reserve-keyword')
+  'props-reserve-keyword': require('./props-reserve-keyword'),
+  'this-props-function': require('./this-props-function')
 }
 
 function configureAsError (rules) {

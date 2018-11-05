@@ -71,11 +71,12 @@ function postCSS ({css, filePath, projectConfig}) {
     })
 }
 
-function getStyleObject (css) {
+function getStyleObject ({css, filePath}) {
   var styleObject = {}
   try {
     styleObject = transformCSS(css)
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.WARNING, 'css-to-react-native 报错', filePath)
     console.log(chalk.red(err.stack))
   }
   return styleObject

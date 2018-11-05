@@ -258,9 +258,9 @@ import { connect } from \\"@tarojs/taro-redux-rn\\";
 
 import { add, minus, asyncAdd } from '../../actions/counter';
 
-import indexStyleSheet from \\"./index_styles\\";
+import appStyleSheet from \\"./app_styles\\";
 
-var _styleSheet = indexStyleSheet;
+var _styleSheet = appStyleSheet;
 let Index = (_dec = connect(({ counter }) => ({
   counter
 }), dispatch => ({
@@ -314,9 +314,9 @@ Object {
 
 import { Component } from \\"@tarojs/taro-rn\\";
 import { View, Text } from \\"@tarojs/components-rn\\";
-import indexStyleSheet from \\"./index_styles\\";
+import appStyleSheet from \\"./app_styles\\";
 
-var _styleSheet = indexStyleSheet;
+var _styleSheet = appStyleSheet;
 let Index = class Index extends Component {
 
   static config = {
