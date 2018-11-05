@@ -1,0 +1,22 @@
+{
+  "name": "postcss-plugin-image-to-url",
+  "version": "1.1.0-beta.15",
+  "description": "> TODO: description",
+  "author": "Wu Jian Ping <830390@qq.com>",
+  "homepage": "https://github.com/NervJS/taro/tree/master/packages/postcss-plugin-image-to-url#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "mime": "^2.3.1",
+    "mkdirp": "^0.5.1",
+    "postcss": "^6.0.16",
+    "xxhashjs": "^0.2.2"
+  }
+}

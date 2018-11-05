@@ -1,0 +1,21 @@
+{
+  "name": "babel-plugin-transform-image-to-url",
+  "version": "1.1.0-beta.15",
+  "description": "Babel插件，用于将import img from 'path to image' 转换成 http://xxx.com/name-[hash].(png,jpeg and etc)",
+  "author": "Wu Jian Ping <830390@qq.com>",
+  "homepage": "https://github.com/NervJS/taro/tree/master/packages/babel-plugin-transform-image-to-url#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "mime": "^2.3.1",
+    "mkdirp": "^0.5.1",
+    "xxhashjs": "^0.2.2"
+  }
+}
