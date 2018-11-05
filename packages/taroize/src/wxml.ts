@@ -41,7 +41,7 @@ interface Text {
 
 export interface WXS {
   module: string
-  src: string
+  src?: string | null
 }
 
 type AllKindNode = Element | Comment | Text
@@ -224,8 +224,8 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>): WXS {
     }
   }
 
-  if (!moduleName || !src) {
-    throw new Error('一个 WXS 需要同时存在两个属性：`wxs`, `src`')
+  if (!moduleName) {
+    throw new Error('WXS标签需存在 module 属性')
   }
 
   path.remove()
