@@ -266,7 +266,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
+      [require('babel-plugin-danger-remove-unused-import-taro'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
   }).ast

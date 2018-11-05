@@ -99,7 +99,7 @@ function processEntry (code, filePath) {
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+      [require('babel-plugin-danger-remove-unused-import-taro'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
     ]
   }).ast
 
@@ -485,7 +485,7 @@ function processOthers (code, filePath) {
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+      [require('babel-plugin-danger-remove-unused-import-taro'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
     ]
   }).ast
 
