@@ -206,6 +206,8 @@ function npmCodeHack (filePath, content, buildAdapter) {
     case 'lodash.min.js':
       if (buildAdapter === BUILD_TYPES.ALIPAY) {
         content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, '{}')
+      } else if (buildAdapter === BUILD_TYPES.SWAN) {
+        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'global')
       } else {
         content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
       }
@@ -219,7 +221,7 @@ function npmCodeHack (filePath, content, buildAdapter) {
       content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
       break
     case '_freeGlobal.js':
-      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || {};')
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || global || {};')
   }
   return content
 }
