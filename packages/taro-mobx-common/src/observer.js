@@ -136,6 +136,8 @@ function makeComponentReactive (render, forceUpdate) {
  */
 const reactiveMixin = {
   componentWillUnmount: function () {
+    this.render[mobxAdminProperty] && this.render[mobxAdminProperty].dispose()
+    this[mobxIsUnmounted] = true
   },
 
   componentDidMount: function () {
