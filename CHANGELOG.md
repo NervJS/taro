@@ -1,5 +1,17 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.2...v) (2018-11-07)
+# [](https://github.com/NervJS/taro/compare/v1.1.3...v) (2018-11-07)
+
+
+
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/NervJS/taro/compare/v1.1.2...v1.1.3) (2018-11-07)
+
+
+### Bug Fixes
+
+* **alipay:** 修复支付宝小程序编译空文件报错问题 ([ae222a0](https://github.com/NervJS/taro/commit/ae222a0))
+* **alipay/swan:** 支付宝 && 百度小程序 api 不支持提示 ([286f0e3](https://github.com/NervJS/taro/commit/286f0e3))
+* **cli:** 百度小程序全局对象使用 global ([078a5a8](https://github.com/NervJS/taro/commit/078a5a8))
 
 
 
