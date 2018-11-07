@@ -10,4 +10,6 @@ if (process.env.TARO_ENV !== 'alipay') {
   if (!g.regeneratorRuntime) {
     g.regeneratorRuntime = require('regenerator-runtime/runtime')
   }
+} else {
+  void 0
 }
