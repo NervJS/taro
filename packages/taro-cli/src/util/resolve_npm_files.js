@@ -204,10 +204,8 @@ function npmCodeHack (filePath, content, buildAdapter) {
     case 'lodash.js':
     case '_global.js':
     case 'lodash.min.js':
-      if (buildAdapter === BUILD_TYPES.ALIPAY) {
+      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
         content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, '{}')
-      } else if (buildAdapter === BUILD_TYPES.SWAN) {
-        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'global')
       } else {
         content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
       }
