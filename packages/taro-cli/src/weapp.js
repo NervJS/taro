@@ -91,6 +91,7 @@ function getExactedNpmFilePath (npmName, filePath) {
     } else {
       if (!weappNpmConfig.dir) {
         outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
+        outputNpmPath = outputNpmPath.replace(/node_modules/g, weappNpmConfig.name)
       } else {
         const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
         outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
