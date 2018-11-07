@@ -226,6 +226,12 @@ function request (options) {
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
+    if (!(key in my)) {
+      taro[key] = () => {
+        console.warn(`支付宝小程序暂不支持 ${key}`)
+      }
+      return
+    }
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         const result = generateSpecialApis(key, options || {})
