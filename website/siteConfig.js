@@ -21,6 +21,7 @@ const users = [
 ];
 
 const siteConfig = {
+  editUrl: 'https://github.com/nervjs/taro/edit/master/docs/',
   title: 'Taro' /* title for your website */,
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信小程序、H5、React Native 等的应用。',
   url: 'https://taro.aotu.io' /* your website url */,

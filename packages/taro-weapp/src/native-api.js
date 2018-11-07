@@ -25,8 +25,8 @@ const RequestQueue = {
     if (this.queue.length <= this.MAX_REQUEST) {
       let options = this.queue.shift()
       let completeFn = options.complete
-      options.complete = () => {
-        completeFn && completeFn.apply(options, [...arguments])
+      options.complete = (...args) => {
+        completeFn && completeFn.apply(options, args)
         this.run()
       }
       wx.request(options)
