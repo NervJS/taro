@@ -226,12 +226,6 @@ function request (options) {
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
   Object.keys(weApis).forEach(key => {
-    if (!(key in my)) {
-      taro[key] = () => {
-        console.warn(`支付宝小程序暂不支持 ${key}`)
-      }
-      return
-    }
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         const result = generateSpecialApis(key, options || {})
@@ -239,6 +233,10 @@ function processApis (taro) {
         options = result.options
         let task = null
         let obj = Object.assign({}, options)
+        if (!(newKey in my)) {
+          console.warn(`支付宝小程序暂不支持 ${newKey}`)
+          return
+        }
         if (typeof options === 'string') {
           if (args.length) {
             return my[newKey](options, ...args)
@@ -290,6 +288,10 @@ function processApis (taro) {
       }
     } else {
       taro[key] = (...args) => {
+        if (!(key in my)) {
+          console.warn(`支付宝小程序暂不支持 ${key}`)
+          return
+        }
         if (key === 'getStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
