@@ -1,5 +1,21 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.3...v) (2018-11-07)
+# [](https://github.com/NervJS/taro/compare/v1.1.4...v) (2018-11-08)
+
+
+
+<a name="1.1.4"></a>
+## [1.1.4](https://github.com/NervJS/taro/compare/v1.1.3...v1.1.4) (2018-11-08)
+
+
+### Bug Fixes
+
+* **alipay:** 支付宝小程序 api 不支持提示逻辑错误 ([84b05ae](https://github.com/NervJS/taro/commit/84b05ae))
+* **swan:** 百度小程序报错 ([d1a4688](https://github.com/NervJS/taro/commit/d1a4688))
+
+
+### Features
+
+* **taro:** 补充 OfficialAccount 组件定义 && 组件全部补充 animation 属性，close [#1003](https://github.com/NervJS/taro/issues/1003) ([7c5e669](https://github.com/NervJS/taro/commit/7c5e669))
 
 
 
