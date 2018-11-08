@@ -325,7 +325,7 @@ declare namespace Taro {
     resizable?: boolean
     /**
      * 需要跳转的小程序列表
-     * @since 2.4.0 
+     * @since 2.4.0
      */
     navigateToMiniProgramAppIdList?: string[]
   }
@@ -6981,6 +6981,17 @@ declare namespace Taro {
   function createAnimation(OBJECT: createAnimation.Param): Animation
 
   class Animation {
+    /**
+     * 导出动画队列
+     * export 方法每次调用后会清掉之前的动画操作
+     */
+    export(): object[]
+    /**
+     * 表示一组动画完成
+     * 可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画
+     * @param obj
+     */
+    step(obj: object): any
     /**
      * 透明度，参数范围 0~1
      */
