@@ -13,7 +13,8 @@ const allRules = {
   'function-naming': require('./function-naming'),
   'class-naming': require('./class-naming'),
   'props-reserve-keyword': require('./props-reserve-keyword'),
-  'this-props-function': require('./this-props-function')
+  'this-props-function': require('./this-props-function'),
+  'switch-jsx': require('./switch-jsx')
 }
 
 function configureAsError (rules) {
