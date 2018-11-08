@@ -15,6 +15,13 @@ function getTrueType (type, confirmType, password) {
   return type
 }
 
+function fixControlledValue (value) {
+  if (typeof value === 'undefined' || value === null) {
+    return ''
+  }
+  return value
+}
+
 class Input extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -22,20 +29,26 @@ class Input extends Nerv.Component {
     this.onFocus = this.onFocus.bind(this)
     this.onBlur = this.onBlur.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
+    this.handleComposition = this.handleComposition.bind(this)
+
+    // input hook
+    this.isOnComposition = false
   }
 
   onInput (e) {
     const { onInput, onChange = '' } = this.props
-    Object.defineProperty(e, 'detail', {
-      enumerable: true,
-      value: {
-        value: e.target.value
+    if (!this.isOnComposition) {
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          value: e.target.value
+        }
+      })
+      if (onChange) {
+        onChange && onChange(e)
+      } else {
+        onInput && onInput(e)
       }
-    })
-    if (onChange) {
-      onChange && onChange(e)
-    } else {
-      onInput && onInput(e)
     }
   }
 
@@ -74,6 +87,17 @@ class Input extends Nerv.Component {
     }
   }
 
+  handleComposition (e) {
+    if (!(e.target instanceof HTMLInputElement)) return
+
+    if (e.type === 'compositionend') {
+      this.isOnComposition = false
+    } else {
+      this.isOnComposition = true
+    }
+    this.onInput(e)
+  }
+
   render () {
     const {
       className = '',
@@ -83,22 +107,30 @@ class Input extends Nerv.Component {
       disabled,
       maxLength,
       confirmType = '',
-      focus = false
+      focus = false,
+      value
     } = this.props
     const cls = classNames('weui-input', className)
+
+    const otherProps = omit(this.props, [
+      'className',
+      'placeholder',
+      'disabled',
+      'max',
+      'onChange',
+      'onFocus',
+      'onBlur',
+      'type',
+      'focus'
+    ])
+
+    if ('value' in this.props) {
+      otherProps.value = fixControlledValue(value)
+    }
+
     return (
       <input
-        {...omit(this.props, [
-          'className',
-          'placeholder',
-          'disabled',
-          'max',
-          'onChange',
-          'onFocus',
-          'onBlur',
-          'type',
-          'focus'
-        ])}
+        {...otherProps}
         className={cls}
         placeholder={placeholder}
         disabled={disabled}
@@ -110,6 +142,8 @@ class Input extends Nerv.Component {
         autofocus={focus}
         onKeyDown={this.onKeyDown}
         type={getTrueType(type, confirmType, password)}
+        onCompositionStart={this.handleComposition}
+        onCompositionEnd={this.handleComposition}
       />
     )
   }
