@@ -21,6 +21,7 @@ class Input extends Nerv.Component {
     this.onInput = this.onInput.bind(this)
     this.onFocus = this.onFocus.bind(this)
     this.onBlur = this.onBlur.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   onInput (e) {
@@ -60,6 +61,19 @@ class Input extends Nerv.Component {
     onBlur && onBlur(e)
   }
 
+  onKeyDown (e) {
+    const { onConfirm } = this.props
+    if (e.keyCode === 13 && onConfirm) {
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          value: e.target.value
+        }
+      })
+      onConfirm(e)
+    }
+  }
+
   render () {
     const {
       className = '',
@@ -94,6 +108,7 @@ class Input extends Nerv.Component {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         autofocus={focus}
+        onKeyDown={this.onKeyDown}
         type={getTrueType(type, confirmType, password)}
       />
     )
