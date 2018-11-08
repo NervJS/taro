@@ -14,13 +14,20 @@ import getBaseChain from './base.conf';
 
 export default function (config: BuildConfig): any {
   const chain = getBaseChain()
+  const router = config.router || {}
+  const routerMode = router.mode
   const {
     alias = emptyObj,
     outputRoot = '',
     staticDirectory,
     dllDirectory = 'lib',
     dllEntry = {
-      lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
+      lib: [
+        'nervjs',
+        '@tarojs/taro-h5',
+        routerMode === 'browser' ? '@tarojs/router/dist/browserRouter' : '@tarojs/router/dist/hashRouter',
+        '@tarojs/components'
+      ]
     },
 
     designWidth = 750,

@@ -3,7 +3,6 @@ import { join } from 'path'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
-import postcss from 'rollup-plugin-postcss'
 import typescript from 'rollup-plugin-typescript'
 
 const cwd = __dirname
@@ -24,14 +23,10 @@ const baseConfig = {
     exports: 'named'
   },
   plugins: [
-    commonjs(),
-    typescript(),
-    postcss({
-      extensions: [ '.css' ]
-    }),
     resolve({
       preferBuiltins: false
     }),
+    typescript(),
     babel({
       babelrc: false,
       extensions: ['.ts', '.tsx', '.es6', '.es', '.mjs'],
@@ -48,7 +43,8 @@ const baseConfig = {
           'pragma': 'Nerv.createElement'
         }]
       ]
-    })
+    }),
+    commonjs()
   ],
   watch: {
     include: 'src/**',

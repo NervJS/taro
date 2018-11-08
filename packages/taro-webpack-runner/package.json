@@ -9,7 +9,8 @@
     "prod": "tsc",
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
-    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix"
+    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",

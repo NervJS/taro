@@ -44,7 +44,7 @@ const createNavigateTo = (history: History) => {
 }
 
 const createNavigateBack = (history: History) => {
-  return async ({ delta, success, fail, complete }: NavigateBackOption) => {
+  return async function ({ delta, success, fail, complete }: NavigateBackOption) {
     try {
       history.go(delta)
       tryToCall(success)
@@ -57,7 +57,7 @@ const createNavigateBack = (history: History) => {
 }
 
 const createRedirectTo = (history: History) => {
-  return async ({ url, success, fail, complete }: RedirectToOption) => {
+  return async function ({ url, success, fail, complete }: RedirectToOption) {
     if (/^(https?:)\/\//.test(url)) {
       window.location.assign(url);
       return

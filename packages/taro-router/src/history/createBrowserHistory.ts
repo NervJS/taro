@@ -162,9 +162,17 @@ const createHistory = (props: { basename?: string; } = {}) => {
     // 仅在浏览器前进后退操作、history.go/back/forward调用、hashchange的时候触发
     // 这里的window.location已经是新的了
 
+    let state = e.state
+    if (!state) {
+      state = {
+        key: createKey()
+      }
+      globalHistory.replaceState(state, '', '')
+    }
+
     const currentKey = Number(lastLocation.state.key)
-    const nextKey = Number(e.state.key)
-    const nextLocation = getDOMLocation(e.state)
+    const nextKey = Number(state.key)
+    const nextLocation = getDOMLocation(state)
     let action: Action
     if (nextKey > currentKey) {
       action = 'PUSH'
