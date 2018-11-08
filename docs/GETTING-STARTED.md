@@ -33,7 +33,7 @@ $ npx @tarojs/cli init myApp
 
 选择微信小程序模式，需要自行下载并打开[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，然后选择项目根目录进行预览。
 
-微信小程序编译预览及打包（去掉 --watch 经不会监听文件修改，并会对代码进行压缩打包）
+微信小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
 # npm script
@@ -51,7 +51,7 @@ $ npx taro build --type weapp
 
 选择百度小程序模式，需要自行下载并打开[百度开发者工具](https://smartprogram.baidu.com/docs/develop/devtools/show_sur/)，然后在项目编译完后选择项目根目录下 `dist` 目录进行预览。
 
-百度小程序编译预览及打包（去掉 --watch 经不会监听文件修改，并会对代码进行压缩打包）
+百度小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
 # npm script
@@ -69,7 +69,7 @@ $ npx taro build --type swan
 
 选择支付宝小程序模式，需要自行下载并打开[支付宝小程序开发者工具](https://docs.alipay.com/mini/developer/getting-started/)，然后在项目编译完后选择项目根目录下 `dist` 目录进行预览。
 
-支付宝小程序编译预览及打包（去掉 --watch 经不会监听文件修改，并会对代码进行压缩打包）
+支付宝小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
 # npm script
