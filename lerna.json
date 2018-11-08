@@ -31,9 +31,7 @@
     "packages/eslint-plugin-taro",
     "packages/taro-transformer-wx",
     "packages/postcss-pxtransform",
-    "packages/babel-plugin-transform-jsx-to-stylesheet",
-    "packages/babel-plugin-transform-image-to-url",
-    "packages/postcss-plugin-image-to-url"
+    "packages/babel-plugin-transform-jsx-to-stylesheet"
   ],
   "command": {
     "publish": {

@@ -41,9 +41,9 @@ const config = {
           ]
         },
         'postcss-pxtransform': {
-          designWidth: 375,
+          designWidth: 750,
           platform: 'weapp',
-          deviceRatio: { '640': 1.17, '375': 0.5, '828': 0.905 }
+          deviceRatio: { '640': 1.17, '750': 1, '828': 0.905 }
         }
         'postcss-url': {
           url: 'inline',
