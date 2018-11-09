@@ -26,6 +26,7 @@ const resizeModeMap: Object = {
   scaleToFill: 'stretch',
   aspectFit: 'contain',
   aspectFill: 'cover',
+  center: 'center'
   // Not supported value...
 }
 
