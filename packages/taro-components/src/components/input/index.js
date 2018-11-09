@@ -130,6 +130,7 @@ class Input extends Nerv.Component {
 
     return (
       <input
+        ref={input => input && focus && input.focus()}
         {...otherProps}
         className={cls}
         placeholder={placeholder}
