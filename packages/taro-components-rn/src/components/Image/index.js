@@ -26,7 +26,8 @@ const resizeModeMap: Object = {
   scaleToFill: 'stretch',
   aspectFit: 'contain',
   aspectFill: 'cover',
-  center: 'center'
+  center: 'center',
+  // And widthFix
   // Not supported value...
 }
 
@@ -38,8 +39,16 @@ type Props = {
   onLoad?: Function,
 }
 
-class _Image extends React.Component<Props> {
+type State = {
+  // height:width
+  ratio: number
+}
+
+class _Image extends React.Component<Props, State> {
   props: Props
+  state: State = {
+    ratio: 0
+  }
 
   static defaultProps = {
     mode: 'scaleToFill',
@@ -60,6 +69,17 @@ class _Image extends React.Component<Props> {
     })
   }
 
+  componentDidMount () {
+    const { src } = this.props
+    if (typeof src === 'string') {
+      Image.getSize(this.props.src, (width, height) => {
+        this.setState({ ratio: height / width })
+      })
+    } else if (src.width && src.height) {
+      this.setState({ ratio: src.height / src.width })
+    }
+  }
+
   render () {
     let {
       style,
@@ -70,7 +90,17 @@ class _Image extends React.Component<Props> {
     // The parameter passed to require must be a string literal
     src = typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src
 
+    const isWidthFix = mode === 'widthFix'
+
     mode = resizeModeMap[mode] || 'stretch'
+
+    const imageHeight = (() => {
+      if (isWidthFix) {
+        return (style.width || 300) * this.state.ratio
+      } else {
+        return style.height || 225
+      }
+    })()
 
     return (
       <Image
@@ -78,7 +108,15 @@ class _Image extends React.Component<Props> {
         resizeMode={mode}
         onError={this.onError}
         onLoad={this.onLoad}
-        style={[{ width: 300, height: 225 }, style]}
+        style={[
+          {
+            width: 300
+          },
+          style,
+          {
+            height: imageHeight
+          }
+        ]}
       />
     )
   }

@@ -7,9 +7,10 @@ export default class EXImage extends Component {
       <View>
         <Image
           src="https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png"
+          mode="widthFix"
           style={{
             width: 240,
-            height: 74
+            // height: 74
           }}
         />
       </View>
