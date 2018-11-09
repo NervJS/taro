@@ -1,9 +1,9 @@
+import '@tarojs/async-await'
 <%if (locals.typescript) {-%>
 import Taro, { Component, Config } from '@tarojs/taro'
 <%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
 <%}-%>
-import '@tarojs/async-await'
 import { Provider } from '@tarojs/redux'
 
 import Index from './pages/index'
@@ -45,6 +45,10 @@ class App extends Component {
 
   componentCatchError () {}
 
+  componentDidCatchError () {}
+
+  // 在 App 类中的 render() 函数没有实际作用
+  // 请勿修改此函数
   render () {
     return (
       <Provider store={store}>

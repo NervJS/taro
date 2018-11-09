@@ -2,12 +2,21 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet
 } from '@tarojs/taro'
+import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
 
+const isDEV = typeof process === 'undefined' ||
+  !process.env ||
+  process.env.NODE_ENV !== 'production'
+
 const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
-  const { props } = component
+  const { props, __propTypes } = component
+  if (isDEV && __propTypes) {
+    const componentName = component.constructor.name || component.constructor.toString().match(/^function\s*([^\s(]+)/)[1]
+    PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
+  }
   const prevProps = component.prevProps || props
   component.props = prevProps
   if (component.__mounted && component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
@@ -16,7 +25,7 @@ export function updateComponent (component) {
     component._disable = false
   }
   // 在willMount前执行构造函数的副本
-  if (!component.__mounted) {
+  if (!component.__componentWillMountTriggered) {
     component._constructor && component._constructor(props)
   }
   let state = component.getState()
@@ -26,6 +35,7 @@ export function updateComponent (component) {
   let skip = false
   if (component.__mounted) {
     if (typeof component.shouldComponentUpdate === 'function' &&
+      !component._isForceUpdate &&
       component.shouldComponentUpdate(props, state) === false) {
       skip = true
     } else if (typeof component.componentWillUpdate === 'function') {
@@ -35,25 +45,24 @@ export function updateComponent (component) {
   component.props = props
   component.state = state
   component._dirty = false
+  component._isForceUpdate = false
   if (!component.__componentWillMountTriggered) {
     component.__componentWillMountTriggered = true
     componentTrigger(component, 'componentWillMount')
   }
   if (!skip) {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
-    }
-    doUpdate(component)
+    doUpdate(component, prevProps, prevState)
   }
   component.prevProps = component.props
   component.prevState = component.state
 }
 
-function doUpdate (component) {
+function doUpdate (component, prevProps, prevState) {
   const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
-    data = component._createData(state, props)
+    // 返回null或undefined则保持不变
+    data = component._createData(state, props) || data
   }
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
@@ -79,16 +88,37 @@ function doUpdate (component) {
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
   const dataDiff = diffObjToPath(data, component.$scope.data)
+  const __mounted = component.__mounted
   component.$scope.setData(dataDiff, function () {
-    if (component._pendingCallbacks) {
-      while (component._pendingCallbacks.length) {
-        component._pendingCallbacks.pop().call(component)
+    if (__mounted) {
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
+          if (ref.type !== 'component') return
+
+          let target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target ? (target.$component || target) : null
+
+          const prevRef = ref.target
+          if (target !== prevRef) {
+            if (ref.refName) component.refs[ref.refName] = target
+            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            ref.target = target
+          }
+        })
+      }
+
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
       }
     }
-    if (!component.__mounted) {
-      component.__mounted = true
-      componentTrigger(component, 'componentDidMount')
-      componentTrigger(component, 'componentDidShow')
+
+    const cbs = component._pendingCallbacks
+    if (cbs && cbs.length) {
+      const len = cbs.length
+      let i = len
+      while (--i >= 0) cbs[i].call(component)
+      cbs.splice(0, len)
     }
   })
 }

@@ -1,23 +1,16 @@
 import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
-import { Transformer } from './class'
+import * as fs from 'fs'
 import { prettyPrint } from 'html'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
-import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, INTERNAL_DYNAMIC, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
+import { Transformer } from './class'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
+import * as t from 'babel-types'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
+import { Adapters, setAdapter, Adapter } from './adapter'
+import { Options, setTransformOptions } from './options'
 const template = require('babel-template')
-
-export interface Options {
-  isRoot?: boolean,
-  isApp: boolean,
-  outputPath: string,
-  sourcePath: string,
-  code: string,
-  isTyped: boolean,
-  isNormal?: boolean
-}
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
   let ids: string[] = []
@@ -135,7 +128,8 @@ export interface Result {
     name: string,
     path: string,
     type: string
-  }[]
+  }[],
+  componentProperies: string[]
 }
 
 interface TransformResult extends Result {
@@ -144,6 +138,13 @@ interface TransformResult extends Result {
 }
 
 export default function transform (options: Options): TransformResult {
+  if (options.adapter) {
+    setAdapter(options.adapter)
+  }
+  if (Adapter.type === Adapters.swan) {
+    setLoopOriginal('privateOriginal')
+  }
+  setTransformOptions(options)
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
@@ -152,6 +153,8 @@ export default function transform (options: Options): TransformResult {
       noEmitHelpers: true
     })
     : options.code
+  options.env = Object.assign({ TARO_ENV: options.adapter || 'weapp' }, options.env || {})
+  const taroEnv = options.env.TARO_ENV
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
@@ -174,7 +177,12 @@ export default function transform (options: Options): TransformResult {
         'dynamicImport'
       ] as any[]
     },
-    plugins: [[require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]]
+    plugins: [
+      require('babel-plugin-transform-flow-strip-types'),
+      [require('babel-plugin-transform-define').default, {
+        'process.env.TARO_ENV': taroEnv
+      }]
+    ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
@@ -183,12 +191,69 @@ export default function transform (options: Options): TransformResult {
   let result
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
+  let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
   let renderMethod!: NodePath<t.ClassMethod>
+  let isImportTaro = false
   traverse(ast, {
+    TemplateLiteral (path) {
+      const nodes: t.Expression[] = []
+      const { quasis, expressions } = path.node
+      let index = 0
+      if (path.parentPath.isTaggedTemplateExpression()) {
+        return
+      }
+      for (const elem of quasis) {
+        if (elem.value.cooked) {
+          nodes.push(t.stringLiteral(elem.value.cooked))
+        }
+
+        if (index < expressions.length) {
+          const expr = expressions[index++]
+          if (!t.isStringLiteral(expr, { value: '' })) {
+            nodes.push(expr)
+          }
+        }
+      }
+
+      // + 号连接符必须保证第一和第二个 node 都是字符串
+      if (!t.isStringLiteral(nodes[0]) && !t.isStringLiteral(nodes[1])) {
+        nodes.unshift(t.stringLiteral(''))
+      }
+
+      let root = nodes[0]
+      for (let i = 1; i < nodes.length; i++) {
+        root = t.binaryExpression('+', root, nodes[i])
+      }
+      path.replaceWith(root)
+    },
     ClassDeclaration (path) {
       mainClass = path
+      const superClass = path.node.superClass
+      if (t.isIdentifier(superClass)) {
+        const binding = path.scope.getBinding(superClass.name)
+        if (binding && binding.kind === 'module') {
+          const bindingPath = binding.path.parentPath
+          if (bindingPath.isImportDeclaration()) {
+            const source = bindingPath.node.source
+            try {
+              const p = fs.existsSync(source.value + '.js') ? source.value + '.js' : source.value + '.tsx'
+              const code = fs.readFileSync(p, 'utf8')
+              componentProperies = transform({
+                isRoot: false,
+                isApp: false,
+                code,
+                isTyped: true,
+                sourcePath: source.value,
+                outputPath: source.value
+              }).componentProperies
+            } catch (error) {
+              //
+            }
+          }
+        }
+      }
     },
     ClassExpression (path) {
       mainClass = path as any
@@ -196,6 +261,16 @@ export default function transform (options: Options): TransformResult {
     ClassMethod (path) {
       if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
         renderMethod = path
+      }
+    },
+    IfStatement (path) {
+      const consequent = path.get('consequent')
+      if (!consequent.isBlockStatement()) {
+        consequent.replaceWith(
+          t.blockStatement([
+            consequent.node as any
+          ])
+        )
       }
     },
     CallExpression (path) {
@@ -206,7 +281,7 @@ export default function transform (options: Options): TransformResult {
       if (callee.isReferencedMemberExpression()) {
         const id = findFirstIdentifierFromMemberExpression(callee.node)
         const calleeIds = getIdsFromMemberProps(callee.node)
-        if (t.isIdentifier(id) && id.name.startsWith('on')) {
+        if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
           if (fullPath) {
             path.replaceWith(
@@ -235,16 +310,6 @@ export default function transform (options: Options): TransformResult {
         }
       }
     },
-    AwaitExpression () {
-      const isAsyncImported = ast.program.body.some(statement => {
-        return t.isImportDeclaration(statement) && statement.source.value === ASYNC_PACKAGE_NAME
-      })
-      if (!isAsyncImported) {
-        ast.program.body.unshift(
-          t.importDeclaration([], t.stringLiteral(ASYNC_PACKAGE_NAME))
-        )
-      }
-    },
     // JSXIdentifier (path) {
     //   const parentPath = path.parentPath
     //   if (!parentPath.isJSXAttribute()) {
@@ -265,6 +330,24 @@ export default function transform (options: Options): TransformResult {
     //   const expr = parentPath.get('value.expression')
 
     // },
+    JSXElement (path) {
+      const assignment = path.findParent(p => p.isAssignmentExpression())
+      if (!assignment || !assignment.isAssignmentExpression()) {
+        return
+      }
+      const left = assignment.node.left
+      if (t.isIdentifier(left)) {
+        const binding = assignment.scope.getBinding(left.name)
+        if (binding && binding.scope === assignment.scope) {
+          if (binding.path.isVariableDeclarator()) {
+            binding.path.node.init = path.node
+            assignment.remove()
+          } else {
+            throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+          }
+        }
+      }
+    },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       if (name === 'Provider') {
@@ -283,7 +366,6 @@ export default function transform (options: Options): TransformResult {
       if (IMAGE_COMPONENTS.has(name)) {
         for (const attr of path.node.attributes) {
           if (
-            t.isIdentifier(attr) &&
             attr.name.name === 'src'
           ) {
             if (t.isStringLiteral(attr.value)) {
@@ -341,9 +423,10 @@ export default function transform (options: Options): TransformResult {
       const source = path.node.source.value
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
+        isImportTaro = true
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
-          t.importSpecifier(t.identifier(INTERNAL_DYNAMIC), t.identifier(INTERNAL_DYNAMIC)),
+          t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
         )
       }
@@ -375,6 +458,18 @@ export default function transform (options: Options): TransformResult {
       componentSourceMap.set(source, names)
     }
   })
+
+  if (!isImportTaro) {
+    ast.program.body.unshift(
+      t.importDeclaration([
+        t.importDefaultSpecifier(t.identifier('Taro')),
+        t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
+        t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+      ], t.stringLiteral('@tarojs/taro'))
+    )
+  }
+
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
   }
@@ -403,7 +498,7 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
   result.template = prettyPrint(result.template)

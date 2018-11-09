@@ -1,5 +1,9 @@
-##### ScrollView
-##### 可滚动视图区域。
+---
+title: ScrollView
+sidebar_label: ScrollView
+---
+
+##### 可滚动视图区域
 
 > 属性及支持度
 
@@ -14,8 +18,8 @@
 | √ |   | x | scrollIntoView      | String      |        | 值应为某子元素 id（id 不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素 |
 | √ | √ | √ | scrollWithAnimation | Boolean     | false  | 在设置滚动条位置时使用动画过渡  |
 | √ |   | √ | enableBackToTop    | Boolean     | false  | iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向                     |
-| √ | √ | √ | onScrolltoupper     | EventHandle |        | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
-| √ | √ | √ | onScrolltolower     | EventHandle |        | 滚动到底部/右边，会触发 scrolltolower 事件 |
+| √ | √ | √ | onScrollToUpper     | EventHandle |        | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
+| √ | √ | √ | onScrollToLower     | EventHandle |        | 滚动到底部/右边，会触发 scrolltolower 事件 |
 | √ | √ | √ | onScroll            | EventHandle |        | 滚动时触发，event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY} |
 
 
@@ -23,15 +27,16 @@
 
 ###### 示例：
 ```jsx
-<ScrollView className='scrollview'
-            scrollY
-            scrollWithAnimation
-            scrollTop='0'
-            style='height: 150px;'
-            lowerThreshold='20'
-            upperThreshold='20'
-            onScrolltoupper={this.onScrolltoupper}
-            onScroll={this.onScroll}>
+<ScrollView
+  className='scrollview'
+  scrollY
+  scrollWithAnimation
+  scrollTop='0'
+  style='height: 150px;'
+  lowerThreshold='20'
+  upperThreshold='20'
+  onScrolltoupper={this.onScrolltoupper}
+  onScroll={this.onScroll}>
   <View style='height:150px;background-color:rgb(26,173,25);'>A</View>
   <View style='height:150px;background-color:rgb(39,130,215);'>B</View>
   <View style='height:150px;background-color:rgb(241,241,241);color: #333;'>C</View>
@@ -39,4 +44,4 @@
 ```
 
 ###### Tips:
-* H5中ScrollView组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果ScrollView的高度将body撑开，就会同时存在两个滚动条（body下的滚动条，以及ScrollView的滚动条）。
+* H5 中 ScrollView 组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果 ScrollView 的高度将 body 撑开，就会同时存在两个滚动条（body 下的滚动条，以及 ScrollView 的滚动条）。

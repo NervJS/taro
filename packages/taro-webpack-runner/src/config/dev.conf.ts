@@ -1,76 +1,112 @@
-import * as webpack from 'webpack'
-import { getPostcssPlugins } from './postcss.conf'
-import { BuildConfig } from '../util/types'
+import * as path from 'path';
 
-export default function (config: BuildConfig): webpack.Configuration {
-  const styleLoader = require.resolve('style-loader')
-  const cssLoader = {
-    loader: require.resolve('css-loader'),
-    options: {
-      importLoaders: 1
-    }
-  }
-  const postcssLoader = {
-    loader: require.resolve('postcss-loader'),
-    options: {
-      ident: 'postcss',
-      plugins: () => getPostcssPlugins(config)
-    }
-  }
-  const sassLoader = {
-    loader: require.resolve('sass-loader'),
-    options: { sourceMap: true }
-  }
-  const lessLoader = require.resolve('less-loader')
-  const stylusLoader = require.resolve('stylus-loader')
-  const resolveUrlLoader = require.resolve('resolve-url-loader')
+import { appPath } from '../util';
+import {
+  getDefinePlugin,
+  getEntry,
+  getHotModuleReplacementPlugin,
+  getHtmlWebpackPlugin,
+  getMiniCssExtractPlugin,
+  getOutput,
+  getDevtool,
+  getModule,
+  processEnvOption
+} from '../util/chain';
+import { BuildConfig } from '../util/types';
+import getBaseChain from './base.conf';
 
-  return {
-    mode: 'development',
-    module: {
-      rules: [
-        {
-          oneOf: [
-            {
-              test: /\.(css|scss|sass)(\?.*)?$/,
-              exclude: /node_modules/,
-              use: [ styleLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader ]
-            },
-            {
-              test: /\.less(\?.*)?$/,
-              exclude: /node_modules/,
-              use: [ styleLoader, cssLoader, postcssLoader, lessLoader ]
-            },
-            {
-              test: /\.styl(\?.*)?$/,
-              exclude: /node_modules/,
-              use: [ styleLoader, cssLoader, postcssLoader, stylusLoader ]
-            },
-            {
-              test: /\.(css|scss|sass)(\?.*)?$/,
-              include: /node_modules/,
-              use: [ styleLoader, cssLoader, sassLoader ]
-            },
-            {
-              test: /\.less(\?.*)?$/,
-              include: /node_modules/,
-              use: [ styleLoader, cssLoader, lessLoader ]
-            },
-            {
-              test: /\.styl(\?.*)?$/,
-              include: /node_modules/,
-              use: [ styleLoader, cssLoader, stylusLoader ]
-            }
-          ]
-        }
-      ]
+const emptyObj = {}
+
+export default function (config: Partial<BuildConfig>): any {
+  const chain = getBaseChain()
+  const {
+    alias = emptyObj,
+    entry = emptyObj,
+    output = emptyObj,
+    sourceRoot = '',
+    outputRoot,
+    publicPath,
+    staticDirectory = 'static',
+    chunkDirectory = 'chunk',
+
+    designWidth = 750,
+    deviceRatio,
+    enableSourceMap = true,
+    enableExtract = false,
+    
+    defineConstants = emptyObj,
+    env = emptyObj,
+    styleLoaderOption = emptyObj,
+    cssLoaderOption = emptyObj,
+    sassLoaderOption = emptyObj,
+    lessLoaderOption = emptyObj,
+    stylusLoaderOption = emptyObj,
+    mediaUrlLoaderOption = emptyObj,
+    fontUrlLoaderOption = emptyObj,
+    imageUrlLoaderOption = emptyObj,
+    
+    miniCssExtractPluginOption = emptyObj,
+
+    module = {
+      postcss: emptyObj
     },
+    plugins
+  } = config
+
+  const plugin = {} as any
+
+  if (enableExtract) {
+    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[id].css'
+    }, miniCssExtractPluginOption])
+  }
+
+  plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
+    filename: 'index.html',
+    template: path.join(appPath, sourceRoot, 'index.html')
+  }])
+  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+  plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin()
+
+  const mode = 'development'
+
+  chain.merge({
+    mode,
+    devtool: getDevtool([enableSourceMap]),
+    entry: getEntry(entry),
+    output: getOutput([{
+      outputRoot,
+      publicPath,
+      chunkDirectory
+    }, output]),
+    resolve: { alias },
+    module: getModule({
+      mode,
+  
+      designWidth,
+      deviceRatio,
+      enableExtract,
+      enableSourceMap,
+  
+      styleLoaderOption,
+      cssLoaderOption,
+      lessLoaderOption,
+      sassLoaderOption,
+      stylusLoaderOption,
+      fontUrlLoaderOption,
+      imageUrlLoaderOption,
+      mediaUrlLoaderOption,
+  
+      module,
+      plugins,
+      staticDirectory
+    }),
+    plugin,
     optimization: {
       noEmitOnErrors: true
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ],
-    devtool: 'cheap-module-eval-source-map'
-  } as webpack.Configuration
+    }
+  })
+
+  return chain
 }

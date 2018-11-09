@@ -1,5 +1,7 @@
 # dependency
 node_modules
+webpack.config.js
+src/demo
 
 # macOS
 .DS_Store

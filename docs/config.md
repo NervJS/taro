@@ -1,4 +1,6 @@
-# 项目配置
+---
+title: 项目配置
+---
 
 项目配置存放于项目根目录下 `config` 目录中，包含三个文件
 
@@ -8,7 +10,7 @@
 
 ## index.js —— 通用配置
 
-```javascript
+```jsx
 const config = {
   // 项目名称
   projectName: 'kj',
@@ -47,7 +49,9 @@ const config = {
         // 小程序端样式引用本地资源内联配置
         url: {
           enable: true,
-          limit: 10240
+          config: {
+            limit: 10240
+          }
         }
       }
     }
@@ -63,8 +67,9 @@ const config = {
         }
       }
     },
-    // 自定义webpack配置
-    webpack: {}
+    // 自定义 webpack 配置
+    webpackChain: {},
+    devServer: {}
   }
 };
 

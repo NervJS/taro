@@ -6,4 +6,7 @@ lerna-debug.log
 yarn-error.log
 _book
 .idea
+.vscode
 temp
+website/build
+website/package.json

@@ -17,11 +17,14 @@
     "packages/taro-plugin-stylus",
     "packages/taro-redux",
     "packages/taro-redux-h5",
+    "packages/taro-redux-rn",
     "packages/taro-rn",
     "packages/taro-router-rn",
     "packages/taro-rn-runner",
     "packages/taro-router",
     "packages/taro-weapp",
+    "packages/taro-swan",
+    "packages/taro-alipay",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
@@ -35,6 +38,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.0.0-beta.20",
+  "version": "1.1.4",
   "npmClient": "npm"
 }

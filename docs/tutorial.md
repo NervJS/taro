@@ -1,4 +1,6 @@
-# 教程
+---
+title: 项目说明
+---
 
 ## 项目目录结构
 
@@ -9,9 +11,9 @@
     |   └── prod.js            打包时配置
     ├── src                    源码目录
     |   ├── pages              页面文件目录
-    |   |   ├── index          index页面目录
-    |   |   |   ├── index.js   index页面逻辑
-    |   |   |   └── index.css  index页面样式
+    |   |   ├── index          index 页面目录
+    |   |   |   ├── index.js   index 页面逻辑
+    |   |   |   └── index.css  index 页面样式
     |   ├── app.css            项目总通用样式
     |   └── app.js             项目入口文件
     └── package.json
@@ -24,7 +26,7 @@
 
 一个普通的入口文件示例如下
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
 
@@ -71,10 +73,12 @@ class App extends Component {
 | - | - | - |
 | componentWillMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch` |
 | componentDidMount | 程序被载入 | 在微信小程序中这一生命周期方法对应 app 的 `onLaunch`，在 `componentWillMount` 后执行 |
-| componentDidShow | 程序展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
-| componentDidHide | 程序被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
+| componentDidShow | 程序展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在 H5 中同样实现 |
+| componentDidHide | 程序被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在 H5 中同样实现 |
+| componentDidCatchError | 错误监听函数 | 在微信小程序中这一生命周期方法对应 `onError` |
+| componentDidNotFound | 页面不存在监听函数 | 在微信小程序中这一生命周期方法对应 `onPageNotFound` |
 
-> 微信小程序中 `onLaunch` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期方法中通过 `this.$router.params` 访问到，在其他端也适用
+> 微信小程序中 `onLaunch` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期和普通事件方法中通过 `this.$router.params` 访问到，在其他端也适用
 
 入口文件需要包含一个 `render` 方法，一般返回程序的第一个页面，但值得注意的是不要在入口文件中的 `render` 方法里写逻辑及引用其他页面、组件，因为编译时 `render` 方法的内容会被直接替换掉，你的逻辑代码不会起作用。
 
@@ -86,7 +90,7 @@ Taro 项目的页面一般都放在 `src` 中的 `pages` 目录下，如果页�
 
 页面创建好后如果需要渲染展示，则需要在项目入口文件 `app.js` 中 `config` 的 `pages` 数组中进行指定，例如上面提到的 `index` 页面，需要如下进行配置，页面配置需要指定到页面具体的 `js` 文件，可以不带 `.js` 后缀
 
-```javascript
+```jsx
 
 ...
 class App extends Component {
@@ -105,7 +109,7 @@ class App extends Component {
 
 一个普通的页面文件示例如下
 
-```javascript
+```jsx
 
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
@@ -137,13 +141,13 @@ export default class Index extends Component {
 
 ```
 
-Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都拥有自己配置 `config`，这个配置参考自微信小程序的[页面配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html)，在编译成小程序时，将会生成跟页面JS文件同名的 `json` 配置文件；在编译成 H5 时，`config` 配置中 `navigationBarTitleText` 将会被用来设置当前页面的标题。
+Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都拥有自己配置 `config`，这个配置参考自微信小程序的[页面配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html)，在编译成小程序时，将会生成跟页面 JS 文件同名的 `json` 配置文件；在编译成 H5 时，`config` 配置中 `navigationBarTitleText` 将会被用来设置当前页面的标题。
 
-页面的样式文件建议放在与页面JS的同级目录下，然后通过ES6规范 `import` 进行引入，支持使用 CSS 预编译处理器，目前提供了 `sass` 预编译插件 `@tarojs/plugin-sass`，需要自行在本地进行安装。
+页面的样式文件建议放在与页面 JS 的同级目录下，然后通过 ES6 规范 `import` 进行引入，支持使用 CSS 预编译处理器，目前提供了 `sass` 预编译插件 `@tarojs/plugin-sass`，需要自行在本地进行安装。
 
-页面JS要求必须有一个 `render` 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 [JSX章节](./jsx.md)。
+页面 JS 要求必须有一个 `render` 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 [JSX 章节](./jsx.md)。
 
-由于页面JS也继承自 `Component` 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：
+由于页面 JS 也继承自 `Component` 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：
 
 | 生命周期方法 | 作用 | 说明 |
 | - | - | - |
@@ -153,10 +157,10 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 | componentWillUpdate | 页面即将更新 |  |
 | componentDidUpdate | 页面更新完毕 |  |
 | componentWillUnmount | 页面退出 | 在微信小程序中这一生命周期方法对应 `onUnload` |
-| componentDidShow | 页面展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在H5中同样实现 |
-| componentDidHide | 页面被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在H5中同样实现 |
+| componentDidShow | 页面展示出来 | 在微信小程序中这一生命周期方法对应 `onShow`，在 H5 中同样实现 |
+| componentDidHide | 页面被隐藏 | 在微信小程序中这一生命周期方法对应 `onHide`，在 H5 中同样实现 |
 
-> 微信小程序中 `onLoad` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期方法中通过 `this.$router.params` 访问到，在其他端也适用
+> 微信小程序中 `onLoad` 通常带有一个参数 `options`，在 Taro 中你可以在所有生命周期和普通事件方法中通过 `this.$router.params` 访问到，在其他端也适用
 
 在小程序中，页面还有在一些专属的方法成员，如下
 
@@ -167,8 +171,9 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 | onShareAppMessage | 用户点击右上角转发 |
 | onPageScroll | 页面滚动触发事件的处理函数 |
 | onTabItemTap | 当前是 tab 页时，点击 tab 时触发 |
+| componentWillPreload | [预加载](best-practice.md#预加载)，只在**微信小程序**中可用 |
 
-以上成员方案在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有微信小程序端支持这些方法，编译到H5端后这些方法均会失效。
+以上成员方法在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有微信小程序端支持这些方法，编译到 H5 端后这些方法均会失效。
 
 ## 组件
 
@@ -176,7 +181,7 @@ Taro 支持组件化开发，组件代码可以放在任意位置，不过建议
 
 ### 代码示例
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image, Button } from '@tarojs/components'
 import './tab.scss'

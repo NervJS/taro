@@ -1,4 +1,8 @@
-##### Map
+---
+title: Map
+sidebar_label: Map
+---
+
 ##### 地图
 
 > 组件 支持度
@@ -15,11 +19,11 @@ import Taro, { Component } from '@tarojs/taro'
 import { Map } from '@tarojs/components'
 
 class App extends Component {
-	onTap () {}
-	render () {
-		return (
-			<Map onClick={this.onTap} />
-		)
-	}
+  onTap () {}
+  render () {
+    return (
+      <Map onClick={this.onTap} />
+    )
+  }
 }
 ```

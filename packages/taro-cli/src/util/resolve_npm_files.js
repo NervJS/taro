@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const resolvePath = require('resolve')
 const wxTransformer = require('@tarojs/transformer-wx')
+const babel = require('babel-core')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -15,7 +16,7 @@ const {
   printLog,
   pocessTypeEnum,
   PROJECT_CONFIG,
-  replaceContentEnv,
+  generateEnvList,
   REG_TYPESCRIPT,
   BUILD_TYPES,
   REG_STYLE
@@ -34,9 +35,9 @@ const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 
-function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig) {
+function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir) {
   try {
-    return resolvePath.sync(pkgName, { basedir })
+    return resolvePath.sync(pkgName, { basedir: root })
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(`缺少npm包${pkgName}，开始安装...`)
@@ -45,25 +46,34 @@ function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig) {
         installOptions.dev = true
       }
       npmProcess.installNpmPkg(pkgName, installOptions)
-      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     }
   }
 }
 
-function resolveNpmFilesPath (pkgName, isProduction, npmConfig) {
+function recursiveFindNodeModules (filePath) {
+  const dirname = path.dirname(filePath)
+  const nodeModules = path.join(dirname, 'node_modules')
+  if (fs.existsSync(nodeModules)) {
+    return nodeModules
+  }
+  return recursiveFindNodeModules(dirname)
+}
+
+function resolveNpmFilesPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir) {
   if (!resolvedCache[pkgName]) {
-    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig)
+    const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     resolvedCache[pkgName] = {
       main: res,
       files: []
     }
     resolvedCache[pkgName].files.push(res)
-    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig)
+    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig, buildAdapter)
   }
   return resolvedCache[pkgName]
 }
 
-function parseAst (ast, filePath, files, isProduction, npmConfig) {
+function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP) {
   const excludeRequire = []
   traverse(ast, {
     IfStatement (astPath) {
@@ -72,7 +82,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
           const node = astPath.node
           const left = node.left
           if (generate(left).code === 'process.env.TARO_ENV' &&
-            node.right.value !== BUILD_TYPES.WEAPP) {
+            node.right.value !== buildAdapter) {
             const consequentSibling = astPath.getSibling('consequent')
             consequentSibling.traverse({
               CallExpression (astPath) {
@@ -100,8 +110,9 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
               if (excludeRequire.indexOf(requirePath) < 0) {
                 if (isNpmPkg(requirePath)) {
                   if (excludeNpmPkgs.indexOf(requirePath) < 0) {
-                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig)
-                    const relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
+                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)))
+                    let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
+                    relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
                     args[0].value = relativeRequirePath
                   }
                 } else {
@@ -110,13 +121,14 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
                   let tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
                   if (fs.existsSync(tempPathWithJS)) {
                     realRequirePath = tempPathWithJS
+                    requirePath += '.js'
                   } else if (fs.existsSync(tempPathWithIndexJS)) {
                     realRequirePath = tempPathWithIndexJS
                     requirePath += '/index.js'
                   }
                   if (files.indexOf(realRequirePath) < 0) {
                     files.push(realRequirePath)
-                    recursiveRequire(realRequirePath, files, isProduction, npmConfig)
+                    recursiveRequire(realRequirePath, files, isProduction, npmConfig, buildAdapter)
                   }
                   args[0].value = requirePath
                 }
@@ -130,11 +142,12 @@ function parseAst (ast, filePath, files, isProduction, npmConfig) {
   return generate(ast).code
 }
 
-function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
+function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildAdapter) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath
   if (!npmConfig.dir) {
     outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+    outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
     const npmFilePath = filePath.replace(/(.*)node_modules/, '')
     outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
@@ -142,17 +155,23 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   if (REG_STYLE.test(path.basename(filePath))) {
     return
   }
-  fileContent = replaceContentEnv(fileContent, projectConfig.env || {})
-  fileContent = npmCodeHack(filePath, fileContent)
+  fileContent = npmCodeHack(filePath, fileContent, buildAdapter)
   try {
     const transformResult = wxTransformer({
       code: fileContent,
       sourcePath: filePath,
       outputPath: outputNpmPath,
       isNormal: true,
+      adapter: buildAdapter,
       isTyped: REG_TYPESCRIPT.test(filePath)
     })
-    fileContent = parseAst(transformResult.ast, filePath, files, isProduction, npmConfig)
+    const constantsReplaceList = generateEnvList(projectConfig.env || {})
+    const ast = babel.transformFromAst(transformResult.ast, '', {
+      plugins: [
+        [require('babel-plugin-transform-define').default, constantsReplaceList]
+      ]
+    }).ast
+    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig, buildAdapter)
   } catch (err) {
     console.log(err)
   }
@@ -163,6 +182,7 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
         if (uglifyResult.error) {
+          printLog(pocessTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
           console.log(uglifyResult.error)
         } else {
           fileContent = uglifyResult.code
@@ -178,12 +198,17 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}) {
   }
 }
 
-function npmCodeHack (filePath, content) {
+function npmCodeHack (filePath, content, buildAdapter) {
   const basename = path.basename(filePath)
   switch (basename) {
     case 'lodash.js':
     case '_global.js':
-      content = content.replace('Function(\'return this\')()', 'this')
+    case 'lodash.min.js':
+      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
+        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, '{}')
+      } else {
+        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
+      }
       break
     case '_html.js':
       content = 'module.exports = false;'
@@ -194,7 +219,11 @@ function npmCodeHack (filePath, content) {
       content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
       break
     case '_freeGlobal.js':
-      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this;')
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || global || {};')
+      break
+  }
+  if (buildAdapter === BUILD_TYPES.ALIPAY && content.replace(/\s\r\n/g, '').length <= 0) {
+    content = '// Empty file'
   }
   return content
 }

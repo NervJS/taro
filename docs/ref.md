@@ -1,4 +1,6 @@
-# Refs 引用
+---
+title: Refs 引用
+---
 
 > Refs 提供了一种访问在 render 方法中创建的 DOM 节点（小程序原生组件）或 Taro 组件实例的方式。
 
@@ -17,7 +19,7 @@ Taro 支持使用字符串和函数两种方式创建 Ref。
 
 通过字符串创建 ref 只需要把一个字符串的名称赋给 `ref` prop。然后就通过 `this.refs` 访问到被定义的组件实例或 DOM 元素（小程序原生组件）。在微信小程序中，如果 `ref` 的是小程序原生组件，那么相当于使用 `createSeletorQuery` 取到小程序原生组件实例，如果是在 `H5(Web)` 环境中使用，那访问到的将是 `@tarojs/components` 对应组件的组件实例。
 
-```javascript
+```jsx
 class MyComponent extends Component {
 
   componentDidMount () {
@@ -42,7 +44,7 @@ class MyComponent extends Component {
 
 *不管在任何情况下，Taro 都推荐你使用函数的方式创建 ref。*
 
-```javascript
+```jsx
 class MyComponent extends Component {
 
   roar () {
@@ -58,7 +60,7 @@ class MyComponent extends Component {
 }
 
 class Cat extends Components {
-  miao() {
+  miao () {
     console.log('miao, miao, miao~')
   }
 

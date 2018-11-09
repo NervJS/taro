@@ -4,7 +4,9 @@ import request from './api/request'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
 import webSocket from './api/webSocket'
+import * as tabBar from './api/tabBar'
 import * as system from './api/system'
+import * as others from './api/others'
 
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
@@ -20,11 +22,20 @@ function pxTransform (size) {
   return Math.ceil((parseInt(size, 10) / 40 * 640 / designWidth) * 10000) / 10000 + 'rem'
 }
 
+function canIUseWebp () {
+  const canvas = document.createElement('canvas')
+  return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
   taro.createSelectorQuery = createSelectorQuery
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
-  Object.assign(taro, storage, interactive, webSocket, system)
+  taro.requirePlugin = function () {
+    console.error('不支持 API requirePlugin')
+  }
+  taro.canIUseWebp = canIUseWebp
+  Object.assign(taro, storage, interactive, webSocket, tabBar, system, others)
 }

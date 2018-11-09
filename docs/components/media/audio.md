@@ -1,5 +1,9 @@
-##### Audio
-##### 音频。
+---
+title: Audio
+sidebar_label: Audio
+---
+
+##### 音频
 
 > 属性及支持度
 
@@ -12,7 +16,7 @@
 | √ |   |  | initialTime   | Number      |        | 指定视频初始播放位置                                         |
 | √ | √ |  | loop           | Boolean     | false  | 是否循环播放                                                 |
 | √ | √ |  | muted          | Boolean     | false  | 是否静音播放                                                 |
-| √ | √ |  | onPlay       | EventHandle |        | 当开始/继续播放时触发play事件                                |
+| √ | √ |  | onPlay       | EventHandle |        | 当开始/继续播放时触发 play 事件                                |
 | √ | √ |  | onPause      | EventHandle |        | 当暂停播放时触发 pause 事件                                  |
 | √ | √ |  | onEnded      | EventHandle |        | 当播放到末尾时触发 ended 事件                                |
 | √ | √ |  | onTimeUpdate | EventHandle |        | 播放进度变化时触发，触发频率 250ms 一次 |

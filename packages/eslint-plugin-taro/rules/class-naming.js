@@ -5,8 +5,8 @@ const DEFAULT_Components_SET = new Set([
   'ScrollView',
   'Swiper',
   'MovableView',
-  'CoverImage',
   'CoverView',
+  'CoverImage',
   'Icon',
   'Text',
   'RichText',
@@ -18,6 +18,7 @@ const DEFAULT_Components_SET = new Set([
   'Label',
   'Picker',
   'PickerView',
+  'PickerViewColumn',
   'Radio',
   'RadioGroup',
   'CheckboxGroup',
@@ -36,9 +37,13 @@ const DEFAULT_Components_SET = new Set([
   'OpenData',
   'WebView',
   'SwiperItem',
-  'Provider',
   'MovableArea',
-  'MovableView'
+  'MovableView',
+  'FunctionalPageNavigator',
+  'Ad',
+  'Block',
+  'Import',
+  'OfficialAccount'
 ])
 
 const ERROR_MESSAGE = '组件名不得与小程序内置组件名重复'

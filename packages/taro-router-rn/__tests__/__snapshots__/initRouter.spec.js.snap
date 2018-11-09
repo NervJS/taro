@@ -1,0 +1,413 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getRootStack renders successfully 1`] = `
+<KeyboardAwareNavigator
+  navigation={
+    Object {
+      "actions": Object {
+        "dismiss": [Function],
+        "pop": [Function],
+        "popToTop": [Function],
+        "push": [Function],
+        "replace": [Function],
+        "reset": [Function],
+      },
+      "addListener": [Function],
+      "dangerouslyGetParent": [Function],
+      "dismiss": [Function],
+      "dispatch": [Function],
+      "getChildNavigation": [Function],
+      "getScreenProps": [Function],
+      "goBack": [Function],
+      "isFocused": [Function],
+      "navigate": [Function],
+      "pop": [Function],
+      "popToTop": [Function],
+      "push": [Function],
+      "replace": [Function],
+      "reset": [Function],
+      "router": Object {
+        "childRouters": Object {
+          "pages/about/index": null,
+          "pages/expo/index": null,
+          "pages/hello/index": null,
+          "pages/index/index": null,
+        },
+        "getActionCreators": [Function],
+        "getActionForPathAndParams": [Function],
+        "getComponentForRouteName": [Function],
+        "getComponentForState": [Function],
+        "getPathAndParamsForState": [Function],
+        "getScreenOptions": [Function],
+        "getStateForAction": [Function],
+      },
+      "setParams": [Function],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "key": "StackRouterRoot",
+        "routes": Array [
+          Object {
+            "key": "id-1539260188146-0",
+            "routeName": "pages/index/index",
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
+
+exports[`initRouter getRootStack renders successfully 1`] = `
+<KeyboardAwareNavigator
+  navigation={
+    Object {
+      "actions": Object {
+        "dismiss": [Function],
+        "pop": [Function],
+        "popToTop": [Function],
+        "push": [Function],
+        "replace": [Function],
+        "reset": [Function],
+      },
+      "addListener": [Function],
+      "dangerouslyGetParent": [Function],
+      "dismiss": [Function],
+      "dispatch": [Function],
+      "getChildNavigation": [Function],
+      "getScreenProps": [Function],
+      "goBack": [Function],
+      "isFocused": [Function],
+      "navigate": [Function],
+      "pop": [Function],
+      "popToTop": [Function],
+      "push": [Function],
+      "replace": [Function],
+      "reset": [Function],
+      "router": Object {
+        "childRouters": Object {
+          "pages/about/index": null,
+          "pages/expo/index": null,
+          "pages/hello/index": null,
+          "pages/index/index": null,
+        },
+        "getActionCreators": [Function],
+        "getActionForPathAndParams": [Function],
+        "getComponentForRouteName": [Function],
+        "getComponentForState": [Function],
+        "getPathAndParamsForState": [Function],
+        "getScreenOptions": [Function],
+        "getStateForAction": [Function],
+      },
+      "setParams": [Function],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "key": "StackRouterRoot",
+        "routes": Array [
+          Object {
+            "key": "id-1539587332884-0",
+            "routeName": "pages/index/index",
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
+
+exports[`initRouter initRouter with tabBar 1`] = `
+<Navigator
+  navigation={
+    Object {
+      "actions": Object {},
+      "addListener": [Function],
+      "dangerouslyGetParent": [Function],
+      "dispatch": [Function],
+      "getChildNavigation": [Function],
+      "getScreenProps": [Function],
+      "goBack": [Function],
+      "isFocused": [Function],
+      "navigate": [Function],
+      "router": Object {
+        "childRouters": Object {
+          "pages/expo/index": Object {
+            "childRouters": Object {
+              "pages/about/index": null,
+              "pages/expo/index": null,
+              "pages/hello/index": null,
+            },
+            "getActionCreators": [Function],
+            "getActionForPathAndParams": [Function],
+            "getComponentForRouteName": [Function],
+            "getComponentForState": [Function],
+            "getPathAndParamsForState": [Function],
+            "getScreenOptions": [Function],
+            "getStateForAction": [Function],
+          },
+          "pages/index/index": Object {
+            "childRouters": Object {
+              "pages/about/index": null,
+              "pages/hello/index": null,
+              "pages/index/index": null,
+            },
+            "getActionCreators": [Function],
+            "getActionForPathAndParams": [Function],
+            "getComponentForRouteName": [Function],
+            "getComponentForState": [Function],
+            "getPathAndParamsForState": [Function],
+            "getScreenOptions": [Function],
+            "getStateForAction": [Function],
+          },
+        },
+        "getActionCreators": [Function],
+        "getActionForPathAndParams": [Function],
+        "getComponentForRouteName": [Function],
+        "getComponentForState": [Function],
+        "getPathAndParamsForState": [Function],
+        "getScreenOptions": [Function],
+        "getStateForAction": [Function],
+      },
+      "setParams": [Function],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "routes": Array [
+          Object {
+            "index": 0,
+            "isTransitioning": false,
+            "key": "pages/index/index",
+            "params": undefined,
+            "routeName": "pages/index/index",
+            "routes": Array [
+              Object {
+                "key": "id-1539587332884-2",
+                "routeName": "pages/index/index",
+              },
+            ],
+          },
+          Object {
+            "index": 0,
+            "isTransitioning": false,
+            "key": "pages/expo/index",
+            "params": undefined,
+            "routeName": "pages/expo/index",
+            "routes": Array [
+              Object {
+                "key": "id-1539587332884-3",
+                "routeName": "pages/expo/index",
+              },
+            ],
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
+
+exports[`initRouter initRouter without tabBar 1`] = `
+<KeyboardAwareNavigator
+  navigation={
+    Object {
+      "actions": Object {
+        "dismiss": [Function],
+        "pop": [Function],
+        "popToTop": [Function],
+        "push": [Function],
+        "replace": [Function],
+        "reset": [Function],
+      },
+      "addListener": [Function],
+      "dangerouslyGetParent": [Function],
+      "dismiss": [Function],
+      "dispatch": [Function],
+      "getChildNavigation": [Function],
+      "getScreenProps": [Function],
+      "goBack": [Function],
+      "isFocused": [Function],
+      "navigate": [Function],
+      "pop": [Function],
+      "popToTop": [Function],
+      "push": [Function],
+      "replace": [Function],
+      "reset": [Function],
+      "router": Object {
+        "childRouters": Object {
+          "pages/about/index": null,
+          "pages/expo/index": null,
+          "pages/hello/index": null,
+          "pages/index/index": null,
+        },
+        "getActionCreators": [Function],
+        "getActionForPathAndParams": [Function],
+        "getComponentForRouteName": [Function],
+        "getComponentForState": [Function],
+        "getPathAndParamsForState": [Function],
+        "getScreenOptions": [Function],
+        "getStateForAction": [Function],
+      },
+      "setParams": [Function],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "key": "StackRouterRoot",
+        "routes": Array [
+          Object {
+            "key": "id-1539587332884-1",
+            "routeName": "pages/index/index",
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
+
+exports[`initRouter with tabBar 1`] = `
+<Navigator
+  navigation={
+    Object {
+      "actions": Object {},
+      "addListener": [Function],
+      "dangerouslyGetParent": [Function],
+      "dispatch": [Function],
+      "getChildNavigation": [Function],
+      "getScreenProps": [Function],
+      "goBack": [Function],
+      "isFocused": [Function],
+      "navigate": [Function],
+      "router": Object {
+        "childRouters": Object {
+          "pages/expo/index": Object {
+            "childRouters": Object {
+              "pages/about/index": null,
+              "pages/expo/index": null,
+              "pages/hello/index": null,
+            },
+            "getActionCreators": [Function],
+            "getActionForPathAndParams": [Function],
+            "getComponentForRouteName": [Function],
+            "getComponentForState": [Function],
+            "getPathAndParamsForState": [Function],
+            "getScreenOptions": [Function],
+            "getStateForAction": [Function],
+          },
+          "pages/index/index": Object {
+            "childRouters": Object {
+              "pages/about/index": null,
+              "pages/hello/index": null,
+              "pages/index/index": null,
+            },
+            "getActionCreators": [Function],
+            "getActionForPathAndParams": [Function],
+            "getComponentForRouteName": [Function],
+            "getComponentForState": [Function],
+            "getPathAndParamsForState": [Function],
+            "getScreenOptions": [Function],
+            "getStateForAction": [Function],
+          },
+        },
+        "getActionCreators": [Function],
+        "getActionForPathAndParams": [Function],
+        "getComponentForRouteName": [Function],
+        "getComponentForState": [Function],
+        "getPathAndParamsForState": [Function],
+        "getScreenOptions": [Function],
+        "getStateForAction": [Function],
+      },
+      "setParams": [Function],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "routes": Array [
+          Object {
+            "index": 0,
+            "isTransitioning": false,
+            "key": "pages/index/index",
+            "params": undefined,
+            "routeName": "pages/index/index",
+            "routes": Array [
+              Object {
+                "key": "id-1539262315972-0",
+                "routeName": "pages/index/index",
+              },
+            ],
+          },
+          Object {
+            "index": 0,
+            "isTransitioning": false,
+            "key": "pages/expo/index",
+            "params": undefined,
+            "routeName": "pages/expo/index",
+            "routes": Array [
+              Object {
+                "key": "id-1539262315972-1",
+                "routeName": "pages/expo/index",
+              },
+            ],
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
+
+exports[`initRouter without tabBar 1`] = `
+<KeyboardAwareNavigator
+  navigation={
+    Object {
+      "actions": Object {
+        "dismiss": [Function],
+        "pop": [Function],
+        "popToTop": [Function],
+        "push": [Function],
+        "replace": [Function],
+        "reset": [Function],
+      },
+      "addListener": [Function],
+      "dangerouslyGetParent": [Function],
+      "dismiss": [Function],
+      "dispatch": [Function],
+      "getChildNavigation": [Function],
+      "getScreenProps": [Function],
+      "goBack": [Function],
+      "isFocused": [Function],
+      "navigate": [Function],
+      "pop": [Function],
+      "popToTop": [Function],
+      "push": [Function],
+      "replace": [Function],
+      "reset": [Function],
+      "router": Object {
+        "childRouters": Object {
+          "pages/about/index": null,
+          "pages/expo/index": null,
+          "pages/hello/index": null,
+          "pages/index/index": null,
+        },
+        "getActionCreators": [Function],
+        "getActionForPathAndParams": [Function],
+        "getComponentForRouteName": [Function],
+        "getComponentForState": [Function],
+        "getPathAndParamsForState": [Function],
+        "getScreenOptions": [Function],
+        "getStateForAction": [Function],
+      },
+      "setParams": [Function],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "key": "StackRouterRoot",
+        "routes": Array [
+          Object {
+            "key": "id-1539260946696-0",
+            "routeName": "pages/index/index",
+          },
+        ],
+      },
+    }
+  }
+/>
+`;

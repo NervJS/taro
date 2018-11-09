@@ -1,8 +1,10 @@
-# 微信小程序原生作用域获取
+---
+title: 微信小程序原生作用域获取
+---
 
 在 Taro 的页面和组件类中，`this` 指向的是 Taro 页面或组件的实例，例如
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 
@@ -32,6 +34,6 @@ export default class Menu extends Component {
 
 所以当调用一些 API 需要传入小程序的页面或者组件实例时，可以直接传入 `this.$scope`，例如 `Taro.createCanvasContext(canvasId, this)` 这个 API，第二个参数就是自定义组件实例 `this`，在 Taro 中就可以如下使用
 
-```javascript
+```jsx
 Taro.createCanvasContext(canvasId, this.$scope)
 ```

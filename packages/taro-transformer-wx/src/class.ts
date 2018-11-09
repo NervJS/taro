@@ -13,6 +13,7 @@ import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
+import { Adapters, Adapter } from './adapter'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -33,7 +34,12 @@ function buildConstructor () {
   return ctor
 }
 
-function processThisPropsFnMemberProperties (member: t.MemberExpression, path: NodePath, args: Array<t.Expression | t.SpreadElement>) {
+function processThisPropsFnMemberProperties (
+  member: t.MemberExpression,
+  path: NodePath<t.CallExpression>,
+  args: Array<t.Expression | t.SpreadElement>,
+  binded: boolean
+) {
   const propertyArray: string[] = []
   function traverseMember (member: t.MemberExpression) {
     const object = member.object
@@ -45,17 +51,31 @@ function processThisPropsFnMemberProperties (member: t.MemberExpression, path: N
 
     if (t.isMemberExpression(object)) {
       if (t.isThisExpression(object.object) &&
-      t.isIdentifier(object.property) &&
-      object.property.name === 'props') {
-        path.replaceWith(
-          t.callExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-            [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
-              t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
-              [t.arrayExpression(args)]
-            )]
+        t.isIdentifier(object.property) &&
+        object.property.name === 'props'
+      ) {
+        if (Adapters.alipay === Adapter.type) {
+          if (binded) args.shift()
+          path.replaceWith(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+              [
+                t.stringLiteral(propertyArray.reverse().join('.')),
+                t.arrayExpression(args)
+              ]
+            )
           )
-        )
+        } else {
+          path.replaceWith(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+              [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
+                t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
+                [t.arrayExpression(args)]
+              )]
+            )
+          )
+        }
       }
       traverseMember(object)
     }
@@ -69,7 +89,8 @@ interface Result {
     name: string,
     path: string,
     type: string
-  }[]
+  }[],
+  componentProperies: string[]
 }
 
 interface Ref {
@@ -82,7 +103,8 @@ interface Ref {
 class Transformer {
   public result: Result = {
     template: '',
-    components: []
+    components: [],
+    componentProperies: []
   }
   private methods: ClassMethodsMap = new Map()
   private initState: Set<string> = new Set()
@@ -96,17 +118,19 @@ class Transformer {
   private usedState = new Set<string>()
   private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
   private customComponentData: Array<t.ObjectProperty> = []
-  private componentProperies = new Set<string>()
+  private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
-    sourcePath: string
+    sourcePath: string,
+    componentProperies: string[]
   ) {
     this.classPath = path
     this.sourcePath = sourcePath
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
+    this.componentProperies = new Set(componentProperies)
     this.compile()
   }
 
@@ -210,6 +234,18 @@ class Transformer {
           self.methods.set(name, path)
           if (name === 'render') {
             self.renderMethod = path
+            path.traverse({
+              ReturnStatement (returnPath) {
+                const arg = returnPath.node.argument
+                const ifStem = returnPath.findParent(p => p.isIfStatement())
+                if (ifStem && ifStem.isIfStatement() && arg === null) {
+                  const consequent = ifStem.get('consequent')
+                  if (consequent.isBlockStatement() && consequent.node.body.includes(returnPath.node)) {
+                    returnPath.get('argument').replaceWith(t.nullLiteral())
+                  }
+                }
+              }
+            })
           }
           if (name === 'constructor') {
             path.traverse({
@@ -277,6 +313,7 @@ class Transformer {
         const expression = path.get('expression') as NodePath<t.Expression>
         const scope = self.renderMethod && self.renderMethod.scope || path.scope
         const calleeExpr = expression.get('callee')
+        const parentPath = path.parentPath
         if (
           hasComplexExpression(expression) &&
           !(calleeExpr &&
@@ -285,6 +322,12 @@ class Transformer {
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+        } else {
+          if (parentPath.isJSXAttribute()) {
+            if (!(expression.isMemberExpression() || expression.isIdentifier()) && parentPath.node.name.name === 'key') {
+              generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+            }
+          }
         }
         const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
         if (!attr) return
@@ -371,10 +414,10 @@ class Transformer {
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {
               self.componentProperies.add(`__fn_${property.name}`)
-              processThisPropsFnMemberProperties(callee, path, node.arguments)
+              processThisPropsFnMemberProperties(callee, path, node.arguments, false)
             } else if (property.name === 'call' || property.name === 'apply') {
               self.componentProperies.add(`__fn_${property.name}`)
-              processThisPropsFnMemberProperties(callee.object, path, node.arguments)
+              processThisPropsFnMemberProperties(callee.object, path, node.arguments, true)
             }
           }
         }
@@ -390,7 +433,7 @@ class Transformer {
       const funcName = hasMethodName
         ? this.anonymousMethod.get(methodName)!
         // 测试时使用1个稳定的 uniqueID 便于测试，实际使用5个英文字母，否则小程序不支持
-        : process.env.NODE_ENV === 'test' ? uniqueId('func__') : `func__${createRandomLetters(5)}`
+        : process.env.NODE_ENV === 'test' ? uniqueId('funPrivate') : `funPrivate${createRandomLetters(5)}`
       this.anonymousMethod.set(methodName, funcName)
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
@@ -479,7 +522,7 @@ class Transformer {
   findMoreProps () {
     // 第一个参数是 props 的生命周期
     const lifeCycles = new Set([
-      'constructor',
+      // 'constructor',
       'componentDidUpdate',
       'shouldComponentUpdate',
       'getDerivedStateFromProps',
@@ -555,6 +598,7 @@ class Transformer {
     this.findMoreProps()
     this.handleRefs()
     this.parseRender()
+    this.result.componentProperies = [...this.componentProperies]
   }
 }
 

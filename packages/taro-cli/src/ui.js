@@ -46,9 +46,9 @@ async function buildH5Lib () {
   }
   h5Config.sourceRoot = sourceDirName
   h5Config.outputRoot = outputDirName
-  h5Config.entry = {
-    app: path.join(tempPath, entryFile)
-  }
+  h5Config.entry = Object.assign({
+    app: [path.join(tempPath, entryFile)]
+  }, h5Config.entry)
   h5Config.isWatch = false
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
   webpackRunner(h5Config)
@@ -217,7 +217,7 @@ function analyzeStyleFilesImport (styleFiles) {
 
 async function buildForWeapp () {
   console.log()
-  console.log(chalk.green('开始编译微信小程序端组件库！'))
+  console.log(chalk.green('开始编译小程序端组件库！'))
   if (!fs.existsSync(entryFilePath)) {
     console.log(chalk.red('入口文件不存在，请检查！'))
     return
@@ -226,7 +226,7 @@ async function buildForWeapp () {
     const { compileDepStyles } = require('./weapp')
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
     const outputEntryFilePath = path.join(outputDir, entryFileName)
-    const code = fs.readFileSync(entryFilePath)
+    const code = fs.readFileSync(entryFilePath).toString()
     const transformResult = wxTransformer({
       code,
       sourcePath: entryFilePath,
@@ -275,10 +275,10 @@ async function buildForH5 (buildConfig) {
 
 function buildEntry () {
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
-    module.exports = require('./${h5OutputName}/index.js')
+    module.exports = require('./${h5OutputName}/index')
     module.exports.default = module.exports
-  } else if (process.env.TARO_ENV === '${BUILD_TYPES.WEAPP}') {
-    module.exports = require('./${weappOutputName}/index.js')
+  } else {
+    module.exports = require('./${weappOutputName}/index')
     module.exports.default = module.exports
   }`
   const outputDir = path.join(appPath, outputDirName)

@@ -1,4 +1,8 @@
-##### LivePlayer
+---
+title: LivePlayer
+sidebar_label: LivePlayer
+---
+
 ##### 实时音视频播放
 
 > 组件 支持度
@@ -15,10 +19,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { LivePlayer } from '@tarojs/components'
 
 class App extends Components {
-	render () {
-		return (
-			<LivePlayer src="url" mode="live" autoplay  />
-		)
-	}
+  render () {
+    return (
+      <LivePlayer src='url' mode='live' autoplay  />
+    )
+  }
 }
 ```

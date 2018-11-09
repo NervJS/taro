@@ -1,5 +1,9 @@
-##### Text
-##### 文本。
+---
+title: Text
+sidebar_label: Text
+---
+
+##### 文本
 
 > 属性及支持度
 
@@ -19,7 +23,7 @@ export default class PageView extends Component {
     super(...arguments)
 
     this.state = {
-    	contents = []
+      contents = []
     }
   }
 
@@ -42,14 +46,14 @@ export default class PageView extends Component {
 
   render () {
     return (
-      <View className="container">
-              {this.state.contents.map(item => {
-                return (
-                  <Text>{item.text}</Text>
-                )
-              })}
-              <Button className="btn-max-w button_style" plain type="default" onClick={this.add}>add line</Button>
-              <Button className="btn-max-w button_style" plain type="default" disabled={this.state.contents.length ? false:true} onClick={this.remove}>remove line</Button>
+      <View className='container'>
+        {this.state.contents.map(item => {
+          return (
+            <Text>{item.text}</Text>
+          )
+        })}
+        <Button className='btn-max-w button_style' plain type='default' onClick={this.add}>add line</Button>
+        <Button className='btn-max-w button_style' plain type='default' disabled={this.state.contents.length ? false:true} onClick={this.remove}>remove line</Button>
       </View>
     )
   }

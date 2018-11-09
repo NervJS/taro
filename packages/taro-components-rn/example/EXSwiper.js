@@ -13,7 +13,7 @@ export default class EXSwiper extends Component {
           current={1}
           interval={6000}
           circular={false}
-          vertical={true}
+          vertical={false}
           onChange={() => null}
           onAnimationFinish={() => null}
           style={{

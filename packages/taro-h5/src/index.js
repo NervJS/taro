@@ -6,14 +6,13 @@ import {
   eventCenter,
   render,
   internal_safe_get,
-  internal_safe_set,
-  internal_dynamic_recursive
+  internal_safe_set
 } from '@tarojs/taro'
 
 import initNativeApi from './native-api'
 import Component from './component'
 
-export {
+export const Taro = {
   initNativeApi,
   Component,
   getEnv,
@@ -22,19 +21,9 @@ export {
   eventCenter,
   render,
   internal_safe_get,
-  internal_safe_set,
-  internal_dynamic_recursive
+  internal_safe_set
 }
 
-export default {
-  initNativeApi,
-  Component,
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  internal_safe_get,
-  internal_safe_set,
-  internal_dynamic_recursive
-}
+initNativeApi(Taro)
+
+export default Taro

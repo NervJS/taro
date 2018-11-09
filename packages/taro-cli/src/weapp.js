@@ -4,6 +4,7 @@ const path = require('path')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
 const wxTransformer = require('@tarojs/transformer-wx')
+const babel = require('babel-core')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
@@ -23,7 +24,7 @@ const babylonConfig = require('./config/babylon')
 const browserList = require('./config/browser_list')
 const defaultUglifyConfig = require('./config/uglify')
 const defaultBabelConfig = require('./config/babel')
-const defaultTSConfig = require('./config/tsconfig.json')
+const astConvert = require('./util/ast_convert')
 
 const appPath = process.cwd()
 const configDir = path.join(appPath, Util.PROJECT_CONFIG)
@@ -46,7 +47,6 @@ const appOutput = typeof weappConf.appOutput === 'boolean' ? weappConf.appOutput
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
-const taroWeappFramework = '@tarojs/taro-weapp'
 const taroJsComponents = '@tarojs/components'
 const taroJsRedux = '@tarojs/redux'
 let appConfig = {}
@@ -61,6 +61,9 @@ let isBuildingScripts = {}
 let isBuildingStyles = {}
 let isCopyingFiles = {}
 let isProduction = false
+let buildAdapter = Util.BUILD_TYPES.WEAPP
+let outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
+let notTaroComponents = []
 
 const NODE_MODULES = 'node_modules'
 const NODE_MODULES_REG = /(.*)node_modules/
@@ -80,7 +83,7 @@ const isWindows = os.platform() === 'win32'
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig)
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
@@ -88,6 +91,7 @@ function getExactedNpmFilePath (npmName, filePath) {
     } else {
       if (!weappNpmConfig.dir) {
         outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
+        outputNpmPath = outputNpmPath.replace(/node_modules/g, weappNpmConfig.name)
       } else {
         const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
         outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
@@ -103,17 +107,151 @@ function getExactedNpmFilePath (npmName, filePath) {
   }
 }
 
-function processIfTaroEnv (astPath, node, a, b) {
-  if (node[a].value !== Util.BUILD_TYPES.WEAPP) {
-    const consequentSibling = astPath.getSibling('consequent')
-    consequentSibling.set('body', [])
-  } else {
-    const alternateSibling = astPath.getSibling('alternate')
-    if (alternateSibling.node) {
-      alternateSibling.set('body', [])
+function traverseObjectNode (node, obj) {
+  if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
+    const properties = node.value.properties
+    obj = {}
+    properties.forEach(p => {
+      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      if (Util.CONFIG_MAP[buildAdapter][key]) {
+        key = Util.CONFIG_MAP[buildAdapter][key]
+      }
+      obj[key] = traverseObjectNode(p.value)
+    })
+    return obj
+  }
+  if (node.type === 'ObjectExpression') {
+    const properties = node.properties
+    obj = {}
+    properties.forEach(p => {
+      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      if (Util.CONFIG_MAP[buildAdapter][key]) {
+        key = Util.CONFIG_MAP[buildAdapter][key]
+      }
+      obj[key] = traverseObjectNode(p.value)
+    })
+    return obj
+  }
+  if (node.type === 'ArrayExpression') {
+    return node.elements.map(item => traverseObjectNode(item))
+  }
+  if (node.type === 'NullLiteral') {
+    return null
+  }
+  return node.value
+}
+
+function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, filePath, styleFiles, scriptFiles, jsonFiles, mediaFiles }) {
+  const valueExtname = path.extname(value)
+  const node = astPath.node
+  if (value.indexOf('.') === 0) {
+    let importPath = path.resolve(path.dirname(sourceFilePath), value)
+    importPath = Util.resolveScriptPath(importPath)
+    if (isFileToBePage(importPath)) {
+      astPath.remove()
+    } else {
+      if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
+        const vpath = path.resolve(sourceFilePath, '..', value)
+        let fPath = value
+        if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
+          fPath = vpath
+        }
+        if (scriptFiles.indexOf(fPath) < 0) {
+          scriptFiles.push(fPath)
+        }
+      } else if (Util.REG_JSON.test(valueExtname)) {
+        const vpath = path.resolve(sourceFilePath, '..', value)
+        if (jsonFiles.indexOf(vpath) < 0) {
+          jsonFiles.push(vpath)
+        }
+        if (fs.existsSync(vpath)) {
+          const obj = JSON.parse(fs.readFileSync(vpath).toString())
+          const specifiers = node.specifiers
+          let defaultSpecifier = null
+          specifiers.forEach(item => {
+            if (item.type === 'ImportDefaultSpecifier') {
+              defaultSpecifier = item.local.name
+            }
+          })
+          if (defaultSpecifier) {
+            let objArr = [t.nullLiteral()]
+            if (Array.isArray(obj)) {
+              objArr = t.arrayExpression(astConvert.array(obj))
+            } else {
+              objArr = t.objectExpression(astConvert.obj(obj))
+            }
+            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), objArr)]))
+          }
+        }
+      } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
+        const vpath = path.resolve(sourceFilePath, '..', value)
+        if (!fs.existsSync(vpath)) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+          return
+        }
+        if (mediaFiles.indexOf(vpath) < 0) {
+          mediaFiles.push(vpath)
+        }
+        const specifiers = node.specifiers
+        let defaultSpecifier = null
+        specifiers.forEach(item => {
+          if (item.type === 'ImportDefaultSpecifier') {
+            defaultSpecifier = item.local.name
+          }
+        })
+        let sourceDirPath = sourceDir
+        if (NODE_MODULES_REG.test(vpath)) {
+          sourceDirPath = nodeModulesPath
+        }
+
+        if (defaultSpecifier) {
+          if (buildAdapter === Util.BUILD_TYPES.SWAN) {
+            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(Util.promoteRelativePath(path.relative(sourceFilePath, vpath)).replace(/\\/g, '/')))]))
+          } else {
+            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
+          }
+        } else {
+          astPath.remove()
+        }
+      } else if (Util.REG_STYLE.test(valueExtname)) {
+        const stylePath = path.resolve(path.dirname(sourceFilePath), value)
+        if (styleFiles.indexOf(stylePath) < 0) {
+          styleFiles.push(stylePath)
+        }
+        astPath.remove()
+      } else {
+        let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+        let outputVpath
+        if (NODE_MODULES_REG.test(vpath)) {
+          outputVpath = vpath.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+        } else {
+          outputVpath = vpath.replace(sourceDir, outputDir)
+        }
+        let relativePath = path.relative(filePath, outputVpath)
+        if (vpath && vpath !== sourceFilePath) {
+          if (!fs.existsSync(vpath)) {
+            Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+          } else {
+            if (fs.lstatSync(vpath).isDirectory()) {
+              if (fs.existsSync(path.join(vpath, 'index.js'))) {
+                vpath = path.join(vpath, 'index.js')
+                relativePath = path.join(relativePath, 'index.js')
+              } else {
+                Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+                return
+              }
+            }
+            if (scriptFiles.indexOf(vpath) < 0) {
+              scriptFiles.push(vpath)
+            }
+            relativePath = Util.promoteRelativePath(relativePath)
+            relativePath = relativePath.replace(path.extname(relativePath), '.js')
+            node.source.value = relativePath
+          }
+        }
+      }
     }
   }
-  node[b] = t.stringLiteral(Util.BUILD_TYPES.WEAPP)
 }
 
 function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip = false) {
@@ -124,35 +262,19 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let configObj = {}
   let componentClassName = null
   let taroJsReduxConnect = null
-  function traverseObjectNode (node, obj) {
-    if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
-      const properties = node.value.properties
-      obj = {}
-      properties.forEach(p => {
-        obj[p.key.name] = traverseObjectNode(p.value)
-      })
-      return obj
-    }
-    if (node.type === 'ObjectExpression') {
-      const properties = node.properties
-      obj = {}
-      properties.forEach(p => {
-        const key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-        obj[key] = traverseObjectNode(p.value)
-      })
-      return obj
-    }
-    if (node.type === 'ArrayExpression') {
-      return node.elements.map(item => traverseObjectNode(item))
-    }
-    if (node.type === 'NullLiteral') {
-      return null
-    }
-    return node.value
-  }
+  let taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
+  const constantsReplaceList = Object.assign({
+    'process.env.TARO_ENV': buildAdapter
+  }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
+  ast = babel.transformFromAst(ast, '', {
+    plugins: [
+      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
+      [require('babel-plugin-transform-define').default, constantsReplaceList]
+    ]
+  }).ast
   traverse(ast, {
     ClassDeclaration (astPath) {
       const node = astPath.node
@@ -183,10 +305,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                         left.property.type === 'Identifier' &&
                         left.property.name === 'config') {
                         configObj = traverseObjectNode(node.expression.right)
-                        if (type === PARSE_AST_TYPE.ENTRY) {
-                          appConfig = configObj
-                        }
-                        astPath.remove()
                       }
                     }
                   }
@@ -221,7 +339,12 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         if (hasCreateData) {
           needExportDefault = true
           if (node.id === null) {
-            componentClassName = '_TaroComponentClass'
+            const parentNode = astPath.parentPath.node
+            if (t.isVariableDeclarator(astPath.parentPath)) {
+              componentClassName = parentNode.id.name
+            } else {
+              componentClassName = '_TaroComponentClass'
+            }
             astPath.replaceWith(t.ClassExpression(t.identifier(componentClassName), node.superClass, node.body, node.decorators || []))
           } else if (node.id.name === 'App') {
             componentClassName = '_App'
@@ -237,26 +360,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const node = astPath.node
       if (node.key.name === 'config') {
         configObj = traverseObjectNode(node)
-        if (type === PARSE_AST_TYPE.ENTRY) {
-          appConfig = configObj
-        }
-        astPath.remove()
       }
-    },
-
-    IfStatement (astPath) {
-      astPath.traverse({
-        BinaryExpression (astPath) {
-          const node = astPath.node
-          const left = node.left
-          const right = node.right
-          if (generate(left).code === 'process.env.TARO_ENV') {
-            processIfTaroEnv(astPath, node, 'right', 'left')
-          } else if (generate(right).code === 'process.env.TARO_ENV') {
-            processIfTaroEnv(astPath, node, 'left', 'right')
-          }
-        }
-      })
     },
 
     ImportDeclaration (astPath) {
@@ -289,7 +393,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
               if (defaultSpecifier) {
                 taroImportDefaultName = defaultSpecifier
               }
-              value = taroWeappFramework
+              value = taroMiniAppFramework
             } else if (value === taroJsRedux) {
               specifiers.forEach(item => {
                 if (item.type === 'ImportSpecifier') {
@@ -312,15 +416,16 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       }
     },
 
-    VariableDeclaration (astPath) {
+    CallExpression (astPath) {
       const node = astPath.node
-      if (node.declarations.length === 1 && node.declarations[0].init &&
-        node.declarations[0].init.type === 'CallExpression' && node.declarations[0].init.callee &&
-        node.declarations[0].init.callee.name === 'require') {
-        const init = node.declarations[0].init
-        const args = init.arguments
+      const callee = node.callee
+      if (t.isMemberExpression(callee)) {
+        if (taroImportDefaultName && callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
+          astPath.remove()
+        }
+      } else if (callee.name === 'require') {
+        const args = node.arguments
         let value = args[0].value
-        const id = node.declarations[0].id
         if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
           if (value === taroJsComponents) {
             astPath.remove()
@@ -336,53 +441,36 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             if (isDepComponent) {
               astPath.remove()
             } else {
-              if (value === taroJsFramework && id.type === 'Identifier') {
-                taroImportDefaultName = id.name
-                value = taroWeappFramework
-              } else if (value === taroJsRedux) {
-                const declarations = node.declarations
-                declarations.forEach(item => {
-                  const id = item.id
-                  if (id.type === 'ObjectPattern') {
-                    const properties = id.properties
-                    properties.forEach(p => {
-                      if (p.type === 'ObjectProperty') {
-                        if (p.value.type === 'Identifier' && p.value.name === 'connect') {
-                          taroJsReduxConnect = p.key.name
-                        }
+              if (t.isVariableDeclaration(astPath.parentPath.parentPath)) {
+                const parentNode = astPath.parentPath.parentPath.node
+                if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
+                  const id = parentNode.declarations[0].id
+                  if (value === taroJsFramework && id.type === 'Identifier') {
+                    taroImportDefaultName = id.name
+                    value = taroMiniAppFramework
+                  } else if (value === taroJsRedux) {
+                    const declarations = parentNode.declarations
+                    declarations.forEach(item => {
+                      const id = item.id
+                      if (id.type === 'ObjectPattern') {
+                        const properties = id.properties
+                        properties.forEach(p => {
+                          if (p.type === 'ObjectProperty') {
+                            if (p.value.type === 'Identifier' && p.value.name === 'connect') {
+                              taroJsReduxConnect = p.key.name
+                            }
+                          }
+                        })
                       }
                     })
                   }
-                })
+                }
               }
               if (!npmSkip) {
                 args[0].value = getExactedNpmFilePath(value, filePath)
               } else {
                 args[0].value = value
               }
-              astPath.replaceWith(t.variableDeclaration(node.kind, [t.variableDeclarator(id, init)]))
-            }
-          }
-        }
-      }
-    },
-
-    CallExpression (astPath) {
-      const node = astPath.node
-      const callee = node.callee
-      if (t.isMemberExpression(callee)) {
-        if (taroImportDefaultName && callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
-          astPath.remove()
-        }
-      } else if (callee.name === 'require') {
-        const args = node.arguments
-        let value = args[0].value
-        if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
-          if (Util.REG_STYLE.test(value)) {
-            if (!npmSkip) {
-              args[0].value = getExactedNpmFilePath(value, filePath)
-            } else {
-              args[0].value = value
             }
           }
         }
@@ -440,6 +528,24 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       }
     },
 
+    ExportNamedDeclaration (astPath) {
+      const node = astPath.node
+      const source = node.source
+      if (source && source.type === 'StringLiteral') {
+        const value = source.value
+        analyzeImportUrl({ astPath, value, depComponents, sourceFilePath, filePath, styleFiles, scriptFiles, jsonFiles, mediaFiles })
+      }
+    },
+
+    ExportAllDeclaration (astPath) {
+      const node = astPath.node
+      const source = node.source
+      if (source && source.type === 'StringLiteral') {
+        const value = source.value
+        analyzeImportUrl({ astPath, value, depComponents, sourceFilePath, filePath, styleFiles, scriptFiles, jsonFiles, mediaFiles })
+      }
+    },
+
     Program: {
       exit (astPath) {
         astPath.traverse({
@@ -447,124 +553,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             const node = astPath.node
             const source = node.source
             let value = source.value
-            const valueExtname = path.extname(value)
-            if (value.indexOf('.') === 0) {
-              let importPath = path.resolve(path.dirname(sourceFilePath), value)
-              importPath = Util.resolveScriptPath(importPath)
-              if (isFileToBePage(importPath)) {
-                astPath.remove()
-              } else {
-                let isDepComponent = false
-                if (depComponents && depComponents.length) {
-                  depComponents.forEach(item => {
-                    const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
-                    const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
-                    if (resolvePath === resolveValuePath) {
-                      isDepComponent = true
-                    }
-                  })
-                }
-                if (isDepComponent) {
-                  astPath.remove()
-                } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
-                  const vpath = path.resolve(sourceFilePath, '..', value)
-                  let fPath = value
-                  if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
-                    fPath = vpath
-                  }
-                  if (scriptFiles.indexOf(fPath) < 0) {
-                    scriptFiles.push(fPath)
-                  }
-                } else if (Util.REG_JSON.test(valueExtname)) {
-                  const vpath = path.resolve(sourceFilePath, '..', value)
-                  if (jsonFiles.indexOf(vpath) < 0) {
-                    jsonFiles.push(vpath)
-                  }
-                  if (fs.existsSync(vpath)) {
-                    const obj = JSON.parse(fs.readFileSync(vpath).toString())
-                    const specifiers = node.specifiers
-                    let defaultSpecifier = null
-                    specifiers.forEach(item => {
-                      if (item.type === 'ImportDefaultSpecifier') {
-                        defaultSpecifier = item.local.name
-                      }
-                    })
-                    if (defaultSpecifier) {
-                      let objArr = [t.nullLiteral()]
-                      if (Array.isArray(obj)) {
-                        objArr = convertArrayToAstExpression(obj)
-                      } else {
-                        objArr = convertObjectToAstExpression(obj)
-                      }
-                      astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.objectExpression(objArr))]))
-                    }
-                  }
-                } else if (Util.REG_FONT.test(valueExtname) || Util.REG_IMAGE.test(valueExtname) || Util.REG_MEDIA.test(valueExtname)) {
-                  const vpath = path.resolve(sourceFilePath, '..', value)
-                  if (!fs.existsSync(vpath)) {
-                    Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-                    return
-                  }
-                  if (mediaFiles.indexOf(vpath) < 0) {
-                    mediaFiles.push(vpath)
-                  }
-                  const specifiers = node.specifiers
-                  let defaultSpecifier = null
-                  specifiers.forEach(item => {
-                    if (item.type === 'ImportDefaultSpecifier') {
-                      defaultSpecifier = item.local.name
-                    }
-                  })
-                  let sourceDirPath = sourceDir
-                  if (NODE_MODULES_REG.test(vpath)) {
-                    sourceDirPath = nodeModulesPath
-                  }
-
-                  if (defaultSpecifier) {
-                    astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
-                  } else {
-                    astPath.remove()
-                  }
-                } else if (Util.REG_STYLE.test(valueExtname)) {
-                  const stylePath = path.resolve(path.dirname(sourceFilePath), value)
-                  if (styleFiles.indexOf(stylePath) < 0) {
-                    styleFiles.push(stylePath)
-                  }
-                  astPath.remove()
-                } else {
-                  let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-                  let outputVpath
-                  if (NODE_MODULES_REG.test(vpath)) {
-                    outputVpath = vpath.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
-                  } else {
-                    outputVpath = vpath.replace(sourceDir, outputDir)
-                  }
-                  let relativePath = path.relative(filePath, outputVpath)
-                  if (vpath && vpath !== sourceFilePath) {
-                    if (!fs.existsSync(vpath)) {
-                      Util.printLog(Util.pocessTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
-                    } else {
-                      if (fs.lstatSync(vpath).isDirectory()) {
-                        if (fs.existsSync(path.join(vpath, 'index.js'))) {
-                          vpath = path.join(vpath, 'index.js')
-                          relativePath = path.join(relativePath, 'index.js')
-                        } else {
-                          Util.printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
-                          return
-                        }
-                      }
-                      if (scriptFiles.indexOf(vpath) < 0) {
-                        scriptFiles.push(vpath)
-                      }
-                      relativePath = Util.promoteRelativePath(relativePath)
-                      relativePath = relativePath.replace(path.extname(relativePath), '.js')
-                      source.value = relativePath
-                      astPath.replaceWith(t.importDeclaration(node.specifiers, node.source))
-                    }
-                  }
-                }
-              }
-            }
+            analyzeImportUrl({ astPath, value, depComponents, sourceFilePath, filePath, styleFiles, scriptFiles, jsonFiles, mediaFiles })
           },
           CallExpression (astPath) {
             const node = astPath.node
@@ -585,25 +574,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     astPath.remove()
                   }
                 } else {
-                  let isDepComponent = false
-                  if (depComponents && depComponents.length) {
-                    depComponents.forEach(item => {
-                      const resolvePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), item.path))
-                      const resolveValuePath = Util.resolveScriptPath(path.resolve(path.dirname(sourceFilePath), value))
-                      if (resolvePath === resolveValuePath) {
-                        isDepComponent = true
-                      }
-                    })
-                  }
-                  if (isDepComponent) {
-                    if (astPath.parent.type === 'AssignmentExpression' || 'ExpressionStatement') {
-                      astPath.parentPath.remove()
-                    } else if (astPath.parent.type === 'VariableDeclarator') {
-                      astPath.parentPath.parentPath.remove()
-                    } else {
-                      astPath.remove()
-                    }
-                  } else if (Util.REG_STYLE.test(valueExtname)) {
+                  if (Util.REG_STYLE.test(valueExtname)) {
                     const stylePath = path.resolve(path.dirname(sourceFilePath), value)
                     if (styleFiles.indexOf(stylePath) < 0) {
                       styleFiles.push(stylePath)
@@ -624,9 +595,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                       const obj = JSON.parse(fs.readFileSync(vpath).toString())
                       let objArr = [t.nullLiteral()]
                       if (Array.isArray(obj)) {
-                        objArr = convertArrayToAstExpression(obj)
+                        objArr = t.arrayExpression(astConvert.array(obj))
                       } else {
-                        objArr = convertObjectToAstExpression(obj)
+                        objArr = t.objectExpression(astConvert.obj(obj))
                       }
                       astPath.replaceWith(t.objectExpression(objArr))
                     }
@@ -648,7 +619,11 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     if (NODE_MODULES_REG.test(vpath)) {
                       sourceDirPath = nodeModulesPath
                     }
-                    astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
+                    if (buildAdapter === Util.BUILD_TYPES.SWAN) {
+                      astPath.replaceWith(t.stringLiteral(Util.promoteRelativePath(path.relative(sourceFilePath, vpath)).replace(/\\/g, '/')))
+                    } else {
+                      astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
+                    }
                   } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
@@ -691,7 +666,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
           const exportDefault = template(`export default ${exportVariableName}`, babylonConfig)()
           node.body.push(exportDefault)
         }
-        const taroWeappFrameworkPath = !npmSkip ? getExactedNpmFilePath(taroWeappFramework, filePath) : taroWeappFramework
+        const taroMiniAppFrameworkPath = !npmSkip ? getExactedNpmFilePath(taroMiniAppFramework, filePath) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
             const pxTransformConfig = {
@@ -700,14 +675,18 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
               pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
             }
-            node.body.push(template(`App(require('${taroWeappFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)())
+            node.body.push(template(`App(require('${taroMiniAppFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig)())
             node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig)())
             break
           case PARSE_AST_TYPE.PAGE:
-            node.body.push(template(`Page(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            if (buildAdapter === Util.BUILD_TYPES.WEAPP) {
+              node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            } else {
+              node.body.push(template(`Page(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig)())
+            }
             break
           case PARSE_AST_TYPE.COMPONENT:
-            node.body.push(template(`Component(require('${taroWeappFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
+            node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig)())
             break
           default:
             break
@@ -716,7 +695,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
     }
   })
   return {
-    code: unescape(generate(ast).code.replace(/\\u/g, '%u')),
+    code: generate(ast).code,
     styleFiles,
     scriptFiles,
     jsonFiles,
@@ -729,6 +708,14 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
 function parseComponentExportAst (ast, componentName, componentPath, componentType) {
   let componentRealPath = null
   let importExportName
+  const constantsReplaceList = Object.assign({
+    'process.env.TARO_ENV': buildAdapter
+  }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
+  ast = babel.transformFromAst(ast, '', {
+    plugins: [
+      [require('babel-plugin-transform-define').default, constantsReplaceList]
+    ]
+  }).ast
   traverse(ast, {
     ExportNamedDeclaration (astPath) {
       const node = astPath.node
@@ -759,27 +746,13 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
       }
     },
 
-    IfStatement (astPath) {
-      astPath.traverse({
-        BinaryExpression (astPath) {
-          const node = astPath.node
-          const left = node.left
-          if (generate(left).code === 'process.env.TARO_ENV' &&
-            node.right.value === Util.BUILD_TYPES.WEAPP) {
-            const consequentSibling = astPath.getSibling('consequent')
-            consequentSibling.traverse({
-              CallExpression (astPath) {
-                if (astPath.get('callee').isIdentifier({ name : 'require'})) {
-                  const arg = astPath.get('arguments')[0]
-                  if (t.isStringLiteral(arg.node)) {
-                    componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), arg.node.value))
-                  }
-                }
-              }
-            })
-          }
+    CallExpression (astPath) {
+      if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+        const arg = astPath.get('arguments')[0]
+        if (t.isStringLiteral(arg.node)) {
+          componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), arg.node.value))
         }
-      })
+      }
     },
 
     Program: {
@@ -811,27 +784,22 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     sourcePath: sourcePath,
     outputPath: outputPath,
     isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(sourcePath)
+    isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
+    adapter: buildAdapter
   })
   const { ast } = transformResult
-  let hasRender = false
-  let hasTaroJsFramework = false
+  let isTaroComponent = false
 
   traverse(ast, {
-    ImportDeclaration (astPath) {
-      const node = astPath.node
-      const source = node.source
-      const value = source.value
-      if (Util.isNpmPkg(value) && value === taroJsFramework) {
-        hasTaroJsFramework = true
-      }
-    },
-
     ClassDeclaration (astPath) {
       astPath.traverse({
         ClassMethod (astPath) {
           if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            hasRender = true
+            astPath.traverse({
+              JSXElement () {
+                isTaroComponent = true
+              }
+            })
           }
         }
       })
@@ -841,7 +809,11 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
       astPath.traverse({
         ClassMethod (astPath) {
           if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            hasRender = true
+            astPath.traverse({
+              JSXElement () {
+                isTaroComponent = true
+              }
+            })
           }
         }
       })
@@ -849,57 +821,9 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
   })
 
   return {
-    isTaroComponent: hasRender && hasTaroJsFramework,
+    isTaroComponent,
     transformResult
   }
-}
-
-function convertObjectToAstExpression (obj) {
-  const objArr = Object.keys(obj).map(key => {
-    const value = obj[key]
-    if (typeof value === 'string') {
-      return t.objectProperty(t.stringLiteral(key), t.stringLiteral(value))
-    }
-    if (typeof value === 'number') {
-      return t.objectProperty(t.stringLiteral(key), t.numericLiteral(value))
-    }
-    if (typeof value === 'boolean') {
-      return t.objectProperty(t.stringLiteral(key), t.booleanLiteral(value))
-    }
-    if (Array.isArray(value)) {
-      return t.objectProperty(t.stringLiteral(key), t.arrayExpression(convertArrayToAstExpression(value)))
-    }
-    if (value == null) {
-      return t.objectProperty(t.stringLiteral(key), t.nullLiteral())
-    }
-    if (typeof value === 'object') {
-      return t.objectProperty(t.stringLiteral(key), t.objectExpression(convertObjectToAstExpression(value)))
-    }
-  })
-  return objArr
-}
-
-function convertArrayToAstExpression (arr) {
-  return arr.map(value => {
-    if (typeof value === 'string') {
-      return t.stringLiteral(value)
-    }
-    if (typeof value === 'number') {
-      return t.numericLiteral(value)
-    }
-    if (typeof value === 'boolean') {
-      return t.booleanLiteral(value)
-    }
-    if (Array.isArray(value)) {
-      return convertArrayToAstExpression(value)
-    }
-    if (value == null) {
-      return t.nullLiteral()
-    }
-    if (typeof value === 'object') {
-      return t.objectExpression(convertObjectToAstExpression(value))
-    }
-  })
 }
 
 function isFileToBePage (filePath) {
@@ -941,30 +865,101 @@ function copyFilesFromSrcToOutput (files) {
   })
 }
 
-async function compileScriptFile (filePath, content) {
-  const babelConfig = Object.assign({}, pluginsConfig.babel, defaultBabelConfig)
-  const tsConfig = Object.assign({}, pluginsConfig.typescript, defaultTSConfig)
-  if (Util.REG_TYPESCRIPT.test(filePath)) {
-    const compileTSRes = await npmProcess.callPlugin('typescript', content, entryFilePath, tsConfig)
-    if (compileTSRes && compileTSRes.outputText) {
-      content = compileTSRes.outputText
-    }
+const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+  if (Array.isArray(objValue)) {
+    return Array.from(new Set(objValue.concat(srcValue)))
   }
+})
+
+const shouldTransformAgain = (function () {
+  const pluginsStr = JSON.stringify(babelConfig.plugins)
+  if (/transform-runtime/.test(pluginsStr)) {
+    return true
+  }
+  return false
+})()
+
+async function compileScriptFile (content, sourceFilePath, outputFilePath, adapter) {
   const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
-  return compileScriptRes.code
+  const code = compileScriptRes.code
+  if (!shouldTransformAgain) {
+    return code
+  }
+  const transformResult = wxTransformer({
+    code,
+    sourcePath: sourceFilePath,
+    outputPath: outputFilePath,
+    isNormal: true,
+    isTyped: false,
+    adapter
+  })
+  const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
+  return res.code
 }
 
 function buildProjectConfig () {
-  const projectConfigPath = path.join(appPath, 'project.config.json')
-  if (!fs.existsSync(projectConfigPath)) {
-    return
+  let projectConfigFileName = ''
+  if (buildAdapter === Util.BUILD_TYPES.WEAPP) {
+    projectConfigFileName = 'project.config.json'
+    const projectConfigPath = path.join(appPath, projectConfigFileName)
+    if (!fs.existsSync(projectConfigPath)) {
+      return
+    }
+    const origProjectConfig = fs.readJSONSync(projectConfigPath)
+    fs.ensureDirSync(outputDir)
+    fs.writeFileSync(
+      path.join(outputDir, projectConfigFileName),
+      JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
+    )
+  } else if (buildAdapter === Util.BUILD_TYPES.SWAN) {
+    projectConfigFileName = 'project.swan.json'
+    const projectConfigObj = {
+      appid: 'testappid',
+      setting: {
+        urlCheck: false
+      }
+    }
+    fs.ensureDirSync(outputDir)
+    fs.writeFileSync(
+      path.join(outputDir, projectConfigFileName),
+      JSON.stringify(projectConfigObj, null, 2)
+    )
   }
-  const origProjectConfig = fs.readJSONSync(projectConfigPath)
-  fs.writeFileSync(
-    path.join(outputDir, 'project.config.json'),
-    JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
-  )
-  Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/project.config.json`)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/${projectConfigFileName}`)
+}
+
+function buildWorkers (worker) {
+  Util.printLog(Util.pocessTypeEnum.COMPILE, 'Workers', '编译 worker 相关文件')
+  const workerDir = path.join(sourceDir, worker)
+  function fileRecursiveSearch (fileDir) {
+    fs.readdir(fileDir, (err, files) => {
+      if (err) {
+        console.warn(err)
+      } else {
+        files.forEach(filename => {
+          const filePath = path.join(fileDir, filename)
+          fs.stat(filePath, (err, stats) => {
+            if (err) {
+              console.warn(err)
+            } else {
+              const isFile = stats.isFile()
+              const isDir = stats.isDirectory()
+              if (isFile) {
+                if (Util.REG_SCRIPTS.test(filePath)) {
+                  compileDepScripts([filePath])
+                } else {
+                  copyFilesFromSrcToOutput([filePath])
+                }
+              } else if (isDir) {
+                fileRecursiveSearch(filePath)
+              }
+            }
+          })
+        })
+      }
+    })
+  }
+  fileRecursiveSearch(workerDir)
 }
 
 async function buildEntry () {
@@ -976,20 +971,20 @@ async function buildEntry () {
       sourcePath: entryFilePath,
       outputPath: outputEntryFilePath,
       isApp: true,
-      isTyped: Util.REG_TYPESCRIPT.test(entryFilePath)
+      isTyped: Util.REG_TYPESCRIPT.test(entryFilePath),
+      adapter: buildAdapter
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
-    resCode = await compileScriptFile(entryFilePath, resCode)
-    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
-    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+    resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, entryFilePath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${entryFilePath}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1002,6 +997,9 @@ async function buildEntry () {
       fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
     }
+    if (res.configObj.workers) {
+      buildWorkers(res.configObj.workers)
+    }
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
@@ -1009,8 +1007,8 @@ async function buildEntry () {
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
-      await compileDepStyles(path.join(outputDir, 'app.wxss'), res.styleFiles, false)
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app.wxss`)
+      await compileDepStyles(path.join(outputDir, `app${outputFilesTypes.STYLE}`), res.styleFiles, false)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app${outputFilesTypes.STYLE}`)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1020,15 +1018,16 @@ async function buildEntry () {
     // 处理res.configObj 中的tabBar配置
     const tabBar = res.configObj.tabBar
     if (tabBar && typeof tabBar === 'object' && !Util.isEmptyObject(tabBar)) {
-      const list = tabBar.list || []
+      const {
+        list: listConfig,
+        iconPath: pathConfig,
+        selectedIconPath: selectedPathConfig
+      } = Util.CONFIG_MAP[buildAdapter]
+      const list = tabBar[listConfig] || []
       let tabBarIcons = []
       list.forEach(item => {
-        if (item.iconPath) {
-          tabBarIcons.push(item.iconPath)
-        }
-        if (item.selectedIconPath) {
-          tabBarIcons.push(item.selectedIconPath)
-        }
+        item[pathConfig] && tabBarIcons.push(item[pathConfig])
+        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
       })
       tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
       if (tabBarIcons && tabBarIcons.length) {
@@ -1051,11 +1050,56 @@ async function buildEntry () {
 
 async function buildPages () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '所有页面')
+  // 支持分包，解析子包页面
   const pages = appConfig.pages || []
+  const subPackages = appConfig.subPackages
+  if (subPackages && subPackages.length) {
+    subPackages.forEach(item => {
+      if (item.pages && item.pages.length) {
+        const root = item.root
+        item.pages.forEach(page => {
+          let pagePath = `${root}/${page}`
+          pagePath = pagePath.replace(/\/{2,}/g, '/')
+          if (pages.indexOf(pagePath) < 0) {
+            pages.push(pagePath)
+          }
+        })
+      }
+    })
+  }
   const pagesPromises = pages.map(async page => {
     return buildSinglePage(page)
   })
   await Promise.all(pagesPromises)
+}
+
+function processNativeWxml (componentWXMLPath, componentWXMLContent, outputComponentWXMLPath) {
+  let wxmlContent
+  let needCopy = true
+  if (componentWXMLPath && fs.existsSync(componentWXMLPath)) {
+    wxmlContent = fs.readFileSync(componentWXMLPath).toString()
+  } else {
+    needCopy = false
+    wxmlContent = componentWXMLContent
+  }
+  const importWxmlPathList = []
+  let regResult
+  while ((regResult = Util.REG_WXML_IMPORT.exec(wxmlContent)) != null)  {
+    importWxmlPathList.push(regResult[2] || regResult[3])
+  }
+  if (importWxmlPathList.length) {
+    importWxmlPathList.forEach(item => {
+      const itemPath = path.resolve(componentWXMLPath, '..', item)
+      if (fs.existsSync(itemPath)) {
+        const outputItemPath = itemPath.replace(sourceDir, outputDir)
+        processNativeWxml(itemPath, null, outputItemPath)
+      }
+    })
+  }
+  if (componentWXMLPath === outputComponentWXMLPath || !needCopy) {
+    return
+  }
+  copyFileSync(componentWXMLPath, outputComponentWXMLPath)
 }
 
 function transfromNativeComponents (configFile, componentConfig) {
@@ -1063,11 +1107,19 @@ function transfromNativeComponents (configFile, componentConfig) {
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
       const componentPath = usingComponents[item]
-      const componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
-      const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), '.json')
-      const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), '.wxml')
-      const componentWXSSPath = componentJSPath.replace(path.extname(componentJSPath), '.wxss')
-      const outputComponentJSPath = componentJSPath.replace(sourceDir, outputDir).replace(path.extname(componentJSPath), '.js')
+      if (/^plugin\:\/\//.test(componentPath)) {
+        // 小程序 plugin
+        Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
+        return
+      }
+      let componentJSPath = Util.resolveScriptPath(path.resolve(path.dirname(configFile), componentPath))
+      if (!fs.existsSync(componentJSPath)) {
+        componentJSPath = Util.resolveScriptPath(path.join(sourceDir, componentPath))
+      }
+      const componentJSONPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.CONFIG)
+      const componentWXMLPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.TEMPL)
+      const componentWXSSPath = componentJSPath.replace(path.extname(componentJSPath), outputFilesTypes.STYLE)
+      const outputComponentJSPath = componentJSPath.replace(sourceDir, outputDir).replace(path.extname(componentJSPath), outputFilesTypes.SCRIPT)
       if (fs.existsSync(componentJSPath)) {
         const componentJSContent = fs.readFileSync(componentJSPath).toString()
         if (componentJSContent.indexOf(taroJsFramework) >= 0 && !fs.existsSync(componentWXMLPath)) {
@@ -1078,16 +1130,16 @@ function transfromNativeComponents (configFile, componentConfig) {
         return Util.printLog(Util.pocessTypeEnum.ERROR, '编译错误', `原生组件文件 ${componentJSPath} 不存在！`)
       }
       if (fs.existsSync(componentWXMLPath)) {
-        const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxml')
-        copyFileSync(componentWXMLPath, outputComponentWXMLPath)
+        const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.TEMPL)
+        processNativeWxml(componentWXMLPath, null, outputComponentWXMLPath)
       }
       if (fs.existsSync(componentWXSSPath)) {
-        const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
+        const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.STYLE)
         await compileDepStyles(outputComponentWXSSPath, [componentWXSSPath], true)
       }
       if (fs.existsSync(componentJSONPath)) {
         const componentJSON = require(componentJSONPath)
-        const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.json')
+        const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.CONFIG)
         copyFileSync(componentJSONPath, outputComponentJSONPath)
         transfromNativeComponents(componentJSONPath, componentJSON)
       }
@@ -1105,16 +1157,16 @@ async function buildSinglePage (page) {
     return
   }
   const pageJsContent = fs.readFileSync(pageJs).toString()
-  const outputPageJSPath = pageJs.replace(sourceDir, outputDir).replace(path.extname(pageJs), '.js')
+  const outputPageJSPath = pageJs.replace(sourceDir, outputDir).replace(path.extname(pageJs), outputFilesTypes.SCRIPT)
   const outputPagePath = path.dirname(outputPageJSPath)
-  const outputPageJSONPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.json')
-  const outputPageWXMLPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.wxml')
-  const outputPageWXSSPath = outputPageJSPath.replace(path.extname(outputPageJSPath), '.wxss')
+  const outputPageJSONPath = outputPageJSPath.replace(path.extname(outputPageJSPath), outputFilesTypes.CONFIG)
+  const outputPageWXMLPath = outputPageJSPath.replace(path.extname(outputPageJSPath), outputFilesTypes.TEMPL)
+  const outputPageWXSSPath = outputPageJSPath.replace(path.extname(outputPageJSPath), outputFilesTypes.STYLE)
   // 判断是不是小程序原生代码页面
-  const pageWXMLPath = pageJs.replace(path.extname(pageJs), '.wxml')
+  const pageWXMLPath = pageJs.replace(path.extname(pageJs), outputFilesTypes.TEMPL)
   if (fs.existsSync(pageWXMLPath) && pageJsContent.indexOf(taroJsFramework) < 0) {
-    const pageJSONPath = pageJs.replace(path.extname(pageJs), '.json')
-    const pageWXSSPath = pageJs.replace(path.extname(pageJs), '.wxss')
+    const pageJSONPath = pageJs.replace(path.extname(pageJs), outputFilesTypes.CONFIG)
+    const pageWXSSPath = pageJs.replace(path.extname(pageJs), outputFilesTypes.STYLE)
     if (fs.existsSync(pageJSONPath)) {
       const pageJSON = require(pageJSONPath)
       copyFileSync(pageJSONPath, outputPageJSONPath)
@@ -1133,20 +1185,20 @@ async function buildSinglePage (page) {
       sourcePath: pageJs,
       outputPath: outputPageJSPath,
       isRoot: true,
-      isTyped: Util.REG_TYPESCRIPT.test(pageJs)
+      isTyped: Util.REG_TYPESCRIPT.test(pageJs),
+      adapter: buildAdapter
     })
     const pageDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
-    resCode = await compileScriptFile(pageJs, resCode)
-    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
-    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+    resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputPageJSPath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${pageJs}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1194,7 +1246,7 @@ async function buildSinglePage (page) {
               if (depComponent.name === component.name) {
                 let componentPath = component.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1205,18 +1257,19 @@ async function buildSinglePage (page) {
       })
     }
     fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageDepComponents), res.configObj), null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JSON', `${outputDirName}/${page}.json`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
     fs.writeFileSync(outputPageJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面JS', `${outputDirName}/${page}.js`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
     fs.writeFileSync(outputPageWXMLPath, transformResult.template)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXML', `${outputDirName}/${page}.wxml`)
+    processNativeWxml(outputPageWXMLPath.replace(outputDir, sourceDir), transformResult.template, outputPageWXMLPath)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面模板', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[pageJs], pageDepComponents)) {
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面WXSS', `${outputDirName}/${page}.wxss`)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面样式', `${outputDirName}/${page}${outputFilesTypes.STYLE}`)
       const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputPageWXSSPath] = depStyleList
       await compileDepStyles(outputPageWXSSPath, res.styleFiles, false)
@@ -1235,6 +1288,7 @@ async function buildSinglePage (page) {
     fileDep['media'] = res.mediaFiles
     dependencyTree[pageJs] = fileDep
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '页面编译', `页面${pagePath}编译失败！`)
     console.log(err)
   }
 }
@@ -1242,8 +1296,22 @@ async function buildSinglePage (page) {
 async function processStyleWithPostCSS (styleObj) {
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
-  const customPxtransformConf = customPostcssConf.pxtransform || {}
-  const customUrlConf = customPostcssConf.url || {}
+  const customPxtransformConf =  Object.assign({
+    enable: true,
+    config: {}
+  }, customPostcssConf.pxtransform || {})
+  const customUrlConf =  Object.assign({
+    enable: true,
+    config: {
+      limit: 10240
+    }
+  }, customPostcssConf.url || {})
+  const customAutoprefixerConf = Object.assign({
+    enable: true,
+    config: {
+      browsers: browserList
+    }
+  }, customPostcssConf.autoprefixer || {})
   const postcssPxtransformOption = {
     designWidth: projectConfig.designWidth || 750,
     platform: 'weapp'
@@ -1252,15 +1320,16 @@ async function processStyleWithPostCSS (styleObj) {
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
   }
-  const cssUrlConf = Object.assign({ limit: 10240, enable: true }, customUrlConf)
-  const maxSize = Math.round(cssUrlConf.limit / 1024)
-  const processors = [
-    autoprefixer({ browsers: browserList }),
-    pxtransform(Object.assign(
-      postcssPxtransformOption,
-      customPxtransformConf
-    ))
-  ]
+  const cssUrlConf = Object.assign({ limit: 10240 }, customUrlConf)
+  const maxSize = Math.round((customUrlConf.config.limit || cssUrlConf.limit) / 1024)
+  const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
+  const processors = []
+  if (customAutoprefixerConf.enable) {
+    processors.push(autoprefixer(customAutoprefixerConf.config))
+  }
+  if (customPxtransformConf.enable) {
+    processors.push(pxtransform(postcssPxtransformConf))
+  }
   if (cssUrlConf.enable) {
     processors.push(cssUrlParse({
       url: 'inline',
@@ -1274,6 +1343,17 @@ async function processStyleWithPostCSS (styleObj) {
   return postcssResult.css
 }
 
+function compileImportStyles (filePath, importStyles) {
+  if (importStyles.length) {
+    importStyles.forEach(async importItem => {
+      const importFilePath = path.resolve(filePath, '..', importItem)
+      if (fs.existsSync(importFilePath)) {
+        await compileDepStyles(importFilePath.replace(sourceDir, outputDir), [importFilePath])
+      }
+    })
+  }
+}
+
 function compileDepStyles (outputFilePath, styleFiles, isComponent) {
   if (isBuildingStyles[outputFilePath]) {
     return Promise.resolve({})
@@ -1284,17 +1364,18 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
     const fileExt = path.extname(filePath)
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     const fileContent = fs.readFileSync(filePath).toString()
-    const cssImportsRes = Util.processWxssImports(fileContent)
+    const cssImportsRes = Util.processStyleImports(fileContent, buildAdapter)
+    compileImportStyles(filePath, cssImportsRes.imports)
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
         .then(res => ({
-          css: cssImportsRes.wxss.join('\n') + '\n' + res.css,
+          css: cssImportsRes.style.join('\n') + '\n' + res.css,
           filePath
         }))
     }
     return new Promise(resolve => {
       resolve({
-        css: cssImportsRes.wxss.join('\n') + '\n' + cssImportsRes.content,
+        css: cssImportsRes.style.join('\n') + '\n' + cssImportsRes.content,
         filePath
       })
     })
@@ -1321,7 +1402,7 @@ function getRealComponentsPathList (filePath, components) {
     let componentPath = component.path
     if (Util.isNpmPkg(componentPath)) {
       try {
-        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig)
+        componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig, buildAdapter)
       } catch (err) {
         console.log(err)
       }
@@ -1360,9 +1441,9 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
 function buildUsingComponents (components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
-    usingComponents[component.name] = component.path
+    usingComponents[component.name] = component.path.replace(path.extname(component.path), '')
   }
-  return Object.assign({}, isComponent ? { component: true } : {}, components.length ? {
+  return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
   } : {})
 }
@@ -1376,6 +1457,14 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     type: componentObj.type
   }
   const component = componentObj.path
+  if (!component) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '组件错误', `组件${_.upperFirst(_.camelCase(componentObj.name))}路径错误，请检查！（可能原因是导出的组件名不正确）`)
+    return {
+      js: null,
+      wxss: null,
+      wxml: null
+    }
+  }
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
   let isComponentFromNodeModules = false
@@ -1391,16 +1480,15 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
   Util.printLog(Util.pocessTypeEnum.COMPILE, '组件文件', componentShowPath)
   const componentContent = fs.readFileSync(component).toString()
-  const outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(path.extname(component), '.js')
-  const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxml')
-  const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.wxss')
-  const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), '.json')
+  const outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(path.extname(component), outputFilesTypes.SCRIPT)
+  const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.TEMPL)
+  const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.STYLE)
+  const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.CONFIG)
   if (hasBeenBuiltComponents.indexOf(component) < 0) {
     hasBeenBuiltComponents.push(component)
   }
   try {
     let isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
-
     if (!isTaroComponentRes.isTaroComponent) {
       const transformResult = isTaroComponentRes.transformResult
       const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
@@ -1410,6 +1498,9 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         type: componentObj.type
       }
       let isInMap = false
+      if (notTaroComponents.indexOf(component) < 0) {
+        notTaroComponents.push(component)
+      }
       if (!Util.isEmptyObject(componentExportsMap)) {
         Object.keys(componentExportsMap).forEach(key => {
           componentExportsMap[key].forEach(item => {
@@ -1432,14 +1523,13 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       outputPath: outputComponentJSPath,
       isRoot: false,
       isTyped: Util.REG_TYPESCRIPT.test(component),
-      isNormal: false
+      isNormal: false,
+      adapter: buildAdapter
     })
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
-    resCode = await compileScriptFile(component, resCode)
-    resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
-    resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
+    resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
@@ -1447,6 +1537,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
         const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, outputComponentJSPath, uglifyConfig)
         if (uglifyResult.error) {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${component}`)
           console.log(uglifyResult.error)
         } else {
           resCode = uglifyResult.code
@@ -1482,6 +1573,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         }
         return item
       }).filter(item => item)
+      realComponentsPathList = realComponentsPathList.filter(item => hasBeenBuiltComponents.indexOf(item.path) < 0 || notTaroComponents.indexOf(item.path) >= 0)
       buildDepComponentsResult = await buildDepComponents(realComponentsPathList)
     }
     if (!Util.isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
@@ -1494,7 +1586,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, weappNpmConfig.name)
+                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
                 }
                 const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
@@ -1505,18 +1597,19 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       })
     }
     fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(componentDepComponents, true), res.configObj), null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JSON', `${outputDirName}/${outputComponentShowPath}.json`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
     fs.writeFileSync(outputComponentJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件JS', `${outputDirName}/${outputComponentShowPath}.js`)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
     fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXML', `${outputDirName}/${outputComponentShowPath}.wxml`)
+    processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), transformResult.template, outputComponentWXMLPath)
+    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
     if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[component], componentDepComponents)) {
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件WXSS', `${outputDirName}/${outputComponentShowPath}.wxss`)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件样式', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.STYLE}`)
       const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
       wxssDepTree[outputComponentWXSSPath] = depStyleList
       await compileDepStyles(outputComponentWXSSPath, res.styleFiles, true)
@@ -1541,6 +1634,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     }
     return componentsBuildResult[component]
   } catch (err) {
+    Util.printLog(Util.pocessTypeEnum.ERROR, '组件编译', `组件${componentShowPath}编译失败！`)
     console.log(err)
   }
 }
@@ -1575,22 +1669,22 @@ function compileDepScripts (scriptFiles) {
             sourcePath: item,
             outputPath: outputItem,
             isNormal: true,
-            isTyped: Util.REG_TYPESCRIPT.test(item)
+            isTyped: Util.REG_TYPESCRIPT.test(item),
+            adapter: buildAdapter
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
-          resCode = await compileScriptFile(item, res.code)
+          resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
           fs.ensureDirSync(path.dirname(outputItem))
-          resCode = Util.replaceContentEnv(resCode, projectConfig.env || {})
-          resCode = Util.replaceContentConstants(resCode, projectConfig.defineConstants || {})
           if (isProduction) {
             const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
             if (uglifyPluginConfig.enable) {
               const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
               const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
               if (uglifyResult.error) {
+                Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${item}`)
                 console.log(uglifyResult.error)
               } else {
                 resCode = uglifyResult.code
@@ -1696,7 +1790,8 @@ function watchFiles () {
           Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
-          if (Util.checksum(JSON.stringify(config)) !== Util.checksum(JSON.stringify(appConfig))) {
+          if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages)))
+            || (Util.checksum(JSON.stringify(config.subPackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || {})))) {
             appConfig = config
             await buildPages()
           }
@@ -1765,7 +1860,7 @@ function watchFiles () {
         if (includeStyleJSPath.length) {
           includeStyleJSPath.forEach(async item => {
             let outputWXSSPath = null
-            outputWXSSPath = item.filePath.replace(path.extname(item.filePath), '.wxss')
+            outputWXSSPath = item.filePath.replace(path.extname(item.filePath), outputFilesTypes.STYLE)
             let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
@@ -1789,7 +1884,7 @@ function watchFiles () {
             Util.printLog(Util.pocessTypeEnum.GENERATE, '样式文件', modifyOutput)
           })
         } else {
-          let outputWXSSPath = filePath.replace(path.extname(filePath), '.wxss')
+          let outputWXSSPath = filePath.replace(path.extname(filePath), outputFilesTypes.STYLE)
           let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
           modifySource = modifySource.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
@@ -1821,9 +1916,11 @@ function watchFiles () {
     })
 }
 
-async function build ({ watch }) {
-  process.env.TARO_ENV = Util.BUILD_TYPES.WEAPP
+async function build ({ watch, adapter }) {
+  process.env.TARO_ENV = adapter
   isProduction = !watch
+  buildAdapter = adapter
+  outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
   buildProjectConfig()
   copyFiles()
   appConfig = await buildEntry()

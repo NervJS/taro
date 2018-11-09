@@ -7,11 +7,16 @@ import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
+import { Adapter } from './adapter'
 const template = require('babel-template')
 
 export const incrementId = () => {
   let id = 0
   return () => id++
+}
+
+export function decodeUnicode (s: string) {
+  return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
 }
 
 export function isVarName (str: string) {
@@ -33,7 +38,7 @@ export function isVarName (str: string) {
   return true
 }
 
-export function findMethodName (expression: t.Expression) {
+export function findMethodName (expression: t.Expression): string {
   let methodName
   if (
     t.isIdentifier(expression) ||
@@ -41,7 +46,7 @@ export function findMethodName (expression: t.Expression) {
   ) {
     methodName = expression.name
   } else if (t.isStringLiteral(expression)) {
-    methodName = expression
+    methodName = expression.value
   } else if (
     t.isMemberExpression(expression) &&
     t.isIdentifier(expression.property)
@@ -74,6 +79,24 @@ export function findMethodName (expression: t.Expression) {
   return methodName
 }
 
+export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, array = false) {
+  const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
+  const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
+  if (conditionExpr && conditionExpr.isConditionalExpression()) {
+    const consequent = conditionExpr.get('consequent')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+    }
+  }
+  if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
+    const consequent = logicExpr.get('right')
+    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
+      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+    }
+  }
+  return expr
+}
+
 export function generateAnonymousState (
   scope: Scope,
   expression: NodePath<t.Expression>,
@@ -87,23 +110,9 @@ export function generateAnonymousState (
   }
   const jsx = isLogical ? expression : expression.findParent(p => p.isJSXElement())
   const callExpr = jsx.findParent(p => p.isCallExpression() && isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
-  const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
-  const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
   const ifExpr = jsx.findParent(p => p.isIfStatement())
   const blockStatement = jsx.findParent(p => p.isBlockStatement() && p.parentPath === ifExpr) as NodePath<t.BlockStatement>
-  let expr = cloneDeep(expression.node)
-  if (conditionExpr && conditionExpr.isConditionalExpression()) {
-    const consequent = conditionExpr.get('consequent')
-    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, t.nullLiteral())
-    }
-  }
-  if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
-    const consequent = logicExpr.get('right')
-    if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, t.nullLiteral())
-    }
-  }
+  const expr = setParentCondition(jsx, cloneDeep(expression.node))
   if (!callExpr) {
     refIds.add(t.identifier(variableName))
     statementParent.insertBefore(
@@ -198,7 +207,7 @@ function slash (input: string) {
 export function pathResolver (source: string, location: string) {
   const extName = path.extname(source)
   const promotedPath = source
-  if (extName === '') {
+  if (!['js', 'tsx'].includes(extName)) {
     try {
       const pathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.js'))
       const tsxPathExist = fs.existsSync(path.resolve(path.dirname(location), source, 'index.tsx'))
@@ -270,7 +279,7 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
-    element.attributes.push(buildJSXAttr('wx:if', value))
+    element.attributes.push(buildJSXAttr(Adapter.if, value))
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)
@@ -353,12 +362,15 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   return matched
 }
 
-export function findFirstIdentifierFromMemberExpression (node: t.MemberExpression): t.Identifier {
+export function findFirstIdentifierFromMemberExpression (node: t.MemberExpression, member?): t.Identifier {
   let id
   let object = node.object as any
   while (true) {
     if (t.identifier(object) && !t.isMemberExpression(object)) {
       id = object
+      if (member) {
+        object = member
+      }
       break
     }
     object = object.object

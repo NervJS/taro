@@ -1,121 +1,151 @@
 import React from 'react'
-import queryString from 'query-string'
-import RefreshProvider from './RefreshProvider'
+import { View, Text } from 'react-native'
+import LoadingView from './LoadingView'
+import TaroProvider from './TaroProvider'
+import { getNavigationOptions } from './utils'
 
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
- * @param Screen 页面的组件
+ * @param Screen 页面的组件，有可能是 react-redux 里面的 connect 包裹后的 Screen
  * @param Taro 挂在方法到 Taro 上
+ * @param globalNavigationOptions 全局
  * @returns {WrappedScreen}
  */
-function getWrappedScreen (Screen, Taro, {enablePullDownRefresh}) {
-  class WrappedScreen extends Screen {
+function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
+  class WrappedScreen extends React.Component {
     constructor (props, context) {
       super(props, context)
-      this.refreshProviderRef = React.createRef()
-      // 这样处理不一定合理，
-      // 有时间看一下 react-navigation 内部的实现机制再优化
-      Taro.navigateTo = this.wxNavigateTo.bind(this)
-      Taro.redirectTo = this.wxRedirectTo.bind(this)
-      Taro.navigateBack = this.wxNavigateBack.bind(this)
-      Taro.switchTab = this.wxSwitchTab.bind(this)
-      Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
+      this.screenRef = React.createRef()
+    }
+
+    static navigationOptions = ({navigation}) => {
+      const navigationOptions = getNavigationOptions(Screen.config)
+      const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
+      const rest = globalNavigationOptions.navigationStyle === 'custom' ? {header: null} : {}
+      return {
+        ...rest,
+        headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
+          <Text style={{fontSize: 17, fontWeight: '600'}}>{title}</Text>
+        </View>,
+        headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
+        headerStyle: {
+          backgroundColor: navigation.getParam('backgroundColor') || navigationOptions.backgroundColor || globalNavigationOptions.backgroundColor
+        }
+      }
+    }
+
+    /**
+     * @description 如果 Screen 被包裹过（如：@connect），
+     * 需提供获取包裹前 Screen 实例的方法 getWrappedInstance 并暴露出被包裹组件的 config
+     * @returns {*}
+     */
+    getScreenInstance () {
+      if (this.screenRef.current && this.screenRef.current.getWrappedInstance) {
+        return this.screenRef.current.getWrappedInstance() || {}
+      } else {
+        return this.screenRef.current || {}
+      }
+    }
+
+    showNavigationBarLoading (obj) {
+      const {success, fail, complete} = obj || {}
+      try {
+        this.props.navigation.setParams({isNavigationBarLoadingShow: true})
+        success && success()
+        complete && complete()
+      } catch (e) {
+        fail && fail({errMsg: e.message})
+        complete && complete({errMsg: e.message})
+      }
+    }
+
+    hideNavigationBarLoading (obj) {
+      const {success, fail, complete} = obj || {}
+      try {
+        this.props.navigation.setParams({isNavigationBarLoadingShow: false})
+        success && success()
+        complete && complete()
+      } catch (e) {
+        fail && fail({errMsg: e.message})
+        complete && complete({errMsg: e.message})
+      }
+    }
+
+    // TODO animation 动画效果支持
+    setNavigationBarColor (obj) {
+      if (typeof obj !== 'object') {
+        console.warn('Taro.setNavigationBarColor 参数必须为 object')
+        return
+      }
+      const {frontColor, backgroundColor, success, fail, complete} = obj
+      if (this.props.navigation) {
+        try {
+          this.props.navigation.setParams({headerTintColor: frontColor, backgroundColor})
+          success && success()
+          complete && complete()
+        } catch (e) {
+          fail && fail({errMsg: e.message})
+          complete && complete({errMsg: e.message})
+        }
+      } else {
+        console.warn('this.props.navigation 不存在')
+      }
+    }
+
+    setNavigationBarTitle (obj) {
+      if (typeof obj !== 'object') {
+        console.warn('Taro.setNavigationBarTitle 参数必须为 object')
+        return
+      }
+      const {title, success, fail, complete} = obj
+      if (this.props.navigation) {
+        try {
+          this.props.navigation.setParams({title})
+          success && success()
+          complete && complete()
+        } catch (e) {
+          fail && fail({errMsg: e.message})
+          complete && complete({errMsg: e.message})
+        }
+      } else {
+        console.warn('this.props.navigation 不存在')
+      }
     }
 
     componentDidMount () {
-      try {
-        Taro.startPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.handlePullDownRefresh
-        Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh
-      } catch (e) {
-        console.log('this.refreshProviderRef: ')
-        console.log(this.refreshProviderRef)
-        throw e
-      }
-      super.componentDidMount && super.componentDidMount()
-      super.componentDidShow && super.componentDidShow()
+      Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
+      Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
+      Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
+      Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+      this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
+      this.screenRef.current && this.setState({}) // TODO 不然 current 为null ??
     }
 
     componentWillUnmount () {
-      super.componentDidHide && super.componentDidHide()
-      super.componentWillUnmount && super.componentWillUnmount()
-    }
-
-    wxNavigateTo ({url, success, fail, complete}) {
-      let obj = queryString.parseUrl(url)
-      console.log(obj)
-      try {
-        this.props.navigation.push(obj.url, obj.query)
-      } catch (e) {
-        fail && fail(e)
-        complete && complete(e)
-        throw e
-      }
-      success && success()
-      complete && complete()
-    }
-
-    wxRedirectTo ({url, success, fail, complete}) {
-      let obj = queryString.parseUrl(url)
-      console.log(obj)
-      try {
-        this.props.navigation.replace(obj.url, obj.query)
-      } catch (e) {
-        fail && fail(e)
-        complete && complete(e)
-        throw e
-      }
-      success && success()
-      complete && complete()
-    }
-
-    wxSwitchTab ({url, success, fail, complete}) {
-      let obj = queryString.parseUrl(url)
-      console.log(obj)
-      try {
-        this.props.navigation.navigate(obj.url, obj.query)
-      } catch (e) {
-        fail && fail(e)
-        complete && complete(e)
-        throw e
-      }
-      success && success()
-      complete && complete()
-    }
-
-    wxNavigateBack ({delta = 1}) {
-      while (delta > 0) {
-        this.props.navigation.goBack()
-        delta--
-      }
-    }
-
-    wxGetCurrentPages () {
-      let parentState = this.props.navigation.dangerouslyGetParent().state
-      if (parentState && parentState.routes) {
-        return parentState.routes.map(item => item.routeName)
-      } else {
-        return []
-      }
+      this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
     }
 
     render () {
-      // if (enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)) {
-      let isScreenEnablePullDownRefresh = enablePullDownRefresh || (Screen.navigationOptions && Screen.navigationOptions.enablePullDownRefresh)
+      const {globalEnablePullDownRefresh = false} = globalNavigationOptions
+      const {enablePullDownRefresh, disableScroll} = getNavigationOptions(Screen.config)
+
+      // 页面配置优先级 > 全局配置
+      let isScreenEnablePullDownRefresh = enablePullDownRefresh === undefined ? globalEnablePullDownRefresh : enablePullDownRefresh
+      const screenInstance = this.getScreenInstance()
       return (
-        <RefreshProvider
+        <TaroProvider
+          Taro={Taro}
           enablePullDownRefresh={isScreenEnablePullDownRefresh}
-          onPullDownRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
-          onReachBottom={this.onReachBottom && this.onReachBottom.bind(this)}
-          onScroll={this.onScroll && this.onScroll.bind(this)}
-          ref={this.refreshProviderRef}
+          disableScroll={disableScroll}
+          onPullDownRefresh={screenInstance.onPullDownRefresh}
+          onReachBottom={screenInstance.onReachBottom}
+          onScroll={screenInstance.onScroll}
+          {...this.props}
         >
-          {super.render()}
-        </RefreshProvider>
+          <Screen ref={this.screenRef} {...this.props} />
+        </TaroProvider>
       )
-      // } else {
-      //   console.log('not enablePullDownRefresh')
-      //   return super.render()
-      // }
     }
   }
 

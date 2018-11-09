@@ -1,3 +1,7 @@
+---
+title: JSX 简介
+---
+
 在 Taro 中，我们使用 JSX 作为一种 DSL 进而编译成各端通用的语法。 JSX 是一种看起来很像 XML 的 JavaScript 语法扩展，比起模板语言，它具有以下优点：
 
 1. 各大编辑器和 IDE 都能提供非常良好的支持；
@@ -5,22 +9,22 @@
 3. 提供语义化并且可以移动的标签；
 4. 背后的社区支持非常强力；
 
-如果你是一名新手的话，可能一开始学习一种新语法会产生一些抵触。但当你熟悉了之后，就能发现 JSX 的更符合程序语言的书写逻辑，在处理一些精细复杂需求的时候也会比模板语言更为得心应手。
+如果你是一名新手的话，可能一开始学习一种新语法会产生一些抵触。但当你熟悉了之后，就能发现 JSX 更符合程序语言的书写逻辑，在处理一些精细复杂需求的时候也会比模板语言更为得心应手。
 
 ## 使用 JSX
 
 请观察以下代码：
 
-```javascript
+```jsx
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 
 class Home extends Component {
-	render () {
-		return (
-			<View>Hello World!</View>
-		)
-	}
+  render () {
+    return (
+      <View>Hello World!</View>
+    )
+  }
 }
 ```
 
@@ -43,11 +47,11 @@ import home_page from './page'
 
 // 错误！组件名应该首字母大写:
 class App extends Component {
-	render () {
-		return (
-			<home_page message="Hello World!" />
-		)
-	}
+  render () {
+    return (
+      <home_page message="Hello World!" />
+    )
+  }
 }
 ```
 
@@ -59,11 +63,11 @@ import Taro, { Component } from '@tarojs/taro'
 import HomePage from './page'
 
 class App extends Component {
-	render () {
-		return (
-			<HomePage message="Hello World!" />
-		)
-	}
+  render () {
+    return (
+      <HomePage message="Hello World!" />
+    )
+  }
 }
 ```
 
@@ -92,15 +96,15 @@ import Taro, { Component } from '@tarojs/taro'
 
 class App extends Components {
   render () {
-    let description;
+    let description
 
     if (this.props.number % 2 == 0) {
-      description = <Text>even</Text>;
+      description = <Text>even</Text>
     } else {
-      description = <Text>odd</Text>;
+      description = <Text>odd</Text>
     }
 
-    return <View>{this.props.number} is an {description} number</View>;
+    return <View>{this.props.number} is an {description} number</View>
   }
 }
 ```
@@ -120,7 +124,7 @@ class App extends Components {
 
 如果你没有给属性传值，它默认为 true。因此下面两个 JSX 是等价的：
 
-```js
+```jsx
 <MyTextBox autocomplete />
 
 <MyTextBox autocomplete={true} />
@@ -129,7 +133,7 @@ class App extends Components {
 > 和 React/Nerv 的不同：
 > React 可以使用 `...` 拓展操作符来传递属性，但在 Taro 中你不能这么做。例如：
 > ```
-> const props = {firstName: ‘Plus’, lastName: ’Second’}
+> const props = {firstName: 'Plus', lastName: 'Second'}
 > return <Greeting {...props} />
 > ```
 > 这样的操作会报错。你只能手动地把所有需要引用的 props 写上去：
@@ -139,31 +143,31 @@ class App extends Components {
 
 如果 JSX 标签是闭合式的，那么你需要在结尾处用 />, 就好像 XML/HTML 一样：
 
-```javascript
+```jsx
 const element = <Image src={user.avatarUrl} />;
 ```
 
 JSX 标签同样可以相互嵌套：
 
-```javascript
+```jsx
 const element = (
   <View>
     <Text>Hello!</Text>
     <Text>Good to see you here.</Text>
   </View>
-);
+)
 ```
 
 JavaScript 表达式也可以嵌套：
 
-```javascript
+```jsx
 render () {
-	  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
   return (
     <ul>
       {todos.map((todo) => <Text>{todo}</Text>)}
     </ul>
-  );
+  )
 }
 ```
 
@@ -171,7 +175,7 @@ render () {
 
 false、null、undefined 和 true 都是有效的 children，但它们不会直接被渲染。下面的表达式是等价的：
 
-```javascript
+```jsx
 <View />
 
 <View></View>
@@ -185,9 +189,9 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 <View>{true}</View>
 ```
 
-这在根据条件来确定是否渲染 元素时非常有用。以下的JSX只会在showHeader为true时渲染<Header />组件。
+这在根据条件来确定是否渲染 元素时非常有用。以下的 JSX 只会在 showHeader 为 true 时渲染<Header />组件。
 
-```javascript
+```jsx
 <View>
   {showHeader && <Header />}
   <Content />
@@ -200,53 +204,8 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 
 考虑如下代码：
 
-```javascript
+```jsx
 const element = <Content footer={<View />} />
 ```
 
 这样的代码在 Nerv/React 中使用是没有问题的，但是在 Taro 中不能这么做。
-
-> 由于微信小程序内置的组件化的系统不能通过属性（props） 传函数，而 props 传递函数可以说 React 体系的根基之一，我们只能自己实现了一套组件化系统。而自制的组件化系统则不能使用内置组件化的 `slot` 功能。两权相害取其轻，我们暂时只能对这个功能忍痛割爱了。
-
-### 自定义组件的名称必须和引入时一致
-
-考虑如下代码：
-
-```javascript
-// Tabs.js
-export default class Tabs extends Componenet {
-	render () {
-		return <View> {this.props.children} </View>
-	}
-}
-// App.js
-import Tabset from './tabs'
-class App extends Componenet {
-	render () {
-		return (
-			<Tabset >
-		)
-	}
-}
-```
-
-在 React/Nerv 中，你可以把组件的名称命名为任何遵循 JavaScript 规范的名字，通过 `export default` 导出时再通过 `import` 引入，又可以给他命名为一个不同的名字。但在 Taro 中你不能这么做，当转换成小程序时，自定义组件实际上会包一层 `template` 组件，而 `template` 的 `name` 属性必须是和 `class` 定义的名称一致的，否则 Taro 无法找到对应的组件：
-
-```javascript
-// Tabs.js
-export default class Tabs extends Componenet {
-	render () {
-		return <View> {this.props.children} </View>
-	}
-}
-// App.js
-// 定义 `Tabs`，引入名称也必须是 `Tabs`
-import Tabs from './tabs'
-class App extends Componenet {
-	render () {
-		return (
-			<Tabs >
-		)
-	}
-}
-```

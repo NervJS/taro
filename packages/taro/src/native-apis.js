@@ -26,7 +26,10 @@ const onAndSyncApis = {
   clearStorageSync: true,
   getSystemInfoSync: true,
   getExtConfigSync: true,
-  getLogManager: true
+  getLogManager: true,
+  onMemoryWarning: true,
+  reportAnalytics: true,
+  navigateToSmartGameProgram: true
 }
 const noPromiseApis = {
   // 媒体
@@ -41,6 +44,8 @@ const noPromiseApis = {
   createInnerAudioContext: true,
   createVideoContext: true,
   createCameraContext: true,
+  createLivePlayerContext: true,
+  createLivePusherContext: true,
 
   // 位置
   createMapContext: true,
@@ -65,6 +70,10 @@ const noPromiseApis = {
   drawCanvas: true,
   hideKeyboard: true,
   stopPullDownRefresh: true,
+  createIntersectionObserver: true,
+
+  onWindowResize: true,
+  offWindowResize: true,
 
   // 拓展接口
   arrayBufferToBase64: true,
@@ -184,6 +193,9 @@ const otherApis = {
   canvasGetImageData: true,
   canvasPutImageData: true,
 
+  setBackgroundColor: true,
+  setBackgroundTextStyle: true,
+
   // 第三方平台
   getExtConfig: true,
 
@@ -195,6 +207,7 @@ const otherApis = {
   checkIsSupportFacialRecognition: true,
   startFacialRecognitionVerify: true,
   startFacialRecognitionVerifyAndUploadVideo: true,
+  faceVerifyForPay: true,
   requestPayment: true,
   showShareMenu: true,
   hideShareMenu: true,
@@ -208,11 +221,39 @@ const otherApis = {
   getWeRunData: true,
   navigateToMiniProgram: true,
   navigateBackMiniProgram: true,
+  chooseInvoice: true,
   chooseInvoiceTitle: true,
   checkIsSupportSoterAuthentication: true,
   startSoterAuthentication: true,
-  checkIsSoterEnrolledInDevice: true
-  //
+  checkIsSoterEnrolledInDevice: true,
+
+  setEnableDebug: true,
+
+  // 百度小程序专有 API
+  // 百度小程序 AI 相关
+  ocrIdCard: true,
+  ocrBankCard: true,
+  ocrDrivingLicense: true,
+  ocrVehicleLicense: true,
+  textReview: true,
+  textToAudio: true,
+  imageAudit: true,
+  advancedGeneralIdentify: true,
+  objectDetectIdentify: true,
+  carClassify: true,
+  dishClassify: true,
+  logoClassify: true,
+  animalClassify: true,
+  plantClassify: true,
+
+  // 用户信息
+  getSwanId: true,
+  // 百度收银台支付
+  requestPolymerPayment: true,
+  // 打开小程序
+  navigateToSmartProgram: true,
+  navigateBackSmartProgram: true,
+  preloadSubPackage: true
 }
 
 function initPxTransform (config) {

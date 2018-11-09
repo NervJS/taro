@@ -1,20 +1,15 @@
-import * as webpackDevServer from 'webpack-dev-server'
-
-export default ({publicPath, contentBase, https, host, publicUrl}): webpackDevServer.Configuration => {
-  return {
-    disableHostCheck: process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
-    compress: true,
-    contentBase,
-    watchContentBase: true,
-    hot: true,
-    inline: true,
-    quiet: true,
-    publicPath,
-    watchOptions: { ignored: /node_modules/ },
-    https,
-    host: host,
-    overlay: true,
-    historyApiFallback: { disableDotRule: true },
-    public: publicUrl
-  }
+export default {
+  compress: true,
+  disableHostCheck: process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
+  historyApiFallback: { disableDotRule: true },
+  host: '127.0.0.1',
+  hot: true,
+  https: false,
+  inline: true,
+  open: true,
+  overlay: true,
+  port: 10086,
+  quiet: true,
+  watchContentBase: true,
+  watchOptions: { ignored: /node_modules/ }
 }

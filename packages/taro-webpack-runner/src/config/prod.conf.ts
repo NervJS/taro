@@ -1,118 +1,140 @@
-import * as webpack from 'webpack'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import * as path from 'path';
 
-import { getPostcssPlugins } from './postcss.conf'
-import { BuildConfig } from '../util/types'
+import { appPath, emptyObj } from '../util';
+import {
+  getDefinePlugin,
+  getEntry,
+  getHtmlWebpackPlugin,
+  getMiniCssExtractPlugin,
+  getOutput,
+  getModule,
+  processEnvOption,
+  getUglifyPlugin,
+  getDevtool,
+  getDllReferencePlugins,
+  getHtmlWebpackIncludeAssetsPlugin
+} from '../util/chain';
+import { BuildConfig } from '../util/types';
+import getBaseChain from './base.conf';
 
-const defaultCSSCompressConf = {
-  mergeRules: false,
-  mergeIdents: false,
-  reduceIdents: false,
-  discardUnused: false,
-  minifySelectors: false
-}
-const defaultJSCompressConf = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
+export default function (config: BuildConfig): any {
+  const chain = getBaseChain()
+  const {
+    alias = emptyObj,
+    entry = emptyObj,
+    output = emptyObj,
+    sourceRoot = '',
+    outputRoot,
+    publicPath,
+    staticDirectory = 'static',
+    chunkDirectory = 'chunk',
+    dllDirectory = 'lib',
+    dllEntry = {
+      lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
+    },
 
-export default (config: BuildConfig): webpack.Configuration => {
-  const useModuleConf = config.module || {
-    compress: {}
+    designWidth = 750,
+    deviceRatio,
+    enableSourceMap = false,
+    enableExtract = true,
+    enableDll = true,
+
+    defineConstants = emptyObj,
+    env = emptyObj,
+    styleLoaderOption = emptyObj,
+    cssLoaderOption = emptyObj,
+    sassLoaderOption = emptyObj,
+    lessLoaderOption = emptyObj,
+    stylusLoaderOption = emptyObj,
+    mediaUrlLoaderOption = emptyObj,
+    fontUrlLoaderOption = emptyObj,
+    imageUrlLoaderOption = emptyObj,
+
+    miniCssExtractPluginOption = emptyObj,
+
+    module = {
+      postcss: emptyObj
+    },
+    plugins
+  } = config
+
+  const plugin: any = {}
+
+  if (enableExtract) {
+    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[id].css'
+    }, miniCssExtractPluginOption])
   }
-  const sourceMap = config.sourceMap
-  const cssExtractPlugins = [] as any[]
-  const devtool = 'hidden-source-map'
-  const compress = Object.assign({}, {
-    css: defaultCSSCompressConf,
-    js: defaultJSCompressConf
-  }, useModuleConf.compress)
-  const cssLoader = {
-    loader: require.resolve('css-loader'),
-    options: {
-      importLoaders: 1,
-      minimize: compress.css,
-      sourceMap
+
+  plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
+    filename: 'index.html',
+    template: path.join(appPath, sourceRoot, 'index.html')
+  }])
+
+  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+
+  if (enableDll) {
+    Object.assign(plugin, getDllReferencePlugins({
+      dllDirectory,
+      dllEntry,
+      outputRoot
+    }))
+    const dllFiles = Object.keys(dllEntry).map(v => {
+      return path.join(dllDirectory, `${v}.dll.js`)
+    })
+    if (dllFiles.length) {
+      plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
+        append: false,
+        assets: dllFiles
+      })
     }
   }
-  const postcssLoader = {
-    loader: require.resolve('postcss-loader'),
-    options: {
-      ident: 'postcss',
-      plugins: () => getPostcssPlugins(config)
-    }
+
+  const mode = 'production'
+
+  const minimizer: any[] = []
+  const isUglifyEnabled = (plugins.uglify && plugins.uglify.enable === false)
+    ? false
+    : true
+
+  if (isUglifyEnabled) {
+    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify ? plugins.uglify.config : {}]))
   }
-  const sassLoader = {
-    loader: require.resolve('sass-loader'),
-    options: { sourceMap: true }
-  }
-  const lessLoader = require.resolve('less-loader')
-  const stylusLoader = require.resolve('stylus-loader')
-  const resolveUrlLoader = require.resolve('resolve-url-loader')
 
-  const cssLoaders = [{
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader ]
-  }, {
-    test: /\.less(\?.*)?$/,
-    exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, lessLoader ]
-  }, {
-    test: /\.styl(\?.*)?$/,
-    exclude: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, postcssLoader, stylusLoader ]
-  }, {
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    include: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, sassLoader ]
-  }, {
-    test: /\.less(\?.*)?$/,
-    include: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, lessLoader ]
-  }, {
-    test: /\.styl(\?.*)?$/,
-    include: /node_modules/,
-    use: [ MiniCssExtractPlugin.loader, cssLoader, stylusLoader ]
-  }]
-
-  cssExtractPlugins.push(new MiniCssExtractPlugin({
-    filename: 'css/[name].css',
-    chunkFilename: 'css/[id].css'
-  }))
-
-  return {
-    mode: 'production',
-    devtool,
-    module: {
-      rules: [
-        {
-          oneOf: [
-            ...cssLoaders
-          ]
-        }
-      ]
-    },
-    resolve: {
-      mainFields: ['main']
-    },
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true,
-          sourceMap,
-          uglifyOptions: compress.js
-        })
-      ]
-    },
-    plugins: cssExtractPlugins
-  } as webpack.Configuration
+  chain.merge({
+    mode,
+    devtool: getDevtool(enableSourceMap),
+    entry: getEntry(entry),
+    output: getOutput([{
+      outputRoot,
+      publicPath,
+      chunkDirectory
+    }, output]),
+    resolve: { alias },
+    module: getModule({
+      mode,
+  
+      designWidth,
+      deviceRatio,
+      enableExtract,
+      enableSourceMap,
+  
+      styleLoaderOption,
+      cssLoaderOption,
+      lessLoaderOption,
+      sassLoaderOption,
+      stylusLoaderOption,
+      fontUrlLoaderOption,
+      imageUrlLoaderOption,
+      mediaUrlLoaderOption,
+  
+      module,
+      plugins,
+      staticDirectory
+    }),
+    plugin,
+    optimization: { minimizer }
+  })
+  return chain
 }

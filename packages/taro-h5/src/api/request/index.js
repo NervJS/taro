@@ -4,7 +4,7 @@ import { serializeParams } from '../utils'
 
 function generateRequestUrlWithParams (url, params) {
   params = typeof params === 'string' ? params : serializeParams(params)
-  url += (~url.indexOf('?') ? '&' : '?') + `${params}`
+  url += (~url.indexOf('?') ? '&' : '?') + params
   url = url.replace('?&', '?')
   return url
 }
@@ -21,11 +21,13 @@ export default function request (options) {
   const params = {}
   const res = {}
   if (options.jsonp) {
+    Object.assign(params, options)
     params.params = options.data
     params.cache = options.jsonpCache
     if (typeof options.jsonp === 'string') {
       params.name = options.jsonp
     }
+    delete params.jsonp
     return jsonpRetry(url, params)
       .then(data => {
         res.statusCode = 200
@@ -45,6 +47,15 @@ export default function request (options) {
   params.cache = options.cache || 'default'
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
+  } else if (typeof options.data === 'object') {
+    let contentType = options.header && (options.header['Content-Type'] || options.header['content-type'])
+    if (contentType && contentType.indexOf('application/json') >= 0) {
+      params.body = JSON.stringify(options.data)
+    } else if (contentType && contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
+      params.body = serializeParams(options.data)
+    } else {
+      params.body = options.data
+    }
   } else {
     params.body = options.data
   }
