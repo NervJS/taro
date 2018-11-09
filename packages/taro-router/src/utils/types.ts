@@ -7,6 +7,7 @@ export type PageComponent = new(
   context: any
 ) => Component<any, any>
 
+export type ComponentLoader = () => Promise<{ default: PageComponent }>
 
 export type WrappedPageComponent = new(props: any, context: any) => Component<{
   router: {
@@ -17,7 +18,7 @@ export type WrappedPageComponent = new(props: any, context: any) => Component<{
 
 export interface RouteObj {
   path: Path;
-  component: () => Promise<{ default: PageComponent }>;
+  componentLoader: ComponentLoader;
   isIndex: boolean;
   key?: string;
 }

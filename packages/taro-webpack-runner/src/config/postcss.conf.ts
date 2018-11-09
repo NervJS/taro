@@ -28,9 +28,7 @@ const defaultPxtransformOption: {
 }
 const defaultCssModulesOption = {
   enable: false,
-  config: {
-    generateScopedName: '[name]__[local]___[hash:base64:5]'
-  }
+  config: {}
 }
 const defaultConstparseOption = {
   constants: [{

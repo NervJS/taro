@@ -26,7 +26,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "react-loadable": "^5.5.0",
     "resolve-pathname": "^2.2.0",
     "rollup-plugin-alias": "^1.4.0",
     "value-equal": "^0.4.0",

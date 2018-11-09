@@ -44,6 +44,7 @@
     "jest-fetch-mock": "^1.6.5",
     "jest-localstorage-mock": "^2.2.0",
     "jest-mock-console": "^0.3.5",
-    "mock-socket": "^7.1.0"
+    "mock-socket": "^7.1.0",
+    "rollup": "^0.67.3"
   }
 }

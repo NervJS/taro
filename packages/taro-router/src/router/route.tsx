@@ -2,18 +2,17 @@ import { Component } from '@tarojs/taro-h5';
 import Nerv, { PropTypes } from 'nervjs';
 
 import createWrappedComponent from './createWrappedComponent';
-import * as Types from '../utils/types';
-import createLoadableComponent from './loadable';
+import { ComponentLoader } from '../utils/types';
 
 interface RouteProps {
   path: string;
-  component: Types.PageComponent;
+  componentLoader: ComponentLoader;
   isIndex: boolean;
-  key: string;
+  key?: string;
 }
 
 interface RouteState {
-  match: boolean;
+  matched: boolean;
 }
 
 class Route extends Component<RouteProps, RouteState> {
@@ -29,12 +28,15 @@ class Route extends Component<RouteProps, RouteState> {
   }
 
   state = {
-    match: this.computeMatch(this.context.router)
+    matched: this.computeMatch(this.context.router)
   };
 
   getChildContext () {
     return {
-      ...this.context
+      router: {
+        ...this.context.router,
+        matched: this.state.matched
+      }
     }
   }
 
@@ -47,32 +49,45 @@ class Route extends Component<RouteProps, RouteState> {
   }
 
   componentWillMount () {
-    const LoadableComponent = createLoadableComponent({
-      loader: this.props.component,
-      loading: <div />
-    })
-    this.wrappedComponent = createWrappedComponent(LoadableComponent)
+    this.props.componentLoader()
+      .then(({ default: component }) => {
+        let WrappedComponent = createWrappedComponent(component)
+        this.wrappedComponent = WrappedComponent
+        this.setState({})
+      })
+    /**
+     * <Router>
+     *   <Route>
+     *     <Loadable>
+     *       <WrappedComponent>
+     *         <Component />
+     *       </WrappedComponent>
+     *     </Loadable>
+     *   </Route>
+     * </Router>
+    */
+    // this.wrappedComponent = loadableComponent
   }
 
   componentWillReceiveProps (nProps, nContext) {
     this.setState({
-      match: this.computeMatch(nContext.router)
+      matched: this.computeMatch(nContext.router)
     });
   }
 
   render () {
     if (!this.wrappedComponent) return null
+    const router = this.context.router
+    const matched = this.state.matched
 
-    const { match } = this.state;
-    const { router } = this.context;
     const WrappedComponent = this.wrappedComponent
     return (
       <WrappedComponent {...{
-        router: {
-          matched: match,
+        __router: {
+          matched,
           location: router.location
         }
-      }} />
+      }}/>
     )
   }
 }

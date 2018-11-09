@@ -7,28 +7,27 @@ import commonjs from 'rollup-plugin-commonjs'
 import replace from 'rollup-plugin-replace'
 import es3 from 'rollup-plugin-es3'
 
-let pkg = JSON.parse(fs.readFileSync('./package.json'))
-
-let external = Object.keys(pkg.peerDependencies || {}).concat(Object.keys(pkg.dependencies || {}))
-
-let format = process.env.TARGET === 'es' ? 'es' : 'umd'
-
 export default {
   input: 'src/index.js',
   output: {
     sourcemap: true,
     name: '@tarojs/redux-h5',
-    exports: format === 'es' ? null : 'default',
-    format,
-    file: format === 'es' ? pkg.module : pkg.main,
+    exports: 'default',
+    format: 'umd',
+    file: 'dist/index.js',
     globals: {
       'nervjs': 'Nerv',
-      'redux': 'Redux'
+      'redux': 'Redux',
+      '@tarojs/taro-h5': 'taroH5'
     }
   },
-  external,
+  external: [
+    'nervjs',
+    'redux',
+    '@tarojs/taro-h5'
+  ],
   plugins: [
-    format === 'umd' && memory({
+    memory({
       path: 'src/index.js',
       contents: "export { default } from './index';"
     }),

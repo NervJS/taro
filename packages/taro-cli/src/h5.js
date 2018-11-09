@@ -81,6 +81,15 @@ function addLeadingSlash (str) {
   return str.startsWith('/') ? str : `/${str}`
 }
 
+function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
+  const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
+  return `{
+    path: '${absPagename}',
+    componentLoader: () => import(${chunkNameComment}'${relPagename}'),
+    isIndex: ${isIndex}
+  }`
+}
+
 function processEntry (code, filePath) {
   let ast = wxTransformer({
     code,
@@ -171,11 +180,13 @@ function processEntry (code, filePath) {
           const routes = pages.map((v, k) => {
             const absPagename = addLeadingSlash(v)
             const relPagename = `.${absPagename}`
-            return `{
-              path: '${absPagename}',
-              component: () => import('${relPagename}'),
-              isIndex: ${k === 0}
-            }`
+            const chunkName = relPagename.split('/').filter(v => !/^(pages|\.)$/i.test(v)).join('_')
+            return createRoute({
+              absPagename,
+              relPagename,
+              chunkName,
+              isIndex: k === 0
+            })
           })
 
           /* 处理自定义路由 */
@@ -183,11 +194,11 @@ function processEntry (code, filePath) {
             Object.entries(customRoutes).forEach(([matchedUrl, pageComponent]) => {
               const absPagename = addLeadingSlash(matchedUrl)
               const relPagename = `.${addLeadingSlash(pageComponent)}`
-              routes.push(`{
-                path: '${absPagename}',
-                component: () => import('${relPagename}'),
+              routes.push(createRoute({
+                absPagename,
+                relPagename,
                 isIndex: false
-              }`)
+              }))
             })
           }
 
@@ -225,7 +236,7 @@ function processEntry (code, filePath) {
           }
 
           /* 插入<Router /> */
-          node.body = toAst(`{return (${funcBody});}`)
+          node.body = toAst(`{return (${funcBody});}`, { preserveComments: true })
         }
         if (tabBar && isComponentWillMount) {
           const initTabBarApisCallNode = toAst(`Taro.initTabBarApis(this, Taro)`)

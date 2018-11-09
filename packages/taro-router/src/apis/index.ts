@@ -1,5 +1,4 @@
 import { History } from '../utils/types'
-import { tryToCall } from '../utils';
 
 type SuccessCallback = (res: any) => any
 type FailCallback = (err: any) => any
@@ -27,48 +26,40 @@ interface RedirectToOption {
 }
 
 const createNavigateTo = (history: History) => {
-  return async function ({ url, success, fail, complete }: NavigateToOption) {
+  return function ({ url }: NavigateToOption) {
     try {
       if (/^(https?:)\/\//.test(url)) {
         window.location.assign(url);
-        return
       }
       history.push(url)
-      tryToCall(success)
+      return Promise.resolve()
     } catch (e) {
-      tryToCall(fail)
-    } finally {
-      tryToCall(complete)
+      return Promise.reject()
     }
   }
 }
 
 const createNavigateBack = (history: History) => {
-  return async function ({ delta, success, fail, complete }: NavigateBackOption) {
+  return function ({ delta }: NavigateBackOption) {
     try {
       history.go(delta)
-      tryToCall(success)
+      return Promise.resolve()
     } catch (e) {
-      tryToCall(fail)
-    } finally {
-      tryToCall(complete)
+      return Promise.reject()
     }
   }
 }
 
 const createRedirectTo = (history: History) => {
-  return async function ({ url, success, fail, complete }: RedirectToOption) {
+  return function ({ url }: RedirectToOption) {
     if (/^(https?:)\/\//.test(url)) {
       window.location.assign(url);
-      return
     }
     try {
       history.replace(url)
-      tryToCall(success)
+      return Promise.resolve()
     } catch (e) {
-      tryToCall(fail)
-    } finally {
-      tryToCall(complete)
+      return Promise.reject()
     }
   }
 }

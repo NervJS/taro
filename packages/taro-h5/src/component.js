@@ -1,12 +1,15 @@
 import Nerv from 'nervjs'
 
 class Component extends Nerv.Component {
-  constructor (props, context) {
-    super(props, context)
-    if (props._$router) {
-      this.$router = props._$router
+  get $router () {
+    if (this.props.__router) {
+      return this.props.__router.location
     }
   }
+  set $router (args) {
+    console.warn('Property "$router" is read-only.')
+  }
+
   get $app () {
     if (!this.vnode) return {}
     if (!this._$app) this._$app = getApp(this)
@@ -14,7 +17,7 @@ class Component extends Nerv.Component {
   }
 
   set $app (app) {
-    console.warn('Please try not to set $app.')
+    console.warn('Property "$app" is read-only.')
   }
 }
 

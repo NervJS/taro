@@ -65,7 +65,7 @@ export default function (config: BuildConfig): any {
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
       filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css'
+      chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption])
   }
 

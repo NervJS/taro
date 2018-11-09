@@ -46,9 +46,10 @@ function load(loader) {
 
   state.promise = promise
     .then(loaded => {
+      const res = loaded.default || loaded
       state.loading = false;
-      state.loaded = loaded;
-      return loaded;
+      state.loaded = res;
+      return res;
     })
     .catch(err => {
       state.loading = false;
@@ -115,10 +116,6 @@ function render(loaded, props, ctx) {
 }
 
 function createLoadableComponent(loadFn, options) {
-  if (!options.loading) {
-    throw new Error('Nerv-loadable requires a `loading` component');
-  }
-
   const opts = Object.assign(
     {
       loader: null,
@@ -237,17 +234,10 @@ function createLoadableComponent(loadFn, options) {
     }
 
     render() {
-      if (this.state.loading || this.state.error) {
-        return Nerv.createElement(opts.loading, {
-          isLoading: this.state.loading,
-          pastDelay: this.state.pastDelay,
-          timedOut: this.state.timedOut,
-          error: this.state.error
-        }, this.context);
-      } else if (this.state.loaded) {
+      if (this.state.loaded) {
         return opts.render(this.state.loaded, this.props, this.context);
       } else {
-        return null;
+        return '';
       }
     }
   };

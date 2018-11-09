@@ -50,8 +50,8 @@ function convertArrayToAstExpression (arr) {
   })
 }
 
-function convertSourceStringToAstExpression (str) {
-  return template(str, babylonConfig)()
+function convertSourceStringToAstExpression (str, opts = {}) {
+  return template(str, Object.assign({}, babylonConfig, opts))()
 }
 
 const getObjKey = (node) => {

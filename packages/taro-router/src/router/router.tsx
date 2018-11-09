@@ -55,7 +55,7 @@ class Router extends Component<Props, State> {
 
     return matchedRoute || {
       path: pathname,
-      component: () => import('./page404'),
+      componentLoader: () => import('./page404'),
       isIndex: pathname === '/',
       key: location.state.key
     }
@@ -132,10 +132,10 @@ class Router extends Component<Props, State> {
   render () {
     return (
       <div className="taro_router">
-        {this.state.routeStack.map(({ path, component, isIndex, key }) => {
-          return Nerv.createElement(Route, {
-            path, component, isIndex, key
-          }, this.context)
+        {this.state.routeStack.map(({ path, componentLoader, isIndex, key }) => {
+          return <Route {...{
+            path, componentLoader, isIndex, key,
+          }} />
         })}
       </div>
     )
