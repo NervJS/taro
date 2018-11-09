@@ -57,8 +57,16 @@ export default function (WrappedComponent: React.ComponentType<*>) {
 
     panResponder: any = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => {
-        const { hoverStyle, onTouchstart, onTouchmove, onTouchcancel, onTouchend } = this.props
-        return hoverStyle || onTouchstart || onTouchmove || onTouchcancel || onTouchend
+        const {
+          hoverStyle,
+          onClick,
+          onLongPress,
+          onTouchstart,
+          onTouchmove,
+          onTouchcancel,
+          onTouchend
+        } = this.props
+        return hoverStyle || onClick || onLongPress || onTouchstart || onTouchmove || onTouchcancel || onTouchend
       },
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         const { onTouchmove, onTouchcancel, onTouchend } = this.props

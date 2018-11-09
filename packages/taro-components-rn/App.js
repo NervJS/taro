@@ -21,6 +21,7 @@ import EXProgress from './example/EXProgress'
 import EXRichText from './example/EXRichText'
 import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
+import EXVideo from './example/EXVideo'
 
 export default class App extends Component {
   state = {
@@ -89,16 +90,20 @@ export default class App extends Component {
       >
         <Text>Welcome to React Native!</Text>
 
+        <EXVideo />
+
+        <Text>Welcome to React Native!</Text>
+
         <View
           hoverStyle={{ backgroundColor: 'green' }}
           style={{ padding: 50, backgroundColor: 'orange' }}
         >
           <View
             onClick={() => { console.log('you click me') }}
-            onLongPress={() => { console.log('you longpress me') }}
-            onTouchstart={this.onViewTouchstart}
-            onTouchmove={this.onViewTouchmove}
-            onTouchend={this.onViewTouchend}
+            // onLongPress={() => { console.log('you longpress me') }}
+            // onTouchstart={this.onViewTouchstart}
+            // onTouchmove={this.onViewTouchmove}
+            // onTouchend={this.onViewTouchend}
             style={{
               width: 250,
               height: 250,
