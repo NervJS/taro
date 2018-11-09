@@ -2,7 +2,7 @@
   "name": "@tarojs/components-rn",
   "version": "1.1.4",
   "description": "多端解决方案基础组件（RN）",
-  "main": "./dist/index.js",
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "build": "gulp",
     "flow": "flow",
@@ -27,8 +27,13 @@
   "license": "MIT",
   "dependencies": {
     "@nart/react-native-swiper": "^1.5.13",
+    "expo": "~27.0.0",
+    "prop-types": "^15.6.2",
     "react-dom": "^16.4.0",
-    "react-native-animatable": "^1.3.0"
+    "react-mixin": "^5.0.0",
+    "react-native": "~0.55.2",
+    "react-native-animatable": "^1.3.0",
+    "react-timer-mixin": "^0.13.4"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
