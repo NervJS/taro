@@ -75,8 +75,9 @@ class _Image extends React.Component<Props, State> {
       Image.getSize(this.props.src, (width, height) => {
         this.setState({ ratio: height / width })
       })
-    } else if (src.width && src.height) {
-      this.setState({ ratio: src.height / src.width })
+    } else {
+      const source = Image.resolveAssetSource(this.props.src)
+      this.setState({ ratio: source.height / source.width })
     }
   }
 
