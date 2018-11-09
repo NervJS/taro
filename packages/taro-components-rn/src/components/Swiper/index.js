@@ -107,6 +107,9 @@ class _Swiper extends React.Component<Props> {
       vertical,
     } = this.props
 
+    const styleHeight = style.height
+    delete style.height
+
     return (
       <Swiper
         showsPagination={!!indicatorDots}
@@ -119,6 +122,7 @@ class _Swiper extends React.Component<Props> {
         horizontal={!vertical}
         onIndexChanged={this.onIndexChanged}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
+        height={styleHeight}
         style={style}
       >
         {children}
