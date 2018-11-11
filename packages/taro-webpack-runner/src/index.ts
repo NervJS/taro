@@ -116,7 +116,11 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
         return console.log(err)
       }
       resolve()
-      opn(devUrl)
+
+      /* 补充处理devServer.open配置 */
+      if (devServerOptions.open) {
+        opn(devUrl)
+      }
     })
   })
 }
