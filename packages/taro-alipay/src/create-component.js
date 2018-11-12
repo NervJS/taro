@@ -120,7 +120,7 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [...datasetArgs, event]
     }
-    scope[eventHandlerName].apply(callScope, realArgs)
+    return scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 
