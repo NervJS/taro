@@ -25,7 +25,27 @@ const config = {
   defineConstants: {
   },
   weapp: {
-
+    module: {
+      postcss: {
+        autoprefixer: {
+          browsers: [
+            'last 3 versions',
+            'Android >= 4.1',
+            'ios >= 8'
+          ]
+        },
+        'postcss-pxtransform': {
+          designWidth: 750,
+          platform: 'weapp',
+          deviceRatio: { '640': 1.17, '750': 1, '828': 0.905 }
+        }
+        'postcss-url': {
+          url: 'inline',
+          limit: 10240,
+          encodeType: 'base64'
+        }
+      }
+    }
   },
   h5: {
     publicPath: '/',

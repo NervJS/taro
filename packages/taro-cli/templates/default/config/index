@@ -34,11 +34,21 @@ const config = {
     module: {
       postcss: {
         autoprefixer: {
-          enable: true
+          browsers: [
+            'last 3 versions',
+            'Android >= 4.1',
+            'ios >= 8'
+          ]
         },
-        url: {
-          enable: true,
-          limit: 10240
+        'postcss-pxtransform': {
+          designWidth: 750,
+          platform: 'weapp',
+          deviceRatio: { '640': 1.17, '750': 1, '828': 0.905 }
+        }
+        'postcss-url': {
+          url: 'inline',
+          limit: 10240,
+          encodeType: 'base64'
         }
       }
     }

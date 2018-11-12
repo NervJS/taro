@@ -670,7 +670,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
             const pxTransformConfig = {
-              designWidth: projectConfig.designWidth || 750,
+              designWidth: projectConfig.designWidth || 750
             }
             if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
               pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
@@ -747,7 +747,7 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
     },
 
     CallExpression (astPath) {
-      if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+      if (astPath.get('callee').isIdentifier({ name: 'require' })) {
         const arg = astPath.get('arguments')[0]
         if (t.isStringLiteral(arg.node)) {
           componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), arg.node.value))
@@ -1084,7 +1084,7 @@ function processNativeWxml (componentWXMLPath, componentWXMLContent, outputCompo
   }
   const importWxmlPathList = []
   let regResult
-  while ((regResult = Util.REG_WXML_IMPORT.exec(wxmlContent)) != null)  {
+  while ((regResult = Util.REG_WXML_IMPORT.exec(wxmlContent)) != null) {
     importWxmlPathList.push(regResult[2] || regResult[3])
   }
   if (importWxmlPathList.length) {
@@ -1294,49 +1294,15 @@ async function buildSinglePage (page) {
 }
 
 async function processStyleWithPostCSS (styleObj) {
-  const useModuleConf = weappConf.module || {}
-  const customPostcssConf = useModuleConf.postcss || {}
-  const customPxtransformConf =  Object.assign({
-    enable: true,
-    config: {}
-  }, customPostcssConf.pxtransform || {})
-  const customUrlConf =  Object.assign({
-    enable: true,
-    config: {
-      limit: 10240
+  let configs = weappConf.module.postcss
+  let moduleNames = _.keys(configs)
+  const processors = _.map(moduleNames, name => {
+    let config = configs[name]
+    if (_.indexOf(name, '.') === 0) { // local plugin
+      name = path.join(appPath, name)
     }
-  }, customPostcssConf.url || {})
-  const customAutoprefixerConf = Object.assign({
-    enable: true,
-    config: {
-      browsers: browserList
-    }
-  }, customPostcssConf.autoprefixer || {})
-  const postcssPxtransformOption = {
-    designWidth: projectConfig.designWidth || 750,
-    platform: 'weapp'
-  }
-
-  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
-    postcssPxtransformOption[DEVICE_RATIO] = projectConfig.deviceRatio
-  }
-  const cssUrlConf = Object.assign({ limit: 10240 }, customUrlConf)
-  const maxSize = Math.round((customUrlConf.config.limit || cssUrlConf.limit) / 1024)
-  const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
-  const processors = []
-  if (customAutoprefixerConf.enable) {
-    processors.push(autoprefixer(customAutoprefixerConf.config))
-  }
-  if (customPxtransformConf.enable) {
-    processors.push(pxtransform(postcssPxtransformConf))
-  }
-  if (cssUrlConf.enable) {
-    processors.push(cssUrlParse({
-      url: 'inline',
-      maxSize,
-      encodeType: 'base64'
-    }))
-  }
+    return require(name)(config)
+  })
   const postcssResult = await postcss(processors).process(styleObj.css, {
     from: styleObj.filePath
   })
@@ -1494,7 +1460,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
       const realComponentObj = {
         path: componentRealPath,
-        name:  componentObj.name,
+        name: componentObj.name,
         type: componentObj.type
       }
       let isInMap = false
@@ -1790,8 +1756,8 @@ function watchFiles () {
           Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
-          if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages)))
-            || (Util.checksum(JSON.stringify(config.subPackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || {})))) {
+          if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages))) ||
+            (Util.checksum(JSON.stringify(config.subPackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || {})))) {
             appConfig = config
             await buildPages()
           }
