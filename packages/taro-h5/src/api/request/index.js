@@ -4,7 +4,9 @@ import { serializeParams } from '../utils'
 
 function generateRequestUrlWithParams (url, params) {
   params = typeof params === 'string' ? params : serializeParams(params)
-  url += (~url.indexOf('?') ? '&' : '?') + params
+  if (params) {
+    url += (~url.indexOf('?') ? '&' : '?') + params
+  }
   url = url.replace('?&', '?')
   return url
 }
