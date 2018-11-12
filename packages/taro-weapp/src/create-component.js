@@ -7,7 +7,7 @@ const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'
 const preloadInitedComponent = '$preloadComponent'
-const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
 
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties = ComponentClass.properties || {}
@@ -365,6 +365,18 @@ function createComponent (ComponentClass, isPage) {
       }
     })
     __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
+  } else {
+    weappComponentConf.pageLifetimes['show'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['hide'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['resize'] = function () {
+      componentTrigger(this.$component, 'onResize')
+    }
   }
   bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)

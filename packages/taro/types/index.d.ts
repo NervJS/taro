@@ -99,6 +99,7 @@ declare namespace Taro {
     onPageScroll?(obj: PageScrollObject): void;
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
     onTabItemTap?(obj: TabItemTapObject): void;
+    onResize?(): void
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
