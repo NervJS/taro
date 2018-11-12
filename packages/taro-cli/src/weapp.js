@@ -1052,7 +1052,7 @@ async function buildPages () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '所有页面')
   // 支持分包，解析子包页面
   const pages = appConfig.pages || []
-  const subPackages = appConfig.subPackages
+  const subPackages = appConfig.subPackages || appConfig.subpackages
   if (subPackages && subPackages.length) {
     subPackages.forEach(item => {
       if (item.pages && item.pages.length) {
@@ -1804,7 +1804,7 @@ function watchFiles () {
           const config = await buildEntry()
           // TODO 此处待优化
           if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages))) ||
-            (Util.checksum(JSON.stringify(config.subPackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || {})))) {
+            (Util.checksum(JSON.stringify(config.subPackages || config.subpackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || appConfig.subpackages || {})))) {
             appConfig = config
             await buildPages()
           }

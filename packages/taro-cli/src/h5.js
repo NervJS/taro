@@ -69,7 +69,7 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages/i.test(parentPath.node.key.name))
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(parentPath.node.key.name))
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
