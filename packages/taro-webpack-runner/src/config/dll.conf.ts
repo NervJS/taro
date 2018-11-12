@@ -6,6 +6,7 @@ import {
   getDllPlugin,
   getModule,
   getUglifyPlugin,
+  getCssoWebpackPlugin,
   processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
@@ -54,6 +55,19 @@ export default function (config: BuildConfig): any {
     minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify ? plugins.uglify.config : {}]))
   }
 
+  const plugin: any = {}  
+
+  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants]),
+  plugin.dllPlugin = getDllPlugin(outputRoot, dllDirectory)
+
+  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
+  ? false
+  : true
+
+  if (isCssoEnabled) {
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([plugins.csso ? plugins.csso.config : {}])
+  }
+
   chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
@@ -64,8 +78,6 @@ export default function (config: BuildConfig): any {
     }),
     resolve: { alias },
     module: getModule({
-      mode,
-
       staticDirectory,
       designWidth,
       deviceRatio,
@@ -84,10 +96,7 @@ export default function (config: BuildConfig): any {
       module,
       plugins
     }),
-    plugin: {
-      definePlugin: getDefinePlugin([processEnvOption(env), defineConstants]),
-      dllPlugin: getDllPlugin(outputRoot, dllDirectory)
-    },
+    plugin,
     optimization: { minimizer }
   })
   return chain
