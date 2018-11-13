@@ -343,6 +343,12 @@ class Transformer {
             throw codeFrameError(expr.loc, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
+        const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
+        if (!jsx) return
+        const jsxName = jsx.node.name
+        if (!t.isJSXIdentifier(jsxName)) return
+        if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression()) return
+        generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
