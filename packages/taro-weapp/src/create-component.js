@@ -220,7 +220,7 @@ export function componentTrigger (component, key, args) {
         let target
         if (ref.type === 'component') {
           target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
+          target = target ? (target.$component || target) : null
         } else {
           const query = wx.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
