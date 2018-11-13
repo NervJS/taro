@@ -1,6 +1,5 @@
 import transform from '../src'
-import { buildComponent, baseOptions, evalClass } from './utils'
-import { prettyPrint } from 'html'
+import { buildComponent, baseOptions, evalClass, prettyPrint } from './utils'
 
 describe('if statement', () => {
   test('简单情况', () => {

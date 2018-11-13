@@ -4,13 +4,9 @@ import {
   buildComponent,
   baseOptions,
   evalClass,
-  removeShadowData
+  removeShadowData,
+  prettyPrint
 } from './utils'
-import * as html from 'html'
-
-function prettyPrint (str: string): string {
-  return html.prettyPrint(str, { max_char: 0 })
-}
 
 describe('loop', () => {
   describe('有 block 有 return', () => {
