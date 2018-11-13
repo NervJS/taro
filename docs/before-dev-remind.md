@@ -82,7 +82,7 @@ border{Top,Right,Bottom,Left} 的简写（shorthands）不支持，因为 `borde
 5. React Native 与 H5/小程序 的Flex 布局相关属性的默认值有差异
 
 ## 样式
-React Native 的样式基于开源的跨平台布局引擎 [Yaga](https://github.com/facebook/yoga)  ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。Taro React Native 端样式文件的处理，主要可以分为以下几步：
+React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga)  ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。Taro React Native 端样式文件的处理，主要可以分为以下几步：
 
 ![image](http://on-img.com/chart_image/5b8b8896e4b0d4d65bf1ddc7.png)
 
