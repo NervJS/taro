@@ -1049,6 +1049,7 @@ export class RenderParser {
               replaceOriginal(path, parent, name)
             }
           })
+          debugger
           const replacements = new Set()
           component.traverse({
             Identifier: (path) => {
@@ -1075,6 +1076,19 @@ export class RenderParser {
                 replaceOriginal(path, parent, name)
               }
 
+            },
+            MemberExpression (path) {
+              const { object, property } = path.node
+              if (t.isThisExpression(object) && t.isIdentifier(property, { name: 'state' })) {
+                if (path.parentPath.isMemberExpression() && path.parentPath.parentPath.isMemberExpression()) {
+                  // tslint:disable-next-line
+                  console.warn(
+                    codeFrameError(path.parentPath.parentPath.node,
+                      `在循环中使用 this.state.xx.xx 可能会存在问题，请给 xx 起一个别名，例如 const { xx } = this.state`
+                    )
+                  )
+                }
+              }
             }
           })
           const originalProp = t.objectProperty(
