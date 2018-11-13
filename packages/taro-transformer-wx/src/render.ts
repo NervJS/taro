@@ -968,6 +968,9 @@ export class RenderParser {
     const loopArrayId = incrementId()
     const replaceQueue: Function[] = []
     this.loopComponents.forEach((component, callee) => {
+      if (!callee.isCallExpression()) {
+        return
+      }
       for (const dcl of this.jsxDeclarations) {
         const isChildren = dcl && dcl.findParent(d => d === callee)
         if (isChildren) {
