@@ -501,7 +501,9 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
-  result.template = prettyPrint(result.template)
+  result.template = prettyPrint(result.template, {
+    max_char: 0
+  })
   result.imageSrcs = Array.from(imageSource)
   return result
 }
