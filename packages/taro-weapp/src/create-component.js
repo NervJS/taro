@@ -366,6 +366,8 @@ function createComponent (ComponentClass, isPage) {
     })
     __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
   } else {
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes ||  {}
+
     weappComponentConf.pageLifetimes['show'] = function () {
       componentTrigger(this.$component, 'componentDidShow')
     }
