@@ -639,6 +639,9 @@ export class RenderParser {
                 if (t.isIdentifier(node) && path.scope.hasBinding(argName)) {
                   this.addRefIdentifier(path, node as t.Identifier)
                   expr = t.jSXExpressionContainer(node)
+                } else if (t.isMemberExpression(node)) {
+                  const id = findFirstIdentifierFromMemberExpression(node)
+                  this.addRefIdentifier(path, id)
                 } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
                   expr = t.jSXExpressionContainer(node as any)
                 } else if (hasComplexExpression(arg)) {
