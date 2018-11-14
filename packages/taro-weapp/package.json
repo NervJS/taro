@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-weapp",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Taro weapp framework",
   "main": "index.js",
   "files": [
@@ -24,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "1.1.5",
-    "@tarojs/utils": "1.1.5",
+    "@tarojs/taro": "1.1.6",
+    "@tarojs/utils": "1.1.6",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }
