@@ -111,9 +111,7 @@ function getJSAst (code, filePath) {
     sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath),
-    env: {
-      TARO_ENV: Util.BUILD_TYPES.RN
-    }
+    adapter: 'rn'
   }).ast
 }
 
