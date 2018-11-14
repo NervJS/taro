@@ -40,6 +40,7 @@ const getWrappedComponent = (component) => {
         this.__pageStatus = PAGESTATUS.SHOWING
         this.forceUpdate()
         this.componentDidShow && this.componentDidShow()
+        this.renderTitle()
       } else {
         this.__pageStatus = PAGESTATUS.HIDDEN
         this.forceUpdate()
@@ -51,11 +52,19 @@ const getWrappedComponent = (component) => {
       super.componentDidMount && super.componentDidMount()
       this.defaultShow = true
       super.componentDidShow && super.componentDidShow()
+      this.renderTitle()
     }
 
     componentWillUnmount () {
       super.componentDidHide && super.componentDidHide()
       super.componentWillUnmount && super.componentWillUnmount()
+    }
+
+    renderTitle(){
+      let title = this.config && this.config.navigationBarTitleText
+      if (title && document.title !== title){
+        document.title = title
+      }
     }
 
     render () {
