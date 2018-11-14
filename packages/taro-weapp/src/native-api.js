@@ -138,12 +138,16 @@ function processApis (taro) {
         })
         if (key === 'uploadFile' || key === 'downloadFile') {
           p.progress = cb => {
-            task.onProgressUpdate(cb)
+            if (task) {
+              task.onProgressUpdate(cb)
+            }
             return p
           }
           p.abort = cb => {
             cb && cb()
-            task.abort()
+            if (task) {
+              task.abort()
+            }
             return p
           }
         }
