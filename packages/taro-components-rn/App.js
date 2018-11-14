@@ -93,7 +93,7 @@ export default class App extends Component {
 
         <EXVideo />
 
-        <Text>Welcome to React Native!</Text>
+        <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
 
         <EXAudio />
 
