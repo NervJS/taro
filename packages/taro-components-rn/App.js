@@ -21,6 +21,7 @@ import EXProgress from './example/EXProgress'
 import EXRichText from './example/EXRichText'
 import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
+import EXAudio from './example/EXAudio'
 import EXVideo from './example/EXVideo'
 
 export default class App extends Component {
@@ -93,6 +94,8 @@ export default class App extends Component {
         <EXVideo />
 
         <Text>Welcome to React Native!</Text>
+
+        <EXAudio />
 
         <View
           hoverStyle={{ backgroundColor: 'green' }}
