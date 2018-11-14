@@ -642,6 +642,7 @@ export class RenderParser {
                 } else if (t.isMemberExpression(node)) {
                   const id = findFirstIdentifierFromMemberExpression(node)
                   this.addRefIdentifier(path, id)
+                  expr = t.jSXExpressionContainer(node)
                 } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
                   expr = t.jSXExpressionContainer(node as any)
                 } else if (hasComplexExpression(arg)) {
@@ -1049,7 +1050,6 @@ export class RenderParser {
               replaceOriginal(path, parent, name)
             }
           })
-          debugger
           const replacements = new Set()
           component.traverse({
             Identifier: (path) => {
