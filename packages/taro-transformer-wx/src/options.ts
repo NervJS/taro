@@ -8,12 +8,8 @@ export interface Options {
   code: string,
   isTyped: boolean,
   isNormal?: boolean,
-  env?: ENVS,
+  env?: object,
   adapter?: Adapters
-}
-
-export interface ENVS {
-  TARO_ENV: string
 }
 
 export const transformOptions: Options = {} as any
