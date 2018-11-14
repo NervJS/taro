@@ -333,6 +333,9 @@ class Transformer {
         if (!attr) return
         const key = attr.node.name
         const value = attr.node.value
+        if (!t.isJSXIdentifier(key)) {
+          return
+        }
         if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
           const expr = value.expression
           if (t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' })) {
@@ -347,7 +350,7 @@ class Transformer {
         if (!jsx) return
         const jsxName = jsx.node.name
         if (!t.isJSXIdentifier(jsxName)) return
-        if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression()) return
+        if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
         generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
       },
       JSXElement (path) {
