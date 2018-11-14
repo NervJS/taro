@@ -24,7 +24,7 @@ const config = {
   },
   defineConstants: {
   },
-  {
+  weapp: {
     module: {
       postcss: {
         autoprefixer: {
