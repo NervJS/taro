@@ -42,7 +42,7 @@ const config = {
           config: {
 
           }
-        }
+        },
         url: {
           enable: true,
           config: {
