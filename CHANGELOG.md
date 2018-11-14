@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.1.6...v) (2018-11-14)
+# [](https://github.com/NervJS/taro/compare/v1.1.7...v) (2018-11-14)
+
+
+
+<a name="1.1.7"></a>
+## [1.1.7](https://github.com/NervJS/taro/compare/v1.1.6...v1.1.7) (2018-11-14)
+
+
+### Bug Fixes
+
+* **cli:** 回退使用 babel-plugin-remove-dead-code 插件 ([02fc89a](https://github.com/NervJS/taro/commit/02fc89a))
 
 
 
