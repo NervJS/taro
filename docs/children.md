@@ -46,7 +46,7 @@ class App extends Component {
 
 ### 注意事项
 
-**请不要对 `this.props.children` 进行任何操作**。Taro 在小程序中实现这个功能使用的是小程序的 [`slot`](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html) 功能，也就是说你可以把 `this.props.children` 理解为 `slot` 的语法糖，`this.props.children` 并不是在 React 中代表 `ReactElement` 对象，因此形如 `this.props.children && this.props.children`、`this.props.children[0]` 在 Taro 中都是非法的。
+**请不要对 `this.props.children` 进行任何操作**。Taro 在小程序中实现这个功能使用的是小程序的 [`slot`](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html) 功能，也就是说你可以把 `this.props.children` 理解为 `slot` 的语法糖，`this.props.children` 在 Taro 中并不是 React 的 `ReactElement` 对象，因此形如 `this.props.children && this.props.children`、`this.props.children[0]` 在 Taro 中都是非法的。
 
 **`this.props.children` 无法用 `defaultProps` 设置默认内容**。由于小程序的限制，Taro 也无法知道组件的消费者是否传入内容，所以无法应用默认内容。
 
