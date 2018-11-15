@@ -88,6 +88,8 @@ class _Image extends React.Component<Props, State> {
       mode,
     } = this.props
 
+    const flattenStyle = StyleSheet.flatten(style)
+
     // The parameter passed to require must be a string literal
     src = typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src
 
@@ -97,9 +99,9 @@ class _Image extends React.Component<Props, State> {
 
     const imageHeight = (() => {
       if (isWidthFix) {
-        return (style.width || 300) * this.state.ratio
+        return (flattenStyle.width || 300) * this.state.ratio
       } else {
-        return style.height || 225
+        return flattenStyle.height || 225
       }
     })()
 
