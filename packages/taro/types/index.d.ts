@@ -6432,7 +6432,31 @@ declare namespace Taro {
        * 按钮的文字颜色，默认为"#000000"
        */
       itemColor?: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: Param0PropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: Param0PropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: Param0PropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type Param0PropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type Param0PropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type Param0PropComplete = () => any
   }
   /**
    * ​显示操作菜单
