@@ -135,6 +135,16 @@ class Transformer {
     this.compile()
   }
 
+  setMultipleSlots () {
+    const body = this.classPath.node.body.body
+    if (body.some(c => t.isClassProperty(c) && c.key.name === 'multipleSlots')) {
+      return
+    }
+    const multipleSlots: any = t.classProperty(t.identifier('multipleSlots'), t.booleanLiteral(true))
+    multipleSlots.static = true
+    body.push(multipleSlots)
+  }
+
   createStringRef (componentName: string, id: string, refName: string) {
     this.refs.push({
       type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
@@ -379,7 +389,7 @@ class Transformer {
           }
         }
       },
-      MemberExpression (path) {
+      MemberExpression: (path) => {
         const object = path.get('object')
         const property = path.get('property')
         if (
@@ -402,6 +412,7 @@ class Transformer {
               parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
                 t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
               ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
+              this.setMultipleSlots()
             } else {
               self.componentProperies.add(siblingProp.node.name)
             }

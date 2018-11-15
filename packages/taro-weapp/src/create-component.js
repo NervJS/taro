@@ -66,6 +66,17 @@ function bindStaticOptions (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindMultipleSlots (weappComponentConf, ComponentClass) {
+  const multipleSlots = ComponentClass.multipleSlots
+  if (!multipleSlots) {
+    return
+  }
+  weappComponentConf.options = {
+    ...weappComponentConf.options,
+    ...{ multipleSlots }
+  }
+}
+
 function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
@@ -384,6 +395,7 @@ function createComponent (ComponentClass, isPage) {
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
   bindStaticOptions(weappComponentConf, ComponentClass)
+  bindMultipleSlots(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']
