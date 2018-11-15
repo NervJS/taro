@@ -105,8 +105,6 @@ class _Image extends React.Component<Props, State> {
       }
     })()
 
-    console.log(flattenStyle, flattenStyle.height, imageHeight)
-
     return (
       <Image
         source={src}
