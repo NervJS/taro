@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import { View, Image } from '../src'
 
+import { StyleSheet } from 'react-native'
+
+const temp = StyleSheet.create({
+  img: {
+    width: 240,
+    height: 500
+  }
+})
+
 export default class EXImage extends Component {
   render () {
     return (
@@ -8,10 +17,10 @@ export default class EXImage extends Component {
         <Image
           // src="https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png"
           src={require('./jdlogo.png')}
-          mode="widthFix"
+          // mode="widthFix"
           style={{
             width: 240,
-            // height: 74
+            height: 500
           }}
         />
       </View>
