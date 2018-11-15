@@ -28,13 +28,13 @@ export default class EXImage extends Component {
 
   render () {
     return (
-      <View>
+      <View style={{ width: 100 }}>
         <Image
           src={this.state.src}
           // src={require('./jdlogo.png')}
           mode="widthFix"
           style={{
-            width: 80,
+            width: '100%',
             // height: 500
           }}
         />
