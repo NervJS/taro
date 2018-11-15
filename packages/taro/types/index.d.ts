@@ -4,79 +4,80 @@ export = Taro;
 export as namespace Taro;
 
 declare namespace Taro {
+
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
      */
-    path: string;
+    path: string,
 
     /**
      * 打开不存在页面的 query
      */
-    query: object;
+    query: object,
 
     /**
      * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
      */
-    isEntryPage: boolean;
+    isEntryPage: boolean
   }
 
   interface PageScrollObject {
     /**
      * 页面在垂直方向已滚动的距离（单位px）
      */
-    scrollTop: number;
+    scrollTop: number
   }
 
   interface ShareAppMessageObject {
     /**
      * 转发事件来源
      */
-    from?: string;
+    from?: string,
     /**
      * 如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
      */
-    target?: object;
+    target?: object,
     /**
      * 页面中包含<web-view>组件时，返回当前<web-view>的url
      */
-    webViewUrl?: string;
+    webViewUrl?: string
   }
 
   interface ShareAppMessageReturn {
     /**
      * 	转发标题，默认为当前小程序名称
      */
-    title?: string;
+    title?: string,
 
     /**
      * 转发路径，必须是以 / 开头的完整路径，默认为当前页面 path
      */
-    path?: string;
+    path?: string,
 
     /**
      * 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径
      * 支持PNG及JPG
      * 显示图片长宽比是 5:4
      */
-    imageUrl?: string;
+    imageUrl?: string
   }
 
   interface TabItemTapObject {
     /**
      * 被点击tabItem的序号，从0开始
      */
-    index: string;
+    index: string,
 
     /**
      * 被点击tabItem的页面路径
      */
-    pagePath: string;
+    pagePath: string,
 
     /**
      * 被点击tabItem的按钮文字
      */
-    text: string;
+    text: string
   }
 
   // Components
@@ -84,23 +85,11 @@ declare namespace Taro {
     componentWillMount?(): void;
     componentDidMount?(): void;
     componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void;
-    shouldComponentUpdate?(
-      nextProps: Readonly<P>,
-      nextState: Readonly<S>,
-      nextContext: any
-    ): boolean;
-    componentWillUpdate?(
-      nextProps: Readonly<P>,
-      nextState: Readonly<S>,
-      nextContext: any
-    ): void;
-    componentDidUpdate?(
-      prevProps: Readonly<P>,
-      prevState: Readonly<S>,
-      prevContext: any
-    ): void;
+    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean;
+    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
+    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
     componentWillUnmount?(): void;
-    componentWillPreload?(params: { [propName: string]: any }): any;
+    componentWillPreload?(params: {[propName: string]: any}): any;
     componentDidShow?(): void;
     componentDidHide?(): void;
     componentDidCatchError?(err: string): void;
@@ -110,11 +99,11 @@ declare namespace Taro {
     onPageScroll?(obj: PageScrollObject): void;
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
     onTabItemTap?(obj: TabItemTapObject): void;
-    onResize?(): void;
+    onResize?(): void
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
-    $scope?: any;
+    $scope?: any
   }
 
   interface PageConfig {
@@ -122,93 +111,93 @@ declare namespace Taro {
      * 导航栏背景颜色，HexColor
      * default: #000000
      */
-    navigationBarBackgroundColor?: string;
+    navigationBarBackgroundColor?: string,
     /**
      * 导航栏标题颜色，仅支持 black/white
      * default: 'white'
      */
-    navigationBarTextStyle?: "white" | "black";
+    navigationBarTextStyle?: 'white' | 'black',
     /**
      * 导航栏标题文字内容
      */
-    navigationBarTitleText?: string;
+    navigationBarTitleText?: string,
     /**
      * 导航栏样式，仅支持以下值：
      * default 默认样式
      * custom 自定义导航栏
      */
-    navigationStyle?: string;
+    navigationStyle?: string,
     /**
      * 窗口的背景色， HexColor
      * default: #ffffff
      */
-    backgroundColor?: string;
+    backgroundColor?: string,
     /**
      * 下拉背景字体、loading 图的样式，仅支持 dark/light
      * default: 'dark'
      */
-    backgroundTextStyle?: "dark" | "light";
+    backgroundTextStyle?: 'dark' | 'light',
     /**
      * 是否开启下拉刷新
      * default: false
      */
-    enablePullDownRefresh?: boolean;
+    enablePullDownRefresh?: boolean,
     /**
      * 页面上拉触底事件触发时距页面底部距离，单位为px
      * default: 50
      */
-    onReachBottomDistance?: number;
+    onReachBottomDistance?: number
     /**
      * 设置为 true 则页面整体不能上下滚动；只在页面配置中有效，无法在 app.json 中设置该项
      * default: false
      */
-    disableScroll?: boolean;
+    disableScroll?: boolean
   }
 
   interface TarbarList {
     /**
      * 页面路径，必须在 pages 中先定义
      */
-    pagePath: string;
+    pagePath: string,
     /**
      * tab 上按钮文字
      */
-    text: string;
+    text: string,
     /**
      * 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
      */
-    iconPath?: string;
+    iconPath?: string,
     /**
      * 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
      */
-    selectedIconPath?: string;
+    selectedIconPath?: string,
   }
 
   interface TabBar {
     /**
      * tab 上的文字默认颜色
      */
-    color?: string;
+    color?: string,
     /**
      * tab 上的文字选中时的颜色
      */
-    selectedColor?: string;
+    selectedColor?: string,
     /**
      * tab 的背景色
      */
-    backgroundColor?: string;
+    backgroundColor?: string,
     /**
      * tabbar上边框的颜色， 仅支持 black/white
      * default: black
      */
-    borderStyle?: "black" | "white";
+    borderStyle?: 'black' | 'white',
     /**
      * tabar 的位置，可选值 bottom、top
      * default: 'bottom'
      */
-    position?: "bottom" | "top";
+    position?: 'bottom' | 'top',
 
-    list: TarbarList[];
+    list: TarbarList[]
   }
 
   interface NetworkTimeout {
@@ -216,22 +205,22 @@ declare namespace Taro {
      * wx.request 的超时时间，单位毫秒。
      * @default 60000
      */
-    request?: number;
+    request?: number
     /**
      * wx.connectSocket 的超时时间，单位毫秒。
      * @default 60000
      */
-    connectSocket?: number;
+    connectSocket?: number
     /**
      * wx.uploadFile 的超时时间，单位毫秒。
      * @default 60000
      */
-    uploadFile?: number;
+    uploadFile?: number
     /**
      * wx.downloadFile 的超时时间，单位毫秒。
      * @default 60000
      */
-    downloadFile?: number;
+    downloadFile?: number
   }
 
   interface SubPackage {
@@ -239,18 +228,18 @@ declare namespace Taro {
      * 分包根路径
      * - 注意：不能放在主包pages目录下
      */
-    root: string;
+    root: string,
     /**
      * 分包路径下的所有页面配置
      */
-    pages: string[];
+    pages: string[]
   }
 
   interface Plugins {
     [key: string]: {
-      version: string;
-      provider: string;
-    };
+      version: string
+      provider: string
+    }
   }
 
   interface PreloadRule {
@@ -258,39 +247,39 @@ declare namespace Taro {
       /**
        *进入页面后预下载分包的 root 或 name。__APP__ 表示主包。
        */
-      packages: string[];
+      packages: string[]
       /**
        * 在指定网络下预下载，可选值为：
        * all: 不限网络
        * wifi: 仅wifi下预下载
        * @default wifi
        */
-      network?: "all" | "wifi";
-    };
+      network?: 'all' | 'wifi'
+    }
   }
 
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
-    pages?: string[];
-    tabBar?: TabBar;
+    pages?: string[],
+    tabBar?: TabBar,
     /**
      * 各类网络请求的超时时间，单位均为毫秒。
      */
-    networkTimeout?: NetworkTimeout;
+    networkTimeout?: NetworkTimeout
     /**
      * 是否开启 debug 模式，默认关闭
      * @default false
      */
-    debug?: boolean;
+    debug?: boolean
     /**
      * 启用插件功能页时，插件所有者小程序需要设置其 functionalPages 为 true。
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages.html
      * @default false
      * @since 2.1.0
      */
-    functionalPages?: boolean;
+    functionalPages?: boolean
     /**
      * 分包加载配置
      * 示例:
@@ -304,23 +293,23 @@ declare namespace Taro {
      * ]
      * @since 1.7.3
      */
-    subPackages?: SubPackage[];
+    subPackages?: SubPackage[]
     /**
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
-     */
-    workers?: string;
+      */
+    workers?: string
     /**
      * 申明需要后台运行的能力，类型为数组。目前支持以下项目：
      * @since 微信客户端 6.7.2 及以上版本支持
      */
-    requiredBackgroundModes?: ["audio"];
+    requiredBackgroundModes?: ["audio"]
     /**
      * 使用到的插件
      * @since 1.9.6
      */
-    plugins?: Plugins;
+    plugins?: Plugins
     /**
      * 声明分包预下载的规则。
      * preloadRule 中，key 是页面路径，value 是进入此页面的预下载配置
@@ -328,29 +317,29 @@ declare namespace Taro {
      *      vConsole 里有preloadSubpackages开头的日志信息，可以用来验证预下载的情况。
      * @since 2.3.0
      */
-    preloadRule?: PreloadRule;
+    preloadRule?: PreloadRule
     /**
      * iPad 小程序是否支持屏幕旋转
      * @default false
      * @since 2.3.0
      */
-    resizable?: boolean;
+    resizable?: boolean
     /**
      * 需要跳转的小程序列表
      * @since 2.4.0
      */
-    navigateToMiniProgramAppIdList?: string[];
+    navigateToMiniProgramAppIdList?: string[]
   }
 
   interface Config extends PageConfig, AppConfig {
     usingComponents?: {
-      [key: string]: string;
-    };
-    window?: PageConfig;
+      [key: string]: string
+    },
+    window?: PageConfig
   }
 
   interface ComponentOptions {
-    addGlobalClass?: boolean;
+    addGlobalClass?: boolean
   }
 
   class Component<P, S> {
@@ -361,14 +350,12 @@ declare namespace Taro {
     options?: ComponentOptions;
 
     $router: {
-      params: any;
-    };
+      params: any
+    }
 
     setState<K extends keyof S>(
-      state:
-        | ((prevState: Readonly<S>, props: P) => Pick<S, K> | S)
-        | (Pick<S, K> | S),
-      callback?: () => any
+        state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
+        callback?: () => any
     ): void;
 
     forceUpdate(callBack?: () => any): void;
@@ -379,11 +366,11 @@ declare namespace Taro {
     state: Readonly<S>;
     context: any;
     refs: {
-      [key: string]: any;
+        [key: string]: any
     };
   }
 
-  class PureComponent<P = {}, S = {}> extends Component<P, S> {}
+  class PureComponent<P = {}, S = {}> extends Component<P, S> { }
 
   // Events
   class Events {
@@ -411,20 +398,11 @@ declare namespace Taro {
   // eventCenter
 
   namespace eventCenter {
-    function on(
-      eventName: string | symbol,
-      listener: (...args: any[]) => void
-    ): void;
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
-    function once(
-      eventName: string | symbol,
-      listener: (...args: any[]) => void
-    ): void;
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
-    function off(
-      eventName: string | symbol,
-      listener?: (...args: any[]) => void
-    ): void;
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
 
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
@@ -432,23 +410,23 @@ declare namespace Taro {
   // ENV_TYPE
 
   enum ENV_TYPE {
-    WEAPP = "WEAPP",
-    WEB = "WEB",
-    RN = "RN",
-    SWAN = "SWAN",
-    ALIPAY = "ALIPAY"
+    WEAPP = 'WEAPP',
+    WEB = 'WEB',
+    RN = 'RN',
+    SWAN = 'SWAN',
+    ALIPAY = 'ALIPAY'
   }
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
-  function render(component: Component | JSX.Element, element: Element | null);
+  function render(component: Component | JSX.Element, element: Element | null)
 
-  function pxTransform(size: number): string;
+  function pxTransform(size: number): string
 
   /**
    * 小程序引用插件 JS 接口
    */
-  function requirePlugin(pluginName: string): any;
+  function requirePlugin(pluginName: string): any
 
   /**
    *
@@ -472,132 +450,119 @@ declare namespace Taro {
        * *   对于 `POST` 方法且 `header['content-type']` 为 `application/json` 的数据，会对数据进行 JSON 序列化
        * *   对于 `POST` 方法且 `header['content-type']` 为 `application/x-www-form-urlencoded` 的数据，会将数据转换成 query string （encodeURIComponent(k)=encodeURIComponent(v)&encodeURIComponent(k)=encodeURIComponent(v)...）
        */
-      data: T;
+      data: T
       /**
        * 开发者服务器返回的 HTTP 状态码
        */
-      statusCode: number;
+      statusCode: number
       /**
        * 开发者服务器返回的 HTTP Response Header
        *
        * @since 1.2.0
        */
-      header: any;
-    };
+      header: any
+    }
     type Param<P extends any | string | ArrayBuffer = any> = {
       /**
        * 开发者服务器接口地址
        */
-      url: string;
+      url: string
       /**
        * 请求的参数
        */
-      data?: P;
+      data?: P
       /**
        * 设置请求的 header，header 中不能设置 Referer。
        */
-      header?: any;
+      header?: any
       /**
        * （需大写）有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
        *
        * @default GET
        */
-      method?:
-        | "OPTIONS"
-        | "GET"
-        | "HEAD"
-        | "POST"
-        | "PUT"
-        | "DELETE"
-        | "TRACE"
-        | "CONNECT";
+      method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
        * 如果设为 json，会尝试对返回的数据做一次 JSON.parse
        *
        * @default json
        */
-      dataType?: string;
+      dataType?: string
       /**
        * 设置响应的数据类型。合法值：text、arraybuffer
        *
        * @default text
        * @since 1.7.0
        */
-      responseType?: string;
+      responseType?: string,
       /**
        * 设置 H5 端是否使用jsonp方式获取数据
        *
        * @default false
        */
-      jsonp?: boolean;
+      jsonp?: boolean,
       /**
        * 设置 H5 端 jsonp 请求 url 是否需要被缓存
        *
        * @default false
        */
-      jsonpCache?: boolean;
+      jsonpCache?: boolean,
       /**
        * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
        *
        * @default same-origin
        */
-      mode?: "no-cors" | "cors" | "same-origin";
+      mode?: 'no-cors' | 'cors' | 'same-origin',
       /**
        * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
        *
        * @default omit
        */
-      credentials?: "include" | "same-origin" | "omit";
+      credentials?: 'include' | 'same-origin' | 'omit',
       /**
        * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
        *
        * @default default
        */
-      cache?:
-        | "default"
-        | "no-cache"
-        | "reload"
-        | "force-cache"
-        | "only-if-cached";
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached',
       /**
        * 设置 H5 端请求响应超时时间
        *
        * @default 2000
        */
-      timeout?: number;
+      timeout?: number,
       /**
        * 设置 H5 端请求重试次数
        *
        * @default 2
        */
-      retryTimes?: number;
+      retryTimes?: number,
       /**
        * 设置 H5 端请求的兜底接口
        */
-      backup?: string | string[];
+      backup?: string | string[],
       /**
        * 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
        */
-      dataCheck?(): boolean;
+      dataCheck?(): boolean,
       /**
        * 设置 H5 端请求是否使用缓存
        *
        * @default false
        */
-      useStore?: boolean;
+      useStore?: boolean,
       /**
        * 设置 H5 端请求缓存校验的 key
        */
-      storeCheckKey?: string;
+      storeCheckKey?: string,
       /**
        * 设置 H5 端请求缓存签名
        */
-      storeSign?: string;
+      storeSign?: string,
       /**
        * 设置 H5 端请求校验函数，一般不需要设置
        */
-      storeCheck?(): boolean;
-    };
+      storeCheck?(): boolean
+    }
   }
   /**
    * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
@@ -653,56 +618,53 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
-  function request<T = any, U = any>(
-    OBJECT: request.Param<U>
-  ): Promise<request.Promised<T>>;
+  function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
 
-  type arrayBuffer =
-    | Uint8Array
-    | Int8Array
-    | Uint8Array
-    | Uint8ClampedArray
-    | Int16Array
-    | Uint16Array
-    | Int32Array
-    | Uint32Array
-    | Float32Array
-    | Float64Array
-    | ArrayBuffer;
+  type arrayBuffer = Uint8Array |
+    Int8Array |
+    Uint8Array |
+    Uint8ClampedArray |
+    Int16Array |
+    Uint16Array |
+    Int32Array |
+    Uint32Array |
+    Float32Array |
+    Float64Array |
+    ArrayBuffer
 
   /**
    * 将 ArrayBuffer 数据转成 Base64 字符串
    */
-  function arrayBufferToBase64(buffer: arrayBuffer): string;
+  function arrayBufferToBase64(buffer: arrayBuffer): string
 
   /**
    * 将 Base64 字符串转成 ArrayBuffer 数据
    */
-  function base64ToArrayBuffer(base64: string): arrayBuffer;
+  function base64ToArrayBuffer(base64: string): arrayBuffer
 
   namespace uploadFile {
     type Promised = {
       /**
        * 开发者服务器返回的数据
        */
-      data: string;
+      data: string
       /**
        * 开发者服务器返回的 HTTP 状态码
        */
-      statusCode: number;
-    };
+      statusCode: number
+    }
     /**
      * 上传进度
      */
     type UploadTaskProgress = {
-      progress: number;
-      totalBytesSent: number;
-      totalBytesExpectedToSend: number;
-    };
+      progress: number
+      totalBytesSent: number
+      totalBytesExpectedToSend: number
+    }
     /**
      * 上传进度回调
      */
-    type UploadTaskProgressCallback = (res: UploadTaskProgress) => any;
+    type UploadTaskProgressCallback = (res: UploadTaskProgress) => any
     /**
      * 上传任务
      */
@@ -710,34 +672,34 @@ declare namespace Taro {
       /**
        * 上传进度回调
        */
-      progress: (UploadTaskProgressCallback) => void;
+      progress: (UploadTaskProgressCallback) => void
       /**
        * 终止上传任务
        */
-      abort: () => void;
-    };
+      abort: () => void
+    }
     type Param = {
       /**
        * 开发者服务器 url
        */
-      url: string;
+      url: string
       /**
        * 要上传文件资源的路径
        */
-      filePath: string;
+      filePath: string
       /**
        * 文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
        */
-      name: string;
+      name: string
       /**
        * HTTP 请求 Header, header 中不能设置 Referer
        */
-      header?: any;
+      header?: any
       /**
        * HTTP 请求中其他额外的 form data
        */
-      formData?: any;
-    };
+      formData?: any
+    }
   }
   /**
    * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data` 。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
@@ -798,29 +760,29 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject
    */
-  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask;
+  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
 
   namespace downloadFile {
     type Promised = {
       /**
        * 临时文件路径，下载后的文件会存储到一个临时文件
        */
-      tempFilePath: string;
+      tempFilePath: string
       /**
        * 开发者服务器返回的 HTTP 状态码
        */
-      statusCode: number;
-    };
+      statusCode: number
+    }
     type Param = {
       /**
        * 下载资源的 url
        */
-      url: string;
+      url: string
       /**
        * HTTP 请求 Header，header 中不能设置 Referer
        */
-      header?: any;
-    };
+      header?: any
+    }
   }
   /**
    * 下载文件资源到本地，客户端直接发起一个 HTTP GET 请求，返回文件的本地临时路径。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
@@ -873,45 +835,35 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject
    */
-  function downloadFile(
-    OBJECT: downloadFile.Param
-  ): Promise<downloadFile.Promised>;
+  function downloadFile(OBJECT: downloadFile.Param): Promise<downloadFile.Promised>
 
   namespace connectSocket {
     type Promised = {
       /**
        * 返回一个SocketTask
        */
-      socketTask: SocketTask;
-    };
+      socketTask: SocketTask
+    }
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
        */
-      url: string;
+      url: string
       /**
        * HTTP Header , header 中不能设置 Referer
        */
-      header?: any;
+      header?: any
       /**
        * 默认是GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
        */
-      method?:
-        | "OPTIONS"
-        | "GET"
-        | "HEAD"
-        | "POST"
-        | "PUT"
-        | "DELETE"
-        | "TRACE"
-        | "CONNECT";
+      method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
        * 子协议数组
        *
        * @since 1.4.0
        */
-      protocols?: string[];
-    };
+      protocols?: string[]
+    }
   }
   /**
    * 创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 连接。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
@@ -936,20 +888,18 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject
    */
-  function connectSocket(
-    OBJECT: connectSocket.Param
-  ): Promise<connectSocket.Promised>;
+  function connectSocket(OBJECT: connectSocket.Param): Promise<connectSocket.Promised>
 
   namespace onSocketOpen {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 连接成功的 HTTP 响应 Header
        *
        * @since 2.0.0
        */
-      header?: any;
-    };
+      header?: any
+    }
   }
   /**
    * 监听WebSocket连接打开事件。
@@ -966,7 +916,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketopencallback
    */
-  function onSocketOpen(callback?: onSocketOpen.Param): void;
+  function onSocketOpen(callback?: onSocketOpen.Param): void
 
   /**
    * 监听WebSocket错误。
@@ -986,15 +936,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketerrorcallback
    */
-  function onSocketError(CALLBACK: any): void;
+  function onSocketError(CALLBACK: any): void
 
   namespace sendSocketMessage {
     type Param = {
       /**
        * 需要发送的内容
        */
-      data: string | ArrayBuffer;
-    };
+      data: string | ArrayBuffer
+    }
   }
   /**
    * 通过 WebSocket 连接发送数据，需要先 [Taro.connectSocket](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject)，并在 [Taro.onSocketOpen](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketopencallback) 回调之后才能发送。
@@ -1028,16 +978,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxsendsocketmessageobject
    */
-  function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>;
+  function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>
 
   namespace onSocketMessage {
-    type Param<T = any> = (res: ParamParam<T>) => any;
+    type Param<T = any> = (res: ParamParam<T>) => any
     type ParamParam<T extends any | string | ArrayBuffer = any> = {
       /**
        * 服务器返回的消息
        */
-      data: T;
-    };
+      data: T
+    }
   }
   /**
    * 监听WebSocket接受到服务器的消息事件。
@@ -1055,7 +1005,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketmessagecallback
    */
-  function onSocketMessage<T = any>(CALLBACK?: onSocketMessage.Param<T>): void;
+  function onSocketMessage<T = any>(CALLBACK?: onSocketMessage.Param<T>): void
 
   namespace closeSocket {
     type Param = {
@@ -1064,20 +1014,20 @@ declare namespace Taro {
        *
        * @since 1.4.0
        */
-      code?: number;
+      code?: number
       /**
        * 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于123字节的UTF-8 文本（不是字符）
        *
        * @since 1.4.0
        */
-      reason?: string;
-    };
+      reason?: string
+    }
   }
   /**
    * 关闭 WebSocket 连接。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocketobject
    */
-  function closeSocket(OBJECT?: closeSocket.Param): Promise<any>;
+  function closeSocket(OBJECT?: closeSocket.Param): Promise<any>
 
   /**
    * 监听WebSocket关闭。
@@ -1112,7 +1062,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketclosecallback
    */
-  function onSocketClose(CALLBACK?: (res: any) => any): void;
+  function onSocketClose(CALLBACK?: (res: any) => any): void
 
   namespace SocketTask {
     namespace send {
@@ -1120,86 +1070,86 @@ declare namespace Taro {
         /**
          * 需要发送的内容
          */
-        data: string | ArrayBuffer;
+        data: string | ArrayBuffer
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace close {
       type Param = {
         /**
          * 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。如果这个参数没有被指定，默认的取值是1000 （表示正常连接关闭）
          */
-        code?: number;
+        code?: number
         /**
          * 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于123字节的UTF-8 文本（不是字符）
          */
-        reason?: string;
+        reason?: string
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace onError {
-      type Param = (res: ParamParam) => any;
+      type Param = (res: ParamParam) => any
       type ParamParam = {
         /**
          * 错误信息
          */
-        errMsg: string;
-      };
+        errMsg: string
+      }
     }
     namespace onMessage {
-      type Param<T = any> = (res: ParamParam<T>) => any;
+      type Param<T = any> = (res: ParamParam<T>) => any
       type ParamParam<T extends any | string | ArrayBuffer = any> = {
         /**
          * 服务器返回的消息
          */
-        data: T;
-      };
+        data: T
+      }
     }
   }
   /**
@@ -1230,7 +1180,7 @@ declare namespace Taro {
 
     /**
      * websocket 状态值：已关闭。
-     */
+    */
     readonly CLOSED: boolean;
 
     /**
@@ -1244,84 +1194,84 @@ declare namespace Taro {
      *
      * 通过 WebSocket 连接发送数据。
      */
-    send(OBJECT: SocketTask.send.Param): void;
+    send(OBJECT: SocketTask.send.Param): void
     /**
      *
      * **SocketTask.close(OBJECT)：**
      *
      * 关闭 WebSocket 连接。
      */
-    close(OBJECT: SocketTask.close.Param): void;
+    close(OBJECT: SocketTask.close.Param): void
     /**
      *
      * **SocketTask.onOpen(CALLBACK)：**
      *
      * 监听 WebSocket 连接打开事件。
      */
-    onOpen(CALLBACK?: any): void;
+    onOpen(CALLBACK?: any): void
     /**
      *
      * **SocketTask.onClose(CALLBACK)：**
      *
      * 监听 WebSocket 连接关闭事件。
      */
-    onClose(CALLBACK?: any): void;
+    onClose(CALLBACK?: any): void
     /**
      *
      * **SocketTask.onError(CALLBACK)：**
      *
      * 监听 WebSocket 错误。
      */
-    onError(CALLBACK?: SocketTask.onError.Param): void;
+    onError(CALLBACK?: SocketTask.onError.Param): void
     /**
      *
      * **SocketTask.onMessage(CALLBACK)：**
      *
      * 监听WebSocket接受到服务器的消息事件。
      */
-    onMessage<T = any>(CALLBACK: SocketTask.onMessage.Param<T>): void;
+    onMessage<T = any>(CALLBACK: SocketTask.onMessage.Param<T>): void
   }
   namespace chooseImage {
     type Promised = {
       /**
        * 图片的本地文件路径列表
        */
-      tempFilePaths: string[];
+      tempFilePaths: string[]
       /**
        * 图片的本地文件列表，每一项是一个 File 对象
        *
        * @since 1.2.0
        */
-      tempFiles: PromisedPropTempFiles;
-    };
+      tempFiles: PromisedPropTempFiles
+    }
     /**
      * 图片的本地文件列表，每一项是一个 File 对象
      */
-    type PromisedPropTempFiles = PromisedPropTempFilesItem[];
+    type PromisedPropTempFiles = PromisedPropTempFilesItem[]
     type PromisedPropTempFilesItem = {
       /**
        * 本地文件路径
        */
-      path: string;
+      path: string
       /**
        * 本地文件大小，单位：B
        */
-      size: number;
-    };
+      size: number
+    }
     type Param = {
       /**
        * 最多可以选择的图片张数，默认9
        */
-      count?: number;
+      count?: number
       /**
        * original 原图，compressed 压缩图，默认二者都有
        */
-      sizeType?: string[];
+      sizeType?: string[]
       /**
        * album 从相册选图，camera 使用相机，默认二者都有
        */
-      sourceType?: string[];
-    };
+      sourceType?: string[]
+    }
   }
   /**
    * 从本地相册选择图片或使用相机拍照。
@@ -1341,21 +1291,19 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject
    */
-  function chooseImage(
-    OBJECT?: chooseImage.Param
-  ): Promise<chooseImage.Promised>;
+  function chooseImage(OBJECT?: chooseImage.Param): Promise<chooseImage.Promised>
 
   namespace previewImage {
     type Param = {
       /**
        * 当前显示图片的链接，不填则默认为 urls 的第一张
        */
-      current?: string;
+      current?: string
       /**
        * 需要预览的图片链接列表
        */
-      urls: string[];
-    };
+      urls: string[]
+    }
   }
   /**
    * 预览图片。
@@ -1370,22 +1318,22 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxpreviewimageobject
    */
-  function previewImage(OBJECT: previewImage.Param): Promise<any>;
+  function previewImage(OBJECT: previewImage.Param): Promise<any>
 
   namespace getImageInfo {
     type Promised = {
       /**
        * 图片宽度，单位px
        */
-      width: number;
+      width: number
       /**
        * 图片高度，单位px
        */
-      height: number;
+      height: number
       /**
        * 返回图片的本地路径
        */
-      path: string;
+      path: string
       /**
        * 返回图片的方向，有效值见下表
        *
@@ -1404,28 +1352,20 @@ declare namespace Taro {
        *
        * @since 1.9.90
        */
-      orientation:
-        | "up"
-        | "down"
-        | "left"
-        | "right"
-        | "up-mirrored"
-        | "down-mirrored "
-        | "left-mirrored"
-        | "right-mirrored";
+      orientation: 'up' | 'down' | 'left' | 'right' | 'up-mirrored' | 'down-mirrored ' | 'left-mirrored' | 'right-mirrored'
       /**
        * 返回图片的格式
        *
        * @since 1.9.90
        */
-      type: string;
-    };
+      type: string
+    }
     type Param = {
       /**
        * 图片的路径，可以是相对路径，临时文件路径，存储文件路径，网络图片路径
        */
-      src: string;
-    };
+      src: string
+    }
   }
   /**
    * 获取图片信息
@@ -1455,23 +1395,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxgetimageinfoobject
    */
-  function getImageInfo(
-    OBJECT: getImageInfo.Param
-  ): Promise<getImageInfo.Promised>;
+  function getImageInfo(OBJECT: getImageInfo.Param): Promise<getImageInfo.Promised>
 
   namespace saveImageToPhotosAlbum {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 图片文件路径，可以是临时文件路径也可以是永久文件路径，不支持网络图片路径
        */
-      filePath: string;
-    };
+      filePath: string
+    }
   }
   /**
    * @since 1.2.0
@@ -1488,18 +1426,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxsaveimagetophotosalbumobject
    */
-  function saveImageToPhotosAlbum(
-    OBJECT: saveImageToPhotosAlbum.Param
-  ): Promise<saveImageToPhotosAlbum.Promised>;
+  function saveImageToPhotosAlbum(OBJECT: saveImageToPhotosAlbum.Param): Promise<saveImageToPhotosAlbum.Promised>
 
   namespace startRecord {
     type Promised = {
       /**
        * 录音文件的临时路径
        */
-      tempFilePath: string;
-    };
-    type Param = {};
+      tempFilePath: string
+    }
+    type Param = {}
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html) 接口**
@@ -1509,9 +1445,7 @@ declare namespace Taro {
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.record
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstartrecordobject
    */
-  function startRecord(
-    OBJECT?: startRecord.Param
-  ): Promise<startRecord.Promised>;
+  function startRecord(OBJECT?: startRecord.Param): Promise<startRecord.Promised>
 
   /**
    * ​主动调用停止录音。
@@ -1534,7 +1468,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstoprecord
    */
-  function stopRecord(): void;
+  function stopRecord(): void
 
   /**
    * @since 1.6.0
@@ -1588,7 +1522,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html#wxgetrecordermanager
    */
-  function getRecorderManager(): RecorderManager;
+  function getRecorderManager(): RecorderManager
 
   namespace RecorderManager {
     namespace start {
@@ -1596,112 +1530,112 @@ declare namespace Taro {
         /**
          * 指定录音的时长，单位 ms ，如果传入了合法的 duration ，在到达指定的 duration 后会自动停止录音，最大值 600000（10 分钟）,默认值 60000（1 分钟）
          */
-        duration?: number;
+        duration?: number
         /**
          * 采样率，有效值 8000/16000/44100
          */
-        sampleRate?: number;
+        sampleRate?: number
         /**
          * 录音通道数，有效值 1/2
          */
-        numberOfChannels?: number;
+        numberOfChannels?: number
         /**
          * 编码码率，有效值见下表格
          */
-        encodeBitRate?: number;
+        encodeBitRate?: number
         /**
          * 音频格式，有效值 aac/mp3
          */
-        format?: string;
+        format?: string
         /**
          * 指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。
          */
-        frameSize?: number;
-      };
+        frameSize?: number
+      }
     }
     namespace onStop {
-      type Param = (res: ParamParam) => any;
+      type Param = (res: ParamParam) => any
       type ParamParam = {
         /**
          * 录音文件的临时路径
          */
-        tempFilePath: string;
-      };
+        tempFilePath: string
+      }
     }
     namespace onFrameRecorded {
-      type Param = (res: ParamParam) => any;
+      type Param = (res: ParamParam) => any
       type ParamParam = {
         /**
          * 录音分片结果数据
          */
-        frameBuffer: ArrayBuffer;
+        frameBuffer: ArrayBuffer
         /**
          * 当前帧是否正常录音结束前的最后一帧
          */
-        isLastFrame: boolean;
-      };
+        isLastFrame: boolean
+      }
     }
     namespace onError {
-      type Param = (res: ParamParam) => any;
+      type Param = (res: ParamParam) => any
       type ParamParam = {
         /**
          * 错误信息
          */
-        errMsg: string;
-      };
+        errMsg: string
+      }
     }
   }
   class RecorderManager {
     /**
      * 开始录音
      */
-    start(options: RecorderManager.start.Param): void;
+    start(options: RecorderManager.start.Param): void
     /**
      * 暂停录音
      */
-    pause(): void;
+    pause(): void
     /**
      * 继续录音
      */
-    resume(): void;
+    resume(): void
     /**
      * 停止录音
      */
-    stop(): void;
+    stop(): void
     /**
      * 录音开始事件
      */
-    onStart(callback?: () => void): void;
+    onStart(callback?: () => void): void
     /**
      * 录音暂停事件
      */
-    onPause(callback?: () => void): void;
+    onPause(callback?: () => void): void
     /**
      * 录音停止事件，会回调文件地址
      */
-    onStop(callback?: RecorderManager.onStop.Param): void;
+    onStop(callback?: RecorderManager.onStop.Param): void
     /**
      * 已录制完指定帧大小的文件，会回调录音分片结果数据。如果设置了 frameSize ，则会回调此事件
      */
-    onFrameRecorded(callback?: RecorderManager.onFrameRecorded.Param): void;
+    onFrameRecorded(callback?: RecorderManager.onFrameRecorded.Param): void
     /**
      * 录音错误事件, 会回调错误信息
      */
-    onError(callback?: RecorderManager.onError.Param): void;
+    onError(callback?: RecorderManager.onError.Param): void
   }
   namespace playVoice {
     type Param = {
       /**
        * 需要播放的语音文件的文件路径
        */
-      filePath: string;
+      filePath: string
       /**
        * 指定录音时长，到达指定的录音时长后会自动停止录音，单位：秒，默认值：60
        *
        * @since 1.6.0
        */
-      duration?: number;
-    };
+      duration?: number
+    }
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
@@ -1724,7 +1658,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxplayvoiceobject
    */
-  function playVoice(OBJECT: playVoice.Param): Promise<any>;
+  function playVoice(OBJECT: playVoice.Param): Promise<any>
 
   /**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
@@ -1748,7 +1682,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxpausevoice
    */
-  function pauseVoice(): void;
+  function pauseVoice(): void
 
   /**
    * 结束播放语音。
@@ -1771,32 +1705,32 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxstopvoice
    */
-  function stopVoice(): void;
+  function stopVoice(): void
 
   namespace getBackgroundAudioPlayerState {
     type Promised = {
       /**
        * 选定音频的长度（单位：s），只有在当前有音乐播放时返回
        */
-      duration: number;
+      duration: number
       /**
        * 选定音频的播放位置（单位：s），只有在当前有音乐播放时返回
        */
-      currentPosition: number;
+      currentPosition: number
       /**
        * 播放状态（2：没有音乐在播放，1：播放中，0：暂停中）
        */
-      status: 0 | 1 | 2;
+      status: 0 | 1 | 2
       /**
        * 音频的下载进度（整数，80 代表 80%），只有在当前有音乐播放时返回
        */
-      downloadPercent: number;
+      downloadPercent: number
       /**
        * 歌曲数据链接，只有在当前有音乐播放时返回
        */
-      dataUrl: string;
-    };
-    type Param = {};
+      dataUrl: string
+    }
+    type Param = {}
   }
   /**
    * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html) 接口**
@@ -1818,25 +1752,23 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxgetbackgroundaudioplayerstateobject
    */
-  function getBackgroundAudioPlayerState(
-    OBJECT?: getBackgroundAudioPlayerState.Param
-  ): Promise<getBackgroundAudioPlayerState.Promised>;
+  function getBackgroundAudioPlayerState(OBJECT?: getBackgroundAudioPlayerState.Param): Promise<getBackgroundAudioPlayerState.Promised>
 
   namespace playBackgroundAudio {
     type Param = {
       /**
        * 音乐链接，目前支持的格式有 m4a, aac, mp3, wav
        */
-      dataUrl: string;
+      dataUrl: string
       /**
        * 音乐标题
        */
-      title?: string;
+      title?: string
       /**
        * 封面URL
        */
-      coverImgUrl?: string;
-    };
+      coverImgUrl?: string
+    }
   }
   /**
    * 使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
@@ -1852,7 +1784,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxplaybackgroundaudioobject
    */
-  function playBackgroundAudio(OBJECT: playBackgroundAudio.Param): Promise<any>;
+  function playBackgroundAudio(OBJECT: playBackgroundAudio.Param): Promise<any>
 
   /**
    * 暂停播放音乐。
@@ -1866,15 +1798,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxpausebackgroundaudio
    */
-  function pauseBackgroundAudio(): void;
+  function pauseBackgroundAudio(): void
 
   namespace seekBackgroundAudio {
     type Param = {
       /**
        * 音乐位置，单位：秒
        */
-      position: number;
-    };
+      position: number
+    }
   }
   /**
    * 控制音乐播放进度。
@@ -1888,7 +1820,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxseekbackgroundaudioobject
    */
-  function seekBackgroundAudio(OBJECT: seekBackgroundAudio.Param): Promise<any>;
+  function seekBackgroundAudio(OBJECT: seekBackgroundAudio.Param): Promise<any>
 
   /**
    * 停止播放音乐。
@@ -1902,19 +1834,19 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxstopbackgroundaudio
    */
-  function stopBackgroundAudio(): void;
+  function stopBackgroundAudio(): void
 
   /**
    * 监听音乐播放。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudioplaycallback
    */
-  function onBackgroundAudioPlay(CALLBACK: any): void;
+  function onBackgroundAudioPlay(CALLBACK: any): void
 
   /**
    * 监听音乐暂停。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudiopausecallback
    */
-  function onBackgroundAudioPause(CALLBACK: any): void;
+  function onBackgroundAudioPause(CALLBACK: any): void
 
   /**
    * 监听音乐停止。
@@ -1924,7 +1856,7 @@ declare namespace Taro {
    * 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudiostopcallback
    */
-  function onBackgroundAudioStop(CALLBACK: any): void;
+  function onBackgroundAudioStop(CALLBACK: any): void
 
   /**
    * @since 1.2.0
@@ -1954,7 +1886,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html#wxgetbackgroundaudiomanager
    */
-  function getBackgroundAudioManager(): BackgroundAudioManager;
+  function getBackgroundAudioManager(): BackgroundAudioManager
 
   class BackgroundAudioManager {
     /**
@@ -1962,115 +1894,115 @@ declare namespace Taro {
      *
      * @readonly
      */
-    readonly duration: number;
+    readonly duration: number
     /**
      * 当前音频的播放位置（单位：s），只有在当前有合法的 src 时返回
      *
      * @readonly
      */
-    readonly currentTime: number;
+    readonly currentTime: number
     /**
      * 当前是是否暂停或停止状态，true 表示暂停或停止，false 表示正在播放
      *
      * @readonly
      */
-    readonly paused: boolean;
+    readonly paused: boolean
     /**
      * 音频的数据源，默认为空字符串，**当设置了新的 src 时，会自动开始播放** ，目前支持的格式有 m4a, aac, mp3, wav
      */
-    src: string;
+    src: string
     /**
      * 音频开始播放的位置（单位：s）
      */
-    startTime: number;
+    startTime: number
     /**
      * 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲。
      *
      * @readonly
      */
-    buffered: number;
+    buffered: number
     /**
      * 音频标题，用于做原生音频播放器音频标题。原生音频播放器中的分享功能，分享出去的卡片标题，也将使用该值。
      */
-    title: string;
+    title: string
     /**
      * 专辑名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。
      */
-    epname: string;
+    epname: string
     /**
      * 歌手名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。
      */
-    singer: string;
+    singer: string
     /**
      * 封面图url，用于做原生音频播放器背景图。原生音频播放器中的分享功能，分享出去的卡片配图及背景也将使用该图。
      */
-    coverImgUrl: string;
+    coverImgUrl: string
     /**
      * 页面链接，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。
      */
-    webUrl: string;
+    webUrl: string
     /**
      * 音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频
      *
      * @since 1.9.94
      */
-    protocol: string;
+    protocol: string
     /**
      * 播放
      */
-    play(): void;
+    play(): void
     /**
      * 暂停
      */
-    pause(): void;
+    pause(): void
     /**
      * 停止
      */
-    stop(): void;
+    stop(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: any): void;
+    seek(position: any): void
     /**
      * 背景音频进入可以播放状态，但不保证后面可以流畅播放
      */
-    onCanplay(callback?: () => void): void;
+    onCanplay(callback?: () => void): void
     /**
      * 背景音频播放事件
      */
-    onPlay(callback?: () => void): void;
+    onPlay(callback?: () => void): void
     /**
      * 背景音频暂停事件
      */
-    onPause(callback?: () => void): void;
+    onPause(callback?: () => void): void
     /**
      * 背景音频停止事件
      */
-    onStop(callback?: () => void): void;
+    onStop(callback?: () => void): void
     /**
      * 背景音频自然播放结束事件
      */
-    onEnded(callback?: () => void): void;
+    onEnded(callback?: () => void): void
     /**
      * 背景音频播放进度更新事件
      */
-    onTimeUpdate(callback?: () => void): void;
+    onTimeUpdate(callback?: () => void): void
     /**
      * 用户在系统音乐播放面板点击上一曲事件（iOS only）
      */
-    onPrev(callback?: () => void): void;
+    onPrev(callback?: () => void): void
     /**
      * 用户在系统音乐播放面板点击下一曲事件（iOS only）
      */
-    onNext(callback?: () => void): void;
+    onNext(callback?: () => void): void
     /**
      * 背景音频播放错误事件
      */
-    onError(callback?: () => void): void;
+    onError(callback?: () => void): void
     /**
      * 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      */
-    onWaiting(callback?: () => void): void;
+    onWaiting(callback?: () => void): void
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
@@ -2123,25 +2055,25 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-audio.html#wxcreateaudiocontextaudioid-this
    */
-  function createAudioContext(audioId: string, instance?: any): AudioContext;
+  function createAudioContext(audioId: string, instance?: any): AudioContext
 
   class AudioContext {
     /**
      * 音频的地址
      */
-    setSrc(src: string): void;
+    setSrc(src: string): void
     /**
      * 播放
      */
-    play(): void;
+    play(): void
     /**
      * 暂停
      */
-    pause(): void;
+    pause(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: number): void;
+    seek(position: number): void
   }
   /**
    * @since 1.6.0
@@ -2174,219 +2106,219 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html#wxcreateinneraudiocontext
    */
-  function createInnerAudioContext(): InnerAudioContext;
+  function createInnerAudioContext(): InnerAudioContext
 
   class InnerAudioContext {
     /**
      * 音频的数据链接，用于直接播放。
      */
-    src: string;
+    src: string
     /**
      * 开始播放的位置（单位：s），默认 0
      */
-    startTime: number;
+    startTime: number
     /**
      * 是否自动开始播放，默认 false
      */
-    autoplay: boolean;
+    autoplay: boolean
     /**
      * 是否循环播放，默认 false
      */
-    loop: boolean;
+    loop: boolean
     /**
      * 是否遵循系统静音开关，当此参数为 false 时，即使用户打开了静音开关，也能继续发出声音，默认值 true
      */
-    obeyMuteSwitch: boolean;
+    obeyMuteSwitch: boolean
     /**
      * 当前音频的长度（单位：s），只有在当前有合法的 src 时返回
      *
      * @readonly
      */
-    duration: number;
+    duration: number
     /**
      * 当前音频的播放位置（单位：s），只有在当前有合法的 src 时返回，时间不取整，保留小数点后 6 位
      *
      * @readonly
      */
-    currentTime: number;
+    currentTime: number
     /**
      * 当前是是否暂停或停止状态，true 表示暂停或停止，false 表示正在播放
      *
      * @readonly
      */
-    paused: boolean;
+    paused: boolean
     /**
      * 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲。
      *
      * @readonly
      */
-    buffered: number;
+    buffered: number
     /**
      * 音量。范围 0~1。
      *
      * @since 1.9.90
      */
-    volume: number;
+    volume: number
     /**
      * 播放
      */
-    play(): void;
+    play(): void
     /**
      * 暂停
      */
-    pause(): void;
+    pause(): void
     /**
      * 停止
      */
-    stop(): void;
+    stop(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: number): void;
+    seek(position: number): void
     /**
      * 销毁当前实例
      */
-    destroy(): void;
+    destroy(): void
     /**
      * 音频进入可以播放状态，但不保证后面可以流畅播放
      */
-    onCanplay(callback?: () => void): void;
+    onCanplay(callback?: () => void): void
     /**
      * 音频播放事件
      */
-    onPlay(callback?: () => void): void;
+    onPlay(callback?: () => void): void
     /**
      * 音频暂停事件
      */
-    onPause(callback?: () => void): void;
+    onPause(callback?: () => void): void
     /**
      * 音频停止事件
      */
-    onStop(callback?: () => void): void;
+    onStop(callback?: () => void): void
     /**
      * 音频自然播放结束事件
      */
-    onEnded(callback?: () => void): void;
+    onEnded(callback?: () => void): void
     /**
      * 音频播放进度更新事件
      */
-    onTimeUpdate(callback?: () => void): void;
+    onTimeUpdate(callback?: () => void): void
     /**
      * 音频播放错误事件
      */
-    onError(callback?: () => void): void;
+    onError(callback?: () => void): void
     /**
      * 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      */
-    onWaiting(callback?: () => void): void;
+    onWaiting(callback?: () => void): void
     /**
      * 音频进行 seek 操作事件
      */
-    onSeeking(callback?: () => void): void;
+    onSeeking(callback?: () => void): void
     /**
      * 音频完成 seek 操作事件
      */
-    onSeeked(callback?: () => void): void;
+    onSeeked(callback?: () => void): void
     /**
      * 取消监听 onCanplay 事件
      *
      * @since 1.9.0
      */
-    offCanplay(callback?: () => void): void;
+    offCanplay(callback?: () => void): void
     /**
      * 取消监听 onPlay 事件
      *
      * @since 1.9.0
      */
-    offPlay(callback?: () => void): void;
+    offPlay(callback?: () => void): void
     /**
      * 取消监听 onPause 事件
      *
      * @since 1.9.0
      */
-    offPause(callback?: () => void): void;
+    offPause(callback?: () => void): void
     /**
      * 取消监听 onStop 事件
      *
      * @since 1.9.0
      */
-    offStop(callback?: () => void): void;
+    offStop(callback?: () => void): void
     /**
      * 取消监听 onEnded 事件
      *
      * @since 1.9.0
      */
-    offEnded(callback?: () => void): void;
+    offEnded(callback?: () => void): void
     /**
      * 取消监听 onTimeUpdate 事件
      *
      * @since 1.9.0
      */
-    offTimeUpdate(callback?: () => void): void;
+    offTimeUpdate(callback?: () => void): void
     /**
      * 取消监听 onError 事件
      *
      * @since 1.9.0
      */
-    offError(callback?: () => void): void;
+    offError(callback?: () => void): void
     /**
      * 取消监听 onWaiting 事件
      *
      * @since 1.9.0
      */
-    offWaiting(callback?: () => void): void;
+    offWaiting(callback?: () => void): void
     /**
      * 取消监听 onSeeking 事件
      *
      * @since 1.9.0
      */
-    offSeeking(callback?: () => void): void;
+    offSeeking(callback?: () => void): void
     /**
      * 取消监听 onSeeked 事件
      *
      * @since 1.9.0
      */
-    offSeeked(callback?: () => void): void;
+    offSeeked(callback?: () => void): void
   }
   namespace chooseVideo {
     type Promised = {
       /**
        * 选定视频的临时文件路径
        */
-      tempFilePath: string;
+      tempFilePath: string
       /**
        * 选定视频的时间长度
        */
-      duration: number;
+      duration: number
       /**
        * 选定视频的数据量大小
        */
-      size: number;
+      size: number
       /**
        * 返回选定视频的长
        */
-      height: number;
+      height: number
       /**
        * 返回选定视频的宽
        */
-      width: number;
-    };
+      width: number
+    }
     type Param = {
       /**
        * album 从相册选视频，camera 使用相机拍摄，默认为：['album', 'camera']
        */
-      sourceType?: string[];
+      sourceType?: string[]
       /**
        * 是否压缩所选的视频源文件，默认值为true，需要压缩
        *
        * @since 1.6.0
        */
-      compressed?: boolean;
+      compressed?: boolean
       /**
        * 拍摄视频最长拍摄时间，单位秒。最长支持 60 秒
        */
-      maxDuration?: number;
-    };
+      maxDuration?: number
+    }
   }
   /**
    * 拍摄视频或从手机相册中选视频，返回视频的临时文件路径。
@@ -2421,23 +2353,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxchoosevideoobject
    */
-  function chooseVideo(
-    OBJECT?: chooseVideo.Param
-  ): Promise<chooseVideo.Promised>;
+  function chooseVideo(OBJECT?: chooseVideo.Param): Promise<chooseVideo.Promised>
 
   namespace saveVideoToPhotosAlbum {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 视频文件路径，可以是临时文件路径也可以是永久文件路径
        */
-      filePath: string;
-    };
+      filePath: string
+    }
   }
   /**
    * @since 1.2.0
@@ -2460,9 +2390,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxsavevideotophotosalbumobject
    */
-  function saveVideoToPhotosAlbum(
-    OBJECT: saveVideoToPhotosAlbum.Param
-  ): Promise<saveVideoToPhotosAlbum.Promised>;
+  function saveVideoToPhotosAlbum(OBJECT: saveVideoToPhotosAlbum.Param): Promise<saveVideoToPhotosAlbum.Promised>
 
   /**
    * 创建并返回 video 上下文 `videoContext` 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<video/>` 组件
@@ -2514,43 +2442,43 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-video.html#wxcreatevideocontextvideoid-this
    */
-  function createVideoContext(videoId: any, instance?: any): VideoContext;
+  function createVideoContext(videoId: any, instance?: any): VideoContext
 
   class VideoContext {
     /**
      * 播放
      */
-    play(): void;
+    play(): void
     /**
      * 暂停
      */
-    pause(): void;
+    pause(): void
     /**
      * 跳转到指定位置，单位 s
      */
-    seek(position: number): void;
+    seek(position: number): void
     /**
      * 发送弹幕，danmu 包含两个属性 text, color。
      */
-    sendDanmu(danmu: { text: string; color: string }): void;
+    sendDanmu(danmu: { text: string, color: string }): void
     /**
      * 设置倍速播放，支持的倍率有 0.5/0.8/1.0/1.25/1.5
      *
      * @since 1.4.0
      */
-    playbackRate(rate: number): void;
+    playbackRate(rate: number): void
     /**
      * 进入全屏，可传入{direction}参数（1.7.0起支持），详见video组件文档
      *
      * @since 1.4.0
      */
-    requestFullScreen(): void;
+    requestFullScreen(): void
     /**
      * 退出全屏
      *
      * @since 1.4.0
      */
-    exitFullScreen(): void;
+    exitFullScreen(): void
   }
   /**
    * @since 1.6.0
@@ -2562,7 +2490,7 @@ declare namespace Taro {
    * [在开发者工具中预览效果](wechatide://minicode/VBZ3Jim26zYu)
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-camera.html#wxcreatecameracontextthis
    */
-  function createCameraContext(instance?: any): CameraContext;
+  function createCameraContext(instance?: any): CameraContext
 
   namespace CameraContext {
     namespace takePhoto {
@@ -2570,115 +2498,111 @@ declare namespace Taro {
         /**
          * 成像质量，值为high, normal, low，默认normal
          */
-        quality?: string;
+        quality?: string
         /**
          * 接口调用成功的回调函数 ，res = { tempImagePath }
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数 ，res = { tempImagePath }
        */
-      type ParamPropSuccess = (res: { tempImagePath: string }) => void;
+      type ParamPropSuccess = (res: { tempImagePath: string }) => void
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace startRecord {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
+        complete?: ParamPropComplete
         /**
          * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
          */
-        timeoutCallback?: ParamPropTimeoutCallback;
-      };
+        timeoutCallback?: ParamPropTimeoutCallback
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (
-        res: { tempThumbPath: string; tempVideoPath: string }
-      ) => any;
+      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
       /**
        * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropTimeoutCallback = (
-        res: { tempThumbPath: string; tempVideoPath: string }
-      ) => void;
+      type ParamPropTimeoutCallback = (res: { tempThumbPath: string, tempVideoPath: string }) => void
     }
     namespace stopRecord {
       type Param = {
         /**
          * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath; tempVideoPath }) => any;
+      type ParamPropSuccess = (res: { tempThumbPath, tempVideoPath }) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
   }
   class CameraContext {
     /**
      * 拍照，可指定质量，成功则返回图片
      */
-    takePhoto(OBJECT: CameraContext.takePhoto.Param): any;
+    takePhoto(OBJECT: CameraContext.takePhoto.Param): any
     /**
      * 开始录像
      */
-    startRecord(OBJECT: CameraContext.startRecord.Param): any;
+    startRecord(OBJECT: CameraContext.startRecord.Param): any
     /**
      * 结束录像，成功则返回封面与视频
      */
-    stopRecord(OBJECT: CameraContext.stopRecord.Param): any;
+    stopRecord(OBJECT: CameraContext.stopRecord.Param): any
   }
   /**
    * @since 1.7.0
@@ -2690,10 +2614,7 @@ declare namespace Taro {
    * [在开发者工具中预览效果](wechatide://minicode/UzWEzmm763Y4)
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-live-player.html#wxcreateliveplayercontextdomid-this
    */
-  function createLivePlayerContext(
-    domId: any,
-    instance?: any
-  ): LivePlayerContext;
+  function createLivePlayerContext(domId: any, instance?: any): LivePlayerContext
 
   namespace LivePlayerContext {
     namespace play {
@@ -2701,235 +2622,235 @@ declare namespace Taro {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace stop {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace mute {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace pause {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace resume {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace requestFullScreen {
       type Param = {
         /**
          * 有效值为 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度）
          */
-        direction?: number;
+        direction?: number
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace exitFullScreen {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
   }
   class LivePlayerContext {
     /**
      * 播放
      */
-    play(OBJECT: LivePlayerContext.play.Param): any;
+    play(OBJECT: LivePlayerContext.play.Param): any
     /**
      * 停止
      */
-    stop(OBJECT: LivePlayerContext.stop.Param): any;
+    stop(OBJECT: LivePlayerContext.stop.Param): any
     /**
      * 静音
      */
-    mute(OBJECT: LivePlayerContext.mute.Param): any;
+    mute(OBJECT: LivePlayerContext.mute.Param): any
     /**
      * 暂停
      *
      * @since 1.9.90
      */
-    pause(OBJECT: LivePlayerContext.pause.Param): any;
+    pause(OBJECT: LivePlayerContext.pause.Param): any
     /**
      * 恢复
      *
      * @since 1.9.90
      */
-    resume(OBJECT: LivePlayerContext.resume.Param): any;
+    resume(OBJECT: LivePlayerContext.resume.Param): any
     /**
      * 进入全屏
      */
-    requestFullScreen(OBJECT: LivePlayerContext.requestFullScreen.Param): any;
+    requestFullScreen(OBJECT: LivePlayerContext.requestFullScreen.Param): any
     /**
      * 退出全屏
      */
-    exitFullScreen(OBJECT: LivePlayerContext.exitFullScreen.Param): any;
+    exitFullScreen(OBJECT: LivePlayerContext.exitFullScreen.Param): any
   }
   /**
    * @since 1.7.0
@@ -2941,7 +2862,7 @@ declare namespace Taro {
    * [在开发者工具中预览效果](wechatide://minicode/KvWD9mmA62Yk)
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-live-pusher.html#wxcreatelivepushercontext
    */
-  function createLivePusherContext(): LivePusherContext;
+  function createLivePusherContext(): LivePusherContext
 
   namespace LivePusherContext {
     namespace start {
@@ -2949,211 +2870,211 @@ declare namespace Taro {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace stop {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace pause {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace resume {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace switchCamera {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace snapshot {
       type Param = {
         /**
          * 接口调用成功的回调函数
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
   }
   class LivePusherContext {
     /**
      * 播放推流
      */
-    start(OBJECT: LivePusherContext.start.Param): any;
+    start(OBJECT: LivePusherContext.start.Param): any
     /**
      * 停止推流
      */
-    stop(OBJECT: LivePusherContext.stop.Param): any;
+    stop(OBJECT: LivePusherContext.stop.Param): any
     /**
      * 暂停推流
      */
-    pause(OBJECT: LivePusherContext.pause.Param): any;
+    pause(OBJECT: LivePusherContext.pause.Param): any
     /**
      * 恢复推流
      */
-    resume(OBJECT: LivePusherContext.resume.Param): any;
+    resume(OBJECT: LivePusherContext.resume.Param): any
     /**
      * 切换前后摄像头
      */
-    switchCamera(OBJECT: LivePusherContext.switchCamera.Param): any;
+    switchCamera(OBJECT: LivePusherContext.switchCamera.Param): any
     /**
      * 快照
      *
      * @since 1.9.90
      */
-    snapshot(OBJECT: LivePusherContext.snapshot.Param): any;
+    snapshot(OBJECT: LivePusherContext.snapshot.Param): any
   }
   namespace saveFile {
     type Promised = {
       /**
        * 文件的保存路径
        */
-      savedFilePath: any;
-    };
+      savedFilePath: any
+    }
     type Param = {
       /**
        * 需要保存的文件的临时路径
        */
-      tempFilePath: string;
-    };
+      tempFilePath: string
+    }
   }
   /**
    * 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
@@ -3179,38 +3100,38 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxsavefileobject
    */
-  function saveFile(OBJECT: saveFile.Param): Promise<saveFile.Promised>;
+  function saveFile(OBJECT: saveFile.Param): Promise<saveFile.Promised>
 
   namespace getSavedFileList {
     type Promised = {
       /**
        * 接口调用结果
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 文件列表
        */
-      fileList: PromisedPropFileList;
-    };
+      fileList: PromisedPropFileList
+    }
     /**
      * 文件列表
      */
-    type PromisedPropFileList = PromisedPropFileListItem[];
+    type PromisedPropFileList = PromisedPropFileListItem[]
     type PromisedPropFileListItem = {
       /**
        * 文件的本地路径
        */
-      filePath: string;
+      filePath: string
       /**
        * 文件的保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数
        */
-      createTime: number;
+      createTime: number
       /**
        * 文件大小，单位B
        */
-      size: number;
-    };
-    type Param = {};
+      size: number
+    }
+    type Param = {}
   }
   /**
    * 获取本地已保存的文件列表
@@ -3226,31 +3147,29 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxgetsavedfilelistobject
    */
-  function getSavedFileList(
-    OBJECT?: getSavedFileList.Param
-  ): Promise<getSavedFileList.Promised>;
+  function getSavedFileList(OBJECT?: getSavedFileList.Param): Promise<getSavedFileList.Promised>
 
   namespace getSavedFileInfo {
     type Promised = {
       /**
        * 接口调用结果
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 文件大小，单位B
        */
-      size: number;
+      size: number
       /**
        * 文件保存时的时间戳，从1970/01/01 08:00:00 到该时刻的秒数
        */
-      createTime: number;
-    };
+      createTime: number
+    }
     type Param = {
       /**
        * 文件路径
        */
-      filePath: string;
-    };
+      filePath: string
+    }
   }
   /**
    * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html) 接口。
@@ -3268,17 +3187,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxgetsavedfileinfoobject
    */
-  function getSavedFileInfo(
-    OBJECT: getSavedFileInfo.Param
-  ): Promise<getSavedFileInfo.Promised>;
+  function getSavedFileInfo(OBJECT: getSavedFileInfo.Param): Promise<getSavedFileInfo.Promised>
 
   namespace removeSavedFile {
     type Param = {
       /**
        * 需要删除的文件路径
        */
-      filePath: string;
-    };
+      filePath: string
+    }
   }
   /**
    * 删除本地存储的文件
@@ -3301,21 +3218,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxremovesavedfileobject
    */
-  function removeSavedFile(OBJECT: removeSavedFile.Param): Promise<any>;
+  function removeSavedFile(OBJECT: removeSavedFile.Param): Promise<any>
 
   namespace openDocument {
     type Param = {
       /**
        * 文件路径，可通过 downFile 获得
        */
-      filePath: string;
+      filePath: string
       /**
        * 文件类型，指定文件类型打开文件，有效值 doc, xls, ppt, pdf, docx, xlsx, pptx
        *
        * @since 1.4.0
        */
-      fileType?: string;
-    };
+      fileType?: string
+    }
   }
   /**
    * 新开页面打开文档，支持格式：doc, xls, ppt, pdf, docx, xlsx, pptx
@@ -3338,33 +3255,33 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxopendocumentobject
    */
-  function openDocument(OBJECT: openDocument.Param): Promise<any>;
+  function openDocument(OBJECT: openDocument.Param): Promise<any>
 
   namespace getFileInfo {
     type Promised = {
       /**
        * 文件大小，单位：B
        */
-      size: number;
+      size: number
       /**
        * 按照传入的 digestAlgorithm 计算得出的的文件摘要
        */
-      digest: string;
+      digest: string
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 本地文件路径
        */
-      filePath: string;
+      filePath: string
       /**
        * 计算文件摘要的算法，默认值 md5，有效值：md5，sha1
        */
-      digestAlgorithm?: string;
-    };
+      digestAlgorithm?: string
+    }
   }
   /**
    * @since 1.4.0
@@ -3383,21 +3300,19 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html#wxgetfileinfoobject
    */
-  function getFileInfo(
-    OBJECT: getFileInfo.Param
-  ): Promise<getFileInfo.Promised>;
+  function getFileInfo(OBJECT: getFileInfo.Param): Promise<getFileInfo.Promised>
 
   namespace setStorage {
     type Param = {
       /**
        * 本地缓存中的指定的 key
        */
-      key: string;
+      key: string
       /**
        * 需要存储的内容
        */
-      data: any | string;
-    };
+      data: any | string
+    }
   }
   /**
    * 将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个异步接口。
@@ -3412,7 +3327,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstorageobject
    */
-  function setStorage(OBJECT: setStorage.Param): Promise<any>;
+  function setStorage(OBJECT: setStorage.Param): Promise<any>
 
   /**
    * 将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。
@@ -3427,21 +3342,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstoragesynckeydata
    */
-  function setStorageSync(key: string, data: any | string): void;
+  function setStorageSync(key: string, data: any | string): void
 
   namespace getStorage {
     type Promised = {
       /**
        * key对应的内容
        */
-      data: string;
-    };
+      data: string
+    }
     type Param = {
       /**
        * 本地缓存中的指定的 key
        */
-      key: string;
-    };
+      key: string
+    }
   }
   /**
    * 从本地缓存中异步获取指定 key 对应的内容。
@@ -3458,7 +3373,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageobject
    */
-  function getStorage(OBJECT: getStorage.Param): Promise<getStorage.Promised>;
+  function getStorage(OBJECT: getStorage.Param): Promise<getStorage.Promised>
 
   /**
    * 从本地缓存中同步获取指定 key 对应的内容。
@@ -3477,24 +3392,24 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstoragesynckey
    */
-  function getStorageSync(key: string): any | undefined;
+  function getStorageSync(key: string): any | undefined
 
   namespace getStorageInfo {
     type Promised = {
       /**
        * 当前storage中所有的key
        */
-      keys: string[];
+      keys: string[]
       /**
        * 当前占用的空间大小, 单位kb
        */
-      currentSize: number;
+      currentSize: number
       /**
        * 限制的空间大小，单位kb
        */
-      limitSize: number;
-    };
-    type Param = {};
+      limitSize: number
+    }
+    type Param = {}
   }
   /**
    * 异步获取当前storage的相关信息
@@ -3512,25 +3427,23 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfoobject
    */
-  function getStorageInfo(
-    OBJECT?: getStorageInfo.Param
-  ): Promise<getStorageInfo.Promised>;
+  function getStorageInfo(OBJECT?: getStorageInfo.Param): Promise<getStorageInfo.Promised>
 
   namespace getStorageInfoSync {
     type Return = {
       /**
        * 当前storage中所有的key
        */
-      keys: string[];
+      keys: string[]
       /**
        * 当前占用的空间大小, 单位kb
        */
-      currentSize: number;
+      currentSize: number
       /**
        * 限制的空间大小，单位kb
        */
-      limitSize: number;
-    };
+      limitSize: number
+    }
   }
   /**
    * 同步获取当前storage的相关信息
@@ -3549,15 +3462,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfosync
    */
-  function getStorageInfoSync(): getStorageInfoSync.Return;
+  function getStorageInfoSync(): getStorageInfoSync.Return
 
   namespace removeStorage {
     type Param = {
       /**
        * 本地缓存中的指定的 key
        */
-      key: string;
-    };
+      key: string
+    }
   }
   /**
    * 从本地缓存中异步移除指定 key 。
@@ -3574,7 +3487,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestorageobject
    */
-  function removeStorage(OBJECT: removeStorage.Param): Promise<any>;
+  function removeStorage(OBJECT: removeStorage.Param): Promise<any>
 
   /**
    * 从本地缓存中同步移除指定 key 。
@@ -3590,7 +3503,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestoragesynckey
    */
-  function removeStorageSync(key: string): void;
+  function removeStorageSync(key: string): void
 
   /**
    * 清理本地数据缓存。
@@ -3602,7 +3515,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstorage
    */
-  function clearStorage(): void;
+  function clearStorage(): void
 
   /**
    * 同步清理本地数据缓存
@@ -3622,57 +3535,57 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstoragesync
    */
-  function clearStorageSync(): void;
+  function clearStorageSync(): void
 
   namespace getLocation {
     type Promised = {
       /**
        * 纬度，浮点数，范围为-90~90，负数表示南纬
        */
-      latitude: number;
+      latitude: number
       /**
        * 经度，浮点数，范围为-180~180，负数表示西经
        */
-      longitude: number;
+      longitude: number
       /**
        * 速度，浮点数，单位m/s
        */
-      speed: number;
+      speed: number
       /**
        * 位置的精确度
        */
-      accuracy: number;
+      accuracy: number
       /**
        * 高度，单位 m
        *
        * @since 1.2.0
        */
-      altitude: number;
+      altitude: number
       /**
        * 垂直精度，单位 m（Android 无法获取，返回 0）
        *
        * @since 1.2.0
        */
-      verticalAccuracy: number;
+      verticalAccuracy: number
       /**
        * 水平精度，单位 m
        *
        * @since 1.2.0
        */
-      horizontalAccuracy: number;
-    };
+      horizontalAccuracy: number
+    }
     type Param = {
       /**
        * 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于`Taro.openLocation`的坐标
        */
-      type?: "wgs84" | "gcj02";
+      type?: 'wgs84' | 'gcj02'
       /**
        * 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
        *
        * @since 1.6.0
        */
-      altitude?: boolean;
-    };
+      altitude?: boolean
+    }
   }
   /**
    * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
@@ -3692,30 +3605,28 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxgetlocationobject
    */
-  function getLocation(
-    OBJECT?: getLocation.Param
-  ): Promise<getLocation.Promised>;
+  function getLocation(OBJECT?: getLocation.Param): Promise<getLocation.Promised>
 
   namespace chooseLocation {
     type Promised = {
       /**
        * 位置名称
        */
-      name: any;
+      name: any
       /**
        * 详细地址
        */
-      address: any;
+      address: any
       /**
        * 纬度，浮点数，范围为-90~90，负数表示南纬
        */
-      latitude: any;
+      latitude: any
       /**
        * 经度，浮点数，范围为-180~180，负数表示西经
        */
-      longitude: any;
-    };
-    type Param = {};
+      longitude: any
+    }
+    type Param = {}
   }
   /**
    * 打开地图选择位置。
@@ -3723,33 +3634,31 @@ declare namespace Taro {
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.userLocation
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxchooselocationobject
    */
-  function chooseLocation(
-    OBJECT?: chooseLocation.Param
-  ): Promise<chooseLocation.Promised>;
+  function chooseLocation(OBJECT?: chooseLocation.Param): Promise<chooseLocation.Promised>
 
   namespace openLocation {
     type Param = {
       /**
        * 纬度，范围为-90~90，负数表示南纬
        */
-      latitude: number;
+      latitude: number
       /**
        * 经度，范围为-180~180，负数表示西经
        */
-      longitude: number;
+      longitude: number
       /**
        * 缩放比例，范围5~18，默认为18
        */
-      scale?: number;
+      scale?: number
       /**
        * 位置名
        */
-      name?: string;
+      name?: string
       /**
        * 地址的详细说明
        */
-      address?: string;
-    };
+      address?: string
+    }
   }
   /**
    * ​使用微信内置地图查看位置。
@@ -3778,7 +3687,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject
    */
-  function openLocation(OBJECT: openLocation.Param): Promise<any>;
+  function openLocation(OBJECT: openLocation.Param): Promise<any>
 
   /**
    * 创建并返回 map 上下文 `mapContext` 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<map/>` 组件
@@ -3849,7 +3758,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-map.html#wxcreatemapcontextmapid-this
    */
-  function createMapContext(mapId: any, instance?: any): MapContext;
+  function createMapContext(mapId: any, instance?: any): MapContext
 
   namespace MapContext {
     namespace getCenterLocation {
@@ -3857,173 +3766,171 @@ declare namespace Taro {
         /**
          * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
        */
-      type ParamPropSuccess = (
-        res: { longitude: number; latitude: number }
-      ) => void;
+      type ParamPropSuccess = (res: { longitude: number, latitude: number }) => void
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace translateMarker {
       type Param = {
         /**
          * 指定marker
          */
-        markerId: number;
+        markerId: number
         /**
          * 指定marker移动到的目标点
          */
-        destination: any;
+        destination: any
         /**
          * 移动过程中是否自动旋转marker
          */
-        autoRotate: boolean;
+        autoRotate: boolean
         /**
          * marker的旋转角度
          */
-        rotate: number;
+        rotate: number
         /**
          * 动画持续时长，默认值1000ms，平移与旋转分别计算
          */
-        duration?: number;
+        duration?: number
         /**
          * 动画结束回调函数
          */
-        animationEnd?: ParamPropAnimationEnd;
+        animationEnd?: ParamPropAnimationEnd
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
-      };
+        fail?: ParamPropFail
+      }
       /**
        * 动画结束回调函数
        */
-      type ParamPropAnimationEnd = () => any;
+      type ParamPropAnimationEnd = () => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = () => any;
+      type ParamPropFail = () => any
     }
     namespace includePoints {
       type Param = {
         /**
          * 要显示在可视区域内的坐标点列表，[{latitude, longitude}]
          */
-        points: any[];
+        points: any[]
         /**
          * 坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。
          */
-        padding?: any[];
-      };
+        padding?: any[]
+      }
     }
     namespace getRegion {
       type Param = {
         /**
          * 接口调用成功的回调函数，res = {southwest, northeast}，西南角与东北角的经纬度
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数，res = {southwest, northeast}，西南角与东北角的经纬度
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
     namespace getScale {
       type Param = {
         /**
          * 接口调用成功的回调函数，res = {scale}
          */
-        success?: ParamPropSuccess;
+        success?: ParamPropSuccess
         /**
          * 接口调用失败的回调函数
          */
-        fail?: ParamPropFail;
+        fail?: ParamPropFail
         /**
          * 接口调用结束的回调函数（调用成功、失败都会执行）
          */
-        complete?: ParamPropComplete;
-      };
+        complete?: ParamPropComplete
+      }
       /**
        * 接口调用成功的回调函数，res = {scale}
        */
-      type ParamPropSuccess = (res: any) => any;
+      type ParamPropSuccess = (res: any) => any
       /**
        * 接口调用失败的回调函数
        */
-      type ParamPropFail = (err: any) => any;
+      type ParamPropFail = (err: any) => any
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      type ParamPropComplete = () => any;
+      type ParamPropComplete = () => any
     }
   }
   class MapContext {
     /**
      * 获取当前地图中心的经纬度，返回的是 gcj02 坐标系，可以用于 [`Taro.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject)
      */
-    getCenterLocation(OBJECT: MapContext.getCenterLocation.Param): any;
+    getCenterLocation(OBJECT: MapContext.getCenterLocation.Param): any
     /**
      * 将地图中心移动到当前定位点，需要配合map组件的show-location使用
      */
-    moveToLocation(): void;
+    moveToLocation(): void
     /**
      * 平移marker，带动画
      *
      * @since 1.2.0
      */
-    translateMarker(OBJECT: MapContext.translateMarker.Param): any;
+    translateMarker(OBJECT: MapContext.translateMarker.Param): any
     /**
      * 缩放视野展示所有经纬度
      *
      * @since 1.2.0
      */
-    includePoints(OBJECT: MapContext.includePoints.Param): any;
+    includePoints(OBJECT: MapContext.includePoints.Param): any
     /**
      * 获取当前地图的视野范围
      *
      * @since 1.4.0
      */
-    getRegion(OBJECT: MapContext.getRegion.Param): any;
+    getRegion(OBJECT: MapContext.getRegion.Param): any
     /**
      * 获取当前地图的缩放级别
      *
      * @since 1.4.0
      */
-    getScale(OBJECT: MapContext.getScale.Param): any;
+    getScale(OBJECT: MapContext.getScale.Param): any
   }
   namespace getSystemInfo {
     type Promised = {
@@ -4032,71 +3939,71 @@ declare namespace Taro {
        *
        * @since 1.5.0
        */
-      brand: string;
+      brand: string
       /**
        * 手机型号
        */
-      model: string;
+      model: string
       /**
        * 设备像素比
        */
-      pixelRatio: string;
+      pixelRatio: string
       /**
        * 屏幕宽度
        *
        * @since 1.1.0
        */
-      screenWidth: number;
+      screenWidth: number
       /**
        * 屏幕高度
        *
        * @since 1.1.0
        */
-      screenHeight: number;
+      screenHeight: number
       /**
        * 可使用窗口宽度
        */
-      windowWidth: number;
+      windowWidth: number
       /**
        * 可使用窗口高度
        */
-      windowHeight: number;
+      windowHeight: number
       /**
        * 状态栏的高度
        *
        * @since 1.9.0
        */
-      statusBarHeight: number;
+      statusBarHeight: number
       /**
        * 微信设置的语言
        */
-      language: string;
+      language: string
       /**
        * 微信版本号
        */
-      version: string;
+      version: string
       /**
        * 操作系统版本
        */
-      system: string;
+      system: string
       /**
        * 客户端平台
        */
-      platform: string;
+      platform: string
       /**
        * 用户字体大小设置。以“我-设置-通用-字体大小”中的设置为准，单位：px
        *
        * @since 1.5.0
        */
-      fontSizeSetting: number;
+      fontSizeSetting: number
       /**
        * 客户端基础库版本
        *
        * @since 1.1.0
        */
-      SDKVersion: string;
-    };
-    type Param = {};
+      SDKVersion: string
+    }
+    type Param = {}
   }
   /**
    * 获取系统信息。
@@ -4118,9 +4025,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/systeminfo.html#wxgetsysteminfoobject
    */
-  function getSystemInfo(
-    OBJECT?: getSystemInfo.Param
-  ): Promise<getSystemInfo.Promised>;
+  function getSystemInfo(OBJECT?: getSystemInfo.Param): Promise<getSystemInfo.Promised>
 
   namespace getSystemInfoSync {
     type Return = {
@@ -4129,70 +4034,70 @@ declare namespace Taro {
        *
        * @since 1.5.0
        */
-      brand: string;
+      brand: string
       /**
        * 手机型号
        */
-      model: string;
+      model: string
       /**
        * 设备像素比
        */
-      pixelRatio: number;
+      pixelRatio: number
       /**
        * 屏幕宽度
        *
        * @since 1.1.0
        */
-      screenWidth: number;
+      screenWidth: number
       /**
        * 屏幕高度
        *
        * @since 1.1.0
        */
-      screenHeight: number;
+      screenHeight: number
       /**
        * 可使用窗口宽度
        */
-      windowWidth: number;
+      windowWidth: number
       /**
        * 可使用窗口高度
        */
-      windowHeight: number;
+      windowHeight: number
       /**
        * 状态栏的高度
        *
        * @since 1.9.0
        */
-      statusBarHeight: number;
+      statusBarHeight: number
       /**
        * 微信设置的语言
        */
-      language: string;
+      language: string
       /**
        * 微信版本号
        */
-      version: string;
+      version: string
       /**
        * 操作系统版本
        */
-      system: string;
+      system: string
       /**
        * 客户端平台
        */
-      platform: string;
+      platform: string
       /**
        * 用户字体大小设置。以“我-设置-通用-字体大小”中的设置为准，单位：px
        *
        * @since 1.5.0
        */
-      fontSizeSetting: number;
+      fontSizeSetting: number
       /**
        * 客户端基础库版本
        *
        * @since 1.1.0
        */
-      SDKVersion: string;
-    };
+      SDKVersion: string
+    }
   }
   /**
    * 获取系统信息同步接口
@@ -4215,7 +4120,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/systeminfo.html#wxgetsysteminfosync
    */
-  function getSystemInfoSync(): getSystemInfoSync.Return;
+  function getSystemInfoSync(): getSystemInfoSync.Return
 
   /**
    * **注意：此接口从基础库 1.1.1 版本开始支持。**
@@ -4250,16 +4155,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-caniuse.html#wxcaniusestring
    */
-  function canIUse(String: any): boolean;
+  function canIUse(String: any): boolean
 
   namespace getNetworkType {
     type Promised = {
       /**
        * 网络类型
        */
-      networkType: any;
-    };
-    type Param = {};
+      networkType: any
+    }
+    type Param = {}
   }
   /**
    * 获取网络类型。
@@ -4277,17 +4182,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxgetnetworktypeobject
    */
-  function getNetworkType(
-    OBJECT?: getNetworkType.Param
-  ): Promise<getNetworkType.Promised>;
+  function getNetworkType(OBJECT?: getNetworkType.Param): Promise<getNetworkType.Promised>
 
   namespace onNetworkStatusChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 当前是否有网络连接
        */
-      isConnected: boolean;
+      isConnected: boolean
       /**
        * 网络类型
        *
@@ -4302,8 +4205,8 @@ declare namespace Taro {
        *   none      |  无网络
        *   unknown   |Android下不常见的网络类型
        */
-      networkType: string;
-    };
+      networkType: string
+    }
   }
   /**
    * @since 1.1.0
@@ -4320,15 +4223,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxonnetworkstatuschangecallback
    */
-  function onNetworkStatusChange(CALLBACK: onNetworkStatusChange.Param): void;
+  function onNetworkStatusChange(CALLBACK: onNetworkStatusChange.Param): void
 
   namespace setScreenBrightness {
     type Param = {
       /**
        * 屏幕亮度值，范围 0~1，0 最暗，1 最亮
        */
-      value: number;
-    };
+      value: number
+    }
   }
   /**
    * @since 1.2.0
@@ -4336,16 +4239,16 @@ declare namespace Taro {
    * 设置屏幕亮度。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxsetscreenbrightnessobject
    */
-  function setScreenBrightness(OBJECT: setScreenBrightness.Param): Promise<any>;
+  function setScreenBrightness(OBJECT: setScreenBrightness.Param): Promise<any>
 
   namespace getScreenBrightness {
     type Promised = {
       /**
        * 屏幕亮度值，范围 0~1，0 最暗，1 最亮
        */
-      value: number;
-    };
-    type Param = {};
+      value: number
+    }
+    type Param = {}
   }
   /**
    * @since 1.2.0
@@ -4353,12 +4256,10 @@ declare namespace Taro {
    * 获取屏幕亮度。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxgetscreenbrightnessobject
    */
-  function getScreenBrightness(
-    OBJECT?: getScreenBrightness.Param
-  ): Promise<getScreenBrightness.Promised>;
+  function getScreenBrightness(OBJECT?: getScreenBrightness.Param): Promise<getScreenBrightness.Promised>
 
   namespace vibrateLong {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.2.0
@@ -4366,10 +4267,10 @@ declare namespace Taro {
    * 使手机发生较长时间的振动（400ms）
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxvibratelongobject
    */
-  function vibrateLong(OBJECT?: vibrateLong.Param): Promise<any>;
+  function vibrateLong(OBJECT?: vibrateLong.Param): Promise<any>
 
   namespace vibrateShort {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.2.0
@@ -4382,24 +4283,24 @@ declare namespace Taro {
    * 2.  `tip`: `getScreenBrightness` 接口若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxvibrateshortobject
    */
-  function vibrateShort(OBJECT?: vibrateShort.Param): Promise<any>;
+  function vibrateShort(OBJECT?: vibrateShort.Param): Promise<any>
 
   namespace onAccelerometerChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * X 轴
        */
-      x: number;
+      x: number
       /**
        * Y 轴
        */
-      y: number;
+      y: number
       /**
        * Z 轴
        */
-      z: number;
-    };
+      z: number
+    }
   }
   /**
    * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。
@@ -4415,10 +4316,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxonaccelerometerchangecallback
    */
-  function onAccelerometerChange(CALLBACK: onAccelerometerChange.Param): void;
+  function onAccelerometerChange(CALLBACK: onAccelerometerChange.Param): void
 
   namespace startAccelerometer {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4432,10 +4333,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstartaccelerometerobject
    */
-  function startAccelerometer(OBJECT?: startAccelerometer.Param): Promise<any>;
+  function startAccelerometer(OBJECT?: startAccelerometer.Param): Promise<any>
 
   namespace stopAccelerometer {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4449,16 +4350,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstopaccelerometerobject
    */
-  function stopAccelerometer(OBJECT?: stopAccelerometer.Param): Promise<any>;
+  function stopAccelerometer(OBJECT?: stopAccelerometer.Param): Promise<any>
 
   namespace onCompassChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 面对的方向度数
        */
-      direction: number;
-    };
+      direction: number
+    }
   }
   /**
    * 监听罗盘数据，频率：5次/秒，接口调用后会自动开始监听，可使用`Taro.stopCompass`停止监听。
@@ -4472,10 +4373,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxoncompasschangecallback
    */
-  function onCompassChange(CALLBACK: onCompassChange.Param): void;
+  function onCompassChange(CALLBACK: onCompassChange.Param): void
 
   namespace startCompass {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4489,10 +4390,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstartcompassobject
    */
-  function startCompass(OBJECT?: startCompass.Param): Promise<any>;
+  function startCompass(OBJECT?: startCompass.Param): Promise<any>
 
   namespace stopCompass {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4506,15 +4407,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstopcompassobject
    */
-  function stopCompass(OBJECT?: stopCompass.Param): Promise<any>;
+  function stopCompass(OBJECT?: stopCompass.Param): Promise<any>
 
   namespace makePhoneCall {
     type Param = {
       /**
        * 需要拨打的电话号码
        */
-      phoneNumber: string;
-    };
+      phoneNumber: string
+    }
   }
   /**
    *
@@ -4527,41 +4428,41 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/phonecall.html#wxmakephonecallobject
    */
-  function makePhoneCall(OBJECT: makePhoneCall.Param): Promise<any>;
+  function makePhoneCall(OBJECT: makePhoneCall.Param): Promise<any>
 
   namespace scanCode {
     type Promised = {
       /**
        * 所扫码的内容
        */
-      result: any;
+      result: any
       /**
        * 所扫码的类型
        */
-      scanType: any;
+      scanType: any
       /**
        * 所扫码的字符集
        */
-      charSet: any;
+      charSet: any
       /**
        * 当所扫的码为当前小程序的合法二维码时，会返回此字段，内容为二维码携带的 path
        */
-      path: any;
-    };
+      path: any
+    }
     type Param = {
       /**
        * 是否只能从相机扫码，不允许从相册选择图片
        *
        * @since 1.2.0
        */
-      onlyFromCamera?: boolean;
+      onlyFromCamera?: boolean
       /**
        * 扫码类型，参数类型是数组，二维码是'qrCode'，一维码是'barCode'，DataMatrix是‘datamatrix’，pdf417是‘pdf417’。
        *
        * @since 1.7.0
        */
-      scanType?: any[];
-    };
+      scanType?: any[]
+    }
   }
   /**
    * 调起客户端扫码界面，扫码成功后返回对应的结果
@@ -4586,15 +4487,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/scancode.html#wxscancodeobject
    */
-  function scanCode(OBJECT?: scanCode.Param): Promise<scanCode.Promised>;
+  function scanCode(OBJECT?: scanCode.Param): Promise<scanCode.Promised>
 
   namespace setClipboardData {
     type Param = {
       /**
        * 需要设置的内容
        */
-      data: string;
-    };
+      data: string
+    }
   }
   /**
    * @since 1.1.0
@@ -4617,16 +4518,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/clipboard.html#wxsetclipboarddataobject
    */
-  function setClipboardData(OBJECT: setClipboardData.Param): Promise<any>;
+  function setClipboardData(OBJECT: setClipboardData.Param): Promise<any>
 
   namespace getClipboardData {
     type Promised = {
       /**
        * 剪贴板的内容
        */
-      data: string;
-    };
-    type Param = {};
+      data: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4644,12 +4545,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/clipboard.html#wxgetclipboarddataobject
    */
-  function getClipboardData(
-    OBJECT?: getClipboardData.Param
-  ): Promise<getClipboardData.Promised>;
+  function getClipboardData(OBJECT?: getClipboardData.Param): Promise<getClipboardData.Promised>
 
   namespace openBluetoothAdapter {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4673,12 +4572,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxopenbluetoothadapterobject
    */
-  function openBluetoothAdapter(
-    OBJECT?: openBluetoothAdapter.Param
-  ): Promise<any>;
+  function openBluetoothAdapter(OBJECT?: openBluetoothAdapter.Param): Promise<any>
 
   namespace closeBluetoothAdapter {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4696,26 +4593,24 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxclosebluetoothadapterobject
    */
-  function closeBluetoothAdapter(
-    OBJECT?: closeBluetoothAdapter.Param
-  ): Promise<any>;
+  function closeBluetoothAdapter(OBJECT?: closeBluetoothAdapter.Param): Promise<any>
 
   namespace getBluetoothAdapterState {
     type Promised = {
       /**
        * 是否正在搜索设备
        */
-      discovering: boolean;
+      discovering: boolean
       /**
        * 蓝牙适配器是否可用
        */
-      available: boolean;
+      available: boolean
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
-    type Param = {};
+      errMsg: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4733,22 +4628,20 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbluetoothadapterstateobject
    */
-  function getBluetoothAdapterState(
-    OBJECT?: getBluetoothAdapterState.Param
-  ): Promise<getBluetoothAdapterState.Promised>;
+  function getBluetoothAdapterState(OBJECT?: getBluetoothAdapterState.Param): Promise<getBluetoothAdapterState.Promised>
 
   namespace onBluetoothAdapterStateChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 蓝牙适配器是否可用
        */
-      available: boolean;
+      available: boolean
       /**
        * 蓝牙适配器是否处于搜索状态
        */
-      discovering: boolean;
-    };
+      discovering: boolean
+    }
   }
   /**
    * @since 1.1.0
@@ -4764,31 +4657,29 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbluetoothadapterstatechangecallback
    */
-  function onBluetoothAdapterStateChange(
-    CALLBACK: onBluetoothAdapterStateChange.Param
-  ): void;
+  function onBluetoothAdapterStateChange(CALLBACK: onBluetoothAdapterStateChange.Param): void
 
   namespace startBluetoothDevicesDiscovery {
     type Promised = {
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 蓝牙设备主 service 的 uuid 列表
        */
-      services?: any[];
+      services?: any[]
       /**
        * 是否允许重复上报同一设备， 如果允许重复上报，则onDeviceFound 方法会多次上报同一设备，但是 RSSI 值会有不同
        */
-      allowDuplicatesKey?: boolean;
+      allowDuplicatesKey?: boolean
       /**
        * 上报设备的间隔，默认为0，意思是找到新设备立即上报，否则根据传入的间隔上报
        */
-      interval?: number;
-    };
+      interval?: number
+    }
   }
   /**
    * @since 1.1.0
@@ -4808,18 +4699,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxstartbluetoothdevicesdiscoveryobject
    */
-  function startBluetoothDevicesDiscovery(
-    OBJECT?: startBluetoothDevicesDiscovery.Param
-  ): Promise<startBluetoothDevicesDiscovery.Promised>;
+  function startBluetoothDevicesDiscovery(OBJECT?: startBluetoothDevicesDiscovery.Param): Promise<startBluetoothDevicesDiscovery.Promised>
 
   namespace stopBluetoothDevicesDiscovery {
     type Promised = {
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
-    type Param = {};
+      errMsg: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4837,56 +4726,54 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxstopbluetoothdevicesdiscoveryobject
    */
-  function stopBluetoothDevicesDiscovery(
-    OBJECT?: stopBluetoothDevicesDiscovery.Param
-  ): Promise<stopBluetoothDevicesDiscovery.Promised>;
+  function stopBluetoothDevicesDiscovery(OBJECT?: stopBluetoothDevicesDiscovery.Param): Promise<stopBluetoothDevicesDiscovery.Promised>
 
   namespace getBluetoothDevices {
     type Promised = {
       /**
        * uuid 对应的的已连接设备列表
        */
-      devices: PromisedPropDevices;
+      devices: PromisedPropDevices
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     /**
      * uuid 对应的的已连接设备列表
      */
-    type PromisedPropDevices = PromisedPropDevicesItem[];
+    type PromisedPropDevices = PromisedPropDevicesItem[]
     type PromisedPropDevicesItem = {
       /**
        * 蓝牙设备名称，某些设备可能没有
        */
-      name: string;
+      name: string
       /**
        * 用于区分设备的 id
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 当前蓝牙设备的信号强度
        */
-      RSSI: number;
+      RSSI: number
       /**
        * 当前蓝牙设备的广播数据段中的ManufacturerData数据段 **（注意：vConsole 无法打印出 ArrayBuffer 类型数据）**
        */
-      advertisData: ArrayBuffer;
+      advertisData: ArrayBuffer
       /**
        * 当前蓝牙设备的广播数据段中的ServiceUUIDs数据段
        */
-      advertisServiceUUIDs: any[];
+      advertisServiceUUIDs: any[]
       /**
        * 当前蓝牙设备的广播数据段中的LocalName数据段
        */
-      localName: string;
+      localName: string
       /**
        * 当前蓝牙设备的广播数据段中的ServiceData数据段
        */
-      serviceData: ArrayBuffer;
-    };
-    type Param = {};
+      serviceData: ArrayBuffer
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -4924,52 +4811,50 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbluetoothdevicesobject
    */
-  function getBluetoothDevices(
-    OBJECT?: getBluetoothDevices.Param
-  ): Promise<getBluetoothDevices.Promised>;
+  function getBluetoothDevices(OBJECT?: getBluetoothDevices.Param): Promise<getBluetoothDevices.Promised>
 
   namespace onBluetoothDeviceFound {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 新搜索到的设备列表
        */
-      devices: ParamParamPropDevices;
-    };
+      devices: ParamParamPropDevices
+    }
     /**
      * 新搜索到的设备列表
      */
-    type ParamParamPropDevices = ParamParamPropDevicesItem[];
+    type ParamParamPropDevices = ParamParamPropDevicesItem[]
     type ParamParamPropDevicesItem = {
       /**
        * 蓝牙设备名称，某些设备可能没有
        */
-      name: string;
+      name: string
       /**
        * 用于区分设备的 id
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 当前蓝牙设备的信号强度
        */
-      RSSI: number;
+      RSSI: number
       /**
        * 当前蓝牙设备的广播数据段中的ManufacturerData数据段 **（注意：vConsole 无法打印出 ArrayBuffer 类型数据）**
        */
-      advertisData: ArrayBuffer;
+      advertisData: ArrayBuffer
       /**
        * 当前蓝牙设备的广播数据段中的ServiceUUIDs数据段
        */
-      advertisServiceUUIDs: any[];
+      advertisServiceUUIDs: any[]
       /**
        * 当前蓝牙设备的广播数据段中的LocalName数据段
        */
-      localName: string;
+      localName: string
       /**
        * 当前蓝牙设备的广播数据段中的ServiceData数据段
        */
-      serviceData: ArrayBuffer;
-    };
+      serviceData: ArrayBuffer
+    }
   }
   /**
    * @since 1.1.0
@@ -5003,39 +4888,39 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbluetoothdevicefoundcallback
    */
-  function onBluetoothDeviceFound(CALLBACK: onBluetoothDeviceFound.Param): void;
+  function onBluetoothDeviceFound(CALLBACK: onBluetoothDeviceFound.Param): void
 
   namespace getConnectedBluetoothDevices {
     type Promised = {
       /**
        * 搜索到的设备列表
        */
-      devices: PromisedPropDevices;
+      devices: PromisedPropDevices
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     /**
      * 搜索到的设备列表
      */
-    type PromisedPropDevices = PromisedPropDevicesItem[];
+    type PromisedPropDevices = PromisedPropDevicesItem[]
     type PromisedPropDevicesItem = {
       /**
        * 蓝牙设备名称，某些设备可能没有
        */
-      name: string;
+      name: string
       /**
        * 用于区分设备的 id
        */
-      deviceId: string;
-    };
+      deviceId: string
+    }
     type Param = {
       /**
        * 蓝牙设备主 service 的 uuid 列表
        */
-      services: any[];
-    };
+      services: any[]
+    }
   }
   /**
    * @since 1.1.0
@@ -5057,23 +4942,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetconnectedbluetoothdevicesobject
    */
-  function getConnectedBluetoothDevices(
-    OBJECT: getConnectedBluetoothDevices.Param
-  ): Promise<getConnectedBluetoothDevices.Promised>;
+  function getConnectedBluetoothDevices(OBJECT: getConnectedBluetoothDevices.Param): Promise<getConnectedBluetoothDevices.Promised>
 
   namespace createBLEConnection {
     type Promised = {
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 getDevices 接口
        */
-      deviceId: string;
-    };
+      deviceId: string
+    }
   }
   /**
    * @since 1.1.0
@@ -5101,23 +4984,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxcreatebleconnectionobject
    */
-  function createBLEConnection(
-    OBJECT: createBLEConnection.Param
-  ): Promise<createBLEConnection.Promised>;
+  function createBLEConnection(OBJECT: createBLEConnection.Param): Promise<createBLEConnection.Promised>
 
   namespace closeBLEConnection {
     type Promised = {
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 getDevices 接口
        */
-      deviceId: string;
-    };
+      deviceId: string
+    }
   }
   /**
    * @since 1.1.0
@@ -5136,22 +5017,20 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxclosebleconnectionobject
    */
-  function closeBLEConnection(
-    OBJECT: closeBLEConnection.Param
-  ): Promise<closeBLEConnection.Promised>;
+  function closeBLEConnection(OBJECT: closeBLEConnection.Param): Promise<closeBLEConnection.Promised>
 
   namespace onBLEConnectionStateChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 蓝牙设备 id，参考 device 对象
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 连接目前的状态
        */
-      connected: boolean;
-    };
+      connected: boolean
+    }
   }
   /**
    * @since 1.1.1
@@ -5168,41 +5047,39 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbleconnectionstatechangecallback
    */
-  function onBLEConnectionStateChange(
-    CALLBACK: onBLEConnectionStateChange.Param
-  ): void;
+  function onBLEConnectionStateChange(CALLBACK: onBLEConnectionStateChange.Param): void
 
   namespace getBLEDeviceServices {
     type Promised = {
       /**
        * 设备服务列表
        */
-      services: PromisedPropServices;
+      services: PromisedPropServices
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     /**
      * 设备服务列表
      */
-    type PromisedPropServices = PromisedPropServicesItem[];
+    type PromisedPropServices = PromisedPropServicesItem[]
     type PromisedPropServicesItem = {
       /**
        * 蓝牙设备服务的 uuid
        */
-      uuid: string;
+      uuid: string
       /**
        * 该服务是否为主服务
        */
-      isPrimary: boolean;
-    };
+      isPrimary: boolean
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 getDevices 接口
        */
-      deviceId: string;
-    };
+      deviceId: string
+    }
   }
   /**
    * @since 1.1.0
@@ -5226,35 +5103,33 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbledeviceservicesobject
    */
-  function getBLEDeviceServices(
-    OBJECT: getBLEDeviceServices.Param
-  ): Promise<getBLEDeviceServices.Promised>;
+  function getBLEDeviceServices(OBJECT: getBLEDeviceServices.Param): Promise<getBLEDeviceServices.Promised>
 
   namespace getBLEDeviceCharacteristics {
     type Promised = {
       /**
        * 设备特征值列表
        */
-      characteristics: PromisedPropCharacteristics;
+      characteristics: PromisedPropCharacteristics
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     /**
      * 设备特征值列表
      */
-    type PromisedPropCharacteristics = PromisedPropCharacteristicsItem[];
+    type PromisedPropCharacteristics = PromisedPropCharacteristicsItem[]
     type PromisedPropCharacteristicsItem = {
       /**
        * 蓝牙设备特征值的 uuid
        */
-      uuid: string;
+      uuid: string
       /**
        * 该特征值支持的操作类型
        */
-      properties: PromisedPropCharacteristicsItemPropProperties;
-    };
+      properties: PromisedPropCharacteristicsItemPropProperties
+    }
     /**
      * 该特征值支持的操作类型
      */
@@ -5262,30 +5137,30 @@ declare namespace Taro {
       /**
        * 该特征值是否支持 read 操作
        */
-      read: boolean;
+      read: boolean
       /**
        * 该特征值是否支持 write 操作
        */
-      write: boolean;
+      write: boolean
       /**
        * 该特征值是否支持 notify 操作
        */
-      notify: boolean;
+      notify: boolean
       /**
        * 该特征值是否支持 indicate 操作
        */
-      indicate: boolean;
-    };
+      indicate: boolean
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 device 对象
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 蓝牙服务 uuid
        */
-      serviceId: string;
-    };
+      serviceId: string
+    }
   }
   /**
    * @since 1.1.0
@@ -5312,35 +5187,33 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbledevicecharacteristicsobject
    */
-  function getBLEDeviceCharacteristics(
-    OBJECT: getBLEDeviceCharacteristics.Param
-  ): Promise<getBLEDeviceCharacteristics.Promised>;
+  function getBLEDeviceCharacteristics(OBJECT: getBLEDeviceCharacteristics.Param): Promise<getBLEDeviceCharacteristics.Promised>
 
   namespace readBLECharacteristicValue {
     type Promised = {
       /**
        * 错误码
        */
-      errCode: number;
+      errCode: number
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 device 对象
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 蓝牙特征值对应服务的 uuid
        */
-      serviceId: string;
+      serviceId: string
       /**
        * 蓝牙特征值的 uuid
        */
-      characteristicId: string;
-    };
+      characteristicId: string
+    }
   }
   /**
    * @since 1.1.0
@@ -5374,35 +5247,33 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxreadblecharacteristicvalueobject
    */
-  function readBLECharacteristicValue(
-    OBJECT: readBLECharacteristicValue.Param
-  ): Promise<readBLECharacteristicValue.Promised>;
+  function readBLECharacteristicValue(OBJECT: readBLECharacteristicValue.Param): Promise<readBLECharacteristicValue.Promised>
 
   namespace writeBLECharacteristicValue {
     type Promised = {
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 device 对象
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 蓝牙特征值对应服务的 uuid
        */
-      serviceId: string;
+      serviceId: string
       /**
        * 蓝牙特征值的 uuid
        */
-      characteristicId: string;
+      characteristicId: string
       /**
        * 蓝牙设备特征值对应的二进制值
        */
-      value: ArrayBuffer;
-    };
+      value: ArrayBuffer
+    }
   }
   /**
    * @since 1.1.0
@@ -5442,35 +5313,33 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxwriteblecharacteristicvalueobject
    */
-  function writeBLECharacteristicValue(
-    OBJECT: writeBLECharacteristicValue.Param
-  ): Promise<writeBLECharacteristicValue.Promised>;
+  function writeBLECharacteristicValue(OBJECT: writeBLECharacteristicValue.Param): Promise<writeBLECharacteristicValue.Promised>
 
   namespace notifyBLECharacteristicValueChange {
     type Promised = {
       /**
        * 成功：ok，错误：详细信息
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 蓝牙设备 id，参考 device 对象
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 蓝牙特征值对应服务的 uuid
        */
-      serviceId: string;
+      serviceId: string
       /**
        * 蓝牙特征值的 uuid
        */
-      characteristicId: string;
+      characteristicId: string
       /**
        * true: 启用 notify; false: 停用 notify
        */
-      state: boolean;
-    };
+      state: boolean
+    }
   }
   /**
    * @since 1.1.1
@@ -5502,30 +5371,28 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxnotifyblecharacteristicvaluechangeobject
    */
-  function notifyBLECharacteristicValueChange(
-    OBJECT: notifyBLECharacteristicValueChange.Param
-  ): Promise<notifyBLECharacteristicValueChange.Promised>;
+  function notifyBLECharacteristicValueChange(OBJECT: notifyBLECharacteristicValueChange.Param): Promise<notifyBLECharacteristicValueChange.Promised>
 
   namespace onBLECharacteristicValueChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 蓝牙设备 id，参考 device 对象
        */
-      deviceId: string;
+      deviceId: string
       /**
        * 特征值所属服务 uuid
        */
-      serviceId: string;
+      serviceId: string
       /**
        * 特征值 uuid
        */
-      characteristicId: string;
+      characteristicId: string
       /**
        * 特征值最新的值 **（注意：vConsole 无法打印出 ArrayBuffer 类型数据）**
        */
-      value: ArrayBuffer;
-    };
+      value: ArrayBuffer
+    }
   }
   /**
    * @since 1.1.0
@@ -5552,23 +5419,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonblecharacteristicvaluechangecallback
    */
-  function onBLECharacteristicValueChange(
-    CALLBACK: onBLECharacteristicValueChange.Param
-  ): void;
+  function onBLECharacteristicValueChange(CALLBACK: onBLECharacteristicValueChange.Param): void
 
   namespace startBeaconDiscovery {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * iBeacon设备广播的 uuids
        */
-      uuids: string[];
-    };
+      uuids: string[]
+    }
   }
   /**
    * @since 1.2.0
@@ -5585,18 +5450,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxstartbeacondiscoveryobject
    */
-  function startBeaconDiscovery(
-    OBJECT: startBeaconDiscovery.Param
-  ): Promise<startBeaconDiscovery.Promised>;
+  function startBeaconDiscovery(OBJECT: startBeaconDiscovery.Param): Promise<startBeaconDiscovery.Promised>
 
   namespace stopBeaconDiscovery {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
-    type Param = {};
+      errMsg: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.2.0
@@ -5604,52 +5467,50 @@ declare namespace Taro {
    * 停止搜索附近的`iBeacon`设备
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxstopbeacondiscoveryobject
    */
-  function stopBeaconDiscovery(
-    OBJECT?: stopBeaconDiscovery.Param
-  ): Promise<stopBeaconDiscovery.Promised>;
+  function stopBeaconDiscovery(OBJECT?: stopBeaconDiscovery.Param): Promise<stopBeaconDiscovery.Promised>
 
   namespace getBeacons {
     type Promised = {
       /**
        * iBeacon 设备列表
        */
-      beacons: PromisedPropBeacons;
+      beacons: PromisedPropBeacons
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     /**
      * iBeacon 设备列表
      */
-    type PromisedPropBeacons = PromisedPropBeaconsItem[];
+    type PromisedPropBeacons = PromisedPropBeaconsItem[]
     type PromisedPropBeaconsItem = {
       /**
        * iBeacon 设备广播的 uuid
        */
-      uuid: string;
+      uuid: string
       /**
        * iBeacon 设备的主 id
        */
-      major: string;
+      major: string
       /**
        * iBeacon 设备的次 id
        */
-      minor: string;
+      minor: string
       /**
        * 表示设备距离的枚举值
        */
-      proximity: number;
+      proximity: number
       /**
        * iBeacon 设备的距离
        */
-      accuracy: number;
+      accuracy: number
       /**
        * 表示设备的信号强度
        */
-      rssi: number;
-    };
-    type Param = {};
+      rssi: number
+    }
+    type Param = {}
   }
   /**
    * @since 1.2.0
@@ -5657,46 +5518,46 @@ declare namespace Taro {
    * 获取所有已搜索到的`iBeacon`设备
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxgetbeaconsobject
    */
-  function getBeacons(OBJECT?: getBeacons.Param): Promise<getBeacons.Promised>;
+  function getBeacons(OBJECT?: getBeacons.Param): Promise<getBeacons.Promised>
 
   namespace onBeaconUpdate {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 当前搜寻到的所有 iBeacon 设备列表
        */
-      beacons: ParamParamPropBeacons;
-    };
+      beacons: ParamParamPropBeacons
+    }
     /**
      * 当前搜寻到的所有 iBeacon 设备列表
      */
-    type ParamParamPropBeacons = ParamParamPropBeaconsItem[];
+    type ParamParamPropBeacons = ParamParamPropBeaconsItem[]
     type ParamParamPropBeaconsItem = {
       /**
        * iBeacon 设备广播的 uuid
        */
-      uuid: string;
+      uuid: string
       /**
        * iBeacon 设备的主 id
        */
-      major: string;
+      major: string
       /**
        * iBeacon 设备的次 id
        */
-      minor: string;
+      minor: string
       /**
        * 表示设备距离的枚举值
        */
-      proximity: number;
+      proximity: number
       /**
        * iBeacon 设备的距离
        */
-      accuracy: number;
+      accuracy: number
       /**
        * 表示设备的信号强度
        */
-      rssi: number;
-    };
+      rssi: number
+    }
   }
   /**
    * @since 1.2.0
@@ -5704,20 +5565,20 @@ declare namespace Taro {
    * 监听 `iBeacon` 设备的更新事件
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxonbeaconupdatecallback
    */
-  function onBeaconUpdate(CALLBACK: onBeaconUpdate.Param): void;
+  function onBeaconUpdate(CALLBACK: onBeaconUpdate.Param): void
 
   namespace onBeaconServiceChange {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 服务目前是否可用
        */
-      available: boolean;
+      available: boolean
       /**
        * 目前是否处于搜索状态
        */
-      discovering: boolean;
-    };
+      discovering: boolean
+    }
   }
   /**
    * @since 1.2.0
@@ -5725,21 +5586,21 @@ declare namespace Taro {
    * 监听 `iBeacon` 服务的状态变化
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxonbeaconservicechangecallback
    */
-  function onBeaconServiceChange(CALLBACK: onBeaconServiceChange.Param): void;
+  function onBeaconServiceChange(CALLBACK: onBeaconServiceChange.Param): void
 
   namespace setKeepScreenOn {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 是否保持屏幕常亮
        */
-      keepScreenOn: boolean;
-    };
+      keepScreenOn: boolean
+    }
   }
   /**
    * @since 1.4.0
@@ -5756,9 +5617,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/setKeepScreenOn.html#wxsetkeepscreenonobject
    */
-  function setKeepScreenOn(
-    OBJECT: setKeepScreenOn.Param
-  ): Promise<setKeepScreenOn.Promised>;
+  function setKeepScreenOn(OBJECT: setKeepScreenOn.Param): Promise<setKeepScreenOn.Promised>
 
   /**
    * @since 1.4.0
@@ -5774,139 +5633,139 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/onUserCaptureScreen.html#wxonusercapturescreencallback
    */
-  function onUserCaptureScreen(CALLBACK: any): void;
+  function onUserCaptureScreen(CALLBACK: any): void
 
   namespace addPhoneContact {
     type Param = {
       /**
        * 头像本地文件路径
        */
-      photoFilePath?: string;
+      photoFilePath?: string
       /**
        * 昵称
        */
-      nickName?: string;
+      nickName?: string
       /**
        * 姓氏
        */
-      lastName?: string;
+      lastName?: string
       /**
        * 中间名
        */
-      middleName?: string;
+      middleName?: string
       /**
        * 名字
        */
-      firstName: string;
+      firstName: string
       /**
        * 备注
        */
-      remark?: string;
+      remark?: string
       /**
        * 手机号
        */
-      mobilePhoneNumber?: string;
+      mobilePhoneNumber?: string
       /**
        * 微信号
        */
-      weChatNumber?: string;
+      weChatNumber?: string
       /**
        * 联系地址国家
        */
-      addressCountry?: string;
+      addressCountry?: string
       /**
        * 联系地址省份
        */
-      addressState?: string;
+      addressState?: string
       /**
        * 联系地址城市
        */
-      addressCity?: string;
+      addressCity?: string
       /**
        * 联系地址街道
        */
-      addressStreet?: string;
+      addressStreet?: string
       /**
        * 联系地址邮政编码
        */
-      addressPostalCode?: string;
+      addressPostalCode?: string
       /**
        * 公司
        */
-      organization?: string;
+      organization?: string
       /**
        * 职位
        */
-      title?: string;
+      title?: string
       /**
        * 工作传真
        */
-      workFaxNumber?: string;
+      workFaxNumber?: string
       /**
        * 工作电话
        */
-      workPhoneNumber?: string;
+      workPhoneNumber?: string
       /**
        * 公司电话
        */
-      hostNumber?: string;
+      hostNumber?: string
       /**
        * 电子邮件
        */
-      email?: string;
+      email?: string
       /**
        * 网站
        */
-      url?: string;
+      url?: string
       /**
        * 工作地址国家
        */
-      workAddressCountry?: string;
+      workAddressCountry?: string
       /**
        * 工作地址省份
        */
-      workAddressState?: string;
+      workAddressState?: string
       /**
        * 工作地址城市
        */
-      workAddressCity?: string;
+      workAddressCity?: string
       /**
        * 工作地址街道
        */
-      workAddressStreet?: string;
+      workAddressStreet?: string
       /**
        * 工作地址邮政编码
        */
-      workAddressPostalCode?: string;
+      workAddressPostalCode?: string
       /**
        * 住宅传真
        */
-      homeFaxNumber?: string;
+      homeFaxNumber?: string
       /**
        * 住宅电话
        */
-      homePhoneNumber?: string;
+      homePhoneNumber?: string
       /**
        * 住宅地址国家
        */
-      homeAddressCountry?: string;
+      homeAddressCountry?: string
       /**
        * 住宅地址省份
        */
-      homeAddressState?: string;
+      homeAddressState?: string
       /**
        * 住宅地址城市
        */
-      homeAddressCity?: string;
+      homeAddressCity?: string
       /**
        * 住宅地址街道
        */
-      homeAddressStreet?: string;
+      homeAddressStreet?: string
       /**
        * 住宅地址邮政编码
        */
-      homeAddressPostalCode?: string;
-    };
+      homeAddressPostalCode?: string
+    }
   }
   /**
    * @since 1.2.0
@@ -5922,20 +5781,20 @@ declare namespace Taro {
    *   fail      |  fail ${detail}   |调用失败，detail 加上详细信息
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/phone-contact.html#wxaddphonecontactobject
    */
-  function addPhoneContact(OBJECT: addPhoneContact.Param): Promise<any>;
+  function addPhoneContact(OBJECT: addPhoneContact.Param): Promise<any>
 
   namespace getHCEState {
     type Promised = {
       /**
        * 错误信息
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 错误码
        */
-      errCode: number;
-    };
-    type Param = {};
+      errCode: number
+    }
+    type Param = {}
   }
   /**
    * @since 1.7.0
@@ -5953,27 +5812,25 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxgethcestateobject
    */
-  function getHCEState(
-    OBJECT?: getHCEState.Param
-  ): Promise<getHCEState.Promised>;
+  function getHCEState(OBJECT?: getHCEState.Param): Promise<getHCEState.Promised>
 
   namespace startHCE {
     type Promised = {
       /**
        * 错误信息
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 错误码
        */
-      errCode: number;
-    };
+      errCode: number
+    }
     type Param = {
       /**
        * 需要注册到系统的 AID 列表，每个 AID 为 String 类型
        */
-      aid_list: any[];
-    };
+      aid_list: any[]
+    }
   }
   /**
    * @since 1.7.0
@@ -5992,20 +5849,20 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxstarthceobject
    */
-  function startHCE(OBJECT: startHCE.Param): Promise<startHCE.Promised>;
+  function startHCE(OBJECT: startHCE.Param): Promise<startHCE.Promised>
 
   namespace stopHCE {
     type Promised = {
       /**
        * 错误信息
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 错误码
        */
-      errCode: number;
-    };
-    type Param = {};
+      errCode: number
+    }
+    type Param = {}
   }
   /**
    * @since 1.7.0
@@ -6023,24 +5880,24 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxstophceobject
    */
-  function stopHCE(OBJECT?: stopHCE.Param): Promise<stopHCE.Promised>;
+  function stopHCE(OBJECT?: stopHCE.Param): Promise<stopHCE.Promised>
 
   namespace onHCEMessage {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * 消息类型
        */
-      messageType: number;
+      messageType: number
       /**
        * 客户端接收到 NFC 设备的指令，此参数当且仅当 `messageType=1` 时有效
        */
-      data: ArrayBuffer;
+      data: ArrayBuffer
       /**
        * 此参数当且仅当 `messageType=2` 时有效
        */
-      reason: number;
-    };
+      reason: number
+    }
   }
   /**
    * @since 1.7.0
@@ -6051,14 +5908,14 @@ declare namespace Taro {
    * *   2：消息为设备离场事件
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxonhcemessagecallback
    */
-  function onHCEMessage(CALLBACK: onHCEMessage.Param): void;
+  function onHCEMessage(CALLBACK: onHCEMessage.Param): void
 
   namespace sendHCEMessage {
     type Promised = {
       /**
        * 错误信息
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 错误码
        *
@@ -6077,14 +5934,14 @@ declare namespace Taro {
        *   13005   |  返回的指令不合法
        *   13006   |  注册 AID 失败
        */
-      errCode: number;
-    };
+      errCode: number
+    }
     type Param = {
       /**
        * 二进制数据
        */
-      data: ArrayBuffer;
-    };
+      data: ArrayBuffer
+    }
   }
   /**
    * @since 1.7.0
@@ -6110,12 +5967,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxsendhcemessageobject
    */
-  function sendHCEMessage(
-    OBJECT: sendHCEMessage.Param
-  ): Promise<sendHCEMessage.Promised>;
+  function sendHCEMessage(OBJECT: sendHCEMessage.Param): Promise<sendHCEMessage.Promised>
 
   namespace startWifi {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.6.0
@@ -6133,10 +5988,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxstartwifiobject
    */
-  function startWifi(OBJECT?: startWifi.Param): Promise<any>;
+  function startWifi(OBJECT?: startWifi.Param): Promise<any>
 
   namespace stopWifi {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.6.0
@@ -6154,23 +6009,23 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxstopwifiobject
    */
-  function stopWifi(OBJECT?: stopWifi.Param): Promise<any>;
+  function stopWifi(OBJECT?: stopWifi.Param): Promise<any>
 
   namespace connectWifi {
     type Param = {
       /**
        * Wi-Fi 设备ssid
        */
-      SSID: string;
+      SSID: string
       /**
        * Wi-Fi 设备bssid
        */
-      BSSID: string;
+      BSSID: string
       /**
        * Wi-Fi 设备密码
        */
-      password?: string;
-    };
+      password?: string
+    }
   }
   /**
    * @since 1.6.0
@@ -6190,10 +6045,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxconnectwifiobject
    */
-  function connectWifi(OBJECT: connectWifi.Param): Promise<any>;
+  function connectWifi(OBJECT: connectWifi.Param): Promise<any>
 
   namespace getWifiList {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.6.0
@@ -6201,38 +6056,38 @@ declare namespace Taro {
    * 请求获取 Wi-Fi 列表，在 `onGetWifiList` 注册的回调中返回 wifiList 数据。iOS 将跳转到系统的 Wi-Fi 界面，Android 不会跳转。 **iOS 11.0 及 iOS 11.1 两个版本因系统问题，该方法失效。但在 iOS 11.2 中已修复。**
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetwifilistobject
    */
-  function getWifiList(OBJECT?: getWifiList.Param): Promise<any>;
+  function getWifiList(OBJECT?: getWifiList.Param): Promise<any>
 
   namespace onGetWifiList {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * Wi-Fi 列表数据
        */
-      wifiList: ParamParamPropWifiList;
-    };
+      wifiList: ParamParamPropWifiList
+    }
     /**
      * Wi-Fi 列表数据
      */
-    type ParamParamPropWifiList = ParamParamPropWifiListItem[];
+    type ParamParamPropWifiList = ParamParamPropWifiListItem[]
     type ParamParamPropWifiListItem = {
       /**
        * Wi-Fi 的SSID
        */
-      SSID: string;
+      SSID: string
       /**
        * Wi-Fi 的BSSID
        */
-      BSSID: string;
+      BSSID: string
       /**
        * Wi-Fi 是否安全
        */
-      secure: boolean;
+      secure: boolean
       /**
        * Wi-Fi 信号强度
        */
-      signalStrength: number;
-    };
+      signalStrength: number
+    }
   }
   /**
    * @since 1.6.0
@@ -6240,33 +6095,33 @@ declare namespace Taro {
    * 监听在获取到 Wi-Fi 列表数据时的事件，在回调中将返回 wifiList。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxongetwifilistcallback
    */
-  function onGetWifiList(CALLBACK: onGetWifiList.Param): void;
+  function onGetWifiList(CALLBACK: onGetWifiList.Param): void
 
   namespace setWifiList {
     type Param = {
       /**
        * 提供预设的 Wi-Fi 信息列表
        */
-      wifiList: ParamPropWifiList;
-    };
+      wifiList: ParamPropWifiList
+    }
     /**
      * 提供预设的 Wi-Fi 信息列表
      */
-    type ParamPropWifiList = ParamPropWifiListItem[];
+    type ParamPropWifiList = ParamPropWifiListItem[]
     type ParamPropWifiListItem = {
       /**
        * Wi-Fi 设备ssid
        */
-      SSID: string;
+      SSID: string
       /**
        * Wi-Fi 设备bssid
        */
-      BSSID: string;
+      BSSID: string
       /**
        * Wi-Fi 设备密码
        */
-      password: string;
-    };
+      password: string
+    }
   }
   /**
    * @since 1.6.0
@@ -6301,16 +6156,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxsetwifilistobject
    */
-  function setWifiList(OBJECT: setWifiList.Param): Promise<any>;
+  function setWifiList(OBJECT: setWifiList.Param): Promise<any>
 
   namespace onWifiConnected {
-    type Param = (res: ParamParam) => any;
+    type Param = (res: ParamParam) => any
     type ParamParam = {
       /**
        * Wi-Fi 信息
        */
-      wifi: ParamParamPropWifi;
-    };
+      wifi: ParamParamPropWifi
+    }
     /**
      * Wi-Fi 信息
      */
@@ -6318,20 +6173,20 @@ declare namespace Taro {
       /**
        * Wi-Fi 的SSID
        */
-      SSID: string;
+      SSID: string
       /**
        * Wi-Fi 的BSSID
        */
-      BSSID: string;
+      BSSID: string
       /**
        * Wi-Fi 是否安全
        */
-      secure: boolean;
+      secure: boolean
       /**
        * Wi-Fi 信号强度
        */
-      signalStrength: number;
-    };
+      signalStrength: number
+    }
   }
   /**
    * @since 1.6.0
@@ -6339,15 +6194,15 @@ declare namespace Taro {
    * 监听连接上 Wi-Fi 的事件。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxonwificonnectedcallback
    */
-  function onWifiConnected(CALLBACK: onWifiConnected.Param): void;
+  function onWifiConnected(CALLBACK: onWifiConnected.Param): void
 
   namespace getConnectedWifi {
     type Promised = {
       /**
        * Wi-Fi 信息
        */
-      wifi: PromisedPropWifi;
-    };
+      wifi: PromisedPropWifi
+    }
     /**
      * Wi-Fi 信息
      */
@@ -6355,21 +6210,21 @@ declare namespace Taro {
       /**
        * Wi-Fi 的SSID
        */
-      SSID: string;
+      SSID: string
       /**
        * Wi-Fi 的BSSID
        */
-      BSSID: string;
+      BSSID: string
       /**
        * Wi-Fi 是否安全
        */
-      secure: boolean;
+      secure: boolean
       /**
        * Wi-Fi 信号强度
        */
-      signalStrength: number;
-    };
-    type Param = {};
+      signalStrength: number
+    }
+    type Param = {}
   }
   /**
    * @since 1.6.0
@@ -6397,16 +6252,14 @@ declare namespace Taro {
    *   12011   |  weapp in background     |  应用在后台无法配置 Wi-Fi
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetconnectedwifiobject
    */
-  function getConnectedWifi(
-    OBJECT?: getConnectedWifi.Param
-  ): Promise<getConnectedWifi.Promised>;
+  function getConnectedWifi(OBJECT?: getConnectedWifi.Param): Promise<getConnectedWifi.Promised>
 
   namespace showToast {
     type Param = {
       /**
        * 提示的内容
        */
-      title: string;
+      title: string
       /**
        * 图标，有效值 "success", "loading", "none"
        *
@@ -6418,22 +6271,22 @@ declare namespace Taro {
        *   loading   |显示加载图标，此时 title 文本最多显示 7 个汉字长度。|
        *   none      |不显示图标，此时 title 文本最多可显示两行|  1.9.0
        */
-      icon?: string;
+      icon?: string
       /**
        * 自定义图标的本地路径，image 的优先级高于 icon
        *
        * @since 1.1.0
        */
-      image?: string;
+      image?: string
       /**
        * 提示的延迟时间，单位毫秒，默认：1500
        */
-      duration?: number;
+      duration?: number
       /**
        * 是否显示透明蒙层，防止触摸穿透，默认：false
        */
-      mask?: boolean;
-    };
+      mask?: boolean
+    }
   }
   /**
    * 显示消息提示框
@@ -6449,19 +6302,19 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowtoastobject
    */
-  function showToast(OBJECT: showToast.Param): Promise<any>;
+  function showToast(OBJECT: showToast.Param): Promise<any>
 
   namespace showLoading {
     type Param = {
       /**
        * 提示的内容
        */
-      title: string;
+      title: string
       /**
        * 是否显示透明蒙层，防止触摸穿透，默认：false
        */
-      mask?: boolean;
-    };
+      mask?: boolean
+    }
   }
   /**
    * @since 1.1.0
@@ -6469,13 +6322,13 @@ declare namespace Taro {
    * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
    */
-  function showLoading(OBJECT: showLoading.Param): Promise<any>;
+  function showLoading(OBJECT: showLoading.Param): Promise<any>
 
   /**
    * 隐藏消息提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhidetoast
    */
-  function hideToast(): void;
+  function hideToast(): void
 
   /**
    * @since 1.1.0
@@ -6495,51 +6348,51 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading
    */
-  function hideLoading(): void;
+  function hideLoading(): void
 
   namespace showModal {
     type Promised = {
       /**
        * 为 true 时，表示用户点击了确定按钮
        */
-      confirm: boolean;
+      confirm: boolean
       /**
        * 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭）
        *
        * @since 1.1.0
        */
-      cancel: boolean;
-    };
+      cancel: boolean
+    }
     type Param = {
       /**
        * 提示的标题
        */
-      title: string;
+      title: string
       /**
        * 提示的内容
        */
-      content: string;
+      content: string
       /**
        * 是否显示取消按钮，默认为 true
        */
-      showCancel?: boolean;
+      showCancel?: boolean
       /**
        * 取消按钮的文字，默认为"取消"，最多 4 个字符
        */
-      cancelText?: string;
+      cancelText?: string
       /**
        * 取消按钮的文字颜色，默认为"#000000"
        */
-      cancelColor?: string;
+      cancelColor?: string
       /**
        * 确定按钮的文字，默认为"确定"，最多 4 个字符
        */
-      confirmText?: string;
+      confirmText?: string
       /**
        * 确定按钮的文字颜色，默认为"#3CC51F"
        */
-      confirmColor?: string;
-    };
+      confirmColor?: string
+    }
   }
   /**
    * ​显示模态弹窗
@@ -6561,49 +6414,49 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject
    */
-  function showModal(OBJECT: showModal.Param): Promise<showModal.Promised>;
+  function showModal(OBJECT: showModal.Param): Promise<showModal.Promised>
 
   namespace showActionSheet {
     type Promised = {
       /**
        * 用户点击的按钮，从上到下的顺序，从0开始
        */
-      tapIndex: number;
-    };
+      tapIndex: number
+    }
     type Param = {
       /**
        * 按钮的文字数组，数组长度最大为6个
        */
-      itemList: string[];
+      itemList: string[]
       /**
        * 按钮的文字颜色，默认为"#000000"
        */
-      itemColor?: string;
+      itemColor?: string
       /**
        * 接口调用成功的回调函数
        */
-      success?: Param0PropSuccess;
+      success?: Param0PropSuccess
       /**
        * 接口调用失败的回调函数
        */
-      fail?: Param0PropFail;
+      fail?: Param0PropFail
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      complete?: Param0PropComplete;
-    };
+      complete?: Param0PropComplete
+    }
     /**
      * 接口调用成功的回调函数
      */
-    type Param0PropSuccess = (res: any) => any;
+    type Param0PropSuccess = (res: any) => any
     /**
      * 接口调用失败的回调函数
      */
-    type Param0PropFail = (err: any) => any;
+    type Param0PropFail = (err: any) => any
     /**
      * 接口调用结束的回调函数（调用成功、失败都会执行）
      */
-    type Param0PropComplete = () => any;
+    type Param0PropComplete = () => any
   }
   /**
    * ​显示操作菜单
@@ -6630,17 +6483,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowactionsheetobject
    */
-  function showActionSheet(
-    OBJECT: showActionSheet.Param
-  ): Promise<showActionSheet.Promised>;
+  function showActionSheet(OBJECT: showActionSheet.Param): Promise<showActionSheet.Promised>
 
   namespace setTopBarText {
     type Param = {
       /**
        * 置顶栏文字内容
        */
-      text: string;
-    };
+      text: string
+    }
   }
   /**
    * @since 1.4.3
@@ -6656,15 +6507,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsettopbartextobject
    */
-  function setTopBarText(OBJECT: setTopBarText.Param): Promise<any>;
+  function setTopBarText(OBJECT: setTopBarText.Param): Promise<any>
 
   namespace setNavigationBarTitle {
     type Param = {
       /**
        * 页面标题
        */
-      title: string;
-    };
+      title: string
+    }
   }
   /**
    * 动态设置当前页面的标题。
@@ -6678,38 +6529,36 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsetnavigationbartitleobject
    */
-  function setNavigationBarTitle(
-    OBJECT: setNavigationBarTitle.Param
-  ): Promise<any>;
+  function setNavigationBarTitle(OBJECT: setNavigationBarTitle.Param): Promise<any>
 
   /**
    * 在当前页面显示导航条加载动画。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxshownavigationbarloading
    */
-  function showNavigationBarLoading(): void;
+  function showNavigationBarLoading(): void
 
   /**
    * 隐藏导航条加载动画。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxhidenavigationbarloading
    */
-  function hideNavigationBarLoading(): void;
+  function hideNavigationBarLoading(): void
 
   namespace setNavigationBarColor {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000
        */
-      frontColor: string;
+      frontColor: string
       /**
        * 背景颜色值，有效值为十六进制颜色
        */
-      backgroundColor: string;
+      backgroundColor: string
       /**
        * 动画效果
        *
@@ -6722,8 +6571,8 @@ declare namespace Taro {
        *   easeOut     |  动画以低速结束。
        *   easeInOut   |动画以低速开始和结束。
        */
-      animation?: ParamPropAnimation;
-    };
+      animation?: ParamPropAnimation
+    }
     /**
      * 动画效果
      *
@@ -6740,12 +6589,12 @@ declare namespace Taro {
       /**
        * 动画变化时间，默认0，单位：毫秒
        */
-      duration?: number;
+      duration?: number
       /**
        * 动画变化方式，默认 linear
        */
-      timingFunc?: string;
-    };
+      timingFunc?: string
+    }
   }
   /**
    * @since 1.4.0
@@ -6764,21 +6613,19 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/setNavigationBarColor.html#wxsetnavigationbarcolorobject
    */
-  function setNavigationBarColor(
-    OBJECT: setNavigationBarColor.Param
-  ): Promise<setNavigationBarColor.Promised>;
+  function setNavigationBarColor(OBJECT: setNavigationBarColor.Param): Promise<setNavigationBarColor.Promised>
 
   namespace setTabBarBadge {
     type Param = {
       /**
        * tabBar的哪一项，从左边算起
        */
-      index: number;
+      index: number
       /**
        * 显示的文本，超过 3 个字符则显示成“…”
        */
-      text: string;
-    };
+      text: string
+    }
   }
   /**
    * @since 1.9.0
@@ -6795,15 +6642,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarbadgeobject
    */
-  function setTabBarBadge(OBJECT: setTabBarBadge.Param): Promise<any>;
+  function setTabBarBadge(OBJECT: setTabBarBadge.Param): Promise<any>
 
   namespace removeTabBarBadge {
     type Param = {
       /**
        * tabBar的哪一项，从左边算起
        */
-      index: number;
-    };
+      index: number
+    }
   }
   /**
    * @since 1.9.0
@@ -6811,15 +6658,15 @@ declare namespace Taro {
    * 移除 tabBar 某一项右上角的文本
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxremovetabbarbadgeobject
    */
-  function removeTabBarBadge(OBJECT: removeTabBarBadge.Param): Promise<any>;
+  function removeTabBarBadge(OBJECT: removeTabBarBadge.Param): Promise<any>
 
   namespace showTabBarRedDot {
     type Param = {
       /**
        * tabBar的哪一项，从左边算起
        */
-      index: number;
-    };
+      index: number
+    }
   }
   /**
    * @since 1.9.0
@@ -6827,15 +6674,15 @@ declare namespace Taro {
    * 显示 tabBar 某一项的右上角的红点
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarreddotobject
    */
-  function showTabBarRedDot(OBJECT: showTabBarRedDot.Param): Promise<any>;
+  function showTabBarRedDot(OBJECT: showTabBarRedDot.Param): Promise<any>
 
   namespace hideTabBarRedDot {
     type Param = {
       /**
        * tabBar的哪一项，从左边算起
        */
-      index: number;
-    };
+      index: number
+    }
   }
   /**
    * @since 1.9.0
@@ -6843,27 +6690,27 @@ declare namespace Taro {
    * 隐藏 tabBar 某一项的右上角的红点
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarreddotobject
    */
-  function hideTabBarRedDot(OBJECT: hideTabBarRedDot.Param): Promise<any>;
+  function hideTabBarRedDot(OBJECT: hideTabBarRedDot.Param): Promise<any>
 
   namespace setTabBarStyle {
     type Param = {
       /**
        * tab 上的文字默认颜色
        */
-      color?: string;
+      color?: string
       /**
        * tab 上的文字选中时的颜色
        */
-      selectedColor?: string;
+      selectedColor?: string
       /**
        * tab 的背景色
        */
-      backgroundColor?: string;
+      backgroundColor?: string
       /**
        * tabbar上边框的颜色， 仅支持 black/white
        */
-      borderStyle?: string;
-    };
+      borderStyle?: string
+    }
   }
   /**
    * @since 1.9.0
@@ -6882,27 +6729,27 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarstyleobject
    */
-  function setTabBarStyle(OBJECT?: setTabBarStyle.Param): Promise<any>;
+  function setTabBarStyle(OBJECT?: setTabBarStyle.Param): Promise<any>
 
   namespace setTabBarItem {
     type Param = {
       /**
        * tabBar 的哪一项，从左边算起
        */
-      index: number;
+      index: number
       /**
        * tab 上按钮文字
        */
-      text?: string;
+      text?: string
       /**
        * 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
        */
-      iconPath?: string;
+      iconPath?: string
       /**
        * 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
        */
-      selectedIconPath?: string;
-    };
+      selectedIconPath?: string
+    }
   }
   /**
    * @since 1.9.0
@@ -6921,15 +6768,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbaritemobject
    */
-  function setTabBarItem(OBJECT: setTabBarItem.Param): Promise<any>;
+  function setTabBarItem(OBJECT: setTabBarItem.Param): Promise<any>
 
   namespace showTabBar {
     type Param = {
       /**
        * 是否需要动画效果，默认无
        */
-      animation?: boolean;
-    };
+      animation?: boolean
+    }
   }
   /**
    * @since 1.9.0
@@ -6937,15 +6784,15 @@ declare namespace Taro {
    * 显示 tabBar
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarobject
    */
-  function showTabBar(OBJECT?: showTabBar.Param): Promise<any>;
+  function showTabBar(OBJECT?: showTabBar.Param): Promise<any>
 
   namespace hideTabBar {
     type Param = {
       /**
        * 是否需要动画效果，默认无
        */
-      animation?: boolean;
-    };
+      animation?: boolean
+    }
   }
   /**
    * @since 1.9.0
@@ -6953,15 +6800,15 @@ declare namespace Taro {
    * 隐藏 tabBar
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarobject
    */
-  function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>;
+  function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>
 
   namespace navigateTo {
     type Param = {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
-      url: string;
-    };
+      url: string
+    }
   }
   /**
    * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
@@ -6986,15 +6833,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatetoobject
    */
-  function navigateTo(OBJECT: navigateTo.Param): Promise<any>;
+  function navigateTo(OBJECT: navigateTo.Param): Promise<any>
 
   namespace redirectTo {
     type Param = {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径，路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
-      url: string;
-    };
+      url: string
+    }
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
@@ -7008,15 +6855,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject
    */
-  function redirectTo(OBJECT: redirectTo.Param): Promise<any>;
+  function redirectTo(OBJECT: redirectTo.Param): Promise<any>
 
   namespace reLaunch {
     type Param = {
       /**
        * 需要跳转的应用内页面路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'，如果跳转的页面路径是 tabBar 页面则不能带参数
        */
-      url: string;
-    };
+      url: string
+    }
   }
   /**
    * @since 1.1.0
@@ -7043,15 +6890,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxrelaunchobject
    */
-  function reLaunch(OBJECT: reLaunch.Param): Promise<any>;
+  function reLaunch(OBJECT: reLaunch.Param): Promise<any>
 
   namespace switchTab {
     type Param = {
       /**
        * 需要跳转的 tabBar 页面的路径（需在 app.json 的 [tabBar](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#tabbar) 字段定义的页面），路径后不能带参数
        */
-      url: string;
-    };
+      url: string
+    }
   }
   /**
    * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
@@ -7081,7 +6928,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxswitchtabobject
    */
-  function switchTab(OBJECT: switchTab.Param): Promise<any>;
+  function switchTab(OBJECT: switchTab.Param): Promise<any>
 
   namespace navigateBack {
     type Param = {
@@ -7090,8 +6937,8 @@ declare namespace Taro {
        *
        * @default 1
        */
-      delta?: number;
-    };
+      delta?: number
+    }
   }
   /**
    * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
@@ -7122,7 +6969,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject
    */
-  function navigateBack(OBJECT?: navigateBack.Param): Promise<any>;
+  function navigateBack(OBJECT?: navigateBack.Param): Promise<any>
 
   namespace createAnimation {
     type Param = {
@@ -7131,7 +6978,7 @@ declare namespace Taro {
        *
        * @default 400
        */
-      duration?: number;
+      duration?: number
       /**
        * 定义动画的效果
        *
@@ -7149,20 +6996,20 @@ declare namespace Taro {
        *
        * @default linear
        */
-      timingFunction?: string;
+      timingFunction?: string
       /**
        * 动画延迟时间，单位 ms
        *
        * @default 0
        */
-      delay?: number;
+      delay?: number
       /**
        * 设置transform-origin
        *
        * @default 50% 50% 0
        */
-      transformOrigin?: string;
-    };
+      transformOrigin?: string
+    }
   }
   /**
    * 创建一个动画实例[animation](https://developers.weixin.qq.com/miniprogram/dev/api/api-animation.html#animation)。调用实例的方法来描述动画。最后通过动画实例的`export`方法导出动画数据传递给组件的`animation`属性。
@@ -7181,144 +7028,144 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-animation.html#wxcreateanimationobject
    */
-  function createAnimation(OBJECT: createAnimation.Param): Animation;
+  function createAnimation(OBJECT: createAnimation.Param): Animation
 
   class Animation {
     /**
      * 导出动画队列
      * export 方法每次调用后会清掉之前的动画操作
      */
-    export(): object[];
+    export(): object[]
     /**
      * 表示一组动画完成
      * 可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画
      * @param obj
      */
-    step(obj: object): any;
+    step(obj: object): any
     /**
      * 透明度，参数范围 0~1
      */
-    opacity(value: any): any;
+    opacity(value: any): any
     /**
      * 颜色值
      */
-    backgroundColor(color: any): any;
+    backgroundColor(color: any): any
     /**
      * 长度值，如果传入 Number 则默认使用 px，可传入其他自定义单位的长度值
      */
-    width(length: any): any;
+    width(length: any): any
     /**
      * 长度值，如果传入 Number 则默认使用 px，可传入其他自定义单位的长度值
      */
-    height(length: any): any;
+    height(length: any): any
     /**
      * 长度值，如果传入 Number 则默认使用 px，可传入其他自定义单位的长度值
      */
-    top(length: any): any;
+    top(length: any): any
     /**
      * 长度值，如果传入 Number 则默认使用 px，可传入其他自定义单位的长度值
      */
-    left(length: any): any;
+    left(length: any): any
     /**
      * 长度值，如果传入 Number 则默认使用 px，可传入其他自定义单位的长度值
      */
-    bottom(length: any): any;
+    bottom(length: any): any
     /**
      * 长度值，如果传入 Number 则默认使用 px，可传入其他自定义单位的长度值
      */
-    right(length: any): any;
+    right(length: any): any
     /**
      * deg的范围-180~180，从原点顺时针旋转一个deg角度
      */
-    rotate(deg: any): any;
+    rotate(deg: any): any
     /**
      * deg的范围-180~180，在X轴旋转一个deg角度
      */
-    rotateX(deg: any): any;
+    rotateX(deg: any): any
     /**
      * deg的范围-180~180，在Y轴旋转一个deg角度
      */
-    rotateY(deg: any): any;
+    rotateY(deg: any): any
     /**
      * deg的范围-180~180，在Z轴旋转一个deg角度
      */
-    rotateZ(deg: any): any;
+    rotateZ(deg: any): any
     /**
      * 同[transform-function rotate3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate3d)
      */
-    rotate3d(x: any, y: any, z: any, deg: any): any;
+    rotate3d(x: any, y: any, z: any, deg: any): any
     /**
      * 一个参数时，表示在X轴、Y轴同时缩放sx倍数；两个参数时表示在X轴缩放sx倍数，在Y轴缩放sy倍数
      */
-    scale(sx: any, sy?: any): any;
+    scale(sx: any, sy?: any): any
     /**
      * 在X轴缩放sx倍数
      */
-    scaleX(sx: any): any;
+    scaleX(sx: any): any
     /**
      * 在Y轴缩放sy倍数
      */
-    scaleY(sy: any): any;
+    scaleY(sy: any): any
     /**
      * 在Z轴缩放sy倍数
      */
-    scaleZ(sz: any): any;
+    scaleZ(sz: any): any
     /**
      * 在X轴缩放sx倍数，在Y轴缩放sy倍数，在Z轴缩放sz倍数
      */
-    scale3d(sx: any, sy: any, sz: any): any;
+    scale3d(sx: any, sy: any, sz: any): any
     /**
      * 一个参数时，表示在X轴偏移tx，单位px；两个参数时，表示在X轴偏移tx，在Y轴偏移ty，单位px。
      */
-    translate(tx: any, ty?: any): any;
+    translate(tx: any, ty?: any): any
     /**
      * 在X轴偏移tx，单位px
      */
-    translateX(tx: any): any;
+    translateX(tx: any): any
     /**
      * 在Y轴偏移tx，单位px
      */
-    translateY(ty: any): any;
+    translateY(ty: any): any
     /**
      * 在Z轴偏移tx，单位px
      */
-    translateZ(tz: any): any;
+    translateZ(tz: any): any
     /**
      * 在X轴偏移tx，在Y轴偏移ty，在Z轴偏移tz，单位px
      */
-    translate3d(tx: any, ty: any, tz: any): any;
+    translate3d(tx: any, ty: any, tz: any): any
     /**
      * 参数范围-180~180；一个参数时，Y轴坐标不变，X轴坐标延顺时针倾斜ax度；两个参数时，分别在X轴倾斜ax度，在Y轴倾斜ay度
      */
-    skew(ax: any, ay?: any): any;
+    skew(ax: any, ay?: any): any
     /**
      * 参数范围-180~180；Y轴坐标不变，X轴坐标延顺时针倾斜ax度
      */
-    skewX(ax: any): any;
+    skewX(ax: any): any
     /**
      * 参数范围-180~180；X轴坐标不变，Y轴坐标延顺时针倾斜ay度
      */
-    skewY(ay: any): any;
+    skewY(ay: any): any
     /**
      * 同[transform-function matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix)
      */
-    matrix(a: any, b: any, c: any, d: any, tx: any, ty: any): any;
+    matrix(a: any, b: any, c: any, d: any, tx: any, ty: any): any
     /**
      * 同[transform-function matrix3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d)
      */
-    matrix3d(): any;
+    matrix3d(): any
   }
   namespace pageScrollTo {
     type Param = {
       /**
        * 滚动到页面的目标位置（单位px）
        */
-      scrollTop: number;
+      scrollTop: number
       /**
        * 滚动动画的时长，默认300ms，单位 ms
        */
-      duration?: number;
-    };
+      duration?: number
+    }
   }
   /**
    * @since 1.4.0
@@ -7335,7 +7182,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/scroll.html#wxpagescrolltoobject
    */
-  function pageScrollTo(OBJECT: pageScrollTo.Param): void;
+  function pageScrollTo(OBJECT: pageScrollTo.Param): void
 
   /**
    *
@@ -7346,10 +7193,7 @@ declare namespace Taro {
    * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/create-canvas-context.html#wxcreatecanvascontextcanvasid-this
    */
-  function createCanvasContext(
-    canvasId: string,
-    componentInstance: any
-  ): CanvasContext;
+  function createCanvasContext(canvasId: string, componentInstance: any): CanvasContext
 
   namespace canvasToTempFilePath {
     type Param0 = {
@@ -7358,78 +7202,78 @@ declare namespace Taro {
        *
        * @since 1.2.0
        */
-      x?: number;
+      x?: number
       /**
        * 画布y轴起点（默认0）
        *
        * @since 1.2.0
        */
-      y?: number;
+      y?: number
       /**
        * 画布宽度（默认为canvas宽度-x）
        *
        * @since 1.2.0
        */
-      width?: number;
+      width?: number
       /**
        * 画布高度（默认为canvas高度-y）
        *
        * @since 1.2.0
        */
-      height?: number;
+      height?: number
       /**
        * 输出图片宽度（默认为width）
        *
        * @since 1.2.0
        */
-      destWidth?: number;
+      destWidth?: number
       /**
        * 输出图片高度（默认为height）
        *
        * @since 1.2.0
        */
-      destHeight?: number;
+      destHeight?: number
       /**
        * 画布标识，传入 [`<canvas/>`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的 canvas-id
        */
-      canvasId: string;
+      canvasId: string
       /**
        * 目标文件的类型，只支持 'jpg' 或 'png'。默认为 'png'
        *
        * @since 1.7.0
        */
-      fileType?: string;
+      fileType?: string
       /**
        * 图片的质量，取值范围为 (0, 1]，不在范围内时当作1.0处理
        *
        * @since 1.7.0
        */
-      quality?: number;
+      quality?: number
       /**
        * 接口调用成功的回调函数
        */
-      success?: Param0PropSuccess;
+      success?: Param0PropSuccess
       /**
        * 接口调用失败的回调函数
        */
-      fail?: Param0PropFail;
+      fail?: Param0PropFail
       /**
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
-      complete?: Param0PropComplete;
-    };
+      complete?: Param0PropComplete
+    }
     /**
      * 接口调用成功的回调函数
      */
-    type Param0PropSuccess = (res: any) => any;
+    type Param0PropSuccess = (res: any) => any
     /**
      * 接口调用失败的回调函数
      */
-    type Param0PropFail = (err: any) => any;
+    type Param0PropFail = (err: any) => any
     /**
      * 接口调用结束的回调函数（调用成功、失败都会执行）
      */
-    type Param0PropComplete = () => any;
+    type Param0PropComplete = () => any
   }
   /**
    * 把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径。
@@ -7456,52 +7300,49 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/temp-file.html#wxcanvastotempfilepathobject-this
    */
-  function canvasToTempFilePath(
-    OBJECT: canvasToTempFilePath.Param0,
-    instance?: any
-  ): void;
+  function canvasToTempFilePath(OBJECT: canvasToTempFilePath.Param0, instance?: any): void
 
   namespace canvasGetImageData {
     type Promised = {
       /**
        * errMsg
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 图像数据矩形的宽度
        */
-      width: number;
+      width: number
       /**
        * 图像数据矩形的高度
        */
-      height: number;
+      height: number
       /**
        * 图像像素点数据，一维数组，每四项表示一个像素点的rgba
        */
-      data: Uint8ClampedArray;
-    };
+      data: Uint8ClampedArray
+    }
     type Param = {
       /**
        * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的 canvas-id
        */
-      canvasId: string;
+      canvasId: string
       /**
        * 将要被提取的图像数据矩形区域的左上角 x 坐标
        */
-      x: number;
+      x: number
       /**
        * 将要被提取的图像数据矩形区域的左上角 y 坐标
        */
-      y: number;
+      y: number
       /**
        * 将要被提取的图像数据矩形区域的宽度
        */
-      width: number;
+      width: number
       /**
        * 将要被提取的图像数据矩形区域的高度
        */
-      height: number;
-    };
+      height: number
+    }
   }
   /**
    * @since 1.9.0
@@ -7527,37 +7368,35 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/get-image-data.html#wxcanvasgetimagedataobject
    */
-  function canvasGetImageData(
-    OBJECT: canvasGetImageData.Param
-  ): Promise<canvasGetImageData.Promised>;
+  function canvasGetImageData(OBJECT: canvasGetImageData.Param): Promise<canvasGetImageData.Promised>
 
   namespace canvasPutImageData {
     type Param = {
       /**
        * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的 canvas-id
        */
-      canvasId: string;
+      canvasId: string
       /**
        * 图像像素点数据，一维数组，每四项表示一个像素点的rgba
        */
-      data: Uint8ClampedArray;
+      data: Uint8ClampedArray
       /**
        * 源图像数据在目标画布中的位置偏移量（x 轴方向的偏移量）
        */
-      x: number;
+      x: number
       /**
        * 源图像数据在目标画布中的位置偏移量（y 轴方向的偏移量）
        */
-      y: number;
+      y: number
       /**
        * 源图像数据矩形区域的宽度
        */
-      width: number;
+      width: number
       /**
        * 源图像数据矩形区域的高度
        */
-      height?: number;
-    };
+      height?: number
+    }
   }
   /**
    * @since 1.9.0
@@ -7579,16 +7418,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/put-image-data.html#wxcanvasputimagedataobject
    */
-  function canvasPutImageData(OBJECT: canvasPutImageData.Param): Promise<any>;
+  function canvasPutImageData(OBJECT: canvasPutImageData.Param): Promise<any>
 
   namespace startPullDownRefresh {
     type Promised = {
       /**
        * 接口调用结果
        */
-      errMsg: string;
-    };
-    type Param = {};
+      errMsg: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.5.0
@@ -7602,9 +7441,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstartpulldownrefreshobject
    */
-  function startPullDownRefresh(
-    OBJECT?: startPullDownRefresh.Param
-  ): Promise<startPullDownRefresh.Promised>;
+  function startPullDownRefresh(OBJECT?: startPullDownRefresh.Param): Promise<startPullDownRefresh.Promised>
 
   /**
    * 停止当前页面下拉刷新。
@@ -7620,7 +7457,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstoppulldownrefresh
    */
-  function stopPullDownRefresh(): void;
+  function stopPullDownRefresh(): void
 
   /**
    * @since 1.4.0
@@ -7778,90 +7615,87 @@ declare namespace Taro {
   }
 
   interface baseElement {
-    id: string;
-    dataset: object;
+    id: string,
+    dataset: object,
   }
 
   interface rectElement {
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
+    left: number,
+    right: number,
+    top: number,
+    bottom: number,
   }
 
   interface sizeElement {
-    width: number;
-    height: number;
+    width: number,
+    height: number,
   }
 
   interface scrollElement {
-    scrollLeft: number;
-    scrollTop: number;
+    scrollLeft: number,
+    scrollTop: number
   }
   interface clientRectElement extends baseElement, rectElement, sizeElement {}
 
   interface scrollOffsetElement extends baseElement, scrollElement {}
 
   interface fieldsObject {
-    id?: boolean;
-    dataset?: boolean;
-    rect?: boolean;
-    size?: boolean;
-    scrollOffset?: boolean;
-    properties?: string[];
-    computedStyle?: string[];
+    id?:boolean,
+    dataset?:boolean,
+    rect?:boolean,
+    size?:boolean,
+    scrollOffset?:boolean,
+    properties?: string[],
+    computedStyle?:string[],
   }
 
   interface fieldElement extends baseElement, rectElement, sizeElement {
-    [key: string]: any;
+    [key:string]: any
   }
 
-  type execObject = clientRectElement & scrollOffsetElement & fieldElement;
-  type clientRectCallback = (
-    rect: clientRectElement | clientRectElement[]
-  ) => void;
-  type scrollCallback = (
-    res: scrollOffsetElement | scrollOffsetElement[]
-  ) => void;
-  type fieldCallback = (res: fieldElement | fieldElement[]) => void;
-  type execCallback = (res: execObject | execObject[]) => void;
 
-  function createSelectorQuery(): SelectorQuery;
+  type execObject = clientRectElement & scrollOffsetElement & fieldElement
+  type clientRectCallback = (rect: clientRectElement | clientRectElement[]) => void
+  type scrollCallback = (res: scrollOffsetElement | scrollOffsetElement[]) => void
+  type fieldCallback = (res: fieldElement | fieldElement[]) => void
+  type execCallback = (res: execObject | execObject[]) => void
+
+  function createSelectorQuery(): SelectorQuery
 
   class SelectorQuery {
     /**
      * 参考下面详细介绍
      */
-    in(component?: any): SelectorQuery;
+    in(component?: any): SelectorQuery
     /**
      * 参考下面详细介绍
      */
-    select(selector: string): nodesRef;
+    select(selector: string): nodesRef
     /**
      * 参考下面详细介绍
      */
-    selectAll(selector: string): nodesRef;
+    selectAll(selector: string): nodesRef
     /**
      * 参考下面详细介绍
      */
-    selectViewport(): nodesRef;
+    selectViewport(): nodesRef
     /**
      * 参考下面详细介绍
      */
-    exec(callback?: execCallback): void;
+    exec(callback?: execCallback): void
   }
   namespace getExtConfig {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 第三方平台自定义的数据
        */
-      extConfig: any;
-    };
-    type Param = {};
+      extConfig: any
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -7885,17 +7719,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext-api.html#wxgetextconfigobject
    */
-  function getExtConfig(
-    OBJECT?: getExtConfig.Param
-  ): Promise<getExtConfig.Promised>;
+  function getExtConfig(OBJECT?: getExtConfig.Param): Promise<getExtConfig.Promised>
 
   namespace getExtConfigSync {
     type Return = {
       /**
        * 第三方平台自定义的数据
        */
-      extConfig: any;
-    };
+      extConfig: any
+    }
   }
   /**
    * @since 1.1.0
@@ -7914,42 +7746,42 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext-api.html#wxgetextconfigsync
    */
-  function getExtConfigSync(): getExtConfigSync.Return;
+  function getExtConfigSync(): getExtConfigSync.Return
 
   namespace login {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 用户登录凭证（有效期五分钟）。开发者需要在开发者服务器后台调用 api，使用 code 换取 openid 和 session_key 等信息
        */
-      code: string;
-    };
+      code: string
+    }
     type Param = {
       /**
        * 超时时间，单位 ms
        *
        * @since 1.9.90
        */
-      timeout?: number;
-      success?: ParamPropSuccess;
-      fail?: ParamPropFail;
-      complete?: ParamPropComplete;
-    };
+      timeout?: number,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
+    }
     /**
      * 登录接口调用成功的回调函数
      */
-    type ParamPropSuccess = (res: Promised) => void;
+    type ParamPropSuccess = (res: Promised) => void
     /**
      * 登录接口调用失败的回调函数
      */
-    type ParamPropFail = (err: Promised) => void;
+    type ParamPropFail = (err: Promised) => void
     /**
      * 登录接口调用结束的回调函数（调用成功、失败都会执行）
      */
-    type ParamPropComplete = (err: Promised) => void;
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 调用接口Taro.login() 获取**临时登录凭证（code）**
@@ -7980,10 +7812,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject
    */
-  function login(OBJECT?: login.Param): Promise<login.Promised>;
+  function login(OBJECT?: login.Param): Promise<login.Promised>
 
   namespace checkSession {
-    type Param = {};
+    type Param = {}
   }
   /**
    * 校验用户当前session_key是否有效。
@@ -8004,21 +7836,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#wxchecksessionobject
    */
-  function checkSession(OBJECT?: checkSession.Param): Promise<any>;
+  function checkSession(OBJECT?: checkSession.Param): Promise<any>
 
   namespace authorize {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 需要获取权限的scope，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html#scope-列表)
        */
-      scope: string;
-    };
+      scope: string
+    }
   }
   /**
    * @since 1.2.0
@@ -8045,31 +7877,31 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/authorize.html#wxauthorizeobject
    */
-  function authorize(OBJECT: authorize.Param): Promise<authorize.Promised>;
+  function authorize(OBJECT: authorize.Param): Promise<authorize.Promised>
 
   namespace getUserInfo {
     type Promised = {
       /**
        * 用户信息对象，不包含 openid 等敏感信息
        */
-      userInfo: PromisedPropUserInfo;
+      userInfo: PromisedPropUserInfo
       /**
        * 不包括敏感信息的原始数据字符串，用于计算签名。
        */
-      rawData: string;
+      rawData: string
       /**
        * 使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，参考文档 [signature](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html)。
        */
-      signature: string;
+      signature: string
       /**
        * 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        */
-      encryptedData: string;
+      encryptedData: string
       /**
        * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        */
-      iv: string;
-    };
+      iv: string
+    }
     /**
      * 用户信息对象，不包含 openid 等敏感信息
      */
@@ -8077,52 +7909,52 @@ declare namespace Taro {
       /**
        * 用户昵称
        */
-      nickName: string;
+      nickName: string
       /**
        * 用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
        */
-      avatarUrl: string;
+      avatarUrl: string
       /**
        * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
        */
-      gender: string;
+      gender: string
       /**
        * 用户所在城市
        */
-      city: string;
+      city: string
       /**
        * 用户所在省份
        */
-      province: string;
+      province: string
       /**
        * 用户所在国家
        */
-      country: string;
+      country: string
       /**
        * 用户的语言，简体中文为zh_CN
        */
-      language: string;
-    };
+      language: string
+    }
     type Param = {
       /**
        * 是否带上登录态信息
        *
        * @since 1.1.0
        */
-      withCredentials?: boolean;
+      withCredentials?: boolean
       /**
        * 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。默认为en。
        *
        * @since 1.3.0
        */
-      lang?: string;
+      lang?: string
       /**
        * 超时时间，单位 ms
        *
        * @since 1.9.90
        */
-      timeout?: number;
-    };
+      timeout?: number
+    }
   }
   /**
    * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
@@ -8166,78 +7998,70 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open.html#wxgetuserinfoobject
    */
-  function getUserInfo(
-    OBJECT?: getUserInfo.Param
-  ): Promise<getUserInfo.Promised>;
+  function getUserInfo(OBJECT?: getUserInfo.Param): Promise<getUserInfo.Promised>
 
   namespace checkIsSupportFacialRecognition {
     type Promised = {
-      errMsg: string;
-      errCode: number;
-    };
+      errMsg: string
+      errCode: number
+    }
     type Param = {
-      checkAliveType?: number;
-    };
+      checkAliveType?: number
+    }
   }
-  function checkIsSupportFacialRecognition(
-    OBJECT?: checkIsSupportFacialRecognition.Param
-  ): Promise<checkIsSupportFacialRecognition.Promised>;
+  function checkIsSupportFacialRecognition(OBJECT?: checkIsSupportFacialRecognition.Param): Promise<checkIsSupportFacialRecognition.Promised>
 
   namespace startFacialRecognitionVerify {
     type Promised = {
-      errMsg: string;
-      errCode: number;
-      verifyResult: string;
-    };
+      errMsg: string
+      errCode: number
+      verifyResult: string
+    }
     type Param = {
-      name: string;
-      idCardNumber: string;
-      checkAliveType?: number;
-    };
+      name: string
+      idCardNumber: string
+      checkAliveType?: number
+    }
   }
-  function startFacialRecognitionVerify(
-    OBJECT?: startFacialRecognitionVerify.Param
-  ): Promise<startFacialRecognitionVerify.Promised>;
+  function startFacialRecognitionVerify(OBJECT?: startFacialRecognitionVerify.Param): Promise<startFacialRecognitionVerify.Promised>
 
   namespace startFacialRecognitionVerifyAndUploadVideo {
     type Promised = {
-      errMsg: string;
-      errCode: number;
-      verifyResult: string;
-    };
+      errMsg: string
+      errCode: number
+      verifyResult: string
+    }
     type Param = {
-      name: string;
-      idCardNumber: string;
-      checkAliveType?: number;
-    };
+      name: string
+      idCardNumber: string
+      checkAliveType?: number
+    }
   }
-  function startFacialRecognitionVerifyAndUploadVideo(
-    OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param
-  ): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>;
+  function startFacialRecognitionVerifyAndUploadVideo(OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
 
   namespace requestPayment {
     type Param = {
       /**
        * 时间戳从1970年1月1日00:00:00至今的秒数,即当前的时间
        */
-      timeStamp: string;
+      timeStamp: string
       /**
        * 随机字符串，长度为32个字符以下。
        */
-      nonceStr: string;
+      nonceStr: string
       /**
        * 统一下单接口返回的 prepay\_id 参数值，提交格式如：prepay\_id=_*_
        */
-      package: string;
+      package: string
       /**
        * 签名算法，暂支持 MD5
        */
-      signType: string;
+      signType: string
       /**
        * 签名,具体签名方案参见[小程序支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3);
        */
-      paySign: string;
-    };
+      paySign: string
+    }
   }
   /**
    * 发起微信支付。
@@ -8271,15 +8095,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html#wxrequestpaymentobject
    */
-  function requestPayment(OBJECT: requestPayment.Param): Promise<any>;
+  function requestPayment(OBJECT: requestPayment.Param): Promise<any>
 
   namespace showShareMenu {
     type Param = {
       /**
        * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/api/share.html#获取更多转发信息)
        */
-      withShareTicket?: boolean;
-    };
+      withShareTicket?: boolean
+    }
   }
   /**
    * @since 1.1.0
@@ -8295,10 +8119,10 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxshowsharemenuobject
    */
-  function showShareMenu(OBJECT?: showShareMenu.Param): Promise<any>;
+  function showShareMenu(OBJECT?: showShareMenu.Param): Promise<any>
 
   namespace hideShareMenu {
-    type Param = {};
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -8312,15 +8136,15 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxhidesharemenuobject
    */
-  function hideShareMenu(OBJECT?: hideShareMenu.Param): Promise<any>;
+  function hideShareMenu(OBJECT?: hideShareMenu.Param): Promise<any>
 
   namespace updateShareMenu {
     type Param = {
       /**
        * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/api/share.html#获取更多转发信息)
        */
-      withShareTicket?: boolean;
-    };
+      withShareTicket?: boolean
+    }
   }
   /**
    * @since 1.2.0
@@ -8338,14 +8162,14 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxupdatesharemenuobject
    */
-  function updateShareMenu(OBJECT?: updateShareMenu.Param): Promise<any>;
+  function updateShareMenu(OBJECT?: updateShareMenu.Param): Promise<any>
 
   namespace getShareInfo {
     type Promised = {
       /**
        * 错误信息
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 包括敏感数据在内的完整转发信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        *
@@ -8357,24 +8181,24 @@ declare namespace Taro {
        *
        * **Tip:** 如需要展示群名称，可以使用[开放数据组件](https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html)
        */
-      encryptedData: string;
+      encryptedData: string
       /**
        * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        */
-      iv: string;
-    };
+      iv: string
+    }
     type Param = {
       /**
        * shareTicket
        */
-      shareTicket: string;
+      shareTicket: string
       /**
        * 超时时间，单位 ms
        *
        * @since 1.9.90
        */
-      timeout?: number;
-    };
+      timeout?: number
+    }
   }
   /**
    * @since 1.1.0
@@ -8382,50 +8206,48 @@ declare namespace Taro {
    * 获取转发详细信息
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxgetshareinfoobject
    */
-  function getShareInfo(
-    OBJECT: getShareInfo.Param
-  ): Promise<getShareInfo.Promised>;
+  function getShareInfo(OBJECT: getShareInfo.Param): Promise<getShareInfo.Promised>
 
   namespace chooseAddress {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 收货人姓名
        */
-      userName: string;
+      userName: string
       /**
        * 邮编
        */
-      postalCode: string;
+      postalCode: string
       /**
        * 国标收货地址第一级地址
        */
-      provinceName: string;
+      provinceName: string
       /**
        * 国标收货地址第二级地址
        */
-      cityName: string;
+      cityName: string
       /**
        * 国标收货地址第三级地址
        */
-      countyName: string;
+      countyName: string
       /**
        * 详细收货地址信息
        */
-      detailInfo: string;
+      detailInfo: string
       /**
        * 收货地址国家码
        */
-      nationalCode: string;
+      nationalCode: string
       /**
        * 收货人手机号码
        */
-      telNumber: string;
-    };
-    type Param = {};
+      telNumber: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -8452,54 +8274,52 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/address.html#wxchooseaddressobject
    */
-  function chooseAddress(
-    OBJECT?: chooseAddress.Param
-  ): Promise<chooseAddress.Promised>;
+  function chooseAddress(OBJECT?: chooseAddress.Param): Promise<chooseAddress.Promised>
 
   namespace addCard {
     type Promised = {
       /**
        * 卡券添加结果列表，列表内对象说明请详见[返回对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#返回对象说明)
        */
-      cardList: PromisedPropCardList;
-    };
+      cardList: PromisedPropCardList
+    }
     /**
      * 卡券添加结果列表，列表内对象说明请详见[返回对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#返回对象说明)
      */
-    type PromisedPropCardList = PromisedPropCardListItem[];
+    type PromisedPropCardList = PromisedPropCardListItem[]
     type PromisedPropCardListItem = {
       /**
        * 加密 code，为用户领取到卡券的code加密后的字符串，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025239)
        */
-      code: string;
+      code: string
       /**
        * 用户领取到卡券的Id
        */
-      cardId: string;
+      cardId: string
       /**
        * 用户领取到卡券的扩展参数，与调用时传入的参数相同
        */
-      cardExt: string;
+      cardExt: string
       /**
        * 是否成功
        */
-      isSuccess: boolean;
-    };
+      isSuccess: boolean
+    }
     type Param = {
       /**
        * 需要添加的卡券列表，列表内对象说明请参见[请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#请求对象说明)
        */
-      cardList: ParamPropCardList;
-    };
+      cardList: ParamPropCardList
+    }
     /**
      * 需要添加的卡券列表，列表内对象说明请参见[请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#请求对象说明)
      */
-    type ParamPropCardList = ParamPropCardListItem[];
+    type ParamPropCardList = ParamPropCardListItem[]
     type ParamPropCardListItem = {
       /**
        * 卡券 Id
        */
-      cardId: string;
+      cardId: string
       /**
        * 卡券的扩展参数
        *
@@ -8517,8 +8337,8 @@ declare namespace Taro {
        *
        * **注：cardExt 需进行 JSON 序列化为字符串传入**
        */
-      cardExt: string;
-    };
+      cardExt: string
+    }
   }
   /**
    * @since 1.1.0
@@ -8553,29 +8373,29 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/card.html#wxaddcardobject
    */
-  function addCard(OBJECT: addCard.Param): Promise<addCard.Promised>;
+  function addCard(OBJECT: addCard.Param): Promise<addCard.Promised>
 
   namespace openCard {
     type Param = {
       /**
        * 需要打开的卡券列表，列表内参数详见[openCard 请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#opencard-请求对象说明)
        */
-      cardList: ParamPropCardList;
-    };
+      cardList: ParamPropCardList
+    }
     /**
      * 需要打开的卡券列表，列表内参数详见[openCard 请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#opencard-请求对象说明)
      */
-    type ParamPropCardList = ParamPropCardListItem[];
+    type ParamPropCardList = ParamPropCardListItem[]
     type ParamPropCardListItem = {
       /**
        * 需要打开的卡券 Id
        */
-      cardId: string;
+      cardId: string
       /**
        * 由 addCard 的返回对象中的加密 code 通过解密后得到，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025239)
        */
-      code: string;
-    };
+      code: string
+    }
   }
   /**
    * @since 1.1.0
@@ -8606,16 +8426,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/card.html#wxopencardobject
    */
-  function openCard(OBJECT: openCard.Param): Promise<any>;
+  function openCard(OBJECT: openCard.Param): Promise<any>
 
   namespace openSetting {
     type Promised = {
       /**
        * 用户授权结果，其中 key 为 scope 值，value 为 Bool 值，表示用户是否允许授权，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html#scope-列表)
        */
-      authSetting: any;
-    };
-    type Param = {};
+      authSetting: any
+    }
+    type Param = {}
   }
   /**
    * @since 1.1.0
@@ -8640,18 +8460,16 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/setting.html#wxopensettingobject
    */
-  function openSetting(
-    OBJECT?: openSetting.Param
-  ): Promise<openSetting.Promised>;
+  function openSetting(OBJECT?: openSetting.Param): Promise<openSetting.Promised>
 
   namespace getSetting {
     type Promised = {
       /**
        * 用户授权结果，其中 key 为 scope 值，value 为 Bool 值，表示用户是否允许授权，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html#scope-列表)
        */
-      authSetting: any;
-    };
-    type Param = {};
+      authSetting: any
+    }
+    type Param = {}
   }
   /**
    * @since 1.2.0
@@ -8676,14 +8494,14 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/setting.html#wxgetsettingobject
    */
-  function getSetting(OBJECT?: getSetting.Param): Promise<getSetting.Promised>;
+  function getSetting(OBJECT?: getSetting.Param): Promise<getSetting.Promised>
 
   namespace getWeRunData {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
+      errMsg: string
       /**
        * 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        *
@@ -8697,20 +8515,20 @@ declare namespace Taro {
        *   stepInfoList[].timestamp   |  Number        |时间戳，表示数据对应的时间
        *   stepInfoList[].step        |  Number        |  微信运动步数
        */
-      encryptedData: string;
+      encryptedData: string
       /**
        * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
        */
-      iv: string;
-    };
+      iv: string
+    }
     type Param = {
       /**
        * 超时时间，单位 ms
        *
        * @since 1.9.90
        */
-      timeout?: number;
-    };
+      timeout?: number
+    }
   }
   /**
    * @since 1.2.0
@@ -8730,35 +8548,33 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/we-run.html#wxgetwerundataobject
    */
-  function getWeRunData(
-    OBJECT?: getWeRunData.Param
-  ): Promise<getWeRunData.Promised>;
+  function getWeRunData(OBJECT?: getWeRunData.Param): Promise<getWeRunData.Promised>
 
   namespace navigateToMiniProgram {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 要打开的小程序 appId
        */
-      appId: string;
+      appId: string
       /**
        * 打开的页面路径，如果为空则打开首页
        */
-      path?: string;
+      path?: string
       /**
        * 需要传递给目标小程序的数据，目标小程序可在 `App.onLaunch()`，`App.onShow()` 中获取到这份数据。[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/app.html)
        */
-      extraData?: any;
+      extraData?: any
       /**
        * 要打开的小程序版本，有效值 develop（开发版），trial（体验版），release（正式版） ，仅在当前小程序为开发版或体验版时此参数有效；如果当前小程序是体验版或正式版，则打开的小程序必定是正式版。默认值 release
        */
-      envVersion?: string;
-    };
+      envVersion?: string
+    }
   }
   /**
    * @since 1.3.0
@@ -8790,23 +8606,21 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigateToMiniProgram.html#wxnavigatetominiprogramobject
    */
-  function navigateToMiniProgram(
-    OBJECT: navigateToMiniProgram.Param
-  ): Promise<navigateToMiniProgram.Promised>;
+  function navigateToMiniProgram(OBJECT: navigateToMiniProgram.Param): Promise<navigateToMiniProgram.Promised>
 
   namespace navigateBackMiniProgram {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 需要返回给上一个小程序的数据，上一个小程序可在 `App.onShow()` 中获取到这份数据。[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/app.html)
        */
-      extraData?: any;
-    };
+      extraData?: any
+    }
   }
   /**
    * @since 1.3.0
@@ -8829,46 +8643,44 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigateBackMiniProgram.html#wxnavigatebackminiprogramobject
    */
-  function navigateBackMiniProgram(
-    OBJECT?: navigateBackMiniProgram.Param
-  ): Promise<navigateBackMiniProgram.Promised>;
+  function navigateBackMiniProgram(OBJECT?: navigateBackMiniProgram.Param): Promise<navigateBackMiniProgram.Promised>
 
   namespace chooseInvoiceTitle {
     type Promised = {
       /**
        * 抬头类型（0：单位，1：个人）
        */
-      type: string;
+      type: string
       /**
        * 抬头名称
        */
-      title: string;
+      title: string
       /**
        * 抬头税号
        */
-      taxNumber: string;
+      taxNumber: string
       /**
        * 单位地址
        */
-      companyAddress: string;
+      companyAddress: string
       /**
        * 手机号码
        */
-      telephone: string;
+      telephone: string
       /**
        * 银行名称
        */
-      bankName: string;
+      bankName: string
       /**
        * 银行账号
        */
-      bankAccount: string;
+      bankAccount: string
       /**
        * 接口调用结果
        */
-      errMsg: string;
-    };
-    type Param = {};
+      errMsg: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.5.0
@@ -8887,9 +8699,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/chooseInvoiceTitle.html#wxchooseinvoicetitleobject
    */
-  function chooseInvoiceTitle(
-    OBJECT?: chooseInvoiceTitle.Param
-  ): Promise<chooseInvoiceTitle.Promised>;
+  function chooseInvoiceTitle(OBJECT?: chooseInvoiceTitle.Param): Promise<chooseInvoiceTitle.Promised>
 
   namespace checkIsSupportSoterAuthentication {
     type Promised = {
@@ -8904,13 +8714,13 @@ declare namespace Taro {
        *   facial        |人脸识别（暂未支持）
        *   speech        |声纹识别（暂未支持）
        */
-      supportMode: string[];
+      supportMode: string[]
       /**
        * 接口调用结果
        */
-      errMsg: string;
-    };
-    type Param = {};
+      errMsg: string
+    }
+    type Param = {}
   }
   /**
    * @since 1.5.0
@@ -8930,20 +8740,18 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/checkIsSupportSoterAuthentication.html#wxcheckissupportsoterauthenticationobject
    */
-  function checkIsSupportSoterAuthentication(
-    OBJECT?: checkIsSupportSoterAuthentication.Param
-  ): Promise<checkIsSupportSoterAuthentication.Promised>;
+  function checkIsSupportSoterAuthentication(OBJECT?: checkIsSupportSoterAuthentication.Param): Promise<checkIsSupportSoterAuthentication.Promised>
 
   namespace startSoterAuthentication {
     type Promised = {
       /**
        * 错误码
        */
-      errCode: number;
+      errCode: number
       /**
        * 生物认证方式
        */
-      authMode: string;
+      authMode: string
       /**
        * 在设备安全区域（TEE）内获得的本机安全信息（如TEE名称版本号等以及防重放参数）以及本次认证信息（仅Android支持，本次认证的指纹ID）（仅Android支持，本次认证的指纹ID）
        *
@@ -8963,30 +8771,30 @@ declare namespace Taro {
        *   cpu_id    |  机器唯一识别ID
        *   uid       |  概念同Android系统定义uid，即应用程序编号
        */
-      resultJSON: string;
+      resultJSON: string
       /**
        * 用SOTER安全密钥对result_json的签名(SHA256withRSA/PSS, saltlen=20)
        */
-      resultJSONSignature: string;
+      resultJSONSignature: string
       /**
        * 接口调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 请求使用的可接受的生物认证方式
        */
-      requestAuthModes: string[];
+      requestAuthModes: string[]
       /**
        * 挑战因子。挑战因子为调用者为此次生物鉴权准备的用于签名的字符串关键识别信息，将作为result_json的一部分，供调用者识别本次请求。例如：如果场景为请求用户对某订单进行授权确认，则可以将订单号填入此参数。
        */
-      challenge: string;
+      challenge: string
       /**
        * 验证描述，即识别过程中显示在界面上的对话框提示内容
        */
-      authContent?: string;
-    };
+      authContent?: string
+    }
   }
   /**
    * @since 1.5.0
@@ -9030,21 +8838,19 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/startSoterAuthentication.html#wxstartsoterauthenticationobject
    */
-  function startSoterAuthentication(
-    OBJECT: startSoterAuthentication.Param
-  ): Promise<startSoterAuthentication.Promised>;
+  function startSoterAuthentication(OBJECT: startSoterAuthentication.Param): Promise<startSoterAuthentication.Promised>
 
   namespace checkIsSoterEnrolledInDevice {
     type Promised = {
       /**
        * 是否已录入信息
        */
-      isEnrolled: boolean;
+      isEnrolled: boolean
       /**
        * 接口调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 认证方式
@@ -9057,8 +8863,8 @@ declare namespace Taro {
        *   facial        |人脸识别（暂未支持）
        *   speech        |声纹识别（暂未支持）
        */
-      checkAuthMode: string;
-    };
+      checkAuthMode: string
+    }
   }
   /**
    * @since 1.6.0
@@ -9077,9 +8883,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/checkIsSoterEnrolledInDevice.html#wxcheckissoterenrolledindeviceobject
    */
-  function checkIsSoterEnrolledInDevice(
-    OBJECT: checkIsSoterEnrolledInDevice.Param
-  ): Promise<checkIsSoterEnrolledInDevice.Promised>;
+  function checkIsSoterEnrolledInDevice(OBJECT: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
 
   /**
    * 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
@@ -9094,7 +8898,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/analysis-report.html#wxreportanalyticseventname-data
    */
-  function reportAnalytics(eventName: string, data: any): void;
+  function reportAnalytics(eventName: string, data: any): void
 
   /**
    * @since 1.9.90
@@ -9133,17 +8937,17 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/getUpdateManager.html#wxgetupdatemanager
    */
-  function getUpdateManager(): UpdateManager;
+  function getUpdateManager(): UpdateManager
 
   namespace UpdateManager {
     namespace onCheckForUpdate {
-      type Param = (res: ParamParam) => any;
+      type Param = (res: ParamParam) => any
       type ParamParam = {
         /**
          * 是否有新的版本
          */
-        hasUpdate: boolean;
-      };
+        hasUpdate: boolean
+      }
     }
   }
   class UpdateManager {
@@ -9152,7 +8956,7 @@ declare namespace Taro {
      *
      * **注：** 检查更新操作由微信在小程序冷启动时自动触发，不需由开发者主动触发，开发者只需监听检查结果即可。
      */
-    onCheckForUpdate(callback: UpdateManager.onCheckForUpdate.Param): any;
+    onCheckForUpdate(callback: UpdateManager.onCheckForUpdate.Param): any
     /**
      * 当新版本下载完成，会进行回调
      *
@@ -9160,7 +8964,7 @@ declare namespace Taro {
      *
      * 当微信检查到小程序有新版本，会主动触发下载操作（无需开发者触发），当下载完成后，会通过 `onUpdateReady` 告知开发者。
      */
-    onUpdateReady(callback: any): any;
+    onUpdateReady(callback: any): any
     /**
      * 当新版本下载失败，会进行回调
      *
@@ -9168,7 +8972,7 @@ declare namespace Taro {
      *
      * 当微信检查到小程序有新版本，会主动触发下载操作（无需开发者触发），如果下载失败（可能是网络原因等），会通过 `onUpdateFailed` 告知开发者。
      */
-    onUpdateFailed(callback: any): any;
+    onUpdateFailed(callback: any): any
     /**
      * 当新版本下载完成，调用该方法会强制当前小程序应用上新版本并重启
      *
@@ -9176,7 +8980,7 @@ declare namespace Taro {
      *
      * 当小程序新版本已经下载时（即收到 `onUpdateReady` 回调），可以通过这个方法强制重启小程序并应用上最新版本。
      */
-    applyUpdate(): any;
+    applyUpdate(): any
   }
   /**
    * @since 1.9.90
@@ -9204,17 +9008,17 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/createWorker.html#wxcreateworkerscriptpath
    */
-  function createWorker(scriptPath: any): Worker;
+  function createWorker(scriptPath: any): Worker
 
   namespace Worker {
     namespace onMessage {
-      type Param = (res: ParamParam) => any;
+      type Param = (res: ParamParam) => any
       type ParamParam = {
         /**
          * Worker 线程向当前线程发送的消息
          */
-        message: any;
-      };
+        message: any
+      }
     }
   }
   class Worker {
@@ -9225,11 +9029,11 @@ declare namespace Taro {
      *
      * 向 Worker 线程发送消息，`message` 参数为需要发送的消息，必须是一个可序列化的 JavaScript 对象。
      */
-    postMessage(Object: any): any;
+    postMessage(Object: any): any
     /**
      * 监听 Worker 线程向当前线程发送的消息
      */
-    onMessage(callback: Worker.onMessage.Param): any;
+    onMessage(callback: Worker.onMessage.Param): any
     /**
      * 结束当前 Worker 线程，仅限在主线程 Worker 实例上调用。
      *
@@ -9237,21 +9041,21 @@ declare namespace Taro {
      *
      * 结束当前 worker 线程，仅限在主线程 Worker 对象上调用。
      */
-    terminate(): any;
+    terminate(): any
   }
   namespace setEnableDebug {
     type Promised = {
       /**
        * 调用结果
        */
-      errMsg: string;
-    };
+      errMsg: string
+    }
     type Param = {
       /**
        * 是否打开调试
        */
-      enableDebug: boolean;
-    };
+      enableDebug: boolean
+    }
   }
   /**
    * @since 1.4.0
@@ -9273,12 +9077,12 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/setEnableDebug.html#wxsetenabledebugobject
    */
-  function setEnableDebug(
-    OBJECT: setEnableDebug.Param
-  ): Promise<setEnableDebug.Promised>;
+  function setEnableDebug(OBJECT: setEnableDebug.Param): Promise<setEnableDebug.Promised>
 
   namespace CanvasContext {
-    namespace draw { type Param1 = () => any; }
+    namespace draw {
+      type Param1 = () => any
+    }
   }
   class CanvasContext {
     /**
@@ -9311,7 +9115,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setFillStyle(color: string): void;
+    setFillStyle(color: string): void
     /**
      *
      * **定义：**
@@ -9342,7 +9146,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setStrokeStyle(color: string): void;
+    setStrokeStyle(color: string): void
     /**
      *
      * **定义：**
@@ -9370,12 +9174,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setShadow(
-      offsetX: number,
-      offsetY: number,
-      blur: number,
-      color: string
-    ): void;
+    setShadow(offsetX: number, offsetY: number, blur: number, color: string): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9389,7 +9188,7 @@ declare namespace Taro {
      *     canvasContext.shadowBlur = value
      *     ```
      */
-    shadowBlur(): void;
+    shadowBlur(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9403,7 +9202,7 @@ declare namespace Taro {
      *     canvasContext.shadowColor = value
      *     ```
      */
-    shadowColor(): void;
+    shadowColor(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9417,7 +9216,7 @@ declare namespace Taro {
      *     canvasContext.shadowOffsetX = value
      *     ```
      */
-    shadowOffsetX(): void;
+    shadowOffsetX(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9431,7 +9230,7 @@ declare namespace Taro {
      *     canvasContext.shadowOffsetY = value
      *     ```
      */
-    shadowOffsetY(): void;
+    shadowOffsetY(): void
     /**
      *
      * **定义：**
@@ -9465,7 +9264,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    createLinearGradient(x0: number, y0: number, x1: number, y1: number): void;
+    createLinearGradient(x0: number, y0: number, x1: number, y1: number): void
     /**
      *
      * **定义：**
@@ -9500,7 +9299,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    createCircularGradient(x: number, y: number, r: number): void;
+    createCircularGradient(x: number, y: number, r: number): void
     /**
      *
      * **定义：**
@@ -9539,7 +9338,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    addColorStop(stop: number, color: string): void;
+    addColorStop(stop: number, color: string): void
     /**
      *
      * **定义：**
@@ -9589,7 +9388,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setLineWidth(lineWidth: number): void;
+    setLineWidth(lineWidth: number): void
     /**
      *
      * **定义：**
@@ -9642,7 +9441,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setLineCap(lineCap: string): void;
+    setLineCap(lineCap: string): void
     /**
      *
      * **定义：**
@@ -9699,7 +9498,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setLineJoin(lineJoin: string): void;
+    setLineJoin(lineJoin: string): void
     /**
      * > 基础库 1.6.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9729,7 +9528,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setLineDash(pattern: any[], offset: number): void;
+    setLineDash(pattern: any[], offset: number): void
     /**
      *
      * **定义：**
@@ -9792,7 +9591,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setMiterLimit(miterLimit: number): void;
+    setMiterLimit(miterLimit: number): void
     /**
      *
      * **定义：**
@@ -9820,7 +9619,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    rect(x: number, y: number, width: number, height: number): void;
+    rect(x: number, y: number, width: number, height: number): void
     /**
      *
      * **定义：**
@@ -9847,7 +9646,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    fillRect(x: number, y: number, width: number, height: number): void;
+    fillRect(x: number, y: number, width: number, height: number): void
     /**
      *
      * **定义：**
@@ -9874,7 +9673,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    strokeRect(x: number, y: number, width: number, height: number): void;
+    strokeRect(x: number, y: number, width: number, height: number): void
     /**
      *
      * **参数：**
@@ -9904,7 +9703,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    clearRect(x: number, y: number, width: number, height: number): void;
+    clearRect(x: number, y: number, width: number, height: number): void
     /**
      *
      * **定义：**
@@ -9951,7 +9750,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    fill(): void;
+    fill(): void
     /**
      *
      * **定义：**
@@ -9996,7 +9795,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    stroke(): void;
+    stroke(): void
     /**
      *
      * **定义：**
@@ -10032,7 +9831,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    beginPath(): void;
+    beginPath(): void
     /**
      *
      * **定义：**
@@ -10079,7 +9878,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    closePath(): void;
+    closePath(): void
     /**
      *
      * **定义：**
@@ -10108,7 +9907,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    moveTo(x: number, y: number): void;
+    moveTo(x: number, y: number): void
     /**
      *
      * **定义：**
@@ -10135,7 +9934,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    lineTo(x: number, y: number): void;
+    lineTo(x: number, y: number): void
     /**
      *
      * **定义：**
@@ -10207,14 +10006,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    arc(
-      x: number,
-      y: number,
-      r: number,
-      sAngle: number,
-      eAngle: number,
-      counterclockwise: boolean
-    ): void;
+    arc(x: number, y: number, r: number, sAngle: number, eAngle: number, counterclockwise: boolean): void
     /**
      *
      * **定义：**
@@ -10281,14 +10073,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    bezierCurveTo(
-      cp1x: number,
-      cp1y: number,
-      cp2x: number,
-      cp2y: number,
-      x: number,
-      y: number
-    ): void;
+    bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void
     /**
      *
      * **定义：**
@@ -10348,7 +10133,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void;
+    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void
     /**
      *
      * **定义：**
@@ -10376,7 +10161,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    scale(scaleWidth: number, scaleHeight: number): void;
+    scale(scaleWidth: number, scaleHeight: number): void
     /**
      *
      * **定义：**
@@ -10405,7 +10190,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    rotate(rotate: number): void;
+    rotate(rotate: number): void
     /**
      *
      * **定义：**
@@ -10433,7 +10218,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    translate(x: number, y: number): void;
+    translate(x: number, y: number): void
     /**
      * > 基础库 1.6.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10460,7 +10245,7 @@ declare namespace Taro {
      *     })
      *     ```
      */
-    clip(): void;
+    clip(): void
     /**
      *
      * **定义：**
@@ -10490,7 +10275,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setFontSize(fontSize: number): void;
+    setFontSize(fontSize: number): void
     /**
      *
      * **定义：**
@@ -10518,7 +10303,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    fillText(text: string, x: number, y: number, maxWidth: number): void;
+    fillText(text: string, x: number, y: number, maxWidth: number): void
     /**
      * > 基础库 1.1.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10562,7 +10347,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setTextAlign(align: string): void;
+    setTextAlign(align: string): void
     /**
      * > 基础库 1.4.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10610,7 +10395,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setTextBaseline(textBaseline: string): void;
+    setTextBaseline(textBaseline: string): void
     /**
      *
      * **定义：**
@@ -10650,14 +10435,18 @@ declare namespace Taro {
      *     })
      *     ```
      */
-    drawImage(imageResource: string, dx: number, dy: number): void;
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+    ): void
     drawImage(
       imageResource: string,
       dx: number,
       dy: number,
       dWidth: number,
-      dHeight: number
-    ): void;
+      dHeight: number,
+    ): void
     drawImage(
       imageResource: string,
       sx: number,
@@ -10667,8 +10456,8 @@ declare namespace Taro {
       dx: number,
       dy: number,
       dWidth: number,
-      dHeight: number
-    ): void;
+      dHeight: number,
+    ): void
     /**
      *
      * **定义：**
@@ -10704,14 +10493,14 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setGlobalAlpha(alpha: number): void;
+    setGlobalAlpha(alpha: number): void
     /**
      *
      * **定义：**
      *
      * 保存当前的绘图上下文。
      */
-    save(): void;
+    save(): void
     /**
      *
      * **定义：**
@@ -10735,7 +10524,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    restore(): void;
+    restore(): void
     /**
      *
      * **定义：**
@@ -10775,7 +10564,7 @@ declare namespace Taro {
      *     ctx.draw(true)
      *     ```
      */
-    draw(reserve?: boolean, callback?: CanvasContext.draw.Param1): void;
+    draw(reserve?: boolean, callback?: CanvasContext.draw.Param1): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10806,7 +10595,7 @@ declare namespace Taro {
      *     console.log(metrics.width)
      *     ```
      */
-    measureText(width: number): void;
+    measureText(width: number): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10835,7 +10624,7 @@ declare namespace Taro {
      *     canvasContext.globalCompositeOperation = type
      *     ```
      */
-    globalCompositeOperation(): void;
+    globalCompositeOperation(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10859,7 +10648,7 @@ declare namespace Taro {
      *     canvasContext.arcTo(x1, y1, x2, y2, radius)
      *     ```
      */
-    arcTo(): void;
+    arcTo(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10882,7 +10671,7 @@ declare namespace Taro {
      *     canvasContext.strokeText(text, x, y, maxWidth)
      *     ```
      */
-    strokeText(): void;
+    strokeText(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10902,7 +10691,7 @@ declare namespace Taro {
      *     canvasContext.lineDashOffset = value
      *     ```
      */
-    lineDashOffset(): void;
+    lineDashOffset(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10933,7 +10722,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    createPattern(): void;
+    createPattern(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10962,7 +10751,7 @@ declare namespace Taro {
      *     canvasContext.font = value
      *     ```
      */
-    font(style: any, weight: any, size: any, family: any): void;
+    font(style: any, weight: any, size: any, family: any): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -10987,18 +10776,19 @@ declare namespace Taro {
      *     canvasContext.setTransform(scaleX, skewX, skewY, scaleY, translateX, translateY)
      *     ```
      */
-    setTransform(): void;
+    setTransform(): void
   }
+
 
   interface Page {
     /**
      * 当前页面的路径
      */
-    route: string;
+    route: string
 
-    [k: string]: any;
+    [k: string]: any
   }
 
-  function getCurrentPages(): Page[];
-  function getApp(): any;
+  function getCurrentPages(): Page[]
+  function getApp(): any
 }
