@@ -138,7 +138,7 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
     }
-    scope[eventHandlerName].apply(callScope, realArgs)
+    return scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 

@@ -7,7 +7,7 @@ const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'
 const preloadInitedComponent = '$preloadComponent'
-const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
 
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties = ComponentClass.properties || {}
@@ -160,7 +160,7 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
     }
-    scope[eventHandlerName].apply(callScope, realArgs)
+    return scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 
@@ -220,7 +220,7 @@ export function componentTrigger (component, key, args) {
         let target
         if (ref.type === 'component') {
           target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
+          target = target ? (target.$component || target) : null
         } else {
           const query = wx.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
@@ -365,6 +365,20 @@ function createComponent (ComponentClass, isPage) {
       }
     })
     __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
+  } else {
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes ||  {}
+
+    weappComponentConf.pageLifetimes['show'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['hide'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['resize'] = function () {
+      componentTrigger(this.$component, 'onResize')
+    }
   }
   bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)

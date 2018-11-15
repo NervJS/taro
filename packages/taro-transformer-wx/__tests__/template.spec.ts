@@ -3,9 +3,9 @@ import {
   buildComponent,
   baseOptions,
   evalClass,
-  removeShadowData
+  removeShadowData,
+  prettyPrint
 } from './utils'
-import { prettyPrint } from 'html'
 
 describe('Template', () => {
   describe('inline style', () => {

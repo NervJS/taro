@@ -99,6 +99,7 @@ declare namespace Taro {
     onPageScroll?(obj: PageScrollObject): void;
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
     onTabItemTap?(obj: TabItemTapObject): void;
+    onResize?(): void
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -652,6 +653,31 @@ declare namespace Taro {
        */
       statusCode: number
     }
+    /**
+     * 上传进度
+     */
+    type UploadTaskProgress = {
+      progress: number
+      totalBytesSent: number
+      totalBytesExpectedToSend: number
+    }
+    /**
+     * 上传进度回调
+     */
+    type UploadTaskProgressCallback = (res: UploadTaskProgress) => any
+    /**
+     * 上传任务
+     */
+    type UploadTask = Promise<uploadFile.Promised> & {
+      /**
+       * 上传进度回调
+       */
+      progress: (UploadTaskProgressCallback) => void
+      /**
+       * 终止上传任务
+       */
+      abort: () => void
+    }
     type Param = {
       /**
        * 开发者服务器 url
@@ -734,7 +760,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject
    */
-  function uploadFile(OBJECT: uploadFile.Param): Promise<uploadFile.Promised>
+  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
 
   namespace downloadFile {
     type Promised = {

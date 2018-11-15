@@ -54,4 +54,4 @@ function previewImage (obj) {
   }
 }
 
-export default previewImage
+export default {previewImage}

@@ -81,6 +81,8 @@ const DEVICE_RATIO = 'deviceRatio'
 
 const isWindows = os.platform() === 'win32'
 
+let constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
+
 function getExactedNpmFilePath (npmName, filePath) {
   try {
     const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter)
@@ -266,9 +268,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected = null
-  const constantsReplaceList = Object.assign({
-    'process.env.TARO_ENV': buildAdapter
-  }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
@@ -670,7 +669,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
             const pxTransformConfig = {
-              designWidth: projectConfig.designWidth || 750,
+              designWidth: projectConfig.designWidth || 750
             }
             if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
               pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
@@ -708,9 +707,6 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
 function parseComponentExportAst (ast, componentName, componentPath, componentType) {
   let componentRealPath = null
   let importExportName
-  const constantsReplaceList = Object.assign({
-    'process.env.TARO_ENV': buildAdapter
-  }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
   ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-transform-define').default, constantsReplaceList]
@@ -747,7 +743,7 @@ function parseComponentExportAst (ast, componentName, componentPath, componentTy
     },
 
     CallExpression (astPath) {
-      if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+      if (astPath.get('callee').isIdentifier({ name: 'require' })) {
         const arg = astPath.get('arguments')[0]
         if (t.isStringLiteral(arg.node)) {
           componentRealPath = Util.resolveScriptPath(path.resolve(path.dirname(componentPath), arg.node.value))
@@ -785,7 +781,8 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     outputPath: outputPath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
-    adapter: buildAdapter
+    adapter: buildAdapter,
+    env: constantsReplaceList
   })
   const { ast } = transformResult
   let isTaroComponent = false
@@ -891,7 +888,8 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
     outputPath: outputFilePath,
     isNormal: true,
     isTyped: false,
-    adapter
+    adapter,
+    env: constantsReplaceList
   })
   const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
   return res.code
@@ -972,7 +970,8 @@ async function buildEntry () {
       outputPath: outputEntryFilePath,
       isApp: true,
       isTyped: Util.REG_TYPESCRIPT.test(entryFilePath),
-      adapter: buildAdapter
+      adapter: buildAdapter,
+      env: constantsReplaceList
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
@@ -1052,7 +1051,7 @@ async function buildPages () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '所有页面')
   // 支持分包，解析子包页面
   const pages = appConfig.pages || []
-  const subPackages = appConfig.subPackages
+  const subPackages = appConfig.subPackages || appConfig.subpackages
   if (subPackages && subPackages.length) {
     subPackages.forEach(item => {
       if (item.pages && item.pages.length) {
@@ -1084,7 +1083,7 @@ function processNativeWxml (componentWXMLPath, componentWXMLContent, outputCompo
   }
   const importWxmlPathList = []
   let regResult
-  while ((regResult = Util.REG_WXML_IMPORT.exec(wxmlContent)) != null)  {
+  while ((regResult = Util.REG_WXML_IMPORT.exec(wxmlContent)) != null) {
     importWxmlPathList.push(regResult[2] || regResult[3])
   }
   if (importWxmlPathList.length) {
@@ -1186,7 +1185,8 @@ async function buildSinglePage (page) {
       outputPath: outputPageJSPath,
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs),
-      adapter: buildAdapter
+      adapter: buildAdapter,
+      env: constantsReplaceList
     })
     const pageDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
@@ -1337,6 +1337,19 @@ async function processStyleWithPostCSS (styleObj) {
       encodeType: 'base64'
     }))
   }
+
+  const defaultPostCSSPluginNames = ['autoprefixer', 'pxtransform', 'url']
+  Object.keys(customPostcssConf).forEach(pluginName => {
+    if (defaultPostCSSPluginNames.indexOf(pluginName) < 0) {
+      const pluginConf = customPostcssConf[pluginName]
+      if (pluginConf && pluginConf.enable) {
+        if (!Util.isNpmPkg(pluginName)) { // local plugin
+          pluginName = path.join(appPath, pluginName)
+        }
+        processors.push(require(resolveNpmPkgMainPath(pluginName, isProduction, weappNpmConfig, buildAdapter))(pluginConf.config || {}))
+      }
+    }
+  })
   const postcssResult = await postcss(processors).process(styleObj.css, {
     from: styleObj.filePath
   })
@@ -1494,7 +1507,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       const componentRealPath = parseComponentExportAst(transformResult.ast, componentObj.name, component, componentObj.type)
       const realComponentObj = {
         path: componentRealPath,
-        name:  componentObj.name,
+        name: componentObj.name,
         type: componentObj.type
       }
       let isInMap = false
@@ -1524,7 +1537,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       isRoot: false,
       isTyped: Util.REG_TYPESCRIPT.test(component),
       isNormal: false,
-      adapter: buildAdapter
+      adapter: buildAdapter,
+      env: constantsReplaceList
     })
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
@@ -1670,7 +1684,8 @@ function compileDepScripts (scriptFiles) {
             outputPath: outputItem,
             isNormal: true,
             isTyped: Util.REG_TYPESCRIPT.test(item),
-            adapter: buildAdapter
+            adapter: buildAdapter,
+            env: constantsReplaceList
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
@@ -1790,8 +1805,8 @@ function watchFiles () {
           Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
-          if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages)))
-            || (Util.checksum(JSON.stringify(config.subPackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || {})))) {
+          if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages))) ||
+            (Util.checksum(JSON.stringify(config.subPackages || config.subpackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || appConfig.subpackages || {})))) {
             appConfig = config
             await buildPages()
           }
@@ -1921,6 +1936,9 @@ async function build ({ watch, adapter }) {
   isProduction = !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
+  constantsReplaceList = Object.assign({}, constantsReplaceList, {
+    'process.env.TARO_ENV': buildAdapter
+  })
   buildProjectConfig()
   copyFiles()
   appConfig = await buildEntry()

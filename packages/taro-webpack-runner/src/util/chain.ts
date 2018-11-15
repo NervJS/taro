@@ -3,6 +3,7 @@ import { partial, merge } from 'lodash'
 import { mapKeys, pipe, map, toPairs, fromPairs } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as path from 'path'
+import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as htmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin'
 import * as webpack from 'webpack'
@@ -101,6 +102,9 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
     uglifyOptions: merge({}, defaultUglifyJsOption, uglifyOptions)
   })
 }
+const getCssoWebpackPlugin = ([cssoOption]) => {
+  return pipe(mergeOption, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
+}
 const getDllPlugin = pipe(getDllContext, processDllOption, partial(getPlugin, webpack.DllPlugin))
 const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, partial(getPlugin, webpack.DllReferencePlugin))
 const getHtmlWebpackIncludeAssetsPlugin = partial(getPlugin, htmlWebpackIncludeAssetsPlugin)
@@ -115,8 +119,6 @@ const getEntry = (customEntry = {}) => {
 }
 
 const getModule = ({
-  mode,
-
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -150,16 +152,11 @@ const getModule = ({
     },
     cssLoaderOption
   ]
-  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
-      ? false
-      : true
-  if (mode !== 'development' && isCssoEnabled) {
-    const customCssoOption = plugins.csso ? plugins.csso.config : {}
-    cssOptions.push({
-      minimize: merge(defaultCSSCompressOption, customCssoOption)
-    })
-  }
-
+  /**
+   * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
+   * 
+   * https://github.com/webpack-contrib/css-loader/releases/tag/v1.0.0
+   */
   const cssLoader = getCssLoader(cssOptions)
 
   const postcssLoader = getPostcssLoader([
@@ -292,4 +289,4 @@ const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   )(dllEntry)
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin }
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin }

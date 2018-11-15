@@ -1,6 +1,11 @@
 import traverse from 'babel-traverse'
 import * as t from 'babel-types'
 import generate from 'babel-generator'
+import * as html from 'html'
+
+export function prettyPrint (str: string): string {
+  return html.prettyPrint(str, { max_char: 0 })
+}
 
 export function buildComponent (
   renderBody: string,

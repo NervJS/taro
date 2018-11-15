@@ -153,8 +153,7 @@ export default function transform (options: Options): TransformResult {
       noEmitHelpers: true
     })
     : options.code
-  options.env = Object.assign({ TARO_ENV: options.adapter || 'weapp' }, options.env || {})
-  const taroEnv = options.env.TARO_ENV
+  options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
@@ -179,9 +178,7 @@ export default function transform (options: Options): TransformResult {
     },
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-transform-define').default, {
-        'process.env.TARO_ENV': taroEnv
-      }]
+      [require('babel-plugin-transform-define').default, options.env]
     ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
   }).ast as t.File
   if (options.isNormal) {
@@ -501,7 +498,9 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
-  result.template = prettyPrint(result.template)
+  result.template = prettyPrint(result.template, {
+    max_char: 0
+  })
   result.imageSrcs = Array.from(imageSource)
   return result
 }

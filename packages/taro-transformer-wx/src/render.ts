@@ -639,6 +639,10 @@ export class RenderParser {
                 if (t.isIdentifier(node) && path.scope.hasBinding(argName)) {
                   this.addRefIdentifier(path, node as t.Identifier)
                   expr = t.jSXExpressionContainer(node)
+                } else if (t.isMemberExpression(node)) {
+                  const id = findFirstIdentifierFromMemberExpression(node)
+                  this.addRefIdentifier(path, id)
+                  expr = t.jSXExpressionContainer(node)
                 } else if (node.type === 'NumericLiteral' || t.isStringLiteral(node) || t.isBooleanLiteral(node) || t.isNullLiteral(node)) {
                   expr = t.jSXExpressionContainer(node as any)
                 } else if (hasComplexExpression(arg)) {
@@ -968,6 +972,9 @@ export class RenderParser {
     const loopArrayId = incrementId()
     const replaceQueue: Function[] = []
     this.loopComponents.forEach((component, callee) => {
+      if (!callee.isCallExpression()) {
+        return
+      }
       for (const dcl of this.jsxDeclarations) {
         const isChildren = dcl && dcl.findParent(d => d === callee)
         if (isChildren) {
@@ -1069,6 +1076,19 @@ export class RenderParser {
                 replaceOriginal(path, parent, name)
               }
 
+            },
+            MemberExpression (path) {
+              const { object, property } = path.node
+              if (t.isThisExpression(object) && t.isIdentifier(property, { name: 'state' })) {
+                if (path.parentPath.isMemberExpression() && path.parentPath.parentPath.isMemberExpression()) {
+                  // tslint:disable-next-line
+                  console.warn(
+                    codeFrameError(path.parentPath.parentPath.node,
+                      `在循环中使用 this.state.xx.xx 可能会存在问题，请给 xx 起一个别名，例如 const { xx } = this.state`
+                    )
+                  )
+                }
+              }
             }
           })
           const originalProp = t.objectProperty(

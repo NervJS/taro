@@ -10,6 +10,7 @@ import {
   getModule,
   processEnvOption,
   getUglifyPlugin,
+  getCssoWebpackPlugin,
   getDevtool,
   getDllReferencePlugins,
   getHtmlWebpackIncludeAssetsPlugin
@@ -74,6 +75,14 @@ export default function (config: BuildConfig): any {
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
+  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
+    ? false
+    : true
+
+  if (isCssoEnabled) {
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([plugins.csso ? plugins.csso.config : {}])
+  }
+
   if (enableDll) {
     Object.assign(plugin, getDllReferencePlugins({
       dllDirectory,
@@ -99,7 +108,10 @@ export default function (config: BuildConfig): any {
     : true
 
   if (isUglifyEnabled) {
-    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify ? plugins.uglify.config : {}]))
+    minimizer.push(getUglifyPlugin([
+      enableSourceMap,
+      plugins.uglify ? plugins.uglify.config : {}
+    ]))
   }
 
   chain.merge({
@@ -113,8 +125,6 @@ export default function (config: BuildConfig): any {
     }, output]),
     resolve: { alias },
     module: getModule({
-      mode,
-  
       designWidth,
       deviceRatio,
       enableExtract,

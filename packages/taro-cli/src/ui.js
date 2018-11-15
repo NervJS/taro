@@ -3,6 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
+const t = require('babel-types')
 const _ = require('lodash')
 
 const CONFIG = require('./config')
@@ -58,6 +59,7 @@ function parseEntryAst (ast) {
   const styleFiles = []
   const components = []
   const importExportName = []
+  let exportDefaultName = null
 
   traverse(ast, {
     ExportNamedDeclaration (astPath) {
@@ -80,6 +82,14 @@ function parseEntryAst (ast) {
       }
     },
 
+    ExportDefaultDeclaration (astPath) {
+      const node = astPath.node
+      const declaration = node.declaration
+      if (t.isIdentifier(declaration)) {
+        exportDefaultName = declaration.name
+      }
+    },
+
     Program: {
       exit (astPath) {
         astPath.traverse({
@@ -95,18 +105,31 @@ function parseEntryAst (ast) {
                 styleFiles.push(stylePath)
               }
               astPath.remove()
-            } else if (importExportName.length) {
-              importExportName.forEach(nameItem => {
+            } else {
+              if (importExportName.length) {
+                importExportName.forEach(nameItem => {
+                  specifiers.forEach(specifier => {
+                    const local = specifier.local
+                    if (local.name === nameItem) {
+                      components.push({
+                        name: local.name,
+                        path: resolveScriptPath(path.resolve(path.dirname(entryFilePath), source.value))
+                      })
+                    }
+                  })
+                })
+              }
+              if (exportDefaultName != null) {
                 specifiers.forEach(specifier => {
                   const local = specifier.local
-                  if (local.name === nameItem) {
+                  if (local.name === exportDefaultName) {
                     components.push({
                       name: local.name,
                       path: resolveScriptPath(path.resolve(path.dirname(entryFilePath), source.value))
                     })
                   }
                 })
-              })
+              }
             }
           }
         })

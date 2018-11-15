@@ -5,9 +5,9 @@ import {
   baseOptions,
   evalClass,
   Custom,
-  removeShadowData
+  removeShadowData,
+  prettyPrint
 } from './utils'
-import { prettyPrint } from 'html'
 
 describe('event', () => {
   test('普通绑定', () => {

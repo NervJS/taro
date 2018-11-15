@@ -151,7 +151,7 @@ user .name      // ✗ 错误
 user.name       // ✓ 正确
 ```
 
-#### 一元运算符后面跟一个空格
+#### 一元运算符前面跟一个空格
 
 ```javascript
 typeof!admin        // ✗ 错误
@@ -380,7 +380,7 @@ if (isNaN(price)) { }       // ✓ 正确
 #### 用合法的字符串跟 typeof 进行比较操作
 
 ```javascript
-typeof name === 'undefimed'     // ✗ 错误
+typeof name === 'undefined'     // ✗ 错误
 typeof name === 'undefined'     // ✓ 正确
 ```
 

@@ -157,15 +157,18 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildA
   }
   fileContent = npmCodeHack(filePath, fileContent, buildAdapter)
   try {
+    const constantsReplaceList = Object.assign({
+      'process.env.TARO_ENV': buildAdapter
+    }, generateEnvList(projectConfig.env || {}))
     const transformResult = wxTransformer({
       code: fileContent,
       sourcePath: filePath,
       outputPath: outputNpmPath,
       isNormal: true,
       adapter: buildAdapter,
-      isTyped: REG_TYPESCRIPT.test(filePath)
+      isTyped: REG_TYPESCRIPT.test(filePath),
+      env: constantsReplaceList
     })
-    const constantsReplaceList = generateEnvList(projectConfig.env || {})
     const ast = babel.transformFromAst(transformResult.ast, '', {
       plugins: [
         [require('babel-plugin-transform-define').default, constantsReplaceList]

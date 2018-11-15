@@ -69,7 +69,7 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages/i.test(parentPath.node.key.name))
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(parentPath.node.key.name))
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
@@ -77,9 +77,7 @@ function processEntry (code, filePath) {
     sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath),
-    env: {
-      TARO_ENV: Util.BUILD_TYPES.H5
-    }
+    adapter: 'h5'
   }).ast
   let taroImportDefaultName
   let providorImportName
@@ -475,9 +473,7 @@ function processOthers (code, filePath) {
     sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath),
-    env: {
-      TARO_ENV: Util.BUILD_TYPES.H5
-    }
+    adapter: 'h5'
   }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false

@@ -138,7 +138,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
           Taro={Taro}
           enablePullDownRefresh={isScreenEnablePullDownRefresh}
           disableScroll={disableScroll}
-          onPullDownRefresh={screenInstance.onPullDownRefresh}
+          onPullDownRefresh={screenInstance.onPullDownRefresh && screenInstance.onPullDownRefresh.bind(screenInstance)}
           onReachBottom={screenInstance.onReachBottom}
           onScroll={screenInstance.onScroll}
           {...this.props}
