@@ -1,0 +1,26 @@
+
+{
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts"
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "target": "es2015",
+    "lib": [
+      "es2015"
+    ],
+    "types": [
+      "react",
+      "react-native",
+      "expo",
+      "expo__vector-icons"
+    ]
+  }
+}

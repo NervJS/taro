@@ -151,7 +151,7 @@ user .name      // ✗ 错误
 user.name       // ✓ 正确
 ```
 
-#### 一元运算符后面跟一个空格
+#### 一元运算符前面跟一个空格
 
 ```javascript
 typeof!admin        // ✗ 错误

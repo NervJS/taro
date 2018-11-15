@@ -493,7 +493,7 @@ class Swiper extends Nerv.Component {
               key: i,
               className: cls,
               style: sty,
-              onClick: child.props.onClick
+              onClick: child.props.onClick || c.props.onClick
             })
           })}
         </div>
