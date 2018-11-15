@@ -66,7 +66,8 @@ class _Image extends React.Component<Props, State> {
 
   onLoad = (event: Object) => {
     const { src, onLoad } = this.props
-    const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
+    // const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
+    const { width, height } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
     onLoad && onLoad({
       detail: { width, height }
     })
