@@ -10,7 +10,7 @@ import others from './api/others'
 import media from './api/media'
 import webSocket from './api/webSocket'
 import geolocation from './api/geolocation'
-import { showToast, showLoading, hideToast, hideLoading } from './api/WxToast'
+import toast from './api/WxToast'
 import showModal from './api/WxModal'
 import showActionSheet from './api/WxActionSheet'
 import previewImage from './api/WxPreviewImage'
@@ -48,10 +48,7 @@ export default function initNativeApi (taro) {
     media,
     webSocket,
     geolocation,
-    showToast,
-    showLoading,
-    hideToast,
-    hideLoading,
+    toast,
     showModal,
     showActionSheet,
     previewImage,
