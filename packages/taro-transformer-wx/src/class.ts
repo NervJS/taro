@@ -7,7 +7,8 @@ import {
   findMethodName,
   pathResolver,
   createRandomLetters,
-  isContainJSXElement
+  isContainJSXElement,
+  getSlotName
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
@@ -396,6 +397,11 @@ class Transformer {
             const name = siblingProp.node.name
             if (name === 'children') {
               parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true))
+            } else if (/^render[A-Z]/.test(name)) {
+              const slotName = getSlotName(name)
+              parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
+                t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
+              ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
             } else {
               self.componentProperies.add(siblingProp.node.name)
             }

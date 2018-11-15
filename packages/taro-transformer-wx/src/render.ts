@@ -19,9 +19,10 @@ import {
   findMethodName,
   isVarName,
   setParentCondition,
-  isContainJSXElement
+  isContainJSXElement,
+  getSlotName
 } from './utils'
-import { difference, get as safeGet } from 'lodash'
+import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
@@ -761,6 +762,19 @@ export class RenderParser {
           // transformName = eventShouldBeCatched
           //   ? CATCH_EVENT_MAP.get(name.name)!
           //   : BIND_EVENT_MAP.get(name.name)!
+        } else if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
+          if (!t.isJSXExpressionContainer(value)) {
+            throw codeFrameError(value, '以 render 开头的 props 只能传入包含一个 JSX 元素的 JSX 表达式。')
+          }
+          const expression = value.expression
+          if (!t.isJSXElement(expression)) {
+            throw codeFrameError(value, '以 render 开头的 props 只能传入包含一个 JSX 元素的 JSX 表达式。')
+          }
+          const slotName = getSlotName(name.name)
+          const slot = cloneDeep(expression)
+          setJSXAttr(slot, 'slot', t.stringLiteral(slotName))
+          jsxElementPath.node.children.push(slot)
+          path.remove()
         }
       }
     },

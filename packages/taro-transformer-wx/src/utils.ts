@@ -288,6 +288,10 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
   }
 }
 
+export function getSlotName (name: string) {
+  return name.slice(6).toLowerCase()
+}
+
 export function isContainJSXElement (path: NodePath<t.Node>) {
   let matched = false
   path.traverse({
