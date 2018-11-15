@@ -11,16 +11,31 @@ const temp = StyleSheet.create({
 })
 
 export default class EXImage extends Component {
+  constructor () {
+    super()
+    this.state = {
+      src: null
+    }
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({
+        src: 'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'
+      })
+    }, 0)
+  }
+
   render () {
     return (
       <View>
         <Image
-          // src="https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png"
-          src={require('./jdlogo.png')}
-          // mode="widthFix"
+          src={this.state.src}
+          // src={require('./jdlogo.png')}
+          mode="widthFix"
           style={{
-            width: 240,
-            height: 500
+            width: 80,
+            // height: 500
           }}
         />
       </View>
