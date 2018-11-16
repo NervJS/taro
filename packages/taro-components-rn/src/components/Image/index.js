@@ -41,13 +41,16 @@ type Props = {
 
 type State = {
   // height:width
-  ratio: number
+  ratio: number,
+  layoutWidth: number
 }
 
 class _Image extends React.Component<Props, State> {
   props: Props
+  hasLayout: boolean = true
   state: State = {
-    ratio: 0
+    ratio: 0,
+    layoutWidth: 0
   }
 
   static defaultProps = {
@@ -63,15 +66,22 @@ class _Image extends React.Component<Props, State> {
 
   onLoad = (event: Object) => {
     const { src, onLoad } = this.props
-    const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
+    // const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
+    const { width, height } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
     onLoad && onLoad({
       detail: { width, height }
     })
   }
 
+  onLayout = (event: Object) => {
+    const { width: layoutWidth } = event.nativeEvent.layout
+    this.setState({
+      layoutWidth
+    })
+  }
+
   loadImg = (props: Props) => {
     const { src } = props
-    console.log('src', src)
     if (typeof src === 'string') {
       Image.getSize(props.src, (width, height) => {
         this.setState({ ratio: height / width })
@@ -112,9 +122,11 @@ class _Image extends React.Component<Props, State> {
 
     const imageHeight = (() => {
       if (isWidthFix) {
-        return (flattenStyle.width || 300) * this.state.ratio
+        let width = flattenStyle && flattenStyle.width
+        typeof width === 'string' && (width = this.state.layoutWidth)
+        return (width || 300) * this.state.ratio
       } else {
-        return flattenStyle.height || 225
+        return (flattenStyle && flattenStyle.height) || 225
       }
     })()
 
@@ -124,13 +136,14 @@ class _Image extends React.Component<Props, State> {
         resizeMode={mode}
         onError={this.onError}
         onLoad={this.onLoad}
+        onLayout={this.onLayout}
         style={[
           {
             width: 300
           },
           style,
           {
-            height: imageHeight
+            height: imageHeight || this.state.imageHeight
           }
         ]}
       />
