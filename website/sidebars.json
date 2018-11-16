@@ -22,6 +22,7 @@
       "event",
       "condition",
       "list",
+      "children",
       "ref",
       "envs",
       "wx-relations",
