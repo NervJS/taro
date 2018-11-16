@@ -192,7 +192,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
     } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+      (properties[propName].value !== null || weappComponentData[propName] !== undefined)) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
