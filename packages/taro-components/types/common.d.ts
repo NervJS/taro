@@ -118,7 +118,7 @@ interface BaseEvent {
   /**
    * 额外的信息
    */
-  detail: Object
+  detail: any
 }
 
 interface ITouchEvent extends BaseEvent {
