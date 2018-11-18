@@ -152,6 +152,9 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildA
     const npmFilePath = filePath.replace(/(.*)node_modules/, '')
     outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
   }
+  if (buildAdapter === BUILD_TYPES.ALIPAY) {
+    outputNpmPath = outputNpmPath.replace(/@/, '_')
+  }
   if (REG_STYLE.test(path.basename(filePath))) {
     return
   }

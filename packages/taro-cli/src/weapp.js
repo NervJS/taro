@@ -99,6 +99,9 @@ function getExactedNpmFilePath (npmName, filePath) {
         outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
       }
     }
+    if (buildAdapter === Util.BUILD_TYPES.ALIPAY) {
+      outputNpmPath = outputNpmPath.replace(/@/, '_')
+    }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
   } catch (err) {
