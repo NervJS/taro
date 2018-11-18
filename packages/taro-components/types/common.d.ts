@@ -25,7 +25,11 @@ export interface StandardProps extends EventProps {
   /**
    * 动画属性
    */
-  animation?: object[]
+  animation?: object[],
+  /**
+   * 引用
+   */
+  ref?: string | ((node: any) => any)
 }
 
 interface EventProps {
