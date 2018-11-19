@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, BaseEventFunction, FormItemProps } from './common'
 
-interface TextareaProps extends StandardProps {
+interface TextareaProps extends StandardProps, FormItemProps {
 
   /**
    * 输入框的内容
