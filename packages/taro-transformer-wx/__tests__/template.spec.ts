@@ -842,4 +842,70 @@ describe('字符不转义', () => {
       )
     })
   })
+
+  describe('复杂表达式', () => {
+    test('array of array', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={[{}]} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual([{}])
+    })
+
+    test('array of array', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={[[]]} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual([[]])
+    })
+
+    test('function', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={escape('')} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual('')
+    })
+
+    test('function', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={escape('')} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual('')
+    })
+  })
 })

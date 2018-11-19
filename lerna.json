@@ -35,13 +35,15 @@
     "packages/taro-mobx",
     "packages/taro-mobx-common",
     "packages/taro-mobx-h5",
-    "packages/taro-mobx-rn"
+    "packages/taro-mobx-rn",
+    "packages/taro-with-weapp",
+    "packages/taroize"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.1.7",
+  "version": "1.2.0-alpha.3",
   "npmClient": "npm"
 }

@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+
+const Convertor = require('../src/convertor')
+
+program
+  .parse(process.argv)
+
+const convertor = new Convertor()
+
+convertor.run()

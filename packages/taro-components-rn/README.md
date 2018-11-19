@@ -83,12 +83,6 @@ npm run android
 - 其他
   - [ ] tabbar
 
-## pureDependencies
-
-- react: ^16.2.0
-- "react-native": "~0.55.2"
-- "expo": "~27.0.0"
-
 ## 开发者日志
 
 - 2018-06-14：`sdkmanager "system-images;android-28;default;x86_64" --proxy_host=mirrors.zzu.edu.cn --proxy_port=80 --proxy=http --no_https` 即将开始安卓的测试。

@@ -4,10 +4,12 @@ const os = require('os')
 const fs = require('fs-extra')
 const execSync = require('child_process').execSync
 const chalk = require('chalk')
+const _ = require('lodash')
 
 const pocessTypeEnum = {
   CREATE: 'create',
   COMPILE: 'compile',
+  CONVERT: 'convert',
   COPY: 'copy',
   GENERATE: 'generate',
   MODIFY: 'modify',
@@ -25,6 +27,10 @@ const processTypeMap = {
   [pocessTypeEnum.COMPILE]: {
     name: '编译',
     color: 'green'
+  },
+  [pocessTypeEnum.CONVERT]: {
+    name: '转换',
+    color: chalk.rgb(255, 136, 0)
   },
   [pocessTypeEnum.COPY]: {
     name: '拷贝',
@@ -370,7 +376,11 @@ exports.printLog = function (type, tag, filePath) {
   }
   const padding = ''
   filePath = filePath || ''
-  console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  if (typeof typeShow.color === 'string') {
+    console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  } else {
+    console.log(typeShow.color(typeShow.name), padding, tag, padding, filePath)
+  }
 }
 
 exports.replaceContentEnv = function (content, env) {
@@ -479,3 +489,5 @@ exports.emptyDirectory = function (dirPath) {
     })
   }
 }
+
+exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))

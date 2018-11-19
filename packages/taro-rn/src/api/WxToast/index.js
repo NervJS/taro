@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import Toast from 'react-native-root-toast'
 import success from './success.png'
@@ -80,7 +81,8 @@ function hideToast () {
 wx = {
   showToast,
   showLoading,
-  hideToast
+  hideToast,
+  hideLoading: hideToast
 }
 
 export default wx

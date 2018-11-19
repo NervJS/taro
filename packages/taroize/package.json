@@ -1,0 +1,50 @@
+{
+  "name": "@tarojs/taroize",
+  "version": "1.2.0-alpha.3",
+  "description": "转换原生微信小程序代码为 Taro 代码",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "dev": "tsc -w --pretty"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NervJS/taro/tree/master/packages/taroize"
+  },
+  "author": "yuche",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/code-frame": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-generator": "^6.26.1",
+    "babel-template": "^6.26.0",
+    "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
+    "himalaya-wxml": "^1.1.0",
+    "lodash": "^4.17.5",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/babel-generator": "^6.25.2",
+    "@types/babel-traverse": "^6.25.4",
+    "@types/babel-types": "^7.0.4",
+    "@types/jest": "^22.2.3",
+    "@types/lodash": "^4.14.105",
+    "@types/node": "^9.6.2",
+    "jest": "^23.0.1",
+    "jest-cli": "^22.1.4",
+    "prettier": "^1.14.2",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-config-standard": "^7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

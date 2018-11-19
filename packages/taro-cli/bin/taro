@@ -11,4 +11,5 @@ program
   .command('init [projectName]', 'Init a project with default templete')
   .command('build', 'Build a project with options')
   .command('update', 'Update packages of taro')
+  .command('convert', 'Convert weapp to taro')
   .parse(process.argv)

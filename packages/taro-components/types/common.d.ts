@@ -25,7 +25,18 @@ export interface StandardProps extends EventProps {
   /**
    * 动画属性
    */
-  animation?: object[]
+  animation?: object[],
+  /**
+   * 引用
+   */
+  ref?: string | ((node: any) => any)
+}
+
+interface FormItemProps {
+  /**
+   * 表单数据标识
+   */
+  name?: string,
 }
 
 interface EventProps {
@@ -118,7 +129,7 @@ interface BaseEvent {
   /**
    * 额外的信息
    */
-  detail: Object
+  detail: any
 }
 
 interface ITouchEvent extends BaseEvent {

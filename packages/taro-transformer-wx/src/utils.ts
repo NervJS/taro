@@ -288,6 +288,10 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
   }
 }
 
+export function getSlotName (name: string) {
+  return name.slice(6).toLowerCase()
+}
+
 export function isContainJSXElement (path: NodePath<t.Node>) {
   let matched = false
   path.traverse({
@@ -312,7 +316,7 @@ export function hasComplexExpression (path: NodePath<t.Node>) {
   }
   if (path.isArrayExpression()) {
     const { elements } = path.node
-    if (elements.some(el => t.isObjectExpression(el as any))) {
+    if (elements.some(el => t.isObjectExpression(el as any) || t.isArrayExpression(el))) {
       return true
     }
   }
