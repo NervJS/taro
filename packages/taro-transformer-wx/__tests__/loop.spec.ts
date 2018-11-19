@@ -2747,7 +2747,7 @@ describe('loop', () => {
       ])
       expect(
         instance.state.loopArray0.map(i =>
-          i.$anonymousCallee__1.map(a => a.$original)
+          i.$anonymousCallee__7.map(a => a.$original)
         )
       ).toEqual(Object.keys(keys).map(key => Object.keys(keys[key]).map(i => i)))
       expect(template).toMatch(
