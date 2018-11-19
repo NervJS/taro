@@ -28,6 +28,13 @@ export interface StandardProps extends EventProps {
   animation?: object[]
 }
 
+interface FormItemProps {
+  /**
+   * 表单数据标识
+   */
+  name?: string,
+}
+
 interface EventProps {
   /**
    * 手指触摸动作开始
