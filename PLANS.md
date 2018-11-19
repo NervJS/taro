@@ -11,10 +11,12 @@
 
 ### 1.2.0
 
-> 预计 11 月初
+> 预计 11 月中
 
-- [ ] 小程序代码转 Taro
-- [ ] CSS Modules 支持
+- [x] 小程序代码转 Taro
+- [x] CSS Modules 支持
+- [x] Mobx 支持
+- [x] H5 router 2.0
 
 ### 1.3.0
 
