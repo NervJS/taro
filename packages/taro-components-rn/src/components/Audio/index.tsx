@@ -201,7 +201,6 @@ class _Audio extends React.Component<Props, State> {
     try {
       await soundObject.loadAsync(this.getSource(), {
         isLooping: !!this.props.loop,
-        rate: 5
       })
     } catch (err) {
       // ERR
