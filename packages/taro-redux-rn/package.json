@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-redux-rn",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "taro-redux-rn",
   "main": "./src/index.js",
   "files": [
