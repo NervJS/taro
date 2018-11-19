@@ -23,6 +23,7 @@ import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
 import EXAudio from './example/EXAudio'
 import EXVideo from './example/EXVideo'
+import EXMap from './example/EXMap'
 
 export default class App extends Component {
   state = {
@@ -90,6 +91,8 @@ export default class App extends Component {
         }}
       >
         <Text>Welcome to React Native!</Text>
+
+        <EXMap />
 
         <EXImage />
 
