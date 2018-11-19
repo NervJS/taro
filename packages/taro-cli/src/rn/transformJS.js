@@ -36,7 +36,9 @@ const PACKAGES = {
   '@tarojs/components-rn': '@tarojs/components-rn',
   'react': 'react',
   'react-native': 'react-native',
-  'react-redux-rn': '@tarojs/taro-redux-rn'
+  'react-redux-rn': '@tarojs/taro-redux-rn',
+  '@tarojs/mobx': '@tarojs/mobx',
+  '@tarojs/mobx-rn': '@tarojs/mobx-rn'
 }
 
 function getInitPxTransformNode (projectConfig) {
@@ -275,6 +277,17 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
           specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
         }
         source.value = PACKAGES['react-redux-rn']
+      } else if (value === PACKAGES['@tarojs/mobx']) {
+        const specifier = specifiers.find(item => {
+          return t.isImportSpecifier(item) && item.imported.name === providerComponentName
+        })
+        if (specifier) {
+          providorImportName = specifier.local.name
+        } else {
+          providorImportName = providerComponentName
+          specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
+        }
+        source.value = PACKAGES['@tarojs/mobx-rn']
       } else if (value === PACKAGES['@tarojs/components']) {
         source.value = PACKAGES['@tarojs/components-rn']
       }
@@ -334,7 +347,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
               funcBody = `<RootStack/>`
             }
             if (providerComponentName && storeName) {
-              // 使用redux
+              // 使用redux 或 mobx
               funcBody = `
                 <${providorImportName} store={${storeName}}>
                   ${funcBody}

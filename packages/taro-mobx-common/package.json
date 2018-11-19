@@ -1,0 +1,33 @@
+{
+  "name": "@tarojs/mobx-common",
+  "version": "1.1.7",
+  "description": "mobx library for taro",
+  "keywords": [
+    "mobx",
+    "library",
+    "taro"
+  ],
+  "license": "MIT",
+  "author": "Tom.Huang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c --environment TARGET:umd",
+    "clear": "rimraf dist"
+  },
+  "peerDependencies": {
+    "mobx": "^5.5.2"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "^2.5.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  }
+}

@@ -7,7 +7,7 @@ import * as ts from 'typescript'
 import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions } from './options'
 const template = require('babel-template')
@@ -428,7 +428,7 @@ export default function transform (options: Options): TransformResult {
         )
       }
       if (
-        source === REDUX_PACKAGE_NAME
+        source === REDUX_PACKAGE_NAME || source === MOBX_PACKAGE_NAME
       ) {
         path.node.specifiers.forEach((s, index, specs) => {
           if (s.local.name === 'Provider') {

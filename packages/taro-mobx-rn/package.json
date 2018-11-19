@@ -1,0 +1,24 @@
+{
+  "name": "@tarojs/mobx-rn",
+  "version": "1.1.7",
+  "description": "mobx-rn for taro",
+  "keywords": [
+    "mobx",
+    "rn",
+    "taro"
+  ],
+  "license": "MIT",
+  "author": "Tom.Huang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "@tarojs/taro-rn": "1.1.7",
+    "@tarojs/mobx-common": "1.1.7"
+  }
+}

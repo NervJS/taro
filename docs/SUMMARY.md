@@ -135,6 +135,7 @@
     * [h5](config-detail.md#h5)
   * [异步编程](async-await.md)
   * [使用 Redux](redux.md)
+  * [使用 Mobx](mobx.md)
   * [使用微信小程序第三方组件](wx-third-party.md)
   * [Taro 代码与微信小程序代码混写](wx-hybrid.md)
   * [技术原理](principle.md)

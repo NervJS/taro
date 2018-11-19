@@ -55,6 +55,8 @@ export const COMPONENTS_PACKAGE_NAME = '@tarojs/components'
 
 export const REDUX_PACKAGE_NAME = '@tarojs/redux'
 
+export const MOBX_PACKAGE_NAME = '@tarojs/mobx'
+
 export const MAP_CALL_ITERATOR = '__item'
 
 export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
