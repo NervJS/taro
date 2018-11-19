@@ -18,6 +18,11 @@
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)
 
+[掘金小册：](https://juejin.im/book/5b73a131f265da28065fb1cd)
+
+![掘金小册](https://i.loli.net/2018/11/19/5bf26b8a63354.png)
+
+
 ## 使用案例
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
