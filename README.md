@@ -18,9 +18,7 @@
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)
 
-[掘金小册：](https://juejin.im/book/5b73a131f265da28065fb1cd)
-
-[![掘金小册](https://i.loli.net/2018/11/19/5bf26b8a63354.png)](https://juejin.im/book/5b73a131f265da28065fb1cd)
+掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
 
 ## 使用案例
