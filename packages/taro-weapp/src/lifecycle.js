@@ -75,10 +75,11 @@ function doUpdate (component, prevProps, prevState) {
         return
       }
       if (typeof val === 'object') {
+        if (isEmptyObject(val)) return safeSet(_data, key, val)
+
         val = shakeFnFromObject(val)
-        if (!isEmptyObject(val)) {
-          safeSet(_data, key, val)
-        }
+        // 避免筛选完 Fn 后产生了空对象还去渲染
+        if (!isEmptyObject(val)) safeSet(_data, key, val)
       } else {
         safeSet(_data, key, val)
       }
