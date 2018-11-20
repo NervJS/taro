@@ -1,5 +1,3 @@
-import { Children } from "nervjs";
-
 /**
  * WXML节点信息API
  * @return {Object} SelectorQuery 对象实例
@@ -185,6 +183,6 @@ class NodesRef {
   }
 }
 
-export default function createSelectorQuery () {
+export function createSelectorQuery () {
   return new Query()
 }
