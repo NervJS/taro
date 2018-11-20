@@ -27,8 +27,9 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 
 共同参与 Taro 的研发和推广，监督 Taro 的发展流程，推动 Taro 在各领域真实业务场景中的落地和实践，促进 Taro 在业界的广泛应用。
 
-
-[![logo-red.png](https://i.loli.net/2018/11/20/5bf3cbbd7211f.png)](https://cdc.tencent.com/)
+<p><a href="https://cdc.tencent.com/"><img src="https://i.loli.net/2018/11/20/5bf3cbbd7211f.png" alt="logo-red.png" style="
+    margin-left: initial;
+"></a></p>
 
 
 ## 个人贡献者
