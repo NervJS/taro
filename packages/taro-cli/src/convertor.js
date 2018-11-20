@@ -57,7 +57,7 @@ function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
             if (fs.existsSync(path.join(vpath, 'index.js'))) {
               vpath = path.join(vpath, 'index.js')
             } else {
-              printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+              printLog(pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
               return
             }
           }
