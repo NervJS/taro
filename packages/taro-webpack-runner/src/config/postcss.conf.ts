@@ -1,6 +1,7 @@
 import * as autoprefixer from 'autoprefixer';
 import * as constparse from 'postcss-plugin-constparse';
 import * as pxtransform from 'postcss-pxtransform';
+import * as modules from 'postcss-modules';
 
 import { PostcssOption } from '../util/types';
 
@@ -36,6 +37,9 @@ export const getPostcssPlugins = function ({
   const isPxtransformEnabled = (postcssOption.pxtransform && postcssOption.pxtransform.enable === false)
     ? false
     : true
+  const isCssModulesEnabled = (postcssOption.cssModules && postcssOption.cssModules.enable === false)
+    ? false
+    : true
   const customPlugins = postcssOption.plugins || []
 
   if (isAutoprefixerEnabled) {
@@ -54,6 +58,11 @@ export const getPostcssPlugins = function ({
       defaultPxtransformOption.deviceRatio = deviceRatio
     }
     plugins.push(pxtransform(Object.assign(defaultPxtransformOption, customPxtransformOption)))
+  }
+
+  if (isCssModulesEnabled) {
+    const customCssModulesOption = postcssOption.cssModules ? postcssOption.cssModules.config : {}
+    plugins.push(modules(customCssModulesOption))
   }
 
   plugins.push(constparse(defaultConstparseOption))

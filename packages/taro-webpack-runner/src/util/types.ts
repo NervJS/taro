@@ -16,6 +16,7 @@ type TogglableOptions = {
 export interface PostcssOption {
   autoprefixer?: TogglableOptions;
   pxtransform?: TogglableOptions;
+  cssModules?: TogglableOptions;
   plugins?: any[];
 }
 

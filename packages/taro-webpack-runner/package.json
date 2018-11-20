@@ -51,6 +51,7 @@
     "ora": "^2.1.0",
     "postcss-csso": "^3.0.0",
     "postcss-loader": "^2.1.3",
+    "postcss-modules": "^1.4.1",
     "postcss-plugin-constparse": "1.2.0-alpha.3",
     "postcss-pxtransform": "1.2.0-alpha.3",
     "resolve-url-loader": "^2.3.0",
