@@ -965,6 +965,23 @@ export class RenderParser {
     this.setProperies()
   }
 
+  checkDuplicateData () {
+    this.initState.forEach((stateName) => {
+      if (this.templates.has(stateName)) {
+        throw codeFrameError(this.templates.get(stateName)!, `自定义变量组件名: \`${stateName}\` 和已有 this.state.${stateName} 重复。请使用另一个变量名。`)
+      }
+    })
+
+    this.componentProperies.forEach((componentName) => {
+      if (this.componentProperies.has(componentName)) {
+        throw codeFrameError(this.renderPath.node, `state: \`${componentName}\` 和已有 this.props.${componentName} 重复。请使用另一个变量名。`)
+      }
+      if (this.templates.has(componentName)) {
+        throw codeFrameError(this.templates.get(componentName)!, `自定义变量组件名: \`${componentName}\` 和已有 this.props.${componentName} 重复。请使用另一个变量名。`)
+      }
+    })
+  }
+
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
     const arrayMap = path.findParent(p => isArrayMapCallExpression(p))
     if (arrayMap && arrayMap.isCallExpression()) {
