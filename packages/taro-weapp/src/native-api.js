@@ -151,6 +151,15 @@ function processApis (taro) {
             return p
           }
         }
+        if (key === 'request') {
+          p.abort = cb => {
+            cb && cb()
+            if (task) {
+              task.abort()
+            }
+            return p
+          }
+        }
         return p
       }
     } else {

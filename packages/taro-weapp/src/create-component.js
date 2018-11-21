@@ -191,8 +191,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+    } else if (propName in weappComponentData) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -205,7 +204,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
