@@ -194,7 +194,7 @@ class _Button extends React.Component<Props, State> {
               />
             </Animated.View>)
           }
-          <Text
+          {typeof children === 'string' ? <Text
             style={[
               styles.btnText,
               !isDefaultSize && styles.btnTextMini,
@@ -202,7 +202,7 @@ class _Button extends React.Component<Props, State> {
             ]}
           >
             {children}
-          </Text>
+          </Text> : children}
         </View>
       </TouchableOpacity>
     )

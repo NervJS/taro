@@ -13,6 +13,8 @@ export default class EXButton extends Component {
           style={styles.button}
           hoverStyle={{ backgroundColor: 'red' }}
         >default plain</Button>
+        <Button style={styles.button}><View><Text>wrap View</Text></View></Button>
+        <Button style={styles.button}><Text>wrap Text</Text></Button>
         <Button loading style={styles.button}>default loading</Button>
         <Button disabled style={styles.button}>default disabled</Button>
         <Button plain disabled style={styles.button}>default plain disabled</Button>

@@ -65,11 +65,11 @@ export default class App extends Component {
     //     console.log(key)
     //   }
     // }
-    for (let key in global.window) {
-      if (global.window.hasOwnProperty(key)) {
-        console.log(key)
-      }
-    }
+    // for (let key in global.window) {
+    //   if (global.window.hasOwnProperty(key)) {
+    //     console.log(key)
+    //   }
+    // }
     return (
       <ScrollView
         style={{
