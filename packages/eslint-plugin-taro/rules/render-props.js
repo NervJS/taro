@@ -45,9 +45,11 @@ module.exports = {
         }
       },
       MemberExpression (node) {
-        const { object, property } = node
+        const { object, property, parent } = node
         if (
-          node.parent.type !== 'JSXExpressionContainer' &&
+          parent.type !== 'JSXExpressionContainer' &&
+          parent.type !== 'ConditionalExpression' &&
+          parent.type !== 'LogicalExpression' &&
           object.type === 'MemberExpression' &&
           object.object.type === 'ThisExpression' &&
           object.property.name === 'props' &&
