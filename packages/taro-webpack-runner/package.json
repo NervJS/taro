@@ -54,6 +54,7 @@
     "postcss-modules": "^1.4.1",
     "postcss-plugin-constparse": "1.2.0-alpha.3",
     "postcss-pxtransform": "1.2.0-alpha.3",
+    "resolve": "^1.8.1",
     "resolve-url-loader": "^2.3.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
@@ -70,6 +71,7 @@
   "devDependencies": {
     "@types/autoprefixer": "^6.7.3",
     "@types/node": "^10.3.5",
+    "@types/resolve": "^0.0.8",
     "@types/webpack": "^4.4.3",
     "@types/webpack-dev-server": "^2.9.4",
     "@types/webpack-merge": "^4.1.3",
