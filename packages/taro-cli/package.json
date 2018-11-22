@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/taroize": "1.2.0-beta.0",
-    "@tarojs/transformer-wx": "1.1.0-beta.10",
+    "@tarojs/transformer-wx": "1.2.0-beta.0",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
