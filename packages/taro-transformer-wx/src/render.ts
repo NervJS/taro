@@ -455,6 +455,40 @@ export class RenderParser {
     }
   }
 
+  private renameIfScopeVaribale = (blockStatement: NodePath<t.BlockStatement>): Visitor => {
+    return {
+      VariableDeclarator: (p) => {
+        const { id, init } = p.node
+        const ifStem = p.parentPath.parentPath.parentPath
+        if (!ifStem.isIfStatement() || isContainJSXElement(p)) {
+          return
+        }
+        if (t.isIdentifier(id)) {
+          if (id.name.startsWith('loopArray')) {
+            this.renderPath.node.body.body.unshift(
+              t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
+            )
+            p.parentPath.replaceWith(
+              template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
+            )
+          } else {
+            const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
+            blockStatement.scope.rename(id.name, newId.name)
+            p.parentPath.replaceWith(
+              template('ID = INIT;')({ ID: newId, INIT: init })
+            )
+          }
+        }
+      },
+      JSXElement: (jsxElementPath) => {
+        this.handleJSXElement(jsxElementPath, (options) => {
+          this.handleConditionExpr(options, jsxElementPath)
+        })
+      },
+      JSXExpressionContainer: this.replaceIdWithTemplate()
+    }
+  }
+
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
       this.handleJSXElement(jsxElementPath, (options) => {
@@ -473,37 +507,7 @@ export class RenderParser {
             const ifStatement = parentPath.findParent(p => p.isIfStatement())
             const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
             if (blockStatement && blockStatement.isBlockStatement()) {
-              blockStatement.traverse({
-                VariableDeclarator: (p) => {
-                  const { id, init } = p.node
-                  const ifStem = p.parentPath.parentPath.parentPath
-                  if (!ifStem.isIfStatement() || isContainJSXElement(p)) {
-                    return
-                  }
-                  if (t.isIdentifier(id)) {
-                    if (id.name.startsWith('loopArray')) {
-                      this.renderPath.node.body.body.unshift(
-                        t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
-                      )
-                      p.parentPath.replaceWith(
-                        template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
-                      )
-                    } else {
-                      const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-                      blockStatement.scope.rename(id.name, newId.name)
-                      p.parentPath.replaceWith(
-                        template('ID = INIT;')({ ID: newId, INIT: init })
-                      )
-                    }
-                  }
-                },
-                JSXElement: (jsxElementPath) => {
-                  this.handleJSXElement(jsxElementPath, (options) => {
-                    this.handleConditionExpr(options, jsxElementPath)
-                  })
-                },
-                JSXExpressionContainer: this.replaceIdWithTemplate()
-              })
+              blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
             }
             const block = this.finalReturnElement || buildBlockElement()
             if (isBlockIfStatement(ifStatement, blockStatement)) {
@@ -546,6 +550,11 @@ export class RenderParser {
         } else if (t.isArrowFunctionExpression(parentNode)) {
           // console.log('arrow')
         } else if (t.isAssignmentExpression(parentNode)) {
+          const ifStatement = parentPath.findParent(p => p.isIfStatement())
+          const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+          if (blockStatement && blockStatement.isBlockStatement()) {
+            blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+          }
           if (t.isIdentifier(parentNode.left)) {
             const name = parentNode.left.name
             const bindingNode = this.renderScope.getOwnBinding(name)!.path.node

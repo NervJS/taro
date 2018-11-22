@@ -28,7 +28,8 @@
     "@tarojs/taro-h5": "^<%= version %>",
     "@tarojs/taro-swan": "^<%= version %>",
     "@tarojs/taro-weapp": "^<%= version %>",
-    "nervjs": "^1.3.5",
+    "nervjs": "^1.3.9",
+    "nerv-devtools": "^1.3.9",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"

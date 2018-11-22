@@ -1192,6 +1192,16 @@ function transfromNativeComponents (configFile, componentConfig) {
         const componentJSON = require(componentJSONPath)
         const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.CONFIG)
         copyFileSync(componentJSONPath, outputComponentJSONPath)
+
+        // 解决组件循环依赖不断编译爆栈的问题
+        if (componentJSON && componentJSON.usingComponents) {
+          Object.keys(componentJSON.usingComponents).forEach(key => {
+            if (key === item) {
+              delete componentJSON.usingComponents[key]
+            }
+          })
+        }
+
         transfromNativeComponents(componentJSONPath, componentJSON)
       }
     })

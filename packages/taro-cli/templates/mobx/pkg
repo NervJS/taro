@@ -32,7 +32,8 @@
     "@tarojs/mobx-h5": "^<%= version %>",
     "@tarojs/mobx-rn": "^<%= version %>",
     "mobx": "^5.5.2",
-    "nervjs": "^1.3.5"
+    "nervjs": "^1.3.9",
+    "nerv-devtools": "^1.3.9"
   },
   "devDependencies": {
     "@types/react": "16.3.14",
