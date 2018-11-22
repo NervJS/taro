@@ -27,8 +27,10 @@ const defaultPxtransformOption: {
   }
 }
 const defaultCssModulesOption = {
-  enable: true,
-  config: {}
+  enable: false,
+  config: {
+    generateScopedName: '[name]__[local]___[hash:base64:5]'
+  }
 }
 const defaultConstparseOption = {
   constants: [{
@@ -65,6 +67,7 @@ export const getPostcssPlugins = function ({
   }
 
   if (pxtransformOption.enable) {
+    defaultPxtransformOption.platform = defaultPxtransformOption.config.platform
     plugins.push(pxtransform(defaultPxtransformOption))
   }
 
