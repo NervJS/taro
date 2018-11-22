@@ -496,7 +496,9 @@ class Convertor {
     })
     creator.template(templateName, 'gitignore', path.join(this.convertRoot, '.gitignore'))
     creator.template(templateName, 'editorconfig', path.join(this.convertRoot, '.editorconfig'))
-    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'))
+    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'), {
+      typescript: false
+    })
     creator.template(templateName, 'indexhtml', path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
