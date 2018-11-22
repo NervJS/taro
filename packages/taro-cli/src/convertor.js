@@ -57,7 +57,7 @@ function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
             if (fs.existsSync(path.join(vpath, 'index.js'))) {
               vpath = path.join(vpath, 'index.js')
             } else {
-              printLog(Util.pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+              printLog(pocessTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
               return
             }
           }
@@ -496,7 +496,9 @@ class Convertor {
     })
     creator.template(templateName, 'gitignore', path.join(this.convertRoot, '.gitignore'))
     creator.template(templateName, 'editorconfig', path.join(this.convertRoot, '.editorconfig'))
-    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'))
+    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'), {
+      typescript: false
+    })
     creator.template(templateName, 'indexhtml', path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())

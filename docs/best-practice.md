@@ -101,6 +101,8 @@ class Parent extends Component {
 
 ### 支持 props 传入 JSX
 
+> 自 `1.1.9` 开始支持
+
 支持 props 传入 JSX，但是元素传入 JSX 的属性名必须以 `render` 开头
 
 例如，子组件写法
@@ -213,6 +215,10 @@ if (process.env.NODE_ENV === 'development') {
 
 }
 ```
+
+### 使用 `this.$componentType` 来判断当前 Taro.Component 是页面还是组件
+
+`this.$componentType` 可能取值分别为 `PAGE` 和 `COMPONENT`，开发者可以根据此变量的取值分别采取不同逻辑。
 
 ### 预加载
 

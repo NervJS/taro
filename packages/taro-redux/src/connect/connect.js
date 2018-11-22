@@ -18,7 +18,7 @@ function isEqual (a, b) {
 function wrapPropsWithDispatch (mapDispatchToProps, dispatch) {
   if (typeof mapDispatchToProps === 'function') {
     return mapDispatchToProps(dispatch)
-  } 
+  }
 
   if (isObject(mapDispatchToProps)) {
     return Object.keys(mapDispatchToProps)
@@ -57,7 +57,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     if (isChanged) {
       this.prevProps = prevProps
       this._unsafeCallUpdate = true
-      this.setState({}, () => {
+      this.forceUpdate(() => {
         delete this._unsafeCallUpdate
       })
     }

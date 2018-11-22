@@ -7,7 +7,7 @@ import * as ts from 'typescript'
 import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions } from './options'
 const template = require('babel-template')
@@ -188,6 +188,7 @@ export default function transform (options: Options): TransformResult {
   let result
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
+  const importSources = new Set<string>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
@@ -418,6 +419,11 @@ export default function transform (options: Options): TransformResult {
     },
     ImportDeclaration (path) {
       const source = path.node.source.value
+      if (importSources.has(source)) {
+        throw codeFrameError(path.node, '无法在同一文件重复 import 相同的包。')
+      } else {
+        importSources.add(source)
+      }
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
         isImportTaro = true
@@ -428,7 +434,7 @@ export default function transform (options: Options): TransformResult {
         )
       }
       if (
-        source === REDUX_PACKAGE_NAME
+        source === REDUX_PACKAGE_NAME || source === MOBX_PACKAGE_NAME
       ) {
         path.node.specifiers.forEach((s, index, specs) => {
           if (s.local.name === 'Provider') {

@@ -201,7 +201,6 @@ class _Audio extends React.Component<Props, State> {
     try {
       await soundObject.loadAsync(this.getSource(), {
         isLooping: !!this.props.loop,
-        rate: 5
       })
     } catch (err) {
       // ERR
@@ -213,6 +212,7 @@ class _Audio extends React.Component<Props, State> {
       'connectionChange',
       this._onConnectionChange.bind(this)
     )
+    soundObject.unloadAsync()
   }
 
   render() {
@@ -247,7 +247,7 @@ class _Audio extends React.Component<Props, State> {
               <View style={styles.name}><Text style={styles.nameText}>{this.props.name}</Text></View>
               <View style={styles.author}><Text style={styles.authorText}>{this.props.author}</Text></View>
             </View>
-            <View style={styles.time}><Text style={styles.timeText}>{this._getMMSSFromMillis(this.state.playbackInstancePosition)}-{playbackState}</Text></View>
+            <View style={styles.time}><Text style={styles.timeText}>{this._getMMSSFromMillis(this.state.playbackInstancePosition)}</Text></View>
           </View>
         </View>
         <View style={styles.progressBar}>

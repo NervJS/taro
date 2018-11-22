@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import traverse, { NodePath } from 'babel-traverse'
 import { transform } from 'babel-core'
 import * as template from 'babel-template'
-import { buildImportStatement, codeFrameError, buildRender } from './utils'
+import { buildImportStatement, codeFrameError, buildRender, buildBlockElement } from './utils'
 import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 import { usedComponents } from './global'
@@ -18,6 +18,11 @@ export function parseScript (
   wxses: WXS[] = []
 ) {
   script = script || 'Page({})'
+  if (t.isJSXText(returned as any)) {
+    const block = buildBlockElement()
+    block.children = [returned as any]
+    returned = block
+  }
   const { ast } = transform(script, {
     parserOpts: {
       sourceType: 'module',

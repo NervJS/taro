@@ -40,9 +40,8 @@ type Props = {
 }
 
 type State = {
-  // height:width
   ratio: number,
-  layoutWidth: number
+  imageHeight: number
 }
 
 class _Image extends React.Component<Props, State> {
@@ -66,7 +65,6 @@ class _Image extends React.Component<Props, State> {
 
   onLoad = (event: Object) => {
     const { src, onLoad } = this.props
-    // const { width, height } = Image.resolveAssetSource(typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src)
     const { width, height } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
     onLoad && onLoad({
       detail: { width, height }
@@ -74,22 +72,32 @@ class _Image extends React.Component<Props, State> {
   }
 
   onLayout = (event: Object) => {
+    const { mode, style } = this.props
     const { width: layoutWidth } = event.nativeEvent.layout
-    this.setState({
-      layoutWidth
-    })
+    const flattenStyle = StyleSheet.flatten(style) || {}
+    if (mode === 'widthFix' && typeof flattenStyle.width === 'string') {
+      if (this._isMounted) return
+      this.setState({
+        layoutWidth
+      })
+    }
   }
 
   loadImg = (props: Props) => {
-    const { src } = props
+    const { mode, src } = props
+    if (mode !== 'widthFix') return
     if (typeof src === 'string') {
       Image.getSize(props.src, (width, height) => {
-        this.setState({ ratio: height / width })
-      })
+        if (this._isMounted) return
+        this.setState({
+          ratio: height / width
+        })
+    })
     } else {
-      const source = Image.resolveAssetSource(props.src)
+      const { width, height } = Image.resolveAssetSource(props.src) || {}
+      if (this._isMounted) return
       this.setState({
-        ratio: source ? (source.height / source.width) : 0
+        ratio: height / width
       })
     }
   }
@@ -99,7 +107,12 @@ class _Image extends React.Component<Props, State> {
     this.loadImg(nextProps)
   }
 
+  componentWillMount () {
+    this._isMounted = true
+  }
+
   componentDidMount () {
+    this._isMounted = false
     this.loadImg(this.props)
   }
 
@@ -110,30 +123,33 @@ class _Image extends React.Component<Props, State> {
       mode,
     } = this.props
 
-    const flattenStyle = StyleSheet.flatten(style)
+    const flattenStyle = StyleSheet.flatten(style) || {}
 
     // The parameter passed to require must be a string literal
-    // src = typeof src === 'string' && /^(https?:)?\/\//.test(src) ? { uri: src } : src
     src = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
 
-    mode = resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch')
+    const rMode = resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch')
 
     const imageHeight = (() => {
       if (isWidthFix) {
-        let width = flattenStyle && flattenStyle.width
-        typeof width === 'string' && (width = this.state.layoutWidth)
-        return (width || 300) * this.state.ratio
+        if (typeof flattenStyle.width === 'string') {
+          return this.state.layoutWidth * this.state.ratio
+        } else if (typeof flattenStyle.width === 'number') {
+          return flattenStyle.width * this.state.ratio
+        } else {
+          return 300 * this.state.ratio
+        }
       } else {
-        return (flattenStyle && flattenStyle.height) || 225
+        return flattenStyle.height || 225
       }
     })()
 
     return (
       <Image
         source={src}
-        resizeMode={mode}
+        resizeMode={rMode}
         onError={this.onError}
         onLoad={this.onLoad}
         onLayout={this.onLayout}
@@ -143,7 +159,7 @@ class _Image extends React.Component<Props, State> {
           },
           style,
           {
-            height: imageHeight || this.state.imageHeight
+            height: imageHeight
           }
         ]}
       />

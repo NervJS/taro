@@ -23,6 +23,7 @@ import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
 import EXAudio from './example/EXAudio'
 import EXVideo from './example/EXVideo'
+import EXMap from './example/EXMap'
 
 export default class App extends Component {
   state = {
@@ -64,11 +65,11 @@ export default class App extends Component {
     //     console.log(key)
     //   }
     // }
-    for (let key in global.window) {
-      if (global.window.hasOwnProperty(key)) {
-        console.log(key)
-      }
-    }
+    // for (let key in global.window) {
+    //   if (global.window.hasOwnProperty(key)) {
+    //     console.log(key)
+    //   }
+    // }
     return (
       <ScrollView
         style={{
@@ -90,6 +91,10 @@ export default class App extends Component {
         }}
       >
         <Text>Welcome to React Native!</Text>
+
+        <EXMap />
+
+        <EXImage />
 
         <EXVideo />
 
@@ -154,7 +159,7 @@ export default class App extends Component {
         <EXSwitch />
 
         <Text>Image</Text>
-        <EXImage />
+        {/* <EXImage /> */}
 
         <Text>Checkbox（Single & Group）</Text>
         <EXCheckbox />

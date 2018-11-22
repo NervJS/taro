@@ -6,15 +6,36 @@ function queryBat (queue, cb) {
   const res = []
 
   queue.forEach(item => {
-    const { selector, single, fields } = item
-    let el = null
+    const { selector, single, fields, component } = item
+    // selector 的容器节点
+    let container = document
+    if (component && component.vnode && component.vnode.dom) {
+      container = component.vnode.dom
+    }
+
+    // 特殊处理 ---- 选自己
+    let selectSelf = false
+    if (container !== document) {
+      const $nodeList = container.parentNode.querySelectorAll(selector)
+      for (let i = 0, len = $nodeList.length; i < len; ++i) {
+        if (container === $nodeList[i]) {
+          selectSelf = true
+          break
+        }
+      }
+    }
 
     if (single) {
-      el = document.querySelector(selector)
+      const el = selectSelf === true ? container : container.querySelector(selector)
       res.push(filter(fields, el, selector))
     } else {
-      el = Array.from(document.querySelectorAll(selector))
-      res.push(el.map(dom => filter(fields, dom)))
+      const $children = container.querySelectorAll(selector)
+      const children = []
+      selectSelf === true && children.push(container)
+      for (let i = 0, len = $children.length; i < len; ++i) {
+        children.push($children[i])
+      }
+      res.push(children.map(dom => filter(fields, dom)))
     }
   })
   cb(res)
@@ -37,7 +58,10 @@ function filter (fields, dom, selector) {
       res.top = top
       res.bottom = bottom
     } else {
-      res.left = res.right = res.top = res.bottom = 0
+      res.left = 0
+      res.right = 0
+      res.top = 0
+      res.bottom = 0
     }
   }
   if (size) {
@@ -131,13 +155,13 @@ class NodesRef {
 
   boundingClientRect (cb) {
     const { _selector, _component, _single, _selectorQuery } = this
-    _selectorQuery._push(_selector, _component, _single, {id: !0, dataset: !0, rect: !0, size: !0}, cb)
+    _selectorQuery._push(_selector, _component, _single, { id: !0, dataset: !0, rect: !0, size: !0 }, cb)
     return _selectorQuery
   }
 
   scrollOffset (cb) {
     const { _selector, _component, _single, _selectorQuery } = this
-    _selectorQuery._push(_selector, _component, _single, {id: !0, dataset: !0, scrollOffset: !0}, cb)
+    _selectorQuery._push(_selector, _component, _single, { id: !0, dataset: !0, scrollOffset: !0 }, cb)
     return _selectorQuery
   }
 

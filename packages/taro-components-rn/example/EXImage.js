@@ -18,19 +18,19 @@ export default class EXImage extends Component {
     }
   }
 
-  componentDidMount () {
-    setTimeout(() => {
-      this.setState({
-        src: 'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'
-      })
-    }, 0)
-  }
+  // componentDidMount () {
+  //   setTimeout(() => {
+  //     this.setState({
+  //       src: 'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'
+  //     })
+  //   }, 0)
+  // }
 
   render () {
     return (
       <View style={{ width: 100 }}>
         <Image
-          src={this.state.src}
+          src={'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'}
           // src={require('./jdlogo.png')}
           mode="widthFix"
           style={{

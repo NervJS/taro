@@ -42,11 +42,14 @@ const emptyTogglableObj = {
   config: {}
 }
 
+const isNpmPackage = name => !/^(\.|\/)/.test(name)
+
 export {
   appPath,
   emptyObj,
   emptyTogglableObj,
   isEmptyObject,
+  isNpmPackage,
   getRootPath,
   zeroPad,
   formatTime

@@ -6,6 +6,8 @@ import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockE
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
+import * as fs from 'fs'
+import { resolve } from 'path'
 // const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
@@ -133,7 +135,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
         }
         const tagName = jsxName.node.name
         if (tagName === 'Wxs') {
-          wxses.push(getWXS(attrs.map(a => a.node), path))
+          wxses.push(getWXS(attrs.map(a => a.node), path, dirPath))
         }
         if (tagName === 'Template') {
           const template = parseTemplate(path, dirPath)
@@ -195,7 +197,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   }
 }
 
-function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>): WXS {
+function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, dirPath: string): WXS {
   let moduleName: string | null = null
   let src: string | null = null
 
@@ -222,6 +224,15 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>): WXS {
         src = value
       }
     }
+  }
+
+  if (!src) {
+    const { children: [ script ] } = path.node
+    if (!t.isJSXText(script)) {
+      throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
+    }
+    src = './wxs__' + moduleName
+    fs.writeFileSync(resolve(dirPath, src + '.wxs'), script.value)
   }
 
   if (!moduleName || !src) {

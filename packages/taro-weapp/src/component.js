@@ -24,13 +24,15 @@ class BaseComponent {
   _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
+  $componentType = ''
   $router = {
     params: {}
   }
 
-  constructor (props = {}) {
+  constructor (props = {}, isPage) {
     this.state = {}
     this.props = props
+    this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
   }
   _constructor (props) {
     this.props = props || {}

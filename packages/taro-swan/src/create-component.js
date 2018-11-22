@@ -232,7 +232,11 @@ function createComponent (ComponentClass, isPage) {
   try {
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
-    console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    if (isPage) {
+      console.warn(`[Taro warn] 请给页面提供初始 \`state\` 以提高初次渲染性能！`)
+    } else {
+      console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    }
     console.warn(err)
   }
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
@@ -241,7 +245,7 @@ function createComponent (ComponentClass, isPage) {
     data: initData,
     created (options = {}) {
       isPage && (hasPageInited = false)
-      this.$component = new ComponentClass()
+      this.$component = new ComponentClass({}, isPage)
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
