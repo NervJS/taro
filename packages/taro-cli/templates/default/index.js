@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const shelljs = require('shelljs')
 const ora = require('ora')
 
-module.exports = function (creater, params, helper, cb) {
+module.exports = function (creator, params, helper, cb) {
   const { projectName, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const cwd = process.cwd()
@@ -15,7 +15,7 @@ module.exports = function (creater, params, helper, cb) {
   const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
   const shouldUseYarn = helper.shouldUseYarn()
   const useNpmrc = shouldUseYarn === false
-  const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
+  const useYarnLock = shouldUseYarn && fs.existsSync(creator.templatePath(template, yarnLockfilePath))
   let appCSSName
   let pageCSSName
   const styleExtMap = {
@@ -31,32 +31,32 @@ module.exports = function (creater, params, helper, cb) {
   fs.mkdirSync(configDir)
   fs.mkdirSync(path.join(sourceDir, 'pages'))
 
-  creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
+  creator.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
     projectName,
     version,
     css,
     typescript
   })
-  creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
+  creator.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
     projectName
   })
-  creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
-  creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
-  creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'), {
+  creator.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
+  creator.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
+  creator.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'), {
     typescript
   })
-  creater.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
+  creator.template(template, 'indexhtml', path.join(sourceDir, 'index.html'))
   if (typescript) {
-    creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
+    creator.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
-    creater.template(template, 'globaldts', path.join(projectPath, 'global.d.ts'))
+    creator.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
+    creator.template(template, 'globaldts', path.join(projectPath, 'global.d.ts'))
   } else {
-    creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
+    creator.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
       css: currentStyleExt
     })
   }
@@ -78,27 +78,27 @@ module.exports = function (creater, params, helper, cb) {
       pageCSSName = 'index.css'
       break
   }
-  creater.template(template, 'scss', path.join(sourceDir, appCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
-  creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
+  creator.template(template, 'scss', path.join(sourceDir, appCSSName))
+  creator.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
+  creator.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
   })
-  creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
-  creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
+  creator.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
+  creator.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
+    creator.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
   } else {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
+    creator.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
       css: currentStyleExt
     })
   }
-  if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
-  if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
-  creater.fs.commit(() => {
+  if (useNpmrc) creator.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
+  if (useYarnLock) creator.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
+  creator.fs.commit(() => {
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建配置目录: ${projectName}/${configDirName}`)}`)
