@@ -97,6 +97,7 @@ function writeStyleFile ({css, tempFilePath}) {
   const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${css})`
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, '生成文件', tempFilePath)
 }
 
 module.exports = {
