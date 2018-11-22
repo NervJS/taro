@@ -1860,7 +1860,7 @@ function copyFiles () {
         if (fs.existsSync(from)) {
           const copyOptions = {}
           if (ignore) {
-            ignore = Array.isArray(ignore) || [ignore]
+            ignore = Array.isArray(ignore) ? ignore : [ignore]
             copyOptions.filter = src => {
               let isMatch = false
               ignore.forEach(iPa => {

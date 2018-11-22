@@ -188,6 +188,7 @@ export default function transform (options: Options): TransformResult {
   let result
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
+  const importSources = new Set<string>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
@@ -418,6 +419,11 @@ export default function transform (options: Options): TransformResult {
     },
     ImportDeclaration (path) {
       const source = path.node.source.value
+      if (importSources.has(source)) {
+        throw codeFrameError(path.node, '无法在同一文件重复 import 相同的包。')
+      } else {
+        importSources.add(source)
+      }
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
         isImportTaro = true
