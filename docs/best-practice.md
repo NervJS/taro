@@ -214,6 +214,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 ```
 
+### 使用 `this.$componentType` 来判断当前 Taro.Component 是页面还是组件
+
+`this.$componentType` 可能取值分别为 `PAGE` 和 `COMPONENT`，开发者可以根据此变量的取值分别采取不同逻辑。
+
 ### 预加载
 
 在**微信小程序中**，从调用 `Taro.navigateTo`、`Taro.redirectTo` 或 `Taro.switchTab` 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
