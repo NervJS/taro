@@ -30,6 +30,12 @@ function inlineStyle (style) {
   return res
 }
 
+
+function setTransform (el, val) {
+  el.style.webkitTransform = val
+  el.style.transform = val
+}
+
 function errorHandler (fail, complete) {
   return function (res) {
     typeof fail === 'function' && fail(res)
@@ -52,6 +58,7 @@ export {
   shouleBeObject,
   getParameterError,
   inlineStyle,
+  setTransform,
   errorHandler,
   serializeParams
 }

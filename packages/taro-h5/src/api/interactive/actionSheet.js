@@ -1,4 +1,4 @@
-import { inlineStyle } from '../utils'
+import { inlineStyle, setTransform } from '../utils'
 
 export default class ActionSheet {
   constructor () {
@@ -13,7 +13,7 @@ export default class ActionSheet {
     }
   }
 
-  getstyle (name) {
+  getStyle () {
     return {
       maskStyle: {
         'position': 'fixed',
@@ -59,7 +59,7 @@ export default class ActionSheet {
 
   create (options = {}) {
     // style
-    const { maskStyle, actionSheetStyle, menuStyle, cellStyle, cancelStyle } = this.getstyle()
+    const { maskStyle, actionSheetStyle, menuStyle, cellStyle, cancelStyle } = this.getStyle()
 
     // configuration
     Object.assign(this.options, options)
@@ -121,7 +121,7 @@ export default class ActionSheet {
     document.body.appendChild(this.el)
     setTimeout(() => {
       this.el.style.opacity = '1'
-      this.actionSheet.style.transform = 'translate(0, 0)'
+      setTransform(this.actionSheet, 'translate(0, 0)')
     }, 0)
 
     return new Promise((resolve, reject) => {
@@ -139,7 +139,7 @@ export default class ActionSheet {
     Object.assign(config, options)
 
     // cells
-    const { cellStyle } = this.getstyle()
+    const { cellStyle } = this.getStyle()
 
     options.itemList.forEach((item, index) => {
       if (this.cells[index]) {
@@ -175,7 +175,7 @@ export default class ActionSheet {
     this.el.style.display = 'block'
     setTimeout(() => {
       this.el.style.opacity = '1'
-      this.actionSheet.style.transform = 'translate(0, 0)'
+      setTransform(this.actionSheet, 'translate(0, 0)')
     }, 0)
 
     return new Promise((resolve, reject) => {
@@ -198,7 +198,7 @@ export default class ActionSheet {
   hide () {
     setTimeout(() => {
       this.el.style.opacity = '0'
-      this.actionSheet.style.transform = 'translate(0, 100%)'
+      setTransform(this.actionSheet, 'translate(0, 100%)')
       setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)
   }
