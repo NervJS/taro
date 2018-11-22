@@ -10,7 +10,7 @@ import * as webpack from 'webpack'
 
 import { appPath } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
-import { Option } from './types'
+import { Option, PostcssOption } from './types'
 
 
 const defaultUglifyJsOption = {
@@ -137,7 +137,7 @@ const getModule = ({
   module,
   plugins
 }) => {
-  const postcssOption = module.postcss || {}
+  const postcssOption: PostcssOption = module.postcss || {}
 
   const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
 
@@ -148,7 +148,8 @@ const getModule = ({
   const cssOptions = [
     {
       importLoaders: 1,
-      sourceMap: enableSourceMap
+      sourceMap: enableSourceMap,
+      modules: postcssOption.cssModules && postcssOption.cssModules.enable
     },
     cssLoaderOption
   ]

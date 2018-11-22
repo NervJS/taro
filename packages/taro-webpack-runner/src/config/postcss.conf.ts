@@ -49,7 +49,6 @@ export const getPostcssPlugins = function ({
   deviceRatio,
   postcssOption = {} as PostcssOption
 }) {
-  const autoprefixerOption = Object.assign({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
 
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
@@ -59,21 +58,20 @@ export const getPostcssPlugins = function ({
     defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
 
+  const autoprefixerOption = Object.assign({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = Object.assign({}, defaultPxtransformOption, postcssOption.pxtransform)
   const cssModulesOption = Object.assign({}, defaultCssModulesOption, postcssOption.cssModules)
 
   if (autoprefixerOption.enable) {
-    plugins.push(autoprefixer(autoprefixerOption as autoprefixer.Options))
+    plugins.push(autoprefixer(autoprefixerOption.config))
   }
 
   if (pxtransformOption.enable) {
-    defaultPxtransformOption.platform = defaultPxtransformOption.config.platform
-    plugins.push(pxtransform(defaultPxtransformOption))
+    plugins.push(pxtransform(pxtransformOption.config))
   }
 
   if (cssModulesOption.enable) {
-    const customCssModulesOption = postcssOption.cssModules ? postcssOption.cssModules.config : {}
-    plugins.push(modules(customCssModulesOption))
+    plugins.push(modules(cssModulesOption.config))
   }
 
   plugins.push(constparse(defaultConstparseOption))
