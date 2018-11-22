@@ -76,6 +76,7 @@
       "config-detail",
       "async-await",
       "redux",
+      "mobx",
       "wx-third-party",
       "wx-hybrid"
     ]

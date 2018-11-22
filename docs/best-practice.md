@@ -101,6 +101,8 @@ class Parent extends Component {
 
 ### 支持 props 传入 JSX
 
+> 自 `1.1.9` 开始支持
+
 支持 props 传入 JSX，但是元素传入 JSX 的属性名必须以 `render` 开头
 
 例如，子组件写法

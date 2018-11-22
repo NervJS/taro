@@ -2,6 +2,8 @@
 title: 使用 Mobx
 ---
 
+> 自 `1.2.0-beta.1` 开始支持
+
 [Mobx](https://mobx.js.org/) 为复杂项目中状态管理提供了一种简单高效的机制；Taro 提供了 `@tarojs/mobx` 来让开发人员在使用Mobx的过程中获得更加良好的开发体验。
 
 > 下文中示例代码均在 [taro-mobx-sample](https://github.com/nanjingboy/taro-mobx-sample)
