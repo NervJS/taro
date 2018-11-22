@@ -1,5 +1,10 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.0...v) (2018-11-22)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.1...v) (2018-11-22)
+
+
+
+<a name="1.2.0-beta.1"></a>
+# [1.2.0-beta.1](https://github.com/NervJS/taro/compare/v1.2.0-beta.0...v1.2.0-beta.1) (2018-11-22)
 
 
 
