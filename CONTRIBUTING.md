@@ -40,4 +40,4 @@ $ npm run bootstrap
 
 感谢以下所有给 Taro 贡献过代码的开发者：
 
-<a href="https://github.com/nervjs/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890" /></a>
+<a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>

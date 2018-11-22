@@ -245,7 +245,7 @@ function createComponent (ComponentClass, isPage) {
     data: initData,
     created (options = {}) {
       isPage && (hasPageInited = false)
-      this.$component = new ComponentClass()
+      this.$component = new ComponentClass({}, isPage)
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes

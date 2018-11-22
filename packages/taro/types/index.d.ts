@@ -349,6 +349,8 @@ declare namespace Taro {
 
     options?: ComponentOptions;
 
+    $componentType: 'PAGE' | 'COMPONENT'
+
     $router: {
       params: any
     }

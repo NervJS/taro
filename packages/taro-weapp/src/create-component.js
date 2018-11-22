@@ -310,7 +310,7 @@ function createComponent (ComponentClass, isPage) {
       if (isPage && cacheDataHas(preloadInitedComponent)) {
         this.$component = cacheDataGet(preloadInitedComponent, true)
       } else {
-        this.$component = new ComponentClass()
+        this.$component = new ComponentClass({}, isPage)
       }
       this.$component._init(this)
       this.$component.render = this.$component._createData
