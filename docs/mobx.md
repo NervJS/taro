@@ -190,3 +190,57 @@ export default Index
   }))
   @observer //这个不能省略
   ```
+
+注意事项：
+
+如果您以`class`的形式定义`store`，比如：
+
+```js
+import { observable, action, decorate } from 'mobx'
+
+class Counter  {
+
+  counter = 2
+
+  @action increment () {
+    this.counter++
+  }
+
+  @action decrement() {
+    this.counter--
+  }
+
+  @action incrementAsync(){
+    setTimeout(() => {
+      this.counter++
+    }, 1000)
+  }
+}
+
+decorate(Counter, {
+  counter: observable
+})
+
+export default new Counter()na
+```
+
+那么在`Component`的`render`方法中，您需要：
+
+```js
+const { counterStore } = this.props
+const { counter } = counterStore
+return (
+   <Text>{counter}</Text>
+)
+```
+
+而非：
+
+```js
+const { counterStore } = this.props
+return (
+   <Text>{counterStore.counter}</Text>
+)
+```
+
+具体原因参见：https://github.com/NervJS/taro/pull/972#issuecomment-441180286
