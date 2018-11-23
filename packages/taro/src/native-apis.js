@@ -65,7 +65,6 @@ const noPromiseApis = {
   createAnimation: true,
   pageScrollTo: true,
   createSelectorQuery: true,
-  getAccountInfoSync: true,
   createCanvasContext: true,
   createContext: true,
   drawCanvas: true,
@@ -80,6 +79,7 @@ const noPromiseApis = {
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,
 
+  getAccountInfoSync: true,
   getUpdateManager: true,
   createWorker: true
 }

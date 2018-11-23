@@ -314,6 +314,13 @@ function processApis (taro) {
           }
           return console.log('setStorageSync 传入参数错误')
         }
+        if (key === 'removeStorageSync') {
+          const arg1 = args[0]
+          if (arg1 != null) {
+            return my[key].call(my, { key: arg1 })
+          }
+          return console.log('removeStorageSync 传入参数错误')
+        }
         return my[key].apply(my, args)
       }
     }
