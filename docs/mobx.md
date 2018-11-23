@@ -230,8 +230,7 @@ export default new Counter()na
 const { counterStore } = this.props
 const { counter } = counterStore
 return (
-   <Text>{
-   counter}</Text>
+   <Text>{counter}</Text>
 )
 ```
 
