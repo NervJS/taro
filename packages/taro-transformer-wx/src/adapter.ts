@@ -2,7 +2,8 @@ export const enum Adapters {
   weapp = 'weapp',
   swan = 'swan',
   alipay = 'alipay',
-  quickapp = 'quickapp'
+  quickapp = 'quickapp',
+  tt = 'tt'
 }
 
 interface Adapter {
@@ -49,15 +50,29 @@ const alipayAdapter: Adapter = {
   type: Adapters.alipay
 }
 
+const ttAdapter: Adapter = {
+  if: 'tt:if',
+  else: 'tt:else',
+  elseif: 'tt:elif',
+  for: 'tt:for',
+  forItem: 'tt:for-item',
+  forIndex: 'tt:for-index',
+  key: 'tt:key',
+  type: Adapters.alipay
+}
+
 export let Adapter: Adapter = weixinAdapter
 
 export function setAdapter (adapter: Adapters) {
-  switch (adapter) {
+  switch (adapter.toLowerCase()) {
     case Adapters.swan:
       Adapter = swanAdapter
       break
     case Adapters.alipay:
       Adapter = alipayAdapter
+      break
+    case Adapters.tt:
+      Adapter = ttAdapter
       break
     default:
       Adapter = weixinAdapter
