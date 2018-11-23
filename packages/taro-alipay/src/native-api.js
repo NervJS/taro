@@ -321,6 +321,11 @@ function processApis (taro) {
           }
           return console.log('removeStorageSync 传入参数错误')
         }
+        if (key === 'createSelectorQuery') {
+          const query = my[key]()
+          query.in = function () { return query }
+          return query
+        }
         return my[key].apply(my, args)
       }
     }
