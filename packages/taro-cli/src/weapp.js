@@ -43,6 +43,7 @@ const outputDir = path.join(appPath, outputDirName)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const outputEntryFilePath = path.join(outputDir, entryFileName)
+const watcherDirs = projectConfig.watcher || []
 
 const pluginsConfig = projectConfig.plugins || {}
 const weappConf = projectConfig.weapp || {}
@@ -1897,7 +1898,8 @@ function watchFiles () {
   isBuildingScripts = {}
   isBuildingStyles = {}
   isCopyingFiles = {}
-  const watcher = chokidar.watch(path.join(sourceDir), {
+  const watcherPaths = [path.join(sourceDir)].concat(watcherDirs)
+  const watcher = chokidar.watch(watcherPaths, {
     ignored: /(^|[/\\])\../,
     persistent: true,
     ignoreInitial: true
