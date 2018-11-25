@@ -3,7 +3,8 @@ export const ENV_TYPE = {
   WEB: 'WEB',
   RN: 'RN',
   SWAN: 'SWAN',
-  ALIPAY: 'ALIPAY'
+  ALIPAY: 'ALIPAY',
+  TT: 'TT'
 }
 
 export function getEnv () {
@@ -15,6 +16,9 @@ export function getEnv () {
   }
   if (typeof my !== 'undefined' && my.getSystemInfo) {
     return ENV_TYPE.ALIPAY
+  }
+  if (typeof tt !== 'undefined' && tt.getSystemInfo) {
+    return ENV_TYPE.TT
   }
   if (typeof global !== 'undefined' && global.__fbGenNativeModule) {
     return ENV_TYPE.RN

@@ -25,6 +25,7 @@
     "packages/taro-weapp",
     "packages/taro-swan",
     "packages/taro-alipay",
+    "packages/taro-tt",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
