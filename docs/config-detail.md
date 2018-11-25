@@ -1,5 +1,5 @@
 ---
-title: 配置详情
+title: 编译配置详情
 ---
 
 ## designWidth

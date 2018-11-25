@@ -11,8 +11,9 @@
       "specials"
     ],
     "教程": [
-      "tutorial",
       "spec-for-taro",
+      "tutorial",
+      "project-config",
       "router",
       "size",
       "static-reference",
