@@ -758,6 +758,12 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       }
     }
   })
+  ast = babel.transformFromAst(ast, '', {
+    plugins: [
+      require('babel-plugin-transform-decorators-legacy').default,
+      require('babel-plugin-transform-class-properties')
+    ]
+  }).ast
   return {
     code: generate(ast).code,
     styleFiles,
