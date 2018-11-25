@@ -58,7 +58,7 @@ const ttAdapter: Adapter = {
   forItem: 'tt:for-item',
   forIndex: 'tt:for-index',
   key: 'tt:key',
-  type: Adapters.alipay
+  type: Adapters.tt
 }
 
 export let Adapter: Adapter = weixinAdapter
