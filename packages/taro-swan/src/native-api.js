@@ -74,11 +74,6 @@ function processApis (taro) {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         options = options || {}
-        if (key === 'connectSocket') {
-          if (options['protocols']) {
-            options['protocolsArray'] = options['protocols']
-          }
-        }
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
@@ -90,14 +85,15 @@ function processApis (taro) {
         const p = new Promise((resolve, reject) => {
           ['fail', 'success', 'complete'].forEach((k) => {
             obj[k] = (res) => {
-              if (k === 'success' || k === 'complete') {
-                if (key === 'showActionSheet') {
-                  res.index = res.tapIndex
-                }
-              }
               options[k] && options[k](res)
               if (k === 'success') {
-                resolve(res)
+                if (key === 'connectSocket') {
+                  resolve(
+                    Promise.resolve().then(() => Object.assign(task, res))
+                  )
+                } else {
+                  resolve(res)
+                }
               } else if (k === 'fail') {
                 reject(res)
               }
@@ -123,6 +119,14 @@ function processApis (taro) {
             }
             return p
           }
+        } else if (key === 'request') {
+          p.abort = cb => {
+            cb && cb()
+            if (task) {
+              task.abort()
+            }
+            return p
+          }
         }
         return p
       }
@@ -138,7 +142,6 @@ function pxTransform (size) {
   const { designWidth, deviceRatio } = this.config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    return
   }
   return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
 }

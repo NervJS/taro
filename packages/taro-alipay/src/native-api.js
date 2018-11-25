@@ -25,7 +25,7 @@ const apiDiff = {
       }]
     }
   },
-  showActionSheet: {
+  showLoading: {
     options: {
       change: [{
         old: 'title',
@@ -125,7 +125,7 @@ const apiDiff = {
       }]
     }
   },
-  setClipboardData: {
+  makePhoneCall: {
     options: {
       change: [{
         old: 'phoneNumber',
@@ -143,7 +143,7 @@ const apiDiff = {
       set: [{
         key: 'type',
         value (options) {
-          return options.scanType && options.scanType[0].slice(0, -4) || 'qr'
+          return (options.scanType && options.scanType[0].slice(0, -4)) || 'qr'
         }
       }]
     }
@@ -336,7 +336,6 @@ function pxTransform (size) {
   const { designWidth, deviceRatio } = this.config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    return
   }
   return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
 }

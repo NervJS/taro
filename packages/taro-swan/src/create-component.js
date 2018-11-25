@@ -158,8 +158,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+    } else if (propName in weappComponentData) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -279,8 +278,9 @@ function createComponent (ComponentClass, isPage) {
             } else if ('fn' in ref && typeof ref['fn'] === 'function') {
               ref['fn'].call(component, target)
             }
+            ref.target = target
           })
-          component.refs = refs
+          component.refs = Object.assign({}, component.refs || {}, refs)
         }
       }, 0)
     },

@@ -73,10 +73,11 @@ function doUpdate (component, prevProps, prevState) {
         return
       }
       if (typeof val === 'object') {
+        if (isEmptyObject(val)) return safeSet(_data, key, val)
+
         val = shakeFnFromObject(val)
-        if (!isEmptyObject(val)) {
-          safeSet(_data, key, val)
-        }
+        // 避免筛选完 Fn 后产生了空对象还去渲染
+        if (!isEmptyObject(val)) safeSet(_data, key, val)
       } else {
         safeSet(_data, key, val)
       }
@@ -85,17 +86,44 @@ function doUpdate (component, prevProps, prevState) {
   }
   // 改变这个私有的props用来触发(observer)子组件的更新
   data[privatePropKeyName] = !privatePropKeyVal
+
+  // 每次 setData 都独立生成一个 callback 数组
+  let cbs = []
+  if (component._pendingCallbacks && component._pendingCallbacks.length) {
+    cbs = component._pendingCallbacks
+    component._pendingCallbacks = []
+  }
+
   component.$scope.setData(data, function () {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
+    if (component.__mounted) {
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
+          if (ref.type !== 'component') return
+
+          let target = component.$scope.selectComponent(`#${ref.id}`)
+          target = target ? (target.$component || target) : null
+
+          const prevRef = ref.target
+          if (target !== prevRef) {
+            if (ref.refName) component.refs[ref.refName] = target
+            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            ref.target = target
+          }
+        })
+      }
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
+      }
     }
-    const cbs = component._pendingCallbacks
-    if (cbs && cbs.length) {
-      const len = cbs.length
-      let i = len
-      while (--i >= 0) cbs[i].call(component)
-      cbs.splice(0, len)
+
+    if (cbs.length) {
+      let i = cbs.length
+      while (--i >= 0) {
+        typeof cbs[i] === 'function' && cbs[i].call(component)
+      }
     }
+
     if (!component.__mounted) {
       component.__mounted = true
       componentTrigger(component, 'componentDidMount')

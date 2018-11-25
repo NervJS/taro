@@ -86,7 +86,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
             const consequentSibling = astPath.getSibling('consequent')
             consequentSibling.traverse({
               CallExpression (astPath) {
-                if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+                if (astPath.get('callee').isIdentifier({ name: 'require'})) {
                   const arg = astPath.get('arguments')[0]
                   if (t.isStringLiteral(arg.node)) {
                     excludeRequire.push(arg.node.value)
@@ -217,7 +217,7 @@ function npmCodeHack (filePath, content, buildAdapter) {
       }
       break
     case 'mobx.js':
-      //解决支付宝小程序全局window或global不存在的问题
+      // 解决支付宝小程序全局window或global不存在的问题
       content = content.replace(
         /typeof window\s{0,}!==\s{0,}[\'"]undefined[\'"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
         'typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}'

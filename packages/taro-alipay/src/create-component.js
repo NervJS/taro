@@ -1,4 +1,4 @@
-import { isEmptyObject, noop } from './util'
+import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/

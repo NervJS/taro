@@ -150,8 +150,7 @@ function processApis (taro) {
             }
             return p
           }
-        }
-        if (key === 'request') {
+        } else if (key === 'request') {
           p.abort = cb => {
             cb && cb()
             if (task) {

@@ -4,7 +4,7 @@
   "description": "Nerv-multi多端开发解决方案",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint packages/*/src --fix",
+    "lint": "eslint packages/*/src/**/*.js --fix",
     "docs": "cd website && docusaurus-build",
     "docs:serve": "cd website && docusaurus-start",
     "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json",
@@ -56,7 +56,9 @@
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-jsx": "^4.0.2",
     "eslint-loader": "^2.0.0",
+    "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jest": "^22.0.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.4.0",

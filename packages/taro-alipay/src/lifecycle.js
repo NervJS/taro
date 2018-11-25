@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
-  const privatePropKeyName = '_triggerObserer'
+const privatePropKeyName = '_triggerObserer'
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
@@ -73,10 +73,11 @@ function doUpdate (component, prevProps, prevState) {
         return
       }
       if (typeof val === 'object') {
+        if (isEmptyObject(val)) return safeSet(_data, key, val)
+
         val = shakeFnFromObject(val)
-        if (!isEmptyObject(val)) {
-          safeSet(_data, key, val)
-        }
+        // 避免筛选完 Fn 后产生了空对象还去渲染
+        if (!isEmptyObject(val)) safeSet(_data, key, val)
       } else {
         safeSet(_data, key, val)
       }
@@ -84,16 +85,25 @@ function doUpdate (component, prevProps, prevState) {
     data = _data
   }
   data[privatePropKeyName] = !privatePropKeyVal
+  // 每次 setData 都独立生成一个 callback 数组
+  let cbs = []
+  if (component._pendingCallbacks && component._pendingCallbacks.length) {
+    cbs = component._pendingCallbacks
+    component._pendingCallbacks = []
+  }
   const dataDiff = diffObjToPath(data, component.$scope.data)
   component.$scope.setData(dataDiff, function () {
     if (component.__mounted && typeof component.componentDidUpdate === 'function') {
       component.componentDidUpdate(prevProps, prevState)
     }
-    if (component._pendingCallbacks) {
-      while (component._pendingCallbacks.length) {
-        component._pendingCallbacks.pop().call(component)
+
+    if (cbs.length) {
+      let i = cbs.length
+      while (--i >= 0) {
+        typeof cbs[i] === 'function' && cbs[i].call(component)
       }
     }
+
     if (!component.__mounted) {
       component.__mounted = true
       componentTrigger(component, 'componentDidMount')

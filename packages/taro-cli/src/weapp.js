@@ -1391,7 +1391,7 @@ function processStyleUseCssModule (styleObj) {
     LocalByDefault,
     ExtractImports,
     new Scope({ generateScopedName: scopedName }),
-    new ResolveImports({ resolve: Object.assign({}, { extensions: Util.CSS_EXT }) }),
+    new ResolveImports({ resolve: Object.assign({}, { extensions: Util.CSS_EXT }) })
   ]
   const runner = postcss(postcssPlugins)
   const result = runner.process(styleObj.css, Object.assign({}, { from: styleObj.filePath }))

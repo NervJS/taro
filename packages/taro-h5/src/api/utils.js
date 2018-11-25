@@ -30,7 +30,6 @@ function inlineStyle (style) {
   return res
 }
 
-
 function setTransform (el, val) {
   el.style.webkitTransform = val
   el.style.transform = val
