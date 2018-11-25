@@ -970,6 +970,9 @@ function buildProjectConfig () {
   if (!fs.existsSync(projectConfigPath)) return
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
+  if (buildAdapter === Util.BUILD_TYPES.TT) {
+    projectConfigFileName = 'project.config.json'
+  }
   fs.ensureDirSync(outputDir)
   fs.writeFileSync(
     path.join(outputDir, projectConfigFileName),
