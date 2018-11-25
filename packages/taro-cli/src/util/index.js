@@ -91,6 +91,7 @@ exports.BUILD_TYPES = {
   RN: 'rn',
   SWAN: 'swan',
   ALIPAY: 'alipay',
+  TT: 'tt',
   UI: 'ui'
 }
 
@@ -112,6 +113,12 @@ exports.MINI_APP_FILES = {
     STYLE: '.acss',
     SCRIPT: '.js',
     CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.TT]: {
+    TEMPL: '.ttml',
+    STYLE: '.ttss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
   }
 }
 
@@ -126,6 +133,15 @@ exports.CONFIG_MAP = {
     selectedIconPath: 'selectedIconPath'
   },
   [exports.BUILD_TYPES.SWAN]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.TT]: {
     navigationBarTitleText: 'navigationBarTitleText',
     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
     enablePullDownRefresh: 'enablePullDownRefresh',
