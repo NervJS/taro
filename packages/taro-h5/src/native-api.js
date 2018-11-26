@@ -8,6 +8,7 @@ import * as tabBar from './api/tabBar'
 import * as system from './api/system'
 import * as others from './api/others'
 import * as navigationBar from './api/navigationBar'
+import * as imageUtils from './api/imageUtils'
 
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
@@ -38,5 +39,5 @@ export default function initNativeApi (taro) {
     console.error('不支持 API requirePlugin')
   }
   taro.canIUseWebp = canIUseWebp
-  Object.assign(taro, storage, interactive, webSocket, tabBar, system, navigationBar, others)
+  Object.assign(taro, storage, interactive, webSocket, tabBar, system, navigationBar, imageUtils, others)
 }

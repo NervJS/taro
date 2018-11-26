@@ -12,13 +12,13 @@ describe('navigation', () => {
       return Promise.all([
         Taro.setNavigationBarTitle()
           .catch(err => {
-            const expectErrMsg = 'setStorage:fail parameter error: parameter should be Object instead of Undefined'
+            const expectErrMsg = 'setNavigationBarTitle:fail parameter error: parameter should be Object instead of Undefined'
             expect(console.error).toHaveBeenNthCalledWith(1, expectErrMsg)
             expect(err.errMsg).toMatch(expectErrMsg)
           }),
         Taro.setNavigationBarTitle(null)
           .catch(err => {
-            const expectErrMsg = 'setStorage:fail parameter error: parameter should be Object instead of Null'
+            const expectErrMsg = 'setNavigationBarTitle:fail parameter error: parameter should be Object instead of Null'
             expect(console.error).toHaveBeenNthCalledWith(2, expectErrMsg)
             expect(err.errMsg).toMatch(expectErrMsg)
           })
