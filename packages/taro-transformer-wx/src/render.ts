@@ -1136,6 +1136,7 @@ export class RenderParser {
           })
           const replacements = new Set()
           component.traverse({
+            JSXExpressionContainer: this.replaceIdWithTemplate(),
             Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
