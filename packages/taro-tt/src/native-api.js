@@ -10,7 +10,8 @@ const RequestQueue = {
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -28,7 +29,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, [...arguments])
         this.run()
       }
-      tt.request(options)
+      return tt.request(options)
     }
   }
 }
@@ -43,6 +44,7 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       originSuccess && originSuccess(res)
@@ -57,8 +59,15 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    RequestQueue.request(options)
+    requestTask = RequestQueue.request(options)
   })
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 
@@ -112,14 +121,6 @@ function processApis (taro) {
             }
             return p
           }
-          p.abort = cb => {
-            cb && cb()
-            if (task) {
-              task.abort()
-            }
-            return p
-          }
-        } else if (key === 'request') {
           p.abort = cb => {
             cb && cb()
             if (task) {

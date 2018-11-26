@@ -163,7 +163,8 @@ const RequestQueue = {
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -181,7 +182,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, [...arguments])
         this.run()
       }
-      my.httpRequest(options)
+      return my.httpRequest(options)
     }
   }
 }
@@ -200,6 +201,7 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       res.statusCode = res.status
@@ -218,8 +220,15 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    RequestQueue.request(options)
+    requestTask = RequestQueue.request(options)
   })
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 
@@ -299,7 +308,7 @@ function processApis (taro) {
         if (key === 'getStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
-            return my[key].call(my, { key: arg1 }).data || ''
+            return my[key]({ key: arg1 }).data || ''
           }
           return console.log('getStorageSync 传入参数错误')
         }
@@ -307,7 +316,7 @@ function processApis (taro) {
           const arg1 = args[0]
           const arg2 = args[1]
           if (arg1 != null) {
-            return my[key].call(my, {
+            return my[key]({
               key: arg1,
               data: arg2
             })
@@ -317,7 +326,7 @@ function processApis (taro) {
         if (key === 'removeStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
-            return my[key].call(my, { key: arg1 })
+            return my[key]({ key: arg1 })
           }
           return console.log('removeStorageSync 传入参数错误')
         }
