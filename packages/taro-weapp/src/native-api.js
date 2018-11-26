@@ -45,6 +45,7 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       originSuccess && originSuccess(res)
@@ -58,9 +59,16 @@ function request (options) {
     options['complete'] = res => {
       originComplete && originComplete(res)
     }
+
+    requestTask = RequestQueue.request(options)
   })
-  const requestTask = RequestQueue.request(options)
-  p.abort = requestTask.abort.bind(requestTask)
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 
