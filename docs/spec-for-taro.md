@@ -1025,7 +1025,7 @@ class MyComponent extends Component {
   render () {
     return (
 	  <View className='test'>     // ✓ 正确
-        <Text className='test_text'>12</Text>     // ✗ 错误
+        <Text className="test_text">12</Text>     // ✗ 错误
       </View>
     )
   }
