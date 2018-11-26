@@ -13,7 +13,7 @@ import {
 import initNativeApi from './native-api'
 import Component from './component'
 
-export {
+export const Taro = {
   getEnv,
   ENV_TYPE,
   Events,
@@ -26,15 +26,6 @@ export {
   Component
 }
 
-export default {
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  initNativeApi,
-  internal_safe_get,
-  internal_safe_set,
-  internal_dynamic_recursive,
-  Component
-}
+export default Taro
+
+initNativeApi(Taro)
