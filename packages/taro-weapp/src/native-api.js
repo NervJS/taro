@@ -11,7 +11,8 @@ const RequestQueue = {
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -29,7 +30,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, args)
         this.run()
       }
-      wx.request(options)
+      return wx.request(options)
     }
   }
 }
@@ -57,9 +58,9 @@ function request (options) {
     options['complete'] = res => {
       originComplete && originComplete(res)
     }
-
-    RequestQueue.request(options)
   })
+  const requestTask = RequestQueue.request(options)
+  p.abort = requestTask.abort.bind(requestTask)
   return p
 }
 
@@ -143,14 +144,6 @@ function processApis (taro) {
             }
             return p
           }
-          p.abort = cb => {
-            cb && cb()
-            if (task) {
-              task.abort()
-            }
-            return p
-          }
-        } else if (key === 'request') {
           p.abort = cb => {
             cb && cb()
             if (task) {
