@@ -36,8 +36,6 @@ const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
-const calleeId = incrementId()
-
 function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
   const parents: NodePath<t.Node>[] = []
   // tslint:disable-next-line:no-conditional-assignment
@@ -114,6 +112,7 @@ export class RenderParser {
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
   private usedThisProperties = new Set<string>()
+  private incrementCalleeId = incrementId()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -381,7 +380,7 @@ export class RenderParser {
                 ) {
                   let ary = callee.object
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
-                    const variableName = `${LOOP_CALLEE}_${calleeId()}`
+                    const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                     callExpr.getStatementParent().insertBefore(
                       buildConstVariableDeclaration(variableName, ary)
                     )
@@ -1205,7 +1204,7 @@ export class RenderParser {
               const funcBody = func.body
               if (t.isBlockStatement(funcBody)) {
                 if (t.isIdentifier(object) || t.isMemberExpression(object)) {
-                  const variableName = `${LOOP_CALLEE}_${calleeId()}`
+                  const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                   funcBody.body.splice(
                     funcBody.body.length - 1,
                     0,
