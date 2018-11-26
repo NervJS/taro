@@ -1140,7 +1140,11 @@ export class RenderParser {
             Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
-              if (replacements.has(parent) || (this.renderScope.hasOwnBinding(name) && this.loopCalleeId.has(path.node))) {
+              const parentCallExpr = path.findParent(p => p.isCallExpression())
+              if (replacements.has(parent) || (
+                this.renderScope.hasOwnBinding(name) &&
+                (this.loopCalleeId.has(path.node) || parentCallExpr && this.loopCalleeId.has(parentCallExpr.node as any))
+              )) {
                 return
               }
 
