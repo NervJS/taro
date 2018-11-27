@@ -4,7 +4,7 @@
 [![](https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
+[![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
 
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
@@ -25,7 +25,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://i.loli.net/2018/11/26/5bfb5b3006c82.png)
+![案例](https://storage.jd.com/taro-resource/user-cases.png)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 

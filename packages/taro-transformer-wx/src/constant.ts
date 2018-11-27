@@ -63,6 +63,8 @@ export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
 
 export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
+export const GEL_ELEMENT_BY_ID = 'getElementById'
+
 export const LOOP_STATE = '$loopState'
 
 export let LOOP_ORIGINAL = '$original'

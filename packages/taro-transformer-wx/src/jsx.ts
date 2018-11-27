@@ -120,7 +120,8 @@ function parseJSXChildren (
         return str + `{${
           decodeUnicode(
             generate(child, {
-              quotes: 'single'
+              quotes: 'single',
+              jsonCompatibleStrings: true
             })
             .code
           )
