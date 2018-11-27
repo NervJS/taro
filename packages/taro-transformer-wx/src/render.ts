@@ -28,10 +28,11 @@ import {
   buildBlockElement,
   parseJSXElement
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
+import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL, GEL_ELEMENT_BY_ID } from './constant'
 import { Adapter, Adapters } from './adapter'
 import { transformOptions } from './options'
 import generate from 'babel-generator'
+import { LoopRef } from './interface'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -123,6 +124,7 @@ export class RenderParser {
   private loopStateName: Map<NodePath<t.CallExpression>, string>
   private customComponentData: Array<t.ObjectProperty>
   private componentProperies: Set<string>
+  private loopRefs: Map<t.JSXElement, LoopRef>
 
   private finalReturnElement!: t.JSXElement
 
@@ -986,7 +988,8 @@ export class RenderParser {
     loopStateName: Map<NodePath<t.CallExpression>, string>,
     customComponentNames: Set<string>,
     customComponentData: Array<t.ObjectProperty>,
-    componentProperies: Set<string>
+    componentProperies: Set<string>,
+    loopRefs: Map<t.JSXElement, LoopRef>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -997,6 +1000,7 @@ export class RenderParser {
     this.customComponentNames = customComponentNames
     this.customComponentData = customComponentData
     this.componentProperies = componentProperies
+    this.loopRefs = loopRefs
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -1054,6 +1058,7 @@ export class RenderParser {
   handleLoopComponents = () => {
     const loopArrayId = incrementId()
     const replaceQueue: Function[] = []
+    let hasLoopRef = false
     this.loopComponents.forEach((component, callee) => {
       if (!callee.isCallExpression()) {
         return
@@ -1067,6 +1072,26 @@ export class RenderParser {
       }
       const blockStatementPath = component.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
       const body = blockStatementPath.node.body
+      if (this.loopRefs.has(component.node)) {
+        hasLoopRef = true
+        const ref = this.loopRefs.get(component.node)!
+        const id = t.binaryExpression('+', t.stringLiteral(ref.id), t.identifier('index'))
+        const refDeclName = '__ref'
+        const args: any[] = [
+          t.identifier('__scope'),
+          id
+        ]
+        if (ref.type === 'component') {
+          args.push(t.stringLiteral('component'))
+        }
+        const refDecl = buildConstVariableDeclaration(refDeclName,
+          t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
+        )
+        const callRefFunc = t.expressionStatement(
+          t.callExpression(ref.fn, [t.identifier(refDeclName)])
+        )
+        body.push(refDecl, callRefFunc)
+      }
       let stateToBeAssign = new Set<string>(
         difference(
           Object.keys(blockStatementPath.scope.getAllBindings()),
@@ -1287,6 +1312,10 @@ export class RenderParser {
         )
       })
     })
+    if (hasLoopRef) {
+      const scopeDecl = template('const __scope = this.$scope')()
+      this.renderPath.node.body.body.push(scopeDecl)
+    }
     replaceQueue.forEach(func => func())
   }
 

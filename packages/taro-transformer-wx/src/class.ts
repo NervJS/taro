@@ -8,13 +8,15 @@ import {
   pathResolver,
   createRandomLetters,
   isContainJSXElement,
-  getSlotName
+  getSlotName,
+  isArrayMapCallExpression
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
 import { Adapters, Adapter } from './adapter'
+import { LoopRef } from './interface'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -122,6 +124,7 @@ class Transformer {
   private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
+  private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -198,6 +201,7 @@ class Transformer {
         if (!t.isJSXIdentifier(jsx.name)) {
           return
         }
+        const isLoop = path.findParent(p => isArrayMapCallExpression(p))
         const componentName = jsx.name.name
         const refAttr = findJSXAttrByName(attrs, 'ref')
         if (!refAttr) {
@@ -206,7 +210,10 @@ class Transformer {
         const idAttr = findJSXAttrByName(attrs, 'id')
         let id = createRandomLetters(5)
         if (!idAttr) {
-          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          const expr = t.jSXExpressionContainer(
+            t.binaryExpression('+', t.stringLiteral(id), t.identifier('index'))
+          )
+          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), expr))
         } else {
           const idValue = idAttr.value
           if (t.isStringLiteral(idValue)) {
@@ -216,18 +223,33 @@ class Transformer {
           }
         }
         if (t.isStringLiteral(refAttr.value)) {
+          if (isLoop) {
+            throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+          }
           this.createStringRef(componentName, id, refAttr.value.value)
         }
         if (t.isJSXExpressionContainer(refAttr.value)) {
           const expr = refAttr.value.expression
           if (t.isStringLiteral(expr)) {
+            if (isLoop) {
+              throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+            }
             this.createStringRef(componentName, id, expr.value)
           } else if (t.isArrowFunctionExpression(expr) || t.isMemberExpression(expr)) {
-            this.refs.push({
-              type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
-              id,
-              fn: expr
-            })
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            if (isLoop) {
+              this.loopRefs.set(path.parentPath.node as t.JSXElement, {
+                id,
+                fn: expr,
+                type
+              })
+            } else {
+              this.refs.push({
+                type,
+                id,
+                fn: expr
+              })
+            }
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
@@ -610,7 +632,8 @@ class Transformer {
           this.loopStateName,
           this.customComponentNames,
           this.customComponentData,
-          this.componentProperies
+          this.componentProperies,
+          this.loopRefs
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
