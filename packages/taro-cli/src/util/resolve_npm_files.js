@@ -22,7 +22,7 @@ const {
   REG_STYLE
 } = require('./index')
 
-const CONFIG = require('./config')
+const CONFIG = require('../config')
 
 const npmProcess = require('./npm')
 
