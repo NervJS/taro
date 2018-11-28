@@ -1381,7 +1381,7 @@ function processStyleUseCssModule (styleObj) {
   if (!customCssModulesConf.enable) {
     return styleObj
   }
-  const generateScopedName = customCssModulesConf.generateScopedName
+  const generateScopedName = customCssModulesConf.config.generateScopedName
   const context = process.cwd()
   let scopedName
   if (generateScopedName) {
