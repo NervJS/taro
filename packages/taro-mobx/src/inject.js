@@ -1,4 +1,4 @@
-import { getStore } from '@tarojs/mobx-common'
+import { getStore } from './store'
 
 const proxiedInjectorProps = {
   isMobxInjector: {
@@ -9,7 +9,7 @@ const proxiedInjectorProps = {
   }
 }
 
-function mapStoreToProps(grabStoresFn, props) {
+function mapStoreToProps (grabStoresFn, props) {
   let newProps = {}
   for (let key in props) {
     if (props.hasOwnProperty(key)) {
@@ -70,7 +70,7 @@ function grabStoresByName (storeNames) {
   }
 }
 
-export default function inject (/* fn(stores, nextProps) or ...storeNames */) {
+export function inject (/* fn(stores, nextProps) or ...storeNames */) {
   let grabStoresFn
   if (typeof arguments[0] === 'function') {
     grabStoresFn = arguments[0]
