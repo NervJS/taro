@@ -1314,7 +1314,7 @@ export class RenderParser {
     })
     if (hasLoopRef) {
       const scopeDecl = template('const __scope = this.$scope')()
-      this.renderPath.node.body.body.push(scopeDecl)
+      this.renderPath.node.body.body.unshift(scopeDecl)
     }
     replaceQueue.forEach(func => func())
   }
