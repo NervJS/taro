@@ -102,8 +102,9 @@ function getExactedNpmFilePath (npmName, filePath) {
         outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
         outputNpmPath = outputNpmPath.replace(/node_modules/g, weappNpmConfig.name)
       } else {
-        const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
-        outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+        let npmFilePath = npmInfoMainPath.match(/(?=(node_modules)).*/)[0]
+        npmFilePath = npmFilePath.replace(/node_modules/g, weappNpmConfig.name)
+        outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), npmFilePath)
       }
     }
     if (buildAdapter === Util.BUILD_TYPES.ALIPAY) {
@@ -112,6 +113,7 @@ function getExactedNpmFilePath (npmName, filePath) {
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
   } catch (err) {
+    console.log(err)
     if (notExistNpmList.indexOf(npmName) < 0) {
       notExistNpmList.push(npmName)
     }
@@ -1161,7 +1163,7 @@ function transfromNativeComponents (configFile, componentConfig) {
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
       const componentPath = usingComponents[item]
-      if (/^plugin\:\/\//.test(componentPath)) {
+      if (/^plugin:\/\//.test(componentPath)) {
         // 小程序 plugin
         Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
         return
@@ -1177,7 +1179,8 @@ function transfromNativeComponents (configFile, componentConfig) {
       if (fs.existsSync(componentJSPath)) {
         const componentJSContent = fs.readFileSync(componentJSPath).toString()
         if (componentJSContent.indexOf(taroJsFramework) >= 0 && !fs.existsSync(componentWXMLPath)) {
-          return await buildDepComponents([componentJSPath])
+          const buildDepComponentsRes = await buildDepComponents([componentJSPath])
+          return buildDepComponentsRes
         }
         compileDepScripts([componentJSPath])
       } else {
@@ -2021,7 +2024,6 @@ function watchFiles () {
           outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
           let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
-          const depStyleList = wxssDepTree[outputWXSSPath]
           if (isWindows) {
             await new Promise((resolve, reject) => {
               setTimeout(async () => {

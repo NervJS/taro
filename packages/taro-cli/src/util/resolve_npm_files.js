@@ -22,6 +22,8 @@ const {
   REG_STYLE
 } = require('./index')
 
+const CONFIG = require('./config')
+
 const npmProcess = require('./npm')
 
 const excludeNpmPkgs = ['ReactPropTypes']
@@ -86,7 +88,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
             const consequentSibling = astPath.getSibling('consequent')
             consequentSibling.traverse({
               CallExpression (astPath) {
-                if (astPath.get('callee').isIdentifier({ name: 'require'})) {
+                if (astPath.get('callee').isIdentifier({ name: 'require' })) {
                   const arg = astPath.get('arguments')[0]
                   if (t.isStringLiteral(arg.node)) {
                     excludeRequire.push(arg.node.value)
@@ -149,8 +151,9 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildA
     outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
     outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
-    const npmFilePath = filePath.replace(/(.*)node_modules/, '')
-    outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
+    let npmFilePath = filePath.match(/(?=(node_modules)).*/)[0]
+    npmFilePath = npmFilePath.replace(/node_modules/g, npmConfig.name)
+    outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmFilePath)
   }
   if (buildAdapter === BUILD_TYPES.ALIPAY) {
     outputNpmPath = outputNpmPath.replace(/@/, '_')
@@ -211,15 +214,15 @@ function npmCodeHack (filePath, content, buildAdapter) {
     case '_global.js':
     case 'lodash.min.js':
       if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
-        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, '{}')
+        content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
       } else {
-        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
+        content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')
       }
       break
     case 'mobx.js':
       // 解决支付宝小程序全局window或global不存在的问题
       content = content.replace(
-        /typeof window\s{0,}!==\s{0,}[\'"]undefined[\'"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
+        /typeof window\s{0,}!==\s{0,}['"]undefined['"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
         'typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}'
       )
       break
