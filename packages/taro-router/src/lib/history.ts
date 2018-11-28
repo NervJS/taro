@@ -82,11 +82,16 @@ class History {
   }
 
   onHashchange = (e) => {
-    const list = JSON.parse(localStorage.getItem("taroRouterHistory") || '{}');
-    const curPage = list.filter(item => {
-      return item.state == historyState;
-    });
-    history.replaceState(historyState, '', curPage.fullUrl);
+    const urlList = JSON.parse(localStorage.getItem(HISTORYKEY) || '[]')
+    const curPageArr = urlList.filter(item => {
+      return item.state == historyState
+    })
+    if(curPageArr && curPageArr.length > 0) {
+      const fullUrl = curPageArr[0].fullUrl
+      history.replaceState(historyState, '', '#' + fullUrl)
+    }else {
+      history.replaceState(historyState, '', '')
+    }
   }
 
   onPopstate = (e) => {
