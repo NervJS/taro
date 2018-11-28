@@ -108,7 +108,7 @@ function getExactedNpmFilePath (npmName, filePath) {
       }
     }
     if (buildAdapter === Util.BUILD_TYPES.ALIPAY) {
-      outputNpmPath = outputNpmPath.replace(/@/, '_')
+      outputNpmPath = outputNpmPath.replace(/@/g, '_')
     }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
