@@ -37,9 +37,9 @@ class Swiper extends Nerv.Component {
       pagination: { el: '.swiper-pagination' },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
-      slidesPerView: parseInt(displayMultipleItems),
-      initialSlide: parseInt(current),
-      speed: parseInt(duration),
+      slidesPerView: parseInt(displayMultipleItems, 10),
+      initialSlide: parseInt(current, 10),
+      speed: parseInt(duration, 10),
       on: {
         slideChange () {
           let e = new TouchEvent('touchend')
@@ -67,7 +67,7 @@ class Swiper extends Nerv.Component {
     // 自动播放
     if (autoplay) {
       opt.autoplay = {
-        delay: parseInt(interval),
+        delay: parseInt(interval, 10),
         stopOnLastSlide: true,
         disableOnInteraction: false
       }
@@ -78,7 +78,7 @@ class Swiper extends Nerv.Component {
 
   componentDidUpdate () {
     this.mySwiper.updateSlides() // 更新子元素
-    this.mySwiper.slideTo(this.props.current) // 更新下标
+    this.mySwiper.slideTo(parseInt(this.props.current, 10)) // 更新下标
   }
 
   componentWillUnmount () {
