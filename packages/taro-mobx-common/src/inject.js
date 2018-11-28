@@ -46,9 +46,6 @@ function createStoreInjector (grabStoresFn, component, injectNames, { Component,
 function grabStoresByName (storeNames) {
   return function (baseStores, nextProps) {
     storeNames.forEach(function (storeName) {
-      if (
-        storeName in nextProps // prefer props over stores
-      ) { return }
       if (!(storeName in baseStores)) {
         throw new Error(
           "MobX injector: Store '" +
