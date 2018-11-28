@@ -8,10 +8,10 @@ if (typeof rdBatched === 'function') {
   configure({ reactionScheduler: rdBatched })
 }
 
-export function inject() {
+export function inject () {
   return originInject(...arguments, { Component, createElement })
 }
 
 export const Provider = createProvider(Component, Children)
 
-export { observer, propTypes, PropTypes } from '@tarojs/mobx-common'
+export { observer } from '@tarojs/mobx-common'
