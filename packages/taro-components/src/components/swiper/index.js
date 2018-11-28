@@ -15,6 +15,7 @@ class SwiperItem extends Nerv.Component {
 class Swiper extends Nerv.Component {
   constructor () {
     super(...arguments)
+    this.$el = null
   }
 
   componentDidMount () {
@@ -73,7 +74,7 @@ class Swiper extends Nerv.Component {
       }
     }
 
-    this.mySwiper = new Swipers('.swiper-container', opt)
+    this.mySwiper = new Swipers(this.$el, opt)
   }
 
   componentWillReceiveProps (nextPorps) {
@@ -82,6 +83,7 @@ class Swiper extends Nerv.Component {
   }
 
   componentWillUnmount () {
+    this.$el = null
     this.mySwiper.destroy()
   }
 
@@ -91,7 +93,7 @@ class Swiper extends Nerv.Component {
     let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames('swiper-container', className)
     return (
-      <div className={cls}>
+      <div className={cls} ref={(i) => { this.$el = i }}>
         <div
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
