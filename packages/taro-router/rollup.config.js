@@ -25,6 +25,7 @@ const baseConfig = {
     }),
     babel({
       babelrc: false,
+      extensions: ['.ts', '.tsx', '.es6', '.es', '.mjs'],
       presets: [
         ['@babel/preset-env', {
           modules: false
