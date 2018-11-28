@@ -1,7 +1,11 @@
 import { Reaction, _allowStateChanges } from 'mobx'
 
+function isStateless (component) {
+  return !(component.prototype && component.prototype._createData)
+}
+
 export function observer (Component) {
-  if (typeof Component !== 'function') {
+  if (typeof Component !== 'function' || isStateless(Component)) {
     throw new Error("Please pass a valid component to 'observer'")
   }
 
