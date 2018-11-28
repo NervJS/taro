@@ -1,6 +1,6 @@
 import { setStore } from './store'
 
-export default function createProvider (Component, Children) {
+export function createProvider (Component, Children) {
   return class Provider extends Component {
     constructor (props) {
       super(props)

@@ -24,9 +24,6 @@
   "peerDependencies": {
     "mobx": "^5.5.2"
   },
-  "dependencies": {
-    "hoist-non-react-statics": "^2.5.0"
-  },
   "devDependencies": {
     "rimraf": "^2.6.2"
   }
