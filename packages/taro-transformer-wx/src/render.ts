@@ -793,6 +793,13 @@ export class RenderParser {
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
           ) {
             const componentName = jsxElementPath.node.openingElement.name.name
+            if (eventShouldBeCatched && !DEFAULT_Component_SET.has(componentName)) {
+              const jsx = path.parent as t.JSXOpeningElement
+              jsx.attributes.push(t.jSXAttribute(
+                t.jSXIdentifier('data-e-stop'),
+                t.jSXExpressionContainer(t.booleanLiteral(true))
+              ))
+            }
             if (Adapter.type === Adapters.alipay) {
               let transformName = name.name
               if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
