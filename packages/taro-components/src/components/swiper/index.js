@@ -78,7 +78,7 @@ class Swiper extends Nerv.Component {
 
   componentDidUpdate () {
     this.mySwiper.updateSlides() // 更新子元素
-    this.mySwiper.slideTo(this.props.currentIndex) // 更新下标
+    this.mySwiper.slideTo(this.props.current) // 更新下标
   }
 
   componentWillUnmount () {
