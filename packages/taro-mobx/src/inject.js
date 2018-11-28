@@ -1,14 +1,5 @@
 import { getStore } from './store'
 
-const proxiedInjectorProps = {
-  isMobxInjector: {
-    value: true,
-    writable: true,
-    configurable: true,
-    enumerable: true
-  }
-}
-
 function mapStoreToProps (grabStoresFn, props) {
   let newProps = {}
   for (let key in props) {
@@ -23,40 +14,44 @@ function mapStoreToProps (grabStoresFn, props) {
   return newProps
 }
 
-function createStoreInjector (grabStoresFn, injectNames, Component) {
+function createStoreInjector (grabStoresFn, injectNames, componentClass) {
   let displayName =
         'inject-' +
-        (Component.displayName ||
-          Component.name ||
-            (Component.constructor && Component.constructor.name) ||
+        (componentClass.displayName ||
+          componentClass.name ||
+            (componentClass.constructor && componentClass.constructor.name) ||
             'Unknown')
-  if (injectNames) displayName += '-with-' + injectNames
-
-  class Injector extends Component {
-    static displayName = displayName
-    constructor (props) {
-      super(Object.assign(...arguments, mapStoreToProps(grabStoresFn, props)))
-    }
-
-    componentWillMount () {
-      Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
-      if (typeof super.componentWillMount === 'function') {
-        super.componentWillMount()
-      }
-    }
+  if (injectNames) {
+    displayName += '-with-' + injectNames
   }
 
-  Object.defineProperties(Injector, proxiedInjectorProps)
+  Object.defineProperties(componentClass, {
+    isMobxInjector: {
+      value: true,
+      writable: true,
+      configurable: true,
+      enumerable: true
+    },
+    displayName: {
+      value: displayName,
+      writable: true,
+      configurable: true,
+      enumerable: true
+    }
+  })
 
-  return Injector
+  const target = componentClass.prototype || componentClass
+  const originCreateData = target._createData
+  target._createData = function () {
+    Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
+    return originCreateData.call(this)
+  }
+  return componentClass
 }
 
 function grabStoresByName (storeNames) {
   return function (baseStores, nextProps) {
     storeNames.forEach(function (storeName) {
-      if (
-        storeName in nextProps // prefer props over stores
-      ) { return }
       if (!(storeName in baseStores)) {
         throw new Error(
           "MobX injector: Store '" +
