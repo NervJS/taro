@@ -33,6 +33,8 @@ class Swiper extends Nerv.Component {
     } = this.props
 
     const opt = {
+      // 指示器
+      pagination: { el: '.swiper-pagination' },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: parseInt(displayMultipleItems),
@@ -62,9 +64,6 @@ class Swiper extends Nerv.Component {
       }
     }
 
-    // 指示器
-    if (indicatorDots) opt.pagination = { el: '.swiper-pagination' }
-
     // 自动播放
     if (autoplay) {
       opt.autoplay = {
@@ -92,6 +91,7 @@ class Swiper extends Nerv.Component {
     let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames('swiper-container', className)
+    const visibility = this.props.indicatorDots ? 'visible' : 'hidden'
     return (
       <div className={cls} ref={(i) => { this.$el = i }}>
         <div
@@ -103,7 +103,7 @@ class Swiper extends Nerv.Component {
           }}
         />
         <div className='swiper-wrapper'>{this.props.children}</div>
-        <div className='swiper-pagination' />
+        <div className='swiper-pagination' style={{visibility}} />
       </div>
     )
   }
