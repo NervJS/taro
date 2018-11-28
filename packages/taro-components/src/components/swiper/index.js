@@ -5,6 +5,8 @@ import Swipers from 'swiper/dist/js/swiper.min.js'
 import 'swiper/dist/css/swiper.min.css'
 import './style/index.scss'
 
+let INSTANCE_ID = 0
+
 class SwiperItem extends Nerv.Component {
   render () {
     const cls = classNames('swiper-slide', this.props.className)
@@ -16,6 +18,8 @@ class Swiper extends Nerv.Component {
   constructor () {
     super(...arguments)
     this.$el = null
+    this._id = INSTANCE_ID + 1
+    INSTANCE_ID++
   }
 
   componentDidMount () {
@@ -90,15 +94,15 @@ class Swiper extends Nerv.Component {
     const { className, indicatorColor, indicatorActiveColor } = this.props
     let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
-    const cls = classNames('swiper-container', className)
+    const cls = classNames(`taro-swiper-${this._id}`, 'swiper-container', className)
     const visibility = this.props.indicatorDots ? 'visible' : 'hidden'
     return (
       <div className={cls} ref={(i) => { this.$el = i }}>
         <div
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
-            .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
-            .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} } 
+            .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
+            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} } 
             </style>`
           }}
         />
