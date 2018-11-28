@@ -33,6 +33,7 @@
     "packages/taro-transformer-wx",
     "packages/postcss-pxtransform",
     "packages/babel-plugin-transform-jsx-to-stylesheet",
+    "packages/taro-mobx-prop-types",
     "packages/taro-mobx",
     "packages/taro-mobx-common",
     "packages/taro-mobx-h5",
