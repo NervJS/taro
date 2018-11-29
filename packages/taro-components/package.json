@@ -11,7 +11,7 @@
     "types"
   ],
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --env development",
+    "dev": "webpack --config webpack.prod.config.js --watch",
     "deploy": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.prod.config.js",
     "test": "jest",
@@ -39,6 +39,7 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "@tarojs/taro-h5": "^1.2.0-beta.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
     "jest": "^22.4.4",

@@ -1,5 +1,5 @@
 import CssoWebpackPlugin from 'csso-webpack-plugin';
-import * as htmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
+import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import { partial } from 'lodash';
 import { fromPairs, map, mapKeys, pipe, toPairs } from 'lodash/fp';
@@ -43,39 +43,15 @@ const defaultBabelLoaderOption = {
   ]
 }
 
-const defaultMediaUrlLoaderOption = {}
+const defaultMediaUrlLoaderOption = {
+  limit: 10240
+}
 const defaultFontUrlLoaderOption = {
-  limit: 2000
+  limit: 10240
 }
 const defaultImageUrlLoaderOption = {
-  limit: 2000
+  limit: 10240
 }
-// type ConditionResult = string | false
-// type ValidCondition = string | RegExp | ((filename: ConditionResult) => ConditionResult)
-// type Conditions = ValidCondition | ValidCondition[]
-// const condition = (type: 'filterIn' | 'filterOut', item: Conditions, filename: ConditionResult): ConditionResult => {
-//   if (filename === false) return filename
-
-//   let isMatched
-
-//   if (item instanceof RegExp) {
-//     isMatched = item.test(filename)
-//   } else if (item instanceof Function) {
-//     isMatched = item(filename)
-//   } else if (typeof item === 'string') {
-//     isMatched = filename.indexOf(item) > -1
-//   } else if (Array.isArray(item) && item.length > 0) {
-//     return pipe(item.map(v => {
-//       return partial(condition, type, v)
-//     }))(filename)
-//   }
-
-//   if (isMatched) {
-//     return type === 'filterIn' ? filename : false
-//   } else {
-//     return type === 'filterOut' ? false : filename
-//   }
-// }
 
 const getLoader = (loaderName: string, options: Option) => {
   return {
@@ -84,10 +60,12 @@ const getLoader = (loaderName: string, options: Option) => {
   }
 }
 
-const getPlugin = (plugin: any, args: Option) => {
+const toArray = arg => [arg]
+
+const getPlugin = (plugin: any, args: Option[]) => {
   return {
     plugin,
-    args: [args]
+    args
   }
 }
 
@@ -137,10 +115,10 @@ const getExtractCssLoader = () => {
   }
 }
 
-const getMiniCssExtractPlugin = pipe(mergeOption, partial(getPlugin, MiniCssExtractPlugin))
-const getHtmlWebpackPlugin = pipe(mergeOption, partial(getPlugin, HtmlWebpackPlugin))
-const getDefinePlugin = pipe(mergeOption, partial(getPlugin, webpack.DefinePlugin))
-const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, {})
+const getMiniCssExtractPlugin = pipe(mergeOption, toArray, partial(getPlugin, MiniCssExtractPlugin))
+const getHtmlWebpackPlugin = pipe(mergeOption, toArray, partial(getPlugin, HtmlWebpackPlugin))
+const getDefinePlugin = pipe(mergeOption, toArray, partial(getPlugin, webpack.DefinePlugin))
+const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, [])
 const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   return new UglifyJsPlugin({
     cache: true,
@@ -150,11 +128,11 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   })
 }
 const getCssoWebpackPlugin = ([cssoOption]) => {
-  return pipe(mergeOption, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
+  return pipe(mergeOption, toArray, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
-const getDllPlugin = pipe(getDllContext, processDllOption, partial(getPlugin, webpack.DllPlugin))
-const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, partial(getPlugin, webpack.DllReferencePlugin))
-const getHtmlWebpackIncludeAssetsPlugin = partial(getPlugin, htmlWebpackIncludeAssetsPlugin)
+const getDllPlugin = pipe(getDllContext, processDllOption, toArray, partial(getPlugin, webpack.DllPlugin))
+const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, toArray, partial(getPlugin, webpack.DllReferencePlugin))
+const getHtmlWebpackIncludeAssetsPlugin = pipe(toArray, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
 
 const getEntry = (customEntry = {}) => {
   return Object.assign(
@@ -207,7 +185,6 @@ const getModule = ({
    * https://github.com/webpack-contrib/css-loader/releases/tag/v1.0.0
    */
   const cssLoader = getCssLoader(cssOptions)
-
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
@@ -298,15 +275,15 @@ const getModule = ({
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   if (Array.isArray(esnextModules) && esnextModules.length) {
-    const esnextModulePaths = esnextModules.map(v => path.join('node_modules', v).replace(path.sep, '/'))
+    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]${v}`))
     /**
      * isEsnextModule
-     *
-     * 使用字符串匹配判断是否是es模块
+     * 
+     * 使用正则匹配判断是否是es模块
+     * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
      */
-    const isEsnextModule = filename => esnextModulePaths.some(v => filename.replace(path.sep, '/').indexOf(v) >= 0)
+    const isEsnextModule = filename => esnextModuleRegs.some(reg => reg.test(filename)) 
     const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
-
     /* 通过taro处理 */
     rule.jsx.exclude = [notTaroModules]
     rule.sass.exclude = [notTaroModules]

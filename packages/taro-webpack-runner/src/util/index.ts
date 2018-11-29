@@ -59,6 +59,9 @@ const recursiveMerge = (src, ...args) => {
 
 const isNpmPackage = name => !/^(\.|\/)/.test(name)
 
+const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
+const addTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path : path + '/'
+
 export {
   appPath,
   emptyObj,
@@ -68,5 +71,7 @@ export {
   getRootPath,
   zeroPad,
   formatTime,
-  recursiveMerge
+  recursiveMerge,
+  addLeadingSlash,
+  addTrailingSlash
 }

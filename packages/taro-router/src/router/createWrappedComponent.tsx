@@ -17,30 +17,30 @@ const createWrappedComponent = (component: Types.PageComponent) => {
 
     componentDidMount () {
       const ctx = this.wrappedInstance || this
-      const componentDidShow = ctx.componentDidShow
+      const originalComponentDidShow = ctx.componentDidShow
       const superComponentDidMount = super.componentDidMount
-      let {
-        navigationBarTitleText = ''
-      } = ctx['config'] || {}
-      ctx.componentDidShow = () => {
-        tryToCall(componentDidShow, ctx)
+      const config = ctx['config'] || {}
+      let navigationBarTitleText = config.navigationBarTitleText
+      const newComponentDidShow = () => {
+        tryToCall(originalComponentDidShow, ctx)
         if (navigationBarTitleText) {
           document.title = navigationBarTitleText
         }
       }
+      ctx.componentDidShow = newComponentDidShow
       tryToCall(superComponentDidMount, this)
       if (this.wrappedInstance) {
-        const componentDidMount = ctx.componentDidMount        
+        const originalComponentDidMount = ctx.componentDidMount        
         if (!this.wrappedInstance['__cdm_modified']) {
           this.wrappedInstance['__cdm_modified'] = true
           this.wrappedInstance.componentDidMount = () => {
-            tryToCall(componentDidMount, ctx)
-            tryToCall(componentDidShow, ctx)
+            tryToCall(originalComponentDidMount, ctx)
+            tryToCall(newComponentDidShow, ctx)
           }
         }
         tryToCall(superComponentDidMount, this)
       } else {
-        tryToCall(componentDidShow, ctx)
+        tryToCall(newComponentDidShow, ctx)
       }
     }
 
@@ -77,6 +77,16 @@ const createWrappedComponent = (component: Types.PageComponent) => {
           tryToCall(componentDidHide, ctx)
         }
       }
+    }
+
+    shouldComponentUpdate (nProps, nState) {
+      const nextMatched = nProps.__router.matched
+      const lastMatched = this.props.__router.matched
+      const superShouldComponentUpdate = super.shouldComponentUpdate
+
+      /* 后台页面不刷新 */
+      if (!nextMatched && !lastMatched) return false
+      return tryToCall(superShouldComponentUpdate, this, nProps, nState)
     }
 
     componentWillUnmount () {

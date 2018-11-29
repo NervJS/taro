@@ -23,6 +23,7 @@ class Router extends Component<Props, State> {
 
   unlisten: () => void;
   lastLocation: Types.Location;
+  currentPages: any[] = [];
 
   state = {
     location: this.props.history.location,
@@ -42,7 +43,9 @@ class Router extends Component<Props, State> {
     Taro.navigateTo = createNavigateTo(this.props.history)
     Taro.navigateBack = createNavigateBack(this.props.history)
     Taro.redirectTo = createRedirectTo(this.props.history)
-    Taro.getCurrentPages = () => this.props.children || []
+    Taro.getCurrentPages = () => {
+      return this.currentPages
+    }
   }
 
   computeMatch (location: Types.Location): Types.RouteObj {
@@ -98,6 +101,10 @@ class Router extends Component<Props, State> {
     this.setState({ routeStack, location: toLocation })
   }
 
+  collectComponent = (comp, k) => {
+    this.currentPages[k] = comp
+  }
+
   componentWillMount () {
     const { history } = this.props
 
@@ -130,12 +137,21 @@ class Router extends Component<Props, State> {
   }
 
   render () {
+    const router = this
+    router.currentPages.length = this.state.routeStack.length
     return (
       <div className="taro_router">
-        {this.state.routeStack.map(({ path, componentLoader, isIndex, key }) => {
-          return <Route {...{
-            path, componentLoader, isIndex, key,
-          }} />
+        {this.state.routeStack.map(({ path, componentLoader, isIndex, key }, k) => {
+          return (
+            <Route
+              path={path}
+              componentLoader={componentLoader}
+              isIndex={isIndex}
+              key={key}
+              k={k}
+              collectComponent={this.collectComponent}
+            />
+          )
         })}
       </div>
     )

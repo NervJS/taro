@@ -1,5 +1,2 @@
-module.exports = {
-  hashRouter: require('./dist/hashRouter.js'),
-  browserRouter: require('./dist/browserRouter.js')
-}
+module.exports = require('./dist/index.js')
 module.exports.default = module.exports

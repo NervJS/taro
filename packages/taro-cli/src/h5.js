@@ -40,7 +40,7 @@ const PACKAGES = {
   '@tarojs/redux-h5': '@tarojs/redux-h5',
   '@tarojs/mobx': '@tarojs/mobx',
   '@tarojs/mobx-h5': '@tarojs/mobx-h5',
-  '@tarojs/router': `@tarojs/router/${routerMode === 'browser' ? 'dist/browserRouter' : 'dist/hashRouter'}`,
+  '@tarojs/router': `@tarojs/router`,
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
   'nerv-redux': 'nerv-redux'
@@ -79,11 +79,14 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
+const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
+const stripTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
+
 const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
 
-function addLeadingSlash (str) {
-  return str.startsWith('/') ? str : `/${str}`
-}
+const publicPath = h5Config.publicPath
+  ? stripTrailingSlash(addLeadingSlash(h5Config.publicPath || ''))
+  : ''
 
 function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
   const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
@@ -173,8 +176,6 @@ function processEntry (code, filePath) {
         const keyName = getObjKey(key)
         let funcBody
 
-        // if (!t.isIdentifier(key)) return
-
         const isRender = keyName === 'render'
         const isComponentWillMount = keyName === 'componentWillMount'
         const isComponentDidMount = keyName === 'componentDidMount'
@@ -206,7 +207,11 @@ function processEntry (code, filePath) {
             })
           }
 
-          funcBody = `<Router routes={[${routes.join(',')}]} />`
+          funcBody = `<Router
+            mode={${JSON.stringify(routerMode)}}
+            publicPath={${JSON.stringify(routerMode === 'browser' ? publicPath : '/')}}
+            routes={[${routes.join(',')}]}
+          />`
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -222,10 +227,18 @@ function processEntry (code, filePath) {
             } else {
               funcBody = `
                 <${tabBarContainerComponentName}>
+
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
-                  <${tabBarComponentName} conf={this.state.${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+
+                  <${tabBarComponentName}
+                    mode={${JSON.stringify(routerMode)}}
+                    publicPath={${JSON.stringify(publicPath)}}
+                    conf={this.state.${tabBarConfigName}}
+                    homePage="${homePage}"
+                    router={${taroImportDefaultName}} />
+
                 </${tabBarContainerComponentName}>`
             }
           }
@@ -491,7 +504,7 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import Router from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import { Router } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const renderCallNode = toAst(renderCallCode)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)

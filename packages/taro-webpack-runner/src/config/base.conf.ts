@@ -23,6 +23,26 @@ export default () => {
             babelLoader: getBabelLoader([defaultBabelLoaderOption])
           }
         },
+        jsxxx: {
+          test: /\.jsx?$/,
+          include: [/aaaa/],
+          use: {
+            babelLoader: {
+              loader: require.resolve('babel-loader'),
+              options: {
+                plugins: [
+                  require.resolve('babel-plugin-syntax-dynamic-import'),
+                  [
+                    require.resolve('babel-plugin-transform-react-jsx'),
+                    {
+                      pragma: 'Nerv.createElement'
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        },
         media: {
           test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
           use: {

@@ -1,19 +1,19 @@
 import * as path from 'path';
 
-import { appPath, emptyObj } from '../util';
+import { addLeadingSlash, addTrailingSlash, appPath, emptyObj } from '../util';
 import {
-  getDefinePlugin,
-  getEntry,
-  getHtmlWebpackPlugin,
-  getMiniCssExtractPlugin,
-  getOutput,
-  getModule,
-  processEnvOption,
-  getUglifyPlugin,
   getCssoWebpackPlugin,
+  getDefinePlugin,
   getDevtool,
   getDllReferencePlugins,
-  getHtmlWebpackIncludeAssetsPlugin
+  getEntry,
+  getHtmlWebpackIncludeAssetsPlugin,
+  getHtmlWebpackPlugin,
+  getMiniCssExtractPlugin,
+  getModule,
+  getOutput,
+  getUglifyPlugin,
+  processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
@@ -121,7 +121,7 @@ export default function (config: BuildConfig): any {
     entry: getEntry(entry),
     output: getOutput([{
       outputRoot,
-      publicPath,
+      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
       chunkDirectory
     }, output]),
     resolve: { alias },

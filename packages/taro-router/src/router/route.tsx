@@ -9,6 +9,8 @@ interface RouteProps {
   componentLoader: ComponentLoader;
   isIndex: boolean;
   key?: string;
+  k: number;
+  collectComponent: Function;
 }
 
 interface RouteState {
@@ -48,25 +50,17 @@ class Route extends Component<RouteProps, RouteState> {
     return key === this.props.key
   }
 
+  getRef = (ref) => {
+    this.props.collectComponent(ref, this.props.k)
+  }
+
   componentWillMount () {
     this.props.componentLoader()
       .then(({ default: component }) => {
         let WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
-        this.setState({})
+        this.forceUpdate()
       })
-    /**
-     * <Router>
-     *   <Route>
-     *     <Loadable>
-     *       <WrappedComponent>
-     *         <Component />
-     *       </WrappedComponent>
-     *     </Loadable>
-     *   </Route>
-     * </Router>
-    */
-    // this.wrappedComponent = loadableComponent
   }
 
   componentWillReceiveProps (nProps, nContext) {
@@ -86,7 +80,8 @@ class Route extends Component<RouteProps, RouteState> {
         __router: {
           matched,
           location: router.location
-        }
+        },
+        ref: this.getRef
       }}/>
     )
   }

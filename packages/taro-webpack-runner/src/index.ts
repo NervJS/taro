@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-import { merge } from 'lodash'
 import * as opn from 'opn'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -13,7 +12,7 @@ import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import dllConf from './config/dll.conf'
 import prodConf from './config/prod.conf'
-import { appPath } from './util'
+import { appPath, addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
 import { bindDevLogger, bindProdLogger, bindDllLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 
@@ -78,6 +77,7 @@ const buildProd = (config: BuildConfig): Promise<void> => {
 const buildDev = async (config: BuildConfig): Promise<any> => {
   return new Promise((resolve, reject) => {
     const conf = buildConf(config)
+    conf.publicPath = addLeadingSlash(addTrailingSlash(conf.publicPath))
     const publicPath = conf.publicPath
     const outputPath = path.join(appPath, conf.outputRoot as string)
     const customDevServerOption = config.devServer || {}
@@ -91,10 +91,13 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
       webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
     }
 
-    const devServerOptions = merge(
+    const devServerOptions = recursiveMerge(
       {
         publicPath,
-        contentBase: outputPath
+        contentBase: outputPath,
+        historyApiFallback: {
+          index: publicPath
+        }
       },
       baseDevServerOption,
       customDevServerOption

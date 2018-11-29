@@ -1,33 +1,21 @@
-import warning from 'warning'
+import warning from 'warning';
+import Taro from '@tarojs/taro-h5';
 
-import { Action, HistoryState, Location, History } from '../utils/types'
-import createTransitionManager from './createTransitionManager'
-import { createLocation } from './LocationUtils'
-import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils'
+import { Action, History, HistoryState, Location } from '../utils/types';
+import createTransitionManager from './createTransitionManager';
+import { createLocation } from './LocationUtils';
+import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils';
 
-// const HashChangeEvent = 'hashchange'
 const PopStateEvent = 'popstate'
 const defaultStoreKey = 'taroRouterStore'
 
 const globalHistory = window.history
-
-// let ignorePath = null
 
 const getHashPath = (): string => {
   const href = window.location.href
   const hashIndex = href.indexOf('#')
   return hashIndex === -1 ? '' : href.substring(hashIndex + 1)
 }
-
-// const pushHashPath = (path: string): void => {
-//   window.location.hash = path
-// }
-
-// const replaceHashPath = (path: string): void => {
-//   const hashIndex = window.location.href.indexOf('#')
-
-//   window.location.replace(window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path)
-// }
 
 let stateKey = 0
 
@@ -87,7 +75,7 @@ const createHistorySerializer = (storeObj: HistoryState) => {
   return serialize
 }
 
-const createHistory = (props: { basename?: string } = {}) => {
+const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = { mode: "hash" }) => {
   const transitionManager = createTransitionManager()
   const basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : ''
   let listenerCount = 0
@@ -95,17 +83,12 @@ const createHistory = (props: { basename?: string } = {}) => {
 
   const getDOMLocation = (historyState: HistoryState): Location => {
     const { key } = historyState
-    let path = addLeadingSlash(getHashPath());
+    const { pathname, search, hash } = window.location
+    let path = props.mode === "hash"
+      ? addLeadingSlash(getHashPath())
+      : pathname + search + hash;
 
-    warning(
-      !basename || hasBasename(path, basename),
-      "You are attempting to use a basename on a page whose URL path does not begin " +
-        'with the basename. Expected path "' +
-        path +
-        '" to begin with "' +
-        basename +
-        '".'
-    );
+    warning(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".')
 
     if (basename) path = stripBasename(path, basename)
 
@@ -123,27 +106,31 @@ const createHistory = (props: { basename?: string } = {}) => {
 
   globalHistory.replaceState(initialLocation.state, '')
 
-  const createHref = location => '#' + addLeadingSlash(basename + createPath(location))
+  const createHref = props.mode === "hash"
+    ? location => '#' + addLeadingSlash(basename + createPath(location))
+    : location => basename + createPath(location)
 
   const setState = (nextState: { action: 'POP' | 'PUSH' | 'REPLACE'; location: Location }): void => {
     Object.assign(history, nextState)
 
-    const fromLocation = { ...lastLocation }
+    const fromLocation = {...lastLocation}
 
-    // 记录最后一个location，浏览器按钮用
-    lastLocation = { ...nextState.location }
+    // 记录最后一个location，浏览器前进后退按钮用
+    lastLocation = {...nextState.location}
 
     stateKey = Number(nextState.location.state!.key)
 
     serialize()
 
     history.length = globalHistory.length
-
-    transitionManager.notifyListeners({
+    const params = {
       fromLocation,
       toLocation: history.location,
       action: history.action
-    })
+    }
+
+    Taro['eventCenter'].trigger('routerChange', {...params})
+    transitionManager.notifyListeners({...params})
   }
 
   const push = (path: string) => {
@@ -179,17 +166,6 @@ const createHistory = (props: { basename?: string } = {}) => {
   const goBack = () => go(-1)
   const goForward = () => go(1)
 
-  // const handleHashChange: WindowEventHandlers['onhashchange'] = e => {
-    // 直接更改浏览器地址，在最后面增加或改变#hash；
-    // 通过改变location.href或location.hash的值；
-    // 通过触发点击带锚点的链接；
-    // 浏览器前进后退可能导致hash的变化，前提是两个网页地址中的hash值不同。
-    // globalHistory.replaceState(createKey(), '')
-    // e.oldURL
-    // e.newURL
-    // location.hashs
-  // }
-
   const handlePopState: WindowEventHandlers['onpopstate'] = (e: { state: HistoryState }) => {
     // history.pushState和history.replaceState不会触发这个事件
     // 仅在浏览器前进后退操作、history.go/back/forward调用、hashchange的时候触发
@@ -223,10 +199,8 @@ const createHistory = (props: { basename?: string } = {}) => {
 
     if (listenerCount === 1) {
       window.addEventListener(PopStateEvent, handlePopState)
-      // window.addEventListener(HashChangeEvent, handleHashChange)
     } else if (listenerCount === 0) {
       window.removeEventListener(PopStateEvent, handlePopState)
-      // window.removeEventListener(HashChangeEvent, handleHashChange)
     }
   }
 

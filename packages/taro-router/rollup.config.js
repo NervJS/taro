@@ -8,11 +8,8 @@ import typescript from 'rollup-plugin-typescript'
 const cwd = __dirname
 
 const entries = [{
-  input: 'hashRouter.tsx',
-  output: 'hashRouter.js'
-}, {
-  input: 'browserRouter.tsx',
-  output: 'browserRouter.js'
+  input: 'index.tsx',
+  output: 'index.js'
 }]
 
 const baseConfig = {

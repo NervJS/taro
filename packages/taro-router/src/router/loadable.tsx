@@ -11,7 +11,6 @@ declare const __webpack_modules__: {
   [key: string]: any
 }
 
-/* eslint-disable camelcase,no-undef */
 function isWebpackReady(getModuleIds) {
   if (typeof __webpack_modules__ !== 'object') {
     return false;
@@ -24,7 +23,6 @@ function isWebpackReady(getModuleIds) {
     );
   });
 }
-/* eslint-enable camelcase,no-undef */
 
 interface State {
   loading: boolean;

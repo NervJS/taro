@@ -1,15 +1,15 @@
 import * as path from 'path';
 
-import { appPath } from '../util';
+import { addLeadingSlash, addTrailingSlash, appPath } from '../util';
 import {
   getDefinePlugin,
+  getDevtool,
   getEntry,
   getHotModuleReplacementPlugin,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
-  getOutput,
-  getDevtool,
   getModule,
+  getOutput,
   processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
@@ -78,7 +78,7 @@ export default function (config: Partial<BuildConfig>): any {
     entry: getEntry(entry),
     output: getOutput([{
       outputRoot,
-      publicPath,
+      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
       chunkDirectory
     }, output]),
     resolve: { alias },
