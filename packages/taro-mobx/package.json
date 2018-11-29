@@ -23,9 +23,6 @@
   "peerDependencies": {
     "mobx": "^5.5.2"
   },
-  "dependencies": {
-    "@tarojs/mobx-common": "1.2.0-beta.4"
-  },
   "devDependencies": {
     "rimraf": "^2.6.2"
   }

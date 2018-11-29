@@ -1,5 +1,3 @@
-import hoistStatics from 'hoist-non-react-statics'
-import { isStateless } from './utils'
 import { getStore } from './store'
 
 const proxiedInjectorProps = {
@@ -25,15 +23,7 @@ function createStoreInjector (grabStoresFn, component, injectNames, { Component,
 
   class Injector extends Component {
     static displayName = displayName
-
-    storeRef = instance => {
-      this.wrappedInstance = instance
-    }
-
     render () {
-      // Optimization: it might be more efficient to apply the mapper function *outside* the render method
-      // (if the mapper is a function), that could avoid expensive(?) re-rendering of the injector component
-      // See this test: 'using a custom injector is not too reactive' in inject.js
       let newProps = {}
       for (let key in this.props) {
         if (this.props.hasOwnProperty(key)) {
@@ -44,19 +34,10 @@ function createStoreInjector (grabStoresFn, component, injectNames, { Component,
       for (let key in additionalProps) {
         newProps[key] = additionalProps[key]
       }
-
-      if (!isStateless(component)) {
-        newProps.ref = this.storeRef
-      }
-
       return createElement(component, newProps)
     }
   }
 
-  // Static fields from component should be visible on the generated Injector
-  hoistStatics(Injector, component)
-
-  Injector.wrappedComponent = component
   Object.defineProperties(Injector, proxiedInjectorProps)
 
   return Injector
@@ -65,9 +46,6 @@ function createStoreInjector (grabStoresFn, component, injectNames, { Component,
 function grabStoresByName (storeNames) {
   return function (baseStores, nextProps) {
     storeNames.forEach(function (storeName) {
-      if (
-        storeName in nextProps // prefer props over stores
-      ) { return }
       if (!(storeName in baseStores)) {
         throw new Error(
           "MobX injector: Store '" +
@@ -81,7 +59,7 @@ function grabStoresByName (storeNames) {
   }
 }
 
-export default function inject (/* fn(stores, nextProps) or ...storeNames, { Component, createElement } */) {
+export function inject (/* fn(stores, nextProps) or ...storeNames, { Component, createElement } */) {
   let grabStoresFn
   let platformSpecialParams = arguments[arguments.length - 1]
   if (typeof arguments[0] === 'function') {
