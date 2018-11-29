@@ -213,7 +213,7 @@ class Transformer {
           const expr = t.jSXExpressionContainer(
             t.binaryExpression('+', t.stringLiteral(id), t.identifier('index'))
           )
-          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), expr))
+          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), isLoop ? expr : t.stringLiteral(id)))
         } else {
           const idValue = idAttr.value
           if (t.isStringLiteral(idValue)) {
