@@ -18,7 +18,6 @@ const {
   REG_TYPESCRIPT,
   cssImports
 } = require('./util')
-const npmProcess = require('./util/npm')
 
 const appPath = process.cwd()
 const configDir = path.join(appPath, PROJECT_CONFIG)
@@ -35,27 +34,46 @@ const weappOutputName = 'weapp'
 const h5OutputName = 'h5'
 
 async function buildH5Lib () {
-  const h5Config = projectConfig.h5 || {}
-  const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
-  outputDirName = `${outputDirName}/${h5OutputName}`
-  h5Config.env = projectConfig.env
-  h5Config.defineConstants = projectConfig.defineConstants
-  h5Config.plugins = projectConfig.plugins
-  h5Config.designWidth = projectConfig.designWidth
-  if (projectConfig.deviceRatio) {
-    h5Config.deviceRatio = projectConfig.deviceRatio
+  try {
+    const outputDir = path.join(appPath, outputDirName, h5OutputName)
+    const tempEntryFilePath = resolveScriptPath(path.join(tempPath, 'index'))
+    const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
+    const code = fs.readFileSync(tempEntryFilePath).toString()
+    const transformResult = wxTransformer({
+      code,
+      sourcePath: tempEntryFilePath,
+      outputPath: outputEntryFilePath,
+      isNormal: true,
+      isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
+    })
+    const { components } = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const relativePath = path.relative(appPath, tempEntryFilePath)
+    printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
+    fs.ensureDirSync(path.dirname(outputEntryFilePath))
+    fs.copyFileSync(tempEntryFilePath, path.format({
+      dir: path.dirname(outputEntryFilePath),
+      base: path.basename(outputEntryFilePath)
+    }))
+    if (components.length) {
+      components.forEach(item => {
+        const dirname = path.dirname(item.path)
+        const distDirname = dirname.replace(tempPath, outputDir)
+        const relativePath = path.relative(appPath, item.path)
+        printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
+        fs.ensureDirSync(distDirname)
+        fs.copyFileSync(item.path, path.format({
+          dir: distDirname,
+          base: path.basename(item.path)
+        }))
+      })
+      analyzeFiles(components.map(item => item.path), tempPath, outputDir)
+    }
+  } catch (err) {
+    console.log(err)
   }
-  h5Config.sourceRoot = sourceDirName
-  h5Config.outputRoot = outputDirName
-  h5Config.entry = Object.assign({
-    app: [path.join(tempPath, entryFile)]
-  }, h5Config.entry)
-  h5Config.isWatch = false
-  const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
-  webpackRunner(h5Config)
 }
 
-function parseEntryAst (ast) {
+function parseEntryAst (ast, relativeFile) {
   const styleFiles = []
   const components = []
   const importExportName = []
@@ -71,7 +89,7 @@ function parseEntryAst (ast) {
           const exported = specifier.exported
           components.push({
             name: exported.name,
-            path: resolveScriptPath(path.resolve(path.dirname(entryFilePath), source.value))
+            path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value))
           })
         })
       } else {
@@ -100,7 +118,7 @@ function parseEntryAst (ast) {
             const value = source.value
             const valueExtname = path.extname(value)
             if (REG_STYLE.test(valueExtname)) {
-              const stylePath = path.resolve(path.dirname(entryFilePath), value)
+              const stylePath = path.resolve(path.dirname(relativeFile), value)
               if (styleFiles.indexOf(stylePath) < 0) {
                 styleFiles.push(stylePath)
               }
@@ -113,7 +131,7 @@ function parseEntryAst (ast) {
                     if (local.name === nameItem) {
                       components.push({
                         name: local.name,
-                        path: resolveScriptPath(path.resolve(path.dirname(entryFilePath), source.value))
+                        path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value))
                       })
                     }
                   })
@@ -125,7 +143,7 @@ function parseEntryAst (ast) {
                   if (local.name === exportDefaultName) {
                     components.push({
                       name: local.name,
-                      path: resolveScriptPath(path.resolve(path.dirname(entryFilePath), source.value))
+                      path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value))
                     })
                   }
                 })
@@ -142,9 +160,8 @@ function parseEntryAst (ast) {
   }
 }
 
-function analyzeFiles (files) {
+function analyzeFiles (files, sourceDir, outputDir) {
   const { parseAst } = require('./weapp')
-  const outputDir = path.join(appPath, outputDirName, weappOutputName)
   files.forEach(file => {
     if (fs.existsSync(file)) {
       const code = fs.readFileSync(file).toString()
@@ -179,17 +196,16 @@ function analyzeFiles (files) {
         })
       }
       if (scriptFiles.length) {
-        analyzeFiles(scriptFiles)
+        analyzeFiles(scriptFiles, sourceDir, outputDir)
       }
       if (styleFiles.length) {
-        analyzeStyleFilesImport(styleFiles)
+        analyzeStyleFilesImport(styleFiles, sourceDir, outputDir)
       }
     }
   })
 }
 
-function analyzeStyleFilesImport (styleFiles) {
-  const outputDir = path.join(appPath, outputDirName, weappOutputName)
+function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir) {
   styleFiles.forEach(item => {
     if (!fs.existsSync(item)) {
       return
@@ -197,7 +213,7 @@ function analyzeStyleFilesImport (styleFiles) {
     let content = fs.readFileSync(item).toString()
     content = content.replace(/(?:@import\s+)?\burl\s*\(\s*("(?:[^\\"\r\n\f]|\\[\s\S])*"|'(?:[^\\'\n\r\f]|\\[\s\S])*'|[^)}\s]+)\s*\)(\s*;?)/g, (m, $1) => {
       if ($1) {
-        let filePath = $1.replace(/\'?\"?/g, '')
+        let filePath = $1.replace(/'?"?/g, '')
         if (filePath.indexOf('.') === 0) {
           filePath = path.resolve(path.dirname(item), filePath)
           if (fs.existsSync(filePath)) {
@@ -233,7 +249,7 @@ function analyzeStyleFilesImport (styleFiles) {
         }))
         return filePath
       })
-      analyzeStyleFilesImport(imports)
+      analyzeStyleFilesImport(imports, sourceDir, outputDir)
     }
   })
 }
@@ -257,7 +273,7 @@ async function buildForWeapp () {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(entryFilePath)
     })
-    const { styleFiles, components } = parseEntryAst(transformResult.ast)
+    const { styleFiles, components } = parseEntryAst(transformResult.ast, entryFilePath)
     if (styleFiles.length) {
       const outputStylePath = path.join(outputDir, 'css', 'index.css')
       await compileDepStyles(outputStylePath, styleFiles, false)
@@ -281,7 +297,7 @@ async function buildForWeapp () {
           base: path.basename(item.path)
         }))
       })
-      analyzeFiles(components.map(item => item.path))
+      analyzeFiles(components.map(item => item.path), sourceDir, outputDir)
     }
   } catch (err) {
     console.log(err)
