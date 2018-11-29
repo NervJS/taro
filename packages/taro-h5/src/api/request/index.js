@@ -61,8 +61,14 @@ export default function request (options) {
   } else {
     params.body = options.data
   }
+  params.headers = {
+    'content-type': 'application/json'
+  }
   if (options.header) {
-    params.headers = options.header
+    for (const k in options.header) {
+      const lowerK = k.toLocaleLowerCase()
+      params.headers[lowerK] = options.header[k]
+    }
   }
   if (options.mode) {
     params.mode = options.mode
