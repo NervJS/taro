@@ -723,4 +723,53 @@ describe('switch case', () => {
     </block>
     `))
   })
+
+  test('case 的语句也需要执行', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      switch (type) {
+        case this.props.direct: {
+          body = (<View>1</View>)
+          break;
+        }
+        case this.props.d2: {
+          body = (<View>2</View>)
+          break;
+        }
+        default: {
+          this.test = ''
+          body = (<View>default</View>)
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    const instance = evalClass(ast)
+    expect(instance.test).toBe('')
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view>
+            <block>
+                <block wx:if=\"{{type === direct}}\">
+                    <view>1</view>
+                </block>
+                <block wx:elif=\"{{type === d2}}\">
+                    <view>2</view>
+                </block>
+                <view wx:else>default</view>
+            </block>
+        </view>
+    </block>
+    `))
+  })
 })
