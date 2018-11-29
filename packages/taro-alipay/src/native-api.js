@@ -194,8 +194,15 @@ function request (options) {
       url: options
     }
   }
+  const defaultHeaders = {
+    'content-type': 'application/json'
+  }
+  options['headers'] = defaultHeaders
   if (options['header']) {
-    options['headers'] = options['header']
+    for (const k in options['header']) {
+      const lowerK = k.toLocaleLowerCase()
+      options['headers'][lowerK] = options['header'][k]
+    }
     delete options['header']
   }
   const originSuccess = options['success']
