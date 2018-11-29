@@ -10,7 +10,7 @@ let INSTANCE_ID = 0
 class SwiperItem extends Nerv.Component {
   render () {
     const cls = classNames('swiper-slide', this.props.className)
-    return <div className={cls}>{this.props.children}</div>
+    return <div className={cls} item-id={this.props.itemId}>{this.props.children}</div>
   }
 }
 
@@ -24,7 +24,6 @@ class Swiper extends Nerv.Component {
 
   componentDidMount () {
     const {
-      indicatorDots,
       autoplay = false,
       interval = 5000,
       duration = 500,
@@ -82,7 +81,12 @@ class Swiper extends Nerv.Component {
 
   componentDidUpdate () {
     this.mySwiper.updateSlides() // 更新子元素
-    this.mySwiper.slideTo(parseInt(this.props.current, 10)) // 更新下标
+    // 是否衔接滚动模式
+    if (this.props.circular) {
+      this.mySwiper.slideToLoop(parseInt(this.props.current, 10)) // 更新下标
+    } else {
+      this.mySwiper.slideTo(parseInt(this.props.current, 10)) // 更新下标
+    }
   }
 
   componentWillUnmount () {
@@ -95,9 +99,8 @@ class Swiper extends Nerv.Component {
     let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames(`taro-swiper-${this._id}`, 'swiper-container', className)
-    const visibility = this.props.indicatorDots ? 'visible' : 'hidden'
     return (
-      <div className={cls} ref={(i) => { this.$el = i }}>
+      <div className={cls} ref={(el) => { this.$el = el }}>
         <div
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
@@ -107,7 +110,7 @@ class Swiper extends Nerv.Component {
           }}
         />
         <div className='swiper-wrapper'>{this.props.children}</div>
-        <div className='swiper-pagination' style={{visibility}} />
+        {this.props.indicatorDots ? <div className='swiper-pagination' /> : null}
       </div>
     )
   }
