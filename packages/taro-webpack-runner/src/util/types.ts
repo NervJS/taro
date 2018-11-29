@@ -51,6 +51,7 @@ export interface TaroH5Config {
   dllEntry: {
     [key: string]: string[];
   };
+  esnextModules: string[];
 
   module?: {
     postcss?: PostcssOption;
