@@ -316,7 +316,6 @@ function transformLoop (
       ]
     )
   )
-  debugger
 
   const block = buildBlockElement()
   block.children = [replacement]
