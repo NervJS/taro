@@ -115,6 +115,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
                     const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)))
                     let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
                     relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
+                    relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
                     args[0].value = relativeRequirePath
                   }
                 } else {

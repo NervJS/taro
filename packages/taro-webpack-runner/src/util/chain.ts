@@ -1,17 +1,26 @@
-import * as HtmlWebpackPlugin from 'html-webpack-plugin'
-import { partial, merge } from 'lodash'
-import { mapKeys, pipe, map, toPairs, fromPairs } from 'lodash/fp'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as path from 'path'
-import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
-import * as htmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin'
-import * as webpack from 'webpack'
+import CssoWebpackPlugin from 'csso-webpack-plugin';
+import * as htmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import { mergeWith, partial } from 'lodash';
+import { fromPairs, map, mapKeys, pipe, toPairs } from 'lodash/fp';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as path from 'path';
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import * as webpack from 'webpack';
 
-import { appPath } from '.'
-import { getPostcssPlugins } from '../config/postcss.conf'
-import { Option, PostcssOption } from './types'
+import { appPath } from '.';
+import { getPostcssPlugins } from '../config/postcss.conf';
+import { Option, PostcssOption } from './types';
 
+const mergeFunc = (objValue, srcValue, key, object, source, stack) => {
+  if (Array.isArray(objValue) && Array.isArray(srcValue)) {
+    return objValue.concat(srcValue)
+  }
+}
+
+const customizedMerge = (obj, ...args) => {
+  return mergeWith(obj, ...args, mergeFunc)
+}
 
 const defaultUglifyJsOption = {
   keep_fnames: true,
@@ -32,6 +41,18 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 
+const defaultBabelLoaderOption = {
+  plugins: [
+    require.resolve('babel-plugin-syntax-dynamic-import'),
+    [
+      require.resolve('babel-plugin-transform-react-jsx'),
+      {
+        pragma: 'Nerv.createElement'
+      }
+    ]
+  ]
+}
+
 const getLoader = (loaderName: string, options: Option) => {
   return {
     loader: require.resolve(loaderName),
@@ -47,7 +68,7 @@ const getPlugin = (plugin: any, args: Option) => {
 }
 
 const mergeOption = ([...options]: Option[]): Option => {
-  return Object.assign({}, ...options)
+  return customizedMerge({}, ...options)
 }
 
 const getDllContext = (outputRoot, dllDirectory) => {
@@ -84,6 +105,7 @@ const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-lo
 const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
 const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
 const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
+const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
@@ -99,7 +121,7 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
     cache: true,
     parallel: true,
     sourceMap: enableSourceMap,
-    uglifyOptions: merge({}, defaultUglifyJsOption, uglifyOptions)
+    uglifyOptions: customizedMerge({}, defaultUglifyJsOption, uglifyOptions)
   })
 }
 const getCssoWebpackPlugin = ([cssoOption]) => {
@@ -133,6 +155,7 @@ const getModule = ({
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
+  esnextModules = [] as string[],
 
   module,
   plugins
@@ -192,6 +215,20 @@ const getModule = ({
       }
     }
   }
+
+  if (Array.isArray(esnextModules) && esnextModules.length) {
+    rule.jsxEsnextModules = {
+      test: /\.jsx?$/,
+      include: esnextModules.map(v => path.join(appPath, 'node_modules', v)),
+      use: {
+        babelLoader: getBabelLoader([defaultBabelLoaderOption, {
+          ...plugins.babel,
+          sourceMap: enableSourceMap
+        }])
+      }
+    }
+  }
+
   rule.media = {
     use: {
       urlLoader: {
@@ -290,4 +327,4 @@ const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   )(dllEntry)
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin }
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption }

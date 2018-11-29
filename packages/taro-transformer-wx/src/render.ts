@@ -793,13 +793,6 @@ export class RenderParser {
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
           ) {
             const componentName = jsxElementPath.node.openingElement.name.name
-            if (eventShouldBeCatched && !DEFAULT_Component_SET.has(componentName)) {
-              const jsx = path.parent as t.JSXOpeningElement
-              jsx.attributes.push(t.jSXAttribute(
-                t.jSXIdentifier('data-e-stop'),
-                t.jSXExpressionContainer(t.booleanLiteral(true))
-              ))
-            }
             if (Adapter.type === Adapters.alipay) {
               let transformName = name.name
               if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
@@ -1082,7 +1075,16 @@ export class RenderParser {
       if (this.loopRefs.has(component.node)) {
         hasLoopRef = true
         const ref = this.loopRefs.get(component.node)!
-        const id = t.binaryExpression('+', t.stringLiteral(ref.id), t.identifier('index'))
+        const [ func ] = callee.node.arguments
+        let indexId: t.Identifier | null = null
+        if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+          const params = func.params as t.Identifier[]
+          indexId = params[1]
+        }
+        if (indexId === null || !t.isIdentifier(indexId!)) {
+          throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
+        }
+        const id = t.binaryExpression('+', t.stringLiteral(ref.id), indexId)
         const refDeclName = '__ref'
         const args: any[] = [
           t.identifier('__scope'),

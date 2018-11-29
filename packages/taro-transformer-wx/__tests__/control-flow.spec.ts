@@ -530,3 +530,246 @@ describe('inline 表达式', () => {
     })
   })
 })
+
+describe('switch case', () => {
+  test('switch 嵌套 if', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      switch (this.props.testType) {
+        case type.direct: {
+          if (type.d2) {
+            body = (<View>1</View>)
+          }
+          break;
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+    <view>
+        <block wx:if=\"{{testType === type.direct}}\">
+            <block wx:if=\"{{type.d2}}\">
+                <view>1</view>
+            </block>
+        </block>
+    </view>
+</block>
+    `))
+  })
+
+  test('if 嵌套 switch', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      if (type.d2) {
+        switch (this.props.testType) {
+          case type.direct: {
+            body = (<View>1</View>)
+            break;
+          }
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+    <view>
+        <block wx:if=\"{{type.d2}}\">
+            <block wx:if=\"{{testType === type.direct}}\">
+                <view>1</view>
+            </block>
+        </block>
+    </view>
+</block>
+    `))
+  })
+
+  test('只有一个 case', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      switch (this.props.testType) {
+        case type.direct: {
+          body = (<View>1</View>)
+          break;
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view>
+            <block>
+                <block wx:if="{{testType === type.direct}}">
+                    <view>1</view>
+                </block>
+            </block>
+        </view>
+    </block>
+    `))
+  })
+
+  test('多个 case', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      switch (this.props.testType) {
+        case type.direct: {
+          body = (<View>1</View>)
+          break;
+        }
+        case type.d2: {
+          body = (<View>2</View>)
+          break;
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view>
+            <block>
+                <block wx:if="{{testType === type.direct}}">
+                    <view>1</view>
+                </block>
+                <block wx:elif="{{testType === type.d2}}">
+                    <view>2</view>
+                </block>
+            </block>
+        </view>
+    </block>
+    `))
+  })
+
+  test('有 default case', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      switch (this.props.testType) {
+        case type.direct: {
+          body = (<View>1</View>)
+          break;
+        }
+        case type.d2: {
+          body = (<View>2</View>)
+          break;
+        }
+        default: {
+          body = (<View>default</View>)
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view>
+            <block>
+                <block wx:if="{{testType === type.direct}}">
+                    <view>1</view>
+                </block>
+                <block wx:elif="{{testType === type.d2}}">
+                    <view>2</view>
+                </block>
+                <view wx:else>default</view>
+            </block>
+        </view>
+    </block>
+    `))
+  })
+
+  test('case 的语句也需要执行', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let body;
+      const type = {}
+      switch (type) {
+        case this.props.direct: {
+          body = (<View>1</View>)
+          break;
+        }
+        case this.props.d2: {
+          body = (<View>2</View>)
+          break;
+        }
+        default: {
+          this.test = ''
+          body = (<View>default</View>)
+        }
+      }
+      return (
+        <View>
+          {body}
+        </View>
+      );
+      `)
+    })
+
+    const instance = evalClass(ast)
+    expect(instance.test).toBe('')
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view>
+            <block>
+                <block wx:if=\"{{type === direct}}\">
+                    <view>1</view>
+                </block>
+                <block wx:elif=\"{{type === d2}}\">
+                    <view>2</view>
+                </block>
+                <view wx:else>default</view>
+            </block>
+        </view>
+    </block>
+    `))
+  })
+})
