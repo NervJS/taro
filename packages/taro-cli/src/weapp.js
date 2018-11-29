@@ -1999,11 +1999,11 @@ function watchFiles () {
             let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
-            if( NODE_MODULES_REG.test(outputWXSSPath) ){
+            if (NODE_MODULES_REG.test(outputWXSSPath)) {
               let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
               let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
               outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
-            }else{
+            } else {
               outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
             }
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
@@ -2029,11 +2029,11 @@ function watchFiles () {
           let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
           modifySource = modifySource.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
-          if( NODE_MODULES_REG.test(outputWXSSPath) ){
+          if (NODE_MODULES_REG.test(outputWXSSPath)) {
             let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
             let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
             outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
-          }else{
+          } else {
             outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
           }
           let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
