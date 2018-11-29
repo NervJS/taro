@@ -2,6 +2,105 @@ import transform from '../src'
 import { buildComponent, baseCode, baseOptions, evalClass, Custom, prettyPrint } from './utils'
 
 describe('ref', () => {
+  describe('正常使用', () => {
+    test('字符串', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View ref='a' />
+          )
+        `)
+      })
+      // console.log(instance)
+      const instance = evalClass(ast)
+      const refs = instance.$$refs
+      expect(refs[0].type).toBe('dom')
+      expect(refs[0].refName).toBe('a')
+      expect(refs[0].fn).toBe(null)
+      expect(template).toMatch(/<view id="[a-zA-Z]{5}"><\/view>/)
+    })
+
+    test('自定义组件', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <Custom ref='a' />
+          )
+        `)
+      })
+      // console.log(instance)
+      const instance = evalClass(ast)
+      const refs = instance.$$refs
+      expect(refs[0].type).toBe('component')
+      expect(refs[0].refName).toBe('a')
+      expect(refs[0].fn).toBe(null)
+      expect(template).toMatch(/<custom id="[a-zA-Z]{5}" __triggerObserer=\"{{ _triggerObserer }}\"><\/custom>/)
+    })
+
+    test('字符串模板', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View ref={\`a\`} />
+          )
+        `)
+      })
+      // console.log(instance)
+      const instance = evalClass(ast)
+      const refs = instance.$$refs
+      expect(refs[0].type).toBe('dom')
+      expect(refs[0].refName).toBe('a')
+      expect(refs[0].fn).toBe(null)
+      expect(template).toMatch(/<view id="[a-zA-Z]{5}"><\/view>/)
+    })
+
+    test('inline 函数', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View ref={() => this.ref = ''} />
+          )
+        `)
+      })
+      // console.log(instance)
+      const instance = evalClass(ast)
+      const refs = instance.$$refs
+      expect(refs[0].type).toBe('dom')
+      expect(refs[0].refName).toBe('')
+      refs[0].fn()
+      expect(instance.ref).toBe('')
+      expect(template).toMatch(/<view id="[a-zA-Z]{5}"><\/view>/)
+    })
+
+    test('函数', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View ref={this.mapView} />
+          )
+        `, `mapView = () => this.ref = ''`)
+      })
+      // console.log(instance)
+      const instance = evalClass(ast)
+      const refs = instance.$$refs
+      expect(refs[0].type).toBe('dom')
+      expect(refs[0].refName).toBe('')
+      refs[0].fn()
+      expect(instance.ref).toBe('')
+      expect(template).toMatch(/<view id="[a-zA-Z]{5}"><\/view>/)
+    })
+  })
+
   describe('loop', () => {
     test('内置组件', () => {
       const { template, ast, code } = transform({
