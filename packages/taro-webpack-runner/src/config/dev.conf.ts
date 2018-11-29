@@ -46,6 +46,7 @@ export default function (config: Partial<BuildConfig>): any {
     imageUrlLoaderOption = emptyObj,
     
     miniCssExtractPluginOption = emptyObj,
+    esnextModules = [],
 
     module = {
       postcss: emptyObj
@@ -95,6 +96,7 @@ export default function (config: Partial<BuildConfig>): any {
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
+      esnextModules,
   
       module,
       plugins,

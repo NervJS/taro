@@ -43,6 +43,7 @@ const outputDir = path.join(appPath, outputDirName)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const outputEntryFilePath = path.join(outputDir, entryFileName)
+const watcherDirs = projectConfig.watcher || []
 
 const pluginsConfig = projectConfig.plugins || {}
 const weappConf = projectConfig.weapp || {}
@@ -102,16 +103,18 @@ function getExactedNpmFilePath (npmName, filePath) {
         outputNpmPath = npmInfoMainPath.replace(NODE_MODULES, path.join(outputDirName, weappNpmConfig.name))
         outputNpmPath = outputNpmPath.replace(/node_modules/g, weappNpmConfig.name)
       } else {
-        const npmFilePath = npmInfoMainPath.replace(NODE_MODULES_REG, '')
-        outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name, npmFilePath)
+        let npmFilePath = npmInfoMainPath.match(/(?=(node_modules)).*/)[0]
+        npmFilePath = npmFilePath.replace(/node_modules/g, weappNpmConfig.name)
+        outputNpmPath = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), npmFilePath)
       }
     }
     if (buildAdapter === Util.BUILD_TYPES.ALIPAY) {
-      outputNpmPath = outputNpmPath.replace(/@/, '_')
+      outputNpmPath = outputNpmPath.replace(/@/g, '_')
     }
     const relativePath = path.relative(filePath, outputNpmPath)
     return Util.promoteRelativePath(relativePath)
   } catch (err) {
+    console.log(err)
     if (notExistNpmList.indexOf(npmName) < 0) {
       notExistNpmList.push(npmName)
     }
@@ -1161,7 +1164,7 @@ function transfromNativeComponents (configFile, componentConfig) {
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
       const componentPath = usingComponents[item]
-      if (/^plugin\:\/\//.test(componentPath)) {
+      if (/^plugin:\/\//.test(componentPath)) {
         // 小程序 plugin
         Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
         return
@@ -1177,7 +1180,8 @@ function transfromNativeComponents (configFile, componentConfig) {
       if (fs.existsSync(componentJSPath)) {
         const componentJSContent = fs.readFileSync(componentJSPath).toString()
         if (componentJSContent.indexOf(taroJsFramework) >= 0 && !fs.existsSync(componentWXMLPath)) {
-          return await buildDepComponents([componentJSPath])
+          const buildDepComponentsRes = await buildDepComponents([componentJSPath])
+          return buildDepComponentsRes
         }
         compileDepScripts([componentJSPath])
       } else {
@@ -1378,7 +1382,7 @@ function processStyleUseCssModule (styleObj) {
   if (!customCssModulesConf.enable) {
     return styleObj
   }
-  const generateScopedName = customCssModulesConf.generateScopedName
+  const generateScopedName = customCssModulesConf.config.generateScopedName
   const context = process.cwd()
   let scopedName
   if (generateScopedName) {
@@ -1900,7 +1904,8 @@ function watchFiles () {
   isBuildingScripts = {}
   isBuildingStyles = {}
   isCopyingFiles = {}
-  const watcher = chokidar.watch(path.join(sourceDir), {
+  const watcherPaths = [path.join(sourceDir)].concat(watcherDirs)
+  const watcher = chokidar.watch(watcherPaths, {
     ignored: /(^|[/\\])\../,
     persistent: true,
     ignoreInitial: true
@@ -1994,7 +1999,13 @@ function watchFiles () {
             let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
-            outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+            if( NODE_MODULES_REG.test(outputWXSSPath) ){
+              let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
+              let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+              outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
+            }else{
+              outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+            }
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
             let isComponent = false
@@ -2018,10 +2029,15 @@ function watchFiles () {
           let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
           modifySource = modifySource.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
-          outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+          if( NODE_MODULES_REG.test(outputWXSSPath) ){
+            let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
+            let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+            outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
+          }else{
+            outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+          }
           let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
-          const depStyleList = wxssDepTree[outputWXSSPath]
           if (isWindows) {
             await new Promise((resolve, reject) => {
               setTimeout(async () => {

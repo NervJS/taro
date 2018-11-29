@@ -330,20 +330,58 @@ export default function transform (options: Options): TransformResult {
     // },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
-      if (!assignment || !assignment.isAssignmentExpression()) {
-        return
-      }
-      const left = assignment.node.left
-      if (t.isIdentifier(left)) {
-        const binding = assignment.scope.getBinding(left.name)
-        if (binding && binding.scope === assignment.scope) {
-          if (binding.path.isVariableDeclarator()) {
-            binding.path.node.init = path.node
-            assignment.remove()
-          } else {
-            throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+      if (assignment && assignment.isAssignmentExpression()) {
+        const left = assignment.node.left
+        if (t.isIdentifier(left)) {
+          const binding = assignment.scope.getBinding(left.name)
+          if (binding && binding.scope === assignment.scope) {
+            if (binding.path.isVariableDeclarator()) {
+              binding.path.node.init = path.node
+              assignment.remove()
+            } else {
+              throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+            }
           }
         }
+      }
+
+      const switchStatement = path.findParent(p => p.isSwitchStatement())
+      if (switchStatement && switchStatement.isSwitchStatement()) {
+        const { discriminant, cases } = switchStatement.node
+        const ifStatement = cases.map((Case, index) => {
+          const [ consequent ] = Case.consequent
+          if (!t.isBlockStatement(consequent)) {
+            throw codeFrameError(switchStatement.node, '含有 JSX 的 switch case 语句必须每种情况都用花括号 `{}` 包裹结果')
+          }
+          const block = t.blockStatement(consequent.body.filter(b => !t.isBreakStatement(b)))
+          if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
+            throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
+          }
+          const test = Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant, Case.test)
+          return { block, test }
+        }).reduceRight((ifStatement, item) => {
+          if (t.isNullLiteral(item.test)) {
+            ifStatement.alternate = item.block
+            return ifStatement
+          }
+          const newStatement = t.ifStatement(
+            item.test,
+            item.block,
+            t.isBooleanLiteral(ifStatement.test, { value: false })
+              ? ifStatement.alternate
+              : ifStatement
+          )
+          return newStatement
+        }, t.ifStatement(t.booleanLiteral(false), t.blockStatement([])))
+
+        switchStatement.insertAfter(ifStatement)
+        switchStatement.remove()
+      }
+      const isForStatement = (p) => p && (p.isForStatement() || p.isForInStatement() || p.isForOfStatement())
+
+      const forStatement = path.findParent(isForStatement)
+      if (isForStatement(forStatement)) {
+        throw codeFrameError(forStatement.node, '不行使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
       }
     },
     JSXOpeningElement (path) {

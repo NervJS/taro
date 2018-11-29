@@ -1075,7 +1075,16 @@ export class RenderParser {
       if (this.loopRefs.has(component.node)) {
         hasLoopRef = true
         const ref = this.loopRefs.get(component.node)!
-        const id = t.binaryExpression('+', t.stringLiteral(ref.id), t.identifier('index'))
+        const [ func ] = callee.node.arguments
+        let indexId: t.Identifier | null = null
+        if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+          const params = func.params as t.Identifier[]
+          indexId = params[1]
+        }
+        if (indexId === null || !t.isIdentifier(indexId!)) {
+          throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
+        }
+        const id = t.binaryExpression('+', t.stringLiteral(ref.id), indexId)
         const refDeclName = '__ref'
         const args: any[] = [
           t.identifier('__scope'),
@@ -1314,7 +1323,7 @@ export class RenderParser {
     })
     if (hasLoopRef) {
       const scopeDecl = template('const __scope = this.$scope')()
-      this.renderPath.node.body.body.push(scopeDecl)
+      this.renderPath.node.body.body.unshift(scopeDecl)
     }
     replaceQueue.forEach(func => func())
   }

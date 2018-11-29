@@ -5,21 +5,25 @@ import Swipers from 'swiper/dist/js/swiper.min.js'
 import 'swiper/dist/css/swiper.min.css'
 import './style/index.scss'
 
+let INSTANCE_ID = 0
+
 class SwiperItem extends Nerv.Component {
   render () {
     const cls = classNames('swiper-slide', this.props.className)
-    return <div className={cls}>{this.props.children}</div>
+    return <div className={cls} item-id={this.props.itemId}>{this.props.children}</div>
   }
 }
 
 class Swiper extends Nerv.Component {
   constructor () {
     super(...arguments)
+    this.$el = null
+    this._id = INSTANCE_ID + 1
+    INSTANCE_ID++
   }
 
   componentDidMount () {
     const {
-      indicatorDots,
       autoplay = false,
       interval = 5000,
       duration = 500,
@@ -32,11 +36,13 @@ class Swiper extends Nerv.Component {
     } = this.props
 
     const opt = {
+      // 指示器
+      pagination: { el: '.swiper-pagination' },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
-      slidesPerView: parseInt(displayMultipleItems),
-      initialSlide: parseInt(current),
-      speed: parseInt(duration),
+      slidesPerView: parseInt(displayMultipleItems, 10),
+      initialSlide: parseInt(current, 10),
+      speed: parseInt(duration, 10),
       on: {
         slideChange () {
           let e = new TouchEvent('touchend')
@@ -61,27 +67,30 @@ class Swiper extends Nerv.Component {
       }
     }
 
-    // 指示器
-    if (indicatorDots) opt.pagination = { el: '.swiper-pagination' }
-
     // 自动播放
     if (autoplay) {
       opt.autoplay = {
-        delay: parseInt(interval),
+        delay: parseInt(interval, 10),
         stopOnLastSlide: true,
         disableOnInteraction: false
       }
     }
 
-    this.mySwiper = new Swipers('.swiper-container', opt)
+    this.mySwiper = new Swipers(this.$el, opt)
   }
 
-  componentWillReceiveProps (nextPorps) {
+  componentDidUpdate () {
     this.mySwiper.updateSlides() // 更新子元素
-    this.mySwiper.slideTo(nextPorps.currentIndex) // 更新下标
+    // 是否衔接滚动模式
+    if (this.props.circular) {
+      this.mySwiper.slideToLoop(parseInt(this.props.current, 10)) // 更新下标
+    } else {
+      this.mySwiper.slideTo(parseInt(this.props.current, 10)) // 更新下标
+    }
   }
 
   componentWillUnmount () {
+    this.$el = null
     this.mySwiper.destroy()
   }
 
@@ -89,19 +98,19 @@ class Swiper extends Nerv.Component {
     const { className, indicatorColor, indicatorActiveColor } = this.props
     let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
-    const cls = classNames('swiper-container', className)
+    const cls = classNames(`taro-swiper-${this._id}`, 'swiper-container', className)
     return (
-      <div className={cls}>
+      <div className={cls} ref={(el) => { this.$el = el }}>
         <div
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
-            .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
-            .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} } 
+            .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
+            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} } 
             </style>`
           }}
         />
         <div className='swiper-wrapper'>{this.props.children}</div>
-        <div className='swiper-pagination' />
+        {this.props.indicatorDots ? <div className='swiper-pagination' /> : null}
       </div>
     )
   }

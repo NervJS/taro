@@ -82,7 +82,16 @@ class History {
   }
 
   onHashchange = (e) => {
-    history.replaceState(historyState, '', '')
+    const urlList = JSON.parse(localStorage.getItem(HISTORYKEY) || '[]')
+    const curPageArr = urlList.filter(item => {
+      return item.state == historyState
+    })
+    if(curPageArr && curPageArr.length > 0) {
+      const fullUrl = curPageArr[0].fullUrl
+      history.replaceState(historyState, '', '#' + fullUrl)
+    }else {
+      history.replaceState(historyState, '', '')
+    }
   }
 
   onPopstate = (e) => {

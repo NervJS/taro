@@ -2393,7 +2393,7 @@ Taro.getCurrentPages().length
 | Taro.redirectTo | ✔️ | ✔️ | ✔️ |
 | Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
-| Taro.reLaunch | ✔️ |  | ✔️ |
+| Taro.reLaunch | ✔️ |  | ✔️ |      |
 | Taro.getCurrentPages | ✔️ |   | ✔️|
 
 ### 动画

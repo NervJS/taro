@@ -2,6 +2,7 @@ import * as path from 'path'
 import * as Chain from 'webpack-chain'
 
 import { getRootPath } from '../util'
+import { getBabelLoader, defaultBabelLoaderOption } from '../util/chain';
 
 export default () => {
   const chain = new Chain()
@@ -13,20 +14,7 @@ export default () => {
           test: /\.jsx?$/,
           exclude: [/node_modules/],
           use: {
-            babelLoader: {
-              loader: require.resolve('babel-loader'),
-              options: {
-                plugins: [
-                  require.resolve('babel-plugin-syntax-dynamic-import'),
-                  [
-                    require.resolve('babel-plugin-transform-react-jsx'),
-                    {
-                      pragma: 'Nerv.createElement'
-                    }
-                  ]
-                ]
-              }
-            }
+            babelLoader: getBabelLoader([defaultBabelLoaderOption])
           }
         },
         media: {

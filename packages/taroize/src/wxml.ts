@@ -183,7 +183,11 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
         if (children.length === 1) {
           const caller = children[0]
           if (t.isJSXExpressionContainer(caller) && t.isCallExpression(caller.expression) && !path.parentPath.isExpressionStatement()) {
-            path.replaceWith(caller)
+            try {
+              path.replaceWith(caller)
+            } catch (error) {
+              //
+            }
           }
         }
       }
@@ -315,7 +319,11 @@ function transformLoop (
 
   const block = buildBlockElement()
   block.children = [replacement]
-  jsx.replaceWith(block)
+  try {
+    jsx.replaceWith(block)
+  } catch (error) {
+    //
+  }
 }
 
 function transformIf (
