@@ -66,17 +66,29 @@ function installNpmPkg (pkgList, options) {
   options = Object.assign({}, defaultInstallOptions, options)
   let installer = ''
   let args = []
-  if (Util.shouldUseCnpm()) {
+
+  if (Util.shouldUseYarn()) {
+    installer = 'yarn'
+  } else if (Util.shouldUseCnpm()) {
     installer = 'cnpm'
   } else {
     installer = 'npm'
   }
-  args = ['install'].concat(pkgList).filter(Boolean)
-  args.push('--silent', '--no-progress')
-  if (options.dev) {
-    args.push('--save-dev')
+
+  if (Util.shouldUseYarn()) {
+    args = ['add'].concat(pkgList).filter(Boolean)
+    args.push('--silent', '--no-progress')
+    if (options.dev) {
+      args.push('-D')
+    }
   } else {
-    args.push('--save')
+    args = ['install'].concat(pkgList).filter(Boolean)
+    args.push('--silent', '--no-progress')
+    if (options.dev) {
+      args.push('--save-dev')
+    } else {
+      args.push('--save')
+    }
   }
   const output = spawn.sync(installer, args, {
     stdio: ['ignore', 'pipe', 'inherit']
