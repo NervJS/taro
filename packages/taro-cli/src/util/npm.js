@@ -136,7 +136,7 @@ function getNpmPkgSync (npmName) {
 async function getNpmPkg (npmName) {
   let npmPath
   try {
-    npmPath = await resolveNpm(npmName)
+    npmPath = resolveNpmSync(npmName)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${npmName}，开始安装...`))
