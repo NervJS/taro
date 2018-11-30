@@ -1,5 +1,16 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.5...v) (2018-11-29)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.6...v) (2018-11-30)
+
+
+
+<a name="1.2.0-beta.6"></a>
+# [1.2.0-beta.6](https://github.com/NervJS/taro/compare/v1.2.0-beta.5...v1.2.0-beta.6) (2018-11-30)
+
+
+### Bug Fixes
+
+* **cli:** 第三方包路径替换错误，close [#1308](https://github.com/NervJS/taro/issues/1308) ([2d4b8ea](https://github.com/NervJS/taro/commit/2d4b8ea))
+* **taro-rn:** 修复打包独立应用启动报错：未注册 main, fix [#1225](https://github.com/NervJS/taro/issues/1225) ([636f355](https://github.com/NervJS/taro/commit/636f355))
 
 
 
