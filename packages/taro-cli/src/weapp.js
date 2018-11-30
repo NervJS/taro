@@ -2064,7 +2064,7 @@ function watchFiles () {
 
 async function build ({ watch, adapter }) {
   process.env.TARO_ENV = adapter
-  isProduction = !watch
+  isProduction = process.env.NODE_ENV === 'production' || !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
   // 可以自定义输出文件类型
