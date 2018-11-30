@@ -15,7 +15,8 @@ export function parseScript (
   script?: string,
   returned?: t.Expression,
   json?: t.ObjectExpression,
-  wxses: WXS[] = []
+  wxses: WXS[] = [],
+  refId?: Set<string>
 ) {
   script = script || 'Page({})'
   if (t.isJSXText(returned as any)) {
@@ -74,7 +75,8 @@ export function parseScript (
           path,
           returned || t.nullLiteral(),
           json,
-          componentType
+          componentType,
+          refId
         )!
         if (componentType !== 'App') {
           classDecl.decorators = [buildDecorator(componentType)]
@@ -134,9 +136,15 @@ function parsePage (
   path: NodePath<t.CallExpression>,
   returned: t.Expression,
   json?: t.ObjectExpression,
-  componentType?: string
+  componentType?: string,
+  refId?: Set<string>
 ) {
   const stateKeys: string[] = []
+  if (refId) {
+    refId.forEach(id => {
+      stateKeys.push(id)
+    })
+  }
   const propsKeys: string[] = []
   const arg = path.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {

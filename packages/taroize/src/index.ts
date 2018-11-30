@@ -12,9 +12,9 @@ interface Option {
 }
 
 export function parse (option: Option) {
-  const { wxml, wxses, imports } = parseWXML(option.path, option.wxml)
+  const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
   const json = parseJSON(option.json)
-  const ast = parseScript(option.script, wxml as t.Expression, json, wxses)
+  const ast = parseScript(option.script, wxml as t.Expression, json, wxses, refIds)
   return {
     ast,
     imports,

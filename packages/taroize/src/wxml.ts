@@ -89,6 +89,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   wxses: WXS[]
   wxml?: t.Node
   imports: Imports[]
+  refIds: Set<string>
 } {
   if (!parseImport) {
     errors.length = 0
@@ -96,10 +97,12 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   usedComponents.clear()
   let wxses: WXS[] = []
   let imports: Imports[] = []
+  const refIds = new Set<string>()
   if (!wxml) {
     return {
       wxses,
       imports,
+      refIds,
       wxml: t.nullLiteral()
     }
   }
@@ -125,6 +128,9 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       transformIf(name.name, path, jsx, valueCopy)
       transformLoop(name.name, path, jsx, valueCopy)
     },
+    BlockStatement () {
+      // debugger
+    },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
         const openingElement = path.get('openingElement')
@@ -133,6 +139,18 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
         if (!jsxName.isJSXIdentifier()) {
           return
         }
+        path.traverse({
+          Identifier (p) {
+            if (!p.isReferencedIdentifier()) {
+              return
+            }
+            const jsxExprContainer = p.findParent(p => p.isJSXExpressionContainer())
+            if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
+              return
+            }
+            refIds.add(p.node.name)
+          }
+        })
         const tagName = jsxName.node.name
         if (tagName === 'Wxs') {
           wxses.push(getWXS(attrs.map(a => a.node), path, dirPath))
@@ -197,7 +215,8 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   return {
     wxses,
     imports,
-    wxml: hydrate(ast)
+    wxml: hydrate(ast),
+    refIds
   }
 }
 
