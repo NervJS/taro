@@ -2067,6 +2067,10 @@ async function build ({ watch, adapter }) {
   isProduction = !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
+  // 可以自定义输出文件类型
+  if (weappConf.customFilesTypes && !Util.isEmptyObject(weappConf.customFilesTypes)) {
+    outputFilesTypes = Object.assign({}, outputFilesTypes, weappConf.customFilesTypes[buildAdapter] || {})
+  }
   constantsReplaceList = Object.assign({}, constantsReplaceList, {
     'process.env.TARO_ENV': buildAdapter
   })
