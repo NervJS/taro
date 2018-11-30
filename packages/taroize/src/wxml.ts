@@ -272,57 +272,59 @@ function transformLoop (
   jsx: NodePath<t.JSXElement>,
   value: AttrValue
 ) {
-  if (name !== WX_FOR) {
-    return
-  }
-  if (!value || !t.isJSXExpressionContainer(value)) {
-    throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
-  }
-  attr.remove()
-  let item = t.stringLiteral('item')
-  let index = t.stringLiteral('index')
-  jsx
-    .get('openingElement')
-    .get('attributes')
-    .forEach(p => {
-      const node = p.node
-      if (node.name.name === WX_FOR_ITEM) {
-        if (!node.value || !t.isStringLiteral(node.value)) {
-          throw new Error(WX_FOR_ITEM + ' 的值必须是一个字符串')
+  const attrs = jsx.get('openingElement').get('attributes').map(a => a.node)
+  const wxForItem = attrs.find(a => a.name.name === WX_FOR_ITEM)
+  const hasSinglewxForItem = wxForItem && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
+  if (hasSinglewxForItem || name === WX_FOR) {
+    if (!value || !t.isJSXExpressionContainer(value)) {
+      throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
+    }
+    attr.remove()
+    let item = t.stringLiteral('item')
+    let index = t.stringLiteral('index')
+    jsx
+      .get('openingElement')
+      .get('attributes')
+      .forEach(p => {
+        const node = p.node
+        if (node.name.name === WX_FOR_ITEM) {
+          if (!node.value || !t.isStringLiteral(node.value)) {
+            throw new Error(WX_FOR_ITEM + ' 的值必须是一个字符串')
+          }
+          item = node.value
+          p.remove()
         }
-        item = node.value
-        p.remove()
-      }
-      if (node.name.name === WX_FOR_INDEX) {
-        if (!node.value || !t.isStringLiteral(node.value)) {
-          throw new Error(WX_FOR_INDEX + ' 的值必须是一个字符串')
+        if (node.name.name === WX_FOR_INDEX) {
+          if (!node.value || !t.isStringLiteral(node.value)) {
+            throw new Error(WX_FOR_INDEX + ' 的值必须是一个字符串')
+          }
+          index = node.value
+          p.remove()
         }
-        index = node.value
-        p.remove()
-      }
-      if (node.name.name === WX_KEY) {
-        p.get('name').replaceWith(t.jSXIdentifier('key'))
-      }
-    })
+        if (node.name.name === WX_KEY) {
+          p.get('name').replaceWith(t.jSXIdentifier('key'))
+        }
+      })
 
-  const replacement = t.jSXExpressionContainer(
-    t.callExpression(
-      t.memberExpression(value.expression, t.identifier('map')),
-      [
-        t.arrowFunctionExpression(
-          [t.identifier(item.value), t.identifier(index.value)],
-          t.blockStatement([t.returnStatement(jsx.node)])
-        )
-      ]
+    const replacement = t.jSXExpressionContainer(
+      t.callExpression(
+        t.memberExpression(value.expression, t.identifier('map')),
+        [
+          t.arrowFunctionExpression(
+            [t.identifier(item.value), t.identifier(index.value)],
+            t.blockStatement([t.returnStatement(jsx.node)])
+          )
+        ]
+      )
     )
-  )
 
-  const block = buildBlockElement()
-  block.children = [replacement]
-  try {
-    jsx.replaceWith(block)
-  } catch (error) {
-    //
+    const block = buildBlockElement()
+    block.children = [replacement]
+    try {
+      jsx.replaceWith(block)
+    } catch (error) {
+      //
+    }
   }
 }
 
