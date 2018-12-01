@@ -1,26 +1,16 @@
 import CssoWebpackPlugin from 'csso-webpack-plugin';
 import * as htmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import { mergeWith, partial } from 'lodash';
+import { partial } from 'lodash';
 import { fromPairs, map, mapKeys, pipe, toPairs } from 'lodash/fp';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as path from 'path';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import * as webpack from 'webpack';
 
-import { appPath } from '.';
+import { appPath, recursiveMerge } from '.';
 import { getPostcssPlugins } from '../config/postcss.conf';
 import { Option, PostcssOption } from './types';
-
-const mergeFunc = (objValue, srcValue) => {
-  if (Array.isArray(objValue) && Array.isArray(srcValue)) {
-    return objValue.concat(srcValue)
-  }
-}
-
-const customizedMerge = (obj, ...args) => {
-  return mergeWith(obj, ...args, mergeFunc)
-}
 
 const defaultUglifyJsOption = {
   keep_fnames: true,
@@ -102,7 +92,7 @@ const getPlugin = (plugin: any, args: Option) => {
 }
 
 const mergeOption = ([...options]: Option[]): Option => {
-  return customizedMerge({}, ...options)
+  return recursiveMerge({}, ...options)
 }
 
 const getDllContext = (outputRoot, dllDirectory) => {
@@ -156,7 +146,7 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
     cache: true,
     parallel: true,
     sourceMap: enableSourceMap,
-    uglifyOptions: customizedMerge({}, defaultUglifyJsOption, uglifyOptions)
+    uglifyOptions: recursiveMerge({}, defaultUglifyJsOption, uglifyOptions)
   })
 }
 const getCssoWebpackPlugin = ([cssoOption]) => {

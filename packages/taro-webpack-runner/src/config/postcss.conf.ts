@@ -4,7 +4,7 @@ import * as modules from 'postcss-modules';
 import * as constparse from 'postcss-plugin-constparse';
 import * as pxtransform from 'postcss-pxtransform';
 import { sync as resolveSync } from 'resolve';
-import { isNpmPackage, appPath } from '../util';
+import { isNpmPackage, appPath, recursiveMerge } from '../util';
 
 import { PostcssOption } from '../util/types';
 
@@ -58,9 +58,9 @@ export const getPostcssPlugins = function ({
     defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
 
-  const autoprefixerOption = Object.assign({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
-  const pxtransformOption = Object.assign({}, defaultPxtransformOption, postcssOption.pxtransform)
-  const cssModulesOption = Object.assign({}, defaultCssModulesOption, postcssOption.cssModules)
+  const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
+  const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
+  const cssModulesOption = recursiveMerge({}, defaultCssModulesOption, postcssOption.cssModules)
 
   if (autoprefixerOption.enable) {
     plugins.push(autoprefixer(autoprefixerOption.config))
