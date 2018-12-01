@@ -12,7 +12,7 @@ import { appPath } from '.';
 import { getPostcssPlugins } from '../config/postcss.conf';
 import { Option, PostcssOption } from './types';
 
-const mergeFunc = (objValue, srcValue, key, object, source, stack) => {
+const mergeFunc = (objValue, srcValue) => {
   if (Array.isArray(objValue) && Array.isArray(srcValue)) {
     return objValue.concat(srcValue)
   }
@@ -52,6 +52,40 @@ const defaultBabelLoaderOption = {
     ]
   ]
 }
+
+const defaultMediaUrlLoaderOption = {}
+const defaultFontUrlLoaderOption = {
+  limit: 2000
+}
+const defaultImageUrlLoaderOption = {
+  limit: 2000
+}
+// type ConditionResult = string | false
+// type ValidCondition = string | RegExp | ((filename: ConditionResult) => ConditionResult)
+// type Conditions = ValidCondition | ValidCondition[]
+// const condition = (type: 'filterIn' | 'filterOut', item: Conditions, filename: ConditionResult): ConditionResult => {
+//   if (filename === false) return filename
+
+//   let isMatched
+
+//   if (item instanceof RegExp) {
+//     isMatched = item.test(filename)
+//   } else if (item instanceof Function) {
+//     isMatched = item(filename)
+//   } else if (typeof item === 'string') {
+//     isMatched = filename.indexOf(item) > -1
+//   } else if (Array.isArray(item) && item.length > 0) {
+//     return pipe(item.map(v => {
+//       return partial(condition, type, v)
+//     }))(filename)
+//   }
+
+//   if (isMatched) {
+//     return type === 'filterIn' ? filename : false
+//   } else {
+//     return type === 'filterOut' ? false : filename
+//   }
+// }
 
 const getLoader = (loaderName: string, options: Option) => {
   return {
@@ -106,6 +140,7 @@ const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
 const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
 const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
+const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
@@ -216,19 +251,6 @@ const getModule = ({
     }
   }
 
-  if (Array.isArray(esnextModules) && esnextModules.length) {
-    rule.jsxEsnextModules = {
-      test: /\.jsx?$/,
-      include: esnextModules.map(v => path.join(appPath, 'node_modules', v)),
-      use: {
-        babelLoader: getBabelLoader([defaultBabelLoaderOption, {
-          ...plugins.babel,
-          sourceMap: enableSourceMap
-        }])
-      }
-    }
-  }
-
   rule.media = {
     use: {
       urlLoader: {
@@ -261,35 +283,58 @@ const getModule = ({
   }
   rule.sass = {
     test: /\.(css|scss|sass)(\?.*)?$/,
-    exclude: [/node_modules/],
     use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
   }
   rule.less = {
     test: /\.less(\?.*)?$/,
-    exclude: [/node_modules/],
     use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
   }
   rule.styl = {
     test: /\.styl(\?.*)?$/,
-    exclude: [/node_modules/],
     use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
   }
   rule.sassInNodemodules = {
     test: /\.(css|scss|sass)(\?.*)?$/,
-    include: [/node_modules/],
     use: [lastCssLoader, cssLoader, sassLoader]
   }
   rule.lessInNodemodules = {
     test: /\.less(\?.*)?$/,
-    include: [/node_modules/],
     use: [lastCssLoader, cssLoader, lessLoader]
   }
   rule.stylInNodemodules = {
     test: /\.styl(\?.*)?$/,
-    include: [/node_modules/],
     use: [lastCssLoader, cssLoader, stylusLoader]
   }
 
+  const isNodemodule = filename => /\bnode_modules\b/.test(filename)
+  if (Array.isArray(esnextModules) && esnextModules.length) {
+    const esnextModulePaths = esnextModules.map(v => path.join(appPath, 'node_modules', v))
+    /**
+     * isEsnextModule
+     * 
+     * 使用字符串匹配判断是否是es模块
+     */
+    const isEsnextModule = filename => esnextModulePaths.some(v => filename.indexOf(v) === 0)
+    const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
+
+    /* 通过taro处理 */
+    rule.jsx.exclude = [notTaroModules]
+    rule.sass.exclude = [notTaroModules]
+    rule.less.exclude = [notTaroModules]
+    rule.styl.exclude = [notTaroModules]
+
+    rule.sassInNodemodules.include = [notTaroModules]
+    rule.lessInNodemodules.include = [notTaroModules]
+    rule.stylInNodemodules.include = [notTaroModules]
+  } else {
+    rule.jsx.exclude = [isNodemodule]
+    rule.sass.exclude = [isNodemodule]
+    rule.less.exclude = [isNodemodule]
+    rule.styl.exclude = [isNodemodule]
+    rule.sassInNodemodules.include = [isNodemodule]
+    rule.lessInNodemodules.include = [isNodemodule]
+    rule.stylInNodemodules.include = [isNodemodule]
+  }
   return { rule }
 }
 
@@ -327,4 +372,4 @@ const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   )(dllEntry)
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption }
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption }
