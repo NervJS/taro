@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
+const generate = require('babel-generator').default
 const _ = require('lodash')
 
 const CONFIG = require('./config')
@@ -46,31 +47,41 @@ async function buildH5Lib () {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const { components } = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, tempEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
     printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))
-    fs.copyFileSync(tempEntryFilePath, path.format({
-      dir: path.dirname(outputEntryFilePath),
-      base: path.basename(outputEntryFilePath)
-    }))
+    fs.writeFileSync(outputEntryFilePath, generateCode)
     if (components.length) {
       components.forEach(item => {
-        const dirname = path.dirname(item.path)
-        const distDirname = dirname.replace(tempPath, outputDir)
-        const relativePath = path.relative(appPath, item.path)
-        printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
-        fs.ensureDirSync(distDirname)
-        fs.copyFileSync(item.path, path.format({
-          dir: distDirname,
-          base: path.basename(item.path)
-        }))
+        copyFileToDist(item.path, tempPath, outputDir)
       })
       analyzeFiles(components.map(item => item.path), tempPath, outputDir)
+    }
+    if (styleFiles.length) {
+      styleFiles.forEach(item => {
+        copyFileToDist(item, tempPath, path.join(appPath, outputDirName))
+      })
+      analyzeStyleFilesImport(styleFiles, tempPath, path.join(appPath, outputDirName))
     }
   } catch (err) {
     console.log(err)
   }
+}
+
+function copyFileToDist (filePath, sourceDir, outputDir) {
+  if (!path.isAbsolute(filePath)) {
+    return
+  }
+  const dirname = path.dirname(filePath)
+  const distDirname = dirname.replace(sourceDir, outputDir)
+  const relativePath = path.relative(appPath, filePath)
+  printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
+  fs.ensureDirSync(distDirname)
+  fs.copyFileSync(filePath, path.format({
+    dir: distDirname,
+    base: path.basename(filePath)
+  }))
 }
 
 function parseEntryAst (ast, relativeFile) {
@@ -154,7 +165,9 @@ function parseEntryAst (ast, relativeFile) {
       }
     }
   })
+  const code = generate(ast).code
   return {
+    code,
     styleFiles,
     components
   }
@@ -181,18 +194,7 @@ function analyzeFiles (files, sourceDir, outputDir) {
       const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
       if (resFiles.length) {
         resFiles.forEach(item => {
-          if (!path.isAbsolute(item)) {
-            return
-          }
-          const dirname = path.dirname(item)
-          const distDirname = dirname.replace(sourceDir, outputDir)
-          const relativePath = path.relative(appPath, item)
-          printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
-          fs.ensureDirSync(distDirname)
-          fs.copyFileSync(item, path.format({
-            dir: distDirname,
-            base: path.basename(item)
-          }))
+          copyFileToDist(item, sourceDir, outputDir)
         })
       }
       if (scriptFiles.length) {
@@ -216,17 +218,7 @@ function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir) {
         let filePath = $1.replace(/'?"?/g, '')
         if (filePath.indexOf('.') === 0) {
           filePath = path.resolve(path.dirname(item), filePath)
-          if (fs.existsSync(filePath)) {
-            const dirname = path.dirname(filePath)
-            const distDirname = dirname.replace(sourceDir, outputDir)
-            const relativePath = path.relative(appPath, filePath)
-            printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
-            fs.ensureDirSync(distDirname)
-            fs.copyFileSync(filePath, path.format({
-              dir: distDirname,
-              base: path.basename(filePath)
-            }))
-          }
+          copyFileToDist(filePath, sourceDir, outputDir)
         }
       }
       return m
@@ -235,18 +227,7 @@ function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir) {
     if (imports.length > 0) {
       imports = imports.map(importItem => {
         const filePath = resolveStylePath(path.resolve(path.dirname(item), importItem))
-        if (!fs.existsSync(filePath)) {
-          return filePath
-        }
-        const dirname = path.dirname(filePath)
-        const distDirname = dirname.replace(sourceDir, outputDir)
-        const relativePath = path.relative(appPath, filePath)
-        printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
-        fs.ensureDirSync(distDirname)
-        fs.copyFileSync(filePath, path.format({
-          dir: distDirname,
-          base: path.basename(filePath)
-        }))
+        copyFileToDist(filePath, sourceDir, outputDir)
         return filePath
       })
       analyzeStyleFilesImport(imports, sourceDir, outputDir)
@@ -287,15 +268,7 @@ async function buildForWeapp () {
     }))
     if (components.length) {
       components.forEach(item => {
-        const dirname = path.dirname(item.path)
-        const distDirname = dirname.replace(sourceDir, outputDir)
-        const relativePath = path.relative(appPath, item.path)
-        printLog(pocessTypeEnum.COPY, '发现文件', relativePath)
-        fs.ensureDirSync(distDirname)
-        fs.copyFileSync(item.path, path.format({
-          dir: distDirname,
-          base: path.basename(item.path)
-        }))
+        copyFileToDist(item.path, sourceDir, outputDir)
       })
       analyzeFiles(components.map(item => item.path), sourceDir, outputDir)
     }
