@@ -1,9 +1,11 @@
 {
-  "name": "@tarojs/mobx",
+  "name": "@tarojs/mobx-prop-types",
   "version": "1.2.0-beta.7",
-  "description": "mobx for taro",
+  "description": "mobx-prop-types library for taro",
   "keywords": [
     "mobx",
+    "propTypes",
+    "library",
     "taro"
   ],
   "license": "MIT",

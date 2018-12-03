@@ -460,6 +460,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
       plugins: [
         [require('babel-plugin-transform-jsx-to-stylesheet'), {filePath}],
         require('babel-plugin-transform-decorators-legacy').default,
+        require('babel-plugin-transform-class-properties'),
         [require('babel-plugin-danger-remove-unused-import'), {ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs']}],
         [require('babel-plugin-transform-define').default, constantsReplaceList]
       ]

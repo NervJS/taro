@@ -46,7 +46,8 @@ export default counterStore
 接下来在项目入口文件 `app.js` 中使用 `@tarojs/mobx` 中提供的 `Provider` 组件将前面写好的 `store` 接入应用中
 
 ```jsx
-// src/app.jsimport Taro, { Component } from '@tarojs/taro'
+// src/app.js
+import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import Index from './pages/index'
 
@@ -141,13 +142,13 @@ class Index extends Component {
   }
 
   render () {
-    const { counterStore } = this.props
+    const { counterStore: { counter } } = this.props
     return (
       <View className='index'>
         <Button onClick={this.increment}>+</Button>
         <Button onClick={this.decrement}>-</Button>
         <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counterStore.counter}</Text>
+        <Text>{counter}</Text>
       </View>
     )
   }
@@ -193,54 +194,30 @@ export default Index
 
 注意事项：
 
-如果您以`class`的形式定义`store`，比如：
+* 在`Component`的`render`方法中，如果需要使用一个`observable` 对象（该例中为`counter`），您需要：
 
-```js
-import { observable, action, decorate } from 'mobx'
+  ```js
+  const { counterStore: { counter } } = this.props
+  return (
+     <Text>{counter}</Text>
+  )
+  ```
 
-class Counter  {
+  而非：
 
-  counter = 2
+  ```js
+  const { counterStore } = this.props
+  return (
+     <Text>{counterStore.counter}</Text>
+  )
+  ```
 
-  @action increment () {
-    this.counter++
-  }
+* 自`1.2.0-beta.5`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
 
-  @action decrement() {
-    this.counter--
-  }
+  ```bash
+  $ yarn add @tarojs/mobx-prop-types
+  # 或者使用 npm
+  $ npm install --save @tarojs/mobx-prop-types
+  ```
 
-  @action incrementAsync(){
-    setTimeout(() => {
-      this.counter++
-    }, 1000)
-  }
-}
-
-decorate(Counter, {
-  counter: observable
-})
-
-export default new Counter()na
-```
-
-那么在`Component`的`render`方法中，您需要：
-
-```js
-const { counterStore } = this.props
-const { counter } = counterStore
-return (
-   <Text>{counter}</Text>
-)
-```
-
-而非：
-
-```js
-const { counterStore } = this.props
-return (
-   <Text>{counterStore.counter}</Text>
-)
-```
-
-具体原因参见：https://github.com/NervJS/taro/pull/972#issuecomment-441180286
+  `propTypes` 使用与[mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 一致

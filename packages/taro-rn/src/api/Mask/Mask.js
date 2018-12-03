@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import { StyleSheet, TouchableWithoutFeedback, View, ViewPropTypes } from 'react-native'
 
 const styles = StyleSheet.create({
   mask: {
@@ -20,7 +20,7 @@ const Mask = ({transparent = false, style, onPress, children}) =>
 
 Mask.propTypes = {
   transparent: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   children: PropTypes.node,
   onPress: PropTypes.func
 }

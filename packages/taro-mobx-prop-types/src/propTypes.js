@@ -19,15 +19,15 @@ function createChainableTypeChecker (validate) {
           const actual = props[propName] === null ? 'null' : 'undefined'
           return new Error(
             'The ' +
-                            location +
-                            ' `' +
-                            propFullName +
-                            '` is marked as required ' +
-                            'in `' +
-                            componentName +
-                            '`, but its value is `' +
-                            actual +
-                            '`.'
+            location +
+            ' `' +
+            propFullName +
+            '` is marked as required ' +
+            'in `' +
+            componentName +
+            '`, but its value is `' +
+            actual +
+            '`.'
           )
         }
         return null
@@ -128,17 +128,17 @@ function createObservableTypeCheckerCreator (allowNativeType, mobxType) {
           : ''
         return new Error(
           'Invalid prop `' +
-                        propFullName +
-                        '` of type `' +
-                        preciseType +
-                        '` supplied to' +
-                        ' `' +
-                        componentName +
-                        '`, expected `mobx.Observable' +
-                        mobxType +
-                        '`' +
-                        nativeTypeExpectationMessage +
-                        '.'
+          propFullName +
+          '` of type `' +
+          preciseType +
+          '` supplied to' +
+          ' `' +
+          componentName +
+          '`, expected `mobx.Observable' +
+          mobxType +
+          '`' +
+          nativeTypeExpectationMessage +
+          '.'
         )
       }
       return null
@@ -159,11 +159,11 @@ function createObservableArrayOfTypeChecker (allowNativeType, typeChecker) {
       if (typeof typeChecker !== 'function') {
         return new Error(
           'Property `' +
-                        propFullName +
-                        '` of component `' +
-                        componentName +
-                        '` has ' +
-                        'invalid PropType notation.'
+          propFullName +
+          '` of component `' +
+          componentName +
+          '` has ' +
+          'invalid PropType notation.'
         )
       }
       let error = createObservableTypeCheckerCreator(allowNativeType, 'Array')(

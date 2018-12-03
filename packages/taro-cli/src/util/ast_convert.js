@@ -54,6 +54,15 @@ function convertSourceStringToAstExpression (str) {
   return template(str, babylonConfig)()
 }
 
+const getObjKey = (node) => {
+  if (t.isIdentifier(node)) {
+    return node.name
+  } else {
+    return node.value
+  }
+}
+
 exports.obj = convertObjectToAstExpression
 exports.array = convertArrayToAstExpression
 exports.source = convertSourceStringToAstExpression
+exports.getObjKey = getObjKey
