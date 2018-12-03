@@ -20,7 +20,8 @@ const {
   REG_TYPESCRIPT,
   processStyleImports,
   getPkgVersion,
-  pascalCase
+  pascalCase,
+  emptyDirectory
 } = require('./util')
 
 const Creator = require('./creator')
@@ -102,7 +103,7 @@ class Convertor {
 
   initConvert () {
     if (fs.existsSync(this.convertRoot)) {
-      fs.emptyDirSync(this.convertRoot)
+      emptyDirectory(this.convertRoot, { excludes: ['node_modules'] })
     } else {
       fs.mkdirpSync(this.convertRoot)
     }
