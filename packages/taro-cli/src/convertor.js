@@ -25,6 +25,7 @@ const {
 } = require('./util')
 
 const Creator = require('./creator')
+const babylonConfig = require('./config/babylon')
 
 const prettierJSConfig = {
   semi: false,
@@ -109,7 +110,7 @@ class Convertor {
     }
   }
 
-  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }) {
+  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [], isApp = false }) {
     const scriptFiles = new Set()
     const self = this
     const images = new Map()
@@ -168,18 +169,14 @@ class Convertor {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generate(ast).code, prettierJSConfig))
                 }
-                lastImport.insertAfter(template(`import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`, {
-                  sourceType: 'module'
-                })())
+                lastImport.insertAfter(template(`import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`, babylonConfig)())
               })
             }
             if (depComponents && depComponents.size) {
               depComponents.forEach(componentObj => {
                 const name = pascalCase(componentObj.name)
                 const component = componentObj.path
-                lastImport.insertAfter(template(`import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`, {
-                  sourceType: 'module'
-                })())
+                lastImport.insertAfter(template(`import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`, babylonConfig)())
               })
             }
             if (images && images.size) {
@@ -196,10 +193,12 @@ class Convertor {
                 outputImagePath = this.getDistFilePath(sourceImagePath)
                 this.copyFileToTaro(sourceImagePath, outputImagePath)
                 printLog(pocessTypeEnum.COPY, '图片', this.generateShowPath(outputImagePath))
-                lastImport.insertAfter(template(`import ${key} from '${imageRelativePath}'`, {
-                  sourceType: 'module'
-                })())
+                lastImport.insertAfter(template(`import ${key} from '${imageRelativePath}'`, babylonConfig)())
               })
+            }
+
+            if (isApp) {
+              astPath.node.body.push(template(`Taro.render(<App />, document.getElementById('app'))`, babylonConfig)())
             }
           }
         }
@@ -331,7 +330,8 @@ class Convertor {
         ast: taroizeResult.ast,
         sourceFilePath: this.entryJSPath,
         outputFilePath: entryDistJSPath,
-        importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), '.css') : null
+        importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), '.css') : null,
+        isApp: true
       })
       const jsCode = generate(ast).code
       this.writeFileToTaro(entryDistJSPath, prettier.format(jsCode, prettierJSConfig))
