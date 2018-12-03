@@ -212,7 +212,7 @@ export default Index
   )
   ```
 
-* 自`1.2.0`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
+* 自`1.2.0-beta.5`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
 
   ```bash
   $ yarn add @tarojs/mobx-prop-types
