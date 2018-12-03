@@ -23,6 +23,16 @@ export default class Picker extends Nerv.Component {
   constructor (props) {
     super(props)
 
+    this.handlePrpos()
+    this.state = {
+      pickerValue: this.index,
+      hidden: true,
+      fadeOut: false,
+      height: []
+    }
+  }
+
+  handlePrpos () {
     let { value, range, mode } = this.props
     this.index = []
 
@@ -93,18 +103,10 @@ export default class Picker extends Nerv.Component {
       }
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
-
-    this.state = {
-      pickerValue: this.index,
-      hidden: true,
-      fadeOut: false,
-      height: []
-    }
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    // console.log(nextProps, nextState)
-    // todo...
+  componentDidUpdate () {
+    this.handlePrpos()
   }
 
   // 校验传入的 value 是否合法
@@ -559,12 +561,12 @@ export default class Picker extends Nerv.Component {
     })
     const shouldDivHidden = this.state.hidden ? 'display: none;' : ''
 
-    // 给 children 绑定事件
-    const children = Nerv.Children.map(this.props.children, child => {
-      return Nerv.cloneElement(child, {
-        onClick: showPicker
-      })
-    })
+    // // 给 children 绑定事件
+    // const children = Nerv.Children.map(this.props.children, child => {
+    //   return Nerv.cloneElement(child, {
+    //     onClick: showPicker
+    //   })
+    // })
 
     // picker__group
     let pickerGroup
@@ -586,7 +588,9 @@ export default class Picker extends Nerv.Component {
 
     return (
       <div className={this.props.className}>
-        {children}
+        <div onClick={showPicker}>
+          {this.props.children}
+        </div>
         <div style={shouldDivHidden} className={clsMask} onClick={onCancel} />
         <div style={shouldDivHidden} className={clsSlider}>
           <div className='weui-picker__hd'>

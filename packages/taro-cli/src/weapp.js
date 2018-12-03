@@ -43,6 +43,7 @@ const outputDir = path.join(appPath, outputDirName)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const outputEntryFilePath = path.join(outputDir, entryFileName)
+const watcherDirs = projectConfig.watcher || []
 
 const pluginsConfig = projectConfig.plugins || {}
 const weappConf = projectConfig.weapp || {}
@@ -931,7 +932,7 @@ function copyFilesFromSrcToOutput (files) {
 
 const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
   if (Array.isArray(objValue)) {
-    return Array.from(new Set(objValue.concat(srcValue)))
+    return Array.from(new Set(srcValue.concat(objValue)))
   }
 })
 
@@ -1903,7 +1904,8 @@ function watchFiles () {
   isBuildingScripts = {}
   isBuildingStyles = {}
   isCopyingFiles = {}
-  const watcher = chokidar.watch(path.join(sourceDir), {
+  const watcherPaths = [path.join(sourceDir)].concat(watcherDirs)
+  const watcher = chokidar.watch(watcherPaths, {
     ignored: /(^|[/\\])\../,
     persistent: true,
     ignoreInitial: true
@@ -1997,7 +1999,13 @@ function watchFiles () {
             let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
-            outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+            if (NODE_MODULES_REG.test(outputWXSSPath)) {
+              let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
+              let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+              outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
+            } else {
+              outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+            }
             let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
             modifyOutput = modifyOutput.split(path.sep).join('/')
             let isComponent = false
@@ -2021,7 +2029,13 @@ function watchFiles () {
           let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
           modifySource = modifySource.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
-          outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+          if (NODE_MODULES_REG.test(outputWXSSPath)) {
+            let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
+            let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+            outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
+          } else {
+            outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
+          }
           let modifyOutput = outputWXSSPath.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
           if (isWindows) {
@@ -2050,9 +2064,13 @@ function watchFiles () {
 
 async function build ({ watch, adapter }) {
   process.env.TARO_ENV = adapter
-  isProduction = !watch
+  isProduction = process.env.NODE_ENV === 'production' || !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
+  // 可以自定义输出文件类型
+  if (weappConf.customFilesTypes && !Util.isEmptyObject(weappConf.customFilesTypes)) {
+    outputFilesTypes = Object.assign({}, outputFilesTypes, weappConf.customFilesTypes[buildAdapter] || {})
+  }
   constantsReplaceList = Object.assign({}, constantsReplaceList, {
     'process.env.TARO_ENV': buildAdapter
   })

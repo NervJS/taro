@@ -395,6 +395,7 @@ class Transformer {
         if (!jsx) return
         const jsxName = jsx.node.name
         if (!t.isJSXIdentifier(jsxName)) return
+        if (expression.isJSXElement()) return
         if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
         generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
       },

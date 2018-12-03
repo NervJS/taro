@@ -1,5 +1,5 @@
 import * as t from 'babel-types'
-import traverse, { NodePath } from 'babel-traverse'
+import traverse, { NodePath, Visitor } from 'babel-traverse'
 import { transform } from 'babel-core'
 import * as template from 'babel-template'
 import { buildImportStatement, codeFrameError, buildRender, buildBlockElement } from './utils'
@@ -15,7 +15,8 @@ export function parseScript (
   script?: string,
   returned?: t.Expression,
   json?: t.ObjectExpression,
-  wxses: WXS[] = []
+  wxses: WXS[] = [],
+  refId?: Set<string>
 ) {
   script = script || 'Page({})'
   if (t.isJSXText(returned as any)) {
@@ -23,7 +24,7 @@ export function parseScript (
     block.children = [returned as any]
     returned = block
   }
-  const { ast } = transform(script, {
+  let ast = (transform(script, {
     parserOpts: {
       sourceType: 'module',
       plugins: [
@@ -40,9 +41,10 @@ export function parseScript (
         'dynamicImport'
       ]
     }
-  }) as { ast: t.File }
+  }) as { ast: t.File }).ast
   let classDecl!: t.ClassDeclaration
-  traverse(ast, {
+  let foundWXInstance = false
+  const vistor: Visitor = {
     BlockStatement (path) {
       path.scope.rename('wx', 'Taro')
     },
@@ -67,12 +69,14 @@ export function parseScript (
         callee.isIdentifier({ name: 'Component' }) ||
         callee.isIdentifier({ name: 'App' })
       ) {
+        foundWXInstance = true
         const componentType = callee.node.name
         classDecl = parsePage(
           path,
           returned || t.nullLiteral(),
           json,
-          componentType
+          componentType,
+          refId
         )!
         if (componentType !== 'App') {
           classDecl.decorators = [buildDecorator(componentType)]
@@ -81,7 +85,31 @@ export function parseScript (
         path.remove()
       }
     }
-  })
+  }
+
+  traverse(ast, vistor)
+
+  if (!foundWXInstance) {
+    ast = (transform(script + ';Component({})', {
+      parserOpts: {
+        sourceType: 'module',
+        plugins: [
+          'classProperties',
+          'jsx',
+          'flow',
+          'flowComment',
+          'trailingFunctionCommas',
+          'asyncFunctions',
+          'exponentiationOperator',
+          'asyncGenerators',
+          'objectRestSpread',
+          'decorators',
+          'dynamicImport'
+        ]
+      }
+    }) as { ast: t.File }).ast
+    traverse(ast, vistor)
+  }
 
   const taroComponentsImport = buildImportStatement('@tarojs/components', [
     ...usedComponents
@@ -108,9 +136,15 @@ function parsePage (
   path: NodePath<t.CallExpression>,
   returned: t.Expression,
   json?: t.ObjectExpression,
-  componentType?: string
+  componentType?: string,
+  refId?: Set<string>
 ) {
   const stateKeys: string[] = []
+  if (refId) {
+    refId.forEach(id => {
+      stateKeys.push(id)
+    })
+  }
   const propsKeys: string[] = []
   const arg = path.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {

@@ -13,7 +13,7 @@ const rimraf = require('rimraf')
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
-const { source: toAst } = require('./util/ast_convert')
+const { source: toAst, getObjKey } = require('./util/ast_convert')
 
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
@@ -71,7 +71,7 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(parentPath.node.key.name))
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
@@ -149,13 +149,15 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
+        const keyName = getObjKey(key)
         let funcBody
-        if (!t.isIdentifier(key)) return
 
-        const isRender = key.name === 'render'
-        const isComponentWillMount = key.name === 'componentWillMount'
-        const isComponentDidMount = key.name === 'componentDidMount'
-        const isComponentWillUnmount = key.name === 'componentWillUnmount'
+        // if (!t.isIdentifier(key)) return
+
+        const isRender = keyName === 'render'
+        const isComponentWillMount = keyName === 'componentWillMount'
+        const isComponentDidMount = keyName === 'componentDidMount'
+        const isComponentWillUnmount = keyName === 'componentWillUnmount'
 
         if (isRender) {
           const pageRequires = pages.map(v => {
@@ -265,14 +267,14 @@ function processEntry (code, filePath) {
       const node = astPath.node
       const key = node.key
       const value = node.value
-      const keyName = t.isIdentifier(key) ? key.name : key.value
+      const keyName = getObjKey(key)
       if (keyName === 'pages' && t.isArrayExpression(value)) {
         const subPackageParent = astPath.findParent(isUnderSubPackages)
         let root = ''
         if (subPackageParent) {
           /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
           const rootNode = astPath.parent.properties.find(v => {
-            return t.isIdentifier(v.key, { name: 'root' })
+            return getObjKey(v.key) === 'root'
           })
           root = rootNode ? rootNode.value.value : ''
         }
@@ -302,8 +304,10 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         const value = node.value
-        if (key.name === 'state') hasState = true
-        if (key.name !== 'config' || !t.isObjectExpression(value)) return
+        const keyName = getObjKey(key)
+
+        if (keyName === 'state') hasState = true
+        if (keyName !== 'config' || !t.isObjectExpression(value)) return
         astPath.traverse(classPropertyVisitor)
       }
     },
@@ -412,19 +416,18 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        if (t.isIdentifier(key)) {
-          if (key.name === 'componentWillMount') {
-            hasComponentWillMount = true
-          }
-          if (key.name === 'componentDidMount') {
-            hasComponentDidMount = true
-          } else if (key.name === 'componentDidShow') {
-            hasComponentDidShow = true
-          } else if (key.name === 'componentDidHide') {
-            hasComponentDidHide = true
-          } else if (key.name === 'componentWillUnmount') {
-            hasComponentWillUnmount = true
-          }
+        const keyName = getObjKey(key)
+        if (keyName === 'componentWillMount') {
+          hasComponentWillMount = true
+        }
+        if (keyName === 'componentDidMount') {
+          hasComponentDidMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        } else if (keyName === 'componentWillUnmount') {
+          hasComponentWillUnmount = true
         }
       }
     },

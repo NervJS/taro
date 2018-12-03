@@ -1,5 +1,67 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.4...v) (2018-11-28)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.7...v) (2018-12-03)
+
+
+
+<a name="1.2.0-beta.7"></a>
+# [1.2.0-beta.7](https://github.com/NervJS/taro/compare/v1.2.0-beta.6...v1.2.0-beta.7) (2018-12-02)
+
+
+### Bug Fixes
+
+* **cli:** 修复小程序以及RN下decorator在class property无效的问题 ([0dafcda](https://github.com/NervJS/taro/commit/0dafcda))
+* **eslint:** JSX 事件名命名误报，close [#1295](https://github.com/NervJS/taro/issues/1295) ([3a6c822](https://github.com/NervJS/taro/commit/3a6c822))
+* **taroize:** 处理 data 未被预先定义又在 wxml 使用的情况 ([ec6372d](https://github.com/NervJS/taro/commit/ec6372d))
+* **taroize:** 当只有一个 wx:for-item 也可以触发遍历 ([d9dc968](https://github.com/NervJS/taro/commit/d9dc968))
+* **transformer:** render props 嵌套解析失败，close [#1306](https://github.com/NervJS/taro/issues/1306) ([a2ef2bb](https://github.com/NervJS/taro/commit/a2ef2bb))
+* **webpack-runner:** 修复部分配置覆盖错误的问题 ([08a70f3](https://github.com/NervJS/taro/commit/08a70f3))
+
+
+### Features
+
+* **cli:** Watch时也能支持压缩 ([#1219](https://github.com/NervJS/taro/issues/1219)) ([ccb05b1](https://github.com/NervJS/taro/commit/ccb05b1))
+* **cli:** 优化 ui 库样式处理 ([1c7f615](https://github.com/NervJS/taro/commit/1c7f615))
+* **cli:** 支持自定义输出文件类型 ([c56f9fc](https://github.com/NervJS/taro/commit/c56f9fc))
+* **webpack-runner:** 增加了对esnextmodules内样式文件的处理 ([747f653](https://github.com/NervJS/taro/commit/747f653))
+
+
+
+<a name="1.2.0-beta.6"></a>
+# [1.2.0-beta.6](https://github.com/NervJS/taro/compare/v1.2.0-beta.5...v1.2.0-beta.6) (2018-11-30)
+
+
+### Bug Fixes
+
+* **cli:** 第三方包路径替换错误，close [#1308](https://github.com/NervJS/taro/issues/1308) ([2d4b8ea](https://github.com/NervJS/taro/commit/2d4b8ea))
+* **taro-rn:** 修复打包独立应用启动报错：未注册 main, fix [#1225](https://github.com/NervJS/taro/issues/1225) ([636f355](https://github.com/NervJS/taro/commit/636f355))
+
+
+
+<a name="1.2.0-beta.5"></a>
+# [1.2.0-beta.5](https://github.com/NervJS/taro/compare/v1.2.0-beta.4...v1.2.0-beta.5) (2018-11-29)
+
+
+### Bug Fixes
+
+* **cli:** 编译到支付宝小程序 npm 依赖带 @ 的npm 包时路径没有替换，closes [#1234](https://github.com/NervJS/taro/issues/1234), closes [#1290](https://github.com/NervJS/taro/issues/1290) ([defa3ce](https://github.com/NervJS/taro/commit/defa3ce))
+* **CLI:** installNpmPkg 方法中添加 Yarn 安装的方式 ([41a9b77](https://github.com/NervJS/taro/commit/41a9b77))
+* **RN:**  [@tarojs](https://github.com/tarojs)/plugin-sass 包未安装时样式文件不生成的问题 ([21107dc](https://github.com/NervJS/taro/commit/21107dc))
+* **taro-alipay:** 支付宝小程序网络请求设置默认 content-type, close [#1291](https://github.com/NervJS/taro/issues/1291) ([10d1a72](https://github.com/NervJS/taro/commit/10d1a72))
+* **taro-compontents:** 修复 swiper 问题，发布新版 close [#1261](https://github.com/NervJS/taro/issues/1261) [#1204](https://github.com/NervJS/taro/issues/1204) [#1190](https://github.com/NervJS/taro/issues/1190) [#1071](https://github.com/NervJS/taro/issues/1071) ([afb2bc8](https://github.com/NervJS/taro/commit/afb2bc8))
+* **taro-h5:** h5 网络请求设置默认 content-type, close [#1280](https://github.com/NervJS/taro/issues/1280) ([103f730](https://github.com/NervJS/taro/commit/103f730))
+* **taroize:** 当 wx:for 的父级是 block 编译时失败, close [#1303](https://github.com/NervJS/taro/issues/1303) ([d2ffe31](https://github.com/NervJS/taro/commit/d2ffe31))
+* **taroize:** 找不到小程序组件实例无法生成 wxml ([205f784](https://github.com/NervJS/taro/commit/205f784))
+* **transformer:** 所有 ref 都被当成 loop ref 来处理 ([18cd99c](https://github.com/NervJS/taro/commit/18cd99c))
+
+
+### Features
+
+* simple ID generate for every swiper instance. ([b29db89](https://github.com/NervJS/taro/commit/b29db89))
+* **cli:** ui 库打包优化 ([320f80c](https://github.com/NervJS/taro/commit/320f80c))
+* **cli:** 监听非 源码目录 ([#1242](https://github.com/NervJS/taro/issues/1242)) ([8c8e871](https://github.com/NervJS/taro/commit/8c8e871))
+* **mobx:** Mobx优化 ([#1276](https://github.com/NervJS/taro/issues/1276)) ([138c282](https://github.com/NervJS/taro/commit/138c282)), closes [#1262](https://github.com/NervJS/taro/issues/1262)
+* **transformer:** 支持在 switch-case 中使用 JSX，close [#1275](https://github.com/NervJS/taro/issues/1275) ([82a6100](https://github.com/NervJS/taro/commit/82a6100))
+* **webpack-runner:** h5支持esnextModules配置 ([2b759b5](https://github.com/NervJS/taro/commit/2b759b5))
 
 
 
