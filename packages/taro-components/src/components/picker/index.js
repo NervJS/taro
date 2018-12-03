@@ -88,9 +88,8 @@ export default class Picker extends Nerv.Component {
             _value.getDate()
           ]
         }
-        this.setState({
-          dateMaxDay: this.getDateRange(1, maxDay, '日')
-        })
+
+        this._dateMaxDay = this.getDateRange(1, maxDay, '日')
       } else {
         throw new Error('Date Interval Error')
       }
@@ -260,7 +259,10 @@ export default class Picker extends Nerv.Component {
       this.setState({
         pickerValue: eventObj.detail.value
       })
-      this.props.onChange && this.props.onChange(eventObj)
+
+      let reEventObj = Object.assign({}, eventObj)
+      reEventObj.detail.value = reEventObj.detail.value.join('-')
+      this.props.onChange && this.props.onChange(reEventObj)
     }
 
     // 点击取消或蒙层
@@ -475,9 +477,8 @@ export default class Picker extends Nerv.Component {
       if (max < this.pickerDate._updateValue[2]) {
         this.state.height[2] = TOP - LINE_HEIGHT * max + 34
       }
-      this.setState({
-        dateMaxDay: this.getDateRange(1, max, '日')
-      })
+
+      this._dateMaxDay = this.getDateRange(1, max, '日')
     }
 
     const gitDateSelector = () => {
@@ -539,7 +540,7 @@ export default class Picker extends Nerv.Component {
           />,
           <PickerGroup
             mode='date'
-            range={this.state.dateMaxDay}
+            range={this._dateMaxDay}
             updateDay={updateDay}
             height={this.state.height[2]}
             updateHeight={updateHeight}

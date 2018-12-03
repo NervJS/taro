@@ -10,7 +10,7 @@ let INSTANCE_ID = 0
 class SwiperItem extends Nerv.Component {
   render () {
     const cls = classNames('swiper-slide', this.props.className)
-    return <div className={cls} item-id={this.props.itemId}>{this.props.children}</div>
+    return <div className={cls} style={this.props.style} item-id={this.props.itemId}>{this.props.children}</div>
   }
 }
 
@@ -95,12 +95,12 @@ class Swiper extends Nerv.Component {
   }
 
   render () {
-    const { className, indicatorColor, indicatorActiveColor } = this.props
+    const { className, style, indicatorColor, indicatorActiveColor } = this.props
     let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames(`taro-swiper-${this._id}`, 'swiper-container', className)
     return (
-      <div className={cls} ref={(el) => { this.$el = el }}>
+      <div className={cls} style={style} ref={(el) => { this.$el = el }}>
         <div
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
