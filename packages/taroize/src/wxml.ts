@@ -8,6 +8,7 @@ import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
 import * as fs from 'fs'
 import { resolve } from 'path'
+import { reserveKeyWords } from './constant'
 // const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
@@ -166,7 +167,11 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
             t.memberExpression(t.thisExpression(), t.identifier('props')),
             t.identifier('children')
           )
-          path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
+          try {
+            path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
+          } catch (error) {
+            //
+          }
         }
         if (tagName === 'Wxs') {
           wxses.push(getWXS(attrs.map(a => a.node), path, dirPath))
@@ -597,10 +602,14 @@ function parseAttribute (attr: Attribute) {
 
   if (value) {
     const { type, content } = parseContent(value)
+    const pureContent = content.slice(1, content.length - 1)
     let expr: t.Expression
-    if (content.includes(':') && content.startsWith('(') && content.endsWith(')')) {
-      const [ key, value ] = content.slice(1, content.length - 1).split(':')
+    if (content.includes(':') && content.includes('wxParseData') && content.startsWith('(') && content.endsWith(')')) {
+      const [ key, value ] = pureContent.split(':')
       expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
+    }
+    if (reserveKeyWords.has(pureContent)) {
+      throw new Error(`模板转换报错：\`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值`)
     }
 
     if (type === 'raw') {
