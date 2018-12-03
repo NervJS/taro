@@ -137,14 +137,17 @@ export function parseScript (
 const defaultClassName = '_C'
 
 function parsePage (
-  path: NodePath<t.CallExpression>,
+  pagePath: NodePath<t.CallExpression>,
   returned: t.Expression,
   json?: t.ObjectExpression,
   componentType?: string,
   refId?: Set<string>
 ) {
   const stateKeys: string[] = []
-  path.traverse({
+  let methods: NodePath<
+    t.ObjectProperty | t.ObjectMethod
+  >[] = []
+  pagePath.traverse({
     CallExpression (path) {
       const callee = path.get('callee')
       if (callee.isIdentifier()) {
@@ -161,6 +164,16 @@ function parsePage (
           object.replaceWith(t.identifier('Taro'))
         }
       }
+    },
+    ObjectProperty (path) {
+      const { key, value } = path.node
+      if (!t.isIdentifier(key, { name: 'methods' }) || path.parentPath !== pagePath.get('arguments')[0] || !t.isObjectExpression(value)) {
+        return
+      }
+      methods = path.get('value.properties') as NodePath<
+        t.ObjectProperty | t.ObjectMethod
+      >[]
+      path.remove()
     }
   })
   if (refId) {
@@ -171,20 +184,15 @@ function parsePage (
     })
   }
   const propsKeys: string[] = []
-  const arg = path.get('arguments')[0]
+  const arg = pagePath.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {
     return
   }
   const defaultProps: { name: string, value: any }[] = []
   const props = arg.get('properties')
-  const properties = props.filter(p => !p.isSpreadProperty()) as NodePath<
+  const properties = props.filter(p => !p.isSpreadProperty()).concat(methods) as NodePath<
     t.ObjectProperty | t.ObjectMethod
   >[]
-  if (properties.length !== props.length) {
-    throw new Error(
-      '不支持编译在 Page 对象中使用解构(`...` spread property)语法'
-    )
-  }
 
   let classBody = properties.map(prop => {
     const key = prop.get('key')
