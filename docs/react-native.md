@@ -240,6 +240,8 @@ See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debu
 
 ## 构建独立应用程序
 
+> 下面的文档是使用 Expo 的线上服务来帮助你构建独立应用程序，使用这种方式可以避免在本机上配置应用构建环境。当然，你也可以使用自己的电脑构建应用，文档请参考：[Building Standalone Apps on Your CI](https://docs.expo.io/versions/v31.0.0/distribution/turtle-cli)
+
 如何愉快地打包发布，可能你还在头疼安卓的签名、难缠的 gradle 和各种配置，还在头疼 iOS 打包发布时在 Xcode 来回折腾，为什么不能脱离这些原生开发才需要的步骤呢，ReactNative 本身就是为了统一安卓和 iOS，如今到打包这一步却要区别对待，颇为不妥，expo 就是个很好的解决方案，它提供壳子，我们只需要关心我们自己的代码，然后放进壳里即可。
 
 接下来的步骤将会帮助你为 iOS 和 Android 创建 Expo 应用程序的独立二进制文件，并将其提交到 Apple App Store 和 Google Play Store。
@@ -399,12 +401,18 @@ expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versi
 如果你需要正式发布你的独立版应用，可以把打包所得的 ipa 和 apk 发布到 Apple Store 和应用市场，详细参阅 [Distributing Your App](https://docs.expo.io/versions/latest/distribution/index.html)，后续的更新可以通过发布到 expo 更新 CDN 的资源来实现。
 
 ## 更新
+### 自动更新
+默认情况下，Expo会在您的应用启动时自动检查更新，并尝试获取最新发布的版本。如果有新的捆绑包，Expo将在启动体验之前尝试下载它。如果没有可用的网络连接，或者在30秒内没有完成下载，Expo将回退到加载应用程序的缓存版本，并继续尝试在后台获取更新（此时它将保存到下一个应用程序加载的缓存）。
+
 在大多数情况下，当您想要更新应用程序时，只需从 Expo CLI 再次发布。您的用户将在下次打开应用程序时下载新的 JS。为确保您的用户能够无缝下载 JS 更新，您可能希望启用 [后台 JS 下载](https://docs.expo.io/versions/v31.0.0/guides/offline-support.html)。但是，有几个原因可能导致您需要重建并重新提交本机二进制文件：
 
 - 如果要更改应用程序名称或图标等本机元数据
 - 如果您升级到较新 sdkVersion 的应用程序（需要新的本机代码）
 
 要跟踪这一点，您还可以更新二进制文件的 [versionCode](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html#versioncode) 和 [buildNumber](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html#buildnumber)。浏览 [app.json 文档](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html) 以了解您可以更改的所有属性是一个好主意，例如图标，深层链接 URL 方案，手机/平板电脑支持等等。
+
+### 禁用更新
+通过在app.json中设置，updates.enabled可以false在独立应用程序中完全禁用OTA JavaScript更新。这将忽略从Expo服务器获取应用程序包的所有代码路径。在这种情况下，您的应用的所有更新都需要通过iOS App Store和/或Google Play商店进行路由。
 
 ## 常见错误
 
