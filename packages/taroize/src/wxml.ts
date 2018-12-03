@@ -309,7 +309,7 @@ function transformLoop (
   const attrs = jsx.get('openingElement').get('attributes').map(a => a.node)
   const wxForItem = attrs.find(a => a.name.name === WX_FOR_ITEM)
   const hasSinglewxForItem = wxForItem && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
-  if (hasSinglewxForItem || name === WX_FOR) {
+  if (hasSinglewxForItem || name === WX_FOR || name === 'wx:for-items') {
     if (!value || !t.isJSXExpressionContainer(value)) {
       throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
     }

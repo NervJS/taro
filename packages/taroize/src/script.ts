@@ -81,7 +81,7 @@ export function parseScript (
         if (componentType !== 'App') {
           classDecl.decorators = [buildDecorator(componentType)]
         }
-        path.insertAfter(t.exportDefaultDeclaration(classDecl))
+        path.insertAfter(t.exportDefaultDeclaration(t.identifier(defaultClassName)))
         path.remove()
       }
     }
