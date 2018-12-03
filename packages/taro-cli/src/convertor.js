@@ -258,6 +258,16 @@ class Convertor {
     fs.writeFileSync(dist, code)
   }
 
+  copyFileToTaro (from, to, options) {
+    const filename = path.basename(from)
+    if (fs.statSync(from).isFile() && !path.extname(to)) {
+      fs.ensureDir(to)
+      return fs.copySync(from, path.join(to, filename), options)
+    }
+    fs.ensureDir(path.dirname(to))
+    return fs.copySync(from, to, options)
+  }
+
   getDistFilePath (src, extname) {
     if (!extname) return src.replace(this.root, this.convertDir)
     return src.replace(this.root, this.convertDir).replace(path.extname(src), extname)
@@ -290,10 +300,34 @@ class Convertor {
         const entryDistStylePath = this.getDistFilePath(this.entryStylePath, '.css')
         this.writeFileToTaro(entryDistStylePath, this.entryStyle)
         printLog(pocessTypeEnum.GENERATE, '入口样式', this.generateShowPath(entryDistStylePath))
+        this.traverseStyle(this.entryStylePath, this.entryStyle)
       }
       this.generateScriptFiles(scriptFiles)
+      if (this.entryJSON.tabBar) {
+        this.generateTabBarIcon(this.entryJSON.tabBar)
+      }
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  generateTabBarIcon (tabBar) {
+    const { list = [] } = tabBar
+    const icons = new Set()
+    if (Array.isArray(list) && list.length) {
+      list.forEach(item => {
+        if (typeof item.iconPath === 'string') icons.add(item.iconPath)
+        if (typeof item.selectedIconPath === 'string') icons.add(item.selectedIconPath)
+      })
+      if (icons.size > 0) {
+        Array.from(icons)
+          .map(icon => path.join(this.root, icon))
+          .forEach(iconPath => {
+            const iconDistPath = this.getDistFilePath(iconPath)
+            this.copyFileToTaro(iconPath, iconDistPath)
+            printLog(pocessTypeEnum.COPY, 'TabBar 图标', this.generateShowPath(iconDistPath))
+          })
+      }
     }
   }
 
