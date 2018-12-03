@@ -161,6 +161,13 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
           }
         })
         const tagName = jsxName.node.name
+        if (tagName === 'Slot') {
+          const children = t.memberExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('props')),
+            t.identifier('children')
+          )
+          path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
+        }
         if (tagName === 'Wxs') {
           wxses.push(getWXS(attrs.map(a => a.node), path, dirPath))
         }
@@ -306,7 +313,11 @@ function transformLoop (
   jsx: NodePath<t.JSXElement>,
   value: AttrValue
 ) {
-  const attrs = jsx.get('openingElement').get('attributes').map(a => a.node)
+  const jsxElement = jsx.get('openingElement')
+  if (!jsxElement.node) {
+    return
+  }
+  const attrs = jsxElement.get('attributes').map(a => a.node)
   const wxForItem = attrs.find(a => a.name.name === WX_FOR_ITEM)
   const hasSinglewxForItem = wxForItem && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
   if (hasSinglewxForItem || name === WX_FOR || name === 'wx:for-items') {
