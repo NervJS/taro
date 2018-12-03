@@ -143,10 +143,14 @@ class Convertor {
                       const value = astPath.get('value')
                       if (value.isStringLiteral()) {
                         const imgSrc = value.node.value
-                        const imgImportName = IMPORT_IMAGE_PREFIX + imageCounter
-                        images.set(imgImportName, imgSrc)
+                        let imgImportName = IMPORT_IMAGE_PREFIX + imageCounter
+                        if (!images.has(imgSrc)) {
+                          images.set(imgSrc, imgImportName)
+                          imageCounter++
+                        } else {
+                          imgImportName = images.get(imgSrc)
+                        }
                         astPath.replaceWith(t.jSXAttribute(astPath.get('name').node, t.jSXExpressionContainer(t.identifier(imgImportName))))
-                        imageCounter++
                       }
                     }
                   }
@@ -180,7 +184,7 @@ class Convertor {
               })
             }
             if (images && images.size) {
-              images.forEach((image, key) => {
+              images.forEach((key, image) => {
                 let imageRelativePath = null
                 let sourceImagePath = null
                 let outputImagePath = null
