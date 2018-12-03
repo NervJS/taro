@@ -452,8 +452,8 @@ exports.generateConstantsList = function (constants) {
 exports.cssImports = function (content) {
   let match = {}
   const results = []
-  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while (match = exports.CSS_IMPORT_REG.exec(content)) {
+  content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  while ((match = exports.CSS_IMPORT_REG.exec(content))) {
     results.push(match[2])
   }
   return results
@@ -477,9 +477,9 @@ exports.processStyleImports = function (content, adapter) {
     imports
   }
 }
-
+/*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-exports.emptyDirectory = function (dirPath) {
+exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -489,8 +489,10 @@ exports.emptyDirectory = function (dirPath) {
 
         do {
           try {
-            exports.emptyDirectory(curPath)
-            fs.rmdirSync(curPath)
+            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+              exports.emptyDirectory(curPath)
+              fs.rmdirSync(curPath)
+            }
             removed = true
           } catch (e) {
           } finally {
@@ -505,5 +507,6 @@ exports.emptyDirectory = function (dirPath) {
     })
   }
 }
+/* eslint-enable */
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))

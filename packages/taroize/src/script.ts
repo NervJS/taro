@@ -81,7 +81,11 @@ export function parseScript (
         if (componentType !== 'App') {
           classDecl.decorators = [buildDecorator(componentType)]
         }
-        path.insertAfter(t.exportDefaultDeclaration(classDecl))
+        ast.program.body.push(
+          classDecl,
+          t.exportDefaultDeclaration(t.identifier(componentType !== 'App' ? defaultClassName : 'App'))
+        )
+        // path.insertAfter(t.exportDefaultDeclaration(t.identifier(defaultClassName)))
         path.remove()
       }
     }
@@ -140,9 +144,30 @@ function parsePage (
   refId?: Set<string>
 ) {
   const stateKeys: string[] = []
+  path.traverse({
+    CallExpression (path) {
+      const callee = path.get('callee')
+      if (callee.isIdentifier()) {
+        const name = callee.node.name
+        if (name === 'getApp' || name === 'getCurrentPages') {
+          callee.replaceWith(
+            t.memberExpression(t.identifier('Taro'), callee.node)
+          )
+        }
+      }
+      if (callee.isMemberExpression()) {
+        const object = callee.get('object')
+        if (object.isIdentifier({ name: 'wx' })) {
+          object.replaceWith(t.identifier('Taro'))
+        }
+      }
+    }
+  })
   if (refId) {
     refId.forEach(id => {
-      stateKeys.push(id)
+      if (!stateKeys.includes(id)) {
+        stateKeys.push(id)
+      }
     })
   }
   const propsKeys: string[] = []

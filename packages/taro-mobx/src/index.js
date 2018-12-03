@@ -1,5 +1,21 @@
-export class Provider {}
+import { getStore, setStore } from './store'
+import { observer } from './observer'
+import { inject } from './inject'
 
-export { setStore } from './store'
-export { observer } from './observer'
-export { inject } from './inject'
+class Provider {}
+
+export default {
+  getStore,
+  setStore,
+  observer,
+  inject,
+  Provider
+}
+
+export {
+  getStore,
+  setStore,
+  observer,
+  inject,
+  Provider
+}

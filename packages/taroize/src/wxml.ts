@@ -98,6 +98,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   let wxses: WXS[] = []
   let imports: Imports[] = []
   const refIds = new Set<string>()
+  const loopIds = new Set<string>()
   if (!wxml) {
     return {
       wxses,
@@ -126,7 +127,15 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       >
       const valueCopy = cloneDeep(path.get('value').node)
       transformIf(name.name, path, jsx, valueCopy)
-      transformLoop(name.name, path, jsx, valueCopy)
+      const loopItem = transformLoop(name.name, path, jsx, valueCopy)
+      if (loopItem) {
+        if (loopItem.index) {
+          loopIds.add(loopItem.index)
+        }
+        if (loopItem.item) {
+          loopIds.add(loopItem.item)
+        }
+      }
     },
     BlockStatement () {
       // debugger
@@ -212,6 +221,12 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
     }
   })
 
+  refIds.forEach(id => {
+    if (loopIds.has(id)) {
+      refIds.delete(id)
+    }
+  })
+
   return {
     wxses,
     imports,
@@ -294,7 +309,7 @@ function transformLoop (
   const attrs = jsx.get('openingElement').get('attributes').map(a => a.node)
   const wxForItem = attrs.find(a => a.name.name === WX_FOR_ITEM)
   const hasSinglewxForItem = wxForItem && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
-  if (hasSinglewxForItem || name === WX_FOR) {
+  if (hasSinglewxForItem || name === WX_FOR || name === 'wx:for-items') {
     if (!value || !t.isJSXExpressionContainer(value)) {
       throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
     }
@@ -343,6 +358,11 @@ function transformLoop (
       jsx.replaceWith(block)
     } catch (error) {
       //
+    }
+
+    return {
+      item: item.value,
+      index: index.value
     }
   }
 }
@@ -562,15 +582,22 @@ function parseContent (content: string) {
 
 function parseAttribute (attr: Attribute) {
   const { key, value } = attr
-
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
 
   if (value) {
     const { type, content } = parseContent(value)
-    jsxValue =
-      type === 'raw'
-        ? t.stringLiteral(content)
-        : t.jSXExpressionContainer(buildTemplate(content))
+    let expr: t.Expression
+    if (content.includes(':') && content.startsWith('(') && content.endsWith(')')) {
+      const [ key, value ] = content.slice(1, content.length - 1).split(':')
+      expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
+    }
+
+    if (type === 'raw') {
+      jsxValue = t.stringLiteral(content)
+    } else if (!expr!) {
+      expr = buildTemplate(content)
+      jsxValue = t.jSXExpressionContainer(expr!)
+    }
   }
 
   const jsxKey = handleAttrKey(key)

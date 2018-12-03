@@ -12,12 +12,12 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "main": "dist/index.js",
+  "main": "index.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c --environment TARGET:umd",
+    "build": "rollup -c rollup.config.js",
     "clear": "rimraf dist"
   },
   "peerDependencies": {
