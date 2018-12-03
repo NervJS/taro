@@ -5,6 +5,8 @@
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
+[![Backers on Open Collective](https://opencollective.com/taro/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/taro/sponsors/badge.svg)](#sponsors) 
 
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
@@ -109,6 +111,20 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 ## 贡献者们
 
 <a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
+
+### Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/taro#backer)]
+
+<a href="https://opencollective.com/taro#backers" target="_blank"><img src="https://opencollective.com/taro/backers.svg?width=890"></a>
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/taro#sponsor)]
+
+<a href="https://opencollective.com/taro/sponsor/0/website" target="_blank"><img src="https://opencollective.com/taro/sponsor/0/avatar.svg"></a>
+
+
 
 ## 开发计划
 
