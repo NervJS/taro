@@ -98,6 +98,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   let wxses: WXS[] = []
   let imports: Imports[] = []
   const refIds = new Set<string>()
+  const loopIds = new Set<string>()
   if (!wxml) {
     return {
       wxses,
@@ -126,7 +127,15 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       >
       const valueCopy = cloneDeep(path.get('value').node)
       transformIf(name.name, path, jsx, valueCopy)
-      transformLoop(name.name, path, jsx, valueCopy)
+      const loopItem = transformLoop(name.name, path, jsx, valueCopy)
+      if (loopItem) {
+        if (loopItem.index) {
+          loopIds.add(loopItem.index)
+        }
+        if (loopItem.item) {
+          loopIds.add(loopItem.item)
+        }
+      }
     },
     BlockStatement () {
       // debugger
@@ -209,6 +218,12 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
           }
         }
       }
+    }
+  })
+
+  refIds.forEach(id => {
+    if (loopIds.has(id)) {
+      refIds.delete(id)
     }
   })
 
@@ -343,6 +358,11 @@ function transformLoop (
       jsx.replaceWith(block)
     } catch (error) {
       //
+    }
+
+    return {
+      item: item.value,
+      index: index.value
     }
   }
 }

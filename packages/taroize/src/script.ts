@@ -142,7 +142,9 @@ function parsePage (
   const stateKeys: string[] = []
   if (refId) {
     refId.forEach(id => {
-      stateKeys.push(id)
+      if (!stateKeys.includes(id)) {
+        stateKeys.push(id)
+      }
     })
   }
   const propsKeys: string[] = []
