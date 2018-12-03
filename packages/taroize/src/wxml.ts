@@ -582,15 +582,22 @@ function parseContent (content: string) {
 
 function parseAttribute (attr: Attribute) {
   const { key, value } = attr
-
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
 
   if (value) {
     const { type, content } = parseContent(value)
+    let expr: t.Expression
+    if (content.includes(':') && content.startsWith('(') && content.endsWith(')')) {
+      const [ key, value ] = content.slice(1, content.length - 1).split(':')
+      expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
+    }
+    if (!expr!) {
+      expr = buildTemplate(content)
+    }
     jsxValue =
       type === 'raw'
         ? t.stringLiteral(content)
-        : t.jSXExpressionContainer(buildTemplate(content))
+        : t.jSXExpressionContainer(expr!)
   }
 
   const jsxKey = handleAttrKey(key)
