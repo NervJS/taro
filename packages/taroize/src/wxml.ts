@@ -591,13 +591,13 @@ function parseAttribute (attr: Attribute) {
       const [ key, value ] = content.slice(1, content.length - 1).split(':')
       expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
     }
-    if (!expr!) {
+
+    if (type === 'raw') {
+      jsxValue = t.stringLiteral(content)
+    } else if (!expr!) {
       expr = buildTemplate(content)
+      jsxValue = t.jSXExpressionContainer(expr!)
     }
-    jsxValue =
-      type === 'raw'
-        ? t.stringLiteral(content)
-        : t.jSXExpressionContainer(expr!)
   }
 
   const jsxKey = handleAttrKey(key)
