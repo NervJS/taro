@@ -764,7 +764,7 @@ async function buildDist (buildConfig) {
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
   const outputRoot = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-  Util.emptyDirectory(path.join(appPath, outputRoot))
+  if (process.env.NODE_ENV !== 'development') Util.emptyDirectory(path.join(appPath, outputRoot))
   h5Config.env = projectConfig.env
   Object.assign(h5Config.env, {
     TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
