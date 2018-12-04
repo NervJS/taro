@@ -168,6 +168,21 @@ export const createWxmlVistor = (
               // withWeappImport,
               t.exportDefaultDeclaration(classDecl)
             )
+            let usedTemplate = new Set<string>()
+
+            traverse(ast, {
+              JSXIdentifier (p) {
+                const node = p.node
+                if (node.name.endsWith('Tmpl') && node.name.length > 4 && p.parentPath.isJSXOpeningElement()) {
+                  usedTemplate.add(node.name)
+                }
+              }
+            })
+            usedTemplate.forEach(componentName => {
+              ast.program.body.unshift(
+                buildImportStatement(`./${componentName}`, [], componentName)
+              )
+            })
             imports.push({
               ast,
               name
