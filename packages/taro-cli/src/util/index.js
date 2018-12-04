@@ -469,7 +469,7 @@ exports.processStyleImports = function (content, adapter, process) {
       style.push(m)
       imports.push($2)
       if (process && typeof process === 'function') {
-        return process(m)
+        return process(m, $2)
       }
       return ''
     }

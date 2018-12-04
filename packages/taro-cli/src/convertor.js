@@ -537,8 +537,13 @@ class Convertor {
   }
 
   async traverseStyle (filePath, style) {
-    const { imports, content } = processStyleImports(style, BUILD_TYPES.WEAPP, function (str) {
-      return str.replace(MINI_APP_FILES[BUILD_TYPES.WEAPP].STYLE, OUTPUT_STYLE_EXTNAME)
+    const { imports, content } = processStyleImports(style, BUILD_TYPES.WEAPP, (str, stylePath) => {
+      let relativePath = stylePath
+      if (path.isAbsolute(relativePath)) {
+        relativePath = promoteRelativePath(path.relative(filePath, path.join(this.root, stylePath)))
+      }
+      return str.replace(stylePath, relativePath)
+        .replace(MINI_APP_FILES[BUILD_TYPES.WEAPP].STYLE, OUTPUT_STYLE_EXTNAME)
     })
     const styleDist = this.getDistFilePath(filePath, OUTPUT_STYLE_EXTNAME)
     const { css } = await this.styleUnitTransform(filePath, content)
@@ -546,7 +551,9 @@ class Convertor {
     printLog(pocessTypeEnum.GENERATE, '样式文件', this.generateShowPath(styleDist))
     if (imports && imports.length) {
       imports.forEach(importItem => {
-        const importPath = path.resolve(path.dirname(filePath), importItem)
+        const importPath = path.isAbsolute(importItem)
+          ? path.join(this.root, importItem)
+          : path.resolve(path.dirname(filePath), importItem)
         if (fs.existsSync(importPath)) {
           const styleText = fs.readFileSync(importPath).toString()
           this.traverseStyle(importPath, styleText)
@@ -569,7 +576,7 @@ class Convertor {
       description,
       projectName,
       version,
-      css: 'scss',
+      css: 'sass',
       typescript: false
     })
     creator.template(templateName, path.join('config', 'index'), path.join(configDir, 'index.js'), {
