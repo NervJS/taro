@@ -399,6 +399,13 @@ function transformIf (
   } catch (error) {
     return
   }
+  if (value === null || !t.isJSXExpressionContainer(value)) {
+    // tslint:disable-next-line
+    console.error('wx:if 的值需要用双括号 `{{}}` 包裹它的值')
+    if (value && t.isStringLiteral(value)) {
+      value = t.jSXExpressionContainer(buildTemplate(value.value))
+    }
+  }
   conditions.push({
     condition: WX_IF,
     path: jsx,
@@ -602,20 +609,30 @@ function parseAttribute (attr: Attribute) {
 
   if (value) {
     const { type, content } = parseContent(value)
-    const pureContent = content.slice(1, content.length - 1)
-    let expr: t.Expression
-    if (content.includes(':') && content.includes('wxParseData') && content.startsWith('(') && content.endsWith(')')) {
-      const [ key, value ] = pureContent.split(':')
-      expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
-    }
-    if (reserveKeyWords.has(pureContent)) {
-      throw new Error(`转换模板参数： \`${key}: ${value}\` 报错: \`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值。`)
-    }
 
     if (type === 'raw') {
       jsxValue = t.stringLiteral(content)
-    } else if (!expr!) {
-      expr = buildTemplate(content)
+    } else {
+      let expr: t.Expression
+      try {
+        expr = buildTemplate(content)
+      } catch (error) {
+        const pureContent = content.slice(1, content.length - 1)
+        if (reserveKeyWords.has(pureContent) && type !== 'raw') {
+          const err = `转换模板参数： \`${key}: ${value}\` 报错: \`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值。`
+          if (key === WX_KEY) {
+            expr = t.stringLiteral('')
+          } else {
+            throw new Error(err)
+          }
+        } else if (content.includes(':')) {
+          const [ key, value ] = pureContent.split(':')
+          expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
+        } else {
+          const err = `转换模板参数： \`${key}: ${value}\` 报错`
+          throw new Error(err)
+        }
+      }
       jsxValue = t.jSXExpressionContainer(expr!)
     }
   }
