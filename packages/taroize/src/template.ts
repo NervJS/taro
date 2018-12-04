@@ -3,7 +3,7 @@ import * as t from 'babel-types'
 import { buildRender, buildBlockElement, pascalName } from './utils'
 import { resolve, basename } from 'path'
 import * as fs from 'fs'
-import { parseWXML } from './wxml'
+import { parseWXML, createWxmlVistor } from './wxml'
 import { errors } from './global'
 
 export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
@@ -14,22 +14,19 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   // const spread = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'spread' }))
   const name = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'name' }))
   const refIds = new Set<string>()
+  const loopIds = new Set<string>()
   if (name) {
     const value = name.node.value
     if (value === null || !t.isStringLiteral(value)) {
       throw new Error('template 的 `name` 属性只能是字符串')
     }
     const className = pascalName(value.value) + pascalName(basename(dirPath))
-    path.traverse({
-      Identifier (p) {
-        if (!p.isReferencedIdentifier()) {
-          return
-        }
-        const jsxExprContainer = p.findParent(p => p.isJSXExpressionContainer())
-        if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
-          return
-        }
-        refIds.add(p.node.name)
+
+    path.traverse(createWxmlVistor(loopIds, refIds, dirPath))
+    const firstId = Array.from(refIds)[0]
+    refIds.forEach(id => {
+      if (loopIds.has(id) && id !== firstId) {
+        refIds.delete(id)
       }
     })
 
@@ -41,7 +38,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       render = buildRender(block, [], [])
     } else if (refIds.size === 1) {
       // 只有一个数据源
-      render = buildRender(block, [], Array.from(refIds), Array.from(refIds)[0])
+      render = buildRender(block, [], Array.from(refIds), firstId)
     } else {
       // 使用 ...spread
       render = buildRender(block, [], Array.from(refIds), [])

@@ -1,7 +1,7 @@
 import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
-import traverse, { NodePath } from 'babel-traverse'
+import traverse, { NodePath, Visitor } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
@@ -85,41 +85,14 @@ function buildElement (
   }
 }
 
-export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): {
-  wxses: WXS[]
-  wxml?: t.Node
-  imports: Imports[]
-  refIds: Set<string>
-} {
-  if (!parseImport) {
-    errors.length = 0
-  }
-  usedComponents.clear()
-  let wxses: WXS[] = []
-  let imports: Imports[] = []
-  const refIds = new Set<string>()
-  const loopIds = new Set<string>()
-  if (!wxml) {
-    return {
-      wxses,
-      imports,
-      refIds,
-      wxml: t.nullLiteral()
-    }
-  }
-  const nodes = removEmptyTextAndComment(parse(wxml.trim()))
-  const ast = t.file(
-    t.program(
-      [
-        t.expressionStatement(parseNode(
-          buildElement('block', nodes as Node[])
-        ) as t.Expression)
-      ],
-      []
-    )
-  )
-
-  traverse(ast, {
+export const createWxmlVistor = (
+  loopIds: Set<string>,
+  refIds: Set<string>,
+  dirPath: string,
+  wxses: WXS[] = [],
+  imports: Imports[] = []
+) => {
+  return {
     JSXAttribute (path) {
       const name = path.node.name as t.JSXIdentifier
       const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
@@ -204,7 +177,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
         if (tagName === 'Import') {
           const mods = parseModule(path, dirPath, 'import')
           if (mods) {
-            imports = imports.concat(mods)
+            imports.push(...mods)
           }
         }
         if (tagName === 'Include') {
@@ -230,7 +203,44 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
         }
       }
     }
-  })
+  } as Visitor
+}
+
+export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): {
+  wxses: WXS[]
+  wxml?: t.Node
+  imports: Imports[]
+  refIds: Set<string>
+} {
+  if (!parseImport) {
+    errors.length = 0
+  }
+  usedComponents.clear()
+  let wxses: WXS[] = []
+  let imports: Imports[] = []
+  const refIds = new Set<string>()
+  const loopIds = new Set<string>()
+  if (!wxml) {
+    return {
+      wxses,
+      imports,
+      refIds,
+      wxml: t.nullLiteral()
+    }
+  }
+  const nodes = removEmptyTextAndComment(parse(wxml.trim()))
+  const ast = t.file(
+    t.program(
+      [
+        t.expressionStatement(parseNode(
+          buildElement('block', nodes as Node[])
+        ) as t.Expression)
+      ],
+      []
+    )
+  )
+
+  traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports))
 
   refIds.forEach(id => {
     if (loopIds.has(id)) {
