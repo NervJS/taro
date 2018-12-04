@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+
 const chalk = require('chalk')
 const prettier = require('prettier')
 const traverse = require('babel-traverse').default
@@ -8,6 +9,8 @@ const template = require('babel-template')
 const generate = require('babel-generator').default
 const taroize = require('@tarojs/taroize')
 const wxTransformer = require('@tarojs/transformer-wx')
+const postcss = require('postcss')
+const unitTransform = require('postcss-unit-transform')
 
 const {
   BUILD_TYPES,
@@ -32,6 +35,8 @@ const prettierJSConfig = {
   singleQuote: true,
   parser: 'babylon'
 }
+
+const OUTPUT_STYLE_EXTNAME = '.scss'
 
 function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
   const valueExtname = path.extname(value)
@@ -334,16 +339,13 @@ class Convertor {
         ast: taroizeResult.ast,
         sourceFilePath: this.entryJSPath,
         outputFilePath: entryDistJSPath,
-        importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), '.css') : null,
+        importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), OUTPUT_STYLE_EXTNAME) : null,
         isApp: true
       })
       const jsCode = generate(ast).code
       this.writeFileToTaro(entryDistJSPath, prettier.format(jsCode, prettierJSConfig))
       printLog(pocessTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
-        const entryDistStylePath = this.getDistFilePath(this.entryStylePath, '.css')
-        this.writeFileToTaro(entryDistStylePath, this.entryStyle)
-        printLog(pocessTypeEnum.GENERATE, '入口样式', this.generateShowPath(entryDistStylePath))
         this.traverseStyle(this.entryStylePath, this.entryStyle)
       }
       this.generateScriptFiles(scriptFiles)
@@ -382,7 +384,6 @@ class Convertor {
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
       const pageStylePath = pagePath + this.fileTypes.STYLE
-      const pageDistStylePath = this.getDistFilePath(pageStylePath, '.css')
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
 
       try {
@@ -430,7 +431,7 @@ class Convertor {
           ast: taroizeResult.ast,
           sourceFilePath: pageJSPath,
           outputFilePath: pageDistJSPath,
-          importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), '.css') : null,
+          importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), OUTPUT_STYLE_EXTNAME) : null,
           depComponents,
           imports: taroizeResult.imports
         })
@@ -438,8 +439,6 @@ class Convertor {
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
-          this.writeFileToTaro(pageDistStylePath, pageStyle)
-          printLog(pocessTypeEnum.GENERATE, '页面样式', this.generateShowPath(pageDistStylePath))
           this.traverseStyle(pageStylePath, pageStyle)
         }
         this.generateScriptFiles(scriptFiles)
@@ -462,7 +461,6 @@ class Convertor {
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
       const componentConfigPath = component + this.fileTypes.CONFIG
       const componentStylePath = component + this.fileTypes.STYLE
-      const componentDistStylePath = this.getDistFilePath(componentStylePath, '.css')
       const componentTemplPath = component + this.fileTypes.TEMPL
 
       try {
@@ -509,7 +507,7 @@ class Convertor {
           ast: taroizeResult.ast,
           sourceFilePath: componentJSPath,
           outputFilePath: componentDistJSPath,
-          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), '.css') : null,
+          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), OUTPUT_STYLE_EXTNAME) : null,
           depComponents,
           imports: taroizeResult.imports
         })
@@ -517,8 +515,6 @@ class Convertor {
         this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
         if (componentStyle) {
-          this.writeFileToTaro(componentDistStylePath, componentStyle)
-          printLog(pocessTypeEnum.GENERATE, '组件样式', this.generateShowPath(componentDistStylePath))
           this.traverseStyle(componentStylePath, componentStyle)
         }
         this.generateScriptFiles(scriptFiles)
@@ -530,17 +526,29 @@ class Convertor {
     })
   }
 
-  traverseStyle (filePath, style) {
-    const { imports } = processStyleImports(style, BUILD_TYPES.WEAPP)
+  async styleUnitTransform (filePath, content) {
+    const postcssResult = await postcss([
+      unitTransform()
+    ]).process(content, {
+      from: filePath
+    })
+    return postcssResult
+  }
+
+  async traverseStyle (filePath, style) {
+    const { imports, content } = processStyleImports(style, BUILD_TYPES.WEAPP, function (str) {
+      return str.replace(MINI_APP_FILES[BUILD_TYPES.WEAPP].STYLE, OUTPUT_STYLE_EXTNAME)
+    })
+    const styleDist = this.getDistFilePath(filePath, OUTPUT_STYLE_EXTNAME)
+    const { css } = await this.styleUnitTransform(filePath, content)
+    this.writeFileToTaro(styleDist, css)
+    printLog(pocessTypeEnum.GENERATE, '样式文件', this.generateShowPath(styleDist))
     if (imports && imports.length) {
       imports.forEach(importItem => {
         const importPath = path.resolve(path.dirname(filePath), importItem)
         if (fs.existsSync(importPath)) {
           const styleText = fs.readFileSync(importPath).toString()
-          const styleDist = importPath.replace(this.root, this.convertDir)
-          this.writeFileToTaro(styleDist, styleText)
-          printLog(pocessTypeEnum.COPY, '样式文件', this.generateShowPath(styleDist))
-          this.traverseStyle(filePath, styleText)
+          this.traverseStyle(importPath, styleText)
         }
       })
     }
@@ -560,7 +568,7 @@ class Convertor {
       description,
       projectName,
       version,
-      css: 'none',
+      css: 'scss',
       typescript: false
     })
     creator.template(templateName, path.join('config', 'index'), path.join(configDir, 'index.js'), {

@@ -459,7 +459,7 @@ exports.cssImports = function (content) {
   return results
 }
 
-exports.processStyleImports = function (content, adapter) {
+exports.processStyleImports = function (content, adapter, process) {
   const style = []
   const imports = []
   const styleReg = new RegExp(`\\${exports.MINI_APP_FILES[adapter].STYLE}`)
@@ -467,6 +467,9 @@ exports.processStyleImports = function (content, adapter) {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
+      if (process && typeof process === 'function') {
+        return process(m)
+      }
       return ''
     }
     return m
