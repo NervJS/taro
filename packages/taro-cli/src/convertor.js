@@ -24,7 +24,8 @@ const {
   processStyleImports,
   getPkgVersion,
   pascalCase,
-  emptyDirectory
+  emptyDirectory,
+  REG_URL
 } = require('./util')
 
 const Creator = require('./creator')
@@ -146,7 +147,7 @@ class Convertor {
                   JSXAttribute (astPath) {
                     if (astPath.get('name').isJSXIdentifier({ name: 'src' })) {
                       const value = astPath.get('value')
-                      if (value.isStringLiteral()) {
+                      if (value.isStringLiteral() && !REG_URL.test(value.node.value)) {
                         const imgSrc = value.node.value
                         let imgImportName = IMPORT_IMAGE_PREFIX + imageCounter
                         if (!images.has(imgSrc)) {
