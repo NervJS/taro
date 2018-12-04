@@ -35,6 +35,18 @@ class Input extends Nerv.Component {
     this.isOnComposition = false
   }
 
+  componentDidMount () {
+    this.inputRef.addEventListener('change', (e) => {
+      this.onInput(e)
+    })
+  }
+
+  componentUnMount () {
+    this.inputRef.removeEventListener('change', (e) => {
+      this.onInput(e)
+    })
+  }
+
   onInput (e) {
     const { onInput, onChange = '' } = this.props
     if (!this.isOnComposition) {
@@ -130,14 +142,15 @@ class Input extends Nerv.Component {
 
     return (
       <input
-        ref={input => input && focus && input.focus()}
+        ref={input => {
+          this.inputRef = input
+          input && focus && input.focus()
+        }}
         {...otherProps}
         className={cls}
         placeholder={placeholder}
         disabled={disabled}
         max={maxLength}
-        onChange={this.onInput}
-        onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         autofocus={focus}
