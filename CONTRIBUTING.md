@@ -6,7 +6,7 @@
 
 如果提交的是 Bug 报告，请务必遵守 [`Bug report`](https://github.com/NervJS/taro/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) 模板。
 
-如果提交的是功能需求，请在 issue 的标题的起始处增加 `[Feature request]` 支付。
+如果提交的是功能需求，请在 issue 的标题的起始处增加 `[Feature request]` 字符。
 
 ## 开发配置
 
