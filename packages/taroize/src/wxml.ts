@@ -9,7 +9,6 @@ import { usedComponents, errors } from './global'
 import * as fs from 'fs'
 import { resolve } from 'path'
 import { reserveKeyWords } from './constant'
-// const generate = require('babel-generator').default
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -412,8 +411,9 @@ function transformIf (
     tester: value as t.JSXExpressionContainer
   })
   attr.remove()
-  for (const [index, sibling] of siblings.entries()) {
-    const next = siblings[index + 1]
+  for (let index = 0; index < siblings.length; index++) {
+    const sibling = siblings[index]
+    const next = cloneDeep(siblings[index + 1])
     const currMatches = findWXIfProps(sibling)
     const nextMatches = findWXIfProps(next)
     if (currMatches === null) {
@@ -553,7 +553,6 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
-      || node.type === NodeType.Comment
   })
 }
 
