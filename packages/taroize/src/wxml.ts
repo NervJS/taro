@@ -609,7 +609,7 @@ function parseAttribute (attr: Attribute) {
       expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
     }
     if (reserveKeyWords.has(pureContent)) {
-      throw new Error(`模板转换报错：\`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值`)
+      throw new Error(`转换模板参数： \`${key}: ${value}\` 报错: \`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值。`)
     }
 
     if (type === 'raw') {

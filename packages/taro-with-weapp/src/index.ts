@@ -93,7 +93,9 @@ export default function withWeapp (componentType: string) {
 
     componentWillMount () {
       this.executeComponentFunc(this.created)
-      this.safeExecute(super.componentWillMount)
+      if (super.componentWillMount) {
+        super.componentWillMount.call(this, this.$router.params)
+      }
     }
 
     componentDidMount () {
