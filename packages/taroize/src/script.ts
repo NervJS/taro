@@ -186,7 +186,7 @@ function parsePage (
   const propsKeys: string[] = []
   const arg = pagePath.get('arguments')[0]
   if (!arg || !arg.isObjectExpression()) {
-    return
+    throw codeFrameError(arg.node, `${componentType || '组件'} 的第一个参数必须是一个对象才能转换。`)
   }
   const defaultProps: { name: string, value: any }[] = []
   const props = arg.get('properties')
