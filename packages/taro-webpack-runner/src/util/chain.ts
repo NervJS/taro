@@ -203,7 +203,7 @@ const getModule = ({
   ]
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
-   * 
+   *
    * https://github.com/webpack-contrib/css-loader/releases/tag/v1.0.0
    */
   const cssLoader = getCssLoader(cssOptions)
@@ -298,13 +298,13 @@ const getModule = ({
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   if (Array.isArray(esnextModules) && esnextModules.length) {
-    const esnextModulePaths = esnextModules.map(v => path.join(appPath, 'node_modules', v))
+    const esnextModulePaths = esnextModules.map(v => path.join('node_modules', v).replace(path.sep, '/'))
     /**
      * isEsnextModule
-     * 
+     *
      * 使用字符串匹配判断是否是es模块
      */
-    const isEsnextModule = filename => esnextModulePaths.some(v => filename.indexOf(v) === 0)
+    const isEsnextModule = filename => esnextModulePaths.some(v => filename.replace(path.sep, '/').indexOf(v) >= 0)
     const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
 
     /* 通过taro处理 */
