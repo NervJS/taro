@@ -14,39 +14,38 @@ function mapStoreToProps (grabStoresFn, props) {
   return newProps
 }
 
-function createStoreInjector (grabStoresFn, injectNames, componentClass) {
+function createStoreInjector (grabStoresFn, injectNames, Component) {
   let displayName =
         'inject-' +
-        (componentClass.displayName ||
-          componentClass.name ||
-            (componentClass.constructor && componentClass.constructor.name) ||
+        (Component.displayName ||
+          Component.name ||
+            (Component.constructor && Component.constructor.name) ||
             'Unknown')
   if (injectNames) {
     displayName += '-with-' + injectNames
   }
 
-  Object.defineProperties(componentClass, {
-    isMobxInjector: {
-      value: true,
-      writable: true,
-      configurable: true,
-      enumerable: true
-    },
-    displayName: {
-      value: displayName,
-      writable: true,
-      configurable: true,
-      enumerable: true
+  class Injector extends Component {
+    static isMobxInjector = true
+    static displayName = displayName
+    constructor (props) {
+      super(Object.assign(props, mapStoreToProps(grabStoresFn, props)))
     }
-  })
 
-  const target = componentClass.prototype || componentClass
+    componentWillMount () {
+      Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
+      if (typeof super.componentWillMount === 'function') {
+        super.componentWillMount()
+      }
+    }
+  }
+  const target = Injector.prototype
   const originCreateData = target._createData
   target._createData = function () {
     Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
     return originCreateData.call(this)
   }
-  return componentClass
+  return Injector
 }
 
 function grabStoresByName (storeNames) {
