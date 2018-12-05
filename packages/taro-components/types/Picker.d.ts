@@ -16,6 +16,14 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
    * 取消选择或点遮罩层收起 picker 时触发
    */
   onCancel?: BaseEventFunction
+  /**
+   * 确定按钮文案
+   */
+  changeText?: string
+  /**
+   * 取消按钮文案
+   */
+  cancelText?: string
 }
 
 interface PickerSelectorProps extends PickerStandardProps {

@@ -6,6 +6,8 @@
  * @property {EventHandle} onChange value 改变时触发 change 事件，event.detail = {value: value}
  * @property {Boolean} disabled 是否禁用
  * @property {EventHandle} onCancel 取消选择或点遮罩层收起 picker 时触发
+ * @property {String} changeText 确定按钮的文案
+ * @property {String} cancelText 取消按钮的文案
  */
 import Nerv from 'nervjs'
 import PickerGroup from './picker-group'
@@ -582,7 +584,7 @@ export default class Picker extends Nerv.Component {
         pickerGroup = getSelector()
     }
 
-    const { name = '' } = this.props
+    const { name = '', changeText = '确定', cancelText = '取消' } = this.props
 
     return (
       <div className={this.props.className}>
@@ -591,10 +593,10 @@ export default class Picker extends Nerv.Component {
         <div style={shouldDivHidden} className={clsSlider}>
           <div className='weui-picker__hd'>
             <div className='weui-picker__action' onClick={onCancel}>
-              取消
+              {cancelText}
             </div>
             <div className='weui-picker__action' onClick={onChange}>
-              确定
+              {changeText}
             </div>
           </div>
           <div className='weui-picker__bd'>{pickerGroup}</div>

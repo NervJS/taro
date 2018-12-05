@@ -15,6 +15,8 @@ sidebar_label: Picker
 | √ | √ | √ | onChange | EventHandle  || value 改变时触发 change 事件，event.detail = value: value     |
 | √ | √ | √ | onCancel | EventHandle|        | 取消选择或点遮罩层收起 picker 时触发      |
 | √ | √ | √ | disabled   | Boolean              | false  | 是否禁用  |
+|  | √ |  | changeText   | String              | 确定  | 确定按钮文案  |
+|  | √ |  | cancelText   | String              | 取消  | 取消按钮文案  |
 
 ##### 多列选择器：mode = multiSelector
 
@@ -29,6 +31,8 @@ sidebar_label: Picker
 | √ | √ | √ | onColumnchange | EventHandle  |        | 某一列的值改变时触发 columnchange 事件，event.detail = column: column, value: value，column 的值表示改变了第几列（下标从 0 开始），value 的值表示变更值的下标 |
 | √ | √ | √ | onCancel       | EventHandle  |        | 取消选择时触发     |
 | √ | √ | √ | disabled         | Boolean   | false  | 是否禁用         |
+|  | √ |  | changeText   | String              | 确定  | 确定按钮文案  |
+|  | √ |  | cancelText   | String              | 取消  | 取消按钮文案  |
 
 ##### 时间选择器：mode = time
 
@@ -42,6 +46,8 @@ sidebar_label: Picker
 | √ | √ | √ | onChange | EventHandle |   | value 改变时触发 change 事件，event.detail = value: value |
 | √ | √ | √ | onCancel | EventHandle |   | 取消选择或点遮罩层收起 picker 时触发                      |
 | √ | √ | x (IOS 支持) | disabled   | Boolean     | false  | 是否禁用                                                  |
+|  | √ |  | changeText   | String              | 确定  | 确定按钮文案  |
+|  | √ |  | cancelText   | String              | 取消  | 取消按钮文案  |
 
 ##### 日期选择器：mode = date
 
@@ -56,6 +62,8 @@ sidebar_label: Picker
 | √ | √ | √ | onChange | EventHandle |            | value 改变时触发 change 事件，event.detail = value: value |
 | √ | √ | √ | onCancel | EventHandle |            | 取消选择或点遮罩层收起 picker 时触发                      |
 | √ | √ | √ | disabled   | Boolean     | false      | 是否禁用                                                  |
+|  | √ |  | changeText   | String              | 确定  | 确定按钮文案  |
+|  | √ |  | cancelText   | String              | 取消  | 取消按钮文案  |
 
 > fields 有效值：
 
