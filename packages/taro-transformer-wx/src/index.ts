@@ -423,7 +423,13 @@ export default function transform (options: Options): TransformResult {
 
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
-      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
+      const classDecl = path.findParent(p => p.isClassDeclaration())
+      const classDeclName = classDecl && classDecl.isClassDeclaration() && classDecl.node.id.name
+      let isConverted = false
+      if (classDeclName) {
+        isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')
+      }
+      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style' && !isConverted) {
         const jsxID = path.findParent(p => p.isJSXOpeningElement()).get('name')
         if (jsxID && jsxID.isJSXIdentifier() && DEFAULT_Component_SET.has(jsxID.node.name)) {
           exprPath.replaceWith(

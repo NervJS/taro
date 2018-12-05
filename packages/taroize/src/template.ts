@@ -10,10 +10,10 @@ function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
 }
 
-const NumberWords = ['a','b','c','d','e', 'f','g','h','i','j']
+const NumberWords = ['z', 'a','b','c','d','e', 'f','g','h','i','j']
 
 function buildTemplateName (name: string) {
-  if (/wx/.test(name)) {
+  if (/wx/i.test(name)) {
     return buildTemplateName('taro-' + name.slice(2, name.length))
   }
   const words = pascalName(name + '-tmpl')
