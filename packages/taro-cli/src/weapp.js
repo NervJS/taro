@@ -93,7 +93,9 @@ let constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter)
+    const useCompileConf = Object.assign({}, weappConf.compile)
+    const compileInclude = useCompileConf.include || []
+    const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
