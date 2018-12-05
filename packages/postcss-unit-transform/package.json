@@ -1,5 +1,5 @@
 {
-  "name": "postcss-unit-transform",
+  "name": "postcss-taro-unit-transform",
   "version": "1.2.0-beta.8",
   "description": "小程序单位转换",
   "main": "index.js",

@@ -10,7 +10,7 @@ const generate = require('babel-generator').default
 const taroize = require('@tarojs/taroize')
 const wxTransformer = require('@tarojs/transformer-wx')
 const postcss = require('postcss')
-const unitTransform = require('postcss-unit-transform')
+const unitTransform = require('postcss-taro-unit-transform')
 
 const {
   BUILD_TYPES,

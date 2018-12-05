@@ -1,6 +1,6 @@
 const postcss = require('postcss')
 
-module.exports = postcss.plugin('postcss-unit-transform', plugin)
+module.exports = postcss.plugin('postcss-taro-unit-transform', plugin)
 
 function plugin (opts) {
   return function (root) {
