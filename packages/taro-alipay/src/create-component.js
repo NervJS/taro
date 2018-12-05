@@ -320,8 +320,9 @@ function createComponent (ComponentClass, isPage) {
         initComponent.apply(this, [ComponentClass, isPage])
       },
 
-      didUpdate () {
-        if (!this.$component || !this.$component.__isReady) return
+      didUpdate (prevProps, prevData) {
+        // setData 触发的 didUpdate 不需要更新组件
+        if (!this.$component || !this.$component.__isReady || prevData !== this.data) return
         const nextProps = filterProps(ComponentClass.defaultProps, this.$component.props, this.props)
         this.$component.props = nextProps
         this.$component._unsafeCallUpdate = true
