@@ -67,6 +67,7 @@ export default function withWeapp (componentType: string) {
       Object.keys(obj).forEach(key => {
         safeSet(state, key, obj[key])
       })
+      Object.assign(this.state, state)
       this.setState(state)
     }
 
