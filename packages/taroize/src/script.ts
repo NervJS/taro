@@ -160,8 +160,13 @@ function parsePage (
       }
       if (callee.isMemberExpression()) {
         const object = callee.get('object')
-        if (object.isIdentifier({ name: 'wx' })) {
-          object.replaceWith(t.identifier('Taro'))
+        if (object.isIdentifier()) {
+          const methodName = object.node.name
+          if (PageLifecycle.has(methodName)) {
+            object.replaceWith(t.identifier(PageLifecycle.get(methodName)!))
+          } else if (methodName === 'wx') {
+            object.replaceWith(t.identifier('Taro'))
+          }
         }
       }
     },
