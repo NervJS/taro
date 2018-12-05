@@ -162,9 +162,13 @@ function parsePage (
         const object = callee.get('object')
         if (object.isIdentifier()) {
           const methodName = object.node.name
-          if (PageLifecycle.has(methodName)) {
-            object.replaceWith(t.identifier(PageLifecycle.get(methodName)!))
-          } else if (methodName === 'wx') {
+          const hooks = ['onLoad', 'onShow', 'onReady', 'onHide', 'onUnload', 'onError', 'onLaunch']
+          hooks.forEach(hook => {
+            if (methodName === hook) {
+              object.replaceWith(t.identifier(PageLifecycle.get(methodName)!))
+            }
+          })
+          if (methodName === 'wx') {
             object.replaceWith(t.identifier('Taro'))
           }
         }
