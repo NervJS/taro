@@ -473,6 +473,9 @@ exports.processStyleImports = function (content, adapter, process) {
       }
       return ''
     }
+    if (process && typeof process === 'function') {
+      return process(m, $2)
+    }
     return m
   })
   return {

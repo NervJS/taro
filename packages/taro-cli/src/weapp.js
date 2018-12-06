@@ -52,6 +52,8 @@ const weappNpmConfig = Object.assign({
   dir: null
 }, weappConf.npm)
 const appOutput = typeof weappConf.appOutput === 'boolean' ? weappConf.appOutput : true
+const useCompileConf = Object.assign({}, weappConf.compile)
+const compileInclude = useCompileConf.include || []
 
 const notExistNpmList = []
 const taroJsFramework = '@tarojs/taro'
@@ -93,8 +95,6 @@ let constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.
 
 function getExactedNpmFilePath (npmName, filePath) {
   try {
-    const useCompileConf = Object.assign({}, weappConf.compile)
-    const compileInclude = useCompileConf.include || []
     const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
@@ -1498,7 +1498,15 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
     const fileExt = path.extname(filePath)
     const pluginName = Util.FILE_PROCESSOR_MAP[fileExt]
     const fileContent = fs.readFileSync(filePath).toString()
-    const cssImportsRes = Util.processStyleImports(fileContent, buildAdapter)
+    const cssImportsRes = Util.processStyleImports(fileContent, buildAdapter, (str, stylePath) => {
+      if (stylePath.indexOf('~') === 0) {
+        let newStylePath = stylePath
+        newStylePath = stylePath.replace('~', '')
+        const npmInfo = resolveNpmFilesPath(newStylePath, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
+        return str.replace(stylePath, npmInfo.main)
+      }
+      return str
+    })
     compileImportStyles(filePath, cssImportsRes.imports)
     if (pluginName) {
       return npmProcess.callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
