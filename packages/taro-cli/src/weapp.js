@@ -382,6 +382,15 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
+      // 替换用户自定义前缀
+      let pathAlias = projectConfig.pathAlias || {}
+      if (Util.isAliasPath(value, Object.keys(pathAlias))) {
+        let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
+        value = value.replace(reg,function(matched,$1){
+          return './'+path.relative(path.dirname(sourceFilePath), sourceDir)+ pathAlias[$1] + '/'
+        })
+        source.value = value
+      }
       if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
         if (value === taroJsComponents) {
           astPath.remove()

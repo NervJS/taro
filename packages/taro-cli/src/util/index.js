@@ -185,6 +185,14 @@ exports.isNpmPkg = function (name) {
   return true
 }
 
+exports.isAliasPath = function(name, prefixs = []) {
+  if (prefixs.length === 0){
+    return false
+  }
+  return new RegExp(`^(${prefixs.join('|')})/`).test(name)
+}
+
+
 exports.promoteRelativePath = function (fPath) {
   const fPathArr = fPath.split(path.sep)
   let dotCount = 0
