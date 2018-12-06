@@ -78,7 +78,7 @@ exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
 exports.REG_SCRIPTS = /\.[tj]sx?$/i
 exports.REG_STYLE = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
-exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
+exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 exports.REG_JSON = /\.json(\?.*)?$/
 exports.REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi

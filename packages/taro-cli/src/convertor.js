@@ -25,7 +25,8 @@ const {
   getPkgVersion,
   pascalCase,
   emptyDirectory,
-  REG_URL
+  REG_URL,
+  REG_IMAGE
 } = require('./util')
 
 const Creator = require('./creator')
@@ -119,9 +120,6 @@ class Convertor {
   parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [], isApp = false }) {
     const scriptFiles = new Set()
     const self = this
-    const images = new Map()
-    const IMPORT_IMAGE_PREFIX = 'anonymous__img__'
-    let imageCounter = 0
     traverse(ast, {
       Program: {
         enter (astPath) {
@@ -140,33 +138,36 @@ class Convertor {
                 const value = args[0].value
                 analyzeImportUrl(sourceFilePath, scriptFiles, args[0], value)
               }
-            },
-            JSXOpeningElement (astPath) {
-              if (astPath.get('name').isJSXIdentifier({ name: 'Image' })) {
-                astPath.traverse({
-                  JSXAttribute (astPath) {
-                    if (astPath.get('name').isJSXIdentifier({ name: 'src' })) {
-                      const value = astPath.get('value')
-                      if (value.isStringLiteral() && !REG_URL.test(value.node.value)) {
-                        const imgSrc = value.node.value
-                        let imgImportName = IMPORT_IMAGE_PREFIX + imageCounter
-                        if (!images.has(imgSrc)) {
-                          images.set(imgSrc, imgImportName)
-                          imageCounter++
-                        } else {
-                          imgImportName = images.get(imgSrc)
-                        }
-                        astPath.replaceWith(t.jSXAttribute(astPath.get('name').node, t.jSXExpressionContainer(t.identifier(imgImportName))))
-                      }
-                    }
-                  }
-                })
-              }
             }
           })
         },
-        exit: (astPath) => {
+        exit (astPath) {
           const lastImport = astPath.get('body').filter(p => p.isImportDeclaration()).pop()
+          astPath.traverse({
+            StringLiteral (astPath) {
+              const value = astPath.node.value
+              const extname = path.extname(value)
+              if (extname && REG_IMAGE.test(extname) && !REG_URL.test(value)) {
+                let imageRelativePath = null
+                let sourceImagePath = null
+                let outputImagePath = null
+                if (path.isAbsolute(value)) {
+                  sourceImagePath = path.join(self.root, value)
+                } else {
+                  sourceImagePath = path.resolve(sourceFilePath, '..', value)
+                }
+                imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
+                outputImagePath = self.getDistFilePath(sourceImagePath)
+                self.copyFileToTaro(sourceImagePath, outputImagePath)
+                printLog(pocessTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
+                if (astPath.parentPath.isVariableDeclarator()) {
+                  astPath.replaceWith(t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)]))
+                } else if (astPath.parentPath.isJSXAttribute()) {
+                  astPath.replaceWith(t.jSXExpressionContainer(t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)])))
+                }
+              }
+            }
+          })
           if (lastImport) {
             if (importStylePath) {
               lastImport.insertAfter(t.importDeclaration([], t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))))
@@ -187,23 +188,6 @@ class Convertor {
                 const name = pascalCase(componentObj.name)
                 const component = componentObj.path
                 lastImport.insertAfter(template(`import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`, babylonConfig)())
-              })
-            }
-            if (images && images.size) {
-              images.forEach((key, image) => {
-                let imageRelativePath = null
-                let sourceImagePath = null
-                let outputImagePath = null
-                if (path.isAbsolute(image)) {
-                  sourceImagePath = path.join(this.root, image)
-                } else {
-                  sourceImagePath = path.resolve(sourceFilePath, '..', image)
-                }
-                imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
-                outputImagePath = this.getDistFilePath(sourceImagePath)
-                this.copyFileToTaro(sourceImagePath, outputImagePath)
-                printLog(pocessTypeEnum.COPY, '图片', this.generateShowPath(outputImagePath))
-                lastImport.insertAfter(template(`import ${key} from '${imageRelativePath}'`, babylonConfig)())
               })
             }
 
