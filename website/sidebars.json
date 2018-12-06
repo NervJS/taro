@@ -30,6 +30,7 @@
       "component-style",
       "react-native",
       "ui-lib",
+      "taroize",
       "best-practice"
     ],
     "组件库": [
