@@ -2,8 +2,8 @@ import Nerv from 'nervjs'
 
 class Component extends Nerv.Component {
   get $router () {
-    if (this.props.__router) {
-      return this.props.__router.location
+    if (this.context && this.context.router) {
+      return this.context.router.location
     }
   }
   set $router (args) {
