@@ -30,7 +30,7 @@ const createWrappedComponent = (component: Types.PageComponent) => {
       ctx.componentDidShow = newComponentDidShow
       tryToCall(superComponentDidMount, this)
       if (this.wrappedInstance) {
-        const originalComponentDidMount = ctx.componentDidMount        
+        const originalComponentDidMount = ctx.componentDidMount
         if (!this.wrappedInstance['__cdm_modified']) {
           this.wrappedInstance['__cdm_modified'] = true
           this.wrappedInstance.componentDidMount = () => {

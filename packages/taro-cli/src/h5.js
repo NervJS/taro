@@ -473,8 +473,7 @@ function processEntry (code, filePath) {
         const keyName = getObjKey(key)
         if (keyName === 'componentWillMount') {
           hasComponentWillMount = true
-        }
-        if (keyName === 'componentDidMount') {
+        } else if (keyName === 'componentDidMount') {
           hasComponentDidMount = true
         } else if (keyName === 'componentDidShow') {
           hasComponentDidShow = true
@@ -537,7 +536,7 @@ function processEntry (code, filePath) {
   }
 }
 
-function processOthers (code, filePath) {
+function processOthers (code, filePath, fileType) {
   let ast = wxTransformer({
     code,
     sourcePath: filePath,
@@ -548,6 +547,9 @@ function processOthers (code, filePath) {
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
   let hasJSX = false
+  let isPage = fileType === FILE_TYPE.PAGE
+  let hasComponentDidMount = false
+  let hasComponentDidShow = false
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -592,9 +594,38 @@ function processOthers (code, filePath) {
     }
   }
 
+  const programExitVisitor = {
+    ClassBody: {
+      exit (astPath) {
+        if (!hasComponentDidMount) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidMount'), [],
+            t.blockStatement([]), false, false))
+        }
+        if (!hasComponentDidShow) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidShow'), [],
+            t.blockStatement([]), false, false))
+        }
+      }
+    }
+  }
+
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
+    ClassMethod: isPage ? {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const keyName = getObjKey(key)
+        if (keyName === 'componentDidMount') {
+          hasComponentDidMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        }
+      }
+    } : {},
     ImportDeclaration: {
       enter (astPath) {
         const node = astPath.node
@@ -653,6 +684,9 @@ function processOthers (code, filePath) {
     },
     Program: {
       exit (astPath) {
+        if (isPage) {
+          astPath.traverse(programExitVisitor)
+        }
         const node = astPath.node
         if (hasJSX && !hasAddNervJsImportDefaultName) {
           node.body.unshift(
@@ -753,7 +787,7 @@ function processFiles (filePath) {
       const content = file.toString()
       const transformResult = fileType === FILE_TYPE.ENTRY
         ? processEntry(content, filePath)
-        : processOthers(content, filePath)
+        : processOthers(content, filePath, fileType)
       const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
