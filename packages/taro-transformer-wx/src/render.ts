@@ -114,6 +114,7 @@ export class RenderParser {
   private loopCalleeId = new Set<t.Identifier>()
   private usedThisProperties = new Set<string>()
   private incrementCalleeId = incrementId()
+  private classComputedState = new Set<string>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -1394,12 +1395,22 @@ export class RenderParser {
   }
 
   setUsedState () {
+    for (const [ key, method ] of this.methods) {
+      if (method) {
+        if (method.isClassMethod()) {
+          const kind = method.node.kind
+          if (kind === 'get') {
+            this.classComputedState.add(key)
+          }
+        }
+      }
+    }
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
     const usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
-          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies])
+          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies, ...this.classComputedState])
         )
     )
     .concat(...this.usedState)
@@ -1425,7 +1436,7 @@ export class RenderParser {
   }
 
   setPendingState () {
-    let properties = Array.from(
+    const propertyKeys = Array.from(
         new Set(Array.from(this.referencedIdentifiers)
         .map(i => i.name))
       )
@@ -1449,16 +1460,27 @@ export class RenderParser {
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('$$'))
       .filter(i => !this.loopRefIdentifiers.has(i))
-      .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
+    let properties = propertyKeys.map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
     }
-    const pendingState = t.objectExpression(properties.concat(
-      Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
-        t.identifier('_triggerObserer'),
-        t.booleanLiteral(false)
-      ) : []
-    ))
+    const pendingState = t.objectExpression(
+      properties.concat(
+        Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
+          t.identifier('_triggerObserer'),
+          t.booleanLiteral(false)
+        ) : []
+      ).concat(
+        Array.from(this.classComputedState).filter(i => {
+          return !propertyKeys.includes(i)
+        }).map(i => {
+          return t.objectProperty(
+            t.identifier(i),
+            t.memberExpression(t.thisExpression(), t.identifier(i))
+          )
+        })
+      )
+    )
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       t.returnStatement(
