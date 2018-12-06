@@ -29,7 +29,7 @@ function createStoreInjector (grabStoresFn, injectNames, Component) {
     static isMobxInjector = true
     static displayName = displayName
     constructor (props) {
-      super(Object.assign(props, mapStoreToProps(grabStoresFn, props)))
+      super(Object.assign(...arguments, mapStoreToProps(grabStoresFn, props)))
     }
 
     componentWillMount () {
