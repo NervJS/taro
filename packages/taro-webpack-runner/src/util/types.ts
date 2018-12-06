@@ -74,6 +74,10 @@ export interface TaroBaseConfig {
   publicPath: string;
   staticDirectory: string;
   chunkDirectory: string;
+  copy: {
+    patterns: object[];
+    options: object[]
+  };
 
   designWidth: number;
   deviceRatio?: number;

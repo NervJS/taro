@@ -9,23 +9,27 @@ const babel = require('babel-core')
 const generate = require('babel-generator').default
 const _ = require('lodash')
 const rimraf = require('rimraf')
+const { promisify } = require('util')
+const minimatch = require('minimatch')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
 const { source: toAst, getObjKey } = require('./util/ast_convert')
 
-const tempDir = '.temp'
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const h5Config = projectConfig.h5 || {}
 const routerConfig = h5Config.router || {}
 const routerMode = routerConfig.mode
 const customRoutes = routerConfig.customRoutes
-const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-const sourceDir = path.join(appPath, sourceDirName)
+const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+const sourcePath = path.join(appPath, sourceDir)
+const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+const outputPath = path.join(appPath, outputDir)
+const tempDir = CONFIG.TEMP_DIR
 const tempPath = path.join(appPath, tempDir)
-const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+const entryFilePath = Util.resolveScriptPath(path.join(sourcePath, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
 
@@ -708,7 +712,7 @@ function classifyFiles (filename) {
 
 function getDist (filename, isScriptFile) {
   const dirname = path.dirname(filename)
-  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distDirname = dirname.replace(sourcePath, tempDir)
   return isScriptFile
     ? path.format({
       dir: distDirname,
@@ -726,7 +730,7 @@ function processFiles (filePath) {
   const fileType = classifyFiles(filePath)
   const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
-  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distDirname = dirname.replace(sourcePath, tempDir)
   const isScriptFile = Util.REG_SCRIPTS.test(extname)
   const distPath = getDist(filePath, isScriptFile)
 
@@ -751,7 +755,7 @@ function processFiles (filePath) {
 }
 
 function watchFiles () {
-  const watcher = chokidar.watch(path.join(sourceDir), {
+  const watcher = chokidar.watch(path.join(sourcePath), {
     ignored: /(^|[/\\])\../,
     persistent: true,
     ignoreInitial: true
@@ -782,7 +786,7 @@ function watchFiles () {
 function buildTemp () {
   fs.ensureDirSync(tempPath)
   return new Promise((resolve, reject) => {
-    klaw(sourceDir)
+    klaw(sourcePath)
       .on('data', file => {
         const relativePath = path.relative(appPath, file.path)
         if (!file.stats.isDirectory()) {
@@ -800,8 +804,6 @@ async function buildDist (buildConfig) {
   const { watch } = buildConfig
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-  const outputRoot = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-  Util.emptyDirectory(path.join(appPath, outputRoot))
   h5Config.env = projectConfig.env
   Object.assign(h5Config.env, {
     TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
@@ -813,7 +815,7 @@ async function buildDist (buildConfig) {
     h5Config.deviceRatio = projectConfig.deviceRatio
   }
   h5Config.sourceRoot = sourceRoot
-  h5Config.outputRoot = outputRoot
+  h5Config.outputRoot = outputDir
   h5Config.entry = Object.assign({
     app: [path.join(tempPath, entryFile)]
   }, h5Config.entry)
@@ -824,17 +826,65 @@ async function buildDist (buildConfig) {
   webpackRunner(h5Config)
 }
 
-function clean () {
-  return new Promise((resolve, reject) => {
-    rimraf(tempPath, () => {
-      resolve()
+const pRimraf = promisify(rimraf)
+
+async function clean () {
+  try {
+    await pRimraf(tempPath)
+    await pRimraf(outputPath)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function copyFileSync (from, to, options) {
+  const filename = path.basename(from)
+  if (fs.statSync(from).isFile() && !path.extname(to)) {
+    fs.ensureDir(to)
+    return fs.copySync(from, path.join(to, filename), options)
+  }
+  fs.ensureDir(path.dirname(to))
+  return fs.copySync(from, to, options)
+}
+
+function copyFiles () {
+  const copyConfig = projectConfig.copy || { patterns: [], options: {} }
+  if (copyConfig.patterns && copyConfig.patterns.length) {
+    copyConfig.options = copyConfig.options || {}
+    const globalIgnore = copyConfig.options.ignore
+    const projectDir = appPath
+    copyConfig.patterns.forEach(pattern => {
+      if (typeof pattern === 'object' && pattern.from && pattern.to) {
+        const from = path.join(projectDir, pattern.from)
+        const to = path.join(projectDir, pattern.to)
+        let ignore = pattern.ignore || globalIgnore
+        if (fs.existsSync(from)) {
+          const copyOptions = {}
+          if (ignore) {
+            ignore = Array.isArray(ignore) ? ignore : [ignore]
+            copyOptions.filter = src => {
+              let isMatch = false
+              ignore.forEach(iPa => {
+                if (minimatch(path.basename(src), iPa)) {
+                  isMatch = true
+                }
+              })
+              return !isMatch
+            }
+          }
+          copyFileSync(from, to, copyOptions)
+        } else {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
+        }
+      }
     })
-  })
+  }
 }
 
 async function build (buildConfig) {
   process.env.TARO_ENV = Util.BUILD_TYPES.H5
   await clean()
+  copyFiles()
   await buildTemp(buildConfig)
   await buildDist(buildConfig)
   if (buildConfig.watch) {
