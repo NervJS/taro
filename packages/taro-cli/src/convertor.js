@@ -120,10 +120,86 @@ class Convertor {
   parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [], isApp = false }) {
     const scriptFiles = new Set()
     const self = this
+    let componentClassName = null
     traverse(ast, {
       Program: {
         enter (astPath) {
           astPath.traverse({
+            ClassDeclaration (astPath) {
+              const node = astPath.node
+              let isTaroComponent = false
+              if (node.superClass) {
+                astPath.traverse({
+                  ClassMethod (astPath) {
+                    if (astPath.get('key').isIdentifier({ name: 'render' })) {
+                      astPath.traverse({
+                        JSXElement () {
+                          isTaroComponent = true
+                        }
+                      })
+                    }
+                  }
+                })
+                if (isTaroComponent) {
+                  componentClassName = node.id.name
+                }
+              }
+            },
+
+            ClassExpression (astPath) {
+              const node = astPath.node
+              if (node.superClass) {
+                let isTaroComponent = false
+                astPath.traverse({
+                  ClassMethod (astPath) {
+                    if (astPath.get('key').isIdentifier({ name: 'render' })) {
+                      astPath.traverse({
+                        JSXElement () {
+                          isTaroComponent = true
+                        }
+                      })
+                    }
+                  }
+                })
+                if (isTaroComponent) {
+                  if (node.id === null) {
+                    const parentNode = astPath.parentPath.node
+                    if (t.isVariableDeclarator(astPath.parentPath)) {
+                      componentClassName = parentNode.id.name
+                    }
+                  } else {
+                    componentClassName = node.id.name
+                  }
+                }
+              }
+            },
+            ExportDefaultDeclaration (astPath) {
+              const node = astPath.node
+              const declaration = node.declaration
+              if (
+                declaration &&
+                (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')
+              ) {
+                const superClass = declaration.superClass
+                if (superClass) {
+                  let isTaroComponent = false
+                  astPath.traverse({
+                    ClassMethod (astPath) {
+                      if (astPath.get('key').isIdentifier({ name: 'render' })) {
+                        astPath.traverse({
+                          JSXElement () {
+                            isTaroComponent = true
+                          }
+                        })
+                      }
+                    }
+                  })
+                  if (isTaroComponent) {
+                    componentClassName = declaration.id.name
+                  }
+                }
+              }
+            },
             ImportDeclaration (astPath) {
               const node = astPath.node
               const source = node.source
@@ -175,6 +251,9 @@ class Convertor {
             if (imports && imports.length) {
               imports.forEach(({ name, ast }) => {
                 const importName = pascalCase(name)
+                if (componentClassName === importName) {
+                  return
+                }
                 const importPath = path.join(self.importsDir, importName + '.js')
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
