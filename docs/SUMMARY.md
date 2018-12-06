@@ -25,6 +25,7 @@
   * [微信小程序原生作用域获取](wx-relations.md)
   * [组件的外部样式和全局样式](component-style.md)
   * [React Native 端开发流程](react-native.md)
+  * [微信小程序转 Taro](taroize.md)
   * [最佳实践](best-practice.md)
 * [组件库](components.md)
   * 视图容器
