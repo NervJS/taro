@@ -505,7 +505,6 @@ function processEntry (code, filePath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
         const importRouterNode = toAst(`import { Router } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
-        const renderCallNode = toAst(renderCallCode)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
         const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
@@ -525,8 +524,10 @@ function processEntry (code, filePath) {
         }
 
         lastImportNode.insertAfter(extraNodes)
-
-        astPath.pushContainer('body', renderCallNode)
+        if (renderCallCode) {
+          const renderCallNode = toAst(renderCallCode)
+          astPath.pushContainer('body', renderCallNode)
+        }
       }
     }
   })
@@ -746,7 +747,7 @@ function classifyFiles (filename) {
   const relPath = path.normalize(
     path.relative(appPath, filename)
   )
-  if (relPath.indexOf(entryFileName) >= 0) return FILE_TYPE.ENTRY
+  if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
 
   if (pages.some(page => {
     if (relPath.indexOf(page) >= 0) return true
