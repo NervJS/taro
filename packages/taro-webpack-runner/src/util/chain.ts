@@ -201,6 +201,10 @@ const getModule = ({
     },
     cssLoaderOption
   ]
+  if (postcssOption.cssModules && postcssOption.cssModules.config && postcssOption.cssModules.config.generateScopedName) {
+    cssOptions[0].localIdentName = postcssOption.cssModules.config.generateScopedName;
+  }
+  
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
    *
@@ -214,8 +218,7 @@ const getModule = ({
       ident: 'postcss',
       plugins: getPostcssPlugins({
         designWidth,
-        deviceRatio,
-        postcssOption
+        deviceRatio
       })
     }
   ])
