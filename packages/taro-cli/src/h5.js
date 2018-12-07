@@ -334,7 +334,7 @@ function processEntry (code, filePath) {
         }
         value.elements.forEach(v => {
           const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
-          pages.push(pagePath)
+          pages.push(pagePath.replace(/^\//, ''))
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar
@@ -749,9 +749,20 @@ function classifyFiles (filename) {
   )
   if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
 
-  if (pages.some(page => {
-    if (relPath.indexOf(page) >= 0) return true
-  })) {
+  let relSrcPath = path.relative('src', relPath)
+  relSrcPath = path.format({
+    dir: path.dirname(relSrcPath),
+    base: path.basename(relSrcPath, path.extname(relSrcPath))
+  })
+
+  const isPage = pages.some(page => {
+    const relPage = path.normalize(
+      path.relative(appPath, page)
+    )
+    if (path.relative(relPage, relSrcPath) === '') return true
+  })
+
+  if (isPage) {
     return FILE_TYPE.PAGE
   } else {
     return FILE_TYPE.NORMAL
@@ -775,7 +786,6 @@ function getDist (filename, isScriptFile) {
 
 function processFiles (filePath) {
   const file = fs.readFileSync(filePath)
-  const fileType = classifyFiles(filePath)
   const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
   const distDirname = dirname.replace(sourcePath, tempDir)
@@ -785,6 +795,7 @@ function processFiles (filePath) {
   try {
     if (isScriptFile) {
       // 脚本文件 处理一下
+      const fileType = classifyFiles(filePath)
       const content = file.toString()
       const transformResult = fileType === FILE_TYPE.ENTRY
         ? processEntry(content, filePath)
