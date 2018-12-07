@@ -16,9 +16,9 @@ import { appPath, addLeadingSlash, addTrailingSlash, recursiveMerge } from './ut
 import { bindDevLogger, bindProdLogger, bindDllLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 
-const customizeChain = (chain, config) => {
-  if (config.webpackChain instanceof Function) {
-    config.webpackChain(chain, webpack)
+const customizeChain = (chain, customizeFunc) => {
+  if (customizeFunc instanceof Function) {
+    customizeFunc(chain, webpack)
   }
 }
 
@@ -34,6 +34,9 @@ const buildDll = async (config: BuildConfig): Promise<any> => {
   if (config.enableDll === false) return Promise.resolve()
   return new Promise((resolve, reject) => {
     const webpackChain = dllConf(config)
+
+    customizeChain(webpackChain, config.dllWebpackChain)
+    
     const webpackConfig = webpackChain.toConfig()
     const compiler = webpack(webpackConfig)
     bindDllLogger(compiler)
@@ -53,7 +56,7 @@ const buildProd = (config: BuildConfig): Promise<void> => {
     const webpackChain = prodConf(config)
     let webpackConfig
 
-    customizeChain(webpackChain, config)
+    customizeChain(webpackChain, config.webpackChain)
 
     if (config.webpack) {
       webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
