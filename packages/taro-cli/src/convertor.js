@@ -123,6 +123,7 @@ class Convertor {
     const scriptFiles = new Set()
     const self = this
     let componentClassName = null
+    let needInsertImportTaro = false
     traverse(ast, {
       Program: {
         enter (astPath) {
@@ -221,11 +222,13 @@ class Convertor {
                   calleePath.replaceWith(
                     t.memberExpression(t.identifier('Taro'), callee)
                   )
+                  needInsertImportTaro = true
                 }
               } else if (callee.type === 'MemberExpression') {
                 const object = callee.object
                 if (object.name === 'wx') {
                   calleePath.get('object').replaceWith(t.identifier('Taro'))
+                  needInsertImportTaro = true
                 }
               }
             }
@@ -233,6 +236,15 @@ class Convertor {
         },
         exit (astPath) {
           const lastImport = astPath.get('body').filter(p => p.isImportDeclaration()).pop()
+          const hasTaroImport = astPath.get('body').some(p => p.isImportDeclaration() && p.node.source.value === '@tarojs/taro')
+          if (needInsertImportTaro && !hasTaroImport) {
+            astPath.node.body.unshift(
+              t.importDeclaration(
+                [t.importDefaultSpecifier(t.identifier('Taro'))],
+                t.stringLiteral('@tarojs/taro')
+              )
+            )
+          }
           astPath.traverse({
             StringLiteral (astPath) {
               const value = astPath.node.value
