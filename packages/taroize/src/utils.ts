@@ -28,7 +28,7 @@ export function buildRender (
   if (stateKeys.length) {
     const stateDecl = t.variableDeclaration('const', [
       t.variableDeclarator(
-        t.objectPattern(Array.from(new Set(stateKeys)).map(s =>
+        t.objectPattern(Array.from(new Set(stateKeys)).filter(s => !propsKeys.includes(s)).map(s =>
           t.objectProperty(t.identifier(s), t.identifier(s))
         ) as any),
         t.memberExpression(t.thisExpression(), t.identifier('state'))
