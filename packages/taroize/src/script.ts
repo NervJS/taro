@@ -136,6 +136,8 @@ export function parseScript (
 
 const defaultClassName = '_C'
 
+const staticProps = ['externalClasses', 'relations', 'options']
+
 function parsePage (
   pagePath: NodePath<t.CallExpression>,
   returned: t.Expression,
@@ -318,12 +320,18 @@ function parsePage (
         t.arrowFunctionExpression(params, body.node, isAsync)
       )
     }
-    return t.classProperty(
+    const classProp = t.classProperty(
       t.identifier(name),
       value.isFunctionExpression() || value.isArrowFunctionExpression()
         ? t.arrowFunctionExpression(value.node.params, value.node.body, isAsync)
         : value.node
-    )
+    ) as any
+
+    if (staticProps.includes(name)) {
+      classProp.static = true
+    }
+
+    return classProp
   })
 
   if (defaultProps.length) {
