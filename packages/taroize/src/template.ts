@@ -71,7 +71,12 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     const classDecl = t.classDeclaration(
       t.identifier(className),
       t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
-      t.classBody([render!]),
+      t.classBody([render!, t.classProperty(t.identifier('options'), t.objectExpression([
+        t.objectProperty(
+          t.identifier('addGlobalClass'),
+          t.booleanLiteral(true)
+        )
+      ]))]),
       []
     )
     path.remove()

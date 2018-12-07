@@ -289,7 +289,7 @@ function parsePage (
       }
       currentStateKeys.forEach(s => {
         if (propsKeys.includes(s)) {
-          throw new Error('当前 Component 定义了重复的 data 和 properites: `s`')
+          throw new Error(`当前 Component 定义了重复的 data 和 properites: ${s}`)
         }
       })
       stateKeys.push(...currentStateKeys)
