@@ -40,7 +40,7 @@ const createNavigateTo = (history: History) => {
 }
 
 const createNavigateBack = (history: History) => {
-  return function ({ delta }: NavigateBackOption) {
+  return function ({ delta }: NavigateBackOption = { delta: -1 }) {
     try {
       history.go(delta)
       return Promise.resolve()
