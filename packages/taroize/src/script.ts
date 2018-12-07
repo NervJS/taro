@@ -222,6 +222,7 @@ function parsePage (
       throw codeFrameError(key.node, 'Page 对象的键值只能是字符串')
     }
     const name = key.node.name
+    const currentStateKeys: string[] = []
     if (name === 'data') {
       if (value.isObjectExpression()) {
         value
@@ -230,10 +231,10 @@ function parsePage (
           .forEach(prop => {
             if (t.isObjectProperty(prop)) {
               if (t.isStringLiteral(prop.key)) {
-                stateKeys.push(prop.key.value)
+                currentStateKeys.push(prop.key.value)
               }
               if (t.isIdentifier(prop.key)) {
-                stateKeys.push(prop.key.name)
+                currentStateKeys.push(prop.key.name)
               }
             }
           })
@@ -286,6 +287,12 @@ function parsePage (
             }
           })
       }
+      currentStateKeys.forEach(s => {
+        if (propsKeys.includes(s)) {
+          throw new Error('当前 Component 定义了重复的 data 和 properites: `s`')
+        }
+      })
+      stateKeys.push(...currentStateKeys)
       return t.classProperty(t.identifier('_observeProps'), t.arrayExpression(
         observeProps.map(p => t.objectExpression([
           t.objectProperty(
