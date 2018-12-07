@@ -87,3 +87,11 @@ export const IMAGE_COMPONENTS = new Set<string>([
   'Image',
   'CoverImage'
 ])
+
+export const swanSpecialAttrs = {
+  'ScrollView': ['scrollTop', 'scrollLeft', 'scrollIntoView'],
+  'Input': ['value'],
+  'Textarea': ['value'],
+  'MovableView': ['x', 'y'],
+  'Slider': ['value']
+}
