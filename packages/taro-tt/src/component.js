@@ -93,10 +93,18 @@ class BaseComponent {
     } else {
       // 普通的
       const keyLower = key.toLocaleLowerCase()
-      this.$scope.triggerEvent(keyLower, {
+
+      const payload = {
         __isCustomEvt: true,
         __arguments: args
-      })
+      }
+
+      const detail = this.$scope.dataset
+      if (Object.keys(detail).length) {
+        payload.__detail = detail
+      }
+
+      this.$scope.triggerEvent(keyLower, payload)
     }
   }
 }

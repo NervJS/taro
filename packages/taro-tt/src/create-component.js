@@ -82,6 +82,9 @@ function processEvent (eventHandlerName, obj) {
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
     const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+
+    if (event.detail && event.detail.__detail) Object.assign(dataset, event.detail.__detail)
+
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
