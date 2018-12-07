@@ -135,7 +135,7 @@ function processEntry (code, filePath) {
         node.superClass.type === 'MemberExpression' &&
         node.superClass.object.name === taroImportDefaultName
       ) {
-        node.superClass.object.name = nervJsImportDefaultName
+        node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
@@ -566,7 +566,7 @@ function processOthers (code, filePath, fileType) {
         node.superClass.type === 'MemberExpression' &&
         node.superClass.object.name === taroImportDefaultName
       ) {
-        node.superClass.object.name = nervJsImportDefaultName
+        node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
