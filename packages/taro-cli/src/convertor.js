@@ -40,6 +40,8 @@ const prettierJSConfig = {
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
 
+const WX_GLOBAL_FN = ['getApp', 'getCurrentPages', 'requirePlugin']
+
 function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
   const valueExtname = path.extname(value)
   if (path.isAbsolute(value)) {
@@ -208,11 +210,23 @@ class Convertor {
             },
             CallExpression (astPath) {
               const node = astPath.node
-              const callee = node.callee
-              if (callee.name === 'require') {
-                const args = node.arguments
-                const value = args[0].value
-                analyzeImportUrl(sourceFilePath, scriptFiles, args[0], value)
+              const calleePath = astPath.get('callee')
+              const callee = calleePath.node
+              if (callee.type === 'Identifier') {
+                if (callee.name === 'require') {
+                  const args = node.arguments
+                  const value = args[0].value
+                  analyzeImportUrl(sourceFilePath, scriptFiles, args[0], value)
+                } else if (WX_GLOBAL_FN.includes(callee.name)) {
+                  calleePath.replaceWith(
+                    t.memberExpression(t.identifier('Taro'), callee)
+                  )
+                }
+              } else if (callee.type === 'MemberExpression') {
+                const object = callee.object
+                if (object.name === 'wx') {
+                  calleePath.get('object').replaceWith(t.identifier('Taro'))
+                }
               }
             }
           })
@@ -234,8 +248,12 @@ class Convertor {
                 }
                 imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
                 outputImagePath = self.getDistFilePath(sourceImagePath)
-                self.copyFileToTaro(sourceImagePath, outputImagePath)
-                printLog(pocessTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
+                if (fs.existsSync(sourceImagePath)) {
+                  self.copyFileToTaro(sourceImagePath, outputImagePath)
+                  printLog(pocessTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
+                } else {
+                  printLog(pocessTypeEnum.ERROR, '图片不存在', self.generateShowPath(sourceImagePath))
+                }
                 if (astPath.parentPath.isVariableDeclarator()) {
                   astPath.replaceWith(t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)]))
                 } else if (astPath.parentPath.isJSXAttribute()) {
