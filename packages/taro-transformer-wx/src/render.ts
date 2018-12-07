@@ -1405,12 +1405,25 @@ export class RenderParser {
         }
       }
     }
+
+    const componentProperies = cloneDeep(this.componentProperies)
+
+    componentProperies.forEach(s => {
+      if (s.startsWith('__fn_')) {
+        const eventName = s.slice(5)
+        if (componentProperies.has(eventName)) {
+          componentProperies.delete(s)
+          componentProperies.delete(eventName)
+        }
+      }
+    })
+
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
     const usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
-          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies, ...this.classComputedState])
+          .concat([...this.initState, ...this.usedThisState, ...componentProperies, ...this.classComputedState])
         )
     )
     .concat(...this.usedState)
