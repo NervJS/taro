@@ -54,7 +54,7 @@ class Route extends Component<RouteProps, RouteState> {
     this.props.collectComponent(ref, this.props.k)
   }
 
-  componentWillMount () {
+  updateComponent () {
     this.props.componentLoader()
       .then(({ default: component }) => {
         let WrappedComponent = createWrappedComponent(component)
@@ -63,9 +63,16 @@ class Route extends Component<RouteProps, RouteState> {
       })
   }
 
+  componentWillMount () {
+    this.updateComponent()
+  }
+
   componentWillReceiveProps (nProps, nContext) {
-    this.setState({
-      matched: this.computeMatch(nContext.router)
+    this.setState(() => {
+      if (this.props.componentLoader !== nProps.ComponentLoader) this.updateComponent()
+      return {
+        matched: this.computeMatch(nContext.router)
+      }
     });
   }
 
