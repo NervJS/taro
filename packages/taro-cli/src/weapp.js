@@ -1260,6 +1260,7 @@ async function buildSinglePage (page) {
       env: constantsReplaceList
     })
     const pageDepComponents = transformResult.components
+    const pageWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
@@ -1331,8 +1332,8 @@ async function buildSinglePage (page) {
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
     fs.writeFileSync(outputPageJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
-    fs.writeFileSync(outputPageWXMLPath, transformResult.template)
-    processNativeWxml(outputPageWXMLPath.replace(outputDir, sourceDir), transformResult.template, outputPageWXMLPath)
+    fs.writeFileSync(outputPageWXMLPath, pageWXMLContent)
+    processNativeWxml(outputPageWXMLPath.replace(outputDir, sourceDir), pageWXMLContent, outputPageWXMLPath)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面模板', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
@@ -1669,6 +1670,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       adapter: buildAdapter,
       env: constantsReplaceList
     })
+    const componentWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
@@ -1743,8 +1745,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
-    fs.writeFileSync(outputComponentWXMLPath, transformResult.template)
-    processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), transformResult.template, outputComponentWXMLPath)
+    fs.writeFileSync(outputComponentWXMLPath, componentWXMLContent)
+    processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), componentWXMLContent, outputComponentWXMLPath)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {

@@ -549,6 +549,7 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
+  result.compressedTemplate = result.template
   result.template = prettyPrint(result.template, {
     max_char: 0
   })
