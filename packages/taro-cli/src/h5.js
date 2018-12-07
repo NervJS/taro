@@ -21,7 +21,7 @@ const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const h5Config = projectConfig.h5 || {}
 const routerConfig = h5Config.router || {}
-const routerMode = routerConfig.mode
+const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
 const customRoutes = routerConfig.customRoutes
 const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourcePath = path.join(appPath, sourceDir)
@@ -209,7 +209,7 @@ function processEntry (code, filePath) {
 
           funcBody = `<Router
             mode={${JSON.stringify(routerMode)}}
-            publicPath={${JSON.stringify(routerMode === 'browser' ? publicPath : '/')}}
+            publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
             routes={[${routes.join(',')}]}
           />`
 
