@@ -1588,7 +1588,7 @@ function buildUsingComponents (filePath, components, isComponent) {
     if (fs.existsSync(componentPath)) {
       componentPath = Util.promoteRelativePath(path.relative(filePath, componentPath))
     } else {
-      Util.printLog(Util.pocessTypeEnum.ERROR, '组件引用', `组件 ${componentPath} 不存在！`)
+      componentPath = component.path
     }
     usingComponents[component.name] = componentPath.replace(path.extname(componentPath), '')
   }
