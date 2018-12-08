@@ -1,5 +1,36 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.10...v) (2018-12-06)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.11...v) (2018-12-08)
+
+
+
+<a name="1.2.0-beta.11"></a>
+# [1.2.0-beta.11](https://github.com/NervJS/taro/compare/v1.2.0-beta.10...v1.2.0-beta.11) (2018-12-08)
+
+
+### Bug Fixes
+
+* **cli:** 优化h5的entry判断逻辑 ([d21fb6a](https://github.com/NervJS/taro/commit/d21fb6a))
+* **cli:** 修复h5 cli中对于页面文件的误判 ([10c07c7](https://github.com/NervJS/taro/commit/10c07c7))
+* **cli:** 修复Taro.Component获取不到$router问题 ([6776d57](https://github.com/NervJS/taro/commit/6776d57))
+* **cli:** 修复没有routerMode默认值的问题 ([a474c6f](https://github.com/NervJS/taro/commit/a474c6f))
+* **cli:** 普通文件如有需要自动引入 Taro ([8f6a3b8](https://github.com/NervJS/taro/commit/8f6a3b8))
+* **router:** 为navigateBack添加了默认参数 ([1060514](https://github.com/NervJS/taro/commit/1060514))
+* **router:** 修复Taro.redirectTo失效的问题 ([15dea8a](https://github.com/NervJS/taro/commit/15dea8a))
+* **tarize:** 针对 template 增加 options 改为 static options ([fec71f5](https://github.com/NervJS/taro/commit/fec71f5))
+* **taro-tt:** 兼容头条小程序事件处理 ([56ac2a2](https://github.com/NervJS/taro/commit/56ac2a2))
+* **taroize:** ['externalClasses', 'relations', 'options'] 都需要编译成 static ([1862dd1](https://github.com/NervJS/taro/commit/1862dd1))
+* **taroize:** 当 props key 已经存在就不需要加入 this.state ([ecd88c2](https://github.com/NervJS/taro/commit/ecd88c2))
+* **transformer:** 事件的 properties 不需要加入到 used state ([a33290e](https://github.com/NervJS/taro/commit/a33290e))
+
+
+### Features
+
+* **cli:** convert 时普通 js 中的调用微信 api 的写法要转成 Taro 写法 ([3c3d57f](https://github.com/NervJS/taro/commit/3c3d57f))
+* **taroize:** 当初始 data 和 properies 重复定义键值时报错 ([dda8d3e](https://github.com/NervJS/taro/commit/dda8d3e))
+* **taroize:** 所有 template 都继承全局样式 ([6eb3cff](https://github.com/NervJS/taro/commit/6eb3cff))
+* **transformer:** 支持 npm run build 时压缩 wxml, close [#1408](https://github.com/NervJS/taro/issues/1408) ([ea4e8a7](https://github.com/NervJS/taro/commit/ea4e8a7))
+* **transformer:** 百度小程序某些属性需要用 `= =` 包裹住 ([32627dc](https://github.com/NervJS/taro/commit/32627dc))
+* **webpack-runner:** 加入能作用于dll的webpackChain配置 ([352aa96](https://github.com/NervJS/taro/commit/352aa96))
 
 
 
