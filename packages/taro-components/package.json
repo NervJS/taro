@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "1.2.0-beta.10",
+  "version": "1.2.0-beta.11",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -39,7 +39,7 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
-    "@tarojs/taro-h5": "1.2.0-beta.10",
+    "@tarojs/taro-h5": "1.2.0-beta.11",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
     "jest": "^22.4.4",
