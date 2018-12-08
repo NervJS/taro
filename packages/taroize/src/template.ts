@@ -46,7 +46,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     }
     const className = buildTemplateName(value.value)
 
-    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
+    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports, className))
     const firstId = Array.from(refIds)[0]
     refIds.forEach(id => {
       if (loopIds.has(id) && id !== firstId) {

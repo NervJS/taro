@@ -90,7 +90,8 @@ export const createWxmlVistor = (
   refIds: Set<string>,
   dirPath: string,
   wxses: WXS[] = [],
-  imports: Imports[] = []
+  imports: Imports[] = [],
+  className?: string
 ) => {
   return {
     JSXAttribute (path) {
@@ -179,9 +180,11 @@ export const createWxmlVistor = (
               }
             })
             usedTemplate.forEach(componentName => {
-              ast.program.body.unshift(
-                buildImportStatement(`./${componentName}`, [], componentName)
-              )
+              if (componentName !== className) {
+                ast.program.body.unshift(
+                  buildImportStatement(`./${componentName}`, [], componentName)
+                )
+              }
             })
             imports.push({
               ast,
