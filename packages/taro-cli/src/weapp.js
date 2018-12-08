@@ -1328,7 +1328,7 @@ async function buildSinglePage (page) {
         }
       })
     }
-    fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageDepComponents), res.configObj), null, 2))
+    fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
     fs.writeFileSync(outputPageJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
@@ -1581,10 +1581,16 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
   return depWXSSList
 }
 
-function buildUsingComponents (components, isComponent) {
+function buildUsingComponents (filePath, components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
-    usingComponents[component.name] = component.path.replace(path.extname(component.path), '')
+    let componentPath = Util.resolveScriptPath(path.resolve(filePath, '..', component.path))
+    if (fs.existsSync(componentPath)) {
+      componentPath = Util.promoteRelativePath(path.relative(filePath, componentPath))
+    } else {
+      Util.printLog(Util.pocessTypeEnum.ERROR, '组件引用', `组件 ${componentPath} 不存在！`)
+    }
+    usingComponents[component.name] = componentPath.replace(path.extname(componentPath), '')
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
@@ -1741,7 +1747,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         }
       })
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(componentDepComponents, true), res.configObj), null, 2))
+    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(component, componentDepComponents, true), res.configObj), null, 2))
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
     fs.writeFileSync(outputComponentJSPath, resCode)
     Util.printLog(Util.pocessTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
