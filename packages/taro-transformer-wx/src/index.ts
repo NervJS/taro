@@ -10,6 +10,7 @@ import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions } from './options'
+import { get as safeGet } from 'lodash'
 const template = require('babel-template')
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
@@ -424,7 +425,7 @@ export default function transform (options: Options): TransformResult {
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
       const classDecl = path.findParent(p => p.isClassDeclaration())
-      const classDeclName = classDecl && classDecl.isClassDeclaration() && classDecl.node.id.name
+      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '')
       let isConverted = false
       if (classDeclName) {
         isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')
