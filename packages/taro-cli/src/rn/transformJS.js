@@ -9,6 +9,7 @@ const wxTransformer = require('@tarojs/transformer-wx')
 const Util = require('../util')
 const babylonConfig = require('../config/babylon')
 const {source: toAst} = require('../util/ast_convert')
+const CONFIG = require('../config')
 
 const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
@@ -216,10 +217,19 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
     ImportDeclaration (astPath) {
       const node = astPath.node
       const source = node.source
-      const value = source.value
+      let value = source.value
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
-
+      const pathAlias = projectConfig.pathAlias || {}
+      if (Util.isAliasPath(value, Object.keys(pathAlias))) {
+        let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
+        value = value.replace(reg, function (matched, $1) {
+          const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+          const sourceDir = path.join(process.cwd(), sourceDirName)
+          return './' + path.relative(path.dirname(filePath), sourceDir) + pathAlias[$1] + '/'
+        })
+        source.value = value
+      }
       // 引入的包为 npm 包
       if (!Util.isNpmPkg(value)) {
         // import 样式处理

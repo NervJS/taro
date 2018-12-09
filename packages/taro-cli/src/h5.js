@@ -315,8 +315,16 @@ function processEntry (code, filePath) {
       enter (astPath) {
         const node = astPath.node
         const source = node.source
-        const value = source.value
         const specifiers = node.specifiers
+        let value = source.value
+        const pathAlias = projectConfig.pathAlias || {}
+        if (Util.isAliasPath(value, Object.keys(pathAlias))) {
+          let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
+          value = value.replace(reg, function (matched, $1) {
+            return './' + path.relative(path.dirname(filePath), sourceDir) + pathAlias[$1] + '/'
+          })
+          source.value = value
+        }
         if (!Util.isNpmPkg(value)) {
           if (value.indexOf('.') === 0) {
             const pathArr = value.split('/')
@@ -545,8 +553,16 @@ function processOthers (code, filePath) {
       enter (astPath) {
         const node = astPath.node
         const source = node.source
-        const value = source.value
+        let value = source.value
         const specifiers = node.specifiers
+        const pathAlias = projectConfig.pathAlias || {}
+        if (Util.isAliasPath(value, Object.keys(pathAlias))) {
+          let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
+          value = value.replace(reg, function (matched, $1) {
+            return path.relative(path.dirname(filePath), sourceDir) + pathAlias[$1] + '/'
+          })
+          source.value = value
+        }
         if (!Util.isNpmPkg(value)) {
           if (Util.REG_SCRIPTS.test(value)) {
             const dirname = path.dirname(value)

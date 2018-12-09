@@ -386,8 +386,8 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       let pathAlias = projectConfig.pathAlias || {}
       if (Util.isAliasPath(value, Object.keys(pathAlias))) {
         let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
-        value = value.replace(reg,function(matched,$1){
-          return './'+path.relative(path.dirname(sourceFilePath), sourceDir)+ pathAlias[$1] + '/'
+        value = value.replace(reg, function (matched, $1) {
+          return './' + path.relative(path.dirname(sourceFilePath), sourceDir) + pathAlias[$1] + '/'
         })
         source.value = value
       }
