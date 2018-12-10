@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro-h5';
 import Nerv, { PropTypes } from 'nervjs';
+import invariant from 'invariant';
 
 import { createNavigateBack, createNavigateTo, createRedirectTo } from '../apis';
 import Route from './route';
@@ -56,12 +57,9 @@ class Router extends Component<Props, State> {
       return pathname === path;
     })
 
-    return matchedRoute || {
-      path: pathname,
-      componentLoader: () => import('./page404'),
-      isIndex: pathname === '/',
-      key: location.state.key
-    }
+    invariant(matchedRoute, `Can not find proper registered route for '${pathname}'`)
+
+    return matchedRoute!
   }
 
   push (toLocation: Types.Location) {

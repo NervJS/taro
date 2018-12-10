@@ -12,7 +12,7 @@ interface NavigateToOption {
 }
 
 interface NavigateBackOption {
-  delta: number
+  delta?: number
   success?: SuccessCallback
   fail?: FailCallback
   complete?: CompleteCallback
@@ -40,8 +40,9 @@ const createNavigateTo = (history: History) => {
 }
 
 const createNavigateBack = (history: History) => {
-  return function ({ delta }: NavigateBackOption = { delta: -1 }) {
+  return function (opts: NavigateBackOption = { delta: -1 }) {
     try {
+      const { delta = -1 } = opts
       history.go(delta)
       return Promise.resolve()
     } catch (e) {
