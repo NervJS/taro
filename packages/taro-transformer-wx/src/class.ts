@@ -208,7 +208,8 @@ class Transformer {
           return
         }
         const idAttr = findJSXAttrByName(attrs, 'id')
-        let id = createRandomLetters(5)
+        let id: string = createRandomLetters(5)
+        let idExpr: t.Expression
         if (!idAttr) {
           if (loopCallExpr && loopCallExpr.isCallExpression()) {
             const [ func ] = loopCallExpr.node.arguments
@@ -230,8 +231,12 @@ class Transformer {
           const idValue = idAttr.value
           if (t.isStringLiteral(idValue)) {
             id = idValue.value
-          } else if (t.isJSXExpressionContainer(idValue) && t.isStringLiteral(idValue.expression)) {
-            id = idValue.expression.value
+          } else if (t.isJSXExpressionContainer(idValue)) {
+            if (t.isStringLiteral(idValue.expression)) {
+              id = idValue.expression.value
+            } else {
+              idExpr = idValue.expression
+            }
           }
         }
         if (t.isStringLiteral(refAttr.value)) {
@@ -251,9 +256,10 @@ class Transformer {
             const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
             if (loopCallExpr) {
               this.loopRefs.set(path.parentPath.node as t.JSXElement, {
-                id,
+                id: idExpr! || id,
                 fn: expr,
-                type
+                type,
+                component: path.parentPath as NodePath<t.JSXElement>
               })
             } else {
               this.refs.push({
