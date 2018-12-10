@@ -1,5 +1,23 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.11...v) (2018-12-08)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.12...v) (2018-12-10)
+
+
+
+<a name="1.2.0-beta.12"></a>
+# [1.2.0-beta.12](https://github.com/NervJS/taro/compare/v1.2.0-beta.11...v1.2.0-beta.12) (2018-12-10)
+
+
+### Bug Fixes
+
+* **cli:** 修复 node_modules 路径与工作目录不一致时，生成 outputNpmPath 异常的问题 ([#1412](https://github.com/NervJS/taro/issues/1412)) ([924ac12](https://github.com/NervJS/taro/commit/924ac12))
+* **cli:** 修复引用 node_modules 中的组件路径错误 ([fe29c3b](https://github.com/NervJS/taro/commit/fe29c3b))
+* **cli:** 修复组件引用路径解析错误 ([785a123](https://github.com/NervJS/taro/commit/785a123))
+* **router:** 修复navigateBack的传参错误，添加错误提示 ([55f9aed](https://github.com/NervJS/taro/commit/55f9aed))
+* **router:** 去除没有卵用的404 ([8350ab6](https://github.com/NervJS/taro/commit/8350ab6))
+* **taro-swan、taro-aplipay:** props 为 null 时也使用 defaultProps ([015b079](https://github.com/NervJS/taro/commit/015b079))
+* **taro-tt:** 头条小程序中 props 为 null 时也使用 defaultProps ([011e90a](https://github.com/NervJS/taro/commit/011e90a))
+* **taroize:** 生成 template 组件自我引用时不需要 import 自己 ([7b092e8](https://github.com/NervJS/taro/commit/7b092e8))
+* **transformer:** export 匿名类报错 ([9d12a0f](https://github.com/NervJS/taro/commit/9d12a0f))
 
 
 
