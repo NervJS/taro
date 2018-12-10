@@ -633,7 +633,6 @@ function parseContent (content: string) {
 function parseAttribute (attr: Attribute) {
   const { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
-
   if (value) {
     const { type, content } = parseContent(value)
 
@@ -659,6 +658,11 @@ function parseAttribute (attr: Attribute) {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)
         }
+      }
+      if (t.isThisExpression(expr)) {
+        // tslint:disable-next-line
+        console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
+        expr = t.stringLiteral('__placeholder__')
       }
       jsxValue = t.jSXExpressionContainer(expr!)
     }
