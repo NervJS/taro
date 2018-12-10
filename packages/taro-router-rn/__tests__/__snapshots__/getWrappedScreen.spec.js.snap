@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getWrappedScreen  render should render success with disableScroll true 1`] = `
+<TaroProvider
+  Taro={
+    Object {
+      "hideNavigationBarLoading": [Function],
+      "setNavigationBarColor": [Function],
+      "setNavigationBarTitle": [Function],
+      "showNavigationBarLoading": [Function],
+    }
+  }
+  disableScroll={true}
+  enablePullDownRefresh={true}
+>
+  <HomeScreen />
+</TaroProvider>
+`;
+
 exports[`getWrappedScreen  render should render success with globalNavigationOptions 1`] = `
 <TaroProvider
   Taro={

@@ -6,11 +6,12 @@ module.exports = function compileSass (content, file, config) {
       file,
       data: content
     })
-    sass.render(opts, (err, result) => {
-      if (err) {
-        return reject(err)
-      }
-      resolve(result)
-    })
+    var result
+    try {
+      result = sass.renderSync(opts)
+    } catch (e) {
+      reject(e)
+    }
+    resolve(result)
   })
 }

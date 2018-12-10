@@ -67,6 +67,8 @@ class App extends Component {
 
 通常入口文件会包含一个 `config` 配置项，这里的配置主要参考微信小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html)而来，在编译成小程序时，这一部分配置将会被抽离成 `app.json`，而编译成其他端，亦会有其他作用。
 
+### 生命周期对应关系
+
 而且由于入口文件继承自 `Component` 组件基类，它同样拥有组件生命周期，但因为入口文件的特殊性，他的生命周期并不完整，如下
 
 | 生命周期方法 | 作用 | 说明 |
@@ -147,6 +149,8 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 
 页面 JS 要求必须有一个 `render` 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 [JSX 章节](./jsx.md)。
 
+### 生命周期对应关系
+
 由于页面 JS 也继承自 `Component` 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：
 
 | 生命周期方法 | 作用 | 说明 |
@@ -171,6 +175,7 @@ Taro 的页面同样是继承自 `Component` 组件基类，每一个页面都�
 | onShareAppMessage | 用户点击右上角转发 |
 | onPageScroll | 页面滚动触发事件的处理函数 |
 | onTabItemTap | 当前是 tab 页时，点击 tab 时触发 |
+| componentWillPreload | [预加载](best-practice.md#预加载)，只在**微信小程序**中可用 |
 
 以上成员方法在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有微信小程序端支持这些方法，编译到 H5 端后这些方法均会失效。
 

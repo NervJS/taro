@@ -1,4 +1,3 @@
-import { buffer } from "rxjs/operators";
 
 export = Taro;
 export as namespace Taro;
@@ -99,6 +98,7 @@ declare namespace Taro {
     onPageScroll?(obj: PageScrollObject): void;
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
     onTabItemTap?(obj: TabItemTapObject): void;
+    onResize?(): void
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -323,6 +323,11 @@ declare namespace Taro {
      * @since 2.3.0
      */
     resizable?: boolean
+    /**
+     * 需要跳转的小程序列表
+     * @since 2.4.0
+     */
+    navigateToMiniProgramAppIdList?: string[]
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -342,6 +347,8 @@ declare namespace Taro {
     config?: Config;
 
     options?: ComponentOptions;
+
+    $componentType: 'PAGE' | 'COMPONENT'
 
     $router: {
       params: any
@@ -414,6 +421,9 @@ declare namespace Taro {
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
   function render(component: Component | JSX.Element, element: Element | null)
+
+  function internal_safe_set (...arg): any
+  function internal_safe_get (...arg): any
 
   function pxTransform(size: number): string
 
@@ -647,6 +657,31 @@ declare namespace Taro {
        */
       statusCode: number
     }
+    /**
+     * 上传进度
+     */
+    type UploadTaskProgress = {
+      progress: number
+      totalBytesSent: number
+      totalBytesExpectedToSend: number
+    }
+    /**
+     * 上传进度回调
+     */
+    type UploadTaskProgressCallback = (res: UploadTaskProgress) => any
+    /**
+     * 上传任务
+     */
+    type UploadTask = Promise<uploadFile.Promised> & {
+      /**
+       * 上传进度回调
+       */
+      progress: (UploadTaskProgressCallback) => void
+      /**
+       * 终止上传任务
+       */
+      abort: () => void
+    }
     type Param = {
       /**
        * 开发者服务器 url
@@ -729,7 +764,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject
    */
-  function uploadFile(OBJECT: uploadFile.Param): Promise<uploadFile.Promised>
+  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
 
   namespace downloadFile {
     type Promised = {
@@ -6401,7 +6436,31 @@ declare namespace Taro {
        * 按钮的文字颜色，默认为"#000000"
        */
       itemColor?: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: Param0PropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: Param0PropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: Param0PropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type Param0PropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type Param0PropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type Param0PropComplete = () => any
   }
   /**
    * ​显示操作菜单
@@ -6976,6 +7035,17 @@ declare namespace Taro {
   function createAnimation(OBJECT: createAnimation.Param): Animation
 
   class Animation {
+    /**
+     * 导出动画队列
+     * export 方法每次调用后会清掉之前的动画操作
+     */
+    export(): object[]
+    /**
+     * 表示一组动画完成
+     * 可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画
+     * @param obj
+     */
+    step(obj: object): any
     /**
      * 透明度，参数范围 0~1
      */

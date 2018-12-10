@@ -79,6 +79,7 @@ const noPromiseApis = {
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,
 
+  getAccountInfoSync: true,
   getUpdateManager: true,
   createWorker: true
 }

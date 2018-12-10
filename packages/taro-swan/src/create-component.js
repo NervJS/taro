@@ -138,7 +138,7 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
     }
-    scope[eventHandlerName].apply(callScope, realArgs)
+    return scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 
@@ -158,8 +158,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+    } else if (propName in weappComponentData) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -172,7 +171,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -232,7 +231,11 @@ function createComponent (ComponentClass, isPage) {
   try {
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
-    console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    if (isPage) {
+      console.warn(`[Taro warn] 请给页面提供初始 \`state\` 以提高初次渲染性能！`)
+    } else {
+      console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    }
     console.warn(err)
   }
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
@@ -241,7 +244,7 @@ function createComponent (ComponentClass, isPage) {
     data: initData,
     created (options = {}) {
       isPage && (hasPageInited = false)
-      this.$component = new ComponentClass()
+      this.$component = new ComponentClass({}, isPage)
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
@@ -275,8 +278,9 @@ function createComponent (ComponentClass, isPage) {
             } else if ('fn' in ref && typeof ref['fn'] === 'function') {
               ref['fn'].call(component, target)
             }
+            ref.target = target
           })
-          component.refs = refs
+          component.refs = Object.assign({}, component.refs || {}, refs)
         }
       }, 0)
     },

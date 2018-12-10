@@ -4,7 +4,9 @@ import { serializeParams } from '../utils'
 
 function generateRequestUrlWithParams (url, params) {
   params = typeof params === 'string' ? params : serializeParams(params)
-  url += (~url.indexOf('?') ? '&' : '?') + params
+  if (params) {
+    url += (~url.indexOf('?') ? '&' : '?') + params
+  }
   url = url.replace('?&', '?')
   return url
 }
@@ -49,9 +51,9 @@ export default function request (options) {
     url = generateRequestUrlWithParams(url, options.data)
   } else if (typeof options.data === 'object') {
     let contentType = options.header && (options.header['Content-Type'] || options.header['content-type'])
-    if (contentType === 'application/json') {
+    if (contentType && contentType.indexOf('application/json') >= 0) {
       params.body = JSON.stringify(options.data)
-    } else if (contentType === 'application/x-www-form-urlencoded') {
+    } else if (contentType && contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
       params.body = serializeParams(options.data)
     } else {
       params.body = options.data

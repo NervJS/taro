@@ -4,6 +4,8 @@ import { Component, createElement } from '../../src/compat'
 import Subscription from '../utils/Subscription'
 import { storeShape, subscriptionShape } from '../utils/PropTypes'
 
+/* eslint-disable react/no-deprecated */
+
 let hotReloadingVersion = 0
 const dummyState = {}
 function noop() {}
@@ -19,9 +21,9 @@ function makeSelectorStateful(sourceSelector, store) {
           /**
            * 如果是页面 根据目前&未来展示状态判断是否需要update
            */
-          if (props._$router) {
-            const lastShouldShow = ctx.props._$router.state === ctx.locationState
-            const nextShouldShow = props._$router.state === ctx.locationState
+          if (props.__router) {
+            const lastShouldShow = ctx.props.__router.state === ctx.locationState
+            const nextShouldShow = props.__router.state === ctx.locationState
             const canReceiveProps = lastShouldShow || nextShouldShow
             if (!canReceiveProps) {
               selector.shouldComponentUpdate = false
@@ -276,12 +278,12 @@ export default function connectAdvanced(
     Connect.contextTypes = contextTypes
     Connect.propTypes = contextTypes
 
-    const componentDidShow = WrappedComponent.prototype.componentDidShow
-    const componentDidHide = WrappedComponent.prototype.componentDidHide
-    const originalComponentDidMount = WrappedComponent.prototype.componentDidMount
-    const originalComponentWillUnmount = WrappedComponent.prototype.componentWillUnmount
-    const originalConnectComponentDidMount = Connect.prototype.componentDidMount
-    const originalConnectComponentWillUnmount = Connect.prototype.componentWillUnmount
+    // const componentDidShow = WrappedComponent.prototype.componentDidShow
+    // const componentDidHide = WrappedComponent.prototype.componentDidHide
+    // const originalComponentDidMount = WrappedComponent.prototype.componentDidMount
+    // const originalComponentWillUnmount = WrappedComponent.prototype.componentWillUnmount
+    // const originalConnectComponentDidMount = Connect.prototype.componentDidMount
+    // const originalConnectComponentWillUnmount = Connect.prototype.componentWillUnmount
 
     /**
      * 调用过程
@@ -292,29 +294,29 @@ export default function connectAdvanced(
      * WrappedComponent.prototype.compomentDidShow [只有didMount用]
      */
 
-    WrappedComponent.prototype.componentDidMount = function () {
-      originalComponentDidMount && originalComponentDidMount.call(this)
-      componentDidShow && componentDidShow.call(this)
-    }
-    WrappedComponent.prototype.componentWillUnmount = function () {
-      componentDidHide && componentDidHide.call(this)
-      originalComponentWillUnmount && originalComponentWillUnmount.call(this)
-    }
+    // WrappedComponent.prototype.componentDidMount = function () {
+    //   originalComponentDidMount && originalComponentDidMount.call(this)
+    //   componentDidShow && componentDidShow.call(this)
+    // }
+    // WrappedComponent.prototype.componentWillUnmount = function () {
+    //   componentDidHide && componentDidHide.call(this)
+    //   originalComponentWillUnmount && originalComponentWillUnmount.call(this)
+    // }
 
-    Connect.prototype.componentDidMount = function () {
-      originalConnectComponentDidMount.call(this)
-      this.componentDidShow = function () {
-        const comp = this.wrappedInstance
-        componentDidShow && componentDidShow.call(comp)
-      }
-    }
-    Connect.prototype.componentWillUnmount = function () {
-      originalConnectComponentWillUnmount.call(this)
-      this.componentDidHide = function () {
-        const comp = this.wrappedInstance
-        componentDidHide && componentDidHide.call(comp)
-      }
-    }
+    // Connect.prototype.componentDidMount = function () {
+    //   originalConnectComponentDidMount.call(this)
+    //   this.componentDidShow = function () {
+    //     const comp = this.wrappedInstance
+    //     componentDidShow && componentDidShow.call(comp)
+    //   }
+    // }
+    // Connect.prototype.componentWillUnmount = function () {
+    //   originalConnectComponentWillUnmount.call(this)
+    //   this.componentDidHide = function () {
+    //     const comp = this.wrappedInstance
+    //     componentDidHide && componentDidHide.call(comp)
+    //   }
+    // }
 
     if (process.env.NODE_ENV !== 'production') {
       Connect.prototype.componentWillUpdate = function componentWillUpdate() {

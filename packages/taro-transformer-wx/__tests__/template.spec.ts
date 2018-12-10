@@ -3,9 +3,9 @@ import {
   buildComponent,
   baseOptions,
   evalClass,
-  removeShadowData
+  removeShadowData,
+  prettyPrint
 } from './utils'
-import { prettyPrint } from 'html'
 
 describe('Template', () => {
   describe('inline style', () => {
@@ -276,9 +276,9 @@ describe('Template', () => {
         <block>
             <view>
                 <view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item">
-                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.$anonymousCallee__1}}" wx:for-item="l"
+                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.$anonymousCallee__0}}" wx:for-item="l"
                     />
-                    <view style="{{a.$loopState__temp6}}" wx:for="{{item.$anonymousCallee__2}}" wx:for-item="a"></view>
+                    <view style="{{a.$loopState__temp6}}" wx:for="{{item.$anonymousCallee__1}}" wx:for-item="a"></view>
                 </view>
             </view>
         </block>
@@ -290,10 +290,10 @@ describe('Template', () => {
         `font-size:12px;color:red`
       )
       expect(
-        instance.state.loopArray0[0].$anonymousCallee__1[0].$loopState__temp4
+        instance.state.loopArray0[0].$anonymousCallee__0[0].$loopState__temp4
       ).toMatch(`font-size:16px;color:green`)
       expect(
-        instance.state.loopArray0[0].$anonymousCallee__2[0].$loopState__temp6
+        instance.state.loopArray0[0].$anonymousCallee__1[0].$loopState__temp6
       ).toMatch(`font-size:20px;color:yellow`)
     })
   })
@@ -840,6 +840,72 @@ describe('字符不转义', () => {
         </block>
       `)
       )
+    })
+  })
+
+  describe('复杂表达式', () => {
+    test('array of array', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={[{}]} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual([{}])
+    })
+
+    test('array of array', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={[[]]} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual([[]])
+    })
+
+    test('function', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={escape('')} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual('')
+    })
+
+    test('function', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View test={escape('')} />
+          )
+        `)
+      })
+
+      let inst = evalClass(ast)
+      expect(Object.keys(inst.state).length).toBe(1)
+      expect(inst.state.anonymousState__temp).toEqual('')
     })
   })
 })

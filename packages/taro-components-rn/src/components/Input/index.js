@@ -244,6 +244,7 @@ class _Input extends React.Component<Props, State> {
         onSubmitEditing={this.onSubmitEditing}
         multiline={!!_multiline}
         onContentSizeChange={this.onContentSizeChange}
+        underlineColorAndroid="rgba(0,0,0,0)"
         style={[style, _multiline && { height: Math.max(35, this.state.height) }]}
       />
     )

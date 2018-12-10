@@ -4,5 +4,17 @@
     "slug": "TCRExample"
   },
   "name": "TCRExample",
-  "displayName": "TCRExample"
+  "displayName": "TCRExample",
+  "ios": {
+    "config": {
+      "googleMapsApiKey": ""
+    }
+  },
+  "android": {
+    "config": {
+      "googleMaps": {
+        "apiKey": ""
+      }
+    }
+  }
 }

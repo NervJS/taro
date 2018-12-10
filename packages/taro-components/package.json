@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "1.1.0-beta.13",
+  "version": "1.2.0-beta.11",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -11,6 +11,8 @@
     "types"
   ],
   "scripts": {
+    "dev": "webpack --config webpack.prod.config.js --watch",
+    "deploy": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.prod.config.js",
     "test": "jest",
     "test-coverage": "jest --coverage",
@@ -37,10 +39,12 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "@tarojs/taro-h5": "1.2.0-beta.11",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
     "jest": "^22.4.4",
     "nerv-test-utils": "^1.2.18",
+    "swiper": "^4.4.2",
     "webpack": "^3.11.0",
     "webpack-cli": "^1.0.12",
     "webpack-dev-server": "^2.1.1"

@@ -1,18 +1,19 @@
 import * as path from 'path';
 
-import { appPath, emptyObj } from '../util';
+import { addLeadingSlash, addTrailingSlash, appPath, emptyObj } from '../util';
 import {
+  getCssoWebpackPlugin,
   getDefinePlugin,
-  getEntry,
-  getHtmlWebpackPlugin,
-  getMiniCssExtractPlugin,
-  getOutput,
-  getModule,
-  processEnvOption,
-  getUglifyPlugin,
   getDevtool,
   getDllReferencePlugins,
-  getHtmlWebpackIncludeAssetsPlugin
+  getEntry,
+  getHtmlWebpackIncludeAssetsPlugin,
+  getHtmlWebpackPlugin,
+  getMiniCssExtractPlugin,
+  getModule,
+  getOutput,
+  getUglifyPlugin,
+  processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
@@ -51,6 +52,7 @@ export default function (config: BuildConfig): any {
     imageUrlLoaderOption = emptyObj,
 
     miniCssExtractPluginOption = emptyObj,
+    esnextModules = [],
 
     module = {
       postcss: emptyObj
@@ -63,7 +65,7 @@ export default function (config: BuildConfig): any {
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
       filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css'
+      chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption])
   }
 
@@ -73,6 +75,14 @@ export default function (config: BuildConfig): any {
   }])
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+
+  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
+    ? false
+    : true
+
+  if (isCssoEnabled) {
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([plugins.csso ? plugins.csso.config : {}])
+  }
 
   if (enableDll) {
     Object.assign(plugin, getDllReferencePlugins({
@@ -99,7 +109,10 @@ export default function (config: BuildConfig): any {
     : true
 
   if (isUglifyEnabled) {
-    minimizer.push(getUglifyPlugin([enableSourceMap, plugins.uglify ? plugins.uglify.config : {}]))
+    minimizer.push(getUglifyPlugin([
+      enableSourceMap,
+      plugins.uglify ? plugins.uglify.config : {}
+    ]))
   }
 
   chain.merge({
@@ -108,13 +121,11 @@ export default function (config: BuildConfig): any {
     entry: getEntry(entry),
     output: getOutput([{
       outputRoot,
-      publicPath,
+      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
       chunkDirectory
     }, output]),
     resolve: { alias },
     module: getModule({
-      mode,
-  
       designWidth,
       deviceRatio,
       enableExtract,
@@ -128,6 +139,7 @@ export default function (config: BuildConfig): any {
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
+      esnextModules,
   
       module,
       plugins,

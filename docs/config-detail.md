@@ -1,5 +1,5 @@
 ---
-title: 配置详情
+title: 编译配置详情
 ---
 
 ## designWidth
@@ -176,6 +176,13 @@ postcss: {
     config: {
       limit: 10240 // 设定转换尺寸上限
     }
+  },
+  // css modules 功能开关与相关配置
+  cssModules: {
+    enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+    config: {
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
   }
 }
 ```
@@ -303,20 +310,6 @@ webpack (defaultConfig, webpack) {
     new webpack.EnvironmentPlugin(['NODE_ENV'])
   )
   return defaultConfig
-}
-```
-
-
-### h5.alias
-
-为`import`或`require`创建路径别名，同[webpack.resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias)，例如：
-
-```jsx
-{
-  alias: {
-    Utilities: path.resolve(__dirname, 'src/utilities/'),
-    Templates: path.resolve(__dirname, 'src/templates/')
-  }
 }
 ```
 
@@ -466,14 +459,18 @@ postcss: {
 }
 ```
 
-### h5.module.postcss.plugins
+### h5.module.postcss.cssModules
 
-可以添加其他 postcss 插件。
+可以进行 H5 端 css modules 配置，配置如下
 
-```jsx
+```js
 postcss: {
-  plugins: [
-    /* 其他想使用的 postcss 插件 */
-  ]
+  // css modules 功能开关与相关配置
+  cssModules: {
+    enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+    config: {
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
+  }
 }
 ```

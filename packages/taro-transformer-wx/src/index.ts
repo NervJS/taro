@@ -7,9 +7,10 @@ import * as ts from 'typescript'
 import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions } from './options'
+import { get as safeGet } from 'lodash'
 const template = require('babel-template')
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
@@ -153,8 +154,7 @@ export default function transform (options: Options): TransformResult {
       noEmitHelpers: true
     })
     : options.code
-  options.env = Object.assign({ TARO_ENV: options.adapter || 'weapp' }, options.env || {})
-  const taroEnv = options.env.TARO_ENV
+  options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
@@ -179,9 +179,7 @@ export default function transform (options: Options): TransformResult {
     },
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-transform-define').default, {
-        'process.env.TARO_ENV': taroEnv
-      }]
+      [require('babel-plugin-transform-define').default, options.env]
     ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
   }).ast as t.File
   if (options.isNormal) {
@@ -191,6 +189,7 @@ export default function transform (options: Options): TransformResult {
   let result
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
+  const importSources = new Set<string>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
@@ -332,20 +331,58 @@ export default function transform (options: Options): TransformResult {
     // },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
-      if (!assignment || !assignment.isAssignmentExpression()) {
-        return
-      }
-      const left = assignment.node.left
-      if (t.isIdentifier(left)) {
-        const binding = assignment.scope.getBinding(left.name)
-        if (binding && binding.scope === assignment.scope) {
-          if (binding.path.isVariableDeclarator()) {
-            binding.path.node.init = path.node
-            assignment.remove()
-          } else {
-            throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+      if (assignment && assignment.isAssignmentExpression()) {
+        const left = assignment.node.left
+        if (t.isIdentifier(left)) {
+          const binding = assignment.scope.getBinding(left.name)
+          if (binding && binding.scope === assignment.scope) {
+            if (binding.path.isVariableDeclarator()) {
+              binding.path.node.init = path.node
+              assignment.remove()
+            } else {
+              throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+            }
           }
         }
+      }
+
+      const switchStatement = path.findParent(p => p.isSwitchStatement())
+      if (switchStatement && switchStatement.isSwitchStatement()) {
+        const { discriminant, cases } = switchStatement.node
+        const ifStatement = cases.map((Case, index) => {
+          const [ consequent ] = Case.consequent
+          if (!t.isBlockStatement(consequent)) {
+            throw codeFrameError(switchStatement.node, '含有 JSX 的 switch case 语句必须每种情况都用花括号 `{}` 包裹结果')
+          }
+          const block = t.blockStatement(consequent.body.filter(b => !t.isBreakStatement(b)))
+          if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
+            throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
+          }
+          const test = Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant, Case.test)
+          return { block, test }
+        }).reduceRight((ifStatement, item) => {
+          if (t.isNullLiteral(item.test)) {
+            ifStatement.alternate = item.block
+            return ifStatement
+          }
+          const newStatement = t.ifStatement(
+            item.test,
+            item.block,
+            t.isBooleanLiteral(ifStatement.test, { value: false })
+              ? ifStatement.alternate
+              : ifStatement
+          )
+          return newStatement
+        }, t.ifStatement(t.booleanLiteral(false), t.blockStatement([])))
+
+        switchStatement.insertAfter(ifStatement)
+        switchStatement.remove()
+      }
+      const isForStatement = (p) => p && (p.isForStatement() || p.isForInStatement() || p.isForOfStatement())
+
+      const forStatement = path.findParent(isForStatement)
+      if (isForStatement(forStatement)) {
+        throw codeFrameError(forStatement.node, '不行使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
       }
     },
     JSXOpeningElement (path) {
@@ -387,7 +424,13 @@ export default function transform (options: Options): TransformResult {
 
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
-      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
+      const classDecl = path.findParent(p => p.isClassDeclaration())
+      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '')
+      let isConverted = false
+      if (classDeclName) {
+        isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')
+      }
+      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style' && !isConverted) {
         const jsxID = path.findParent(p => p.isJSXOpeningElement()).get('name')
         if (jsxID && jsxID.isJSXIdentifier() && DEFAULT_Component_SET.has(jsxID.node.name)) {
           exprPath.replaceWith(
@@ -421,17 +464,23 @@ export default function transform (options: Options): TransformResult {
     },
     ImportDeclaration (path) {
       const source = path.node.source.value
+      if (importSources.has(source)) {
+        throw codeFrameError(path.node, '无法在同一文件重复 import 相同的包。')
+      } else {
+        importSources.add(source)
+      }
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
         isImportTaro = true
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-          t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+          t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
+          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID))
         )
       }
       if (
-        source === REDUX_PACKAGE_NAME
+        source === REDUX_PACKAGE_NAME || source === MOBX_PACKAGE_NAME
       ) {
         path.node.specifiers.forEach((s, index, specs) => {
           if (s.local.name === 'Provider') {
@@ -501,7 +550,10 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
-  result.template = prettyPrint(result.template)
+  result.compressedTemplate = result.template
+  result.template = prettyPrint(result.template, {
+    max_char: 0
+  })
   result.imageSrcs = Array.from(imageSource)
   return result
 }

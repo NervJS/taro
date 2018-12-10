@@ -10,7 +10,6 @@ title: 最佳实践
 * [不能使用 Array#map 之外的方法操作 JSX 数组](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md)
 * [不能在 JSX 参数中使用匿名函数](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-anonymous-function-in-props.md)
 * [暂不支持在 render() 之外的方法定义 JSX](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-jsx-in-class-method.md)
-* [不允许在 JSX 参数(props)中传入 JSX 元素](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-jsx-in-props.md)
 * [不能在 JSX 参数中使用对象展开符](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-spread-in-props.md)
 * [不支持无状态组件](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-stateless-function.md)
 
@@ -100,6 +99,59 @@ class Parent extends Component {
 
 在微信小程序端是通过 `<slot />` 来实现往自定义组件中传入元素的，而 Taro 利用 `this.props.children` 在编译时实现了这一功能， `this.props.children` 会直接被编译成 `<slot />` 标签，所以它在小程序端属于语法糖的存在，请不要在组件中打印它。
 
+### 支持 props 传入 JSX
+
+> 自 `1.1.9` 开始支持
+
+支持 props 传入 JSX，但是元素传入 JSX 的属性名必须以 `render` 开头
+
+例如，子组件写法
+
+```javascript
+class Dialog extends Component {
+  render () {
+    return (
+      <View className='dialog'>
+        <View className='header'>
+          {this.props.renderHeader}
+        </View>
+        <View className='body'>
+          {this.props.children}
+        </View>
+        <View className='footer'>
+          {this.props.renderFooter}
+        </View>
+      </View>
+    )
+  }
+}
+```
+
+父组件调用子组件是传入 JSX
+
+```javascript
+class App extends Component {
+  render () {
+    return (
+      <View className='container'>
+        <Dialog
+          renderHeader={
+            <View className='welcome-message'>Welcome!</View>
+          }
+          renderFooter={
+            <Button className='close'>Close</Button>
+          }
+        >
+          <View className="dialog-message">
+            Thank you for using Taro.
+          </View>
+        </Dialog>
+      </View>
+    )
+  }
+}
+```
+
 ### 组件属性传递注意
 
 不要以 `id`、`class`、`style` 作为自定义组件的属性与内部 state 的名称，因为这些属性名在微信小程序小程序中会丢失。
@@ -164,11 +216,15 @@ if (process.env.NODE_ENV === 'development') {
 }
 ```
 
+### 使用 `this.$componentType` 来判断当前 Taro.Component 是页面还是组件
+
+`this.$componentType` 可能取值分别为 `PAGE` 和 `COMPONENT`，开发者可以根据此变量的取值分别采取不同逻辑。
+
 ### 预加载
 
-在微信小程序中，从调用 `Taro.navigateTo`、`Taro.redirectTo` 或 `Taro.switchTab` 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
+在**微信小程序中**，从调用 `Taro.navigateTo`、`Taro.redirectTo` 或 `Taro.switchTab` 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
 
-Taro 提供了 `componentWillPreload` 钩子，它接收页面跳转的参数作为参数。可以把需要预加载的内容通过 `return` 返回，然后在组件触发 componentWillMount 后即可通过 `this.$preloadData` 获取到预加载的内容。
+Taro 提供了 `componentWillPreload` 钩子，它接收页面跳转的参数作为参数。可以把需要预加载的内容通过 `return` 返回，然后在页面触发 componentWillMount 后即可通过 `this.$preloadData` 获取到预加载的内容。
 
 ```jsx
 class Index extends Component {

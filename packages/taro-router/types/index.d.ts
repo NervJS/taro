@@ -1,10 +1,10 @@
-  /**
-   *
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
-   * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
-   * thanks for the great work by @qiu8310 👍👍👍
-   *
-   */
+/**
+ *
+ * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+ * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ * thanks for the great work by @qiu8310 👍👍👍
+ *
+ */
 declare namespace Router {
   namespace navigateTo {
     type Param = {

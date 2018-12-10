@@ -5,7 +5,6 @@ const allRules = {
   'manipulate-jsx-as-array': require('./manipulate-jsx-as-array'),
   'no-anonymous-function-in-props': require('./no-anonymous-function-in-props'),
   'no-jsx-in-class-method': require('./no-jsx-in-class-method'),
-  'no-jsx-in-props': require('./no-jsx-in-props'),
   'no-spread-in-props': require('./no-spread-in-props'),
   'no-stateless-component': require('./no-stateless-component'),
   'jsx-handler-names': require('./jsx-handler-names'),
@@ -13,7 +12,9 @@ const allRules = {
   'function-naming': require('./function-naming'),
   'class-naming': require('./class-naming'),
   'props-reserve-keyword': require('./props-reserve-keyword'),
-  'this-props-function': require('./this-props-function')
+  'this-props-function': require('./this-props-function'),
+  'switch-jsx': require('./switch-jsx'),
+  'render-props': require('./render-props')
 }
 
 function configureAsError (rules) {

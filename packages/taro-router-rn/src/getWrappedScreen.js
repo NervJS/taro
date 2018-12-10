@@ -37,7 +37,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
 
     /**
      * @description 如果 Screen 被包裹过（如：@connect），
-     * 需提供获取包裹前 Screen 实例的方法 getWrappedInstance 并暴露出被包裹组件的 navigationOptions
+     * 需提供获取包裹前 Screen 实例的方法 getWrappedInstance 并暴露出被包裹组件的 config
      * @returns {*}
      */
     getScreenInstance () {
@@ -128,18 +128,17 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
 
     render () {
       const {globalEnablePullDownRefresh = false} = globalNavigationOptions
-      const navigationOptions = getNavigationOptions(Screen.config)
+      const {enablePullDownRefresh, disableScroll} = getNavigationOptions(Screen.config)
 
       // 页面配置优先级 > 全局配置
-      let isScreenEnablePullDownRefresh = navigationOptions.enablePullDownRefresh === undefined
-        ? globalEnablePullDownRefresh
-        : navigationOptions.enablePullDownRefresh
+      let isScreenEnablePullDownRefresh = enablePullDownRefresh === undefined ? globalEnablePullDownRefresh : enablePullDownRefresh
       const screenInstance = this.getScreenInstance()
       return (
         <TaroProvider
           Taro={Taro}
           enablePullDownRefresh={isScreenEnablePullDownRefresh}
-          onPullDownRefresh={screenInstance.onPullDownRefresh}
+          disableScroll={disableScroll}
+          onPullDownRefresh={screenInstance.onPullDownRefresh && screenInstance.onPullDownRefresh.bind(screenInstance)}
           onReachBottom={screenInstance.onReachBottom}
           onScroll={screenInstance.onScroll}
           {...this.props}

@@ -1,4 +1,4 @@
-import { isEmptyObject, noop } from './util'
+import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
@@ -37,6 +37,25 @@ function isToBeEvent (event) {
   return true
 }
 
+function processEventTarget (ev) {
+  const event = Object.assign({}, ev)
+  const { currentTarget, detail, target } = event
+
+  if (currentTarget && currentTarget.pageX && currentTarget.pageY) {
+    currentTarget.x = currentTarget.pageX
+    currentTarget.y = currentTarget.pageY
+  }
+  if (detail && detail.pageX && detail.pageY) {
+    detail.x = detail.pageX
+    detail.y = detail.pageY
+  }
+  if (target && target.pageX && target.pageY) {
+    target.x = target.pageX
+    target.y = target.pageY
+  }
+  return event
+}
+
 function processEvent (eventHandlerName, obj) {
   if (obj[eventHandlerName]) return
 
@@ -45,6 +64,9 @@ function processEvent (eventHandlerName, obj) {
     let callScope = scope
     if (!isToBeEvent(event)) {
       return scope[eventHandlerName].apply(callScope, arguments)
+    } else {
+      // 将支付宝的 event 事件对象的字段，对齐微信小程序的
+      event = processEventTarget(event)
     }
     event.preventDefault = function () {}
     event.stopPropagation = function () {}
@@ -98,7 +120,7 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [...datasetArgs, event]
     }
-    scope[eventHandlerName].apply(callScope, realArgs)
+    return scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 
@@ -126,7 +148,7 @@ function filterProps (defaultProps = {}, componentProps = {}, weappComponentData
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -242,7 +264,11 @@ function createComponent (ComponentClass, isPage) {
   try {
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
-    console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    if (isPage) {
+      console.warn(`[Taro warn] 请给页面提供初始 \`state\` 以提高初次渲染性能！`)
+    } else {
+      console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    }
     console.warn(err)
   }
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
@@ -254,7 +280,7 @@ function createComponent (ComponentClass, isPage) {
     Object.assign(weappComponentConf, {
       onLoad (options = {}) {
         hasPageInited = false
-        this.$component = new ComponentClass()
+        this.$component = new ComponentClass({}, isPage)
         this.$component._init(this)
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
@@ -287,15 +313,16 @@ function createComponent (ComponentClass, isPage) {
   } else {
     Object.assign(weappComponentConf, {
       didMount () {
-        this.$component = new ComponentClass()
+        this.$component = new ComponentClass({}, isPage)
         this.$component._init(this)
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
         initComponent.apply(this, [ComponentClass, isPage])
       },
 
-      didUpdate () {
-        if (!this.$component || !this.$component.__isReady) return
+      didUpdate (prevProps, prevData) {
+        // setData 触发的 didUpdate 不需要更新组件
+        if (!this.$component || !this.$component.__isReady || prevData !== this.data) return
         const nextProps = filterProps(ComponentClass.defaultProps, this.$component.props, this.props)
         this.$component.props = nextProps
         this.$component._unsafeCallUpdate = true

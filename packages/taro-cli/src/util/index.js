@@ -4,10 +4,12 @@ const os = require('os')
 const fs = require('fs-extra')
 const execSync = require('child_process').execSync
 const chalk = require('chalk')
+const _ = require('lodash')
 
 const pocessTypeEnum = {
   CREATE: 'create',
   COMPILE: 'compile',
+  CONVERT: 'convert',
   COPY: 'copy',
   GENERATE: 'generate',
   MODIFY: 'modify',
@@ -25,6 +27,10 @@ const processTypeMap = {
   [pocessTypeEnum.COMPILE]: {
     name: '编译',
     color: 'green'
+  },
+  [pocessTypeEnum.CONVERT]: {
+    name: '转换',
+    color: chalk.rgb(255, 136, 0)
   },
   [pocessTypeEnum.COPY]: {
     name: '拷贝',
@@ -72,10 +78,11 @@ exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
 exports.REG_SCRIPTS = /\.[tj]sx?$/i
 exports.REG_STYLE = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
-exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
+exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 exports.REG_JSON = /\.json(\?.*)?$/
 exports.REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
+exports.REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
 
 exports.CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
@@ -85,6 +92,7 @@ exports.BUILD_TYPES = {
   RN: 'rn',
   SWAN: 'swan',
   ALIPAY: 'alipay',
+  TT: 'tt',
   UI: 'ui'
 }
 
@@ -106,6 +114,12 @@ exports.MINI_APP_FILES = {
     STYLE: '.acss',
     SCRIPT: '.js',
     CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.TT]: {
+    TEMPL: '.ttml',
+    STYLE: '.ttss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
   }
 }
 
@@ -120,6 +134,15 @@ exports.CONFIG_MAP = {
     selectedIconPath: 'selectedIconPath'
   },
   [exports.BUILD_TYPES.SWAN]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.TT]: {
     navigationBarTitleText: 'navigationBarTitleText',
     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
     enablePullDownRefresh: 'enablePullDownRefresh',
@@ -370,7 +393,11 @@ exports.printLog = function (type, tag, filePath) {
   }
   const padding = ''
   filePath = filePath || ''
-  console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  if (typeof typeShow.color === 'string') {
+    console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  } else {
+    console.log(typeShow.color(typeShow.name), padding, tag, padding, filePath)
+  }
 }
 
 exports.replaceContentEnv = function (content, env) {
@@ -426,22 +453,28 @@ exports.generateConstantsList = function (constants) {
 exports.cssImports = function (content) {
   let match = {}
   const results = []
-  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while (match = exports.CSS_IMPORT_REG.exec(content)) {
+  content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  while ((match = exports.CSS_IMPORT_REG.exec(content))) {
     results.push(match[2])
   }
   return results
 }
 
-exports.processStyleImports = function (content, adapter) {
+exports.processStyleImports = function (content, adapter, process) {
   const style = []
   const imports = []
-  const styleReg = new RegExp(`\.${exports.MINI_APP_FILES[adapter].STYLE}`)
+  const styleReg = new RegExp(`\\${exports.MINI_APP_FILES[adapter].STYLE}`)
   content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
+      if (process && typeof process === 'function') {
+        return process(m, $2)
+      }
       return ''
+    }
+    if (process && typeof process === 'function') {
+      return process(m, $2)
     }
     return m
   })
@@ -451,9 +484,9 @@ exports.processStyleImports = function (content, adapter) {
     imports
   }
 }
-
+/*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-exports.emptyDirectory = function (dirPath) {
+exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -463,8 +496,10 @@ exports.emptyDirectory = function (dirPath) {
 
         do {
           try {
-            exports.emptyDirectory(curPath)
-            fs.rmdirSync(curPath)
+            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+              exports.emptyDirectory(curPath)
+              fs.rmdirSync(curPath)
+            }
             removed = true
           } catch (e) {
           } finally {
@@ -479,3 +514,6 @@ exports.emptyDirectory = function (dirPath) {
     })
   }
 }
+/* eslint-enable */
+
+exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))

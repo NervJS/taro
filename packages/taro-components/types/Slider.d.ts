@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, BaseEventFunction, FormItemProps } from './common'
 
-interface SliderProps extends StandardProps {
+interface SliderProps extends StandardProps, FormItemProps {
 
   /**
    * 最小值

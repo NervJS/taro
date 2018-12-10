@@ -81,4 +81,4 @@ function showActionSheet (obj) {
   }
 }
 
-export default showActionSheet
+export default {showActionSheet}

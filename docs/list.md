@@ -24,7 +24,7 @@ console.log(doubled)
 ```jsx
 const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
-  return <Text class='li'> 我是第 {number + 1} 个数字</Text>
+  return <Text className='li'> 我是第 {number + 1} 个数字</Text>
 })
 ```
 
@@ -39,7 +39,7 @@ const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
   return <Text
     key={String(number)}
-    class='li'
+    className='li'
     >
     我是第 {number + 1} 个数字
   </Text>
@@ -78,7 +78,7 @@ class App extends Componenet {
     return (
       <View>
         {sidebar}
-        <View class="divider" />
+        <View className="divider" />
         {content}
       </View>
     )

@@ -124,7 +124,7 @@ interface SwiperItemProps extends StandardProps {
   /**
    * 该 swiper-item 的标识符
    */
-  itemId: string
+  itemId?: string
 }
 
 declare const SwiperItem: ComponentType<SwiperItemProps>

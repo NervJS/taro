@@ -238,17 +238,153 @@ See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debu
 - [Troubleshooting](https://github.com/jhen0409/react-native-debugger/blob/master/docs/troubleshooting.md)
 - [Contributing](https://github.com/jhen0409/react-native-debugger/blob/master/docs/contributing.md)
 
-## 打包
+## 构建独立应用程序
+
+> 下面的文档是使用 Expo 的线上服务来帮助你构建独立应用程序，使用这种方式可以避免在本机上配置应用构建环境。当然，你也可以使用自己的电脑构建应用，文档请参考：[Building Standalone Apps on Your CI](https://docs.expo.io/versions/v31.0.0/distribution/turtle-cli)
 
 如何愉快地打包发布，可能你还在头疼安卓的签名、难缠的 gradle 和各种配置，还在头疼 iOS 打包发布时在 Xcode 来回折腾，为什么不能脱离这些原生开发才需要的步骤呢，ReactNative 本身就是为了统一安卓和 iOS，如今到打包这一步却要区别对待，颇为不妥，expo 就是个很好的解决方案，它提供壳子，我们只需要关心我们自己的代码，然后放进壳里即可。
 
-在打包发布步骤之前，我们先对开发者的源代码进行预处理打包，转成 ReactNative 代码：
+接下来的步骤将会帮助你为 iOS 和 Android 创建 Expo 应用程序的独立二进制文件，并将其提交到 Apple App Store 和 Google Play Store。
+
+构建iOS独立应用程序需要Apple Developer帐户，但构建Android独立应用程序不需要Google Play Developer帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。
+
+在打包发布步骤之前，我们先对开发者的源代码进行预处理，将 Taro 代码转成 React Native 代码：
 
 ``` bash
 taro build --type rn
 ```
+然后 .rn_temp 目录 （如果你没有修改）下会生成转换后的 React Native 代码。
 
-得到热腾腾的 React Native 代码，就可以开始进行打包了，打包教程可以查阅 expo 文档：[Building Standalone Apps](https://docs.expo.io/versions/latest/distribution/building-standalone-apps)。
+### 安装Expo CLI
+Expo CLI 是开发和构建 Expo 应用程序的工具，运行 `npm install -g expo-cli` 即可安装。
+
+如果您之前没有创建过 Expo 帐户，则会在运行 build 命令时要求您创建一个。
+
+### 配置app.json
+在 config 目录配置，如：
+
+```json
+rn: {
+    appJson: {
+	   "expo": {
+	    "name": "Your App Name",
+	    "icon": "./path/to/your/app-icon.png",
+	    "version": "1.0.0",
+	    "slug": "your-app-slug",
+	    "sdkVersion": "XX.0.0",
+	    "ios": {
+	      "bundleIdentifier": "com.yourcompany.yourappname"
+	    },
+	    "android": {
+	      "package": "com.yourcompany.yourappname"
+	    }
+	   }
+	 }
+  }
+```
+
+Taro 会读取 appJson 字段的内容且自动覆盖到 .rn_temp/app.json。
+
+- iOS bundleIdentifier 和 Android package 字段使用反向 DNS 表示法，但不必与域相关。替换 "com.yourcompany.yourappname" 为您的应用程序有意义的任何内容。
+- 你可能并不感到惊讶 name，icon 并且 version 是必需的。
+- slug是您的应用程序的 JavaScript 发布到的网址名称。例如：expo.io/@community/native-component-list，community 我的用户名在哪里，native-component-list 是 slug。
+
+### 开始构建
+运行 `expo build:android`或 `expo build:ios`。如果你还没有为此项目运行的打包程序，exp 则会为你启动一个打包程序。
+
+#### Android 应用构建
+第一次构建项目时，系统会询问您是否要上传密钥库。如果你不知道密钥库是什么，你可以让 expo 生成一个，或者你也可以上传自己的。
+
+```shell
+➜  .rn_temp git:(master) ✗ expo build:android
+[19:23:07] Making sure project is set up correctly...
+[19:23:11] Your project looks good!
+[19:23:13] Checking if current build exists...
+
+[19:23:14] No currently active or previous builds for this project.
+
+? Would you like to upload a keystore or have us generate one for you?
+If you don't know what this means, let us handle it! :)
+
+  1) Let Expo handle the process!
+  2) I want to upload my own keystore!
+  Answer:
+```
+
+
+如果您选择让 Expo 为您生成密钥库，我们强烈建议您稍后运行 `expo fetch:android:keystore` 并将密钥库备份到安全位置。将应用程序提交到 Google Play 商店后，该应用的所有未来更新都必须使用相同的密钥库进行签名才能被 Google 接受。如果您出于任何原因，将来删除项目或清除凭据，如果您尚未备份密钥库，则无法向应用程序提交任何更新。
+
+
+
+您可能还想添加其他选项 app.json。我们只涵盖了所需要的内容。例如，有些人喜欢配置自己的内部版本号，链接方案等。我们强烈建议你阅读[使用 app.json配置](https://docs.expo.io/versions/latest/workflow/configuration.html) 完整规范。
+
+#### iOS 应用构建
+您可以选择让 exp 客户为你创建必要的凭据，同时仍然有机会提供您自己的覆盖。你的 Apple ID 和密码在本地使用，从未保存在 Expo 的服务器上。
+
+```shell
+[exp] Making sure project is set up correctly...
+[exp] Your project looks good!
+[exp] Checking if current build exists...
+
+[exp] No currently active or previous builds for this project.
+? How would you like to upload your credentials?
+ (Use arrow keys)
+❯ Expo handles all credentials, you can still provide overrides
+  I will provide all the credentials and files needed, Expo does no validation
+```
+
+expo 会问你是否希望其处理你的分发证书或使用你自己的分发证书。这个与 Android 密钥库类似，如果你不知道分发证书是什么，那就让 expo 为你处理。如果你确实需要上传自己的证书，我们建议您遵循这篇 [关于制作p12文件的优秀指南](https://calvium.com/how-to-make-a-p12-file/)。
+
+> 注意：本指南建议将 p12 的密码留空，但需要使用 p12 密码将自己的证书上传到 Expo 的服务中。请在出现提示时输入密码。
+
+### 等待构建完成
+在构建过程中，你可能会看到一下的日志：
+
+```shell
+[19:44:31] No currently active or previous builds for this project.
+[19:44:33] Unable to find an existing Expo CLI instance for this directory, starting a new one...
+[19:44:36] Starting Metro Bundler on port 19001.
+[19:44:36] Metro Bundler ready.
+[19:44:46] Tunnel ready.
+[19:44:46] Publishing to channel 'default'...
+[19:44:48] Building iOS bundle
+[19:45:00] Building Android bundle
+Building JavaScript bundle [===========================================] 100%[19:45:00] Finished building JavaScript bundle in 11492ms.
+[19:45:11] Finished building JavaScript bundle in 10893ms.
+[19:45:11] Analyzing assets
+[19:45:20] Finished building JavaScript bundle in 9205ms.
+[19:45:29] Uploading assets
+Building JavaScript bundle [===========================================] 100%[19:45:29] Finished building JavaScript bundle in 8816ms.
+[19:45:30] No assets changed, skipped.
+[19:45:30] Processing asset bundle patterns:
+[19:45:30] - /Users/chengshuai/Taro/taro-demo/.rn_temp/**/*
+[19:45:30] Uploading JavaScript bundles
+[19:45:44] Published
+[19:45:44] Your URL is
+
+https://exp.host/@pinescheng/tarodemo
+
+[19:45:46] Building...
+[19:45:47] Build started, it may take a few minutes to complete.
+[19:45:47] You can check the queue length at
+ https://expo.io/turtle-status
+
+[19:45:47] You can monitor the build at
+
+ https://expo.io/builds/78bd39e8-9c5c-4301-90e9-5546d2d2871b
+
+|[19:45:47] Waiting for build to complete. You can press Ctrl+C to exit.
+[19:56:57] Successfully built standalone app: https://expo.io/artifacts/3e4f6d43-7a3a-4383-964b-8355593b742d
+```
+
+当 expo 开始构建您的应用程序。您可以查看您在 [Turtle](https://expo.io/turtle-status) 状态站点上等待的时间。expo 将打印您可以访问的网址（例如expo.io/builds/some-unique-id）以查看你的构建日志。或者，你可以通过运行 `expo build:status` 来检查它。完成后，您将看到 .apk（Android）或.ipa（iOS）文件的网址。这是就是你的应用，你可以将链接复制并粘贴到浏览器中下载文件。
+
+详细的打包教程可以查阅 expo 文档：[Building Standalone Apps](https://docs.expo.io/versions/latest/distribution/building-standalone-apps)。
+
+### 在您的设备或模拟器上进行测试
+- 您可以将其拖放.apk到Android模拟器中。这是测试构建成功的最简单方法。但这并不是最令人满意的。
+- 要在 Android 设备上运行它，请确保您有一起安装 Android 平台的工具 adb，然后只需运行 `adb install app-filename.apk` 与您的设备上启用了 USB 调试和插入的设备。
+- 要在 iOS 模拟器上运行它，首先通过运行使用模拟器标志构建您的 expo 项目 `expo build:ios -t simulator`，然后在运行时下载完成时给出的链接的 `tarball expo build:status`。通过运行解压缩 tar.gz 的 `tar -xvzf your-app.tar.gz`。然后你就可以通过启动 iPhone 模拟器实例，然后运行运行 `xcrun simctl install booted <app path>` 和 `xcrun simctl launch booted <app identifier>`。
 
 ## 发布
 
@@ -263,6 +399,20 @@ expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versi
 ### 发布到应用商店
 
 如果你需要正式发布你的独立版应用，可以把打包所得的 ipa 和 apk 发布到 Apple Store 和应用市场，详细参阅 [Distributing Your App](https://docs.expo.io/versions/latest/distribution/index.html)，后续的更新可以通过发布到 expo 更新 CDN 的资源来实现。
+
+## 更新
+### 自动更新
+默认情况下，Expo会在您的应用启动时自动检查更新，并尝试获取最新发布的版本。如果有新的捆绑包，Expo将在启动体验之前尝试下载它。如果没有可用的网络连接，或者在30秒内没有完成下载，Expo将回退到加载应用程序的缓存版本，并继续尝试在后台获取更新（此时它将保存到下一个应用程序加载的缓存）。
+
+在大多数情况下，当您想要更新应用程序时，只需从 Expo CLI 再次发布。您的用户将在下次打开应用程序时下载新的 JS。为确保您的用户能够无缝下载 JS 更新，您可能希望启用 [后台 JS 下载](https://docs.expo.io/versions/v31.0.0/guides/offline-support.html)。但是，有几个原因可能导致您需要重建并重新提交本机二进制文件：
+
+- 如果要更改应用程序名称或图标等本机元数据
+- 如果您升级到较新 sdkVersion 的应用程序（需要新的本机代码）
+
+要跟踪这一点，您还可以更新二进制文件的 [versionCode](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html#versioncode) 和 [buildNumber](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html#buildnumber)。浏览 [app.json 文档](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html) 以了解您可以更改的所有属性是一个好主意，例如图标，深层链接 URL 方案，手机/平板电脑支持等等。
+
+### 禁用更新
+通过在app.json中设置，updates.enabled可以false在独立应用程序中完全禁用OTA JavaScript更新。这将忽略从Expo服务器获取应用程序包的所有代码路径。在这种情况下，您的应用的所有更新都需要通过iOS App Store和/或Google Play商店进行路由。
 
 ## 常见错误
 
@@ -296,6 +446,10 @@ rm -fr $TMPDIR/react-*
 
 具体可以参考 [#1282](https://github.com/expo/expo/issues/1282)
 
+### Expo client app 加载阻塞： "Building JavaScript bundle... 100%" 
+![image](https://user-images.githubusercontent.com/9441951/47762170-7bb00980-dcf6-11e8-95ab-41152076c3de.png)
+
+可能的原因很多，可以参考这个issue：[react-community/create-react-native-app#392](https://github.com/react-community/create-react-native-app/issues/392)
 
 ## 参考
 

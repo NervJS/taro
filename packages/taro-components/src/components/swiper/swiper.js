@@ -55,9 +55,9 @@ class Swiper extends Nerv.Component {
 
   componentWillReceiveProps (nextProps) {
     this.updateContainerBox(nextProps.children)
-    const { interval, autoplay, circular } = nextProps
+    const { interval, autoplay, circular, current } = nextProps
     this.pauseAutoPlay()
-    // this.updateCurrentIndex(current)
+    this.updateCurrentIndex(current)
     if (!circular) {
       this.computedChangeContainer()
     }
@@ -106,20 +106,23 @@ class Swiper extends Nerv.Component {
 
   // 更新下标
   updateCurrentIndex (currentIndex) {
-    let cur = currentIndex === this.props.children.length - 1 ? 0 : currentIndex
     let tr = this.state.translate
     let slideVal // 纵向还是横向滚动长度
 
+    if (currentIndex < 0) currentIndex = this.props.children.length - 1
+    if (currentIndex >= this.props.children.length) currentIndex = 0
+
     if (!this.props.vertical) {
-      slideVal = this.state.containerWidth * Math.abs(currentIndex - this.state.currentIndex)
+      slideVal = this.state.containerWidth * (currentIndex - this.state.currentIndex)
     } else {
-      slideVal = this.state.containerHeight * Math.abs(currentIndex - this.state.currentIndex)
+      slideVal = this.state.containerHeight * (currentIndex - this.state.currentIndex)
     }
+
     this.setState(
       {
         animating: true,
         translate: tr - slideVal,
-        currentIndex: cur
+        currentIndex: currentIndex
       },
       () => {
         setTimeout(() => {
@@ -419,7 +422,8 @@ class Swiper extends Nerv.Component {
       vertical,
       children,
       circular,
-      duration
+      duration,
+      style
     } = this.props
     const cls = classNames('swiper__container', className, {
       'swiper__container-vertical': vertical,
@@ -450,6 +454,7 @@ class Swiper extends Nerv.Component {
     return (
       <div
         className={cls}
+        style={style}
         ref={SwiperWp => {
           this.SwiperWp = SwiperWp
         }}
@@ -488,7 +493,7 @@ class Swiper extends Nerv.Component {
               key: i,
               className: cls,
               style: sty,
-              onClick: child.props.onClick
+              onClick: child.props.onClick || c.props.onClick
             })
           })}
         </div>

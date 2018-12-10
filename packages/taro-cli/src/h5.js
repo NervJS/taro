@@ -9,22 +9,43 @@ const babel = require('babel-core')
 const generate = require('babel-generator').default
 const _ = require('lodash')
 const rimraf = require('rimraf')
+const { promisify } = require('util')
+const minimatch = require('minimatch')
 
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
-const { source: toAst } = require('./util/ast_convert')
+const { source: toAst, getObjKey } = require('./util/ast_convert')
+
+const appPath = process.cwd()
+const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
+const h5Config = projectConfig.h5 || {}
+const routerConfig = h5Config.router || {}
+const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
+const customRoutes = routerConfig.customRoutes
+const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+const sourcePath = path.join(appPath, sourceDir)
+const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+const outputPath = path.join(appPath, outputDir)
+const tempDir = CONFIG.TEMP_DIR
+const tempPath = path.join(appPath, tempDir)
+const entryFilePath = Util.resolveScriptPath(path.join(sourcePath, CONFIG.ENTRY))
+const entryFileName = path.basename(entryFilePath)
+let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
 
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
   '@tarojs/taro-h5': '@tarojs/taro-h5',
   '@tarojs/redux': '@tarojs/redux',
   '@tarojs/redux-h5': '@tarojs/redux-h5',
-  '@tarojs/router': '@tarojs/router',
+  '@tarojs/mobx': '@tarojs/mobx',
+  '@tarojs/mobx-h5': '@tarojs/mobx-h5',
+  '@tarojs/router': `@tarojs/router`,
   '@tarojs/components': '@tarojs/components',
   'nervjs': 'nervjs',
   'nerv-redux': 'nerv-redux'
 }
+
 const taroApis = [
   'Component',
   'getEnv',
@@ -35,24 +56,13 @@ const taroApis = [
   'internal_dynamic_recursive'
 ]
 const nervJsImportDefaultName = 'Nerv'
-const routerImportName = 'Router'
 const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
 const tabBarPanelComponentName = 'TabbarPanel'
 const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
-const tempDir = '.temp'
 const DEVICE_RATIO = 'deviceRatio'
-
-const appPath = process.cwd()
-const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
-const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-const sourceDir = path.join(appPath, sourceDirName)
-const tempPath = path.join(appPath, tempDir)
-const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
-const entryFileName = path.basename(entryFilePath)
-let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
 
 if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
   pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
@@ -69,7 +79,23 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages/i.test(parentPath.node.key.name))
+const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
+const stripTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
+
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
+
+const publicPath = h5Config.publicPath
+  ? stripTrailingSlash(addLeadingSlash(h5Config.publicPath || ''))
+  : ''
+
+function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
+  const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
+  return `{
+    path: '${absPagename}',
+    componentLoader: () => import(${chunkNameComment}'${relPagename}'),
+    isIndex: ${isIndex}
+  }`
+}
 
 function processEntry (code, filePath) {
   let ast = wxTransformer({
@@ -77,9 +103,7 @@ function processEntry (code, filePath) {
     sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath),
-    env: {
-      TARO_ENV: Util.BUILD_TYPES.H5
-    }
+    adapter: 'h5'
   }).ast
   let taroImportDefaultName
   let providorImportName
@@ -111,7 +135,7 @@ function processEntry (code, filePath) {
         node.superClass.type === 'MemberExpression' &&
         node.superClass.object.name === taroImportDefaultName
       ) {
-        node.superClass.object.name = nervJsImportDefaultName
+        node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
@@ -149,21 +173,45 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
+        const keyName = getObjKey(key)
         let funcBody
-        if (!t.isIdentifier(key)) return
 
-        const isRender = key.name === 'render'
-        const isComponentWillMount = key.name === 'componentWillMount'
-        const isComponentDidMount = key.name === 'componentDidMount'
-        const isComponentWillUnmount = key.name === 'componentWillUnmount'
+        const isRender = keyName === 'render'
+        const isComponentWillMount = keyName === 'componentWillMount'
+        const isComponentDidMount = keyName === 'componentDidMount'
+        const isComponentWillUnmount = keyName === 'componentWillUnmount'
 
         if (isRender) {
-          const pageRequires = pages.map(v => {
-            const absPagename = v.startsWith('/') ? v : `/${v}`
+          const routes = pages.map((v, k) => {
+            const absPagename = addLeadingSlash(v)
             const relPagename = `.${absPagename}`
-            return `['${absPagename}', require('${relPagename}').default]`
-          }).join(',')
-          funcBody = `<${routerImportName} routes={[${pageRequires}]} />`
+            const chunkName = relPagename.split('/').filter(v => !/^(pages|\.)$/i.test(v)).join('_')
+            return createRoute({
+              absPagename,
+              relPagename,
+              chunkName,
+              isIndex: k === 0
+            })
+          })
+
+          /* 处理自定义路由 */
+          if (typeof customRoutes === 'object') {
+            Object.entries(customRoutes).forEach(([matchedUrl, pageComponent]) => {
+              const absPagename = addLeadingSlash(matchedUrl)
+              const relPagename = `.${addLeadingSlash(pageComponent)}`
+              routes.push(createRoute({
+                absPagename,
+                relPagename,
+                isIndex: false
+              }))
+            })
+          }
+
+          funcBody = `<Router
+            mode={${JSON.stringify(routerMode)}}
+            publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
+            routes={[${routes.join(',')}]}
+          />`
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -179,25 +227,33 @@ function processEntry (code, filePath) {
             } else {
               funcBody = `
                 <${tabBarContainerComponentName}>
+
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
-                  <${tabBarComponentName} conf={this.state.${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+
+                  <${tabBarComponentName}
+                    mode={${JSON.stringify(routerMode)}}
+                    publicPath={${JSON.stringify(publicPath)}}
+                    conf={this.state.${tabBarConfigName}}
+                    homePage="${homePage}"
+                    router={${taroImportDefaultName}} />
+
                 </${tabBarContainerComponentName}>`
             }
           }
 
           /* 插入<Provider /> */
           if (providerComponentName && storeName) {
-            // 使用redux
+            // 使用redux 或 mobx
             funcBody = `
               <${providorImportName} store={${storeName}}>
                 ${funcBody}
               </${providorImportName}>`
           }
 
-          /* 插入<TaroRouter.Router /> */
-          node.body = toAst(`{return (${funcBody});}`)
+          /* 插入<Router /> */
+          node.body = toAst(`{return (${funcBody});}`, { preserveComments: true })
         }
         if (tabBar && isComponentWillMount) {
           const initTabBarApisCallNode = toAst(`Taro.initTabBarApis(this, Taro)`)
@@ -265,20 +321,20 @@ function processEntry (code, filePath) {
       const node = astPath.node
       const key = node.key
       const value = node.value
-      const keyName = t.isIdentifier(key) ? key.name : key.value
+      const keyName = getObjKey(key)
       if (keyName === 'pages' && t.isArrayExpression(value)) {
         const subPackageParent = astPath.findParent(isUnderSubPackages)
         let root = ''
         if (subPackageParent) {
           /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
           const rootNode = astPath.parent.properties.find(v => {
-            return t.isIdentifier(v.key, { name: 'root' })
+            return getObjKey(v.key) === 'root'
           })
           root = rootNode ? rootNode.value.value : ''
         }
         value.elements.forEach(v => {
           const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
-          pages.push(pagePath)
+          pages.push(pagePath.replace(/^\//, ''))
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar
@@ -302,8 +358,10 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         const value = node.value
-        if (key.name === 'state') hasState = true
-        if (key.name !== 'config' || !t.isObjectExpression(value)) return
+        const keyName = getObjKey(key)
+
+        if (keyName === 'state') hasState = true
+        if (keyName !== 'config' || !t.isObjectExpression(value)) return
         astPath.traverse(classPropertyVisitor)
       }
     },
@@ -370,6 +428,17 @@ function processEntry (code, filePath) {
             specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
           }
           source.value = PACKAGES['@tarojs/redux-h5']
+        } else if (value === PACKAGES['@tarojs/mobx']) {
+          const specifier = specifiers.find(item => {
+            return t.isImportSpecifier(item) && item.imported.name === providerComponentName
+          })
+          if (specifier) {
+            providorImportName = specifier.local.name
+          } else {
+            providorImportName = providerComponentName
+            specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
+          }
+          source.value = PACKAGES['@tarojs/mobx-h5']
         }
       }
     },
@@ -401,19 +470,17 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        if (t.isIdentifier(key)) {
-          if (key.name === 'componentWillMount') {
-            hasComponentWillMount = true
-          }
-          if (key.name === 'componentDidMount') {
-            hasComponentDidMount = true
-          } else if (key.name === 'componentDidShow') {
-            hasComponentDidShow = true
-          } else if (key.name === 'componentDidHide') {
-            hasComponentDidHide = true
-          } else if (key.name === 'componentWillUnmount') {
-            hasComponentWillUnmount = true
-          }
+        const keyName = getObjKey(key)
+        if (keyName === 'componentWillMount') {
+          hasComponentWillMount = true
+        } else if (keyName === 'componentDidMount') {
+          hasComponentDidMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        } else if (keyName === 'componentWillUnmount') {
+          hasComponentWillUnmount = true
         }
       }
     },
@@ -436,9 +503,8 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import { ${routerImportName} } from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import { Router } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
-        const renderCallNode = toAst(renderCallCode)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
         const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
@@ -458,8 +524,10 @@ function processEntry (code, filePath) {
         }
 
         lastImportNode.insertAfter(extraNodes)
-
-        astPath.pushContainer('body', renderCallNode)
+        if (renderCallCode) {
+          const renderCallNode = toAst(renderCallCode)
+          astPath.pushContainer('body', renderCallNode)
+        }
       }
     }
   })
@@ -469,19 +537,20 @@ function processEntry (code, filePath) {
   }
 }
 
-function processOthers (code, filePath) {
+function processOthers (code, filePath, fileType) {
   let ast = wxTransformer({
     code,
     sourcePath: filePath,
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(filePath),
-    env: {
-      TARO_ENV: Util.BUILD_TYPES.H5
-    }
+    adapter: 'h5'
   }).ast
   let taroImportDefaultName
   let hasAddNervJsImportDefaultName = false
   let hasJSX = false
+  let isPage = fileType === FILE_TYPE.PAGE
+  let hasComponentDidMount = false
+  let hasComponentDidShow = false
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -497,7 +566,7 @@ function processOthers (code, filePath) {
         node.superClass.type === 'MemberExpression' &&
         node.superClass.object.name === taroImportDefaultName
       ) {
-        node.superClass.object.name = nervJsImportDefaultName
+        node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
@@ -526,9 +595,38 @@ function processOthers (code, filePath) {
     }
   }
 
+  const programExitVisitor = {
+    ClassBody: {
+      exit (astPath) {
+        if (!hasComponentDidMount) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidMount'), [],
+            t.blockStatement([]), false, false))
+        }
+        if (!hasComponentDidShow) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidShow'), [],
+            t.blockStatement([]), false, false))
+        }
+      }
+    }
+  }
+
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
+    ClassMethod: isPage ? {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const keyName = getObjKey(key)
+        if (keyName === 'componentDidMount') {
+          hasComponentDidMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        }
+      }
+    } : {},
     ImportDeclaration: {
       enter (astPath) {
         const node = astPath.node
@@ -575,6 +673,8 @@ function processOthers (code, filePath) {
           }
         } else if (value === PACKAGES['@tarojs/redux']) {
           source.value = PACKAGES['@tarojs/redux-h5']
+        } else if (value === PACKAGES['@tarojs/mobx']) {
+          source.value = PACKAGES['@tarojs/mobx-h5']
         }
       }
     },
@@ -585,6 +685,9 @@ function processOthers (code, filePath) {
     },
     Program: {
       exit (astPath) {
+        if (isPage) {
+          astPath.traverse(programExitVisitor)
+        }
         const node = astPath.node
         if (hasJSX && !hasAddNervJsImportDefaultName) {
           node.body.unshift(
@@ -644,19 +747,31 @@ function classifyFiles (filename) {
   const relPath = path.normalize(
     path.relative(appPath, filename)
   )
-  if (relPath.indexOf(entryFileName) >= 0) return FILE_TYPE.ENTRY
+  if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
 
-  if (pages.some(page => {
-    if (relPath.indexOf(page) >= 0) return true
-  })) {
+  let relSrcPath = path.relative('src', relPath)
+  relSrcPath = path.format({
+    dir: path.dirname(relSrcPath),
+    base: path.basename(relSrcPath, path.extname(relSrcPath))
+  })
+
+  const isPage = pages.some(page => {
+    const relPage = path.normalize(
+      path.relative(appPath, page)
+    )
+    if (path.relative(relPage, relSrcPath) === '') return true
+  })
+
+  if (isPage) {
     return FILE_TYPE.PAGE
   } else {
     return FILE_TYPE.NORMAL
   }
 }
+
 function getDist (filename, isScriptFile) {
   const dirname = path.dirname(filename)
-  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distDirname = dirname.replace(sourcePath, tempDir)
   return isScriptFile
     ? path.format({
       dir: distDirname,
@@ -671,20 +786,20 @@ function getDist (filename, isScriptFile) {
 
 function processFiles (filePath) {
   const file = fs.readFileSync(filePath)
-  const fileType = classifyFiles(filePath)
   const dirname = path.dirname(filePath)
   const extname = path.extname(filePath)
-  const distDirname = dirname.replace(sourceDir, tempDir)
+  const distDirname = dirname.replace(sourcePath, tempDir)
   const isScriptFile = Util.REG_SCRIPTS.test(extname)
   const distPath = getDist(filePath, isScriptFile)
 
   try {
     if (isScriptFile) {
       // 脚本文件 处理一下
+      const fileType = classifyFiles(filePath)
       const content = file.toString()
       const transformResult = fileType === FILE_TYPE.ENTRY
         ? processEntry(content, filePath)
-        : processOthers(content, filePath)
+        : processOthers(content, filePath, fileType)
       const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
@@ -699,7 +814,7 @@ function processFiles (filePath) {
 }
 
 function watchFiles () {
-  const watcher = chokidar.watch(path.join(sourceDir), {
+  const watcher = chokidar.watch(path.join(sourcePath), {
     ignored: /(^|[/\\])\../,
     persistent: true,
     ignoreInitial: true
@@ -730,7 +845,7 @@ function watchFiles () {
 function buildTemp () {
   fs.ensureDirSync(tempPath)
   return new Promise((resolve, reject) => {
-    klaw(sourceDir)
+    klaw(sourcePath)
       .on('data', file => {
         const relativePath = path.relative(appPath, file.path)
         if (!file.stats.isDirectory()) {
@@ -746,11 +861,8 @@ function buildTemp () {
 
 async function buildDist (buildConfig) {
   const { watch } = buildConfig
-  const h5Config = projectConfig.h5 || {}
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-  const outputRoot = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-  Util.emptyDirectory(path.join(appPath, outputRoot))
   h5Config.env = projectConfig.env
   Object.assign(h5Config.env, {
     TARO_ENV: JSON.stringify(Util.BUILD_TYPES.H5)
@@ -762,7 +874,7 @@ async function buildDist (buildConfig) {
     h5Config.deviceRatio = projectConfig.deviceRatio
   }
   h5Config.sourceRoot = sourceRoot
-  h5Config.outputRoot = outputRoot
+  h5Config.outputRoot = outputDir
   h5Config.entry = Object.assign({
     app: [path.join(tempPath, entryFile)]
   }, h5Config.entry)
@@ -773,17 +885,65 @@ async function buildDist (buildConfig) {
   webpackRunner(h5Config)
 }
 
-function clean () {
-  return new Promise((resolve, reject) => {
-    rimraf(tempPath, () => {
-      resolve()
+const pRimraf = promisify(rimraf)
+
+async function clean () {
+  try {
+    await pRimraf(tempPath)
+    await pRimraf(outputPath)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function copyFileSync (from, to, options) {
+  const filename = path.basename(from)
+  if (fs.statSync(from).isFile() && !path.extname(to)) {
+    fs.ensureDir(to)
+    return fs.copySync(from, path.join(to, filename), options)
+  }
+  fs.ensureDir(path.dirname(to))
+  return fs.copySync(from, to, options)
+}
+
+function copyFiles () {
+  const copyConfig = projectConfig.copy || { patterns: [], options: {} }
+  if (copyConfig.patterns && copyConfig.patterns.length) {
+    copyConfig.options = copyConfig.options || {}
+    const globalIgnore = copyConfig.options.ignore
+    const projectDir = appPath
+    copyConfig.patterns.forEach(pattern => {
+      if (typeof pattern === 'object' && pattern.from && pattern.to) {
+        const from = path.join(projectDir, pattern.from)
+        const to = path.join(projectDir, pattern.to)
+        let ignore = pattern.ignore || globalIgnore
+        if (fs.existsSync(from)) {
+          const copyOptions = {}
+          if (ignore) {
+            ignore = Array.isArray(ignore) ? ignore : [ignore]
+            copyOptions.filter = src => {
+              let isMatch = false
+              ignore.forEach(iPa => {
+                if (minimatch(path.basename(src), iPa)) {
+                  isMatch = true
+                }
+              })
+              return !isMatch
+            }
+          }
+          copyFileSync(from, to, copyOptions)
+        } else {
+          Util.printLog(Util.pocessTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
+        }
+      }
     })
-  })
+  }
 }
 
 async function build (buildConfig) {
   process.env.TARO_ENV = Util.BUILD_TYPES.H5
   await clean()
+  copyFiles()
   await buildTemp(buildConfig)
   await buildDist(buildConfig)
   if (buildConfig.watch) {

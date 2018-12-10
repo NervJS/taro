@@ -43,7 +43,8 @@ export const DEFAULT_Component_SET = new Set<string>([
   'FunctionalPageNavigator',
   'Ad',
   'Block',
-  'Import'
+  'Import',
+  'OfficialAccount'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
@@ -54,11 +55,15 @@ export const COMPONENTS_PACKAGE_NAME = '@tarojs/components'
 
 export const REDUX_PACKAGE_NAME = '@tarojs/redux'
 
+export const MOBX_PACKAGE_NAME = '@tarojs/mobx'
+
 export const MAP_CALL_ITERATOR = '__item'
 
 export const INTERNAL_INLINE_STYLE = 'internal_inline_style'
 
 export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
+
+export const GEL_ELEMENT_BY_ID = 'getElementById'
 
 export const LOOP_STATE = '$loopState'
 
@@ -82,3 +87,11 @@ export const IMAGE_COMPONENTS = new Set<string>([
   'Image',
   'CoverImage'
 ])
+
+export const swanSpecialAttrs = {
+  'ScrollView': ['scrollTop', 'scrollLeft', 'scrollIntoView'],
+  'Input': ['value'],
+  'Textarea': ['value'],
+  'MovableView': ['x', 'y'],
+  'Slider': ['value']
+}

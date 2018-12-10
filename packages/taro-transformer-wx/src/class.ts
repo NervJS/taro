@@ -7,13 +7,16 @@ import {
   findMethodName,
   pathResolver,
   createRandomLetters,
-  isContainJSXElement
+  isContainJSXElement,
+  getSlotName,
+  isArrayMapCallExpression
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
 import { Adapters, Adapter } from './adapter'
+import { LoopRef } from './interface'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -121,6 +124,7 @@ class Transformer {
   private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
+  private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -132,6 +136,16 @@ class Transformer {
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.componentProperies = new Set(componentProperies)
     this.compile()
+  }
+
+  setMultipleSlots () {
+    const body = this.classPath.node.body.body
+    if (body.some(c => t.isClassProperty(c) && c.key.name === 'multipleSlots')) {
+      return
+    }
+    const multipleSlots: any = t.classProperty(t.identifier('multipleSlots'), t.booleanLiteral(true))
+    multipleSlots.static = true
+    body.push(multipleSlots)
   }
 
   createStringRef (componentName: string, id: string, refName: string) {
@@ -187,6 +201,7 @@ class Transformer {
         if (!t.isJSXIdentifier(jsx.name)) {
           return
         }
+        const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
         const componentName = jsx.name.name
         const refAttr = findJSXAttrByName(attrs, 'ref')
         if (!refAttr) {
@@ -195,7 +210,22 @@ class Transformer {
         const idAttr = findJSXAttrByName(attrs, 'id')
         let id = createRandomLetters(5)
         if (!idAttr) {
-          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          if (loopCallExpr && loopCallExpr.isCallExpression()) {
+            const [ func ] = loopCallExpr.node.arguments
+            let indexId: t.Identifier | null = null
+            if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+              const params = func.params as t.Identifier[]
+              indexId = params[1]
+            }
+            if (indexId === null || !t.isIdentifier(indexId!)) {
+              throw codeFrameError(path.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
+            }
+            attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.jSXExpressionContainer(
+              t.binaryExpression('+', t.stringLiteral(id), indexId)
+            )))
+          } else {
+            attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          }
         } else {
           const idValue = idAttr.value
           if (t.isStringLiteral(idValue)) {
@@ -205,18 +235,33 @@ class Transformer {
           }
         }
         if (t.isStringLiteral(refAttr.value)) {
+          if (loopCallExpr) {
+            throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+          }
           this.createStringRef(componentName, id, refAttr.value.value)
         }
         if (t.isJSXExpressionContainer(refAttr.value)) {
           const expr = refAttr.value.expression
           if (t.isStringLiteral(expr)) {
+            if (loopCallExpr) {
+              throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+            }
             this.createStringRef(componentName, id, expr.value)
           } else if (t.isArrowFunctionExpression(expr) || t.isMemberExpression(expr)) {
-            this.refs.push({
-              type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
-              id,
-              fn: expr
-            })
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            if (loopCallExpr) {
+              this.loopRefs.set(path.parentPath.node as t.JSXElement, {
+                id,
+                fn: expr,
+                type
+              })
+            } else {
+              this.refs.push({
+                type,
+                id,
+                fn: expr
+              })
+            }
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
@@ -333,6 +378,9 @@ class Transformer {
         if (!attr) return
         const key = attr.node.name
         const value = attr.node.value
+        if (!t.isJSXIdentifier(key)) {
+          return
+        }
         if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
           const expr = value.expression
           if (t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' })) {
@@ -343,6 +391,13 @@ class Transformer {
             throw codeFrameError(expr.loc, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
+        const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
+        if (!jsx) return
+        const jsxName = jsx.node.name
+        if (!t.isJSXIdentifier(jsxName)) return
+        if (expression.isJSXElement()) return
+        if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
+        generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
@@ -369,7 +424,7 @@ class Transformer {
           }
         }
       },
-      MemberExpression (path) {
+      MemberExpression: (path) => {
         const object = path.get('object')
         const property = path.get('property')
         if (
@@ -387,6 +442,12 @@ class Transformer {
             const name = siblingProp.node.name
             if (name === 'children') {
               parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true))
+            } else if (/^render[A-Z]/.test(name)) {
+              const slotName = getSlotName(name)
+              parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
+                t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
+              ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
+              this.setMultipleSlots()
             } else {
               self.componentProperies.add(siblingProp.node.name)
             }
@@ -584,7 +645,8 @@ class Transformer {
           this.loopStateName,
           this.customComponentNames,
           this.customComponentData,
-          this.componentProperies
+          this.componentProperies,
+          this.loopRefs
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')

@@ -2,6 +2,7 @@ export function getLocation (opts = {}) {
   return new Promise((resolve, reject) => {
     const { success, fail, complete } = opts
     const geolocation = navigator.geolocation
+
     if (!geolocation) {
       const res = {}
       res.errMsg = '本设备不支持定位功能'

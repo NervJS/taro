@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro-h5'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
 import './style'
@@ -34,22 +35,36 @@ class Tabbar extends Nerv.Component {
     this.removeEvent()
   }
 
-  hashChangeHandler () {
-    const hash = location.hash
-    const homePage = hash ? hash.replace(/^#\//, '') : this.homePage
+  getCurrentPathname () {
+    const pathname = this.props.mode === 'hash'
+      ? location.hash
+      : location.pathname
 
-    const len = this.state.list.length
-    for (let i = 0; i < len; i++) {
-      if (this.state.list[i].pagePath.indexOf(homePage) > -1) {
-        return this.setState({
-          isShow: true,
-          selectedIndex: i
-        })
-      }
+    return pathname ? pathname.replace(new RegExp(`^#?${this.props.publicPath}/?`), '') : this.homePage
+  }
+
+  hashChangeHandler ({ toLocation } = {}) {
+    let pathname = ''
+    let currentPage
+
+    if (toLocation) {
+      pathname = toLocation.pathname
+      currentPage = pathname ? pathname.replace(/^\//, '') : this.homePage
+    } else {
+      currentPage = this.getCurrentPathname()
     }
-    this.setState({
-      isShow: false
+
+    const stateObj = { isShow: false }
+    const foundIdx = this.state.list.findIndex(v => {
+      return v.pagePath.indexOf(currentPage) > -1
     })
+    if (foundIdx > -1) {
+      Object.assign(stateObj, {
+        isShow: true,
+        selectedIndex: foundIdx
+      })
+    }
+    this.setState(stateObj)
   }
 
   hideBar () {
@@ -65,11 +80,11 @@ class Tabbar extends Nerv.Component {
   }
 
   bindEvent () {
-    window.addEventListener('hashchange', this.hashChangeHandler.bind(this))
-  }
-
-  removeEvent () {
-    window.removeEventListener('hashchange', this.hashChangeHandler.bind(this))
+    const handler = this.hashChangeHandler.bind(this)
+    Taro['eventCenter'].on('routerChange', handler)
+    this.removeEvent = () => {
+      Taro['eventCenter'].off('routerChange', handler)
+    }
   }
 
   render () {

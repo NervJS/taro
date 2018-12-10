@@ -1,6 +1,11 @@
 import traverse from 'babel-traverse'
 import * as t from 'babel-types'
 import generate from 'babel-generator'
+import * as html from 'html'
+
+export function prettyPrint (str: string): string {
+  return html.prettyPrint(str, { max_char: 0 })
+}
 
 export function buildComponent (
   renderBody: string,
@@ -25,6 +30,13 @@ export default class Index extends Component {
 
 const internalFunction = `function isObject(arg) {
   return arg === Object(arg) && typeof arg !== 'function';
+}
+
+function getElementById (a, b, c) {
+  if (c) {
+    return 'test-component-ref'
+  }
+  return 'test-ref'
 }
 
 function internal_get_original(item) {

@@ -1,3 +1,4 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Modal,
@@ -5,7 +6,8 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  Platform
+  Platform,
+  ViewPropTypes
 } from 'react-native'
 import { Mask } from '../Mask'
 import { Popup } from '../Popup'
@@ -190,8 +192,8 @@ Index.propTypes = {
   visible: PropTypes.bool,
   onShow: PropTypes.func,
   onClose: PropTypes.func,
-  style: View.propTypes.style,
-  maskStyle: View.propTypes.style
+  style: ViewPropTypes.style,
+  maskStyle: ViewPropTypes.style
 }
 
 export default Index

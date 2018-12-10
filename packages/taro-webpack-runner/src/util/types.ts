@@ -16,7 +16,7 @@ type TogglableOptions = {
 export interface PostcssOption {
   autoprefixer?: TogglableOptions;
   pxtransform?: TogglableOptions;
-  plugins?: any[];
+  cssModules?: TogglableOptions;
 }
 
 export interface Chain {
@@ -28,10 +28,15 @@ export interface TaroH5Config {
   webpack: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
 
   webpackChain: (chain: any, webpack: any) => void;
+  dllWebpackChain: (chain: any, webpack: any) => void;
 
   alias: Option;
   entry: webpack.Entry;
   output: webpack.Output;
+  router?: {
+    mode?: 'hash' | 'browser';
+    custouRoutes?: Option;
+  },
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
   enableExtract: boolean;
@@ -51,6 +56,7 @@ export interface TaroH5Config {
   dllEntry: {
     [key: string]: string[];
   };
+  esnextModules: string[];
 
   module?: {
     postcss?: PostcssOption;
@@ -69,6 +75,10 @@ export interface TaroBaseConfig {
   publicPath: string;
   staticDirectory: string;
   chunkDirectory: string;
+  copy: {
+    patterns: object[];
+    options: object[]
+  };
 
   designWidth: number;
   deviceRatio?: number;

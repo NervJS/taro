@@ -24,13 +24,15 @@ class BaseComponent {
   _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
+  $componentType = ''
   $router = {
     params: {}
   }
 
-  constructor (props = {}) {
+  constructor (props = {}, isPage) {
     this.state = {}
     this.props = props
+    this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
   }
   _constructor (props) {
     this.props = props || {}
@@ -98,7 +100,7 @@ class BaseComponent {
         __isCustomEvt: true,
         __arguments: args
       }
-      if( args.length > 0 ){
+      if (args.length > 0) {
         detail.value = args.slice(1)
       }
       this.$scope.triggerEvent(keyLower, detail)

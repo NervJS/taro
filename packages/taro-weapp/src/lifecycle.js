@@ -75,10 +75,11 @@ function doUpdate (component, prevProps, prevState) {
         return
       }
       if (typeof val === 'object') {
+        if (isEmptyObject(val)) return safeSet(_data, key, val)
+
         val = shakeFnFromObject(val)
-        if (!isEmptyObject(val)) {
-          safeSet(_data, key, val)
-        }
+        // 避免筛选完 Fn 后产生了空对象还去渲染
+        if (!isEmptyObject(val)) safeSet(_data, key, val)
       } else {
         safeSet(_data, key, val)
       }
@@ -89,6 +90,14 @@ function doUpdate (component, prevProps, prevState) {
   data[privatePropKeyName] = !privatePropKeyVal
   const dataDiff = diffObjToPath(data, component.$scope.data)
   const __mounted = component.__mounted
+
+  // 每次 setData 都独立生成一个 callback 数组
+  let cbs = []
+  if (component._pendingCallbacks && component._pendingCallbacks.length) {
+    cbs = component._pendingCallbacks
+    component._pendingCallbacks = []
+  }
+
   component.$scope.setData(dataDiff, function () {
     if (__mounted) {
       if (component['$$refs'] && component['$$refs'].length > 0) {
@@ -113,12 +122,11 @@ function doUpdate (component, prevProps, prevState) {
       }
     }
 
-    const cbs = component._pendingCallbacks
-    if (cbs && cbs.length) {
-      const len = cbs.length
-      let i = len
-      while (--i >= 0) cbs[i].call(component)
-      cbs.splice(0, len)
+    if (cbs.length) {
+      let i = cbs.length
+      while (--i >= 0) {
+        typeof cbs[i] === 'function' && cbs[i].call(component)
+      }
     }
   })
 }

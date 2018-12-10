@@ -33,7 +33,7 @@ module.exports = {
         const isPropValueFunction = source.startsWith('this.props.on') ||
           (
             source.startsWith('this.') &&
-            !['this.state.', 'this.props.', 'this.$router.'].some(v => source.startsWith(v))
+            !['this.state.', 'this.props.', 'this.$router.', 'this.config'].some(v => source.startsWith(v))
           )
 
         if (!propIsEventHandler && isPropValueFunction) {

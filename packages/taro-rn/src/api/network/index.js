@@ -4,25 +4,27 @@ export function getNetworkType (opts = {}) {
   const { success, fail, complete } = opts
   const res = {}
 
-  return NetInfo.getConnectionInfo()
-    .then((connectionInfo) => {
-      const { type, effectiveType } = connectionInfo
-      if (type === 'wifi' || type === 'none') {
-        res.networkType = type
-      } else {
-        res.networkType = effectiveType
-      }
-      success && success(res)
-      complete && complete(res)
+  return new Promise((resolve, reject) => {
+    NetInfo.getConnectionInfo()
+      .then((connectionInfo) => {
+        const { type, effectiveType } = connectionInfo
+        if (type === 'wifi' || type === 'none') {
+          res.networkType = type
+        } else {
+          res.networkType = effectiveType
+        }
+        success && success(res)
+        complete && complete(res)
 
-      return Promise.resolve(res)
-    }).catch((err) => {
-      res.errMsg = err.message
-      fail && fail(res)
-      complete && complete(res)
+        resolve(res)
+      }).catch((err) => {
+        res.errMsg = err.message
+        fail && fail(res)
+        complete && complete(res)
 
-      return Promise.reject(err)
-    })
+        reject(err)
+      })
+  })
 }
 
 export function onNetworkStatusChange (callback) {

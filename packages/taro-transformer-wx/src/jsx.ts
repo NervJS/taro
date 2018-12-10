@@ -2,7 +2,7 @@ import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
-import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS } from './constant'
+import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters } from './adapter'
@@ -120,7 +120,8 @@ function parseJSXChildren (
         return str + `{${
           decodeUnicode(
             generate(child, {
-              quotes: 'single'
+              quotes: 'single',
+              jsonCompatibleStrings: true
             })
             .code
           )
@@ -164,13 +165,22 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (t.isJSXExpressionContainer(attrValue)) {
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
-          const code = decodeUnicode(generate(attrValue.expression, {
+          let code = decodeUnicode(generate(attrValue.expression, {
               quotes: 'single',
               concise: true
             }).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
+          if (
+            Adapters.swan === Adapter.type &&
+            code !== 'true' &&
+            code !== 'false' &&
+            swanSpecialAttrs[componentName] &&
+            swanSpecialAttrs[componentName].includes(name)
+          ) {
+            code = `= ${code} =`
+          }
           value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
           if (Adapter.type === Adapters.swan && name === Adapter.for) {
             value = code

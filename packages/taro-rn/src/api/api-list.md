@@ -343,13 +343,13 @@
 
 #### 设置导航条
 
-❌ wx.setNavigationBarTitle
+✅ wx.setNavigationBarTitle
 
-❌ wx.showNavigationBarLoading
+✅ wx.showNavigationBarLoading
 
-❌ wx.hideNavigationBarLoading
+✅ wx.hideNavigationBarLoading
 
-❌ wx.setNavigationBarColor
+✅ wx.setNavigationBarColor
 
 #### 设置tabBar
 
