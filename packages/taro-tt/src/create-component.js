@@ -174,7 +174,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
