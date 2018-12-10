@@ -185,11 +185,21 @@ exports.isNpmPkg = function (name) {
   return true
 }
 
-exports.isAliasPath = function (name, prefixs = []) {
+exports.isAliasPath = function (name, pathAlias = {}) {
+  const prefixs = Object.keys(pathAlias)
   if (prefixs.length === 0) {
     return false
   }
   return new RegExp(`^(${prefixs.join('|')})/`).test(name)
+}
+
+exports.replaceAliasPath = function (filePath, name, pathAlias = {}) {
+  const prefixs = Object.keys(pathAlias)
+  const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
+  name = name.replace(reg, function (m, $1, $2) {
+    return exports.promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
+  })
+  return name
 }
 
 exports.promoteRelativePath = function (fPath) {

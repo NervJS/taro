@@ -8,8 +8,7 @@ const template = require('babel-template')
 const wxTransformer = require('@tarojs/transformer-wx')
 const Util = require('../util')
 const babylonConfig = require('../config/babylon')
-const {source: toAst} = require('../util/ast_convert')
-const CONFIG = require('../config')
+const { source: toAst } = require('../util/ast_convert')
 
 const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
@@ -52,7 +51,7 @@ function getInitPxTransformNode (projectConfig) {
   return initPxTransformNode
 }
 
-function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
+function getClassPropertyVisitor ({ filePath, pages, iconPaths, isEntryFile }) {
   return (astPath) => {
     const node = astPath.node
     const key = node.key
@@ -221,14 +220,8 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
       const pathAlias = projectConfig.pathAlias || {}
-      if (Util.isAliasPath(value, Object.keys(pathAlias))) {
-        let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
-        value = value.replace(reg, function (matched, $1) {
-          const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-          const sourceDir = path.join(process.cwd(), sourceDirName)
-          return './' + path.relative(path.dirname(filePath), sourceDir) + pathAlias[$1] + '/'
-        })
-        source.value = value
+      if (Util.isAliasPath(value, pathAlias)) {
+        source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
       }
       // 引入的包为 npm 包
       if (!Util.isNpmPkg(value)) {

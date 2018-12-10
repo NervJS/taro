@@ -32,6 +32,7 @@ const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourcePath, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 let pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
+const pathAlias = projectConfig.alias || {}
 
 const PACKAGES = {
   '@tarojs/taro': '@tarojs/taro',
@@ -371,13 +372,8 @@ function processEntry (code, filePath) {
         const source = node.source
         const specifiers = node.specifiers
         let value = source.value
-        const pathAlias = projectConfig.pathAlias || {}
-        if (Util.isAliasPath(value, Object.keys(pathAlias))) {
-          let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
-          value = value.replace(reg, function (matched, $1) {
-            return './' + path.relative(path.dirname(filePath), sourceDir) + pathAlias[$1] + '/'
-          })
-          source.value = value
+        if (Util.isAliasPath(value, pathAlias)) {
+          source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
         }
         if (!Util.isNpmPkg(value)) {
           if (value.indexOf('.') === 0) {
@@ -641,13 +637,8 @@ function processOthers (code, filePath, fileType) {
         const source = node.source
         let value = source.value
         const specifiers = node.specifiers
-        const pathAlias = projectConfig.pathAlias || {}
-        if (Util.isAliasPath(value, Object.keys(pathAlias))) {
-          let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
-          value = value.replace(reg, function (matched, $1) {
-            return path.relative(path.dirname(filePath), sourceDir) + pathAlias[$1] + '/'
-          })
-          source.value = value
+        if (Util.isAliasPath(value, pathAlias)) {
+          source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
         }
         if (!Util.isNpmPkg(value)) {
           if (Util.REG_SCRIPTS.test(value)) {

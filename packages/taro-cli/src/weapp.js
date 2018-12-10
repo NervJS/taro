@@ -44,6 +44,7 @@ const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const outputEntryFilePath = path.join(outputDir, entryFileName)
 const watcherDirs = projectConfig.watcher || []
+const pathAlias = projectConfig.alias || {}
 
 const pluginsConfig = projectConfig.plugins || {}
 const weappConf = projectConfig.weapp || {}
@@ -383,13 +384,9 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
-      // 替换用户自定义前缀
-      let pathAlias = projectConfig.pathAlias || {}
-      if (Util.isAliasPath(value, Object.keys(pathAlias))) {
-        let reg = new RegExp(`^(${Object.keys(pathAlias).join('|')})/`)
-        value = value.replace(reg, function (matched, $1) {
-          return './' + path.relative(path.dirname(sourceFilePath), sourceDir) + pathAlias[$1] + '/'
-        })
+      // alias 替换
+      if (Util.isAliasPath(value, pathAlias)) {
+        value = Util.replaceAliasPath(sourceFilePath, value, pathAlias)
         source.value = value
       }
       if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
@@ -487,6 +484,10 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
       } else if (callee.name === 'require') {
         const args = node.arguments
         let value = args[0].value
+        if (Util.isAliasPath(value, pathAlias)) {
+          value = Util.replaceAliasPath(sourceFilePath, value, pathAlias)
+          args[0].value = value
+        }
         if (Util.isNpmPkg(value) && notExistNpmList.indexOf(value) < 0) {
           if (value === taroJsComponents) {
             astPath.remove()
@@ -1553,6 +1554,9 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
 function getRealComponentsPathList (filePath, components) {
   return components.map(component => {
     let componentPath = component.path
+    if (Util.isAliasPath(componentPath, pathAlias)) {
+      componentPath = Util.replaceAliasPath(filePath, componentPath, pathAlias)
+    }
     if (Util.isNpmPkg(componentPath)) {
       try {
         componentPath = resolveNpmPkgMainPath(componentPath, isProduction, weappNpmConfig, buildAdapter)
@@ -1594,11 +1598,13 @@ function getDepStyleList (outputFilePath, buildDepComponentsResult) {
 function buildUsingComponents (filePath, components, isComponent) {
   const usingComponents = Object.create(null)
   for (const component of components) {
-    let componentPath = Util.resolveScriptPath(path.resolve(filePath, '..', component.path))
+    let componentPath = component.path
+    if (Util.isAliasPath(componentPath, pathAlias)) {
+      componentPath = Util.replaceAliasPath(filePath, componentPath, pathAlias)
+    }
+    componentPath = Util.resolveScriptPath(path.resolve(filePath, '..', componentPath))
     if (fs.existsSync(componentPath)) {
       componentPath = Util.promoteRelativePath(path.relative(filePath, componentPath))
-    } else {
-      componentPath = component.path
     }
     usingComponents[component.name] = componentPath.replace(path.extname(componentPath), '')
   }
