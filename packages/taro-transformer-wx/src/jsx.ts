@@ -127,7 +127,7 @@ function parseJSXChildren (
           )
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
-          .replace(/this\./, '')
+          .replace(/this\./g, '')
         }}`
       }
       return str
