@@ -36,7 +36,7 @@ const counterStore = observable({
   incrementAsync() {
     setTimeout(() => {
       this.counter++
-    }, 1000);
+    }, 1000)
   }
 })
 
