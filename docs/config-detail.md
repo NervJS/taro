@@ -87,10 +87,37 @@ env: {
 
 用来配置一些全局变量供代码中进行使用，例如
 
-```jsx
+```js
 defineConstants: {
   A: '"a"' // JSON.stringify('a')
 }
+```
+
+## alias
+
+用来配置目录别名，从而方便书写代码引用路径，例如
+
+使用相对路径书写文件引用如下
+
+```js
+import A from '../../componnets/A'
+import Utils from '../../utils'
+```
+
+为了避免书写多级相对路径，我们可以如下配置 `alias`
+
+```js
+alias: {
+  '@components': path.resolve(__dirname, '..', 'src/components')
+  '@utils': path.resolve(__dirname, '..', 'src/utils')
+}
+```
+
+通过上述配置，可以将 `src` 、`src/components` 以及 `src/utils` 目录配置成别名，则代码中的引用改写如下
+
+```js
+import A from '@components/A'
+import Utils from '@utils'
 ```
 
 ## copy
@@ -222,23 +249,6 @@ h5 编译后的静态文件目录
 自定义 webpack 配置，接受函数形式的配置。
 
 这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)的 api 进行修改；第二个参数是`webpack`实例。例如：
-
-```jsx
-/* 这是个失败的例子，可以通过 h5.alias 实现完全一样的效果。 */
-{
-  webpackChain (chain, webpack) {
-    chain.merge({
-      resolve: {
-        alias: {
-          Utilities: path.resolve(__dirname, 'src/utilities/'),
-          Templates: path.resolve(__dirname, 'src/templates/')
-        }
-      }
-    })
-  }
-}
-
-```
 
 ```jsx
 /* 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。 */
