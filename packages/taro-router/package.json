@@ -27,6 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "invariant": "^2.2.4",
+    "lodash": "^4.17.11",
     "resolve-pathname": "^2.2.0",
     "rollup-plugin-alias": "^1.4.0",
     "value-equal": "^0.4.0",
@@ -39,7 +40,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@babel/preset-env": "^7.1.5",
-    "@tarojs/taro-h5": "^1.1.0-beta.8",
+    "@tarojs/taro-h5": "^1.2.0-beta.13",
     "@types/history": "^4.7.2",
     "@types/jasmine": "^2.8.11",
     "@types/jest": "^23.3.9",

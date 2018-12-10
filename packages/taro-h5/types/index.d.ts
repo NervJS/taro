@@ -10246,4 +10246,23 @@ declare namespace TaroH5 {
 
   /* initNativeApi */
   function initNativeApi(any): void
+
+  function _set$app(any): void;
+  function getApp(): any;
+  function _set$router(any): void;
+
+  namespace Router {
+    export interface Location {
+      pathname: string;
+      search: string;
+      hash: string;
+      state: {
+        key: string;
+      };
+      params: {
+        [key: string]: string;
+      };
+    }
+  }
+  function getRouter(): Router.Location;
 }

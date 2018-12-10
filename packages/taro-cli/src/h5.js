@@ -112,6 +112,7 @@ function processEntry (code, filePath) {
   let renderCallCode
 
   let hasAddNervJsImportDefaultName = false
+  let hasConstructor = false
   let hasComponentWillMount = false
   let hasComponentDidMount = false
   let hasComponentDidShow = false
@@ -121,6 +122,7 @@ function processEntry (code, filePath) {
   let hasState = false
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
+  const additionalConstructorNode = toAst(`Taro._set$app(this)`)
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -181,6 +183,7 @@ function processEntry (code, filePath) {
         const isComponentWillMount = keyName === 'componentWillMount'
         const isComponentDidMount = keyName === 'componentDidMount'
         const isComponentWillUnmount = keyName === 'componentWillUnmount'
+        const isConstructor = keyName === 'constructor'
 
         if (isRender) {
           const routes = pages.map((v, k) => {
@@ -256,9 +259,14 @@ function processEntry (code, filePath) {
           /* 插入<Router /> */
           node.body = toAst(`{return (${funcBody});}`, { preserveComments: true })
         }
+
         if (tabBar && isComponentWillMount) {
           const initTabBarApisCallNode = toAst(`Taro.initTabBarApis(this, Taro)`)
           astPath.get('body').pushContainer('body', initTabBarApisCallNode)
+        }
+
+        if (hasConstructor && isConstructor) {
+          astPath.get('body').pushContainer('body', additionalConstructorNode)
         }
 
         if (hasComponentDidShow && isComponentDidMount) {
@@ -295,6 +303,11 @@ function processEntry (code, filePath) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentWillUnmount'), [],
             t.blockStatement([]), false, false))
+        }
+        if (!hasConstructor) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('constructor'), [t.identifier('props'), t.identifier('context')],
+            t.blockStatement([toAst('super(props, context)'), additionalConstructorNode]), false, false))
         }
         if (tabBar) {
           if (!hasComponentWillMount) {
@@ -475,7 +488,9 @@ function processEntry (code, filePath) {
         const node = astPath.node
         const key = node.key
         const keyName = getObjKey(key)
-        if (keyName === 'componentWillMount') {
+        if (keyName === 'constructor') {
+          hasConstructor = true
+        } else if (keyName === 'componentWillMount') {
           hasComponentWillMount = true
         } else if (keyName === 'componentDidMount') {
           hasComponentDidMount = true

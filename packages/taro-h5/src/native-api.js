@@ -38,6 +38,16 @@ export default function initNativeApi (taro) {
   taro.requirePlugin = function () {
     console.error('不支持 API requirePlugin')
   }
+  taro._set$app = function (app) {
+    taro._$app = app
+  }
+  taro.getApp = () => taro._$app
+
+  taro._set$router = function (router) {
+    taro._$router = router
+  }
+  taro.getRouter = () => taro._$router
+
   taro.canIUseWebp = canIUseWebp
   Object.assign(taro, storage, interactive, webSocket, tabBar, system, navigationBar, imageUtils, others)
 }

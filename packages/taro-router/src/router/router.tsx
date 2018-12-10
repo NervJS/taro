@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro-h5';
-import Nerv, { PropTypes } from 'nervjs';
+import Nerv from 'nervjs';
 import invariant from 'invariant';
 
 import { createNavigateBack, createNavigateTo, createRedirectTo } from '../apis';
@@ -18,10 +18,6 @@ interface State {
 }
 
 class Router extends Component<Props, State> {
-  static childContextTypes = {
-    router: PropTypes.object.isRequired
-  }
-
   unlisten: () => void;
   lastLocation: Types.Location;
   currentPages: any[] = [];
@@ -30,14 +26,6 @@ class Router extends Component<Props, State> {
     location: this.props.history.location,
     routeStack: [] as Types.RouteObj[]
   };
-
-  getChildContext () {
-    return {
-      router: {
-        location: this.state.location
-      }
-    }
-  }
 
   mountApis () {
     // 挂载Apis
@@ -136,6 +124,7 @@ class Router extends Component<Props, State> {
 
   render () {
     const router = this
+    const currentLocation = Taro.getRouter()
     router.currentPages.length = this.state.routeStack.length
     return (
       <div className="taro_router">
@@ -143,6 +132,7 @@ class Router extends Component<Props, State> {
           return (
             <Route
               path={path}
+              currentLocation={currentLocation}
               componentLoader={componentLoader}
               isIndex={isIndex}
               key={key}

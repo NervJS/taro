@@ -1,56 +1,46 @@
 import { Component } from '@tarojs/taro-h5';
-import Nerv, { PropTypes } from 'nervjs';
+import Nerv from 'nervjs';
 
 import createWrappedComponent from './createWrappedComponent';
-import { ComponentLoader } from '../utils/types';
+import { ComponentLoader, Location } from '../utils/types';
+import { tryToCall } from '../utils/index';
 
 interface RouteProps {
   path: string;
   componentLoader: ComponentLoader;
+  currentLocation: Location;
   isIndex: boolean;
   key?: string;
   k: number;
   collectComponent: Function;
 }
 
-interface RouteState {
-  matched: boolean;
-}
-
-class Route extends Component<RouteProps, RouteState> {
+class Route extends Component<RouteProps, {}> {
+  matched = false;
   wrappedComponent;
+  componentRef;
+  containerRef;
+  isRoute = true;
 
-  static contextTypes = {
-    router: PropTypes.object.isRequired
+  constructor (props, context) {
+    super(props, context)
+    this.matched = this.computeMatch(this.props.currentLocation)
   }
 
-  static childContextTypes = {
-    router: PropTypes.object,
-    store: PropTypes.object
-  }
-
-  state = {
-    matched: this.computeMatch(this.context.router)
-  };
-
-  getChildContext () {
-    return {
-      router: {
-        ...this.context.router,
-        matched: this.state.matched
-      }
-    }
-  }
-
-  computeMatch (router) {
-    const pathname = router.location.pathname;
-    const key = router.location.state.key;
+  computeMatch (currentLocation) {
+    const pathname = currentLocation.pathname;
+    const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
     if (isIndex && pathname === '/') return true
     return key === this.props.key
   }
 
+  getWrapRef = (ref) => {
+    this.containerRef = ref
+  }
+
   getRef = (ref) => {
+    this.componentRef = ref
     this.props.collectComponent(ref, this.props.k)
   }
 
@@ -68,28 +58,47 @@ class Route extends Component<RouteProps, RouteState> {
   }
 
   componentWillReceiveProps (nProps, nContext) {
-    this.setState(() => {
-      if (this.props.componentLoader !== nProps.ComponentLoader) this.updateComponent()
-      return {
-        matched: this.computeMatch(nContext.router)
-      }
-    });
+    if (this.props.path !== nProps.path) this.updateComponent()
+
+    const lastMatched = this.matched
+    const nextMatched = this.computeMatch(nProps.currentLocation)
+
+    if (lastMatched === nextMatched) return 
+
+    this.matched = nextMatched
+
+    if (nextMatched) {
+      this.showPage()
+      tryToCall(this.componentRef.componentDidShow, this.componentRef)
+    } else {
+      this.hidePage()
+      tryToCall(this.componentRef.componentDidHide, this.componentRef)
+    }
+  }
+
+  shouldComponentUpdate () {
+    /* 防止route的props变化导致组件重新渲染 */
+    return false
+  }
+
+  showPage () {
+    const dom = this.containerRef
+    dom.style.display = 'block'
+  }
+
+  hidePage () {
+    const dom = this.containerRef
+    dom.style.display = 'none'
   }
 
   render () {
     if (!this.wrappedComponent) return null
-    const router = this.context.router
-    const matched = this.state.matched
 
     const WrappedComponent = this.wrappedComponent
     return (
-      <WrappedComponent {...{
-        __router: {
-          matched,
-          location: router.location
-        },
-        ref: this.getRef
-      }}/>
+      <div className="taro_page" ref={this.getWrapRef}>
+        <WrappedComponent ref={this.getRef} />
+      </div>
     )
   }
 }

@@ -36,11 +36,17 @@ class Tabbar extends Nerv.Component {
   }
 
   getCurrentPathname () {
-    const pathname = this.props.mode === 'hash'
-      ? location.hash
-      : location.pathname
+    let pathname
+    let publicPath
+    if (this.props.mode === 'hash') {
+      pathname = location.hash
+      publicPath = ''
+    } else {
+      pathname = location.pathname
+      publicPath = this.props.publicPath
+    }
 
-    return pathname ? pathname.replace(new RegExp(`^#?${this.props.publicPath}/?`), '') : this.homePage
+    return pathname.replace(/\?[\s\S]*$/, '').replace(new RegExp(`^#?${publicPath}/?`), '')
   }
 
   hashChangeHandler ({ toLocation } = {}) {

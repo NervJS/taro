@@ -99,6 +99,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = 
 
   const initialLocation = getDOMLocation(initState)
   let lastLocation = initialLocation
+  Taro._set$router(initialLocation)
 
   let store = tryToParseStore(initState)
 
@@ -129,6 +130,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = 
       action: history.action
     }
 
+    Taro._set$router(history.location)
     Taro['eventCenter'].trigger('routerChange', {...params})
     transitionManager.notifyListeners({...params})
   }
