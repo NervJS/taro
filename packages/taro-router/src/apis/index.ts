@@ -1,4 +1,5 @@
 import { History } from '../utils/types'
+import invariant from 'invariant';
 
 type SuccessCallback = (res: any) => any
 type FailCallback = (err: any) => any
@@ -27,6 +28,9 @@ interface RedirectToOption {
 
 const createNavigateTo = (history: History) => {
   return function ({ url }: NavigateToOption) {
+
+    invariant(url, 'navigateTo must be called with a url')
+
     try {
       if (/^(https?:)\/\//.test(url)) {
         window.location.assign(url);
@@ -40,10 +44,13 @@ const createNavigateTo = (history: History) => {
 }
 
 const createNavigateBack = (history: History) => {
-  return function (opts: NavigateBackOption = { delta: -1 }) {
+  return function (opts: NavigateBackOption = {}) {
     try {
-      const { delta = -1 } = opts
-      history.go(delta)
+      const { delta = 1 } = opts
+
+      invariant(delta >= 0, 'navigateBack must be called with a delta greater than 0')
+
+      history.go(-delta)
       return Promise.resolve()
     } catch (e) {
       return Promise.reject()
@@ -53,6 +60,9 @@ const createNavigateBack = (history: History) => {
 
 const createRedirectTo = (history: History) => {
   return function ({ url }: RedirectToOption) {
+
+    invariant(url, 'redirectTo must be called with a url')
+    
     if (/^(https?:)\/\//.test(url)) {
       window.location.assign(url);
     }
