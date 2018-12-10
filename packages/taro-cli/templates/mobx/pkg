@@ -26,6 +26,7 @@
     "@tarojs/taro-alipay": "^<%= version %>",
     "@tarojs/taro-h5": "^<%= version %>",
     "@tarojs/taro-swan": "^<%= version %>",
+    "@tarojs/taro-tt": "^<%= version %>",
     "@tarojs/taro-weapp": "^<%= version %>",
     "@tarojs/rn-runner": "^<%= version %>",
     "@tarojs/mobx": "^<%= version %>",
