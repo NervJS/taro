@@ -179,9 +179,10 @@ export function parseJSXElement (element: t.JSXElement): string {
             swanSpecialAttrs[componentName] &&
             swanSpecialAttrs[componentName].includes(name)
           ) {
-            code = `= ${code} =`
+            value = `{= ${code} =}`
+          } else {
+            value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
           }
-          value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
           if (Adapter.type === Adapters.swan && name === Adapter.for) {
             value = code
           }
