@@ -158,7 +158,11 @@ async function recursiveRequire (filePath, files, isProduction, npmConfig = {}, 
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath
   if (!npmConfig.dir) {
-    outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+    const cwdRelate2Npm = path.relative(
+      filePath.slice(0, filePath.search('node_modules')),
+      process.cwd()
+    );
+    outputNpmPath = filePath.replace('node_modules', path.join(cwdRelate2Npm, outputDirName, npmConfig.name))
     outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
     let npmFilePath = filePath.match(/(?=(node_modules)).*/)[0]
