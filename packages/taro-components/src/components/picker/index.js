@@ -255,13 +255,13 @@ export default class Picker extends Nerv.Component {
         } else {
           eventObj.detail.value = this.index
         }
+        eventObj.detail.value = eventObj.detail.value.join('-')
       }
       this.setState({
         pickerValue: eventObj.detail.value
       })
 
       let reEventObj = Object.assign({}, eventObj)
-      reEventObj.detail.value = reEventObj.detail.value.join('-')
       this.props.onChange && this.props.onChange(reEventObj)
     }
 

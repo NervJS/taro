@@ -36,19 +36,19 @@ class Input extends Nerv.Component {
   }
 
   componentDidMount () {
-    this.inputRef.addEventListener('change', (e) => {
+    this.inputRef.addEventListener('input', (e) => {
       this.onInput(e)
     })
   }
 
   componentUnMount () {
-    this.inputRef.removeEventListener('change', (e) => {
+    this.inputRef.removeEventListener('input', (e) => {
       this.onInput(e)
     })
   }
 
   onInput (e) {
-    const { onInput, onChange = '' } = this.props
+    const { onChange = '' } = this.props
     if (!this.isOnComposition) {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
@@ -56,11 +56,7 @@ class Input extends Nerv.Component {
           value: e.target.value
         }
       })
-      if (onChange) {
-        onChange && onChange(e)
-      } else {
-        onInput && onInput(e)
-      }
+      if (onChange) onChange && onChange(e)
     }
   }
 
