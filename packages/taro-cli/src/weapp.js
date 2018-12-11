@@ -1605,6 +1605,8 @@ function buildUsingComponents (filePath, components, isComponent) {
     componentPath = Util.resolveScriptPath(path.resolve(filePath, '..', componentPath))
     if (fs.existsSync(componentPath)) {
       componentPath = Util.promoteRelativePath(path.relative(filePath, componentPath))
+    } else {
+      componentPath = component.path
     }
     usingComponents[component.name] = componentPath.replace(path.extname(componentPath), '')
   }
