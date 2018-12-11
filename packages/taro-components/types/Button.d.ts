@@ -39,7 +39,7 @@ interface ButtonProps extends StandardProps {
    *
    * 默认值：`false`
    */
-  loading?: false,
+  loading?: boolean,
 
   /**
    * 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件
