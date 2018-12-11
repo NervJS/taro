@@ -551,6 +551,8 @@ class Convertor {
     components.forEach(componentObj => {
       const component = componentObj.path
       if (this.hadBeenBuiltComponents.has(component)) return
+      this.hadBeenBuiltComponents.add(component)
+    
       const componentJSPath = component + this.fileTypes.SCRIPT
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
       const componentConfigPath = component + this.fileTypes.CONFIG
