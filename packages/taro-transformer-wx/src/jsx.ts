@@ -1,7 +1,7 @@
 import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { kebabCase, cloneDeep } from 'lodash'
+import { kebabCase } from 'lodash'
 import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'

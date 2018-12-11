@@ -183,6 +183,10 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type))
     const block = buildBlockElement()
     block.children = [t.jSXExpressionContainer(t.jSXEmptyExpression())]
-    jsx.replaceWith(wxml || block)
+    try {
+      jsx.replaceWith(wxml || block)
+    } catch (error) {
+      //
+    }
   }
 }
