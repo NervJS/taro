@@ -15,12 +15,34 @@ interface RouteProps {
   collectComponent: Function;
 }
 
+const getScroller = () => {
+  const panel = document.querySelector('.taro-tabbar__panel')
+  let res: {
+    set: (number) => void;
+    get: () => number;
+  }
+  if (panel) {
+    res = {
+      set: pos => { panel.scrollTop = pos },
+      get: () => panel.scrollTop
+    }
+  } else {
+    res = {
+      set: pos => window.scrollTo(0, pos),
+      get: () => window.pageYOffset
+    }
+  }
+  return res
+}
+let scroller
+
 class Route extends Component<RouteProps, {}> {
   matched = false;
   wrappedComponent;
   componentRef;
   containerRef;
   isRoute = true;
+  scrollPos = 0;
 
   constructor (props, context) {
     super(props, context)
@@ -57,6 +79,11 @@ class Route extends Component<RouteProps, {}> {
     this.updateComponent()
   }
 
+  componentDidMount () {
+    scroller = scroller || getScroller()
+    scroller.set(0)
+  }
+
   componentWillReceiveProps (nProps, nContext) {
     if (this.props.path !== nProps.path) this.updateComponent()
 
@@ -69,8 +96,12 @@ class Route extends Component<RouteProps, {}> {
 
     if (nextMatched) {
       this.showPage()
+      scroller = scroller || getScroller()
+      scroller.set(this.scrollPos)
       tryToCall(this.componentRef.componentDidShow, this.componentRef)
     } else {
+      scroller = scroller || getScroller()
+      this.scrollPos = scroller.get()
       this.hidePage()
       tryToCall(this.componentRef.componentDidHide, this.componentRef)
     }
