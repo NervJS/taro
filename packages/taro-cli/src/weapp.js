@@ -1382,9 +1382,9 @@ async function buildSinglePage (page) {
  * @returns postcss.process()
  */
 function processStyleUseCssModule (styleObj) {
-  // 对 xxx.global.[css|scss|less|styl] 等样式文件不做处理
-  const DO_NOT_USE_CSS_MODULE = '.global'
-  if (styleObj.filePath.indexOf(DO_NOT_USE_CSS_MODULE) > -1) return styleObj
+  // 只对 xxx.module.[css|scss|less|styl] 等样式文件做处理
+  const DO_USE_CSS_MODULE_REGEX = /^(.*\.module).*\.(css|scss|less|styl)$/
+  if (!DO_USE_CSS_MODULE_REGEX.test(styleObj.filePath)) return styleObj
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customCssModulesConf = Object.assign({
