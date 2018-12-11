@@ -1,7 +1,7 @@
 import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { kebabCase } from 'lodash'
+import { kebabCase, cloneDeep } from 'lodash'
 import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
@@ -144,6 +144,22 @@ export function parseJSXElement (element: t.JSXElement): string {
   const componentName = name.name
   const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
   const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
+  let hasElseAttr = false
+  attributes.forEach((a, index) => {
+    if (a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
+      hasElseAttr = true
+      attributes.splice(index, 1)
+    }
+  })
+  if (hasElseAttr) {
+    return createHTMLElement({
+      name: 'block',
+      attributes: {
+        [Adapter.else]: true
+      },
+      value: parseJSXChildren([element])
+    })
+  }
   let attributesTrans = {}
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
@@ -212,6 +228,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
     attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
   }
+
   return createHTMLElement({
     name: kebabCase(componentName),
     attributes: attributesTrans,
