@@ -387,7 +387,7 @@ function createComponent (ComponentClass, isPage) {
     }
 
     weappComponentConf.pageLifetimes['hide'] = function () {
-      componentTrigger(this.$component, 'componentDidShow')
+      componentTrigger(this.$component, 'componentDidHide')
     }
 
     weappComponentConf.pageLifetimes['resize'] = function () {
