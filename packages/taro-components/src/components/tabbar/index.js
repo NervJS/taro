@@ -97,11 +97,9 @@ class Tabbar extends Nerv.Component {
     const { conf, router = {} } = this.props
     function handleSelect (index, e) {
       let list = this.state.list
-      router.navigateTo &&
-        router.navigateTo({
-          url:
-            (/^\//.test(list[index].pagePath) ? '' : '/') + list[index].pagePath
-        })
+      router.redirectTo && router.redirectTo({
+        url: (/^\//.test(list[index].pagePath) ? '' : '/') + list[index].pagePath
+      })
     }
     conf.borderStyle = conf.borderStyle || 'black'
     let containerCls = classNames('weui-tabbar', {
