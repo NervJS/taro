@@ -16,7 +16,7 @@ import { appPath, addLeadingSlash, addTrailingSlash, recursiveMerge } from './ut
 import { bindDevLogger, bindProdLogger, bindDllLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 
-const customizeChain = (chain, customizeFunc) => {
+const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)
   }
@@ -87,7 +87,7 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
     const webpackChain = devConf(config)
     let webpackConfig
 
-    customizeChain(webpackChain, config)
+    customizeChain(webpackChain, config.webpackChain)
 
     webpackConfig = webpackChain.toConfig()
     if (config.webpack) {
