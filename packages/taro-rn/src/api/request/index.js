@@ -30,12 +30,14 @@ function request (options) {
 
   if (method === 'GET') {
     url = generateRequestUrlWithParams(url, data)
-  } else if (method === 'POST' && typeof data === 'object') {
-    const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
-    if (contentType === 'application/json') {
-      data = JSON.stringify(data)
-    } else if (contentType === 'application/x-www-form-urlencoded') {
-      data = serializeParams(data)
+  } else {
+    if (typeof data === 'object') {
+      const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
+      if (contentType === 'application/json') {
+        data = JSON.stringify(data)
+      } else if (contentType === 'application/x-www-form-urlencoded') {
+        data = serializeParams(data)
+      }
     }
   }
 
