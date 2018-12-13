@@ -9,6 +9,7 @@ import { usedComponents, errors } from './global'
 import * as fs from 'fs'
 import { resolve } from 'path'
 import { reserveKeyWords } from './constant'
+import { parseExpression } from 'babylon'
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -653,7 +654,7 @@ function parseAttribute (attr: Attribute) {
           }
         } else if (content.includes(':')) {
           const [ key, value ] = pureContent.split(':')
-          expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), buildTemplate(value))])
+          expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), parseExpression(value))])
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)

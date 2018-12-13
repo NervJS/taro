@@ -1,11 +1,13 @@
 import Taro from '@tarojs/taro-h5'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
+
+import TabbarItem from './tabbarItem'
 import './style'
 
-function fixPagePath (pagePath) {
-  return pagePath.replace(/^\.?\//, '')
-}
+const removeLeadingSlash = str => str.replace(/^\.?\//, '')
+const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
+
 class Tabbar extends Nerv.Component {
   constructor (props) {
     super(...arguments)
@@ -18,7 +20,7 @@ class Tabbar extends Nerv.Component {
       throw new Error('tabBar 配置错误')
     }
 
-    this.homePage = fixPagePath(props.homePage)
+    this.homePage = removeLeadingSlash(props.homePage)
 
     this.state = {
       list,
@@ -37,27 +39,22 @@ class Tabbar extends Nerv.Component {
 
   getCurrentPathname () {
     let pathname
-    let publicPath
     if (this.props.mode === 'hash') {
-      pathname = location.hash
-      publicPath = ''
+      pathname = location.hash.replace('#', '')
     } else {
-      pathname = location.pathname
-      publicPath = this.props.publicPath
+      pathname = location.pathname.replace(new RegExp(`^${this.props.publicPath}/?`), '')
     }
 
-    return pathname.replace(/\?[\s\S]*$/, '').replace(new RegExp(`^#?${publicPath}/?`), '')
+    return removeLeadingSlash(removeTrailingSearch(pathname))
   }
 
   hashChangeHandler ({ toLocation } = {}) {
-    let pathname = ''
     let currentPage
 
     if (toLocation) {
-      pathname = toLocation.pathname
-      currentPage = pathname ? pathname.replace(/^\//, '') : this.homePage
+      currentPage = toLocation.pathname ? removeLeadingSlash(toLocation.pathname) : this.homePage
     } else {
-      currentPage = this.getCurrentPathname()
+      currentPage = this.getCurrentPathname() || this.homePage
     }
 
     const stateObj = { isShow: false }
@@ -93,14 +90,16 @@ class Tabbar extends Nerv.Component {
     }
   }
 
+  handleSelect = (index, e) => {
+    let list = this.state.list
+    Taro.redirectTo && Taro.redirectTo({
+      url: (/^\//.test(list[index].pagePath) ? '' : '/') + list[index].pagePath
+    })
+  }
+
   render () {
-    const { conf, router = {} } = this.props
-    function handleSelect (index, e) {
-      let list = this.state.list
-      router.redirectTo && router.redirectTo({
-        url: (/^\//.test(list[index].pagePath) ? '' : '/') + list[index].pagePath
-      })
-    }
+    const { conf } = this.props
+
     conf.borderStyle = conf.borderStyle || 'black'
     let containerCls = classNames('weui-tabbar', {
       [`taro-tabbar__border-${conf.borderStyle}`]: true
@@ -114,30 +113,24 @@ class Tabbar extends Nerv.Component {
           }}
         >
           {this.state.list.map((item, index) => {
-            const cls = classNames('weui-tabbar__item', {
-              [`weui-bar__item_on`]: this.state.selectedIndex === index
-            })
-            let textStyle = {
-              color: this.state.selectedIndex === index ? conf.selectedColor : conf.color || ''
+            const isSelected = this.state.selectedIndex === index
+            let textColor
+            let iconPath
+            if (isSelected) {
+              textColor = conf.selectedColor
+              iconPath = item.selectedIconPath
+            } else {
+              textColor = conf.color || ''
+              iconPath = item.iconPath
             }
             return (
-              <a
-                key={index}
-                href='javascript:;'
-                className={cls}
-                onClick={handleSelect.bind(this, index)}
-              >
-                <span style='display: inline-block;position: relative;'>
-                  <img
-                    src={this.state.selectedIndex === index ? item.selectedIconPath : item.iconPath}
-                    alt=''
-                    className='weui-tabbar__icon'
-                  />
-                </span>
-                <p className='weui-tabbar__label' style={textStyle}>
-                  {item.text}
-                </p>
-              </a>
+              <TabbarItem
+                index={index}
+                onSelect={this.handleSelect}
+                isSelected={isSelected}
+                textColor={textColor}
+                iconPath={iconPath}
+                text={item.text} />
             )
           })}
         </div>

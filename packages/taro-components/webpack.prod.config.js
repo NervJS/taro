@@ -41,6 +41,7 @@ module.exports = {
                   'pragma': 'Nerv.createElement'
                 }
               ],
+              ['@babel/plugin-proposal-class-properties'],
               ['@babel/plugin-proposal-object-rest-spread']
             ]
           }
