@@ -3,9 +3,9 @@ import Nerv from 'nervjs'
 import classNames from 'classnames'
 import './style'
 
-function fixPagePath (pagePath) {
-  return pagePath.replace(/^\.?\//, '')
-}
+const removeLeadingSlash = str => str.replace(/^\.?\//, '')
+const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
+
 class Tabbar extends Nerv.Component {
   constructor (props) {
     super(...arguments)
@@ -18,7 +18,7 @@ class Tabbar extends Nerv.Component {
       throw new Error('tabBar 配置错误')
     }
 
-    this.homePage = fixPagePath(props.homePage)
+    this.homePage = removeLeadingSlash(props.homePage)
 
     this.state = {
       list,
@@ -37,27 +37,22 @@ class Tabbar extends Nerv.Component {
 
   getCurrentPathname () {
     let pathname
-    let publicPath
     if (this.props.mode === 'hash') {
-      pathname = location.hash
-      publicPath = ''
+      pathname = location.hash.replace('#', '')
     } else {
-      pathname = location.pathname
-      publicPath = this.props.publicPath
+      pathname = location.pathname.replace(new RegExp(`^${this.props.publicPath}/?`), '')
     }
 
-    return pathname.replace(/\?[\s\S]*$/, '').replace(new RegExp(`^#?${publicPath}/?`), '')
+    return removeTrailingSearch(pathname)
   }
 
   hashChangeHandler ({ toLocation } = {}) {
-    let pathname = ''
     let currentPage
 
     if (toLocation) {
-      pathname = toLocation.pathname
-      currentPage = pathname ? pathname.replace(/^\//, '') : this.homePage
+      currentPage = toLocation.pathname ? removeLeadingSlash(toLocation.pathname) : this.homePage
     } else {
-      currentPage = this.getCurrentPathname()
+      currentPage = this.getCurrentPathname() || this.homePage
     }
 
     const stateObj = { isShow: false }
