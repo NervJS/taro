@@ -224,11 +224,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
         }
 
         if (defaultSpecifier) {
-          if (buildAdapter === Util.BUILD_TYPES.SWAN) {
-            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(Util.promoteRelativePath(path.relative(sourceFilePath, vpath)).replace(/\\/g, '/')))]))
-          } else {
-            astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
-          }
+          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
         } else {
           astPath.remove()
         }
@@ -699,11 +695,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     if (NODE_MODULES_REG.test(vpath)) {
                       sourceDirPath = nodeModulesPath
                     }
-                    if (buildAdapter === Util.BUILD_TYPES.SWAN) {
-                      astPath.replaceWith(t.stringLiteral(Util.promoteRelativePath(path.relative(sourceFilePath, vpath)).replace(/\\/g, '/')))
-                    } else {
-                      astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
-                    }
+                    astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
                   } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
