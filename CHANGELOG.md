@@ -1,5 +1,32 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.14...v) (2018-12-11)
+# [](https://github.com/NervJS/taro/compare/v1.2.0-beta.15...v) (2018-12-13)
+
+
+
+<a name="1.2.0-beta.15"></a>
+# [1.2.0-beta.15](https://github.com/NervJS/taro/compare/v1.2.0-beta.14...v1.2.0-beta.15) (2018-12-13)
+
+
+### Bug Fixes
+
+* **components:** 修复h5 tabbar在'/'不展示的问题 ([8c92c90](https://github.com/NervJS/taro/commit/8c92c90))
+* **router component:** 修复redirectTo tabbar暂时改用redirectTo ([b7c6b58](https://github.com/NervJS/taro/commit/b7c6b58))
+* **taro-rn:** 修复非post方法时，对data的处理，close [#1457](https://github.com/NervJS/taro/issues/1457) ([6883a7e](https://github.com/NervJS/taro/commit/6883a7e))
+* **taro-weapp:** 改正组件 componentDidHide 生命周期拼写错误 ([88d3ef2](https://github.com/NervJS/taro/commit/88d3ef2))
+* **taroize:** babel template 无法生成纯字符串语句 ([7f34416](https://github.com/NervJS/taro/commit/7f34416))
+* **taroize:** 当 import 的 wxml 有多个根节点时转换失败，[#1463](https://github.com/NervJS/taro/issues/1463) ([fcfc9a6](https://github.com/NervJS/taro/commit/fcfc9a6))
+* **webpack-runner:** 修复dev模式下webpackChain配置失效的问题 ([b5afa70](https://github.com/NervJS/taro/commit/b5afa70))
+
+
+### Features
+
+* **cli:** 增加 import 组件的定义，close [#1481](https://github.com/NervJS/taro/issues/1481) ([9738e56](https://github.com/NervJS/taro/commit/9738e56))
+* **taro-h5:** 增加 makePhoneCall API，close [#1426](https://github.com/NervJS/taro/issues/1426) ([93e23f0](https://github.com/NervJS/taro/commit/93e23f0))
+
+
+### Reverts
+
+* **cli:** 百度小程序的编译本地资源路径替换使用绝对路径 ([20fce83](https://github.com/NervJS/taro/commit/20fce83))
 
 
 
