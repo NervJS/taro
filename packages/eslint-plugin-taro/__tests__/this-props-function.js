@@ -4,7 +4,7 @@ const { parserOptions, testComponent } = require('../utils/utils')
 
 const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
 
-const ERROR_MESSAGE = '从 this.props 而来的函数名必须要以 `on` 开头'
+const ERROR_MESSAGE = '从 this.props 而来的函数名必须要以 `on` 或 `dispatch` 开头'
 
 function testInvalid (message, tests) {
   return tests.map(code => ({
@@ -19,6 +19,10 @@ ruleTester.run('no-stateless-component', rule, {
   }, {
     code: testComponent(`this.props.onF()`)
   }, {
+    code: testComponent(`this.dispatch()`)
+  }, {
+    code: testComponent(`this.dispatchF()`)
+  }, {
     code: testComponent(`this.click()`)
   }, {
     code: testComponent(`click()`)
@@ -29,6 +33,8 @@ ruleTester.run('no-stateless-component', rule, {
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
     `this.props.click()`,
-    `this.props.f()`
+    `this.props.f()`,
+    `this.props.onf`,
+    `this.props.dispatchf`
   ])
 })
