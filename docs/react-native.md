@@ -52,7 +52,7 @@ Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一�
 
 #### 移动客户端：Expo (适用于 iOS 和 Android)
 
-在模拟器或真机上安装 Expo 客户端。
+在模拟器或真机上安装 [Expo 客户端 v2.9.2](https://www.apkmonk.com/app/host.exp.exponent/)。
 
 expo 客户端就像是一个用 expo 建造的应用程序浏览器。当您在项目中启动时，**它会为您生成一个开发地址及对应的二维码，您可以在 iOS 或 Android 上使用 expo 客户端上访问它**，无论是使用真机上还是模拟器，原理和步骤都相同。
 
@@ -163,6 +163,17 @@ Taro 将会开始编译文件：
 17:44:05: Finished building JavaScript bundle in 492ms
 ```
 
+反之，如果你在终端按下`a`，可能会出现如下错误：
+
+![image](https://user-images.githubusercontent.com/9441951/49937712-9b9c3500-ff12-11e8-91f4-f48251973ce1.png)
+
+这个时候你需要手动启动安卓模拟器，然后再次按下 `a`。
+
+如果 expo 客户端自动安装失败（由于众所周知的原因，这个概率还挺大），终端可能会报以下错误：
+
+![image](https://user-images.githubusercontent.com/9441951/49936425-eae06680-ff0e-11e8-9597-8035101c2ba0.png)
+
+你需要下载 [expo 客户端 v2.9.2](https://www.apkmonk.com/app/host.exp.exponent/)，拖拽进模拟器安装（或使用 `adb install XXX.apk`）的命令安装，然后再次按下 `a`，你就能看到应用的界面了。
 
 
 ### 开发者菜单
