@@ -202,7 +202,7 @@
 
 #### 拨打电话
 
-☑️ wx.makePhoneCall
+✅ wx.makePhoneCall
 
 #### 扫码
 
