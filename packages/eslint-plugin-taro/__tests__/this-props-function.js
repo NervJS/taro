@@ -34,7 +34,7 @@ ruleTester.run('no-stateless-component', rule, {
   invalid: testInvalid(ERROR_MESSAGE, [
     `this.props.click()`,
     `this.props.f()`,
-    `this.props.onf`,
-    `this.props.dispatchf`
+    `this.props.onf()`,
+    `this.props.dispatchf()`
   ])
 })
