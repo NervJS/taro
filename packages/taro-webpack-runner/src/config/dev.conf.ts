@@ -25,7 +25,7 @@ export default function (config: Partial<BuildConfig>): any {
     output = emptyObj,
     sourceRoot = '',
     outputRoot,
-    publicPath,
+    publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
 
