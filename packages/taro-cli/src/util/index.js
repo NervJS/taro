@@ -533,4 +533,36 @@ exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
 }
 /* eslint-enable */
 
+exports.UPDATE_PACKAGE_LIST =  [
+  '@tarojs/taro',
+  '@tarojs/async-await',
+  '@tarojs/cli',
+  '@tarojs/components',
+  '@tarojs/components-rn',
+  '@tarojs/taro-h5',
+  '@tarojs/taro-swan',
+  '@tarojs/taro-alipay',
+  '@tarojs/plugin-babel',
+  '@tarojs/plugin-csso',
+  '@tarojs/plugin-sass',
+  '@tarojs/plugin-less',
+  '@tarojs/plugin-stylus',
+  '@tarojs/plugin-uglifyjs',
+  '@tarojs/redux',
+  '@tarojs/redux-h5',
+  '@tarojs/taro-redux-rn',
+  '@tarojs/taro-router-rn',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
+  '@tarojs/router',
+  '@tarojs/taro-weapp',
+  '@tarojs/webpack-runner',
+  'postcss-plugin-constparse',
+  'eslint-config-taro',
+  'eslint-plugin-taro',
+  'taro-transformer-wx',
+  'postcss-pxtransform',
+  'babel-plugin-transform-jsx-to-stylesheet'
+]
+
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
