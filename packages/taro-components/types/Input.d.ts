@@ -133,8 +133,6 @@ interface InputProps extends StandardProps, FormItemProps {
    * event.detail = {value: value}
    */
   onConfirm?: BaseEventFunction
-
-  name?: string
 }
 
 declare const Input: ComponentType<InputProps>
