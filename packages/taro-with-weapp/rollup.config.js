@@ -1,6 +1,6 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
-const babel = require('rollup-plugin-babel')
+const buble = require('rollup-plugin-buble')
 const common = require('rollup-plugin-commonjs')
 const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
@@ -35,21 +35,7 @@ const baseConfig = {
     common({
       include: 'node_modules/**'
     }),
-    babel({
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          'pragma': 'Nerv.createElement'
-        }]
-      ]
-    })
+    buble()
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

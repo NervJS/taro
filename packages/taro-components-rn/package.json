@@ -12,9 +12,9 @@
     "test": "jest --coverage",
     "prepare": "npm run build",
     "test-update": "jest --updateSnapshot",
-    "start": "react-native-scripts start",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios"
   },
   "files": [
     "dist"
@@ -72,7 +72,6 @@
     "pre-commit": "^1.2.2",
     "react": "^16.4.1",
     "react-native-mock-render": "0.0.25",
-    "react-native-scripts": "^1.14.0",
     "react-test-renderer": "^16.2.0",
     "sinon": "^6.0.0",
     "tsc-watch": "^1.0.30",

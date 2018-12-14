@@ -88,10 +88,13 @@ export default function (WrappedComponent: React.ComponentType<*>) {
         onTouchend && onTouchend(this.getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
         const gapTime = endTimestamp - this.startTimestamp
-        if (gapTime <= 350) {
-          onClick && onClick(this.getWxAppEvent(evt))
-        } else {
-          onLongPress && onLongPress(this.getWxAppEvent(evt))
+        const hasMove = Math.abs(gestureState.dx) >= 1 || Math.abs(gestureState.dy) >= 1
+        if (!hasMove) {
+          if (gapTime <= 350) {
+            onClick && onClick(this.getWxAppEvent(evt))
+          } else {
+            onLongPress && onLongPress(this.getWxAppEvent(evt))
+          }
         }
         this.setStayTimer()
       },
