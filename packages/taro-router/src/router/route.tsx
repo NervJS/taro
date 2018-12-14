@@ -87,8 +87,11 @@ class Route extends Component<RouteProps, {}> {
   componentWillReceiveProps (nProps, nContext) {
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
+    const lastPath = this.props.path
+    const nextPath = nProps.path
+    const isRedirect = lastPath !== nextPath
 
-    if (this.props.path !== nProps.path) {
+    if (isRedirect) {
       this.updateComponent(nProps)
     } else if (lastMatched === nextMatched) {
       return
@@ -98,9 +101,11 @@ class Route extends Component<RouteProps, {}> {
 
     if (nextMatched) {
       this.showPage()
-      scroller = scroller || getScroller()
-      scroller.set(this.scrollPos)
-      tryToCall(this.componentRef.componentDidShow, this.componentRef)
+      if (!isRedirect) {
+        scroller = scroller || getScroller()
+        scroller.set(this.scrollPos)
+        tryToCall(this.componentRef.componentDidShow, this.componentRef)
+      }
     } else {
       scroller = scroller || getScroller()
       this.scrollPos = scroller.get()
