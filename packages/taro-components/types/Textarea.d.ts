@@ -37,7 +37,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
    *
    * 默认值：`140`
    */
-  maxlength?: number,
+  maxLength?: number,
 
   /**
    * 自动聚焦，拉起键盘。

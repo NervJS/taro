@@ -34,7 +34,7 @@ interface PickerSelectorProps extends PickerStandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: number
+  value?: number
 }
 
 interface PickerMultiSelectorProps extends PickerStandardProps {
@@ -53,7 +53,7 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: number[] | string[] | Object[]
+  value?: number[] | string[] | Object[]
   /**
    * 某一列的值改变时触发 columnchange 事件，event.detail = {column: column, value: value}，column 的值表示改变了第几列（下标从0开始），value 的值表示变更值的下标
    */
@@ -68,7 +68,7 @@ interface PickerTimeProps extends PickerStandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: string
+  value?: string
   /**
    * 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
    */
@@ -87,7 +87,7 @@ interface PickerDateProps extends PickerStandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: string
+  value?: string
   /**
    * 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
    */
@@ -112,7 +112,7 @@ interface PickerRegionProps extends PickerStandardProps {
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    */
-  value: string[]
+  value?: string[]
   /**
    * 仅当 mode = region 时有效，可为每一列的顶部添加一个自定义的项
    */
