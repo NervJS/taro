@@ -116,7 +116,7 @@ interface PickerRegionProps extends PickerStandardProps {
   /**
    * 仅当 mode = region 时有效，可为每一列的顶部添加一个自定义的项
    */
-  customItem: string
+  customItem?: string
 }
 
 declare const Picker: ComponentType<
