@@ -36,7 +36,7 @@ ruleTester.run('no-jsx-in-class-method', rule, {
       }
       return <View />
     })`
-  ]).com,
+  ]),
   invalid: testInvalid(ERROR_MESSAGE, [
     `
     class App extends Component {
