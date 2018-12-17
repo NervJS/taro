@@ -239,13 +239,15 @@ export function pathResolver (source: string, location: string) {
 export function codeFrameError (node, msg: string) {
   let errMsg = ''
   try {
-    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node)
+    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node, {
+      highlightCode: true
+    })
   } catch (error) {
     errMsg = 'failed to locate source'
   }
   return new Error(`${msg}
-  -----
-  ${errMsg}`)
+-----
+${errMsg}`)
 }
 
 export const setting = {
