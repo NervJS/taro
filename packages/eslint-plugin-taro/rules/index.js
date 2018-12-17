@@ -13,7 +13,6 @@ const allRules = {
   'class-naming': require('./class-naming'),
   'props-reserve-keyword': require('./props-reserve-keyword'),
   'this-props-function': require('./this-props-function'),
-  'switch-jsx': require('./switch-jsx'),
   'render-props': require('./render-props')
 }
 
