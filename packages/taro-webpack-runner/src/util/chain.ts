@@ -52,6 +52,13 @@ const defaultFontUrlLoaderOption = {
 const defaultImageUrlLoaderOption = {
   limit: 10240
 }
+const defaultCssModuleOption: PostcssOption.cssModules = {
+  enable: false,
+  config: {
+    namingPattern: 'global',
+    generateScopedName: '[name]__[local]___[hash:base64:5]'
+  }
+}
 
 const getLoader = (loaderName: string, options: Option) => {
   return {
@@ -163,19 +170,31 @@ const getModule = ({
   module,
   plugins
 }) => {
+  
   const postcssOption: PostcssOption = module.postcss || {}
 
   const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
 
   const extractCssLoader = getExtractCssLoader()
 
-  const lastCssLoader = enableExtract ? extractCssLoader : styleLoader
+  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
+
+  const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
   const cssOptions = [
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: postcssOption.cssModules && postcssOption.cssModules.enable
+      modules: false
+    },
+    cssLoaderOption
+  ]
+  const cssOptionsWithModule = [
+    {
+      importLoaders: 1,
+      sourceMap: enableSourceMap,
+      modules: cssModuleOptions.config!.namingPattern === 'module' ? true : 'global',
+      localIdentName: cssModuleOptions.config!.generateScopedName
     },
     cssLoaderOption
   ]
@@ -185,6 +204,40 @@ const getModule = ({
    * https://github.com/webpack-contrib/css-loader/releases/tag/v1.0.0
    */
   const cssLoader = getCssLoader(cssOptions)
+  const cssLoaders = [{
+    enforce: 'post',
+    use: [lastStyleLoader, cssLoader]
+  }]
+
+  if (cssModuleOptions.enable) {
+    const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
+    let cssModuleConditionName
+    let cssModuleCondition
+
+    if (cssModuleOptions.config!.namingPattern === 'module') {
+      cssModuleConditionName = 'include'
+      cssModuleCondition = {
+        and: [
+          { include: /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/},
+          { exclude: /\bnode_modules\b/ }
+        ]
+      }
+    } else {
+      cssModuleConditionName = 'include'
+      cssModuleCondition = {
+        and: [
+          { exclude: /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/ },
+          { exclude: /\bnode_modules\b/ }
+        ]
+      }
+    }
+    cssLoaders.unshift({
+      enforce: 'post',
+      [cssModuleConditionName]: [cssModuleCondition],
+      use: [lastStyleLoader, cssLoaderWithModule]
+    })
+  }
+
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
@@ -205,7 +258,33 @@ const getModule = ({
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  const rule: Option = {}
+  const rule: {
+    [key: string]: any
+  } = {}
+
+  rule.sass = {
+    test: /\.(s[ac]ss)\b/,
+    enforce: 'pre',
+    use: [resolveUrlLoader, sassLoader]
+  }
+  rule.less = {
+    test: /\.less\b/,
+    enforce: 'pre',
+    use: [lessLoader]
+  }
+  rule.styl = {
+    test: /\.styl\b/,
+    enforce: 'pre',
+    use: [stylusLoader]
+  }
+  rule.postcss = {
+    test: /\.(css|s[ac]ss|less|styl)\b/,
+    use: [postcssLoader]
+  }
+  rule.style = {
+    test: /\.(css|s[ac]ss|less|styl)\b/,
+    oneOf: cssLoaders
+  }
 
   rule.jsx = {
     use: {
@@ -217,7 +296,6 @@ const getModule = ({
       }
     }
   }
-
   rule.media = {
     use: {
       urlLoader: {
@@ -248,30 +326,6 @@ const getModule = ({
       }
     }
   }
-  rule.sass = {
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
-  }
-  rule.less = {
-    test: /\.less(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
-  }
-  rule.styl = {
-    test: /\.styl(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
-  }
-  rule.sassInNodemodules = {
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, sassLoader]
-  }
-  rule.lessInNodemodules = {
-    test: /\.less(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, lessLoader]
-  }
-  rule.stylInNodemodules = {
-    test: /\.styl(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, stylusLoader]
-  }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   if (Array.isArray(esnextModules) && esnextModules.length) {
@@ -286,21 +340,10 @@ const getModule = ({
     const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
     /* 通过taro处理 */
     rule.jsx.exclude = [notTaroModules]
-    rule.sass.exclude = [notTaroModules]
-    rule.less.exclude = [notTaroModules]
-    rule.styl.exclude = [notTaroModules]
-
-    rule.sassInNodemodules.include = [notTaroModules]
-    rule.lessInNodemodules.include = [notTaroModules]
-    rule.stylInNodemodules.include = [notTaroModules]
+    rule.postcss.exclude = [notTaroModules]
   } else {
     rule.jsx.exclude = [isNodemodule]
-    rule.sass.exclude = [isNodemodule]
-    rule.less.exclude = [isNodemodule]
-    rule.styl.exclude = [isNodemodule]
-    rule.sassInNodemodules.include = [isNodemodule]
-    rule.lessInNodemodules.include = [isNodemodule]
-    rule.stylInNodemodules.include = [isNodemodule]
+    rule.postcss.exclude = [isNodemodule]
   }
   return { rule }
 }

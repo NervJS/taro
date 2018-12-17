@@ -43,13 +43,14 @@ class Swiper extends Nerv.Component {
       slidesPerView: parseInt(displayMultipleItems, 10),
       initialSlide: parseInt(current, 10),
       speed: parseInt(duration, 10),
+      observer: true,
       on: {
         slideChange () {
           let e = new TouchEvent('touchend')
           Object.defineProperty(e, 'detail', {
             enumerable: true,
             value: {
-              current: this.activeIndex
+              current: this.realIndex
             }
           })
           onChange && onChange(e)
@@ -59,7 +60,7 @@ class Swiper extends Nerv.Component {
           Object.defineProperty(e, 'detail', {
             enumerable: true,
             value: {
-              current: this.activeIndex
+              current: this.realIndex
             }
           })
           onAnimationfinish && onAnimationfinish(e)
@@ -79,14 +80,15 @@ class Swiper extends Nerv.Component {
     this.mySwiper = new Swipers(this.$el, opt)
   }
 
-  componentDidUpdate () {
-    this.mySwiper.updateSlides() // 更新子元素
+  componentWillReceiveProps (nextProps) {
+    const nextCurrent = nextProps.current || 0
     // 是否衔接滚动模式
-    if (this.props.circular) {
-      this.mySwiper.slideToLoop(parseInt(this.props.current, 10)) // 更新下标
+    if (nextProps.circular) {
+      this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
     } else {
-      this.mySwiper.slideTo(parseInt(this.props.current, 10)) // 更新下标
+      this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
     }
+    this.mySwiper.update() // 更新子元素
   }
 
   componentWillUnmount () {
