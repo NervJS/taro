@@ -11,6 +11,8 @@ import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACK
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions } from './options'
 import { get as safeGet } from 'lodash'
+import { eslintValidation } from './eslint'
+
 const template = require('babel-template')
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
@@ -179,7 +181,8 @@ export default function transform (options: Options): TransformResult {
     },
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-transform-define').default, options.env]
+      [require('babel-plugin-transform-define').default, options.env],
+      eslintValidation
     ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
   }).ast as t.File
   if (options.isNormal) {
