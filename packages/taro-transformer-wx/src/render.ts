@@ -27,7 +27,8 @@ import {
   noop,
   genCompid,
   findParentLoops,
-  setAncestorCondition
+  setAncestorCondition,
+  replaceJSXTextWithTextComponent
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -1437,6 +1438,9 @@ export class RenderParser {
     this.handleLoopComponents()
     if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) this.handleComponents(renderBody)
     renderBody.traverse(this.visitors)
+    if (Adapter.type === Adapters.quickapp) {
+      renderBody.traverse(this.quickappVistor)
+    }
     this.setOutputTemplate()
     this.checkDuplicateName()
     this.removeJSXStatement()
@@ -1445,6 +1449,15 @@ export class RenderParser {
     this.setCustomEvent()
     this.createData()
     this.setLoopRefFlag()
+  }
+
+  private quickappVistor: Visitor = {
+    JSXExpressionContainer (path) {
+      if (path.parentPath.isJSXAttribute() || isContainJSXElement(path)) {
+        return
+      }
+      replaceJSXTextWithTextComponent(path)
+    }
   }
 
   checkDuplicateData () {

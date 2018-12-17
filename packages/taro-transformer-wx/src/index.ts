@@ -4,7 +4,15 @@ import { prettyPrint } from 'html'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 import { Transformer } from './class'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression, getSuperClassCode } from './utils'
+import {
+  setting,
+  findFirstIdentifierFromMemberExpression,
+  isContainJSXElement,
+  codeFrameError,
+  isArrayMapCallExpression,
+  replaceJSXTextWithTextComponent,
+  getSuperClassCode
+} from './utils'
 import * as t from 'babel-types'
 import {
   DEFAULT_Component_SET,
@@ -201,6 +209,17 @@ export default function transform (options: Options): TransformResult {
   let renderMethod!: NodePath<t.ClassMethod>
   let isImportTaro = false
   traverse(ast, {
+    JSXText (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      const value = path.node.value
+      if (!value.trim()) {
+        return
+      }
+
+      replaceJSXTextWithTextComponent(path)
+    },
     TemplateLiteral (path) {
       const nodes: t.Expression[] = []
       const { quasis, expressions } = path.node

@@ -149,7 +149,7 @@ function parseJSXChildren (
         if (t.isJSXElement(child.expression)) {
           return str + parseJSXElement(child.expression)
         }
-        return str + generateJSXAttr(child)
+        return str + `{${generateJSXAttr(child)}}`
       }
       return str
     }, '')

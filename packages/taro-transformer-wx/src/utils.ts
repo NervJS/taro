@@ -11,6 +11,17 @@ import { Adapter } from './adapter'
 import { transformOptions } from './options'
 const template = require('babel-template')
 
+export function replaceJSXTextWithTextComponent (path: NodePath<t.JSXText | t.JSXExpressionContainer>) {
+  const parent = path.findParent(p => p.isJSXElement())
+  if (parent && parent.isJSXElement() && t.isJSXIdentifier(parent.node.openingElement.name) && parent.node.openingElement.name.name !== 'Text') {
+    path.replaceWith(t.jSXElement(
+      t.jSXOpeningElement(t.jSXIdentifier('Text'), []),
+      t.jSXClosingElement(t.jSXIdentifier('Text')),
+      [path.isJSXText() ? t.jSXText(path.node.value) : path.node]
+    ))
+  }
+}
+
 export const incrementId = () => {
   let id = 0
   return () => id++
