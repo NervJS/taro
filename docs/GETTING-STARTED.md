@@ -142,3 +142,37 @@ yarn global add @tarojs/cli@latest
 ```bash
 $ taro update project
 ```
+
+## 环境及依赖检测
+Taro 提供了命令来一件检测 Taro 环境及依赖的版本等信息，方便大家查看项目的环境及依赖，排查环境问题。在提 issue 的时候，请附上 `taro info` 打印的信息，帮助开发人员快速定位问题。
+
+```bash
+$ taro info
+👽 Taro v1.2.0-beta.15
+
+
+  Taro CLI 1.2.0-beta.15 environment info:
+    System:
+      OS: macOS High Sierra 10.13.5
+      Shell: 5.3 - /bin/zsh
+    Binaries:
+      Node: 8.11.2 - /usr/local/bin/node
+      Yarn: 1.8.0 - /usr/local/bin/yarn
+      npm: 5.6.0 - /usr/local/bin/npm
+    npmPackages:
+      @tarojs/components: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/plugin-babel: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/plugin-csso: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/plugin-sass: ^1.2.0-beta.4 => 1.2.0-beta.4
+      @tarojs/plugin-uglifyjs: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/rn-runner: ^1.2.0-beta.4 => 1.2.0-beta.4
+      @tarojs/router: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-alipay: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-h5: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-swan: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-weapp: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/webpack-runner: ^1.2.0-beta.3 => 1.2.0-beta.3
+      eslint-config-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
+      eslint-plugin-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
+```
