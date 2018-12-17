@@ -61,6 +61,17 @@ const ttAdapter: Adapter = {
   type: Adapters.tt
 }
 
+const quickappAdapter: Adapter = {
+  if: 'if',
+  else: 'else',
+  elseif: 'elif',
+  for: 'for',
+  forItem: 'for-item',
+  forIndex: 'for-index',
+  key: 'key',
+  type: Adapters.quickapp
+}
+
 export let Adapter: Adapter = weixinAdapter
 
 export function setAdapter (adapter: Adapters) {
@@ -73,6 +84,9 @@ export function setAdapter (adapter: Adapters) {
       break
     case Adapters.tt:
       Adapter = ttAdapter
+      break
+    case Adapters.quickapp:
+      Adapter = quickappAdapter
       break
     default:
       Adapter = weixinAdapter
