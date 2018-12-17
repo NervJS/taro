@@ -420,10 +420,10 @@ declare namespace Taro {
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
 
-  function render(component: Component | JSX.Element, element: Element | null)
+  function render(component: Component | JSX.Element, element: Element | null): any;
 
-  function internal_safe_set (...arg): any
-  function internal_safe_get (...arg): any
+  function internal_safe_set (...arg: any[]): any;
+  function internal_safe_get (...arg: any[]): any;
 
   function pxTransform(size: number): string
 
@@ -676,7 +676,7 @@ declare namespace Taro {
       /**
        * 上传进度回调
        */
-      progress: (UploadTaskProgressCallback) => void
+      progress: (callback: UploadTaskProgressCallback) => void
       /**
        * 终止上传任务
        */
@@ -2583,7 +2583,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath, tempVideoPath }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
