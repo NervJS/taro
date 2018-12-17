@@ -94,6 +94,20 @@ export function setJSXAttr (
   }
 }
 
+export function generateJSXAttr (ast: t.Node) {
+  return decodeUnicode(
+    generate(ast, {
+      quotes: 'single',
+      jsonCompatibleStrings: true
+    })
+    .code
+  )
+  .replace(/(this\.props\.)|(this\.state\.)/g, '')
+  .replace(/(props\.)|(state\.)/g, '')
+  .replace(/this\./g, '')
+  .replace(/</g, lessThanSignPlacehold)
+}
+
 export function isAllLiteral (...args) {
   return args.every(p => t.isLiteral(p))
 }
@@ -135,19 +149,7 @@ function parseJSXChildren (
         if (t.isJSXElement(child.expression)) {
           return str + parseJSXElement(child.expression)
         }
-        return str + `{${
-          decodeUnicode(
-            generate(child, {
-              quotes: 'single',
-              jsonCompatibleStrings: true
-            })
-            .code
-          )
-          .replace(/(this\.props\.)|(this\.state\.)/g, '')
-          .replace(/(props\.)|(state\.)/g, '')
-          .replace(/this\./g, '')
-          .replace(/</g, lessThanSignPlacehold)
-        }}`
+        return str + generateJSXAttr(child)
       }
       return str
     }, '')
