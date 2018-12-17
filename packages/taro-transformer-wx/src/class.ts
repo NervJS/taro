@@ -349,7 +349,7 @@ class Transformer {
             const sibling = path.getSibling('property')
             if (
               path.get('object').isThisExpression() &&
-              path.get('property').isIdentifier({ name: 'props' }) &&
+              (path.get('property').isIdentifier({ name: 'props' }) || path.get('property').isIdentifier({ name: 'state' })) &&
               sibling.isIdentifier()
             ) {
               const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
