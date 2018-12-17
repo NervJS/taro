@@ -148,7 +148,12 @@ export default function (config: Partial<BuildConfig>): any {
       staticDirectory
     }),
     plugin,
-    optimization: { minimizer }
+    optimization: {
+      minimizer,
+      splitChunks: {
+        name: false
+      }
+    }
   })
   return chain
 }
