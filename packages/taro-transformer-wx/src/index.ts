@@ -5,7 +5,7 @@ import { prettyPrint } from 'html'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 import { Transformer } from './class'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression } from './utils'
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
@@ -383,6 +383,16 @@ export default function transform (options: Options): TransformResult {
       const forStatement = path.findParent(isForStatement)
       if (isForStatement(forStatement)) {
         throw codeFrameError(forStatement.node, '不行使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
+      }
+
+      const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
+      if (loopCallExpr && loopCallExpr.isCallExpression()) {
+        const [ func ] = loopCallExpr.node.arguments
+        if (t.isArrowFunctionExpression(func) && !t.isBlockStatement(func.body)) {
+          func.body = t.blockStatement([
+            t.returnStatement(func.body)
+          ])
+        }
       }
     },
     JSXOpeningElement (path) {
