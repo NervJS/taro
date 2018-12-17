@@ -2,7 +2,7 @@
 title: CSS Modules 的使用
 ---
 
-> 1.2.0-beta.3 版本开始支持，RN 端尚未支持
+> 1.2.0 版本开始支持，RN 端尚未支持
 
 Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的支持，但默认是关闭的，如果需要开启使用，请先在[编译配置](./config-detail.md)中添加如下配置。
 
@@ -16,6 +16,7 @@ weapp: {
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
@@ -34,6 +35,7 @@ h5: {
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
@@ -42,7 +44,15 @@ h5: {
 }
 ```
 
-在开启之后，你就可以在 Taro 中使用 CSS Modules 功能了，例如
+在开启之后，你就可以在 Taro 中使用 CSS Modules 功能了，值得注意的是，Taro 中使用 CSS Modules 有两种模式，分别为全局转换及部分自定义转换模式，通过 `namingPattern` 配置进行控制
+
+`namingPattern` 配置取值分别如下：
+	- `global`，表示全局转换，所有样式文件都会经过 CSS Modules 转换处理，除了文件名中包含 `.global.` 的样式文件
+	- `module`，表示自定义转换，只有文件名中包含 `.module.` 的样式文件会经过 CSS Modules 转换处理
+
+**推荐使用自定义转换模式，这样的话就不会影响到一些第三方库的样式了**
+
+CSS Modules 使用方式如下
 
 组件样式
 
@@ -61,7 +71,7 @@ h5: {
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 
-import styles from './Test.scss'
+import styles from './Test.module.scss'
 
 export default class Test extends Component {
   constructor(props) {
