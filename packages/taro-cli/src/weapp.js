@@ -1374,19 +1374,27 @@ async function buildSinglePage (page) {
  * @returns postcss.process()
  */
 function processStyleUseCssModule (styleObj) {
-  // 对 xxx.global.[css|scss|less|styl] 等样式文件不做处理
-  const DO_NOT_USE_CSS_MODULE = '.global'
-  if (styleObj.filePath.indexOf(DO_NOT_USE_CSS_MODULE) > -1) return styleObj
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customCssModulesConf = Object.assign({
     enable: false,
     config: {
-      generateScopedName: '[name]__[local]___[hash:base64:5]'
+      generateScopedName: '[name]__[local]___[hash:base64:5]',
+      namingPattern: 'global'
     }
   }, customPostcssConf.cssModules || {})
   if (!customCssModulesConf.enable) {
     return styleObj
+  }
+  const namingPattern = customCssModulesConf.config.namingPattern
+  if (namingPattern === 'module') {
+    // 只对 xxx.module.[css|scss|less|styl] 等样式文件做处理
+    const DO_USE_CSS_MODULE_REGEX = /^(.*\.module).*\.(css|scss|less|styl)$/
+    if (!DO_USE_CSS_MODULE_REGEX.test(styleObj.filePath)) return styleObj
+  } else {
+    // 对 xxx.global.[css|scss|less|styl] 等样式文件不做处理
+    const DO_NOT_USE_CSS_MODULE_REGEX = /^(.*\.global).*\.(css|scss|less|styl)$/
+    if (DO_NOT_USE_CSS_MODULE_REGEX.test(styleObj.filePath)) return styleObj
   }
   const generateScopedName = customCssModulesConf.config.generateScopedName
   const context = process.cwd()
