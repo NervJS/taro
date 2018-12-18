@@ -86,8 +86,8 @@ describe('loop', () => {
               `
             <block>
                 <view>
-                    <view wx:key="{{i}}" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}" wx:for-item="e" wx:for-index="i">loop1: {{i}}
-                        <view wx:key="{{j}}" class="ratio-16-9 image-company-album" wx:for="{{e.$anonymousCallee__0}}" wx:for-item="el" wx:for-index="j">loop2: {{j}}</view>
+                    <view wx:key="i" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}" wx:for-item="e" wx:for-index="i">loop1: {{i}}
+                        <view wx:key="j" class="ratio-16-9 image-company-album" wx:for="{{e.$anonymousCallee__0}}" wx:for-item="el" wx:for-index="j">loop2: {{j}}</view>
                     </view>
                 </view>
             </block>
@@ -127,7 +127,7 @@ describe('loop', () => {
               `
             <block>
                 <view>
-                    <block wx:if=\"{{!(arr1.length > 1)}}\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"{{i}}\">
+                    <block wx:if=\"{{!(arr1.length > 1)}}\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"i\">
                         <view class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
                     </block>
                 </view>
@@ -167,7 +167,7 @@ describe('loop', () => {
               `
             <block>
                 <view>
-                    <block wx:if=\"{{!e.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"{{i}}\">
+                    <block wx:if=\"{{!e.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"i\">
                         <view class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
                     </block>
                 </view>
@@ -211,7 +211,7 @@ describe('loop', () => {
                         <view></view>
                     </block>
                     <block wx:else>
-                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
+                        <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
                     </block>
                 </block>
             </view>
@@ -268,13 +268,13 @@ describe('loop', () => {
                         <view></view>
                     </block>
                     <block wx:else>
-                        <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a2}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}
+                        <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a2}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}
                             <block>
                                 <block wx:if=\"{{b1}}\">
                                     <view></view>
                                 </block>
                                 <block wx:else>
-                                    <view wx:key=\"{{i}}\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a3}}\"
+                                    <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a3}}\"
                                     wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
                                 </block>
                             </block>
@@ -1083,7 +1083,7 @@ describe('loop', () => {
             `
           <block>
         <view>
-            <cover-view wx:key=\"{{arr.$loopState__temp2}}\"  wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
+            <cover-view wx:key=\"arr.$loopState__temp2\"  wx:for=\"{{loopArray0}}\" wx:for-item=\"arr\">
                 <block wx:if=\"{{b1}}\" wx:for=\"{{arr.$original.list}}\" wx:for-item=\"item\">
                     <scroll-view class=\"test\">
                         <block wx:if=\"{{b2}}\">
@@ -1971,14 +1971,14 @@ describe('loop', () => {
           <block>
               <view>
                   <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\" wx:for-index=\"index\"
-                  wx:key=\"{{index}}\">
+                  wx:key=\"index\">
                       <block wx:if=\"{{item.$loopState__temp2}}\">
                           <navigator>
                               <view>1</view>
                           </navigator>
                       </block>
                       <block wx:else>
-                          <navigator wx:key=\"{{item.$original.id}}\">
+                          <navigator wx:key=\"item.$original.id\">
                               <view>2</view>
                           </navigator>
                       </block>
@@ -2607,7 +2607,7 @@ describe('loop', () => {
           )
         })
 
-        expect(template).toMatch(`wx:key="{{item}}"`)
+        expect(template).toMatch(`wx:key="item"`)
       })
 
       test('能使用 key 2', () => {
@@ -2626,7 +2626,7 @@ describe('loop', () => {
           )
         })
 
-        expect(template).toMatch(`wx:key="{{item.id}}"`)
+        expect(template).toMatch(`wx:key="item.id"`)
       })
 
       test('callee 支持复杂表达式', () => {
@@ -2753,9 +2753,9 @@ describe('loop', () => {
       expect(template).toMatch(
         prettyPrint(`
           <block>
-              <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
+              <view wx:key="index" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
                   <view>{{key.$original}}</view>
-                  <view wx:key="{{id}}" wx:for="{{key.$anonymousCallee__1}}" wx:for-item="value" wx:for-index="id">{{value.$original}}</view>
+                  <view wx:key="id" wx:for="{{key.$anonymousCallee__1}}" wx:for-item="value" wx:for-index="id">{{value.$original}}</view>
               </view>
           </block>
       `)
@@ -2825,9 +2825,9 @@ describe('loop', () => {
       expect(template).toMatch(
         prettyPrint(`
           <block>
-              <view wx:key="{{index}}" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
+              <view wx:key="index" wx:for="{{loopArray0}}" wx:for-item="key" wx:for-index="index">
                   <view>{{key.$original}}</view>
-                  <view wx:key="{{id}}" wx:for="{{key.ks}}" wx:for-item="value" wx:for-index="id">{{value}}</view>
+                  <view wx:key="id" wx:for="{{key.ks}}" wx:for-item="value" wx:for-index="id">{{value}}</view>
               </view>
           </block>
       `)
