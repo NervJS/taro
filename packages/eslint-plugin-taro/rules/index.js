@@ -7,7 +7,7 @@ const allRules = {
   'no-jsx-in-class-method': require('./no-jsx-in-class-method'),
   'no-spread-in-props': require('./no-spread-in-props'),
   'no-stateless-component': require('./no-stateless-component'),
-  'jsx-handler-names': require('./jsx-handler-names'),
+  // 'jsx-handler-names': require('./jsx-handler-names'),
   'reserve-class-properties': require('./reserve-class-properties'),
   'function-naming': require('./function-naming'),
   'class-naming': require('./class-naming'),
