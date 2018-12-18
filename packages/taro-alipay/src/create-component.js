@@ -1,5 +1,8 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
+
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
@@ -219,7 +222,8 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
@@ -285,6 +289,7 @@ function createComponent (ComponentClass, isPage) {
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
         Object.assign(this.$component.$router.params, options)
+        this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       },
 

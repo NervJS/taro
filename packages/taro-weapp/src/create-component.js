@@ -1,6 +1,9 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
+
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
@@ -250,7 +253,8 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
@@ -356,6 +360,7 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf.methods['onLoad'] = function (options = {}) {
       if (this.$component.__isReady) return
       Object.assign(this.$component.$router.params, options)
+      this.$component.$router.path = getCurrentPageUrl()
       initComponent.apply(this, [ComponentClass, isPage])
     }
     weappComponentConf.methods['onReady'] = function () {

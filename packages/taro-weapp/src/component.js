@@ -26,7 +26,8 @@ class BaseComponent {
   _pendingCallbacks = []
   $componentType = ''
   $router = {
-    params: {}
+    params: {},
+    path: ''
   }
 
   constructor (props = {}, isPage) {

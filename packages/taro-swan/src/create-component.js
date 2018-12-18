@@ -1,5 +1,8 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
+
 const privatePropValName = 'privateTriggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
@@ -185,7 +188,8 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
@@ -250,6 +254,7 @@ function createComponent (ComponentClass, isPage) {
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
       if (isPage) {
+        this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       }
     },
