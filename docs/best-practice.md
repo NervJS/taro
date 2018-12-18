@@ -13,6 +13,18 @@ title: 最佳实践
 * [不能在 JSX 参数中使用对象展开符](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-spread-in-props.md)
 * [不支持无状态组件](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-stateless-function.md)
 
+以上的规则在 Taro 默认生成的模板都有 ESLint 检测，无需做任何配置。如果你的编辑器没有安装 ESLint 插件可以参考以下教程在你的编辑器安装：
+
+* [VSCode](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* [IntelliJ IDEA(WebStorm 等 JetBrains 系)](https://www.jetbrains.com/help/idea/eslint.html)
+* [Sublime Text](https://packagecontrol.io/packages/ESLint)
+
+默认情况下 Taro 的编译器也会对无法运行的代码进行警告，当没有调用栈信息时代码是可以生成的。如果你需要在编译时禁用掉 ESLint 检查，可以在命令前加入 `ESLINT=false` 参数，例如：
+
+```bash
+$ ESLINT=false taro build --type weapp --watch
+```
+
 ## 最佳编码方式
 
 经过较长时间的探索与验证，目前 Taro 在微信小程序端是采用依托于小程序原生自定义组件系统来设计实现 Taro 组件化的，所以目前小程序端的组件化会受到小程序原生组件系统的限制，而同时为了实现以 React 方式编写代码的目标，Taro 本身做了一些编译时以及运行时的处理，这样也带来了一些值得注意的约束，所以有必要阐述一下 Taro 编码上的最佳实践。
