@@ -53,7 +53,7 @@ const tryToParseStore = (state: HistoryState) => {
 
   const isValid = store.key === state.key
 
-  warning(isValid, 'Invalid location store, it is rewrote')
+  // warning(isValid, 'Invalid location store, it is rewrote')
 
   if (!isValid) {
     store.key = state.key!
