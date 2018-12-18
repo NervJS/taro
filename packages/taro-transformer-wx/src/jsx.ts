@@ -2,7 +2,7 @@ import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
-import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs } from './constant'
+import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs, THIRD_PARTY_COMPONENTS } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters } from './adapter'
@@ -207,6 +207,9 @@ export function parseJSXElement (element: t.JSXElement): string {
           }
         } else if (attrValue === null && name !== Adapter.else) {
           value = `{{true}}`
+        }
+        if (THIRD_PARTY_COMPONENTS.has(componentName) && /^bind/.test(name) && name.includes('-')) {
+          name = name.replace(/^bind/, 'bind:')
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value

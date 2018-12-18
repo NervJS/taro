@@ -147,6 +147,7 @@ export default function transform (options: Options): TransformResult {
   if (Adapter.type === Adapters.swan) {
     setLoopOriginal('privateOriginal')
   }
+  THIRD_PARTY_COMPONENTS.clear()
   setTransformOptions(options)
   const code = options.isTyped
     ? ts.transpile(options.code, {
