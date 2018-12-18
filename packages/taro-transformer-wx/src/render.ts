@@ -28,7 +28,17 @@ import {
   buildBlockElement,
   parseJSXElement
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL, GEL_ELEMENT_BY_ID } from './constant'
+import {
+  DEFAULT_Component_SET,
+  MAP_CALL_ITERATOR,
+  LOOP_STATE,
+  LOOP_CALLEE,
+  THIRD_PARTY_COMPONENTS,
+  LOOP_ORIGINAL,
+  INTERNAL_GET_ORIGNAL,
+  GEL_ELEMENT_BY_ID,
+  ALIPAY_BUBBLE_EVENTS
+} from './constant'
 import { Adapter, Adapters } from './adapter'
 import { transformOptions } from './options'
 import generate from 'babel-generator'
@@ -680,6 +690,10 @@ export class RenderParser {
             }
           }
           if (bindCalleeName !== null) {
+            const attr = path.parentPath.node as t.JSXAttribute
+            let bindEventName = attr.name.name as string
+            bindEventName = bindEventName.replace(/^bind|^catch/, '')
+
             const args = expression.get('arguments') as any
             (args as NodePath<t.Node>[]).forEach((arg, index) => {
               const node = arg.node
@@ -687,7 +701,7 @@ export class RenderParser {
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
-                  `data-e-${bindCalleeName}-so`,
+                  `data-e-${bindEventName}-so`,
                   t.stringLiteral(argName)
                 )
               } else {
@@ -714,7 +728,7 @@ export class RenderParser {
                 }
                 setJSXAttr(
                   JSXElement,
-                  `data-e-${bindCalleeName}-a-${toLetters(index)}`,
+                  `data-e-${bindEventName}-a-${toLetters(index)}`,
                   expr!
                 )
               }
@@ -769,15 +783,6 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind')) {
               path.node.value = t.stringLiteral(`${methodName}`)
-            } else if (Adapter.type === Adapters.alipay &&
-              t.isJSXIdentifier(componentName) &&
-              !DEFAULT_Component_SET.has(componentName.name)
-            ) {
-              setJSXAttr(
-                jsxElementPath.node,
-                `data-map-func-${name.name}`,
-                t.stringLiteral(methodName)
-              )
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
@@ -796,8 +801,12 @@ export class RenderParser {
             const componentName = jsxElementPath.node.openingElement.name.name
             if (Adapter.type === Adapters.alipay) {
               let transformName = name.name
-              if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
-                transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+              if (DEFAULT_Component_SET.has(componentName) && ALIPAY_BUBBLE_EVENTS.has(name.name)) {
+                if (name.name === 'onClick') {
+                  transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+                } else {
+                  transformName = `${eventShouldBeCatched ? 'catch' : 'on'}${name.name.slice(2)}`
+                }
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (DEFAULT_Component_SET.has(componentName)) {
