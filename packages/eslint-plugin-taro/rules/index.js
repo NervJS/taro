@@ -17,7 +17,8 @@ const allRules = {
 }
 
 const transformerDisableRules = new Set([
-  'this-props-function'
+  'this-props-function',
+  'props-reserve-keyword'
 ])
 
 function configureAsError (rules, isTransformer) {

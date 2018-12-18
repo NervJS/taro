@@ -687,11 +687,11 @@ function handleAttrKey (key: string) {
     return key
   } else if (key === 'class') {
     return 'className'
-  } else if (/^(bind|catch)[a-z]/.test(key)) {
+  } else if (/^(bind|catch)[a-z|:]/.test(key)) {
     if (specialEvents.has(key)) {
       return specialEvents.get(key)!
     } else {
-      key = key.replace(/^(bind|catch)[a-z]/, 'on')
+      key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
     }
   }
