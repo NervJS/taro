@@ -49,7 +49,7 @@ export namespace History {
 
 
 export interface Location {
-  pathname: History.Pathname;
+  path: History.Pathname;
   search: History.Search;
   hash: History.Hash;
   state: History.State;

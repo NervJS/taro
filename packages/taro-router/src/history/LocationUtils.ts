@@ -15,7 +15,7 @@ function createLocation (pathOrLocation: string | Location, key?: string, curren
     // One-arg form: push(location)
     location = { ...pathOrLocation }
 
-    if (location.pathname === undefined) location.pathname = ''
+    if (location.path === undefined) location.path = ''
 
     if (location.search) {
       if (location.search.charAt(0) !== '?') location.search = '?' + location.search
@@ -31,10 +31,10 @@ function createLocation (pathOrLocation: string | Location, key?: string, curren
   }
 
   try {
-    location.pathname = decodeURI(location.pathname!)
+    location.path = decodeURI(location.path!)
   } catch (e) {
     if (e instanceof URIError) {
-      throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.')
+      throw new URIError('Pathname "' + location.path + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.')
     } else {
       throw e
     }
@@ -56,15 +56,15 @@ function createLocation (pathOrLocation: string | Location, key?: string, curren
 
   if (currentLocation) {
     // Resolve incomplete/relative pathname relative to current location.
-    if (!location.pathname) {
-      location.pathname = currentLocation.pathname
-    } else if (location.pathname.charAt(0) !== '/') {
-      location.pathname = resolvePathname(location.pathname, currentLocation.pathname)
+    if (!location.path) {
+      location.path = currentLocation.path
+    } else if (location.path.charAt(0) !== '/') {
+      location.path = resolvePathname(location.path, currentLocation.path)
     }
   } else {
     // When there is no prior location and pathname is empty, set it to /
-    if (!location.pathname) {
-      location.pathname = '/'
+    if (!location.path) {
+      location.path = '/'
     }
   }
 

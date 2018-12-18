@@ -75,22 +75,27 @@ const createHistorySerializer = (storeObj: HistoryState) => {
   return serialize
 }
 
-const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = { mode: "hash" }) => {
+const createHistory = (props: { basename?: string, mode: "hash" | "browser", firstPagePath: string }) => {
   const transitionManager = createTransitionManager()
   const basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : ''
   let listenerCount = 0
   let serialize
 
+  props.mode = props.mode || "hash"
   const getDOMLocation = (historyState: HistoryState): Location => {
     const { key } = historyState
     const { pathname, search, hash } = window.location
     let path = props.mode === "hash"
       ? addLeadingSlash(getHashPath())
-      : pathname + search + hash;
+      : pathname + search + hash
 
     warning(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".')
 
     if (basename) path = stripBasename(path, basename)
+
+    if (path === '/') {
+      path = props.firstPagePath
+    }
 
     return createLocation(path, key)
   }

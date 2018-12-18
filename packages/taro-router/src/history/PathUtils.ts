@@ -15,7 +15,7 @@ export const stripBasename = (path: string, prefix: string): string =>
 export const stripTrailingSlash = (path: string): string =>
   path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
 
-export const parsePath = (path: string): Pick<Location, "pathname" | "search" | "hash"> => {
+export const parsePath = (path: string): Pick<Location, "path" | "search" | "hash"> => {
   let pathname = path || '/'
   let search = ''
   let hash = ''
@@ -33,20 +33,20 @@ export const parsePath = (path: string): Pick<Location, "pathname" | "search" | 
   }
 
   return {
-    pathname,
+    path: pathname,
     search: search === '?' ? '' : search,
     hash: hash === '#' ? '' : hash
   }
 }
 
 export const createPath = (location: Location): string => {
-  const { pathname, search, hash } = location
+  const { path, search, hash } = location
 
-  let path = pathname || '/'
+  let pathname = path || '/'
 
-  if (search && search !== '?') { path += search.charAt(0) === '?' ? search : `?${search}` }
+  if (search && search !== '?') { pathname += search.charAt(0) === '?' ? search : `?${search}` }
 
-  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : `#${hash}`
+  if (hash && hash !== '#') pathname += hash.charAt(0) === '#' ? hash : `#${hash}`
 
-  return path
+  return pathname
 }

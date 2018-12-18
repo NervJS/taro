@@ -16,8 +16,9 @@ class Router extends Component<Props> {
   history: Types.History;
 
   componentWillMount () {
-    const { mode } = this.props
-    this.history = createHistory({ mode, basename: this.props.publicPath })
+    const { mode, routes } = this.props
+    const firstPagePath = routes[0].path
+    this.history = createHistory({ mode, basename: this.props.publicPath, firstPagePath })
   }
   render () {
     return (

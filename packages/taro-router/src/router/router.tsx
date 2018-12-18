@@ -39,7 +39,7 @@ class Router extends Component<Props, State> {
 
   computeMatch (location: Types.Location): Types.RouteObj {
     // 找出匹配的路由组件
-    const pathname = location.pathname;
+    const pathname = location.path;
     const matchedRoute = this.props.routes.find(({path, isIndex}) => {
       if (isIndex && pathname === '/') return true;
       return pathname === path;
