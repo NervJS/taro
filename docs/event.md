@@ -50,7 +50,7 @@ class Toggle extends React.Component {
 
 ## 向事件处理程序传递参数
 
-通常我们会为事件处理程序传递额外的参数。例如，若是 `id` 是你要删除那一行的 `id`，以下两种方式都可以向事件处理程序传递参数：
+通常我们会为事件处理程序传递额外的参数。例如，传入欲删除行的 `id`：
 
 ```jsx
 <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
