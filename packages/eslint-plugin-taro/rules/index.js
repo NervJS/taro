@@ -16,10 +16,17 @@ const allRules = {
   'render-props': require('./render-props')
 }
 
-function configureAsError (rules) {
+const transformerDisableRules = new Set([
+  'this-props-function'
+])
+
+function configureAsError (rules, isTransformer) {
   const result = {}
   for (const key in rules) {
     if (!has(rules, key)) {
+      continue
+    }
+    if (isTransformer && transformerDisableRules.has(key)) {
       continue
     }
     result[`taro/${key}`] = 2
@@ -27,9 +34,12 @@ function configureAsError (rules) {
   return result
 }
 
+const transformerRules = configureAsError(allRules, true)
+
 const activeRules = configureAsError(allRules)
 
 module.exports = {
   activeRules,
-  allRules
+  allRules,
+  transformerRules
 }

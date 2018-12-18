@@ -4,7 +4,7 @@ import { codeFrameError } from './utils'
 
 const cli = new CLIEngine({
   baseConfig: {
-    extends: ['plugin:taro/all']
+    extends: ['plugin:taro/transformer']
   },
   useEslintrc: false,
   parser: 'babel-eslint',
