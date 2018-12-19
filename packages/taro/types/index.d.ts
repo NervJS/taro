@@ -415,10 +415,11 @@ declare namespace Taro {
     WEB = 'WEB',
     RN = 'RN',
     SWAN = 'SWAN',
-    ALIPAY = 'ALIPAY'
+    ALIPAY = 'ALIPAY',
+    TT = 'TT'
   }
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
 
   function render(component: Component | JSX.Element, element: Element | null): any;
 
