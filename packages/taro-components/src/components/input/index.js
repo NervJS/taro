@@ -36,15 +36,17 @@ class Input extends Nerv.Component {
   }
 
   componentDidMount () {
-    this.inputRef.addEventListener('input', (e) => {
-      this.onInput(e)
-    })
+    // 修复无法选择文件
+    if (this.props.type === 'file') {
+      this.inputRef.addEventListener('change', this.onInput)
+    }
   }
 
-  componentUnMount () {
-    this.inputRef.removeEventListener('input', (e) => {
-      this.onInput(e)
-    })
+  componentWillUnMount () {
+    // 修复无法选择文件
+    if (this.props.type === 'file') {
+      this.inputRef.removeEventListener('change', this.onInput)
+    }
   }
 
   onInput (e) {
@@ -147,6 +149,7 @@ class Input extends Nerv.Component {
         placeholder={placeholder}
         disabled={disabled}
         max={maxLength}
+        onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         autofocus={focus}
