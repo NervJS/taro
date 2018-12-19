@@ -6,7 +6,6 @@ const prettier = require('prettier')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const template = require('babel-template')
-const generate = require('babel-generator').default
 const taroize = require('@tarojs/taroize')
 const wxTransformer = require('@tarojs/transformer-wx')
 const postcss = require('postcss')
@@ -28,6 +27,8 @@ const {
   REG_URL,
   REG_IMAGE
 } = require('./util')
+
+const { generateMinimalEscapeCode } = require('./util/ast_convert')
 
 const Creator = require('./creator')
 const babylonConfig = require('./config/babylon')
@@ -287,7 +288,7 @@ class Convertor {
                 const importPath = path.join(self.importsDir, importName + '.js')
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
-                  self.writeFileToTaro(importPath, prettier.format(generate(ast).code, prettierJSConfig))
+                  self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
                 }
                 lastImport.insertAfter(template(`import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`, babylonConfig)())
               })
@@ -386,7 +387,7 @@ class Convertor {
           outputFilePath,
           sourceFilePath: file
         })
-        const jsCode = generate(ast).code
+        const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
         this.hadBeenCopyedFiles.add(file)
@@ -436,7 +437,7 @@ class Convertor {
         importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), OUTPUT_STYLE_EXTNAME) : null,
         isApp: true
       })
-      const jsCode = generate(ast).code
+      const jsCode = generateMinimalEscapeCode(ast)
       this.writeFileToTaro(entryDistJSPath, prettier.format(jsCode, prettierJSConfig))
       printLog(pocessTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
@@ -529,7 +530,7 @@ class Convertor {
           depComponents,
           imports: taroizeResult.imports
         })
-        const jsCode = generate(ast).code
+        const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
@@ -552,7 +553,7 @@ class Convertor {
       const component = componentObj.path
       if (this.hadBeenBuiltComponents.has(component)) return
       this.hadBeenBuiltComponents.add(component)
-    
+
       const componentJSPath = component + this.fileTypes.SCRIPT
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
       const componentConfigPath = component + this.fileTypes.CONFIG
@@ -607,7 +608,7 @@ class Convertor {
           depComponents,
           imports: taroizeResult.imports
         })
-        const jsCode = generate(ast).code
+        const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
         if (componentStyle) {

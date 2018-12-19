@@ -1,6 +1,7 @@
 const t = require('babel-types')
 const babylonConfig = require('../config/babylon')
 const template = require('babel-template')
+const generate = require('better-babel-generator').default
 
 function convertObjectToAstExpression (obj) {
   const objArr = Object.keys(obj).map(key => {
@@ -25,6 +26,15 @@ function convertObjectToAstExpression (obj) {
     }
   })
   return objArr
+}
+
+// 最低限度的转义： https://github.com/mathiasbynens/jsesc#minimal
+function generateMinimalEscapeCode (ast) {
+  return generate(ast, {
+    jsescOption: {
+      minimal: true
+    }
+  }).code
 }
 
 function convertArrayToAstExpression (arr) {
@@ -66,3 +76,4 @@ exports.obj = convertObjectToAstExpression
 exports.array = convertArrayToAstExpression
 exports.source = convertSourceStringToAstExpression
 exports.getObjKey = getObjKey
+exports.generateMinimalEscapeCode = generateMinimalEscapeCode
