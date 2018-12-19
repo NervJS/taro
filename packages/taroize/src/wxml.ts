@@ -582,6 +582,7 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
+      || node.type === NodeType.Comment
   })
 }
 
