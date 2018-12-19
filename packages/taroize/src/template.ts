@@ -30,6 +30,9 @@ function buildTemplateName (name: string) {
 }
 
 export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
+  if (!path.container) {
+    return
+  }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
