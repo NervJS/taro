@@ -220,7 +220,7 @@ function initComponent (ComponentClass, isPage) {
     const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
     this.$component.props = nextProps
   }
-  if (hasPageInited || isPage) {
+  if (hasPageInited) {
     updateComponent(this.$component)
   }
 }
