@@ -533,7 +533,16 @@ exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
 }
 /* eslint-enable */
 
-exports.UPDATE_PACKAGE_LIST =  [
+exports.recursiveFindNodeModules = function (filePath) {
+  const dirname = path.dirname(filePath)
+  const nodeModules = path.join(dirname, 'node_modules')
+  if (fs.existsSync(nodeModules)) {
+    return nodeModules
+  }
+  return exports.recursiveFindNodeModules(dirname)
+}
+
+exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/taro',
   '@tarojs/async-await',
   '@tarojs/cli',

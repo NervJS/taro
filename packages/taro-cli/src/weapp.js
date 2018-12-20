@@ -79,7 +79,14 @@ let notTaroComponents = []
 const NODE_MODULES = 'node_modules'
 const NODE_MODULES_REG = /(.*)node_modules/
 
-const nodeModulesPath = path.join(appPath, NODE_MODULES)
+const nodeModulesPath = Util.recursiveFindNodeModules(path.join(appPath, NODE_MODULES))
+let npmOutputDir
+
+if (!weappNpmConfig.dir) {
+  npmOutputDir = path.join(outputDir, weappNpmConfig.name)
+} else {
+  npmOutputDir = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name)
+}
 
 const PARSE_AST_TYPE = {
   ENTRY: 'ENTRY',
@@ -238,7 +245,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
         let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
         let outputVpath
         if (NODE_MODULES_REG.test(vpath)) {
-          outputVpath = vpath.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+          outputVpath = vpath.replace(nodeModulesPath, npmOutputDir)
         } else {
           outputVpath = vpath.replace(sourceDir, outputDir)
         }
@@ -700,7 +707,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
                     if (NODE_MODULES_REG.test(vpath)) {
-                      outputVpath = vpath.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+                      outputVpath = vpath.replace(nodeModulesPath, npmOutputDir)
                     } else {
                       outputVpath = vpath.replace(sourceDir, outputDir)
                     }
@@ -913,7 +920,7 @@ function copyFilesFromSrcToOutput (files) {
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
-      outputFilePath = file.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+      outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
       outputFilePath = file.replace(sourceDir, outputDir)
     }
@@ -1320,10 +1327,13 @@ async function buildSinglePage (page) {
             pageDepComponents.forEach(depComponent => {
               if (depComponent.name === component.name) {
                 let componentPath = component.path
+                let realPath
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
+                  componentPath = componentPath.replace(nodeModulesPath, npmOutputDir)
+                  realPath = Util.promoteRelativePath(path.relative(outputPageJSPath, componentPath))
+                } else {
+                  realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 }
-                const realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
             })
@@ -1641,7 +1651,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   if (NODE_MODULES_REG.test(componentShowPath)) {
     isComponentFromNodeModules = true
     sourceDirPath = nodeModulesPath
-    buildOutputDir = path.join(outputDir, weappNpmConfig.name)
+    buildOutputDir = npmOutputDir
   }
   let outputComponentShowPath = componentShowPath.replace(isComponentFromNodeModules ? NODE_MODULES : sourceDirName, buildConfig.outputDirName || outputDirName)
   outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
@@ -1754,10 +1764,13 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
             componentDepComponents.forEach(depComponent => {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
+                let realPath
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, `${weappNpmConfig.name}`)
+                  componentPath = componentPath.replace(nodeModulesPath, npmOutputDir)
+                  realPath = Util.promoteRelativePath(path.relative(outputComponentJSPath, componentPath))
+                } else {
+                  realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 }
-                const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
             })
@@ -1813,7 +1826,7 @@ function compileDepScripts (scriptFiles) {
     if (path.isAbsolute(item)) {
       let outputItem
       if (NODE_MODULES_REG.test(item)) {
-        outputItem = item.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name)).replace(path.extname(item), '.js')
+        outputItem = item.replace(nodeModulesPath, npmOutputDir).replace(path.extname(item), '.js')
       } else {
         outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
       }
@@ -2036,8 +2049,8 @@ function watchFiles () {
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
             if (NODE_MODULES_REG.test(outputWXSSPath)) {
-              let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
-              let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+              let sourceNodeModulesDir = nodeModulesPath
+              let outputNodeModulesDir = npmOutputDir
               outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
             } else {
               outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
@@ -2066,8 +2079,8 @@ function watchFiles () {
           modifySource = modifySource.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
           if (NODE_MODULES_REG.test(outputWXSSPath)) {
-            let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
-            let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+            let sourceNodeModulesDir = nodeModulesPath
+            let outputNodeModulesDir = npmOutputDir
             outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
           } else {
             outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
