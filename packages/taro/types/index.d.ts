@@ -436,7 +436,7 @@ declare namespace Taro {
   /**
    *
    * 微信端能力
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+   * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
    * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
    *
@@ -7485,9 +7485,21 @@ declare namespace Taro {
    *       }
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstoppulldownrefresh
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
    */
   function stopPullDownRefresh(): void
+
+  /**
+   * 收起键盘。
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.hideKeyboard()
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
+   */
+  function hideKeyboard(): void
 
   /**
    * @since 1.4.0
