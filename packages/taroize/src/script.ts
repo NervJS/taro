@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
 import { transform } from 'babel-core'
 import * as template from 'babel-template'
-import { buildImportStatement, codeFrameError, buildRender, buildBlockElement } from './utils'
+import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode } from './utils'
 import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 import { usedComponents } from './global'
@@ -24,24 +24,7 @@ export function parseScript (
     block.children = [returned as any]
     returned = block
   }
-  let ast = (transform(script, {
-    parserOpts: {
-      sourceType: 'module',
-      plugins: [
-        'classProperties',
-        'jsx',
-        'flow',
-        'flowComment',
-        'trailingFunctionCommas',
-        'asyncFunctions',
-        'exponentiationOperator',
-        'asyncGenerators',
-        'objectRestSpread',
-        'decorators',
-        'dynamicImport'
-      ]
-    }
-  }) as { ast: t.File }).ast
+  let ast = parseCode(script)
   let classDecl!: t.ClassDeclaration
   let foundWXInstance = false
   const vistor: Visitor = {
@@ -94,24 +77,7 @@ export function parseScript (
   traverse(ast, vistor)
 
   if (!foundWXInstance) {
-    ast = (transform(script + ';Component({})', {
-      parserOpts: {
-        sourceType: 'module',
-        plugins: [
-          'classProperties',
-          'jsx',
-          'flow',
-          'flowComment',
-          'trailingFunctionCommas',
-          'asyncFunctions',
-          'exponentiationOperator',
-          'asyncGenerators',
-          'objectRestSpread',
-          'decorators',
-          'dynamicImport'
-        ]
-      }
-    }) as { ast: t.File }).ast
+    ast = parseCode(script + ';Component({})')
     traverse(ast, vistor)
   }
 
@@ -128,7 +94,7 @@ export function parseScript (
     taroComponentsImport,
     taroImport,
     withWeappImport,
-    ...wxses.map(wxs => buildImportStatement(wxs.src, [], wxs.module))
+    ...wxses.filter(wxs => !wxs.src.startsWith('./wxs__')).map(wxs => buildImportStatement(wxs.src, [], wxs.module))
   )
 
   return ast
