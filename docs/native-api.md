@@ -1342,7 +1342,7 @@ Taro.makePhoneCall(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.makePhoneCall | ✔️ |  | ✔️ |
+| Taro.makePhoneCall | ✔️ | ✔️ | ✔️ |
 
 ### 扫码
 
