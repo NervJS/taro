@@ -281,7 +281,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports))
 
   refIds.forEach(id => {
-    if (loopIds.has(id)) {
+    if (loopIds.has(id) || imports.filter(i => i.wxs).map(i => i.name).includes(id)) {
       refIds.delete(id)
     }
   })
