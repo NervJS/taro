@@ -4,6 +4,7 @@
   "private": true,
   "description": "<%= description %>",
   "scripts": {
+    "update": "taro update project",
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
@@ -15,7 +16,7 @@
     "dev:alipay": "npm run build:alipay -- --watch",
     "dev:tt": "npm run build:tt -- --watch",
     "dev:h5": "npm run build:h5 -- --watch",
-    "dev:rn": "npm run build:rn -- --watch"
+    "dev:rn": "npm run build:rn -- --watch"c
   },
   "author": "",
   "license": "MIT",
@@ -34,6 +35,7 @@
   "devDependencies": {
     "@types/react": "^16.4.6",
     "@types/webpack-env": "^1.13.6",
+    "@tarojs/cli": "^<%= version %>",
     "@tarojs/plugin-babel": "^<%= version %>",
     "@tarojs/plugin-csso": "^<%= version %>",<% if (css !== 'none') {%>
     "@tarojs/plugin-<%= css %>": "^<%= version %>",<%}%>
