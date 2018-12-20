@@ -91,8 +91,7 @@ export const createWxmlVistor = (
   refIds: Set<string>,
   dirPath: string,
   wxses: WXS[] = [],
-  imports: Imports[] = [],
-  className?: string
+  imports: Imports[] = []
 ) => {
   return {
     JSXAttribute (path) {
@@ -111,9 +110,6 @@ export const createWxmlVistor = (
           loopIds.add(loopItem.item)
         }
       }
-    },
-    BlockStatement () {
-      // debugger
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
@@ -181,7 +177,7 @@ export const createWxmlVistor = (
               }
             })
             usedTemplate.forEach(componentName => {
-              if (componentName !== className) {
+              if (componentName !== classDecl.id.name) {
                 ast.program.body.unshift(
                   buildImportStatement(`./${componentName}`, [], componentName)
                 )
