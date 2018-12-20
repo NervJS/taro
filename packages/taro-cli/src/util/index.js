@@ -562,7 +562,12 @@ exports.UPDATE_PACKAGE_LIST =  [
   'eslint-plugin-taro',
   'taro-transformer-wx',
   'postcss-pxtransform',
-  'babel-plugin-transform-jsx-to-stylesheet'
+  'babel-plugin-transform-jsx-to-stylesheet',
+  '@tarojs/mobx',
+  '@tarojs/mobx-h5',
+  '@tarojs/mobx-rn',
+  '@tarojs/mobx-common',
+  '@tarojs/mobx-prop-types'
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
