@@ -59,9 +59,10 @@ type AttrValue =
   | t.JSXExpressionContainer
   | null
 
-interface Imports {
+export interface Imports {
   ast: t.File,
-  name: string
+  name: string,
+  wxs?: boolean
 }
 
 const WX_IF = 'wx:if'
@@ -330,7 +331,8 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
     src = './wxs__' + moduleName
     imports.push({
       ast: parseCode(script.value),
-      name: moduleName as string
+      name: moduleName as string,
+      wxs: true
     })
   }
 
@@ -441,7 +443,7 @@ function transformIf (
   const conditions: Condition[] = []
   let siblings: NodePath<t.Node>[] = []
   try {
-    siblings = jsx.getAllNextSiblings()
+    siblings = jsx.getAllNextSiblings().filter(s => !(s.isJSXExpressionContainer() && s.get('expression').isJSXEmptyExpression()))
   } catch (error) {
     return
   }
@@ -600,6 +602,7 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
+      || node.type === NodeType.Comment
   })
 }
 
