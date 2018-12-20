@@ -6,8 +6,6 @@ import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockE
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
-import * as fs from 'fs'
-import { resolve } from 'path'
 import { reserveKeyWords } from './constant'
 import { parseExpression } from 'babylon'
 
@@ -167,7 +165,7 @@ export const createWxmlVistor = (
           }
         }
         if (tagName === 'Wxs') {
-          wxses.push(getWXS(attrs.map(a => a.node), path, dirPath, imports))
+          wxses.push(getWXS(attrs.map(a => a.node), path, imports))
         }
         if (tagName === 'Template') {
           const template = parseTemplate(path, dirPath)
@@ -295,7 +293,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   }
 }
 
-function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, dirPath: string, imports: Imports[]): WXS {
+function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports: Imports[]): WXS {
   let moduleName: string | null = null
   let src: string | null = null
 
