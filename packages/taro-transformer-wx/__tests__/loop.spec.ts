@@ -86,8 +86,8 @@ describe('loop', () => {
               `
             <block>
                 <view>
-                    <view wx:key="i" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}" wx:for-item="e" wx:for-index="i">loop1: {{i}}
-                        <view wx:key="j" class="ratio-16-9 image-company-album" wx:for="{{e.$anonymousCallee__0}}" wx:for-item="el" wx:for-index="j">loop2: {{j}}</view>
+                    <view wx:key="i" class="ratio-16-9 image-company-album" wx:for="{{loopArray0}}" wx:for-item="e" wx:for-index="i">loop1:{{i}}
+                        <view wx:key="j" class="ratio-16-9 image-company-album" wx:for="{{e.$anonymousCallee__0}}" wx:for-item="el" wx:for-index="j">loop2:{{j}}</view>
                     </view>
                 </view>
             </block>
@@ -128,7 +128,7 @@ describe('loop', () => {
             <block>
                 <view>
                     <block wx:if=\"{{!(arr1.length > 1)}}\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"i\">
-                        <view class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
+                        <view class=\"ratio-16-9 image-company-album\">loop1:{{i}}</view>
                     </block>
                 </view>
             </block>
@@ -168,7 +168,7 @@ describe('loop', () => {
             <block>
                 <view>
                     <block wx:if=\"{{!e.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"e\" wx:for-index=\"i\" wx:key=\"i\">
-                        <view class=\"ratio-16-9 image-company-album\">loop1: {{i}}</view>
+                        <view class=\"ratio-16-9 image-company-album\">loop1:{{i}}</view>
                     </block>
                 </view>
             </block>
@@ -189,7 +189,7 @@ describe('loop', () => {
                       key={i}
                       className="ratio-16-9 image-company-album"
                     >
-                      loop1: {i}
+                      loop1:{i}
                     </View>
                   )
                 })}</View>
@@ -211,7 +211,7 @@ describe('loop', () => {
                         <view></view>
                     </block>
                     <block wx:else>
-                        <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
+                        <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{$anonymousCallee__0}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1:{{i}}</view>
                     </block>
                 </block>
             </view>
@@ -268,14 +268,14 @@ describe('loop', () => {
                         <view></view>
                     </block>
                     <block wx:else>
-                        <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a2}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}
+                        <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a2}}\" wx:for-item=\"e\" wx:for-index=\"i\">loop1:{{i}}
                             <block>
                                 <block wx:if=\"{{b1}}\">
                                     <view></view>
                                 </block>
                                 <block wx:else>
                                     <view wx:key=\"i\" class=\"ratio-16-9 image-company-album\" wx:for=\"{{a3}}\"
-                                    wx:for-item=\"e\" wx:for-index=\"i\">loop1: {{i}}</view>
+                                    wx:for-item=\"e\" wx:for-index=\"i\">loop1:{{i}}</view>
                                 </block>
                             </block>
                         </view>

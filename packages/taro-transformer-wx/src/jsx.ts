@@ -108,7 +108,7 @@ function parseJSXChildren (
     })
     .reduce((str, child) => {
       if (t.isJSXText(child)) {
-        return str + child.value
+        return str + child.value.trim()
       }
       if (t.isJSXElement(child)) {
         return str + parseJSXElement(child)
