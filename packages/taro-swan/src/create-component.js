@@ -194,7 +194,7 @@ export function componentTrigger (component, key, args) {
     component._pendingStates = []
     component._pendingCallbacks = []
   }
-  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
+  component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
@@ -308,7 +308,7 @@ function createComponent (ComponentClass, isPage) {
         weappComponentConf[fn] = function () {
           const component = this.$component
           if (component[fn] && typeof component[fn] === 'function') {
-            return component[fn].call(component, ...arguments)
+            return component[fn](...arguments)
           }
         }
       }
