@@ -1,15 +1,6 @@
 import { CameraRoll, Image } from 'react-native'
 import { ImagePicker, Permissions } from 'expo'
-
-async function getCameraRollPermissions () {
-  const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-  return status
-}
-
-async function getCameraPermissions () {
-  const { status } = await Permissions.askAsync(Permissions.CAMERA)
-  return status
-}
+import { askAsyncPermissions } from '../utils'
 
 export function chooseImage (opts) {
   return chooseMedia(opts, 'Images')
@@ -29,7 +20,7 @@ async function chooseMedia (opts, mediaTypes) {
     quality: sizeType[0] === 'compressed' ? 0.7 : 1
   }
   const isCamera = sourceType[0] === 'camera'
-  const status = isCamera ? await getCameraPermissions() : await getCameraRollPermissions()
+  const status = isCamera ? await askAsyncPermissions(Permissions.CAMERA) : await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
     const res = { errMsg: `Permissions denied!` }
     return Promise.reject(res)
