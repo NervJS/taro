@@ -73,6 +73,16 @@ const WX_FOR_ITEM = 'wx:for-item'
 const WX_FOR_INDEX = 'wx:for-index'
 const WX_KEY = 'wx:key'
 
+export const wxTemplateCommand = [
+  WX_IF,
+  WX_ELSE_IF,
+  WX_FOR,
+  WX_FOR_ITEM,
+  WX_FOR_INDEX,
+  WX_KEY,
+  'wx:else'
+]
+
 function buildElement (
   name: string,
   children: Node[] = [],
@@ -108,6 +118,19 @@ export const createWxmlVistor = (
         }
         if (loopItem.item) {
           loopIds.add(loopItem.item)
+        }
+      }
+    },
+    JSXIdentifier (path) {
+      const nodeName = path.node.name
+      if (path.parentPath.isJSXAttribute()) {
+        if (nodeName === WX_KEY) {
+          path.replaceWith(t.jSXIdentifier('key'))
+        }
+        if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+          // tslint:disable-next-line
+          console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
+          path.parentPath.remove()
         }
       }
     },
@@ -306,6 +329,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, dirPath:
     if (!t.isJSXText(script)) {
       throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
     }
+    src = './wxs__' + moduleName
     imports.push({
       ast: parseCode(script.value),
       name: moduleName as string
@@ -377,9 +401,6 @@ function transformLoop (
           }
           index = node.value
           p.remove()
-        }
-        if (node.name.name === WX_KEY) {
-          p.get('name').replaceWith(t.jSXIdentifier('key'))
         }
       })
 
@@ -581,7 +602,6 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
-      || node.type === NodeType.Comment
   })
 }
 

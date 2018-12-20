@@ -1,6 +1,5 @@
 import * as t from 'babel-types'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { transform } from 'babel-core'
 import * as template from 'babel-template'
 import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode } from './utils'
 import { WXS } from './wxml'
