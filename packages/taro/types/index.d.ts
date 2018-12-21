@@ -466,7 +466,20 @@ declare namespace Taro {
        * @since 1.2.0
        */
       header: any
+
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
     type Param<P extends any | string | ArrayBuffer = any> = {
       /**
        * 开发者服务器接口地址
@@ -567,6 +580,18 @@ declare namespace Taro {
        * 设置 H5 端请求校验函数，一般不需要设置
        */
       storeCheck?(): boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
   }
   /**
