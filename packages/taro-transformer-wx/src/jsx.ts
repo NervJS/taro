@@ -197,7 +197,16 @@ export function parseJSXElement (element: t.JSXElement): string {
           ) {
             value = `{= ${code} =}`
           } else {
-            value = isBindEvent || isAlipayEvent || name === Adapter.key ? code : `{{${code}}}`
+            if (Adapter.key === name) {
+              const splitCode = code.split('.')
+              if (splitCode.length > 1) {
+                value = splitCode.slice(1).join('.')
+              } else {
+                value = code
+              }
+            } else {
+              value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
+            }
           }
           if (Adapter.type === Adapters.swan && name === Adapter.for) {
             value = code

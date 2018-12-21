@@ -1978,7 +1978,7 @@ describe('loop', () => {
                           </navigator>
                       </block>
                       <block wx:else>
-                          <navigator wx:key=\"item.$original.id\">
+                          <navigator wx:key=\"$original.id\">
                               <view>2</view>
                           </navigator>
                       </block>
@@ -2626,7 +2626,7 @@ describe('loop', () => {
           )
         })
 
-        expect(template).toMatch(`wx:key="item.id"`)
+        expect(template).toMatch(`wx:key="id"`)
       })
 
       test('callee 支持复杂表达式', () => {
