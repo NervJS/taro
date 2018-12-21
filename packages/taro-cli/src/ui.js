@@ -310,6 +310,7 @@ function watchFiles () {
   function syncWeappFile (filePath) {
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
     copyFileToDist(filePath, sourceDir, outputDir)
+    analyzeFiles([filePath], sourceDir, outputDir)
   }
 
   function syncH5File (filePath) {
@@ -317,6 +318,7 @@ function watchFiles () {
     const fileTempPath = filePath.replace(sourceDir, tempPath)
     processFiles(filePath)
     copyFileToDist(fileTempPath, tempPath, outputDir)
+    analyzeFiles([fileTempPath], tempPath, outputDir)
   }
 
   watcher
