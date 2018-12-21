@@ -25,7 +25,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://storage.jd.com/taro-resource/user-cases.jpg)
+![案例](https://storage.360buyimg.com/taro-resource/user-cases.jpg)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
@@ -102,9 +102,9 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 #### 支持多端开发转化
 
-Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝小程序** 、 **H5 端** 以及 **移动端（React-Native）**。
+Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、 **H5 端** 以及 **移动端（React-Native）**。
 
-<div align="center"><img src="https://taro.oss-cn-hangzhou.aliyuncs.com/platforms.jpg"/></div>
+<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
 
 ## 贡献者们
 
