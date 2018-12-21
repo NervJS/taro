@@ -95,3 +95,12 @@ export const swanSpecialAttrs = {
   'MovableView': ['x', 'y'],
   'Slider': ['value']
 }
+
+export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
+  'onTouchStart',
+  'onTouchMove',
+  'onTouchEnd',
+  'onTouchCancel',
+  'onClick',
+  'onLongTap'
+])

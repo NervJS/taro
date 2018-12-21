@@ -244,6 +244,12 @@ function parsePage (
                       })
                     }
                   }
+                  if (t.isObjectMethod(p) && t.isIdentifier(p.key, { name: 'observer' })) {
+                    observeProps.push({
+                      name: propKey,
+                      observer: t.arrowFunctionExpression(p.params, p.body, p.async)
+                    })
+                  }
                 }
               }
               if (propKey) {

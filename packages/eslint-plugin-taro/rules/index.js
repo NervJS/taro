@@ -9,7 +9,7 @@ const allRules = {
   'no-stateless-component': require('./no-stateless-component'),
   // 'jsx-handler-names': require('./jsx-handler-names'),
   'reserve-class-properties': require('./reserve-class-properties'),
-  'function-naming': require('./function-naming'),
+  // 'function-naming': require('./function-naming'),
   'class-naming': require('./class-naming'),
   'props-reserve-keyword': require('./props-reserve-keyword'),
   'this-props-function': require('./this-props-function'),

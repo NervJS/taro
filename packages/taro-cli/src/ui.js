@@ -7,7 +7,9 @@ const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
 const _ = require('lodash')
+
 const { processFiles } = require('./h5')
+const npmProcess = require('./util/npm')
 
 const CONFIG = require('./config')
 const {
@@ -35,6 +37,27 @@ const tempPath = path.join(appPath, tempDir)
 
 const weappOutputName = 'weapp'
 const h5OutputName = 'h5'
+
+async function buildH5Script () {
+  const h5Config = projectConfig.h5 || {}
+  const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
+  outputDirName = `${outputDirName}/${h5OutputName}`
+  h5Config.env = projectConfig.env
+  h5Config.defineConstants = projectConfig.defineConstants
+  h5Config.plugins = projectConfig.plugins
+  h5Config.designWidth = projectConfig.designWidth
+  if (projectConfig.deviceRatio) {
+    h5Config.deviceRatio = projectConfig.deviceRatio
+  }
+  h5Config.sourceRoot = sourceDirName
+  h5Config.outputRoot = outputDirName
+  h5Config.entry = Object.assign({
+    app: [path.join(tempPath, entryFile)]
+  }, h5Config.entry)
+  h5Config.isWatch = false
+  const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
+  webpackRunner(h5Config)
+}
 
 async function buildH5Lib () {
   try {
@@ -284,7 +307,11 @@ async function buildForH5 (buildConfig) {
   console.log()
   console.log(chalk.green('开始编译 H5 端组件库！'))
   await buildTemp(buildConfig)
-  await buildH5Lib()
+  if (process.env.TARO_BUILD_TYPE === 'script') {
+    await buildH5Script()
+  } else {
+    await buildH5Lib()
+  }
 }
 
 function buildEntry () {
