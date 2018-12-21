@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.1",
-    "@tarojs/taro-h5": "1.2.0",
+    "@tarojs/taro-h5": "1.2.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
     "jest": "^22.4.4",
