@@ -21,7 +21,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     static navigationOptions = ({navigation}) => {
       const navigationOptions = getNavigationOptions(Screen.config)
       const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
-      const rest = globalNavigationOptions.navigationStyle === 'custom' ? {header: null} : {}
+      const rest = (navigationOptions.navigationStyle || globalNavigationOptions.navigationStyle) === 'custom' ? {header: null} : {}
       return {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
