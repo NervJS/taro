@@ -6,6 +6,7 @@ const MERGE_STYLES_FUNC_NAME = '_mergeStyles'
 const GET_CLS_NAME_FUNC_NAME = '_getClassName'
 const NAME_SUFFIX = 'StyleSheet'
 const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
+let styleNames = [] // css module 写法中 import 的 Identifier
 
 module.exports = function ({types: t, template}) {
   const mergeStylesFunctionTemplate = template(`
@@ -112,7 +113,8 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   return {
     visitor: {
       Program: {
-        exit ({node}, {file}) {
+        exit (astPath, {file}) {
+          const node = astPath.node
           // const cssFileCount = file.get('cssFileCount')
           const injectGetStyle = file.get('injectGetStyle')
           const lastImportIndex = findLastImportIndex(node.body)
@@ -140,6 +142,27 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           // if (cssFileCount > 1) {
           //   node.body.unshift(mergeStylesFunctionAst)
           // }
+
+          // 将 css modules 的 styles 替换为 _styleSheet
+          astPath.traverse({
+            JSXOpeningElement (astPath) {
+              astPath.traverse({
+                JSXAttribute ({node}) {
+                  if (node.name && node.name.name === 'style') {
+                    astPath.traverse({
+                      MemberExpression ({node}) {
+                        if (node.object.type === 'Identifier' && styleNames.indexOf(node.object.name) > -1) {
+                          node.object.name = STYLE_SHEET_NAME
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          })
+          // 清除该 js 文件的 styleNames
+          styleNames = []
         }
       },
       JSXOpeningElement ({container}, {file}) {
@@ -216,17 +239,21 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         const {file} = state
         const node = astPath.node
         const sourceValue = node.source.value
+        const specifiers = node.specifiers
         const jsFilePath = state.opts.filePath // 传进来的文件的 filePath ,Babel6 file.opts.filaname 为unknown
         const extname = path.extname(sourceValue)
         const cssIndex = cssSuffixs.indexOf(extname)
         let cssFileCount = file.get('cssFileCount') || 0
         let cssParamIdentifiers = file.get('cssParamIdentifiers') || []
-        // Do not convert `import styles from './foo.css'` kind
-        if (node.importKind !== 'value' && cssIndex > -1) {
+
+        if (cssIndex > -1) {
+          // `import styles from './foo.css'` kind
+          if (node.importKind === 'value' && specifiers.length > 0) {
+            styleNames.push(specifiers[0].local.name)
+          }
           // 第一个引入的样式文件
           if (cssFileCount === 0) {
             const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
-            console.log(cssFileBaseName)
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName + NAME_SUFFIX}`
             const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`

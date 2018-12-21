@@ -2,7 +2,7 @@
 title: CSS Modules 的使用
 ---
 
-> 1.2.0 版本开始支持，RN 端尚未支持
+> 1.2.0 版本开始支持，RN 端已兼容
 
 Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的支持，但默认是关闭的，如果需要开启使用，请先在[编译配置](./config-detail.md)中添加如下配置。
 
