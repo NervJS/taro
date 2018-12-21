@@ -400,6 +400,18 @@ extract 功能开关，开启后将使用`mini-css-extract-plugin`分离 css 文
 可通过`h5.miniCssExtractPluginOption`对插件进行配置。
 dev 状态默认 **关**，prod 状态默认 **开**。
 
+### h5.esnextModules
+
+配置需要额外的编译的源码模块，比如[taro-ui](https://github.com/NervJS/taro-ui)：
+
+```javascript
+h5: {
+  // 经过这一配置之后，代码中引入的处于`node_modules/taro-ui/`路径下的源码文件均会经过taro的编译处理。
+  esnextModules: ['taro-ui'],
+  ...
+}
+```
+
 ### h5.cssLoaderOption
 
 css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
