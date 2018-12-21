@@ -1,11 +1,13 @@
 const fs = require('fs-extra')
 const path = require('path')
+const chokidar = require('chokidar')
 const chalk = require('chalk')
 const wxTransformer = require('@tarojs/transformer-wx')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const generate = require('babel-generator').default
 const _ = require('lodash')
+const { processFiles } = require('./h5')
 
 const CONFIG = require('./config')
 const {
@@ -297,10 +299,60 @@ function buildEntry () {
   fs.writeFileSync(path.join(outputDir, 'index.js'), content)
 }
 
-async function build () {
+function watchFiles () {
+  console.log('\n', chalk.gray('监听文件修改中...'), '\n')
+
+  const watcher = chokidar.watch(sourceDir, {
+    ignored: /(^|[/\\])\../,
+    ignoreInitial: true
+  })
+
+  function syncWeappFile (filePath) {
+    const outputDir = path.join(appPath, outputDirName, weappOutputName)
+    copyFileToDist(filePath, sourceDir, outputDir)
+  }
+
+  function syncH5File (filePath) {
+    const outputDir = path.join(appPath, outputDirName, h5OutputName)
+    const fileTempPath = filePath.replace(sourceDir, tempPath)
+    processFiles(filePath)
+    copyFileToDist(fileTempPath, tempPath, outputDir)
+  }
+
+  watcher
+    .on('add', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      printLog(pocessTypeEnum.CREATE, '添加文件', relativePath)
+      syncWeappFile(filePath)
+      syncH5File(filePath)
+    })
+    .on('change', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      printLog(pocessTypeEnum.MODIFY, '文件变动', relativePath)
+      syncWeappFile(filePath)
+      syncH5File(filePath)
+    })
+    .on('unlink', filePath => {
+      const relativePath = path.relative(appPath, filePath)
+      printLog(pocessTypeEnum.UNLINK, '删除文件', relativePath)
+      const weappOutputPath = path.join(appPath, outputDirName, weappOutputName)
+      const h5OutputPath = path.join(appPath, outputDirName, h5OutputName)
+      const fileTempPath = filePath.replace(sourceDir, tempPath)
+      const fileWeappPath = filePath.replace(sourceDir, weappOutputPath)
+      const fileH5Path = filePath.replace(sourceDir, h5OutputPath)
+      fs.existsSync(fileTempPath) && fs.unlinkSync(fileTempPath)
+      fs.existsSync(fileWeappPath) && fs.unlinkSync(fileWeappPath)
+      fs.existsSync(fileH5Path) && fs.unlinkSync(fileH5Path)
+    })
+}
+
+async function build ({ watch }) {
   buildEntry()
   await buildForWeapp()
   await buildForH5()
+  if (watch) {
+    watchFiles()
+  }
 }
 
 module.exports = {

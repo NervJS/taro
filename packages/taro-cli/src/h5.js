@@ -975,5 +975,6 @@ async function build (buildConfig) {
 
 module.exports = {
   build,
-  buildTemp
+  buildTemp,
+  processFiles
 }
