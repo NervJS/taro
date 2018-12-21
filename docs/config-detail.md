@@ -388,7 +388,7 @@ dll编译过程的`entry`配置项，决定了dll文件的内容，可参考[web
 h5: {
   /* 其他配置 */
   ...,
-  libEntry: {
+  dllEntry: {
     lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
   }
 }
