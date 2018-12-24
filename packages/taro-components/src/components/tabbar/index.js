@@ -51,8 +51,8 @@ class Tabbar extends Nerv.Component {
   hashChangeHandler ({ toLocation } = {}) {
     let currentPage
 
-    if (toLocation) {
-      currentPage = toLocation.pathname ? removeLeadingSlash(toLocation.pathname) : this.homePage
+    if (toLocation && toLocation.path) {
+      currentPage = removeLeadingSlash(toLocation.path)
     } else {
       currentPage = this.getCurrentPathname() || this.homePage
     }
