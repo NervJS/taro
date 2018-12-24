@@ -1,3 +1,4 @@
+import { duration } from "moment";
 
 export = Taro;
 export as namespace Taro;
@@ -425,6 +426,16 @@ declare namespace Taro {
 
   function internal_safe_set (...arg: any[]): any;
   function internal_safe_get (...arg: any[]): any;
+
+  type MessageType = 'info' | 'success' | 'error' | 'warning';
+
+  interface AtMessageOptions {
+    message: string,
+    type?: MessageType,
+    duration?: number
+  }
+
+  function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
 
