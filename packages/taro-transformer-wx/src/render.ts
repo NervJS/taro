@@ -487,7 +487,7 @@ export class RenderParser {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
             blockStatement.scope.rename(id.name, newId.name)
             p.parentPath.replaceWith(
-              template('ID = INIT;')({ ID: newId, INIT: init })
+              template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
             )
           }
         }
