@@ -81,14 +81,16 @@ class Swiper extends Nerv.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const nextCurrent = nextProps.current || 0
-    // 是否衔接滚动模式
-    if (nextProps.circular) {
-      this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
-    } else {
-      this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+    if (this.mySwiper) {
+      const nextCurrent = nextProps.current || 0
+      // 是否衔接滚动模式
+      if (nextProps.circular) {
+        this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
+      } else {
+        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+      }
+      this.mySwiper.update() // 更新子元素
     }
-    this.mySwiper.update() // 更新子元素
   }
 
   componentWillUnmount () {
