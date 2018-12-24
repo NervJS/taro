@@ -37,7 +37,7 @@ class Swiper extends Nerv.Component {
 
     const opt = {
       // 指示器
-      pagination: { el: '.swiper-pagination' },
+      pagination: { el: `.taro-swiper-${this._id} .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: parseInt(displayMultipleItems, 10),
@@ -107,7 +107,7 @@ class Swiper extends Nerv.Component {
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
             .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
-            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} } 
+            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
             </style>`
           }}
         />
