@@ -1,5 +1,3 @@
-import { duration } from "moment";
-
 export = Taro;
 export as namespace Taro;
 
