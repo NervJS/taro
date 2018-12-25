@@ -337,7 +337,13 @@ function watchFiles () {
   function syncWeappFile (filePath) {
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
     copyFileToDist(filePath, sourceDir, outputDir)
-    analyzeFiles([filePath], sourceDir, outputDir)
+    // 依赖分析
+    const extname = path.extname(filePath)
+    if (REG_STYLE.test(extname)) {
+      analyzeStyleFilesImport([filePath], sourceDir, outputDir)
+    } else {
+      analyzeFiles([filePath], sourceDir, outputDir)
+    }
   }
 
   function syncH5File (filePath) {
@@ -345,21 +351,35 @@ function watchFiles () {
     const fileTempPath = filePath.replace(sourceDir, tempPath)
     processFiles(filePath)
     copyFileToDist(fileTempPath, tempPath, outputDir)
-    analyzeFiles([fileTempPath], tempPath, outputDir)
+    // 依赖分析
+    const extname = path.extname(filePath)
+    if (REG_STYLE.test(extname)) {
+      analyzeStyleFilesImport([fileTempPath], tempPath, outputDir)
+    } else {
+      analyzeFiles([fileTempPath], tempPath, outputDir)
+    }
   }
 
   watcher
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       printLog(pocessTypeEnum.CREATE, '添加文件', relativePath)
-      syncWeappFile(filePath)
-      syncH5File(filePath)
+      try {
+        syncWeappFile(filePath)
+        syncH5File(filePath)
+      } catch (err) {
+        console.log(err)
+      }
     })
     .on('change', filePath => {
       const relativePath = path.relative(appPath, filePath)
       printLog(pocessTypeEnum.MODIFY, '文件变动', relativePath)
-      syncWeappFile(filePath)
-      syncH5File(filePath)
+      try {
+        syncWeappFile(filePath)
+        syncH5File(filePath)
+      } catch (err) {
+        console.log(err)
+      }
     })
     .on('unlink', filePath => {
       const relativePath = path.relative(appPath, filePath)
