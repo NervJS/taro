@@ -976,6 +976,28 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
   return res.code
 }
 
+async function checkCliAndFrameworkVersion () {
+  const frameworkName = `@tarojs/taro-${buildAdapter}`
+  let pkgInfo = await envinfo.run(
+    {
+      npmPackages: [frameworkName]
+    },
+    { json: true, console: false, showNotFound: true }
+  )
+  pkgInfo = JSON.parse(pkgInfo)
+  const frameworkVersionInfo = pkgInfo.npmPackages[frameworkName]
+  if (typeof frameworkVersionInfo === 'object' && frameworkVersionInfo.installed) {
+    if (frameworkVersionInfo.installed !== Util.getPkgVersion()) {
+      Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
+      console.log(`Taro CLI: ${Util.getPkgVersion()}`)
+      console.log(`${frameworkName}: ${frameworkVersionInfo.installed}`)
+      process.exit(1)
+    }
+  } else {
+    Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装！`))
+  }
+}
+
 function buildProjectConfig () {
   let projectConfigFileName = `project.${buildAdapter}.json`
   if (buildAdapter === Util.BUILD_TYPES.WEAPP) {
@@ -2155,6 +2177,7 @@ async function build ({ watch, adapter }) {
   constantsReplaceList = Object.assign({}, constantsReplaceList, {
     'process.env.TARO_ENV': buildAdapter
   })
+  await checkCliAndFrameworkVersion()
   buildProjectConfig()
   await buildFrameworkInfo()
   copyFiles()
