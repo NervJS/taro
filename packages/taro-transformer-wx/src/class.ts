@@ -325,6 +325,10 @@ class Transformer {
               }
             })
           }
+          if (name.startsWith('render')) {
+            self.renderJSX.set(name, path)
+            self.refIdMap.set(path, new Set([]))
+          }
           if (name === 'constructor') {
             path.traverse({
               AssignmentExpression (p) {
