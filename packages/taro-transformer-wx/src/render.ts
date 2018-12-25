@@ -120,7 +120,6 @@ export class RenderParser {
   private referencedIdentifiers: Set<t.Identifier>
   private renderScope: Scope
   private usedState: Set<string>
-  private loopStateName: Map<NodePath<t.CallExpression>, string>
   private customComponentData: Array<t.ObjectProperty>
   private componentProperies: Set<string>
   private loopRefs: Map<t.JSXElement, LoopRef>
@@ -1131,7 +1130,6 @@ export class RenderParser {
     initState: Set<string>,
     referencedIdentifiers: Set<t.Identifier>,
     usedState: Set<string>,
-    loopStateName: Map<NodePath<t.CallExpression>, string>,
     customComponentNames: Set<string>,
     customComponentData: Array<t.ObjectProperty>,
     componentProperies: Set<string>,
@@ -1141,7 +1139,6 @@ export class RenderParser {
     this.methods = methods
     this.initState = initState
     this.referencedIdentifiers = referencedIdentifiers
-    this.loopStateName = loopStateName
     this.usedState = usedState
     this.customComponentNames = customComponentNames
     this.customComponentData = customComponentData
@@ -1435,22 +1432,6 @@ export class RenderParser {
           } else {
             body.push(returnStatement)
             const stateName = 'loopArray' + loopArrayId()
-            this.loopStateName.forEach((newName, callExpr) => {
-              if (callExpr === callee) {
-                const classBody = this.renderPath.parent as t.ClassBody
-                for (const property of classBody.body) {
-                  if (t.isClassProperty(property) && property.key.name === '$dynamicComponents') {
-                    const objects = property.value as t.ObjectExpression
-                    for (const objProp of objects.properties) {
-                      if (t.isObjectProperty(objProp) && t.isIdentifier(objProp.key, { name: newName })) {
-                        const func = objProp.value as any
-                        func.body.body[0] = buildConstVariableDeclaration('stateName', t.stringLiteral(stateName))
-                      }
-                    }
-                  }
-                }
-              }
-            })
             // setJSXAttr(returned, Adapter.for, t.identifier(stateName))
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))

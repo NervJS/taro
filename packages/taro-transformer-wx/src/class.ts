@@ -121,7 +121,6 @@ class Transformer {
   private classPath: NodePath<t.ClassDeclaration>
   private customComponentNames = new Set<string>()
   private usedState = new Set<string>()
-  private loopStateName: Map<NodePath<t.CallExpression>, string> = new Map()
   private customComponentData: Array<t.ObjectProperty> = []
   private componentProperies: Set<string>
   private sourcePath: string
@@ -719,7 +718,6 @@ class Transformer {
           this.initState,
           this.jsxReferencedIdentifiers,
           this.usedState,
-          this.loopStateName,
           this.customComponentNames,
           this.customComponentData,
           this.componentProperies,
