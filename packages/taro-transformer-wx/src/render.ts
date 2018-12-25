@@ -1109,11 +1109,13 @@ export class RenderParser {
         if (ref.type === 'component') {
           args.push(t.stringLiteral('component'))
         }
+        const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
         const refDecl = buildConstVariableDeclaration(refDeclName,
-          t.logicalExpression('&&', t.identifier('__scope'), t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args))
+          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), callGetElementById)
         )
+        const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
         const callRefFunc = t.expressionStatement(
-          t.logicalExpression('&&', t.identifier(refDeclName), t.callExpression(ref.fn, [t.identifier(refDeclName)]))
+          process.env.NODE_ENV === 'test' ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
         )
         body.push(refDecl, callRefFunc)
       }
