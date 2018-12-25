@@ -12,6 +12,7 @@ const template = require('babel-template')
 const autoprefixer = require('autoprefixer')
 const minimatch = require('minimatch')
 const _ = require('lodash')
+const envinfo = require('envinfo')
 
 const postcss = require('postcss')
 const pxtransform = require('postcss-pxtransform')
@@ -994,6 +995,37 @@ function buildProjectConfig () {
     JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
   )
   Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/${projectConfigFileName}`)
+}
+
+async function buildFrameworkInfo () {
+  // 百度小程序编译出 .frameworkinfo 文件
+  if (buildAdapter === Util.BUILD_TYPES.SWAN) {
+    const frameworkInfoFileName = '.frameworkinfo'
+    const frameworkName = `@tarojs/taro-${buildAdapter}`
+    let pkgInfo = await envinfo.run(
+      {
+        npmPackages: [frameworkName]
+      },
+      { json: true, console: false, showNotFound: true }
+    )
+    pkgInfo = JSON.parse(pkgInfo)
+    const frameworkVersionInfo = pkgInfo.npmPackages[frameworkName]
+    if (typeof frameworkVersionInfo === 'object' && frameworkVersionInfo.installed) {
+      const frameworkinfo = {
+        toolName: 'Taro',
+        toolCliVersion: Util.getPkgVersion(),
+        toolFrameworkVersion: frameworkVersionInfo.installed,
+        createTime: new Date(projectConfig.date).getTime()
+      }
+      fs.writeFileSync(
+        path.join(outputDir, frameworkInfoFileName),
+        JSON.stringify(frameworkinfo, null, 2)
+      )
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '框架信息', `${outputDirName}/${frameworkInfoFileName}`)
+    } else {
+      Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装！`))
+    }
+  }
 }
 
 function buildWorkers (worker) {
@@ -2124,6 +2156,7 @@ async function build ({ watch, adapter }) {
     'process.env.TARO_ENV': buildAdapter
   })
   buildProjectConfig()
+  await buildFrameworkInfo()
   copyFiles()
   appConfig = await buildEntry()
   await buildPages()

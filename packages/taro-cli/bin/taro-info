@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const envinfo = require('envinfo')
-const {getPkgVersion, UPDATE_PACKAGE_LIST} = require('../src/util')
+const { getPkgVersion, UPDATE_PACKAGE_LIST } = require('../src/util')
 
 async function info (options) {
   let info = await envinfo.run(
