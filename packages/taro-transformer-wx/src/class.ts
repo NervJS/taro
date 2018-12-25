@@ -112,16 +112,15 @@ class Transformer {
     componentProperies: []
   }
   private methods: ClassMethodsMap = new Map()
+  private renderJSX: Map<string, NodePath<t.ClassMethod>> = new Map()
+  private refIdMap: Map<NodePath<t.ClassMethod>, Set<t.Identifier>> = new Map()
   private initState: Set<string> = new Set()
-  private jsxReferencedIdentifiers = new Set<t.Identifier>()
   private customComponents: Map<string, { sourcePath: string, type: string }> = new Map()
   private anonymousMethod: Map<string, string> = new Map()
-  private renderMethod: null | NodePath<t.ClassMethod> = null
   private moduleNames: string[]
   private classPath: NodePath<t.ClassDeclaration>
   private customComponentNames = new Set<string>()
   private usedState = new Set<string>()
-  private customComponentData: Array<t.ObjectProperty> = []
   private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
@@ -286,7 +285,7 @@ class Transformer {
           const name = node.key.name
           self.methods.set(name, path)
           if (name === 'render') {
-            self.renderMethod = path
+            self.renderJSX.set('render', path)
             path.traverse({
               ReturnStatement (returnPath) {
                 const arg = returnPath.node.argument
@@ -299,6 +298,10 @@ class Transformer {
                 }
               }
             })
+          }
+          if (name.startsWith('render')) {
+            self.renderJSX.set(name, path)
+            self.refIdMap.set(path, new Set([]))
           }
           if (name === 'constructor') {
             path.traverse({
@@ -322,12 +325,17 @@ class Transformer {
           }
         }
       },
-      IfStatement (path) {
+      IfStatement: (path) => {
         const test = path.get('test') as NodePath<t.Expression>
         const consequent = path.get('consequent')
         if (isContainJSXElement(consequent) && hasComplexExpression(test)) {
-          const scope = self.renderMethod && self.renderMethod.scope || path.scope
-          generateAnonymousState(scope, test, self.jsxReferencedIdentifiers, true)
+          this.renderJSX.forEach(method => {
+            const renderMethod = path.findParent(p => method === p)
+            if (renderMethod && renderMethod.isClassMethod()) {
+              const scope = renderMethod && renderMethod.scope || path.scope
+              generateAnonymousState(scope, test, this.refIdMap.get(renderMethod)!, true)
+            }
+          })
         }
       },
       ClassProperty (path) {
@@ -348,6 +356,13 @@ class Transformer {
       JSXExpressionContainer (path) {
         const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
         const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
+        let renderMethod: NodePath<t.ClassMethod>
+        self.renderJSX.forEach(method => {
+          renderMethod = path.findParent(p => method === p) as NodePath<t.ClassMethod>
+        })
+
+        const jsxReferencedIdentifiers = self.refIdMap.get(renderMethod!)!
+
         path.traverse({
           MemberExpression (path) {
             const sibling = path.getSibling('property')
@@ -364,9 +379,10 @@ class Transformer {
         })
 
         const expression = path.get('expression') as NodePath<t.Expression>
-        const scope = self.renderMethod && self.renderMethod.scope || path.scope
+        const scope = renderMethod! && renderMethod!.scope || path.scope
         const calleeExpr = expression.get('callee')
         const parentPath = path.parentPath
+
         if (
           hasComplexExpression(expression) &&
           !isFunctionProp &&
@@ -375,11 +391,11 @@ class Transformer {
             calleeExpr.get('object').isMemberExpression() &&
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
-          generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+          generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
         } else {
           if (parentPath.isJSXAttribute()) {
             if (!(expression.isMemberExpression() || expression.isIdentifier()) && parentPath.node.name.name === 'key') {
-              generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+              generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
             }
           }
         }
@@ -461,7 +477,7 @@ class Transformer {
         if (!t.isJSXIdentifier(jsxName)) return
         if (expression.isJSXElement()) return
         if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
-        generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+        generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
@@ -710,19 +726,22 @@ class Transformer {
   }
 
   parseRender () {
-    if (this.renderMethod) {
-      this.result.template = this.result.template
+    if (this.renderJSX.size) {
+      this.renderJSX.forEach((method) => {
+        this.result.template = this.result.template
         + new RenderParser(
-          this.renderMethod,
+          method,
           this.methods,
           this.initState,
-          this.jsxReferencedIdentifiers,
+          this.refIdMap.get(method)!,
           this.usedState,
           this.customComponentNames,
-          this.customComponentData,
           this.componentProperies,
           this.loopRefs
         ).outputTemplate
+      })
+    } else {
+      throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
     }
   }
 
