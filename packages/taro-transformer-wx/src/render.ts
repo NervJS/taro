@@ -1104,16 +1104,16 @@ export class RenderParser {
         const refDeclName = '__ref'
         const args: any[] = [
           t.identifier('__scope'),
-          id
+          t.binaryExpression('+', t.stringLiteral('#'), id)
         ]
         if (ref.type === 'component') {
           args.push(t.stringLiteral('component'))
         }
         const refDecl = buildConstVariableDeclaration(refDeclName,
-          t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
+          t.logicalExpression('&&', t.identifier('__scope'), t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args))
         )
         const callRefFunc = t.expressionStatement(
-          t.callExpression(ref.fn, [t.identifier(refDeclName)])
+          t.logicalExpression('&&', t.identifier(refDeclName), t.callExpression(ref.fn, [t.identifier(refDeclName)]))
         )
         body.push(refDecl, callRefFunc)
       }
