@@ -6380,7 +6380,7 @@ declare namespace Taro {
    * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
    */
-  function showLoading(OBJECT: showLoading.Param): Promise<any>
+  function showLoading(OBJECT?: showLoading.Param): Promise<any>
 
   /**
    * 隐藏消息提示框
