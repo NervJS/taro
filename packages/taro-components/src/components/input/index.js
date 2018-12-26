@@ -50,7 +50,7 @@ class Input extends Nerv.Component {
   }
 
   onInput (e) {
-    const { onChange = '' } = this.props
+    const { onInput = '', onChange = '' } = this.props
     if (!this.isOnComposition) {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
@@ -58,7 +58,8 @@ class Input extends Nerv.Component {
           value: e.target.value
         }
       })
-      if (onChange) onChange && onChange(e)
+      if (onChange) return onChange && onChange(e)
+      if (onInput) return onInput && onInput(e)
     }
   }
 
