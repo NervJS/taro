@@ -1,5 +1,32 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.1...v) (2018-12-21)
+# [](https://github.com/NervJS/taro/compare/v1.2.2...v) (2018-12-26)
+
+
+
+<a name="1.2.2"></a>
+## [1.2.2](https://github.com/NervJS/taro/compare/v1.2.1...v1.2.2) (2018-12-26)
+
+
+### Bug Fixes
+
+* **cli:** mobx 模板无法通过 TypeScript 类型检测 ([3873d73](https://github.com/NervJS/taro/commit/3873d73))
+* **cli:** node_modules 中的文件拷贝不全，close [#1697](https://github.com/NervJS/taro/issues/1697) ([4745b44](https://github.com/NervJS/taro/commit/4745b44))
+* **cli:** 优化 npm 安装包版本的查找 ([5395f43](https://github.com/NervJS/taro/commit/5395f43))
+* **cli:** 样式中引用 npm 内资源解析时路径使用相对路径 ([487217d](https://github.com/NervJS/taro/commit/487217d))
+* **h5:** Correct the path variable name in Location and modify the priority of fallbacks ([#1664](https://github.com/NervJS/taro/issues/1664)) ([603ed14](https://github.com/NervJS/taro/commit/603ed14))
+* **taro-cli:** 1. build ui watch 时依赖分析出的样式另外处理。2. build ui watch 增加 try catch，报错不停止监听。 ([c327ebf](https://github.com/NervJS/taro/commit/c327ebf))
+* **taro-components:** swiper 组件未初始化前被调用出现 undefined 错误 ([#1666](https://github.com/NervJS/taro/issues/1666)) ([c2cf9ef](https://github.com/NervJS/taro/commit/c2cf9ef))
+* **taro-components:** 修复 swiper pagination 匹配错乱问题 ([c77348b](https://github.com/NervJS/taro/commit/c77348b))
+* **taro-components:** 修复Input 组件事件问题 close [#1647](https://github.com/NervJS/taro/issues/1647) ([53c9337](https://github.com/NervJS/taro/commit/53c9337))
+* **transformer:** if block 中设置一个没有初始值的变量报错 ([213b29e](https://github.com/NervJS/taro/commit/213b29e))
+* **transformer:** 循环中使用 ref 的 id 需要加上 `#` 号符，第一次运行需要做一次类型判断，close [#1589](https://github.com/NervJS/taro/issues/1589) ([117e5d3](https://github.com/NervJS/taro/commit/117e5d3))
+
+
+### Features
+
+* **cli:** 小程序端编译增加 cli 与本地依赖版本校验 ([495f6c0](https://github.com/NervJS/taro/commit/495f6c0))
+* **cli:** 百度小程序编译时生成框架信息文件 ([2140017](https://github.com/NervJS/taro/commit/2140017))
+* **taro-weapp/alipay/swan/tt:** 增加 this.$preload，close [#1570](https://github.com/NervJS/taro/issues/1570) ([ae4ad6d](https://github.com/NervJS/taro/commit/ae4ad6d))
 
 
 
