@@ -12,7 +12,6 @@ const template = require('babel-template')
 const autoprefixer = require('autoprefixer')
 const minimatch = require('minimatch')
 const _ = require('lodash')
-const envinfo = require('envinfo')
 
 const postcss = require('postcss')
 const pxtransform = require('postcss-pxtransform')
@@ -978,23 +977,16 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
 
 async function checkCliAndFrameworkVersion () {
   const frameworkName = `@tarojs/taro-${buildAdapter}`
-  let pkgInfo = await envinfo.run(
-    {
-      npmPackages: [frameworkName]
-    },
-    { json: true, console: false, showNotFound: true }
-  )
-  pkgInfo = JSON.parse(pkgInfo)
-  const frameworkVersionInfo = pkgInfo.npmPackages[frameworkName]
-  if (typeof frameworkVersionInfo === 'object' && frameworkVersionInfo.installed) {
-    if (frameworkVersionInfo.installed !== Util.getPkgVersion()) {
+  const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+  if (frameworkVersion) {
+    if (frameworkVersion !== Util.getPkgVersion()) {
       Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
       console.log(`Taro CLI: ${Util.getPkgVersion()}`)
-      console.log(`${frameworkName}: ${frameworkVersionInfo.installed}`)
+      console.log(`${frameworkName}: ${frameworkVersion}`)
       process.exit(1)
     }
   } else {
-    Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装！`))
+    Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
   }
 }
 
@@ -1024,19 +1016,12 @@ async function buildFrameworkInfo () {
   if (buildAdapter === Util.BUILD_TYPES.SWAN) {
     const frameworkInfoFileName = '.frameworkinfo'
     const frameworkName = `@tarojs/taro-${buildAdapter}`
-    let pkgInfo = await envinfo.run(
-      {
-        npmPackages: [frameworkName]
-      },
-      { json: true, console: false, showNotFound: true }
-    )
-    pkgInfo = JSON.parse(pkgInfo)
-    const frameworkVersionInfo = pkgInfo.npmPackages[frameworkName]
-    if (typeof frameworkVersionInfo === 'object' && frameworkVersionInfo.installed) {
+    const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+    if (frameworkVersion) {
       const frameworkinfo = {
         toolName: 'Taro',
         toolCliVersion: Util.getPkgVersion(),
-        toolFrameworkVersion: frameworkVersionInfo.installed,
+        toolFrameworkVersion: frameworkVersion,
         createTime: new Date(projectConfig.date).getTime()
       }
       fs.writeFileSync(
@@ -1045,7 +1030,7 @@ async function buildFrameworkInfo () {
       )
       Util.printLog(Util.pocessTypeEnum.GENERATE, '框架信息', `${outputDirName}/${frameworkInfoFileName}`)
     } else {
-      Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装！`))
+      Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
     }
   }
 }
