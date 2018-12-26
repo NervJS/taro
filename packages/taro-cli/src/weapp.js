@@ -180,7 +180,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
       if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
         const vpath = path.resolve(sourceFilePath, '..', value)
         let fPath = value
-        if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
+        if (fs.existsSync(vpath) && vpath !== sourceFilePath) {
           fPath = vpath
         }
         if (scriptFiles.indexOf(fPath) < 0) {
@@ -688,7 +688,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                   } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     let fPath = value
-                    if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
+                    if (fs.existsSync(vpath) && vpath !== sourceFilePath) {
                       fPath = vpath
                     }
                     if (scriptFiles.indexOf(fPath) < 0) {
