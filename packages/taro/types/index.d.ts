@@ -2494,6 +2494,12 @@ declare namespace Taro {
      */
     pause(): void
     /**
+     * 停止
+     * 
+     * @since 1.7.0
+     */
+    stop(): void
+    /**
      * 跳转到指定位置，单位 s
      */
     seek(position: number): void
@@ -2512,13 +2518,25 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(): void
+    requestFullScreen(param: {direction: 0 | 90 | -90}): void
     /**
      * 退出全屏
      *
      * @since 1.4.0
      */
     exitFullScreen(): void
+    /**
+     * 显示状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    showStatusBar(): void
+    /**
+     * 隐藏状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    hideStatusBar(): void
   }
   /**
    * @since 1.6.0
