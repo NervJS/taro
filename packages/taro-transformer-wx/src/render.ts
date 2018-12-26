@@ -30,7 +30,7 @@ import {
   setAncestorCondition,
   replaceJSXTextWithTextComponent
 } from './utils'
-import { difference, get as safeGet, cloneDeep } from 'lodash'
+import { difference, get as safeGet, cloneDeep, uniq } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
@@ -128,6 +128,7 @@ export class RenderParser {
   private loopCallees = new Set<t.Node>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
+  private isDefaultRender: boolean = false
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -334,6 +335,28 @@ export class RenderParser {
         }
       }
     }
+  }
+
+  setProperies () {
+    if (!this.isDefaultRender) {
+      return
+    }
+    const properties: t.ObjectProperty[] = []
+    this.componentProperies.forEach((propName) => {
+      properties.push(
+        t.objectProperty(t.stringLiteral(propName), t.objectExpression([
+          t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),
+          t.objectProperty(t.stringLiteral('value'), t.nullLiteral())
+        ]))
+      )
+    })
+    let classProp = t.classProperty(
+      t.identifier('properties'),
+      t.objectExpression(properties)
+    ) as any
+    classProp.static = true
+    const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
+    Adapter.type !== Adapters.alipay && classPath.node.body.body.unshift(classProp)
   }
 
   setLoopRefFlag () {
@@ -1411,7 +1434,8 @@ export class RenderParser {
     usedState: Set<string>,
     customComponentNames: Set<string>,
     componentProperies: Set<string>,
-    loopRefs: Map<t.JSXElement, LoopRef>
+    loopRefs: Map<t.JSXElement, LoopRef>,
+    methodName: string
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -1423,6 +1447,7 @@ export class RenderParser {
     this.loopRefs = loopRefs
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
+    this.isDefaultRender = methodName === 'render'
 
     const [, error] = renderPath.node.body.body.filter(s => t.isReturnStatement(s))
     if (error) {
@@ -1928,12 +1953,22 @@ export class RenderParser {
 
   setCustomEvent () {
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    let classProp = t.classProperty(t.identifier('$$events'), t.arrayExpression(Array.from(this.usedEvents).map(s => t.stringLiteral(s)))) as any // babel 6 typing 没有 static
-    classProp.static = true
-    classPath.node.body.body.unshift(classProp)
+    const eventPropName = '$$events'
+    const body = classPath.node.body.body.find(b => t.isClassProperty(b) && b.key.name === eventPropName) as t.ClassProperty
+    const usedEvents = Array.from(this.usedEvents).map(s => t.stringLiteral(s))
+    if (body && t.isArrayExpression(body.value)) {
+      body.value = t.arrayExpression(uniq(body.value.elements.concat(usedEvents)))
+    } else {
+      let classProp = t.classProperty(t.identifier('$$events'), t.arrayExpression(usedEvents)) as any // babel 6 typing 没有 static
+      classProp.static = true
+      classPath.node.body.body.unshift(classProp)
+    }
   }
 
   setUsedState () {
+    if (!this.isDefaultRender) {
+      return
+    }
     for (const [ key, method ] of this.methods) {
       if (method) {
         if (method.isClassMethod()) {
