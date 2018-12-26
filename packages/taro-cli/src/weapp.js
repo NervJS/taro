@@ -1579,7 +1579,8 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
         let newStylePath = stylePath
         newStylePath = stylePath.replace('~', '')
         const npmInfo = resolveNpmFilesPath(newStylePath, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
-        return str.replace(stylePath, npmInfo.main)
+        const importRelativePath = Util.promoteRelativePath(path.relative(filePath, npmInfo.main))
+        return str.replace(stylePath, importRelativePath)
       }
       return str
     })
