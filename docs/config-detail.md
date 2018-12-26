@@ -235,6 +235,14 @@ devServer: {
   https: true
 }
 ```
+### h5.output
+输出配置
+```js
+output: {
+  filename: 'js/[name].[hash:8].js',
+  chunkFilename: 'js/[name].[chunkhash:8].js'
+}
+```
 
 ### h5.publicPath
 
