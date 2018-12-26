@@ -351,6 +351,7 @@ declare namespace Taro {
 
     $router: {
       params: any
+      preload: any
     }
 
     setState<K extends keyof S>(

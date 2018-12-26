@@ -2,9 +2,11 @@ import { getCurrentPageUrl } from '@tarojs/utils'
 
 import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
+import { cacheDataGet, cacheDataHas } from './data-cache'
 
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
+const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -288,6 +290,10 @@ function createComponent (ComponentClass, isPage) {
         this.$component._init(this)
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
+        }
         Object.assign(this.$component.$router.params, options)
         this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])

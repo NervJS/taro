@@ -9,6 +9,7 @@ const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'
+const PRELOAD_DATA_KEY = 'preload'
 const preloadInitedComponent = '$preloadComponent'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
 
@@ -332,6 +333,10 @@ function createComponent (ComponentClass, isPage) {
         } else {
           // 直接启动，非内部跳转
           params = filterParams(this.data, ComponentClass.defaultParams)
+        }
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
         }
         Object.assign(this.$component.$router.params, params)
         // preload
