@@ -42,7 +42,9 @@
       "wx-third-party",
       "wx-hybrid",
       "css-modules"
-    ],
+    ]
+  },
+  "components": {
     "组件库": [
       "components-desc",
       "components/viewContainer/view",
@@ -76,8 +78,11 @@
       "components/canvas/canvas",
       "components/open/open-data",
       "components/open/web-view"
-    ],
+    ]
+  },
+  "api": {
     "API": [
+      "api-desc",
       "component",
       "env",
       "events",
