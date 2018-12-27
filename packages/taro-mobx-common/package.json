@@ -22,7 +22,7 @@
     "clear": "rimraf dist"
   },
   "peerDependencies": {
-    "mobx": "^5.5.2"
+    "mobx": "4.8.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"

@@ -8,12 +8,12 @@ title: 使用 Mobx
 
 > 下文中示例代码均在 [taro-mobx-sample](https://github.com/nanjingboy/taro-mobx-sample)
 
-首先请安装 `mobx` 、 `@tarojs/mobx` 、 `@tarojs/mobx-h5` 和 `@tarojs/mobx-rn`
+首先请安装 `mobx@4.8.0` 、 `@tarojs/mobx` 、 `@tarojs/mobx-h5` 和 `@tarojs/mobx-rn`
 
 ```bash
-$ yarn add mobx @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
+$ yarn add mobx@4.8.0 @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
 # 或者使用 npm
-$ npm install --save mobx @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
+$ npm install --save mobx@4.8.0 @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
 ```
 
 随后可以在项目 `src` 目录下新增一个 `store/counter.js` 文件
@@ -210,6 +210,13 @@ export default Index
   return (
      <Text>{counterStore.counter}</Text>
   )
+  ```
+
+* 如果使用 `@observable` 装饰器来定义可观察对象时，请确保该属性已经初始化（这是很多情况下属性值改变，页面没刷新的根源所在），比如：
+
+  ```js
+  @observable counter // 错误
+  @observable counter = 0 // 正确
   ```
 
 * 自`1.2.0-beta.5`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
