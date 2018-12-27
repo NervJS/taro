@@ -284,8 +284,9 @@ class Transformer {
         if (t.isIdentifier(node.key)) {
           const name = node.key.name
           self.methods.set(name, path)
-          if (name === 'render') {
-            self.renderJSX.set('render', path)
+          if (name.startsWith('render')) {
+            self.renderJSX.set(name, path)
+            self.refIdMap.set(path, new Set([]))
             path.traverse({
               ReturnStatement (returnPath) {
                 const arg = returnPath.node.argument
@@ -296,12 +297,37 @@ class Transformer {
                     returnPath.get('argument').replaceWith(t.nullLiteral())
                   }
                 }
+              },
+              CallExpression (callPath) {
+                const callee = callPath.get('callee')
+                if (!callee.isMemberExpression()) {
+                  return
+                }
+                const args = callPath.node.arguments
+                const { object, property } = callee.node
+                if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
+                  if (args.length > 1) {
+                    // @TODO: 加入文档地址
+                    throw codeFrameError(args[0], '类属性函数只能传入一个参数，如果你需要传入多个参数，考虑传入一个对象并使用解构语法，参考：')
+                  }
+                  const name = property.name
+                  callPath.replaceWith(t.jSXElement(
+                    t.jSXOpeningElement(t.jSXIdentifier('Template'), [
+                      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
+                      t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
+                        t.callExpression(t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier(`_create${name.slice(6)}Data`)
+                        ), args)
+                      ))
+                    ]),
+                    t.jSXClosingElement(t.jSXIdentifier('Template')),
+                    [],
+                    false
+                  ))
+                }
               }
             })
-          }
-          if (name.startsWith('render')) {
-            self.renderJSX.set(name, path)
-            self.refIdMap.set(path, new Set([]))
           }
           if (name === 'constructor') {
             path.traverse({
