@@ -129,6 +129,7 @@ export class RenderParser {
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
   private isDefaultRender: boolean = false
+  private renderArg: t.Identifier | t.ObjectPattern | null = null
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -1466,6 +1467,23 @@ export class RenderParser {
     if (Adapter.type === Adapters.quickapp) {
       renderBody.traverse(this.quickappVistor)
     }
+
+    const renderMethodArgs = this.renderPath.node.params
+    if (!this.isDefaultRender) {
+      const len = renderMethodArgs.length
+      if (len === 0) {
+        //
+      } else if (len === 1) {
+        const renderArg = renderMethodArgs[0]
+        if (t.isRestElement(renderArg)) {
+          throw codeFrameError(renderMethodArgs, '类函数式组件只能传入一个参数，如果需要传入更多参数可以考虑传入一个对象。')
+        }
+        this.renderArg = renderArg as any
+      } else {
+        throw codeFrameError(renderMethodArgs, '类函数式组件只能传入一个参数，如果需要传入更多参数可以考虑传入一个对象。')
+      }
+    }
+
     this.setOutputTemplate()
     this.checkDuplicateName()
     this.removeJSXStatement()
@@ -2026,7 +2044,7 @@ export class RenderParser {
   }
 
   setPendingState () {
-    const propertyKeys = Array.from(
+    let propertyKeys = Array.from(
         new Set(Array.from(this.referencedIdentifiers)
         .map(i => i.name))
       )
@@ -2044,13 +2062,17 @@ export class RenderParser {
         return !this.methods.has(i) || isGet
       })
       .filter(i => !this.loopScopes.has(i))
-      .filter(i => !this.initState.has(i))
       .filter(i => !this.templates.has(i))
       .filter(i => isVarName(i))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('$$'))
       .filter(i => !i.startsWith('_$indexKey'))
       .filter(i => !this.loopRefIdentifiers.has(i))
+
+    if (this.isDefaultRender) {
+      propertyKeys = propertyKeys.filter(i => !this.initState.has(i))
+    }
+
     let properties = propertyKeys.map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     const pendingState = t.objectExpression(
       properties.concat(
@@ -2064,21 +2086,60 @@ export class RenderParser {
         })
       )
     )
-
-    const propsStatement: t.ExpressionStatement | t.VariableDeclaration[] = [...this.propsSettingExpressions].map(expr => {
-      if (typeof expr === 'function') return expr()
-      return expr
-    })
-    this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
-      ...propsStatement,
-      buildAssignState(pendingState),
-      t.returnStatement(
-        t.memberExpression(t.thisExpression(), t.identifier('state'))
+    if (this.isDefaultRender) {
+      this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
+        buildAssignState(pendingState),
+        t.returnStatement(
+          t.memberExpression(t.thisExpression(), t.identifier('state'))
+        )
       )
-    )
+    } else {
+      const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.thisExpression(), t.identifier(s))))
+      if (this.renderArg) {
+        if (t.isIdentifier(this.renderArg)) {
+          const renderArgName = this.renderArg.name
+          const shadowArgName = this.renderPath.scope.generateUid(renderArgName)
+          const renderBody = this.renderPath.get('body')
+          renderBody.traverse({
+            Scope ({ scope }) {
+              scope.rename(renderArgName, shadowArgName)
+            }
+          })
+          this.renderPath.node.body.body.unshift(
+            t.expressionStatement(t.assignmentExpression('=', t.identifier(renderArgName), t.objectExpression([
+              t.objectProperty(
+                t.identifier(shadowArgName),
+                t.identifier(shadowArgName)
+              )
+            ])))
+          )
+          usedState.push(t.objectProperty(
+            t.identifier(shadowArgName),
+            t.identifier(shadowArgName)
+          ))
+        } else {
+          // TODO
+          // usedState.push()
+        }
+      }
+      this.renderPath.node.body.body.push(
+        t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
+      )
+
+      if (t.isIdentifier(this.renderPath.node.key)) {
+        this.renderPath.node.key.name = this.getCreateJSXMethodName(name)
+      } else {
+        throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
+      }
+    }
   }
 
+  getCreateJSXMethodName = (name: string) => `_create${name}Data`
+
   createData () {
+    if (!this.isDefaultRender) {
+      return
+    }
     const renderBody = this.renderPath.get('body')
     renderBody.traverse({
       ThisExpression (path) {
