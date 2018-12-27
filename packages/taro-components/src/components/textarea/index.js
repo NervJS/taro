@@ -5,19 +5,16 @@ class Textarea extends Nerv.Component {
     super(...arguments)
   }
 
-  onChange (e) {
-    const { onChange, onInput } = this.props
+  onChange = (e) => {
+    const { onChange = '', onInput = '' } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
       value: {
         value: e.target.value
       }
     })
-    if (onChange) {
-      onChange && onChange(e)
-    } else {
-      onInput && onInput(e)
-    }
+    if (onChange) return onChange && onChange(e)
+    if (onInput) return onInput && onInput(e)
   }
 
   render () {
@@ -26,7 +23,6 @@ class Textarea extends Nerv.Component {
       placeholder = '',
       disabled,
       maxLength = 140,
-      onChange,
       onFocus,
       onBlur,
       autoFocus = false
@@ -39,6 +35,7 @@ class Textarea extends Nerv.Component {
           'disabled',
           'maxlength',
           'onChange',
+          'onInput',
           'onFocus',
           'onBlur',
           'autofocus'
@@ -48,7 +45,7 @@ class Textarea extends Nerv.Component {
         disabled={disabled}
         maxlength={maxLength}
         autofocus={autoFocus}
-        onChange={onChange}
+        onChange={this.onChange}
         onFocus={onFocus}
         onBlur={onBlur}
       />
