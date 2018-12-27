@@ -21,7 +21,8 @@ const {
   BUILD_TYPES,
   REG_STYLE,
   REG_TYPESCRIPT,
-  cssImports
+  cssImports,
+  debounce
 } = require('./util')
 
 const appPath = process.cwd()
@@ -34,6 +35,8 @@ const entryFilePath = resolveScriptPath(path.join(sourceDir, 'index'))
 const entryFileName = path.basename(entryFilePath)
 const tempDir = '.temp'
 const tempPath = path.join(appPath, tempDir)
+const lingCompsDir = './node_modules/@ling-components/ling-components/dist/h5'
+const lingCompsPath = path.join(appPath, lingCompsDir)
 
 const weappOutputName = 'weapp'
 const h5OutputName = 'h5'
@@ -329,7 +332,9 @@ function buildEntry () {
 function watchFiles () {
   console.log('\n', chalk.gray('监听文件修改中...'), '\n')
 
-  const watcher = chokidar.watch(sourceDir, {
+  const watchList = process.env.TARO_WATCH_MODE === 'atom' ? [sourceDir, lingCompsPath] : sourceDir
+
+  const watcher = chokidar.watch(watchList, {
     ignored: /(^|[/\\])\../,
     ignoreInitial: true
   })
@@ -350,20 +355,31 @@ function watchFiles () {
     const outputDir = path.join(appPath, outputDirName, h5OutputName)
     const fileTempPath = filePath.replace(sourceDir, tempPath)
     processFiles(filePath)
-    copyFileToDist(fileTempPath, tempPath, outputDir)
-    // 依赖分析
-    const extname = path.extname(filePath)
-    if (REG_STYLE.test(extname)) {
-      analyzeStyleFilesImport([fileTempPath], tempPath, outputDir)
+
+    if (process.env.TARO_BUILD_TYPE === 'script') {
+      buildH5Script()
     } else {
-      analyzeFiles([fileTempPath], tempPath, outputDir)
+      copyFileToDist(fileTempPath, tempPath, outputDir)
+      // 依赖分析
+      const extname = path.extname(filePath)
+      if (REG_STYLE.test(extname)) {
+        analyzeStyleFilesImport([fileTempPath], tempPath, outputDir)
+      } else {
+        analyzeFiles([fileTempPath], tempPath, outputDir)
+      }
     }
   }
+
+  const _buildH5Script = debounce(buildH5Script, 1000)
 
   watcher
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       printLog(pocessTypeEnum.CREATE, '添加文件', relativePath)
+      if (relativePath.indexOf(lingCompsDir.substr(2)) > -1) {
+        // 玲珑基础库变更
+        return _buildH5Script()
+      }
       try {
         syncWeappFile(filePath)
         syncH5File(filePath)
@@ -374,6 +390,10 @@ function watchFiles () {
     .on('change', filePath => {
       const relativePath = path.relative(appPath, filePath)
       printLog(pocessTypeEnum.MODIFY, '文件变动', relativePath)
+      if (relativePath.indexOf(lingCompsDir.substr(2)) > -1) {
+        // 玲珑基础库变更
+        return _buildH5Script()
+      }
       try {
         syncWeappFile(filePath)
         syncH5File(filePath)
