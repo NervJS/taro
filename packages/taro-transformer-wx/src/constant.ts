@@ -46,7 +46,8 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Ad',
   'Block',
   'Import',
-  'OfficialAccount'
+  'OfficialAccount',
+  'Template'
 ])
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'

@@ -129,7 +129,8 @@ export class RenderParser {
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
   private isDefaultRender: boolean = false
-  private renderArg: t.Identifier | t.ObjectPattern | null = null
+  // private renderArg: t.Identifier | t.ObjectPattern | null = null
+  private renderMethodName: string = ''
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -1478,10 +1479,17 @@ export class RenderParser {
         if (t.isRestElement(renderArg)) {
           throw codeFrameError(renderMethodArgs, '类函数式组件只能传入一个参数，如果需要传入更多参数可以考虑传入一个对象。')
         }
-        this.renderArg = renderArg as any
+        // this.renderArg = renderArg as any
       } else {
         throw codeFrameError(renderMethodArgs, '类函数式组件只能传入一个参数，如果需要传入更多参数可以考虑传入一个对象。')
       }
+    }
+
+    if (t.isIdentifier(this.renderPath.node.key)) {
+      this.renderMethodName = this.renderPath.node.key.name
+      this.renderPath.node.key.name = this.getCreateJSXMethodName(this.renderMethodName)
+    } else {
+      throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
     }
 
     this.setOutputTemplate()
@@ -1907,6 +1915,9 @@ export class RenderParser {
 
   setOutputTemplate () {
     this.outputTemplate = parseJSXElement(this.finalReturnElement)
+    if (!this.isDefaultRender) {
+      this.outputTemplate = `<template name="${this.renderMethodName}">${this.outputTemplate}</template>`
+    }
   }
 
   removeJSXStatement () {
@@ -2095,46 +2106,41 @@ export class RenderParser {
       )
     } else {
       const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.thisExpression(), t.identifier(s))))
-      if (this.renderArg) {
-        if (t.isIdentifier(this.renderArg)) {
-          const renderArgName = this.renderArg.name
-          const shadowArgName = this.renderPath.scope.generateUid(renderArgName)
-          const renderBody = this.renderPath.get('body')
-          renderBody.traverse({
-            Scope ({ scope }) {
-              scope.rename(renderArgName, shadowArgName)
-            }
-          })
-          this.renderPath.node.body.body.unshift(
-            t.expressionStatement(t.assignmentExpression('=', t.identifier(renderArgName), t.objectExpression([
-              t.objectProperty(
-                t.identifier(shadowArgName),
-                t.identifier(shadowArgName)
-              )
-            ])))
-          )
-          usedState.push(t.objectProperty(
-            t.identifier(shadowArgName),
-            t.identifier(shadowArgName)
-          ))
-        } else {
-          // TODO
-          // usedState.push()
-        }
-      }
+      // if (this.renderArg) {
+      //   if (t.isIdentifier(this.renderArg)) {
+      //     const renderArgName = this.renderArg.name
+      //     const shadowArgName = this.renderPath.scope.generateUid(renderArgName)
+      //     const renderBody = this.renderPath.get('body')
+      //     renderBody.traverse({
+      //       Scope ({ scope }) {
+      //         scope.rename(renderArgName, shadowArgName)
+      //       }
+      //     })
+      //     this.renderPath.node.body.body.unshift(
+      //       // t.expressionStatement(t.assignmentExpression('=', t.identifier(renderArgName), t.objectExpression([
+      //       //   t.objectProperty(
+      //       //     t.identifier(shadowArgName),
+      //       //     t.identifier(shadowArgName)
+      //       //   )
+      //       // ])))
+      //       buildConstVariableDeclaration(shadowArgName, t.identifier(renderArgName))
+      //     )
+      //     usedState.push(t.objectProperty(
+      //       t.identifier(shadowArgName),
+      //       t.identifier(shadowArgName)
+      //     ))
+      //   } else {
+      //     // TODO
+      //     // usedState.push()
+      //   }
+      // }
       this.renderPath.node.body.body.push(
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
       )
-
-      if (t.isIdentifier(this.renderPath.node.key)) {
-        this.renderPath.node.key.name = this.getCreateJSXMethodName(name)
-      } else {
-        throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
-      }
     }
   }
 
-  getCreateJSXMethodName = (name: string) => `_create${name}Data`
+  getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`
 
   createData () {
     if (!this.isDefaultRender) {
