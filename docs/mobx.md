@@ -212,6 +212,13 @@ export default Index
   )
   ```
 
+* 如果使用 `@observable` 装饰器来定义可观察对象时，请确保该属性已经初始化（这是很多情况下属性值改变，页面没刷新的根源所在），比如：
+
+  ```js
+  @observable counter // 错误
+  @observable counter = 0 // 正确
+  ```
+
 * 自`1.2.0-beta.5`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
 
   ```bash
