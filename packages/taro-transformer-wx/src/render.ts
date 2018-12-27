@@ -116,6 +116,7 @@ export class RenderParser {
   private isDefaultRender: boolean = false
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
+  private renderArg: t.Identifier | t.ObjectPattern | null = null
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -1702,41 +1703,46 @@ export class RenderParser {
       )
     } else {
       const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.thisExpression(), t.identifier(s))))
-      // if (this.renderArg) {
-      //   if (t.isIdentifier(this.renderArg)) {
-      //     const renderArgName = this.renderArg.name
-      //     const shadowArgName = this.renderPath.scope.generateUid(renderArgName)
-      //     const renderBody = this.renderPath.get('body')
-      //     renderBody.traverse({
-      //       Scope ({ scope }) {
-      //         scope.rename(renderArgName, shadowArgName)
-      //       }
-      //     })
-      //     this.renderPath.node.body.body.unshift(
-      //       // t.expressionStatement(t.assignmentExpression('=', t.identifier(renderArgName), t.objectExpression([
-      //       //   t.objectProperty(
-      //       //     t.identifier(shadowArgName),
-      //       //     t.identifier(shadowArgName)
-      //       //   )
-      //       // ])))
-      //       buildConstVariableDeclaration(shadowArgName, t.identifier(renderArgName))
-      //     )
-      //     usedState.push(t.objectProperty(
-      //       t.identifier(shadowArgName),
-      //       t.identifier(shadowArgName)
-      //     ))
-      //   } else {
-      //     // TODO
-      //     // usedState.push()
-      //   }
-      // }
+      if (this.renderArg) {
+        if (t.isIdentifier(this.renderArg)) {
+          const renderArgName = this.renderArg.name
+          const shadowArgName = this.renderPath.scope.generateUid(renderArgName)
+          const renderBody = this.renderPath.get('body')
+          renderBody.traverse({
+            Scope ({ scope }) {
+              scope.rename(renderArgName, shadowArgName)
+            }
+          })
+          this.renderPath.node.body.body.unshift(
+            t.expressionStatement(t.assignmentExpression('=', t.identifier(renderArgName), t.objectExpression([
+              t.objectProperty(
+                t.identifier(shadowArgName),
+                t.identifier(shadowArgName)
+              )
+            ])))
+          )
+          usedState.push(t.objectProperty(
+            t.identifier(shadowArgName),
+            t.identifier(shadowArgName)
+          ))
+        } else {
+          // TODO
+          // usedState.push()
+        }
+      }
       this.renderPath.node.body.body.push(
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
       )
+
+      if (t.isIdentifier(this.renderPath.node.key)) {
+        this.renderPath.node.key.name = this.getCreateJSXMethodName(name)
+      } else {
+        throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
+      }
     }
   }
 
-  getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`
+  getCreateJSXMethodName = (name: string) => `_create${name}Data`
 
   createData () {
     if (!this.isDefaultRender) {
