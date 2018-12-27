@@ -306,10 +306,6 @@ class Transformer {
                 const args = callPath.node.arguments
                 const { object, property } = callee.node
                 if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
-                  if (args.length > 1) {
-                    // @TODO: 加入文档地址
-                    throw codeFrameError(args[0], '类属性函数只能传入一个参数，如果你需要传入多个参数，考虑传入一个对象并使用解构语法，参考：')
-                  }
                   const name = property.name
                   callPath.replaceWith(t.jSXElement(
                     t.jSXOpeningElement(t.jSXIdentifier('Template'), [

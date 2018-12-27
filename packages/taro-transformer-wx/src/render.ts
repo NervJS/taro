@@ -1170,20 +1170,11 @@ export class RenderParser {
       renderBody.traverse(this.quickappVistor)
     }
 
-    const renderMethodArgs = this.renderPath.node.params
-    if (!this.isDefaultRender) {
-      const len = renderMethodArgs.length
-      if (len === 0) {
-        //
-      } else if (len === 1) {
-        const renderArg = renderMethodArgs[0]
-        if (t.isRestElement(renderArg)) {
-          throw codeFrameError(renderMethodArgs, '类函数式组件只能传入一个参数，如果需要传入更多参数可以考虑传入一个对象。')
-        }
-        // this.renderArg = renderArg as any
-      } else {
-        throw codeFrameError(renderMethodArgs, '类函数式组件只能传入一个参数，如果需要传入更多参数可以考虑传入一个对象。')
-      }
+    if (t.isIdentifier(this.renderPath.node.key)) {
+      this.renderMethodName = this.renderPath.node.key.name
+      this.renderPath.node.key.name = this.getCreateJSXMethodName(this.renderMethodName)
+    } else {
+      throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
     }
 
     if (t.isIdentifier(this.renderPath.node.key)) {
