@@ -10,7 +10,7 @@ function getTrueType (type, confirmType, password) {
   }
   if (confirmType === 'search') type = 'search'
   if (password) type = 'password'
-  if (type === 'number') type = 'number'
+  if (type === 'digit') type = 'number'
 
   return type
 }
@@ -50,16 +50,33 @@ class Input extends Nerv.Component {
   }
 
   onInput (e) {
-    const { onInput = '', onChange = '' } = this.props
+    const {
+      type,
+      maxLength,
+      confirmType,
+      password,
+      onInput = '',
+      onChange = ''
+    } = this.props
     if (!this.isOnComposition) {
+      let value = e.target.value
+      const inputType = getTrueType(type, confirmType, password)
+      /* 修复 number 类型 maxLength 无效 */
+      if (
+        inputType === 'number' &&
+        value &&
+        maxLength <= value.length
+      ) {
+        value = value.substring(0, maxLength)
+        e.target.value = value
+      }
+
       Object.defineProperty(e, 'detail', {
         enumerable: true,
-        value: {
-          value: e.target.value
-        }
+        value: { value }
       })
-      if (onChange) return onChange && onChange(e)
-      if (onInput) return onInput && onInput(e)
+      if (onChange) return onChange(e)
+      if (onInput) return onInput(e)
     }
   }
 
