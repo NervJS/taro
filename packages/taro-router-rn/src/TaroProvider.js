@@ -121,9 +121,9 @@ class TaroProvider extends React.Component {
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount () {
     // Remove the listener when you are done
-    this.didBlurSubscription && this.didBlurSubscription.remove();
+    this.didBlurSubscription && this.didBlurSubscription.remove()
   }
 
   render () {
