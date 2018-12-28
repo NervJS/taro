@@ -256,6 +256,14 @@ declare namespace Taro {
     }
   }
 
+  interface Permission {
+    [key: string]: {
+      /**
+       * 小程序获取权限时展示的接口用途说明。最长30个字符
+       */
+      desc: string
+    }
+  }
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
@@ -327,6 +335,11 @@ declare namespace Taro {
      * @since 2.4.0
      */
     navigateToMiniProgramAppIdList?: string[]
+    /**
+     * 小程序接口权限相关设置
+     * @since 微信客户端 7.0.0
+     */
+    permission?: Permission
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -2495,7 +2508,7 @@ declare namespace Taro {
     pause(): void
     /**
      * 停止
-     * 
+     *
      * @since 1.7.0
      */
     stop(): void
