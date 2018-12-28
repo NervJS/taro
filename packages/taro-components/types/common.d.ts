@@ -1,5 +1,7 @@
 import { CSSProperties } from 'react';
 
+export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
+
 export interface StandardProps extends EventProps {
   /**
    * 组件的唯一标示, 保持整个页面唯一
