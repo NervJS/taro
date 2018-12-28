@@ -33,7 +33,7 @@
     "@tarojs/mobx": "^<%= version %>",
     "@tarojs/mobx-h5": "^<%= version %>",
     "@tarojs/mobx-rn": "^<%= version %>",
-    "mobx": "^5.5.2",
+    "mobx": "4.8.0",
     "nervjs": "^1.3.9",
     "nerv-devtools": "^1.3.9"
   },

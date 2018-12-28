@@ -6,10 +6,10 @@ import {
 } from '@tarojs/taro'
 import { cacheDataSet, cacheDataGet } from './data-cache'
 // #组件state对应小程序组件data
-// #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
-// #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟reciveProps生命周期
+// #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReceiveProps,componentShouldUpdate在这里处理
+// #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟receiveProps生命周期
 // 执行顺序：组件setState -> 组件_createData() -> 对应的小程序组件setData（组件更新）-> 子组件的__componentProps.observer执行
-//          -> 触发子组件componentWillReciveProps，更新子组件props,componentShouldUpdate -> 子组件_createData -> 子组件setData
+//          -> 触发子组件componentWillReceiveProps，更新子组件props,componentShouldUpdate -> 子组件_createData -> 子组件setData
 
 const PRELOAD_DATA_KEY = 'preload'
 

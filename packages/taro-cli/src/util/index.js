@@ -583,3 +583,37 @@ exports.UPDATE_PACKAGE_LIST = [
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
+
+exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
+  const resolvePath = require('resolve')
+  try {
+    const pkg = resolvePath.sync(`${pkgName}/package.json`, { basedir })
+    const pkgJson = fs.readJSONSync(pkg)
+    return pkgJson.version
+  } catch (err) {
+    return null
+  }
+}
+
+/**
+ * 防反跳
+ * @author Secbone
+ *
+ * @param fn [Function] 需要防反跳的函数
+ * @param wait [Number] 时间，毫秒
+ * @return [Function]
+ */
+exports.debounce = function debounce (fn, wait) {
+  let timeout = null
+
+  return function () {
+    const args = arguments
+
+    if (timeout) clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      timeout = null
+      fn.apply(this, args)
+    }, wait)
+  }
+}
