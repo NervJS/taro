@@ -129,7 +129,17 @@ interface BaseEvent {
   /**
    * 额外的信息
    */
-  detail: any
+  detail: any,
+  
+  /**
+  * 阻止元素发生默认的行为
+  */
+  preventDefault: () => void,
+  
+  /**
+  * 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行
+  */
+  stopPropagation: () => void
 }
 
 interface ITouchEvent extends BaseEvent {
