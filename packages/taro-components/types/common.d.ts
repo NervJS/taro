@@ -1,5 +1,7 @@
 import { CSSProperties } from 'react';
 
+export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
+
 export interface StandardProps extends EventProps {
   /**
    * 组件的唯一标示, 保持整个页面唯一
@@ -129,7 +131,17 @@ interface BaseEvent {
   /**
    * 额外的信息
    */
-  detail: any
+  detail: any,
+  
+  /**
+  * 阻止元素发生默认的行为
+  */
+  preventDefault: () => void,
+  
+  /**
+  * 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行
+  */
+  stopPropagation: () => void
 }
 
 interface ITouchEvent extends BaseEvent {
