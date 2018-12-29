@@ -10,10 +10,13 @@ function queryBat (queue, cb) {
   queue.forEach(item => {
     const { selector, single, fields, component } = item
     // selector 的容器节点
-    let container = document
-    if (component && component.vnode && component.vnode.dom) {
-      container = component.vnode.dom
-    }
+    /* eslint-disable */
+    const container = (
+      component !== null ?
+        (Nerv.findDOMNode(component) || document) :
+        document
+    )
+    /* eslint-enable */
 
     // 特殊处理 ---- 选自己
     let selectSelf = false
