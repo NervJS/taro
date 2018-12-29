@@ -1,3 +1,5 @@
+import { Permissions } from 'expo'
+
 export function generateUnSupportApi (errText, fnNames) {
   const res = {}
   fnNames.forEach((fnName) => {
@@ -6,4 +8,9 @@ export function generateUnSupportApi (errText, fnNames) {
     }
   })
   return res
+}
+
+export async function askAsyncPermissions (PermissionsType) {
+  const { status } = await Permissions.askAsync(PermissionsType)
+  return status
 }

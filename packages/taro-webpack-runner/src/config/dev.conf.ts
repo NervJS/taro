@@ -1,15 +1,15 @@
 import * as path from 'path';
 
-import { appPath } from '../util';
+import { addLeadingSlash, addTrailingSlash, appPath } from '../util';
 import {
   getDefinePlugin,
+  getDevtool,
   getEntry,
   getHotModuleReplacementPlugin,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
-  getOutput,
-  getDevtool,
   getModule,
+  getOutput,
   processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
@@ -25,7 +25,7 @@ export default function (config: Partial<BuildConfig>): any {
     output = emptyObj,
     sourceRoot = '',
     outputRoot,
-    publicPath,
+    publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
 
@@ -46,6 +46,7 @@ export default function (config: Partial<BuildConfig>): any {
     imageUrlLoaderOption = emptyObj,
     
     miniCssExtractPluginOption = emptyObj,
+    esnextModules = [],
 
     module = {
       postcss: emptyObj
@@ -58,7 +59,7 @@ export default function (config: Partial<BuildConfig>): any {
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
       filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css'
+      chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption])
   }
 
@@ -77,7 +78,7 @@ export default function (config: Partial<BuildConfig>): any {
     entry: getEntry(entry),
     output: getOutput([{
       outputRoot,
-      publicPath,
+      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
       chunkDirectory
     }, output]),
     resolve: { alias },
@@ -95,6 +96,7 @@ export default function (config: Partial<BuildConfig>): any {
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
+      esnextModules,
   
       module,
       plugins,

@@ -276,9 +276,9 @@ describe('Template', () => {
         <block>
             <view>
                 <view style="{{item.$loopState__temp2}}" wx:for="{{loopArray0}}" wx:for-item="item">
-                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.$anonymousCallee__1}}" wx:for-item="l"
+                    <image style="{{l.$loopState__temp4}}" wx:for="{{item.$anonymousCallee__0}}" wx:for-item="l"
                     />
-                    <view style="{{a.$loopState__temp6}}" wx:for="{{item.$anonymousCallee__2}}" wx:for-item="a"></view>
+                    <view style="{{a.$loopState__temp6}}" wx:for="{{item.$anonymousCallee__1}}" wx:for-item="a"></view>
                 </view>
             </view>
         </block>
@@ -290,10 +290,10 @@ describe('Template', () => {
         `font-size:12px;color:red`
       )
       expect(
-        instance.state.loopArray0[0].$anonymousCallee__1[0].$loopState__temp4
+        instance.state.loopArray0[0].$anonymousCallee__0[0].$loopState__temp4
       ).toMatch(`font-size:16px;color:green`)
       expect(
-        instance.state.loopArray0[0].$anonymousCallee__2[0].$loopState__temp6
+        instance.state.loopArray0[0].$anonymousCallee__1[0].$loopState__temp6
       ).toMatch(`font-size:20px;color:yellow`)
     })
   })
@@ -599,12 +599,12 @@ describe('Template', () => {
           prettyPrint(`
           <block>
               <view class=\"container\">
-                  <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                  <view wx:key=\"number\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
                       <text class=\"li\">我是第{{number + 1}}个数字</text>
                   </view>
                   <view>
                       <block wx:if=\"{{enable}}\">
-                          <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                          <view wx:key=\"number\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
                               <text class=\"li\">我是第{{number + 1}}个数字</text>
                           </view>
                       </block>

@@ -10,7 +10,8 @@ const RequestQueue = {
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -28,7 +29,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, [...arguments])
         this.run()
       }
-      swan.request(options)
+      return swan.request(options)
     }
   }
 }
@@ -43,6 +44,7 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       originSuccess && originSuccess(res)
@@ -57,8 +59,15 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    RequestQueue.request(options)
+    requestTask = RequestQueue.request(options)
   })
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 
@@ -74,11 +83,6 @@ function processApis (taro) {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         options = options || {}
-        if (key === 'connectSocket') {
-          if (options['protocols']) {
-            options['protocolsArray'] = options['protocols']
-          }
-        }
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
@@ -90,14 +94,15 @@ function processApis (taro) {
         const p = new Promise((resolve, reject) => {
           ['fail', 'success', 'complete'].forEach((k) => {
             obj[k] = (res) => {
-              if (k === 'success' || k === 'complete') {
-                if (key === 'showActionSheet') {
-                  res.index = res.tapIndex
-                }
-              }
               options[k] && options[k](res)
               if (k === 'success') {
-                resolve(res)
+                if (key === 'connectSocket') {
+                  resolve(
+                    Promise.resolve().then(() => Object.assign(task, res))
+                  )
+                } else {
+                  resolve(res)
+                }
               } else if (k === 'fail') {
                 reject(res)
               }
@@ -138,7 +143,6 @@ function pxTransform (size) {
   const { designWidth, deviceRatio } = this.config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    return
   }
   return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
 }

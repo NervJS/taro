@@ -59,7 +59,7 @@ class MyComponent extends Component {
   }
 }
 
-class Cat extends Components {
+class Cat extends Component {
   miao () {
     console.log('miao, miao, miao~')
   }

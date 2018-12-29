@@ -233,3 +233,20 @@ let _i = 1
 export function getUniqueKey () {
   return _loadTime + (_i++)
 }
+
+export function getElementById (component, id, type) {
+  if (!component) return null
+
+  let res
+  if (type === 'component') {
+    res = component.selectComponent(id)
+    res = res ? (res.$component || res) : null
+  } else {
+    const query = wx.createSelectorQuery().in(component)
+    res = query.select(id)
+  }
+
+  if (res) return res
+
+  return null
+}

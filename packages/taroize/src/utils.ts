@@ -1,7 +1,29 @@
 import * as template from 'babel-template'
 import * as t from 'babel-types'
+import { transform } from 'babel-core'
 import { codeFrameColumns } from '@babel/code-frame'
 import { camelCase, capitalize } from 'lodash'
+
+export function parseCode (code: string) {
+  return (transform(code, {
+    parserOpts: {
+      sourceType: 'module',
+      plugins: [
+        'classProperties',
+        'jsx',
+        'flow',
+        'flowComment',
+        'trailingFunctionCommas',
+        'asyncFunctions',
+        'exponentiationOperator',
+        'asyncGenerators',
+        'objectRestSpread',
+        'decorators',
+        'dynamicImport'
+      ]
+    }
+  }) as { ast: t.File }).ast
+}
 
 export const buildTemplate = (str: string) => template(str)().expression as t.Expression
 
@@ -28,7 +50,7 @@ export function buildRender (
   if (stateKeys.length) {
     const stateDecl = t.variableDeclaration('const', [
       t.variableDeclarator(
-        t.objectPattern(stateKeys.map(s =>
+        t.objectPattern(Array.from(new Set(stateKeys)).filter(s => !propsKeys.includes(s)).map(s =>
           t.objectProperty(t.identifier(s), t.identifier(s))
         ) as any),
         t.memberExpression(t.thisExpression(), t.identifier('state'))
@@ -38,7 +60,7 @@ export function buildRender (
   }
 
   if (propsKeys.length) {
-    let patterns = t.objectPattern(propsKeys.map(s =>
+    let patterns = t.objectPattern(Array.from(new Set(propsKeys)).map(s =>
       t.objectProperty(t.identifier(s), t.identifier(s))
     ) as any)
     if (typeof templateType === 'string') {

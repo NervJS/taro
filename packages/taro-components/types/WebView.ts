@@ -16,7 +16,17 @@ interface WebViewProps extends StandardProps {
   /**
    * 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data }
    */
-  onMessage?: BaseEventFunction
+  onMessage?: BaseEventFunction,
+
+  /**
+   * 网页加载成功时候触发此事件。e.detail = { src }
+   */
+  onLoad?: BaseEventFunction,
+
+  /**
+   * 网页加载失败的时候触发此事件。e.detail = { src }
+   */
+  onError?: BaseEventFunction
 }
 
 declare const WebView: ComponentType<WebViewProps>

@@ -1,8 +1,13 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
+import { cacheDataGet, cacheDataHas } from './data-cache'
+
 const privatePropValName = 'privateTriggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
+const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -81,15 +86,15 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    const eventType = event.type.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
         keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(eventHandlerNameLower, '')
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
           bindArgs[argName] = dataset[key]
         }
       }
@@ -158,8 +163,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+    } else if (propName in weappComponentData) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -172,7 +176,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -186,12 +190,13 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
   }
-  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
+  component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
@@ -245,12 +250,17 @@ function createComponent (ComponentClass, isPage) {
     data: initData,
     created (options = {}) {
       isPage && (hasPageInited = false)
-      this.$component = new ComponentClass()
+      this.$component = new ComponentClass({}, isPage)
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
       if (isPage) {
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
+        }
+        this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       }
     },
@@ -279,8 +289,9 @@ function createComponent (ComponentClass, isPage) {
             } else if ('fn' in ref && typeof ref['fn'] === 'function') {
               ref['fn'].call(component, target)
             }
+            ref.target = target
           })
-          component.refs = refs
+          component.refs = Object.assign({}, component.refs || {}, refs)
         }
       }, 0)
     },
@@ -303,7 +314,7 @@ function createComponent (ComponentClass, isPage) {
         weappComponentConf[fn] = function () {
           const component = this.$component
           if (component[fn] && typeof component[fn] === 'function') {
-            return component[fn].call(component, ...arguments)
+            return component[fn](...arguments)
           }
         }
       }

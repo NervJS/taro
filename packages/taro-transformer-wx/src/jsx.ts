@@ -2,7 +2,7 @@ import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
-import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS } from './constant'
+import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs, THIRD_PARTY_COMPONENTS } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters } from './adapter'
@@ -108,7 +108,7 @@ function parseJSXChildren (
     })
     .reduce((str, child) => {
       if (t.isJSXText(child)) {
-        return str + child.value
+        return str + child.value.trim()
       }
       if (t.isJSXElement(child)) {
         return str + parseJSXElement(child)
@@ -120,13 +120,14 @@ function parseJSXChildren (
         return str + `{${
           decodeUnicode(
             generate(child, {
-              quotes: 'single'
+              quotes: 'single',
+              jsonCompatibleStrings: true
             })
             .code
           )
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
-          .replace(/this\./, '')
+          .replace(/this\./g, '')
         }}`
       }
       return str
@@ -143,6 +144,22 @@ export function parseJSXElement (element: t.JSXElement): string {
   const componentName = name.name
   const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
   const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
+  let hasElseAttr = false
+  attributes.forEach((a, index) => {
+    if (a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
+      hasElseAttr = true
+      attributes.splice(index, 1)
+    }
+  })
+  if (hasElseAttr) {
+    return createHTMLElement({
+      name: 'block',
+      attributes: {
+        [Adapter.else]: true
+      },
+      value: parseJSXChildren([element])
+    })
+  }
   let attributesTrans = {}
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
@@ -164,14 +181,33 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (t.isJSXExpressionContainer(attrValue)) {
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
-          const code = decodeUnicode(generate(attrValue.expression, {
+          let code = decodeUnicode(generate(attrValue.expression, {
               quotes: 'single',
               concise: true
             }).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
-          value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
+          if (
+            Adapters.swan === Adapter.type &&
+            code !== 'true' &&
+            code !== 'false' &&
+            swanSpecialAttrs[componentName] &&
+            swanSpecialAttrs[componentName].includes(name)
+          ) {
+            value = `{= ${code} =}`
+          } else {
+            if (Adapter.key === name) {
+              const splitCode = code.split('.')
+              if (splitCode.length > 1) {
+                value = splitCode.slice(1).join('.')
+              } else {
+                value = code
+              }
+            } else {
+              value = isBindEvent || isAlipayEvent ? code : `{{${code}}}`
+            }
+          }
           if (Adapter.type === Adapters.swan && name === Adapter.for) {
             value = code
           }
@@ -180,6 +216,9 @@ export function parseJSXElement (element: t.JSXElement): string {
           }
         } else if (attrValue === null && name !== Adapter.else) {
           value = `{{true}}`
+        }
+        if (THIRD_PARTY_COMPONENTS.has(componentName) && /^bind/.test(name) && name.includes('-')) {
+          name = name.replace(/^bind/, 'bind:')
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value
@@ -201,6 +240,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
     attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
   }
+
   return createHTMLElement({
     name: kebabCase(componentName),
     attributes: attributesTrans,

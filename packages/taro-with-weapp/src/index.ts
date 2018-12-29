@@ -1,9 +1,9 @@
 import {
   Component,
-  ComponentLifecycle,
-  internal_safe_set as safeSet
+  ComponentLifecycle
 } from '@tarojs/taro'
-import isEqual from 'lodash.isequal'
+import isEqual from 'lodash/isEqual'
+import safeSet from 'lodash/set'
 
 type WeappLifeCycle = () => void
 type Observer = (newProps, oldProps, changePath: string) => void
@@ -67,6 +67,7 @@ export default function withWeapp (componentType: string) {
       Object.keys(obj).forEach(key => {
         safeSet(state, key, obj[key])
       })
+      Object.assign(this.state, state)
       this.setState(state)
     }
 
@@ -93,7 +94,9 @@ export default function withWeapp (componentType: string) {
 
     componentWillMount () {
       this.executeComponentFunc(this.created)
-      this.safeExecute(super.componentWillMount)
+      if (super.componentWillMount) {
+        super.componentWillMount.call(this, this.$router.params)
+      }
     }
 
     componentDidMount () {

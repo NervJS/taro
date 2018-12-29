@@ -1,11 +1,15 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
+
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'
+const PRELOAD_DATA_KEY = 'preload'
 const preloadInitedComponent = '$preloadComponent'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
 
@@ -114,15 +118,15 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    const eventType = event.type.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
         keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(eventHandlerNameLower, '')
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
           bindArgs[argName] = dataset[key]
         }
       }
@@ -191,8 +195,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName].value !== null || weappComponentData[propName] !== null)) {
+    } else if (propName in weappComponentData) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -205,7 +208,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -251,7 +254,8 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
@@ -311,7 +315,7 @@ function createComponent (ComponentClass, isPage) {
       if (isPage && cacheDataHas(preloadInitedComponent)) {
         this.$component = cacheDataGet(preloadInitedComponent, true)
       } else {
-        this.$component = new ComponentClass()
+        this.$component = new ComponentClass({}, isPage)
       }
       this.$component._init(this)
       this.$component.render = this.$component._createData
@@ -329,6 +333,10 @@ function createComponent (ComponentClass, isPage) {
         } else {
           // 直接启动，非内部跳转
           params = filterParams(this.data, ComponentClass.defaultParams)
+        }
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
         }
         Object.assign(this.$component.$router.params, params)
         // preload
@@ -357,6 +365,7 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf.methods['onLoad'] = function (options = {}) {
       if (this.$component.__isReady) return
       Object.assign(this.$component.$router.params, options)
+      this.$component.$router.path = getCurrentPageUrl()
       initComponent.apply(this, [ComponentClass, isPage])
     }
     weappComponentConf.methods['onReady'] = function () {
@@ -381,14 +390,14 @@ function createComponent (ComponentClass, isPage) {
     })
     __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
   } else {
-    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes ||  {}
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes || {}
 
     weappComponentConf.pageLifetimes['show'] = function () {
       componentTrigger(this.$component, 'componentDidShow')
     }
 
     weappComponentConf.pageLifetimes['hide'] = function () {
-      componentTrigger(this.$component, 'componentDidShow')
+      componentTrigger(this.$component, 'componentDidHide')
     }
 
     weappComponentConf.pageLifetimes['resize'] = function () {

@@ -66,9 +66,9 @@ Taro.request({
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.request | ✔️ | ✔️ | ✔️ |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.request | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### 上传、下载
 
@@ -98,10 +98,10 @@ Taro.downloadFile(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.uploadFile | ✔️ |  | ✔️ |
-| Taro.downloadFile | ✔️ |  | ✔️ |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.uploadFile | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.downloadFile | ✔️ |  | ✔️ | ✔️ | ✔️ |
 
 ### WebSocket
 
@@ -259,16 +259,16 @@ SocketTask.onMessage(CALLBACK)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.connectSocket | ✔️ | ✔️ | ✔️ |
-| SocketTask | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketOpen | ✔️ |  |  |
-| Taro.onSocketError | ✔️ |  |  |
-| Taro.sendSocketMessage | ✔️ |  |  |
-| Taro.onSocketMessage | ✔️ |  |  |
-| Taro.closeSocket | ✔️ |  |  |
-| Taro.onSocketClose | ✔️ |  |  |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.connectSocket | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Taro.onSocketOpen | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.onSocketError | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.sendSocketMessage | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.onSocketMessage | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.closeSocket | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.onSocketClose | ✔️ |  |  | ✔️ | ✔️ |
 
 ## 媒体
 
@@ -277,6 +277,8 @@ SocketTask.onMessage(CALLBACK)
 #### Taro.chooseImage(OBJECT)
 
 使用方式同 [`wx.chooseImage `](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject)，支持 `Promise` 化使用。
+
+注：RN端该API不支持 `count` 属性；不支持相机与相册同时选择，只会取 `sourceType` 数组里的第一个值。默认从相册选取图片。
 
 **示例代码：**
 
@@ -324,12 +326,12 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.chooseImage | ✔️ |  |  |
-| Taro.previewImage | ✔️ |  | ✔️ |
-| Taro.getImageInfo | ✔️ |  | ✔️ |
-| Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.chooseImage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Taro.previewImage | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.getImageInfo | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ | ✔️ | ✔️ |
 
 ### 录音
 
@@ -359,10 +361,10 @@ Taro.stopRecord()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.startRecord | ✔️ |  |  |
-| Taro.stopRecord | ✔️ |  |  |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.startRecord | ✔️ |  |  |  |  |
+| Taro.stopRecord | ✔️ |  |  |  |  |
 
 ### 录音管理
 
@@ -380,9 +382,9 @@ const recorderManager = Taro.getRecorderManager()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.getRecorderManager | ✔️ |  |  |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.getRecorderManager | ✔️ |  |  |  |  |
 
 ### 音频播放控制
 
@@ -436,11 +438,11 @@ Taro.startRecord(params)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.playVoice | ✔️ |  |  |
-| Taro.pauseVoice | ✔️ |  |  |
-| Taro.stopVoice | ✔️ |  |  |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.playVoice | ✔️ |  |  |  |  |
+| Taro.pauseVoice | ✔️ |  |  |  |  |
+| Taro.stopVoice | ✔️ |  |  |  |  |
 
 ### 音乐播放控制
 
@@ -518,8 +520,8 @@ Taro.stopBackgroundAudio()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.getBackgroundAudioPlayerState | ✔️ |  |  |
 | Taro.playBackgroundAudio | ✔️ |  |  |
 | Taro.pauseBackgroundAudio | ✔️ |  |  |
@@ -577,8 +579,8 @@ const innerAudioContext = Taro.createInnerAudioContext()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
+| API | 微信小程序 | H5 | ReactNative | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.createAudioContext | ✔️ |  |  |
 | Taro.createInnerAudioContext | ✔️ |  |  |
 
@@ -587,6 +589,8 @@ const innerAudioContext = Taro.createInnerAudioContext()
 #### Taro.chooseVideo(OBJECT)
 
 使用方式同 [`wx.chooseVideo`](https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxchoosevideoobject)，支持 `Promise` 化使用。
+
+注：RN端该API不支持 `compressed` 、`maxDuration`、`camera` 属性；不支持相册与相机同时选择，只会取 `sourceType` 数组里的第一个值。默认从相册选取视频。
 
 **示例代码：**
 
@@ -612,8 +616,8 @@ Taro.saveVideoToPhotosAlbum(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.chooseVideo | ✔️ |  |  |
-| Taro.saveVideoToPhotosAlbum | ✔️ |  |  |
+| Taro.chooseVideo | ✔️ |  | ✔️ |
+| Taro.saveVideoToPhotosAlbum | ✔️ |  | ✔️ |
 
 ### 视频组件控制
 
@@ -1338,7 +1342,7 @@ Taro.makePhoneCall(params).then(...)
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.makePhoneCall | ✔️ |  | ✔️ |
+| Taro.makePhoneCall | ✔️ | ✔️ | ✔️ |
 
 ### 扫码
 
@@ -2514,7 +2518,7 @@ const query = Taro.createSelectorQuery()
 
 将选择器的选取范围更改为自定义组件 component 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
 
-注意：对 h5 侧不起作用，h5 侧还是从全局查找。
+注意：H5 端传 this 而不是传 this.$scope。
 
 **示例代码：**
 
@@ -2523,7 +2527,11 @@ import Taro from '@tarojs/taro'
 
 Component({
   ready () {
-    const query = Taro.createSelectorQuery().in(this.$scope)
+    if (process.env.TARO_ENV === 'h5') {
+      const query = Taro.createSelectorQuery().in(this)
+    } else {
+      const query = Taro.createSelectorQuery().in(this.$scope)
+    }
   }
 })
 ```

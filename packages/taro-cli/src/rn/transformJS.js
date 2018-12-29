@@ -216,10 +216,13 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
     ImportDeclaration (astPath) {
       const node = astPath.node
       const source = node.source
-      const value = source.value
+      let value = source.value
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
-
+      const pathAlias = projectConfig.pathAlias || {}
+      if (Util.isAliasPath(value, pathAlias)) {
+        source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
+      }
       // 引入的包为 npm 包
       if (!Util.isNpmPkg(value)) {
         // import 样式处理
@@ -460,6 +463,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
       plugins: [
         [require('babel-plugin-transform-jsx-to-stylesheet'), {filePath}],
         require('babel-plugin-transform-decorators-legacy').default,
+        require('babel-plugin-transform-class-properties'),
         [require('babel-plugin-danger-remove-unused-import'), {ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs']}],
         [require('babel-plugin-transform-define').default, constantsReplaceList]
       ]

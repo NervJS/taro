@@ -1,5 +1,21 @@
-export class Provider {}
+import { getStore, setStore } from './store'
+import { observer } from './observer'
+import { inject } from './inject'
 
-export { observer } from './observer'
-export { default as inject } from './inject'
-export { propTypes, PropTypes, setStore } from '@tarojs/mobx-common'
+class Provider {}
+
+export default {
+  getStore,
+  setStore,
+  observer,
+  inject,
+  Provider
+}
+
+export {
+  getStore,
+  setStore,
+  observer,
+  inject,
+  Provider
+}

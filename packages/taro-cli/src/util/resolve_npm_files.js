@@ -19,8 +19,12 @@ const {
   generateEnvList,
   REG_TYPESCRIPT,
   BUILD_TYPES,
-  REG_STYLE
+  REG_STYLE,
+  recursiveFindNodeModules
 } = require('./index')
+
+const CONFIG = require('../config')
+const defaultBabelConfig = require('../config/babel')
 
 const npmProcess = require('./npm')
 
@@ -34,6 +38,12 @@ const configDir = path.join(basedir, PROJECT_CONFIG)
 const projectConfig = require(configDir)(_.merge)
 const pluginsConfig = projectConfig.plugins || {}
 const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+
+const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+  if (Array.isArray(objValue)) {
+    return Array.from(new Set(srcValue.concat(objValue)))
+  }
+})
 
 function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir) {
   try {
@@ -51,16 +61,7 @@ function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, buildAdapter =
   }
 }
 
-function recursiveFindNodeModules (filePath) {
-  const dirname = path.dirname(filePath)
-  const nodeModules = path.join(dirname, 'node_modules')
-  if (fs.existsSync(nodeModules)) {
-    return nodeModules
-  }
-  return recursiveFindNodeModules(dirname)
-}
-
-function resolveNpmFilesPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir) {
+function resolveNpmFilesPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir, compileInclude = []) {
   if (!resolvedCache[pkgName]) {
     const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     resolvedCache[pkgName] = {
@@ -68,12 +69,12 @@ function resolveNpmFilesPath (pkgName, isProduction, npmConfig, buildAdapter = B
       files: []
     }
     resolvedCache[pkgName].files.push(res)
-    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig, buildAdapter)
+    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig, buildAdapter, compileInclude)
   }
   return resolvedCache[pkgName]
 }
 
-function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP) {
+function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, compileInclude) {
   const excludeRequire = []
   traverse(ast, {
     IfStatement (astPath) {
@@ -86,7 +87,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
             const consequentSibling = astPath.getSibling('consequent')
             consequentSibling.traverse({
               CallExpression (astPath) {
-                if (astPath.get('callee').isIdentifier({ name : 'require'})) {
+                if (astPath.get('callee').isIdentifier({ name: 'require' })) {
                   const arg = astPath.get('arguments')[0]
                   if (t.isStringLiteral(arg.node)) {
                     excludeRequire.push(arg.node.value)
@@ -110,9 +111,12 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
               if (excludeRequire.indexOf(requirePath) < 0) {
                 if (isNpmPkg(requirePath)) {
                   if (excludeNpmPkgs.indexOf(requirePath) < 0) {
-                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)))
+                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)), compileInclude)
                     let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
                     relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
+                    if (buildAdapter === BUILD_TYPES.ALIPAY) {
+                      relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
+                    }
                     args[0].value = relativeRequirePath
                   }
                 } else {
@@ -128,7 +132,7 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
                   }
                   if (files.indexOf(realRequirePath) < 0) {
                     files.push(realRequirePath)
-                    recursiveRequire(realRequirePath, files, isProduction, npmConfig, buildAdapter)
+                    recursiveRequire(realRequirePath, files, isProduction, npmConfig, buildAdapter, compileInclude)
                   }
                   args[0].value = requirePath
                 }
@@ -142,18 +146,23 @@ function parseAst (ast, filePath, files, isProduction, npmConfig, buildAdapter =
   return generate(ast).code
 }
 
-function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildAdapter) {
+async function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildAdapter, compileInclude = []) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath
   if (!npmConfig.dir) {
-    outputNpmPath = filePath.replace('node_modules', path.join(outputDirName, npmConfig.name))
+    const cwdRelate2Npm = path.relative(
+      filePath.slice(0, filePath.search('node_modules')),
+      process.cwd()
+    )
+    outputNpmPath = filePath.replace('node_modules', path.join(cwdRelate2Npm, outputDirName, npmConfig.name))
     outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
-    const npmFilePath = filePath.replace(/(.*)node_modules/, '')
-    outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmConfig.name, npmFilePath)
+    let npmFilePath = filePath.match(/(?=(node_modules)).*/)[0]
+    npmFilePath = npmFilePath.replace(/node_modules/g, npmConfig.name)
+    outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmFilePath)
   }
   if (buildAdapter === BUILD_TYPES.ALIPAY) {
-    outputNpmPath = outputNpmPath.replace(/@/, '_')
+    outputNpmPath = outputNpmPath.replace(/@/g, '_')
   }
   if (REG_STYLE.test(path.basename(filePath))) {
     return
@@ -177,11 +186,20 @@ function recursiveRequire (filePath, files, isProduction, npmConfig = {}, buildA
         [require('babel-plugin-transform-define').default, constantsReplaceList]
       ]
     }).ast
-    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig, buildAdapter)
+    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig, buildAdapter, compileInclude)
   } catch (err) {
     console.log(err)
   }
   if (!copyedFiles[outputNpmPath]) {
+    if (compileInclude && compileInclude.length) {
+      const filePathArr = filePath.split(path.sep)
+      const nodeModulesIndex = filePathArr.indexOf('node_modules')
+      const npmPkgName = filePathArr[nodeModulesIndex + 1]
+      if (compileInclude.indexOf(npmPkgName) >= 0) {
+        const compileScriptRes = await npmProcess.callPlugin('babel', fileContent, filePath, babelConfig)
+        fileContent = compileScriptRes.code
+      }
+    }
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -211,15 +229,15 @@ function npmCodeHack (filePath, content, buildAdapter) {
     case '_global.js':
     case 'lodash.min.js':
       if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
-        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, '{}')
+        content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
       } else {
-        content = content.replace(/Function\([\'"]return this[\'"]\)\(\)/, 'this')
+        content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')
       }
       break
     case 'mobx.js':
-      //解决支付宝小程序全局window或global不存在的问题
+      // 解决支付宝小程序全局window或global不存在的问题
       content = content.replace(
-        /typeof window\s{0,}!==\s{0,}[\'"]undefined[\'"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
+        /typeof window\s{0,}!==\s{0,}['"]undefined['"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
         'typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}'
       )
       break

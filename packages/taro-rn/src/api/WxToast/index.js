@@ -33,13 +33,16 @@ function showToast (obj) {
   } else if (iconList.indexOf(icon) > -1) {
     source = sourceMap[icon]
   }
+  // const ToastView = (
+  //   <View style={styles.toastView}>
+  //     {
+  //       !image && icon === 'loading' ? <LoadingView /> : <Image source={source} style={styles.toastIcon} />
+  //     }
+  //     <Text style={styles.toastContent}>{title || ''}</Text>
+  //   </View>
+  // )
   const ToastView = (
-    <View style={styles.toastView}>
-      {
-        !image && icon === 'loading' ? <LoadingView /> : <Image source={source} style={styles.toastIcon} />
-      }
-      <Text style={styles.toastContent}>{title || ''}</Text>
-    </View>
+    <Text style={styles.toastContent}>{title || ''}</Text>
   )
 
   try {

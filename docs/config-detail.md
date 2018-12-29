@@ -1,10 +1,10 @@
 ---
-title: 配置详情
+title: 编译配置详情
 ---
 
 ## designWidth
 
-`designWidth` 用来设置设计稿尺寸，关于这一部分的配置说明请见[设计稿及尺寸单位](./size.md)这一章节
+`designWidth` 用来设置设计稿尺寸，关于这一部分的配置说明请见[设计稿及尺寸单位](./size.md)这一章节。
 
 ## sourceRoot
 
@@ -20,7 +20,7 @@ title: 配置详情
 
 ### plugins.babel
 
-用来配置 `babel`，默认配置如下，可以自行添加自己需要的额外的 `presets` 及 `plugins`
+用来配置 `babel`，默认配置如下，可以自行添加自己需要的额外的 `presets` 及 `plugins`。
 
 ```jsx
 babel: {
@@ -65,7 +65,7 @@ csso: {
 
 用来设置一些环境变量如 `process.env.NODE_ENV`，例如我们想设置区分预览、打包来做些不同的操作，可以如下配置：
 
-在 `config/dev.js` 中
+在 `config/dev.js` 中：
 
 ```jsx
 env: {
@@ -73,7 +73,7 @@ env: {
 }
 ```
 
-在 `config/prod.js` 中
+在 `config/prod.js` 中：
 
 ```jsx
 env: {
@@ -81,29 +81,56 @@ env: {
 }
 ```
 
-这样就能在代码中通过 `process.env.NODE_ENV === 'development'` 来判断环境
+这样就能在代码中通过 `process.env.NODE_ENV === 'development'` 来判断环境。
 
 ## defineConstants
 
-用来配置一些全局变量供代码中进行使用，例如
+用来配置一些全局变量供代码中进行使用，例如：
 
-```jsx
+```js
 defineConstants: {
   A: '"a"' // JSON.stringify('a')
 }
 ```
 
+## alias
+
+> `1.2.0` 开始支持。
+
+用来配置目录别名，从而方便书写代码引用路径。例如，使用相对路径书写文件引用如下：
+
+```js
+import A from '../../componnets/A'
+import Utils from '../../utils'
+```
+
+为了避免书写多级相对路径，我们可以如下配置 `alias`：
+
+```js
+alias: {
+  '@components': path.resolve(__dirname, '..', 'src/components'),
+  '@utils': path.resolve(__dirname, '..', 'src/utils')
+}
+```
+
+通过上述配置，可以将 `src` 、`src/components` 以及 `src/utils` 目录配置成别名，则代码中的引用改写如下：
+
+```js
+import A from '@components/A'
+import Utils from '@utils'
+```
+
 ## copy
 
-文件 copy 配置，包含两个配置项 `patterns` 和 `options`
+文件 copy 配置，包含两个配置项 `patterns` 和 `options`。
 
 ### copy.patterns
 
-用来指定需要拷贝的文件或者目录，**数组类型**，每一项都必须包含 `from` 、`to` 的配置，分别代码来源和需要拷贝到的目录，同时可以设置 `ignore` 配置来指定需要忽略的文件， `ignore` 是指定的 [glob](https://github.com/isaacs/node-glob) 类型字符串，或者 glob 字符串数组
+用来指定需要拷贝的文件或者目录，**数组类型**，每一项都必须包含 `from` 、`to` 的配置，分别代表来源和需要拷贝到的目录，同时可以设置 `ignore` 配置来指定需要忽略的文件， `ignore` 是指定的 [glob](https://github.com/isaacs/node-glob) 类型字符串，或者 glob 字符串数组。
 
-值得注意的是，目前 `from` 必须指定存在的文件或者目录，暂不支持 glob 格式， `from` 和 `to` 直接置顶项目根目录下的文件目录，建议 `from` 以 `src` 目录开头，`to` 以 `dist` 目录开头
+值得注意的是，目前 `from` 必须指定存在的文件或者目录，暂不支持 glob 格式， `from` 和 `to` 直接置顶项目根目录下的文件目录，建议 `from` 以 `src` 目录开头，`to` 以 `dist` 目录开头。
 
-一般有如下的使用形式
+一般有如下的使用形式：
 
 ```jsx
 copy: {
@@ -116,7 +143,7 @@ copy: {
 
 ### copy.options
 
-拷贝配置，目前可以指定全局的 ignore
+拷贝配置，目前可以指定全局的 ignore：
 
 ```jsx
 copy: {
@@ -128,15 +155,15 @@ copy: {
 
 ## weapp
 
-专属于小程序的配置
+专属于小程序的配置。
 
 ### weapp.compile
 
-小程序编译过程的相关配置
+小程序编译过程的相关配置。
 
 #### weapp.compile.exclude
 
-配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，写文件路径，文件路径必须以源码所在 `src` 目录开头
+配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，写文件路径，文件路径必须以源码所在 `src` 目录开头：
 
 ```jsx
 weapp: {
@@ -148,11 +175,11 @@ weapp: {
 
 ### weapp.module
 
-配置一些小程序端用到的插件模块配置，例如 `postcss` 等
+配置一些小程序端用到的插件模块配置，例如 `postcss` 等。
 
 #### weapp.module.postcss
 
-配置 `postcss` 相关插件
+配置 `postcss` 相关插件：
 
 ```jsx
 postcss: {
@@ -176,35 +203,54 @@ postcss: {
     config: {
       limit: 10240 // 设定转换尺寸上限
     }
+  },
+  // css modules 功能开关与相关配置
+  cssModules: {
+    enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+    config: {
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
   }
 }
 ```
 
 ## h5
 
-专属于 H5 的配置
+专属于 H5 的配置。
 
 ### h5.devServer
+
 预览服务的配置，可以更改端口等参数。具体配置参考[webpack-dev-server](https://webpack.js.org/configuration/dev-server)。
-```
+
+```js
 devServer: {
   port: 10086
 }
 ```
+
 默认是`http`服务，如果想开启`https`服务需要做如下配置。
-```
+
+```js
 devServer: {
   https: true
+}
+```
+### h5.output
+输出配置
+```js
+output: {
+  filename: 'js/[name].[hash:8].js',
+  chunkFilename: 'js/[name].[chunkhash:8].js'
 }
 ```
 
 ### h5.publicPath
 
-设置输出解析文件的目录
+设置输出解析文件的目录。
 
 ### h5.staticDirectory
 
-h5 编译后的静态文件目录
+h5 编译后的静态文件目录。
 
 ### h5.chunkDirectory
 
@@ -215,23 +261,6 @@ h5 编译后的静态文件目录
 自定义 webpack 配置，接受函数形式的配置。
 
 这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)的 api 进行修改；第二个参数是`webpack`实例。例如：
-
-```jsx
-/* 这是个失败的例子，可以通过 h5.alias 实现完全一样的效果。 */
-{
-  webpackChain (chain, webpack) {
-    chain.merge({
-      resolve: {
-        alias: {
-          Utilities: path.resolve(__dirname, 'src/utilities/'),
-          Templates: path.resolve(__dirname, 'src/templates/')
-        }
-      }
-    })
-  }
-}
-
-```
 
 ```jsx
 /* 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。 */
@@ -279,8 +308,9 @@ h5 编译后的静态文件目录
 }
 ```
 
+
 ### [DEPRECATED]h5.webpack
-自定义 webpack 配置。这个配置项支持两种形式的配置。
+自定义 webpack 配置。这个配置项支持两种形式的配置：
 
 1. 如果该配置项以**对象**的形态呈现，taro 将会使用 `webpack-merge` 将这个对象合并到默认的配置项中。
 例子：
@@ -295,6 +325,7 @@ webpack: {
 ```
 
 2. 如果该配置以**函数**的形态呈现，那这个函数将会接收到两个参数：默认配置（defaultConfig）和 webpack 实例（webpack）。taro 将会以该函数的返回值作为最终的 webpack 配置。
+
 例子：
 
 ```jsx
@@ -306,23 +337,31 @@ webpack (defaultConfig, webpack) {
 }
 ```
 
+### h5.router
 
-### h5.alias
+路由相关的配置，暂时只支持路由模式的配置。
 
-为`import`或`require`创建路径别名，同[webpack.resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias)，例如：
+#### h5.router.mode
 
-```jsx
-{
-  alias: {
-    Utilities: path.resolve(__dirname, 'src/utilities/'),
-    Templates: path.resolve(__dirname, 'src/templates/')
+路由模式配置。配置值为`hash`（默认值）或`browser`，分别对应 hash 路由模式和浏览器 history 路由模式。例子：
+
+```js
+h5: {
+  /* 其他配置 */
+  ... ,
+
+  publicPath: '/public',
+  router: {
+    mode: 'hash' // 或者是 "browser"
   }
 }
 ```
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/public/#/pages/index/index`（hash模式）或者`http://{{domain}}/public/pages/index/index`（browser模式）。
+
 
 ### h5.entry
 
-`Taro`app 的入口，同[webpack.entry](https://webpack.js.org/configuration/entry-context/#entry)。
+Taro app 的入口，同[webpack.entry](https://webpack.js.org/configuration/entry-context/#entry)。
 
 ```jsx
 {
@@ -339,11 +378,47 @@ webpack (defaultConfig, webpack) {
 sourceMap 开关，影响 js、css 的 sourceMap 配置。
 dev 状态默认 **开**，prod 状态默认 **关**。
 
+### h5.enableDll
+
+dll 开关，开启后将使用`dllPlugin`把内置的部分依赖库打包为单独的dll文件，
+某种程度上可以减少首屏单个文件体积。
+dev 状态默认 **关**，prod 状态默认 **开**。
+
+### h5.dllWebpackChain
+
+同`h5.webpackChain`，不过作用于dll。
+
+### h5.dllEntry
+
+dll编译过程的`entry`配置项，决定了dll文件的内容，可参考[webpack.entry](https://webpack.js.org/configuration/entry-context/#entry)。默认值：
+
+```js
+h5: {
+  /* 其他配置 */
+  ...,
+  dllEntry: {
+    lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
+  }
+}
+```
+
 ### h5.enableExtract
 
 extract 功能开关，开启后将使用`mini-css-extract-plugin`分离 css 文件，
 可通过`h5.miniCssExtractPluginOption`对插件进行配置。
 dev 状态默认 **关**，prod 状态默认 **开**。
+
+### h5.esnextModules
+
+配置需要额外的编译的源码模块，比如[taro-ui](https://github.com/NervJS/taro-ui)：
+
+```javascript
+h5: {
+  // 经过这一配置之后，代码中引入的处于`node_modules/taro-ui/`路径下的源码文件均会经过taro的编译处理。
+  esnextModules: ['taro-ui'],
+  ...
+}
+```
 
 ### h5.cssLoaderOption
 
@@ -466,14 +541,19 @@ postcss: {
 }
 ```
 
-### h5.module.postcss.plugins
+### h5.module.postcss.cssModules
 
-可以添加其他 postcss 插件。
+可以进行 H5 端 css modules 配置，配置如下：
 
-```jsx
+```js
 postcss: {
-  plugins: [
-    /* 其他想使用的 postcss 插件 */
-  ]
+  // css modules 功能开关与相关配置
+  cssModules: {
+    enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+    config: {
+      namingPattern: 'module',
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
+  }
 }
 ```

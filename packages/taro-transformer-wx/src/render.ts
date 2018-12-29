@@ -28,15 +28,24 @@ import {
   buildBlockElement,
   parseJSXElement
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL } from './constant'
+import {
+  DEFAULT_Component_SET,
+  MAP_CALL_ITERATOR,
+  LOOP_STATE,
+  LOOP_CALLEE,
+  THIRD_PARTY_COMPONENTS,
+  LOOP_ORIGINAL,
+  INTERNAL_GET_ORIGNAL,
+  GEL_ELEMENT_BY_ID,
+  ALIPAY_BUBBLE_EVENTS
+} from './constant'
 import { Adapter, Adapters } from './adapter'
 import { transformOptions } from './options'
 import generate from 'babel-generator'
+import { LoopRef } from './interface'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
-
-const calleeId = incrementId()
 
 function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
   const parents: NodePath<t.Node>[] = []
@@ -114,6 +123,8 @@ export class RenderParser {
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
   private usedThisProperties = new Set<string>()
+  private incrementCalleeId = incrementId()
+  private classComputedState = new Set<string>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -124,6 +135,7 @@ export class RenderParser {
   private loopStateName: Map<NodePath<t.CallExpression>, string>
   private customComponentData: Array<t.ObjectProperty>
   private componentProperies: Set<string>
+  private loopRefs: Map<t.JSXElement, LoopRef>
 
   private finalReturnElement!: t.JSXElement
 
@@ -381,7 +393,7 @@ export class RenderParser {
                 ) {
                   let ary = callee.object
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
-                    const variableName = `${LOOP_CALLEE}_${calleeId()}`
+                    const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                     callExpr.getStatementParent().insertBefore(
                       buildConstVariableDeclaration(variableName, ary)
                     )
@@ -455,6 +467,40 @@ export class RenderParser {
     }
   }
 
+  private renameIfScopeVaribale = (blockStatement: NodePath<t.BlockStatement>): Visitor => {
+    return {
+      VariableDeclarator: (p) => {
+        const { id, init } = p.node
+        const ifStem = p.parentPath.parentPath.parentPath
+        if (!ifStem.isIfStatement() || isContainJSXElement(p)) {
+          return
+        }
+        if (t.isIdentifier(id)) {
+          if (id.name.startsWith('loopArray')) {
+            this.renderPath.node.body.body.unshift(
+              t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
+            )
+            p.parentPath.replaceWith(
+              template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
+            )
+          } else {
+            const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
+            blockStatement.scope.rename(id.name, newId.name)
+            p.parentPath.replaceWith(
+              template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
+            )
+          }
+        }
+      },
+      JSXElement: (jsxElementPath) => {
+        this.handleJSXElement(jsxElementPath, (options) => {
+          this.handleConditionExpr(options, jsxElementPath)
+        })
+      },
+      JSXExpressionContainer: this.replaceIdWithTemplate()
+    }
+  }
+
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
       this.handleJSXElement(jsxElementPath, (options) => {
@@ -473,37 +519,7 @@ export class RenderParser {
             const ifStatement = parentPath.findParent(p => p.isIfStatement())
             const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
             if (blockStatement && blockStatement.isBlockStatement()) {
-              blockStatement.traverse({
-                VariableDeclarator: (p) => {
-                  const { id, init } = p.node
-                  const ifStem = p.parentPath.parentPath.parentPath
-                  if (!ifStem.isIfStatement() || isContainJSXElement(p)) {
-                    return
-                  }
-                  if (t.isIdentifier(id)) {
-                    if (id.name.startsWith('loopArray')) {
-                      this.renderPath.node.body.body.unshift(
-                        t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
-                      )
-                      p.parentPath.replaceWith(
-                        template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
-                      )
-                    } else {
-                      const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-                      blockStatement.scope.rename(id.name, newId.name)
-                      p.parentPath.replaceWith(
-                        template('ID = INIT;')({ ID: newId, INIT: init })
-                      )
-                    }
-                  }
-                },
-                JSXElement: (jsxElementPath) => {
-                  this.handleJSXElement(jsxElementPath, (options) => {
-                    this.handleConditionExpr(options, jsxElementPath)
-                  })
-                },
-                JSXExpressionContainer: this.replaceIdWithTemplate()
-              })
+              blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
             }
             const block = this.finalReturnElement || buildBlockElement()
             if (isBlockIfStatement(ifStatement, blockStatement)) {
@@ -546,12 +562,16 @@ export class RenderParser {
         } else if (t.isArrowFunctionExpression(parentNode)) {
           // console.log('arrow')
         } else if (t.isAssignmentExpression(parentNode)) {
+          const ifStatement = parentPath.findParent(p => p.isIfStatement())
+          const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+          if (blockStatement && blockStatement.isBlockStatement()) {
+            blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+          }
           if (t.isIdentifier(parentNode.left)) {
-            const name = parentNode.left.name
-            const bindingNode = this.renderScope.getOwnBinding(name)!.path.node
-            const block = this.templates.get(name) || buildBlockElement()
+            const assignmentName = parentNode.left.name
+            const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
+            const block = this.templates.get(assignmentName) || buildBlockElement()
             if (isEmptyDeclarator(bindingNode)) {
-              const ifStatement = parentPath.findParent(p => p.isIfStatement())
               const blockStatement = parentPath.findParent(p =>
                 p.isBlockStatement()
               )
@@ -563,7 +583,52 @@ export class RenderParser {
                   const parentIfStatement = ifStatement.findParent(p =>
                     p.isIfStatement()
                   ) as NodePath<t.IfStatement>
-                  if (parentIfStatement && parentIfStatement.get('alternate') === ifStatement) {
+                  const assignments: t.AssignmentExpression[] = []
+                  let isAssignedBefore = false
+                  // @TODO: 重构这两种循环为通用模块
+
+                  // 如果这个 JSX assigmnent 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
+                  if (blockStatement && blockStatement.isBlockStatement()) {
+                    for (const parentStatement of blockStatement.node.body) {
+                      if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
+                        const statements = parentStatement.consequent.body
+                        for (const statement of statements) {
+                          if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
+                            isAssignedBefore = true
+                          }
+                        }
+                      }
+                    }
+                  }
+
+                  // 如果这个 JSX assigmnent 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
+                  if (parentIfStatement) {
+                    const { consequent } = parentIfStatement.node
+                    if (t.isBlockStatement(consequent)) {
+                      const body = consequent.body
+                      for (const parentStatement of body) {
+                        if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
+                          const statements = parentStatement.consequent.body
+                          for (const statement of statements) {
+                            if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
+                              assignments.push(statement.expression)
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  if (
+                    (
+                      parentIfStatement &&
+                      (
+                        parentIfStatement.get('alternate') === ifStatement ||
+                        assignments.findIndex(a => a === parentNode) > 0
+                      )
+                    )
+                    ||
+                    isAssignedBefore
+                  ) {
                     setJSXAttr(
                       jsxElementPath.node,
                       Adapter.elseif,
@@ -579,7 +644,7 @@ export class RenderParser {
                 }
                 block.children.push(jsxElementPath.node)
                 // setTemplate(name, path, templates)
-                name && this.templates.set(name, block)
+                assignmentName && this.templates.set(assignmentName, block)
               }
             } else {
               throw codeFrameError(
@@ -625,6 +690,10 @@ export class RenderParser {
             }
           }
           if (bindCalleeName !== null) {
+            const attr = path.parentPath.node as t.JSXAttribute
+            let bindEventName = attr.name.name as string
+            bindEventName = bindEventName.replace(/^bind|^catch/, '')
+
             const args = expression.get('arguments') as any
             (args as NodePath<t.Node>[]).forEach((arg, index) => {
               const node = arg.node
@@ -632,7 +701,7 @@ export class RenderParser {
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
-                  `data-e-${bindCalleeName}-so`,
+                  `data-e-${bindEventName}-so`,
                   t.stringLiteral(argName)
                 )
               } else {
@@ -659,7 +728,7 @@ export class RenderParser {
                 }
                 setJSXAttr(
                   JSXElement,
-                  `data-e-${bindCalleeName}-a-${toLetters(index)}`,
+                  `data-e-${bindEventName}-a-${toLetters(index)}`,
                   expr!
                 )
               }
@@ -714,15 +783,6 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind')) {
               path.node.value = t.stringLiteral(`${methodName}`)
-            } else if (Adapter.type === Adapters.alipay &&
-              t.isJSXIdentifier(componentName) &&
-              !DEFAULT_Component_SET.has(componentName.name)
-            ) {
-              setJSXAttr(
-                jsxElementPath.node,
-                `data-map-func-${name.name}`,
-                t.stringLiteral(methodName)
-              )
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
@@ -741,8 +801,12 @@ export class RenderParser {
             const componentName = jsxElementPath.node.openingElement.name.name
             if (Adapter.type === Adapters.alipay) {
               let transformName = name.name
-              if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
-                transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+              if (DEFAULT_Component_SET.has(componentName) && ALIPAY_BUBBLE_EVENTS.has(name.name)) {
+                if (name.name === 'onClick') {
+                  transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+                } else {
+                  transformName = `${eventShouldBeCatched ? 'catch' : 'on'}${name.name.slice(2)}`
+                }
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (DEFAULT_Component_SET.has(componentName)) {
@@ -934,7 +998,8 @@ export class RenderParser {
     loopStateName: Map<NodePath<t.CallExpression>, string>,
     customComponentNames: Set<string>,
     customComponentData: Array<t.ObjectProperty>,
-    componentProperies: Set<string>
+    componentProperies: Set<string>,
+    loopRefs: Map<t.JSXElement, LoopRef>
   ) {
     this.renderPath = renderPath
     this.methods = methods
@@ -945,6 +1010,7 @@ export class RenderParser {
     this.customComponentNames = customComponentNames
     this.customComponentData = customComponentData
     this.componentProperies = componentProperies
+    this.loopRefs = loopRefs
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
 
@@ -963,6 +1029,23 @@ export class RenderParser {
     this.setCustomEvent()
     this.createData()
     this.setProperies()
+  }
+
+  checkDuplicateData () {
+    this.initState.forEach((stateName) => {
+      if (this.templates.has(stateName)) {
+        throw codeFrameError(this.templates.get(stateName)!, `自定义变量组件名: \`${stateName}\` 和已有 this.state.${stateName} 重复。请使用另一个变量名。`)
+      }
+    })
+
+    this.componentProperies.forEach((componentName) => {
+      if (this.componentProperies.has(componentName)) {
+        throw codeFrameError(this.renderPath.node, `state: \`${componentName}\` 和已有 this.props.${componentName} 重复。请使用另一个变量名。`)
+      }
+      if (this.templates.has(componentName)) {
+        throw codeFrameError(this.templates.get(componentName)!, `自定义变量组件名: \`${componentName}\` 和已有 this.props.${componentName} 重复。请使用另一个变量名。`)
+      }
+    })
   }
 
   addRefIdentifier (path: NodePath<t.Node>, id: t.Identifier) {
@@ -985,6 +1068,7 @@ export class RenderParser {
   handleLoopComponents = () => {
     const loopArrayId = incrementId()
     const replaceQueue: Function[] = []
+    let hasLoopRef = false
     this.loopComponents.forEach((component, callee) => {
       if (!callee.isCallExpression()) {
         return
@@ -998,6 +1082,43 @@ export class RenderParser {
       }
       const blockStatementPath = component.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
       const body = blockStatementPath.node.body
+      let loopRefComponent: t.JSXElement
+      this.loopRefs.forEach((ref, jsx) => {
+        if (ref.component.findParent(p => p === component)) {
+          loopRefComponent = jsx
+        }
+      })
+      if (this.loopRefs.has(component.node) || loopRefComponent!) {
+        hasLoopRef = true
+        const ref = this.loopRefs.get(component.node)! || this.loopRefs.get(loopRefComponent)
+        const [ func ] = callee.node.arguments
+        let indexId: t.Identifier | null = null
+        if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+          const params = func.params as t.Identifier[]
+          indexId = params[1]
+        }
+        if (indexId === null || !t.isIdentifier(indexId!)) {
+          throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
+        }
+        const id = typeof ref.id === 'string' ? t.binaryExpression('+', t.stringLiteral(ref.id), indexId) : ref.id
+        const refDeclName = '__ref'
+        const args: any[] = [
+          t.identifier('__scope'),
+          t.binaryExpression('+', t.stringLiteral('#'), id)
+        ]
+        if (ref.type === 'component') {
+          args.push(t.stringLiteral('component'))
+        }
+        const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
+        const refDecl = buildConstVariableDeclaration(refDeclName,
+          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), callGetElementById)
+        )
+        const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
+        const callRefFunc = t.expressionStatement(
+          process.env.NODE_ENV === 'test' ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
+        )
+        body.push(refDecl, callRefFunc)
+      }
       let stateToBeAssign = new Set<string>(
         difference(
           Object.keys(blockStatementPath.scope.getAllBindings()),
@@ -1066,10 +1187,15 @@ export class RenderParser {
           })
           const replacements = new Set()
           component.traverse({
+            JSXExpressionContainer: this.replaceIdWithTemplate(),
             Identifier: (path) => {
               const name = path.node.name
               const parent = path.parent
-              if (replacements.has(parent) || (this.renderScope.hasOwnBinding(name) && this.loopCalleeId.has(path.node))) {
+              const parentCallExpr = path.findParent(p => p.isCallExpression())
+              if (replacements.has(parent) || (
+                this.renderScope.hasOwnBinding(name) &&
+                (this.loopCalleeId.has(path.node) || parentCallExpr && this.loopCalleeId.has(parentCallExpr.node as any))
+              )) {
                 return
               }
 
@@ -1130,7 +1256,7 @@ export class RenderParser {
               const funcBody = func.body
               if (t.isBlockStatement(funcBody)) {
                 if (t.isIdentifier(object) || t.isMemberExpression(object)) {
-                  const variableName = `${LOOP_CALLEE}_${calleeId()}`
+                  const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                   funcBody.body.splice(
                     funcBody.body.length - 1,
                     0,
@@ -1213,6 +1339,10 @@ export class RenderParser {
         )
       })
     })
+    if (hasLoopRef) {
+      const scopeDecl = template('const __scope = this.$scope')()
+      this.renderPath.node.body.body.unshift(scopeDecl)
+    }
     replaceQueue.forEach(func => func())
   }
 
@@ -1282,12 +1412,35 @@ export class RenderParser {
   }
 
   setUsedState () {
+    for (const [ key, method ] of this.methods) {
+      if (method) {
+        if (method.isClassMethod()) {
+          const kind = method.node.kind
+          if (kind === 'get') {
+            this.classComputedState.add(key)
+          }
+        }
+      }
+    }
+
+    const componentProperies = cloneDeep(this.componentProperies)
+
+    componentProperies.forEach(s => {
+      if (s.startsWith('__fn_')) {
+        const eventName = s.slice(5)
+        if (componentProperies.has(eventName)) {
+          componentProperies.delete(s)
+          componentProperies.delete(eventName)
+        }
+      }
+    })
+
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
     const usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
-          .concat([...this.initState, ...this.usedThisState, ...this.componentProperies])
+          .concat([...this.initState, ...this.usedThisState, ...componentProperies, ...this.classComputedState])
         )
     )
     .concat(...this.usedState)
@@ -1313,7 +1466,7 @@ export class RenderParser {
   }
 
   setPendingState () {
-    let properties = Array.from(
+    const propertyKeys = Array.from(
         new Set(Array.from(this.referencedIdentifiers)
         .map(i => i.name))
       )
@@ -1337,16 +1490,27 @@ export class RenderParser {
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('$$'))
       .filter(i => !this.loopRefIdentifiers.has(i))
-      .map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
+    let properties = propertyKeys.map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {
       properties = properties.concat(this.customComponentData)
     }
-    const pendingState = t.objectExpression(properties.concat(
-      Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
-        t.identifier('_triggerObserer'),
-        t.booleanLiteral(false)
-      ) : []
-    ))
+    const pendingState = t.objectExpression(
+      properties.concat(
+        Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
+          t.identifier('_triggerObserer'),
+          t.booleanLiteral(false)
+        ) : []
+      ).concat(
+        Array.from(this.classComputedState).filter(i => {
+          return !propertyKeys.includes(i)
+        }).map(i => {
+          return t.objectProperty(
+            t.identifier(i),
+            t.memberExpression(t.thisExpression(), t.identifier(i))
+          )
+        })
+      )
+    )
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
       buildAssignState(pendingState),
       t.returnStatement(

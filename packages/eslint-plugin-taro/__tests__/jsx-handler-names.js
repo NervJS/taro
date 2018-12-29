@@ -82,6 +82,15 @@ ruleTester.run('jsx-handler-names', rule, {
     },
     {
       code: testComponent(`<Image src={this.$router.params.title} />`)
+    },
+    {
+      code: testComponent(`<Text src={this.config.navbarTitle}></Text>`)
+    },
+    {
+      code: testComponent(`<Text src={this.config.navbarTitle}></Text>`)
+    },
+    {
+      code: testComponent(`<AtNavBar src={this.config.navbarTitle} />`)
     }
   ],
   invalid: [{

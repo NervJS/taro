@@ -23,7 +23,7 @@ specialEvents.set('bindanimationstart', 'onAnimationStart')
 specialEvents.set('bindanimationtteration', 'onAnimationIteration')
 specialEvents.set('bindanimationend', 'onAnimationEnd')
 specialEvents.set('bindtouchforcechange', 'onTouchForceChange')
-specialEvents.set('bindtap', 'onTouchForceChange')
+specialEvents.set('bindtap', 'onClick')
 specialEvents.forEach((value, key) => {
   specialEvents.set(key.replace(/^bind/, 'catch'), value)
 })

@@ -1,11 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, BaseEventFunction, FormItemProps } from './common'
 
-interface RadioGroupProps extends StandardProps {
-  /**
-   * 表单组件中加上 name 来作为 key
-   */
-  name: string;
+interface RadioGroupProps extends StandardProps, FormItemProps {
   onChange?: BaseEventFunction
 }
 

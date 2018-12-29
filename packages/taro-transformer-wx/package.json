@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "1.2.0-alpha.3",
+  "version": "1.2.2",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
   "dependencies": {
     "@babel/code-frame": "^7.0.0-beta.44",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
     "babel-helper-evaluate-path": "^0.5.0",
     "babel-helper-mark-eval-scopes": "^0.4.3",
     "babel-helper-remove-or-void": "^0.4.3",
@@ -56,18 +57,21 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
+    "eslint": "^5.10.0",
+    "eslint-plugin-taro": "1.2.2",
     "html": "^1.0.0",
     "lodash": "^4.17.5",
     "prettier": "^1.14.2",
     "typescript": "^3.0.1"
   },
   "devDependencies": {
-    "@tarojs/taro": "1.2.0-alpha.3",
+    "@tarojs/taro": "1.2.2",
     "@types/babel-core": "^6.25.5",
     "@types/babel-generator": "^6.25.1",
     "@types/babel-template": "^6.25.0",
     "@types/babel-traverse": "6.25.3",
     "@types/babel-types": "^6.25.2",
+    "@types/eslint": "^4.16.5",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
     "@types/node": "^9.6.2",

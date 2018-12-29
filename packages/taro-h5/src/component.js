@@ -1,35 +1,21 @@
 import Nerv from 'nervjs'
+import Taro from './index'
 
 class Component extends Nerv.Component {
-  constructor (props, context) {
-    super(props, context)
-    if (props._$router) {
-      this.$router = props._$router
-    }
+  get $router () {
+    return Taro.getRouter()
   }
+  set $router (args) {
+    console.warn('Property "$router" is read-only.')
+  }
+
   get $app () {
-    if (!this.vnode) return {}
-    if (!this._$app) this._$app = getApp(this)
-    return this._$app
+    return Taro.getApp()
   }
 
   set $app (app) {
-    console.warn('Please try not to set $app.')
+    console.warn('Property "$app" is read-only.')
   }
-}
-
-/**
- * 往上遍历直到找到根节点
- * @param  {Nerv Component} component 当前的组件实例
- * @return {Nerv Component}           根节点实例
- */
-function getApp (component) {
-  const vnode = component.vnode
-
-  if (!vnode) return {}
-  if (vnode._owner) return getApp(vnode._owner)
-
-  return component
 }
 
 export default Component

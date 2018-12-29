@@ -82,6 +82,16 @@ export function findMethodName (expression: t.Expression): string {
 export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, array = false) {
   const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
   const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
+  if (array) {
+    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => a.name.name === Adapter.if)) as NodePath<t.JSXElement>
+    if (logicalJSX) {
+      const attr = logicalJSX.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+      if (attr && t.isJSXExpressionContainer(attr.value)) {
+        expr = t.conditionalExpression(attr.value.expression, expr, t.arrayExpression())
+        return expr
+      }
+    }
+  }
   if (conditionExpr && conditionExpr.isConditionalExpression()) {
     const consequent = conditionExpr.get('consequent')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
@@ -229,13 +239,15 @@ export function pathResolver (source: string, location: string) {
 export function codeFrameError (node, msg: string) {
   let errMsg = ''
   try {
-    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node)
+    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node, {
+      highlightCode: true
+    })
   } catch (error) {
     errMsg = 'failed to locate source'
   }
   return new Error(`${msg}
-  -----
-  ${errMsg}`)
+-----
+${errMsg}`)
 }
 
 export const setting = {

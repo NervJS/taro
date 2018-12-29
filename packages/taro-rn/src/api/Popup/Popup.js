@@ -1,7 +1,7 @@
 import React from 'react'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, View, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
+import { Modal, View, StyleSheet, Dimensions, Animated, Easing, ViewPropTypes } from 'react-native'
 import { Mask } from '../Mask'
 
 const { width, height } = Dimensions.get('window')
@@ -85,8 +85,8 @@ Popup.propTypes = {
   visible: PropTypes.bool,
   onShow: PropTypes.func,
   onClose: PropTypes.func,
-  style: View.propTypes.style,
-  maskStyle: View.propTypes.style,
+  style: ViewPropTypes.style,
+  maskStyle: ViewPropTypes.style,
   children: PropTypes.node
 }
 

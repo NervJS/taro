@@ -23,6 +23,16 @@ export default class Picker extends Nerv.Component {
   constructor (props) {
     super(props)
 
+    this.handlePrpos()
+    this.state = {
+      pickerValue: this.index,
+      hidden: true,
+      fadeOut: false,
+      height: []
+    }
+  }
+
+  handlePrpos () {
     let { value, range, mode } = this.props
     this.index = []
 
@@ -78,9 +88,8 @@ export default class Picker extends Nerv.Component {
             _value.getDate()
           ]
         }
-        this.setState({
-          dateMaxDay: this.getDateRange(1, maxDay, '日')
-        })
+
+        this._dateMaxDay = this.getDateRange(1, maxDay, '日')
       } else {
         throw new Error('Date Interval Error')
       }
@@ -93,18 +102,10 @@ export default class Picker extends Nerv.Component {
       }
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
-
-    this.state = {
-      pickerValue: this.index,
-      hidden: true,
-      fadeOut: false,
-      height: []
-    }
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    // console.log(nextProps, nextState)
-    // todo...
+  componentDidUpdate () {
+    this.handlePrpos()
   }
 
   // 校验传入的 value 是否合法
@@ -254,11 +255,14 @@ export default class Picker extends Nerv.Component {
         } else {
           eventObj.detail.value = this.index
         }
+        eventObj.detail.value = eventObj.detail.value.join('-')
       }
       this.setState({
         pickerValue: eventObj.detail.value
       })
-      this.props.onChange && this.props.onChange(eventObj)
+
+      let reEventObj = Object.assign({}, eventObj)
+      this.props.onChange && this.props.onChange(reEventObj)
     }
 
     // 点击取消或蒙层
@@ -473,9 +477,8 @@ export default class Picker extends Nerv.Component {
       if (max < this.pickerDate._updateValue[2]) {
         this.state.height[2] = TOP - LINE_HEIGHT * max + 34
       }
-      this.setState({
-        dateMaxDay: this.getDateRange(1, max, '日')
-      })
+
+      this._dateMaxDay = this.getDateRange(1, max, '日')
     }
 
     const gitDateSelector = () => {
@@ -537,7 +540,7 @@ export default class Picker extends Nerv.Component {
           />,
           <PickerGroup
             mode='date'
-            range={this.state.dateMaxDay}
+            range={this._dateMaxDay}
             updateDay={updateDay}
             height={this.state.height[2]}
             updateHeight={updateHeight}
@@ -559,12 +562,12 @@ export default class Picker extends Nerv.Component {
     })
     const shouldDivHidden = this.state.hidden ? 'display: none;' : ''
 
-    // 给 children 绑定事件
-    const children = Nerv.Children.map(this.props.children, child => {
-      return Nerv.cloneElement(child, {
-        onClick: showPicker
-      })
-    })
+    // // 给 children 绑定事件
+    // const children = Nerv.Children.map(this.props.children, child => {
+    //   return Nerv.cloneElement(child, {
+    //     onClick: showPicker
+    //   })
+    // })
 
     // picker__group
     let pickerGroup
@@ -586,7 +589,9 @@ export default class Picker extends Nerv.Component {
 
     return (
       <div className={this.props.className}>
-        {children}
+        <div onClick={showPicker}>
+          {this.props.children}
+        </div>
         <div style={shouldDivHidden} className={clsMask} onClick={onCancel} />
         <div style={shouldDivHidden} className={clsSlider}>
           <div className='weui-picker__hd'>

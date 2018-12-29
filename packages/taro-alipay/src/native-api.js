@@ -25,7 +25,7 @@ const apiDiff = {
       }]
     }
   },
-  showActionSheet: {
+  showLoading: {
     options: {
       change: [{
         old: 'title',
@@ -125,7 +125,7 @@ const apiDiff = {
       }]
     }
   },
-  setClipboardData: {
+  makePhoneCall: {
     options: {
       change: [{
         old: 'phoneNumber',
@@ -143,7 +143,7 @@ const apiDiff = {
       set: [{
         key: 'type',
         value (options) {
-          return options.scanType && options.scanType[0].slice(0, -4) || 'qr'
+          return (options.scanType && options.scanType[0].slice(0, -4)) || 'qr'
         }
       }]
     }
@@ -163,7 +163,8 @@ const RequestQueue = {
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -181,7 +182,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, [...arguments])
         this.run()
       }
-      my.httpRequest(options)
+      return my.httpRequest(options)
     }
   }
 }
@@ -193,13 +194,21 @@ function request (options) {
       url: options
     }
   }
+  const defaultHeaders = {
+    'content-type': 'application/json'
+  }
+  options['headers'] = defaultHeaders
   if (options['header']) {
-    options['headers'] = options['header']
+    for (const k in options['header']) {
+      const lowerK = k.toLocaleLowerCase()
+      options['headers'][lowerK] = options['header'][k]
+    }
     delete options['header']
   }
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       res.statusCode = res.status
@@ -218,8 +227,15 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    RequestQueue.request(options)
+    requestTask = RequestQueue.request(options)
   })
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 
@@ -299,7 +315,7 @@ function processApis (taro) {
         if (key === 'getStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
-            return my[key].call(my, { key: arg1 }).data || ''
+            return my[key]({ key: arg1 }).data || ''
           }
           return console.log('getStorageSync 传入参数错误')
         }
@@ -307,12 +323,24 @@ function processApis (taro) {
           const arg1 = args[0]
           const arg2 = args[1]
           if (arg1 != null) {
-            return my[key].call(my, {
+            return my[key]({
               key: arg1,
               data: arg2
             })
           }
           return console.log('setStorageSync 传入参数错误')
+        }
+        if (key === 'removeStorageSync') {
+          const arg1 = args[0]
+          if (arg1 != null) {
+            return my[key]({ key: arg1 })
+          }
+          return console.log('removeStorageSync 传入参数错误')
+        }
+        if (key === 'createSelectorQuery') {
+          const query = my[key]()
+          query.in = function () { return query }
+          return query
         }
         return my[key].apply(my, args)
       }
@@ -324,7 +352,6 @@ function pxTransform (size) {
   const { designWidth, deviceRatio } = this.config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    return
   }
   return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
 }

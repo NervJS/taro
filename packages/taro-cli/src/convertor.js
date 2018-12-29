@@ -1,13 +1,15 @@
 const fs = require('fs-extra')
 const path = require('path')
+
 const chalk = require('chalk')
 const prettier = require('prettier')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const template = require('babel-template')
-const generate = require('babel-generator').default
 const taroize = require('@tarojs/taroize')
 const wxTransformer = require('@tarojs/transformer-wx')
+const postcss = require('postcss')
+const unitTransform = require('postcss-taro-unit-transform')
 
 const {
   BUILD_TYPES,
@@ -20,16 +22,26 @@ const {
   REG_TYPESCRIPT,
   processStyleImports,
   getPkgVersion,
-  pascalCase
+  pascalCase,
+  emptyDirectory,
+  REG_URL,
+  REG_IMAGE
 } = require('./util')
 
+const { generateMinimalEscapeCode } = require('./util/ast_convert')
+
 const Creator = require('./creator')
+const babylonConfig = require('./config/babylon')
 
 const prettierJSConfig = {
   semi: false,
   singleQuote: true,
   parser: 'babylon'
 }
+
+const OUTPUT_STYLE_EXTNAME = '.scss'
+
+const WX_GLOBAL_FN = ['getApp', 'getCurrentPages', 'requirePlugin']
 
 function analyzeImportUrl (sourceFilePath, scriptFiles, source, value) {
   const valueExtname = path.extname(value)
@@ -102,19 +114,96 @@ class Convertor {
 
   initConvert () {
     if (fs.existsSync(this.convertRoot)) {
-      fs.emptyDirSync(this.convertRoot)
+      emptyDirectory(this.convertRoot, { excludes: ['node_modules'] })
     } else {
       fs.mkdirpSync(this.convertRoot)
     }
   }
 
-  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }) {
+  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [], isApp = false }) {
     const scriptFiles = new Set()
     const self = this
+    let componentClassName = null
+    let needInsertImportTaro = false
     traverse(ast, {
       Program: {
         enter (astPath) {
           astPath.traverse({
+            ClassDeclaration (astPath) {
+              const node = astPath.node
+              let isTaroComponent = false
+              if (node.superClass) {
+                astPath.traverse({
+                  ClassMethod (astPath) {
+                    if (astPath.get('key').isIdentifier({ name: 'render' })) {
+                      astPath.traverse({
+                        JSXElement () {
+                          isTaroComponent = true
+                        }
+                      })
+                    }
+                  }
+                })
+                if (isTaroComponent) {
+                  componentClassName = node.id.name
+                }
+              }
+            },
+
+            ClassExpression (astPath) {
+              const node = astPath.node
+              if (node.superClass) {
+                let isTaroComponent = false
+                astPath.traverse({
+                  ClassMethod (astPath) {
+                    if (astPath.get('key').isIdentifier({ name: 'render' })) {
+                      astPath.traverse({
+                        JSXElement () {
+                          isTaroComponent = true
+                        }
+                      })
+                    }
+                  }
+                })
+                if (isTaroComponent) {
+                  if (node.id === null) {
+                    const parentNode = astPath.parentPath.node
+                    if (t.isVariableDeclarator(astPath.parentPath)) {
+                      componentClassName = parentNode.id.name
+                    }
+                  } else {
+                    componentClassName = node.id.name
+                  }
+                }
+              }
+            },
+            ExportDefaultDeclaration (astPath) {
+              const node = astPath.node
+              const declaration = node.declaration
+              if (
+                declaration &&
+                (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')
+              ) {
+                const superClass = declaration.superClass
+                if (superClass) {
+                  let isTaroComponent = false
+                  astPath.traverse({
+                    ClassMethod (astPath) {
+                      if (astPath.get('key').isIdentifier({ name: 'render' })) {
+                        astPath.traverse({
+                          JSXElement () {
+                            isTaroComponent = true
+                          }
+                        })
+                      }
+                    }
+                  })
+                  if (isTaroComponent) {
+                    componentClassName = declaration.id.name
+                  }
+                }
+              }
+            },
             ImportDeclaration (astPath) {
               const node = astPath.node
               const source = node.source
@@ -123,17 +212,69 @@ class Convertor {
             },
             CallExpression (astPath) {
               const node = astPath.node
-              const callee = node.callee
-              if (callee.name === 'require') {
-                const args = node.arguments
-                const value = args[0].value
-                analyzeImportUrl(sourceFilePath, scriptFiles, args[0], value)
+              const calleePath = astPath.get('callee')
+              const callee = calleePath.node
+              if (callee.type === 'Identifier') {
+                if (callee.name === 'require') {
+                  const args = node.arguments
+                  const value = args[0].value
+                  analyzeImportUrl(sourceFilePath, scriptFiles, args[0], value)
+                } else if (WX_GLOBAL_FN.includes(callee.name)) {
+                  calleePath.replaceWith(
+                    t.memberExpression(t.identifier('Taro'), callee)
+                  )
+                  needInsertImportTaro = true
+                }
+              } else if (callee.type === 'MemberExpression') {
+                const object = callee.object
+                if (object.name === 'wx') {
+                  calleePath.get('object').replaceWith(t.identifier('Taro'))
+                  needInsertImportTaro = true
+                }
               }
             }
           })
         },
         exit (astPath) {
           const lastImport = astPath.get('body').filter(p => p.isImportDeclaration()).pop()
+          const hasTaroImport = astPath.get('body').some(p => p.isImportDeclaration() && p.node.source.value === '@tarojs/taro')
+          if (needInsertImportTaro && !hasTaroImport) {
+            astPath.node.body.unshift(
+              t.importDeclaration(
+                [t.importDefaultSpecifier(t.identifier('Taro'))],
+                t.stringLiteral('@tarojs/taro')
+              )
+            )
+          }
+          astPath.traverse({
+            StringLiteral (astPath) {
+              const value = astPath.node.value
+              const extname = path.extname(value)
+              if (extname && REG_IMAGE.test(extname) && !REG_URL.test(value)) {
+                let imageRelativePath = null
+                let sourceImagePath = null
+                let outputImagePath = null
+                if (path.isAbsolute(value)) {
+                  sourceImagePath = path.join(self.root, value)
+                } else {
+                  sourceImagePath = path.resolve(sourceFilePath, '..', value)
+                }
+                imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
+                outputImagePath = self.getDistFilePath(sourceImagePath)
+                if (fs.existsSync(sourceImagePath)) {
+                  self.copyFileToTaro(sourceImagePath, outputImagePath)
+                  printLog(pocessTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
+                } else {
+                  printLog(pocessTypeEnum.ERROR, '图片不存在', self.generateShowPath(sourceImagePath))
+                }
+                if (astPath.parentPath.isVariableDeclarator()) {
+                  astPath.replaceWith(t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)]))
+                } else if (astPath.parentPath.isJSXAttribute()) {
+                  astPath.replaceWith(t.jSXExpressionContainer(t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)])))
+                }
+              }
+            }
+          })
           if (lastImport) {
             if (importStylePath) {
               lastImport.insertAfter(t.importDeclaration([], t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))))
@@ -141,24 +282,27 @@ class Convertor {
             if (imports && imports.length) {
               imports.forEach(({ name, ast }) => {
                 const importName = pascalCase(name)
+                if (componentClassName === importName) {
+                  return
+                }
                 const importPath = path.join(self.importsDir, importName + '.js')
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
-                  self.writeFileToTaro(importPath, prettier.format(generate(ast).code, prettierJSConfig))
+                  self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
                 }
-                lastImport.insertAfter(template(`import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`, {
-                  sourceType: 'module'
-                })())
+                lastImport.insertAfter(template(`import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`, babylonConfig)())
               })
             }
             if (depComponents && depComponents.size) {
               depComponents.forEach(componentObj => {
                 const name = pascalCase(componentObj.name)
                 const component = componentObj.path
-                lastImport.insertAfter(template(`import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`, {
-                  sourceType: 'module'
-                })())
+                lastImport.insertAfter(template(`import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`, babylonConfig)())
               })
+            }
+
+            if (isApp) {
+              astPath.node.body.push(template(`Taro.render(<App />, document.getElementById('app'))`, babylonConfig)())
             }
           }
         }
@@ -243,7 +387,7 @@ class Convertor {
           outputFilePath,
           sourceFilePath: file
         })
-        const jsCode = generate(ast).code
+        const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
         this.hadBeenCopyedFiles.add(file)
@@ -255,6 +399,16 @@ class Convertor {
   writeFileToTaro (dist, code) {
     fs.ensureDirSync(path.dirname(dist))
     fs.writeFileSync(dist, code)
+  }
+
+  copyFileToTaro (from, to, options) {
+    const filename = path.basename(from)
+    if (fs.statSync(from).isFile() && !path.extname(to)) {
+      fs.ensureDir(to)
+      return fs.copySync(from, path.join(to, filename), options)
+    }
+    fs.ensureDir(path.dirname(to))
+    return fs.copySync(from, to, options)
   }
 
   getDistFilePath (src, extname) {
@@ -280,19 +434,41 @@ class Convertor {
         ast: taroizeResult.ast,
         sourceFilePath: this.entryJSPath,
         outputFilePath: entryDistJSPath,
-        importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), '.css') : null
+        importStylePath: this.entryStyle ? this.entryStylePath.replace(path.extname(this.entryStylePath), OUTPUT_STYLE_EXTNAME) : null,
+        isApp: true
       })
-      const jsCode = generate(ast).code
+      const jsCode = generateMinimalEscapeCode(ast)
       this.writeFileToTaro(entryDistJSPath, prettier.format(jsCode, prettierJSConfig))
       printLog(pocessTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
-        const entryDistStylePath = this.getDistFilePath(this.entryStylePath, '.css')
-        this.writeFileToTaro(entryDistStylePath, this.entryStyle)
-        printLog(pocessTypeEnum.GENERATE, '入口样式', this.generateShowPath(entryDistStylePath))
+        this.traverseStyle(this.entryStylePath, this.entryStyle)
       }
       this.generateScriptFiles(scriptFiles)
+      if (this.entryJSON.tabBar) {
+        this.generateTabBarIcon(this.entryJSON.tabBar)
+      }
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  generateTabBarIcon (tabBar) {
+    const { list = [] } = tabBar
+    const icons = new Set()
+    if (Array.isArray(list) && list.length) {
+      list.forEach(item => {
+        if (typeof item.iconPath === 'string') icons.add(item.iconPath)
+        if (typeof item.selectedIconPath === 'string') icons.add(item.selectedIconPath)
+      })
+      if (icons.size > 0) {
+        Array.from(icons)
+          .map(icon => path.join(this.root, icon))
+          .forEach(iconPath => {
+            const iconDistPath = this.getDistFilePath(iconPath)
+            this.copyFileToTaro(iconPath, iconDistPath)
+            printLog(pocessTypeEnum.COPY, 'TabBar 图标', this.generateShowPath(iconDistPath))
+          })
+      }
     }
   }
 
@@ -303,7 +479,6 @@ class Convertor {
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
       const pageStylePath = pagePath + this.fileTypes.STYLE
-      const pageDistStylePath = this.getDistFilePath(pageStylePath, '.css')
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
 
       try {
@@ -351,16 +526,14 @@ class Convertor {
           ast: taroizeResult.ast,
           sourceFilePath: pageJSPath,
           outputFilePath: pageDistJSPath,
-          importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), '.css') : null,
+          importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), OUTPUT_STYLE_EXTNAME) : null,
           depComponents,
           imports: taroizeResult.imports
         })
-        const jsCode = generate(ast).code
+        const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
-          this.writeFileToTaro(pageDistStylePath, pageStyle)
-          printLog(pocessTypeEnum.GENERATE, '页面样式', this.generateShowPath(pageDistStylePath))
           this.traverseStyle(pageStylePath, pageStyle)
         }
         this.generateScriptFiles(scriptFiles)
@@ -379,11 +552,12 @@ class Convertor {
     components.forEach(componentObj => {
       const component = componentObj.path
       if (this.hadBeenBuiltComponents.has(component)) return
+      this.hadBeenBuiltComponents.add(component)
+
       const componentJSPath = component + this.fileTypes.SCRIPT
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
       const componentConfigPath = component + this.fileTypes.CONFIG
       const componentStylePath = component + this.fileTypes.STYLE
-      const componentDistStylePath = this.getDistFilePath(componentStylePath, '.css')
       const componentTemplPath = component + this.fileTypes.TEMPL
 
       try {
@@ -430,16 +604,14 @@ class Convertor {
           ast: taroizeResult.ast,
           sourceFilePath: componentJSPath,
           outputFilePath: componentDistJSPath,
-          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), '.css') : null,
+          importStylePath: componentStyle ? componentStylePath.replace(path.extname(componentStylePath), OUTPUT_STYLE_EXTNAME) : null,
           depComponents,
           imports: taroizeResult.imports
         })
-        const jsCode = generate(ast).code
+        const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
         printLog(pocessTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
         if (componentStyle) {
-          this.writeFileToTaro(componentDistStylePath, componentStyle)
-          printLog(pocessTypeEnum.GENERATE, '组件样式', this.generateShowPath(componentDistStylePath))
           this.traverseStyle(componentStylePath, componentStyle)
         }
         this.generateScriptFiles(scriptFiles)
@@ -451,17 +623,36 @@ class Convertor {
     })
   }
 
-  traverseStyle (filePath, style) {
-    const { imports } = processStyleImports(style, BUILD_TYPES.WEAPP)
+  async styleUnitTransform (filePath, content) {
+    const postcssResult = await postcss([
+      unitTransform()
+    ]).process(content, {
+      from: filePath
+    })
+    return postcssResult
+  }
+
+  async traverseStyle (filePath, style) {
+    const { imports, content } = processStyleImports(style, BUILD_TYPES.WEAPP, (str, stylePath) => {
+      let relativePath = stylePath
+      if (path.isAbsolute(relativePath)) {
+        relativePath = promoteRelativePath(path.relative(filePath, path.join(this.root, stylePath)))
+      }
+      return str.replace(stylePath, relativePath)
+        .replace(MINI_APP_FILES[BUILD_TYPES.WEAPP].STYLE, OUTPUT_STYLE_EXTNAME)
+    })
+    const styleDist = this.getDistFilePath(filePath, OUTPUT_STYLE_EXTNAME)
+    const { css } = await this.styleUnitTransform(filePath, content)
+    this.writeFileToTaro(styleDist, css)
+    printLog(pocessTypeEnum.GENERATE, '样式文件', this.generateShowPath(styleDist))
     if (imports && imports.length) {
       imports.forEach(importItem => {
-        const importPath = path.resolve(path.dirname(filePath), importItem)
+        const importPath = path.isAbsolute(importItem)
+          ? path.join(this.root, importItem)
+          : path.resolve(path.dirname(filePath), importItem)
         if (fs.existsSync(importPath)) {
           const styleText = fs.readFileSync(importPath).toString()
-          const styleDist = importPath.replace(this.root, this.convertDir)
-          this.writeFileToTaro(styleDist, styleText)
-          printLog(pocessTypeEnum.COPY, '样式文件', this.generateShowPath(styleDist))
-          this.traverseStyle(filePath, styleText)
+          this.traverseStyle(importPath, styleText)
         }
       })
     }
@@ -481,7 +672,7 @@ class Convertor {
       description,
       projectName,
       version,
-      css: 'none',
+      css: 'sass',
       typescript: false
     })
     creator.template(templateName, path.join('config', 'index'), path.join(configDir, 'index.js'), {
@@ -496,7 +687,9 @@ class Convertor {
     })
     creator.template(templateName, 'gitignore', path.join(this.convertRoot, '.gitignore'))
     creator.template(templateName, 'editorconfig', path.join(this.convertRoot, '.editorconfig'))
-    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'))
+    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'), {
+      typescript: false
+    })
     creator.template(templateName, 'indexhtml', path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())

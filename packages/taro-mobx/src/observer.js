@@ -1,10 +1,11 @@
-import { autorun } from 'mobx'
+import { Reaction, _allowStateChanges } from 'mobx'
 
-/**
- * Observer function / decorator
- */
+function isStateless (component) {
+  return !(component.prototype && component.prototype._createData)
+}
+
 export function observer (Component) {
-  if (typeof Component !== 'function') {
+  if (typeof Component !== 'function' || isStateless(Component)) {
     throw new Error("Please pass a valid component to 'observer'")
   }
 
@@ -14,20 +15,18 @@ export function observer (Component) {
     )
   }
 
-  let displayName =
-        'inject-' +
-        (Component.displayName ||
-          Component.name ||
-            (Component.constructor && Component.constructor.name) ||
-            'Unknown')
-  return class extends Component {
-    static displayName = displayName
+  class ObserverComponent extends Component {
     componentWillMount () {
-      this._autorunDispose = autorun(() => {
-        this.forceUpdate()
+      const initialName =
+            this.displayName ||
+            this.name ||
+            (this.constructor && (this.constructor.displayName || this.constructor.name)) ||
+            '<component>'
+      this._reaction = new Reaction(`${initialName}_${Date.now()}`, () => {
         if (typeof this.componentWillReact === 'function') {
           this.componentWillReact()
         }
+        this.forceUpdate()
       })
       if (typeof super.componentWillMount === 'function') {
         super.componentWillMount()
@@ -35,10 +34,34 @@ export function observer (Component) {
     }
 
     componentWillUnmount () {
-      this._autorunDispose()
+      this._reaction.dispose()
       if (typeof super.componentWillUnmount === 'function') {
         super.componentWillUnmount()
       }
     }
   }
+
+  const target = ObserverComponent.prototype
+  const originCreateData = target._createData
+  target._createData = function () {
+    let result
+    let exception
+    if (this._reaction && this._reaction instanceof Reaction) {
+      this._reaction.track(() => {
+        try {
+          result = _allowStateChanges(false, originCreateData.bind(this))
+        } catch (e) {
+          exception = e
+        }
+      })
+    } else {
+      result = originCreateData.call(this)
+    }
+    if (exception) {
+      throw exception
+    }
+    return result
+  }
+
+  return ObserverComponent
 }

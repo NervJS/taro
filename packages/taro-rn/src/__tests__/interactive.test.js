@@ -10,7 +10,7 @@ describe('interactive', function () {
   describe('showActionSheet', function () {
     it('should render ActionSheet success', function () {
       const wrapper = mount(<ActionSheet
-        autoDectect={true}
+        autoDectect
         type={'ios'}
         visible={false}
         onClose={() => {}}
@@ -36,9 +36,9 @@ describe('interactive', function () {
     it('should call success callback', function () {
       const success = jest.fn()
       const wrapper = mount(<ActionSheet
-        autoDectect={true}
+        autoDectect
         type={'ios'}
-        visible={true}
+        visible
         onClose={() => {}}
         menus={['选项一', '选项二'].map((item, index) => {
           return {

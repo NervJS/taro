@@ -7,19 +7,19 @@
  * @format
  */
 
-'use strict';
+'use strict'
 
-const normalizeColor = require('./normalizeColor');
+const normalizeColor = require('./normalizeColor')
 
-const colorPropType = function(
+const colorPropType = function (
   isRequired,
   props,
   propName,
   componentName,
   location,
-  propFullName,
+  propFullName
 ) {
-  const color = props[propName];
+  const color = props[propName]
   if (color === undefined || color === null) {
     if (isRequired) {
       return new Error(
@@ -29,17 +29,17 @@ const colorPropType = function(
           (propFullName || propName) +
           '` was not specified in `' +
           componentName +
-          '`.',
-      );
+          '`.'
+      )
     }
-    return;
+    return
   }
 
   if (typeof color === 'number') {
     // Developers should not use a number, but we are using the prop type
     // both for user provided colors and for transformed ones. This isn't ideal
     // and should be fixed but will do for now...
-    return;
+    return
   }
 
   if (normalizeColor(color) === null) {
@@ -65,12 +65,12 @@ const colorPropType = function(
   - 'transparent'
   - 'red'
   - 0xff00ff00 (0xrrggbbaa)
-`,
-    );
+`
+    )
   }
-};
+}
 
-const ColorPropType = colorPropType.bind(null, false /* isRequired */);
-ColorPropType.isRequired = colorPropType.bind(null, true /* isRequired */);
+const ColorPropType = colorPropType.bind(null, false /* isRequired */)
+ColorPropType.isRequired = colorPropType.bind(null, true /* isRequired */)
 
-module.exports = ColorPropType;
+module.exports = ColorPropType

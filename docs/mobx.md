@@ -2,16 +2,18 @@
 title: 使用 Mobx
 ---
 
+> 自 `1.2.0-beta.1` 开始支持
+
 [Mobx](https://mobx.js.org/) 为复杂项目中状态管理提供了一种简单高效的机制；Taro 提供了 `@tarojs/mobx` 来让开发人员在使用Mobx的过程中获得更加良好的开发体验。
 
 > 下文中示例代码均在 [taro-mobx-sample](https://github.com/nanjingboy/taro-mobx-sample)
 
-首先请安装 `mobx` 、 `@tarojs/mobx` 、 `@tarojs/mobx-h5` 和 `@tarojs/mobx-rn`
+首先请安装 `mobx@4.8.0` 、 `@tarojs/mobx` 、 `@tarojs/mobx-h5` 和 `@tarojs/mobx-rn`
 
 ```bash
-$ yarn add mobx @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
+$ yarn add mobx@4.8.0 @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
 # 或者使用 npm
-$ npm install --save mobx @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
+$ npm install --save mobx@4.8.0 @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
 ```
 
 随后可以在项目 `src` 目录下新增一个 `store/counter.js` 文件
@@ -21,22 +23,22 @@ $ npm install --save mobx @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
 import { observable } from 'mobx'
 
 const counterStore = observable({
-  counter: 0
-})
-
-counterStore.increment = function () {
-  this.counter++
-}
-
-counterStore.decrement = function() {
-  this.counter--
-}
-
-counterStore.incrementAsync = function() {
-  setTimeout(() => {
+  counter: 0,
+  counterStore() {
     this.counter++
-  }, 1000);
-}
+  },
+  increment() {
+    this.counter++
+  },
+  decrement() {
+    this.counter--
+  },
+  incrementAsync() {
+    setTimeout(() => {
+      this.counter++
+    }, 1000)
+  }
+})
 
 export default counterStore
 ```
@@ -44,7 +46,8 @@ export default counterStore
 接下来在项目入口文件 `app.js` 中使用 `@tarojs/mobx` 中提供的 `Provider` 组件将前面写好的 `store` 接入应用中
 
 ```jsx
-// src/app.jsimport Taro, { Component } from '@tarojs/taro'
+// src/app.js
+import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import Index from './pages/index'
 
@@ -139,13 +142,13 @@ class Index extends Component {
   }
 
   render () {
-    const { counterStore } = this.props
+    const { counterStore: { counter } } = this.props
     return (
       <View className='index'>
         <Button onClick={this.increment}>+</Button>
         <Button onClick={this.decrement}>-</Button>
         <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counterStore.counter}</Text>
+        <Text>{counter}</Text>
       </View>
     )
   }
@@ -188,3 +191,40 @@ export default Index
   }))
   @observer //这个不能省略
   ```
+
+注意事项：
+
+* 在`Component`的`render`方法中，如果需要使用一个`observable` 对象（该例中为`counter`），您需要：
+
+  ```js
+  const { counterStore: { counter } } = this.props
+  return (
+     <Text>{counter}</Text>
+  )
+  ```
+
+  而非：
+
+  ```js
+  const { counterStore } = this.props
+  return (
+     <Text>{counterStore.counter}</Text>
+  )
+  ```
+
+* 如果使用 `@observable` 装饰器来定义可观察对象时，请确保该属性已经初始化（这是很多情况下属性值改变，页面没刷新的根源所在），比如：
+
+  ```js
+  @observable counter // 错误
+  @observable counter = 0 // 正确
+  ```
+
+* 自`1.2.0-beta.5`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
+
+  ```bash
+  $ yarn add @tarojs/mobx-prop-types
+  # 或者使用 npm
+  $ npm install --save @tarojs/mobx-prop-types
+  ```
+
+  `propTypes` 使用与[mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 一致

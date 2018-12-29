@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx",
-  "version": "1.1.7",
+  "version": "1.2.2",
   "description": "mobx for taro",
   "keywords": [
     "mobx",
@@ -12,19 +12,16 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "main": "dist/index.js",
+  "main": "index.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c --environment TARGET:umd",
+    "build": "rollup -c rollup.config.js",
     "clear": "rimraf dist"
   },
   "peerDependencies": {
-    "mobx": "^5.5.2"
-  },
-  "dependencies": {
-    "@tarojs/mobx-common": "1.1.7"
+    "mobx": "4.8.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"

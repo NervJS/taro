@@ -20,7 +20,12 @@ export default function (config: BuildConfig): any {
     staticDirectory,
     dllDirectory = 'lib',
     dllEntry = {
-      lib: ['nervjs', '@tarojs/taro-h5', '@tarojs/router', '@tarojs/components']
+      lib: [
+        'nervjs',
+        '@tarojs/taro-h5',
+        '@tarojs/router',
+        '@tarojs/components'
+      ]
     },
 
     designWidth = 750,

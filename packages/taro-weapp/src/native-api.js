@@ -11,7 +11,8 @@ const RequestQueue = {
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -29,7 +30,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, args)
         this.run()
       }
-      wx.request(options)
+      return wx.request(options)
     }
   }
 }
@@ -44,6 +45,7 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       originSuccess && originSuccess(res)
@@ -58,8 +60,15 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    RequestQueue.request(options)
+    requestTask = RequestQueue.request(options)
   })
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 

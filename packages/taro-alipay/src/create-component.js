@@ -1,7 +1,12 @@
-import { isEmptyObject, noop } from './util'
+import { getCurrentPageUrl } from '@tarojs/utils'
+
+import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
+import { cacheDataGet, cacheDataHas } from './data-cache'
+
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
+const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -81,15 +86,15 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    const eventType = event.type.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(eventHandlerNameLower, '')
+        keyLower = keyLower.replace(/^on/, '').toLocaleLowerCase()
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
           bindArgs[argName] = dataset[key]
         }
       }
@@ -148,7 +153,7 @@ function filterProps (defaultProps = {}, componentProps = {}, weappComponentData
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -219,7 +224,8 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
@@ -280,11 +286,16 @@ function createComponent (ComponentClass, isPage) {
     Object.assign(weappComponentConf, {
       onLoad (options = {}) {
         hasPageInited = false
-        this.$component = new ComponentClass()
+        this.$component = new ComponentClass({}, isPage)
         this.$component._init(this)
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
+        }
         Object.assign(this.$component.$router.params, options)
+        this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       },
 
@@ -313,15 +324,16 @@ function createComponent (ComponentClass, isPage) {
   } else {
     Object.assign(weappComponentConf, {
       didMount () {
-        this.$component = new ComponentClass()
+        this.$component = new ComponentClass({}, isPage)
         this.$component._init(this)
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
         initComponent.apply(this, [ComponentClass, isPage])
       },
 
-      didUpdate () {
-        if (!this.$component || !this.$component.__isReady) return
+      didUpdate (prevProps, prevData) {
+        // setData 触发的 didUpdate 不需要更新组件
+        if (!this.$component || !this.$component.__isReady || prevData !== this.data) return
         const nextProps = filterProps(ComponentClass.defaultProps, this.$component.props, this.props)
         this.$component.props = nextProps
         this.$component._unsafeCallUpdate = true

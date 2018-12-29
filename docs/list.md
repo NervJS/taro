@@ -24,7 +24,7 @@ console.log(doubled)
 ```jsx
 const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
-  return <Text class='li'> 我是第 {number + 1} 个数字</Text>
+  return <Text className='li'> 我是第 {number + 1} 个数字</Text>
 })
 ```
 
@@ -39,10 +39,29 @@ const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
   return <Text
     key={String(number)}
-    class='li'
+    className='li'
     >
     我是第 {number + 1} 个数字
   </Text>
+})
+```
+
+## taroKeys
+
+`taroKey`适用于循环渲染原生小程序组件，赋予每个元素唯一确定标识，转换为小程序的`wx:key`。
+
+```jsx
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
+const listItems = numbers.map((number) => {
+  return (
+    // native component
+    <g-list
+      taroKey={String(number)}
+      className='g-list'
+    >
+    我是第 {number + 1} 个数字
+    </g-list>
+  )
 })
 ```
 
@@ -78,7 +97,7 @@ class App extends Componenet {
     return (
       <View>
         {sidebar}
-        <View class="divider" />
+        <View className="divider" />
         {content}
       </View>
     )

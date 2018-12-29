@@ -32,6 +32,13 @@ const internalFunction = `function isObject(arg) {
   return arg === Object(arg) && typeof arg !== 'function';
 }
 
+function getElementById (a, b, c) {
+  if (c) {
+    return 'test-component-ref'
+  }
+  return 'test-ref'
+}
+
 function internal_get_original(item) {
   if (isObject(item)) {
     return item.$original || item;

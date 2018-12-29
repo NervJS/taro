@@ -8,6 +8,7 @@ import phone from './api/phone'
 import vibrate from './api/vibrate'
 import others from './api/others'
 import media from './api/media'
+import file from './api/file'
 import webSocket from './api/webSocket'
 import geolocation from './api/geolocation'
 import toast from './api/WxToast'
@@ -46,6 +47,7 @@ export default function initNativeApi (taro) {
     phone,
     vibrate,
     media,
+    file,
     webSocket,
     geolocation,
     toast,

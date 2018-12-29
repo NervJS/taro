@@ -1,12 +1,38 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { buildRender, buildBlockElement, pascalName } from './utils'
-import { resolve, basename } from 'path'
+import { resolve } from 'path'
 import * as fs from 'fs'
-import { parseWXML } from './wxml'
+import { parseWXML, createWxmlVistor } from './wxml'
 import { errors } from './global'
 
+function isNumeric (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n)
+}
+
+const NumberWords = ['z', 'a','b','c','d','e', 'f','g','h','i','j']
+
+function buildTemplateName (name: string) {
+  if (/wx/i.test(name)) {
+    return buildTemplateName('taro-' + name.slice(2, name.length))
+  }
+  const words = pascalName(name + '-tmpl')
+  // return words
+  let str: string[] = []
+  for (const word of words) {
+    if (isNumeric(word)) {
+      str.push(NumberWords[word])
+    } else {
+      str.push(word)
+    }
+  }
+  return str.join('')
+}
+
 export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
+  if (!path.container) {
+    return
+  }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
@@ -14,22 +40,20 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   // const spread = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'spread' }))
   const name = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'name' }))
   const refIds = new Set<string>()
+  const loopIds = new Set<string>()
+  let imports: any[] = []
   if (name) {
     const value = name.node.value
     if (value === null || !t.isStringLiteral(value)) {
       throw new Error('template 的 `name` 属性只能是字符串')
     }
-    const className = pascalName(value.value) + pascalName(basename(dirPath))
-    path.traverse({
-      Identifier (p) {
-        if (!p.isReferencedIdentifier()) {
-          return
-        }
-        const jsxExprContainer = p.findParent(p => p.isJSXExpressionContainer())
-        if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
-          return
-        }
-        refIds.add(p.node.name)
+    const className = buildTemplateName(value.value)
+
+    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
+    const firstId = Array.from(refIds)[0]
+    refIds.forEach(id => {
+      if (loopIds.has(id) && id !== firstId) {
+        refIds.delete(id)
       }
     })
 
@@ -41,16 +65,22 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       render = buildRender(block, [], [])
     } else if (refIds.size === 1) {
       // 只有一个数据源
-      render = buildRender(block, [], Array.from(refIds), Array.from(refIds)[0])
+      render = buildRender(block, [], Array.from(refIds), firstId)
     } else {
       // 使用 ...spread
       render = buildRender(block, [], Array.from(refIds), [])
     }
-
+    const classProp = t.classProperty(t.identifier('options'), t.objectExpression([
+      t.objectProperty(
+        t.identifier('addGlobalClass'),
+        t.booleanLiteral(true)
+      )
+    ])) as any
+    classProp.static = true
     const classDecl = t.classDeclaration(
       t.identifier(className),
       t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
-      t.classBody([render!]),
+      t.classBody([render!, classProp]),
       []
     )
     path.remove()
@@ -64,7 +94,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       throw new Error('template 的 `is` 属性不能为空')
     }
     if (t.isStringLiteral(value)) {
-      const className = pascalName(value.value)
+      const className = buildTemplateName(value.value)
       let attributes: t.JSXAttribute[] = []
       if (data) {
         attributes.push(data.node)
@@ -77,7 +107,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       ))
     } else if (t.isJSXExpressionContainer(value)) {
       if (t.isStringLiteral(value.expression)) {
-        const className = pascalName(value.expression.value)
+        const className = buildTemplateName(value.expression.value)
         let attributes: t.JSXAttribute[] = []
         if (data) {
           attributes.push(data.node)
@@ -155,7 +185,16 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   } else {
     const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type))
     const block = buildBlockElement()
-    block.children = [t.jSXExpressionContainer(t.jSXEmptyExpression())]
-    jsx.replaceWith(wxml || block)
+    try {
+      if (wxml) {
+        block.children = [wxml as any]
+        jsx.replaceWith(wxml)
+      } else {
+        block.children = [t.jSXExpressionContainer(t.jSXEmptyExpression())]
+        jsx.replaceWith(block)
+      }
+    } catch (error) {
+      //
+    }
   }
 }

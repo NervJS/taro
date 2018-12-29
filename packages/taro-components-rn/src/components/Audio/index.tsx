@@ -212,6 +212,7 @@ class _Audio extends React.Component<Props, State> {
       'connectionChange',
       this._onConnectionChange.bind(this)
     )
+    soundObject.unloadAsync()
   }
 
   render() {

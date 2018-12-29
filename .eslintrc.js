@@ -8,7 +8,11 @@ module.exports = {
   },
   globals: {
     wx: true,
+    my: true,
+    swan: true,
+    tt: true,
     getApp: true,
+    __wxRoute: true,
     getCurrentPages: true
   },
   rules: {

@@ -11,8 +11,9 @@
       "specials"
     ],
     "教程": [
-      "tutorial",
       "spec-for-taro",
+      "tutorial",
+      "project-config",
       "router",
       "size",
       "static-reference",
@@ -29,8 +30,21 @@
       "component-style",
       "react-native",
       "ui-lib",
+      "taroize",
       "best-practice"
     ],
+    "进阶指南": [
+      "config",
+      "config-detail",
+      "async-await",
+      "redux",
+      "mobx",
+      "wx-third-party",
+      "wx-hybrid",
+      "css-modules"
+    ]
+  },
+  "components": {
     "组件库": [
       "components-desc",
       "components/viewContainer/view",
@@ -64,20 +78,15 @@
       "components/canvas/canvas",
       "components/open/open-data",
       "components/open/web-view"
-    ],
+    ]
+  },
+  "api": {
     "API": [
+      "api-desc",
       "component",
       "env",
       "events",
       "native-api"
-    ],
-    "进阶指南": [
-      "config",
-      "config-detail",
-      "async-await",
-      "redux",
-      "wx-third-party",
-      "wx-hybrid"
     ]
   }
 }

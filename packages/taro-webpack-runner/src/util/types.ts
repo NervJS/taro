@@ -8,16 +8,24 @@ export interface Option {
   [key: string]: any;
 };
 
-type TogglableOptions = {
-  enable: boolean,
-  config: Option
+type TogglableOptions<T = Option> = {
+  enable?: boolean;
+  config?: T;
+}
+
+export namespace PostcssOption {
+  export type cssModules = TogglableOptions<{
+    namingPattern: 'global' | string;
+    generateScopedName: string;
+  }>;
 }
 
 export interface PostcssOption {
   autoprefixer?: TogglableOptions;
   pxtransform?: TogglableOptions;
-  plugins?: any[];
+  cssModules?: PostcssOption.cssModules;
 }
+
 
 export interface Chain {
   [key: string]: any;
@@ -28,10 +36,15 @@ export interface TaroH5Config {
   webpack: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
 
   webpackChain: (chain: any, webpack: any) => void;
+  dllWebpackChain: (chain: any, webpack: any) => void;
 
   alias: Option;
   entry: webpack.Entry;
   output: webpack.Output;
+  router?: {
+    mode?: 'hash' | 'browser';
+    custouRoutes?: Option;
+  };
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
   enableExtract: boolean;
@@ -51,6 +64,7 @@ export interface TaroH5Config {
   dllEntry: {
     [key: string]: string[];
   };
+  esnextModules: string[];
 
   module?: {
     postcss?: PostcssOption;
@@ -60,7 +74,18 @@ export interface TaroH5Config {
 export interface TaroPlugins {
   babel: Option;
   csso?: TogglableOptions;
-  uglify?: TogglableOptions
+  uglify?: TogglableOptions;
+}
+
+export interface CopyOptions {
+  patterns: {
+    from: string;
+    to: string;
+    ignore: string[]
+  }[];
+  options: {
+    ignore: string[];
+  };
 }
 
 export interface TaroBaseConfig {
@@ -69,6 +94,7 @@ export interface TaroBaseConfig {
   publicPath: string;
   staticDirectory: string;
   chunkDirectory: string;
+  copy: CopyOptions;
 
   designWidth: number;
   deviceRatio?: number;

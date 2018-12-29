@@ -1,5 +1,3 @@
-import { buffer } from "rxjs/operators";
-
 export = Taro;
 export as namespace Taro;
 
@@ -258,6 +256,14 @@ declare namespace Taro {
     }
   }
 
+  interface Permission {
+    [key: string]: {
+      /**
+       * 小程序获取权限时展示的接口用途说明。最长30个字符
+       */
+      desc: string
+    }
+  }
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
@@ -329,6 +335,11 @@ declare namespace Taro {
      * @since 2.4.0
      */
     navigateToMiniProgramAppIdList?: string[]
+    /**
+     * 小程序接口权限相关设置
+     * @since 微信客户端 7.0.0
+     */
+    permission?: Permission
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -349,8 +360,11 @@ declare namespace Taro {
 
     options?: ComponentOptions;
 
+    $componentType: 'PAGE' | 'COMPONENT'
+
     $router: {
       params: any
+      preload: any
     }
 
     setState<K extends keyof S>(
@@ -414,15 +428,26 @@ declare namespace Taro {
     WEB = 'WEB',
     RN = 'RN',
     SWAN = 'SWAN',
-    ALIPAY = 'ALIPAY'
+    ALIPAY = 'ALIPAY',
+    TT = 'TT'
   }
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
 
-  function render(component: Component | JSX.Element, element: Element | null)
+  function render(component: Component | JSX.Element, element: Element | null): any;
 
-  function internal_safe_set (...arg): any
-  function internal_safe_get (...arg): any
+  function internal_safe_set (...arg: any[]): any;
+  function internal_safe_get (...arg: any[]): any;
+
+  type MessageType = 'info' | 'success' | 'error' | 'warning';
+
+  interface AtMessageOptions {
+    message: string,
+    type?: MessageType,
+    duration?: number
+  }
+
+  function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
 
@@ -434,7 +459,7 @@ declare namespace Taro {
   /**
    *
    * 微信端能力
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+   * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
    * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
    *
@@ -675,7 +700,7 @@ declare namespace Taro {
       /**
        * 上传进度回调
        */
-      progress: (UploadTaskProgressCallback) => void
+      progress: (callback: UploadTaskProgressCallback) => void
       /**
        * 终止上传任务
        */
@@ -786,6 +811,31 @@ declare namespace Taro {
        */
       header?: any
     }
+    /**
+     * 下载进度
+     */
+    type DownloadTaskProgress = {
+      progress: number
+      totalBytesWritten: number
+      totalBytesExpectedToWrite: number
+    }
+    /**
+     * 下载进度回调
+     */
+    type DownloadTaskProgressCallback = (res: DownloadTaskProgress) => any
+    /**
+     * 下载任务
+     */
+    type DownloadTask = Promise<downloadFile.Promised> & {
+      /**
+       * 下载进度回调
+       */
+      progress: (params: DownloadTaskProgressCallback) => void
+      /**
+       * 终止下载任务
+       */
+      abort: () => void
+    }
   }
   /**
    * 下载文件资源到本地，客户端直接发起一个 HTTP GET 请求，返回文件的本地临时路径。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
@@ -838,7 +888,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject
    */
-  function downloadFile(OBJECT: downloadFile.Param): Promise<downloadFile.Promised>
+  function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
   namespace connectSocket {
     type Promised = {
@@ -2457,6 +2507,12 @@ declare namespace Taro {
      */
     pause(): void
     /**
+     * 停止
+     *
+     * @since 1.7.0
+     */
+    stop(): void
+    /**
      * 跳转到指定位置，单位 s
      */
     seek(position: number): void
@@ -2475,13 +2531,25 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(): void
+    requestFullScreen(param: {direction: 0 | 90 | -90}): void
     /**
      * 退出全屏
      *
      * @since 1.4.0
      */
     exitFullScreen(): void
+    /**
+     * 显示状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    showStatusBar(): void
+    /**
+     * 隐藏状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    hideStatusBar(): void
   }
   /**
    * @since 1.6.0
@@ -2582,7 +2650,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath, tempVideoPath }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -7458,9 +7526,21 @@ declare namespace Taro {
    *       }
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstoppulldownrefresh
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
    */
   function stopPullDownRefresh(): void
+
+  /**
+   * 收起键盘。
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.hideKeyboard()
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
+   */
+  function hideKeyboard(): void
 
   /**
    * @since 1.4.0

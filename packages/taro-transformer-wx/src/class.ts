@@ -8,13 +8,15 @@ import {
   pathResolver,
   createRandomLetters,
   isContainJSXElement,
-  getSlotName
+  getSlotName,
+  isArrayMapCallExpression
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
 import { Adapters, Adapter } from './adapter'
+import { LoopRef } from './interface'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -122,6 +124,7 @@ class Transformer {
   private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
+  private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -198,36 +201,73 @@ class Transformer {
         if (!t.isJSXIdentifier(jsx.name)) {
           return
         }
+        const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
         const componentName = jsx.name.name
         const refAttr = findJSXAttrByName(attrs, 'ref')
         if (!refAttr) {
           return
         }
         const idAttr = findJSXAttrByName(attrs, 'id')
-        let id = createRandomLetters(5)
+        let id: string = createRandomLetters(5)
+        let idExpr: t.Expression
         if (!idAttr) {
-          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          if (loopCallExpr && loopCallExpr.isCallExpression()) {
+            const [ func ] = loopCallExpr.node.arguments
+            let indexId: t.Identifier | null = null
+            if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+              const params = func.params as t.Identifier[]
+              indexId = params[1]
+            }
+            if (indexId === null || !t.isIdentifier(indexId!)) {
+              throw codeFrameError(path.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
+            }
+            attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.jSXExpressionContainer(
+              t.binaryExpression('+', t.stringLiteral(id), indexId)
+            )))
+          } else {
+            attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          }
         } else {
           const idValue = idAttr.value
           if (t.isStringLiteral(idValue)) {
             id = idValue.value
-          } else if (t.isJSXExpressionContainer(idValue) && t.isStringLiteral(idValue.expression)) {
-            id = idValue.expression.value
+          } else if (t.isJSXExpressionContainer(idValue)) {
+            if (t.isStringLiteral(idValue.expression)) {
+              id = idValue.expression.value
+            } else {
+              idExpr = idValue.expression
+            }
           }
         }
         if (t.isStringLiteral(refAttr.value)) {
+          if (loopCallExpr) {
+            throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+          }
           this.createStringRef(componentName, id, refAttr.value.value)
         }
         if (t.isJSXExpressionContainer(refAttr.value)) {
           const expr = refAttr.value.expression
           if (t.isStringLiteral(expr)) {
+            if (loopCallExpr) {
+              throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+            }
             this.createStringRef(componentName, id, expr.value)
           } else if (t.isArrowFunctionExpression(expr) || t.isMemberExpression(expr)) {
-            this.refs.push({
-              type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
-              id,
-              fn: expr
-            })
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            if (loopCallExpr) {
+              this.loopRefs.set(path.parentPath.node as t.JSXElement, {
+                id: idExpr! || id,
+                fn: expr,
+                type,
+                component: path.parentPath as NodePath<t.JSXElement>
+              })
+            } else {
+              this.refs.push({
+                type,
+                id,
+                fn: expr
+              })
+            }
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
@@ -309,7 +349,7 @@ class Transformer {
             const sibling = path.getSibling('property')
             if (
               path.get('object').isThisExpression() &&
-              path.get('property').isIdentifier({ name: 'props' }) &&
+              (path.get('property').isIdentifier({ name: 'props' }) || path.get('property').isIdentifier({ name: 'state' })) &&
               sibling.isIdentifier()
             ) {
               const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
@@ -354,13 +394,14 @@ class Transformer {
           } else if (t.isMemberExpression(expr)) {
             self.buildAnonymousFunc(attr, expr as any, false)
           } else {
-            throw codeFrameError(expr.loc, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
+            throw codeFrameError(path.node, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
         const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
         if (!jsx) return
         const jsxName = jsx.node.name
         if (!t.isJSXIdentifier(jsxName)) return
+        if (expression.isJSXElement()) return
         if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
         generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
       },
@@ -610,7 +651,8 @@ class Transformer {
           this.loopStateName,
           this.customComponentNames,
           this.customComponentData,
-          this.componentProperies
+          this.componentProperies,
+          this.loopRefs
         ).outputTemplate
     } else {
       throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')

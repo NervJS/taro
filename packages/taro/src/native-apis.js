@@ -29,7 +29,9 @@ const onAndSyncApis = {
   getLogManager: true,
   onMemoryWarning: true,
   reportAnalytics: true,
-  navigateToSmartGameProgram: true
+  navigateToSmartGameProgram: true,
+  // 文件
+  getFileSystemManager: true
 }
 const noPromiseApis = {
   // 媒体
@@ -79,6 +81,7 @@ const noPromiseApis = {
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,
 
+  getAccountInfoSync: true,
   getUpdateManager: true,
   createWorker: true
 }

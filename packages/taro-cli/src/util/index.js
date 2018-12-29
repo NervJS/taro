@@ -78,10 +78,11 @@ exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
 exports.REG_SCRIPTS = /\.[tj]sx?$/i
 exports.REG_STYLE = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
-exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
+exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 exports.REG_JSON = /\.json(\?.*)?$/
 exports.REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
+exports.REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
 
 exports.CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
@@ -91,6 +92,7 @@ exports.BUILD_TYPES = {
   RN: 'rn',
   SWAN: 'swan',
   ALIPAY: 'alipay',
+  TT: 'tt',
   UI: 'ui'
 }
 
@@ -112,6 +114,12 @@ exports.MINI_APP_FILES = {
     STYLE: '.acss',
     SCRIPT: '.js',
     CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.TT]: {
+    TEMPL: '.ttml',
+    STYLE: '.ttss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
   }
 }
 
@@ -126,6 +134,15 @@ exports.CONFIG_MAP = {
     selectedIconPath: 'selectedIconPath'
   },
   [exports.BUILD_TYPES.SWAN]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.TT]: {
     navigationBarTitleText: 'navigationBarTitleText',
     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
     enablePullDownRefresh: 'enablePullDownRefresh',
@@ -166,6 +183,26 @@ exports.isNpmPkg = function (name) {
     return false
   }
   return true
+}
+
+exports.isAliasPath = function (name, pathAlias = {}) {
+  const prefixs = Object.keys(pathAlias)
+  if (prefixs.length === 0) {
+    return false
+  }
+  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
+}
+
+exports.replaceAliasPath = function (filePath, name, pathAlias = {}) {
+  const prefixs = Object.keys(pathAlias)
+  if (prefixs.includes(name)) {
+    return exports.promoteRelativePath(path.relative(filePath, pathAlias[name]))
+  }
+  const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
+  name = name.replace(reg, function (m, $1, $2) {
+    return exports.promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
+  })
+  return name
 }
 
 exports.promoteRelativePath = function (fPath) {
@@ -436,14 +473,14 @@ exports.generateConstantsList = function (constants) {
 exports.cssImports = function (content) {
   let match = {}
   const results = []
-  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while (match = exports.CSS_IMPORT_REG.exec(content)) {
+  content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  while ((match = exports.CSS_IMPORT_REG.exec(content))) {
     results.push(match[2])
   }
   return results
 }
 
-exports.processStyleImports = function (content, adapter) {
+exports.processStyleImports = function (content, adapter, process) {
   const style = []
   const imports = []
   const styleReg = new RegExp(`\\${exports.MINI_APP_FILES[adapter].STYLE}`)
@@ -451,7 +488,13 @@ exports.processStyleImports = function (content, adapter) {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
+      if (process && typeof process === 'function') {
+        return process(m, $2)
+      }
       return ''
+    }
+    if (process && typeof process === 'function') {
+      return process(m, $2)
     }
     return m
   })
@@ -461,9 +504,9 @@ exports.processStyleImports = function (content, adapter) {
     imports
   }
 }
-
+/*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-exports.emptyDirectory = function (dirPath) {
+exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -473,8 +516,10 @@ exports.emptyDirectory = function (dirPath) {
 
         do {
           try {
-            exports.emptyDirectory(curPath)
-            fs.rmdirSync(curPath)
+            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+              exports.emptyDirectory(curPath)
+              fs.rmdirSync(curPath)
+            }
             removed = true
           } catch (e) {
           } finally {
@@ -489,5 +534,86 @@ exports.emptyDirectory = function (dirPath) {
     })
   }
 }
+/* eslint-enable */
+
+exports.recursiveFindNodeModules = function (filePath) {
+  const dirname = path.dirname(filePath)
+  const nodeModules = path.join(dirname, 'node_modules')
+  if (fs.existsSync(nodeModules)) {
+    return nodeModules
+  }
+  return exports.recursiveFindNodeModules(dirname)
+}
+
+exports.UPDATE_PACKAGE_LIST = [
+  '@tarojs/taro',
+  '@tarojs/async-await',
+  '@tarojs/cli',
+  '@tarojs/components',
+  '@tarojs/components-rn',
+  '@tarojs/taro-h5',
+  '@tarojs/taro-swan',
+  '@tarojs/taro-alipay',
+  '@tarojs/plugin-babel',
+  '@tarojs/plugin-csso',
+  '@tarojs/plugin-sass',
+  '@tarojs/plugin-less',
+  '@tarojs/plugin-stylus',
+  '@tarojs/plugin-uglifyjs',
+  '@tarojs/redux',
+  '@tarojs/redux-h5',
+  '@tarojs/taro-redux-rn',
+  '@tarojs/taro-router-rn',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
+  '@tarojs/router',
+  '@tarojs/taro-weapp',
+  '@tarojs/webpack-runner',
+  'postcss-plugin-constparse',
+  'eslint-config-taro',
+  'eslint-plugin-taro',
+  'taro-transformer-wx',
+  'postcss-pxtransform',
+  'babel-plugin-transform-jsx-to-stylesheet',
+  '@tarojs/mobx',
+  '@tarojs/mobx-h5',
+  '@tarojs/mobx-rn',
+  '@tarojs/mobx-common',
+  '@tarojs/mobx-prop-types'
+]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
+
+exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
+  const resolvePath = require('resolve')
+  try {
+    const pkg = resolvePath.sync(`${pkgName}/package.json`, { basedir })
+    const pkgJson = fs.readJSONSync(pkg)
+    return pkgJson.version
+  } catch (err) {
+    return null
+  }
+}
+
+/**
+ * 防反跳
+ * @author Secbone
+ *
+ * @param fn [Function] 需要防反跳的函数
+ * @param wait [Number] 时间，毫秒
+ * @return [Function]
+ */
+exports.debounce = function debounce (fn, wait) {
+  let timeout = null
+
+  return function () {
+    const args = arguments
+
+    if (timeout) clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      timeout = null
+      fn.apply(this, args)
+    }, wait)
+  }
+}

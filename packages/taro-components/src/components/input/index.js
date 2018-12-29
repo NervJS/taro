@@ -10,7 +10,7 @@ function getTrueType (type, confirmType, password) {
   }
   if (confirmType === 'search') type = 'search'
   if (password) type = 'password'
-  if (type === 'number') type = 'number'
+  if (type === 'digit') type = 'number'
 
   return type
 }
@@ -35,20 +35,48 @@ class Input extends Nerv.Component {
     this.isOnComposition = false
   }
 
+  componentDidMount () {
+    // 修复无法选择文件
+    if (this.props.type === 'file') {
+      this.inputRef.addEventListener('change', this.onInput)
+    }
+  }
+
+  componentWillUnMount () {
+    // 修复无法选择文件
+    if (this.props.type === 'file') {
+      this.inputRef.removeEventListener('change', this.onInput)
+    }
+  }
+
   onInput (e) {
-    const { onInput, onChange = '' } = this.props
+    const {
+      type,
+      maxLength,
+      confirmType,
+      password,
+      onInput = '',
+      onChange = ''
+    } = this.props
     if (!this.isOnComposition) {
+      let value = e.target.value
+      const inputType = getTrueType(type, confirmType, password)
+      /* 修复 number 类型 maxLength 无效 */
+      if (
+        inputType === 'number' &&
+        value &&
+        maxLength <= value.length
+      ) {
+        value = value.substring(0, maxLength)
+        e.target.value = value
+      }
+
       Object.defineProperty(e, 'detail', {
         enumerable: true,
-        value: {
-          value: e.target.value
-        }
+        value: { value }
       })
-      if (onChange) {
-        onChange && onChange(e)
-      } else {
-        onInput && onInput(e)
-      }
+      if (onChange) return onChange(e)
+      if (onInput) return onInput(e)
     }
   }
 
@@ -130,13 +158,15 @@ class Input extends Nerv.Component {
 
     return (
       <input
-        ref={input => input && focus && input.focus()}
+        ref={input => {
+          this.inputRef = input
+          input && focus && input.focus()
+        }}
         {...otherProps}
         className={cls}
         placeholder={placeholder}
         disabled={disabled}
         max={maxLength}
-        onChange={this.onInput}
         onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}

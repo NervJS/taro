@@ -1,15 +1,6 @@
-import { getStore } from '@tarojs/mobx-common'
+import { getStore } from './store'
 
-const proxiedInjectorProps = {
-  isMobxInjector: {
-    value: true,
-    writable: true,
-    configurable: true,
-    enumerable: true
-  }
-}
-
-function mapStoreToProps(grabStoresFn, props) {
+function mapStoreToProps (grabStoresFn, props) {
   let newProps = {}
   for (let key in props) {
     if (props.hasOwnProperty(key)) {
@@ -30,9 +21,12 @@ function createStoreInjector (grabStoresFn, injectNames, Component) {
           Component.name ||
             (Component.constructor && Component.constructor.name) ||
             'Unknown')
-  if (injectNames) displayName += '-with-' + injectNames
+  if (injectNames) {
+    displayName += '-with-' + injectNames
+  }
 
   class Injector extends Component {
+    static isMobxInjector = true
     static displayName = displayName
     constructor (props) {
       super(Object.assign(...arguments, mapStoreToProps(grabStoresFn, props)))
@@ -45,18 +39,18 @@ function createStoreInjector (grabStoresFn, injectNames, Component) {
       }
     }
   }
-
-  Object.defineProperties(Injector, proxiedInjectorProps)
-
+  const target = Injector.prototype
+  const originCreateData = target._createData
+  target._createData = function () {
+    Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
+    return originCreateData.call(this)
+  }
   return Injector
 }
 
 function grabStoresByName (storeNames) {
   return function (baseStores, nextProps) {
     storeNames.forEach(function (storeName) {
-      if (
-        storeName in nextProps // prefer props over stores
-      ) { return }
       if (!(storeName in baseStores)) {
         throw new Error(
           "MobX injector: Store '" +
@@ -70,7 +64,7 @@ function grabStoresByName (storeNames) {
   }
 }
 
-export default function inject (/* fn(stores, nextProps) or ...storeNames */) {
+export function inject (/* fn(stores, nextProps) or ...storeNames */) {
   let grabStoresFn
   if (typeof arguments[0] === 'function') {
     grabStoresFn = arguments[0]
