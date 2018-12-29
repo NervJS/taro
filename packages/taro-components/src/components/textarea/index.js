@@ -25,7 +25,7 @@ class Textarea extends Nerv.Component {
       className = '',
       placeholder = '',
       disabled,
-      maxLength = 140,
+      maxlength = 140,
       onChange,
       onFocus,
       onBlur,
@@ -46,7 +46,7 @@ class Textarea extends Nerv.Component {
         className={className}
         placeholder={placeholder}
         disabled={disabled}
-        maxlength={maxLength}
+        maxlength={maxlength}
         autofocus={autoFocus}
         onChange={onChange}
         onFocus={onFocus}
