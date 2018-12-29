@@ -10,7 +10,7 @@ title: Taro 组成
 | [`@tarojs/taro-weapp`](https://www.npmjs.com/package/@tarojs/taro-weapp) |  taro 微信小程序运行时框架  |
 | [`@tarojs/redux`](https://www.npmjs.com/package/@tarojs/redux) |  taro Redux 支持  |
 | [`@tarojs/router`](https://www.npmjs.com/package/@tarojs/router) |  taro h5 路由  |
-| [`@tarojs/async-await`](https://www.npmjs.com/package/@tarojs/async-await)      |  支持使用 asyn/await 语法  |
+| [`@tarojs/async-await`](https://www.npmjs.com/package/@tarojs/async-await)      |  支持使用 async/await 语法  |
 | [`@tarojs/cli`](https://www.npmjs.com/package/@tarojs/cli) | taro 开发工具   |
 | [`@tarojs/taro-rn-runner`](https://www.npmjs.com/package/@tarojs/rn-runner) |  taro ReactNative 打包编译工具  |
 | [`@tarojs/webpack-runner`](https://www.npmjs.com/package/@tarojs/webpack-runner) |  taro h5 端 webpack 打包编译工具  |
