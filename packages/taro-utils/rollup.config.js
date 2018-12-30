@@ -7,7 +7,7 @@ const baseConfig = {
   input: join(cwd, 'src/index.js'),
   output: {
     sourcemap: true,
-    name: 'TaroUtilss',
+    name: 'TaroUtils',
     format: 'es',
     file: join(cwd, 'dist/index.js')
   },
