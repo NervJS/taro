@@ -11,7 +11,8 @@ const cli = new CLIEngine({
   parserOptions: {
     ecmaVersion: 2018,
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
+      legacyDecorators: true
     }
   }
 })
