@@ -2,7 +2,7 @@
 
 const program = require('commander')
 
-const Project = require('../src/project')
+const Project = require('../dist/project').default
 
 program
   .option('--name [name]', '项目名称')
@@ -15,7 +15,7 @@ program
 
 const args = program.args
 const { template, description, name, css } = program
-let typescript = ''
+let typescript = false
 
 /**
  * 非标准做法

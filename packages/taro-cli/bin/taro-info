@@ -2,7 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 const envinfo = require('envinfo')
-const {getPkgVersion, UPDATE_PACKAGE_LIST} = require('../src/util')
+const { getPkgVersion, UPDATE_PACKAGE_LIST } = require('../dist/util')
 const process = require('process')
 const program = require('commander')
 
@@ -37,7 +37,7 @@ function rnInfo (options) {
 }
 
 async function info (options) {
-  let info = await envinfo.run(Object.assign({}, {
+  const info = await envinfo.run(Object.assign({}, {
     System: ['OS', 'Shell'],
     Binaries: ['Node', 'Yarn', 'npm'],
     npmPackages,

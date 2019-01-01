@@ -2,7 +2,7 @@
 
 const program = require('commander')
 
-const Convertor = require('../src/convertor')
+const Convertor = require('../dist/convertor')
 
 program
   .parse(process.argv)

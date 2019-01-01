@@ -6,7 +6,7 @@ const _ = require('lodash/fp')
 const ora = require('ora')
 const chalk = require('chalk')
 const fs = require('fs-extra')
-const { PROJECT_CONFIG } = require('../src/util')
+const { PROJECT_CONFIG } = require('../dist/util')
 const PROJECT_CONF_PATH = path.join(process.cwd(), PROJECT_CONFIG)
 
 if (!fs.existsSync(PROJECT_CONF_PATH)) {
@@ -14,7 +14,7 @@ if (!fs.existsSync(PROJECT_CONF_PATH)) {
   process.exit(1)
 }
 
-const { validators } = require('../src/doctor')
+const { validators } = require('../dist/doctor')
 
 const NOTE_ALL_RIGHT = chalk.green('[✓] ')
 const NOTE_VALID = chalk.yellow('[!] ')
