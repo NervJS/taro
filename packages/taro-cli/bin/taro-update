@@ -3,14 +3,13 @@ const path = require('path')
 const fs = require('fs-extra')
 const program = require('commander')
 const chalk = require('chalk')
-const { getPkgItemByKey } = require('../src/util')
+const { getPkgItemByKey, shouldUseYarn, shouldUseCnpm } = require('../dist/util')
 const ora = require('ora')
 const exec = require('child_process').exec
 const getLatestVersion = require('latest-version')
-const { PROJECT_CONFIG, UPDATE_PACKAGE_LIST} = require('../src/util')
+const { PROJECT_CONFIG, UPDATE_PACKAGE_LIST } = require('../dist/util/constants')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 const pkgPath = path.join(process.cwd(), 'package.json')
-const { shouldUseYarn, shouldUseCnpm } = require('../src/util')
 
 const pkgName = getPkgItemByKey('name')
 
@@ -50,7 +49,7 @@ function updateSelf () {
     command = 'npm i -g @tarojs/cli@latest'
   }
 
-  let child = exec(command)
+  const child = exec(command)
 
   const spinner = ora('即将将 Taro 开发工具 taro-cli 更新到最新版本...').start()
 
@@ -103,7 +102,7 @@ async function updateProject () {
     command = 'npm install'
   }
 
-  let child = exec(command)
+  const child = exec(command)
 
   const spinner = ora('即将将项目所有 Taro 相关依赖更新到最新版本...').start()
 

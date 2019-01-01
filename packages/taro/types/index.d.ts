@@ -299,7 +299,8 @@ declare namespace Taro {
      * ]
      * @since 1.7.3
      */
-    subPackages?: SubPackage[]
+    subPackages?: SubPackage[],
+    subpackages?: SubPackage[]
     /**
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
@@ -441,7 +442,7 @@ declare namespace Taro {
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
 
-  function render(component: Component | JSX.Element, element: Element | null): any;
+  function render(component: Component | any, element: Element | null): any;
 
   function internal_safe_set (...arg: any[]): any;
   function internal_safe_get (...arg: any[]): any;

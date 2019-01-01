@@ -5,8 +5,8 @@ const program = require('commander')
 const chalk = require('chalk')
 const _ = require('lodash')
 
-const build = require('../src/build')
-const { PROJECT_CONFIG } = require('../src/util')
+const build = require('../dist/build').default
+const { PROJECT_CONFIG } = require('../dist/util/constants')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program

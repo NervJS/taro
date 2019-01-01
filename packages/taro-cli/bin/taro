@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 const program = require('commander')
-const { getPkgVersion, printPkgVersion } = require('../src/util')
+const { getPkgVersion, printPkgVersion } = require('../dist/util')
 
 printPkgVersion()
 
