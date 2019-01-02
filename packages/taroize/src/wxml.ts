@@ -2,7 +2,7 @@ import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
@@ -153,11 +153,38 @@ export const createWxmlVistor = (
             refIds.add(p.node.name)
           }
         })
+        const slotAttr = attrs.find(a => a.node.name.name === 'slot')
+        if (slotAttr) {
+          const slotValue = slotAttr.node.value
+          if (slotValue && t.isStringLiteral(slotValue)) {
+            const slotName = slotValue.value
+            const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
+            if (parentComponent && parentComponent.isJSXElement()) {
+              slotAttr.remove()
+              parentComponent.node.openingElement.attributes.push(
+                t.jSXAttribute(
+                  t.jSXIdentifier(`render${slotName[0].toUpperCase() + slotName.slice(1)}`),
+                  t.jSXExpressionContainer(cloneDeep(path.node))
+                )
+              )
+              path.remove()
+            }
+          } else {
+            throw codeFrameError(slotValue, 'slot 的值必须是一个字符串')
+          }
+        }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
+          const nameAttr = attrs.find(a => a.node.name.name === 'name')
+          let slotName = ''
+          if (nameAttr && nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
+            slotName = nameAttr.node.value.value
+          } else {
+            throw codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+          }
           const children = t.memberExpression(
             t.memberExpression(t.thisExpression(), t.identifier('props')),
-            t.identifier('children')
+            t.identifier(slotName ? `render${slotName[0].toUpperCase() + slotName.slice(1)}` : 'children')
           )
           try {
             path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
