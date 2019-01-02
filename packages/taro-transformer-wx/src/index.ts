@@ -282,6 +282,16 @@ export default function transform (options: Options): TransformResult {
       }
       if (callee.isReferencedMemberExpression()) {
         const id = findFirstIdentifierFromMemberExpression(callee.node)
+        const property = callee.node.property
+        if (t.isIdentifier(property) && property.name.startsWith('on')) {
+          const funcExpr = path.findParent(p => p.isFunctionExpression())
+          if (funcExpr && funcExpr.isFunctionExpression()) {
+            const taroAPI = funcExpr.findParent(p => p.isCallExpression() && t.isMemberExpression(p.node.callee) && t.isIdentifier(p.node.callee.object, { name: 'Taro' }))
+            if (taroAPI && taroAPI.isCallExpression()) {
+              throw codeFrameError(funcExpr.node, '在回调函数使用从 props 传递的函数时，请把回调函数改造为箭头函数并一直使用 `this` 取值')
+            }
+          }
+        }
         const calleeIds = getIdsFromMemberProps(callee.node)
         if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
@@ -300,6 +310,13 @@ export default function transform (options: Options): TransformResult {
         const id = callee.node
         const ids = [id.name]
         if (t.isIdentifier(id) && id.name.startsWith('on')) {
+          const funcExpr = path.findParent(p => p.isFunctionExpression())
+          if (funcExpr && funcExpr.isFunctionExpression()) {
+            const taroAPI = funcExpr.findParent(p => p.isCallExpression() && t.isMemberExpression(p.node.callee) && t.isIdentifier(p.node.callee.object, { name: 'Taro' }))
+            if (taroAPI && taroAPI.isCallExpression()) {
+              throw codeFrameError(funcExpr.node, '在回调函数使用从 props 传递的函数时，请把回调函数改造为箭头函数并一直使用 `this` 取值')
+            }
+          }
           const fullPath = buildFullPathThisPropsRef(id, ids, path)
           if (fullPath) {
             path.replaceWith(
