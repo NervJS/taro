@@ -6,7 +6,7 @@ const allRules = {
   //'no-anonymous-function-in-props': require('./no-anonymous-function-in-props'),
   // 'no-jsx-in-class-method': require('./no-jsx-in-class-method'),
   'no-spread-in-props': require('./no-spread-in-props'),
-  'no-stateless-component': require('./no-stateless-component'),
+  // 'no-stateless-component': require('./no-stateless-component'),
   // 'jsx-handler-names': require('./jsx-handler-names'),
   'reserve-class-properties': require('./reserve-class-properties'),
   // 'function-naming': require('./function-naming'),
