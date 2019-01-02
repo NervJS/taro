@@ -75,6 +75,14 @@ class Input extends Nerv.Component {
         enumerable: true,
         value: { value }
       })
+      // 修复 IOS 光标跳转问题
+      const pos = e.target.selectionEnd
+      setTimeout(
+        () => {
+          e.target.selectionStart = pos
+          e.target.selectionEnd = pos
+        }
+      )
       if (onChange) return onChange(e)
       if (onInput) return onInput(e)
     }
