@@ -14,7 +14,7 @@ if (!fs.existsSync(PROJECT_CONF_PATH)) {
   process.exit(1)
 }
 
-const { validators } = require('../dist/doctor')
+const { validators } = require('../dist/doctor').default
 
 const NOTE_ALL_RIGHT = chalk.green('[✓] ')
 const NOTE_VALID = chalk.yellow('[!] ')
