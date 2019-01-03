@@ -100,6 +100,8 @@ const otherApis = {
   saveImageToPhotosAlbum: true,
   startRecord: true,
   playVoice: true,
+  setInnerAudioOption: true,
+  getAvailableAudioSources: true,
   getBackgroundAudioPlayerState: true,
   playBackgroundAudio: true,
   seekBackgroundAudio: true,
