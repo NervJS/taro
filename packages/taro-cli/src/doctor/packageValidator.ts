@@ -1,5 +1,5 @@
-import _ from 'lodash/fp'
-import npmCheck from 'npm-check'
+import * as _ from 'lodash/fp'
+import * as npmCheck from 'npm-check'
 
 import { getPkgVersion } from '../util'
 

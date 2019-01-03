@@ -57,7 +57,7 @@ const joi2desc = {
   'number.precision': '',
   'number.ref': '',
   'number.unsafe': '',
-  'object.allowUnknown': '',
+  'object.allowUnknown': '不合法的字段',
   'object.and': '',
   'object.assert': '',
   'object.base': '应该为一个对象',

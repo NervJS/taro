@@ -6,7 +6,7 @@ const _ = require('lodash/fp')
 const ora = require('ora')
 const chalk = require('chalk')
 const fs = require('fs-extra')
-const { PROJECT_CONFIG } = require('../dist/util')
+const { PROJECT_CONFIG } = require('../dist/util/constants')
 const PROJECT_CONF_PATH = path.join(process.cwd(), PROJECT_CONFIG)
 
 if (!fs.existsSync(PROJECT_CONF_PATH)) {
@@ -57,7 +57,7 @@ program
 
 async function diagnose () {
   const spinner = ora('正在诊断项目...').start()
-  const reportsP = _.invokeMap(_.call, validators)
+  const reportsP = _.map(validator => validator(), validators)
   const reports = await Promise.all(reportsP)
   spinner.succeed('诊断完成')
   printReport(reports)

@@ -1,6 +1,6 @@
-import Joi from 'joi'
-import _ from 'lodash/fp'
-import path from 'path'
+import * as Joi from 'joi'
+import * as _ from 'lodash/fp'
+import * as path from 'path'
 import joi2desc from './joi2desc'
 import configSchema from './configSchema'
 

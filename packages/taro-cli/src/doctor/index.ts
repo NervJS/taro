@@ -1,8 +1,13 @@
+import configValidator from './configValidator';
+import packageValidator from './packageValidator';
+import recommandValidator from './recommandValidator';
+import eslintValidator from './eslintValidator';
+
 export default {
   validators: [
-    require('./configValidator'),
-    require('./packageValidator'),
-    require('./recommandValidator'),
-    require('./eslintValidator')
+    configValidator,
+    packageValidator,
+    recommandValidator,
+    eslintValidator
   ]
 }
