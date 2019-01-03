@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   'extends': ['taro'],
   'rules': {
     'no-unused-vars': ['error', { 'varsIgnorePattern': 'Taro' }],
