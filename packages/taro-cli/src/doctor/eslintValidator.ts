@@ -1,5 +1,5 @@
-import path from 'path'
-import _ from 'lodash'
+import * as path from 'path'
+import * as _ from 'lodash'
 import { CLIEngine } from 'eslint'
 
 import { PROJECT_CONFIG } from '../util/constants'

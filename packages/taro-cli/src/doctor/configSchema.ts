@@ -1,4 +1,4 @@
-import Joi from 'joi'
+import * as Joi from 'joi'
 
 const schema = Joi.object().keys({
   'projectName': Joi.string().required(),
@@ -85,17 +85,13 @@ const schema = Joi.object().keys({
     'miniCssExtractPluginOption': Joi.object(), // 第三方配置
 
     'module': Joi.object().keys({
-      'postcss': Joi.object().keys({
-        'autoprefixer': Joi.object().keys({
+      'postcss': Joi.object().pattern(
+        Joi.string(),
+        Joi.object().keys({
           'enable': Joi.bool(),
           'config': Joi.object() // 第三方配置
         }),
-        'pxtransform': Joi.object().keys({
-          'enable': Joi.bool(),
-          'config': Joi.object()
-        }),
-        'plugins': Joi.array() // 第三方配置
-      })
+      )
     })
   })
 })
