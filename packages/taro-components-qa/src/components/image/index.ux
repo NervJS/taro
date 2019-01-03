@@ -1,0 +1,84 @@
+<template>
+  <image
+    src="{{src}}"
+    alt="{{alt}}"
+    id="{{id}}"
+    class="taro_image {{className}}"
+    style="{{imageStyle}}"
+    onclick="handleClick"
+  >
+  </image>
+</template>
+
+<script>
+  export default {  
+    props: {
+      src: {
+        type: String,
+        required: true,
+        default: ''
+      },
+      alt: {
+        type: String,
+        required: false,
+        default: 'taro-img'
+      },
+      className: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      style: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      model: {
+        type: String,
+        required: false,
+        default: 'scaleToFill'
+      }
+    },
+
+    data: () => ({
+      resizeModel: 'contain',
+      imageStyle: {}
+    }),
+
+    onInit () {
+      this.imageStyle = Object.assign({}, this.style)
+      switch (this.model) {
+        case 'scaleToFill':
+          this.imageStyle['resize-mode'] = 'contain'
+          break;
+        case  'widthFix':
+          this.imageStyle['resize-mode'] = 'cover'
+          break;
+        default:
+          this.imageStyle['resize-mode'] = 'contain'
+      }
+    },
+
+    handleClick () {
+      this.$emit('click')
+    },
+
+    handleError () {
+      this.$emit('error')
+    }
+  }
+</script>
+
+<style>
+  .taro_image {
+    width: 300px;
+    height: 300px;
+    resize-mode: contain;
+  }
+
+</style>

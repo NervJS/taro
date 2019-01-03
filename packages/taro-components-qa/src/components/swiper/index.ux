@@ -1,0 +1,90 @@
+<template>
+  <swiper
+    class="taro_swiper {{className}}"
+    style="{{swiperStyle}}"
+    id="{{id}}"
+    autoplay="{{autoplay}}"
+    index="{{current}}"
+    interval="{{interval}}"
+    indicator="{{indicatorDots}}"
+    loop="{{circular}}"
+    @change="handleChange">
+    <slot></slot>
+  </swiper>
+</template>
+  
+<script>
+  export default {
+    props: {
+      className: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      autoplay: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      interval: {
+        type: Number,
+        required: false,
+        default: 3000
+      },
+      circular: {
+        type: Boolean,
+        required: false,
+        default: true
+      },
+      indicatorDots: {
+        type: Boolean,
+        required: false,
+        default: true
+      },
+      indicatorColor: {
+        type: String,
+        required: false,
+        default: 'rgba(0, 0, 0, .3)'
+      },
+      indicatorActiveColor: {
+        type: String,
+        required: false,
+        default: '000'
+      },
+      current: {
+        type: Number,
+        required: false,
+        default: 0
+      }
+
+    },
+
+    data: () => ({
+      swiperStyle: ''
+    }),
+
+    onInit () {
+      //indicator-color 填充颜色
+      //indicator-selected-color indicator选中时的颜色
+      //indicator-size indicator组件的直径大小
+      this.swiperStyle = {
+        'indicator-color': this.indicatorColor,
+        'indicator-selected-color': '#' + this.indicatorActiveColor
+      }
+    },
+    handleChange (e) {
+      this.$emit('change', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_swiper {
+    height: 250px;
+  }
+</style>
