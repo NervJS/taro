@@ -1,0 +1,155 @@
+<template>
+  <div
+    class="{{btnClass}}"
+    style="{{btnStyle}}"
+    id="{{id}}"
+    onclick="handleClick"
+    disabled="{{disabled}}"
+  >
+    <image show="{{loading}}" class="taro_btn_loading" src="{{loadingImg}}"></image>
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+  import LOADING_IMG from './img.js'
+  
+  export default {
+    props: {
+      className: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      style: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      size: {
+        type: String,
+        required: false,
+        default: 'default'
+      },
+      plain: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      loading: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      type: {
+        type: String,
+        required: false,
+        default: 'default'
+      }
+    },
+
+    data: () => ({
+      btnStyle: {},
+      btnClass: '',
+      loadingImg: LOADING_IMG,
+    }),
+
+    onInit () {
+
+      this.btnClass = this.plain ? 
+        `taro_button btn_plain btn_plain_${this.type}` 
+        : 
+        `taro_button ${this.className} btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`}`
+      this.btnStyle = Object.assign({}, this.style, this.btnStyle)
+    },
+
+    handleClick (e) {
+      this.$emit('click', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_button {
+    display: flex;
+    height: 46px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000000;
+    margin-top: 14px;
+  }
+  .btn_plain {
+    width: 100%;
+    height: 60px;
+    border-width: 1px;
+    color: #1AAD19;
+    background-color: transparent;
+  }
+  /*默认大小*/
+  .btn_size_default {
+    width: 100%;
+    height: 70px;
+  }
+  .btn_size_mini {
+    height: 60px;
+  }
+  /*按钮颜色*/
+  .btn_color_default {
+    background-color: #fff;
+  }
+  .btn_color_primary {
+    background-color: #1AAD19;
+  }
+  .btn_color_warn {
+    background-color: #E64340;
+  }
+  .disabled_default{
+    background-color: #F7F7F7;
+  }
+  .disabled_primary {
+    color: #fff;
+    background-color: #9ED99D;
+  }
+  .disabled_warn {
+    background-color: #EC8B89;
+  }
+  .btn_plain_primary {
+    color: #1AAD19;
+    border: 1px solid #1AAD19;
+  }
+  .btn_plain_default {
+    color: #353535;
+    border: 1px solid #353535;
+  }
+  .taro_btn_loading {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  @keyframes taroQuickLoading {
+    0% {
+      transform: rotate(0deg)
+    }
+    100% {
+      transform: rotate(360deg)
+    }
+  }
+
+</style>

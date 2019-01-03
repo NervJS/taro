@@ -1,0 +1,74 @@
+<template>
+  <textarea
+    class="{{className}}"
+    style="{{style}}"
+    id="{{id}}"
+    disabled="{{disabled}}"
+    maxlength="{{maxlength}}"
+    placeholder="{{placeholder}}"
+    @change="handleChange"
+    @focus="handleFocus"
+  >
+    {{value}}
+  </textarea>
+</template>
+
+<script>
+  export default {
+    props: {
+      className: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      style: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      maxlength: {
+        type: Number,
+        required: false,
+        default: 140
+      },
+      placeholderClass: {
+        type: String,
+        required: false,
+        default: 'textarea-placeholder'
+      },
+      value: {
+        type: String,
+        required: false,
+        default: ''
+      }
+    },
+
+    data: () => ({
+   
+    }),
+
+    onInit () {
+
+    },
+
+    handleChange (e) {
+      this.$emit('change', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_textarea {
+
+  }
+</style>
