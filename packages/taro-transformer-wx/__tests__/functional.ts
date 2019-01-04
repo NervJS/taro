@@ -19,8 +19,7 @@ describe('类函数式组件', () => {
     })
 
     const inst = evalClass(ast)
-    expect(inst.state.anonymousState__temp2).toEqual({})
-    expect(inst.$usedState.includes('anonymousState__temp2')).toBe(true)
+    expect(inst.state).toEqual({ tasks: [] })
 
     expect(template).toMatch(prettyPrint(`
     <template name="renderTest">
@@ -30,7 +29,7 @@ describe('类函数式组件', () => {
     </template>
     <block>
         <view>
-            <template is="renderTest" data="{{...anonymousState__temp2}}"></template>
+            <template is="renderTest"></template>
         </view>
     </block>
     `))
@@ -53,8 +52,7 @@ describe('类函数式组件', () => {
     })
 
     const inst = evalClass(ast)
-    expect(inst.state.anonymousState__temp).toEqual({})
-    expect(inst.$usedState.includes('anonymousState__temp')).toBe(true)
+    expect(inst.state).toEqual({ tasks: [] })
 
     expect(template).toMatch(prettyPrint(`
     <template name="renderTest">
@@ -64,7 +62,7 @@ describe('类函数式组件', () => {
     </template>
     <block>
         <view>
-            <template is="renderTest" data="{{...anonymousState__temp}}"></template>
+            <template is="renderTest"></template>
         </view>
     </block>
     `))

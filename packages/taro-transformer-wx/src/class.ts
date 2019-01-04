@@ -307,16 +307,21 @@ class Transformer {
                 const { object, property } = callee.node
                 if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
                   const name = property.name
-                  callPath.replaceWith(t.jSXElement(
-                    t.jSXOpeningElement(t.jSXIdentifier('Template'), [
-                      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
+                  const templateAttr = [
+                    t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name))
+                  ]
+                  if (args.length) {
+                    templateAttr.push(
                       t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
                         t.callExpression(t.memberExpression(
                           t.thisExpression(),
                           t.identifier(`_create${name.slice(6)}Data`)
                         ), args)
                       ))
-                    ]),
+                    )
+                  }
+                  callPath.replaceWith(t.jSXElement(
+                    t.jSXOpeningElement(t.jSXIdentifier('Template'), templateAttr),
                     t.jSXClosingElement(t.jSXIdentifier('Template')),
                     [],
                     false
