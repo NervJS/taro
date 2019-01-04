@@ -10,6 +10,8 @@ title: 环境判断
 
 `ENV_TYPE.ALIPAY` 支付宝小程序环境
 
+`ENV_TYPE.TT` 字节跳动小程序环境
+
 `ENV_TYPE.WEB` WEB(H5)环境
 
 `ENV_TYPE.RN` ReactNative 环境

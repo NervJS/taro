@@ -2,9 +2,11 @@ import { getCurrentPageUrl } from '@tarojs/utils'
 
 import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
+import { cacheDataGet, cacheDataHas } from './data-cache'
 
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
+const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -84,15 +86,15 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    const eventType = event.type.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(eventHandlerNameLower, '')
+        keyLower = keyLower.replace(/^on/, '').toLocaleLowerCase()
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
           bindArgs[argName] = dataset[key]
         }
       }
@@ -288,6 +290,10 @@ function createComponent (ComponentClass, isPage) {
         this.$component._init(this)
         this.$component.render = this.$component._createData
         this.$component.__propTypes = ComponentClass.propTypes
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
+        }
         Object.assign(this.$component.$router.params, options)
         this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])

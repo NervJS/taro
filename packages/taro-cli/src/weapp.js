@@ -79,7 +79,14 @@ let notTaroComponents = []
 const NODE_MODULES = 'node_modules'
 const NODE_MODULES_REG = /(.*)node_modules/
 
-const nodeModulesPath = path.join(appPath, NODE_MODULES)
+const nodeModulesPath = Util.recursiveFindNodeModules(path.join(appPath, NODE_MODULES))
+let npmOutputDir
+
+if (!weappNpmConfig.dir) {
+  npmOutputDir = path.join(outputDir, weappNpmConfig.name)
+} else {
+  npmOutputDir = path.join(path.resolve(configDir, '..', weappNpmConfig.dir), weappNpmConfig.name)
+}
 
 const PARSE_AST_TYPE = {
   ENTRY: 'ENTRY',
@@ -172,7 +179,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
       if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
         const vpath = path.resolve(sourceFilePath, '..', value)
         let fPath = value
-        if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
+        if (fs.existsSync(vpath) && vpath !== sourceFilePath) {
           fPath = vpath
         }
         if (scriptFiles.indexOf(fPath) < 0) {
@@ -238,7 +245,7 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
         let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
         let outputVpath
         if (NODE_MODULES_REG.test(vpath)) {
-          outputVpath = vpath.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+          outputVpath = vpath.replace(nodeModulesPath, npmOutputDir)
         } else {
           outputVpath = vpath.replace(sourceDir, outputDir)
         }
@@ -680,7 +687,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                   } else if (Util.REG_SCRIPT.test(valueExtname) || Util.REG_TYPESCRIPT.test(valueExtname)) {
                     const vpath = path.resolve(sourceFilePath, '..', value)
                     let fPath = value
-                    if (fs.existsSync(vpath) && !NODE_MODULES_REG.test(vpath)) {
+                    if (fs.existsSync(vpath) && vpath !== sourceFilePath) {
                       fPath = vpath
                     }
                     if (scriptFiles.indexOf(fPath) < 0) {
@@ -700,7 +707,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
                     if (NODE_MODULES_REG.test(vpath)) {
-                      outputVpath = vpath.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+                      outputVpath = vpath.replace(nodeModulesPath, npmOutputDir)
                     } else {
                       outputVpath = vpath.replace(sourceDir, outputDir)
                     }
@@ -913,7 +920,7 @@ function copyFilesFromSrcToOutput (files) {
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
-      outputFilePath = file.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name))
+      outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
       outputFilePath = file.replace(sourceDir, outputDir)
     }
@@ -968,6 +975,21 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
   return res.code
 }
 
+async function checkCliAndFrameworkVersion () {
+  const frameworkName = `@tarojs/taro-${buildAdapter}`
+  const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+  if (frameworkVersion) {
+    if (frameworkVersion !== Util.getPkgVersion()) {
+      Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
+      console.log(`Taro CLI: ${Util.getPkgVersion()}`)
+      console.log(`${frameworkName}: ${frameworkVersion}`)
+      process.exit(1)
+    }
+  } else {
+    Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
+  }
+}
+
 function buildProjectConfig () {
   let projectConfigFileName = `project.${buildAdapter}.json`
   if (buildAdapter === Util.BUILD_TYPES.WEAPP) {
@@ -987,6 +1009,30 @@ function buildProjectConfig () {
     JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
   )
   Util.printLog(Util.pocessTypeEnum.GENERATE, '工具配置', `${outputDirName}/${projectConfigFileName}`)
+}
+
+async function buildFrameworkInfo () {
+  // 百度小程序编译出 .frameworkinfo 文件
+  if (buildAdapter === Util.BUILD_TYPES.SWAN) {
+    const frameworkInfoFileName = '.frameworkinfo'
+    const frameworkName = `@tarojs/taro-${buildAdapter}`
+    const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+    if (frameworkVersion) {
+      const frameworkinfo = {
+        toolName: 'Taro',
+        toolCliVersion: Util.getPkgVersion(),
+        toolFrameworkVersion: frameworkVersion,
+        createTime: new Date(projectConfig.date).getTime()
+      }
+      fs.writeFileSync(
+        path.join(outputDir, frameworkInfoFileName),
+        JSON.stringify(frameworkinfo, null, 2)
+      )
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '框架信息', `${outputDirName}/${frameworkInfoFileName}`)
+    } else {
+      Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
+    }
+  }
 }
 
 function buildWorkers (worker) {
@@ -1320,10 +1366,13 @@ async function buildSinglePage (page) {
             pageDepComponents.forEach(depComponent => {
               if (depComponent.name === component.name) {
                 let componentPath = component.path
+                let realPath
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, `${CONFIG.SOURCE_DIR}/${weappNpmConfig.name}`)
+                  componentPath = componentPath.replace(nodeModulesPath, npmOutputDir)
+                  realPath = Util.promoteRelativePath(path.relative(outputPageJSPath, componentPath))
+                } else {
+                  realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 }
-                const realPath = Util.promoteRelativePath(path.relative(pageJs, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
             })
@@ -1515,7 +1564,8 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
         let newStylePath = stylePath
         newStylePath = stylePath.replace('~', '')
         const npmInfo = resolveNpmFilesPath(newStylePath, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
-        return str.replace(stylePath, npmInfo.main)
+        const importRelativePath = Util.promoteRelativePath(path.relative(filePath, npmInfo.main))
+        return str.replace(stylePath, importRelativePath)
       }
       return str
     })
@@ -1641,7 +1691,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   if (NODE_MODULES_REG.test(componentShowPath)) {
     isComponentFromNodeModules = true
     sourceDirPath = nodeModulesPath
-    buildOutputDir = path.join(outputDir, weappNpmConfig.name)
+    buildOutputDir = npmOutputDir
   }
   let outputComponentShowPath = componentShowPath.replace(isComponentFromNodeModules ? NODE_MODULES : sourceDirName, buildConfig.outputDirName || outputDirName)
   outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
@@ -1754,10 +1804,13 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
             componentDepComponents.forEach(depComponent => {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
+                let realPath
                 if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(NODE_MODULES, `${weappNpmConfig.name}`)
+                  componentPath = componentPath.replace(nodeModulesPath, npmOutputDir)
+                  realPath = Util.promoteRelativePath(path.relative(outputComponentJSPath, componentPath))
+                } else {
+                  realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 }
-                const realPath = Util.promoteRelativePath(path.relative(component, componentPath))
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
             })
@@ -1813,7 +1866,7 @@ function compileDepScripts (scriptFiles) {
     if (path.isAbsolute(item)) {
       let outputItem
       if (NODE_MODULES_REG.test(item)) {
-        outputItem = item.replace(nodeModulesPath, path.join(outputDir, weappNpmConfig.name)).replace(path.extname(item), '.js')
+        outputItem = item.replace(nodeModulesPath, npmOutputDir).replace(path.extname(item), '.js')
       } else {
         outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
       }
@@ -2036,8 +2089,8 @@ function watchFiles () {
             modifySource = modifySource.split(path.sep).join('/')
             Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
             if (NODE_MODULES_REG.test(outputWXSSPath)) {
-              let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
-              let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+              let sourceNodeModulesDir = nodeModulesPath
+              let outputNodeModulesDir = npmOutputDir
               outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
             } else {
               outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
@@ -2066,8 +2119,8 @@ function watchFiles () {
           modifySource = modifySource.split(path.sep).join('/')
           Util.printLog(Util.pocessTypeEnum.MODIFY, '样式文件', modifySource)
           if (NODE_MODULES_REG.test(outputWXSSPath)) {
-            let sourceNodeModulesDir = path.join(appPath, NODE_MODULES)
-            let outputNodeModulesDir = path.join(outputDir, weappNpmConfig.name)
+            let sourceNodeModulesDir = nodeModulesPath
+            let outputNodeModulesDir = npmOutputDir
             outputWXSSPath = outputWXSSPath.replace(sourceNodeModulesDir, outputNodeModulesDir)
           } else {
             outputWXSSPath = outputWXSSPath.replace(sourceDir, outputDir)
@@ -2110,7 +2163,9 @@ async function build ({ watch, adapter }) {
   constantsReplaceList = Object.assign({}, constantsReplaceList, {
     'process.env.TARO_ENV': buildAdapter
   })
+  await checkCliAndFrameworkVersion()
   buildProjectConfig()
+  await buildFrameworkInfo()
   copyFiles()
   appConfig = await buildEntry()
   await buildPages()

@@ -1,5 +1,7 @@
 import { CSSProperties } from 'react';
 
+export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
+
 export interface StandardProps extends EventProps {
   /**
    * 组件的唯一标示, 保持整个页面唯一
@@ -68,44 +70,55 @@ interface EventProps {
   /**
    * 手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发
    */
-  onLongPress?: (event: BaseEvent) => any,
+  onLongPress?: (event: CommonEvent) => any,
 
   /**
    * 手指触摸后，超过350ms再离开（推荐使用longpress事件代替）
    */
-  onLongClick?: (event: BaseEvent) => any,
+  onLongClick?: (event: CommonEvent) => any,
 
   /**
    * 会在 WXSS transition 或 wx.createAnimation 动画结束后触发
    */
-  onTransitionEnd?: (event: BaseEvent) => any,
+  onTransitionEnd?: (event: CommonEvent) => any,
 
   /**
    * 会在一个 WXSS animation 动画开始时触发
    */
-  onAnimationStart?: (event: BaseEvent) => any,
+  onAnimationStart?: (event: CommonEvent) => any,
 
   /**
    * 会在一个 WXSS animation 一次迭代结束时触发
    */
-  onAnimationIteration?: (event: BaseEvent) => any,
+  onAnimationIteration?: (event: CommonEvent) => any,
 
   /**
    * 会在一个 WXSS animation 动画完成时触发
    */
-  onAnimationEnd?: (event: BaseEvent) => any,
+  onAnimationEnd?: (event: CommonEvent) => any,
 
   /**
    * 在支持 3D Touch 的 iPhone 设备，重按时会触发
    */
-  onTouchForceChange?: (event: BaseEvent) => any
+  onTouchForceChange?: (event: CommonEvent) => any
 }
 
-export type BaseEventFunction = (event: BaseEvent) => any
+export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => any
 
+export type BaseEventFunction = BaseEventOrigFunction<any>
+                                              
 export type TouchEventFunction = (event: ITouchEvent) => any
 
-interface BaseEvent {
+/**
+ * @deprecated 建议弃用，逐步使用CommonEvent替换
+ */
+export type BaseEvent = BaseEventOrig<any>
+    
+export type CommonEvent = BaseEventOrig<any>
+
+export type CommonEventFunction = BaseEventOrigFunction<any>
+
+interface BaseEventOrig<T> {
   /**
    * 事件类型
    */
@@ -129,10 +142,20 @@ interface BaseEvent {
   /**
    * 额外的信息
    */
-  detail: any
+  detail: T,
+  
+  /**
+  * 阻止元素发生默认的行为
+  */
+  preventDefault: () => void,
+  
+  /**
+  * 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行
+  */
+  stopPropagation: () => void
 }
 
-interface ITouchEvent extends BaseEvent {
+interface ITouchEvent extends BaseEventOrig<any> {
   /**
    * 触摸事件，当前停留在屏幕中的触摸点信息的数组
    */

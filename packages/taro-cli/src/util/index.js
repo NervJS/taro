@@ -190,11 +190,14 @@ exports.isAliasPath = function (name, pathAlias = {}) {
   if (prefixs.length === 0) {
     return false
   }
-  return new RegExp(`^(${prefixs.join('|')})/`).test(name)
+  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
 }
 
 exports.replaceAliasPath = function (filePath, name, pathAlias = {}) {
   const prefixs = Object.keys(pathAlias)
+  if (prefixs.includes(name)) {
+    return exports.promoteRelativePath(path.relative(filePath, pathAlias[name]))
+  }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
   name = name.replace(reg, function (m, $1, $2) {
     return exports.promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
@@ -533,7 +536,16 @@ exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
 }
 /* eslint-enable */
 
-exports.UPDATE_PACKAGE_LIST =  [
+exports.recursiveFindNodeModules = function (filePath) {
+  const dirname = path.dirname(filePath)
+  const nodeModules = path.join(dirname, 'node_modules')
+  if (fs.existsSync(nodeModules)) {
+    return nodeModules
+  }
+  return exports.recursiveFindNodeModules(dirname)
+}
+
+exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/taro',
   '@tarojs/async-await',
   '@tarojs/cli',
@@ -571,3 +583,14 @@ exports.UPDATE_PACKAGE_LIST =  [
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
+
+exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
+  const resolvePath = require('resolve')
+  try {
+    const pkg = resolvePath.sync(`${pkgName}/package.json`, { basedir })
+    const pkgJson = fs.readJSONSync(pkg)
+    return pkgJson.version
+  } catch (err) {
+    return null
+  }
+}

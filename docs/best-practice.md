@@ -260,6 +260,50 @@ class Index extends Component {
 }
 ```
 
+### 在小程序中，可以使用 this.$preload 函数进行页面跳转传参
+
+用法：`this.$preload(key:String|Object, [value: Any])`
+
+之所以命名为 $preload，因为它也有一点预加载数据的意味。
+
+如果觉得每次页面跳转传参时，需要先把参数 stringify 后加到 url 的查询字符串中很繁琐，可以利用 `this.$preload` 进行传参。
+
+另外如果传入的是下一个页面的数据请求 promise，也有上一点提到的“预加载”功能，也能够绕过 componentWillMount 延时。不同点主要在于代码管理，开发者可酌情使用。
+
+例子:
+
+```js
+// 传入单个参数
+
+// A 页面
+// 调用跳转方法前使用 this.$preload
+this.$preload('key', 'val')
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B 页面
+// 可以于 this.$router.preload 中访问到 this.$preload 传入的参数
+componentWillMount () {
+  console.log('preload: ', this.$router.preload.key)
+}
+```
+
+
+```js
+// 传入多个参数
+
+// A 页面
+this.$preload({
+  x: 1,
+  y: 2
+})
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B 页面
+componentWillMount () {
+  console.log('preload: ', this.$router.preload)
+}
+```
+
 ## 全局变量
 
 在 Taro 中推荐使用 `Redux` 来进行全局变量的管理，但是对于一些小型的应用， `Redux` 就可能显得比较重了，这时候如果想使用全局变量，推荐如下使用。

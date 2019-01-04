@@ -329,7 +329,8 @@ const getModule = ({
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   if (Array.isArray(esnextModules) && esnextModules.length) {
-    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]${v}`))
+    /* cnpm 安装的模块名前带下划线 `_` */
+    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`));
     /**
      * isEsnextModule
      * 

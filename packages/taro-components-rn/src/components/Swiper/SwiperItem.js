@@ -5,10 +5,12 @@
 import * as React from 'react'
 import {
   // Text,
-  View,
+  // View,
   StyleSheet,
 } from 'react-native'
+import View from '../View'
 import styles from './styles'
+import utils from '../../utils'
 
 type Props = {
   children?: React.Node,
@@ -33,7 +35,10 @@ class _SwiperItem extends React.Component<Props> {
     } = this.props
 
     return (
-      <View style={[styles.page, style]}>
+      <View
+        {...utils.omit(this.props, ['style'])}
+        style={[styles.page, style]}
+      >
         {children}
       </View>
     )

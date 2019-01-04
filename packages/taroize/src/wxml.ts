@@ -2,12 +2,10 @@ import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
-import * as fs from 'fs'
-import { resolve } from 'path'
 import { reserveKeyWords } from './constant'
 import { parseExpression } from 'babylon'
 
@@ -61,9 +59,10 @@ type AttrValue =
   | t.JSXExpressionContainer
   | null
 
-interface Imports {
+export interface Imports {
   ast: t.File,
-  name: string
+  name: string,
+  wxs?: boolean
 }
 
 const WX_IF = 'wx:if'
@@ -72,6 +71,16 @@ const WX_FOR = 'wx:for'
 const WX_FOR_ITEM = 'wx:for-item'
 const WX_FOR_INDEX = 'wx:for-index'
 const WX_KEY = 'wx:key'
+
+export const wxTemplateCommand = [
+  WX_IF,
+  WX_ELSE_IF,
+  WX_FOR,
+  WX_FOR_ITEM,
+  WX_FOR_INDEX,
+  WX_KEY,
+  'wx:else'
+]
 
 function buildElement (
   name: string,
@@ -91,8 +100,7 @@ export const createWxmlVistor = (
   refIds: Set<string>,
   dirPath: string,
   wxses: WXS[] = [],
-  imports: Imports[] = [],
-  className?: string
+  imports: Imports[] = []
 ) => {
   return {
     JSXAttribute (path) {
@@ -112,8 +120,18 @@ export const createWxmlVistor = (
         }
       }
     },
-    BlockStatement () {
-      // debugger
+    JSXIdentifier (path) {
+      const nodeName = path.node.name
+      if (path.parentPath.isJSXAttribute()) {
+        if (nodeName === WX_KEY) {
+          path.replaceWith(t.jSXIdentifier('key'))
+        }
+        if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+          // tslint:disable-next-line
+          console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
+          path.parentPath.remove()
+        }
+      }
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
@@ -135,11 +153,38 @@ export const createWxmlVistor = (
             refIds.add(p.node.name)
           }
         })
+        const slotAttr = attrs.find(a => a.node.name.name === 'slot')
+        if (slotAttr) {
+          const slotValue = slotAttr.node.value
+          if (slotValue && t.isStringLiteral(slotValue)) {
+            const slotName = slotValue.value
+            const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
+            if (parentComponent && parentComponent.isJSXElement()) {
+              slotAttr.remove()
+              parentComponent.node.openingElement.attributes.push(
+                t.jSXAttribute(
+                  t.jSXIdentifier(`render${slotName[0].toUpperCase() + slotName.slice(1)}`),
+                  t.jSXExpressionContainer(cloneDeep(path.node))
+                )
+              )
+              path.remove()
+            }
+          } else {
+            throw codeFrameError(slotValue, 'slot 的值必须是一个字符串')
+          }
+        }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
+          const nameAttr = attrs.find(a => a.node.name.name === 'name')
+          let slotName = ''
+          if (nameAttr && nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
+            slotName = nameAttr.node.value.value
+          } else {
+            throw codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+          }
           const children = t.memberExpression(
             t.memberExpression(t.thisExpression(), t.identifier('props')),
-            t.identifier('children')
+            t.identifier(slotName ? `render${slotName[0].toUpperCase() + slotName.slice(1)}` : 'children')
           )
           try {
             path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
@@ -148,7 +193,7 @@ export const createWxmlVistor = (
           }
         }
         if (tagName === 'Wxs') {
-          wxses.push(getWXS(attrs.map(a => a.node), path, dirPath))
+          wxses.push(getWXS(attrs.map(a => a.node), path, imports))
         }
         if (tagName === 'Template') {
           const template = parseTemplate(path, dirPath)
@@ -181,7 +226,7 @@ export const createWxmlVistor = (
               }
             })
             usedTemplate.forEach(componentName => {
-              if (componentName !== className) {
+              if (componentName !== classDecl.id.name) {
                 ast.program.body.unshift(
                   buildImportStatement(`./${componentName}`, [], componentName)
                 )
@@ -263,7 +308,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports))
 
   refIds.forEach(id => {
-    if (loopIds.has(id)) {
+    if (loopIds.has(id) || imports.filter(i => i.wxs).map(i => i.name).includes(id)) {
       refIds.delete(id)
     }
   })
@@ -276,7 +321,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   }
 }
 
-function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, dirPath: string): WXS {
+function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports: Imports[]): WXS {
   let moduleName: string | null = null
   let src: string | null = null
 
@@ -311,7 +356,11 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, dirPath:
       throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
     }
     src = './wxs__' + moduleName
-    fs.writeFileSync(resolve(dirPath, src + '.wxs'), script.value)
+    imports.push({
+      ast: parseCode(script.value),
+      name: moduleName as string,
+      wxs: true
+    })
   }
 
   if (!moduleName || !src) {
@@ -380,9 +429,6 @@ function transformLoop (
           index = node.value
           p.remove()
         }
-        if (node.name.name === WX_KEY) {
-          p.get('name').replaceWith(t.jSXIdentifier('key'))
-        }
       })
 
     const replacement = t.jSXExpressionContainer(
@@ -424,7 +470,7 @@ function transformIf (
   const conditions: Condition[] = []
   let siblings: NodePath<t.Node>[] = []
   try {
-    siblings = jsx.getAllNextSiblings()
+    siblings = jsx.getAllNextSiblings().filter(s => !(s.isJSXExpressionContainer() && s.get('expression').isJSXEmptyExpression()))
   } catch (error) {
     return
   }

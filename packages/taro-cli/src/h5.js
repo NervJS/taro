@@ -397,10 +397,7 @@ function processEntry (code, filePath) {
               /* TODO windows下路径处理可能有问题 ../../lib/utils.js */
               const dirname = path.dirname(value)
               const extname = path.extname(value)
-              node.source = t.stringLiteral(path.format({
-                dir: dirname,
-                base: path.basename(value, extname)
-              }))
+              node.source = t.stringLiteral(path.join(dirname, path.basename(value, extname)).replace(/\\/g, '/'))
             }
           }
           return
@@ -659,10 +656,7 @@ function processOthers (code, filePath, fileType) {
           if (Util.REG_SCRIPTS.test(value)) {
             const dirname = path.dirname(value)
             const extname = path.extname(value)
-            node.source = t.stringLiteral(path.format({
-              dir: dirname,
-              base: path.basename(value, extname)
-            }))
+            node.source = t.stringLiteral(path.join(dirname, path.basename(value, extname)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {
           let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
@@ -975,5 +969,6 @@ async function build (buildConfig) {
 
 module.exports = {
   build,
-  buildTemp
+  buildTemp,
+  processFiles
 }

@@ -8,7 +8,7 @@ const template = require('babel-template')
 const wxTransformer = require('@tarojs/transformer-wx')
 const Util = require('../util')
 const babylonConfig = require('../config/babylon')
-const { source: toAst } = require('../util/ast_convert')
+const {source: toAst} = require('../util/ast_convert')
 
 const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
@@ -51,7 +51,7 @@ function getInitPxTransformNode (projectConfig) {
   return initPxTransformNode
 }
 
-function getClassPropertyVisitor ({ filePath, pages, iconPaths, isEntryFile }) {
+function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
   return (astPath) => {
     const node = astPath.node
     const key = node.key

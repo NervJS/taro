@@ -2518,7 +2518,7 @@ const query = Taro.createSelectorQuery()
 
 将选择器的选取范围更改为自定义组件 component 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
 
-注意：对 h5 侧不起作用，h5 侧还是从全局查找。
+注意：H5 端传 this 而不是传 this.$scope。
 
 **示例代码：**
 
@@ -2527,7 +2527,11 @@ import Taro from '@tarojs/taro'
 
 Component({
   ready () {
-    const query = Taro.createSelectorQuery().in(this.$scope)
+    if (process.env.TARO_ENV === 'h5') {
+      const query = Taro.createSelectorQuery().in(this)
+    } else {
+      const query = Taro.createSelectorQuery().in(this.$scope)
+    }
   }
 })
 ```

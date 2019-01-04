@@ -126,7 +126,7 @@ import Utils from '@utils'
 
 ### copy.patterns
 
-用来指定需要拷贝的文件或者目录，**数组类型**，每一项都必须包含 `from` 、`to` 的配置，分别代码来源和需要拷贝到的目录，同时可以设置 `ignore` 配置来指定需要忽略的文件， `ignore` 是指定的 [glob](https://github.com/isaacs/node-glob) 类型字符串，或者 glob 字符串数组。
+用来指定需要拷贝的文件或者目录，**数组类型**，每一项都必须包含 `from` 、`to` 的配置，分别代表来源和需要拷贝到的目录，同时可以设置 `ignore` 配置来指定需要忽略的文件， `ignore` 是指定的 [glob](https://github.com/isaacs/node-glob) 类型字符串，或者 glob 字符串数组。
 
 值得注意的是，目前 `from` 必须指定存在的文件或者目录，暂不支持 glob 格式， `from` 和 `to` 直接置顶项目根目录下的文件目录，建议 `from` 以 `src` 目录开头，`to` 以 `dist` 目录开头。
 
@@ -233,6 +233,14 @@ devServer: {
 ```js
 devServer: {
   https: true
+}
+```
+### h5.output
+输出配置
+```js
+output: {
+  filename: 'js/[name].[hash:8].js',
+  chunkFilename: 'js/[name].[chunkhash:8].js'
 }
 ```
 
@@ -399,6 +407,18 @@ h5: {
 extract 功能开关，开启后将使用`mini-css-extract-plugin`分离 css 文件，
 可通过`h5.miniCssExtractPluginOption`对插件进行配置。
 dev 状态默认 **关**，prod 状态默认 **开**。
+
+### h5.esnextModules
+
+配置需要额外的编译的源码模块，比如[taro-ui](https://github.com/NervJS/taro-ui)：
+
+```javascript
+h5: {
+  // 经过这一配置之后，代码中引入的处于`node_modules/taro-ui/`路径下的源码文件均会经过taro的编译处理。
+  esnextModules: ['taro-ui'],
+  ...
+}
+```
 
 ### h5.cssLoaderOption
 

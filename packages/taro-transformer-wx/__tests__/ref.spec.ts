@@ -122,6 +122,24 @@ describe('ref', () => {
       expect(template).toMatch(` + index}}"`)
     })
 
+    test('内置组件 + 其它复杂表达式', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [] }, { list: [] }]
+          return (
+            <View>{array.map((item, index) => {
+              return <CoverView style={item} ref={(node) => this.coverView[index] = node}>{item.list.map(item2 => <Text>{item2}</Text>)}</CoverView>
+            })}</View>
+          )
+        `, `coverView = []`)
+      })
+      // console.log(instance)
+      const instance = evalClass(ast)
+      expect(instance.coverView).toEqual(['test-ref', 'test-ref'])
+    })
+
     test('自定义组件组件', () => {
       const { template, ast, code } = transform({
         ...baseOptions,
