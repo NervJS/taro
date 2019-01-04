@@ -298,34 +298,51 @@ class Transformer {
                   }
                 }
               },
-              CallExpression (callPath) {
-                const callee = callPath.get('callee')
-                if (!callee.isMemberExpression()) {
-                  return
-                }
-                const args = callPath.node.arguments
-                const { object, property } = callee.node
-                if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
-                  const name = property.name
-                  const templateAttr = [
-                    t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name))
-                  ]
-                  if (args.length) {
-                    templateAttr.push(
-                      t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
-                        t.callExpression(t.memberExpression(
-                          t.thisExpression(),
-                          t.identifier(`_create${name.slice(6)}Data`)
-                        ), args)
-                      ))
-                    )
+              CallExpression: {
+                enter (callPath: NodePath<t.CallExpression>) {
+                  const callee = callPath.get('callee')
+                  if (!callee.isMemberExpression()) {
+                    return
                   }
-                  callPath.replaceWith(t.jSXElement(
-                    t.jSXOpeningElement(t.jSXIdentifier('Template'), templateAttr),
-                    t.jSXClosingElement(t.jSXIdentifier('Template')),
-                    [],
-                    false
-                  ))
+                  const args = callPath.node.arguments
+                  const { object, property } = callee.node
+                  if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
+                    const name = property.name
+                    const templateAttr = [
+                      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name))
+                    ]
+                    if (args.length) {
+                      templateAttr.push(
+                        t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
+                          t.callExpression(t.memberExpression(
+                            t.thisExpression(),
+                            t.identifier(`_create${name.slice(6)}Data`)
+                          ), args)
+                        ))
+                      )
+                    }
+                    callPath.replaceWith(t.jSXElement(
+                      t.jSXOpeningElement(t.jSXIdentifier('Template'), templateAttr),
+                      t.jSXClosingElement(t.jSXIdentifier('Template')),
+                      [],
+                      false
+                    ))
+                  }
+                },
+                exit (callPath: NodePath<t.CallExpression>) {
+                  const jsxExpr = callPath.parentPath
+                  if (!jsxExpr.isJSXExpressionContainer()) {
+                    return
+                  }
+                  const jsxAttr = jsxExpr.parentPath
+                  if (!jsxAttr.isJSXAttribute()) {
+                    return
+                  }
+                  const { name: attrName } = jsxAttr.node
+                  if (!t.isJSXIdentifier(attrName, { name: 'data' })) {
+                    return
+                  }
+                  generateAnonymousState(callPath.scope, callPath, self.refIdMap.get(path)!)
                 }
               }
             })
