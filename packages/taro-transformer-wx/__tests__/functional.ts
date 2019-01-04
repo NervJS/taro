@@ -2,108 +2,279 @@ import transform from '../src'
 import { buildComponent, baseOptions, evalClass, prettyPrint } from './utils'
 
 describe('类函数式组件', () => {
-  test('简单情况', () => {
-    const { template, ast, code } = transform({
-      ...baseOptions,
-      isRoot: true,
-      code: buildComponent(`
-        const array = [{ list: [] }]
-        return (
-          <View>{this.renderTest()}</View>
-        )
-      `, `state = { tasks: [] }; renderTest () {
-        return (
-          <View>abc</View>
-        )
-      }`)
+  describe('不传参', () => {
+    test('简单情况', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [] }]
+          return (
+            <View>{this.renderTest()}</View>
+          )
+        `, `state = { tasks: [] }; renderTest () {
+          return (
+            <View>abc</View>
+          )
+        }`)
+      })
+
+      const inst = evalClass(ast)
+      expect(inst.state).toEqual({ tasks: [] })
+
+      expect(template).toMatch(prettyPrint(`
+      <template name="renderTest">
+          <block>
+              <view>abc</view>
+          </block>
+      </template>
+      <block>
+          <view>
+              <template is="renderTest"></template>
+          </view>
+      </block>
+      `))
     })
 
-    const inst = evalClass(ast)
-    expect(inst.state).toEqual({ tasks: [] })
+    test('命名为变量', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const test = this.renderTest()
+          return (
+            <View>{test}</View>
+          )
+        `, `state = { tasks: [] }; renderTest () {
+          return (
+            <View>abc</View>
+          )
+        }`)
+      })
 
-    expect(template).toMatch(prettyPrint(`
-    <template name="renderTest">
+      const inst = evalClass(ast)
+      expect(inst.state).toEqual({ tasks: [] })
+
+      expect(template).toMatch(prettyPrint(`
+      <template name="renderTest">
+          <block>
+              <view>abc</view>
+          </block>
+      </template>
+      <block>
+          <view>
+              <template is="renderTest"></template>
+          </view>
+      </block>
+      `))
+    })
+
+    test('循环', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const test = this.renderTest()
+          return (
+            <View>{this.state.tasks.map(i => {
+              return <Block>{this.renderTest()}</Block>
+            })}</View>
+          )
+        `, `state = { tasks: [] }; renderTest () {
+          return (
+            <View>abc</View>
+          )
+        }`)
+      })
+
+      const inst = evalClass(ast)
+      expect(inst.state).toEqual({ tasks: [] })
+
+      expect(template).toMatch(prettyPrint(`
+        <template name="renderTest">
+            <block>
+                <view>abc</view>
+            </block>
+        </template>
         <block>
-            <view>abc</view>
+            <view>
+                <block wx:for="{{tasks}}" wx:for-item="i">
+                    <template is="renderTest"></template>
+                </block>
+            </view>
         </block>
-    </template>
-    <block>
-        <view>
-            <template is="renderTest"></template>
-        </view>
-    </block>
-    `))
+      `))
+    })
+
+    test('在循环中直接 return', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const test = this.renderTest()
+          return (
+            <View>{this.state.tasks.map(i => this.renderTest())}</View>
+          )
+        `, `state = { tasks: [] }; renderTest () {
+          return (
+            <View>abc</View>
+          )
+        }`)
+      })
+
+      const inst = evalClass(ast)
+      expect(inst.state).toEqual({ tasks: [] })
+
+      expect(template).toMatch(prettyPrint(`
+        <template name=\"renderTest\">
+            <block>
+                <view>abc</view>
+            </block>
+        </template>
+        <block>
+            <view>
+                <template is=\"renderTest\" wx:for=\"{{tasks}}\" wx:for-item=\"i\"></template>
+            </view>
+        </block>
+      `))
+    })
   })
 
-  test('命名为变量', () => {
-    const { template, ast, code } = transform({
-      ...baseOptions,
-      isRoot: true,
-      code: buildComponent(`
-        const test = this.renderTest()
-        return (
-          <View>{test}</View>
-        )
-      `, `state = { tasks: [] }; renderTest () {
-        return (
-          <View>abc</View>
-        )
-      }`)
+  describe('传参', () => {
+
+    test('简单情况', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [] }]
+          return (
+            <View>{this.renderTest([])}</View>
+          )
+        `, `state = { tasks: [] }; renderTest (p) {
+          return (
+            <View>{p}</View>
+          )
+        }`)
+      })
+
+      const inst = evalClass(ast)
+      expect(inst.state.anonymousState__temp).toEqual({ p: [] })
+      expect(template).toMatch(prettyPrint(`
+      <template name="renderTest">
+          <block>
+              <view>{{p}}</view>
+          </block>
+      </template>
+      <block>
+          <view>
+              <template is="renderTest" data="{{...anonymousState__temp}}"></template>
+          </view>
+      </block>
+      `))
     })
 
-    const inst = evalClass(ast)
-    expect(inst.state).toEqual({ tasks: [] })
+    test('命名为变量', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const test = this.renderTest([])
+          return (
+            <View>{test}</View>
+          )
+        `, `state = { tasks: [] }; renderTest (p) {
+          return (
+            <View>{p}</View>
+          )
+        }`)
+      })
 
-    expect(template).toMatch(prettyPrint(`
-    <template name="renderTest">
-        <block>
-            <view>abc</view>
-        </block>
-    </template>
-    <block>
-        <view>
-            <template is="renderTest"></template>
-        </view>
-    </block>
-    `))
-  })
+      const inst = evalClass(ast)
+      expect(inst.state.anonymousState__temp).toEqual({ p: [] })
 
-  test.skip('在循环中直接 return', () => {
-    const { template, ast, code } = transform({
-      ...baseOptions,
-      isRoot: true,
-      code: buildComponent(`
-        const test = this.renderTest()
-        return (
-          <View>{this.state.tasks.map(i => {
-            return <Block>{this.renderTest()}</Block>
-          })}</View>
-        )
-      `, `state = { tasks: [] }; renderTest () {
-        return (
-          <View>abc</View>
-        )
-      }`)
+      expect(template).toMatch(prettyPrint(`
+      <template name="renderTest">
+          <block>
+              <view>{{p}}</view>
+          </block>
+      </template>
+      <block>
+          <view>
+              <template is="renderTest" data="{{...anonymousState__temp}}"></template>
+          </view>
+      </block>
+      `))
     })
 
-    const inst = evalClass(ast)
-    // console.log(code)
-    // console.log(template)
-    expect(inst.state.anonymousState__temp).toEqual({})
-    expect(inst.$usedState.includes('anonymousState__temp')).toBe(true)
+    test('循环', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return (
+            <View>{this.state.tasks.map(i => {
+              return <Block>{this.renderTest([])}</Block>
+            })}</View>
+          )
+        `, `state = { tasks: [] }; renderTest (p) {
+          return (
+            <View>{p}</View>
+          )
+        }`)
+      })
 
-    expect(template).toMatch(prettyPrint(`
-    <template name="renderTest">
+      const inst = evalClass(ast)
+      expect(inst.state).toEqual({ tasks: [], loopArray0: [] })
+
+      expect(template).toMatch(prettyPrint(`
+      <template name=\"renderTest\">
+      <block>
+          <view>{{p}}</view>
+      </block>
+  </template>
+  <block>
+      <view>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"i\">
+              <template is=\"renderTest\" data=\"{{...i.$loopState__temp2}}\"></template>
+          </block>
+      </view>
+  </block>
+      `))
+    })
+
+    test('在循环中直接 return', () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const test = this.renderTest()
+          return (
+            <View>{this.state.tasks.map(i => this.renderTest())}</View>
+          )
+        `, `state = { tasks: [] }; renderTest () {
+          return (
+            <View>abc</View>
+          )
+        }`)
+      })
+
+      const inst = evalClass(ast)
+      expect(inst.state).toEqual({ tasks: [] })
+
+      expect(template).toMatch(prettyPrint(`
+        <template name=\"renderTest\">
+            <block>
+                <view>abc</view>
+            </block>
+        </template>
         <block>
-            <view>abc</view>
+            <view>
+                <template is=\"renderTest\" wx:for=\"{{tasks}}\" wx:for-item=\"i\"></template>
+            </view>
         </block>
-    </template>
-    <block>
-        <view>
-            <template is="renderTest" data="{{...anonymousState__temp}}"></template>
-        </view>
-    </block>
-    `))
+      `))
+    })
   })
 })
 

@@ -1278,7 +1278,7 @@ export class RenderParser {
           if (jsxAttr && t.isJSXIdentifier(jsxAttr.node.name) && jsxAttr.node.name.name.startsWith('on')) {
             return
           }
-          if (t.isIdentifier(id)) {
+          if (t.isIdentifier(id) && !(id.name.startsWith('_create') && id.name.endsWith('Data'))) {
             this.referencedIdentifiers.add(id)
             this.usedThisProperties.add(id.name)
           }
