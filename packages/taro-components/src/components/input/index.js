@@ -188,4 +188,8 @@ class Input extends Nerv.Component {
   }
 }
 
+Input.defaultProps = {
+  type: 'text'
+}
+
 export default Input
