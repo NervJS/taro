@@ -15,6 +15,7 @@ import toast from './api/WxToast'
 import showModal from './api/WxModal'
 import showActionSheet from './api/WxActionSheet'
 import previewImage from './api/WxPreviewImage'
+import web from './api/web'
 
 function processApis (taro) {
   const weApis = Object.assign({}, onAndSyncApis, noPromiseApis, otherApis)
@@ -45,6 +46,7 @@ export default function initNativeApi (taro) {
     network,
     clipboard,
     phone,
+    web,
     vibrate,
     media,
     file,
