@@ -3,9 +3,10 @@ import omit from 'omit.js'
 class Textarea extends Nerv.Component {
   constructor () {
     super(...arguments)
+    this.onChange = this.onChange.bind(this)
   }
 
-  onChange = (e) => {
+  onChange (e) {
     const { onChange = '', onInput = '' } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
@@ -22,7 +23,7 @@ class Textarea extends Nerv.Component {
       className = '',
       placeholder = '',
       disabled,
-      maxLength = 140,
+      maxlength = 140,
       onFocus,
       onBlur,
       autoFocus = false
