@@ -342,7 +342,13 @@ function processApis (taro) {
           query.in = function () { return query }
           return query
         }
-        return my[key].apply(my, args)
+        const argsLen = args.length
+        const newArgs = args.concat()
+        const lastArg = newArgs[argsLen - 1]
+        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
+          newArgs.splice(argsLen - 1, 1, lastArg.$scope)
+        }
+        return my[key].apply(my, newArgs)
       }
     }
   })
