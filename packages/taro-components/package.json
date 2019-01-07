@@ -49,6 +49,6 @@
     "swiper": "^4.4.2",
     "webpack": "^3.11.0",
     "webpack-cli": "^1.0.12",
-    "webpack-dev-server": "^2.1.1"
+    "webpack-dev-server": "^3.1.14"
   }
 }
