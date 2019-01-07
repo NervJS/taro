@@ -352,7 +352,7 @@ export default function transform (options: Options): TransformResult {
     // },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
-      if (assignment && assignment.isAssignmentExpression()) {
+      if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
         const left = assignment.node.left
         if (t.isIdentifier(left)) {
           const binding = assignment.scope.getBinding(left.name)
