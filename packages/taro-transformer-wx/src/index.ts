@@ -183,7 +183,8 @@ export default function transform (options: Options): TransformResult {
     plugins: [
       require('babel-plugin-transform-flow-strip-types'),
       [require('babel-plugin-transform-define').default, options.env]
-    ].concat(process.env.ESLINT === 'false' || options.isNormal || options.isTyped ? [] : eslintValidation).concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
+    ].concat(process.env.ESLINT === 'false' || options.isNormal || options.isTyped ? [] : eslintValidation)
+    .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-minify-dead-code'))
   }).ast as t.File
   if (options.isNormal) {
     return { ast } as any
@@ -351,7 +352,7 @@ export default function transform (options: Options): TransformResult {
     // },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
-      if (assignment && assignment.isAssignmentExpression()) {
+      if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
         const left = assignment.node.left
         if (t.isIdentifier(left)) {
           const binding = assignment.scope.getBinding(left.name)

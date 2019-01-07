@@ -336,7 +336,31 @@ export class RenderParser {
     }
   }
 
-  hasStateOrProps = p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name)
+  hasStateOrProps = (key: 'state' | 'props') => (p: t.AssignmentProperty | t.RestProperty) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === key
+
+  private destructStateOrProps (
+    key: 'state' | 'props',
+    path: NodePath<t.VariableDeclarator>,
+    properties: (t.AssignmentProperty | t.RestProperty)[],
+    parentPath: NodePath<t.Node>
+  ) {
+    const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && key === p.key.name)
+    if (hasStateOrProps.length === 0) {
+      return
+    }
+    if (hasStateOrProps.length !== properties.length) {
+      throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
+    }
+    const declareState = template(`const ${key} = this.${key};`)()
+    if (properties.length > 1) {
+      const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: key }))
+      properties.splice(index, 1)
+      parentPath.insertAfter(declareState)
+    } else {
+      parentPath.insertAfter(declareState)
+      parentPath.remove()
+    }
+  }
 
   private loopComponentVisitor: Visitor = {
     VariableDeclarator: (path) => {
@@ -349,22 +373,8 @@ export class RenderParser {
         parentPath.isVariableDeclaration()
       ) {
         const { properties } = id.node
-        const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name))
-        if (hasStateOrProps.length === 0) {
-          return
-        }
-        if (hasStateOrProps.length !== properties.length) {
-          throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
-        }
-        const declareState = template('const state = this.state;')()
-        if (properties.length > 1) {
-          const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))
-          properties.splice(index, 1)
-          parentPath.insertAfter(declareState)
-        } else {
-          parentPath.insertAfter(declareState)
-          parentPath.remove()
-        }
+        this.destructStateOrProps('state', path, properties, parentPath)
+        this.destructStateOrProps('props', path, properties, parentPath)
       }
     },
     JSXElement: {
