@@ -159,7 +159,7 @@ const ClassDeclarationOrExpression = {
       node.superClass.type === 'MemberExpression' &&
       node.superClass.object.name === taroImportDefaultName
     ) {
-      node.superClass.object.name = reactImportDefaultName
+      node.superClass.object.name = taroImportDefaultName
       if (node.id === null) {
         const renameComponentClassName = '_TaroComponentClass'
         componentClassName = renameComponentClassName
