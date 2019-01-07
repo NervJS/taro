@@ -83,12 +83,27 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
   const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
   const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
   if (array) {
-    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => a.name.name === Adapter.if)) as NodePath<t.JSXElement>
+    const ifAttrSet = new Set<string>([
+      Adapter.if,
+      Adapter.else
+    ])
+    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
     if (logicalJSX) {
-      const attr = logicalJSX.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
-      if (attr && t.isJSXExpressionContainer(attr.value)) {
-        expr = t.conditionalExpression(attr.value.expression, expr, t.arrayExpression())
-        return expr
+      const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
+      if (attr) {
+        if (attr.name.name === Adapter.else) {
+          const prevElement: NodePath<t.JSXElement | null> = (logicalJSX as any).getPrevSibling()
+          if (prevElement && prevElement.isJSXElement()) {
+            const attr = prevElement.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+            if (attr && t.isJSXExpressionContainer(attr.value)) {
+              expr = t.conditionalExpression(reverseBoolean(attr.value.expression), expr, t.arrayExpression())
+              return expr
+            }
+          }
+        } else if (t.isJSXExpressionContainer(attr.value)) {
+          expr = t.conditionalExpression(attr.value.expression, expr, t.arrayExpression())
+          return expr
+        }
       }
     }
   }

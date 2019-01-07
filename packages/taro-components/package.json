@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.1",
-    "@tarojs/taro-h5": "1.2.2",
+    "@tarojs/taro-h5": "1.2.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
     "jest": "^22.4.4",
@@ -49,6 +49,6 @@
     "swiper": "^4.4.2",
     "webpack": "^3.11.0",
     "webpack-cli": "^1.0.12",
-    "webpack-dev-server": "^2.1.1"
+    "webpack-dev-server": "^3.1.14"
   }
 }

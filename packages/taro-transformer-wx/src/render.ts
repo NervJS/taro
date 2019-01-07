@@ -395,7 +395,7 @@ export class RenderParser {
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
                     const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                     callExpr.getStatementParent().insertBefore(
-                      buildConstVariableDeclaration(variableName, ary)
+                      buildConstVariableDeclaration(variableName, setParentCondition(jsxElementPath, ary, true))
                     )
                     ary = t.identifier(variableName)
                   }

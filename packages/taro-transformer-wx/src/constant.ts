@@ -1,3 +1,5 @@
+import { Adapters } from './adapter'
+
 export const THIRD_PARTY_COMPONENTS = new Set<string>()
 
 // tslint:disable-next-line:variable-name
@@ -104,3 +106,11 @@ export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
   'onClick',
   'onLongTap'
 ])
+
+export const TRANSFORM_COMPONENT_PROPS = new Map<Adapters, { [key: string]: { [key: string]: string } }>()
+
+TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
+  'Canvas': {
+    'canvasId': 'id'
+  }
+})

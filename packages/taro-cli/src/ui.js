@@ -329,7 +329,16 @@ function buildEntry () {
 function watchFiles () {
   console.log('\n', chalk.gray('监听文件修改中...'), '\n')
 
-  const watcher = chokidar.watch(sourceDir, {
+  const watchList = [sourceDir]
+
+  const uiConfig = projectConfig.ui || {}
+  const { extraWatchFiles = [] } = uiConfig
+  extraWatchFiles.forEach(item => {
+    watchList.push(path.join(appPath, item.path))
+    if (typeof item.handler === 'function') item.callback = item.handler({ buildH5Script })
+  })
+
+  const watcher = chokidar.watch(watchList, {
     ignored: /(^|[/\\])\../,
     ignoreInitial: true
   })
@@ -350,38 +359,51 @@ function watchFiles () {
     const outputDir = path.join(appPath, outputDirName, h5OutputName)
     const fileTempPath = filePath.replace(sourceDir, tempPath)
     processFiles(filePath)
-    copyFileToDist(fileTempPath, tempPath, outputDir)
-    // 依赖分析
-    const extname = path.extname(filePath)
-    if (REG_STYLE.test(extname)) {
-      analyzeStyleFilesImport([fileTempPath], tempPath, outputDir)
+
+    if (process.env.TARO_BUILD_TYPE === 'script') {
+      buildH5Script()
     } else {
-      analyzeFiles([fileTempPath], tempPath, outputDir)
+      copyFileToDist(fileTempPath, tempPath, outputDir)
+      // 依赖分析
+      const extname = path.extname(filePath)
+      if (REG_STYLE.test(extname)) {
+        analyzeStyleFilesImport([fileTempPath], tempPath, outputDir)
+      } else {
+        analyzeFiles([fileTempPath], tempPath, outputDir)
+      }
+    }
+  }
+
+  function handleChange (filePath, type, tips) {
+    const relativePath = path.relative(appPath, filePath)
+    printLog(type, tips, relativePath)
+
+    let processed = false
+    extraWatchFiles.forEach(item => {
+      if (filePath.indexOf(item.path.substr(2)) < 0) return
+      if (typeof item.callback === 'function') {
+        item.callback()
+        processed = true
+      }
+    })
+    if (processed) return
+
+    try {
+      syncWeappFile(filePath)
+      syncH5File(filePath)
+    } catch (err) {
+      console.log(err)
     }
   }
 
   watcher
-    .on('add', filePath => {
-      const relativePath = path.relative(appPath, filePath)
-      printLog(pocessTypeEnum.CREATE, '添加文件', relativePath)
-      try {
-        syncWeappFile(filePath)
-        syncH5File(filePath)
-      } catch (err) {
-        console.log(err)
-      }
-    })
-    .on('change', filePath => {
-      const relativePath = path.relative(appPath, filePath)
-      printLog(pocessTypeEnum.MODIFY, '文件变动', relativePath)
-      try {
-        syncWeappFile(filePath)
-        syncH5File(filePath)
-      } catch (err) {
-        console.log(err)
-      }
-    })
+    .on('add', filePath => handleChange(filePath, pocessTypeEnum.CREATE, '添加文件'))
+    .on('change', filePath => handleChange(filePath, pocessTypeEnum.MODIFY, '文件变动'))
     .on('unlink', filePath => {
+      for (const path in extraWatchFiles) {
+        if (filePath.indexOf(path.substr(2)) > -1) return
+      }
+
       const relativePath = path.relative(appPath, filePath)
       printLog(pocessTypeEnum.UNLINK, '删除文件', relativePath)
       const weappOutputPath = path.join(appPath, outputDirName, weappOutputName)

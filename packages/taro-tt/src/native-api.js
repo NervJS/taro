@@ -133,7 +133,13 @@ function processApis (taro) {
       }
     } else {
       taro[key] = (...args) => {
-        return tt[key].apply(tt, args)
+        const argsLen = args.length
+        const newArgs = args.concat()
+        const lastArg = newArgs[argsLen - 1]
+        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
+          newArgs.splice(argsLen - 1, 1, lastArg.$scope)
+        }
+        return tt[key].apply(tt, newArgs)
       }
     }
   })

@@ -306,7 +306,7 @@ export default class Picker extends Nerv.Component {
         column: columnId,
         value: index[columnId]
       })
-      this.props.onColumnchange && this.props.onColumnchange(eventObj)
+      this.props.onColumnChange && this.props.onColumnChange(eventObj)
     }
 
     // 统一抛出的事件对象，和小程序对齐

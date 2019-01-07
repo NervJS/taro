@@ -394,10 +394,11 @@ function processEntry (code, filePath) {
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
             } else if (Util.REG_SCRIPTS.test(value)) {
-              /* TODO windows下路径处理可能有问题 ../../lib/utils.js */
-              const dirname = path.dirname(value)
-              const extname = path.extname(value)
-              node.source = t.stringLiteral(path.join(dirname, path.basename(value, extname)).replace(/\\/g, '/'))
+              const realPath = path.resolve(filePath, '..', value)
+              const dirname = path.dirname(realPath)
+              const extname = path.extname(realPath)
+              const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+              node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
             }
           }
           return
@@ -654,9 +655,11 @@ function processOthers (code, filePath, fileType) {
         }
         if (!Util.isNpmPkg(value)) {
           if (Util.REG_SCRIPTS.test(value)) {
-            const dirname = path.dirname(value)
-            const extname = path.extname(value)
-            node.source = t.stringLiteral(path.join(dirname, path.basename(value, extname)).replace(/\\/g, '/'))
+            const realPath = path.resolve(filePath, '..', value)
+            const dirname = path.dirname(realPath)
+            const extname = path.extname(realPath)
+            const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+            node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {
           let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
