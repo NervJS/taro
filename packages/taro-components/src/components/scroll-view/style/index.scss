@@ -1,5 +1,8 @@
-.taro-scroll{
+.taro-scroll {
   -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .taro-scroll-view {
   overflow: hidden;
