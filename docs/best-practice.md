@@ -238,6 +238,8 @@ if (process.env.NODE_ENV === 'development') {
 
 Taro 提供了 `componentWillPreload` 钩子，它接收页面跳转的参数作为参数。可以把需要预加载的内容通过 `return` 返回，然后在页面触发 componentWillMount 后即可通过 `this.$preloadData` 获取到预加载的内容。
 
+注意：调用跳转方法时需要使用**绝对路径**，相对路径不会触发此钩子。
+
 ```jsx
 class Index extends Component {
   componentWillMount () {
