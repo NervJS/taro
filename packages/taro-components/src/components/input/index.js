@@ -72,7 +72,7 @@ class Input extends Nerv.Component {
         value: { value }
       })
       // 修复 IOS 光标跳转问题
-      if (inputType !== 'number') {
+      if (!['number', 'file'].includes(inputType)) {
         const pos = e.target.selectionEnd
         setTimeout(
           () => {
