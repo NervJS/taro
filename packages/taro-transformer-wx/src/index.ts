@@ -5,7 +5,7 @@ import { prettyPrint } from 'html'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 import { Transformer } from './class'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression } from './utils'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression, pathResolver } from './utils'
 import * as t from 'babel-types'
 import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
@@ -241,7 +241,7 @@ export default function transform (options: Options): TransformResult {
           if (bindingPath.isImportDeclaration()) {
             const source = bindingPath.node.source
             try {
-              const p = fs.existsSync(source.value + '.js') ? source.value + '.js' : source.value + '.tsx'
+              const p = pathResolver(source.value, options.sourcePath) + (options.isTyped ? '.js' : '.js')
               const code = fs.readFileSync(p, 'utf8')
               componentProperies = transform({
                 isRoot: false,

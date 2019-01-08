@@ -654,8 +654,6 @@ class Transformer {
           this.componentProperies,
           this.loopRefs
         ).outputTemplate
-    } else {
-      throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
     }
   }
 
