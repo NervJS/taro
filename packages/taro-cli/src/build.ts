@@ -40,6 +40,9 @@ export default function build (args, buildConfig: IBuildConfig) {
     case BUILD_TYPES.RN:
       buildForRN({ watch })
       break
+    case BUILD_TYPES.QUICKAPP:
+      buildForQuickApp({ watch })
+      break
     case BUILD_TYPES.UI:
       buildForUILibrary({ watch })
       break
@@ -50,7 +53,7 @@ export default function build (args, buildConfig: IBuildConfig) {
       })
       break
     default:
-      console.log(chalk.red('输入类型错误，目前只支持 weapp/h5/rn/swan/alipay/tt 六端类型'))
+      console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/h5/quickapp/rn 七端类型'))
   }
 }
 
@@ -88,6 +91,10 @@ function buildForH5 (buildConfig: IBuildConfig) {
 
 function buildForRN ({ watch }: IBuildConfig) {
   require('./rn').build({ watch })
+}
+
+function buildForQuickApp ({ watch }: IBuildConfig) {
+  require('./quick').build({ watch })
 }
 
 function buildForUILibrary ({ watch }: IBuildConfig) {

@@ -94,7 +94,8 @@ export const enum BUILD_TYPES {
   ALIPAY ='alipay',
   TT ='tt',
   UI ='ui',
-  PLUGIN = 'plugin'
+  PLUGIN = 'plugin',
+  QUICKAPP = 'quickapp'
 }
 
 export const enum TEMPLATE_TYPES {
