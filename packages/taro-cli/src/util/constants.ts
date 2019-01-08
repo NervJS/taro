@@ -93,7 +93,8 @@ export const enum BUILD_TYPES {
   SWAN ='swan',
   ALIPAY ='alipay',
   TT ='tt',
-  UI ='ui'
+  UI ='ui',
+  QUICKAPP = 'quickapp'
 }
 
 export const enum TEMPLATE_TYPES {
