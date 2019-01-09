@@ -142,7 +142,7 @@ function processEntry (code, filePath) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -155,7 +155,7 @@ function processEntry (code, filePath) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -587,7 +587,7 @@ function processOthers (code, filePath, fileType) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -600,7 +600,7 @@ function processOthers (code, filePath, fileType) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
