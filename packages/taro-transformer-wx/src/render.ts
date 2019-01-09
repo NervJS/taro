@@ -956,11 +956,49 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const init = path.get('init')
+      const id = path.get('id')
       const ifStem = init.findParent(p => p.isIfStatement())
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
+      }
+      let isDerivedFromState = false
+      if (init.isMemberExpression()) {
+        const object = init.get('object')
+        if (object.isMemberExpression() && object.get('object').isThisExpression() && object.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+        if (object.isThisExpression() && init.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+      }
+      if (!isDerivedFromState) {
+        const errMsg = 'Warning: render 函数定义一个不从 this.state 解构或赋值而来的变量，此变量又与 this.state 下的变量重名可能会导致无法渲染。'
+        if (id.isIdentifier()) {
+          const name = id.node.name
+          if (this.initState.has(name)) {
+            // tslint:disable-next-line
+            console.log(codeFrameError(id.node, errMsg).message)
+          }
+        }
+        if (id.isObjectPattern()) {
+          const { properties } = id.node
+          for (const p of properties) {
+            if (t.isIdentifier(p)) {
+              if (this.initState.has(p.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+            if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
+              if (this.initState.has(p.argument.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+          }
+        }
       }
     },
     JSXEmptyExpression (path) {
