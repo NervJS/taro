@@ -1,5 +1,6 @@
-import { NodePath, Scope, Visitor } from 'babel-traverse'
+import traverse, { NodePath, Scope, Visitor } from 'babel-traverse'
 import * as t from 'babel-types'
+import { transform as parse } from 'babel-core'
 import {
   newJSXIfAttr,
   reverseBoolean,
@@ -20,7 +21,8 @@ import {
   isVarName,
   setParentCondition,
   isContainJSXElement,
-  getSlotName
+  getSlotName,
+  getSuperClassCode
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -40,7 +42,7 @@ import {
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
-import { transformOptions } from './options'
+import { transformOptions, babelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
@@ -785,6 +787,7 @@ export class RenderParser {
             const methodName = findMethodName(value.expression)
             methodName && this.usedEvents.add(methodName)
             const method = this.methods.get(methodName)
+            const classDecl = path.findParent(p => p.isClassDeclaration())
             const componentName = jsxElementPath.node.openingElement.name
             // if (method && t.isIdentifier(method.node.key)) {
             //   this.usedEvents.add(methodName)
@@ -796,6 +799,30 @@ export class RenderParser {
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
+            }
+            if (classDecl && classDecl.isClassDeclaration()) {
+              const superClass = getSuperClassCode(classDecl)
+              if (superClass) {
+                try {
+                  const ast = parse(superClass.code, babelTransformOptions).ast as t.File
+                  traverse(ast, {
+                    ClassMethod (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    },
+                    ClassProperty (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    }
+                  })
+                } catch (error) {
+                  //
+                }
+              }
             }
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
