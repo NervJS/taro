@@ -7,7 +7,8 @@ import {
   SPECIAL_COMPONENT_PROPS,
   swanSpecialAttrs,
   THIRD_PARTY_COMPONENTS,
-  TRANSFORM_COMPONENT_PROPS
+  TRANSFORM_COMPONENT_PROPS,
+  lessThanSignPlacehold
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
@@ -134,6 +135,7 @@ function parseJSXChildren (
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
           .replace(/this\./g, '')
+          .replace('<', lessThanSignPlacehold)
         }}`
       }
       return str
