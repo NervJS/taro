@@ -140,21 +140,21 @@ interface ButtonProps extends StandardProps {
    *
    * 生效时机：`open-type="contact"`
    */
-  onContact?: BaseEventFunction,
+  onContact?: CommonEventFunction,
 
   /**
    * 获取用户手机号回调
    *
    * 生效时机：`open-type="getphonenumber"`
    */
-  onGetPhoneNumber?: BaseEventFunction,
+  onGetPhoneNumber?: CommonEventFunction,
 
   /**
    * 获取用户实名
    *
    * 生效时机：`open-type="getRealnameAuthInfo"`
    */
-  onGetRealnameAuthInfo?: BaseEventFunction,
+  onGetRealnameAuthInfo?: CommonEventFunction,
 
   /**
    * 打开 APP 时，向 APP 传递的参数
@@ -167,14 +167,14 @@ interface ButtonProps extends StandardProps {
    *
    * 生效时机：`open-type="launchApp"`
    */
-  onError?: BaseEventFunction,
+  onError?: CommonEventFunction,
 
   /**
    * 在打开授权设置页后回调
    *
    * 生效时机：`open-type="openSetting"`
    */
-  onOpenSetting?: BaseEventFunction
+  onOpenSetting?: CommonEventFunction
 }
 
 declare const Button: ComponentType<ButtonProps>
