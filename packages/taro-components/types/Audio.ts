@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 /**
  * 音频。
@@ -50,17 +50,17 @@ interface AudioProps extends StandardProps {
   /**
    * 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
    */
-  onError?: BaseEventFunction,
+  onError?: CommonEventFunction,
 
   /**
    * 当开始/继续播放时触发play事件
    */
-  onPlay?: BaseEventFunction,
+  onPlay?: CommonEventFunction,
 
   /**
    * 当暂停播放时触发 pause 事件
    */
-  onPause?: BaseEventFunction,
+  onPause?: CommonEventFunction,
 
   /**
    * 当播放进度改变时触发 timeupdate 事件，detail = {currentTime, duration}

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 type OpenType = 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber'
 
@@ -90,7 +90,7 @@ interface ButtonProps extends StandardProps {
    *
    * 生效时机: `open-type="getUserInfo"`
    */
-  onGetUserInfo?: BaseEventFunction,
+  onGetUserInfo?: CommonEventFunction,
 
   /**
    * 会话来源
