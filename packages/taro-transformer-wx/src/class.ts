@@ -394,7 +394,7 @@ class Transformer {
           } else if (t.isMemberExpression(expr)) {
             self.buildAnonymousFunc(attr, expr as any, false)
           } else {
-            throw codeFrameError(expr.loc, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
+            throw codeFrameError(path.node, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
         const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
@@ -654,8 +654,6 @@ class Transformer {
           this.componentProperies,
           this.loopRefs
         ).outputTemplate
-    } else {
-      throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
     }
   }
 

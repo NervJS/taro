@@ -2,7 +2,14 @@ import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { kebabCase } from 'lodash'
-import { DEFAULT_Component_SET, SPECIAL_COMPONENT_PROPS, swanSpecialAttrs, THIRD_PARTY_COMPONENTS } from './constant'
+import {
+  DEFAULT_Component_SET,
+  SPECIAL_COMPONENT_PROPS,
+  swanSpecialAttrs,
+  THIRD_PARTY_COMPONENTS,
+  TRANSFORM_COMPONENT_PROPS,
+  lessThanSignPlacehold
+} from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters } from './adapter'
@@ -128,6 +135,7 @@ function parseJSXChildren (
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
           .replace(/this\./g, '')
+          .replace('<', lessThanSignPlacehold)
         }}`
       }
       return str
@@ -144,6 +152,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   const componentName = name.name
   const isDefaultComponent = DEFAULT_Component_SET.has(componentName)
   const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName)
+  const componentTransfromProps = TRANSFORM_COMPONENT_PROPS.get(Adapter.type)
   let hasElseAttr = false
   attributes.forEach((a, index) => {
     if (a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
@@ -219,6 +228,14 @@ export function parseJSXElement (element: t.JSXElement): string {
         }
         if (THIRD_PARTY_COMPONENTS.has(componentName) && /^bind/.test(name) && name.includes('-')) {
           name = name.replace(/^bind/, 'bind:')
+        }
+        if (componentTransfromProps && componentTransfromProps[componentName]) {
+          const transfromProps = componentTransfromProps[componentName]
+          Object.keys(transfromProps).forEach(oriName => {
+            if (transfromProps.hasOwnProperty(name as string)) {
+              name = transfromProps[oriName]
+            }
+          })
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value

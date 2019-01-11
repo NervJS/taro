@@ -1214,7 +1214,13 @@ function transfromNativeComponents (configFile, componentConfig) {
   const usingComponents = componentConfig.usingComponents
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
-      const componentPath = usingComponents[item]
+      let componentPath = usingComponents[item]
+      
+      if (Util.isAliasPath(componentPath, pathAlias)) {
+        componentPath = Util.replaceAliasPath(configFile, componentPath, pathAlias)
+        usingComponents[item] = componentPath
+      }
+      
       if (/^plugin:\/\//.test(componentPath)) {
         // 小程序 plugin
         Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)

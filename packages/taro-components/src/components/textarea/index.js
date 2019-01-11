@@ -3,21 +3,19 @@ import omit from 'omit.js'
 class Textarea extends Nerv.Component {
   constructor () {
     super(...arguments)
+    this.onChange = this.onChange.bind(this)
   }
 
   onChange (e) {
-    const { onChange, onInput } = this.props
+    const { onChange = '', onInput = '' } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
       value: {
         value: e.target.value
       }
     })
-    if (onChange) {
-      onChange && onChange(e)
-    } else {
-      onInput && onInput(e)
-    }
+    if (onChange) return onChange && onChange(e)
+    if (onInput) return onInput && onInput(e)
   }
 
   render () {
@@ -25,8 +23,7 @@ class Textarea extends Nerv.Component {
       className = '',
       placeholder = '',
       disabled,
-      maxLength = 140,
-      onChange,
+      maxlength = 140,
       onFocus,
       onBlur,
       autoFocus = false
@@ -39,6 +36,7 @@ class Textarea extends Nerv.Component {
           'disabled',
           'maxlength',
           'onChange',
+          'onInput',
           'onFocus',
           'onBlur',
           'autofocus'
@@ -46,9 +44,9 @@ class Textarea extends Nerv.Component {
         className={className}
         placeholder={placeholder}
         disabled={disabled}
-        maxlength={maxLength}
+        maxlength={maxlength}
         autofocus={autoFocus}
-        onChange={onChange}
+        onChange={this.onChange}
         onFocus={onFocus}
         onBlur={onBlur}
       />

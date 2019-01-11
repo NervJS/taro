@@ -11,6 +11,13 @@ interface SwitchProps extends StandardProps, FormItemProps {
   checked?: boolean,
 
   /**
+   * 是否禁用
+   *
+   * 默认值：`false`
+   */
+  disabled?: boolean,
+
+  /**
    * 样式，有效值：switch, checkbox
    *
    * 默认值：`switch`

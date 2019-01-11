@@ -271,29 +271,31 @@ function createComponent (ComponentClass, isPage) {
       if (!isPage) {
         initComponent.apply(this, [ComponentClass, isPage])
       }
-      setTimeout(() => {
-        const component = this.$component
-        if (component['$$refs'] && component['$$refs'].length > 0) {
-          let refs = {}
-          component['$$refs'].forEach(ref => {
-            let target
-            const query = swan.createSelectorQuery().in(this)
-            if (ref.type === 'component') {
-              target = this.selectComponent(`#${ref.id}`)
-              target = target.$component || target
-            } else {
-              target = query.select(`#${ref.id}`)
-            }
-            if ('refName' in ref && ref['refName']) {
-              refs[ref.refName] = target
-            } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-              ref['fn'].call(component, target)
-            }
-            ref.target = target
-          })
-          component.refs = Object.assign({}, component.refs || {}, refs)
-        }
-      }, 0)
+      const component = this.$component
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        let refs = {}
+        component['$$refs'].forEach(ref => {
+          let target
+          const query = swan.createSelectorQuery().in(this)
+          if (ref.type === 'component') {
+            target = this.selectComponent(`#${ref.id}`)
+            target = target.$component || target
+          } else {
+            target = query.select(`#${ref.id}`)
+          }
+          if ('refName' in ref && ref['refName']) {
+            refs[ref.refName] = target
+          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+            ref['fn'].call(component, target)
+          }
+          ref.target = target
+        })
+        component.refs = Object.assign({}, component.refs || {}, refs)
+      }
+      if (!component.__mounted) {
+        component.__mounted = true
+        componentTrigger(component, 'componentDidMount')
+      }
     },
     detached () {
       componentTrigger(this.$component, 'componentWillUnmount')

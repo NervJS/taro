@@ -33,6 +33,7 @@ class BaseComponent {
     this.state = {}
     this.props = {}
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
+    this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
   }
   _constructor (props) {
     this.props = props || {}

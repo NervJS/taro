@@ -106,6 +106,13 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 
 <div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
 
+## 特别鸣谢
+
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=120&v=4)](https://github.com/nanjingboy/)
+:---:
+[nanjingboy](https://github.com/nanjingboy/)
+
+
 ## 贡献者们
 
 <a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
