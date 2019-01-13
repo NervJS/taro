@@ -448,7 +448,11 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
         const objectPropperties = []
         for (const key in tokens) {
           if (tokens.hasOwnProperty(key)) {
-            objectPropperties.push(t.objectProperty(t.identifier(key), t.stringLiteral(tokens[key])))
+            let keyPath = key
+            if (key.indexOf('-') >= 0) {
+              keyPath = `'${key}'`
+            }
+            objectPropperties.push(t.objectProperty(t.identifier(keyPath), t.stringLiteral(tokens[key])))
           }
         }
         let defaultDeclator = null
@@ -1215,12 +1219,12 @@ function transfromNativeComponents (configFile, componentConfig) {
   if (usingComponents && !Util.isEmptyObject(usingComponents)) {
     Object.keys(usingComponents).map(async item => {
       let componentPath = usingComponents[item]
-      
+
       if (Util.isAliasPath(componentPath, pathAlias)) {
         componentPath = Util.replaceAliasPath(configFile, componentPath, pathAlias)
         usingComponents[item] = componentPath
       }
-      
+
       if (/^plugin:\/\//.test(componentPath)) {
         // 小程序 plugin
         Util.printLog(Util.pocessTypeEnum.REFERENCE, '插件引用', `使用了插件 ${chalk.bold(componentPath)}`)
