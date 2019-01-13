@@ -31,7 +31,7 @@ class Events {
   once (events, callback, context) {
     const wrapper = (...args) => {
       callback.apply(this, args)
-      this.off(events, callback, context)
+      this.off(events, wrapper, context)
     }
 
     this.on(events, wrapper, context)
