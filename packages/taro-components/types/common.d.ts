@@ -104,7 +104,9 @@ interface EventProps {
 }
 
 export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => any
-
+/**
+ * @deprecated 建议弃用，逐步使用CommonEventFunction替换
+ */
 export type BaseEventFunction = BaseEventOrigFunction<any>
                                               
 export type TouchEventFunction = (event: ITouchEvent) => any

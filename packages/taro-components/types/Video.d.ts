@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 interface VideoProps extends StandardProps {
 
@@ -129,39 +129,39 @@ interface VideoProps extends StandardProps {
   /**
    * 当开始/继续播放时触发play事件
    */
-  onPlay?: BaseEventFunction,
+  onPlay?: CommonEventFunction,
 
   /**
    * 当暂停播放时触发 pause 事件
    */
-  onPause?: BaseEventFunction,
+  onPause?: CommonEventFunction,
 
   /**
    * 当播放到末尾时触发 ended 事件
    */
-  onEnded?: BaseEventFunction,
+  onEnded?: CommonEventFunction,
 
   /**
    * 播放进度变化时触发, 触发频率 250ms 一次
    *
    * event.detail = {currentTime, duration}
    */
-  onTimeUpdate?: BaseEventFunction,
+  onTimeUpdate?: CommonEventFunction,
 
   /**
    * 当视频进入和退出全屏是触发
    *
    * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
    */
-  onFullscreenChange?: BaseEventFunction,
+  onFullscreenChange?: CommonEventFunction,
 
   /**
    * 当视频进入和退出全屏是触发
    *
    * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
    */
-  onWaiting?: BaseEventFunction,
-  onError?: BaseEventFunction
+  onWaiting?: CommonEventFunction,
+  onError?: CommonEventFunction
 }
 
 declare const Video: ComponentType<VideoProps>
