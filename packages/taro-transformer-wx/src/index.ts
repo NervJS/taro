@@ -550,7 +550,8 @@ export default function transform (options: Options): TransformResult {
   result.ast = ast
   result.compressedTemplate = result.template
   result.template = prettyPrint(result.template, {
-    max_char: 0
+    max_char: 0,
+    unformatted: ['text']
   }).replace(lessThanSignPlacehold, '<')
   result.imageSrcs = Array.from(imageSource)
   return result
