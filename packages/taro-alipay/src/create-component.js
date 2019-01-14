@@ -95,7 +95,9 @@ function processEvent (eventHandlerName, obj) {
         keyLower = keyLower.replace(/^on/, '').toLocaleLowerCase()
         if (keyLower.indexOf(eventType) >= 0) {
           const argName = keyLower.replace(eventType, '')
-          bindArgs[argName] = dataset[key]
+          if (/^([a-z]|so)$/.test(argName)) {
+            bindArgs[argName] = dataset[key]
+          }
         }
       }
     })
