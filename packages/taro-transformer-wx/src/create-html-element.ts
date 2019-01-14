@@ -1,5 +1,5 @@
 const voidHtmlTags = new Set<string>([
-  'image',
+  // 'image',
   'img',
   'input',
   'import'
