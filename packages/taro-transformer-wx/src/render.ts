@@ -582,7 +582,7 @@ export class RenderParser {
           if (t.isIdentifier(parentNode.left)) {
             const assignmentName = parentNode.left.name
             const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
-            const block = this.templates.get(assignmentName) || buildBlockElement()
+            let block = this.templates.get(assignmentName) || buildBlockElement()
             if (isEmptyDeclarator(bindingNode)) {
               const blockStatement = parentPath.findParent(p =>
                 p.isBlockStatement()
@@ -654,7 +654,14 @@ export class RenderParser {
                     newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                   }
                 }
-                block.children.push(jsxElementPath.node)
+                const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test })) {
+                  const newBlock = buildBlockElement()
+                  newBlock.children = [block, jsxElementPath.node]
+                  block = newBlock
+                } else {
+                  block.children.push(jsxElementPath.node)
+                }
                 // setTemplate(name, path, templates)
                 assignmentName && this.templates.set(assignmentName, block)
               }
