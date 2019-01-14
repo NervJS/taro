@@ -10,6 +10,7 @@ interface Props {
   history: Types.History;
   routes: Types.RouteObj[];
   children?: any[];
+  customRoutes: Types.CustomRoutes;
 }
 
 interface State {
@@ -17,10 +18,14 @@ interface State {
   routeStack: Types.RouteObj[];
 }
 
+type OriginalRoute = string;
+type MappedRoute = string;
+
 class Router extends Component<Props, State> {
   unlisten: () => void;
   lastLocation: Types.Location;
   currentPages: any[] = [];
+  customRoutes: [OriginalRoute, MappedRoute][] = [];
 
   state = {
     location: this.props.history.location,
@@ -39,7 +44,14 @@ class Router extends Component<Props, State> {
 
   computeMatch (location: Types.Location): Types.RouteObj {
     // 找出匹配的路由组件
-    const pathname = location.path;
+    const originalPathname = location.path;
+    let pathname = originalPathname
+    const foundRoute = this.customRoutes.find(([originalRoute, mappedRoute]) => {
+      return originalPathname === mappedRoute
+    })
+    if (foundRoute) {
+      pathname = foundRoute[0]
+    }
     const matchedRoute = this.props.routes.find(({path, isIndex}) => {
       if (isIndex && pathname === '/') return true;
       return pathname === path;
@@ -92,9 +104,10 @@ class Router extends Component<Props, State> {
   }
 
   componentWillMount () {
-    const { history } = this.props
+    const { history, customRoutes } = this.props
 
     this.mountApis()
+    this.customRoutes = Object.entries(customRoutes)
 
     this.unlisten = history.listen(({
       fromLocation,
