@@ -2,9 +2,17 @@
 # yarn lockfile v1
 
 
-"@tarojs/taro@0.0.54":
-  version "0.0.54"
-  resolved "https://registry.npmjs.org/@tarojs/taro/-/taro-0.0.54.tgz#5b862dfc9ee885f43e3e2282570667e8841cb68f"
+"@tarojs/taro@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.2.4.tgz#fa656982abc58df88e8a899f97ffc53fb9675e76"
+
+"@types/estree@0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+
+"@types/node@*":
+  version "10.12.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -543,6 +551,10 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base64-js@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.0.tgz#cab1e6118f051095e58b5281aea8c1cd22bfc0e3"
+
 base@^0.11.1:
   version "0.11.2"
   resolved "https://registry.npmjs.org/base/-/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
@@ -659,6 +671,13 @@ copy-descriptor@^0.1.0:
 core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.7"
   resolved "https://registry.npmjs.org/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+
+cross-fetch@^2.2.2:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-2.2.3.tgz#e8a0b3c54598136e037f8650f8e823ccdfac198e"
+  dependencies:
+    node-fetch "2.1.2"
+    whatwg-fetch "2.0.4"
 
 debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
@@ -987,6 +1006,13 @@ istanbul-lib-instrument@^1.10.1:
     istanbul-lib-coverage "^1.2.0"
     semver "^5.3.0"
 
+jest-fetch-mock@^1.6.5:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/jest-fetch-mock/-/jest-fetch-mock-1.7.5.tgz#ae0d01db1f6cbe95da1f283351c6c4de96264c67"
+  dependencies:
+    cross-fetch "^2.2.2"
+    promise-polyfill "^7.1.1"
+
 jest-localstorage-mock@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/jest-localstorage-mock/-/jest-localstorage-mock-2.2.0.tgz#ce9a9de01dfdde2ad8aa08adf73acc7e5cc394cf"
@@ -1129,6 +1155,10 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
+mobile-detect@^1.4.2:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/mobile-detect/-/mobile-detect-1.4.3.tgz#e436a3839f5807dd4d3cd4e081f7d3a51ffda2dd"
+
 mock-socket@^7.1.0:
   version "7.1.0"
   resolved "https://registry.npmjs.org/mock-socket/-/mock-socket-7.1.0.tgz#482ecccafb0f0e86b8905ba2aa57c1fe73ba262d"
@@ -1154,20 +1184,9 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-nerv-shared@1.2.15:
-  version "1.2.15"
-  resolved "https://registry.npmjs.org/nerv-shared/-/nerv-shared-1.2.15.tgz#9e7c7f3e32447fe8ae40efdd2ddc85b395797e77"
-
-nerv-utils@1.2.15:
-  version "1.2.15"
-  resolved "https://registry.npmjs.org/nerv-utils/-/nerv-utils-1.2.15.tgz#e6db2dc4f9ee1b7a4030920c19ebdd6ea9d86ae9"
-
-nervjs@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/nervjs/-/nervjs-1.3.0.tgz#4dcfe0659748dd81e22761f567f06790359b3ec6"
-  dependencies:
-    nerv-shared "1.2.15"
-    nerv-utils "1.2.15"
+node-fetch@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
 
 normalize-package-data@^2.3.2:
   version "2.4.0"
@@ -1294,6 +1313,10 @@ private@^0.1.6, private@^0.1.8:
   version "0.1.8"
   resolved "https://registry.npmjs.org/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
 
+promise-polyfill@^7.1.1:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
+
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/read-pkg-up/-/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"
@@ -1375,6 +1398,13 @@ resolve-url@^0.2.1:
 ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.npmjs.org/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
+
+rollup@^0.67.3:
+  version "0.67.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.67.4.tgz#8ed6b0993337f84ec8a0387f824fa6c197e833ec"
+  dependencies:
+    "@types/estree" "0.0.39"
+    "@types/node" "*"
 
 safe-regex@^1.1.0:
   version "1.1.0"
@@ -1583,6 +1613,6 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-whatwg-fetch@^2.0.4:
+whatwg-fetch@2.0.4, whatwg-fetch@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
