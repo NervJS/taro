@@ -177,10 +177,12 @@ export const createWxmlVistor = (
         if (tagName === 'Slot') {
           const nameAttr = attrs.find(a => a.node.name.name === 'name')
           let slotName = ''
-          if (nameAttr && nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
-            slotName = nameAttr.node.value.value
-          } else {
-            throw codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+          if (nameAttr) {
+            if (nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
+              slotName = nameAttr.node.value.value
+            } else {
+              throw codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+            }
           }
           const children = t.memberExpression(
             t.memberExpression(t.thisExpression(), t.identifier('props')),

@@ -286,6 +286,8 @@ function initComponent (ComponentClass, isPage) {
   if (!isPage) {
     const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
     this.$component.props = nextProps
+  } else {
+    this.$component.$router.path = getCurrentPageUrl()
   }
   updateComponent(this.$component)
 }
@@ -365,7 +367,6 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf.methods['onLoad'] = function (options = {}) {
       if (this.$component.__isReady) return
       Object.assign(this.$component.$router.params, options)
-      this.$component.$router.path = getCurrentPageUrl()
       initComponent.apply(this, [ComponentClass, isPage])
     }
     weappComponentConf.methods['onReady'] = function () {

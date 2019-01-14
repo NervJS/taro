@@ -1,5 +1,6 @@
-import { NodePath, Scope, Visitor } from 'babel-traverse'
+import traverse, { NodePath, Scope, Visitor } from 'babel-traverse'
 import * as t from 'babel-types'
+import { transform as parse } from 'babel-core'
 import {
   newJSXIfAttr,
   reverseBoolean,
@@ -20,7 +21,8 @@ import {
   isVarName,
   setParentCondition,
   isContainJSXElement,
-  getSlotName
+  getSlotName,
+  getSuperClassCode
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -40,7 +42,7 @@ import {
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
-import { transformOptions } from './options'
+import { transformOptions, babelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
@@ -785,6 +787,7 @@ export class RenderParser {
             const methodName = findMethodName(value.expression)
             methodName && this.usedEvents.add(methodName)
             const method = this.methods.get(methodName)
+            const classDecl = path.findParent(p => p.isClassDeclaration())
             const componentName = jsxElementPath.node.openingElement.name
             // if (method && t.isIdentifier(method.node.key)) {
             //   this.usedEvents.add(methodName)
@@ -796,6 +799,30 @@ export class RenderParser {
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
+            }
+            if (classDecl && classDecl.isClassDeclaration()) {
+              const superClass = getSuperClassCode(classDecl)
+              if (superClass) {
+                try {
+                  const ast = parse(superClass.code, babelTransformOptions).ast as t.File
+                  traverse(ast, {
+                    ClassMethod (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    },
+                    ClassProperty (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    }
+                  })
+                } catch (error) {
+                  //
+                }
+              }
             }
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
@@ -956,11 +983,49 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const init = path.get('init')
+      const id = path.get('id')
       const ifStem = init.findParent(p => p.isIfStatement())
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
+      }
+      let isDerivedFromState = false
+      if (init.isMemberExpression()) {
+        const object = init.get('object')
+        if (object.isMemberExpression() && object.get('object').isThisExpression() && object.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+        if (object.isThisExpression() && init.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+      }
+      if (!isDerivedFromState) {
+        const errMsg = 'Warning: render 函数定义一个不从 this.state 解构或赋值而来的变量，此变量又与 this.state 下的变量重名可能会导致无法渲染。'
+        if (id.isIdentifier()) {
+          const name = id.node.name
+          if (this.initState.has(name)) {
+            // tslint:disable-next-line
+            console.log(codeFrameError(id.node, errMsg).message)
+          }
+        }
+        if (id.isObjectPattern()) {
+          const { properties } = id.node
+          for (const p of properties) {
+            if (t.isIdentifier(p)) {
+              if (this.initState.has(p.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+            if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
+              if (this.initState.has(p.argument.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+          }
+        }
       }
     },
     JSXEmptyExpression (path) {
