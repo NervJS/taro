@@ -692,9 +692,14 @@ function parseContent (content: string) {
 }
 
 function parseAttribute (attr: Attribute) {
-  const { key, value } = attr
+  let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
   if (value) {
+    if (key === 'class' && value.startsWith('[') && value.endsWith(']')) {
+      value = value.slice(1, value.length - 1).replace(',', '')
+      // tslint:disable-next-line
+      console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
+    }
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
