@@ -115,7 +115,18 @@ function parseJSXChildren (
     })
     .reduce((str, child) => {
       if (t.isJSXText(child)) {
-        return str + child.value.trim()
+        const strings: string[] = []
+        child.value.split(/(\r?\n\s*)/).forEach((val) => {
+          const value = val.replace(/\u00a0/g, '&nbsp;').trimLeft()
+          if (!value) {
+            return
+          }
+          if (value.startsWith('\n')) {
+            return
+          }
+          strings.push(value)
+        })
+        return str + strings.join('')
       }
       if (t.isJSXElement(child)) {
         return str + parseJSXElement(child)
