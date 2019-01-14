@@ -106,24 +106,25 @@ export const createWxmlVistor = (
   wxses: WXS[] = [],
   imports: Imports[] = []
 ) => {
-  return {
-    JSXAttribute (path) {
-      const name = path.node.name as t.JSXIdentifier
-      const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
-        t.JSXElement
-      >
-      const valueCopy = cloneDeep(path.get('value').node)
-      transformIf(name.name, path, jsx, valueCopy)
-      const loopItem = transformLoop(name.name, path, jsx, valueCopy)
-      if (loopItem) {
-        if (loopItem.index) {
-          loopIds.add(loopItem.index)
-        }
-        if (loopItem.item) {
-          loopIds.add(loopItem.item)
-        }
+  const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
+    const name = path.node.name as t.JSXIdentifier
+    const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
+      t.JSXElement
+    >
+    const valueCopy = cloneDeep(path.get('value').node)
+    transformIf(name.name, path, jsx, valueCopy)
+    const loopItem = transformLoop(name.name, path, jsx, valueCopy)
+    if (loopItem) {
+      if (loopItem.index) {
+        loopIds.add(loopItem.index)
       }
-    },
+      if (loopItem.item) {
+        loopIds.add(loopItem.item)
+      }
+    }
+  }
+  return {
+    JSXAttribute: jsxAttrVisitor,
     JSXIdentifier (path) {
       const nodeName = path.node.name
       if (path.parentPath.isJSXAttribute()) {
@@ -165,10 +166,15 @@ export const createWxmlVistor = (
             const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
             if (parentComponent && parentComponent.isJSXElement()) {
               slotAttr.remove()
+              path.traverse({
+                JSXAttribute: jsxAttrVisitor
+              })
+              const block = buildBlockElement()
+              block.children = [cloneDeep(path.node)]
               parentComponent.node.openingElement.attributes.push(
                 t.jSXAttribute(
                   t.jSXIdentifier(buildSlotName(slotName)),
-                  t.jSXExpressionContainer(cloneDeep(path.node))
+                  t.jSXExpressionContainer(block)
                 )
               )
               path.remove()
