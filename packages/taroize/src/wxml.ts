@@ -12,6 +12,10 @@ import { parseExpression } from 'babylon'
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
+function buildSlotName (slotName: string) {
+  return `render${slotName[0].toUpperCase() + slotName.replace('-', '').slice(1)}`
+}
+
 enum NodeType {
   Element = 'element',
   Comment = 'comment',
@@ -163,7 +167,7 @@ export const createWxmlVistor = (
               slotAttr.remove()
               parentComponent.node.openingElement.attributes.push(
                 t.jSXAttribute(
-                  t.jSXIdentifier(`render${slotName[0].toUpperCase() + slotName.slice(1)}`),
+                  t.jSXIdentifier(buildSlotName(slotName)),
                   t.jSXExpressionContainer(cloneDeep(path.node))
                 )
               )
@@ -186,7 +190,7 @@ export const createWxmlVistor = (
           }
           const children = t.memberExpression(
             t.memberExpression(t.thisExpression(), t.identifier('props')),
-            t.identifier(slotName ? `render${slotName[0].toUpperCase() + slotName.slice(1)}` : 'children')
+            t.identifier(slotName ? buildSlotName(slotName) : 'children')
           )
           try {
             path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)

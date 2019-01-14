@@ -5,6 +5,10 @@ const voidHtmlTags = new Set<string>([
   'import'
 ])
 
+if (process.env.NODE_ENV === 'test') {
+  voidHtmlTags.add('image')
+}
+
 interface Options {
   name: string,
   attributes: object,
