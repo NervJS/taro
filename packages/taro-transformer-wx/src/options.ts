@@ -45,5 +45,5 @@ export const babelTransformOptions: TransformOptions = {
     require('babel-plugin-transform-flow-strip-types'),
     [require('babel-plugin-transform-define').default, transformOptions.env]
   ].concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
-  .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-minify-dead-code'))
+  .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
 }
