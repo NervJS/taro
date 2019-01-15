@@ -145,7 +145,15 @@ export default class Picker extends Nerv.Component {
       this.pickerDate._start.getFullYear(),
       this.pickerDate._end.getFullYear()
     )
-    let month = this.getDateRange(1, 12)
+
+    let month = null
+    // 相同年份直接设置为 end 的最大值，否则为12
+    if (this.pickerDate._start.getFullYear() === this.pickerDate._end.getFullYear()) {
+      this.getDateRange(this.pickerDate._start.getMonth() + 1, this.pickerDate._end.getMonth() + 1)
+    } else {
+      month = this.getDateRange(this.pickerDate._start.getMonth() + 1, 12)
+    }
+
     let day = this.getDateRange(this.pickerDate._start.getDate(), 31)
 
     if (getIdx) {
@@ -486,7 +494,14 @@ export default class Picker extends Nerv.Component {
         this.pickerDate._end.getFullYear(),
         '年'
       )
-      let month = this.getDateRange(1, 12, '月')
+
+      let month = null
+      // 相同年份直接设置为 end 的最大值，否则为12
+      if (this.pickerDate._start.getFullYear() === this.pickerDate._end.getFullYear()) {
+        this.getDateRange(this.pickerDate._start.getMonth() + 1, this.pickerDate._end.getMonth() + 1, '月')
+      } else {
+        month = this.getDateRange(this.pickerDate._start.getMonth() + 1, 12, '月')
+      }
 
       let renderView = []
       if (this.props.fields === 'year') {
