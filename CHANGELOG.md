@@ -1,5 +1,17 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.6...v) (2019-01-15)
+# [](https://github.com/NervJS/taro/compare/v1.2.7...v) (2019-01-15)
+
+
+
+<a name="1.2.7"></a>
+## [1.2.7](https://github.com/NervJS/taro/compare/v1.2.6...v1.2.7) (2019-01-15)
+
+
+### Bug Fixes
+
+* **cli:** 暂时去掉 cli 与框架版本检测，待后续调整设计 ([542db9e](https://github.com/NervJS/taro/commit/542db9e))
+* **taro:** 修复事件 bind 传参，close [#1936](https://github.com/NervJS/taro/issues/1936) ([e638b50](https://github.com/NervJS/taro/commit/e638b50))
+* **transformer:** options.env 无法应用到 babel 转换选项 ([fd3ab91](https://github.com/NervJS/taro/commit/fd3ab91))
 
 
 
