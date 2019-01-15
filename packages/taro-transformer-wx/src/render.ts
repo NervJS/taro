@@ -176,7 +176,37 @@ export class RenderParser {
   isLiteralOrUndefined = (node: t.Node): node is t.Literal | t.Identifier => t.isLiteral(node) || t.isIdentifier(node, { name: 'undefined' })
 
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
-    if (t.isLogicalExpression(parentNode)) {
+    if (parentPath.isObjectProperty()) {
+      const value = parentPath.get('value')
+      if (value !== jsxElementPath) {
+        return
+      }
+      if (!parentPath.parentPath.isObjectExpression()) {
+        return
+      }
+      const properties = parentPath.parentPath.get('properties')
+      if (!parentPath.parentPath.parentPath.isMemberExpression()) {
+        return
+      }
+      const rval = parentPath.parentPath.parentPath.get('property')
+      if (!rval || !rval.node || !Array.isArray(properties)) {
+        return
+      }
+      const children = properties.map(p => p.node).map((p, index) => {
+        const block = buildBlockElement()
+        const tester = t.binaryExpression('===', p.key, rval.node as any)
+        block.children = [t.jSXExpressionContainer(p.value)]
+        if (index === 0) {
+          newJSXIfAttr(block, tester)
+        } else {
+          setJSXAttr(block, Adapter.elseif, t.jSXExpressionContainer(tester))
+        }
+        return block
+      })
+      const block = buildBlockElement()
+      block.children = children
+      parentPath.parentPath.parentPath.replaceWith(block)
+    } else if (t.isLogicalExpression(parentNode)) {
       const { left, operator, right } = parentNode
       const leftExpression = parentPath.get('left') as NodePath<t.Expression>
       if (operator === '&&' && t.isExpression(left)) {
