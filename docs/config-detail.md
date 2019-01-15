@@ -339,7 +339,7 @@ webpack (defaultConfig, webpack) {
 
 ### h5.router
 
-路由相关的配置，暂时只支持路由模式的配置。
+路由相关的配置，支持路由模式、路由基准路径以及自定义路由的配置。
 
 #### h5.router.mode
 
@@ -349,14 +349,48 @@ webpack (defaultConfig, webpack) {
 h5: {
   /* 其他配置 */
   ... ,
-
-  publicPath: '/public',
   router: {
     mode: 'hash' // 或者是 "browser"
   }
 }
 ```
-针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/public/#/pages/index/index`（hash模式）或者`http://{{domain}}/public/pages/index/index`（browser模式）。
+　
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/#/pages/index/index`（hash模式）或者`http://{{domain}}/pages/index/index`（browser模式）。
+
+#### h5.router.basename
+
+路由基准路径的配置，配置值为`string`类型。例子：
+
+```js
+h5: {
+  /* 其他配置 */
+  ... ,
+  router: {
+    basename: '/myapp'
+  }
+}
+```
+
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/#/myapp/pages/index/index`（hash模式）或者`http://{{domain}}/myapp/pages/index/index`（browser模式）。
+
+### h5.router.customRoutes
+
+自定义路由的配置，配置值为`{ [key: string]: string }`类型。例子：
+
+```js
+h5: {
+  /* 其他配置 */
+  ... ,
+  router: {
+    customRoutes: {
+      '/pages/index/index': '/index'
+    }
+  }
+}
+```
+
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/#/index`（hash模式）或者`http://{{domain}}/myapp/index`（browser模式）。
+
 
 
 ### h5.entry
