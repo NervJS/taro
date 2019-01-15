@@ -2173,7 +2173,6 @@ async function build ({ watch, adapter }) {
   constantsReplaceList = Object.assign({}, constantsReplaceList, {
     'process.env.TARO_ENV': buildAdapter
   })
-  await checkCliAndFrameworkVersion()
   buildProjectConfig()
   await buildFrameworkInfo()
   copyFiles()
