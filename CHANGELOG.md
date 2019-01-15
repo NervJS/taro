@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.5...v) (2019-01-14)
+# [](https://github.com/NervJS/taro/compare/v1.2.6...v) (2019-01-15)
+
+
+
+<a name="1.2.6"></a>
+## [1.2.6](https://github.com/NervJS/taro/compare/v1.2.5...v1.2.6) (2019-01-15)
+
+
+### Features
+
+* **cli:** project 更新增加 [@tarojs](https://github.com/tarojs)/taro-tt，close [#1931](https://github.com/NervJS/taro/issues/1931) ([4e38d8b](https://github.com/NervJS/taro/commit/4e38d8b))
 
 
 
