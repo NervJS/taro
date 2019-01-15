@@ -42,7 +42,7 @@ import {
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
-import { transformOptions, babelTransformOptions } from './options'
+import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
@@ -811,7 +811,7 @@ export class RenderParser {
               const superClass = getSuperClassCode(classDecl)
               if (superClass) {
                 try {
-                  const ast = parse(superClass.code, babelTransformOptions).ast as t.File
+                  const ast = parse(superClass.code, buildBabelTransformOptions()).ast as t.File
                   traverse(ast, {
                     ClassMethod (p) {
                       if (!p.get('key').isIdentifier({ name: methodName })) {

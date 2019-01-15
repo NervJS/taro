@@ -24,26 +24,28 @@ export const setTransformOptions = (options: Options) => {
   }
 }
 
-export const babelTransformOptions: TransformOptions = {
-  parserOpts: {
-    sourceType: 'module',
+export const buildBabelTransformOptions: () => TransformOptions = () => {
+  return {
+    parserOpts: {
+      sourceType: 'module',
+      plugins: [
+        'classProperties',
+        'jsx',
+        'flow',
+        'flowComment',
+        'trailingFunctionCommas',
+        'asyncFunctions',
+        'exponentiationOperator',
+        'asyncGenerators',
+        'objectRestSpread',
+        'decorators',
+        'dynamicImport'
+      ] as any[]
+    },
     plugins: [
-      'classProperties',
-      'jsx',
-      'flow',
-      'flowComment',
-      'trailingFunctionCommas',
-      'asyncFunctions',
-      'exponentiationOperator',
-      'asyncGenerators',
-      'objectRestSpread',
-      'decorators',
-      'dynamicImport'
-    ] as any[]
-  },
-  plugins: [
-    require('babel-plugin-transform-flow-strip-types'),
-    [require('babel-plugin-transform-define').default, transformOptions.env]
-  ].concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
-  .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
+      require('babel-plugin-transform-flow-strip-types'),
+      [require('babel-plugin-transform-define').default, transformOptions.env]
+    ].concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
+    .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
+  }
 }
