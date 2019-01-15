@@ -88,8 +88,7 @@ export default class Picker extends Nerv.Component {
             _value.getDate()
           ]
         }
-
-        this._dateMaxDay = this.getDateRange(1, maxDay, '日')
+        this._dateMaxDay = this.getDateRange(_start.getDate(), maxDay, '日')
       } else {
         throw new Error('Date Interval Error')
       }
@@ -147,7 +146,7 @@ export default class Picker extends Nerv.Component {
       this.pickerDate._end.getFullYear()
     )
     let month = this.getDateRange(1, 12)
-    let day = this.getDateRange(1, 31)
+    let day = this.getDateRange(this.pickerDate._start.getDate(), 31)
 
     if (getIdx) {
       if (fields === 0) {
@@ -478,7 +477,7 @@ export default class Picker extends Nerv.Component {
         this.state.height[2] = TOP - LINE_HEIGHT * max + 34
       }
 
-      this._dateMaxDay = this.getDateRange(1, max, '日')
+      this._dateMaxDay = this.getDateRange(this.pickerDate._start.getDate(), max, '日')
     }
 
     const gitDateSelector = () => {
