@@ -404,6 +404,11 @@ declare namespace Taro {
     off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
 
     /**
+     * 取消监听的所有事件
+     */
+    off(): this;
+
+    /**
      * 触发一个事件，传参
      */
     trigger(eventName: string | symbol, ...args: any[]): boolean;
@@ -417,6 +422,8 @@ declare namespace Taro {
     function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
     function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+
+    function off(): void;
 
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
