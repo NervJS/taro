@@ -15,7 +15,8 @@
   },
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "Provider.js"
   ],
   "peerDependencies": {
     "nervjs": "^1.3.0"
