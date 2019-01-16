@@ -15,7 +15,8 @@
   },
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "Provider.js"
   ],
   "dependencies": {
     "@tarojs/mobx-common": "1.2.7",
