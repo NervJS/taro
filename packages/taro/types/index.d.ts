@@ -734,6 +734,10 @@ declare namespace Taro {
        * HTTP 请求中其他额外的 form data
        */
       formData?: any
+      /**
+       * 上传成功的回调
+       */
+      success?: (res?: uploadFile.Promised) => void
     }
   }
   /**
