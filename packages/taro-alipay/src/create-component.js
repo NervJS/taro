@@ -175,7 +175,7 @@ export function componentTrigger (component, key, args) {
           target = component.$scope.selectComponent(`#${ref.id}`)
           target = target ? (target.$component || target) : null
         } else {
-          const query = wx.createSelectorQuery().in(component.$scope)
+          const query = my.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
         if ('refName' in ref && ref['refName']) {
