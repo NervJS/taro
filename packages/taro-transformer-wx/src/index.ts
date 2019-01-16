@@ -548,11 +548,13 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
+  const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
+  result.template = result.template.replace(lessThanSignReg, '<')
   result.compressedTemplate = result.template
   result.template = prettyPrint(result.template, {
     max_char: 0,
     unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
-  }).replace(lessThanSignPlacehold, '<')
+  })
   result.imageSrcs = Array.from(imageSource)
   return result
 }

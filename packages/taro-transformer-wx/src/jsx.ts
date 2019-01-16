@@ -146,7 +146,7 @@ function parseJSXChildren (
           .replace(/(this\.props\.)|(this\.state\.)/g, '')
           .replace(/(props\.)|(state\.)/g, '')
           .replace(/this\./g, '')
-          .replace('<', lessThanSignPlacehold)
+          .replace(/</g, lessThanSignPlacehold)
         }}`
       }
       return str
