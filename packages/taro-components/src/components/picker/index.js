@@ -287,16 +287,6 @@ export default class Picker extends Nerv.Component {
         return (TOP - h) / LINE_HEIGHT
       })
 
-      // 需要做个比对再确定是否触发
-      let valueChanged = false
-      this.index.some((value, num) => {
-        if (value !== index[num]) {
-          valueChanged = true
-          return true
-        }
-      })
-      if (!valueChanged) return
-
       // 前一级列改变时，后面所有级别的 index 都要设为 0, 并初始化高度
       const rangeLen = this.props.range.length
       if (columnId < rangeLen - 1) {
