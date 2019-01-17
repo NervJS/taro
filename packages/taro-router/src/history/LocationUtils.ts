@@ -1,12 +1,14 @@
 import resolvePathname from 'resolve-pathname'
 import valueEqual from 'value-equal'
+import assign from 'lodash/assign'
+
 import { parsePath } from './PathUtils'
 import { Location } from '../utils/types'
 
 function createLocation (path: string, key: string, currentLocation?: Location): Location {
   let location: Partial<Location>
   const tmpLocation = parsePath(path)
-  location = Object.assign({}, tmpLocation, {
+  location = assign({}, tmpLocation, {
     state: { key }
   })
   location.state = { key }

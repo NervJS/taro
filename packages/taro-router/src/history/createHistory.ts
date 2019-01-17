@@ -1,5 +1,6 @@
 import warning from 'warning';
 import Taro from '@tarojs/taro-h5';
+import assign from 'lodash/assign';
 
 import { Action, History, HistoryState, Location, CustomRoutes } from '../utils/types';
 import createTransitionManager from './createTransitionManager';
@@ -120,7 +121,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser", fir
     : location => basename + createPath(location)
 
   const setState = (nextState: { action: 'POP' | 'PUSH' | 'REPLACE'; location: Location }): void => {
-    Object.assign(history, nextState)
+    assign(history, nextState)
 
     const fromLocation = {...lastLocation}
 

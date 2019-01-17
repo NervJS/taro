@@ -1,6 +1,8 @@
 import Taro, { Component } from '@tarojs/taro-h5';
 import Nerv from 'nervjs';
 import invariant from 'invariant';
+import toPairs from 'lodash/toPairs';
+import assign from 'lodash/assign';
 
 import { createNavigateBack, createNavigateTo, createRedirectTo } from '../apis';
 import Route from './route';
@@ -65,7 +67,7 @@ class Router extends Component<Props, State> {
   push (toLocation: Types.Location) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
-    routeStack.push(Object.assign({}, matchedRoute, {
+    routeStack.push(assign({}, matchedRoute, {
       key: toLocation.state.key
     }))
     this.setState({ routeStack, location: toLocation })
@@ -82,7 +84,7 @@ class Router extends Component<Props, State> {
     if (routeStack.length === 0) {
       // 不存在历史栈, 需要重新构造
       const matchedRoute = this.computeMatch(toLocation)
-      routeStack = [Object.assign({}, matchedRoute, {
+      routeStack = [assign({}, matchedRoute, {
         key: toLocation.state.key
       })]
     }
@@ -93,7 +95,7 @@ class Router extends Component<Props, State> {
   replace (toLocation: Types.Location) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
-    routeStack.splice(-1, 1, Object.assign({}, matchedRoute, {
+    routeStack.splice(-1, 1, assign({}, matchedRoute, {
       key: toLocation.state.key
     }))
     this.setState({ routeStack, location: toLocation })
@@ -107,7 +109,7 @@ class Router extends Component<Props, State> {
     const { history, customRoutes } = this.props
 
     this.mountApis()
-    this.customRoutes = Object.entries(customRoutes)
+    this.customRoutes = toPairs(customRoutes)
 
     this.unlisten = history.listen(({
       fromLocation,
