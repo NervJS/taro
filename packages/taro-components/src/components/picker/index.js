@@ -12,6 +12,7 @@ import PickerGroup from './picker-group'
 import classNames from 'classnames'
 import { TOP, LINE_HEIGHT } from './constant'
 import dateHandle from './date'
+import './style/index.scss'
 
 // todos:
 // 1. 加入滚动惯性
