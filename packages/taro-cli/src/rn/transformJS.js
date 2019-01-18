@@ -67,8 +67,16 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
           const value = node.value
           // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
           if (key.name === 'pages' && t.isArrayExpression(value)) {
+            // 分包
+            let root = ''
+            const rootNode = astPath.parent.properties.find(v => {
+              return v.key.name === 'root'
+            })
+            root = rootNode ? rootNode.value.value : ''
+
             value.elements.forEach(v => {
-              pages.push(v.value)
+              const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
+              pages.push(pagePath.replace(/^\//, ''))
             })
             astPath.remove()
           }
@@ -159,7 +167,7 @@ const ClassDeclarationOrExpression = {
       node.superClass.type === 'MemberExpression' &&
       node.superClass.object.name === taroImportDefaultName
     ) {
-      node.superClass.object.name = reactImportDefaultName
+      node.superClass.object.name = taroImportDefaultName
       if (node.id === null) {
         const renameComponentClassName = '_TaroComponentClass'
         componentClassName = renameComponentClassName

@@ -62,11 +62,7 @@ class Input extends Nerv.Component {
       let value = e.target.value
       const inputType = getTrueType(type, confirmType, password)
       /* 修复 number 类型 maxLength 无效 */
-      if (
-        inputType === 'number' &&
-        value &&
-        maxLength <= value.length
-      ) {
+      if (inputType === 'number' && value && maxLength <= value.length) {
         value = value.substring(0, maxLength)
         e.target.value = value
       }
@@ -75,6 +71,17 @@ class Input extends Nerv.Component {
         enumerable: true,
         value: { value }
       })
+      // 修复 IOS 光标跳转问题
+      if (!['number', 'file'].includes(inputType)) {
+        const pos = e.target.selectionEnd
+        setTimeout(
+          () => {
+            e.target.selectionStart = pos
+            e.target.selectionEnd = pos
+          }
+        )
+      }
+
       if (onChange) return onChange(e)
       if (onInput) return onInput(e)
     }
@@ -178,6 +185,10 @@ class Input extends Nerv.Component {
       />
     )
   }
+}
+
+Input.defaultProps = {
+  type: 'text'
 }
 
 export default Input

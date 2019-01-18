@@ -1,46 +1,17 @@
 import resolvePathname from 'resolve-pathname'
 import valueEqual from 'value-equal'
+import assign from 'lodash/assign'
+
 import { parsePath } from './PathUtils'
 import { Location } from '../utils/types'
 
-function createLocation(path: string, key?: string, currentLocation?: Location): Location
-function createLocation(location: Location): Location
-function createLocation (pathOrLocation: string | Location, key?: string, currentLocation?: Location): Location {
+function createLocation (path: string, key: string, currentLocation?: Location): Location {
   let location: Partial<Location>
-  if (typeof pathOrLocation === 'string') {
-    // Two-arg form: push(path, state)
-    const tmpLocation = parsePath(pathOrLocation)
-    location = Object.assign({}, tmpLocation)
-  } else {
-    // One-arg form: push(location)
-    location = { ...pathOrLocation }
-
-    if (location.path === undefined) location.path = ''
-
-    if (location.search) {
-      if (location.search.charAt(0) !== '?') location.search = '?' + location.search
-    } else {
-      location.search = ''
-    }
-
-    if (location.hash) {
-      if (location.hash.charAt(0) !== '#') location.hash = '#' + location.hash
-    } else {
-      location.hash = ''
-    }
-  }
-
-  try {
-    location.path = decodeURI(location.path!)
-  } catch (e) {
-    if (e instanceof URIError) {
-      throw new URIError('Pathname "' + location.path + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.')
-    } else {
-      throw e
-    }
-  }
-
-  if (key) location.state = { key }
+  const tmpLocation = parsePath(path)
+  location = assign({}, tmpLocation, {
+    state: { key }
+  })
+  location.state = { key }
 
   const params = {}
   const searchString = location.search!

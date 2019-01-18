@@ -554,6 +554,7 @@ exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/taro-h5',
   '@tarojs/taro-swan',
   '@tarojs/taro-alipay',
+  '@tarojs/taro-tt',
   '@tarojs/plugin-babel',
   '@tarojs/plugin-csso',
   '@tarojs/plugin-sass',
@@ -592,28 +593,5 @@ exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
     return pkgJson.version
   } catch (err) {
     return null
-  }
-}
-
-/**
- * 防反跳
- * @author Secbone
- *
- * @param fn [Function] 需要防反跳的函数
- * @param wait [Number] 时间，毫秒
- * @return [Function]
- */
-exports.debounce = function debounce (fn, wait) {
-  let timeout = null
-
-  return function () {
-    const args = arguments
-
-    if (timeout) clearTimeout(timeout)
-
-    timeout = setTimeout(() => {
-      timeout = null
-      fn.apply(this, args)
-    }, wait)
   }
 }

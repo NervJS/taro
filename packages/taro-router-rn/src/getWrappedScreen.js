@@ -114,7 +114,8 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     }
 
     componentDidMount () {
-      this.didBlurSubscription = this.props.navigation.addListener(
+      // didFocus
+      this.didFocusSubscription = this.props.navigation.addListener(
         'didFocus',
         payload => {
           // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
@@ -122,16 +123,26 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
           Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
           Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
           Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+          // 页面聚焦时，调用 componentDidShow
+          this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
         }
       )
-      this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
+
+      // willBlur
+      this.willBlurSubscription = this.props.navigation.addListener(
+        'willBlur',
+        payload => {
+          // 页面将失去焦点，调用 componentDidHide
+          this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
+        }
+      )
       this.screenRef.current && this.setState({}) // TODO 不然 current 为null ??
     }
 
     componentWillUnmount () {
-      this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
       // Remove the listener when you are done
-      this.didBlurSubscription && this.didBlurSubscription.remove()
+      this.didFocusSubscription && this.didFocusSubscription.remove()
+      this.willBlurSubscription && this.willBlurSubscription.remove()
     }
 
     render () {

@@ -404,6 +404,11 @@ declare namespace Taro {
     off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
 
     /**
+     * 取消监听的所有事件
+     */
+    off(): this;
+
+    /**
      * 触发一个事件，传参
      */
     trigger(eventName: string | symbol, ...args: any[]): boolean;
@@ -417,6 +422,8 @@ declare namespace Taro {
     function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
 
     function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+
+    function off(): void;
 
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
@@ -1687,8 +1694,32 @@ declare namespace Taro {
        *
        * @since 1.6.0
        */
-      duration?: number
+      duration?: number,
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
@@ -1714,6 +1745,7 @@ declare namespace Taro {
   function playVoice(OBJECT: playVoice.Param): Promise<any>
 
   /**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
    *
    * **示例代码：**
@@ -1738,6 +1770,7 @@ declare namespace Taro {
   function pauseVoice(): void
 
   /**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    * 结束播放语音。
    *
    * **示例代码：**
@@ -1759,6 +1792,122 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxstopvoice
    */
   function stopVoice(): void
+
+  namespace setInnerAudioOption {
+    type Param = {
+      /**
+       * 是否与其他音频混播，设置为 true 之后，不会终止其他应用或微信内的音乐
+       */
+      mixWithOther?: boolean,
+      /**
+       * （仅在 iOS 生效）是否遵循静音开关，设置为 false 之后，即使是在静音模式下，也能播放声音
+       */
+      obeyMuteSwitch?: boolean,
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+  }
+  /**
+   * @since 2.3.0
+   *
+   * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   */
+  function setInnerAudioOption(OBJECT: setInnerAudioOption.Param): Promise<any>
+
+  const enum audioSourcesTypes {
+    /**
+     * 自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用
+     */
+    auto = 'auto',
+    /**
+     * 手机麦克风，仅限 iOS
+     */
+    buildInMic = 'buildInMic',
+    /**
+     * 耳机麦克风，仅限 iOS
+     */
+    headsetMic = 'headsetMic',
+    /**
+     * 麦克风（没插耳麦时是手机麦克风，插耳麦时是耳机麦克风），仅限 Android
+     */
+    mic = 'mic',
+    /**
+     * 同 mic，适用于录制音视频内容，仅限 Android
+     */
+    camcorder = 'camcorder',
+    /**
+     * 同 mic，适用于实时沟通，仅限 Android
+     */
+    voice_communication = 'voice_communication',
+    /**
+     * 同 mic，适用于语音识别，仅限 Android
+     */
+    voice_recognition = 'voice_recognition'
+  }
+
+  namespace getAvailableAudioSources {
+    type Param = {
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Result) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+
+    type Result = {
+      /**
+       * 支持的音频输入源列表，可在 RecorderManager.start() 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSourc
+       */
+      audioSources: audioSourcesTypes[]
+    }
+  }
+  /**
+   * @since 2.1.0
+   * 获取当前支持的音频输入源。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   */
+  function getAvailableAudioSources(OBJECT: getAvailableAudioSources.Param): Promise<any>
 
   namespace getBackgroundAudioPlayerState {
     type Promised = {
@@ -6393,7 +6542,7 @@ declare namespace Taro {
    * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
    */
-  function showLoading(OBJECT: showLoading.Param): Promise<any>
+  function showLoading(OBJECT?: showLoading.Param): Promise<any>
 
   /**
    * 隐藏消息提示框

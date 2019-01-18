@@ -95,7 +95,9 @@ function processEvent (eventHandlerName, obj) {
         keyLower = keyLower.replace(/^on/, '').toLocaleLowerCase()
         if (keyLower.indexOf(eventType) >= 0) {
           const argName = keyLower.replace(eventType, '')
-          bindArgs[argName] = dataset[key]
+          if (/^(a[a-z]|so)$/.test(argName)) {
+            bindArgs[argName] = dataset[key]
+          }
         }
       }
     })
@@ -163,52 +165,17 @@ function filterProps (defaultProps = {}, componentProps = {}, weappComponentData
 
 export function componentTrigger (component, key, args) {
   args = args || []
-  if (key === 'componentWillMount') {
+
+  if (key === 'componentDidMount') {
     if (component['$$refs'] && component['$$refs'].length > 0) {
       let refs = {}
       component['$$refs'].forEach(ref => {
         let target
         if (ref.type === 'component') {
           target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = my.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'dom') {
-          target = query.select(`#${ref.id}`)
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = my.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'component') {
-          target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
+          target = target ? (target.$component || target) : null
         } else {
+          const query = my.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
         if ('refName' in ref && ref['refName']) {
@@ -216,10 +183,12 @@ export function componentTrigger (component, key, args) {
         } else if ('fn' in ref && typeof ref['fn'] === 'function') {
           ref['fn'].call(component, target)
         }
+        ref.target = target
       })
-      component.refs = refs
+      component.refs = Object.assign({}, component.refs || {}, refs)
     }
   }
+
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -235,6 +204,13 @@ export function componentTrigger (component, key, args) {
     component._dirty = false
     component._disable = false
     component.state = component.getState()
+  }
+  if (key === 'componentWillUnmount') {
+    // refs
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))
+      component.refs = {}
+    }
   }
 }
 
@@ -333,7 +309,7 @@ function createComponent (ComponentClass, isPage) {
 
       didUpdate (prevProps, prevData) {
         // setData 触发的 didUpdate 不需要更新组件
-        if (!this.$component || !this.$component.__isReady || prevData !== this.data) return
+        if (!this.$component || !this.$component.__isReady || (prevProps === this.props && prevData !== this.data)) return
         const nextProps = filterProps(ComponentClass.defaultProps, this.$component.props, this.props)
         this.$component.props = nextProps
         this.$component._unsafeCallUpdate = true

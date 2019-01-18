@@ -83,6 +83,7 @@ export default function (config: BuildConfig): any {
     }),
     resolve: { alias },
     module: getModule({
+      mode,
       staticDirectory,
       designWidth,
       deviceRatio,

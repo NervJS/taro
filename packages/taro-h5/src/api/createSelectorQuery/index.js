@@ -1,3 +1,5 @@
+import Nerv from 'nervjs'
+
 /**
  * WXML节点信息API
  * @return {Object} SelectorQuery 对象实例

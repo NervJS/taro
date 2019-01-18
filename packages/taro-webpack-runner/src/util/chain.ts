@@ -151,6 +151,7 @@ const getEntry = (customEntry = {}) => {
 }
 
 const getModule = ({
+  mode,
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -286,13 +287,17 @@ const getModule = ({
     oneOf: cssLoaders
   }
 
+  const additionalBabelOptions = {
+    ...plugins.babel,
+    sourceMap: enableSourceMap
+  }
+  if (mode === 'production') {
+    additionalBabelOptions.plugins.push(require.resolve('babel-plugin-dev-expression'))
+  }
   rule.jsx = {
     use: {
       babelLoader: {
-        options: {
-          ...plugins.babel,
-          sourceMap: enableSourceMap
-        }
+        options: additionalBabelOptions
       }
     }
   }
@@ -329,7 +334,8 @@ const getModule = ({
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   if (Array.isArray(esnextModules) && esnextModules.length) {
-    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]${v}`))
+    /* cnpm 安装的模块名前带下划线 `_` */
+    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`));
     /**
      * isEsnextModule
      * 

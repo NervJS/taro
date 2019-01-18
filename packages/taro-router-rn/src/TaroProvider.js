@@ -10,7 +10,8 @@ class TaroProvider extends React.Component {
 
   componentDidMount () {
     let {Taro} = this.props
-    this.didBlurSubscription = this.props.navigation.addListener(
+    // didFocus
+    this.didFocusSubscription = this.props.navigation.addListener(
       'didFocus',
       payload => {
         // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
@@ -123,7 +124,7 @@ class TaroProvider extends React.Component {
 
   componentWillUnmount () {
     // Remove the listener when you are done
-    this.didBlurSubscription && this.didBlurSubscription.remove()
+    this.didFocusSubscription && this.didFocusSubscription.remove()
   }
 
   render () {

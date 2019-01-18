@@ -80,6 +80,9 @@ const buildProd = (config: BuildConfig): Promise<void> => {
 const buildDev = async (config: BuildConfig): Promise<any> => {
   return new Promise((resolve, reject) => {
     const conf = buildConf(config)
+    const routerConfig = config.router || {}
+    const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
+    const routerBasename = routerConfig.basename || '/'
     const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
     const outputPath = path.join(appPath, conf.outputRoot as string)
     const customDevServerOption = config.devServer || {}
@@ -108,7 +111,7 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
       protocol: devServerOptions.https ? 'https' : 'http',
       hostname: devServerOptions.host,
       port: devServerOptions.port,
-      pathname: publicPath
+      pathname: routerMode === 'browser' ? routerBasename : '/'
     })
     WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
     const compiler = webpack(webpackConfig)

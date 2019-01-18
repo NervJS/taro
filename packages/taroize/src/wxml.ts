@@ -2,7 +2,7 @@ import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
@@ -11,6 +11,10 @@ import { parseExpression } from 'babylon'
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
+
+function buildSlotName (slotName: string) {
+  return `render${slotName[0].toUpperCase() + slotName.replace('-', '').slice(1)}`
+}
 
 enum NodeType {
   Element = 'element',
@@ -102,24 +106,25 @@ export const createWxmlVistor = (
   wxses: WXS[] = [],
   imports: Imports[] = []
 ) => {
-  return {
-    JSXAttribute (path) {
-      const name = path.node.name as t.JSXIdentifier
-      const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
-        t.JSXElement
-      >
-      const valueCopy = cloneDeep(path.get('value').node)
-      transformIf(name.name, path, jsx, valueCopy)
-      const loopItem = transformLoop(name.name, path, jsx, valueCopy)
-      if (loopItem) {
-        if (loopItem.index) {
-          loopIds.add(loopItem.index)
-        }
-        if (loopItem.item) {
-          loopIds.add(loopItem.item)
-        }
+  const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
+    const name = path.node.name as t.JSXIdentifier
+    const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
+      t.JSXElement
+    >
+    const valueCopy = cloneDeep(path.get('value').node)
+    transformIf(name.name, path, jsx, valueCopy)
+    const loopItem = transformLoop(name.name, path, jsx, valueCopy)
+    if (loopItem) {
+      if (loopItem.index) {
+        loopIds.add(loopItem.index)
       }
-    },
+      if (loopItem.item) {
+        loopIds.add(loopItem.item)
+      }
+    }
+  }
+  return {
+    JSXAttribute: jsxAttrVisitor,
     JSXIdentifier (path) {
       const nodeName = path.node.name
       if (path.parentPath.isJSXAttribute()) {
@@ -153,11 +158,45 @@ export const createWxmlVistor = (
             refIds.add(p.node.name)
           }
         })
+        const slotAttr = attrs.find(a => a.node.name.name === 'slot')
+        if (slotAttr) {
+          const slotValue = slotAttr.node.value
+          if (slotValue && t.isStringLiteral(slotValue)) {
+            const slotName = slotValue.value
+            const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
+            if (parentComponent && parentComponent.isJSXElement()) {
+              slotAttr.remove()
+              path.traverse({
+                JSXAttribute: jsxAttrVisitor
+              })
+              const block = buildBlockElement()
+              block.children = [cloneDeep(path.node)]
+              parentComponent.node.openingElement.attributes.push(
+                t.jSXAttribute(
+                  t.jSXIdentifier(buildSlotName(slotName)),
+                  t.jSXExpressionContainer(block)
+                )
+              )
+              path.remove()
+            }
+          } else {
+            throw codeFrameError(slotValue, 'slot 的值必须是一个字符串')
+          }
+        }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
+          const nameAttr = attrs.find(a => a.node.name.name === 'name')
+          let slotName = ''
+          if (nameAttr) {
+            if (nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
+              slotName = nameAttr.node.value.value
+            } else {
+              throw codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+            }
+          }
           const children = t.memberExpression(
             t.memberExpression(t.thisExpression(), t.identifier('props')),
-            t.identifier('children')
+            t.identifier(slotName ? buildSlotName(slotName) : 'children')
           )
           try {
             path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
@@ -653,9 +692,14 @@ function parseContent (content: string) {
 }
 
 function parseAttribute (attr: Attribute) {
-  const { key, value } = attr
+  let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
   if (value) {
+    if (key === 'class' && value.startsWith('[') && value.endsWith(']')) {
+      value = value.slice(1, value.length - 1).replace(',', '')
+      // tslint:disable-next-line
+      console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
+    }
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {

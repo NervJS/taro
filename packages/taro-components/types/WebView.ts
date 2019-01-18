@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 /**
  * web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
@@ -16,17 +16,17 @@ interface WebViewProps extends StandardProps {
   /**
    * 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data }
    */
-  onMessage?: BaseEventFunction,
+  onMessage?: CommonEventFunction,
 
   /**
    * 网页加载成功时候触发此事件。e.detail = { src }
    */
-  onLoad?: BaseEventFunction,
+  onLoad?: CommonEventFunction,
 
   /**
    * 网页加载失败的时候触发此事件。e.detail = { src }
    */
-  onError?: BaseEventFunction
+  onError?: CommonEventFunction
 }
 
 declare const WebView: ComponentType<WebViewProps>

@@ -13,7 +13,8 @@ module.exports = {
     tt: true,
     getApp: true,
     __wxRoute: true,
-    getCurrentPages: true
+    getCurrentPages: true,
+    requirePlugin: true
   },
   rules: {
     'no-unused-expressions': 0,

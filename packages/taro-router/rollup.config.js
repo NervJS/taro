@@ -8,14 +8,17 @@ import typescript from 'rollup-plugin-typescript'
 const cwd = __dirname
 
 const entries = [{
-  input: 'index.tsx',
-  output: 'index.js'
+  output: 'dist/index.js',
+  format: 'cjs'
+}, {
+  output: 'dist/index.esm.js',
+  format: 'esm'
 }]
 
 const baseConfig = {
+  input: 'src/index.tsx',
   external: ['nervjs', '@tarojs/taro-h5'],
   output: {
-    format: 'cjs',
     sourcemap: false,
     exports: 'named'
   },
@@ -49,10 +52,10 @@ const baseConfig = {
   }
 }
 
-const appendConfigs = ({input, output}) => {
+const appendConfigs = ({output, format}) => {
   return pipe(
-    set('input', join(cwd, `src/${input}`)),
-    set('output.file', join(cwd, `dist/${output}`))
+    set('output.file', join(cwd, output)),
+    set('output.format', format)
   )(baseConfig)
 }
 
