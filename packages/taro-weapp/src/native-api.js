@@ -6,6 +6,7 @@ import {
 } from '@tarojs/taro'
 import { cacheDataSet, cacheDataGet } from './data-cache'
 import { queryToJson, getUniqueKey } from './util'
+import Link from '../../interceptor'
 const RequestQueue = {
   MAX_REQUEST: 5,
   queue: [],
@@ -34,6 +35,12 @@ const RequestQueue = {
     }
   }
 }
+
+function taroInterceptor(chain) {
+  return request(chain.requestParams);
+}
+
+const interceptors = new Link([taroInterceptor])
 
 function request (options) {
   options = options || {}
@@ -195,7 +202,8 @@ function canIUseWebp () {
 
 export default function initNativeApi (taro) {
   processApis(taro)
-  taro.request = request
+  taro.request = interceptors.request
+  taro.addInterceptor = interceptors.addInterceptor
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
   taro.requirePlugin = requirePlugin

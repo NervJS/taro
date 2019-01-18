@@ -31,7 +31,8 @@ function canIUseWebp () {
 
 export default function initNativeApi (taro) {
   processApis(taro)
-  taro.request = request
+  taro.request = request.request
+  taro.addInterceptor = request.addInterceptor
   taro.createSelectorQuery = createSelectorQuery
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
