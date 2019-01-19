@@ -339,7 +339,7 @@ webpack (defaultConfig, webpack) {
 
 ### h5.router
 
-路由相关的配置，暂时只支持路由模式的配置。
+路由相关的配置，支持路由模式、路由基准路径以及自定义路由的配置。
 
 #### h5.router.mode
 
@@ -349,14 +349,48 @@ webpack (defaultConfig, webpack) {
 h5: {
   /* 其他配置 */
   ... ,
-
-  publicPath: '/public',
   router: {
     mode: 'hash' // 或者是 "browser"
   }
 }
 ```
-针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/public/#/pages/index/index`（hash模式）或者`http://{{domain}}/public/pages/index/index`（browser模式）。
+　
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/#/pages/index/index`（hash模式）或者`http://{{domain}}/pages/index/index`（browser模式）。
+
+#### h5.router.basename
+
+路由基准路径的配置，配置值为`string`类型。例子：
+
+```js
+h5: {
+  /* 其他配置 */
+  ... ,
+  router: {
+    basename: '/myapp'
+  }
+}
+```
+
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/#/myapp/pages/index/index`（hash模式）或者`http://{{domain}}/myapp/pages/index/index`（browser模式）。
+
+#### h5.router.customRoutes
+
+自定义路由的配置，配置值为`{ [key: string]: string }`类型。例子：
+
+```js
+h5: {
+  /* 其他配置 */
+  ... ,
+  router: {
+    customRoutes: {
+      '/pages/index/index': '/index'
+    }
+  }
+}
+```
+
+针对上面的配置，调用`Taro.navigateTo({ url: '/pages/index/index' })`后，浏览器地址栏将被变为`http://{{domain}}/#/index`（hash模式）或者`http://{{domain}}/myapp/index`（browser模式）。
+
 
 
 ### h5.entry
@@ -511,7 +545,7 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 
 配置一些 H5 端用到的插件模块配置，暂时只有 `postcss`。
 
-### h5.module.postcss.autoprefixer
+#### h5.module.postcss.autoprefixer
 
 可以进行`autoprefixer`的配置。配置项参考[官方文档](https://github.com/postcss/autoprefixer)，例如：
 
@@ -526,7 +560,7 @@ postcss: {
 }
 ```
 
-### h5.module.postcss.pxtransform
+#### h5.module.postcss.pxtransform
 
 可以进行`pxtransform`的配置。配置项参考[官方文档](https://github.com/Pines-Cheng/postcss-pxtransform/)，例如：
 
@@ -541,7 +575,7 @@ postcss: {
 }
 ```
 
-### h5.module.postcss.cssModules
+#### h5.module.postcss.cssModules
 
 可以进行 H5 端 css modules 配置，配置如下：
 

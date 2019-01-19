@@ -22,7 +22,8 @@ const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const h5Config = projectConfig.h5 || {}
 const routerConfig = h5Config.router || {}
 const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
-const customRoutes = routerConfig.customRoutes
+const customRoutes = routerConfig.customRoutes || {}
+const routerBasename = routerConfig.basename || '/'
 const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourcePath = path.join(appPath, sourceDir)
 const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
@@ -142,7 +143,7 @@ function processEntry (code, filePath) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -155,7 +156,7 @@ function processEntry (code, filePath) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -184,6 +185,7 @@ function processEntry (code, filePath) {
         const isComponentDidMount = keyName === 'componentDidMount'
         const isComponentWillUnmount = keyName === 'componentWillUnmount'
         const isConstructor = keyName === 'constructor'
+        const basename = JSON.stringify(addLeadingSlash(stripTrailingSlash(routerBasename)))
 
         if (isRender) {
           const routes = pages.map((v, k) => {
@@ -198,23 +200,12 @@ function processEntry (code, filePath) {
             })
           })
 
-          /* 处理自定义路由 */
-          if (typeof customRoutes === 'object') {
-            Object.entries(customRoutes).forEach(([matchedUrl, pageComponent]) => {
-              const absPagename = addLeadingSlash(matchedUrl)
-              const relPagename = `.${addLeadingSlash(pageComponent)}`
-              routes.push(createRoute({
-                absPagename,
-                relPagename,
-                isIndex: false
-              }))
-            })
-          }
-
           funcBody = `<Router
             mode={${JSON.stringify(routerMode)}}
             publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
             routes={[${routes.join(',')}]}
+            customRoutes={${JSON.stringify(customRoutes)}}
+            basename={${basename}}
           />`
 
           /* 插入Tabbar */
@@ -238,10 +229,10 @@ function processEntry (code, filePath) {
 
                   <${tabBarComponentName}
                     mode={${JSON.stringify(routerMode)}}
-                    publicPath={${JSON.stringify(publicPath)}}
                     conf={this.state.${tabBarConfigName}}
                     homePage="${homePage}"
-                    router={${taroImportDefaultName}} />
+                    router={${taroImportDefaultName}}
+                    basename={${basename}} />
 
                 </${tabBarContainerComponentName}>`
             }
@@ -394,10 +385,11 @@ function processEntry (code, filePath) {
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
             } else if (Util.REG_SCRIPTS.test(value)) {
-              /* TODO windows下路径处理可能有问题 ../../lib/utils.js */
-              const dirname = path.dirname(value)
-              const extname = path.extname(value)
-              node.source = t.stringLiteral(path.join(dirname, path.basename(value, extname)).replace(/\\/g, '/'))
+              const realPath = path.resolve(filePath, '..', value)
+              const dirname = path.dirname(realPath)
+              const extname = path.extname(realPath)
+              const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+              node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
             }
           }
           return
@@ -586,7 +578,7 @@ function processOthers (code, filePath, fileType) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -599,7 +591,7 @@ function processOthers (code, filePath, fileType) {
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
           astPath.replaceWith(
-            t.classDeclaration(
+            t.classExpression(
               t.identifier(renameComponentClassName),
               node.superClass,
               node.body,
@@ -654,9 +646,11 @@ function processOthers (code, filePath, fileType) {
         }
         if (!Util.isNpmPkg(value)) {
           if (Util.REG_SCRIPTS.test(value)) {
-            const dirname = path.dirname(value)
-            const extname = path.extname(value)
-            node.source = t.stringLiteral(path.join(dirname, path.basename(value, extname)).replace(/\\/g, '/'))
+            const realPath = path.resolve(filePath, '..', value)
+            const dirname = path.dirname(realPath)
+            const extname = path.extname(realPath)
+            const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+            node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {
           let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')

@@ -114,3 +114,5 @@ TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
     'canvasId': 'id'
   }
 })
+
+export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'

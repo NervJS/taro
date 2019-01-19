@@ -4,6 +4,8 @@ about: 创建一个错误报告
 
 ---
 
+> Feature Request 请提到 [FeatHub](https://feathub.com/NervJS/taro)
+
 如果是提交 bug，请搜索文档和 issue，确认以下事项：
 
 * 该问题没有在其他 issue 和文档讨论到，不属于重复内容

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction, FormItemProps } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface CheckboxGroupProps extends StandardProps, FormItemProps {
   /**
@@ -8,7 +8,7 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
    * detail = {value:[选中的checkbox的value的数组]}
    *
    */
-  onChange?: BaseEventFunction
+  onChange?: CommonEventFunction
 }
 
 declare const CheckboxGroup: ComponentType<CheckboxGroupProps>

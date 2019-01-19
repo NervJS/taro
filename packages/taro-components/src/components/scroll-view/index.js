@@ -50,6 +50,7 @@ class ScrollView extends Nerv.Component {
         } else {
           this.container.scrollTop = props.scrollTop
         }
+        this._scrollTop = props.scrollTop
       }
       if (props.scrollX && typeof props.scrollLeft === 'number') {
         if ('scrollWithAnimation' in props) {
@@ -59,6 +60,7 @@ class ScrollView extends Nerv.Component {
         } else {
           this.container.scrollLeft = props.scrollLeft
         }
+        this._scrollLeft = props.scrollLeft
       }
     }, 10)
   }
@@ -69,29 +71,31 @@ class ScrollView extends Nerv.Component {
     if (
       nextProps.scrollY &&
       typeof props.scrollTop === 'number' &&
-      nextProps.scrollTop !== props.scrollTop
+      nextProps.scrollTop !== this._scrollTop
     ) {
       if ('scrollWithAnimation' in nextProps) {
-        easeOutScroll(props.scrollTop, nextProps.scrollTop, pos => {
+        easeOutScroll(this._scrollTop, nextProps.scrollTop, pos => {
           this.container.scrollTop = pos
         })
       } else {
         this.container.scrollTop = nextProps.scrollTop
       }
+      this._scrollTop = nextProps.scrollTop
     }
     // X 轴滚动
     if (
       nextProps.scrollX &&
       typeof props.scrollLeft === 'number' &&
-      nextProps.scrollLeft !== props.scrollLeft
+      nextProps.scrollLeft !== this._scrollLeft
     ) {
       if ('scrollWithAnimation' in nextProps) {
-        easeOutScroll(props.scrollLeft, nextProps.scrollLeft, pos => {
+        easeOutScroll(this._scrollLeft, nextProps.scrollLeft, pos => {
           this.container.scrollLeft = pos
         })
       } else {
         this.container.scrollLeft = nextProps.scrollLeft
       }
+      this._scrollLeft = nextProps.scrollLeft
     }
   }
 
@@ -149,6 +153,8 @@ class ScrollView extends Nerv.Component {
         scrollHeight,
         scrollWidth
       } = this.container
+      this._scrollLeft = scrollLeft
+      this._scrollTop = scrollTop
       e.detail = {
         scrollLeft,
         scrollTop,

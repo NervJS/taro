@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 interface CoverViewProps extends StandardProps {
 
@@ -19,12 +19,12 @@ interface CoverImageProps extends StandardProps {
   /**
    * 	图片加载成功时触发
    */
-  onLoad?: BaseEventFunction,
+  onLoad?: CommonEventFunction,
 
   /**
    * 图片加载失败时触发
    */
-  onError?: BaseEventFunction
+  onError?: CommonEventFunction
 }
 
 declare const CoverView: ComponentType<CoverViewProps>

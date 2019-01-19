@@ -82,7 +82,7 @@ const printWhenFailed = compiler => {
   return compiler
 }
 
-let isFirst = false
+let isFirst = true
 const printWhenFirstDone = (devUrl, compiler) => {
   compiler.hooks.done.tap('taroDone', stats => {
     if (isFirst) {

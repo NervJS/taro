@@ -33,6 +33,14 @@ class Switch extends Nerv.Component {
     })
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.hasOwnProperty('checked')) {
+      this.setState({
+        checked: nextProps.checked
+      })
+    }
+  }
+
   render () {
     const { type = 'switch', className, color } = this.props
     const cls = classNames(

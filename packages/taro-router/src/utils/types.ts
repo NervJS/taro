@@ -23,6 +23,10 @@ export interface RouteObj {
   key?: string;
 }
 
+export interface CustomRoutes {
+  [key: string]: string;
+}
+
 export type Action = 'POP' | 'PUSH' | 'REPLACE'
 export namespace History {
   export type Hash = string;

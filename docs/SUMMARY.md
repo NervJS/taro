@@ -141,3 +141,4 @@
   * [Taro 代码与微信小程序代码混写](wx-hybrid.md)
   * [技术原理](principle.md)
   * [Debug 指南](debug.md)
+  * [贡献指南](CONTRIBUTING.md)

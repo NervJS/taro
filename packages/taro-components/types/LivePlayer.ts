@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 /**
  * 实时音视频播放。
@@ -66,17 +66,17 @@ interface LivePlayerProps extends StandardProps {
   /**
    * 播放状态变化事件，detail = {code}
    */
-  onStateChange?: BaseEventFunction,
+  onStateChange?: CommonEventFunction,
 
   /**
    * 全屏变化事件，detail = {direction, fullScreen}
    */
-  onFullscreenChange?: BaseEventFunction,
+  onFullscreenChange?: CommonEventFunction,
 
   /**
    * 网络状态通知，detail = {info}
    */
-  onNetstatus?: BaseEventFunction
+  onNetstatus?: CommonEventFunction
 }
 
 declare const LivePlayer: ComponentType<LivePlayerProps>

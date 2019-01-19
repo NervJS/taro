@@ -554,6 +554,7 @@ exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/taro-h5',
   '@tarojs/taro-swan',
   '@tarojs/taro-alipay',
+  '@tarojs/taro-tt',
   '@tarojs/plugin-babel',
   '@tarojs/plugin-csso',
   '@tarojs/plugin-sass',

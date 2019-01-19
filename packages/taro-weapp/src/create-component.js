@@ -124,10 +124,11 @@ function processEvent (eventHandlerName, obj) {
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
-        keyLower = keyLower.toLocaleLowerCase()
         if (keyLower.indexOf(eventType) >= 0) {
           const argName = keyLower.replace(eventType, '')
-          bindArgs[argName] = dataset[key]
+          if (/^(a[a-z]|so)$/.test(argName)) {
+            bindArgs[argName] = dataset[key]
+          }
         }
       }
     })
@@ -286,6 +287,8 @@ function initComponent (ComponentClass, isPage) {
   if (!isPage) {
     const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
     this.$component.props = nextProps
+  } else {
+    this.$component.$router.path = getCurrentPageUrl()
   }
   updateComponent(this.$component)
 }
@@ -365,7 +368,6 @@ function createComponent (ComponentClass, isPage) {
     weappComponentConf.methods['onLoad'] = function (options = {}) {
       if (this.$component.__isReady) return
       Object.assign(this.$component.$router.params, options)
-      this.$component.$router.path = getCurrentPageUrl()
       initComponent.apply(this, [ComponentClass, isPage])
     }
     weappComponentConf.methods['onReady'] = function () {

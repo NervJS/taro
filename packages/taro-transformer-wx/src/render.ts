@@ -1,5 +1,6 @@
-import { NodePath, Scope, Visitor } from 'babel-traverse'
+import traverse, { NodePath, Scope, Visitor } from 'babel-traverse'
 import * as t from 'babel-types'
+import { transform as parse } from 'babel-core'
 import {
   newJSXIfAttr,
   reverseBoolean,
@@ -20,7 +21,8 @@ import {
   isVarName,
   setParentCondition,
   isContainJSXElement,
-  getSlotName
+  getSlotName,
+  getSuperClassCode
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -40,7 +42,7 @@ import {
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
-import { transformOptions } from './options'
+import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
@@ -174,7 +176,37 @@ export class RenderParser {
   isLiteralOrUndefined = (node: t.Node): node is t.Literal | t.Identifier => t.isLiteral(node) || t.isIdentifier(node, { name: 'undefined' })
 
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
-    if (t.isLogicalExpression(parentNode)) {
+    if (parentPath.isObjectProperty()) {
+      const value = parentPath.get('value')
+      if (value !== jsxElementPath) {
+        return
+      }
+      if (!parentPath.parentPath.isObjectExpression()) {
+        return
+      }
+      const properties = parentPath.parentPath.get('properties')
+      if (!parentPath.parentPath.parentPath.isMemberExpression()) {
+        return
+      }
+      const rval = parentPath.parentPath.parentPath.get('property')
+      if (!rval || !rval.node || !Array.isArray(properties)) {
+        return
+      }
+      const children = properties.map(p => p.node).map((p, index) => {
+        const block = buildBlockElement()
+        const tester = t.binaryExpression('===', p.key, rval.node as any)
+        block.children = [t.jSXExpressionContainer(p.value)]
+        if (index === 0) {
+          newJSXIfAttr(block, tester)
+        } else {
+          setJSXAttr(block, Adapter.elseif, t.jSXExpressionContainer(tester))
+        }
+        return block
+      })
+      const block = buildBlockElement()
+      block.children = children
+      parentPath.parentPath.parentPath.replaceWith(block)
+    } else if (t.isLogicalExpression(parentNode)) {
       const { left, operator, right } = parentNode
       const leftExpression = parentPath.get('left') as NodePath<t.Expression>
       if (operator === '&&' && t.isExpression(left)) {
@@ -336,7 +368,31 @@ export class RenderParser {
     }
   }
 
-  hasStateOrProps = p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name)
+  hasStateOrProps = (key: 'state' | 'props') => (p: t.AssignmentProperty | t.RestProperty) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === key
+
+  private destructStateOrProps (
+    key: 'state' | 'props',
+    path: NodePath<t.VariableDeclarator>,
+    properties: (t.AssignmentProperty | t.RestProperty)[],
+    parentPath: NodePath<t.Node>
+  ) {
+    const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && key === p.key.name)
+    if (hasStateOrProps.length === 0) {
+      return
+    }
+    if (hasStateOrProps.length !== properties.length) {
+      throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
+    }
+    const declareState = template(`const ${key} = this.${key};`)()
+    if (properties.length > 1) {
+      const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: key }))
+      properties.splice(index, 1)
+      parentPath.insertAfter(declareState)
+    } else {
+      parentPath.insertAfter(declareState)
+      parentPath.remove()
+    }
+  }
 
   private loopComponentVisitor: Visitor = {
     VariableDeclarator: (path) => {
@@ -349,22 +405,8 @@ export class RenderParser {
         parentPath.isVariableDeclaration()
       ) {
         const { properties } = id.node
-        const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name))
-        if (hasStateOrProps.length === 0) {
-          return
-        }
-        if (hasStateOrProps.length !== properties.length) {
-          throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
-        }
-        const declareState = template('const state = this.state;')()
-        if (properties.length > 1) {
-          const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))
-          properties.splice(index, 1)
-          parentPath.insertAfter(declareState)
-        } else {
-          parentPath.insertAfter(declareState)
-          parentPath.remove()
-        }
+        this.destructStateOrProps('state', path, properties, parentPath)
+        this.destructStateOrProps('props', path, properties, parentPath)
       }
     },
     JSXElement: {
@@ -476,7 +518,7 @@ export class RenderParser {
           return
         }
         if (t.isIdentifier(id)) {
-          if (id.name.startsWith('loopArray')) {
+          if (id.name.startsWith('loopArray') || id.name.startsWith(LOOP_CALLEE)) {
             this.renderPath.node.body.body.unshift(
               t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
             )
@@ -570,7 +612,7 @@ export class RenderParser {
           if (t.isIdentifier(parentNode.left)) {
             const assignmentName = parentNode.left.name
             const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
-            const block = this.templates.get(assignmentName) || buildBlockElement()
+            let block = this.templates.get(assignmentName) || buildBlockElement()
             if (isEmptyDeclarator(bindingNode)) {
               const blockStatement = parentPath.findParent(p =>
                 p.isBlockStatement()
@@ -642,7 +684,14 @@ export class RenderParser {
                     newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                   }
                 }
-                block.children.push(jsxElementPath.node)
+                const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test })) {
+                  const newBlock = buildBlockElement()
+                  newBlock.children = [block, jsxElementPath.node]
+                  block = newBlock
+                } else {
+                  block.children.push(jsxElementPath.node)
+                }
                 // setTemplate(name, path, templates)
                 assignmentName && this.templates.set(assignmentName, block)
               }
@@ -775,6 +824,7 @@ export class RenderParser {
             const methodName = findMethodName(value.expression)
             methodName && this.usedEvents.add(methodName)
             const method = this.methods.get(methodName)
+            const classDecl = path.findParent(p => p.isClassDeclaration())
             const componentName = jsxElementPath.node.openingElement.name
             // if (method && t.isIdentifier(method.node.key)) {
             //   this.usedEvents.add(methodName)
@@ -786,6 +836,30 @@ export class RenderParser {
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
+            }
+            if (classDecl && classDecl.isClassDeclaration()) {
+              const superClass = getSuperClassCode(classDecl)
+              if (superClass) {
+                try {
+                  const ast = parse(superClass.code, buildBabelTransformOptions()).ast as t.File
+                  traverse(ast, {
+                    ClassMethod (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    },
+                    ClassProperty (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    }
+                  })
+                } catch (error) {
+                  //
+                }
+              }
             }
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
@@ -946,11 +1020,49 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const init = path.get('init')
+      const id = path.get('id')
       const ifStem = init.findParent(p => p.isIfStatement())
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
+      }
+      let isDerivedFromState = false
+      if (init.isMemberExpression()) {
+        const object = init.get('object')
+        if (object.isMemberExpression() && object.get('object').isThisExpression() && object.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+        if (object.isThisExpression() && init.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+      }
+      if (!isDerivedFromState) {
+        const errMsg = 'Warning: render 函数定义一个不从 this.state 解构或赋值而来的变量，此变量又与 this.state 下的变量重名可能会导致无法渲染。'
+        if (id.isIdentifier()) {
+          const name = id.node.name
+          if (this.initState.has(name)) {
+            // tslint:disable-next-line
+            console.log(codeFrameError(id.node, errMsg).message)
+          }
+        }
+        if (id.isObjectPattern()) {
+          const { properties } = id.node
+          for (const p of properties) {
+            if (t.isIdentifier(p)) {
+              if (this.initState.has(p.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+            if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
+              if (this.initState.has(p.argument.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+          }
+        }
       }
     },
     JSXEmptyExpression (path) {

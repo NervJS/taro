@@ -1,17 +1,15 @@
 import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
-import * as fs from 'fs'
 import { prettyPrint } from 'html'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 import { Transformer } from './class'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression } from './utils'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression, getSuperClassCode } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID } from './constant'
+import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID, lessThanSignPlacehold } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
-import { Options, setTransformOptions } from './options'
+import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
 import { get as safeGet } from 'lodash'
-import { eslintValidation } from './eslint'
 
 const template = require('babel-template')
 
@@ -163,28 +161,7 @@ export default function transform (options: Options): TransformResult {
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
   // 原因大概是 babylon.parse 没有生成 File 实例导致 scope 和 path 原型上都没有 `file`
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
-  const ast = parse(code, {
-    parserOpts: {
-      sourceType: 'module',
-      plugins: [
-        'classProperties',
-        'jsx',
-        'flow',
-        'flowComment',
-        'trailingFunctionCommas',
-        'asyncFunctions',
-        'exponentiationOperator',
-        'asyncGenerators',
-        'objectRestSpread',
-        'decorators',
-        'dynamicImport'
-      ] as any[]
-    },
-    plugins: [
-      require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-transform-define').default, options.env]
-    ].concat(process.env.ESLINT === 'false' || options.isNormal || options.isTyped ? [] : eslintValidation).concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
-  }).ast as t.File
+  const ast = parse(code, buildBabelTransformOptions()).ast as t.File
   if (options.isNormal) {
     return { ast } as any
   }
@@ -232,28 +209,19 @@ export default function transform (options: Options): TransformResult {
     },
     ClassDeclaration (path) {
       mainClass = path
-      const superClass = path.node.superClass
-      if (t.isIdentifier(superClass)) {
-        const binding = path.scope.getBinding(superClass.name)
-        if (binding && binding.kind === 'module') {
-          const bindingPath = binding.path.parentPath
-          if (bindingPath.isImportDeclaration()) {
-            const source = bindingPath.node.source
-            try {
-              const p = fs.existsSync(source.value + '.js') ? source.value + '.js' : source.value + '.tsx'
-              const code = fs.readFileSync(p, 'utf8')
-              componentProperies = transform({
-                isRoot: false,
-                isApp: false,
-                code,
-                isTyped: true,
-                sourcePath: source.value,
-                outputPath: source.value
-              }).componentProperies
-            } catch (error) {
-              //
-            }
-          }
+      const superClass = getSuperClassCode(path)
+      if (superClass) {
+        try {
+          componentProperies = transform({
+            isRoot: false,
+            isApp: false,
+            code: superClass.code,
+            isTyped: true,
+            sourcePath: superClass.sourcePath,
+            outputPath: superClass.sourcePath
+          }).componentProperies
+        } catch (error) {
+          //
         }
       }
     },
@@ -351,7 +319,7 @@ export default function transform (options: Options): TransformResult {
     // },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
-      if (assignment && assignment.isAssignmentExpression()) {
+      if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
         const left = assignment.node.left
         if (t.isIdentifier(left)) {
           const binding = assignment.scope.getBinding(left.name)
@@ -580,9 +548,12 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
+  const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
+  result.template = result.template.replace(lessThanSignReg, '<')
   result.compressedTemplate = result.template
   result.template = prettyPrint(result.template, {
-    max_char: 0
+    max_char: 0,
+    unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
   })
   result.imageSrcs = Array.from(imageSource)
   return result

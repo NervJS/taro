@@ -1,8 +1,8 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction, FormItemProps } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface RadioGroupProps extends StandardProps, FormItemProps {
-  onChange?: BaseEventFunction
+  onChange?: CommonEventFunction
 }
 
 declare const RadioGroup: ComponentType<RadioGroupProps>

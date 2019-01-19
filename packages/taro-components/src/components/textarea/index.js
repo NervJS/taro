@@ -3,21 +3,43 @@ import omit from 'omit.js'
 class Textarea extends Nerv.Component {
   constructor () {
     super(...arguments)
+    this.onChange = this.onChange.bind(this)
+    this.onFocus = this.onFocus.bind(this)
+    this.onBlur = this.onBlur.bind(this)
   }
 
   onChange (e) {
-    const { onChange, onInput } = this.props
+    const { onChange = '', onInput = '' } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
       value: {
         value: e.target.value
       }
     })
-    if (onChange) {
-      onChange && onChange(e)
-    } else {
-      onInput && onInput(e)
-    }
+    if (onChange) return onChange && onChange(e)
+    if (onInput) return onInput && onInput(e)
+  }
+
+  onFocus (e) {
+    const { onFocus } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    onFocus && onFocus(e)
+  }
+
+  onBlur (e) {
+    const { onBlur } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    onBlur && onBlur(e)
   }
 
   render () {
@@ -26,9 +48,6 @@ class Textarea extends Nerv.Component {
       placeholder = '',
       disabled,
       maxlength = 140,
-      onChange,
-      onFocus,
-      onBlur,
       autoFocus = false
     } = this.props
     return (
@@ -39,6 +58,7 @@ class Textarea extends Nerv.Component {
           'disabled',
           'maxlength',
           'onChange',
+          'onInput',
           'onFocus',
           'onBlur',
           'autofocus'
@@ -48,9 +68,9 @@ class Textarea extends Nerv.Component {
         disabled={disabled}
         maxlength={maxlength}
         autofocus={autoFocus}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
+        onChange={this.onChange}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
       />
     )
   }

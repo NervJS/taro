@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 export type callout = {
 
@@ -266,29 +266,29 @@ interface MapProps extends StandardProps {
   /**
    * 点击标记点时触发，会返回marker的id
    */
-  onMarkerTap?: BaseEventFunction,
+  onMarkerTap?: CommonEventFunction,
 
   /**
    * @since 1.2.0
    * 点击标记点对应的气泡时触发，会返回 marker 的 id
    */
-  onCalloutTap?: BaseEventFunction,
+  onCalloutTap?: CommonEventFunction,
 
   /**
    * 点击控件时触发，会返回 control 的 id
    */
-  onControlTap?: BaseEventFunction,
+  onControlTap?: CommonEventFunction,
 
   /**
    * 视野发生变化时触发
    */
-  onRegionChange?: BaseEventFunction,
+  onRegionChange?: CommonEventFunction,
 
   /**
    * @since 1.6.0
    * 在地图渲染更新完成时触发
    */
-  onUpdated?: BaseEventFunction
+  onUpdated?: CommonEventFunction
 }
 
 declare const Map: ComponentType<MapProps>
