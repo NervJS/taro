@@ -88,7 +88,7 @@ class Animation {
       // 没有动画存在
       if (animData === null) return
       const [animName, animPath] = animData.split('__')
-      if (animName === `lc-h5-poly-fill/${this.id}/create-animation`) {
+      if (animName === `taro-h5-poly-fill/${this.id}/create-animation`) {
         const [animIndex, stepIndex = 0] = animPath.split('--')
         // 动画总的关键帧
         const animStepsCount = this.animationMap[`${animName}__${animIndex}`]
@@ -257,8 +257,7 @@ class Animation {
   }
   // 创建底层数据
   createAnimationData () {
-    // animData 的格式说明: 玲珑前缀__动画索引--step索引
-    const animIndex = `lc-h5-poly-fill/${this.id}/create-animation__${this.animationMapCount++}`
+    const animIndex = `taro-h5-poly-fill/${this.id}/create-animation__${this.animationMapCount++}`
     // 记录动画分几个 step
     this.animationMap[animIndex] = this.steps.length
     // 吐出 step
