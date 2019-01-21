@@ -227,7 +227,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
       let value = source.value
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
-      const pathAlias = projectConfig.pathAlias || {}
+      const pathAlias = projectConfig.alias || {}
       if (Util.isAliasPath(value, pathAlias)) {
         source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
       }

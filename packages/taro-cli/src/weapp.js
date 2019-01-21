@@ -1319,7 +1319,8 @@ async function buildSinglePage (page) {
       env: constantsReplaceList
     })
     const pageDepComponents = transformResult.components
-    const pageWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
+    const compressTemplate = useCompileConf.compressTemplate
+    const pageWXMLContent = (isProduction && compressTemplate) ? transformResult.compressedTemplate : transformResult.template
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
@@ -1754,7 +1755,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       adapter: buildAdapter,
       env: constantsReplaceList
     })
-    const componentWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
+    const compressTemplate = useCompileConf.compressTemplate
+    const componentWXMLContent = (isProduction && compressTemplate) ? transformResult.compressedTemplate : transformResult.template
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
