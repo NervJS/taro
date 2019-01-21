@@ -71,6 +71,14 @@ export default function withWeapp (componentType: string) {
       this.setState(state)
     }
 
+    triggerEvent = (eventName: string, ...args) => {
+      if (typeof eventName !== 'string') {
+        throw new Error('triggerEvent 第一个参数必须是字符串')
+      }
+      const fullEventName = `on${eventName[0].toUpperCase()}${eventName.slice(1)}`
+      this.props[fullEventName](...args)
+    }
+
     componentWillReceiveProps (nextProps) {
       if (Array.isArray(this._observeProps)) {
         this._observeProps.forEach(({ name: key, observer }) => {
