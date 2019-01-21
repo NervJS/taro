@@ -378,7 +378,7 @@
 
 #### 动画
 
-☑️ wx.createAnimation
+✅ wx.createAnimation
 
 #### 位置
 
