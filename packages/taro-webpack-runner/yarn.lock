@@ -604,6 +604,10 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-dev-expression@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-dev-expression/-/babel-plugin-dev-expression-0.2.1.tgz#d4a7beefefbb50e3f2734990a82a2486cf9eb9ee"
+
 babel-plugin-syntax-dynamic-import@^6.18.0:
   version "6.18.0"
   resolved "https://registry.npmjs.org/babel-plugin-syntax-dynamic-import/-/babel-plugin-syntax-dynamic-import-6.18.0.tgz#8d6a26229c83745a9982a441051572caa179b1da"
@@ -4237,9 +4241,9 @@ postcss-modules@^1.4.1:
     postcss "^7.0.1"
     string-hash "^1.1.1"
 
-postcss-plugin-constparse@1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/postcss-plugin-constparse/-/postcss-plugin-constparse-1.2.4.tgz#a9e0b4f99132fa5acd1843b1e6a77622e9aa9870"
+postcss-plugin-constparse@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/postcss-plugin-constparse/-/postcss-plugin-constparse-1.2.8.tgz#853bb21ff6ba57c76fa63490a8723a9f6a1b3d6d"
   dependencies:
     postcss "^6.0.22"
 
@@ -4250,9 +4254,9 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-1.2.4.tgz#8fccec77e3868874da1aeaaa3d4498fe0c659913"
+postcss-pxtransform@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-1.2.8.tgz#ad1048db194e6ed799661f734137e1785639e1da"
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
