@@ -17,7 +17,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
     if (defaultProps.hasOwnProperty(key)) {
       weappComponentConf.properties[key] = {
         type: null,
-        value: null
+        value: defaultProps[key]
       }
     }
   }
