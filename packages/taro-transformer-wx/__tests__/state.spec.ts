@@ -39,7 +39,7 @@ describe('State', () => {
             `
           const { state, fuck } = this
           return (
-            <View className={'icon-' + this.props.type}>测试 + {this.props.type}</View>
+            <View className={'icon-' + this.props.type}>测试 + {this.type}</View>
           )
         `,
             `state = { type: 'test' }`

@@ -69,7 +69,7 @@ ruleTester.run('duplicate-name-of-state-and-props', rule, {
     },
     {
       code: testClassProperty(`this.props.bb`)
-    },
+    }
   ],
   invalid: [
     {

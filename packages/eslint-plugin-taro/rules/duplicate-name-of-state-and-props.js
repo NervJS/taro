@@ -36,7 +36,7 @@ module.exports = {
       },
       AssignmentExpression (node) {
         const { left, right } = node
-        if (right.type !== 'ObjectExpression') {
+        if (right && right.type !== 'ObjectExpression') {
           return
         }
         if (left.type !== 'MemberExpression') {
@@ -62,6 +62,9 @@ module.exports = {
       },
       VariableDeclarator (node) {
         const { id, init } = node
+        if (!init) {
+          return
+        }
         if (init.type !== 'MemberExpression' || init.object.type !== 'ThisExpression' || init.property.type !== 'Identifier' || init.property.name !== 'props') {
           return
         }

@@ -68,7 +68,7 @@ function isClassDcl (p: NodePath<t.Node>) {
 interface JSXHandler {
   parentNode: t.Node
   parentPath: NodePath<t.Node>
-  statementParent: NodePath<t.Node>
+  statementParent?: NodePath<t.Node>
   isReturnStatement?: boolean
   isFinalReturn?: boolean
 }
@@ -413,6 +413,15 @@ export class RenderParser {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
           this.handleConditionExpr(options, jsxElementPath)
+          const ifStem = jsxElementPath.findParent(p => p.isIfStatement()) as NodePath<t.IfStatement>
+          if (ifStem && ifStem.findParent(isArrayMapCallExpression)) {
+            const block = buildBlockElement()
+            block.children = [jsxElementPath.node]
+            newJSXIfAttr(block, ifStem.node.test)
+            if (!jsxElementPath.node.openingElement.attributes.some(a => a.name.name === Adapter.if)) {
+              jsxElementPath.replaceWith(block)
+            }
+          }
         })
       },
       exit: (jsxElementPath: NodePath<t.JSXElement>) => {
@@ -543,168 +552,165 @@ export class RenderParser {
     }
   }
 
+  private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn }: JSXHandler) {
+    if (t.isReturnStatement(parentNode)) {
+      if (!isFinalReturn) {
+        return
+      } else {
+        const ifStatement = parentPath.findParent(p => p.isIfStatement())
+        const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+        if (blockStatement && blockStatement.isBlockStatement()) {
+          blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+        }
+        const block = this.finalReturnElement || buildBlockElement()
+        if (isBlockIfStatement(ifStatement, blockStatement)) {
+          const { test, alternate, consequent } = ifStatement.node
+          // blockStatement.node.body.push(t.returnStatement(
+          //   t.memberExpression(t.thisExpression(), t.identifier('state'))
+          // ))
+          if (alternate === blockStatement.node) {
+            throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')
+          } else if (consequent === blockStatement.node) {
+            const parentIfStatement = ifStatement.findParent(p => p.isIfStatement())
+            if (parentIfStatement) {
+              setJSXAttr(
+                jsxElementPath.node,
+                Adapter.elseif,
+                t.jSXExpressionContainer(test),
+                jsxElementPath
+              )
+            } else {
+              if (this.topLevelIfStatement.size > 0) {
+                setJSXAttr(
+                  jsxElementPath.node,
+                  Adapter.elseif,
+                  t.jSXExpressionContainer(test),
+                  jsxElementPath
+                )
+              } else {
+                newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+                this.topLevelIfStatement.add(ifStatement)
+              }
+            }
+          }
+        } else if (block.children.length !== 0) {
+          setJSXAttr(jsxElementPath.node, Adapter.else)
+        }
+        block.children.push(jsxElementPath.node)
+        this.finalReturnElement = block
+        this.returnedPaths.push(parentPath)
+      }
+    } else if (t.isArrowFunctionExpression(parentNode)) {
+      // console.log('arrow')
+    } else if (t.isAssignmentExpression(parentNode)) {
+      const ifStatement = parentPath.findParent(p => p.isIfStatement())
+      const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+      if (blockStatement && blockStatement.isBlockStatement()) {
+        blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+      }
+      if (t.isIdentifier(parentNode.left)) {
+        const assignmentName = parentNode.left.name
+        const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
+        let block = this.templates.get(assignmentName) || buildBlockElement()
+        if (isEmptyDeclarator(bindingNode)) {
+          const blockStatement = parentPath.findParent(p =>
+            p.isBlockStatement()
+          )
+          if (isBlockIfStatement(ifStatement, blockStatement)) {
+            const { test, alternate, consequent } = ifStatement.node
+            if (alternate === blockStatement.node) {
+              setJSXAttr(jsxElementPath.node, Adapter.else)
+            } else if (consequent === blockStatement.node) {
+              const parentIfStatement = ifStatement.findParent(p =>
+                p.isIfStatement()
+              ) as NodePath<t.IfStatement>
+              const assignments: t.AssignmentExpression[] = []
+              let isAssignedBefore = false
+              // @TODO: 重构这两种循环为通用模块
+
+              // 如果这个 JSX assigmnent 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
+              if (blockStatement && blockStatement.isBlockStatement()) {
+                for (const parentStatement of blockStatement.node.body) {
+                  if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
+                    const statements = parentStatement.consequent.body
+                    for (const statement of statements) {
+                      if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
+                        isAssignedBefore = true
+                      }
+                    }
+                  }
+                }
+              }
+
+              // 如果这个 JSX assigmnent 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
+              if (parentIfStatement) {
+                const { consequent } = parentIfStatement.node
+                if (t.isBlockStatement(consequent)) {
+                  const body = consequent.body
+                  for (const parentStatement of body) {
+                    if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
+                      const statements = parentStatement.consequent.body
+                      for (const statement of statements) {
+                        if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
+                          assignments.push(statement.expression)
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              if (
+                (
+                  parentIfStatement &&
+                  (
+                    parentIfStatement.get('alternate') === ifStatement ||
+                    assignments.findIndex(a => a === parentNode) > 0
+                  )
+                )
+                ||
+                isAssignedBefore
+              ) {
+                setJSXAttr(
+                  jsxElementPath.node,
+                  Adapter.elseif,
+                  t.jSXExpressionContainer(test),
+                  jsxElementPath
+                )
+              } else {
+                if (parentIfStatement) {
+                  newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
+                }
+                newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+              }
+            }
+            const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+            if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test })) {
+              const newBlock = buildBlockElement()
+              newBlock.children = [block, jsxElementPath.node]
+              block = newBlock
+            } else {
+              block.children.push(jsxElementPath.node)
+            }
+            // setTemplate(name, path, templates)
+            assignmentName && this.templates.set(assignmentName, block)
+          }
+        } else {
+          throw codeFrameError(
+            jsxElementPath.node.loc,
+            '请将 JSX 赋值表达式初始化为 null，然后再进行 if 条件表达式赋值。'
+          )
+        }
+      }
+    } else if (!t.isJSXElement(parentNode)) {
+      // throwError(path, '考虑只对 JSX 元素赋值一次。')
+    }
+  }
+
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
       this.handleJSXElement(jsxElementPath, (options) => {
-        const { parentNode, parentPath, isFinalReturn } = options
         this.handleConditionExpr(options, jsxElementPath)
-        // this.jsxDeclarations.add(statementParent)
-        /**
-         * @TODO
-         * 有空做一个 TS 的 pattern matching 函数
-         * 把分支重构出来复用
-         */
-        if (t.isReturnStatement(parentNode)) {
-          if (!isFinalReturn) {
-            //
-          } else {
-            const ifStatement = parentPath.findParent(p => p.isIfStatement())
-            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
-            if (blockStatement && blockStatement.isBlockStatement()) {
-              blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
-            }
-            const block = this.finalReturnElement || buildBlockElement()
-            if (isBlockIfStatement(ifStatement, blockStatement)) {
-              const { test, alternate, consequent } = ifStatement.node
-              // blockStatement.node.body.push(t.returnStatement(
-              //   t.memberExpression(t.thisExpression(), t.identifier('state'))
-              // ))
-              if (alternate === blockStatement.node) {
-                throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')
-              } else if (consequent === blockStatement.node) {
-                const parentIfStatement = ifStatement.findParent(p => p.isIfStatement())
-                if (parentIfStatement) {
-                  setJSXAttr(
-                    jsxElementPath.node,
-                    Adapter.elseif,
-                    t.jSXExpressionContainer(test),
-                    jsxElementPath
-                  )
-                } else {
-                  if (this.topLevelIfStatement.size > 0) {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      Adapter.elseif,
-                      t.jSXExpressionContainer(test),
-                      jsxElementPath
-                    )
-                  } else {
-                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
-                    this.topLevelIfStatement.add(ifStatement)
-                  }
-                }
-              }
-            } else if (block.children.length !== 0) {
-              setJSXAttr(jsxElementPath.node, Adapter.else)
-            }
-            block.children.push(jsxElementPath.node)
-            this.finalReturnElement = block
-            this.returnedPaths.push(parentPath)
-          }
-        } else if (t.isArrowFunctionExpression(parentNode)) {
-          // console.log('arrow')
-        } else if (t.isAssignmentExpression(parentNode)) {
-          const ifStatement = parentPath.findParent(p => p.isIfStatement())
-          const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
-          if (blockStatement && blockStatement.isBlockStatement()) {
-            blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
-          }
-          if (t.isIdentifier(parentNode.left)) {
-            const assignmentName = parentNode.left.name
-            const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
-            let block = this.templates.get(assignmentName) || buildBlockElement()
-            if (isEmptyDeclarator(bindingNode)) {
-              const blockStatement = parentPath.findParent(p =>
-                p.isBlockStatement()
-              )
-              if (isBlockIfStatement(ifStatement, blockStatement)) {
-                const { test, alternate, consequent } = ifStatement.node
-                if (alternate === blockStatement.node) {
-                  setJSXAttr(jsxElementPath.node, Adapter.else)
-                } else if (consequent === blockStatement.node) {
-                  const parentIfStatement = ifStatement.findParent(p =>
-                    p.isIfStatement()
-                  ) as NodePath<t.IfStatement>
-                  const assignments: t.AssignmentExpression[] = []
-                  let isAssignedBefore = false
-                  // @TODO: 重构这两种循环为通用模块
-
-                  // 如果这个 JSX assigmnent 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
-                  if (blockStatement && blockStatement.isBlockStatement()) {
-                    for (const parentStatement of blockStatement.node.body) {
-                      if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
-                        const statements = parentStatement.consequent.body
-                        for (const statement of statements) {
-                          if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
-                            isAssignedBefore = true
-                          }
-                        }
-                      }
-                    }
-                  }
-
-                  // 如果这个 JSX assigmnent 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
-                  if (parentIfStatement) {
-                    const { consequent } = parentIfStatement.node
-                    if (t.isBlockStatement(consequent)) {
-                      const body = consequent.body
-                      for (const parentStatement of body) {
-                        if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
-                          const statements = parentStatement.consequent.body
-                          for (const statement of statements) {
-                            if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
-                              assignments.push(statement.expression)
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  if (
-                    (
-                      parentIfStatement &&
-                      (
-                        parentIfStatement.get('alternate') === ifStatement ||
-                        assignments.findIndex(a => a === parentNode) > 0
-                      )
-                    )
-                    ||
-                    isAssignedBefore
-                  ) {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      Adapter.elseif,
-                      t.jSXExpressionContainer(test),
-                      jsxElementPath
-                    )
-                  } else {
-                    if (parentIfStatement) {
-                      newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
-                    }
-                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
-                  }
-                }
-                const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
-                if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test })) {
-                  const newBlock = buildBlockElement()
-                  newBlock.children = [block, jsxElementPath.node]
-                  block = newBlock
-                } else {
-                  block.children.push(jsxElementPath.node)
-                }
-                // setTemplate(name, path, templates)
-                assignmentName && this.templates.set(assignmentName, block)
-              }
-            } else {
-              throw codeFrameError(
-                jsxElementPath.node.loc,
-                '请将 JSX 赋值表达式初始化为 null，然后再进行 if 条件表达式赋值。'
-              )
-            }
-          }
-        } else if (!t.isJSXElement(parentNode)) {
-          // throwError(path, '考虑只对 JSX 元素赋值一次。')
-        }
+        this.handleJSXInIfStatement(jsxElementPath, options)
       })
 
       // handle jsx attrs
