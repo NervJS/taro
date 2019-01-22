@@ -2,7 +2,7 @@ import CssoWebpackPlugin from 'csso-webpack-plugin';
 import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import { partial } from 'lodash';
-import { fromPairs, map, mapKeys, pipe, toPairs } from 'lodash/fp';
+import { fromPairs, map, mapKeys, pipe, toPairs, keys, reduce } from 'lodash/fp';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as path from 'path';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
@@ -67,7 +67,12 @@ const getLoader = (loaderName: string, options: Option) => {
   }
 }
 
-const toArray = arg => [arg]
+const listify = listOrItem => {
+  if (Array.isArray( listOrItem )) {
+    return listOrItem
+  }
+  return [ listOrItem ]
+}
 
 const getPlugin = (plugin: any, args: Option[]) => {
   return {
@@ -80,9 +85,6 @@ const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
 
-const getDllContext = (outputRoot, dllDirectory) => {
-  return path.join(appPath, outputRoot, dllDirectory)
-}
 const getNamedDllContext = (outputRoot, dllDirectory, name) => {
   return {
     context: path.join(appPath, outputRoot, dllDirectory),
@@ -90,10 +92,11 @@ const getNamedDllContext = (outputRoot, dllDirectory, name) => {
   }
 }
 
-const processDllOption = context => {
+const processDllOption = ({ outputRoot, dllDirectory, dllFilename }) => {
+  const context = path.join(appPath, outputRoot, dllDirectory)
   return {
     path: path.join(context, '[name]-manifest.json'),
-    name: '[name]_library',
+    name: dllFilename,
     context
   }
 }
@@ -101,7 +104,7 @@ const processDllOption = context => {
 const processDllReferenceOption = ({ context, name }) => {
   return {
     context,
-    manifest: path.join(context, `${name}-manifest.json`)
+    manifest: require(path.join(context, `${name}-manifest.json`))
   }
 }
 
@@ -122,9 +125,9 @@ const getExtractCssLoader = () => {
   }
 }
 
-const getMiniCssExtractPlugin = pipe(mergeOption, toArray, partial(getPlugin, MiniCssExtractPlugin))
-const getHtmlWebpackPlugin = pipe(mergeOption, toArray, partial(getPlugin, HtmlWebpackPlugin))
-const getDefinePlugin = pipe(mergeOption, toArray, partial(getPlugin, webpack.DefinePlugin))
+const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
+const getHtmlWebpackPlugin = pipe(mergeOption, listify, partial(getPlugin, HtmlWebpackPlugin))
+const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
 const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, [])
 const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   return new UglifyJsPlugin({
@@ -135,11 +138,11 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   })
 }
 const getCssoWebpackPlugin = ([cssoOption]) => {
-  return pipe(mergeOption, toArray, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
+  return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
-const getDllPlugin = pipe(getDllContext, processDllOption, toArray, partial(getPlugin, webpack.DllPlugin))
-const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, toArray, partial(getPlugin, webpack.DllReferencePlugin))
-const getHtmlWebpackIncludeAssetsPlugin = pipe(toArray, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
+const getDllPlugin = pipe(processDllOption, listify, partial(getPlugin, webpack.DllPlugin))
+const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, listify, partial(getPlugin, webpack.DllReferencePlugin))
+const getHtmlWebpackIncludeAssetsPlugin = pipe(listify, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
 
 const getEntry = (customEntry = {}) => {
   return Object.assign(
@@ -366,11 +369,11 @@ const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) =
   )
 }
 
-const getDllOutput = ({ outputRoot, dllDirectory }) => {
+const getDllOutput = ({ outputRoot, dllDirectory, dllFilename }) => {
   return {
     path: path.join(appPath, outputRoot, dllDirectory),
-    filename: '[name].dll.js',
-    library: '[name]_library'
+    filename: `${dllFilename}.dll.js`,
+    library: dllFilename
   }
 }
 
@@ -388,4 +391,21 @@ const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   )(dllEntry)
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption }
+const getLibFile = (outputRoot, dllDirectory) => {
+  return function (prev, libname) {
+    const manifest = require(path.join(appPath, outputRoot, dllDirectory, `${libname}-manifest.json`));
+    if (manifest) {
+      return [...prev, path.join(dllDirectory, `${manifest.name}.dll.js`)]
+    } else {
+      return prev
+    }
+  }
+}
+
+const getLibFiles = ({dllEntry, outputRoot, dllDirectory}: {
+  dllEntry: { [key: string]: string[] };
+  outputRoot: string;
+  dllDirectory: string;
+}) => reduce(getLibFile(outputRoot, dllDirectory), [])(keys(dllEntry))
+
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption, getLibFiles }
