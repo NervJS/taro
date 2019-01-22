@@ -87,9 +87,11 @@ class Route extends Component<RouteProps, {}> {
   componentWillReceiveProps (nProps, nContext) {
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
-    const lastPath = this.props.path
-    const nextPath = nProps.path
-    const isRedirect = lastPath !== nextPath
+    const lastLocation = this.props.currentLocation
+    const nextLocation = nProps.currentLocation
+    const isRedirect = lastLocation.path !== nextLocation.path
+      || lastLocation.search !== nextLocation.search
+      || lastLocation.hash !== nextLocation.hash
 
     if (isRedirect) {
       this.updateComponent(nProps)
