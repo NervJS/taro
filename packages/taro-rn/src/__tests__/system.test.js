@@ -1,6 +1,6 @@
-import Taro from '../index.js'
+import system from '../api/system'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, system)
 
 describe('system', () => {
   describe('getSystemInfoSync', () => {

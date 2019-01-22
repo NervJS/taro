@@ -1,8 +1,8 @@
 import { NetInfo } from 'react-native'
 import MockNetInfo from './__mock__/mockNetwork'
-import Taro from '../index.js'
+import network from '../api/device/network'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, network)
 
 describe('network', () => {
   beforeEach(() => {

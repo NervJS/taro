@@ -34,7 +34,7 @@
     "babel-jest": "^23.0.1",
     "babel-preset-env": "^1.7.0",
     "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "enzyme-to-json": "^3.3.4",
     "jest": "^23.1.0",
     "jest-environment-enzyme": "^7.0.0",
@@ -42,6 +42,7 @@
     "jest-react-native": "^18.0.0",
     "mock-socket": "^7.1.0",
     "react": "^16.4.1",
+    "react-dom": "^16.7.0",
     "react-native": "^0.55.4",
     "react-test-renderer": "^16.5.2",
     "redux": "^4.0.0"

@@ -1,6 +1,6 @@
-import Taro from '../index.js'
+import request from '../api/request'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, request)
 
 describe('request', () => {
   beforeEach(() => {
