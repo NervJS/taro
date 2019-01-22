@@ -1,7 +1,7 @@
 const has = require('has')
 
 const allRules = {
-  'if-statement-in-map-loop': require('./if-statement-in-map-loop'),
+  // 'if-statement-in-map-loop': require('./if-statement-in-map-loop'),
   'manipulate-jsx-as-array': require('./manipulate-jsx-as-array'),
   'no-anonymous-function-in-props': require('./no-anonymous-function-in-props'),
   'no-jsx-in-class-method': require('./no-jsx-in-class-method'),
