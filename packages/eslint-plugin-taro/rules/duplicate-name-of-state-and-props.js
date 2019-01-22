@@ -11,7 +11,7 @@ module.exports = {
 
     function addStateFields (node) {
       for (const property of node.properties) {
-        if (property.type === 'ObjectProperty' && property.key.type === 'Identifier') {
+        if ((property.type === 'ObjectProperty' || property.type === 'Property') && property.key.type === 'Identifier') {
           stateNameFields.add(property)
         }
       }
@@ -53,17 +53,34 @@ module.exports = {
         if (object.type !== 'MemberExpression') {
           return
         }
-        if (object.object.type !== 'ThisExpression' || object.property.type !== 'Identifier' || object.property.name !== 'state') {
+        if (object.object.type !== 'ThisExpression' || object.property.type !== 'Identifier' || object.property.name !== 'props') {
           return
         }
-        if (property.type !== 'Identifier') {
+        if (property.type === 'Identifier') {
           propsNameFields.add(property.name)
+        }
+      },
+      VariableDeclarator (node) {
+        const { id, init } = node
+        if (init.type !== 'MemberExpression' || init.object.type !== 'ThisExpression' || init.property.type !== 'Identifier' || init.property.name !== 'props') {
+          return
+        }
+
+        if (id.type !== 'ObjectPattern') {
+          return
+        }
+
+        for (const property of id.properties) {
+          if (property.type === 'Property' && property.key.type === 'Identifier') {
+            propsNameFields.add(property.key.name)
+          }
         }
       },
       'ClassDeclaration:exit' () {
         stateNameFields.forEach(node => {
-          if (propsNameFields.has(node.name)) {
-            context.report(node, `this.state.${node.name} 与 this.props.${node.name} 重复可能会导致渲染结不如意料之中的结果。`)
+          const key = node.key
+          if (propsNameFields.has(key.name)) {
+            context.report(node, `this.state.${key.name} 与 this.props.${key.name} 重复可能会导致渲染结不如意料之中的结果。`)
           }
         })
       }

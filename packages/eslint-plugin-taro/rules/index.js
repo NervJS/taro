@@ -13,7 +13,8 @@ const allRules = {
   'class-naming': require('./class-naming'),
   'props-reserve-keyword': require('./props-reserve-keyword'),
   'this-props-function': require('./this-props-function'),
-  'render-props': require('./render-props')
+  'render-props': require('./render-props'),
+  'duplicate-name-of-state-and-props': require('./duplicate-name-of-state-and-props')
 }
 
 const transformerDisableRules = new Set([
