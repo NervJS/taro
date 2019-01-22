@@ -46,10 +46,18 @@ if (env) {
   }
 }
 
+if(args.length){
+  process.env.npm_cmd_config = {}
+  for(let i in args){
+    if(i%2) process.env.npm_cmd_config[args[i-1]] = args[i]
+    else process.env.npm_cmd_config[args[i]] = true
+  }
+}
+
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
 build(args, {
   type,
   watch
-})
+}, PROJECT_CONFIG)
