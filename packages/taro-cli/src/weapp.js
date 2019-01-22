@@ -1886,7 +1886,7 @@ function compileDepScripts (scriptFiles) {
       const compileExclude = useCompileConf.exclude || []
       let isInCompileExclude = false
       compileExclude.forEach(excludeItem => {
-        if (path.join(appPath, excludeItem) === item) {
+        if (item.indexOf(path.join(appPath, excludeItem)) >= 0) {
           isInCompileExclude = true
         }
       })
