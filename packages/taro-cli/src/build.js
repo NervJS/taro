@@ -7,9 +7,9 @@ const CONFIG = require('./config')
 
 const appPath = process.cwd()
 
-function build (args, buildConfig, PROJECT_CONFIG) {
+function build (args, buildConfig, projectConf) {
   const { type, watch } = buildConfig
-  const outputPath = path.join(appPath, PROJECT_CONFIG.outputRoot || CONFIG.OUTPUT_DIR)
+  const outputPath = path.join(appPath, projectConf.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
   } else {
