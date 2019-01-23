@@ -24,8 +24,7 @@ export default function (config: BuildConfig): any {
       lib: [
         'nervjs',
         '@tarojs/taro-h5',
-        '@tarojs/router',
-        '@tarojs/components'
+        '@tarojs/router'
       ]
     },
 

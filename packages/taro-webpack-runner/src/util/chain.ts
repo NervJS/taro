@@ -294,9 +294,6 @@ const getModule = ({
     ...plugins.babel,
     sourceMap: enableSourceMap
   }
-  if (mode === 'production') {
-    additionalBabelOptions.plugins.push(require.resolve('babel-plugin-dev-expression'))
-  }
   rule.jsx = {
     use: {
       babelLoader: {
