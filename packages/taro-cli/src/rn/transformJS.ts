@@ -77,8 +77,10 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
             root = rootNode ? rootNode.value.value : ''
 
             value.elements.forEach(v => {
-              const pagePath = `${root}/${(v as t.StringLiteral).value}`.replace(/\/{2,}/g, '/')
-              pages.push(pagePath.replace(/^\//, ''))
+              if (t.isStringLiteral(v)) {
+                const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
+                pages.push(pagePath.replace(/^\//, ''))
+              }
             })
             astPath.remove()
           }
