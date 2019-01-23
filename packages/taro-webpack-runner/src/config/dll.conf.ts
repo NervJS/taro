@@ -23,7 +23,6 @@ export default function (config: BuildConfig): any {
     dllEntry = {
       lib: [
         'nervjs',
-        '@tarojs/taro-h5',
         '@tarojs/router'
       ]
     },
