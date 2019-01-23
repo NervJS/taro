@@ -30,11 +30,14 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
+    "@tarojs/taro-h5": "^1.2.8",
     "autoprefixer": "8.6.4",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.4",
     "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-plugin-transform-react-jsx": "6.24.1",
+    "babel-plugin-transform-taroapi": "1.2.8",
+    "babel-types": "^6.26.0",
     "chalk": "2.4.1",
     "css-loader": "1.0.0",
     "csso-webpack-plugin": "1.0.0-beta.12",
@@ -67,6 +70,8 @@
   },
   "devDependencies": {
     "@types/autoprefixer": "6.7.3",
+    "@types/babel-traverse": "^6.25.4",
+    "@types/babel-types": "^7.0.4",
     "@types/lodash": "4.14.116",
     "@types/node": "10.3.5",
     "@types/resolve": "0.0.8",

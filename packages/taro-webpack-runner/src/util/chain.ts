@@ -342,8 +342,13 @@ const getModule = ({
   }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
-  const taroModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
-  let esnextModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
+  const taroModuleRegs = [
+    /@tarojs[/\\_]components/, /\btaro-components\b/,
+    /@tarojs[/\\_]taro-h5/, /\btaro-h5\b/
+  ]
+  let esnextModuleRegs = [
+    /@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/
+  ]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */
     esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])

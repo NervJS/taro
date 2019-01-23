@@ -17,6 +17,7 @@ declare namespace TaroH5 {
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
+  type Element = any
 
   class Component<P, S> {
     constructor(props?: P, context?: any);

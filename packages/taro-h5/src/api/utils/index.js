@@ -43,14 +43,20 @@ function errorHandler (fail, complete) {
   }
 }
 
-const enc = encodeURIComponent
-
 function serializeParams (params) {
   if (!params) {
     return ''
   }
   return Object.keys(params)
-    .map(key => (`${enc(key)}=${enc(params[key])}`)).join('&')
+    .map(key => (`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)).join('&')
+}
+
+function temporarilyNotSupport (apiName) {
+  return () => console.error(`暂时不支持 API ${apiName}`)
+}
+
+function permanentlyNotSupport (apiName) {
+  return () => console.error(`不支持 API ${apiName}`)
 }
 
 export {
@@ -59,5 +65,7 @@ export {
   inlineStyle,
   setTransform,
   errorHandler,
-  serializeParams
+  serializeParams,
+  temporarilyNotSupport,
+  permanentlyNotSupport
 }
