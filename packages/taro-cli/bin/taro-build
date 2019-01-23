@@ -52,4 +52,4 @@ console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName
 build(args, {
   type,
   watch
-})
+}, projectConf)
