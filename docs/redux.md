@@ -181,7 +181,7 @@ import { add, minus, asyncAdd } from '../../actions/counter'
     dispatch(asyncAdd())
   }
 }))
-export default class Index extends Component {
+class Index extends Component {
   config = {
     navigationBarTitleText: '首页'
   }
@@ -198,6 +198,7 @@ export default class Index extends Component {
   }
 }
 
+export default Index
 ```
 
 `connect` 方法接受两个参数 `mapStateToProps` 与 `mapDispatchToProps`

@@ -1,5 +1,6 @@
-import { NodePath, Scope, Visitor } from 'babel-traverse'
+import traverse, { NodePath, Scope, Visitor } from 'babel-traverse'
 import * as t from 'babel-types'
+import { transform as parse } from 'babel-core'
 import {
   newJSXIfAttr,
   reverseBoolean,
@@ -20,7 +21,8 @@ import {
   isVarName,
   setParentCondition,
   isContainJSXElement,
-  getSlotName
+  getSlotName,
+  getSuperClassCode
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -28,9 +30,19 @@ import {
   buildBlockElement,
   parseJSXElement
 } from './jsx'
-import { DEFAULT_Component_SET, MAP_CALL_ITERATOR, LOOP_STATE, LOOP_CALLEE, THIRD_PARTY_COMPONENTS, LOOP_ORIGINAL, INTERNAL_GET_ORIGNAL, GEL_ELEMENT_BY_ID } from './constant'
+import {
+  DEFAULT_Component_SET,
+  MAP_CALL_ITERATOR,
+  LOOP_STATE,
+  LOOP_CALLEE,
+  THIRD_PARTY_COMPONENTS,
+  LOOP_ORIGINAL,
+  INTERNAL_GET_ORIGNAL,
+  GEL_ELEMENT_BY_ID,
+  ALIPAY_BUBBLE_EVENTS
+} from './constant'
 import { Adapter, Adapters } from './adapter'
-import { transformOptions } from './options'
+import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
@@ -56,7 +68,7 @@ function isClassDcl (p: NodePath<t.Node>) {
 interface JSXHandler {
   parentNode: t.Node
   parentPath: NodePath<t.Node>
-  statementParent: NodePath<t.Node>
+  statementParent?: NodePath<t.Node>
   isReturnStatement?: boolean
   isFinalReturn?: boolean
 }
@@ -164,7 +176,37 @@ export class RenderParser {
   isLiteralOrUndefined = (node: t.Node): node is t.Literal | t.Identifier => t.isLiteral(node) || t.isIdentifier(node, { name: 'undefined' })
 
   handleConditionExpr ({ parentNode, parentPath, statementParent }: JSXHandler, jsxElementPath: NodePath<t.JSXElement>) {
-    if (t.isLogicalExpression(parentNode)) {
+    if (parentPath.isObjectProperty()) {
+      const value = parentPath.get('value')
+      if (value !== jsxElementPath) {
+        return
+      }
+      if (!parentPath.parentPath.isObjectExpression()) {
+        return
+      }
+      const properties = parentPath.parentPath.get('properties')
+      if (!parentPath.parentPath.parentPath.isMemberExpression()) {
+        return
+      }
+      const rval = parentPath.parentPath.parentPath.get('property')
+      if (!rval || !rval.node || !Array.isArray(properties)) {
+        return
+      }
+      const children = properties.map(p => p.node).map((p, index) => {
+        const block = buildBlockElement()
+        const tester = t.binaryExpression('===', p.key, rval.node as any)
+        block.children = [t.jSXExpressionContainer(p.value)]
+        if (index === 0) {
+          newJSXIfAttr(block, tester)
+        } else {
+          setJSXAttr(block, Adapter.elseif, t.jSXExpressionContainer(tester))
+        }
+        return block
+      })
+      const block = buildBlockElement()
+      block.children = children
+      parentPath.parentPath.parentPath.replaceWith(block)
+    } else if (t.isLogicalExpression(parentNode)) {
       const { left, operator, right } = parentNode
       const leftExpression = parentPath.get('left') as NodePath<t.Expression>
       if (operator === '&&' && t.isExpression(left)) {
@@ -326,7 +368,31 @@ export class RenderParser {
     }
   }
 
-  hasStateOrProps = p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name)
+  hasStateOrProps = (key: 'state' | 'props') => (p: t.AssignmentProperty | t.RestProperty) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === key
+
+  private destructStateOrProps (
+    key: 'state' | 'props',
+    path: NodePath<t.VariableDeclarator>,
+    properties: (t.AssignmentProperty | t.RestProperty)[],
+    parentPath: NodePath<t.Node>
+  ) {
+    const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && key === p.key.name)
+    if (hasStateOrProps.length === 0) {
+      return
+    }
+    if (hasStateOrProps.length !== properties.length) {
+      throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
+    }
+    const declareState = template(`const ${key} = this.${key};`)()
+    if (properties.length > 1) {
+      const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: key }))
+      properties.splice(index, 1)
+      parentPath.insertAfter(declareState)
+    } else {
+      parentPath.insertAfter(declareState)
+      parentPath.remove()
+    }
+  }
 
   private loopComponentVisitor: Visitor = {
     VariableDeclarator: (path) => {
@@ -339,28 +405,23 @@ export class RenderParser {
         parentPath.isVariableDeclaration()
       ) {
         const { properties } = id.node
-        const hasStateOrProps = properties.filter(p => t.isObjectProperty(p) && t.isIdentifier(p.key) && ['state', 'props'].includes(p.key.name))
-        if (hasStateOrProps.length === 0) {
-          return
-        }
-        if (hasStateOrProps.length !== properties.length) {
-          throw codeFrameError(path.node, 'state 或 props 只能单独从 this 中解构')
-        }
-        const declareState = template('const state = this.state;')()
-        if (properties.length > 1) {
-          const index = properties.findIndex(p => t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'state' }))
-          properties.splice(index, 1)
-          parentPath.insertAfter(declareState)
-        } else {
-          parentPath.insertAfter(declareState)
-          parentPath.remove()
-        }
+        this.destructStateOrProps('state', path, properties, parentPath)
+        this.destructStateOrProps('props', path, properties, parentPath)
       }
     },
     JSXElement: {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
           this.handleConditionExpr(options, jsxElementPath)
+          const ifStem = jsxElementPath.findParent(p => p.isIfStatement()) as NodePath<t.IfStatement>
+          if (ifStem && ifStem.findParent(isArrayMapCallExpression)) {
+            const block = buildBlockElement()
+            block.children = [jsxElementPath.node]
+            newJSXIfAttr(block, ifStem.node.test)
+            if (!jsxElementPath.node.openingElement.attributes.some(a => a.name.name === Adapter.if)) {
+              jsxElementPath.replaceWith(block)
+            }
+          }
         })
       },
       exit: (jsxElementPath: NodePath<t.JSXElement>) => {
@@ -385,7 +446,7 @@ export class RenderParser {
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
                     const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                     callExpr.getStatementParent().insertBefore(
-                      buildConstVariableDeclaration(variableName, ary)
+                      buildConstVariableDeclaration(variableName, setParentCondition(jsxElementPath, ary, true))
                     )
                     ary = t.identifier(variableName)
                   }
@@ -466,7 +527,7 @@ export class RenderParser {
           return
         }
         if (t.isIdentifier(id)) {
-          if (id.name.startsWith('loopArray')) {
+          if (id.name.startsWith('loopArray') || id.name.startsWith(LOOP_CALLEE)) {
             this.renderPath.node.body.body.unshift(
               t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
             )
@@ -477,7 +538,7 @@ export class RenderParser {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
             blockStatement.scope.rename(id.name, newId.name)
             p.parentPath.replaceWith(
-              template('ID = INIT;')({ ID: newId, INIT: init })
+              template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
             )
           }
         }
@@ -491,161 +552,165 @@ export class RenderParser {
     }
   }
 
+  private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn }: JSXHandler) {
+    if (t.isReturnStatement(parentNode)) {
+      if (!isFinalReturn) {
+        return
+      } else {
+        const ifStatement = parentPath.findParent(p => p.isIfStatement())
+        const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+        if (blockStatement && blockStatement.isBlockStatement()) {
+          blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+        }
+        const block = this.finalReturnElement || buildBlockElement()
+        if (isBlockIfStatement(ifStatement, blockStatement)) {
+          const { test, alternate, consequent } = ifStatement.node
+          // blockStatement.node.body.push(t.returnStatement(
+          //   t.memberExpression(t.thisExpression(), t.identifier('state'))
+          // ))
+          if (alternate === blockStatement.node) {
+            throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')
+          } else if (consequent === blockStatement.node) {
+            const parentIfStatement = ifStatement.findParent(p => p.isIfStatement())
+            if (parentIfStatement) {
+              setJSXAttr(
+                jsxElementPath.node,
+                Adapter.elseif,
+                t.jSXExpressionContainer(test),
+                jsxElementPath
+              )
+            } else {
+              if (this.topLevelIfStatement.size > 0) {
+                setJSXAttr(
+                  jsxElementPath.node,
+                  Adapter.elseif,
+                  t.jSXExpressionContainer(test),
+                  jsxElementPath
+                )
+              } else {
+                newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+                this.topLevelIfStatement.add(ifStatement)
+              }
+            }
+          }
+        } else if (block.children.length !== 0) {
+          setJSXAttr(jsxElementPath.node, Adapter.else)
+        }
+        block.children.push(jsxElementPath.node)
+        this.finalReturnElement = block
+        this.returnedPaths.push(parentPath)
+      }
+    } else if (t.isArrowFunctionExpression(parentNode)) {
+      // console.log('arrow')
+    } else if (t.isAssignmentExpression(parentNode)) {
+      const ifStatement = parentPath.findParent(p => p.isIfStatement())
+      const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+      if (blockStatement && blockStatement.isBlockStatement()) {
+        blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+      }
+      if (t.isIdentifier(parentNode.left)) {
+        const assignmentName = parentNode.left.name
+        const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
+        let block = this.templates.get(assignmentName) || buildBlockElement()
+        if (isEmptyDeclarator(bindingNode)) {
+          const blockStatement = parentPath.findParent(p =>
+            p.isBlockStatement()
+          )
+          if (isBlockIfStatement(ifStatement, blockStatement)) {
+            const { test, alternate, consequent } = ifStatement.node
+            if (alternate === blockStatement.node) {
+              setJSXAttr(jsxElementPath.node, Adapter.else)
+            } else if (consequent === blockStatement.node) {
+              const parentIfStatement = ifStatement.findParent(p =>
+                p.isIfStatement()
+              ) as NodePath<t.IfStatement>
+              const assignments: t.AssignmentExpression[] = []
+              let isAssignedBefore = false
+              // @TODO: 重构这两种循环为通用模块
+
+              // 如果这个 JSX assigmnent 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
+              if (blockStatement && blockStatement.isBlockStatement()) {
+                for (const parentStatement of blockStatement.node.body) {
+                  if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
+                    const statements = parentStatement.consequent.body
+                    for (const statement of statements) {
+                      if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
+                        isAssignedBefore = true
+                      }
+                    }
+                  }
+                }
+              }
+
+              // 如果这个 JSX assigmnent 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
+              if (parentIfStatement) {
+                const { consequent } = parentIfStatement.node
+                if (t.isBlockStatement(consequent)) {
+                  const body = consequent.body
+                  for (const parentStatement of body) {
+                    if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
+                      const statements = parentStatement.consequent.body
+                      for (const statement of statements) {
+                        if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
+                          assignments.push(statement.expression)
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              if (
+                (
+                  parentIfStatement &&
+                  (
+                    parentIfStatement.get('alternate') === ifStatement ||
+                    assignments.findIndex(a => a === parentNode) > 0
+                  )
+                )
+                ||
+                isAssignedBefore
+              ) {
+                setJSXAttr(
+                  jsxElementPath.node,
+                  Adapter.elseif,
+                  t.jSXExpressionContainer(test),
+                  jsxElementPath
+                )
+              } else {
+                if (parentIfStatement) {
+                  newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
+                }
+                newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+              }
+            }
+            const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+            if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test })) {
+              const newBlock = buildBlockElement()
+              newBlock.children = [block, jsxElementPath.node]
+              block = newBlock
+            } else {
+              block.children.push(jsxElementPath.node)
+            }
+            // setTemplate(name, path, templates)
+            assignmentName && this.templates.set(assignmentName, block)
+          }
+        } else {
+          throw codeFrameError(
+            jsxElementPath.node.loc,
+            '请将 JSX 赋值表达式初始化为 null，然后再进行 if 条件表达式赋值。'
+          )
+        }
+      }
+    } else if (!t.isJSXElement(parentNode)) {
+      // throwError(path, '考虑只对 JSX 元素赋值一次。')
+    }
+  }
+
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
       this.handleJSXElement(jsxElementPath, (options) => {
-        const { parentNode, parentPath, isFinalReturn } = options
         this.handleConditionExpr(options, jsxElementPath)
-        // this.jsxDeclarations.add(statementParent)
-        /**
-         * @TODO
-         * 有空做一个 TS 的 pattern matching 函数
-         * 把分支重构出来复用
-         */
-        if (t.isReturnStatement(parentNode)) {
-          if (!isFinalReturn) {
-            //
-          } else {
-            const ifStatement = parentPath.findParent(p => p.isIfStatement())
-            const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
-            if (blockStatement && blockStatement.isBlockStatement()) {
-              blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
-            }
-            const block = this.finalReturnElement || buildBlockElement()
-            if (isBlockIfStatement(ifStatement, blockStatement)) {
-              const { test, alternate, consequent } = ifStatement.node
-              // blockStatement.node.body.push(t.returnStatement(
-              //   t.memberExpression(t.thisExpression(), t.identifier('state'))
-              // ))
-              if (alternate === blockStatement.node) {
-                throw codeFrameError(parentNode.loc, '不必要的 else 分支，请遵从 ESLint consistent-return: https://eslint.org/docs/rules/consistent-return')
-              } else if (consequent === blockStatement.node) {
-                const parentIfStatement = ifStatement.findParent(p => p.isIfStatement())
-                if (parentIfStatement) {
-                  setJSXAttr(
-                    jsxElementPath.node,
-                    Adapter.elseif,
-                    t.jSXExpressionContainer(test),
-                    jsxElementPath
-                  )
-                } else {
-                  if (this.topLevelIfStatement.size > 0) {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      Adapter.elseif,
-                      t.jSXExpressionContainer(test),
-                      jsxElementPath
-                    )
-                  } else {
-                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
-                    this.topLevelIfStatement.add(ifStatement)
-                  }
-                }
-              }
-            } else if (block.children.length !== 0) {
-              setJSXAttr(jsxElementPath.node, Adapter.else)
-            }
-            block.children.push(jsxElementPath.node)
-            this.finalReturnElement = block
-            this.returnedPaths.push(parentPath)
-          }
-        } else if (t.isArrowFunctionExpression(parentNode)) {
-          // console.log('arrow')
-        } else if (t.isAssignmentExpression(parentNode)) {
-          const ifStatement = parentPath.findParent(p => p.isIfStatement())
-          const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
-          if (blockStatement && blockStatement.isBlockStatement()) {
-            blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
-          }
-          if (t.isIdentifier(parentNode.left)) {
-            const assignmentName = parentNode.left.name
-            const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
-            const block = this.templates.get(assignmentName) || buildBlockElement()
-            if (isEmptyDeclarator(bindingNode)) {
-              const blockStatement = parentPath.findParent(p =>
-                p.isBlockStatement()
-              )
-              if (isBlockIfStatement(ifStatement, blockStatement)) {
-                const { test, alternate, consequent } = ifStatement.node
-                if (alternate === blockStatement.node) {
-                  setJSXAttr(jsxElementPath.node, Adapter.else)
-                } else if (consequent === blockStatement.node) {
-                  const parentIfStatement = ifStatement.findParent(p =>
-                    p.isIfStatement()
-                  ) as NodePath<t.IfStatement>
-                  const assignments: t.AssignmentExpression[] = []
-                  let isAssignedBefore = false
-                  // @TODO: 重构这两种循环为通用模块
-
-                  // 如果这个 JSX assigmnent 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
-                  if (blockStatement && blockStatement.isBlockStatement()) {
-                    for (const parentStatement of blockStatement.node.body) {
-                      if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
-                        const statements = parentStatement.consequent.body
-                        for (const statement of statements) {
-                          if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
-                            isAssignedBefore = true
-                          }
-                        }
-                      }
-                    }
-                  }
-
-                  // 如果这个 JSX assigmnent 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
-                  if (parentIfStatement) {
-                    const { consequent } = parentIfStatement.node
-                    if (t.isBlockStatement(consequent)) {
-                      const body = consequent.body
-                      for (const parentStatement of body) {
-                        if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
-                          const statements = parentStatement.consequent.body
-                          for (const statement of statements) {
-                            if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression) && t.isIdentifier(statement.expression.left, { name: assignmentName })) {
-                              assignments.push(statement.expression)
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  if (
-                    (
-                      parentIfStatement &&
-                      (
-                        parentIfStatement.get('alternate') === ifStatement ||
-                        assignments.findIndex(a => a === parentNode) > 0
-                      )
-                    )
-                    ||
-                    isAssignedBefore
-                  ) {
-                    setJSXAttr(
-                      jsxElementPath.node,
-                      Adapter.elseif,
-                      t.jSXExpressionContainer(test),
-                      jsxElementPath
-                    )
-                  } else {
-                    if (parentIfStatement) {
-                      newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
-                    }
-                    newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
-                  }
-                }
-                block.children.push(jsxElementPath.node)
-                // setTemplate(name, path, templates)
-                assignmentName && this.templates.set(assignmentName, block)
-              }
-            } else {
-              throw codeFrameError(
-                jsxElementPath.node.loc,
-                '请将 JSX 赋值表达式初始化为 null，然后再进行 if 条件表达式赋值。'
-              )
-            }
-          }
-        } else if (!t.isJSXElement(parentNode)) {
-          // throwError(path, '考虑只对 JSX 元素赋值一次。')
-        }
+        this.handleJSXInIfStatement(jsxElementPath, options)
       })
 
       // handle jsx attrs
@@ -680,6 +745,10 @@ export class RenderParser {
             }
           }
           if (bindCalleeName !== null) {
+            const attr = path.parentPath.node as t.JSXAttribute
+            let bindEventName = attr.name.name as string
+            bindEventName = bindEventName.replace(/^bind|^catch/, '')
+
             const args = expression.get('arguments') as any
             (args as NodePath<t.Node>[]).forEach((arg, index) => {
               const node = arg.node
@@ -687,7 +756,7 @@ export class RenderParser {
               if (index === 0) {
                 setJSXAttr(
                   JSXElement,
-                  `data-e-${bindCalleeName}-so`,
+                  `data-e-${bindEventName}-so`,
                   t.stringLiteral(argName)
                 )
               } else {
@@ -714,7 +783,7 @@ export class RenderParser {
                 }
                 setJSXAttr(
                   JSXElement,
-                  `data-e-${bindCalleeName}-a-${toLetters(index)}`,
+                  `data-e-${bindEventName}-a-${toLetters(index)}`,
                   expr!
                 )
               }
@@ -761,6 +830,7 @@ export class RenderParser {
             const methodName = findMethodName(value.expression)
             methodName && this.usedEvents.add(methodName)
             const method = this.methods.get(methodName)
+            const classDecl = path.findParent(p => p.isClassDeclaration())
             const componentName = jsxElementPath.node.openingElement.name
             // if (method && t.isIdentifier(method.node.key)) {
             //   this.usedEvents.add(methodName)
@@ -769,18 +839,33 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind')) {
               path.node.value = t.stringLiteral(`${methodName}`)
-            } else if (Adapter.type === Adapters.alipay &&
-              t.isJSXIdentifier(componentName) &&
-              !DEFAULT_Component_SET.has(componentName.name)
-            ) {
-              setJSXAttr(
-                jsxElementPath.node,
-                `data-map-func-${name.name}`,
-                t.stringLiteral(methodName)
-              )
             }
             if (this.methods.has(methodName)) {
               eventShouldBeCatched = isContainStopPropagation(method)
+            }
+            if (classDecl && classDecl.isClassDeclaration()) {
+              const superClass = getSuperClassCode(classDecl)
+              if (superClass) {
+                try {
+                  const ast = parse(superClass.code, buildBabelTransformOptions()).ast as t.File
+                  traverse(ast, {
+                    ClassMethod (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    },
+                    ClassProperty (p) {
+                      if (!p.get('key').isIdentifier({ name: methodName })) {
+                        return
+                      }
+                      eventShouldBeCatched = isContainStopPropagation(method)
+                    }
+                  })
+                } catch (error) {
+                  //
+                }
+              }
             }
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
@@ -796,8 +881,12 @@ export class RenderParser {
             const componentName = jsxElementPath.node.openingElement.name.name
             if (Adapter.type === Adapters.alipay) {
               let transformName = name.name
-              if (name.name === 'onClick' && DEFAULT_Component_SET.has(componentName)) {
-                transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+              if (DEFAULT_Component_SET.has(componentName) && ALIPAY_BUBBLE_EVENTS.has(name.name)) {
+                if (name.name === 'onClick') {
+                  transformName = eventShouldBeCatched ? 'catchTap' : 'onTap'
+                } else {
+                  transformName = `${eventShouldBeCatched ? 'catch' : 'on'}${name.name.slice(2)}`
+                }
               }
               path.node.name = t.jSXIdentifier(transformName)
             } else if (DEFAULT_Component_SET.has(componentName)) {
@@ -937,11 +1026,49 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
-    VariableDeclarator (path) {
+    VariableDeclarator: (path) => {
       const init = path.get('init')
+      const id = path.get('id')
       const ifStem = init.findParent(p => p.isIfStatement())
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
+      }
+      let isDerivedFromState = false
+      if (init.isMemberExpression()) {
+        const object = init.get('object')
+        if (object.isMemberExpression() && object.get('object').isThisExpression() && object.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+        if (object.isThisExpression() && init.get('property').isIdentifier({ name: 'state' })) {
+          isDerivedFromState = true
+        }
+      }
+      if (!isDerivedFromState) {
+        const errMsg = 'Warning: render 函数定义一个不从 this.state 解构或赋值而来的变量，此变量又与 this.state 下的变量重名可能会导致无法渲染。'
+        if (id.isIdentifier()) {
+          const name = id.node.name
+          if (this.initState.has(name)) {
+            // tslint:disable-next-line
+            console.log(codeFrameError(id.node, errMsg).message)
+          }
+        }
+        if (id.isObjectPattern()) {
+          const { properties } = id.node
+          for (const p of properties) {
+            if (t.isIdentifier(p)) {
+              if (this.initState.has(p.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+            if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
+              if (this.initState.has(p.argument.name)) {
+                // tslint:disable-next-line
+                console.log(codeFrameError(id.node, errMsg).message)
+              }
+            }
+          }
+        }
       }
     },
     JSXEmptyExpression (path) {
@@ -1095,16 +1222,18 @@ export class RenderParser {
         const refDeclName = '__ref'
         const args: any[] = [
           t.identifier('__scope'),
-          id
+          t.binaryExpression('+', t.stringLiteral('#'), id)
         ]
         if (ref.type === 'component') {
           args.push(t.stringLiteral('component'))
         }
+        const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
         const refDecl = buildConstVariableDeclaration(refDeclName,
-          t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
+          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), callGetElementById)
         )
+        const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
         const callRefFunc = t.expressionStatement(
-          t.callExpression(ref.fn, [t.identifier(refDeclName)])
+          process.env.NODE_ENV === 'test' ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
         )
         body.push(refDecl, callRefFunc)
       }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx-rn",
-  "version": "1.2.0-beta.15",
+  "version": "1.2.8",
   "description": "mobx-rn for taro",
   "keywords": [
     "mobx",
@@ -15,10 +15,11 @@
   },
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "Provider.js"
   ],
   "dependencies": {
-    "@tarojs/mobx-common": "1.2.0-beta.15",
+    "@tarojs/mobx-common": "1.2.8",
     "@tarojs/taro-rn": "1.1.7"
   }
 }

@@ -2,7 +2,7 @@ import CssoWebpackPlugin from 'csso-webpack-plugin';
 import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import { partial } from 'lodash';
-import { fromPairs, map, mapKeys, pipe, toPairs } from 'lodash/fp';
+import { fromPairs, map, mapKeys, pipe, toPairs, keys, reduce } from 'lodash/fp';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as path from 'path';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
@@ -52,6 +52,13 @@ const defaultFontUrlLoaderOption = {
 const defaultImageUrlLoaderOption = {
   limit: 10240
 }
+const defaultCssModuleOption: PostcssOption.cssModules = {
+  enable: false,
+  config: {
+    namingPattern: 'global',
+    generateScopedName: '[name]__[local]___[hash:base64:5]'
+  }
+}
 
 const getLoader = (loaderName: string, options: Option) => {
   return {
@@ -60,7 +67,12 @@ const getLoader = (loaderName: string, options: Option) => {
   }
 }
 
-const toArray = arg => [arg]
+const listify = listOrItem => {
+  if (Array.isArray( listOrItem )) {
+    return listOrItem
+  }
+  return [ listOrItem ]
+}
 
 const getPlugin = (plugin: any, args: Option[]) => {
   return {
@@ -73,9 +85,6 @@ const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
 
-const getDllContext = (outputRoot, dllDirectory) => {
-  return path.join(appPath, outputRoot, dllDirectory)
-}
 const getNamedDllContext = (outputRoot, dllDirectory, name) => {
   return {
     context: path.join(appPath, outputRoot, dllDirectory),
@@ -83,10 +92,11 @@ const getNamedDllContext = (outputRoot, dllDirectory, name) => {
   }
 }
 
-const processDllOption = context => {
+const processDllOption = ({ outputRoot, dllDirectory, dllFilename }) => {
+  const context = path.join(appPath, outputRoot, dllDirectory)
   return {
     path: path.join(context, '[name]-manifest.json'),
-    name: '[name]_library',
+    name: dllFilename,
     context
   }
 }
@@ -94,7 +104,7 @@ const processDllOption = context => {
 const processDllReferenceOption = ({ context, name }) => {
   return {
     context,
-    manifest: path.join(context, `${name}-manifest.json`)
+    manifest: require(path.join(context, `${name}-manifest.json`))
   }
 }
 
@@ -115,9 +125,9 @@ const getExtractCssLoader = () => {
   }
 }
 
-const getMiniCssExtractPlugin = pipe(mergeOption, toArray, partial(getPlugin, MiniCssExtractPlugin))
-const getHtmlWebpackPlugin = pipe(mergeOption, toArray, partial(getPlugin, HtmlWebpackPlugin))
-const getDefinePlugin = pipe(mergeOption, toArray, partial(getPlugin, webpack.DefinePlugin))
+const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
+const getHtmlWebpackPlugin = pipe(mergeOption, listify, partial(getPlugin, HtmlWebpackPlugin))
+const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
 const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, [])
 const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   return new UglifyJsPlugin({
@@ -128,11 +138,11 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   })
 }
 const getCssoWebpackPlugin = ([cssoOption]) => {
-  return pipe(mergeOption, toArray, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
+  return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
-const getDllPlugin = pipe(getDllContext, processDllOption, toArray, partial(getPlugin, webpack.DllPlugin))
-const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, toArray, partial(getPlugin, webpack.DllReferencePlugin))
-const getHtmlWebpackIncludeAssetsPlugin = pipe(toArray, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
+const getDllPlugin = pipe(processDllOption, listify, partial(getPlugin, webpack.DllPlugin))
+const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, listify, partial(getPlugin, webpack.DllReferencePlugin))
+const getHtmlWebpackIncludeAssetsPlugin = pipe(listify, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
 
 const getEntry = (customEntry = {}) => {
   return Object.assign(
@@ -144,6 +154,7 @@ const getEntry = (customEntry = {}) => {
 }
 
 const getModule = ({
+  mode,
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -163,19 +174,31 @@ const getModule = ({
   module,
   plugins
 }) => {
+  
   const postcssOption: PostcssOption = module.postcss || {}
 
   const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
 
   const extractCssLoader = getExtractCssLoader()
 
-  const lastCssLoader = enableExtract ? extractCssLoader : styleLoader
+  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
+
+  const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
   const cssOptions = [
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: postcssOption.cssModules && postcssOption.cssModules.enable
+      modules: false
+    },
+    cssLoaderOption
+  ]
+  const cssOptionsWithModule = [
+    {
+      importLoaders: 1,
+      sourceMap: enableSourceMap,
+      modules: cssModuleOptions.config!.namingPattern === 'module' ? true : 'global',
+      localIdentName: cssModuleOptions.config!.generateScopedName
     },
     cssLoaderOption
   ]
@@ -185,6 +208,40 @@ const getModule = ({
    * https://github.com/webpack-contrib/css-loader/releases/tag/v1.0.0
    */
   const cssLoader = getCssLoader(cssOptions)
+  const cssLoaders = [{
+    enforce: 'post',
+    use: [lastStyleLoader, cssLoader]
+  }]
+
+  if (cssModuleOptions.enable) {
+    const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
+    let cssModuleConditionName
+    let cssModuleCondition
+
+    if (cssModuleOptions.config!.namingPattern === 'module') {
+      cssModuleConditionName = 'include'
+      cssModuleCondition = {
+        and: [
+          { include: /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/},
+          { exclude: /\bnode_modules\b/ }
+        ]
+      }
+    } else {
+      cssModuleConditionName = 'include'
+      cssModuleCondition = {
+        and: [
+          { exclude: /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/ },
+          { exclude: /\bnode_modules\b/ }
+        ]
+      }
+    }
+    cssLoaders.unshift({
+      enforce: 'post',
+      [cssModuleConditionName]: [cssModuleCondition],
+      use: [lastStyleLoader, cssLoaderWithModule]
+    })
+  }
+
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
@@ -205,19 +262,45 @@ const getModule = ({
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  const rule: Option = {}
+  const rule: {
+    [key: string]: any
+  } = {}
 
+  rule.sass = {
+    test: /\.(s[ac]ss)\b/,
+    enforce: 'pre',
+    use: [resolveUrlLoader, sassLoader]
+  }
+  rule.less = {
+    test: /\.less\b/,
+    enforce: 'pre',
+    use: [lessLoader]
+  }
+  rule.styl = {
+    test: /\.styl\b/,
+    enforce: 'pre',
+    use: [stylusLoader]
+  }
+  rule.postcss = {
+    test: /\.(css|s[ac]ss|less|styl)\b/,
+    use: [postcssLoader]
+  }
+  rule.style = {
+    test: /\.(css|s[ac]ss|less|styl)\b/,
+    oneOf: cssLoaders
+  }
+
+  const additionalBabelOptions = {
+    ...plugins.babel,
+    sourceMap: enableSourceMap
+  }
   rule.jsx = {
     use: {
       babelLoader: {
-        options: {
-          ...plugins.babel,
-          sourceMap: enableSourceMap
-        }
+        options: additionalBabelOptions
       }
     }
   }
-
   rule.media = {
     use: {
       urlLoader: {
@@ -248,34 +331,11 @@ const getModule = ({
       }
     }
   }
-  rule.sass = {
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
-  }
-  rule.less = {
-    test: /\.less(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
-  }
-  rule.styl = {
-    test: /\.styl(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
-  }
-  rule.sassInNodemodules = {
-    test: /\.(css|scss|sass)(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, sassLoader]
-  }
-  rule.lessInNodemodules = {
-    test: /\.less(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, lessLoader]
-  }
-  rule.stylInNodemodules = {
-    test: /\.styl(\?.*)?$/,
-    use: [lastCssLoader, cssLoader, stylusLoader]
-  }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   if (Array.isArray(esnextModules) && esnextModules.length) {
-    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]${v}`))
+    /* cnpm 安装的模块名前带下划线 `_` */
+    const esnextModuleRegs = esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`));
     /**
      * isEsnextModule
      * 
@@ -286,21 +346,10 @@ const getModule = ({
     const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
     /* 通过taro处理 */
     rule.jsx.exclude = [notTaroModules]
-    rule.sass.exclude = [notTaroModules]
-    rule.less.exclude = [notTaroModules]
-    rule.styl.exclude = [notTaroModules]
-
-    rule.sassInNodemodules.include = [notTaroModules]
-    rule.lessInNodemodules.include = [notTaroModules]
-    rule.stylInNodemodules.include = [notTaroModules]
+    rule.postcss.exclude = [notTaroModules]
   } else {
     rule.jsx.exclude = [isNodemodule]
-    rule.sass.exclude = [isNodemodule]
-    rule.less.exclude = [isNodemodule]
-    rule.styl.exclude = [isNodemodule]
-    rule.sassInNodemodules.include = [isNodemodule]
-    rule.lessInNodemodules.include = [isNodemodule]
-    rule.stylInNodemodules.include = [isNodemodule]
+    rule.postcss.exclude = [isNodemodule]
   }
   return { rule }
 }
@@ -317,11 +366,11 @@ const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) =
   )
 }
 
-const getDllOutput = ({ outputRoot, dllDirectory }) => {
+const getDllOutput = ({ outputRoot, dllDirectory, dllFilename }) => {
   return {
     path: path.join(appPath, outputRoot, dllDirectory),
-    filename: '[name].dll.js',
-    library: '[name]_library'
+    filename: `${dllFilename}.dll.js`,
+    library: dllFilename
   }
 }
 
@@ -339,4 +388,21 @@ const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
   )(dllEntry)
 }
 
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption }
+const getLibFile = (outputRoot, dllDirectory) => {
+  return function (prev, libname) {
+    const manifest = require(path.join(appPath, outputRoot, dllDirectory, `${libname}-manifest.json`));
+    if (manifest) {
+      return [...prev, path.join(dllDirectory, `${manifest.name}.dll.js`)]
+    } else {
+      return prev
+    }
+  }
+}
+
+const getLibFiles = ({dllEntry, outputRoot, dllDirectory}: {
+  dllEntry: { [key: string]: string[] };
+  outputRoot: string;
+  dllDirectory: string;
+}) => reduce(getLibFile(outputRoot, dllDirectory), [])(keys(dllEntry))
+
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption, getLibFiles }

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction, TouchEventFunction } from './common'
+import { StandardProps, CommonEventFunction, TouchEventFunction, Omit } from './common'
 
 interface MovableAreaProps extends StandardProps {
 
@@ -12,7 +12,7 @@ interface MovableAreaProps extends StandardProps {
 }
 
 
-interface MovableViewProps extends StandardProps {
+interface MovableViewProps extends Omit<StandardProps, 'animation'> {
 
   /**
    * movable-view的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`
@@ -95,16 +95,25 @@ interface MovableViewProps extends StandardProps {
   scaleValue?: number,
 
   /**
+   * 是否使用动画
+   *
+   * 基础库: 2.1.0
+   *
+   * 默认值：`true`
+   */
+  animation?: boolean;
+
+  /**
    * 拖动过程中触发的事件，event.detail = `{x: x, y: y, source: source}`，其中source表示产生移动的原因，值可为touch（拖动）、touch-out-of-bounds（超出移动范围）、out-of-bounds（超出移动范围后的回弹）、friction（惯性）和空字符串（setData）
    *
    */
-  onChange?: BaseEventFunction,
+  onChange?: CommonEventFunction,
 
   /**
    * 缩放过程中触发的事件，event.detail = `{scale: scale}`
    *
    */
-  onScale?: BaseEventFunction,
+  onScale?: CommonEventFunction,
 
   /**
    * 初次手指触摸后移动为横向的移动，如果catch此事件，则意味着touchmove事件也被catch

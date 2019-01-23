@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 interface CameraProps extends StandardProps {
 
@@ -36,19 +36,19 @@ interface CameraProps extends StandardProps {
    * 摄像头在非正常终止时触发，
    * 如退出后台等情况
    */
-  onStop?: BaseEventFunction,
+  onStop?: CommonEventFunction,
 
   /**
    * 用户不允许使用摄像头时触发
    */
-  onError?: BaseEventFunction
+  onError?: CommonEventFunction
 
   /**
    * 在成功识别到一维码时触发，
    * 仅在 mode="scanCode" 时生效
    * 最低版本：2.1.0
    */
-  onScanCode?: BaseEventFunction
+  onScanCode?: CommonEventFunction
 }
 
 declare const Camera: ComponentType<CameraProps>

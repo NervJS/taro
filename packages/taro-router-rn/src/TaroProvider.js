@@ -6,18 +6,22 @@ class TaroProvider extends React.Component {
   constructor (props, context) {
     super(props, context)
     this.refreshProviderRef = React.createRef()
-    let {Taro} = this.props
-    // 这样处理不一定合理，
-    // 有时间看一下 react-navigation 内部的实现机制再优化
-    Taro.navigateTo = this.wxNavigateTo.bind(this)
-    Taro.redirectTo = this.wxRedirectTo.bind(this)
-    Taro.navigateBack = this.wxNavigateBack.bind(this)
-    Taro.switchTab = this.wxSwitchTab.bind(this)
-    Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
   }
 
   componentDidMount () {
     let {Taro} = this.props
+    // didFocus
+    this.didFocusSubscription = this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+        // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
+        Taro.navigateTo = this.wxNavigateTo.bind(this)
+        Taro.redirectTo = this.wxRedirectTo.bind(this)
+        Taro.navigateBack = this.wxNavigateBack.bind(this)
+        Taro.switchTab = this.wxSwitchTab.bind(this)
+        Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
+      }
+    )
     try {
       Taro.startPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.handlePullDownRefresh
       Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh
@@ -116,6 +120,11 @@ class TaroProvider extends React.Component {
     } else {
       return []
     }
+  }
+
+  componentWillUnmount () {
+    // Remove the listener when you are done
+    this.didFocusSubscription && this.didFocusSubscription.remove()
   }
 
   render () {

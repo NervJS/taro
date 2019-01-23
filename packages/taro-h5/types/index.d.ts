@@ -79,7 +79,7 @@ declare namespace TaroH5 {
 
   function getEnv(): 'WEAPP' | 'WEB' | 'RN';
 
-  function render(component: Component, element: Element)
+  function render(component: Component, element: Element): any;
 
   /**
    *
@@ -241,7 +241,7 @@ declare namespace TaroH5 {
       /**
        * 上传进度回调
        */
-      progress: (UploadTaskProgressCallback) => void
+      progress: (callback: UploadTaskProgressCallback) => void
       /**
        * 终止上传任务
        */
@@ -6488,9 +6488,9 @@ declare namespace TaroH5 {
 
   /**
    * getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。
-   * 
+   *
    * 注意：
-   * 
+   *
    * 不要尝试修改页面栈，会导致路由以及页面状态错误。
    * 不要在 App.onLaunch 的时候调用 getCurrentPages()，此时 page 还没有生成。
    */

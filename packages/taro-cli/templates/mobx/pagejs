@@ -1,4 +1,5 @@
 <%if (locals.typescript) {-%>
+import { ComponentType } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 <%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
@@ -82,4 +83,4 @@ class Index extends Component {
   }
 }
 
-export default Index
+export default Index <%if (locals.typescript) {%> as ComponentType<%}%>

@@ -129,7 +129,7 @@ function isFunction (value) {
 
 /** lodash  EOF */
 
-export default {
+export {
   isBoolean,
   isNumber,
   isString,

@@ -1,7 +1,7 @@
 import { WebSocket, Server } from 'mock-socket'
-import Taro from '../index.js'
+import webSocket from '../api/webSocket'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, webSocket)
 
 describe('websocket', () => {
   beforeEach(() => {

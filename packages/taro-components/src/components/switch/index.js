@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
@@ -31,6 +32,14 @@ class Switch extends Nerv.Component {
     this.setState({
       checked: e.target.checked
     })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.hasOwnProperty('checked')) {
+      this.setState({
+        checked: nextProps.checked
+      })
+    }
   }
 
   render () {

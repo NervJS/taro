@@ -30,6 +30,9 @@ function buildTemplateName (name: string) {
 }
 
 export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
+  if (!path.container) {
+    return
+  }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
@@ -46,7 +49,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     }
     const className = buildTemplateName(value.value)
 
-    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports, className))
+    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
     const firstId = Array.from(refIds)[0]
     refIds.forEach(id => {
       if (loopIds.has(id) && id !== firstId) {

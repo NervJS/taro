@@ -16,9 +16,9 @@ const users = [
     // if it is not '/', like: '/test-site/img/docusaurus.svg'.
     image: 'img/logo-taro.png',
     infoLink: 'https://taro.aotu.io',
-    pinned: true,
-  },
-];
+    pinned: true
+  }
+]
 
 const siteConfig = {
   editUrl: 'https://github.com/nervjs/taro/edit/master/docs/',
@@ -40,13 +40,15 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: 'README', label: '文档' },
+    { doc: 'components-desc', label: '组件库' },
+    { doc: 'api-desc', label: 'API' },
     { href: 'https://github.com/NervJS/taro', label: 'GitHub' },
-    { search: true },
+    { search: true }
   ],
 
   algolia: {
-    apiKey: "57b9948bff42bc0dbc6c219556fbae35",
-    indexName: "taro"
+    apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+    indexName: 'taro'
   },
 
   // If you have users set above, you add it here:
@@ -60,11 +62,11 @@ const siteConfig = {
   /* colors for website */
   colors: {
     primaryColor: 'rgb(40, 43, 46)',
-    secondaryColor: '#4a72ea',
+    secondaryColor: '#4a72ea'
   },
 
   /* custom fonts for website */
-  /*fonts: {
+  /* fonts: {
     myFont: [
       "Times New Roman",
       "Serif"
@@ -73,7 +75,7 @@ const siteConfig = {
       "-apple-system",
       "system-ui"
     ]
-  },*/
+  }, */
 
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright:
@@ -83,7 +85,7 @@ const siteConfig = {
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: 'tomorrow-night',
+    theme: 'tomorrow-night'
   },
 
   usePrism: true,
@@ -98,11 +100,11 @@ const siteConfig = {
   ogImage: 'img/logo-taro.png',
   twitterImage: 'img/logo-taro.png',
 
-  scrollToTop: true,
+  scrollToTop: true
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
-};
+}
 
-module.exports = siteConfig;
+module.exports = siteConfig

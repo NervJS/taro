@@ -46,6 +46,25 @@ const listItems = numbers.map((number) => {
 })
 ```
 
+## taroKeys
+
+`taroKey`适用于循环渲染原生小程序组件，赋予每个元素唯一确定标识，转换为小程序的`wx:key`。
+
+```jsx
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
+const listItems = numbers.map((number) => {
+  return (
+    // native component
+    <g-list
+      taroKey={String(number)}
+      className='g-list'
+    >
+    我是第 {number + 1} 个数字
+    </g-list>
+  )
+})
+```
+
 ### 元素的 key 在他的兄弟元素之间应该唯一
 
 数组元素中使用的 key 在其兄弟之间应该是独一无二的。然而，它们不需要是全局唯一的。当我们生成两个不同的数组时，我们可以使用相同的 key：

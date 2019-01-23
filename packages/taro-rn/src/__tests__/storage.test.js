@@ -1,8 +1,8 @@
 import { AsyncStorage } from 'react-native'
 import MockStorage from './__mock__/mockAsyncStorage'
-import Taro from '../index.js'
+import storage from '../api/storage'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, storage)
 
 describe('storage', () => {
   beforeEach(() => {
