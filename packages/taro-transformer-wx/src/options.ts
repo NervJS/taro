@@ -1,6 +1,7 @@
 import { Adapters } from './adapter'
 import { eslintValidation } from './eslint'
 import { TransformOptions } from 'babel-core'
+import { functionalComponent } from './functional'
 
 export interface Options {
   isRoot?: boolean,
@@ -49,6 +50,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
       require('babel-plugin-transform-do-expressions'),
       require('babel-plugin-transform-export-extensions'),
       require('babel-plugin-transform-flow-strip-types'),
+      functionalComponent,
       [require('babel-plugin-transform-define').default, transformOptions.env]
     ].concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
     .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
