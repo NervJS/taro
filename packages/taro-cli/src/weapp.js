@@ -1073,6 +1073,15 @@ function buildWorkers (worker) {
   fileRecursiveSearch(workerDir)
 }
 
+async function buildCustomTabbar () {
+  const customTabbarPath = path.join(sourceDir, 'custom-tab-bar')
+  const customTabbarJSPath = Util.resolveScriptPath(customTabbarPath)
+  await buildSingleComponent({
+    path: customTabbarJSPath,
+    name: 'custom-tab-bar'
+  })
+}
+
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
@@ -1111,6 +1120,9 @@ async function buildEntry () {
     }
     if (res.configObj.workers) {
       buildWorkers(res.configObj.workers)
+    }
+    if (res.configObj.tabBar && res.configObj.tabBar.custom) {
+      await buildCustomTabbar()
     }
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
