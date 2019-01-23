@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+const envinfo = require('envinfo')
+const { getPkgVersion, UPDATE_PACKAGE_LIST } = require('../src/util')
+
+async function info (options) {
+  let info = await envinfo.run(
+    {
+      System: ['OS', 'Shell'],
+      Binaries: ['Node', 'Yarn', 'npm'],
+      npmPackages: UPDATE_PACKAGE_LIST,
+      npmGlobalPackages: ['typescript']
+    },
+    {
+      title: `Taro CLI ${getPkgVersion()} environment info`
+    }
+  )
+  console.log(info)
+}
+
+info()

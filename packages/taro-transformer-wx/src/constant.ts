@@ -1,3 +1,5 @@
+import { Adapters } from './adapter'
+
 export const THIRD_PARTY_COMPONENTS = new Set<string>()
 
 // tslint:disable-next-line:variable-name
@@ -95,3 +97,22 @@ export const swanSpecialAttrs = {
   'MovableView': ['x', 'y'],
   'Slider': ['value']
 }
+
+export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
+  'onTouchStart',
+  'onTouchMove',
+  'onTouchEnd',
+  'onTouchCancel',
+  'onClick',
+  'onLongTap'
+])
+
+export const TRANSFORM_COMPONENT_PROPS = new Map<Adapters, { [key: string]: { [key: string]: string } }>()
+
+TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
+  'Canvas': {
+    'canvasId': 'id'
+  }
+})
+
+export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'

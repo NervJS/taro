@@ -1,6 +1,6 @@
-import Taro from '../index.js'
+import others from '../api/others'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, others)
 
 describe('base64 and arrayBuffer', () => {
   describe('arrayBufferToBase64', () => {

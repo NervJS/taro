@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction, FormItemProps } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface SliderProps extends StandardProps, FormItemProps {
 
@@ -92,14 +92,14 @@ interface SliderProps extends StandardProps, FormItemProps {
    *
    * event.detail = {value: value}
    */
-  onChange?: BaseEventFunction,
+  onChange?: CommonEventFunction,
 
   /**
    * 拖动过程中触发的事件
    *
    * event.detail = {value: value}
    */
-  onChanging?: BaseEventFunction
+  onChanging?: CommonEventFunction
 }
 
 declare const Slider: ComponentType<SliderProps>

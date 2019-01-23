@@ -1,6 +1,7 @@
+import 'weui'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import Swipers from 'swiper/dist/js/swiper.min.js'
+import * as Swipers from 'swiper'
 
 import 'swiper/dist/css/swiper.min.css'
 import './style/index.scss'
@@ -37,19 +38,20 @@ class Swiper extends Nerv.Component {
 
     const opt = {
       // 指示器
-      pagination: { el: '.swiper-pagination' },
+      pagination: { el: `.taro-swiper-${this._id} .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: parseInt(displayMultipleItems, 10),
       initialSlide: parseInt(current, 10),
       speed: parseInt(duration, 10),
+      observer: true,
       on: {
         slideChange () {
           let e = new TouchEvent('touchend')
           Object.defineProperty(e, 'detail', {
             enumerable: true,
             value: {
-              current: this.activeIndex
+              current: this.realIndex
             }
           })
           onChange && onChange(e)
@@ -59,7 +61,7 @@ class Swiper extends Nerv.Component {
           Object.defineProperty(e, 'detail', {
             enumerable: true,
             value: {
-              current: this.activeIndex
+              current: this.realIndex
             }
           })
           onAnimationfinish && onAnimationfinish(e)
@@ -79,13 +81,16 @@ class Swiper extends Nerv.Component {
     this.mySwiper = new Swipers(this.$el, opt)
   }
 
-  componentDidUpdate () {
-    this.mySwiper.updateSlides() // 更新子元素
-    // 是否衔接滚动模式
-    if (this.props.circular) {
-      this.mySwiper.slideToLoop(parseInt(this.props.current, 10)) // 更新下标
-    } else {
-      this.mySwiper.slideTo(parseInt(this.props.current, 10)) // 更新下标
+  componentWillReceiveProps (nextProps) {
+    if (this.mySwiper) {
+      const nextCurrent = nextProps.current || 0
+      // 是否衔接滚动模式
+      if (nextProps.circular) {
+        this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
+      } else {
+        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+      }
+      this.mySwiper.update() // 更新子元素
     }
   }
 
@@ -105,7 +110,7 @@ class Swiper extends Nerv.Component {
           dangerouslySetInnerHTML={{
             __html: `<style type='text/css'>
             .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
-            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} } 
+            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
             </style>`
           }}
         />

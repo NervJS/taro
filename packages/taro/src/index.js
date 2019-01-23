@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import './polyfill'
 import Component from './component'
 import { get as internal_safe_get } from './internal/safe-get'
 import { set as internal_safe_set } from './internal/safe-set'

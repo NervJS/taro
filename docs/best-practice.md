@@ -13,6 +13,18 @@ title: 最佳实践
 * [不能在 JSX 参数中使用对象展开符](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-spread-in-props.md)
 * [不支持无状态组件](https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-stateless-function.md)
 
+以上的规则在 Taro 默认生成的模板都有 ESLint 检测，无需做任何配置。如果你的编辑器没有安装 ESLint 插件可以参考以下教程在你的编辑器安装：
+
+* [VSCode](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* [IntelliJ IDEA(WebStorm 等 JetBrains 系)](https://www.jetbrains.com/help/idea/eslint.html)
+* [Sublime Text](https://packagecontrol.io/packages/ESLint)
+
+默认情况下 Taro 的编译器也会对无法运行的代码进行警告，当没有调用栈信息时代码是可以生成的。如果你需要在编译时禁用掉 ESLint 检查，可以在命令前加入 `ESLINT=false` 参数，例如：
+
+```bash
+$ ESLINT=false taro build --type weapp --watch
+```
+
 ## 最佳编码方式
 
 经过较长时间的探索与验证，目前 Taro 在微信小程序端是采用依托于小程序原生自定义组件系统来设计实现 Taro 组件化的，所以目前小程序端的组件化会受到小程序原生组件系统的限制，而同时为了实现以 React 方式编写代码的目标，Taro 本身做了一些编译时以及运行时的处理，这样也带来了一些值得注意的约束，所以有必要阐述一下 Taro 编码上的最佳实践。
@@ -226,6 +238,8 @@ if (process.env.NODE_ENV === 'development') {
 
 Taro 提供了 `componentWillPreload` 钩子，它接收页面跳转的参数作为参数。可以把需要预加载的内容通过 `return` 返回，然后在页面触发 componentWillMount 后即可通过 `this.$preloadData` 获取到预加载的内容。
 
+注意：调用跳转方法时需要使用**绝对路径**，相对路径不会触发此钩子。
+
 ```jsx
 class Index extends Component {
   componentWillMount () {
@@ -245,6 +259,50 @@ class Index extends Component {
     this.isFetching = true
     ...
   }
+}
+```
+
+### 在小程序中，可以使用 this.$preload 函数进行页面跳转传参
+
+用法：`this.$preload(key:String|Object, [value: Any])`
+
+之所以命名为 $preload，因为它也有一点预加载数据的意味。
+
+如果觉得每次页面跳转传参时，需要先把参数 stringify 后加到 url 的查询字符串中很繁琐，可以利用 `this.$preload` 进行传参。
+
+另外如果传入的是下一个页面的数据请求 promise，也有上一点提到的“预加载”功能，也能够绕过 componentWillMount 延时。不同点主要在于代码管理，开发者可酌情使用。
+
+例子:
+
+```js
+// 传入单个参数
+
+// A 页面
+// 调用跳转方法前使用 this.$preload
+this.$preload('key', 'val')
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B 页面
+// 可以于 this.$router.preload 中访问到 this.$preload 传入的参数
+componentWillMount () {
+  console.log('preload: ', this.$router.preload.key)
+}
+```
+
+
+```js
+// 传入多个参数
+
+// A 页面
+this.$preload({
+  x: 1,
+  y: 2
+})
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B 页面
+componentWillMount () {
+  console.log('preload: ', this.$router.preload)
 }
 ```
 

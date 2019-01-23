@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEvent } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 interface SwiperProps extends StandardProps {
 
@@ -107,14 +107,14 @@ interface SwiperProps extends StandardProps {
    *
    * `event.detail = {current: current, source: source}`
    */
-  onChange?: (event: BaseEvent) => any
+  onChange?: CommonEventFunction
 
   /**
    * 动画结束时会触发 animationfinish 事件
    *
    * `event.detail = {current: current, source: source}`
    */
-  onAnimationFinish?: (event: BaseEvent) => any
+  onAnimationFinish?: CommonEventFunction
 }
 
 declare const Swiper: ComponentType<SwiperProps>

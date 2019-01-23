@@ -8,6 +8,9 @@ export const ENV_TYPE = {
 }
 
 export function getEnv () {
+  if (typeof tt !== 'undefined' && tt.getSystemInfo) {
+    return ENV_TYPE.TT
+  }
   if (typeof wx !== 'undefined' && wx.getSystemInfo) {
     return ENV_TYPE.WEAPP
   }
@@ -16,9 +19,6 @@ export function getEnv () {
   }
   if (typeof my !== 'undefined' && my.getSystemInfo) {
     return ENV_TYPE.ALIPAY
-  }
-  if (typeof tt !== 'undefined' && tt.getSystemInfo) {
-    return ENV_TYPE.TT
   }
   if (typeof global !== 'undefined' && global.__fbGenNativeModule) {
     return ENV_TYPE.RN

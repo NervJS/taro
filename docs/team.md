@@ -35,3 +35,9 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 为 Taro 贡献过代码的个人。
 
 <a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
+
+## 特别鸣谢
+
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=120&v=4)](https://github.com/nanjingboy/)
+:---:
+[nanjingboy](https://github.com/nanjingboy/)

@@ -27,7 +27,7 @@ npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
 $ npx @tarojs/cli init myApp
 ```
 
-进入项目目录开始开发，目前已经支持 微信/百度/支付宝小程序、H5 以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致
+进入项目目录开始开发，目前已经支持 微信/百度/支付宝/字节跳动小程序、H5 以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致
 
 ### 微信小程序
 
@@ -81,6 +81,24 @@ $ taro build --type alipay
 # npx 用户也可以使用
 $ npx taro build --type alipay --watch
 $ npx taro build --type alipay
+```
+
+### 字节跳动小程序
+
+选择字节跳动小程序模式，需要自行下载并打开[字节跳动小程序开发者工具](https://microapp.bytedance.com/docs/devtool/versionUpdate.html)，然后在项目编译完后选择项目根目录下 `dist` 目录进行预览。
+
+字节跳动小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
+
+```bash
+# npm script
+$ npm run dev:tt
+$ npm run build:tt
+# 仅限全局安装
+$ taro build --type tt --watch
+$ taro build --type tt
+# npx 用户也可以使用
+$ npx taro build --type tt --watch
+$ npx taro build --type tt
 ```
 
 ### H5
@@ -141,4 +159,38 @@ yarn global add @tarojs/cli@latest
 
 ```bash
 $ taro update project
+```
+
+## 环境及依赖检测
+Taro 提供了命令来一键检测 Taro 环境及依赖的版本等信息，方便大家查看项目的环境及依赖，排查环境问题。在提 issue 的时候，请附上 `taro info` 打印的信息，帮助开发人员快速定位问题。
+
+```bash
+$ taro info
+👽 Taro v1.2.0-beta.15
+
+
+  Taro CLI 1.2.0-beta.15 environment info:
+    System:
+      OS: macOS High Sierra 10.13.5
+      Shell: 5.3 - /bin/zsh
+    Binaries:
+      Node: 8.11.2 - /usr/local/bin/node
+      Yarn: 1.8.0 - /usr/local/bin/yarn
+      npm: 5.6.0 - /usr/local/bin/npm
+    npmPackages:
+      @tarojs/components: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/plugin-babel: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/plugin-csso: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/plugin-sass: ^1.2.0-beta.4 => 1.2.0-beta.4
+      @tarojs/plugin-uglifyjs: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/rn-runner: ^1.2.0-beta.4 => 1.2.0-beta.4
+      @tarojs/router: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-alipay: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-h5: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-swan: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/taro-weapp: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/webpack-runner: ^1.2.0-beta.3 => 1.2.0-beta.3
+      eslint-config-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
+      eslint-plugin-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
 ```

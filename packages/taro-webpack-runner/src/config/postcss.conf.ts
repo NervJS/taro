@@ -1,6 +1,5 @@
 import * as autoprefixer from 'autoprefixer';
 import * as path from 'path';
-import * as modules from 'postcss-modules';
 import * as constparse from 'postcss-plugin-constparse';
 import * as pxtransform from 'postcss-pxtransform';
 import { sync as resolveSync } from 'resolve';
@@ -26,10 +25,10 @@ const defaultPxtransformOption: {
     platform: 'h5'
   }
 }
-const defaultCssModulesOption = {
-  enable: false,
-  config: {}
-}
+// const defaultCssModulesOption = {
+//   enable: false,
+//   config: {}
+// }
 const defaultConstparseOption = {
   constants: [{
     key: 'taro-tabbar-height',
@@ -58,7 +57,7 @@ export const getPostcssPlugins = function ({
 
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
-  const cssModulesOption = recursiveMerge({}, defaultCssModulesOption, postcssOption.cssModules)
+  // const cssModulesOption = recursiveMerge({}, defaultCssModulesOption, postcssOption.cssModules)
 
   if (autoprefixerOption.enable) {
     plugins.push(autoprefixer(autoprefixerOption.config))
@@ -68,9 +67,9 @@ export const getPostcssPlugins = function ({
     plugins.push(pxtransform(pxtransformOption.config))
   }
 
-  if (cssModulesOption.enable) {
-    plugins.push(modules(cssModulesOption.config))
-  }
+  // if (cssModulesOption.enable) {
+  //   plugins.push(modules(cssModulesOption.config))
+  // }
 
   plugins.push(constparse(defaultConstparseOption))
 

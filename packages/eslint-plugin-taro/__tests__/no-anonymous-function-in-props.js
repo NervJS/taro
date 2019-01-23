@@ -13,7 +13,8 @@ ruleTester.run('no-anonymous-function-in-props', rule, {
     `<View onClick={this.hanldeClick.bind(this)} />`,
     `<View onClick={this.props.hanldeClick.bind(this)} />`,
     `<View onClick={this.hanldeClick(id)} />`,
-    `<View onClick={this.hanldeClick(id)()} />`
+    `<View onClick={this.hanldeClick(id)()} />`,
+    `<View ref={(e) => this.handleClick(e)} />`
   ]),
   invalid: testInvalid(ERROR_MESSAGE, [
     `<View onClick={() => this.handleClick()} />`,

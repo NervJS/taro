@@ -40,8 +40,8 @@ ruleTester.run('no-jsx-in-class-method', rule, {
   invalid: testInvalid(ERROR_MESSAGE, [
     `
     class App extends Component {
-      _render() {
-        return <View />
+      test(a) {
+        return a.map(_ => <View />)
       }
     }
     `,

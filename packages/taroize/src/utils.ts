@@ -1,7 +1,29 @@
 import * as template from 'babel-template'
 import * as t from 'babel-types'
+import { transform } from 'babel-core'
 import { codeFrameColumns } from '@babel/code-frame'
 import { camelCase, capitalize } from 'lodash'
+
+export function parseCode (code: string) {
+  return (transform(code, {
+    parserOpts: {
+      sourceType: 'module',
+      plugins: [
+        'classProperties',
+        'jsx',
+        'flow',
+        'flowComment',
+        'trailingFunctionCommas',
+        'asyncFunctions',
+        'exponentiationOperator',
+        'asyncGenerators',
+        'objectRestSpread',
+        'decorators',
+        'dynamicImport'
+      ]
+    }
+  }) as { ast: t.File }).ast
+}
 
 export const buildTemplate = (str: string) => template(str)().expression as t.Expression
 

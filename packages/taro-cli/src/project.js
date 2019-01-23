@@ -21,6 +21,7 @@ class Project extends Creator {
       throw new Error('Node.js 版本过低，推荐升级 Node.js 至 v8.0.0+')
     }
     this.rootPath = this._rootPath
+
     this.conf = Object.assign({
       projectName: null,
       template: null,
@@ -109,12 +110,14 @@ class Project extends Creator {
       value: 'none'
     }]
 
-    prompts.push({
-      type: 'list',
-      name: 'css',
-      message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
-      choices: cssChoices
-    })
+    if (typeof conf.css !== 'string') {
+      prompts.push({
+        type: 'list',
+        name: 'css',
+        message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
+        choices: cssChoices
+      })
+    }
 
     const templateChoices = [{
       name: '默认模板',

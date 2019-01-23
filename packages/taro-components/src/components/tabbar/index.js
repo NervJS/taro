@@ -1,9 +1,10 @@
+import 'weui'
 import Taro from '@tarojs/taro-h5'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
 
 import TabbarItem from './tabbarItem'
-import './style'
+import './style/index.scss'
 
 const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
@@ -38,12 +39,8 @@ class Tabbar extends Nerv.Component {
   }
 
   getCurrentPathname () {
-    let pathname
-    if (this.props.mode === 'hash') {
-      pathname = location.hash.replace('#', '')
-    } else {
-      pathname = location.pathname.replace(new RegExp(`^${this.props.publicPath}/?`), '')
-    }
+    const path = this.props.mode === 'hash' ? location.hash : location.pathname
+    const pathname = path.replace(new RegExp(`^#?${this.props.basename}/?`), '')
 
     return removeLeadingSlash(removeTrailingSearch(pathname))
   }
@@ -51,8 +48,8 @@ class Tabbar extends Nerv.Component {
   hashChangeHandler ({ toLocation } = {}) {
     let currentPage
 
-    if (toLocation) {
-      currentPage = toLocation.pathname ? removeLeadingSlash(toLocation.pathname) : this.homePage
+    if (toLocation && toLocation.path) {
+      currentPage = removeLeadingSlash(toLocation.path)
     } else {
       currentPage = this.getCurrentPathname() || this.homePage
     }

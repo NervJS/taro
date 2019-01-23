@@ -1,7 +1,7 @@
 import Vibration from './__mock__/mockVibrate'
-import Taro from '../index.js'
+import vibrate from '../api/device/vibrate'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, vibrate)
 
 describe('vibrate', () => {
   beforeEach(() => {

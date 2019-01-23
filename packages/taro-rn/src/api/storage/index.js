@@ -1,5 +1,14 @@
 import { AsyncStorage } from 'react-native'
-import { generateUnSupportApi } from '../utils'
+
+function generateUnSupportApi (errText, fnNames) {
+  const res = {}
+  fnNames.forEach((fnName) => {
+    res[fnName] = function () {
+      throw new Error(`${errText} ##  ${JSON.stringify(arguments)}`)
+    }
+  })
+  return res
+}
 
 export function setStorage (opts = {}) {
   const { key, data, success, fail, complete } = opts

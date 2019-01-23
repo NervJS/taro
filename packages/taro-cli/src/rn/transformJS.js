@@ -8,7 +8,7 @@ const template = require('babel-template')
 const wxTransformer = require('@tarojs/transformer-wx')
 const Util = require('../util')
 const babylonConfig = require('../config/babylon')
-const { source: toAst } = require('../util/ast_convert')
+const {source: toAst} = require('../util/ast_convert')
 
 const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
@@ -51,7 +51,7 @@ function getInitPxTransformNode (projectConfig) {
   return initPxTransformNode
 }
 
-function getClassPropertyVisitor ({ filePath, pages, iconPaths, isEntryFile }) {
+function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
   return (astPath) => {
     const node = astPath.node
     const key = node.key
@@ -67,8 +67,16 @@ function getClassPropertyVisitor ({ filePath, pages, iconPaths, isEntryFile }) {
           const value = node.value
           // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
           if (key.name === 'pages' && t.isArrayExpression(value)) {
+            // 分包
+            let root = ''
+            const rootNode = astPath.parent.properties.find(v => {
+              return v.key.name === 'root'
+            })
+            root = rootNode ? rootNode.value.value : ''
+
             value.elements.forEach(v => {
-              pages.push(v.value)
+              const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
+              pages.push(pagePath.replace(/^\//, ''))
             })
             astPath.remove()
           }
@@ -159,7 +167,7 @@ const ClassDeclarationOrExpression = {
       node.superClass.type === 'MemberExpression' &&
       node.superClass.object.name === taroImportDefaultName
     ) {
-      node.superClass.object.name = reactImportDefaultName
+      node.superClass.object.name = taroImportDefaultName
       if (node.id === null) {
         const renameComponentClassName = '_TaroComponentClass'
         componentClassName = renameComponentClassName
@@ -219,7 +227,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
       let value = source.value
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
-      const pathAlias = projectConfig.pathAlias || {}
+      const pathAlias = projectConfig.alias || {}
       if (Util.isAliasPath(value, pathAlias)) {
         source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
       }

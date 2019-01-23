@@ -1,30 +1,44 @@
-export function getLocation (opts = {}) {
+import { Location, Permissions } from 'expo'
+import { askAsyncPermissions } from '../utils'
+
+export async function getLocation (opts = {}) {
+  const status = await askAsyncPermissions(Permissions.LOCATION)
+  if (status !== 'granted') {
+    const res = { errMsg: `Permissions denied!` }
+    return Promise.reject(res)
+  }
+
+  if (!opts || typeof opts !== 'object') {
+    opts = {}
+  }
+
+  const { altitude = false, success, fail, complete } = opts
+
   return new Promise((resolve, reject) => {
-    const { success, fail, complete } = opts
-    const geolocation = navigator.geolocation
-
-    if (!geolocation) {
-      const res = {}
-      res.errMsg = '本设备不支持定位功能'
-      console.warn(res.errMsg)
-      fail && fail(res)
+    Location.getCurrentPositionAsync({
+      enableHighAccuracy: Boolean(altitude)
+    }).then((resp) => {
+      const { coords, timestamp } = resp
+      const { latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed } = coords
+      const res = {
+        latitude,
+        longitude,
+        speed,
+        altitude,
+        accuracy,
+        verticalAccuracy: altitudeAccuracy,
+        horizontalAccuracy: null,
+        heading,
+        timestamp
+      }
+      success && success(res)
       complete && complete(res)
-      reject(res)
-      return
-    }
-    geolocation.getCurrentPosition((res) => {
-      const coords = res.coords
-      coords.timestamp = res.timestamp
-      coords.verticalAccuracy = 0
-      coords.horizontalAccuracy = 0
-
-      success && success(coords)
-      complete && complete(coords)
-      resolve(coords)
-    }, (err) => {
-      const res = {}
-      res.errMsg = err.message
-
+      resolve(res)
+    }).catch((err) => {
+      const res = {
+        errMsg: `getLocation fail`,
+        err
+      }
       fail && fail(res)
       complete && complete(res)
       reject(res)

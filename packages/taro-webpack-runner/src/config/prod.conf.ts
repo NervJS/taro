@@ -1,6 +1,7 @@
 import * as path from 'path';
 
-import { addLeadingSlash, addTrailingSlash, appPath, emptyObj } from '../util';
+import { keys } from 'lodash';
+import { addTrailingSlash, appPath, emptyObj } from '../util';
 import {
   getCssoWebpackPlugin,
   getDefinePlugin,
@@ -13,20 +14,21 @@ import {
   getModule,
   getOutput,
   getUglifyPlugin,
-  processEnvOption
+  processEnvOption,
+  getLibFiles
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
 
-export default function (config: BuildConfig): any {
+export default function (config: Partial<BuildConfig>): any {
   const chain = getBaseChain()
   const {
     alias = emptyObj,
     entry = emptyObj,
     output = emptyObj,
     sourceRoot = '',
-    outputRoot,
-    publicPath,
+    outputRoot = 'dist',
+    publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
     dllDirectory = 'lib',
@@ -57,7 +59,9 @@ export default function (config: BuildConfig): any {
     module = {
       postcss: emptyObj
     },
-    plugins
+    plugins = {
+      babel: {}
+    }
   } = config
 
   const plugin: any = {}
@@ -86,17 +90,14 @@ export default function (config: BuildConfig): any {
 
   if (enableDll) {
     Object.assign(plugin, getDllReferencePlugins({
+      outputRoot,
       dllDirectory,
-      dllEntry,
-      outputRoot
+      dllEntry
     }))
-    const dllFiles = Object.keys(dllEntry).map(v => {
-      return path.join(dllDirectory, `${v}.dll.js`)
-    })
-    if (dllFiles.length) {
+    if (keys(dllEntry).length) {
       plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
         append: false,
-        assets: dllFiles
+        assets: getLibFiles({ dllEntry, dllDirectory, outputRoot })
       })
     }
   }
@@ -121,11 +122,12 @@ export default function (config: BuildConfig): any {
     entry: getEntry(entry),
     output: getOutput([{
       outputRoot,
-      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
+      publicPath: addTrailingSlash(publicPath),
       chunkDirectory
     }, output]),
     resolve: { alias },
     module: getModule({
+      mode,
       designWidth,
       deviceRatio,
       enableExtract,
@@ -146,7 +148,12 @@ export default function (config: BuildConfig): any {
       staticDirectory
     }),
     plugin,
-    optimization: { minimizer }
+    optimization: {
+      minimizer,
+      splitChunks: {
+        name: false
+      }
+    }
   })
   return chain
 }

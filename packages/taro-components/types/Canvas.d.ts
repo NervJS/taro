@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 interface CanvasProps extends StandardProps {
 
@@ -20,7 +20,7 @@ interface CanvasProps extends StandardProps {
    *
    * detail = {errMsg: 'something wrong'}
    */
-  onError?: BaseEventFunction
+  onError?: CommonEventFunction
 }
 
 declare const Canvas: ComponentType<CanvasProps>
