@@ -970,12 +970,8 @@ declare namespace Taro {
   function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
   namespace connectSocket {
-    type Promised = {
-      /**
-       * 返回一个SocketTask
-       */
-      socketTask: SocketTask
-    }
+    type Promised = SocketTask;
+    
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
