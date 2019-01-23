@@ -46,6 +46,13 @@ if (env) {
   }
 }
 
+if(args.length){
+  for(let i in args){
+    if(i%2) process.env[args[i-1]] = args[i]
+    else process.env[args[i]] = true
+  }
+}
+
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
