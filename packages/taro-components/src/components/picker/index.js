@@ -7,11 +7,12 @@
  * @property {Boolean} disabled 是否禁用
  * @property {EventHandle} onCancel 取消选择或点遮罩层收起 picker 时触发
  */
+import 'weui'
 import Nerv from 'nervjs'
 import PickerGroup from './picker-group'
 import classNames from 'classnames'
 import { TOP, LINE_HEIGHT } from './constant'
-import dateHandle from './date'
+import * as dateHandle from './date'
 import './style/index.scss'
 
 // todos:

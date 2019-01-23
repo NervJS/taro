@@ -2,14 +2,15 @@
   "name": "@tarojs/components",
   "version": "1.2.8",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "src/index.js",
   "typings": "./types/index.d.ts",
   "files": [
-    "src/components",
+    "src",
     "dist",
     "utils",
     "types"
   ],
+  "sideEffects": false,
   "scripts": {
     "local-dev": "webpack-dev-server --config webpack.config.js --env development",
     "dev": "webpack --config webpack.prod.config.js --watch",
@@ -40,10 +41,15 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.5",
     "@babel/plugin-proposal-class-properties": "^7.2.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
+    "@babel/preset-env": "^7.1.5",
     "@tarojs/taro-h5": "1.2.8",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
+    "babel-loader": "^8.0.5",
     "jest": "^22.4.4",
     "nerv-test-utils": "^1.2.18",
     "swiper": "^4.4.2",

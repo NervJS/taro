@@ -33,7 +33,7 @@ function getMaxDay (year, month) {
   }
   return 31
 }
-module.exports = {
+export {
   verifyDate,
   getMaxDay
 }

@@ -1,5 +1,6 @@
+import 'weui'
 import Nerv from 'nervjs'
-import _ from '../../../utils/parse-type'
+import { isNumber } from '../../utils/parse-type'
 class RadioGroup extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -15,7 +16,7 @@ class RadioGroup extends Nerv.Component {
     let checkValue
     let _value = this.radioValue.map((item, idx) => {
       let curValue = item.value
-      if (_.isNumber(item.value)) curValue = item.value.toString()
+      if (isNumber(item.value)) curValue = item.value.toString()
       if (e.target.value === curValue) {
         checkValue = item.value
         return {

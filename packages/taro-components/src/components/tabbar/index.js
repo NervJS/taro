@@ -1,3 +1,4 @@
+import 'weui'
 import Taro from '@tarojs/taro-h5'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
