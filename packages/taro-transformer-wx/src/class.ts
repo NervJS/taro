@@ -14,7 +14,7 @@ import {
   isContainStopPropagation
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
-import { kebabCase, uniqueId } from 'lodash'
+import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
 import { Adapters, Adapter } from './adapter'
@@ -399,21 +399,59 @@ class Transformer {
           } else if (t.isArrowFunctionExpression(expr)) {
             const exprPath = attr.get('value.expression')
             const stemParent = path.getStatementParent()
-            const anonymousFuncName = `anonymousFunc${self.anonymousFuncCounter()}`
+            const counter = self.anonymousFuncCounter()
+            const anonymousFuncName = `anonymousFunc${counter}`
             const isCatch = isContainStopPropagation(exprPath)
-            self.classPath.node.body.body.push(
-              t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
-                isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('StopPropagation')), [])) : t.emptyStatement()
-              ]))
-            )
-            exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
-            stemParent.insertBefore(
-              t.expressionStatement(t.assignmentExpression(
-                '=',
-                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
-                expr
+            const classBody = self.classPath.node.body.body
+            const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
+            let index: t.Identifier
+            if (loopCallExpr) {
+              index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
+              if (!t.isIdentifier(index)) {
+                index = t.identifier('__index' + counter)
+                safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
+              }
+              classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Array'), t.arrayExpression([])))
+              const arrayFunc = t.memberExpression(
+                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Array')),
+                t.identifier(index.name),
+                true
+              )
+              classBody.push(
+                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(index.name), t.identifier('e')], t.blockStatement([
+                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('StopPropagation')), [])) : t.emptyStatement(),
+                  t.expressionStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+                ]))
+              )
+              exprPath.replaceWith(t.callExpression(
+                t.memberExpression(
+                  t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+                  t.identifier('bind')
+                ),
+                [t.thisExpression(), t.identifier(index.name)]
               ))
-            )
+              stemParent.insertBefore(
+                t.expressionStatement(t.assignmentExpression(
+                  '=',
+                  arrayFunc,
+                  expr
+                ))
+              )
+            } else {
+              classBody.push(
+                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
+                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('StopPropagation')), [])) : t.emptyStatement()
+                ]))
+              )
+              exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
+              stemParent.insertBefore(
+                t.expressionStatement(t.assignmentExpression(
+                  '=',
+                  t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+                  expr
+                ))
+              )
+            }
           } else {
             throw codeFrameError(path.node, '组件事件传参只能在使用匿名箭头函数，或使用类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
