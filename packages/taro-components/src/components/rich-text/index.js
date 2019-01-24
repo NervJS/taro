@@ -35,18 +35,18 @@ class RichText extends Nerv.Component {
   }
 
   render () {
-    let { nodes } = this.props
+    let { nodes, className, ...other } = this.props
 
     if (Array.isArray(nodes)) {
       return (
-        <div {...omit(this.props, ['nodes'])}>
+        <div className={className} {...omit(this.props, ['nodes', 'className'])} {...other}>
           {nodes.map((item, idx) => {
             return this.renderNodes(item)
           })}
         </div>
       )
     } else {
-      return <div dangerouslySetInnerHTML={{ __html: nodes }} />
+      return <div className={className} {...omit(this.props, ['className'])} {...other} dangerouslySetInnerHTML={{ __html: nodes }} />
     }
   }
 }
