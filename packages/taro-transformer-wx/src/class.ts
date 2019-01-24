@@ -419,7 +419,7 @@ class Transformer {
               )
               classBody.push(
                 t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(index.name), t.identifier('e')], t.blockStatement([
-                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('StopPropagation')), [])) : t.emptyStatement(),
+                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
                   t.expressionStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
                 ]))
               )
@@ -440,7 +440,7 @@ class Transformer {
             } else {
               classBody.push(
                 t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
-                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('StopPropagation')), [])) : t.emptyStatement()
+                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement()
                 ]))
               )
               exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
@@ -597,6 +597,18 @@ class Transformer {
     })
   }
 
+  setMethods () {
+    const methods: Array<NodePath<t.ClassProperty | t.ClassMethod>> = (this.classPath as any).get('body').get('body')
+    for (const method of methods) {
+      if (method.isClassMethod()) {
+        const key = method.get('key')
+        if (key.isIdentifier()) {
+          this.methods.set(key.node.name, method)
+        }
+      }
+    }
+  }
+
   resetConstructor () {
     const body = this.classPath.node.body.body
     if (!this.methods.has('constructor')) {
@@ -718,6 +730,7 @@ class Transformer {
 
   compile () {
     this.traverse()
+    this.setMethods()
     this.setComponents()
     this.resetConstructor()
     this.findMoreProps()
