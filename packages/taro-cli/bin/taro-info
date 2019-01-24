@@ -1,14 +1,45 @@
 #!/usr/bin/env node
 const envinfo = require('envinfo')
-const { getPkgVersion, UPDATE_PACKAGE_LIST } = require('../src/util')
+const {getPkgVersion, UPDATE_PACKAGE_LIST} = require('../src/util')
+const exec = require('child_process').exec
+const process = require('process')
+const program = require('commander')
+
+const npmPackages = UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'nervjs', 'expo'])
+
+// 这里没有使用 command 的形式：taro-update-self
+program.parse(process.argv)
+
+const args = program.args
+
+if (args.length === 1) {
+  switch (args[0]) {
+    case 'rn': {
+      rnInfo({
+        SDKs: ['iOS SDK', 'Android SDK']
+      })
+      break
+    }
+    default:
+      info()
+  }
+} else {
+  info()
+}
+
+function rnInfo (options) {
+  process.chdir('.rn_temp')
+  info(options)
+}
 
 async function info (options) {
   let info = await envinfo.run(
     {
       System: ['OS', 'Shell'],
       Binaries: ['Node', 'Yarn', 'npm'],
-      npmPackages: UPDATE_PACKAGE_LIST,
-      npmGlobalPackages: ['typescript']
+      npmPackages,
+      npmGlobalPackages: ['typescript'],
+      ...options
     },
     {
       title: `Taro CLI ${getPkgVersion()} environment info`
@@ -16,5 +47,3 @@ async function info (options) {
   )
   console.log(info)
 }
-
-info()
