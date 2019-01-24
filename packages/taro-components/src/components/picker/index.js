@@ -292,8 +292,7 @@ export default class Picker extends Nerv.Component {
         pickerValue: eventObj.detail.value
       })
 
-      let reEventObj = Object.assign({}, eventObj)
-      this.props.onChange && this.props.onChange(reEventObj)
+      this.props.onChange && this.props.onChange(eventObj)
     }
 
     // 点击取消或蒙层
@@ -332,13 +331,17 @@ export default class Picker extends Nerv.Component {
 
     // 统一抛出的事件对象，和小程序对齐
     const getEventObj = (e, type, detail) => {
-      return {
-        currentTarget: e.target,
-        detail,
-        target: e.target,
-        timeStamp: Math.floor(e.timeStamp),
-        type
-      }
+      Object.defineProperties(e, {
+        detail: {
+          value: detail,
+          enumerable: true
+        },
+        type: {
+          value: type,
+          enumerable: true
+        }
+      })
+      return e
     }
 
     // 供 PickerGroup 修改对应的 height 值
