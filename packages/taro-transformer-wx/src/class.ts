@@ -9,7 +9,9 @@ import {
   createRandomLetters,
   isContainJSXElement,
   getSlotName,
-  isArrayMapCallExpression
+  isArrayMapCallExpression,
+  incrementId,
+  isContainStopPropagation
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
 import { kebabCase, uniqueId } from 'lodash'
@@ -125,6 +127,7 @@ class Transformer {
   private sourcePath: string
   private refs: Ref[] = []
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
+  private anonymousFuncCounter = incrementId()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -344,6 +347,8 @@ class Transformer {
         }
       },
       JSXExpressionContainer (path) {
+        const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+        const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
         path.traverse({
           MemberExpression (path) {
             const sibling = path.getSibling('property')
@@ -352,8 +357,6 @@ class Transformer {
               (path.get('property').isIdentifier({ name: 'props' }) || path.get('property').isIdentifier({ name: 'state' })) &&
               sibling.isIdentifier()
             ) {
-              const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
-              const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
               if (!isFunctionProp) {
                 self.usedState.add(sibling.node.name)
               }
@@ -367,6 +370,7 @@ class Transformer {
         const parentPath = path.parentPath
         if (
           hasComplexExpression(expression) &&
+          !isFunctionProp &&
           !(calleeExpr &&
             calleeExpr.isMemberExpression() &&
             calleeExpr.get('object').isMemberExpression() &&
@@ -380,7 +384,6 @@ class Transformer {
             }
           }
         }
-        const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
         if (!attr) return
         const key = attr.node.name
         const value = attr.node.value
@@ -390,11 +393,29 @@ class Transformer {
         if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
           const expr = value.expression
           if (t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' })) {
-            self.buildAnonymousFunc(attr, expr, true)
+            self.buildPropsAnonymousFunc(attr, expr, true)
           } else if (t.isMemberExpression(expr)) {
-            self.buildAnonymousFunc(attr, expr as any, false)
+            self.buildPropsAnonymousFunc(attr, expr as any, false)
+          } else if (t.isArrowFunctionExpression(expr)) {
+            const exprPath = attr.get('value.expression')
+            const stemParent = path.getStatementParent()
+            const anonymousFuncName = `anonymousFunc${self.anonymousFuncCounter()}`
+            const isCatch = isContainStopPropagation(exprPath)
+            self.classPath.node.body.body.push(
+              t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
+                isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('StopPropagation')), [])) : t.emptyStatement()
+              ]))
+            )
+            exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
+            stemParent.insertBefore(
+              t.expressionStatement(t.assignmentExpression(
+                '=',
+                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+                expr
+              ))
+            )
           } else {
-            throw codeFrameError(path.node, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
+            throw codeFrameError(path.node, '组件事件传参只能在使用匿名箭头函数，或使用类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
         const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
@@ -492,7 +513,7 @@ class Transformer {
     })
   }
 
-  buildAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
+  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
     const { code } = generate(expr)
     if (code.startsWith('this.props')) {
       const methodName = findMethodName(expr)

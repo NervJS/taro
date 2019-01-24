@@ -42,6 +42,23 @@ export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
   }
 }
 
+export function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
+  let matched = false
+  if (path) {
+    path.traverse({
+      Identifier (p) {
+        if (
+          p.node.name === 'stopPropagation' &&
+          p.parentPath.parentPath.isCallExpression()
+        ) {
+          matched = true
+        }
+      }
+    })
+  }
+  return matched
+}
+
 export function decodeUnicode (s: string) {
   return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
 }

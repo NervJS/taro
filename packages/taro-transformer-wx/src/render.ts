@@ -22,7 +22,8 @@ import {
   setParentCondition,
   isContainJSXElement,
   getSlotName,
-  getSuperClassCode
+  getSuperClassCode,
+  isContainStopPropagation
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -75,23 +76,6 @@ interface JSXHandler {
 
 function isChildrenOfJSXAttr (p: NodePath<t.Node>) {
   return !!p.findParent(p => p.isJSXAttribute())
-}
-
-function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
-  let matched = false
-  if (path) {
-    path.traverse({
-      Identifier (p) {
-        if (
-          p.node.name === 'stopPropagation' &&
-          p.parentPath.parentPath.isCallExpression()
-        ) {
-          matched = true
-        }
-      }
-    })
-  }
-  return matched
 }
 
 function buildAssignState (
