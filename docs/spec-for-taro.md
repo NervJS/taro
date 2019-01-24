@@ -373,7 +373,7 @@ const message = 'Hello \
 #### 检查 NaN 的正确姿势是使用 isNaN()
 
 ```javascript
-if (price === NaN) { }      // ✗ 错误
+if (price !== NaN) { }      // ✗ 错误
 if (isNaN(price)) { }       // ✓ 正确
 ```
 
