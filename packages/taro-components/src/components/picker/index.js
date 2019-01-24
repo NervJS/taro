@@ -61,7 +61,7 @@ export default class Picker extends Nerv.Component {
       let _start = dateHandle.verifyDate(start)
       let _end = dateHandle.verifyDate(end)
 
-      if (!_value) _value = new Date() // 没传值或值的合法性错误默认今天时间
+      if (!_value) _value = new Date(new Date().setHours(0, 0, 0, 0)) // 没传值或值的合法性错误默认今天时间
       if (!_start) _start = new Date('1970/01/01')
       if (!_end) _end = new Date('2999/01/01')
 
@@ -106,7 +106,7 @@ export default class Picker extends Nerv.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentWillReceiveProps () {
     this.handlePrpos()
   }
 
