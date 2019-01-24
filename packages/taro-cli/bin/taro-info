@@ -1,13 +1,13 @@
 #!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
 const envinfo = require('envinfo')
 const {getPkgVersion, UPDATE_PACKAGE_LIST} = require('../src/util')
-const exec = require('child_process').exec
 const process = require('process')
 const program = require('commander')
 
 const npmPackages = UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'nervjs', 'expo'])
 
-// 这里没有使用 command 的形式：taro-update-self
 program.parse(process.argv)
 
 const args = program.args
@@ -28,8 +28,12 @@ if (args.length === 1) {
 }
 
 function rnInfo (options) {
-  process.chdir('.rn_temp')
-  info(options)
+  const appPath = process.cwd()
+  const tempPath = path.join(appPath, '.rn_temp')
+  if (fs.lstatSync(tempPath).isDirectory()) {
+    process.chdir('.rn_temp')
+    info(options)
+  }
 }
 
 async function info (options) {
