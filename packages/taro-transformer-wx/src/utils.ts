@@ -140,12 +140,12 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
           if (prevElement && prevElement.isJSXElement()) {
             const attr = prevElement.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
             if (attr && t.isJSXExpressionContainer(attr.value)) {
-              expr = t.conditionalExpression(reverseBoolean(attr.value.expression), expr, t.arrayExpression())
+              expr = t.conditionalExpression(reverseBoolean(cloneDeep(attr.value.expression)), expr, t.arrayExpression())
               return expr
             }
           }
         } else if (t.isJSXExpressionContainer(attr.value)) {
-          expr = t.conditionalExpression(attr.value.expression, expr, t.arrayExpression())
+          expr = t.conditionalExpression(cloneDeep(attr.value.expression), expr, t.arrayExpression())
           return expr
         }
       }
@@ -154,13 +154,13 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
   if (conditionExpr && conditionExpr.isConditionalExpression()) {
     const consequent = conditionExpr.get('consequent')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+      expr = t.conditionalExpression(cloneDeep(conditionExpr.get('test').node) as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
     }
   }
   if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
     const consequent = logicExpr.get('right')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+      expr = t.conditionalExpression(cloneDeep(logicExpr.get('left').node) as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
     }
   }
   return expr
