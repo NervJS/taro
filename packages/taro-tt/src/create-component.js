@@ -1,8 +1,13 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
+import { cacheDataGet, cacheDataHas } from './data-cache'
+
 const privatePropValName = 'privateTriggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
+const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
 function bindProperties (weappComponentConf, ComponentClass) {
@@ -12,7 +17,7 @@ function bindProperties (weappComponentConf, ComponentClass) {
     if (defaultProps.hasOwnProperty(key)) {
       weappComponentConf.properties[key] = {
         type: null,
-        value: null
+        value: defaultProps[key]
       }
     }
   }
@@ -81,7 +86,7 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    const eventType = event.type.toLocaleLowerCase()
 
     if (event.detail && event.detail.__detail) Object.assign(dataset, event.detail.__detail)
 
@@ -90,10 +95,11 @@ function processEvent (eventHandlerName, obj) {
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(eventHandlerNameLower, '')
-          bindArgs[argName] = dataset[key]
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
+          if (/^(a[a-z]|so)$/.test(argName)) {
+            bindArgs[argName] = dataset[key]
+          }
         }
       }
     })
@@ -188,7 +194,8 @@ export function componentTrigger (component, key, args) {
     component._dirty = true
     component._disable = true
     component.$router = {
-      params: {}
+      params: {},
+      path: ''
     }
     component._pendingStates = []
     component._pendingCallbacks = []
@@ -253,6 +260,11 @@ function createComponent (ComponentClass, isPage) {
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
       if (isPage) {
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
+        }
+        this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       }
     },

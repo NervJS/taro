@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/components/index.js',
+  entry: './src/index.js',
   resolve: {
     extensions: ['.js', '.scss', '.css']
   },
@@ -27,7 +27,7 @@ module.exports = {
           options: {
             'presets': [
               [
-                '@babel/env',
+                '@babel/preset-env',
                 {
                   'spec': true,
                   'useBuiltIns': false

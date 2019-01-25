@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction, FormItemProps } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
@@ -11,11 +11,11 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
    * 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
    */
-  onChange: BaseEventFunction
+  onChange: CommonEventFunction
   /**
    * 取消选择或点遮罩层收起 picker 时触发
    */
-  onCancel?: BaseEventFunction
+  onCancel?: CommonEventFunction
 }
 
 interface PickerSelectorProps extends PickerStandardProps {
@@ -57,7 +57,7 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   /**
    * 某一列的值改变时触发 columnchange 事件，event.detail = {column: column, value: value}，column 的值表示改变了第几列（下标从0开始），value 的值表示变更值的下标
    */
-  onColumnChange?: BaseEventFunction
+  onColumnChange?: CommonEventFunction
 }
 
 interface PickerTimeProps extends PickerStandardProps {
@@ -116,7 +116,7 @@ interface PickerRegionProps extends PickerStandardProps {
   /**
    * 仅当 mode = region 时有效，可为每一列的顶部添加一个自定义的项
    */
-  customItem: string
+  customItem?: string
 }
 
 declare const Picker: ComponentType<

@@ -1,7 +1,8 @@
 import warning from 'warning';
 import Taro from '@tarojs/taro-h5';
+import assign from 'lodash/assign';
 
-import { Action, History, HistoryState, Location } from '../utils/types';
+import { Action, History, HistoryState, Location, CustomRoutes } from '../utils/types';
 import createTransitionManager from './createTransitionManager';
 import { createLocation } from './LocationUtils';
 import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils';
@@ -53,7 +54,7 @@ const tryToParseStore = (state: HistoryState) => {
 
   const isValid = store.key === state.key
 
-  warning(isValid, 'Invalid location store, it is rewrote')
+  // warning(isValid, 'Invalid location store, it is rewrote')
 
   if (!isValid) {
     store.key = state.key!
@@ -75,22 +76,30 @@ const createHistorySerializer = (storeObj: HistoryState) => {
   return serialize
 }
 
-const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = { mode: "hash" }) => {
+const createHistory = (props: { basename?: string, mode: "hash" | "browser", firstPagePath: string, customRoutes: CustomRoutes }) => {
   const transitionManager = createTransitionManager()
   const basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : ''
+  const customRoutes = props.customRoutes || {}
   let listenerCount = 0
   let serialize
 
+  props.mode = props.mode || "hash"
   const getDOMLocation = (historyState: HistoryState): Location => {
     const { key } = historyState
     const { pathname, search, hash } = window.location
     let path = props.mode === "hash"
       ? addLeadingSlash(getHashPath())
-      : pathname + search + hash;
+      : pathname + search + hash
 
-    warning(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".')
+    if (props.mode === 'browser') {
+      warning(hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".')
+    }
 
-    if (basename) path = stripBasename(path, basename)
+    path = stripBasename(path, basename)
+
+    if (path === '/') {
+      path = props.firstPagePath
+    }
 
     return createLocation(path, key)
   }
@@ -112,7 +121,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = 
     : location => basename + createPath(location)
 
   const setState = (nextState: { action: 'POP' | 'PUSH' | 'REPLACE'; location: Location }): void => {
-    Object.assign(history, nextState)
+    assign(history, nextState)
 
     const fromLocation = {...lastLocation}
 
@@ -139,6 +148,10 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = 
     const action = 'PUSH'
     const key = createKey()
     const location = createLocation(path, key, history.location)
+    const originalPath = location.path
+    if (originalPath in customRoutes) {
+      location.path = customRoutes[originalPath]
+    }
 
     const href = createHref(location)
 
@@ -149,10 +162,14 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" } = 
     setState({ action, location })
   }
 
-  const replace = (path: string | Location) => {
+  const replace = (path: string) => {
     const action = 'REPLACE'
     const key = store.key
     const location = createLocation(path as string, key, history.location)
+    const originalPath = location.path
+    if (originalPath in customRoutes) {
+      location.path = customRoutes[originalPath]
+    }
 
     const href = createHref(location)
 

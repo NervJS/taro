@@ -4,6 +4,9 @@
 
 import Nerv from 'nervjs';
 import { Component } from '@tarojs/taro-h5';
+import keys from 'lodash/keys';
+import assign from 'lodash/assign';
+
 const ALL_INITIALIZERS: Function[] = [];
 const READY_INITIALIZERS: Function[] = [];
 
@@ -68,7 +71,7 @@ function loadMap(obj) {
   const promises: Promise<any>[] = [];
 
   try {
-    Object.keys(obj).forEach(key => {
+    keys(obj).forEach(key => {
       const result = load(obj[key]);
 
       if (!result.loading) {
@@ -114,7 +117,7 @@ function render(loaded, props, ctx) {
 }
 
 function createLoadableComponent(loadFn, options) {
-  const opts = Object.assign(
+  const opts = assign(
     {
       loader: null,
       loading: null,

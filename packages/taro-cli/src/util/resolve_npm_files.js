@@ -19,7 +19,8 @@ const {
   generateEnvList,
   REG_TYPESCRIPT,
   BUILD_TYPES,
-  REG_STYLE
+  REG_STYLE,
+  recursiveFindNodeModules
 } = require('./index')
 
 const CONFIG = require('../config')
@@ -58,15 +59,6 @@ function resolveNpmPkgMainPath (pkgName, isProduction, npmConfig, buildAdapter =
       return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     }
   }
-}
-
-function recursiveFindNodeModules (filePath) {
-  const dirname = path.dirname(filePath)
-  const nodeModules = path.join(dirname, 'node_modules')
-  if (fs.existsSync(nodeModules)) {
-    return nodeModules
-  }
-  return recursiveFindNodeModules(dirname)
 }
 
 function resolveNpmFilesPath (pkgName, isProduction, npmConfig, buildAdapter = BUILD_TYPES.WEAPP, root = basedir, compileInclude = []) {
@@ -161,7 +153,7 @@ async function recursiveRequire (filePath, files, isProduction, npmConfig = {}, 
     const cwdRelate2Npm = path.relative(
       filePath.slice(0, filePath.search('node_modules')),
       process.cwd()
-    );
+    )
     outputNpmPath = filePath.replace('node_modules', path.join(cwdRelate2Npm, outputDirName, npmConfig.name))
     outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {

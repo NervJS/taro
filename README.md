@@ -12,7 +12,7 @@
 
 **Taro** 是一套遵循 [React](https://reactjs.org/) 语法规范的 **多端开发** 解决方案。现如今市面上端的形态多种多样，Web、React-Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。
 
-使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝小程序、H5、React-Native 等）运行的代码。
+使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动小程序、H5、React-Native 等）运行的代码。
 
 ## 学习资源
 
@@ -25,7 +25,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://storage.jd.com/taro-resource/user-cases.jpg)
+![案例](https://storage.360buyimg.com/taro-resource/user-cases.jpg)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
@@ -102,9 +102,31 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 #### 支持多端开发转化
 
-Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝小程序** 、 **H5 端** 以及 **移动端（React-Native）**。
+Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、 **H5 端** 以及 **移动端（React-Native）**。
 
-<div align="center"><img src="https://taro.oss-cn-hangzhou.aliyuncs.com/platforms.jpg"/></div>
+<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
+
+## 更多功能
+如果你还想 Taro 支持新的特性，请使用 [FeatHub](https://feathub.com/NervJS/taro) 进行投票，我们将综合考虑投票结果等因素来确定开发的优先级。
+
+[![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](http://feathub.com/NervJS/taro)
+
+[![Feature Requests](http://feathub.com/NervJS/taro?format=svg)](http://feathub.com/NervJS/taro)
+
+## 🤝 参与共建 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+请参考[贡献指南](https://nervjs.github.io/taro/docs/CONTRIBUTING.html).
+
+> 强烈推荐阅读 [《提问的智慧》](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way)、[《如何向开源社区提问题》](https://github.com/seajs/seajs/issues/545) 和 [《如何有效地报告 Bug》](http://www.chiark.greenend.org.uk/%7Esgtatham/bugs-cn.html)、[《如何向开源项目提交无法解答的问题》](https://zhuanlan.zhihu.com/p/25795393)，更好的问题更容易获得帮助。
+
+[![Let's fund issues in this repository](https://issuehunt.io/static/embed/issuehunt-button-v1.svg)](https://issuehunt.io/repos/128624453)
+
+## 特别鸣谢
+
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=120&v=4)](https://github.com/nanjingboy/)
+:---:
+[nanjingboy](https://github.com/nanjingboy/)
+
 
 ## 贡献者们
 
@@ -126,7 +148,7 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 
 MIT License
 
-Copyright (c) 2018 O2Team
+Copyright (c) O2Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 /**
  * 这个组件从小程序基础库版本 2.1.0 开始支持。
@@ -32,12 +32,12 @@ interface FunctionalPageNavigatorProps extends StandardProps {
   /**
    * 功能页返回，且操作成功时触发， detail 格式与具体功能页相关
    */
-  onSuccess?: BaseEventFunction,
+  onSuccess?: CommonEventFunction,
 
   /**
    * 功能页返回，且操作失败时触发， detail 格式与具体功能页相关
    */
-  onFail?: BaseEventFunction
+  onFail?: CommonEventFunction
 }
 
 declare const FunctionalPageNavigator: ComponentType<FunctionalPageNavigatorProps>

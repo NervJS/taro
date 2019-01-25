@@ -7,11 +7,13 @@
  * @property {Boolean} disabled 是否禁用
  * @property {EventHandle} onCancel 取消选择或点遮罩层收起 picker 时触发
  */
+import 'weui'
 import Nerv from 'nervjs'
 import PickerGroup from './picker-group'
 import classNames from 'classnames'
 import { TOP, LINE_HEIGHT } from './constant'
-import dateHandle from './date'
+import * as dateHandle from './date'
+import './style/index.scss'
 
 // todos:
 // 1. 加入滚动惯性
@@ -60,7 +62,7 @@ export default class Picker extends Nerv.Component {
       let _start = dateHandle.verifyDate(start)
       let _end = dateHandle.verifyDate(end)
 
-      if (!_value) _value = new Date() // 没传值或值的合法性错误默认今天时间
+      if (!_value) _value = new Date(new Date().setHours(0, 0, 0, 0)) // 没传值或值的合法性错误默认今天时间
       if (!_start) _start = new Date('1970/01/01')
       if (!_end) _end = new Date('2999/01/01')
 
@@ -74,22 +76,23 @@ export default class Picker extends Nerv.Component {
           _value.getMonth() + 1,
           _value.getDate()
         ]
-        let maxDay = dateHandle.getMaxDay(
-          _value.getFullYear(),
-          _value.getMonth() + 1
-        )
-        this.pickerDate = {
-          _value,
-          _start,
-          _end,
-          _updateValue: [
-            _value.getFullYear(),
-            _value.getMonth() + 1,
-            _value.getDate()
-          ]
+        if (
+          !this.pickerDate ||
+          this.pickerDate._value.getTime() !== _value.getTime() ||
+          this.pickerDate._start.getTime() !== _start.getTime() ||
+          this.pickerDate._end.getTime() !== _end.getTime()
+        ) {
+          this.pickerDate = {
+            _value,
+            _start,
+            _end,
+            _updateValue: [
+              _value.getFullYear(),
+              _value.getMonth() + 1,
+              _value.getDate()
+            ]
+          }
         }
-
-        this._dateMaxDay = this.getDateRange(1, maxDay, '日')
       } else {
         throw new Error('Date Interval Error')
       }
@@ -104,7 +107,7 @@ export default class Picker extends Nerv.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentWillReceiveProps () {
     this.handlePrpos()
   }
 
@@ -140,14 +143,42 @@ export default class Picker extends Nerv.Component {
     return false
   }
 
+  getMonthRange (fields = '') {
+    let _start = 1
+    let _end = 12
+    if (this.pickerDate._start.getFullYear() === this.pickerDate._end.getFullYear()) {
+      _start = this.pickerDate._start.getMonth() + 1
+      _end = this.pickerDate._end.getMonth() + 1
+    } else if (this.pickerDate._start.getFullYear() === this.pickerDate._updateValue[0]) {
+      _start = this.pickerDate._start.getMonth() + 1
+      _end = 12
+    } else if (this.pickerDate._end.getFullYear() === this.pickerDate._updateValue[0]) {
+      _start = 1
+      _end = this.pickerDate._end.getMonth() + 1
+    }
+    return this.getDateRange(_start, _end, fields)
+  }
+
+  getDayRange (fields = '') {
+    let _start = 1
+    let _end = dateHandle.getMaxDay(this.pickerDate._updateValue[0], this.pickerDate._updateValue[1])
+    if (this.pickerDate._start.getFullYear() === this.pickerDate._updateValue[0] && this.pickerDate._start.getMonth() + 1 === this.pickerDate._updateValue[1]) {
+      _start = this.pickerDate._start.getDate()
+    }
+    if (this.pickerDate._end.getFullYear() === this.pickerDate._updateValue[0] && this.pickerDate._end.getMonth() + 1 === this.pickerDate._updateValue[1]) {
+      _end = this.pickerDate._end.getDate()
+    }
+    return this.getDateRange(_start, _end, fields)
+  }
+
   // 获取年月日下标或者下标对应的数
   getDateArrIndex (value, fields, getIdx = false) {
     let year = this.getDateRange(
       this.pickerDate._start.getFullYear(),
       this.pickerDate._end.getFullYear()
     )
-    let month = this.getDateRange(1, 12)
-    let day = this.getDateRange(1, 31)
+    let month = this.getMonthRange()
+    let day = this.getDayRange()
 
     if (getIdx) {
       if (fields === 0) {
@@ -261,8 +292,7 @@ export default class Picker extends Nerv.Component {
         pickerValue: eventObj.detail.value
       })
 
-      let reEventObj = Object.assign({}, eventObj)
-      this.props.onChange && this.props.onChange(reEventObj)
+      this.props.onChange && this.props.onChange(eventObj)
     }
 
     // 点击取消或蒙层
@@ -280,16 +310,6 @@ export default class Picker extends Nerv.Component {
         return (TOP - h) / LINE_HEIGHT
       })
 
-      // 需要做个比对再确定是否触发
-      let valueChanged = false
-      this.index.some((value, num) => {
-        if (value !== index[num]) {
-          valueChanged = true
-          return true
-        }
-      })
-      if (!valueChanged) return
-
       // 前一级列改变时，后面所有级别的 index 都要设为 0, 并初始化高度
       const rangeLen = this.props.range.length
       if (columnId < rangeLen - 1) {
@@ -306,18 +326,22 @@ export default class Picker extends Nerv.Component {
         column: columnId,
         value: index[columnId]
       })
-      this.props.onColumnchange && this.props.onColumnchange(eventObj)
+      this.props.onColumnChange && this.props.onColumnChange(eventObj)
     }
 
     // 统一抛出的事件对象，和小程序对齐
     const getEventObj = (e, type, detail) => {
-      return {
-        currentTarget: e.target,
-        detail,
-        target: e.target,
-        timeStamp: Math.floor(e.timeStamp),
-        type
-      }
+      Object.defineProperties(e, {
+        detail: {
+          value: detail,
+          enumerable: true
+        },
+        type: {
+          value: type,
+          enumerable: true
+        }
+      })
+      return e
     }
 
     // 供 PickerGroup 修改对应的 height 值
@@ -470,15 +494,16 @@ export default class Picker extends Nerv.Component {
 
     const updateDay = (value, fields) => {
       this.pickerDate._updateValue[fields] = value
-      let max = dateHandle.getMaxDay(
-        this.pickerDate._updateValue[0],
-        this.pickerDate._updateValue[1]
-      )
-      if (max < this.pickerDate._updateValue[2]) {
-        this.state.height[2] = TOP - LINE_HEIGHT * max + 34
+      // 滚动年份
+      if (fields === 0) {
+        let monthRange = this.getMonthRange()
+        updateDay(monthRange[0] * 1, 1)
+        updateHeight(TOP, 1)
+      } else if (fields === 1) {
+        let dayRange = this.getDayRange()
+        updateDay(dayRange[0] * 1, 2)
+        updateHeight(TOP, 2)
       }
-
-      this._dateMaxDay = this.getDateRange(1, max, '日')
     }
 
     const gitDateSelector = () => {
@@ -487,8 +512,8 @@ export default class Picker extends Nerv.Component {
         this.pickerDate._end.getFullYear(),
         '年'
       )
-      let month = this.getDateRange(1, 12, '月')
-
+      let month = this.getMonthRange('月')
+      let day = this.getDayRange('日')
       let renderView = []
       if (this.props.fields === 'year') {
         renderView.push(
@@ -540,7 +565,7 @@ export default class Picker extends Nerv.Component {
           />,
           <PickerGroup
             mode='date'
-            range={this._dateMaxDay}
+            range={day}
             updateDay={updateDay}
             height={this.state.height[2]}
             updateHeight={updateHeight}

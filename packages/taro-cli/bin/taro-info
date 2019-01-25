@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
+const envinfo = require('envinfo')
+const {getPkgVersion, UPDATE_PACKAGE_LIST} = require('../src/util')
+const process = require('process')
+const program = require('commander')
+
+const npmPackages = UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'nervjs', 'expo'])
+
+program.parse(process.argv)
+
+const args = program.args
+
+if (args.length === 1) {
+  switch (args[0]) {
+    case 'rn': {
+      rnInfo({
+        SDKs: ['iOS SDK', 'Android SDK']
+      })
+      break
+    }
+    default:
+      info()
+  }
+} else {
+  info()
+}
+
+function rnInfo (options) {
+  const appPath = process.cwd()
+  const tempPath = path.join(appPath, '.rn_temp')
+  if (fs.lstatSync(tempPath).isDirectory()) {
+    process.chdir('.rn_temp')
+    info(options)
+  }
+}
+
+async function info (options) {
+  let info = await envinfo.run(
+    {
+      System: ['OS', 'Shell'],
+      Binaries: ['Node', 'Yarn', 'npm'],
+      npmPackages,
+      npmGlobalPackages: ['typescript'],
+      ...options
+    },
+    {
+      title: `Taro CLI ${getPkgVersion()} environment info`
+    }
+  )
+  console.log(info)
+}

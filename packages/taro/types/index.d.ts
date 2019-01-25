@@ -1,4 +1,3 @@
-
 export = Taro;
 export as namespace Taro;
 
@@ -257,6 +256,14 @@ declare namespace Taro {
     }
   }
 
+  interface Permission {
+    [key: string]: {
+      /**
+       * 小程序获取权限时展示的接口用途说明。最长30个字符
+       */
+      desc: string
+    }
+  }
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
@@ -328,6 +335,11 @@ declare namespace Taro {
      * @since 2.4.0
      */
     navigateToMiniProgramAppIdList?: string[]
+    /**
+     * 小程序接口权限相关设置
+     * @since 微信客户端 7.0.0
+     */
+    permission?: Permission
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -352,6 +364,7 @@ declare namespace Taro {
 
     $router: {
       params: any
+      preload: any
     }
 
     setState<K extends keyof S>(
@@ -391,6 +404,11 @@ declare namespace Taro {
     off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
 
     /**
+     * 取消监听的所有事件
+     */
+    off(): this;
+
+    /**
      * 触发一个事件，传参
      */
     trigger(eventName: string | symbol, ...args: any[]): boolean;
@@ -405,6 +423,8 @@ declare namespace Taro {
 
     function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
 
+    function off(): void;
+
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
 
@@ -415,15 +435,26 @@ declare namespace Taro {
     WEB = 'WEB',
     RN = 'RN',
     SWAN = 'SWAN',
-    ALIPAY = 'ALIPAY'
+    ALIPAY = 'ALIPAY',
+    TT = 'TT'
   }
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
 
-  function render(component: Component | JSX.Element, element: Element | null)
+  function render(component: Component | JSX.Element, element: Element | null): any;
 
-  function internal_safe_set (...arg): any
-  function internal_safe_get (...arg): any
+  function internal_safe_set (...arg: any[]): any;
+  function internal_safe_get (...arg: any[]): any;
+
+  type MessageType = 'info' | 'success' | 'error' | 'warning';
+
+  interface AtMessageOptions {
+    message: string,
+    type?: MessageType,
+    duration?: number
+  }
+
+  function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
 
@@ -435,7 +466,7 @@ declare namespace Taro {
   /**
    *
    * 微信端能力
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+   * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
    * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
    *
@@ -566,7 +597,31 @@ declare namespace Taro {
        * 设置 H5 端请求校验函数，一般不需要设置
        */
       storeCheck?(): boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
@@ -676,7 +731,7 @@ declare namespace Taro {
       /**
        * 上传进度回调
        */
-      progress: (UploadTaskProgressCallback) => void
+      progress: (callback: UploadTaskProgressCallback) => void
       /**
        * 终止上传任务
        */
@@ -703,7 +758,31 @@ declare namespace Taro {
        * HTTP 请求中其他额外的 form data
        */
       formData?: any
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data` 。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
@@ -754,7 +833,7 @@ declare namespace Taro {
    *         }
    *     })
    *
-   *     uploadTask.onProgressUpdate((res) => {
+   *     uploadTask.progress((res) => {
    *         console.log('上传进度', res.progress)
    *         console.log('已经上传的数据长度', res.totalBytesSent)
    *         console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
@@ -786,6 +865,55 @@ declare namespace Taro {
        * HTTP 请求 Header，header 中不能设置 Referer
        */
       header?: any
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+    /**
+     * 下载进度
+     */
+    type DownloadTaskProgress = {
+      progress: number
+      totalBytesWritten: number
+      totalBytesExpectedToWrite: number
+    }
+    /**
+     * 下载进度回调
+     */
+    type DownloadTaskProgressCallback = (res: DownloadTaskProgress) => any
+    /**
+     * 下载任务
+     */
+    type DownloadTask = Promise<downloadFile.Promised> & {
+      /**
+       * 下载进度回调
+       */
+      progress: (params: DownloadTaskProgressCallback) => void
+      /**
+       * 终止下载任务
+       */
+      abort: () => void
     }
   }
   /**
@@ -829,7 +957,7 @@ declare namespace Taro {
    *         }
    *     })
    *
-   *     downloadTask.onProgressUpdate((res) => {
+   *     downloadTask.progress((res) => {
    *         console.log('下载进度', res.progress)
    *         console.log('已经下载的数据长度', res.totalBytesWritten)
    *         console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
@@ -839,15 +967,11 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject
    */
-  function downloadFile(OBJECT: downloadFile.Param): Promise<downloadFile.Promised>
+  function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
   namespace connectSocket {
-    type Promised = {
-      /**
-       * 返回一个SocketTask
-       */
-      socketTask: SocketTask
-    }
+    type Promised = SocketTask;
+    
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
@@ -1638,8 +1762,32 @@ declare namespace Taro {
        *
        * @since 1.6.0
        */
-      duration?: number
+      duration?: number,
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
@@ -1665,6 +1813,7 @@ declare namespace Taro {
   function playVoice(OBJECT: playVoice.Param): Promise<any>
 
   /**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
    *
    * **示例代码：**
@@ -1689,6 +1838,7 @@ declare namespace Taro {
   function pauseVoice(): void
 
   /**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    * 结束播放语音。
    *
    * **示例代码：**
@@ -1710,6 +1860,122 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxstopvoice
    */
   function stopVoice(): void
+
+  namespace setInnerAudioOption {
+    type Param = {
+      /**
+       * 是否与其他音频混播，设置为 true 之后，不会终止其他应用或微信内的音乐
+       */
+      mixWithOther?: boolean,
+      /**
+       * （仅在 iOS 生效）是否遵循静音开关，设置为 false 之后，即使是在静音模式下，也能播放声音
+       */
+      obeyMuteSwitch?: boolean,
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+  }
+  /**
+   * @since 2.3.0
+   *
+   * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   */
+  function setInnerAudioOption(OBJECT: setInnerAudioOption.Param): Promise<any>
+
+  const enum audioSourcesTypes {
+    /**
+     * 自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用
+     */
+    auto = 'auto',
+    /**
+     * 手机麦克风，仅限 iOS
+     */
+    buildInMic = 'buildInMic',
+    /**
+     * 耳机麦克风，仅限 iOS
+     */
+    headsetMic = 'headsetMic',
+    /**
+     * 麦克风（没插耳麦时是手机麦克风，插耳麦时是耳机麦克风），仅限 Android
+     */
+    mic = 'mic',
+    /**
+     * 同 mic，适用于录制音视频内容，仅限 Android
+     */
+    camcorder = 'camcorder',
+    /**
+     * 同 mic，适用于实时沟通，仅限 Android
+     */
+    voice_communication = 'voice_communication',
+    /**
+     * 同 mic，适用于语音识别，仅限 Android
+     */
+    voice_recognition = 'voice_recognition'
+  }
+
+  namespace getAvailableAudioSources {
+    type Param = {
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Result) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+
+    type Result = {
+      /**
+       * 支持的音频输入源列表，可在 RecorderManager.start() 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSourc
+       */
+      audioSources: audioSourcesTypes[]
+    }
+  }
+  /**
+   * @since 2.1.0
+   * 获取当前支持的音频输入源。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   */
+  function getAvailableAudioSources(OBJECT: getAvailableAudioSources.Param): Promise<any>
 
   namespace getBackgroundAudioPlayerState {
     type Promised = {
@@ -2458,6 +2724,12 @@ declare namespace Taro {
      */
     pause(): void
     /**
+     * 停止
+     *
+     * @since 1.7.0
+     */
+    stop(): void
+    /**
      * 跳转到指定位置，单位 s
      */
     seek(position: number): void
@@ -2476,13 +2748,25 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(): void
+    requestFullScreen(param: {direction: 0 | 90 | -90}): void
     /**
      * 退出全屏
      *
      * @since 1.4.0
      */
     exitFullScreen(): void
+    /**
+     * 显示状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    showStatusBar(): void
+    /**
+     * 隐藏状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    hideStatusBar(): void
   }
   /**
    * @since 1.6.0
@@ -2583,7 +2867,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath, tempVideoPath }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -3589,7 +3873,31 @@ declare namespace Taro {
        * @since 1.6.0
        */
       altitude?: boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
@@ -6290,7 +6598,31 @@ declare namespace Taro {
        * 是否显示透明蒙层，防止触摸穿透，默认：false
        */
       mask?: boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 显示消息提示框
@@ -6318,7 +6650,31 @@ declare namespace Taro {
        * 是否显示透明蒙层，防止触摸穿透，默认：false
        */
       mask?: boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -6326,7 +6682,7 @@ declare namespace Taro {
    * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
    */
-  function showLoading(OBJECT: showLoading.Param): Promise<any>
+  function showLoading(OBJECT?: showLoading.Param): Promise<any>
 
   /**
    * 隐藏消息提示框
@@ -6396,7 +6752,31 @@ declare namespace Taro {
        * 确定按钮的文字颜色，默认为"#3CC51F"
        */
       confirmColor?: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * ​显示模态弹窗
@@ -7459,9 +7839,21 @@ declare namespace Taro {
    *       }
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstoppulldownrefresh
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
    */
   function stopPullDownRefresh(): void
+
+  /**
+   * 收起键盘。
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.hideKeyboard()
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
+   */
+  function hideKeyboard(): void
 
   /**
    * @since 1.4.0
@@ -8065,7 +8457,31 @@ declare namespace Taro {
        * 签名,具体签名方案参见[小程序支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3);
        */
       paySign: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 发起微信支付。

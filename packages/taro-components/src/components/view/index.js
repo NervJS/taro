@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
@@ -19,7 +20,8 @@ class View extends Nerv.Component {
       onTouchEnd,
       className,
       hoverStartTime = 50,
-      hoverStayTime = 400
+      hoverStayTime = 400,
+      ...other
     } = this.props
     const cls = classNames(
       '',
@@ -69,6 +71,7 @@ class View extends Nerv.Component {
           'hoverStartTime',
           'hoverStayTime'
         ])}
+        {...other}
         className={cls}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}

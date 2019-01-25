@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction, FormItemProps } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface InputProps extends StandardProps, FormItemProps {
 
@@ -112,19 +112,19 @@ interface InputProps extends StandardProps, FormItemProps {
   /**
    * 当键盘输入时，触发input事件，event.detail = {value, cursor}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    */
-  onInput?: BaseEventFunction,
+  onInput?: CommonEventFunction,
 
   /**
    * 输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度，在基础库 1.9.90 起支持
    */
-  onFocus?: BaseEventFunction,
+  onFocus?: CommonEventFunction,
 
   /**
    * 输入框失去焦点时触发
    *
    * event.detail = {value: value}
    */
-  onBlur?: BaseEventFunction,
+  onBlur?: CommonEventFunction,
 
 
   /**
@@ -132,9 +132,7 @@ interface InputProps extends StandardProps, FormItemProps {
    *
    * event.detail = {value: value}
    */
-  onConfirm?: BaseEventFunction
-
-  name?: string
+  onConfirm?: CommonEventFunction
 }
 
 declare const Input: ComponentType<InputProps>

@@ -4,6 +4,8 @@ about: 创建一个错误报告
 
 ---
 
+> Feature Request 请提到 [FeatHub](https://feathub.com/NervJS/taro)
+
 如果是提交 bug，请搜索文档和 issue，确认以下事项：
 
 * 该问题没有在其他 issue 和文档讨论到，不属于重复内容
@@ -43,6 +45,7 @@ about: 创建一个错误报告
 [这里请贴上你的**完整**报错截图或文字]
 
 **系统信息**
+> Taro v1.2 及以上版本已添加 `taro info` 命令，方便大家查看系统及依赖信息，运行该命令后将结果贴下面即可。
 
  - 操作系统: [e.g. Windows 10]
  - Taro 版本 [e.g. v.0.0.64]

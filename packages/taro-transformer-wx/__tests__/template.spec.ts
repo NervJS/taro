@@ -599,12 +599,12 @@ describe('Template', () => {
           prettyPrint(`
           <block>
               <view class=\"container\">
-                  <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                  <view wx:key=\"number\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
                       <text class=\"li\">我是第{{number + 1}}个数字</text>
                   </view>
                   <view>
                       <block wx:if=\"{{enable}}\">
-                          <view wx:key=\"{{number}}\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
+                          <view wx:key=\"number\" wx:for=\"{{numbers}}\" wx:for-item=\"number\">
                               <text class=\"li\">我是第{{number + 1}}个数字</text>
                           </view>
                       </block>

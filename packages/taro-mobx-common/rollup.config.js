@@ -2,13 +2,19 @@ import babel from 'rollup-plugin-babel'
 
 export default {
   input: 'src/index.js',
-  output: {
-    sourcemap: false,
+  output: [{
     name: '@tarojs/mobx-common',
+    sourcemap: false,
     exports: 'named',
-    format: 'umd',
+    format: 'cjs',
     file: 'dist/index.js'
-  },
+  }, {
+    sourcemap: false,
+    exports: 'named',
+    format: 'esm',
+    file: 'dist/index.esm.js'
+  }],
+  external: ['mobx'],
   plugins: [
     babel({
       presets: [
@@ -17,8 +23,8 @@ export default {
         }]
       ],
       plugins: [
-        "@babel/plugin-proposal-class-properties"
+        '@babel/plugin-proposal-class-properties'
       ]
-    }),
-  ].filter(Boolean)
+    })
+  ]
 }

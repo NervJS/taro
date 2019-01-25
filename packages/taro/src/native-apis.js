@@ -29,7 +29,9 @@ const onAndSyncApis = {
   getLogManager: true,
   onMemoryWarning: true,
   reportAnalytics: true,
-  navigateToSmartGameProgram: true
+  navigateToSmartGameProgram: true,
+  // 文件
+  getFileSystemManager: true
 }
 const noPromiseApis = {
   // 媒体
@@ -98,6 +100,8 @@ const otherApis = {
   saveImageToPhotosAlbum: true,
   startRecord: true,
   playVoice: true,
+  setInnerAudioOption: true,
+  getAvailableAudioSources: true,
   getBackgroundAudioPlayerState: true,
   playBackgroundAudio: true,
   seekBackgroundAudio: true,

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taroize",
-  "version": "1.2.0-beta.15",
+  "version": "1.2.8",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",
   "files": [
@@ -37,6 +37,7 @@
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
     "@types/node": "^9.6.2",
+    "better-babel-generator": "^6.26.1",
     "jest": "^23.0.1",
     "jest-cli": "^22.1.4",
     "prettier": "^1.14.2",

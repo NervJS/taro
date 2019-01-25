@@ -2,18 +2,22 @@ import { onAndSyncApis, noPromiseApis, otherApis, initPxTransform } from '@taroj
 import request from './api/request'
 import storage from './api/storage'
 import system from './api/system'
-import network from './api/network'
-import clipboard from './api/clipboard'
-import phone from './api/phone'
-import vibrate from './api/vibrate'
+import network from './api/device/network'
+import clipboard from './api/device/clipboard'
+import phone from './api/device/phone'
+import vibrate from './api/device/vibrate'
+import accelerometer from './api/device/accelerometer'
+import deviceMotion from './api/device/deviceMotion'
 import others from './api/others'
 import media from './api/media'
+import file from './api/file'
 import webSocket from './api/webSocket'
 import geolocation from './api/geolocation'
 import toast from './api/WxToast'
 import showModal from './api/WxModal'
 import showActionSheet from './api/WxActionSheet'
 import previewImage from './api/WxPreviewImage'
+import web from './api/web'
 
 function processApis (taro) {
   const weApis = Object.assign({}, onAndSyncApis, noPromiseApis, otherApis)
@@ -44,8 +48,12 @@ export default function initNativeApi (taro) {
     network,
     clipboard,
     phone,
+    web,
     vibrate,
+    accelerometer,
+    deviceMotion,
     media,
+    file,
     webSocket,
     geolocation,
     toast,

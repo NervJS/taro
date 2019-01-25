@@ -1,11 +1,54 @@
 import { CameraRoll, Image } from 'react-native'
+import { ImagePicker, Permissions } from 'expo'
+import { askAsyncPermissions } from '../utils'
 
-export function chooseImage () {
-  throw new Error('暂不支持chooseImage API')
+export function chooseImage (opts) {
+  return chooseMedia(opts, 'Images')
 }
 
-export function chooseVideo () {
-  throw new Error('暂不支持chooseVideo API')
+export function chooseVideo (opts) {
+  return chooseMedia(opts, 'Videos')
+}
+
+async function chooseMedia (opts, mediaTypes) {
+  if (!opts || typeof opts !== 'object') {
+    opts = {}
+  }
+  const { sizeType = [], sourceType = [], success, fail, complete } = opts
+  const options = {
+    mediaTypes,
+    quality: sizeType[0] === 'compressed' ? 0.7 : 1
+  }
+  const isCamera = sourceType[0] === 'camera'
+  const status = isCamera ? await askAsyncPermissions(Permissions.CAMERA) : await askAsyncPermissions(Permissions.CAMERA_ROLL)
+  if (status !== 'granted') {
+    const res = { errMsg: `Permissions denied!` }
+    return Promise.reject(res)
+  }
+
+  let p
+  return new Promise((resolve, reject) => {
+    p = isCamera ? ImagePicker.launchCameraAsync(options) : ImagePicker.launchImageLibraryAsync(options)
+    p.then((resp) => {
+      const { uri } = resp
+      resp.path = uri
+      const res = {
+        tempFilePaths: [uri],
+        tempFiles: [resp]
+      }
+      success && success(res)
+      complete && complete(res)
+      resolve(res)
+    }).catch((err) => {
+      const res = {
+        errMsg: `chooseImage fail`,
+        err
+      }
+      fail && fail(res)
+      complete && complete(res)
+      reject(res)
+    })
+  })
 }
 
 export function getImageInfo (opts = {}) {
@@ -62,15 +105,10 @@ export function saveVideoToPhotosAlbum (opts = {}) {
   return saveMedia(opts, 'video', 'saveVideoToPhotosAlbum')
 }
 
-export function previewImage (opts = {}) {
-  // to do...
-}
-
 export default {
   chooseImage,
   chooseVideo,
   getImageInfo,
   saveImageToPhotosAlbum,
-  saveVideoToPhotosAlbum,
-  previewImage
+  saveVideoToPhotosAlbum
 }

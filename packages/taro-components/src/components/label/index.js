@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 
 class Label extends Nerv.Component {

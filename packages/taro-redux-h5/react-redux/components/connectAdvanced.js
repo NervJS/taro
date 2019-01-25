@@ -36,6 +36,7 @@ function makeSelectorStateful(sourceSelector, store) {
 
           const route = getRoute(ctx)
           if (!route.matched) {
+            selector.__needForceUpdate = true
             selector.shouldComponentUpdate = false
           }
           selector.props = nextProps
@@ -182,6 +183,10 @@ export default function connectAdvanced(
       }
 
       componentDidShow () {
+        if (this.selector.__needForceUpdate) {
+          this.forceUpdate()
+          this.selector.__needForceUpdate = false
+        }
         tryToCall(this.wrappedInstance.componentDidShow, this.wrappedInstance)
       }
 

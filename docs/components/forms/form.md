@@ -19,7 +19,7 @@ import Taro, { Component } from '@tarojs/taro'
 // 引入 Form 组件
 import { View, Form } from '@tarojs/components'
 
-class App extends Components {
+class App extends Component {
 
   formSubmit = e => {
     console.log(e)

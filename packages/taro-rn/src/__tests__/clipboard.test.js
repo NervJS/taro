@@ -1,8 +1,8 @@
 import { Clipboard } from 'react-native'
 import MockClipboard from './__mock__/mockClipboard'
-import Taro from '../index.js'
+import clipboard from '../api/device/clipboard'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, clipboard)
 
 describe('clipboard', () => {
   beforeEach(() => {

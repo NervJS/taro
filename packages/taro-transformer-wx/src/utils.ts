@@ -2,17 +2,61 @@ import * as t from 'babel-types'
 import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
 import { NodePath, Scope } from 'babel-traverse'
-import { LOOP_STATE } from './constant'
+import { LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
 import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
 import { Adapter } from './adapter'
+import { transformOptions } from './options'
 const template = require('babel-template')
 
 export const incrementId = () => {
   let id = 0
   return () => id++
+}
+
+export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
+  const superClass = path.node.superClass
+  if (t.isIdentifier(superClass)) {
+    const binding = path.scope.getBinding(superClass.name)
+    if (binding && binding.kind === 'module') {
+      const bindingPath = binding.path.parentPath
+      if (bindingPath.isImportDeclaration()) {
+        const source = bindingPath.node.source
+        if (source.value === TARO_PACKAGE_NAME) {
+          return
+        }
+        try {
+          const p = pathResolver(source.value, transformOptions.sourcePath) + (transformOptions.isTyped ? '.tsx' : '.js')
+          const code = fs.readFileSync(p, 'utf8')
+          return {
+            code,
+            sourcePath: source.value
+          }
+        } catch (error) {
+          return
+        }
+      }
+    }
+  }
+}
+
+export function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
+  let matched = false
+  if (path) {
+    path.traverse({
+      Identifier (p) {
+        if (
+          p.node.name === 'stopPropagation' &&
+          p.parentPath.parentPath.isCallExpression()
+        ) {
+          matched = true
+        }
+      }
+    })
+  }
+  return matched
 }
 
 export function decodeUnicode (s: string) {
@@ -83,25 +127,40 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
   const conditionExpr = jsx.findParent(p => p.isConditionalExpression())
   const logicExpr = jsx.findParent(p => p.isLogicalExpression({ operator: '&&' }))
   if (array) {
-    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => a.name.name === Adapter.if)) as NodePath<t.JSXElement>
+    const ifAttrSet = new Set<string>([
+      Adapter.if,
+      Adapter.else
+    ])
+    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
     if (logicalJSX) {
-      const attr = logicalJSX.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
-      if (attr && t.isJSXExpressionContainer(attr.value)) {
-        expr = t.conditionalExpression(attr.value.expression, expr, t.arrayExpression())
-        return expr
+      const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
+      if (attr) {
+        if (attr.name.name === Adapter.else) {
+          const prevElement: NodePath<t.JSXElement | null> = (logicalJSX as any).getPrevSibling()
+          if (prevElement && prevElement.isJSXElement()) {
+            const attr = prevElement.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+            if (attr && t.isJSXExpressionContainer(attr.value)) {
+              expr = t.conditionalExpression(reverseBoolean(cloneDeep(attr.value.expression)), expr, t.arrayExpression())
+              return expr
+            }
+          }
+        } else if (t.isJSXExpressionContainer(attr.value)) {
+          expr = t.conditionalExpression(cloneDeep(attr.value.expression), expr, t.arrayExpression())
+          return expr
+        }
       }
     }
   }
   if (conditionExpr && conditionExpr.isConditionalExpression()) {
     const consequent = conditionExpr.get('consequent')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+      expr = t.conditionalExpression(cloneDeep(conditionExpr.get('test').node) as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
     }
   }
   if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
     const consequent = logicExpr.get('right')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+      expr = t.conditionalExpression(cloneDeep(logicExpr.get('left').node) as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
     }
   }
   return expr
@@ -239,13 +298,15 @@ export function pathResolver (source: string, location: string) {
 export function codeFrameError (node, msg: string) {
   let errMsg = ''
   try {
-    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node)
+    errMsg = codeFrameColumns(setting.sourceCode, node && node.type && node.loc ? node.loc : node, {
+      highlightCode: true
+    })
   } catch (error) {
     errMsg = 'failed to locate source'
   }
   return new Error(`${msg}
-  -----
-  ${errMsg}`)
+-----
+${errMsg}`)
 }
 
 export const setting = {

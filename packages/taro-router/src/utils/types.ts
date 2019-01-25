@@ -23,6 +23,10 @@ export interface RouteObj {
   key?: string;
 }
 
+export interface CustomRoutes {
+  [key: string]: string;
+}
+
 export type Action = 'POP' | 'PUSH' | 'REPLACE'
 export namespace History {
   export type Hash = string;
@@ -49,7 +53,7 @@ export namespace History {
 
 
 export interface Location {
-  pathname: History.Pathname;
+  path: History.Pathname;
   search: History.Search;
   hash: History.Hash;
   state: History.State;

@@ -21,7 +21,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     static navigationOptions = ({navigation}) => {
       const navigationOptions = getNavigationOptions(Screen.config)
       const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
-      const rest = globalNavigationOptions.navigationStyle === 'custom' ? {header: null} : {}
+      const rest = (navigationOptions.navigationStyle || globalNavigationOptions.navigationStyle) === 'custom' ? {header: null} : {}
       return {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -114,16 +114,35 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     }
 
     componentDidMount () {
-      Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
-      Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
-      Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
-      Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
-      this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
+      // didFocus
+      this.didFocusSubscription = this.props.navigation.addListener(
+        'didFocus',
+        payload => {
+          // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
+          Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
+          Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
+          Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
+          Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+          // 页面聚焦时，调用 componentDidShow
+          this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
+        }
+      )
+
+      // willBlur
+      this.willBlurSubscription = this.props.navigation.addListener(
+        'willBlur',
+        payload => {
+          // 页面将失去焦点，调用 componentDidHide
+          this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
+        }
+      )
       this.screenRef.current && this.setState({}) // TODO 不然 current 为null ??
     }
 
     componentWillUnmount () {
-      this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
+      // Remove the listener when you are done
+      this.didFocusSubscription && this.didFocusSubscription.remove()
+      this.willBlurSubscription && this.willBlurSubscription.remove()
     }
 
     render () {
