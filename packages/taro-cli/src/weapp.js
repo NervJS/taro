@@ -979,20 +979,20 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
   return res.code
 }
 
-async function checkCliAndFrameworkVersion () {
-  const frameworkName = `@tarojs/taro-${buildAdapter}`
-  const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
-  if (frameworkVersion) {
-    if (frameworkVersion !== Util.getPkgVersion()) {
-      Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
-      console.log(`Taro CLI: ${Util.getPkgVersion()}`)
-      console.log(`${frameworkName}: ${frameworkVersion}`)
-      process.exit(1)
-    }
-  } else {
-    Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
-  }
-}
+// async function checkCliAndFrameworkVersion () {
+//   const frameworkName = `@tarojs/taro-${buildAdapter}`
+//   const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+//   if (frameworkVersion) {
+//     if (frameworkVersion !== Util.getPkgVersion()) {
+//       Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
+//       console.log(`Taro CLI: ${Util.getPkgVersion()}`)
+//       console.log(`${frameworkName}: ${frameworkVersion}`)
+//       process.exit(1)
+//     }
+//   } else {
+//     Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
+//   }
+// }
 
 function buildProjectConfig () {
   let projectConfigFileName = `project.${buildAdapter}.json`
@@ -1472,7 +1472,9 @@ function processStyleUseCssModule (styleObj) {
   const context = process.cwd()
   let scopedName
   if (generateScopedName) {
-    scopedName = genericNames(generateScopedName, { context })
+    scopedName = typeof generateScopedName === 'function'
+      ? (local, filename) => generateScopedName(local, path.relative(context, filename))
+      : genericNames(generateScopedName, { context })
   } else {
     scopedName = (local, filename) => Scope.generateScopedName(local, path.relative(context, filename))
   }
