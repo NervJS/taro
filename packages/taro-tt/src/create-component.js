@@ -190,6 +190,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 
 export function componentTrigger (component, key, args) {
   args = args || []
+  component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -200,7 +201,6 @@ export function componentTrigger (component, key, args) {
     component._pendingStates = []
     component._pendingCallbacks = []
   }
-  component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
