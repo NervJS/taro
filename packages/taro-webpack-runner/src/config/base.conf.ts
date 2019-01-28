@@ -48,8 +48,8 @@ export default () => {
       mainFields: ['main', 'module'],
       symlinks: true,
       modules: [
-        'node_modules',
-        path.join(appPath, 'node_modules')
+        path.join(appPath, 'node_modules'),
+        'node_modules'
       ]
     },
     resolveLoader: {
