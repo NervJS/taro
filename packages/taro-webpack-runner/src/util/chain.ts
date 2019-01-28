@@ -174,7 +174,7 @@ const getModule = ({
   module,
   plugins
 }) => {
-  
+
   const postcssOption: PostcssOption = module.postcss || {}
 
   const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
@@ -333,27 +333,22 @@ const getModule = ({
   }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
+  let esnextModuleRegs = [/@tarojs\/components/]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */
-    const esnextModuleRegs = [
-      /@tarojs\/components/,
-      ...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))
-    ]
-    /**
-     * isEsnextModule
-     * 
-     * 使用正则匹配判断是否是es模块
-     * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
-     */
-    const isEsnextModule = filename => esnextModuleRegs.some(reg => reg.test(filename)) 
-    const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
-    /* 通过taro处理 */
-    rule.jsx.exclude = [notTaroModules]
-    rule.postcss.exclude = [notTaroModules]
-  } else {
-    rule.jsx.exclude = [isNodemodule]
-    rule.postcss.exclude = [isNodemodule]
+    esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])
   }
+  /**
+   * isEsnextModule
+   *
+   * 使用正则匹配判断是否是es模块
+   * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
+   */
+  const isEsnextModule = filename => esnextModuleRegs.some(reg => reg.test(filename))
+  const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
+  /* 通过taro处理 */
+  rule.jsx.exclude = [notTaroModules]
+  rule.postcss.exclude = [notTaroModules]
   return { rule }
 }
 
