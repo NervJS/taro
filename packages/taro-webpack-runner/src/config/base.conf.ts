@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as Chain from 'webpack-chain'
 
-import { getRootPath } from '../util'
+import { getRootPath, appPath } from '../util'
 import {
   getBabelLoader,
   getUrlLoader,
@@ -47,7 +47,10 @@ export default () => {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       mainFields: ['main', 'module'],
       symlinks: true,
-      modules: [path.join(getRootPath(), 'node_modules'), 'node_modules']
+      modules: [
+        'node_modules',
+        path.join(appPath, 'node_modules')
+      ]
     },
     resolveLoader: {
       modules: [path.join(getRootPath(), 'node_modules')]
