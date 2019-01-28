@@ -941,6 +941,9 @@ function copyFilesFromSrcToOutput (files) {
       Util.printLog(Util.pocessTypeEnum.ERROR, '文件', `${modifySrc} 不存在`)
     } else {
       fs.ensureDir(path.dirname(outputFilePath))
+      if (file === outputFilePath) {
+        return
+      }
       fs.copySync(file, outputFilePath)
     }
   })
@@ -1970,7 +1973,13 @@ function copyFileSync (from, to, options) {
   const filename = path.basename(from)
   if (fs.statSync(from).isFile() && !path.extname(to)) {
     fs.ensureDir(to)
+    if (from === path.join(to, filename)) {
+      return
+    }
     return fs.copySync(from, path.join(to, filename), options)
+  }
+  if (from === to) {
+    return
   }
   fs.ensureDir(path.dirname(to))
   return fs.copySync(from, to, options)
