@@ -178,6 +178,7 @@ const getModule = ({
   const postcssOption: PostcssOption = module.postcss || {}
 
   const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
+  const topStyleLoader = getStyleLoader([{ sourceMap: enableSourceMap, insertAt: 'top' }, styleLoaderOption])
 
   const extractCssLoader = getExtractCssLoader()
 
@@ -209,8 +210,7 @@ const getModule = ({
    */
   const cssLoader = getCssLoader(cssOptions)
   const cssLoaders = [{
-    enforce: 'post',
-    use: [lastStyleLoader, cssLoader]
+    use: [cssLoader]
   }]
 
   if (cssModuleOptions.enable) {
@@ -236,9 +236,8 @@ const getModule = ({
       }
     }
     cssLoaders.unshift({
-      enforce: 'post',
       [cssModuleConditionName]: [cssModuleCondition],
-      use: [lastStyleLoader, cssLoaderWithModule]
+      use: [cssLoaderWithModule]
     })
   }
 
@@ -281,13 +280,23 @@ const getModule = ({
     enforce: 'pre',
     use: [stylusLoader]
   }
+  rule.css = {
+    test: /\.(css|s[ac]ss|less|styl)\b/,
+    oneOf: cssLoaders
+  }
   rule.postcss = {
     test: /\.(css|s[ac]ss|less|styl)\b/,
     use: [postcssLoader]
   }
-  rule.style = {
+  rule.taroStyle = {
     test: /\.(css|s[ac]ss|less|styl)\b/,
-    oneOf: cssLoaders
+    enforce: 'post',
+    use: [topStyleLoader]
+  }
+  rule.customStyle = {
+    test: /\.(css|s[ac]ss|less|styl)\b/,
+    enforce: 'post',
+    use: [lastStyleLoader]
   }
 
   const additionalBabelOptions = {
@@ -333,7 +342,8 @@ const getModule = ({
   }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
-  let esnextModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/]
+  const taroModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
+  let esnextModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */
     esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])
@@ -345,10 +355,28 @@ const getModule = ({
    * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
    */
   const isEsnextModule = filename => esnextModuleRegs.some(reg => reg.test(filename))
-  const notTaroModules = filename => isEsnextModule(filename) ? false : isNodemodule(filename)
+  const isTaroModule = filename => taroModuleRegs.some(reg => reg.test(filename))
+
   /* 通过taro处理 */
-  rule.jsx.exclude = [notTaroModules]
-  rule.postcss.exclude = [notTaroModules]
+  rule.jsx.exclude = [filename => {
+    if (isEsnextModule(filename)) {
+      return false
+    } else {
+      return isNodemodule(filename)
+    }
+  }]
+  rule.postcss.exclude = [filename => {
+    if (isTaroModule(filename)) {
+      return true
+    } else if (isEsnextModule(filename)) {
+      return false
+    } else {
+      return isNodemodule(filename)
+    }
+  }]
+  rule.taroStyle.include = [filename => isTaroModule(filename)]
+  rule.customStyle.exclude = [filename => isTaroModule(filename)]
+
   return { rule }
 }
 
