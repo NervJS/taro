@@ -5,6 +5,7 @@ import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 
 const anonymousFnNamePreffix = 'funPrivate'
+const COLLECT_CHILDS = 'onTaroCollectChilds'
 const componentFnReg = /^__fn_/
 const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
@@ -139,6 +140,18 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
+function bindCollectChilds (weappComponentConf, isPage) {
+  function collectChilds (child, id) {
+    this.$component._childs[id] = child
+  }
+  if (isPage) {
+    weappComponentConf[COLLECT_CHILDS] = collectChilds
+  } else {
+    if (!weappComponentConf.methods) weappComponentConf.methods = {}
+    weappComponentConf.methods[COLLECT_CHILDS] = collectChilds
+  }
+}
+
 function filterProps (defaultProps = {}, componentProps = {}, weappComponentData) {
   const properties = weappComponentData || {}
   let newProps = Object.assign({}, componentProps)
@@ -172,8 +185,7 @@ export function componentTrigger (component, key, args) {
       component['$$refs'].forEach(ref => {
         let target
         if (ref.type === 'component') {
-          target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target ? (target.$component || target) : null
+          target = component._childs[ref.id] || null
         } else {
           const query = my.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
@@ -208,6 +220,13 @@ export function componentTrigger (component, key, args) {
     if (component['$$refs'] && component['$$refs'].length > 0) {
       component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))
       component.refs = {}
+    }
+    const scope = component.$scope
+    if (component.$componentType === 'COMPONENT' &&
+      typeof scope.props[COLLECT_CHILDS] === 'function' &&
+      typeof scope.props.id === 'string'
+    ) {
+      scope.props[COLLECT_CHILDS](null, scope.props.id)
     }
   }
 }
@@ -323,6 +342,7 @@ function createComponent (ComponentClass, isPage) {
   bindProperties(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
+  bindCollectChilds(weappComponentConf, isPage)
   return weappComponentConf
 }
 

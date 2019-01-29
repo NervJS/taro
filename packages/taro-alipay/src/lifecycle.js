@@ -85,16 +85,35 @@ function doUpdate (component, prevProps, prevState) {
     data = _data
   }
   data[privatePropKeyName] = !privatePropKeyVal
+  const dataDiff = diffObjToPath(data, component.$scope.data)
+
   // 每次 setData 都独立生成一个 callback 数组
   let cbs = []
   if (component._pendingCallbacks && component._pendingCallbacks.length) {
     cbs = component._pendingCallbacks
     component._pendingCallbacks = []
   }
-  const dataDiff = diffObjToPath(data, component.$scope.data)
+
   component.$scope.setData(dataDiff, function () {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
+    if (component.__mounted) {
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          if (ref.type !== 'component') return
+
+          let target = component._childs[ref.id] || null
+          const prevRef = ref.target
+
+          if (target !== prevRef) {
+            if (ref.refName) component.refs[ref.refName] = target
+            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            ref.target = target
+          }
+        })
+      }
+
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
+      }
     }
 
     if (cbs.length) {

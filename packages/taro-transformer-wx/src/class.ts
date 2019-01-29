@@ -275,6 +275,9 @@ class Transformer {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
         }
+        if (Adapters.alipay === Adapter.type) {
+          attrs.push(t.jSXAttribute(t.jSXIdentifier('onTaroCollectChilds'), t.stringLiteral('onTaroCollectChilds')))
+        }
         for (const [index, attr] of attrs.entries()) {
           if (attr === refAttr) {
             attrs.splice(index, 1)
