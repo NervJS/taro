@@ -31,7 +31,17 @@ const onAndSyncApis = {
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
   // 文件
-  getFileSystemManager: true
+  getFileSystemManager: true,
+
+  getLaunchOptionsSync: true,
+  onPageNotFound: true,
+  onError: true,
+  onAppShow: true,
+  onAppHide: true,
+  offPageNotFound: true,
+  offError: true,
+  offAppShow: true,
+  offAppHide: true
 }
 const noPromiseApis = {
   // 媒体
@@ -65,7 +75,6 @@ const noPromiseApis = {
   showNavigationBarLoading: true,
   hideNavigationBarLoading: true,
   createAnimation: true,
-  pageScrollTo: true,
   createSelectorQuery: true,
   createCanvasContext: true,
   createContext: true,
@@ -180,6 +189,7 @@ const otherApis = {
   getConnectedWifi: true,
 
   // 界面
+  pageScrollTo: true,
   showToast: true,
   showLoading: true,
   showModal: true,
