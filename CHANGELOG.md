@@ -1,5 +1,19 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.10...v) (2019-01-29)
+# [](https://github.com/NervJS/taro/compare/v1.2.11...v) (2019-01-29)
+
+
+
+<a name="1.2.11"></a>
+## [1.2.11](https://github.com/NervJS/taro/compare/v1.2.10...v1.2.11) (2019-01-29)
+
+
+### Bug Fixes
+
+* **cli:** 修改模板 babel 配置，默认开启 h5 tree shaking ([2282083](https://github.com/NervJS/taro/commit/2282083))
+* **components:** 修复 Swiper 引入问题 ([e1adb3c](https://github.com/NervJS/taro/commit/e1adb3c))
+* **transformer:** 应该先 prettify wxml 再替换小于号 ([cdf3cbd](https://github.com/NervJS/taro/commit/cdf3cbd))
+* **webpack-runner:** taro内部模块的样式固定使用style-loader ([689ecc9](https://github.com/NervJS/taro/commit/689ecc9))
+* **webpack-runner:** 配置包名兼容 windows ([a1feff1](https://github.com/NervJS/taro/commit/a1feff1))
 
 
 
