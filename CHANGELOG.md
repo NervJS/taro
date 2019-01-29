@@ -1,5 +1,26 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.9...v) (2019-01-28)
+# [](https://github.com/NervJS/taro/compare/v1.2.10...v) (2019-01-29)
+
+
+
+<a name="1.2.10"></a>
+## [1.2.10](https://github.com/NervJS/taro/compare/v1.2.9...v1.2.10) (2019-01-29)
+
+
+### Bug Fixes
+
+* **index:** 修复Swiper 失效问题 ([f9c6dfd](https://github.com/NervJS/taro/commit/f9c6dfd))
+* **transformer:** 在 if block 中的循环匿名变量不需要加入全局变量 ([592d053](https://github.com/NervJS/taro/commit/592d053))
+* **webpack-runner:** 补充file-loader ([65bd42d](https://github.com/NervJS/taro/commit/65bd42d))
+* **webpack-runner:** 默认针对 [@tarojs](https://github.com/tarojs)/components 进行编译处理 ([68d7208](https://github.com/NervJS/taro/commit/68d7208))
+
+
+### Features
+
+* **index:** 新增 Swiper 兼容两端距离 ([eeae33f](https://github.com/NervJS/taro/commit/eeae33f))
+* **taro:** api 调整 ([e8d73dd](https://github.com/NervJS/taro/commit/e8d73dd))
+* **taro:** 增加 chooseMessageFile、compressImage APIs。fix [#2066](https://github.com/NervJS/taro/issues/2066) ([1edb0ba](https://github.com/NervJS/taro/commit/1edb0ba))
+* **webpack-runner:** h5端支持main:h5 mainfield ([7e6cc94](https://github.com/NervJS/taro/commit/7e6cc94))
 
 
 
