@@ -23,7 +23,7 @@ Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一�
 ### 为什么选择 Expo？
 从某种程度上而言，目前为止 RN 只是给拥有 Mac 电脑的开发者提供了跨平台开发的能力， 因为现在还不能使用 Windows 创建 iOS 的 RN 应用。还有一个比较普遍的问题是，有一些 iOS 程序员不会配置 Android 的编译环境，而一些 Android 程序员又搞不懂 XCode。而且，Taro 的使用者基本都是前端工程师，面对 iOS 和 Android 原生的库或者文件可能会不知所措。
 
-我们希望 Taro 的使用者，即使完全没有 RN 开发经验，也能够从配环境开始 5 分钟实现 Hello Wolrd 的编写，并且只需要专注于基于 Taro 实现功能，不用再去配置烦人的 iOS、Android 编译环境，还可以用 Windows 开发 iOS 版的 RN 应用。而恰好 Expo 可以完美实现。
+我们希望 Taro 的使用者，即使完全没有 RN 开发经验，也能够从配环境开始 5 分钟实现 Hello World 的编写，并且只需要专注于基于 Taro 实现功能，不用再去配置烦人的 iOS、Android 编译环境，还可以用 Windows 开发 iOS 版的 RN 应用。而恰好 Expo 可以完美实现。
 
 本质上，Expo 的移动客户端相当于一个壳，你只需关注 js 层面的开发即可。这点类似于 electron 或者小程序。
 
