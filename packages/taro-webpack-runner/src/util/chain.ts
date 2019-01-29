@@ -333,7 +333,7 @@ const getModule = ({
   }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
-  let esnextModuleRegs = [/@tarojs\/components/]
+  let esnextModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */
     esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])
