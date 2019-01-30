@@ -1,5 +1,17 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.11...v) (2019-01-29)
+# [](https://github.com/NervJS/taro/compare/v1.2.12...v) (2019-01-30)
+
+
+
+<a name="1.2.12"></a>
+## [1.2.12](https://github.com/NervJS/taro/compare/v1.2.11...v1.2.12) (2019-01-30)
+
+
+### Bug Fixes
+
+* **cli:** 去掉一个多余的unescape行为 ([1f510a1](https://github.com/NervJS/taro/commit/1f510a1))
+* **components:** 在sideEffects中标记样式文件 ([1bf341c](https://github.com/NervJS/taro/commit/1bf341c))
+* **router:** 修复页面生命周期重复触发的问题 ([d6c7606](https://github.com/NervJS/taro/commit/d6c7606))
 
 
 
