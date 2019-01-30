@@ -1580,13 +1580,13 @@ const element = array.map(item => {
 以下代码不会被警告，也应当在 Taro 任意端中能够运行：
 
 ```javascript
-<View onClick={this.hanldeClick} />
+<View onClick={this.handleClick} />
 
-<View onClick={this.props.hanldeClick} />
+<View onClick={this.props.handleClick} />
 
-<View onClick={this.hanldeClick.bind(this)} />
+<View onClick={this.handleClick.bind(this)} />
 
-<View onClick={this.props.hanldeClick.bind(this)} />
+<View onClick={this.props.handleClick.bind(this)} />
 ```
 
 **解决方案**
@@ -1594,7 +1594,7 @@ const element = array.map(item => {
 使用 [`bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) 或 [类参数](https://babeljs.io/docs/plugins/transform-class-properties/)绑定函数
 
 ```javascript
-<View onClick={this.props.hanldeClick.bind(this)} />
+<View onClick={this.props.handleClick.bind(this)} />
 ```
 
 
