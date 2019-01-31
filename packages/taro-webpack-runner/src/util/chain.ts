@@ -186,6 +186,8 @@ const getModule = ({
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
+  const { namingPattern, generateScopedName } = cssModuleOptions.config!
+
   const cssOptions = [
     {
       importLoaders: 1,
@@ -195,12 +197,16 @@ const getModule = ({
     cssLoaderOption
   ]
   const cssOptionsWithModule = [
-    {
-      importLoaders: 1,
-      sourceMap: enableSourceMap,
-      modules: cssModuleOptions.config!.namingPattern === 'module' ? true : 'global',
-      localIdentName: cssModuleOptions.config!.generateScopedName
-    },
+    Object.assign(
+      {
+        importLoaders: 1,
+        sourceMap: enableSourceMap,
+        modules: namingPattern === 'module' ? true : 'global'
+      },
+      typeof generateScopedName === 'function'
+        ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+        : { localIdentName: generateScopedName }
+    ),
     cssLoaderOption
   ]
   /**
