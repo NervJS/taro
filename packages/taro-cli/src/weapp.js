@@ -1476,7 +1476,7 @@ function processStyleUseCssModule (styleObj) {
   let scopedName
   if (generateScopedName) {
     scopedName = typeof generateScopedName === 'function'
-      ? (local, filename) => generateScopedName(local, path.relative(context, filename))
+      ? (local, filename) => generateScopedName(local, filename)
       : genericNames(generateScopedName, { context })
   } else {
     scopedName = (local, filename) => Scope.generateScopedName(local, path.relative(context, filename))
