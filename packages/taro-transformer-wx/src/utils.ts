@@ -191,7 +191,7 @@ export function generateAnonymousState (
       blockStatement.traverse({
         VariableDeclarator: (p) => {
           const { id, init } = p.node
-          if (t.isIdentifier(id)) {
+          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE)) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
               if (refId.name === variableName && !variableName.startsWith('_$')) {

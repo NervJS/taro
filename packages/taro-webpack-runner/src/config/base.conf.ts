@@ -45,7 +45,7 @@ export default () => {
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      mainFields: ['main', 'module'],
+      mainFields: ['main:h5', 'main', 'module'],
       symlinks: true,
       modules: [
         path.join(appPath, 'node_modules'),

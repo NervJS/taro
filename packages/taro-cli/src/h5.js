@@ -810,7 +810,7 @@ function processFiles (filePath) {
       const transformResult = fileType === FILE_TYPE.ENTRY
         ? processEntry(content, filePath)
         : processOthers(content, filePath, fileType)
-      const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
+      const jsCode = transformResult.code.replace(/\\u/g, '%u')
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
     } else {
