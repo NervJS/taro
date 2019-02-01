@@ -96,7 +96,13 @@ function processApis (taro) {
         }
 
         if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
-          let url = obj['url'] ? obj['url'].replace(/^\//, '') : ''
+          let url = ''
+          if (obj.params) {
+            url = '?' + Object.keys(obj.params).map((e) => e + '=' + obj.params[e]).join('&')
+            obj['url'] = obj['url'] + url
+          } else {
+            url = obj['url'] ? obj['url'].replace(/^\//, '') : ''
+          }
           if (url.indexOf('?') > -1) url = url.split('?')[0]
 
           const Component = cacheDataGet(url)
