@@ -34,7 +34,11 @@ function wrapPropsWithDispatch (mapDispatchToProps, dispatch) {
   return {}
 }
 
-export default function connect (mapStateToProps, mapDispatchToProps) {
+function defaultMapStateToProps () {
+  return {dispatch: getStore().dispatch}
+}
+
+export default function connect (mapStateToProps = defaultMapStateToProps, mapDispatchToProps) {
   const store = getStore()
   const dispatch = store.dispatch
   const initMapDispatch = wrapPropsWithDispatch(mapDispatchToProps, dispatch)
