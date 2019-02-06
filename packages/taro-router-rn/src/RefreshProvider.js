@@ -17,6 +17,7 @@ class RefreshProvider extends React.Component {
       return (
         <ScrollView
           style={{flex: 1}}
+          contentContainerStyle={{ flex: 1 }}
           scrollEventThrottle={5}
           alwaysBounceVertical={false}
           onScroll={this.onScroll}
