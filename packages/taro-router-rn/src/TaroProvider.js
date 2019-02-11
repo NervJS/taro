@@ -101,7 +101,7 @@ class TaroProvider extends React.Component {
     complete && complete()
   }
 
-  wxNavigateBack (params) {
+  wxNavigateBack (params = {}) {
     if (typeof params !== 'object') {
       console.warn('Taro.NavigateBack 参数必须为 object')
       return
