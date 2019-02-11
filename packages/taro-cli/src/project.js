@@ -119,16 +119,24 @@ class Project extends Creator {
       })
     }
 
-    const templateChoices = [{
-      name: '默认模板',
-      value: 'default'
-    }, {
-      name: 'Redux 模板',
-      value: 'redux'
-    }, {
-      name: 'Mobx 模板',
-      value: 'mobx'
-    }]
+    const templateChoices = [
+      {
+        name: '默认模板',
+        value: 'default'
+      },
+      {
+        name: 'Redux 模板',
+        value: 'redux'
+      },
+      {
+        name: 'Mobx 模板',
+        value: 'mobx'
+      },
+      {
+        name: 'dva模板',
+        value: 'dva'
+      }
+    ]
 
     if (typeof conf.template !== 'string') {
       prompts.push({

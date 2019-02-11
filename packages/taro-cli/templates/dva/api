@@ -1,0 +1,31 @@
+const api = require('apibuildtool')
+
+api.init(__dirname + '/src/command/api.js')
+
+/**
+ * 初始化获取网络请求数据
+ * 
+ * @param {any}  
+ */
+function getInitalNetWorkData() {
+    const data = require('./api.json')
+    const pathsKeys = Object.keys(data.paths)
+    pathsKeys.forEach((ea) => {
+        const methodKeys = Object.keys(data.paths[ea])
+        methodKeys.forEach((eb) => {
+            const select = data.paths[ea][eb]
+            api.createApiTarget(select.tags[0])
+            api.createApiChildren(select.tags[0], {
+                url: ea,
+                isUrl: false,
+                name: select.operationId + '_' + eb.toUpperCase(),
+                params: {},
+                method: eb.toUpperCase(),
+                description:select.description
+            })
+        })
+    })
+    api.build()
+}
+
+getInitalNetWorkData()

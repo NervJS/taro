@@ -15,7 +15,7 @@ program
 
 const args = program.args
 const { template, description, name, css } = program
-let typescript = ''
+let typescript = false
 
 /**
  * 非标准做法

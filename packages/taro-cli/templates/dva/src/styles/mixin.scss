@@ -1,0 +1,4 @@
+@mixin wh($vWidth, $vHeight){
+  width: $vWidth;
+  height: $vHeight;
+}
