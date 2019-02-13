@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should leave other apis untouched 1`] = `
+"
+import Taro from '@tarojs/taro-h5';
+Taro.noop;"
+`;
+
+exports[`should move static apis under "Taro" 1`] = `
+"
+import Taro from '@tarojs/taro-h5';
+Taro.noop;
+Taro.noop();"
+`;
+
+exports[`should not go wrong when use an api twice 1`] = `
+"
+import { createAnimation as _createAnimation } from '@tarojs/taro-h5';
+const animation = _createAnimation({
+  duration: dura * 1000,
+  timingFunction: 'linear'
+});
+const resetAnimation = _createAnimation({
+  duration: 0,
+  timingFunction: 'linear'
+});"
+`;
+
+exports[`should not import taro duplicatly 1`] = `
+"
+import Taro, { createAnimation as _createAnimation } from \\"@tarojs/taro-h5\\";
+
+Taro.Component;
+_createAnimation();
+Taro.initPxTransform();"
+`;
+
+exports[`should transform fullfilled apis to named import 1`] = `
+"
+import { request as _request, createAnimation as _createAnimation, createSelectorQuery as _createSelectorQuery, connectSocket as _connectSocket, onSocketOpen as _onSocketOpen, onSocketError as _onSocketError, sendSocketMessage as _sendSocketMessage, onSocketMessage as _onSocketMessage, closeSocket as _closeSocket, onSocketClose as _onSocketClose, setStorage as _setStorage, setStorageSync as _setStorageSync, getStorage as _getStorage, getStorageSync as _getStorageSync, getStorageInfo as _getStorageInfo, getStorageInfoSync as _getStorageInfoSync, removeStorage as _removeStorage, removeStorageSync as _removeStorageSync, clearStorage as _clearStorage, clearStorageSync as _clearStorageSync, showToast as _showToast, hideToast as _hideToast, showLoading as _showLoading, hideLoading as _hideLoading, showModal as _showModal, showActionSheet as _showActionSheet, initTabBarApis as _initTabBarApis, getSystemInfo as _getSystemInfo, getSystemInfoSync as _getSystemInfoSync, getNetworkType as _getNetworkType, onNetworkStatusChange as _onNetworkStatusChange, arrayBufferToBase64 as _arrayBufferToBase, base64ToArrayBuffer as _base64ToArrayBuffer, makePhoneCall as _makePhoneCall, setNavigationBarTitle as _setNavigationBarTitle } from '@tarojs/taro-h5';
+_request();_createAnimation();_createSelectorQuery();_connectSocket();_onSocketOpen();_onSocketError();_sendSocketMessage();_onSocketMessage();_closeSocket();_onSocketClose();_setStorage();_setStorageSync();_getStorage();_getStorageSync();_getStorageInfo();_getStorageInfoSync();_removeStorage();_removeStorageSync();_clearStorage();_clearStorageSync();_showToast();_hideToast();_showLoading();_hideLoading();_showModal();_showActionSheet();_initTabBarApis();_getSystemInfo();_getSystemInfoSync();_getNetworkType();_onNetworkStatusChange();_arrayBufferToBase();_base64ToArrayBuffer();_makePhoneCall();_setNavigationBarTitle();"
+`;
+
+exports[`should work! 1`] = `
+"
+import Taro, { setStorage as _setStorage, getStorage as _getStorage } from '@tarojs/taro-h5';
+Taro.initPxTransform(Taro.param);
+Taro.initPxTransform();
+Taro.initPxTransform();
+_getStorage();
+_setStorage();
+export { Taro };"
+`;
