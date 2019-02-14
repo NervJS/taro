@@ -73,9 +73,6 @@ border{Top,Right,Bottom,Left} 的简写（shorthands）不支持，因为 `borde
 #### React Native 不支持 background-image ，有什么解决办法吗？
 使用 `Image 组件`，配合 Flex 布局，基本可以实现你的大部分需求。阅读一下这篇文章：[Background Images in React Native](https://thekevinscott.com/background-images-in-react-native/)，有助于你理解。
 
-### 页面怎样设置高度 100%
-RN 端页面默认 `disableScroll` 为 `true`，和微信小程序保持一致。要想设置高度 100% ，得先在页面配置：`disableScroll :false`，然后配合 `height: 100%;` 即可。
-
 ### 可以使用微信/支付宝支付吗？
 由于 Expo 不支持原生的 SDK，所以无法通过集成原生的 SDK 的方式使用微信/支付宝支付。不过 RN 端提供了 `Taro.openUrl({url:''})`的 API 打开手机浏览器，然后走 [手机网站支付](https://docs.open.alipay.com/203/105288/) 的流程。
 
