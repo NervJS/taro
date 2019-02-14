@@ -32,7 +32,15 @@ function defineGetter (component: Component, key: string, getter: string) {
   Object.defineProperty(component, key, {
     enumerable: true,
     configurable: true,
-    get: () => component[getter]
+    get: () => {
+      if (getter === 'props') {
+        return component.props
+      }
+      return {
+        ...component.props,
+        ...component.state
+      }
+    }
   })
 }
 
