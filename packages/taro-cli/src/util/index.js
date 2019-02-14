@@ -194,9 +194,14 @@ exports.isAliasPath = function (name, pathAlias = {}) {
 }
 
 exports.replaceAliasPath = function (filePath, name, pathAlias = {}) {
+  // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
+  // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
+  // 源代码文件，导致文件被意外修改
+  filePath = fs.realpathSync(filePath)
+
   const prefixs = Object.keys(pathAlias)
   if (prefixs.includes(name)) {
-    return exports.promoteRelativePath(path.relative(filePath, pathAlias[name]))
+    return exports.promoteRelativePath(path.relative(filePath, fs.realpathSync(pathAlias[name])))
   }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
   name = name.replace(reg, function (m, $1, $2) {
