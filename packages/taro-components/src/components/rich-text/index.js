@@ -17,14 +17,19 @@ class RichText extends Nerv.Component {
         style: ''
       }
       if (item.hasOwnProperty('attrs')) {
-        obj.className = item.attrs.class || ''
-        obj.style = item.attrs.style || ''
+        for (const key in item.attrs) {
+          if (key === 'class') {
+            obj.className = item.attrs[key] || ''
+          } else {
+            obj[key] = item.attrs[key] || ''
+          }
+        }
       }
       return Nerv.createElement(item.name, obj, child)
     }
   }
 
-  renderChildrens (arr) {
+  renderChildrens (arr = []) {
     if (arr.length === 0) return
     return arr.map((list, i) => {
       if (list.type === 'text') {
