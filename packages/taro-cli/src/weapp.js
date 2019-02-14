@@ -949,7 +949,7 @@ function copyFilesFromSrcToOutput (files) {
   })
 }
 
-const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+const babelConfig = _.mergeWith({}, defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
   if (Array.isArray(objValue)) {
     return Array.from(new Set(srcValue.concat(objValue)))
   }
