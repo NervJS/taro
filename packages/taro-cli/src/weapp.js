@@ -1004,7 +1004,10 @@ function buildProjectConfig () {
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)
 
-  if (!fs.existsSync(projectConfigPath)) return
+  if (!fs.existsSync(projectConfigPath)) {
+    projectConfigPath = path.join(sourceDir, projectConfigFileName)
+    if (!fs.existsSync(projectConfigPath)) return
+  }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
   if (buildAdapter === Util.BUILD_TYPES.TT) {
