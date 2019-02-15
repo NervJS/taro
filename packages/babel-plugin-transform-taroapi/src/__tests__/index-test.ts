@@ -124,7 +124,7 @@ it('should not import taro duplicatly', function () {
   expect(t.isExpressionStatement(body[2])).toBeTruthy()
 })
 
-it('should not go wrong when use an api twice', function () {
+it('should not go wrong when using an api twice', function () {
   const code = `
     import Taro from '@tarojs/taro-h5';
     const animation = Taro.createAnimation({
