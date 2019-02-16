@@ -33,7 +33,7 @@ function pxTransform (size) {
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
-  return parseInt(size, 10) / deviceRatio[designWidth] * 2
+  return parseInt(size, 10) / (deviceRatio[designWidth] * 2)
 }
 
 export default function initNativeApi (taro) {

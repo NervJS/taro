@@ -949,7 +949,7 @@ function copyFilesFromSrcToOutput (files) {
   })
 }
 
-const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+const babelConfig = _.mergeWith({}, defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
   if (Array.isArray(objValue)) {
     return Array.from(new Set(srcValue.concat(objValue)))
   }
@@ -964,7 +964,7 @@ const shouldTransformAgain = (function () {
 })()
 
 async function compileScriptFile (content, sourceFilePath, outputFilePath, adapter) {
-  const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
+  const compileScriptRes = await npmProcess.callPlugin('babel', content, sourceFilePath, babelConfig)
   const code = compileScriptRes.code
   if (!shouldTransformAgain) {
     return code
@@ -1004,7 +1004,10 @@ function buildProjectConfig () {
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)
 
-  if (!fs.existsSync(projectConfigPath)) return
+  if (!fs.existsSync(projectConfigPath)) {
+    projectConfigPath = path.join(sourceDir, projectConfigFileName)
+    if (!fs.existsSync(projectConfigPath)) return
+  }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
   if (buildAdapter === Util.BUILD_TYPES.TT) {

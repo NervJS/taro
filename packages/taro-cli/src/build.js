@@ -1,15 +1,17 @@
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
+const _ = require('lodash')
 
 const Util = require('./util')
 const CONFIG = require('./config')
 
 const appPath = process.cwd()
+const configDir = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 
 function build (args, buildConfig) {
   const { type, watch } = buildConfig
-  const outputPath = path.join(appPath, CONFIG.OUTPUT_DIR)
+  const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
   } else {

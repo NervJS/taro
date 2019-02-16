@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-sass",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "Taro编译sass文件",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,6 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "node-sass": "^4.8.3"
+    "node-sass": "^4.11.0"
   }
 }
