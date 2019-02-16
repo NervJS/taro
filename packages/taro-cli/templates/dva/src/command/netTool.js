@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 const POST = (url, params = {}, token) => new Promise((resolve, reject) => {
   Taro.request({
     url: url,
-    body: JSON.stringify(params),
+    data: JSON.stringify(params),
     header: {
       'Content-Type': 'application/json;'
     },
