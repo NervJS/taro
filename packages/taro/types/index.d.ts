@@ -208,7 +208,15 @@ declare namespace Taro {
      */
     custom?: boolean;
 
-    list: TarbarList[]
+    list: TarbarList[],
+
+    /**
+     * 自定义 tabBar
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html?search-key=%E8%87%AA%E5%AE%9A%E4%B9%89%20tabbar
+     * @default false
+     * @since 2.5.0
+     */
+    custom?: boolean
   }
 
   interface NetworkTimeout {
