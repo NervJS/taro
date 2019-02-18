@@ -3,6 +3,15 @@ import * as t from 'babel-types'
 import { transform } from 'babel-core'
 import { codeFrameColumns } from '@babel/code-frame'
 import { camelCase, capitalize } from 'lodash'
+import { NodePath } from 'babel-traverse'
+
+export function isAliasThis (p: NodePath<t.Node>, name: string) {
+  const binding = p.scope.getBinding(name)
+  if (binding) {
+    return binding.path.isVariableDeclarator() && binding.path.get('init').isThisExpression()
+  }
+  return false
+}
 
 export function parseCode (code: string) {
   return (transform(code, {
