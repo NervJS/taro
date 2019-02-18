@@ -89,6 +89,7 @@ export default class App extends Component {
         onScroll={(e) => {
           console.log('onScroll', e)
         }}
+        // scrollX={true}
       >
         <Text>Welcome to React Native!</Text>
 

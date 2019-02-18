@@ -1,6 +1,6 @@
 /**
- * ✘ scroll-x: Either-or
- * ✘ scroll-y: Either-or
+ * ✔ scrollX(scroll-x): Either-or
+ * ✘ scrollY(scroll-y): Either-or
  * ✔ upperThreshold(upper-threshold)
  * ✔ lowerThreshold(lower-threshold)
  * ✔ scrollTop(scroll-top)
@@ -25,7 +25,7 @@ import { dismemberStyle, omit } from '../../utils'
 type Props = {
   children?: React.Node,
   style?: StyleSheet.Styles,
-  horizontal?: boolean,
+  scrollX?: boolean,
   upperThreshold: number,
   lowerThreshold: number,
   scrollTop: number,
@@ -76,11 +76,11 @@ class _ScrollView extends React.Component<Props> {
   _initialScrollIndexTimeout: any
 
   _selectLength = (metrics: { height: number, width: number }): number => {
-    return !this.props.horizontal ? metrics.height : metrics.width
+    return !this.props.scrollX ? metrics.height : metrics.width
   }
 
   _selectOffset = (metrics: {x: number, y: number}): number => {
-    return !this.props.horizontal ? metrics.y : metrics.x
+    return !this.props.scrollX ? metrics.y : metrics.x
   }
 
   _maybeCallOnStartReached = () => {
@@ -210,6 +210,7 @@ class _ScrollView extends React.Component<Props> {
     const {
       children,
       style,
+      scrollX,
       enableBackToTop,
     } = this.props
 
@@ -219,6 +220,7 @@ class _ScrollView extends React.Component<Props> {
 
     return (
       <ScrollView
+        horizontal={scrollX}
         onContentSizeChange={this._onContentSizeChange}
         onLayout={this._onLayout}
         onScroll={this._onScroll}
