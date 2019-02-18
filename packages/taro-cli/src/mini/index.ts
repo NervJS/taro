@@ -27,21 +27,21 @@ import { watchFiles } from './watch'
 
 const appPath = process.cwd()
 
-async function checkCliAndFrameworkVersion () {
-  const { buildAdapter, nodeModulesPath } = getBuildData()
-  const frameworkName = `@tarojs/taro-${buildAdapter}`
-  const frameworkVersion = getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
-  if (frameworkVersion) {
-    if (frameworkVersion !== getPkgVersion()) {
-      printLog(processTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
-      console.log(`Taro CLI: ${getPkgVersion()}`)
-      console.log(`${frameworkName}: ${frameworkVersion}`)
-      process.exit(1)
-    }
-  } else {
-    printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
-  }
-}
+// async function checkCliAndFrameworkVersion () {
+//   const { buildAdapter, nodeModulesPath } = getBuildData()
+//   const frameworkName = `@tarojs/taro-${buildAdapter}`
+//   const frameworkVersion = getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+//   if (frameworkVersion) {
+//     if (frameworkVersion !== getPkgVersion()) {
+//       printLog(processTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
+//       console.log(`Taro CLI: ${getPkgVersion()}`)
+//       console.log(`${frameworkName}: ${frameworkVersion}`)
+//       process.exit(1)
+//     }
+//   } else {
+//     printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
+//   }
+// }
 
 function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName } = getBuildData()
@@ -138,7 +138,7 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP }: IMiniAppBui
   process.env.TARO_ENV = adapter
   setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   setBuildAdapter(adapter)
-  await checkCliAndFrameworkVersion()
+  // await checkCliAndFrameworkVersion()
   buildProjectConfig()
   await buildFrameworkInfo()
   copyFiles()
