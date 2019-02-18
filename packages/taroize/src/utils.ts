@@ -74,7 +74,12 @@ export function buildRender (
     ) as any)
     if (typeof templateType === 'string') {
       patterns = t.objectPattern([
-        t.objectProperty(t.identifier('data'), t.identifier(templateType)) as any
+        t.objectProperty(
+          t.identifier('data'),
+          templateType === 'wxParseData'
+            ? t.objectPattern([t.objectProperty(t.identifier('wxParseData'), t.identifier('wxParseData')) as any]) as any
+            : t.identifier(templateType)
+        ) as any
       ])
     } else if (Array.isArray(templateType)) {
       patterns = t.objectPattern([
