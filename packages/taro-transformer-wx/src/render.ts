@@ -1125,6 +1125,7 @@ export class RenderParser {
     this.handleLoopComponents()
     renderBody.traverse(this.visitors)
     this.setOutputTemplate()
+    this.checkDuplicateName()
     this.removeJSXStatement()
     this.setUsedState()
     this.setPendingState()
@@ -1565,6 +1566,17 @@ export class RenderParser {
       )]
         .map(s => t.stringLiteral(s))
     )))
+  }
+
+  checkDuplicateName () {
+    this.loopScopes.forEach(s => {
+      if (this.renderPath.scope.hasBinding(s)) {
+        const err = codeFrameError(this.renderPath.scope.getBinding(s)!.path.node, '此变量声明与循环变量冲突，可能会造成问题。')
+        // tslint:disable-next-line
+        console.warn('Warning: ', err.message)
+        this.loopScopes.delete(s)
+      }
+    })
   }
 
   setPendingState () {
