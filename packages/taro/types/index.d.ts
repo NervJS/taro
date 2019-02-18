@@ -195,7 +195,15 @@ declare namespace Taro {
      */
     position?: 'bottom' | 'top',
 
-    list: TarbarList[]
+    list: TarbarList[],
+
+    /**
+     * 自定义 tabBar
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html?search-key=%E8%87%AA%E5%AE%9A%E4%B9%89%20tabbar
+     * @default false
+     * @since 2.5.0
+     */
+    custom?: boolean
   }
 
   interface NetworkTimeout {
@@ -972,7 +980,7 @@ declare namespace Taro {
 
   namespace connectSocket {
     type Promised = SocketTask;
-    
+
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
