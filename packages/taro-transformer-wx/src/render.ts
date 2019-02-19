@@ -1665,7 +1665,7 @@ export class RenderParser {
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
-      template(`const __runloopRef = arguments[3];`)(),
+      template(`const __runloopRef = arguments[2] || true;`)(),
       this.usedThisProperties.size
         ? t.variableDeclaration(
           'const',
