@@ -62,8 +62,8 @@ function doUpdate (component, prevProps, prevState) {
   let data = state || {}
   if (component._createData) {
     // 返回null或undefined则保持不变
-    const runloopRef = !component.__mounted
-    data = component._createData(state, props, runloopRef) || data
+    const runLoopRef = !component.__mounted
+    data = component._createData(state, props, runLoopRef) || data
   }
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
@@ -119,7 +119,7 @@ function doUpdate (component, prevProps, prevState) {
       }
 
       if (component['$$hasLoopRef']) {
-        component._createData(component.state, component.props)
+        component._createData(component.state, component.props, true)
       }
 
       if (typeof component.componentDidUpdate === 'function') {
