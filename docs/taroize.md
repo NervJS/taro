@@ -152,18 +152,18 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
 
 ### 转换 `wxParse` 报错不存在文件
 
-这是由于 `wxParse` 的源码使用了一个[不存在的 `template` ](https://github.com/icindy/wxParse/issues/255)声明造成的。你可以修改 `wxParse` 的源码文件 `wxParse.wxml` 49 行到 129 行：
+这是由于 `wxParse` 的源码使用了一个[不存在的 `template` ](https://github.com/icindy/wxParse/issues/255)声明造成的。你可以修改 `wxParse` 的源码文件 `wxParse.wxml` 134 行到 207 行：
 
 ```html
 <!--循环模版-->
-<template name="wxParse0">
+<template name="wxParse1">
   <!--<template is="wxParse1" data="{{item}}" />-->
   <!--判断是否是标签节点-->
   <block wx:if="{{item.node == 'element'}}">
     <block wx:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
         <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
-          <template is="wxParse1" data="{{item}}" />
+          <template is="wxParse0" data="{{item}}" />
         </block>
       </button>
     </block>
@@ -176,7 +176,7 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
             <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
-              <template is="wxParse1" data="{{item}}" />
+              <template is="wxParse0" data="{{item}}" />
             </block>
           </view>
         </view>
@@ -197,14 +197,14 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
     <block wx:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
         <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
-          <template is="wxParse1" data="{{item}}" />
+          <template is="wxParse0" data="{{item}}" />
         </block>
       </view>
     </block>
     <block wx:elif="{{item.tag == 'table'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
         <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
-          <template is="wxParse1" data="{{item}}" />
+          <template is="wxParse0" data="{{item}}" />
         </block>
       </view>
     </block>
@@ -216,7 +216,7 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
     <block wx:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
         <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
-          <template is="wxParse1" data="{{item}}" />
+          <template is="wxParse0" data="{{item}}" />
         </block>
       </view>
     </block>
@@ -224,7 +224,7 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
     <!--内联标签-->
     <view wx:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
       <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
-        <template is="wxParse1" data="{{item}}" />
+        <template is="wxParse0" data="{{item}}" />
       </block>
     </view>
 
@@ -239,7 +239,7 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
 </template>
 ```
 
-把所有 `<template is="wxParse1" data="{{item}}" />` 修改为 `<template is="wxParse0" data="{{item}}" />` 再运行 `taro convert` 即可。这样修改之后还会取消原来 `wxParse` 只能处理 11 级 HTML 嵌套的问题，理论上内存不爆栈可以处理无限级 HTML 嵌套。
+把 `<template name="wxParse1">` 的模板夏目所有 `<template is="wxParse0" data="{{item}}" />` 修改为 `<template is="wxParse1" data="{{item}}" />` 再运行 `taro convert` 即可。这样修改之后还会取消原来 `wxParse` 只能处理 11 级 HTML 嵌套的问题，理论上内存不爆栈可以处理无限级 HTML 嵌套。
 
 ### 不支持 `relations` 和 `Behavior`
 
