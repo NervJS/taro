@@ -117,7 +117,7 @@ alias: {
 }
 ```
 
-通过上述配置，可以将 `src` 、`src/components` 以及 `src/utils` 目录配置成别名，将根目录下的 `package.json` 和 `project.config.json` 配置成别名，则代码中的引用改写如下：
+通过上述配置，可以将 `src/components` 和 `src/utils` 目录配置成别名，将根目录下的 `package.json` 和 `project.config.json` 文件配置成别名，则代码中的引用改写如下：
 
 ```js
 import A from '@/components/A'
