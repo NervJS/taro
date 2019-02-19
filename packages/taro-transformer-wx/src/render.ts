@@ -328,6 +328,13 @@ export class RenderParser {
     Adapter.type !== Adapters.alipay && classPath.node.body.body.unshift(classProp)
   }
 
+  setLoopRefFlag () {
+    if (this.loopRefs.size) {
+      const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
+      classPath.node.body.body.unshift(t.classProperty(t.identifier('$$hasLoopRef'), t.booleanLiteral(true)))
+    }
+  }
+
   replaceIdWithTemplate = (handleRefId = false) => (path: NodePath<t.Node>) => {
     if (!t.isJSXAttribute(path.parent)) {
       path.traverse({
@@ -1132,6 +1139,7 @@ export class RenderParser {
     this.setCustomEvent()
     this.createData()
     this.setProperies()
+    this.setLoopRefFlag()
   }
 
   checkDuplicateData () {
@@ -1214,7 +1222,7 @@ export class RenderParser {
         }
         const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
         const refDecl = buildConstVariableDeclaration(refDeclName,
-          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), callGetElementById)
+          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), t.logicalExpression('&&', t.identifier('__runloopRef'), callGetElementById))
         )
         const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
         const callRefFunc = t.expressionStatement(
@@ -1657,6 +1665,7 @@ export class RenderParser {
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
+      template(`const __runloopRef = arguments[3];`)(),
       this.usedThisProperties.size
         ? t.variableDeclaration(
           'const',
