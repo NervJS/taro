@@ -35,7 +35,7 @@ export interface IPrettierConfig {
   arrowParens?: 'avoid' | 'always',
   rangeStart?: number,
   rangeEnd?: number,
-  parser?: 'babylon' | 'flow' | 'typescript' | 'css' | 'scss' | 'less' | 'json' | 'json5' | 'json-stringify' | 'graphql' | 'markdown' | 'mdx' | 'html' | 'vue' | 'angular' | 'yaml' | 'babel',
+  parser?: 'babel' | 'babylon' | 'flow' | 'typescript' | 'css' | 'scss' | 'less' | 'json' | 'json5' | 'json-stringify' | 'graphql' | 'markdown' | 'mdx' | 'html' | 'vue' | 'angular' | 'yaml',
   filepath?: string,
   requirePragma?: boolean,
   insertPragma?: boolean,

@@ -84,7 +84,7 @@
     "postcss-reporter": "^6.0.1",
     "postcss-taro-unit-transform": "1.2.15",
     "postcss-url": "^7.3.2",
-    "prettier": "^1.15.3",
+    "prettier": "^1.16.4",
     "prop-types": "^15.6.2",
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
