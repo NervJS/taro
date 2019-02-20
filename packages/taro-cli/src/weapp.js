@@ -2046,7 +2046,7 @@ function watchFiles () {
       const extname = path.extname(filePath)
       // 编译JS文件
       if (Util.REG_SCRIPT.test(extname) || Util.REG_TYPESCRIPT.test(extname)) {
-        if (filePath.indexOf(entryFileName) >= 0) {
+        if (path.basename(filePath, extname) === entryFileName) {
           Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化
