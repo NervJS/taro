@@ -1,18 +1,14 @@
-import { VisitNodeFunction } from 'babel-traverse';
 import { types as Types, PluginObj } from 'babel-core';
 
 const plugin = function (babel: {
   types: typeof Types;
 }): PluginObj {
   const t = babel.types
-  let taroName: string = 'Taro'
-  let needDefault = false
-  let isTaroApiImported = false
-  const invokedApis: Map<string, string> = new Map()
 
-  const getTaroName: VisitNodeFunction<{}, Types.ImportDefaultSpecifier> = (ast) => {
-    taroName = ast.node.local.name
-  }
+  // 这些变量需要在每个programe里重置
+  let taroName: string = ''
+  let needDefault = false
+  const invokedApis: Map<string, string> = new Map()
 
   return {
     name: 'babel-plugin-transform-taro-api',
@@ -22,13 +18,15 @@ const plugin = function (babel: {
         const packageName = state.opts.packageName
         if (ast.node.source.value !== packageName) return
 
-        ast.traverse({
-          ImportDefaultSpecifier: getTaroName,
-          ImportSpecifier: ast => {
-            const propertyName = ast.node.imported.name
+        taroName = 'Taro'
+        ast.node.specifiers.forEach(node => {
+          if (t.isImportDefaultSpecifier(node)) {
+            taroName = node.local.name
+          } else if (t.isImportSpecifier(node)) {
+            const propertyName = node.imported.name
             if (apis.has(propertyName)) { // 记录api名字
-              ast.scope.rename(ast.node.local.name)
-              invokedApis.set(propertyName, ast.node.local.name)
+              ast.scope.rename(node.local.name)
+              invokedApis.set(propertyName, node.local.name)
             } else { // 如果是未实现的api 改成Taro.xxx
               const binding = ast.scope.getBinding(propertyName)!
               binding.referencePaths.forEach(reference => {
@@ -78,11 +76,14 @@ const plugin = function (babel: {
       },
       Program: {
         enter (ast, state) {
+          taroName = ''
           needDefault = false
-          isTaroApiImported = false
           invokedApis.clear()
         },
         exit (ast, state) {
+          // 防止重复引入
+          let isTaroApiImported = false
+
           ast.traverse({
             ImportDeclaration (ast) {
               const packageName = state.opts.packageName

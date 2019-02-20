@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run test && tsc",
-    "dev": "jest --watch -u",
+    "dev": "jest --watch",
     "prepack": "npm run build",
     "test": "jest"
   },
