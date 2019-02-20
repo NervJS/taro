@@ -72,6 +72,7 @@ interface JSXHandler {
   statementParent?: NodePath<t.Node>
   isReturnStatement?: boolean
   isFinalReturn?: boolean
+  isIfStemInLoop?: boolean
 }
 
 function isChildrenOfJSXAttr (p: NodePath<t.Node>) {
@@ -135,7 +136,8 @@ export class RenderParser {
     if (!isJSXChildren) {
       let statementParent = jsxElementPath.getStatementParent()
       const isReturnStatement = statementParent.isReturnStatement()
-      const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
+      const isIfStemInLoop = this.isIfStemInLoop(jsxElementPath)
+      const isFinalReturn = statementParent.getFunctionParent().isClassMethod() || isIfStemInLoop
       if (
         !(
           statementParent.isVariableDeclaration() ||
@@ -153,8 +155,19 @@ export class RenderParser {
           name && this.templates.set(name, jsxElementPath.node)
         }
       }
-      func({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn })
+      func({ parentNode, parentPath, statementParent, isReturnStatement, isFinalReturn, isIfStemInLoop })
     }
+  }
+
+  private isIfStemInLoop = (p: NodePath<t.JSXElement>): boolean => {
+    const ifStem = p.findParent(p => p.isIfStatement())
+    if (ifStem && ifStem.isIfStatement()) {
+      const loopStem = ifStem.findParent(p => p.isCallExpression())
+      if (loopStem && isArrayMapCallExpression(loopStem)) {
+        return true
+      }
+    }
+    return false
   }
 
   isLiteralOrUndefined = (node: t.Node): node is t.Literal | t.Identifier => t.isLiteral(node) || t.isIdentifier(node, { name: 'undefined' })
@@ -404,14 +417,9 @@ export class RenderParser {
       enter: (jsxElementPath: NodePath<t.JSXElement>) => {
         this.handleJSXElement(jsxElementPath, (options) => {
           this.handleConditionExpr(options, jsxElementPath)
-          const ifStem = jsxElementPath.findParent(p => p.isIfStatement()) as NodePath<t.IfStatement>
-          if (ifStem && ifStem.findParent(isArrayMapCallExpression)) {
-            const block = buildBlockElement()
-            block.children = [jsxElementPath.node]
-            newJSXIfAttr(block, ifStem.node.test)
-            if (!jsxElementPath.node.openingElement.attributes.some(a => a.name.name === Adapter.if)) {
-              jsxElementPath.replaceWith(block)
-            }
+          if (this.isIfStemInLoop(jsxElementPath)) {
+            this.handleJSXInIfStatement(jsxElementPath, options)
+            this.removeJSXStatement()
           }
         })
       },
@@ -543,7 +551,7 @@ export class RenderParser {
     }
   }
 
-  private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn }: JSXHandler) {
+  private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn, isIfStemInLoop }: JSXHandler) {
     if (t.isReturnStatement(parentNode)) {
       if (!isFinalReturn) {
         return
@@ -601,7 +609,8 @@ export class RenderParser {
       }
       if (t.isIdentifier(parentNode.left)) {
         const assignmentName = parentNode.left.name
-        const bindingNode = this.renderScope.getOwnBinding(assignmentName)!.path.node
+        const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
+        const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
         let block = this.templates.get(assignmentName) || buildBlockElement()
         if (isEmptyDeclarator(bindingNode)) {
           const blockStatement = parentPath.findParent(p =>
@@ -1464,9 +1473,15 @@ export class RenderParser {
   removeJSXStatement () {
     this.jsxDeclarations.forEach(d => d && d.remove())
     this.returnedPaths.forEach((p: NodePath<t.ReturnStatement>) => {
+      if (p.removed) {
+        return
+      }
       const ifStem = p.findParent(_ => _.isIfStatement())
       if (ifStem) {
         const node = p.node
+        if (!node) {
+          return
+        }
         if (t.isJSXElement(node.argument)) {
           const jsx = node.argument
           if (jsx.children.length === 0 && jsx.openingElement.attributes.length === 0) {
