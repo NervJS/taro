@@ -1,5 +1,6 @@
 import * as path from 'path';
 
+import { keys } from 'lodash';
 import { addTrailingSlash, appPath, emptyObj } from '../util';
 import {
   getCssoWebpackPlugin,
@@ -13,7 +14,8 @@ import {
   getModule,
   getOutput,
   getUglifyPlugin,
-  processEnvOption
+  processEnvOption,
+  getLibFiles
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
@@ -25,7 +27,7 @@ export default function (config: Partial<BuildConfig>): any {
     entry = emptyObj,
     output = emptyObj,
     sourceRoot = '',
-    outputRoot,
+    outputRoot = 'dist',
     publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
@@ -88,17 +90,14 @@ export default function (config: Partial<BuildConfig>): any {
 
   if (enableDll) {
     Object.assign(plugin, getDllReferencePlugins({
+      outputRoot,
       dllDirectory,
-      dllEntry,
-      outputRoot
+      dllEntry
     }))
-    const dllFiles = Object.keys(dllEntry).map(v => {
-      return path.join(dllDirectory, `${v}.dll.js`)
-    })
-    if (dllFiles.length) {
+    if (keys(dllEntry).length) {
       plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
         append: false,
-        assets: dllFiles
+        assets: getLibFiles({ dllEntry, dllDirectory, outputRoot })
       })
     }
   }

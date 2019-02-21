@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 import './style/index.scss'
 

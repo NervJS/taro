@@ -44,7 +44,10 @@ class _View extends React.Component<Props, State> {
     // const { hover } = this.state
 
     return (
-      <View style={style}>
+      <View
+        style={style}
+        {...this.props}
+      >
         {this.props.children}
       </View>
     )

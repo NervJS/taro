@@ -6,7 +6,7 @@ const klaw = require('klaw')
 const traverse = require('babel-traverse').default
 const t = require('babel-types')
 const babel = require('babel-core')
-const generate = require('babel-generator').default
+const generate = require('better-babel-generator').default
 const _ = require('lodash')
 const rimraf = require('rimraf')
 const { promisify } = require('util')
@@ -539,9 +539,14 @@ function processEntry (code, filePath) {
       }
     }
   })
-  const generateCode = generate(ast).code
+  const generateCode = generate(ast, {
+    jsescOption: {
+      minimal: true
+    }
+  }).code
   return {
-    code: generateCode
+    code: generateCode,
+    ast
   }
 }
 
@@ -713,9 +718,14 @@ function processOthers (code, filePath, fileType) {
       }
     }
   })
-  const generateCode = generate(ast).code
+  const generateCode = generate(ast, {
+    jsescOption: {
+      minimal: true
+    }
+  }).code
   return {
-    code: generateCode
+    code: generateCode,
+    ast
   }
 }
 
@@ -810,7 +820,7 @@ function processFiles (filePath) {
       const transformResult = fileType === FILE_TYPE.ENTRY
         ? processEntry(content, filePath)
         : processOthers(content, filePath, fileType)
-      const jsCode = unescape(transformResult.code.replace(/\\u/g, '%u'))
+      const jsCode = transformResult.code
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
     } else {

@@ -67,7 +67,7 @@ class Popper extends Component {
 
   // 你可以通过 bind 传入多个参数
   preventPop (name, test, e) {    //事件对象 e 要放在最后
-    e.preventDefault()
+    e.stopPropagation()
   }
 
   render () {
@@ -76,7 +76,34 @@ class Popper extends Component {
 }
 ```
 
-> Taro 目前暂时不支持通过匿名函数传值，也不支持多层 lambda 嵌套。当你有传参需求时，请全部使用 `bind` 来处理。
+### 使用匿名函数
+
+> 自 v1.2.9 开始支持
+
+> 注意：在各小程序端，使用匿名函数，尤其是在 **循环中** 使用匿名函数，比使用 `bind` 进行事件传参占用更大的内存，速度也会更慢。
+
+除了 `bind` 之外，事件参数也可以使用匿名函数进行传参。直接写匿名函数不会打乱原有监听函数的参数顺序：
+
+```jsx
+class Popper extends Component {
+  constructor () {
+    super(...arguments)
+    this.state = { name: 'Hello world!' }
+  }
+
+  render () {
+    const name = 'test'
+    return <Button onClick={(e) => {
+      e.stopPropagation()
+      this.setState({
+        name
+      })
+    }}>
+      {this.state.name}
+    </Button>
+  }
+}
+```
 
 ## 任何组件的事件传递都要以 `on` 开头
 

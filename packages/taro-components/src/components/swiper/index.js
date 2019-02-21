@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
 import Swipers from 'swiper/dist/js/swiper.min.js'
@@ -32,7 +33,8 @@ class Swiper extends Nerv.Component {
       onChange,
       circular,
       vertical,
-      onAnimationfinish
+      onAnimationfinish,
+      spaceBetween
     } = this.props
 
     const opt = {
@@ -75,6 +77,11 @@ class Swiper extends Nerv.Component {
         stopOnLastSlide: true,
         disableOnInteraction: false
       }
+    }
+
+    // 两端距离
+    if (spaceBetween) {
+      opt.spaceBetween = spaceBetween
     }
 
     this.mySwiper = new Swipers(this.$el, opt)

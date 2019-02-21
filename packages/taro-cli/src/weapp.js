@@ -941,12 +941,15 @@ function copyFilesFromSrcToOutput (files) {
       Util.printLog(Util.pocessTypeEnum.ERROR, '文件', `${modifySrc} 不存在`)
     } else {
       fs.ensureDir(path.dirname(outputFilePath))
+      if (file === outputFilePath) {
+        return
+      }
       fs.copySync(file, outputFilePath)
     }
   })
 }
 
-const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+const babelConfig = _.mergeWith({}, defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
   if (Array.isArray(objValue)) {
     return Array.from(new Set(srcValue.concat(objValue)))
   }
@@ -961,7 +964,7 @@ const shouldTransformAgain = (function () {
 })()
 
 async function compileScriptFile (content, sourceFilePath, outputFilePath, adapter) {
-  const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
+  const compileScriptRes = await npmProcess.callPlugin('babel', content, sourceFilePath, babelConfig)
   const code = compileScriptRes.code
   if (!shouldTransformAgain) {
     return code
@@ -1001,7 +1004,10 @@ function buildProjectConfig () {
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)
 
-  if (!fs.existsSync(projectConfigPath)) return
+  if (!fs.existsSync(projectConfigPath)) {
+    projectConfigPath = path.join(sourceDir, projectConfigFileName)
+    if (!fs.existsSync(projectConfigPath)) return
+  }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
   if (buildAdapter === Util.BUILD_TYPES.TT) {
@@ -1073,6 +1079,15 @@ function buildWorkers (worker) {
   fileRecursiveSearch(workerDir)
 }
 
+async function buildCustomTabbar () {
+  const customTabbarPath = path.join(sourceDir, 'custom-tab-bar')
+  const customTabbarJSPath = Util.resolveScriptPath(customTabbarPath)
+  await buildSingleComponent({
+    path: customTabbarJSPath,
+    name: 'custom-tab-bar'
+  })
+}
+
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
@@ -1111,6 +1126,9 @@ async function buildEntry () {
     }
     if (res.configObj.workers) {
       buildWorkers(res.configObj.workers)
+    }
+    if (res.configObj.tabBar && res.configObj.tabBar.custom) {
+      await buildCustomTabbar()
     }
     const fileDep = dependencyTree[entryFilePath] || {}
     // 编译依赖的脚本文件
@@ -1319,7 +1337,8 @@ async function buildSinglePage (page) {
       env: constantsReplaceList
     })
     const pageDepComponents = transformResult.components
-    const pageWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
+    const compressTemplate = useCompileConf.compressTemplate
+    const pageWXMLContent = (isProduction && compressTemplate) ? transformResult.compressedTemplate : transformResult.template
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
@@ -1754,7 +1773,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       adapter: buildAdapter,
       env: constantsReplaceList
     })
-    const componentWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
+    const compressTemplate = useCompileConf.compressTemplate
+    const componentWXMLContent = (isProduction && compressTemplate) ? transformResult.compressedTemplate : transformResult.template
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
@@ -1884,7 +1904,7 @@ function compileDepScripts (scriptFiles) {
       const compileExclude = useCompileConf.exclude || []
       let isInCompileExclude = false
       compileExclude.forEach(excludeItem => {
-        if (path.join(appPath, excludeItem) === item) {
+        if (item.indexOf(path.join(appPath, excludeItem)) >= 0) {
           isInCompileExclude = true
         }
       })
@@ -1956,7 +1976,13 @@ function copyFileSync (from, to, options) {
   const filename = path.basename(from)
   if (fs.statSync(from).isFile() && !path.extname(to)) {
     fs.ensureDir(to)
+    if (from === path.join(to, filename)) {
+      return
+    }
     return fs.copySync(from, path.join(to, filename), options)
+  }
+  if (from === to) {
+    return
   }
   fs.ensureDir(path.dirname(to))
   return fs.copySync(from, to, options)

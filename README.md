@@ -25,7 +25,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://storage.360buyimg.com/taro-resource/user-cases.jpg)
+![案例](https://storage.360buyimg.com/taro-resource/user-cases.jpg?v=1)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
@@ -123,10 +123,9 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=120&v=4)](https://github.com/nanjingboy/)
-:---:
-[nanjingboy](https://github.com/nanjingboy/)
-
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/)
+:---:|:---:
+[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/)
 
 ## 贡献者们
 

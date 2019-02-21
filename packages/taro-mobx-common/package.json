@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx-common",
-  "version": "1.2.7",
+  "version": "1.2.13",
   "description": "mobx library for taro",
   "keywords": [
     "mobx",
@@ -13,9 +13,11 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "main": "dist/index.js",
+  "main": "index.js",
+  "module": "dist/index.esm.js",
   "files": [
-    "dist"
+    "dist",
+    "index.js"
   ],
   "scripts": {
     "build": "rollup -c --environment TARGET:umd",
@@ -25,6 +27,8 @@
     "mobx": "4.8.0"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "rollup": "1.1.0",
+    "rollup-plugin-babel": "4.0.3"
   }
 }

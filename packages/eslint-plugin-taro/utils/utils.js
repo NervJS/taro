@@ -12,10 +12,11 @@ function buildDocsMeta (description, rule) {
 }
 
 const parserOptions = {
-  ecmaVersion: 9,
+  ecmaVersion: 2018,
   sourceType: 'module',
   ecmaFeatures: {
-    jsx: true
+    jsx: true,
+    experimentalObjectRestSpread: true
   }
 }
 

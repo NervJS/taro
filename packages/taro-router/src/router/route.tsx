@@ -2,15 +2,11 @@ import { Component } from '@tarojs/taro-h5';
 import Nerv from 'nervjs';
 
 import createWrappedComponent from './createWrappedComponent';
-import { ComponentLoader, Location } from '../utils/types';
+import { Location, RouteObj } from '../utils/types';
 import { tryToCall } from '../utils/index';
 
-interface RouteProps {
-  path: string;
-  componentLoader: ComponentLoader;
+type RouteProps = RouteObj & {
   currentLocation: Location;
-  isIndex: boolean;
-  key?: string;
   k: number;
   collectComponent: Function;
 }
@@ -87,9 +83,7 @@ class Route extends Component<RouteProps, {}> {
   componentWillReceiveProps (nProps, nContext) {
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
-    const lastPath = this.props.path
-    const nextPath = nProps.path
-    const isRedirect = lastPath !== nextPath
+    const isRedirect = nProps.isRedirect
 
     if (isRedirect) {
       this.updateComponent(nProps)

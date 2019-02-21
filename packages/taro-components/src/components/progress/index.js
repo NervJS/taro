@@ -1,6 +1,7 @@
+import 'weui'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import _ from '../../../utils/parse-type'
+import { isNumber, isBoolean, isString } from '../../utils/parse-type'
 
 /**
  * props 类型检测
@@ -22,15 +23,15 @@ function parseType (props) {
   const throwErrorMsg = type => {
     throw new TypeError(type)
   }
-  if (showInfo) _.isBoolean(showInfo) ? '' : throwErrorMsg('showInfo')
-  if (active) _.isBoolean(active) ? '' : throwErrorMsg('active')
+  if (showInfo) isBoolean(showInfo) ? '' : throwErrorMsg('showInfo')
+  if (active) isBoolean(active) ? '' : throwErrorMsg('active')
 
-  if (percent) _.isNumber(percent) ? '' : throwErrorMsg('percent')
-  if (strokeWidth) _.isNumber(strokeWidth) ? '' : throwErrorMsg('strokeWidth')
+  if (percent) isNumber(percent) ? '' : throwErrorMsg('percent')
+  if (strokeWidth) isNumber(strokeWidth) ? '' : throwErrorMsg('strokeWidth')
 
-  if (activeColor) _.isString(activeColor) ? '' : throwErrorMsg('activeColor')
+  if (activeColor) isString(activeColor) ? '' : throwErrorMsg('activeColor')
   if (backgroundColor) {
-    _.isString(backgroundColor) ? '' : throwErrorMsg('backgroundColor')
+    isString(backgroundColor) ? '' : throwErrorMsg('backgroundColor')
   }
 }
 

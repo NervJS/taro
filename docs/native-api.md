@@ -2423,7 +2423,7 @@ const animation = Taro.createAnimation({
 
 | API | 微信小程序 | H5 | ReactNative |
 | :-: | :-: | :-: | :-: |
-| Taro.createAnimation | ✔️ |  |  |
+| Taro.createAnimation | ✔️ | ✔️ |  |
 
 ### 位置
 

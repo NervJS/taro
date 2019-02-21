@@ -1,6 +1,6 @@
-import Taro from '../index.js'
+import phone from '../api/device/phone'
 
-Taro.initNativeApi(Taro)
+const Taro = Object.assign({}, phone)
 
 describe('phone', () => {
   describe('makePhoneCall', () => {

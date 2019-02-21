@@ -19,12 +19,12 @@ export default function (config: BuildConfig): any {
     outputRoot = '',
     staticDirectory,
     dllDirectory = 'lib',
+    dllFilename = '[name]',
     dllEntry = {
       lib: [
         'nervjs',
         '@tarojs/taro-h5',
-        '@tarojs/router',
-        '@tarojs/components'
+        '@tarojs/router'
       ]
     },
 
@@ -63,7 +63,7 @@ export default function (config: BuildConfig): any {
   const plugin: any = {}  
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants]),
-  plugin.dllPlugin = getDllPlugin(outputRoot, dllDirectory)
+  plugin.dllPlugin = getDllPlugin({ outputRoot, dllDirectory, dllFilename })
 
   const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
   ? false
@@ -79,7 +79,8 @@ export default function (config: BuildConfig): any {
     entry: dllEntry,
     output: getDllOutput({
       outputRoot,
-      dllDirectory
+      dllDirectory,
+      dllFilename
     }),
     resolve: { alias },
     module: getModule({

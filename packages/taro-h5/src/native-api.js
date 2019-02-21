@@ -1,9 +1,10 @@
 import { onAndSyncApis, noPromiseApis, otherApis, initPxTransform } from '@tarojs/taro'
 import { createSelectorQuery } from './api/createSelectorQuery'
 import request from './api/request'
+import webSocket from './api/webSocket'
+import createAnimation from './api/createAnimation'
 import * as storage from './api/storage'
 import * as interactive from './api/interactive'
-import webSocket from './api/webSocket'
 import * as tabBar from './api/tabBar'
 import * as system from './api/system'
 import * as others from './api/others'
@@ -33,6 +34,7 @@ export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = request
   taro.createSelectorQuery = createSelectorQuery
+  taro.createAnimation = createAnimation
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.requirePlugin = function () {

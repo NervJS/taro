@@ -32,7 +32,15 @@ function defineGetter (component: Component, key: string, getter: string) {
   Object.defineProperty(component, key, {
     enumerable: true,
     configurable: true,
-    get: () => component[getter]
+    get: () => {
+      if (getter === 'props') {
+        return component.props
+      }
+      return {
+        ...component.props,
+        ...component.state
+      }
+    }
   })
 }
 
@@ -69,6 +77,14 @@ export default function withWeapp (componentType: string) {
       })
       Object.assign(this.state, state)
       this.setState(state)
+    }
+
+    triggerEvent = (eventName: string, ...args) => {
+      if (typeof eventName !== 'string') {
+        throw new Error('triggerEvent 第一个参数必须是字符串')
+      }
+      const fullEventName = `on${eventName}`
+      this.$scope.triggerEvent(fullEventName.toLowerCase(), ...args)
     }
 
     componentWillReceiveProps (nextProps) {

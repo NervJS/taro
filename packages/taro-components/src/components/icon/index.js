@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
 import omit from 'omit.js'
