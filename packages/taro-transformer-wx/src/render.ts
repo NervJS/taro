@@ -588,13 +588,9 @@ export class RenderParser {
             } else {
               if (isIfStemInLoop && loopCallExpr && loopCallExpr.isCallExpression()) {
                 if (this.loopIfStemComponentMap.has(loopCallExpr)) {
-                  setJSXAttr(
-                    jsxElementPath.node,
-                    Adapter.elseif,
-                    t.jSXExpressionContainer(test),
-                    jsxElementPath
-                  )
-                  // loopIfComponents.add(jsxElementPath)
+                  const component = this.loopIfStemComponentMap.get(loopCallExpr)!
+                  newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+                  component.children.push(jsxElementPath.node)
                 } else {
                   newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
                   this.loopIfStemComponentMap.set(loopCallExpr, block)
@@ -1229,6 +1225,19 @@ export class RenderParser {
       if (!callee.isCallExpression()) {
         return
       }
+      if (this.loopIfStemComponentMap.has(callee)) {
+        const block = this.loopIfStemComponentMap.get(callee)!
+        const attrs = component.node.openingElement.attributes
+        const wxForDirectives = new Set([Adapter.for, Adapter.forIndex, Adapter.forItem])
+        const ifAttrs = attrs.filter(a => wxForDirectives.has(a.name.name as string))
+        if (ifAttrs.length) {
+          block.openingElement.attributes.push(...ifAttrs)
+          component.node.openingElement.attributes = attrs.filter(a => !wxForDirectives.has(a.name.name as string))
+        }
+        setJSXAttr(component.node, Adapter.else)
+        block.children.push(component.node)
+        component.replaceWith(block)
+      }
       for (const dcl of this.jsxDeclarations) {
         const isChildren = dcl && dcl.findParent(d => d === callee)
         if (isChildren) {
@@ -1494,19 +1503,6 @@ export class RenderParser {
           : component.node
         )
       })
-      if (this.loopIfStemComponentMap.has(callee)) {
-        const block = this.loopIfStemComponentMap.get(callee)!
-        const attrs = component.node.openingElement.attributes
-        const wxForDirectives = new Set([Adapter.for, Adapter.forIndex, Adapter.forItem])
-        const ifAttrs = attrs.filter(a => wxForDirectives.has(a.name.name as string))
-        if (ifAttrs.length) {
-          block.openingElement.attributes.push(...ifAttrs)
-          component.node.openingElement.attributes = attrs.filter(a => !wxForDirectives.has(a.name.name as string))
-        }
-        setJSXAttr(component.node, Adapter.else)
-        block.children.push(component.node)
-        component.replaceWith(block)
-      }
     })
     if (hasLoopRef) {
       const scopeDecl = template('const __scope = this.$scope')()
@@ -1533,7 +1529,7 @@ export class RenderParser {
         }
         if (t.isJSXElement(node.argument)) {
           const jsx = node.argument
-          if (jsx.children.length === 0 && jsx.openingElement.attributes.length === 0) {
+          if (jsx.children.length === 0 && jsx.openingElement.attributes.length === 0 && !this.isIfStemInLoop(p.get('argument') as any)) {
             node.argument = t.nullLiteral()
           } else {
             p.remove()
