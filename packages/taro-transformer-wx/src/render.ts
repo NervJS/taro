@@ -112,6 +112,8 @@ export class RenderParser {
   private usedThisProperties = new Set<string>()
   private incrementCalleeId = incrementId()
   private classComputedState = new Set<string>()
+  private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
+  private hasNoReturnLoopStem = false
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -137,7 +139,7 @@ export class RenderParser {
       let statementParent = jsxElementPath.getStatementParent()
       const isReturnStatement = statementParent.isReturnStatement()
       const isIfStemInLoop = this.isIfStemInLoop(jsxElementPath)
-      const isFinalReturn = statementParent.getFunctionParent().isClassMethod() || isIfStemInLoop
+      const isFinalReturn = statementParent.getFunctionParent().isClassMethod()
       if (
         !(
           statementParent.isVariableDeclaration() ||
@@ -553,11 +555,12 @@ export class RenderParser {
 
   private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn, isIfStemInLoop }: JSXHandler) {
     if (t.isReturnStatement(parentNode)) {
-      if (!isFinalReturn) {
+      if (!isFinalReturn && !isIfStemInLoop) {
         return
       } else {
         const ifStatement = parentPath.findParent(p => p.isIfStatement())
         const blockStatement = parentPath.findParent(p => p.isBlockStatement() && (p.parentPath === ifStatement)) as NodePath<t.BlockStatement>
+        const loopCallExpr = jsxElementPath.findParent(p => isArrayMapCallExpression(p)) as null | NodePath<t.CallExpression>
         if (blockStatement && blockStatement.isBlockStatement()) {
           blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
         }
@@ -578,25 +581,53 @@ export class RenderParser {
                 t.jSXExpressionContainer(test),
                 jsxElementPath
               )
+              if (loopCallExpr && this.loopIfStemComponentMap.has(loopCallExpr)) {
+                const block = this.loopIfStemComponentMap.get(loopCallExpr)!
+                block.children.push(jsxElementPath.node)
+              }
             } else {
-              if (this.topLevelIfStatement.size > 0) {
-                setJSXAttr(
-                  jsxElementPath.node,
-                  Adapter.elseif,
-                  t.jSXExpressionContainer(test),
-                  jsxElementPath
-                )
+              if (isIfStemInLoop && loopCallExpr && loopCallExpr.isCallExpression()) {
+                if (this.loopIfStemComponentMap.has(loopCallExpr)) {
+                  setJSXAttr(
+                    jsxElementPath.node,
+                    Adapter.elseif,
+                    t.jSXExpressionContainer(test),
+                    jsxElementPath
+                  )
+                  // loopIfComponents.add(jsxElementPath)
+                } else {
+                  newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+                  this.loopIfStemComponentMap.set(loopCallExpr, block)
+                  const arrowFunc = loopCallExpr.node.arguments[0]
+                  if (t.isArrowFunctionExpression(arrowFunc) && t.isBlockStatement(arrowFunc.body) && !arrowFunc.body.body.some(s => t.isReturnStatement(s))) {
+                    arrowFunc.body.body.push(t.returnStatement(buildBlockElement()))
+                    this.hasNoReturnLoopStem = true
+                  }
+                }
               } else {
-                newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
-                this.topLevelIfStatement.add(ifStatement)
+                if (this.topLevelIfStatement.size > 0) {
+                  setJSXAttr(
+                    jsxElementPath.node,
+                    Adapter.elseif,
+                    t.jSXExpressionContainer(test),
+                    jsxElementPath
+                  )
+                } else {
+                  newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
+                  this.topLevelIfStatement.add(ifStatement)
+                }
               }
             }
           }
         } else if (block.children.length !== 0) {
-          setJSXAttr(jsxElementPath.node, Adapter.else)
+          if (this.topLevelIfStatement.size > 0) {
+            setJSXAttr(jsxElementPath.node, Adapter.else)
+          }
         }
         block.children.push(jsxElementPath.node)
-        this.finalReturnElement = block
+        if (!this.loopIfStemComponentMap.has(loopCallExpr as any)) {
+          this.finalReturnElement = block
+        }
         this.returnedPaths.push(parentPath)
       }
     } else if (t.isArrowFunctionExpression(parentNode)) {
@@ -1138,6 +1169,11 @@ export class RenderParser {
     }
 
     renderBody.traverse(this.loopComponentVisitor)
+    if (this.hasNoReturnLoopStem) {
+      renderBody.traverse({
+        JSXElement: (this.loopComponentVisitor.JSXElement as any).exit[0]
+      })
+    }
     this.handleLoopComponents()
     renderBody.traverse(this.visitors)
     this.setOutputTemplate()
@@ -1458,6 +1494,19 @@ export class RenderParser {
           : component.node
         )
       })
+      if (this.loopIfStemComponentMap.has(callee)) {
+        const block = this.loopIfStemComponentMap.get(callee)!
+        const attrs = component.node.openingElement.attributes
+        const wxForDirectives = new Set([Adapter.for, Adapter.forIndex, Adapter.forItem])
+        const ifAttrs = attrs.filter(a => wxForDirectives.has(a.name.name as string))
+        if (ifAttrs.length) {
+          block.openingElement.attributes.push(...ifAttrs)
+          component.node.openingElement.attributes = attrs.filter(a => !wxForDirectives.has(a.name.name as string))
+        }
+        setJSXAttr(component.node, Adapter.else)
+        block.children.push(component.node)
+        component.replaceWith(block)
+      }
     })
     if (hasLoopRef) {
       const scopeDecl = template('const __scope = this.$scope')()
