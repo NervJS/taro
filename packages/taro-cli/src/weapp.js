@@ -964,6 +964,9 @@ const shouldTransformAgain = (function () {
 })()
 
 async function compileScriptFile (content, sourceFilePath, outputFilePath, adapter) {
+  if (NODE_MODULES_REG.test(sourceFilePath) && fs.existsSync(outputFilePath)) {
+    return fs.readFileSync(outputFilePath)
+  }
   const compileScriptRes = await npmProcess.callPlugin('babel', content, sourceFilePath, babelConfig)
   const code = compileScriptRes.code
   if (!shouldTransformAgain) {
