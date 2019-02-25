@@ -88,7 +88,10 @@ function buildForRN ({ watch }: IBuildConfig) {
 }
 
 function buildForQuickApp ({ watch }: IBuildConfig) {
-  require('./quick').build({ watch })
+  require('./quick').build({
+    watch,
+    adapter: BUILD_TYPES.QUICKAPP
+  })
 }
 
 function buildForUILibrary ({ watch }: IBuildConfig) {

@@ -10,7 +10,8 @@ import {
   IMINI_APP_FILE_TYPE,
   PROJECT_CONFIG,
   processTypeEnum,
-  REG_SCRIPTS
+  REG_SCRIPTS,
+  NODE_MODULES_REG
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -39,8 +40,7 @@ import {
   IBuildResult,
   IDependency
 } from './interface'
-import { NODE_MODULES_REG } from './constants'
-import { getNodeModulesPath, getNpmOutputDir } from './npmExact'
+import { getNodeModulesPath, getNpmOutputDir } from '../util/npmExact'
 
 const appPath = process.cwd()
 const configDir = path.join(appPath, PROJECT_CONFIG)

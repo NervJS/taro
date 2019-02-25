@@ -5,12 +5,14 @@ import * as wxTransformer from '@tarojs/transformer-wx'
 
 import {
   printLog,
-  isDifferentArray
+  isDifferentArray,
+  copyFileSync
 } from '../util'
 import {
   BUILD_TYPES,
   processTypeEnum,
-  REG_TYPESCRIPT
+  REG_TYPESCRIPT,
+  NODE_MODULES_REG
 } from '../util/constants'
 import { callPlugin } from '../util/npm'
 import { IWxTransformResult } from '../util/types'
@@ -24,8 +26,7 @@ import {
   uglifyJS
 } from './helper'
 import { parseAst } from './astProcess'
-import { PARSE_AST_TYPE, NODE_MODULES_REG } from './constants'
-import { copyFileSync } from './copy'
+import { PARSE_AST_TYPE } from './constants'
 import { IDependency } from './interface'
 
 const isBuildingScripts: Map<string, boolean> = new Map<string, boolean>()

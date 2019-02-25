@@ -11,7 +11,6 @@ import generate from 'better-babel-generator'
 import * as _ from 'lodash'
 import * as rimraf from 'rimraf'
 import { promisify } from 'util'
-import minimatch from 'minimatch'
 
 import * as Util from './util'
 import * as npmProcess from './util/npm'
@@ -24,7 +23,6 @@ import {
   processTypeEnum,
   BUILD_TYPES
 } from './util/constants'
-import { ICopyOptions } from './mini/interface'
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
@@ -930,54 +928,10 @@ async function clean () {
   }
 }
 
-function copyFileSync (from, to, options) {
-  const filename = path.basename(from)
-  if (fs.statSync(from).isFile() && !path.extname(to)) {
-    fs.ensureDir(to)
-    return fs.copySync(from, path.join(to, filename), options)
-  }
-  fs.ensureDir(path.dirname(to))
-  return fs.copySync(from, to, options)
-}
-
-function copyFiles () {
-  const copyConfig = projectConfig.copy || { patterns: [], options: {} }
-  if (copyConfig.patterns && copyConfig.patterns.length) {
-    copyConfig.options = copyConfig.options || {}
-    const globalIgnore = copyConfig.options.ignore
-    const projectDir = appPath
-    copyConfig.patterns.forEach(pattern => {
-      if (typeof pattern === 'object' && pattern.from && pattern.to) {
-        const from = path.join(projectDir, pattern.from)
-        const to = path.join(projectDir, pattern.to)
-        let ignore = pattern.ignore || globalIgnore
-        if (fs.existsSync(from)) {
-          const copyOptions: ICopyOptions = {}
-          if (ignore) {
-            ignore = Array.isArray(ignore) ? ignore : [ignore]
-            copyOptions.filter = src => {
-              let isMatch = false
-              ignore.forEach(iPa => {
-                if (minimatch(path.basename(src), iPa)) {
-                  isMatch = true
-                }
-              })
-              return !isMatch
-            }
-          }
-          copyFileSync(from, to, copyOptions)
-        } else {
-          Util.printLog(processTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
-        }
-      }
-    })
-  }
-}
-
 export async function build (buildConfig) {
   process.env.TARO_ENV = BUILD_TYPES.H5
   await clean()
-  copyFiles()
+  Util.copyFiles(appPath, projectConfig.copy)
   await buildTemp()
   await buildDist(buildConfig)
   if (buildConfig.watch) {

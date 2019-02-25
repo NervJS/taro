@@ -9,7 +9,9 @@ import traverse from 'babel-traverse'
 import { IWxTransformResult } from '../util/types'
 import {
   REG_TYPESCRIPT,
-  processTypeEnum
+  processTypeEnum,
+  NODE_MODULES_REG,
+  NODE_MODULES
 } from '../util/constants'
 import {
   printLog,
@@ -37,7 +39,7 @@ import {
 import { compileScriptFile, compileDepScripts } from './compileScript'
 import { compileDepStyles } from './compileStyle'
 import { transfromNativeComponents, processNativeWxml } from './native'
-import { PARSE_AST_TYPE, NODE_MODULES_REG, NODE_MODULES } from './constants'
+import { PARSE_AST_TYPE } from './constants'
 
 const notTaroComponents = new Set<string>()
 const componentsNamedMap = new Map<string, { name?: string, type?: string }>()

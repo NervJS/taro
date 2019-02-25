@@ -23,7 +23,3 @@ export interface IDependency {
   json: string[],
   media: string[]
 }
-
-export interface ICopyOptions {
-  filter?: (src: string) => boolean
-}

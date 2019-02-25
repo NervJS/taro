@@ -11,7 +11,6 @@ import { Config as IConfig } from '@tarojs/taro'
 const template = require('babel-template')
 
 import {
-  CONFIG_MAP,
   REG_SCRIPT,
   REG_TYPESCRIPT,
   REG_JSON,
@@ -21,7 +20,8 @@ import {
   REG_STYLE,
   CSS_EXT,
   processTypeEnum,
-  BUILD_TYPES
+  BUILD_TYPES,
+  NODE_MODULES_REG
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -29,13 +29,14 @@ import {
   promoteRelativePath,
   isNpmPkg,
   isAliasPath,
-  replaceAliasPath
+  replaceAliasPath,
+  traverseObjectNode
 } from '../util'
 import { convertObjectToAstExpression, convertArrayToAstExpression } from '../util/astConvert'
 import babylonConfig from '../config/babylon'
+import { getExactedNpmFilePath, getNotExistNpmList } from '../util/npmExact'
 
 import {
-  NODE_MODULES_REG,
   PARSE_AST_TYPE,
   taroJsComponents,
   taroJsRedux,
@@ -43,47 +44,11 @@ import {
   DEVICE_RATIO_NAME
 } from './constants'
 import { IComponentObj } from './interface'
-import { getExactedNpmFilePath, getNotExistNpmList } from './npmExact'
 import {
   getBuildData,
   isFileToBePage
 } from './helper'
 import { processStyleUseCssModule } from './compileStyle'
-
-function traverseObjectNode (node) {
-  const { buildAdapter } = getBuildData()
-  if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
-    const properties = node.value.properties
-    const obj = {}
-    properties.forEach(p => {
-      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-      if (CONFIG_MAP[buildAdapter][key]) {
-        key = CONFIG_MAP[buildAdapter][key]
-      }
-      obj[key] = traverseObjectNode(p.value)
-    })
-    return obj
-  }
-  if (node.type === 'ObjectExpression') {
-    const properties = node.properties
-    const obj= {}
-    properties.forEach(p => {
-      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-      if (CONFIG_MAP[buildAdapter][key]) {
-        key = CONFIG_MAP[buildAdapter][key]
-      }
-      obj[key] = traverseObjectNode(p.value)
-    })
-    return obj
-  }
-  if (node.type === 'ArrayExpression') {
-    return node.elements.map(item => traverseObjectNode(item))
-  }
-  if (node.type === 'NullLiteral') {
-    return null
-  }
-  return node.value
-}
 
 interface IAnalyzeImportUrlOptions {
   astPath: any,
@@ -299,7 +264,7 @@ export function parseAst (
                         left.object.type === 'ThisExpression' &&
                         left.property.type === 'Identifier' &&
                         left.property.name === 'config') {
-                        configObj = traverseObjectNode(node.expression.right)
+                        configObj = traverseObjectNode(node.expression.right, buildAdapter)
                       }
                     }
                   }
@@ -382,7 +347,7 @@ export function parseAst (
     ClassProperty (astPath) {
       const node = astPath.node
       if (node.key.name === 'config') {
-        configObj = traverseObjectNode(node)
+        configObj = traverseObjectNode(node, buildAdapter)
       }
     },
 

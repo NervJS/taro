@@ -5,6 +5,8 @@ import * as os from 'os'
 import * as child_process from 'child_process'
 import * as chalk from 'chalk'
 import * as _ from 'lodash'
+import * as minimatch from 'minimatch'
+import * as t from 'babel-types'
 
 import {
   TS_EXT,
@@ -14,8 +16,10 @@ import {
   processTypeMap,
   processTypeEnum,
   MINI_APP_FILES,
-  BUILD_TYPES
+  BUILD_TYPES,
+  CONFIG_MAP
 } from './constants'
+import { ICopyArgOptions, ICopyOptions } from './types'
 
 const execSync = child_process.execSync
 
@@ -386,5 +390,95 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
     return pkgJson.version
   } catch (err) {
     return null
+  }
+}
+
+export function traverseObjectNode (node, buildAdapter: string) {
+  if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
+    const properties = node.value.properties
+    const obj = {}
+    properties.forEach(p => {
+      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      if (CONFIG_MAP[buildAdapter][key] === false) {
+        return
+      }
+      if (CONFIG_MAP[buildAdapter][key]) {
+        key = CONFIG_MAP[buildAdapter][key]
+      }
+      obj[key] = traverseObjectNode(p.value, buildAdapter)
+    })
+    return obj
+  }
+  if (node.type === 'ObjectExpression') {
+    const properties = node.properties
+    const obj= {}
+    properties.forEach(p => {
+      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
+      if (CONFIG_MAP[buildAdapter][key] === false) {
+        return
+      }
+      if (CONFIG_MAP[buildAdapter][key]) {
+        key = CONFIG_MAP[buildAdapter][key]
+      }
+      obj[key] = traverseObjectNode(p.value, buildAdapter)
+    })
+    return obj
+  }
+  if (node.type === 'ArrayExpression') {
+    return node.elements.map(item => traverseObjectNode(item, buildAdapter))
+  }
+  if (node.type === 'NullLiteral') {
+    return null
+  }
+  return node.value
+}
+
+export function copyFileSync (from: string, to: string, options?: ICopyArgOptions) {
+  const filename = path.basename(from)
+  if (fs.statSync(from).isFile() && !path.extname(to)) {
+    fs.ensureDir(to)
+    if (from === path.join(to, filename)) {
+      return
+    }
+    return fs.copySync(from, path.join(to, filename), options)
+  }
+  if (from === to) {
+    return
+  }
+  fs.ensureDir(path.dirname(to))
+  return fs.copySync(from, to, options)
+}
+
+export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
+  copyConfig = copyConfig || { patterns: [], options: {} }
+  if (copyConfig.patterns && copyConfig.patterns.length) {
+    copyConfig.options = copyConfig.options || {}
+    const globalIgnore = copyConfig.options.ignore
+    const projectDir = appPath
+    copyConfig.patterns.forEach(pattern => {
+      if (typeof pattern === 'object' && pattern.from && pattern.to) {
+        const from = path.join(projectDir, pattern.from)
+        const to = path.join(projectDir, pattern.to)
+        let ignore = pattern.ignore || globalIgnore
+        if (fs.existsSync(from)) {
+          const copyOptions: ICopyArgOptions = {}
+          if (ignore) {
+            ignore = Array.isArray(ignore) ? ignore : [ignore]
+            copyOptions.filter = src => {
+              let isMatch = false
+              ignore && ignore.forEach(iPa => {
+                if (minimatch(path.basename(src), iPa)) {
+                  isMatch = true
+                }
+              })
+              return !isMatch
+            }
+          }
+          copyFileSync(from, to, copyOptions)
+        } else {
+          printLog(processTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
+        }
+      }
+    })
   }
 }

@@ -1,11 +1,9 @@
 import * as path from 'path'
 
-import { resolveNpmFilesPath } from '../util/resolve_npm_files'
-import { INpmConfig } from '../util/types'
-import { BUILD_TYPES, REG_STYLE } from '../util/constants'
-import { promoteRelativePath, recursiveFindNodeModules } from '../util'
-
-import { NODE_MODULES } from './constants'
+import { resolveNpmFilesPath } from './resolve_npm_files'
+import { INpmConfig } from './types'
+import { BUILD_TYPES, REG_STYLE, NODE_MODULES } from './constants'
+import { promoteRelativePath, recursiveFindNodeModules } from './index'
 
 interface IArgs {
   npmName: string,
