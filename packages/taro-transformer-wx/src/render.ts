@@ -493,6 +493,16 @@ export class RenderParser {
                         t.stringLiteral(index.name)
                       )
                       this.loopScopes.add(index.name)
+                    } else if (index === undefined) {
+                      if (process.env.NODE_ENV !== 'test') {
+                        setJSXAttr(
+                          jsxElementPath.node,
+                          Adapter.forIndex,
+                          t.stringLiteral(this.renderScope.generateUid('anonIdx'))
+                        )
+                      }
+                    } else {
+                      throw codeFrameError(index, '包含 JSX 的 map 循环第二个参数只能是一个普通标识符')
                     }
                     this.loopComponents.set(callExpr, jsxElementPath)
                     // caller.replaceWith(jsxElementPath.node)
