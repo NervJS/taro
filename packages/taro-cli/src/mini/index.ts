@@ -2,13 +2,13 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import chalk from 'chalk'
-import * as minimatch from 'minimatch'
 import * as _ from 'lodash'
 
 import {
   printLog,
   getInstalledNpmPkgVersion,
-  getPkgVersion
+  getPkgVersion,
+  copyFiles
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
@@ -19,8 +19,6 @@ import {
   setBuildAdapter,
   setAppConfig
 } from './helper'
-import { ICopyOptions } from './interface'
-import { copyFileSync } from './copy'
 import { buildEntry } from './entry'
 import { buildPages } from './page'
 import { watchFiles } from './watch'
@@ -99,42 +97,8 @@ async function buildFrameworkInfo () {
   }
 }
 
-function copyFiles () {
-  const { projectConfig } = getBuildData()
-  const copyConfig = projectConfig.copy || { patterns: [], options: {} }
-  if (copyConfig.patterns && copyConfig.patterns.length) {
-    copyConfig.options = copyConfig.options || {}
-    const globalIgnore = copyConfig.options.ignore
-    const projectDir = appPath
-    copyConfig.patterns.forEach(pattern => {
-      if (typeof pattern === 'object' && pattern.from && pattern.to) {
-        const from = path.join(projectDir, pattern.from)
-        const to = path.join(projectDir, pattern.to)
-        let ignore = pattern.ignore || globalIgnore
-        if (fs.existsSync(from)) {
-          const copyOptions: ICopyOptions = {}
-          if (ignore) {
-            ignore = Array.isArray(ignore) ? ignore : [ignore]
-            copyOptions.filter = src => {
-              let isMatch = false
-              ignore && ignore.forEach(iPa => {
-                if (minimatch(path.basename(src), iPa)) {
-                  isMatch = true
-                }
-              })
-              return !isMatch
-            }
-          }
-          copyFileSync(from, to, copyOptions)
-        } else {
-          printLog(processTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
-        }
-      }
-    })
-  }
-}
-
 export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false }: IMiniAppBuildConfig) {
+  const { projectConfig } = getBuildData()
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
@@ -143,7 +107,7 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet
   // await checkCliAndFrameworkVersion()
   buildProjectConfig()
   await buildFrameworkInfo()
-  copyFiles()
+  copyFiles(appPath, projectConfig.copy)
   const appConfig = await buildEntry()
   setAppConfig(appConfig)
   await buildPages()

@@ -7,20 +7,21 @@ import * as _ from 'lodash'
 
 import {
   REG_TYPESCRIPT,
-  processTypeEnum
+  processTypeEnum,
+  NODE_MODULES_REG
 } from '../util/constants'
 import {
   resolveScriptPath,
   printLog,
   isEmptyObject,
   promoteRelativePath,
-  isDifferentArray
+  isDifferentArray,
+  copyFileSync
 } from '../util'
 import { IWxTransformResult } from '../util/types'
 
 import { IComponentObj } from './interface'
-import { PARSE_AST_TYPE, NODE_MODULES_REG, taroJsFramework } from './constants'
-import { copyFileSync } from './copy'
+import { PARSE_AST_TYPE, taroJsFramework } from './constants'
 import {
   getBuildData,
   getRealComponentsPathList,

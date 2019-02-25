@@ -5,9 +5,8 @@ import { Config as IConfig } from '@tarojs/taro'
 import chalk from 'chalk'
 
 import { REG_WXML_IMPORT, processTypeEnum } from '../util/constants'
-import { isEmptyObject, printLog, resolveScriptPath } from '../util'
+import { isEmptyObject, printLog, resolveScriptPath, copyFileSync } from '../util'
 
-import { copyFileSync } from './copy'
 import { buildDepComponents } from './component'
 import { taroJsFramework } from './constants'
 import { compileDepScripts } from './compileScript'
