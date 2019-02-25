@@ -638,6 +638,7 @@ export class RenderParser {
         const assignmentName = parentNode.left.name
         const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
+        // @TODO: 重构 this.templates 为基于作用域的 HashMap，现在仍然可能会存在重复的情况
         let block = this.templates.get(assignmentName) || buildBlockElement()
         if (isEmptyDeclarator(bindingNode)) {
           const blockStatement = parentPath.findParent(p =>
@@ -720,6 +721,9 @@ export class RenderParser {
             }
             // setTemplate(name, path, templates)
             assignmentName && this.templates.set(assignmentName, block)
+            if (isIfStemInLoop) {
+              this.returnedPaths.push(parentPath)
+            }
           }
         } else {
           throw codeFrameError(
@@ -1536,7 +1540,7 @@ export class RenderParser {
           }
         } else {
           const isValid = p.get('argument').evaluateTruthy()
-          if (!isValid) {
+          if (isValid === false) {
             node.argument = t.nullLiteral()
           } else {
             p.remove()
