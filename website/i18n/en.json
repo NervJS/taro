@@ -54,8 +54,8 @@
         "sidebar_label": "Button"
       },
       "components/forms/checkbox": {
-        "title": "CheckboxGroup",
-        "sidebar_label": "CheckboxGroup"
+        "title": "Checkbox",
+        "sidebar_label": "Checkbox"
       },
       "components/forms/form": {
         "title": "Form",
@@ -165,6 +165,9 @@
       "config": {
         "title": "编译配置"
       },
+      "CONTRIBUTING": {
+        "title": "CONTRIBUTING"
+      },
       "css-modules": {
         "title": "CSS Modules 的使用"
       },
@@ -267,7 +270,15 @@
       "快速开始": "快速开始",
       "教程": "教程",
       "进阶指南": "进阶指南",
-      "组件库": "组件库",
+      "关于组件库": "关于组件库",
+      "视图容器": "视图容器",
+      "基础内容": "基础内容",
+      "表单组件": "表单组件",
+      "导航": "导航",
+      "媒体组件": "媒体组件",
+      "地图": "地图",
+      "画布": "画布",
+      "开放能力": "开放能力",
       "API": "API"
     }
   },

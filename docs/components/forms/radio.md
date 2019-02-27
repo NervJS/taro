@@ -3,7 +3,7 @@ title: Radio
 sidebar_label: Radio
 ---
 
-##### RadioGroup
+### RadioGroup
 ##### 单项选择器，内部由多个 `<Radio/>` 组成
 > 属性及支持度
 
@@ -13,7 +13,7 @@ sidebar_label: Radio
 | √ | √ | √ | onChange | EventHandle |  | `<RadioGroup/>` 中选中项发生改变时触发 change 事件，detail = value:[选中的 radio 的 value 的数组] |
 
 
-##### Radio
+### Radio
 ##### 单选项目
 > 属性及支持度
 
