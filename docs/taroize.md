@@ -239,7 +239,7 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
 </template>
 ```
 
-把 <template name="wxParse1"> 的模板内所有 <template is="wxParse2" data="{{item}}" /> 修改为 <template is="wxParse0" data="{{item}}" /> 再运行 taro convert 即可。这样修改之后还会取消原来 `wxParse` 只能处理 11 级 HTML 嵌套的问题，理论上内存不爆栈可以处理无限级 HTML 嵌套。
+把 `<template name="wxParse1">` 的模板内所有 `<template is="wxParse2" data="{{item}}" />` 修改为 `<template is="wxParse0" data="{{item}}" />` 再运行 `taro convert` 即可。这样修改之后还会取消原来 `wxParse` 只能处理 11 级 HTML 嵌套的问题，理论上内存不爆栈可以处理无限级 HTML 嵌套。
 
 ### 不支持 `relations` 和 `Behavior`
 
