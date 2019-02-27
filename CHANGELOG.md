@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.14...v) (2019-02-25)
+# [](https://github.com/NervJS/taro/compare/v1.2.15...v) (2019-02-27)
+
+
+
+<a name="1.2.15"></a>
+## [1.2.15](https://github.com/NervJS/taro/compare/v1.2.14...v1.2.15) (2019-02-27)
+
+
+### Bug Fixes
+
+* **cli:** 压缩js bugfix ([#2267](https://github.com/NervJS/taro/issues/2267)) ([fd83405](https://github.com/NervJS/taro/commit/fd83405))
 
 
 
