@@ -7,13 +7,24 @@ sidebar_label: Form
 
 > 属性及支持度
 
-| 微信小程序 | H5 | ReactNative | 属性值 | 类型 | 说明 |
-| :-: | :-: | :-: | :-: |:-: | :-: |
-| √ | x | x | reportSubmit | Boolean | 是否返回 formId 用于发送模板消息 |
-| √ | √ | √ | onSubmit | EventHandle | 携带 form 中的数据触发 submit 事件，event.detail = {value : {'name': 'value'}} |
-| √ | √ | x | onReset | EventHandle | 表单重置时会触发 reset 事件 |
+| H5 | ReactNative | 属性值 | 类型 | 说明 |
+| :-: | :-: | :-: |:-: | :-: |
+|  |  | reportSubmit | Boolean | 是否返回 formId 用于发送模板消息 |
+| ✔ | ✔ | onSubmit | EventHandle | 携带 form 中的数据触发 submit 事件，event.detail = {value : {'name': 'value'}} |
+| ✔ |  | onReset | EventHandle | 表单重置时会触发 reset 事件 |
+
+>其他相关属性请看各小程序官方文档
+
+[微信小程序 Form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html)。
+
+[百度小程序 Form](https://smartprogram.baidu.com/docs/develop/component/formlist/#form)。
+
+[支付宝小程序 Form](https://docs.alipay.com/mini/component/form)。
+
+[字节跳动小程序 Form](https://developer.toutiao.com/docs/comp/form.html)。
 
 
+###### 示例：
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 Form 组件
