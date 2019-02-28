@@ -546,3 +546,71 @@ export function findIdentifierFromStatement (statement: t.Node) {
   }
   return '__return'
 }
+
+let id: number = 0
+export function genCompid (): string {
+  return String(id++)
+}
+
+export function findParentLoopsIndex (callee: NodePath<t.CallExpression>): t.Identifier | t.BinaryExpression {
+  let indexId: t.Identifier | null = null
+  const [ func ] = callee.node.arguments
+  if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+    const params = func.params as t.Identifier[]
+    indexId = params[1]
+  }
+
+  if (indexId === null || !t.isIdentifier(indexId!)) {
+    throw codeFrameError(callee.node, '在循环中使用自定义组件时必须暴露循环的第二个参数 `index`')
+  }
+
+  const parentCallExpr = callee.findParent(p => p.isCallExpression())
+  if (parentCallExpr && parentCallExpr.isCallExpression()) {
+    const callee = parentCallExpr.node.callee
+    if (
+      t.isMemberExpression(callee) &&
+      t.isIdentifier(callee.property) &&
+      callee.property.name === 'map'
+    ) {
+      return t.binaryExpression(
+        '+',
+        indexId,
+        t.binaryExpression(
+          '+',
+          t.stringLiteral(''),
+          findParentLoopsIndex(parentCallExpr)
+        )
+      )
+    }
+  }
+
+  return indexId
+}
+
+export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression): t.Expression {
+  const ifAttrSet = new Set<string>([
+    Adapter.if,
+    Adapter.else
+  ])
+  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
+  if (logicalJSX) {
+    const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
+    if (attr) {
+      if (attr.name.name === Adapter.else) {
+        const prevElement: NodePath<t.JSXElement | null> = (logicalJSX as any).getPrevSibling()
+        if (prevElement && prevElement.isJSXElement()) {
+          const attr = prevElement.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+          if (attr && t.isJSXExpressionContainer(attr.value)) {
+            const condition = reverseBoolean(cloneDeep(attr.value.expression))
+            expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, condition), expr)
+          }
+        }
+      } else if (t.isJSXExpressionContainer(attr.value)) {
+        const condition = cloneDeep(attr.value.expression)
+        expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, condition), expr)
+      }
+    }
+  }
+
+  return expr
+}

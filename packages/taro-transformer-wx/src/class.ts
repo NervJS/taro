@@ -70,7 +70,7 @@ function processThisPropsFnMemberProperties (
               ]
             )
           )
-        } else {
+        } else if (Adapters.weapp !== Adapter.type) {
           path.replaceWith(
             t.callExpression(
               t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
@@ -403,12 +403,29 @@ class Transformer {
         if (!t.isJSXIdentifier(key)) {
           return
         }
+
+        const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
+
         if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
           const expr = value.expression
-          if (t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' })) {
-            self.buildPropsAnonymousFunc(attr, expr, true)
+          if (
+            t.isCallExpression(expr) &&
+            t.isMemberExpression(expr.callee) &&
+            t.isIdentifier(expr.callee.property, { name: 'bind' })
+          ) {
+            if (
+              Adapter.type !== Adapters.weapp ||
+              (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
+            ) {
+              self.buildPropsAnonymousFunc(attr, expr, true)
+            }
           } else if (t.isMemberExpression(expr)) {
-            self.buildPropsAnonymousFunc(attr, expr as any, false)
+            if (
+              Adapter.type !== Adapters.weapp ||
+              (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
+            ) {
+              self.buildPropsAnonymousFunc(attr, expr as any, false)
+            }
           } else if (t.isArrowFunctionExpression(expr)) {
             const exprPath = attr.get('value.expression')
             const stemParent = path.getStatementParent()
@@ -469,7 +486,6 @@ class Transformer {
             throw codeFrameError(path.node, '组件事件传参只能在使用匿名箭头函数，或使用类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
-        const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
         if (!jsx) return
         const jsxName = jsx.node.name
         if (!t.isJSXIdentifier(jsxName)) return
@@ -568,12 +584,14 @@ class Transformer {
     const { code } = generate(expr)
     if (code.startsWith('this.props')) {
       const methodName = findMethodName(expr)
-      const hasMethodName = this.anonymousMethod.has(methodName) || !methodName
+      const uniqueMethodName = `${methodName}${String(isBind)}`
+      const hasMethodName = this.anonymousMethod.has(uniqueMethodName) || !methodName
       const funcName = hasMethodName
-        ? this.anonymousMethod.get(methodName)!
+        ? this.anonymousMethod.get(uniqueMethodName)!
         // 测试时使用1个稳定的 uniqueID 便于测试，实际使用5个英文字母，否则小程序不支持
         : process.env.NODE_ENV === 'test' ? uniqueId('funPrivate') : `funPrivate${createRandomLetters(5)}`
-      this.anonymousMethod.set(methodName, funcName)
+      this.anonymousMethod.set(uniqueMethodName, funcName)
+
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
         : t.memberExpression(t.thisExpression(), t.identifier(funcName))
@@ -590,12 +608,34 @@ class Transformer {
       if (methodName.startsWith('on')) {
         this.componentProperies.add(`__fn_${methodName}`)
       }
-      const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
-        t.expressionStatement(t.callExpression(
-          t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-          [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
-        ))
-      ]))
+      const method = Adapters.weapp !== Adapter.type ?
+        t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
+          t.expressionStatement(t.callExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+            [t.stringLiteral(methodName), t.arrayExpression([t.spreadElement(t.identifier('arguments'))])]
+          ))
+        ])) :
+        t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
+          t.expressionStatement(t.callExpression(
+            t.memberExpression(
+              t.memberExpression(
+                t.memberExpression(t.thisExpression(), t.identifier('props')),
+                t.identifier(methodName)
+              ),
+              t.identifier('apply')
+            ),
+            [
+              isBind ? t.identifier('this') : t.identifier('undefined'),
+              t.callExpression(
+                t.memberExpression(
+                  t.memberExpression(t.memberExpression(t.identifier('Array'), t.identifier('prototype')), t.identifier('slice')),
+                  t.identifier('call')
+                ),
+                [t.identifier('arguments'), t.numericLiteral(1)]
+              )
+            ]
+          ))
+        ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
     }
   }
