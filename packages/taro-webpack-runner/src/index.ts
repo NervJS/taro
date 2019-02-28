@@ -10,10 +10,9 @@ import * as webpackMerge from 'webpack-merge'
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
-import dllConf from './config/dll.conf'
 import prodConf from './config/prod.conf'
 import { appPath, addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
-import { bindDevLogger, bindProdLogger, bindDllLogger, printBuildError } from './util/logHelper'
+import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 
 const customizeChain = (chain, customizeFunc: Function) => {
@@ -29,27 +28,6 @@ const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
     return webpackMerge({}, baseConfig, customConfig)
   }
 }, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
-
-const buildDll = async (config: BuildConfig): Promise<any> => {
-  if (config.enableDll === false) return Promise.resolve()
-  return new Promise((resolve, reject) => {
-    const webpackChain = dllConf(config)
-
-    customizeChain(webpackChain, config.dllWebpackChain)
-    
-    const webpackConfig = webpackChain.toConfig()
-    const compiler = webpack(webpackConfig)
-    bindDllLogger(compiler)
-
-    compiler.run((err) => {
-      if (err) {
-        printBuildError(err)
-        return reject(err)
-      }
-      resolve()
-    })
-  })
-}
 
 const buildProd = (config: BuildConfig): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -137,7 +115,6 @@ export default async (config: BuildConfig): Promise<void> => {
   if (config.isWatch) {
     await buildDev(config)
   } else {
-    await buildDll(config)
     await buildProd(config)
   }
 }

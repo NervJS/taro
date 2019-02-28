@@ -1,21 +1,17 @@
 import * as path from 'path';
 
-import { keys } from 'lodash';
 import { addTrailingSlash, appPath, emptyObj } from '../util';
 import {
   getCssoWebpackPlugin,
   getDefinePlugin,
   getDevtool,
-  getDllReferencePlugins,
   getEntry,
-  getHtmlWebpackIncludeAssetsPlugin,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
   getModule,
   getOutput,
   getUglifyPlugin,
-  processEnvOption,
-  getLibFiles
+  processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
@@ -31,16 +27,11 @@ export default function (config: Partial<BuildConfig>): any {
     publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
-    dllDirectory = 'lib',
-    dllEntry = {
-      lib: ['nervjs']
-    },
 
     designWidth = 750,
     deviceRatio,
     enableSourceMap = false,
     enableExtract = true,
-    enableDll = true,
 
     defineConstants = emptyObj,
     env = emptyObj,
@@ -86,20 +77,6 @@ export default function (config: Partial<BuildConfig>): any {
 
   if (isCssoEnabled) {
     plugin.cssoWebpackPlugin = getCssoWebpackPlugin([plugins.csso ? plugins.csso.config : {}])
-  }
-
-  if (enableDll) {
-    Object.assign(plugin, getDllReferencePlugins({
-      outputRoot,
-      dllDirectory,
-      dllEntry
-    }))
-    if (keys(dllEntry).length) {
-      plugin.addAssetHtmlWebpackPlugin = getHtmlWebpackIncludeAssetsPlugin({
-        append: false,
-        assets: getLibFiles({ dllEntry, dllDirectory, outputRoot })
-      })
-    }
   }
 
   const mode = 'production'

@@ -21,7 +21,7 @@ const printCompiling = () => {
 const printBuildError = (err: Error): void => {
   const message = err.message
   const stack = err.stack
-  if (stack && typeof message === 'string' && message.indexOf('from UglifyJs') !== -1) {
+  if (stack && message.indexOf('from UglifyJs') !== -1) {
     try {
       const matched = /(.+)\[(.+):(.+),(.+)\]\[.+\]/.exec(stack)
       if (!matched) {
@@ -155,21 +155,10 @@ const bindProdLogger = (compiler) => {
   return compiler
 }
 
-const bindDllLogger = (compiler) => {
-  console.log()
-  pipe(
-    printWhenBeforeCompile,
-    printWhenDone,
-    printWhenFailed
-  )(compiler)
-  return compiler
-}
-
 export {
   printBuildError,
   printCompiling,
   getServeSpinner,
   bindDevLogger,
-  bindProdLogger,
-  bindDllLogger
+  bindProdLogger
 }
