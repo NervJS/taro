@@ -41,7 +41,9 @@
       "mobx",
       "wx-third-party",
       "wx-hybrid",
-      "css-modules"
+      "css-modules",
+      "debug",
+      "CONTRIBUTING"
     ]
   },
   "components": {
