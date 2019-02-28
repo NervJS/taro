@@ -79,15 +79,13 @@
       "components/media/audio",
       "components/media/image",
       "components/media/video",
-      "components/media/camera",
-      "components/media/live-player",
-      "components/media/live-pusher"
+      "components/media/camera"
     ],
     "地图": ["components/maps/map"],
     "画布": ["components/canvas/canvas"],
     "开放能力": [
-      "components/open/open-data",
-      "components/open/web-view"
+      "components/open/web-view",
+      "components/open/open-data"
     ]
   },
   "api": {

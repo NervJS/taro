@@ -126,8 +126,8 @@
         "sidebar_label": "Navigator"
       },
       "components/open/open-data": {
-        "title": "OpenData",
-        "sidebar_label": "OpenData"
+        "title": "其他",
+        "sidebar_label": "其他"
       },
       "components/open/web-view": {
         "title": "WebView",
