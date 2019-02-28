@@ -3,6 +3,7 @@ import { getCurrentPageUrl } from '@tarojs/utils'
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
+import propsManager from './propsManager'
 
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
@@ -14,16 +15,7 @@ const preloadInitedComponent = '$preloadComponent'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
 
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
-  weappComponentConf.properties = ComponentClass.properties || {}
-  const defaultProps = ComponentClass.defaultProps || {}
-  for (const key in defaultProps) {
-    if (defaultProps.hasOwnProperty(key)) {
-      weappComponentConf.properties[key] = {
-        type: null,
-        value: null
-      }
-    }
-  }
+  weappComponentConf.properties = {}
   if (isPage) {
     weappComponentConf.properties[routerParamsPrivateKey] = {
       type: null,
@@ -43,18 +35,9 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
       }
     }
   }
-  // 拦截props的更新，插入生命周期
-  // 调用小程序setData或会造成性能消耗
-  weappComponentConf.properties[privatePropValName] = {
+  weappComponentConf.properties.compid = {
     type: null,
-    observer: function () {
-      if (!this.$component || !this.$component.__isReady) return
-      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
-      this.$component.props = nextProps
-      this.$component._unsafeCallUpdate = true
-      updateComponent(this.$component)
-      this.$component._unsafeCallUpdate = false
-    }
+    value: null
   }
 }
 
@@ -188,23 +171,11 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
-  let newProps = Object.assign({}, componentProps)
+export function filterProps (properties, defaultProps = {}, componentProps) {
+  let newProps = {}
   for (const propName in properties) {
-    if (propName === privatePropValName) {
-      continue
-    }
-    if (typeof componentProps[propName] === 'function') {
+    if (propName in componentProps) {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData) {
-      newProps[propName] = weappComponentData[propName]
-    }
-    if (componentFnReg.test(propName)) {
-      if (weappComponentData[propName] === true) {
-        const fnName = propName.replace(componentFnReg, '')
-        newProps[fnName] = noop
-      }
-      delete newProps[propName]
     }
   }
   if (!isEmptyObject(defaultProps)) {
@@ -251,6 +222,12 @@ export function componentTrigger (component, key, args) {
     }
   }
 
+  if (key === 'componentWillUnmount') {
+    component.unmounting = true
+    const compid = component.$scope.data.compid
+    if (compid) propsManager.delete(compid)
+  }
+
   component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
   if (key === 'componentWillMount') {
     component._dirty = false
@@ -283,7 +260,12 @@ function initComponent (ComponentClass, isPage) {
   // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
   // 动态组件执行改造函数副本的时,在初始化数据前计算好props
   if (!isPage) {
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
+    const compid = this.data.compid
+    propsManager.observers[compid] = {
+      component: this.$component,
+      ComponentClass
+    }
+    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, propsManager.map[compid])
     this.$component.props = nextProps
   } else {
     this.$component.$router.path = getCurrentPageUrl()
@@ -292,9 +274,7 @@ function initComponent (ComponentClass, isPage) {
 }
 
 function createComponent (ComponentClass, isPage) {
-  let initData = {
-    _componentProps: 1
-  }
+  let initData = {}
   const componentProps = filterProps({}, ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
