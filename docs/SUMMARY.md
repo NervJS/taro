@@ -139,6 +139,6 @@
   * [使用 Mobx](mobx.md)
   * [使用微信小程序第三方组件](wx-third-party.md)
   * [Taro 代码与微信小程序代码混写](wx-hybrid.md)
-  * [技术原理](principle.md)
   * [Debug 指南](debug.md)
   * [贡献指南](CONTRIBUTING.md)
+  * [技术原理](principle.md)
