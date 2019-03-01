@@ -413,6 +413,17 @@ export default function transform (options: Options): TransformResult {
           }
         }
       }
+
+      // Feature
+      global.customElementContainers && global.customElementContainers.map(function (item, index) {
+        item === name && global.customElementProps.push({
+            name: item,
+            child: '',
+            props: path.node.attributes.map(function (attrItem, attrIndex) {
+                return attrItem.name.name;
+            })
+        })
+      })
     },
     JSXAttribute (path) {
       const { name, value } = path.node
@@ -459,6 +470,19 @@ export default function transform (options: Options): TransformResult {
 
         // @TODO: bind 的处理待定
       }
+    },
+    // Feature
+    JSXSpreadAttribute(path) {
+      // childElement
+      const spreadName = path.parentPath.parent.openingElement.name.name;
+      const classDeclaration = path.findParent(p => p.isClassDeclaration());
+      // parentElement
+      const containerName = classDeclaration.node.id.name;
+      global.customElementProps.map(function (item, index) {
+        if (item.name === containerName) {
+            item.child = spreadName;
+        }
+      })
     },
     ImportDeclaration (path) {
       const source = path.node.source.value

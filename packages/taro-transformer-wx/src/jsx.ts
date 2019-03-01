@@ -166,7 +166,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   const componentTransfromProps = TRANSFORM_COMPONENT_PROPS.get(Adapter.type)
   let hasElseAttr = false
   attributes.forEach((a, index) => {
-    if (a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
+    if (a.name && a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
       hasElseAttr = true
       attributes.splice(index, 1)
     }
@@ -184,7 +184,19 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
-        throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
+        // Wolverine
+        if (attr.argument.property.name === 'props') {
+          // TODO Spread 语法转换
+          // spreadAttributes => obj['key'] = '{{key}}'
+          global.customElementProps.map(function (item, index) {
+              item.child === componentName && item.props.map(function (propItem, index) {
+                  obj[propItem] = `{{${propItem}}}`;
+              })
+          })
+          return obj;
+        } else {
+            throw utils_1.codeFrameError(attr.loc, 'JSX 参数暂不支持非props的 ...spread 表达式');
+        }
       }
       let name = attr.name.name
       if (DEFAULT_Component_SET.has(componentName)) {

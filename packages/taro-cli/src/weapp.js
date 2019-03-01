@@ -1091,6 +1091,29 @@ async function buildCustomTabbar () {
   })
 }
 
+// Feature
+function buildCustomElementContainer() {
+  [global.customElementProps, global.customElementContainers] = [[], []];
+  // src
+  obtainCustomElements('pages');
+  // components
+  obtainCustomElements('components');
+}
+
+// Feature
+function obtainCustomElements(pathName) {
+  const elements = path.join(process.cwd(), 'src', pathName);
+  const elementsList = fs.readdirSync(elements);
+  elementsList.forEach(function (file) {
+      const filePath = elements + '/' + file + '/' + file + '.js';
+      // TODO regularExpression
+      if (fs.existsSync(filePath) && fs.readFileSync(filePath).indexOf('...this.props') !== -1) {
+          // obtainCustomElements
+          global.customElementContainers.push(file.replace(/\b[a-z]/g, char => char.toUpperCase()));
+      }
+  })
+}
+
 async function buildEntry () {
   Util.printLog(Util.pocessTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
@@ -2206,6 +2229,8 @@ async function build ({ watch, adapter }) {
   await buildFrameworkInfo()
   copyFiles()
   appConfig = await buildEntry()
+  // Feature
+  await buildCustomElementContainer();
   await buildPages()
   if (watch) {
     watchFiles()
