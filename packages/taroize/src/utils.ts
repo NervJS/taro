@@ -13,6 +13,25 @@ export function isAliasThis (p: NodePath<t.Node>, name: string) {
   return false
 }
 
+export function isValidVarName (str: string) {
+  if (typeof str !== 'string') {
+    return false
+  }
+
+  if (str.trim() !== str) {
+    return false
+  }
+
+  try {
+    // tslint:disable-next-line:no-unused-expression
+    new Function(str, 'var ' + str)
+  } catch (e) {
+    return false
+  }
+
+  return true
+}
+
 export function parseCode (code: string) {
   return (transform(code, {
     parserOpts: {
