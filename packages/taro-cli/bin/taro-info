@@ -16,7 +16,7 @@ if (args.length === 1) {
   switch (args[0]) {
     case 'rn': {
       rnInfo({
-        SDKs: ['iOS SDK', 'Android SDK']
+        // SDKs: ['iOS SDK', 'Android SDK'] 有bug ,卡死？
       })
       break
     }
