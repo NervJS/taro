@@ -2,7 +2,8 @@ import {
   onAndSyncApis,
   noPromiseApis,
   otherApis,
-  initPxTransform
+  initPxTransform,
+  Link
 } from '@tarojs/taro'
 
 const apiDiff = {
@@ -186,6 +187,12 @@ const RequestQueue = {
     }
   }
 }
+
+function taroInterceptor (chain) {
+  return request(chain.requestParams)
+}
+
+const link = new Link(taroInterceptor)
 
 function request (options) {
   options = options || {}
@@ -405,7 +412,8 @@ function generateSpecialApis (api, options) {
 
 export default function initNativeApi (taro) {
   processApis(taro)
-  taro.request = request
+  taro.request = link.request.bind(link)
+  taro.addInterceptor = link.addInterceptor.bind(link)
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)
