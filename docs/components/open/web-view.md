@@ -7,18 +7,27 @@ sidebar_label: WebView
 
 > 组件 支持度
 
-| 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: |
-| ✔️ | x | x |
+| H5 | ReactNative |
+| :-: | :-: |
+| ✔ | x |
 
-小程序全部支持，属性参考[web-view](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)。属性值请改写为驼峰式命名。
+
+>其他相关属性请看各小程序官方文档
+
+[微信小程序 WebView](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)。
+
+[百度小程序 WebView](https://smartprogram.baidu.com/docs/develop/component/open/#web-view)。
+
+[支付宝小程序 WebView](https://docs.alipay.com/mini/component/web-view)。
+
+[字节跳动小程序 WebView](https://developer.toutiao.com/docs/comp/web-view.html)。
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 WebView 组件
 import { WebView } from '@tarojs/components'
 
-class App extends Components {
+class App extends Component {
   render () {
     return (
       <WebView src='https://mp.weixin.qq.com/'  />

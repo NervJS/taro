@@ -190,6 +190,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 
 export function componentTrigger (component, key, args) {
   args = args || []
+  component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -200,7 +201,6 @@ export function componentTrigger (component, key, args) {
     component._pendingStates = []
     component._pendingCallbacks = []
   }
-  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
@@ -279,21 +279,33 @@ function createComponent (ComponentClass, isPage) {
         const component = this.$component
         if (component['$$refs'] && component['$$refs'].length > 0) {
           let refs = {}
-          component['$$refs'].forEach(ref => {
-            let target
+          const refComponents = component['$$refs'].map(ref => new Promise((resolve, reject) => {
             const query = tt.createSelectorQuery().in(this)
             if (ref.type === 'component') {
-              target = this.selectComponent(`#${ref.id}`)
-              target = target.$component || target
+              this.selectComponent(`#${ref.id}`, target => {
+                resolve({
+                  target: target.$component || target,
+                  ref
+                })
+              })
             } else {
-              target = query.select(`#${ref.id}`)
+              resolve({
+                target: query.select(`#${ref.id}`),
+                ref
+              })
             }
-            if ('refName' in ref && ref['refName']) {
-              refs[ref.refName] = target
-            } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-              ref['fn'].call(component, target)
-            }
-            ref.target = target
+          }))
+          Promise.all(refComponents).then(targets => {
+            targets.forEach(({ ref, target }) => {
+              if ('refName' in ref && ref['refName']) {
+                refs[ref.refName] = target
+              } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+                ref['fn'].call(component, target)
+              }
+              ref.target = target
+            })
+          }).catch(err => {
+            console.error(err)
           })
           component.refs = Object.assign({}, component.refs || {}, refs)
         }
@@ -318,7 +330,7 @@ function createComponent (ComponentClass, isPage) {
         weappComponentConf[fn] = function () {
           const component = this.$component
           if (component[fn] && typeof component[fn] === 'function') {
-            return component[fn].call(component, ...arguments)
+            return component[fn](...arguments)
           }
         }
       }

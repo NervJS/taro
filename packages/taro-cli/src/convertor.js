@@ -36,7 +36,7 @@ const babylonConfig = require('./config/babylon')
 const prettierJSConfig = {
   semi: false,
   singleQuote: true,
-  parser: 'babylon'
+  parser: 'babel'
 }
 
 const OUTPUT_STYLE_EXTNAME = '.scss'

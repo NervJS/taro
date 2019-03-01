@@ -1,7 +1,7 @@
 import * as t from 'babel-types'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
 import * as template from 'babel-template'
-import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode } from './utils'
+import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode, isAliasThis } from './utils'
 import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 import { usedComponents } from './global'
@@ -127,16 +127,25 @@ function parsePage (
       }
       if (callee.isMemberExpression()) {
         const object = callee.get('object')
+        const property = callee.get('property')
         if (object.isIdentifier()) {
-          const methodName = object.node.name
-          const hooks = ['onLoad', 'onShow', 'onReady', 'onHide', 'onUnload', 'onError', 'onLaunch']
-          hooks.forEach(hook => {
-            if (methodName === hook) {
-              object.replaceWith(t.identifier(PageLifecycle.get(methodName)!))
-            }
-          })
-          if (methodName === 'wx') {
+          const objectName = object.node.name
+          if (objectName === 'wx') {
             object.replaceWith(t.identifier('Taro'))
+          }
+        }
+
+        let isThis = property.isThisExpression()
+
+        if (property.isIdentifier() && object.isIdentifier()) {
+          const propertyName = property.node.name
+          const objectName = object.node.name
+          if (PageLifecycle.has(propertyName) && isAliasThis(property, objectName)) {
+            isThis = true
+          }
+
+          if (isThis && PageLifecycle.has(propertyName)) {
+            property.replaceWith(t.identifier(PageLifecycle.get(propertyName)))
           }
         }
       }

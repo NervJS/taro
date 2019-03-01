@@ -290,8 +290,8 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
 } {
   if (!parseImport) {
     errors.length = 0
+    usedComponents.clear()
   }
-  usedComponents.clear()
   usedComponents.add('Block')
   let wxses: WXS[] = []
   let imports: Imports[] = []

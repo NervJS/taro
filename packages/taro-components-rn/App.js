@@ -89,6 +89,7 @@ export default class App extends Component {
         onScroll={(e) => {
           console.log('onScroll', e)
         }}
+        // scrollX={true}
       >
         <Text>Welcome to React Native!</Text>
 
@@ -101,6 +102,15 @@ export default class App extends Component {
         <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
 
         <EXAudio />
+
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
+          <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+          <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+          <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+          <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+          <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+          <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+        </View>
 
         <View
           hoverStyle={{ backgroundColor: 'green' }}

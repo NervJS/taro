@@ -941,12 +941,15 @@ function copyFilesFromSrcToOutput (files) {
       Util.printLog(Util.pocessTypeEnum.ERROR, '文件', `${modifySrc} 不存在`)
     } else {
       fs.ensureDir(path.dirname(outputFilePath))
+      if (file === outputFilePath) {
+        return
+      }
       fs.copySync(file, outputFilePath)
     }
   })
 }
 
-const babelConfig = _.mergeWith(defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
+const babelConfig = _.mergeWith({}, defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
   if (Array.isArray(objValue)) {
     return Array.from(new Set(srcValue.concat(objValue)))
   }
@@ -961,7 +964,10 @@ const shouldTransformAgain = (function () {
 })()
 
 async function compileScriptFile (content, sourceFilePath, outputFilePath, adapter) {
-  const compileScriptRes = await npmProcess.callPlugin('babel', content, entryFilePath, babelConfig)
+  if (NODE_MODULES_REG.test(sourceFilePath) && fs.existsSync(outputFilePath)) {
+    return fs.readFileSync(outputFilePath).toString()
+  }
+  const compileScriptRes = await npmProcess.callPlugin('babel', content, sourceFilePath, babelConfig)
   const code = compileScriptRes.code
   if (!shouldTransformAgain) {
     return code
@@ -1001,7 +1007,10 @@ function buildProjectConfig () {
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)
 
-  if (!fs.existsSync(projectConfigPath)) return
+  if (!fs.existsSync(projectConfigPath)) {
+    projectConfigPath = path.join(sourceDir, projectConfigFileName)
+    if (!fs.existsSync(projectConfigPath)) return
+  }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
   if (buildAdapter === Util.BUILD_TYPES.TT) {
@@ -1970,7 +1979,13 @@ function copyFileSync (from, to, options) {
   const filename = path.basename(from)
   if (fs.statSync(from).isFile() && !path.extname(to)) {
     fs.ensureDir(to)
+    if (from === path.join(to, filename)) {
+      return
+    }
     return fs.copySync(from, path.join(to, filename), options)
+  }
+  if (from === to) {
+    return
   }
   fs.ensureDir(path.dirname(to))
   return fs.copySync(from, to, options)
@@ -2034,7 +2049,7 @@ function watchFiles () {
       const extname = path.extname(filePath)
       // 编译JS文件
       if (Util.REG_SCRIPT.test(extname) || Util.REG_TYPESCRIPT.test(extname)) {
-        if (filePath.indexOf(entryFileName) >= 0) {
+        if (entryFilePath === filePath) {
           Util.printLog(Util.pocessTypeEnum.MODIFY, '入口文件', `${sourceDirName}/${entryFileName}.js`)
           const config = await buildEntry()
           // TODO 此处待优化

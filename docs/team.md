@@ -38,6 +38,6 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=120&v=4)](https://github.com/nanjingboy/)
-:---:
-[nanjingboy](https://github.com/nanjingboy/)
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/)
+:---:|:---:
+[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/)

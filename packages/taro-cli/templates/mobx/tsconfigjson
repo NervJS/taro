@@ -18,10 +18,15 @@
     "jsx": "preserve",
     "jsxFactory": "Taro.createElement",
     "allowJs": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types",
       "global.d.ts"
     ]
   },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "compileOnSave": false
 }

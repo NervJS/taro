@@ -183,7 +183,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     jsx.remove()
     return imports
   } else {
-    const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type))
+    const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type), true)
     const block = buildBlockElement()
     try {
       if (wxml) {

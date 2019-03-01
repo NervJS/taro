@@ -251,6 +251,12 @@ export function componentTrigger (component, key, args) {
     }
   }
 
+  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
+  if (key === 'componentWillMount') {
+    component._dirty = false
+    component._disable = false
+    component.state = component.getState()
+  }
   if (key === 'componentWillUnmount') {
     component._dirty = true
     component._disable = true
@@ -260,14 +266,6 @@ export function componentTrigger (component, key, args) {
     }
     component._pendingStates = []
     component._pendingCallbacks = []
-  }
-  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
-  if (key === 'componentWillMount') {
-    component._dirty = false
-    component._disable = false
-    component.state = component.getState()
-  }
-  if (key === 'componentWillUnmount') {
     // refs
     if (component['$$refs'] && component['$$refs'].length > 0) {
       component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))

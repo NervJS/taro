@@ -180,7 +180,7 @@ Taro 将会开始编译文件：
 
 一旦 app 在 expo 中成功打开，你可以通过摇一摇设备来唤起开发者菜单， 如果你是用模拟器，你可以按 `⌘+d` （iOS） 或 `ctrl+m` （Android）。
 
-![image](https://docs.expo.io/static/images/generated/v29.0.0/workflow/developer-menu.png)
+![image](https://docs.expo.io/static/images/developer-menu.png)
 
 更多资料可以查看[Expo 文档——up-and-running](https://docs.expo.io/versions/v29.0.0/workflow/up-and-running)。
 

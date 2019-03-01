@@ -42,6 +42,23 @@ export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
   }
 }
 
+export function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
+  let matched = false
+  if (path) {
+    path.traverse({
+      Identifier (p) {
+        if (
+          p.node.name === 'stopPropagation' &&
+          p.parentPath.parentPath.isCallExpression()
+        ) {
+          matched = true
+        }
+      }
+    })
+  }
+  return matched
+}
+
 export function decodeUnicode (s: string) {
   return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
 }
@@ -123,12 +140,12 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
           if (prevElement && prevElement.isJSXElement()) {
             const attr = prevElement.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
             if (attr && t.isJSXExpressionContainer(attr.value)) {
-              expr = t.conditionalExpression(reverseBoolean(attr.value.expression), expr, t.arrayExpression())
+              expr = t.conditionalExpression(reverseBoolean(cloneDeep(attr.value.expression)), expr, t.arrayExpression())
               return expr
             }
           }
         } else if (t.isJSXExpressionContainer(attr.value)) {
-          expr = t.conditionalExpression(attr.value.expression, expr, t.arrayExpression())
+          expr = t.conditionalExpression(cloneDeep(attr.value.expression), expr, t.arrayExpression())
           return expr
         }
       }
@@ -137,13 +154,13 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
   if (conditionExpr && conditionExpr.isConditionalExpression()) {
     const consequent = conditionExpr.get('consequent')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(conditionExpr.get('test').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+      expr = t.conditionalExpression(cloneDeep(conditionExpr.get('test').node) as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
     }
   }
   if (logicExpr && logicExpr.isLogicalExpression({ operator: '&&' })) {
     const consequent = logicExpr.get('right')
     if (consequent === jsx || jsx.findParent(p => p === consequent)) {
-      expr = t.conditionalExpression(logicExpr.get('left').node as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
+      expr = t.conditionalExpression(cloneDeep(logicExpr.get('left').node) as any, expr, array ? t.arrayExpression([]) : t.nullLiteral())
     }
   }
   return expr
@@ -174,7 +191,7 @@ export function generateAnonymousState (
       blockStatement.traverse({
         VariableDeclarator: (p) => {
           const { id, init } = p.node
-          if (t.isIdentifier(id)) {
+          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE)) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
               if (refId.name === variableName && !variableName.startsWith('_$')) {
@@ -201,7 +218,26 @@ export function generateAnonymousState (
           t.returnStatement(func.body)
         ])
       } else {
-        func.body.body.splice(func.body.body.length - 1, 0, buildConstVariableDeclaration(variableName, expr))
+        if (ifExpr && ifExpr.isIfStatement()) {
+          const consequent = ifExpr.get('consequent')
+          const test = ifExpr.get('test')
+          if (consequent.isBlockStatement()) {
+            if (jsx === test || jsx.findParent(p => p === test)) {
+              func.body.body.unshift(buildConstVariableDeclaration(variableName, expr))
+            } else {
+              func.body.body.unshift(t.variableDeclaration('let', [t.variableDeclarator(t.identifier(variableName), t.nullLiteral())]))
+              consequent.node.body.unshift(t.expressionStatement(t.assignmentExpression(
+                '=',
+                t.identifier(variableName),
+                expr
+              )))
+            }
+          } else {
+            throw codeFrameError(consequent.node, 'if 表达式的结果必须由一个花括号包裹')
+          }
+        } else {
+          func.body.body.splice(func.body.body.length - 1, 0, buildConstVariableDeclaration(variableName, expr))
+        }
       }
     }
   }

@@ -5,12 +5,17 @@ sidebar_label: RichText
 
 ##### 富文本
 
-> 组件 支持度
+> 属性
 
-| 微信小程序 | H5 | ReactNative | 属性名 | 类型 | 默认值 | 说明
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| ✔️ | √ | √ | nodes | Array / String | [] | 节点列表 / HTML String
+| 属性名 | 类型 | 默认值 | 说明 |
+| :- | :- | :- | :- |
+| nodes | Array / String | [] | 节点列表 / HTML String
 
+>各端支持度
+
+| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
+| :-: | :-: | :-: | :- | :- | :- | :- |
+| nodes | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
 ###### 示例：
 ```jsx
 import Taro, { Component } from '@tarojs/taro'

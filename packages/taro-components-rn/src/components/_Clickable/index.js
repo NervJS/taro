@@ -205,6 +205,27 @@ export default function (WrappedComponent: React.ComponentType<*>) {
         )
       }
 
+      if (WrappedComponent.name === '_View') {
+        return (
+          <WrappedComponent
+            {...omit(this.props, [
+              'style',
+              'hoverStyle',
+              'hoverStartTime',
+              'hoverStayTime',
+              'onClick',
+              'onLongPress',
+              'onTouchstart',
+              'onTouchmove',
+              'onTouchcancel',
+              'onTouchend'
+            ])}
+            {...this.panResponder.panHandlers}
+            style={[style, isHover && hoverStyle]}
+          />
+        )
+      }
+
       const dismember = dismemberStyle(style)
       const hoverStyleDismember = isHover ? dismemberStyle(hoverStyle) : {}
 

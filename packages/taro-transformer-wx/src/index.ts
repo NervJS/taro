@@ -146,7 +146,6 @@ export default function transform (options: Options): TransformResult {
     setLoopOriginal('privateOriginal')
   }
   THIRD_PARTY_COMPONENTS.clear()
-  setTransformOptions(options)
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
@@ -156,6 +155,7 @@ export default function transform (options: Options): TransformResult {
     })
     : options.code
   options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
+  setTransformOptions(options)
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
@@ -549,12 +549,12 @@ export default function transform (options: Options): TransformResult {
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
-  result.template = result.template.replace(lessThanSignReg, '<')
   result.compressedTemplate = result.template
   result.template = prettyPrint(result.template, {
     max_char: 0,
     unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
   })
+  result.template = result.template.replace(lessThanSignReg, '<')
   result.imageSrcs = Array.from(imageSource)
   return result
 }
