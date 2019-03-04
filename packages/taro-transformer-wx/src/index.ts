@@ -386,7 +386,7 @@ export default function transform (options: Options): TransformResult {
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       const binding = path.scope.getBinding(name)
-      if (DEFAULT_Component_SET.has(name) && binding && binding.kind === 'module') {
+      if (process.env.NODE_ENV !== 'test' && DEFAULT_Component_SET.has(name) && binding && binding.kind === 'module') {
         const bindingPath = binding.path
         if (bindingPath.parentPath.isImportDeclaration()) {
           const source = bindingPath.parentPath.node.source
