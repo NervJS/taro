@@ -102,23 +102,47 @@ defineConstants: {
 ```js
 import A from '../../componnets/A'
 import Utils from '../../utils'
+import packageJson from '../../package.json'
+import projectConfig from '../../project.config.json'
 ```
 
 为了避免书写多级相对路径，我们可以如下配置 `alias`：
 
 ```js
 alias: {
-  '@components': path.resolve(__dirname, '..', 'src/components'),
-  '@utils': path.resolve(__dirname, '..', 'src/utils')
+  '@/components': path.resolve(__dirname, '..', 'src/components'),
+  '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+  '@/package': path.resolve(__dirname, '..', 'package.json'),
+  '@/project': path.resolve(__dirname, '..', 'project.config.json'),
 }
 ```
 
-通过上述配置，可以将 `src` 、`src/components` 以及 `src/utils` 目录配置成别名，则代码中的引用改写如下：
+通过上述配置，可以将 `src/components` 和 `src/utils` 目录配置成别名，将根目录下的 `package.json` 和 `project.config.json` 文件配置成别名，则代码中的引用改写如下：
 
 ```js
-import A from '@components/A'
-import Utils from '@utils'
+import A from '@/components/A'
+import Utils from '@/utils'
+import packageJson from '@/package'
+import projectConfig from '@/project'
 ```
+
+为了让编辑器（VS Code）不报错，并继续使用自动路径补全的功能，需要在项目根目录下的 `jsconfig.json` 或者 `tsconfig.json` 中配置 `paths` 让编辑器认得我们的别名，形式如下：
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/package": ["./package.json"],
+      "@/project": ["./project.config.json"],
+    }
+  }
+}
+```
+
+*建议别名使用 `@/` 开头而非仅用 `@` 开头，因为有小概率会与某些 `scoped` 形式的 `npm` 包（行如：[@tarojs/taro](https://npm.im/@tarojs/taro), [@babel/core](https://npm.im/@babel/core)）产生命名冲突。*
 
 ## copy
 

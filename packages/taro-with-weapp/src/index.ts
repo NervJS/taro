@@ -83,7 +83,8 @@ export default function withWeapp (componentType: string) {
       if (typeof eventName !== 'string') {
         throw new Error('triggerEvent 第一个参数必须是字符串')
       }
-      super.$scope.triggerEvent(eventName.toLowerCase(), ...args)
+      const fullEventName = `on${eventName}`
+      this.$scope.triggerEvent(fullEventName.toLowerCase(), ...args)
     }
 
     componentWillReceiveProps (nextProps) {

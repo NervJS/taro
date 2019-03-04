@@ -458,6 +458,27 @@ declare namespace Taro {
 
   function pxTransform(size: number): string
 
+  interface RequestParams {
+    [propName: string]: any
+  }
+
+  type interceptor = (chain: Chain) => any
+
+  interface Chain {
+    index: number
+    requestParams: RequestParams
+    interceptors: interceptor[]
+    proceed(requestParams: RequestParams): any
+  }
+
+  namespace interceptors {
+    function logInterceptor (chain: Chain): Promise<any>
+
+    function timeoutInterceptor (chain: Chain): Promise<any>
+  }
+
+  function addInterceptor (interceptor: interceptor): any
+
   /**
    * 小程序引用插件 JS 接口
    */
@@ -971,7 +992,7 @@ declare namespace Taro {
 
   namespace connectSocket {
     type Promised = SocketTask;
-    
+
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名

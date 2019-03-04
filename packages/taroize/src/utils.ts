@@ -3,6 +3,34 @@ import * as t from 'babel-types'
 import { transform } from 'babel-core'
 import { codeFrameColumns } from '@babel/code-frame'
 import { camelCase, capitalize } from 'lodash'
+import { NodePath } from 'babel-traverse'
+
+export function isAliasThis (p: NodePath<t.Node>, name: string) {
+  const binding = p.scope.getBinding(name)
+  if (binding) {
+    return binding.path.isVariableDeclarator() && binding.path.get('init').isThisExpression()
+  }
+  return false
+}
+
+export function isValidVarName (str: string) {
+  if (typeof str !== 'string') {
+    return false
+  }
+
+  if (str.trim() !== str) {
+    return false
+  }
+
+  try {
+    // tslint:disable-next-line:no-unused-expression
+    new Function(str, 'var ' + str)
+  } catch (e) {
+    return false
+  }
+
+  return true
+}
 
 export function parseCode (code: string) {
   return (transform(code, {
@@ -65,7 +93,12 @@ export function buildRender (
     ) as any)
     if (typeof templateType === 'string') {
       patterns = t.objectPattern([
-        t.objectProperty(t.identifier('data'), t.identifier(templateType)) as any
+        t.objectProperty(
+          t.identifier('data'),
+          templateType === 'wxParseData'
+            ? t.objectPattern([t.objectProperty(t.identifier('wxParseData'), t.identifier('wxParseData')) as any]) as any
+            : t.identifier(templateType)
+        ) as any
       ])
     } else if (Array.isArray(templateType)) {
       patterns = t.objectPattern([

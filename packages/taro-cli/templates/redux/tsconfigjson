@@ -18,6 +18,7 @@
     "jsx": "preserve",
     "jsxFactory": "Taro.createElement",
     "allowJs": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
     ]

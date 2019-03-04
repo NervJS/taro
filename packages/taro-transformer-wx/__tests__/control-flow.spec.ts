@@ -2,6 +2,217 @@ import transform from '../src'
 import { buildComponent, baseOptions, evalClass, prettyPrint } from './utils'
 
 describe('if statement', () => {
+  describe('循环中使用 if', () => {
+    test('简单情况', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return <Container>{
+          tasks.map((item) => {
+            if (item === 0) {
+              return <Image />
+            }
+
+            return <Video />
+          })
+        }</Container>
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <container __triggerObserer=\"{{ _triggerObserer }}\">
+              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                  <block wx:if=\"{{item.$original === 0}}\">
+                      <image/>
+                  </block>
+                  <video wx:else></video>
+              </block>
+          </container>
+      </block>
+      `))
+    })
+
+    test('两个嵌套的 ifStatement', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return <Container>{
+          tasks.map((item) => {
+            if (item === 0) {
+              return <Image />
+            } else if (item === 1) {
+              return <Test />
+            }
+
+            return <Video />
+          })
+        }</Container>
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <container __triggerObserer=\"{{ _triggerObserer }}\">
+              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                  <block wx:if=\"{{item.$original === 0}}\">
+                      <image/>
+                  </block>
+                  <block wx:elif=\"{{item.$original === 1}}\">
+                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
+                  </block>
+                  <video wx:else></video>
+              </block>
+          </container>
+      </block>
+      `))
+    })
+
+    test('if 之外 没有 reuturn 语句', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return <Container>{
+          tasks.map((item) => {
+            if (item === 0) {
+              return <Image />
+            } else if (item === 1) {
+              return <Test />
+            }
+          })
+        }</Container>
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <container __triggerObserer=\"{{ _triggerObserer }}\">
+              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                  <block wx:if=\"{{item.$original === 0}}\">
+                      <image/>
+                  </block>
+                  <block wx:elif=\"{{item.$original === 1}}\">
+                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
+                  </block>
+                  <block wx:else></block>
+              </block>
+          </container>
+      </block>
+      `))
+    })
+
+    test('if 的 test 函数复杂表达式', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return <Container>{
+          tasks.map((item) => {
+            if (item.includes(0)) {
+              return <Image />
+            } else if (item === 1) {
+              return <Test />
+            }
+          })
+        }</Container>
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <container __triggerObserer=\"{{ _triggerObserer }}\">
+              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                  <block wx:if=\"{{item.$loopState__temp2}}\">
+                      <image/>
+                  </block>
+                  <block wx:elif=\"{{item.$original === 1}}\">
+                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
+                  </block>
+                  <block wx:else></block>
+              </block>
+          </container>
+      </block>
+      `))
+    })
+
+    test('if 的 block 含有复杂表达式', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return <Container>{
+          tasks.map((item) => {
+            if (item.includes(0)) {
+              return <Image src={JSON.stringify(item)}/>
+            } else if (item === 1) {
+              return <Test />
+            }
+          })
+        }</Container>
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <container __triggerObserer=\"{{ _triggerObserer }}\">
+              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                  <block wx:if=\"{{item.$loopState__temp2}}\">
+                    <image src=\"{{item.$loopState__temp4}}\" />
+                  </block>
+                  <block wx:elif=\"{{item.$original === 1}}\">
+                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
+                  </block>
+                  <block wx:else></block>
+              </block>
+          </container>
+      </block>
+      `))
+    })
+
+    test('平级的 if statement', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        const tasks = []
+        return <Container>{
+          tasks.map((item) => {
+            if (item.includes(0)) {
+              return <Image src={JSON.stringify(item)}/>
+            }
+            if (item === 1) {
+              return <Test />
+            }
+          })
+        }</Container>
+        `)
+      })
+
+      expect(template).toMatch(prettyPrint(`
+      <block>
+          <container __triggerObserer=\"{{ _triggerObserer }}\">
+              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+                  <block wx:if=\"{{item.$loopState__temp2}}\">
+                    <image src=\"{{item.$loopState__temp4}}\" />
+                  </block>
+                  <block wx:if=\"{{item.$original === 1}}\">
+                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
+                  </block>
+                  <block wx:else></block>
+              </block>
+          </container>
+      </block>
+      `))
+    })
+  })
   test('简单情况', () => {
     const { template, ast,code } = transform({
       ...baseOptions,

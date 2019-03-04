@@ -1,3 +1,4 @@
+import { Link } from '@tarojs/taro'
 import jsonpRetry from 'jsonp-retry'
 import 'whatwg-fetch'
 import { serializeParams } from '../utils'
@@ -11,7 +12,15 @@ function generateRequestUrlWithParams (url, params) {
   return url
 }
 
-export default function request (options) {
+function taroInterceptor (chain) {
+  return request(chain.requestParams)
+}
+
+const link = new Link(taroInterceptor)
+
+export default link
+
+function request (options) {
   options = options || {}
   if (typeof options === 'string') {
     options = {

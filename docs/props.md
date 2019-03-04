@@ -38,7 +38,7 @@ const element = <Welcome name="Wallace" />
 // welcome.js
 class Welcome extends Component {
   render () {
-    return <View>Hello, {this.props.name}</View>
+    return <View><Text>Hello, {this.props.name}<Text></View>
   }
 }
 
