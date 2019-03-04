@@ -24,7 +24,7 @@ class Manager {
             return
           }
 
-          const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, props)
+          const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, props, component.props)
           component.props = nextProps
           component._unsafeCallUpdate = true
           updateComponent(component)

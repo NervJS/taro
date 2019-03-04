@@ -67,6 +67,8 @@ export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
 export const GEL_ELEMENT_BY_ID = 'getElementById'
 
+export const PROPS_MANAGER = 'propsManager'
+
 export const LOOP_STATE = '$loopState'
 
 export let LOOP_ORIGINAL = '$original'

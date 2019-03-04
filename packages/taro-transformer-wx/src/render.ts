@@ -43,6 +43,7 @@ import {
   LOOP_ORIGINAL,
   INTERNAL_GET_ORIGNAL,
   GEL_ELEMENT_BY_ID,
+  PROPS_MANAGER,
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
@@ -753,10 +754,7 @@ export class RenderParser {
 
   private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty>, id: t.StringLiteral | t.Identifier): t.Expression {
     return t.callExpression(
-      t.memberExpression(
-        t.memberExpression(t.identifier('Taro'), t.identifier('propsManager')),
-        t.identifier('set')
-      ),
+      t.memberExpression(t.identifier(PROPS_MANAGER), t.identifier('set')),
       [t.objectExpression(properties), id]
     )
   }
