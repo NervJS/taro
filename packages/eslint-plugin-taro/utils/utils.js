@@ -21,8 +21,13 @@ const parserOptions = {
 }
 
 function isTaroComponent (context, node) {
-  const parents = context.getAncestors(node)
-  const classDcl = parents.find(p => p.type === 'ClassDeclaration')
+  let classDcl
+  if (node.type === 'ClassDeclaration') {
+    classDcl = node
+  } else {
+    const parents = context.getAncestors(node)
+    classDcl = parents.find(p => p.type === 'ClassDeclaration')
+  }
   if (
     classDcl && classDcl.superClass
   ) {
