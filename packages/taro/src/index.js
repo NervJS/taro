@@ -8,6 +8,8 @@ import { getOriginal as internal_get_original } from './internal/get-original'
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
 import render from './render'
+import Link from './interceptor'
+import * as interceptors from './interceptor/interceptors'
 import { noPromiseApis, onAndSyncApis, otherApis, initPxTransform } from './native-apis'
 
 const eventCenter = new Events()
@@ -26,7 +28,9 @@ export {
   noPromiseApis,
   onAndSyncApis,
   otherApis,
-  initPxTransform
+  initPxTransform,
+  Link,
+  interceptors
 }
 
 export default {
@@ -43,5 +47,7 @@ export default {
   noPromiseApis,
   onAndSyncApis,
   otherApis,
-  initPxTransform
+  initPxTransform,
+  Link,
+  interceptors
 }

@@ -6,7 +6,8 @@ import {
   eventCenter,
   render,
   internal_safe_get,
-  internal_safe_set
+  internal_safe_set,
+  interceptors
 } from '@tarojs/taro'
 
 import initNativeApi from './native-api'
@@ -21,7 +22,8 @@ export const Taro = {
   eventCenter,
   render,
   internal_safe_get,
-  internal_safe_set
+  internal_safe_set,
+  interceptors
 }
 
 initNativeApi(Taro)

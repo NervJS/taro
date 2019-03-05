@@ -118,6 +118,7 @@ class _Video extends React.Component<Props, State> {
   // _handleVideoRef = (component) => {
   //   const playbackObject = component
   //   playbackObject.loadAsync({ uri: this.props.src }, {
+  //     // parseInt
   //     positionMillis: this.props.initialTime,
   //     shouldPlay: this.props.autoplay,
   //     isLooping: this.props.loop,
@@ -156,13 +157,15 @@ class _Video extends React.Component<Props, State> {
   }
 
   render () {
+    const initialTime = parseInt(this.props.initialTime)
+
     return (
       <Player
         videoProps={{
           source: { uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' },
           resizeMode: resizeModeMap[this.props.objectFit],
           posterSource: { uri: this.props.poster },
-          positionMillis: this.props.initialTime,
+          positionMillis: initialTime,
           shouldPlay: this.props.autoplay,
           isLooping: this.props.loop,
           isMuted: this.props.isMuted

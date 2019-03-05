@@ -2,7 +2,8 @@ import {
   onAndSyncApis,
   noPromiseApis,
   otherApis,
-  initPxTransform
+  initPxTransform,
+  Link
 } from '@tarojs/taro'
 
 const apiDiff = {
@@ -187,6 +188,12 @@ const RequestQueue = {
   }
 }
 
+function taroInterceptor (chain) {
+  return request(chain.requestParams)
+}
+
+const link = new Link(taroInterceptor)
+
 function request (options) {
   options = options || {}
   if (typeof options === 'string') {
@@ -315,7 +322,7 @@ function processApis (taro) {
         if (key === 'getStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
-            return my[key]({ key: arg1 }).data || ''
+            return my[key]({ key: arg1 }).data || my[key]({ key: arg1 }).APDataStorage || ''
           }
           return console.log('getStorageSync 传入参数错误')
         }
@@ -405,7 +412,8 @@ function generateSpecialApis (api, options) {
 
 export default function initNativeApi (taro) {
   processApis(taro)
-  taro.request = request
+  taro.request = link.request.bind(link)
+  taro.addInterceptor = link.addInterceptor.bind(link)
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)

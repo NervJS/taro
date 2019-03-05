@@ -1,28 +1,19 @@
 ---
-title: OpenData
-sidebar_label: OpenData
+title: 其他
+sidebar_label: 其他
 ---
 
-##### 用于展示微信开放的数据
+##### 其他组件
 
-> 组件 支持度
+除导航列表的一些组件外，还有一些差异化组件，每个端不同，后续计划将这些统一封装。目前差异化组件请详看各小程序官网。
 
-| 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: |
-| ✔️ | x | x |
+>其他组件请看各小程序官方文档
 
-小程序全部支持，属性参考[open-data](https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html)。属性值请改写为驼峰式命名。
+[微信小程序](https://developers.weixin.qq.com/miniprogram/dev/component/)。
 
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-// 引入 OpenData 组件
-import { OpenData } from '@tarojs/components'
+[百度小程序](https://smartprogram.baidu.com/docs/develop/component/view/)。
 
-class App extends Components {
-  render () {
-    return (
-      <OpenData type='userAvatarUrl'  />
-    )
-  }
-}
-```
+[支付宝小程序](https://docs.alipay.com/mini/component/overview)。
+
+[字节跳动小程序](https://developer.toutiao.com/docs/comp/)。
+

@@ -126,7 +126,7 @@ export default class Index extends Component {
 
   componentDidMount () { }
 
-  componentWillUnmout () { }
+  componentWillUnmount () { }
 
   componentDidShow () { }
 
@@ -200,7 +200,7 @@ class Tab extends Component {
 
   componentDidMount () { }
 
-  componentWillUnmout () { }
+  componentWillUnmount () { }
 
   componentWillReceiveProps () { }
 

@@ -146,7 +146,6 @@ export default function transform (options: Options): TransformResult {
     setLoopOriginal('privateOriginal')
   }
   THIRD_PARTY_COMPONENTS.clear()
-  setTransformOptions(options)
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
@@ -156,6 +155,7 @@ export default function transform (options: Options): TransformResult {
     })
     : options.code
   options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
+  setTransformOptions(options)
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
@@ -385,6 +385,16 @@ export default function transform (options: Options): TransformResult {
     },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
+      const binding = path.scope.getBinding(name)
+      if (process.env.NODE_ENV !== 'test' && DEFAULT_Component_SET.has(name) && binding && binding.kind === 'module') {
+        const bindingPath = binding.path
+        if (bindingPath.parentPath.isImportDeclaration()) {
+          const source = bindingPath.parentPath.node.source
+          if (source.value !== TARO_PACKAGE_NAME) {
+            throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 @tarojs/components 引入。`)
+          }
+        }
+      }
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
         const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
@@ -492,11 +502,11 @@ export default function transform (options: Options): TransformResult {
       path.traverse({
         ImportDefaultSpecifier (path) {
           const name = path.node.local.name
-          DEFAULT_Component_SET.has(name) || names.push(name)
+          names.push(name)
         },
         ImportSpecifier (path) {
           const name = path.node.imported.name
-          DEFAULT_Component_SET.has(name) || names.push(name)
+          names.push(name)
           if (source === TARO_PACKAGE_NAME && name === 'Component') {
             path.node.local = t.identifier('__BaseComponent')
           }

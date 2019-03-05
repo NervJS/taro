@@ -2,7 +2,7 @@ import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
@@ -290,8 +290,8 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
 } {
   if (!parseImport) {
     errors.length = 0
+    usedComponents.clear()
   }
-  usedComponents.clear()
   usedComponents.add('Block')
   let wxses: WXS[] = []
   let imports: Imports[] = []
@@ -753,6 +753,9 @@ function handleAttrKey (key: string) {
   } else if (key === 'class') {
     return 'className'
   } else if (/^(bind|catch)[a-z|:]/.test(key)) {
+    if (!isValidVarName(key)) {
+      throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
+    }
     if (specialEvents.has(key)) {
       return specialEvents.get(key)!
     } else {

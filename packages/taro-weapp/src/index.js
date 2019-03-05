@@ -8,7 +8,8 @@ import {
   internal_safe_get,
   internal_safe_set,
   internal_inline_style,
-  internal_get_original
+  internal_get_original,
+  interceptors
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -33,7 +34,8 @@ export const Taro = {
   internal_inline_style,
   createComponent,
   internal_get_original,
-  getElementById
+  getElementById,
+  interceptors
 }
 
 export default Taro

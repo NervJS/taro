@@ -16,7 +16,7 @@ if (args.length === 1) {
   switch (args[0]) {
     case 'rn': {
       rnInfo({
-        SDKs: ['iOS SDK', 'Android SDK']
+        // SDKs: ['iOS SDK', 'Android SDK'] 有bug ,卡死？
       })
       break
     }
@@ -37,17 +37,13 @@ function rnInfo (options) {
 }
 
 async function info (options) {
-  let info = await envinfo.run(
-    {
-      System: ['OS', 'Shell'],
-      Binaries: ['Node', 'Yarn', 'npm'],
-      npmPackages,
-      npmGlobalPackages: ['typescript'],
-      ...options
-    },
-    {
-      title: `Taro CLI ${getPkgVersion()} environment info`
-    }
-  )
+  let info = await envinfo.run(Object.assign({}, {
+    System: ['OS', 'Shell'],
+    Binaries: ['Node', 'Yarn', 'npm'],
+    npmPackages,
+    npmGlobalPackages: ['typescript']
+  }, options), {
+    title: `Taro CLI ${getPkgVersion()} environment info`
+  })
   console.log(info)
 }
