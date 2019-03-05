@@ -31,6 +31,8 @@ title: Debug 指南
 
 开发者可以在开发者工具中找到 taro 运行时库，在 diff 方法前后打断点或 log，观察 **state**、**小程序 data** 和 **diff 后将要被 setData 的数据**，这种排查有助定位很多**视图更新**问题。
 
+![qq20190305-151951](https://user-images.githubusercontent.com/11807297/53787956-514bb280-3f5b-11e9-9faf-f73ccd005222.png)
+
 ##### 微信小程序，增加数组元素无法正确更新数组 length
 
 增加数组元素时，经 diff 后会按路径更新。但由于微信小程序自身 bug，按路径更新数组时，数组 length 不会正确更新。详见 [#882](https://github.com/NervJS/taro/issues/882)
