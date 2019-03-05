@@ -17,6 +17,30 @@ title: Debug 指南
 
 ### 没有任何报错，但显示的结果不如预期
 
+#### 被 diff 逻辑过滤
+
+此问题发生在页面或组件**更新**时。
+
+在调用小程序的 setData 方法前，Taro 会把 state 与 data 做一次 [diff](https://nervjs.github.io/taro/docs/best-practice.html#小程序数据-diff)。
+
+如果 state 与 data 的某个属性值没有变化，很有可能就不会重新 setData 该属性，导致页面或组件没有正确更新。
+
+这种问题多出现在小程序的表单组件中，例如以下两个 issue：[#1981](https://github.com/NervJS/taro/issues/1981)、[#2257](https://github.com/NervJS/taro/issues/2257)。因为小程序一些表单组件为非受控组件，表单更新时，对应 value 值的 data 并不会更新，导致 data 值还是初始值。如果再 setState 此属性为初始值，由于 diff 逻辑判断属性值没有变化，不会 setData 此属性，导致视图没有更新。正确做法是在表单组件的 update 事件中 setData value 为当前值，保证 data 与表单显示值保持一致。
+
+##### debug diff
+
+开发者可以在开发者工具中找到 taro 运行时库，在 diff 方法前后打断点或 log，观察 **state**、**小程序 data** 和 **diff 后将要被 setData 的数据**，这种排查有助定位很多**视图更新**问题。
+
+##### 微信小程序，增加数组元素无法正确更新数组 length
+
+增加数组元素时，经 diff 后会按路径更新。但由于微信小程序自身 bug，按路径更新数组时，数组 length 不会正确更新。详见 [#882](https://github.com/NervJS/taro/issues/882)
+
+此问题只出现于微信小程序，[微信官方说法是暂不修复](https://developers.weixin.qq.com/community/develop/doc/000c8a7eeb45e8b018b72f01356800)。
+
+推荐做法是新开一个 state 值来同步 length 变化。
+
+#### 编译模板出错
+
 这时候很可能是编译模板出现了错误。例如中 [#2285](https://github.com/NervJS/taro/issues/2258) 中，题主写了两个嵌套循环，在第二个循环中无法正确地访问到第一个循环声明的 `index` 变量：
 
 ```jsx
