@@ -800,7 +800,7 @@ export class RenderParser {
     if (
       t.isJSXIdentifier(openingElement.name) &&
       !DEFAULT_Component_SET.has(openingElement.name.name) &&
-      openingElement.name.name !== 'block'
+      /[A-Z]/.test(openingElement.name.name.charAt(0))
     ) {
       const id = t.stringLiteral(genCompid())
 
@@ -1395,7 +1395,7 @@ export class RenderParser {
           if (
             t.isJSXIdentifier(element.name) &&
             !DEFAULT_Component_SET.has(element.name.name) &&
-            element.name.name !== 'block'
+            /[A-Z]/.test(element.name.name.charAt(0))
           ) {
             // 寻找 map 循环的 index 变量
             seed = findParentLoopsIndex(callee)
