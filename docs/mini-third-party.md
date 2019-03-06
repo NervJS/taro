@@ -8,7 +8,9 @@ Taro 支持使用小程序的第三方组件和插件，例如 [echarts-for-weix
 
 ## 引入第三方组件
 
-首先需要将第三方组件库下载到项目的 `src` 目录下，随后在页面或者组件里通过配置 `usingComponents` 指定需要引用的第三方组件即可，组件调用的时候需要按照 JSX 的使用规范来进行传参和事件绑定
+首先需要将第三方组件库下载到项目的 `src` 目录下，随后在页面或者组件里通过配置 `usingComponents` 指定需要引用的第三方组件即可，组件调用的时候需要按照 JSX 的使用规范来进行传参和事件绑定。
+
+`usingComponents` 指定的第三方组件名字需要以**小写**开头。
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
