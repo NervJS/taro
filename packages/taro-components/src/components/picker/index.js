@@ -25,6 +25,7 @@ export default class Picker extends Nerv.Component {
   constructor (props) {
     super(props)
 
+    this.index = []
     this.handlePrpos()
     this.state = {
       pickerValue: this.index,
@@ -34,9 +35,8 @@ export default class Picker extends Nerv.Component {
     }
   }
 
-  handlePrpos () {
-    let { value, range, mode } = this.props
-    this.index = []
+  handlePrpos (nextProps = this.props) {
+    let { value, range, mode } = nextProps
 
     if (mode === 'multiSelector') {
       if (!range) {
@@ -56,7 +56,7 @@ export default class Picker extends Nerv.Component {
       const time = value.split(':').map(n => +n)
       this.index = time
     } else if (mode === 'date') {
-      const { start = '', end = '' } = this.props
+      const { start = '', end = '' } = nextProps
 
       let _value = dateHandle.verifyDate(value)
       let _start = dateHandle.verifyDate(start)
@@ -107,8 +107,8 @@ export default class Picker extends Nerv.Component {
     }
   }
 
-  componentWillReceiveProps () {
-    this.handlePrpos()
+  componentWillReceiveProps (nextProps) {
+    this.handlePrpos(nextProps)
   }
 
   // 校验传入的 value 是否合法
@@ -214,6 +214,10 @@ export default class Picker extends Nerv.Component {
     setTimeout(() => this.setState({ hidden: true, fadeOut: false }), 350)
   }
 
+  componentWillUnmount () {
+    this.index = []
+  }
+
   render () {
     // 展示 Picker
     const showPicker = () => {
@@ -243,7 +247,7 @@ export default class Picker extends Nerv.Component {
       // 除了 multiSeclector，都在点击确认时才改变记录的下标值
       this.index = this.state.height.map(h => (TOP - h) / LINE_HEIGHT)
       const eventObj = getEventObj(e, 'change', {
-        value: this.index.length > 1 ? this.index : this.index[0]
+        value: this.index.length > 1 && this.props.mode !== 'selector' ? this.index : this.index[0]
       })
 
       if (this.props.mode === 'time') {
