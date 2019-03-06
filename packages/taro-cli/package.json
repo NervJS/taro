@@ -39,7 +39,7 @@
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
     "better-babel-generator": "^6.26.1",
-    "chalk": "^2.3.2",
+    "chalk": "2.4.2",
     "chokidar": "^2.0.3",
     "commander": "^2.19.0",
     "cross-spawn": "^6.0.5",

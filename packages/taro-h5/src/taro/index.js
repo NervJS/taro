@@ -41,6 +41,23 @@ class Component extends Nerv.Component {
   }
 }
 
+class PureComponent extends Nerv.PureComponent {
+  get $router () {
+    return taro.getRouter()
+  }
+  set $router (args) {
+    console.warn('Property "$router" is read-only.')
+  }
+
+  get $app () {
+    return taro.getApp()
+  }
+
+  set $app (app) {
+    console.warn('Property "$app" is read-only.')
+  }
+}
+
 const initPxTransform = originalInitPxTransform.bind(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 const _set$app = function (app) {
@@ -65,6 +82,7 @@ const canIUseWebp = function () {
 }
 
 taro.Component = Component
+taro.PureComponent = PureComponent
 taro.initPxTransform = initPxTransform
 taro.requirePlugin = requirePlugin
 taro._set$app = _set$app

@@ -50,6 +50,7 @@ const PACKAGES = {
 
 const taroApis = [
   'Component',
+  'PureComponent',
   'getEnv',
   'ENV_TYPE',
   'eventCenter',
@@ -137,7 +138,9 @@ function processEntry (code, filePath) {
       if (!node.superClass) return
       if (
         node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName
+        node.superClass.object.name === taroImportDefaultName &&
+        (node.superClass.property.name === 'Component' ||
+        node.superClass.property.name === 'PureComponent')
       ) {
         node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
@@ -151,7 +154,8 @@ function processEntry (code, filePath) {
             )
           )
         }
-      } else if (node.superClass.name === 'Component') {
+      } else if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'PureComponent') {
         resetTSClassProperty(node.body.body)
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
@@ -578,7 +582,9 @@ function processOthers (code, filePath, fileType) {
       if (!node.superClass) return
       if (
         node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName
+        node.superClass.object.name === taroImportDefaultName &&
+        (node.superClass.property.name === 'Component' ||
+        node.superClass.property.name === 'PureComponent')
       ) {
         node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
@@ -592,7 +598,8 @@ function processOthers (code, filePath, fileType) {
             )
           )
         }
-      } else if (node.superClass.name === 'Component') {
+      } else if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'PureComponent') {
         resetTSClassProperty(node.body.body)
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
