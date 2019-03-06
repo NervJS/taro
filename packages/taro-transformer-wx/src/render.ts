@@ -47,6 +47,7 @@ import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
+const gen = generate
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -737,9 +738,8 @@ export class RenderParser {
               const newBlock = buildBlockElement()
               newBlock.children = [block, jsxElementPath.node]
               block = newBlock
-            } else if (parentIfStatement) {
-              let hasNestIfStatement = false
-              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test, hasNestIfStatement)
+            } else if (parentIfStatement && parentIfStatement.get('alternate') !== ifStatement) {
+              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test)
             } else {
               block.children.push(jsxElementPath.node)
             }
@@ -761,7 +761,7 @@ export class RenderParser {
     }
   }
 
-  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression, hasNestIfStatement: boolean) => {
+  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression) => {
     if (this.isEmptyBlock(block)) {
       return
     }
@@ -778,10 +778,9 @@ export class RenderParser {
         (ifElseAttr && t.isJSXExpressionContainer(ifElseAttr.value, { expression: test }))
       ) {
         child.children.push(jsx)
-        hasNestIfStatement = true
         break
       } else {
-        this.handleNestedIfStatement(child, jsx, test, hasNestIfStatement)
+        this.handleNestedIfStatement(child, jsx, test)
       }
     }
   }
