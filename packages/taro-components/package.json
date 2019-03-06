@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "description": "",
   "main": "src/index.js",
   "typings": "./types/index.d.ts",
@@ -43,7 +43,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@babel/preset-env": "^7.1.5",
-    "@tarojs/taro-h5": "1.2.15",
+    "@tarojs/taro-h5": "1.2.16",
     "@types/react": "^16.4.6",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.4",
