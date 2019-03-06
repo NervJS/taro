@@ -4,9 +4,9 @@ import {
   Text,
   View,
   Button,
-  Tabbar,
-  TabbarContainer,
-  TabbarPanel,
+  // Tabbar,
+  // TabbarContainer,
+  // TabbarPanel,
 } from './src'
 import EXButton from './example/EXButton'
 import EXCheckbox from './example/EXCheckbox'
@@ -21,9 +21,9 @@ import EXProgress from './example/EXProgress'
 import EXRichText from './example/EXRichText'
 import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
-import EXAudio from './example/EXAudio'
-import EXVideo from './example/EXVideo'
-import EXMap from './example/EXMap'
+// import EXAudio from './example/EXAudio'
+// import EXVideo from './example/EXVideo'
+// import EXMap from './example/EXMap'
 
 export default class App extends Component {
   state = {
@@ -43,7 +43,7 @@ export default class App extends Component {
     console.log('view touchend')
   }
 
-  render() {
+  render () {
     // return (
     //   <TabbarContainer>
     //     <TabbarPanel style={{ backgroundColor: 'red' }}>
@@ -93,15 +93,15 @@ export default class App extends Component {
       >
         <Text>Welcome to React Native!</Text>
 
-        <EXMap />
+        {/* <EXMap /> */}
 
         <EXImage />
 
-        <EXVideo />
+        {/* <EXVideo /> */}
 
         <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
 
-        <EXAudio />
+        {/* <EXAudio /> */}
 
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
           <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
@@ -134,7 +134,7 @@ export default class App extends Component {
             }}
           >
             <Button
-              onClick={() => { alert('Hey, click button nested in view!') }}
+              onClick={() => { console.log('Hey, click button nested in view!') }}
               style={{
                 width: 200
               }}
