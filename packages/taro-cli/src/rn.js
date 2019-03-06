@@ -9,7 +9,8 @@ const shelljs = require('shelljs')
 const klaw = require('klaw')
 
 const Util = require('./util')
-const npmProcess = require('./util/npm')
+const child_process = require('child_process') // eslint-disable-line
+const execSync = require('child_process').execSync
 const CONFIG = require('./config')
 const {getPkgVersion} = require('./util')
 const StyleProcess = require('./rn/styleProcess')
@@ -80,10 +81,8 @@ function compileDepStyles (filePath, styleFiles) {
 
 function initProjectFile () {
   // generator app.json
-  const appJsonObject = Object.assign({}, {
-    expo: {
-      sdkVersion: '27.0.0'
-    }
+  const appJsonObject = Object.assign({
+    name: _.camelCase(require(path.join(process.cwd(), 'package.json')).name)
   }, projectConfig.rn && projectConfig.rn.appJson)
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
@@ -96,15 +95,25 @@ function initProjectFile () {
   )
   const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
   pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
-  // Copy bin/crna-entry.js ?
-  const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
 
+  // Copy bin/crna-entry.js ?
+  // const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
+
+  const indexJsStr = `
+  import {AppRegistry} from 'react-native';
+  import App from './${entryFileName}';
+  import {name as appName} from './app.json';
+
+  AppRegistry.registerComponent(appName, () => App);`
+
+  fs.writeFileSync(path.join(tempDir, 'index.js'), indexJsStr)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, 'index.js', path.join(tempPath, 'index.js'))
   fs.writeFileSync(path.join(tempDir, 'app.json'), JSON.stringify(appJsonObject, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
   fs.writeFileSync(path.join(tempDir, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
-  fs.copySync(crnaEntryPath, path.join(tempDir, 'bin/crna-entry.js'))
-  Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
+  // fs.copySync(crnaEntryPath, path.join(tempDir, 'bin/crna-entry.js'))
+  // Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
 }
 
 async function processFile (filePath) {
@@ -138,6 +147,10 @@ async function processFile (filePath) {
   }
 }
 
+/**
+ * @description 编译文件，安装依赖
+ * @returns {Promise}
+ */
 function buildTemp () {
   fs.ensureDirSync(path.join(tempPath, 'bin'))
   return new Promise((resolve, reject) => {
@@ -168,21 +181,11 @@ function buildTemp () {
   })
 }
 
-async function buildDist ({watch}) {
-  const entry = {
-    app: path.join(tempPath, entryFileName)
-  }
-  const rnConfig = projectConfig.rn || {}
-  rnConfig.env = projectConfig.env
-  rnConfig.defineConstants = projectConfig.defineConstants
-  rnConfig.designWidth = projectConfig.designWidth
-  rnConfig.entry = entry
-  if (watch) {
-    rnConfig.isWatch = true
-  }
-  rnConfig.projectDir = tempPath
-  const rnRunner = await npmProcess.getNpmPkg('@tarojs/rn-runner')
-  rnRunner(rnConfig)
+function buildBundle () {
+  process.chdir(tempDir)
+  fs.ensureDirSync('./tmp')
+  execSync(`node node_modules/react-native/local-cli/cli.js bundle --entry-file ./index.js --bundle-output ./tmp/index.bundle --assets-dest ./tmp`,
+    {stdio: 'inherit'})
 }
 
 async function perfWrap (callback, args) {
@@ -240,9 +243,84 @@ async function build ({watch}) {
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  await buildDist({watch})
+
   if (watch) {
     watchFiles()
+    startServerInNewWindow()
+  } else {
+    buildBundle()
+  }
+}
+
+/**
+ * @description run packager server
+ * copy from react-native/local-cli/runAndroid/runAndroid.js
+ */
+function startServerInNewWindow (port = 8081) {
+  // set up OS-specific filenames and commands
+  const isWindows = /^win/.test(process.platform)
+  const scriptFile = isWindows
+    ? 'launchPackager.bat'
+    : 'launchPackager.command'
+  const packagerEnvFilename = isWindows ? '.packager.bat' : '.packager.env'
+  const portExportContent = isWindows
+    ? `set RCT_METRO_PORT=${port}`
+    : `export RCT_METRO_PORT=${port}`
+
+  // set up the launchpackager.(command|bat) file
+  const scriptsDir = path.resolve(tempPath, './node_modules', 'react-native', 'scripts')
+  const launchPackagerScript = path.resolve(scriptsDir, scriptFile)
+  const procConfig = {cwd: scriptsDir}
+  const terminal = process.env.REACT_TERMINAL
+
+  // set up the .packager.(env|bat) file to ensure the packager starts on the right port
+  const packagerEnvFile = path.join(
+    tempPath,
+    'node_modules',
+    'react-native',
+    'scripts',
+    packagerEnvFilename
+  )
+
+  // ensure we overwrite file by passing the 'w' flag
+  fs.writeFileSync(packagerEnvFile, portExportContent, {
+    encoding: 'utf8',
+    flag: 'w'
+  })
+
+  if (process.platform === 'darwin') {
+    if (terminal) {
+      return child_process.spawnSync(
+        'open',
+        ['-a', terminal, launchPackagerScript],
+        procConfig
+      )
+    }
+    return child_process.spawnSync('open', [launchPackagerScript], procConfig)
+  } else if (process.platform === 'linux') {
+    procConfig.detached = true
+    if (terminal) {
+      return child_process.spawn(
+        terminal,
+        ['-e', 'sh ' + launchPackagerScript],
+        procConfig
+      )
+    }
+    return child_process.spawn('sh', [launchPackagerScript], procConfig)
+  } else if (/^win/.test(process.platform)) {
+    procConfig.detached = true
+    procConfig.stdio = 'ignore'
+    return child_process.spawn(
+      'cmd.exe',
+      ['/C', launchPackagerScript],
+      procConfig
+    )
+  } else {
+    console.log(
+      chalk.red(
+        `Cannot start the packager. Unknown platform ${process.platform}`
+      )
+    )
   }
 }
 

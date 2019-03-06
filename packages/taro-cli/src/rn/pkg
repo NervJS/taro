@@ -1,6 +1,5 @@
 {
   "name":"<%= projectName %>",
-  "main": "./bin/crna-entry.js",
   "dependencies": {
     "@tarojs/components-rn": "^<%= version %>",
     "@tarojs/taro-rn": "^<%= version %>",
