@@ -788,6 +788,7 @@ export class RenderParser {
           && name.name !== 'wx:for'
           && name.name !== 'wx:for-item'
           && name.name !== 'wx:for-index'
+          && name.name.indexOf('render') !== 0
           && !t.isJSXElement(value)
         ) {
           const v: t.StringLiteral | t.Expression | t.BooleanLiteral = value === null
