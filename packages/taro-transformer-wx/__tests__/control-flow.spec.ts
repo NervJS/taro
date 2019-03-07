@@ -2,6 +2,188 @@ import transform from '../src'
 import { buildComponent, baseOptions, evalClass, prettyPrint } from './utils'
 
 describe('if statement', () => {
+  describe('if 嵌套', () => {
+    test('两级嵌套，嵌套在第一个 if 中', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { a, b, c, d, e, f, g } = this.props
+          let dom = null
+          if (a) {
+            if (c) {
+              dom = <A />
+            }
+          } else if (b) {
+            dom = <B />
+          } else {
+            dom = <C />
+          }
+
+          return <View>{dom}</View>
+        `)
+      })
+
+      expect(prettyPrint(template)).toMatch(prettyPrint(`
+      <block>
+      <view>
+          <block>
+              <block wx:if=\"{{a}}\">
+                  <block wx:if=\"{{c}}\">
+                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                  </block>
+              </block>
+              <block wx:elif=\"{{b}}\">
+                  <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+              </block>
+              <block wx:else>
+                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+              </block>
+          </block>
+      </view>
+  </block>
+      `))
+    })
+
+    test('两级嵌套，嵌套在第二个 if 中', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { a, b, c, d, e, f, g } = this.props
+          let dom = null
+          if (a) {
+              dom = <A />
+          } else if (b) {
+            if (c) {
+              dom = <B />
+            }
+          } else {
+            dom = <C />
+          }
+
+          return <View>{dom}</View>
+        `)
+      })
+
+      expect(prettyPrint(template)).toMatch(prettyPrint(`
+      <block>
+      <view>
+          <block>
+              <block wx:if=\"{{a}}\">
+                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+              </block>
+              <block wx:elif=\"{{b}}\">
+                  <block wx:if=\"{{c}}\">
+                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                  </block>
+              </block>
+              <block wx:else>
+                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+              </block>
+          </block>
+      </view>
+  </block>
+      `))
+    })
+
+    test('两级嵌套，嵌套在 if else 中都有', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { a, b, c, d, e, f, g } = this.props
+          let dom = null
+          if (a) {
+            if (d) {
+              dom = <A />
+            }
+          } else if (b) {
+            if (c) {
+              dom = <B />
+            }
+          } else {
+            dom = <C />
+          }
+
+          return <View>{dom}</View>
+        `)
+      })
+
+      expect(prettyPrint(template)).toMatch(prettyPrint(`
+      <block>
+      <view>
+          <block>
+              <block wx:if=\"{{a}}\">
+                  <block wx:if=\"{{d}}\">
+                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                  </block>
+              </block>
+              <block wx:elif=\"{{b}}\">
+                  <block wx:if=\"{{c}}\">
+                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                  </block>
+              </block>
+              <block wx:else>
+                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+              </block>
+          </block>
+      </view>
+  </block>
+      `))
+    })
+
+    test('两级嵌套，嵌套在中有 if-else', () => {
+      const { template, ast,code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const { a, b, c, d, e, f, g } = this.props
+          let dom = null
+          if (a) {
+            if (d) {
+              dom = <A />
+            } else if (e) {
+              dom = <D />
+            }
+          } else if (b) {
+            if (c) {
+              dom = <B />
+            }
+          } else {
+            dom = <C />
+          }
+
+          return <View>{dom}</View>
+        `)
+      })
+
+      expect(prettyPrint(template)).toMatch(prettyPrint(`
+      <block>
+      <view>
+          <block>
+              <block wx:if=\"{{a}}\">
+                  <block wx:if=\"{{d}}\">
+                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                  </block>
+                  <block wx:elif=\"{{e}}\">
+                        <d __triggerObserer=\"{{ _triggerObserer }}\"></d>
+                    </block>
+              </block>
+              <block wx:elif=\"{{b}}\">
+                  <block wx:if=\"{{c}}\">
+                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                  </block>
+              </block>
+              <block wx:else>
+                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+              </block>
+          </block>
+      </view>
+  </block>
+      `))
+    })
+  })
   describe('循环中使用 if', () => {
     test('简单情况', () => {
       const { template, ast,code } = transform({
@@ -769,10 +951,12 @@ describe('switch case', () => {
     expect(template).toMatch(prettyPrint(`
     <block>
     <view>
+        <block>
         <block wx:if=\"{{testType === type.direct}}\">
-            <block wx:if=\"{{type.d2}}\">
-                <view>1</view>
-            </block>
+        <block wx:if=\"{{type.d2}}\">
+            <view>1</view>
+        </block>
+    </block>
         </block>
     </view>
 </block>
@@ -805,11 +989,13 @@ describe('switch case', () => {
     expect(template).toMatch(prettyPrint(`
     <block>
     <view>
-        <block wx:if=\"{{type.d2}}\">
+    <block>
+    <block wx:if=\"{{type.d2}}\">
             <block wx:if=\"{{testType === type.direct}}\">
                 <view>1</view>
             </block>
         </block>
+    </block>
     </view>
 </block>
     `))
@@ -928,7 +1114,9 @@ describe('switch case', () => {
                 <block wx:elif="{{testType === type.d2}}">
                     <view>2</view>
                 </block>
-                <view wx:else>default</view>
+                <block wx:else>
+                  <view>default</view>
+                </block>
             </block>
         </view>
     </block>
@@ -977,7 +1165,9 @@ describe('switch case', () => {
                 <block wx:elif=\"{{type === d2}}\">
                     <view>2</view>
                 </block>
-                <view wx:else>default</view>
+                <block wx:else>
+                  <view>default</view>
+                </block>
             </block>
         </view>
     </block>
