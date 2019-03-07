@@ -51,6 +51,7 @@ import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
+const gen = generate
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -653,6 +654,9 @@ export class RenderParser {
         const assignmentName = parentNode.left.name
         const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
+        const parentIfStatement = ifStatement.findParent(p =>
+          p.isIfStatement()
+        ) as NodePath<t.IfStatement>
         // @TODO: 重构 this.templates 为基于作用域的 HashMap，现在仍然可能会存在重复的情况
         let block = this.templates.get(assignmentName) || buildBlockElement()
         if (isEmptyDeclarator(bindingNode)) {
@@ -664,9 +668,6 @@ export class RenderParser {
             if (alternate === blockStatement.node) {
               setJSXAttr(jsxElementPath.node, Adapter.else)
             } else if (consequent === blockStatement.node) {
-              const parentIfStatement = ifStatement.findParent(p =>
-                p.isIfStatement()
-              ) as NodePath<t.IfStatement>
               const assignments: t.AssignmentExpression[] = []
               let isAssignedBefore = false
               // @TODO: 重构这两种循环为通用模块
@@ -721,7 +722,18 @@ export class RenderParser {
                 )
               } else {
                 if (parentIfStatement) {
-                  newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
+                  if (this.isEmptyBlock(block)) {
+                    newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
+                  } else {
+                    const newBlock = buildBlockElement()
+                    setJSXAttr(
+                      newBlock,
+                      Adapter.elseif,
+                      t.jSXExpressionContainer(parentIfStatement.node.test),
+                      jsxElementPath
+                    )
+                    block.children.push(newBlock)
+                  }
                 }
                 newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
               }
@@ -731,6 +743,8 @@ export class RenderParser {
               const newBlock = buildBlockElement()
               newBlock.children = [block, jsxElementPath.node]
               block = newBlock
+            } else if (parentIfStatement && parentIfStatement.get('alternate') !== ifStatement) {
+              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test)
             } else {
               block.children.push(jsxElementPath.node)
             }
@@ -814,6 +828,32 @@ export class RenderParser {
       setJSXAttr(jsxElementPath.node, 'compid', id)
     }
   }
+
+  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression) => {
+    if (this.isEmptyBlock(block)) {
+      return
+    }
+
+    for (const child of block.children) {
+      if (!t.isJSXElement(child)) {
+        continue
+      }
+      const ifAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.if)
+      const ifElseAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.elseif)
+      if (
+        (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test }))
+        ||
+        (ifElseAttr && t.isJSXExpressionContainer(ifElseAttr.value, { expression: test }))
+      ) {
+        child.children.push(jsx)
+        break
+      } else {
+        this.handleNestedIfStatement(child, jsx, test)
+      }
+    }
+  }
+
+  isEmptyBlock = ((block: t.JSXElement) => block.children.length === 0 && block.openingElement.attributes.length === 0)
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {

@@ -226,7 +226,7 @@ export function generateAnonymousState (
               func.body.body.unshift(buildConstVariableDeclaration(variableName, expr))
             } else {
               func.body.body.unshift(t.variableDeclaration('let', [t.variableDeclarator(t.identifier(variableName), t.nullLiteral())]))
-              consequent.node.body.unshift(t.expressionStatement(t.assignmentExpression(
+              consequent.node.body.push(t.expressionStatement(t.assignmentExpression(
                 '=',
                 t.identifier(variableName),
                 expr

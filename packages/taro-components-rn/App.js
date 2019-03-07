@@ -24,6 +24,7 @@ import EXForm from './example/EXForm'
 import EXAudio from './example/EXAudio'
 import EXVideo from './example/EXVideo'
 import EXMap from './example/EXMap'
+import EXWebView from './example/EXWebView'
 
 export default class App extends Component {
   state = {
@@ -182,6 +183,9 @@ export default class App extends Component {
 
         <Text>Form</Text>
         <EXForm />
+
+        <Text>WebView</Text>
+        <EXWebView />
       </ScrollView>
     )
   }

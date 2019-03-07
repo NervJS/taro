@@ -59,8 +59,14 @@ class _PickerMultiSelector extends React.Component<Props, State> {
     this.changingColumn = columnIndex
     // itemValue always be string
     const { onColumnChange } = this.props
-    const { formattedRange, selectedIndex } = this.state
-    onColumnChange && onColumnChange({ detail: { column: columnIndex, value: formattedRange[columnIndex][itemIndex] } })
+    const { selectedIndex } = this.state
+    onColumnChange && onColumnChange({
+      detail: {
+        column: columnIndex,
+        // value: formattedRange[columnIndex][itemIndex]
+        value: itemIndex
+      }
+    })
     selectedIndex[columnIndex] = itemIndex
     this.setState({ selectedIndex: [...selectedIndex] })
   }
