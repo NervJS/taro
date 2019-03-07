@@ -1,13 +1,13 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface RadioGroupProps extends StandardProps, FormItemProps {
+export interface RadioGroupProps extends StandardProps, FormItemProps {
   onChange?: CommonEventFunction
 }
 
 declare const RadioGroup: ComponentType<RadioGroupProps>
 
-interface RadioProps extends StandardProps {
+export interface RadioProps extends StandardProps {
 
   /**
    * `<radio/>` 标识。当该`<radio/>` 选中时，`<radio-group/>`的 change 事件会携带`<radio/>`的value

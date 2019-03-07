@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface FormProps extends StandardProps {
+export interface FormProps extends StandardProps {
   /**
    * 是否返回 formId 用于发送模板消息
    */

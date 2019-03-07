@@ -6,7 +6,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * @since 1.6.4
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html|微信官方文档}
  */
-interface WebViewProps extends StandardProps {
+export interface WebViewProps extends StandardProps {
 
   /**
    * webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。

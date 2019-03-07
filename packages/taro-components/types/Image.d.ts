@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface ImageProps extends StandardProps {
+export interface ImageProps extends StandardProps {
 
   /**
    * 图片资源地址

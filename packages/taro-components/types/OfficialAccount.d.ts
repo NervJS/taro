@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-interface OfficialAccountProps extends StandardProps {
+export interface OfficialAccountProps extends StandardProps {
 
   /**
    * 组件加载成功时触发

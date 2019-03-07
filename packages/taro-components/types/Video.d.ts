@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface VideoProps extends StandardProps {
+export interface VideoProps extends StandardProps {
 
   /**
    * 要播放视频的资源地址
