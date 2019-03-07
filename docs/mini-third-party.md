@@ -1,8 +1,10 @@
 ---
-title: 使用微信小程序第三方组件和插件
+title: 使用小程序原生第三方组件和插件
 ---
 
-Taro 支持使用使用微信小程序的第三方组件和插件，例如 [echarts-for-weixin](https://github.com/ecomfe/echarts-for-weixin)，使用方式也异常的简单。
+Taro 支持使用小程序的第三方组件和插件，例如 [echarts-for-weixin](https://github.com/ecomfe/echarts-for-weixin)，使用方式也异常的简单。
+
+**但是值得注意的是，如果在 Taro 项目引用了小程序原生的第三方组件和插件，那么该项目将不再具备多端转换的能力，例如，如果使用了微信小程序的第三方组件，那么项目只能转换成微信小程序，转义成其他平台会失效，使用其他小程序原生组件同理**。
 
 ## 引入第三方组件
 
@@ -28,7 +30,7 @@ export default class Menu extends Component {
     }
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       ec: {

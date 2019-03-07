@@ -171,11 +171,14 @@
       "css-modules": {
         "title": "CSS Modules 的使用"
       },
+      "debug": {
+        "title": "Debug 指南"
+      },
       "env": {
         "title": "环境判断"
       },
       "envs": {
-        "title": "内置环境变量"
+        "title": "跨平台开发"
       },
       "event": {
         "title": "事件处理"
@@ -186,11 +189,17 @@
       "GETTING-STARTED": {
         "title": "安装及使用"
       },
+      "hybrid": {
+        "title": "Taro 代码与微信小程序代码混写"
+      },
       "jsx": {
         "title": "JSX 简介"
       },
       "list": {
         "title": "列表渲染"
+      },
+      "mini-third-party": {
+        "title": "使用小程序原生第三方组件和插件"
       },
       "mobx": {
         "title": "使用 Mobx"
@@ -215,6 +224,9 @@
       },
       "ref": {
         "title": "Refs 引用"
+      },
+      "relations": {
+        "title": "小程序原生作用域获取"
       },
       "router": {
         "title": "路由功能"
@@ -244,19 +256,10 @@
         "title": "Taro 团队"
       },
       "tutorial": {
-        "title": "项目说明"
+        "title": "框架"
       },
       "ui-lib": {
         "title": "基于 Taro 开发第三方多端 UI 库"
-      },
-      "wx-hybrid": {
-        "title": "Taro 代码与微信小程序代码混写"
-      },
-      "wx-relations": {
-        "title": "微信小程序原生作用域获取"
-      },
-      "wx-third-party": {
-        "title": "使用微信小程序第三方组件和插件"
       }
     },
     "links": {
