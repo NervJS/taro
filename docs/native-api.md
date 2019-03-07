@@ -2683,7 +2683,6 @@ Taro.createSelectorQuery()
     res.backgroundColor
   })
   .exec()
-})
 ```
 
 #### selectorQuery.exec([callback])
