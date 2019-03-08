@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface ScrollViewProps extends StandardProps {
+export interface ScrollViewProps extends StandardProps {
 
   /**
    * 允许横向滚动
