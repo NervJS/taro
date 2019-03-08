@@ -31,7 +31,7 @@ sidebar_label: ScrollView
 | lowerThreshold     | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
 | scrollTop          | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
 | scrollLeft         | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollIntoView     | ✔ |  |  | ✔ | ✔ | ✔ |
+| scrollIntoView     | ✔ | ✔ |  | ✔ | ✔ | ✔ |
 | scrollWithAnimation| ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
 | enableBackToTop    | ✔ |  |  ✔|  | ✔ |  |
 | onScrollToUpper    | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
