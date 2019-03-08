@@ -1,10 +1,10 @@
 import {
   Component,
   ComponentLifecycle,
-  getEnv
+  getEnv,
+  internal_safe_set as safeSet
 } from '@tarojs/taro'
 import isEqual from 'lodash/isEqual'
-import safeSet from 'lodash/set'
 
 type WeappLifeCycle = () => void
 type Observer = (newProps, oldProps, changePath: string) => void

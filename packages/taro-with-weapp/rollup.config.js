@@ -35,7 +35,9 @@ const baseConfig = {
     common({
       include: 'node_modules/**'
     }),
-    buble()
+    buble({
+      objectAssign: 'Object.assign'
+    })
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {
