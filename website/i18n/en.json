@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信小程序、H5、React Native 等的应用。",
+    "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝小程序、H5、React Native 等的应用。",
     "docs": {
       "api-desc": {
         "title": "API 说明"
@@ -190,7 +190,7 @@
         "title": "安装及使用"
       },
       "hybrid": {
-        "title": "Taro 代码与微信小程序代码混写"
+        "title": "Taro 代码与小程序代码混写"
       },
       "jsx": {
         "title": "JSX 简介"

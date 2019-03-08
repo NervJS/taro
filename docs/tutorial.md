@@ -77,21 +77,21 @@ Taro 中全局配置所包含的配置项及各端支持程度如下
 
 | 属性 | 类型 | 必填 | 描述	 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 | H5 | RN
 | - | - | - | - | - | - | - | - | - | - |
-| pages | String Array | 是 | 页面路径列表 | ✔️ | ✔️|✔️|✔️|✔️|✔️|
-| window | Object | 否 | 全局的默认窗口表现 |具体支持程度见下方 |具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|
-| tabBar | Object | 否 | 底部 tab 栏的表现 | 具体支持程度见下方 |具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|
-| networkTimeout | Object | 否 | 网络超时时间 | ✔️ | ✘ | ✘ | ✘ | ✘ | ✘ |
-| debug | Boolean | 否 | 是否开启 debug 模式，默认关闭 | ✔️ | ✘ | ✔️ | ✘ | ✘ | ✘ |
-| functionalPages | Boolean | 否 | 是否启用插件功能页，默认关闭 | ✔️（基础库 2.1.0 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
-| subPackages | Object Array | 否 | 分包结构配置 | ✔️（基础库 1.7.3 以上） | ✔️ | ✘ | ✘ | ✔️ | ✔️ |
-| workers | String | 否 | Worker 代码放置的目录 | ✔️（基础库 1.9.90 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
-| requiredBackgroundModes | String Array | 否 | 需要在后台使用的能力，如「音乐播放」 | ✔️ | ✘ | ✘ | ✘ | ✘ | ✘ |
-| plugins | Object | 否 | 使用到的插件 | ✔️（基础库 1.9.6 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
-| preloadRule | Object | 否 | 分包预下载规则 | ✔️（基础库 2.3.0 以上） | ✔️ | ✘ | ✘ | ✘ | ✘ |
-| resizable | Boolean | 否 | iPad 小程序是否支持屏幕旋转，默认关闭 | ✔️（基础库 2.3.0 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
-| navigateToMiniProgramAppIdList | String Array | 否 | 需要跳转的小程序列表，详见 wx.navigateToMiniProgram | ✔️（基础库 2.4.0 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
-| usingComponents | Object | 否 | 全局自定义组件配置 | ✔️（开发者工具 1.02.1810190） | ✘ | ✘ | ✘ | ✘ | ✘ |
-| permission | Object | 否 | 小程序接口权限相关设置 | ✔️ 微信客户端 7.0.0 | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [pages](#pages) | String Array | 是 | 页面路径列表 | ✔️ | ✔️|✔️|✔️|✔️|✔️|
+| [window](#window) | Object | 否 | 全局的默认窗口表现 |具体支持程度见下方 |具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|
+| [tabBar](#tabbar) | Object | 否 | 底部 tab 栏的表现 | 具体支持程度见下方 |具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|具体支持程度见下方|
+| [networkTimeout](#networktimeout) | Object | 否 | 网络超时时间 | ✔️ | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [debug](#debug) | Boolean | 否 | 是否开启 debug 模式，默认关闭 | ✔️ | ✘ | ✔️ | ✘ | ✘ | ✘ |
+| [functionalPages](#functionalpages) | Boolean | 否 | 是否启用插件功能页，默认关闭 | ✔️（基础库 2.1.0 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [subPackages](#subpackages) | Object Array | 否 | 分包结构配置 | ✔️（基础库 1.7.3 以上） | ✔️ | ✘ | ✘ | ✔️ | ✔️ |
+| [workers](#workers) | String | 否 | Worker 代码放置的目录 | ✔️（基础库 1.9.90 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [requiredBackgroundModes](#requiredbackgroundmodes) | String Array | 否 | 需要在后台使用的能力，如「音乐播放」 | ✔️ | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [plugins](#plugins) | Object | 否 | 使用到的插件 | ✔️（基础库 1.9.6 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [preloadRule](#preloadrule) | Object | 否 | 分包预下载规则 | ✔️（基础库 2.3.0 以上） | ✔️ | ✘ | ✘ | ✘ | ✘ |
+| [resizable](#resizable) | Boolean | 否 | iPad 小程序是否支持屏幕旋转，默认关闭 | ✔️（基础库 2.3.0 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [navigateToMiniProgramAppIdList](#navigatetominiprogramappidlist) | String Array | 否 | 需要跳转的小程序列表，详见 wx.navigateToMiniProgram | ✔️（基础库 2.4.0 以上） | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [usingComponents](#usingcomponents) | Object | 否 | 全局自定义组件配置 | ✔️（开发者工具 1.02.1810190） | ✘ | ✘ | ✘ | ✘ | ✘ |
+| [permission](#permission) | Object | 否 | 小程序接口权限相关设置 | ✔️ 微信客户端 7.0.0 | ✘ | ✘ | ✘ | ✘ | ✘ |
 
 #### pages
 
@@ -236,10 +236,10 @@ class App extends Component {
 
 | 属性 | 类型 |  必填 | 默认值 | 描述	 |
 | - | - | - | - | - |
-| request | Number | 否 | 60000 | Taro.request 的超时时间，单位：毫秒 |
-| connectSocket | Number | 否 | 60000 | Taro.connectSocket 的超时时间，单位：毫秒 |
-| uploadFile | Number | 否 | 60000 | Taro.uploadFile 的超时时间，单位：毫秒 |
-| downloadFile | Number | 否 | 60000 | Taro.downloadFile 的超时时间，单位：毫秒 |
+| request | Number | 否 | 60000 | [Taro.request](./native-api.md#发起请求) 的超时时间，单位：毫秒 |
+| connectSocket | Number | 否 | 60000 | [Taro.connectSocket](./native-api.md#websocket) 的超时时间，单位：毫秒 |
+| uploadFile | Number | 否 | 60000 | [Taro.uploadFile](./native-api.md#上传-下载) 的超时时间，单位：毫秒 |
+| downloadFile | Number | 否 | 60000 | [Taro.downloadFile](./native-api.md#上传-下载) 的超时时间，单位：毫秒 |
 
 #### debug
 
@@ -629,6 +629,140 @@ export default class Index extends Component {
 ### 页面事件处理函数
 
 在小程序中，页面还有在一些专属的事件处理函数，如下
+
+#### onPullDownRefresh()
+
+监听用户下拉刷新事件
+
+- 需要在全局配置的 window 选项中或页面配置中开启 enablePullDownRefresh
+- 可以通过 [Taro.startPullDownRefresh](./native-api.md#tarostartpulldownrefreshobject) 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
+- 当处理完数据刷新后，[Taro.stopPullDownRefresh](./native-api.md#tarostoppulldownrefresh) 可以停止当前页面的下拉刷新
+
+#### onReachBottom()
+
+监听用户上拉触底事件
+
+- 可以在全局配置的 window 选项中或页面配置中设置触发距离 onReachBottomDistance
+- 在触发距离内滑动期间，本事件只会被触发一次
+
+#### onPageScroll(Object)
+
+监听用户滑动页面事件
+
+Object 参数说明：
+
+| 参数 | 类型 | 说明 |
+| - | - | - |
+| scrollTop | Number | 页面在垂直方向已滚动的距离（单位px）|
+
+**注意：请只在需要的时候才在 page 中定义此方法，不要定义空方法。以减少不必要的事件派发对渲染层-逻辑层通信的影响。 注意：请避免在 onPageScroll 中过于频繁的执行 this.setState() 等引起逻辑层-渲染层通信的操作。尤其是每次传输大量数据，会影响通信耗时。**
+
+#### onShareAppMessage(Object)
+
+监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。
+
+注意：只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮
+
+Object 参数说明：
+
+| 参数 | 类型 | 说明 |
+| - | - | - |
+| from | String | 转发事件来源。<br />button：页面内转发按钮；<br />menu：右上角转发菜单 |
+| target | Object | 如果 `from` 值是 `button`，则 `target` 是触发这次转发事件的 `button`，否则为 `undefined` |
+| webViewUrl | String | 页面中包含 <WebView> 组件时，返回当前 <WebView> 的url |
+
+此事件需要 return 一个 Object，用于自定义转发内容，返回内容如下：
+
+自定义转发内容
+
+| 字段 | 类型 | 说明 |
+| - | - | - |
+| title | 转发标题 | 当前小程序名称 |
+| path | 转发路径 | 当前页面 path ，必须是以 / 开头的完整路径	|
+| imageUrl | 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4 | 使用默认截图	|
+
+示例代码
+
+```jsx
+export default class Index extends Component {
+  config = {
+    navigationBarTitleText: '首页'
+  }
+
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '自定义转发标题',
+      path: '/page/user?id=123'
+    }
+  }
+
+  render () {
+    return (
+      <View className='index'>
+        <Text>1</Text>
+      </View>
+    )
+  }
+}
+
+```
+
+#### onResize(object)
+
+> 只有微信小程序支持<br />
+> 基础库 2.4.0 开始支持
+
+小程序屏幕旋转时触发。详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81)
+
+#### onTabItemTap(Object)
+
+> 微信小程序中，基础库 1.9.0 开始支持
+
+点击 tab 时触发
+
+Object 参数说明：
+
+| 参数 | 类型 | 说明 |
+| - | - | - |
+| index | String | 被点击 tabItem 的序号，从 0 开始 |
+| pagePath | String | 被点击 tabItem 的页面路径 |
+| text | String | 被点击 tabItem 的按钮文字 |
+
+#### componentWillPreload()
+
+> 目前只有微信小程序支持
+
+[预加载](best-practice.md#预加载)钩子
+
+#### onTitleClick()
+
+> 只有支付宝小程序支持，基础库 1.3.0 开始支持
+
+点击标题触发
+
+#### onOptionMenuClick()
+
+> 只有支付宝小程序支持，基础库 1.3.0 开始支持
+
+点击导航栏额外图标触发
+
+#### onPopMenuClick()
+
+> 只有支付宝小程序支持，基础库 1.11.0 开始支持
+
+暂无说明
+
+#### onPullIntercept()
+
+> 只有支付宝小程序支持，基础库 1.3.0 开始支持
+
+下拉截断时触发
+
+页面事件函数各端支持程度如下
 
 | 方法 | 作用 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 | H5 | RN |
 | - | - | - | - | - | - | - | - |
