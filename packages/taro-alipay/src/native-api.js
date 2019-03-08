@@ -183,7 +183,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, [...arguments])
         this.run()
       }
-      return my.httpRequest(options)
+      return my.request(options)
     }
   }
 }
