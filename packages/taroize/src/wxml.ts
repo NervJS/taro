@@ -753,13 +753,13 @@ function handleAttrKey (key: string) {
   } else if (key === 'class') {
     return 'className'
   } else if (/^(bind|catch)[a-z|:]/.test(key)) {
-    if (!isValidVarName(key)) {
-      throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
-    }
     if (specialEvents.has(key)) {
       return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
+      if (!isValidVarName(key)) {
+        throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
+      }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
     }
   }
