@@ -35,10 +35,22 @@ function setTransform (el, val) {
   el.style.transform = val
 }
 
+function isFunction (obj) {
+  return typeof obj === 'function'
+}
+
+function successHandler (success, complete) {
+  return function (res) {
+    isFunction(success) && success(res)
+    isFunction(complete) && complete(res)
+    return Promise.resolve(res)
+  }
+}
+
 function errorHandler (fail, complete) {
   return function (res) {
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
+    isFunction(fail) && fail(res)
+    isFunction(complete) && complete(res)
     return Promise.reject(res)
   }
 }
@@ -59,13 +71,22 @@ function permanentlyNotSupport (apiName) {
   return () => console.error(`不支持 API ${apiName}`)
 }
 
+const VALID_COLOR_REG = /^#\d{6}$/
+
+const isValidColor = (color) => {
+  return VALID_COLOR_REG.test(color)
+}
+
 export {
   shouleBeObject,
   getParameterError,
   inlineStyle,
   setTransform,
+  successHandler,
   errorHandler,
   serializeParams,
   temporarilyNotSupport,
-  permanentlyNotSupport
+  permanentlyNotSupport,
+  isValidColor,
+  isFunction
 }

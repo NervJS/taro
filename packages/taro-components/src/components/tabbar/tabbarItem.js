@@ -8,9 +8,9 @@ export default class Tabbar extends Component {
   static defaultProps = {
     index: null,
     isSelected: false,
-    onSelect: noop,
     textColor: {},
-    iconPath: ''
+    iconPath: '',
+    onSelect: noop
   }
 
   onClick = () => {

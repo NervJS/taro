@@ -1,8 +1,11 @@
-import { shouleBeObject, getParameterError } from '../utils'
+import { shouleBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
+import Taro from '../../taro'
 
+let tabConf
 let App
 
 export function initTabBarApis (_App = {}) {
+  tabConf = _App.state.__tabs
   App = _App
 }
 
@@ -32,9 +35,7 @@ export function setTabBarBadge (options = {}) {
       wrong: index
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
   if (typeof text !== 'string') {
@@ -45,16 +46,12 @@ export function setTabBarBadge (options = {}) {
       wrong: index
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }
-
+// typeof ([\s\S]+) === 'function' && [^(]+\(([\s\S]+)\)
 export function removeTabBarBadge (options = {}) {
   // options must be an Object
   const isObject = shouleBeObject(options)
@@ -80,14 +77,10 @@ export function removeTabBarBadge (options = {}) {
       wrong: index
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }
 
 export function showTabBarRedDot (options = {}) {
@@ -115,14 +108,10 @@ export function showTabBarRedDot (options = {}) {
       wrong: index
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }
 
 export function hideTabBarRedDot (options = {}) {
@@ -150,14 +139,10 @@ export function hideTabBarRedDot (options = {}) {
       wrong: index
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }
 
 export function showTabBar (options = {}) {
@@ -186,14 +171,10 @@ export function showTabBar (options = {}) {
       wrong: animation
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }
 
 export function hideTabBar (options = {}) {
@@ -222,14 +203,28 @@ export function hideTabBar (options = {}) {
       wrong: animation
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
+}
+
+export function switchTab ({ url, success, fail, complete }) {
+  return new Promise((resolve, reject) => {
+    Taro.eventCenter.trigger('__taroSwitchTab', {
+      url,
+      successHandler: res => {
+        success && success(res)
+        complete && complete(res)
+        resolve(res)
+      },
+      errorHandler: res => {
+        fail && fail(res)
+        complete && complete(res)
+        reject(res)
+      }
+    })
+  })
 }
 
 export function setTabBarStyle (options = {}) {
@@ -253,11 +248,11 @@ export function setTabBarStyle (options = {}) {
   const res = { errMsg: 'setTabBarStyle:ok' }
 
   let errMsg
-  if (color && !/^#\d{6}$/.test(color)) {
+  if (color && !isValidColor(color)) {
     errMsg = 'color'
-  } else if (selectedColor && !/^#\d{6}$/.test(selectedColor)) {
+  } else if (selectedColor && !isValidColor(selectedColor)) {
     errMsg = 'selectedColor'
-  } else if (backgroundColor && !/^#\d{6}$/.test(backgroundColor)) {
+  } else if (backgroundColor && !isValidColor(backgroundColor)) {
     errMsg = 'backgroundColor'
   } else if (borderStyle && !/^(black|white)$/.test(borderStyle)) {
     errMsg = 'borderStyle'
@@ -265,12 +260,10 @@ export function setTabBarStyle (options = {}) {
 
   if (errMsg) {
     res.errMsg = `setTabBarStyle:fail invalid ${errMsg}`
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  if (!App.state.__tabs) {
+  if (!tabConf) {
     res.errMsg = 'setTabBarStyle:fail'
     return Promise.reject(res)
   }
@@ -281,12 +274,10 @@ export function setTabBarStyle (options = {}) {
   if (backgroundColor) obj.backgroundColor = backgroundColor
   if (borderStyle) obj.borderStyle = borderStyle
 
-  const temp = Object.assign({}, App.state.__tabs, obj)
+  const temp = Object.assign({}, tabConf, obj)
   App.setState && App.setState({ __tabs: temp })
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }
 
 export function setTabBarItem (options = {}) {
@@ -317,20 +308,16 @@ export function setTabBarItem (options = {}) {
       wrong: index
     })
     console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
   if (
-    !App.state.__tabs ||
-    !App.state.__tabs.list ||
-    !App.state.__tabs.list[index]
+    !tabConf ||
+    !tabConf.list ||
+    !tabConf.list[index]
   ) {
     res.errMsg = 'setTabBarItem:fail tabbar item not found'
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
   const obj = {}
@@ -338,12 +325,10 @@ export function setTabBarItem (options = {}) {
   if (iconPath) obj.iconPath = iconPath
   if (selectedIconPath) obj.selectedIconPath = selectedIconPath
 
-  const temp = Object.assign({}, App.state.__tabs)
+  const temp = Object.assign({}, tabConf)
   temp.list[index] = Object.assign({}, temp.list[index], obj)
 
   App.setState && App.setState({ __tabs: temp })
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }

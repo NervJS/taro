@@ -35,23 +35,6 @@ it('should work!', function () {
   expect(result.code).toMatchSnapshot();
 });
 
-it('should transform fullfilled apis to named import', function () {
-  const code = `
-    import Taro from '@tarojs/taro-h5'
-    ${Array.from(apis).map(api => `Taro.${api}();`)
-    .join('')}
-  `
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot();
-
-  const ast = result.ast as t.File
-  const body = ast.program.body as [t.ImportDeclaration, t.ExpressionStatement]
-  expect(t.isImportDeclaration(body[0])).toBeTruthy()
-
-  const namedImports = getNamedImports(body[0].specifiers)
-  expect(namedImports).toEqual(new Set(apis))
-})
-
 it('should leave other apis untouched', function () {
   const code = `
     import Taro from '@tarojs/taro-h5'

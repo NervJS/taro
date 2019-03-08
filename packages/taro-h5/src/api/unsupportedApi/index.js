@@ -131,7 +131,7 @@ export const openDocument = temporarilyNotSupport('openDocument')
 // export const navigateBack = temporarilyNotSupport('navigateBack')
 // export const navigateTo = temporarilyNotSupport('navigateTo')
 // export const redirectTo = temporarilyNotSupport('redirectTo')
-export const switchTab = temporarilyNotSupport('switchTab')
+// export const switchTab = temporarilyNotSupport('switchTab')
 export const reLaunch = temporarilyNotSupport('reLaunch')
 
 // 位置
