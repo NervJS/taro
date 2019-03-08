@@ -1,6 +1,7 @@
 import {
   Component,
-  ComponentLifecycle
+  ComponentLifecycle,
+  getEnv
 } from '@tarojs/taro'
 import isEqual from 'lodash/isEqual'
 import safeSet from 'lodash/set'
@@ -84,7 +85,14 @@ export default function withWeapp (componentType: string) {
         throw new Error('triggerEvent 第一个参数必须是字符串')
       }
       const fullEventName = `on${eventName}`
-      this.$scope.triggerEvent(fullEventName.toLowerCase(), ...args)
+      if (getEnv() === 'WEB') {
+        const func = this.props[`on${eventName[0].slice(0, 1)}${eventName.slice(1)}`]
+        if (typeof func === 'function') {
+          func(...args)
+        }
+      } else {
+        this.$scope.triggerEvent(fullEventName.toLowerCase(), ...args)
+      }
     }
 
     componentWillReceiveProps (nextProps) {
