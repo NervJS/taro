@@ -616,7 +616,7 @@ export default class Index extends Component {
 
 页面卸载时触发，如 redirectTo 或 navigateBack 到其他页面时
 
-#### componentDiDShow()
+#### componentDidShow()
 
 页面显示/切入前台时触发
 
