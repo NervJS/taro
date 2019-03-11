@@ -18,7 +18,7 @@ class ScrollView extends Nerv.Component {
   }
 
   componentDidUpdate () {
-    if (!this.refs.wrapperScroll) {
+    if (!this.refs.wrapperScroll && !this._scroll) {
       return
     }
     this._scroll.destroy()
