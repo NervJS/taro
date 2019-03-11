@@ -1,17 +1,20 @@
 .taro-scroll {
-  -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-.taro-scroll-view {
+  position: relative;
+  height: 100%;
   overflow: hidden;
-  &__scroll-x {
-    overflow-x: scroll;
-    overflow-y: hidden;
+  &-content {
+    position: relative;
+    z-index: 1;
+    &-x {
+      white-space: nowrap;
+    }
   }
-  &__scroll-y {
-    overflow-x: hidden;
-    overflow-y: scroll;
+  &-view {
+    overflow: hidden;
+    &__scroll-x {
+      white-space: nowrap;
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
   }
 }

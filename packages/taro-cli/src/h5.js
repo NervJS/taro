@@ -384,11 +384,12 @@ function processEntry (code, filePath) {
             const pathArr = value.split('/')
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
-            } else if (Util.REG_SCRIPTS.test(value)) {
-              const realPath = path.resolve(filePath, '..', value)
-              const dirname = path.dirname(realPath)
-              const extname = path.extname(realPath)
-              const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+            } else if (Util.REG_SCRIPTS.test(value) || path.extname(value) === '') {
+              const absolutePath = path.resolve(filePath, '..', value)
+              const dirname = path.dirname(absolutePath)
+              const extname = path.extname(absolutePath)
+              const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+              const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
               node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
             }
           }
@@ -650,11 +651,12 @@ function processOthers (code, filePath, fileType) {
           source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
         }
         if (!Util.isNpmPkg(value)) {
-          if (Util.REG_SCRIPTS.test(value)) {
-            const realPath = path.resolve(filePath, '..', value)
-            const dirname = path.dirname(realPath)
-            const extname = path.extname(realPath)
-            const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+          if (Util.REG_SCRIPTS.test(value) || path.extname(value) === '') {
+            const absolutePath = path.resolve(filePath, '..', value)
+            const dirname = path.dirname(absolutePath)
+            const extname = path.extname(absolutePath)
+            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
             node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {

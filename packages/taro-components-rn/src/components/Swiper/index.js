@@ -107,8 +107,11 @@ class _Swiper extends React.Component<Props> {
       vertical,
     } = this.props
 
-    const styleHeight = style.height
-    delete style.height
+    let styleHeight
+    if (style) {
+      styleHeight = style.height
+      delete style.height
+    }
 
     return (
       <Swiper
