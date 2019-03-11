@@ -684,7 +684,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                       if (Array.isArray(obj)) {
                         objArr = t.arrayExpression(astConvert.array(obj))
                       } else {
-                        objArr = t.objectExpression(astConvert.obj(obj))
+                        objArr = astConvert.obj(obj)
                       }
                       astPath.replaceWith(t.objectExpression(objArr))
                     }
