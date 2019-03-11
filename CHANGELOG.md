@@ -1,5 +1,25 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.16...v) (2019-03-06)
+# [](https://github.com/NervJS/taro/compare/v1.2.17...v) (2019-03-11)
+
+
+
+<a name="1.2.17"></a>
+## [1.2.17](https://github.com/NervJS/taro/compare/v1.2.16...v1.2.17) (2019-03-11)
+
+
+### Bug Fixes
+
+* **cli:** 修复使用 require 读取 json 文件失败的问题 ([f549f53](https://github.com/NervJS/taro/commit/f549f53))
+* **router:** 修复了redirect之后页面生命周期错误触发的问题, fix [#2388](https://github.com/NervJS/taro/issues/2388) ([1350b36](https://github.com/NervJS/taro/commit/1350b36))
+* **taro-components-rn:** react natvie 引用 swiper 组件 报错 undefined is not an object (evaluating 'style.height'), fix [#2301](https://github.com/NervJS/taro/issues/2301) ([7175c03](https://github.com/NervJS/taro/commit/7175c03))
+* **taroize:** 支持事件名有一个冒号 `:`的写法，close [#2389](https://github.com/NervJS/taro/issues/2389) ([a0806c5](https://github.com/NervJS/taro/commit/a0806c5))
+* **with-weapp:** h5 无法触发 triggerEvent，使用 lerna 自动同步依赖, ([5ce8358](https://github.com/NervJS/taro/commit/5ce8358)), closes [#2383](https://github.com/NervJS/taro/issues/2383)
+
+
+### Features
+
+* **cli:** 优化跨平台开发方式 ([4ff9521](https://github.com/NervJS/taro/commit/4ff9521))
+* **components:** 重构 ScrollView 组件。 ([23624e8](https://github.com/NervJS/taro/commit/23624e8))
 
 
 
