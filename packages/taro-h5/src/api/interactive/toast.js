@@ -149,6 +149,9 @@ export default class Toast {
   show (options = {}) {
     const config = this.options
 
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
     // title
     if (config.title !== options.title) this.title.textContent = options.title
 
@@ -206,11 +209,12 @@ export default class Toast {
   hide (duration = 0, type) {
     if (this.type !== type) return
 
-    if (this.hideTimer) clearTimeout(this.hideTimer)
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
 
-    this.hideTimer = setTimeout(() => {
+    this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
-      setTimeout(() => { this.el.style.display = 'none' }, 100)
+      this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 100)
     }, duration)
   }
 }
