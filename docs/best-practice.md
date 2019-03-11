@@ -31,7 +31,7 @@ $ ESLINT=false taro build --type weapp --watch
 
 ### 组件样式说明
 
-微信小程序的[自定义组件样式](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html)默认是不能受外部样式影响的，例如在页面中引用了一个自定义组件，在页面样式中直接写自定义组件元素的样式是无法生效的。这一点，在 Taro 中也是一样，而这也是与大家认知的传统 web 开发不太一样。
+微信小程序的[自定义组件样式](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html)默认是不能受外部样式影响的，例如在页面中引用了一个自定义组件，在页面样式中直接写自定义组件元素的样式是无法生效的。这一点，在 Taro 中也是一样，而这也是与大家认知的传统 Web 开发不太一样。
 
 ### 给组件设置 `defaultProps`
 
@@ -73,7 +73,7 @@ const property = this.props.property
 在 Taro 中，父组件要往子组件传递函数，属性名必须以 `on` 开头
 
 ```jsx
-// 调用 Custom 组件，传入 handleEvent 函数，属性名为 `onTrigger`
+// 调用 Custom 组件，传入 handleEvent 函数，属性名为 onTrigger
 class Parent extends Component {
 
   handleEvent () {
@@ -91,7 +91,7 @@ class Parent extends Component {
 这是因为，微信小程序端组件化是不能直接传递函数类型给子组件的，在 Taro 中是借助组件的[事件机制](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/events.html)来实现这一特性，而小程序中传入事件的时候属性名写法为 `bindmyevent` 或者 `bind:myevent`
 
 ```xml
-<!-- 当自定义组件触发“myevent”事件时，调用“onMyEvent”方法 -->
+<!-- 当自定义组件触发 myevent 事件时，调用 onMyEvent 方法 -->
 <component-tag-name bindmyevent="onMyEvent" />
 <!-- 或者可以写成 -->
 <component-tag-name bind:myevent="onMyEvent" />
@@ -264,7 +264,7 @@ class Index extends Component {
 
 ### 在小程序中，可以使用 this.$preload 函数进行页面跳转传参
 
-用法：`this.$preload(key:String|Object, [value: Any])`
+用法：`this.$preload(key: String | Object, [ value: Any ])`
 
 之所以命名为 $preload，因为它也有一点预加载数据的意味。
 
@@ -288,7 +288,6 @@ componentWillMount () {
   console.log('preload: ', this.$router.preload.key)
 }
 ```
-
 
 ```js
 // 传入多个参数
@@ -377,7 +376,6 @@ diff(data, state)
 }
 */
 ```
-
 
 ## 全局变量
 
