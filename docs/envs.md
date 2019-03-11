@@ -66,7 +66,7 @@ render () {
 ```jsx
 import Test from '../../components/test'
 
-<Test arga={1} argb={2} />
+<Test argA={1} argA={2} />
 ```
 
 ### 多端脚本逻辑
@@ -97,7 +97,6 @@ export default function setTitle (title) {
 调用的时候，如下使用
 
 ```js
-
 import setTitle from '../utils/set_title'
 
 setTitle('页面标题')
