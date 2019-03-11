@@ -7,6 +7,7 @@ import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as path from 'path';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import * as webpack from 'webpack';
+import * as apis from '@tarojs/taro-h5/dist/taroApis';
 
 import { appPath, recursiveMerge } from '.';
 import { getPostcssPlugins } from '../config/postcss.conf';
@@ -38,6 +39,13 @@ const defaultBabelLoaderOption = {
       require.resolve('babel-plugin-transform-react-jsx'),
       {
         pragma: 'Nerv.createElement'
+      }
+    ],
+    [
+      require.resolve('babel-plugin-transform-taroapi'),
+      {
+        apis,
+        packageName: '@tarojs/taro-h5'
       }
     ]
   ]
@@ -343,11 +351,13 @@ const getModule = ({
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
   const taroModuleRegs = [
-    /@tarojs[/\\_]components/, /\btaro-components\b/,
-    /@tarojs[/\\_]taro-h5/, /\btaro-h5\b/
+    /@tarojs[/\\_]components/, /\btaro-components\b/
   ]
   let esnextModuleRegs = [
-    /@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/
+    /@tarojs[/\\_]components/, /\btaro-components\b/,
+    /@tarojs[/\\_]taro-h5/, /\btaro-h5\b/,
+    /@tarojs[/\\_]router/, /\btaro-router\b/,
+    /@tarojs[/\\_]redux-h5/, /\btaro-redux-h5\b/
   ]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */

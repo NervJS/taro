@@ -22,8 +22,7 @@ export default function (config: BuildConfig): any {
     dllFilename = '[name]',
     dllEntry = {
       lib: [
-        'nervjs',
-        '@tarojs/router'
+        'nervjs'
       ]
     },
 
