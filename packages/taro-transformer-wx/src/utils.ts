@@ -11,6 +11,8 @@ import { Adapter } from './adapter'
 import { transformOptions } from './options'
 const template = require('babel-template')
 
+const _path = path
+
 export const incrementId = () => {
   let id = 0
   return () => id++
@@ -28,7 +30,7 @@ export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
           return
         }
         try {
-          const p = pathResolver(source.value, transformOptions.sourcePath) + (transformOptions.isTyped ? '.tsx' : '.js')
+          const p = _path.resolve(_path.dirname(transformOptions.sourcePath), pathResolver(source.value, transformOptions.sourcePath) + (transformOptions.isTyped ? '.tsx' : '.js'))
           const code = fs.readFileSync(p, 'utf8')
           return {
             code,
