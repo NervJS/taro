@@ -4,13 +4,19 @@ title: 安装及使用
 
 ## 安装
 
+Taro 项目基于 node，请确保已具备较新的 node 环境（>=8.0.0），推荐使用 node 版本管理工具 [nvm](https://github.com/creationix/nvm) 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。
+
 安装 Taro 开发工具 `@tarojs/cli`
 
 使用 npm 或者 yarn 全局安装，或者直接使用[npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
 
 ```bash
+# 使用 npm 安装 CLI
 $ npm install -g @tarojs/cli
+# OR 使用 yarn 安装 CLI
 $ yarn global add @tarojs/cli
+# OR 安装了 cnpm，使用 cnpm 安装 CLI
+$ cnpm install -g @tarojs/cli
 ```
 
 ## 使用
@@ -25,6 +31,19 @@ npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
 
 ```bash
 $ npx @tarojs/cli init myApp
+```
+
+![](http://ww1.sinaimg.cn/large/49320207gy1g0u2e0uf8gj20vg0uw10f.jpg)
+
+在创建完项目之后，Taro 会默认开始安装项目所需要的依赖，安装使用的工具按照 yarn>cnpm>npm 顺序进行检测，一般来说，依赖安装会比较顺利，但某些情况下可能会安装失败，这时候你可以在项目目录下自己使用安装命令进行安装
+
+```bash
+# 使用 yarn 安装依赖
+$ yarn
+# OR 使用 cnpm 安装依赖
+$ cnpm install
+# OR 使用 npm 安装依赖
+$ npm install
 ```
 
 进入项目目录开始开发，目前已经支持 微信/百度/支付宝/字节跳动小程序、H5 以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致

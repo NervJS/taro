@@ -17,6 +17,7 @@
       "router",
       "size",
       "static-reference",
+      "component-style",
       "jsx",
       "props",
       "state",
@@ -26,12 +27,12 @@
       "children",
       "ref",
       "envs",
-      "wx-relations",
-      "component-style",
+      "relations",
       "react-native",
       "ui-lib",
       "taroize",
-      "best-practice"
+      "best-practice",
+      "debug"
     ],
     "进阶指南": [
       "config",
@@ -39,23 +40,28 @@
       "async-await",
       "redux",
       "mobx",
-      "wx-third-party",
-      "wx-hybrid",
-      "css-modules"
+      "mini-third-party",
+      "hybrid",
+      "css-modules",
+      "CONTRIBUTING"
     ]
   },
   "components": {
-    "组件库": [
-      "components-desc",
+    "关于组件库":  ["components-desc"],
+    "视图容器": [
       "components/viewContainer/view",
       "components/viewContainer/scroll-view",
       "components/viewContainer/swiper",
       "components/viewContainer/movable-view",
-      "components/viewContainer/cover-view",
+      "components/viewContainer/cover-view"
+    ],
+    "基础内容": [
       "components/base/icon",
       "components/base/text",
       "components/base/progress",
-      "components/base/rich-text",
+      "components/base/rich-text"
+    ],
+    "表单组件": [
       "components/forms/button",
       "components/forms/checkbox",
       "components/forms/form",
@@ -66,18 +72,20 @@
       "components/forms/radio",
       "components/forms/slider",
       "components/forms/switch",
-      "components/forms/textarea",
-      "components/navig/navigator",
+      "components/forms/textarea"
+    ],
+    "导航": ["components/navig/navigator"],
+    "媒体组件": [
       "components/media/audio",
       "components/media/image",
       "components/media/video",
-      "components/media/camera",
-      "components/media/live-player",
-      "components/media/live-pusher",
-      "components/maps/map",
-      "components/canvas/canvas",
-      "components/open/open-data",
-      "components/open/web-view"
+      "components/media/camera"
+    ],
+    "地图": ["components/maps/map"],
+    "画布": ["components/canvas/canvas"],
+    "开放能力": [
+      "components/open/web-view",
+      "components/open/open-data"
     ]
   },
   "api": {

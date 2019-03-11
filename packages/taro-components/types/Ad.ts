@@ -6,7 +6,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * @since 1.9.94
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/ad.html}
  */
-interface AdProps extends StandardProps {
+export interface AdProps extends StandardProps {
 
   /**
    * 广告单元id，可在小程序管理后台的流量主模块新建

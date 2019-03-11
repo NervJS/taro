@@ -428,9 +428,9 @@ Taro app 的入口，同[webpack.entry](https://webpack.js.org/configuration/ent
 ```jsx
 {
   entry: {
-    home: './home.js',
-    about: './about.js',
-    contact: './contact.js'
+    home: ['./home.js'],
+    about: ['./about.js'],
+    contact: ['./contact.js']
   }
 }
 ```

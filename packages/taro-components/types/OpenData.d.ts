@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-interface OpenDataProps extends StandardProps {
+export interface OpenDataProps extends StandardProps {
 
   /**
    * 开放数据类型

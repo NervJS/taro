@@ -300,13 +300,33 @@ function parsePage (
       method.async = isAsync
       return method
     }
+    let hasArguments = false
+    prop.traverse({
+      Identifier (path) {
+        if (path.node.name === 'arguments') {
+          hasArguments = true
+          path.stop()
+        }
+      }
+    })
+
     if (prop.isObjectMethod()) {
       const body = prop.get('body')
+      if (hasArguments) {
+        return t.classMethod('method', t.identifier(name), params, body.node)
+      }
       return t.classProperty(
         t.identifier(name),
         t.arrowFunctionExpression(params, body.node, isAsync)
       )
     }
+
+    if (hasArguments && (value.isFunctionExpression() || value.isArrowFunctionExpression())) {
+      const method = t.classMethod('method', t.identifier(name), params, value.node.body as any)
+      method.async = isAsync
+      return method
+    }
+
     const classProp = t.classProperty(
       t.identifier(name),
       value.isFunctionExpression() || value.isArrowFunctionExpression()

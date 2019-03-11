@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface CheckboxGroupProps extends StandardProps, FormItemProps {
+export interface CheckboxGroupProps extends StandardProps, FormItemProps {
   /**
    * <checkbox-group/>中选中项发生改变是触发 change 事件
    *
@@ -13,7 +13,7 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
 
 declare const CheckboxGroup: ComponentType<CheckboxGroupProps>
 
-interface CheckboxProps extends StandardProps {
+export interface CheckboxProps extends StandardProps {
 
   /**
    * <checkbox/>标识，选中时触发<checkbox-group/>的 change 事件，并携带 <checkbox/> 的 value

@@ -458,6 +458,27 @@ declare namespace Taro {
 
   function pxTransform(size: number): string
 
+  interface RequestParams {
+    [propName: string]: any
+  }
+
+  type interceptor = (chain: Chain) => any
+
+  interface Chain {
+    index: number
+    requestParams: RequestParams
+    interceptors: interceptor[]
+    proceed(requestParams: RequestParams): any
+  }
+
+  namespace interceptors {
+    function logInterceptor (chain: Chain): Promise<any>
+
+    function timeoutInterceptor (chain: Chain): Promise<any>
+  }
+
+  function addInterceptor (interceptor: interceptor): any
+
   /**
    * 小程序引用插件 JS 接口
    */
@@ -971,7 +992,7 @@ declare namespace Taro {
 
   namespace connectSocket {
     type Promised = SocketTask;
-    
+
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
@@ -9064,6 +9085,42 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigateBackMiniProgram.html#wxnavigatebackminiprogramobject
    */
   function navigateBackMiniProgram(OBJECT?: navigateBackMiniProgram.Param): Promise<navigateBackMiniProgram.Promised>
+
+  namespace chooseInvoice {
+    type Promised = {
+      /**
+       * 所选发票卡券的 cardId
+       */
+      cardId: string
+      /**
+       * 所选发票卡券的加密 code，报销方可以通过 cardId 和 encryptCode 获得报销发票的信息。
+       */
+      encryptCode: string
+      /**
+       * 发票方的 appId
+       */
+      publisherAppId: string
+    }
+    type Param = {}
+  }
+  /**
+   * @since 1.5.0
+   *
+   * 选择用户的发票抬头。
+   *
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.invoice
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.chooseInvoice({
+   *       success(res) {
+   *       }
+   *     })
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseInvoice.html
+   */
+  function chooseInvoice(OBJECT?: chooseInvoice.Param): Promise<chooseInvoice.Promised>
 
   namespace chooseInvoiceTitle {
     type Promised = {

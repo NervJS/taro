@@ -5,16 +5,29 @@ sidebar_label: PickerView
 
 ##### 嵌入页面的滚动选择器
 
-> 属性及支持度
+> 属性
 
-| 微信小程序 | H5 | ReactNative| 属性名 | 类型  | 说明 |
-| :-: | :-: | :-: | :- | :- | :- |
-| √ | x | x | value      | NumberArray |  数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。    |
-| √ | x | x | indicatorStyle  | String    | 设置选择器中间选中框的样式 |
-| √ | x | x | indicatorClass      | String   | 设置选择器中间选中框的类名   |
-| √ | x | x | maskStyle | String  | 设置蒙层的样式  |
-| √ | x | x | maskClass | String| 设置蒙层的类名     |
-| √ | x | x | onChange   | EventHandle | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value 为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
+| 属性名 | 类型 | 说明 |
+| :- | :- | :- |
+| value      | NumberArray |  数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。    |
+| indicatorStyle  | String    | 设置选择器中间选中框的样式 |
+| indicatorClass      | String   | 设置选择器中间选中框的类名   |
+| maskStyle | String  | 设置蒙层的样式  |
+| maskClass | String| 设置蒙层的类名     |
+| onChange   | EventHandle | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value 为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
+
+> 各端支持度
+
+| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
+| :-: | :-: | :-: | :- | :- | :- | :- |
+| value | ✔ |  |  | ✔ | ✔ | ✔ |
+| indicatorStyle | ✔ |  |  | ✔ | ✔ | ✔ |
+| indicatorClass | ✔ |  |  | ✔ | ✔ |  |
+| maskStyle | ✔ |  |  | ✔ | ✔ | ✔ |
+| maskClass | ✔ |  |  | ✔ | ✔ |  |
+| onChange | ✔ |  |  | ✔ | ✔ | ✔ |
+
+
 
 ##### PickerViewColumn
 

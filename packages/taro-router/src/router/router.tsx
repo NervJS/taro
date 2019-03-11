@@ -67,6 +67,7 @@ class Router extends Component<Props, State> {
   push (toLocation: Types.Location) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
+    routeStack.forEach(v => { v.isRedirect = false })
     routeStack.push(assign({}, matchedRoute, {
       key: toLocation.state.key,
       isRedirect: false

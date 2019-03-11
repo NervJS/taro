@@ -209,7 +209,7 @@ export type marker = {
  * 地图。
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map
  */
-interface MapProps extends StandardProps {
+export interface MapProps extends StandardProps {
 
   /**
    * 中心经度

@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信小程序、H5、React Native 等的应用。",
+    "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝小程序、H5、React Native 等的应用。",
     "docs": {
       "api-desc": {
         "title": "API 说明"
@@ -54,8 +54,8 @@
         "sidebar_label": "Button"
       },
       "components/forms/checkbox": {
-        "title": "CheckboxGroup",
-        "sidebar_label": "CheckboxGroup"
+        "title": "Checkbox",
+        "sidebar_label": "Checkbox"
       },
       "components/forms/form": {
         "title": "Form",
@@ -126,8 +126,8 @@
         "sidebar_label": "Navigator"
       },
       "components/open/open-data": {
-        "title": "OpenData",
-        "sidebar_label": "OpenData"
+        "title": "其他",
+        "sidebar_label": "其他"
       },
       "components/open/web-view": {
         "title": "WebView",
@@ -165,14 +165,20 @@
       "config": {
         "title": "编译配置"
       },
+      "CONTRIBUTING": {
+        "title": "CONTRIBUTING"
+      },
       "css-modules": {
         "title": "CSS Modules 的使用"
+      },
+      "debug": {
+        "title": "Debug 指南"
       },
       "env": {
         "title": "环境判断"
       },
       "envs": {
-        "title": "内置环境变量"
+        "title": "跨平台开发"
       },
       "event": {
         "title": "事件处理"
@@ -183,11 +189,17 @@
       "GETTING-STARTED": {
         "title": "安装及使用"
       },
+      "hybrid": {
+        "title": "Taro 代码与小程序代码混写"
+      },
       "jsx": {
         "title": "JSX 简介"
       },
       "list": {
         "title": "列表渲染"
+      },
+      "mini-third-party": {
+        "title": "使用小程序原生第三方组件和插件"
       },
       "mobx": {
         "title": "使用 Mobx"
@@ -212,6 +224,9 @@
       },
       "ref": {
         "title": "Refs 引用"
+      },
+      "relations": {
+        "title": "小程序原生作用域获取"
       },
       "router": {
         "title": "路由功能"
@@ -241,19 +256,10 @@
         "title": "Taro 团队"
       },
       "tutorial": {
-        "title": "项目说明"
+        "title": "框架"
       },
       "ui-lib": {
         "title": "基于 Taro 开发第三方多端 UI 库"
-      },
-      "wx-hybrid": {
-        "title": "Taro 代码与微信小程序代码混写"
-      },
-      "wx-relations": {
-        "title": "微信小程序原生作用域获取"
-      },
-      "wx-third-party": {
-        "title": "使用微信小程序第三方组件和插件"
       }
     },
     "links": {
@@ -267,7 +273,15 @@
       "快速开始": "快速开始",
       "教程": "教程",
       "进阶指南": "进阶指南",
-      "组件库": "组件库",
+      "关于组件库": "关于组件库",
+      "视图容器": "视图容器",
+      "基础内容": "基础内容",
+      "表单组件": "表单组件",
+      "导航": "导航",
+      "媒体组件": "媒体组件",
+      "地图": "地图",
+      "画布": "画布",
+      "开放能力": "开放能力",
       "API": "API"
     }
   },

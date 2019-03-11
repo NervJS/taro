@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface SwiperProps extends StandardProps {
+export interface SwiperProps extends StandardProps {
 
   /**
    * 是否显示面板指示点
@@ -119,7 +119,7 @@ interface SwiperProps extends StandardProps {
 
 declare const Swiper: ComponentType<SwiperProps>
 
-interface SwiperItemProps extends StandardProps {
+export interface SwiperItemProps extends StandardProps {
 
   /**
    * 该 swiper-item 的标识符

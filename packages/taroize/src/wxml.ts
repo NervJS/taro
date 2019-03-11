@@ -2,7 +2,7 @@ import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError } from './utils'
+import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
@@ -757,6 +757,9 @@ function handleAttrKey (key: string) {
       return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
+      if (!isValidVarName(key)) {
+        throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
+      }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
     }
   }

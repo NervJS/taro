@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, TouchEventFunction, Omit } from './common'
 
-interface MovableAreaProps extends StandardProps {
+export interface MovableAreaProps extends StandardProps {
 
   /**
    * 当里面的movable-view设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个movable-area
@@ -12,7 +12,7 @@ interface MovableAreaProps extends StandardProps {
 }
 
 
-interface MovableViewProps extends Omit<StandardProps, 'animation'> {
+export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
 
   /**
    * movable-view的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`
