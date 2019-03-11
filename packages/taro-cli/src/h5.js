@@ -249,6 +249,7 @@ function processEntry (code, filePath) {
                   <${tabBarComponentName}
                     conf={this.state.${tabBarConfigName}}
                     homePage="${homePage}"
+                    tabbarPos={'top'}
                     router={${taroImportDefaultName}} />
 
                   <${tabBarPanelComponentName}>

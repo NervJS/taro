@@ -1,6 +1,6 @@
 import 'weui'
 import Taro from '@tarojs/taro-h5'
-import Nerv from 'nervjs'
+import Nerv, { findDOMNode } from 'nervjs'
 import classNames from 'classnames'
 import URI from 'urijs'
 
@@ -10,6 +10,14 @@ import './style/index.scss'
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
 const addLeadingSlash = str => str[0] === '/' ? str : `/${str}`
+
+const STATUS_SHOW = 0
+const STATUS_HIDE = 1
+const STATUS_SLIDEOUT = 2
+
+const basicTabBarClassName = 'taro-tabbar__tabbar'
+const hideTabBarClassName = 'taro-tabbar__tabbar-hide'
+const hideTabBarWithAnimationClassName = 'taro-tabbar__tabbar-slideout'
 
 class Tabbar extends Nerv.Component {
   constructor (props) {
@@ -32,10 +40,14 @@ class Tabbar extends Nerv.Component {
 
     this.state = {
       list,
-      selectedIndex: -1
+      selectedIndex: -1,
+      status: STATUS_SHOW
     }
   }
+
   homePage = ''
+  tabbar = null
+  tabbarPos = 'bottom'
 
   getCurrentUrl () {
     const url = this.props.conf.mode === 'hash' ? location.hash : location.pathname
@@ -67,6 +79,11 @@ class Tabbar extends Nerv.Component {
     })
   }
 
+  tabbarRef = (ref) => {
+    const domNode = findDOMNode(ref)
+    this.tabbar = domNode
+  }
+
   switchTabHandler = ({ url, successHandler, errorHandler }) => {
     const currentUrl = this.getOriginUrl(this.getCurrentUrl() || this.homePage)
     const nextTab = URI(url).absoluteTo(currentUrl)
@@ -94,16 +111,118 @@ class Tabbar extends Nerv.Component {
     })
   }
 
-  bindEvent () {
-    Taro.eventCenter.on('__taroSwitchTab', this.switchTabHandler)
-    Taro.eventCenter.on('__taroRouterChange', this.routerChangeHandler)
-    this.removeEvent = () => {
-      Taro.eventCenter.off('__taroSwitchTab', this.switchTabHandler)
-      Taro.eventCenter.off('__taroRouterChange', this.routerChangeHandler)
+  setTabBarBadgeHandler = ({ index, text, successHandler, errorHandler }) => {
+    const list = this.state.list
+    if (index in list) {
+      list[index].showRedDot = false
+      list[index].badgeText = text
+      this.setState({}, () => {
+        successHandler({
+          errMsg: 'setTabBarBadge:ok'
+        })
+      })
+    } else {
+      errorHandler({
+        errMsg: `setTabBarBadge:fail tabbar item not found`
+      })
     }
   }
 
+  removeTabBarBadgeHandler = ({ index, successHandler, errorHandler }) => {
+    const list = this.state.list
+    if (index in list) {
+      list[index].badgeText = null
+      this.setState({}, () => {
+        successHandler({
+          errMsg: 'removeTabBarBadge:ok'
+        })
+      })
+    } else {
+      errorHandler({
+        errMsg: `removeTabBarBadge:fail tabbar item not found`
+      })
+    }
+  }
+
+  showTabBarRedDotHandler = ({ index, successHandler, errorHandler }) => {
+    const list = this.state.list
+    if (index in list) {
+      list[index].badgeText = null
+      list[index].showRedDot = true
+      this.setState({}, () => {
+        successHandler({
+          errMsg: 'showTabBarRedDot:ok'
+        })
+      })
+    } else {
+      errorHandler({
+        errMsg: `showTabBarRedDot:fail tabbar item not found`
+      })
+    }
+  }
+
+  hideTabBarRedDotHandler = ({ index, successHandler, errorHandler }) => {
+    const list = this.state.list
+    if (index in list) {
+      list[index].showRedDot = false
+      this.setState({}, () => {
+        successHandler({
+          errMsg: 'hideTabBarRedDot:ok'
+        })
+      })
+    } else {
+      errorHandler({
+        errMsg: `hideTabBarRedDot:fail tabbar item not found`
+      })
+    }
+  }
+
+  showTabBarHandler = ({ successHandler }) => {
+    this.setState({
+      status: STATUS_SHOW
+    }, () => {
+      successHandler({
+        errMsg: 'showTabBar:ok'
+      })
+    })
+  }
+
+  hideTabBarHandler = ({ animation, successHandler }) => {
+    this.setState({
+      status: animation ? STATUS_SLIDEOUT : STATUS_HIDE
+    }, () => {
+      successHandler({
+        errMsg: 'hideTabBar:ok'
+      })
+    })
+  }
+
+  bindEvent () {
+    Taro.eventCenter.on('__taroRouterChange', this.routerChangeHandler)
+    Taro.eventCenter.on('__taroSwitchTab', this.switchTabHandler)
+    Taro.eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+    Taro.eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+    Taro.eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+    Taro.eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+    Taro.eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
+    Taro.eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
+  }
+
+  removeEvent () {
+    Taro.eventCenter.off('__taroRouterChange', this.routerChangeHandler)
+    Taro.eventCenter.off('__taroSwitchTab', this.switchTabHandler)
+    Taro.eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+    Taro.eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+    Taro.eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+    Taro.eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+    Taro.eventCenter.off('__taroShowTabBarHandler', this.showTabBarHandler)
+    Taro.eventCenter.off('__taroHideTabBarHandler', this.hideTabBarHandler)
+  }
+
   componentDidMount () {
+    this.tabbarPos = this.vnode.dom.nextElementSibling
+      ? 'top'
+      : 'bottom'
     this.bindEvent()
     this.routerChangeHandler()
   }
@@ -113,13 +232,23 @@ class Tabbar extends Nerv.Component {
   }
 
   render () {
-    const { conf } = this.props
+    const { conf, tabbarPos = 'bottom' } = this.props
+    const { status } = this.state
     const containerCls = classNames('weui-tabbar', {
       [`taro-tabbar__border-${conf.borderStyle || 'black'}`]: true
     })
-    const isShow = this.state.selectedIndex > -1
+    const shouldHideTabBar = this.state.selectedIndex === -1 || status === STATUS_HIDE
+    const shouldSlideout = status === STATUS_SLIDEOUT
+
     return (
-      <div className='taro-tabbar__tabbar' style={{display: isShow ? '' : 'none'}}>
+      <div
+        ref={this.tabbarRef}
+        className={classNames(
+          basicTabBarClassName,
+          `${basicTabBarClassName}-${tabbarPos}`, {
+            [hideTabBarClassName]: shouldHideTabBar,
+            [hideTabBarWithAnimationClassName]: shouldSlideout
+          })} >
         <div
           className={containerCls}
           style={{
@@ -144,7 +273,9 @@ class Tabbar extends Nerv.Component {
                 isSelected={isSelected}
                 textColor={textColor}
                 iconPath={iconPath}
-                text={item.text} />
+                text={item.text}
+                badgeText={item.badgeText}
+                showRedDot={item.showRedDot} />
             )
           })}
         </div>

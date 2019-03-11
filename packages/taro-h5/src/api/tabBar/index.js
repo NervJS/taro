@@ -9,6 +9,33 @@ export function initTabBarApis (_App = {}) {
   App = _App
 }
 
+export function switchTab (options = {}) {
+  // options must be an Object
+  const isObject = shouleBeObject(options)
+  if (!isObject.res) {
+    const res = { errMsg: `showTabBarRedDot${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  const { url, success, fail, complete } = options
+  return new Promise((resolve, reject) => {
+    Taro.eventCenter.trigger('__taroSwitchTab', {
+      url,
+      successHandler: res => {
+        success && success(res)
+        complete && complete(res)
+        resolve(res)
+      },
+      errorHandler: res => {
+        fail && fail(res)
+        complete && complete(res)
+        reject(res)
+      }
+    })
+  })
+}
+
 export function setTabBarBadge (options = {}) {
   // options must be an Object
   const isObject = shouleBeObject(options)
@@ -49,9 +76,16 @@ export function setTabBarBadge (options = {}) {
     return errorHandler(fail, complete)(res)
   }
 
+  Taro.eventCenter.trigger('__taroSetTabBarBadge', {
+    index,
+    text,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(fail, complete)
+  })
+
   return successHandler(success, complete)(res)
 }
-// typeof ([\s\S]+) === 'function' && [^(]+\(([\s\S]+)\)
+
 export function removeTabBarBadge (options = {}) {
   // options must be an Object
   const isObject = shouleBeObject(options)
@@ -79,6 +113,12 @@ export function removeTabBarBadge (options = {}) {
     console.error(res.errMsg)
     return errorHandler(fail, complete)(res)
   }
+
+  Taro.eventCenter.trigger('__taroRemoveTabBarBadge', {
+    index,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(fail, complete)
+  })
 
   return successHandler(success, complete)(res)
 }
@@ -111,6 +151,12 @@ export function showTabBarRedDot (options = {}) {
     return errorHandler(fail, complete)(res)
   }
 
+  Taro.eventCenter.trigger('__taroShowTabBarRedDotHandler', {
+    index,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(fail, complete)
+  })
+
   return successHandler(success, complete)(res)
 }
 
@@ -141,6 +187,12 @@ export function hideTabBarRedDot (options = {}) {
     console.error(res.errMsg)
     return errorHandler(fail, complete)(res)
   }
+
+  Taro.eventCenter.trigger('__taroHideTabBarRedDotHandler', {
+    index,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(fail, complete)
+  })
 
   return successHandler(success, complete)(res)
 }
@@ -174,6 +226,12 @@ export function showTabBar (options = {}) {
     return errorHandler(fail, complete)(res)
   }
 
+  Taro.eventCenter.trigger('__taroShowTabBar', {
+    animation,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(success, complete),
+  })
+
   return successHandler(success, complete)(res)
 }
 
@@ -206,25 +264,13 @@ export function hideTabBar (options = {}) {
     return errorHandler(fail, complete)(res)
   }
 
-  return successHandler(success, complete)(res)
-}
-
-export function switchTab ({ url, success, fail, complete }) {
-  return new Promise((resolve, reject) => {
-    Taro.eventCenter.trigger('__taroSwitchTab', {
-      url,
-      successHandler: res => {
-        success && success(res)
-        complete && complete(res)
-        resolve(res)
-      },
-      errorHandler: res => {
-        fail && fail(res)
-        complete && complete(res)
-        reject(res)
-      }
-    })
+  Taro.eventCenter.trigger('__taroHideTabBar', {
+    animation,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(success, complete)
   })
+
+  return successHandler(success, complete)(res)
 }
 
 export function setTabBarStyle (options = {}) {
