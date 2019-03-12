@@ -33,7 +33,7 @@ npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
 $ npx @tarojs/cli init myApp
 ```
 
-![](http://ww1.sinaimg.cn/large/49320207gy1g0u2e0uf8gj20vg0uw10f.jpg)
+![taro init myApp command screenshot](http://ww1.sinaimg.cn/large/49320207gy1g0u2e0uf8gj20vg0uw10f.jpg)
 
 在创建完项目之后，Taro 会默认开始安装项目所需要的依赖，安装使用的工具按照 yarn>cnpm>npm 顺序进行检测，一般来说，依赖安装会比较顺利，但某些情况下可能会安装失败，这时候你可以在项目目录下自己使用安装命令进行安装
 
@@ -55,6 +55,9 @@ $ npm install
 微信小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
+# yarn
+$ yarn dev:weapp
+$ yarn build:weapp
 # npm script
 $ npm run dev:weapp
 $ npm run build:weapp
@@ -73,6 +76,9 @@ $ npx taro build --type weapp
 百度小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
+# yarn
+$ yarn dev:swan
+$ yarn build:swan
 # npm script
 $ npm run dev:swan
 $ npm run build:swan
@@ -91,6 +97,9 @@ $ npx taro build --type swan
 支付宝小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
+# yarn
+$ yarn dev:alipay
+$ yarn build:alipay
 # npm script
 $ npm run dev:alipay
 $ npm run build:alipay
@@ -109,6 +118,9 @@ $ npx taro build --type alipay
 字节跳动小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
 
 ```bash
+# yarn
+$ yarn dev:tt
+$ yarn build:tt
 # npm script
 $ npm run dev:tt
 $ npm run build:tt
@@ -127,6 +139,8 @@ H5 模式，无需特定的开发者工具，在执行完下述命令之后即�
 H5 预览项目
 
 ```bash
+# yarn
+$ yarn dev:h5
 # npm script
 $ npm run dev:h5
 # 仅限全局安装
@@ -138,6 +152,8 @@ $ npx taro build --type h5 --watch
 H5 打包项目
 
 ```bash
+# yarn
+$ yarn build:h5
 # npm script
 $ npm run build:h5
 # 仅限全局安装
@@ -151,6 +167,8 @@ $ npx taro build --type h5
 React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](https://nervjs.github.io/taro/docs/react-native.html)
 
 ```bash
+# yarn
+$ yarn dev:rn
 # npm script
 $ npm run dev:rn
 # 仅限全局安装

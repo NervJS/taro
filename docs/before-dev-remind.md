@@ -74,15 +74,14 @@ border{Top,Right,Bottom,Left} 的简写（shorthands）不支持，因为 `borde
 使用 `Image 组件`，配合 Flex 布局，基本可以实现你的大部分需求。阅读一下这篇文章：[Background Images in React Native](https://thekevinscott.com/background-images-in-react-native/)，有助于你理解。
 
 ### 可以使用微信/支付宝支付吗？
-由于 Expo 不支持原生的 SDK，所以无法通过集成原生的 SDK 的方式使用微信/支付宝支付。不过 RN 端提供了 `Taro.openUrl({url:''})`的 API 打开手机浏览器，然后走 [手机网站支付](https://docs.open.alipay.com/203/105288/) 的流程。
-
+由于 Expo 不支持原生的 SDK，所以无法通过集成原生的 SDK 的方式使用微信/支付宝支付。不过 RN 端提供了 `Taro.openUrl({ url: '' })` 的 API 打开手机浏览器，然后走 [手机网站支付](https://docs.open.alipay.com/203/105288/) 的流程。
 
 ### 其他注意事项
 1. **运行时** 报缺少包，需要要在 `.rn_temp` 目录里面安装。
 2. 文字要包在 `Text` 组件里面，否则不显示。
 3. `display:fixed` React Native 不支持
 4. Animation 和 transform React Native 动画不支持
-5. React Native 与 H5/小程序 的Flex 布局相关属性的默认值有差异
+5. React Native 与 H5/小程序 的 Flex 布局相关属性的默认值有差异
 
 ## 样式
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga)  ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。Taro React Native 端样式文件的处理，主要可以分为以下几步：
@@ -141,7 +140,7 @@ textDecorationLine | `none`, `underline`, `line-through`, `underline line-throug
 textShadowColor | [&lt;color&gt;](#user-content-color) | 对应 `CSS` [text-shadow](http://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的颜色定义
 textShadowOffset | {<br>width:[&lt;number&gt;](#user-content-number),<br>height:[&lt;number&gt;](#user-content-number)<br>} | 对应 `CSS` [text-shadow](http://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的阴影偏移定义
 textShadowRadius | [&lt;number&gt;](#user-content-number) | 在 `CSS` 中，阴影的圆角大小取决于元素的圆角定义，不需要额外定义
-includeFontPadding<br /><sup>`Android`</sup> | [&lt;bool&gt;](#user-content-bool) | Android在默认情况下会为文字额外保留一些padding，以便留出空间摆放上标或是下标的文字。对于某些字体来说，这些额外的padding可能会导致文字难以垂直居中。如果你把textAlignVertical设置为center之后，文字看起来依然不在正中间，那么可以尝试将本属性设置为false
+includeFontPadding<br /><sup>`Android`</sup> | [&lt;bool&gt;](#user-content-bool) | Android 在默认情况下会为文字额外保留一些 padding，以便留出空间摆放上标或是下标的文字。对于某些字体来说，这些额外的 padding 可能会导致文字难以垂直居中。如果你把 `textAlignVertical` 设置为 `center` 之后，文字看起来依然不在正中间，那么可以尝试将本属性设置为 `false`
 textAlignVertical<br /><sup>`Android`</sup> | `auto`, `top`, `bottom`, `center` | 对应 `CSS` [vertical-align](http://css.doyoe.com/properties/text/vertical-align.htm) 属性，增加了 `auto` 取值，`center` 取代了 `middle`，并阉割了 `baseline, sub` 等值
 fontVariant<br /><sup>`iOS`</sup> | `small-caps`, `oldstyle-nums`, `lining-nums`, `tabular-nums`, `proportional-nums` | 对应 `CSS` [font-variant](http://css.doyoe.com/properties/font/font-variant.htm) 属性，但取值更丰富
 letterSpacing<br /><sup>`iOS`</sup> | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [letter-spacing](http://css.doyoe.com/properties/text/letter-spacing.htm) 属性
@@ -277,10 +276,10 @@ alignSelf | `auto`, `flex-start`, `flex-end`, `center`, `stretch` | 对应 `CSS`
 ---|---|---
 opacity | [&lt;number&gt;](#user-content-number) | 对应 `CSS` `opacity` 属性
 overflow | `visible`, `hidden`, `scroll` | 对应 `CSS` `overflow` 属性，但阉割了 `auto` 取值
-elevation<br /><sup>`Android`</sup> | [&lt;number&gt;](#user-content-number) | `CSS`中没有对应的属性，只在 `Android5.0+` 上有效
-resizeMode | `cover`, `contain`, `stretch` | `CSS`中没有对应的属性，可以参考 `background-size` 属性
-overlayColor<br /><sup>`Android`</sup> | string | `CSS`中没有对应的属性，当图像有圆角时，将角落都充满一种颜色
-tintColor<br /><sup>`iOS`</sup> | [&lt;color&gt;](#user-content-color) | `CSS`中没有对应的属性，`iOS` 图像上特殊的色彩，改变不透明像素的颜色
+elevation<br /><sup>`Android`</sup> | [&lt;number&gt;](#user-content-number) | `CSS` 中没有对应的属性，只在 `Android5.0+` 上有效
+resizeMode | `cover`, `contain`, `stretch` | `CSS` 中没有对应的属性，可以参考 `background-size` 属性
+overlayColor<br /><sup>`Android`</sup> | string | `CSS` 中没有对应的属性，当图像有圆角时，将角落都充满一种颜色
+tintColor<br /><sup>`iOS`</sup> | [&lt;color&gt;](#user-content-color) | `CSS` 中没有对应的属性，`iOS` 图像上特殊的色彩，改变不透明像素的颜色
 
 #### Color 颜色
 
@@ -296,7 +295,7 @@ tintColor<br /><sup>`iOS`</sup> | [&lt;color&gt;](#user-content-color) | `CSS`�
 * `hsla(360, 100%, 100%, 0.9)`
 * `transparent`
 * `0xff00ff00` (0xrrggbbaa)：`CSS` 中无对应的值
-* `Color Name`：支持了 [基本颜色关键字](http://css.doyoe.com/appendix/color-keywords.htm#basic) 和 [拓展颜色关键字](http://css.doyoe.com/appendix/color-keywords.htm#extended)，但不支持 [28个系统颜色](http://css.doyoe.com/appendix/color-keywords.htm#system)；
+* `Color Name`：支持了 [基本颜色关键字](http://css.doyoe.com/appendix/color-keywords.htm#basic) 和 [拓展颜色关键字](http://css.doyoe.com/appendix/color-keywords.htm#extended)，但不支持 [28 个系统颜色](http://css.doyoe.com/appendix/color-keywords.htm#system)；
 
 #### 优先级与继承（Specificity and inheritance）
 组件的引入样式的优先级高于全局样式的优先级。

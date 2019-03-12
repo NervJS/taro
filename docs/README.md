@@ -75,12 +75,12 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 ✅ 支持使用 Redux 进行状态管理
 
-✅ 支持使用 Mobx 进行状态管理
+✅ 支持使用 MobX 进行状态管理
 
 ✅ 小程序 API 优化，异步 API Promise 化等等
 
 #### 支持多端开发转化
 
-Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、 **H5 端** 以及 **移动端（React-Native）**。
+Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、 **H5 端** 以及 **移动端（React Native）**。
 
 <div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
