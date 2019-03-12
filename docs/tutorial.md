@@ -757,6 +757,8 @@ Object 参数说明：
 
 下拉截断时触发
 
+> H5 暂时没有同步实现 `onReachBottom` 、 `onPageScroll` 这两个事件函数，可以通过给 window 绑定 scroll 事件来进行模拟，而 `onPullDownRefresh` 下拉刷新则暂时只能用 `ScrollView` 组件来代替了。
+
 页面事件函数各端支持程度如下
 
 | 方法 | 作用 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 | H5 | RN |
