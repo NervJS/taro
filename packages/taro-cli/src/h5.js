@@ -15,7 +15,11 @@ const minimatch = require('minimatch')
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
-const { source: toAst, getObjKey } = require('./util/ast_convert')
+const { source: toAst, getObjKey, obj: objToAst } = require('./util/ast_convert')
+
+const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
+const removeLeadingSlash = path => path.replace(/^\.?\//, '')
+const stripTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -23,7 +27,7 @@ const h5Config = projectConfig.h5 || {}
 const routerConfig = h5Config.router || {}
 const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
 const customRoutes = routerConfig.customRoutes || {}
-const routerBasename = routerConfig.basename || '/'
+const routerBasename = addLeadingSlash(stripTrailingSlash(routerConfig.basename || '/'))
 const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourcePath = path.join(appPath, sourceDir)
 const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
@@ -50,6 +54,7 @@ const PACKAGES = {
 
 const taroApis = [
   'Component',
+  'PureComponent',
   'getEnv',
   'ENV_TYPE',
   'eventCenter',
@@ -81,9 +86,6 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
-const stripTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
-
 const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
 
 const publicPath = h5Config.publicPath
@@ -97,6 +99,32 @@ function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
     componentLoader: () => import(${chunkNameComment}'${relPagename}'),
     isIndex: ${isIndex}
   }`
+}
+
+function classifyFiles (filename) {
+  const relPath = path.normalize(
+    path.relative(appPath, filename)
+  )
+  if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
+
+  let relSrcPath = path.relative('src', relPath)
+  relSrcPath = path.format({
+    dir: path.dirname(relSrcPath),
+    base: path.basename(relSrcPath, path.extname(relSrcPath))
+  })
+
+  const isPage = pages.some(page => {
+    const relPage = path.normalize(
+      path.relative(appPath, page)
+    )
+    if (path.relative(relPage, relSrcPath) === '') return true
+  })
+
+  if (isPage) {
+    return FILE_TYPE.PAGE
+  } else {
+    return FILE_TYPE.NORMAL
+  }
 }
 
 function processEntry (code, filePath) {
@@ -137,7 +165,9 @@ function processEntry (code, filePath) {
       if (!node.superClass) return
       if (
         node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName
+        node.superClass.object.name === taroImportDefaultName &&
+        (node.superClass.property.name === 'Component' ||
+        node.superClass.property.name === 'PureComponent')
       ) {
         node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
@@ -151,7 +181,8 @@ function processEntry (code, filePath) {
             )
           )
         }
-      } else if (node.superClass.name === 'Component') {
+      } else if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'PureComponent') {
         resetTSClassProperty(node.body.body)
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
@@ -185,7 +216,6 @@ function processEntry (code, filePath) {
         const isComponentDidMount = keyName === 'componentDidMount'
         const isComponentWillUnmount = keyName === 'componentWillUnmount'
         const isConstructor = keyName === 'constructor'
-        const basename = JSON.stringify(addLeadingSlash(stripTrailingSlash(routerBasename)))
 
         if (isRender) {
           const routes = pages.map((v, k) => {
@@ -200,13 +230,14 @@ function processEntry (code, filePath) {
             })
           })
 
-          funcBody = `<Router
-            mode={${JSON.stringify(routerMode)}}
-            publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
-            routes={[${routes.join(',')}]}
-            customRoutes={${JSON.stringify(customRoutes)}}
-            basename={${basename}}
-          />`
+          funcBody = `
+            <Router
+              mode={${JSON.stringify(routerMode)}}
+              publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
+              routes={[${routes.join(',')}]}
+              customRoutes={${JSON.stringify(customRoutes)}}
+              basename={${JSON.stringify(routerBasename)}} />
+            `
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -214,10 +245,17 @@ function processEntry (code, filePath) {
             if (tabbarPos === 'top') {
               funcBody = `
                 <${tabBarContainerComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+
+                  <${tabBarComponentName}
+                    conf={this.state.${tabBarConfigName}}
+                    homePage="${homePage}"
+                    tabbarPos={'top'}
+                    router={${taroImportDefaultName}} />
+
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
+
                 </${tabBarContainerComponentName}>`
             } else {
               funcBody = `
@@ -228,11 +266,9 @@ function processEntry (code, filePath) {
                   </${tabBarPanelComponentName}>
 
                   <${tabBarComponentName}
-                    mode={${JSON.stringify(routerMode)}}
                     conf={this.state.${tabBarConfigName}}
                     homePage="${homePage}"
-                    router={${taroImportDefaultName}}
-                    basename={${basename}} />
+                    router={${taroImportDefaultName}} />
 
                 </${tabBarContainerComponentName}>`
             }
@@ -339,18 +375,50 @@ function processEntry (code, filePath) {
         }
         value.elements.forEach(v => {
           const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
-          pages.push(pagePath.replace(/^\//, ''))
+          pages.push(removeLeadingSlash(pagePath))
+          v.value = addLeadingSlash(v.value)
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
-        // tabBar
+        // tabBar相关处理
         tabBar = value
         value.properties.forEach(node => {
-          if (node.keyName === 'position') tabbarPos = node.value.value
+          switch (node.key.name) {
+            case 'position':
+              tabbarPos = node.value.value
+              break
+            case 'list':
+              t.isArrayExpression(node.value) && node.value.elements.forEach(v => {
+                v.properties.forEach(property => {
+                  switch (property.key.name) {
+                    case 'iconPath':
+                    case 'selectedIconPath':
+                      if (t.isStringLiteral(property.value)) {
+                        property.value = t.callExpression(
+                          t.identifier('require'),
+                          [t.stringLiteral(`./${property.value.value}`)]
+                        )
+                      }
+                      break
+                    case 'pagePath':
+                      property.value.value = addLeadingSlash(property.value.value)
+                      break
+                  }
+                })
+              })
+          }
         })
-      } else if ((keyName === 'iconPath' || keyName === 'selectedIconPath') && t.isStringLiteral(value)) {
-        astPath.replaceWith(
-          t.objectProperty(t.stringLiteral(keyName), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
-        )
+        value.properties.push(t.ObjectProperty(
+          t.identifier('mode'),
+          t.stringLiteral(routerMode)
+        ))
+        value.properties.push(t.ObjectProperty(
+          t.identifier('basename'),
+          t.stringLiteral(routerBasename)
+        ))
+        value.properties.push(t.ObjectProperty(
+          t.identifier('customRoutes'),
+          t.objectExpression(objToAst(customRoutes))
+        ))
       }
     }
   }
@@ -578,7 +646,9 @@ function processOthers (code, filePath, fileType) {
       if (!node.superClass) return
       if (
         node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName
+        node.superClass.object.name === taroImportDefaultName &&
+        (node.superClass.property.name === 'Component' ||
+        node.superClass.property.name === 'PureComponent')
       ) {
         node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
@@ -592,7 +662,8 @@ function processOthers (code, filePath, fileType) {
             )
           )
         }
-      } else if (node.superClass.name === 'Component') {
+      } else if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'PureComponent') {
         resetTSClassProperty(node.body.body)
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
@@ -762,32 +833,6 @@ function resetTSClassProperty (body) {
         }
       }
     }
-  }
-}
-
-function classifyFiles (filename) {
-  const relPath = path.normalize(
-    path.relative(appPath, filename)
-  )
-  if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
-
-  let relSrcPath = path.relative('src', relPath)
-  relSrcPath = path.format({
-    dir: path.dirname(relSrcPath),
-    base: path.basename(relSrcPath, path.extname(relSrcPath))
-  })
-
-  const isPage = pages.some(page => {
-    const relPage = path.normalize(
-      path.relative(appPath, page)
-    )
-    if (path.relative(relPage, relSrcPath) === '') return true
-  })
-
-  if (isPage) {
-    return FILE_TYPE.PAGE
-  } else {
-    return FILE_TYPE.NORMAL
   }
 }
 

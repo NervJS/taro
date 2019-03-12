@@ -124,4 +124,3 @@ const element = <View onClick={this.onTag} />
 const element2 = <Input onFocus={this.onFocus} />
 const element3 = <CustomElement onAnimationEnd={this.props.onAnimationEnd} />
 ```
-

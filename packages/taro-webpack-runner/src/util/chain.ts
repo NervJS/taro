@@ -1,12 +1,12 @@
 import CssoWebpackPlugin from 'csso-webpack-plugin';
-import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import { partial } from 'lodash';
-import { fromPairs, map, mapKeys, pipe, toPairs, keys, reduce } from 'lodash/fp';
+import { mapKeys, pipe } from 'lodash/fp';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as path from 'path';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import * as webpack from 'webpack';
+import * as apis from '@tarojs/taro-h5/dist/taroApis';
 
 import { appPath, recursiveMerge } from '.';
 import { getPostcssPlugins } from '../config/postcss.conf';
@@ -38,6 +38,13 @@ const defaultBabelLoaderOption = {
       require.resolve('babel-plugin-transform-react-jsx'),
       {
         pragma: 'Nerv.createElement'
+      }
+    ],
+    [
+      require.resolve('babel-plugin-transform-taroapi'),
+      {
+        apis,
+        packageName: '@tarojs/taro-h5'
       }
     ]
   ]
@@ -85,29 +92,6 @@ const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
 
-const getNamedDllContext = (outputRoot, dllDirectory, name) => {
-  return {
-    context: path.join(appPath, outputRoot, dllDirectory),
-    name
-  }
-}
-
-const processDllOption = ({ outputRoot, dllDirectory, dllFilename }) => {
-  const context = path.join(appPath, outputRoot, dllDirectory)
-  return {
-    path: path.join(context, '[name]-manifest.json'),
-    name: dllFilename,
-    context
-  }
-}
-
-const processDllReferenceOption = ({ context, name }) => {
-  return {
-    context,
-    manifest: require(path.join(context, `${name}-manifest.json`))
-  }
-}
-
 const processEnvOption = partial(mapKeys, key => `process.env.${key}`)
 
 const getStyleLoader = pipe(mergeOption, partial(getLoader, 'style-loader'))
@@ -140,9 +124,6 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
 const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
-const getDllPlugin = pipe(processDllOption, listify, partial(getPlugin, webpack.DllPlugin))
-const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, listify, partial(getPlugin, webpack.DllReferencePlugin))
-const getHtmlWebpackIncludeAssetsPlugin = pipe(listify, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
 
 const getEntry = (customEntry = {}) => {
   return Object.assign(
@@ -342,8 +323,15 @@ const getModule = ({
   }
 
   const isNodemodule = filename => /\bnode_modules\b/.test(filename)
-  const taroModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
-  let esnextModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
+  const taroModuleRegs = [
+    /@tarojs[/\\_]components/, /\btaro-components\b/
+  ]
+  let esnextModuleRegs = [
+    /@tarojs[/\\_]components/, /\btaro-components\b/,
+    /@tarojs[/\\_]taro-h5/, /\btaro-h5\b/,
+    /@tarojs[/\\_]router/, /\btaro-router\b/,
+    /@tarojs[/\\_]redux-h5/, /\btaro-redux-h5\b/
+  ]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */
     esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])
@@ -392,43 +380,8 @@ const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) =
   )
 }
 
-const getDllOutput = ({ outputRoot, dllDirectory, dllFilename }) => {
-  return {
-    path: path.join(appPath, outputRoot, dllDirectory),
-    filename: `${dllFilename}.dll.js`,
-    library: dllFilename
-  }
-}
-
 const getDevtool = enableSourceMap => {
   return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
 }
 
-const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
-  return pipe(
-    toPairs,
-    map(([key]) => {
-      return [`dll${key}`, getDllReferencePlugin(outputRoot, dllDirectory, key)]
-    }),
-    fromPairs
-  )(dllEntry)
-}
-
-const getLibFile = (outputRoot, dllDirectory) => {
-  return function (prev, libname) {
-    const manifest = require(path.join(appPath, outputRoot, dllDirectory, `${libname}-manifest.json`));
-    if (manifest) {
-      return [...prev, path.join(dllDirectory, `${manifest.name}.dll.js`)]
-    } else {
-      return prev
-    }
-  }
-}
-
-const getLibFiles = ({dllEntry, outputRoot, dllDirectory}: {
-  dllEntry: { [key: string]: string[] };
-  outputRoot: string;
-  dllDirectory: string;
-}) => reduce(getLibFile(outputRoot, dllDirectory), [])(keys(dllEntry))
-
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption, getLibFiles }
+export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption }

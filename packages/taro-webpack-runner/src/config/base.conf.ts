@@ -53,7 +53,10 @@ export default () => {
       ]
     },
     resolveLoader: {
-      modules: [path.join(getRootPath(), 'node_modules')]
+      modules: [
+        path.join(getRootPath(), 'node_modules'),
+        'node_modules'
+      ]
     }
   })
 

@@ -34,6 +34,7 @@
     "packages/postcss-pxtransform",
     "packages/postcss-unit-transform",
     "packages/babel-plugin-transform-jsx-to-stylesheet",
+    "packages/babel-plugin-transform-taroapi",
     "packages/taro-mobx-prop-types",
     "packages/taro-mobx",
     "packages/taro-mobx-common",

@@ -14,7 +14,8 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "main": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
+  "main": "index.js",
   "files": [
     "lib"
   ],

@@ -63,16 +63,16 @@ class Welcome extends Component {
 * `config`（小程序专属）
 
 ## 参考
+
 ### render()
 
 `render()` 方法是必须的。
 
-当被调用时，`render` 方法必须返回一个 Taro 组件（可以是内置组件也可以是自定义组件）或一个 [falsy](https://developer.mozilla.org/zh-CN/docs/Glossary/Falsy)的值。
+当被调用时，`render` 方法必须返回一个 Taro 组件（可以是内置组件也可以是自定义组件）或一个 [falsy](https://developer.mozilla.org/zh-CN/docs/Glossary/Falsy) 的值。
 
-`render()` 函数应该纯净，意味着其不应该改变组件的状态，其每次调用都应返回相同的结果，同时不直接和浏览器/小程序交互。若需要和浏览器/ 小程序交互，将任务放在`componentDidMount()` 阶段或其他的生命周期方法。保持 `render()` 方法纯净使得组件更容易思考。
+`render()` 函数应该纯净，意味着其不应该改变组件的状态，其每次调用都应返回相同的结果，同时不直接和浏览器/小程序交互。若需要和浏览器/小程序交互，将任务放在`componentDidMount()` 阶段或其他的生命周期方法。保持 `render()` 方法纯净使得组件更容易思考。
 
 > 在 React/Nerv 中，`render()` 可以返回多种数据结构，但 Taro 暂时只支持两种。因为 Taro 必须把 JSX  编译成微信小程序模板。当 return 的值为 `falsy` 时，实际上会编译成小程序的  `wx:if` 标签。
-
 
 ### constructor()
 
@@ -96,7 +96,7 @@ componentWillMount()
 
 `componentWillMount()` 在组件在装载发生前被立刻调用。
 
-避免在该方法中引入任何的副作用或订阅。对于这些使用场景，我们推荐使用 constructor()来替代。
+避免在该方法中引入任何的副作用或订阅。对于这些使用场景，我们推荐使用 constructor() 来替代。
 
 这是唯一的会在服务端渲染调起的生命周期钩子函数。
 
@@ -110,7 +110,6 @@ componentDidMount()
 
 componentDidMount() 在组件被装载后立即调用。初始化使得 DOM 节点应该进行到这里。若你需要从远端加载数据，这是一个适合实现网络请求的地方。在该方法里 `setState()` 将会触发重新渲染。
 
-
 ### componentWillReceiveProps()
 
 ```jsx
@@ -121,7 +120,7 @@ componentWillReceiveProps(nextProps)
 
 注意即使属性未有任何改变，Taro 可能也会调用该方法，因此若你想要处理改变，请确保比较当前和之后的值。
 
-在装载期间，Taro 并不会调用带有初始属性的 `componentWillReceiveProps`方法。调用 `this.setState` 通常不会触发`componentWillReceiveProps`。
+在装载期间，Taro 并不会调用带有初始属性的 `componentWillReceiveProps`方法。调用 `this.setState` 通常不会触发 `componentWillReceiveProps`。
 
 ### shouldComponentUpdate()
 
@@ -135,7 +134,6 @@ shouldComponentUpdate(nextProps, nextState)
 
 返回 `false` 不会阻止子组件在 state 更改时重新渲染。
 
-
 ### componentWillUpdate()
 
 ```jsx
@@ -147,7 +145,6 @@ componentWillUpdate(nextProps, nextState)
 注意，这里不能调用 `this.setState()` 。 如果你需要更新 state 以响应 props 更改，请改用 `componentWillReceiveProps()`。
 
 如果你需要更新 state 来响应 props 的改变，可以使用 `componentWillReceiveProps()` 代替。
-
 
 ### componentDidUpdate()
 
@@ -167,9 +164,7 @@ componentWillUnmount()
 
 > 在小程序中，一个挂在到 `Page`  组件的组件并不会执行 `componentWillUnmount()` 方法，只有当他挂载的 Page 组件被销毁时，该组件才会执行 `componentWillUnmount()`  方法。
 
-
 ### setState()
-
 
 ## 类属性
 
@@ -187,7 +182,7 @@ CustomButton.defaultProps = {
 }
 ```
 
-若未设置 `props.color`，其将被设置默认为'blue':
+若未设置 `props.color`，其将被设置默认为 'blue':
 
 ```jsx
 render () {
@@ -203,13 +198,11 @@ render() {
 }
 ```
 
-
 ## 实例属性
 
 ### props
 
-`this.props` 包含了组件该调用者定义的属性。查看 [组件 & Props](./props.md)关于属性的介绍。
-
+`this.props` 包含了组件该调用者定义的属性。查看 [组件 & Props](./props.md) 关于属性的介绍。
 
 ### state
 
@@ -217,6 +210,6 @@ render() {
 
 若你不在 `render()` 方法中使用它，那它就不应该被放在 state 中。例如，你可直接将 timer IDs 放在实例上。
 
-查看 [生命周期 & State](./state.md)了解更多关于状态的信息。
+查看 [生命周期 & State](./state.md) 了解更多关于状态的信息。
 
-永远不要直接改变 `this.state`，因为调用 `setState()`会替换你之前做的改变。将 `this.state` 当成不可变的。
+永远不要直接改变 `this.state`，因为调用 `setState()` 会替换你之前做的改变。将 `this.state` 当成不可变的。

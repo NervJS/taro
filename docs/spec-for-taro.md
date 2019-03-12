@@ -84,7 +84,6 @@ const y = 'hello \'world\''
 const z = `hello 'world'`
 ```
 
-
 #### 代码块中避免多余留白
 
 ```javascript
@@ -93,7 +92,7 @@ if (user) {
   const name = getName()
  
 }
- 
+
 if (user) {
   const name = getName()    // ✓ 正确
 }
@@ -163,7 +162,7 @@ typeof !admin        // ✓ 正确
 ```javascript
 //comment           // ✗ 错误
 // comment          // ✓ 正确
- 
+
 /*comment*/         // ✗ 错误
 /* comment */       // ✓ 正确
 ```
@@ -285,32 +284,30 @@ var noVar = 'hello, world'   // ✗ 错误，请使用 const/let 定义变量
 // ✓ 正确
 const silent = true
 let verbose = true
- 
+
 // ✗ 错误
 const silent = true, verbose = true
- 
+
 // ✗ 错误
 let silent = true,
     verbose = true
 ```
-
 
 #### 不要重复声明变量
 
 ```javascript
 let name = 'John'
 let name = 'Jane'     // ✗ 错误
- 
+
 let name = 'John'
 name = 'Jane'         // ✓ 正确
 ```
-
 
 #### 不要使用 undefined 来初始化变量
 
 ```javascript
 let name = undefined    // ✗ 错误
- 
+
 let name
 name = 'value'          // ✓ 正确
 ```
@@ -340,7 +337,6 @@ name = name   // ✗ 错误
 ```
 
 ### 基本类型
-
 
 #### 不要省去小数点前面的 0
 
@@ -394,7 +390,7 @@ const person = {
     this._name = value
   }
 }
- 
+
 const person = {
   set name (value) {
     this._name = value
@@ -454,9 +450,9 @@ const user = {
   name: 'Jane Doe', age: 30,
   username: 'jdoe86'            // ✗ 错误
 }
- 
+
 const user = { name: 'Jane Doe', age: 30, username: 'jdoe86' }    // ✓ 正确
- 
+
 const user = {
   name: 'Jane Doe',
   age: 30,
@@ -478,13 +474,13 @@ const user = { name: 'John Doe' }       // ✓ 正确
 ```javascript
 function foo (n) {
   if (n <= 0) return
- 
+
   arguments.callee(n - 1)   // ✗ 错误
 }
- 
+
 function foo (n) {
   if (n <= 0) return
- 
+
   foo(n - 1)
 }
 ```
@@ -495,7 +491,7 @@ function foo (n) {
 function sum (a, b, a) {  // ✗ 错误
   // ...
 }
- 
+
 function sum (a, b, c) {  // ✓ 正确
   // ...
 }
@@ -507,7 +503,7 @@ function sum (a, b, c) {  // ✓ 正确
 const name = function () {
   getName()
 }.bind(user)    // ✗ 错误
- 
+
 const name = function () {
   this.getName()
 }.bind(user)    // ✓ 正确
@@ -565,7 +561,7 @@ let config = new Object()   // ✗ 错误
 
 ```javascript
 const getName = function () { }()     // ✗ 错误
- 
+
 const getName = (function () { }())   // ✓ 正确
 const getName = (function () { })()   // ✓ 正确
 ```
@@ -582,7 +578,6 @@ function* helloWorldGenerator() {     // ✗ 错误
 }
 ```
 
-
 ### 正则
 
 #### 正则中不要使用控制符
@@ -596,7 +591,7 @@ const pattern = /\x20/    // ✓ 正确
 
 ```javascript
 const regexp = /test   value/   // ✗ 错误
- 
+
 const regexp = /test {3}value/  // ✓ 正确
 const regexp = /test value/     // ✓ 正确
 ```
@@ -608,11 +603,10 @@ const regexp = /test value/     // ✓ 正确
 ```javascript
 class animal {}
 const dog = new animal()    // ✗ 错误
- 
+
 class Animal {}
 const dog = new Animal()    // ✓ 正确
 ```
-
 
 #### 避免对类名重新赋值
 
@@ -629,7 +623,7 @@ class Dog {
     super()   // ✗ 错误
   }
 }
- 
+
 class Dog extends Mammal {
   constructor () {
     super()   // ✓ 正确
@@ -694,7 +688,7 @@ const character = new Character()   // ✓ 正确
 ```javascript
 import { myFunc1 } from 'module'
 import { myFunc2 } from 'module'          // ✗ 错误
- 
+
 import { myFunc1, myFunc2 } from 'module' // ✓ 正确
 ```
 
@@ -704,8 +698,6 @@ import { myFunc1, myFunc2 } from 'module' // ✓ 正确
 import { config as config } from './config'     // ✗ 错误
 import { config } from './config'               // ✓ 正确
 ```
-
-
 
 ### 语句
 
@@ -746,7 +738,6 @@ function doSomething () {
   console.log('never called')     // ✗ 错误
 }
 ```
-
 
 ### 逻辑与循环
 
@@ -818,12 +809,12 @@ if (options.quiet !== true)
 ```javascript
 // ✓ 正确
 const location = env.development ? 'localhost' : 'www.api.com'
- 
+
 // ✓ 正确
 const location = env.development
   ? 'localhost'
   : 'www.api.com'
- 
+
 // ✗ 错误
 const location = env.development ?
   'localhost' :
@@ -843,11 +834,11 @@ if (age === 42) { }    // ✓ 正确
 if (false) {    // ✗ 错误
   // ...
 }
- 
+
 if (x === 0) {  // ✓ 正确
   // ...
 }
- 
+
 while (true) {  // ✓ 正确
   // ...
 }
@@ -886,7 +877,7 @@ switch (filter) {
   case 2:
     doSomethingElse()
 }
- 
+
 switch (filter) {
   case 1:
     doSomething()
@@ -894,7 +885,7 @@ switch (filter) {
   case 2:
     doSomethingElse()
 }
- 
+
 switch (filter) {
   case 1:
     doSomething()
@@ -911,7 +902,7 @@ const result = true
 if (!!result) {   // ✗ 错误
   // ...
 }
- 
+
 const result = true
 if (result) {     // ✓ 正确
   // ...
@@ -923,7 +914,6 @@ if (result) {     // ✓ 正确
 ```javascript
 if (doSomething(), !!test) {}   // ✗ 错误
 ```
-
 
 ### 错误处理
 
@@ -952,7 +942,7 @@ try {
 } catch (e) {
   e = 'new value'             // ✗ 错误
 }
- 
+
 try {
   // ...
 } catch (e) {
@@ -985,7 +975,6 @@ try {
 asyncTask('google.com').catch(err => console.log(err))   // ✓ 正确
 ```
 
-
 ## 组件及 JSX 书写规范
 
 ### 基本书写
@@ -1005,7 +994,7 @@ import { View, Text } from '@tarojs/components'
 class MyComponent extends Component {
   render () {
     return (
-	  <View className='test'>     // ✓ 正确
+      <View className='test'>     // ✓ 正确
         <Text>12</Text>     // ✗ 错误
       </View>
     )
@@ -1024,7 +1013,7 @@ import { View, Input } from '@tarojs/components'
 class MyComponent extends Component {
   render () {
     return (
-	  <View className='test'>     // ✓ 正确
+      <View className='test'>     // ✓ 正确
         <Text className="test_text">12</Text>     // ✗ 错误
       </View>
     )
@@ -1060,6 +1049,7 @@ class MyComponent extends Component {
 ```
 
 #### 空格使用
+
 > 终始在自闭合标签前面添加一个空格
 
 ```javascript
@@ -1178,7 +1168,7 @@ import { View } from '@tarojs/components'
 class MyComponent extends Component {
   render () {
     return (
-	  <View className='test'>     // ✓ 正确
+      <View className='test'>     // ✓ 正确
         <Text>12</Text>     // ✗ 错误
       </View>
     )
@@ -1591,12 +1581,11 @@ const element = array.map(item => {
 
 **解决方案**
 
-使用 [`bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) 或 [类参数](https://babeljs.io/docs/plugins/transform-class-properties/)绑定函数
+使用 [`bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) 或[类参数](https://babeljs.io/docs/plugins/transform-class-properties/)绑定函数
 
 ```javascript
 <View onClick={this.props.handleClick.bind(this)} />
 ```
-
 
 #### 不允许在 JSX 参数(props)中传入 JSX 元素
 
@@ -1641,7 +1630,6 @@ const obj = { id, ...rest }
 **解决方案**
 
 除非微信小程序开放更多能力，目前看不到能支持该特性的可能性
-
 
 #### 不支持无状态组件
 

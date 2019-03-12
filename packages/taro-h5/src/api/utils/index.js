@@ -35,22 +35,46 @@ function setTransform (el, val) {
   el.style.transform = val
 }
 
-function errorHandler (fail, complete) {
+function isFunction (obj) {
+  return typeof obj === 'function'
+}
+
+function successHandler (success, complete) {
   return function (res) {
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
+    isFunction(success) && success(res)
+    isFunction(complete) && complete(res)
+    return Promise.resolve(res)
   }
 }
 
-const enc = encodeURIComponent
+function errorHandler (fail, complete) {
+  return function (res) {
+    isFunction(fail) && fail(res)
+    isFunction(complete) && complete(res)
+    return Promise.reject(res)
+  }
+}
 
 function serializeParams (params) {
   if (!params) {
     return ''
   }
   return Object.keys(params)
-    .map(key => (`${enc(key)}=${enc(params[key])}`)).join('&')
+    .map(key => (`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)).join('&')
+}
+
+function temporarilyNotSupport (apiName) {
+  return () => console.error(`暂时不支持 API ${apiName}`)
+}
+
+function permanentlyNotSupport (apiName) {
+  return () => console.error(`不支持 API ${apiName}`)
+}
+
+const VALID_COLOR_REG = /^#\d{6}$/
+
+const isValidColor = (color) => {
+  return VALID_COLOR_REG.test(color)
 }
 
 export {
@@ -58,6 +82,11 @@ export {
   getParameterError,
   inlineStyle,
   setTransform,
+  successHandler,
   errorHandler,
-  serializeParams
+  serializeParams,
+  temporarilyNotSupport,
+  permanentlyNotSupport,
+  isValidColor,
+  isFunction
 }
