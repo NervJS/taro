@@ -235,6 +235,7 @@ function watchFiles () {
 }
 
 async function build ({watch}) {
+  process.env.TARO_ENV = Util.BUILD_TYPES.RN
   fs.ensureDirSync(tempPath)
   let t0 = performance.now()
   await buildTemp()

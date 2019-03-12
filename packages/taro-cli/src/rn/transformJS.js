@@ -240,6 +240,19 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             styleFiles.push(stylePath)
           }
         }
+        if (value.indexOf('.') === 0) {
+          const pathArr = value.split('/')
+          if (pathArr.indexOf('pages') >= 0) {
+            astPath.remove()
+          } else if (Util.REG_SCRIPTS.test(value) || path.extname(value) === '') {
+            const absolutePath = path.resolve(filePath, '..', value)
+            const dirname = path.dirname(absolutePath)
+            const extname = path.extname(absolutePath)
+            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
+            node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
+          }
+        }
         return
       }
       if (value === PACKAGES['@tarojs/taro']) {
