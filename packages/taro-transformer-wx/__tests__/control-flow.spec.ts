@@ -395,6 +395,44 @@ describe('if statement', () => {
       `))
     })
   })
+
+  test('多个 if else', () => {
+    const { template, ast,code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let content = null
+      const current = this.state.current
+      if (current === 0) {
+          content = <Home />
+      } else if (current === 1) {
+          content = <Goods />
+      } else if (current === 2) {
+          content = <Order />
+      }
+
+      return <View>{content}</View>
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+    <view>
+        <block>
+            <block wx:if="{{current === 0}}">
+                <home __triggerObserer="{{ _triggerObserer }}"></home>
+            </block>
+            <block wx:elif="{{current === 1}}">
+                <goods __triggerObserer="{{ _triggerObserer }}"></goods>
+            </block>
+            <block wx:elif="{{current === 2}}">
+                <order __triggerObserer="{{ _triggerObserer }}"></order>
+            </block>
+        </block>
+    </view>
+</block>
+    `))
+  })
   test('简单情况', () => {
     const { template, ast,code } = transform({
       ...baseOptions,
