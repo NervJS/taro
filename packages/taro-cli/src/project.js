@@ -128,6 +128,9 @@ class Project extends Creator {
     }, {
       name: 'Mobx 模板',
       value: 'mobx'
+    }, {
+      name: '云开发模板',
+      value: 'wxcloud'
     }]
 
     if (typeof conf.template !== 'string') {
