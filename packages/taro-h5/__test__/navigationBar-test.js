@@ -1,7 +1,6 @@
 /* eslint-disable */
-import Taro from '../index.js'
+import * as Taro from '../src/api'
 import mockConsole from 'jest-mock-console'
-Taro.initNativeApi(Taro)
 
 describe('navigation', () => {
   describe('setNavigationBarTitle', () => {
@@ -55,7 +54,7 @@ describe('navigation', () => {
       const fail = jest.fn()
       const complete = jest.fn()
 
-      expect.assertions(7)
+      expect.assertions(6)
       return Taro.setNavigationBarTitle({
         title,
         success,

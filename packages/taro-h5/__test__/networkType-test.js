@@ -1,6 +1,5 @@
 /* eslint-disable */
-import Taro from '../index.js'
-Taro.initNativeApi(Taro)
+import * as Taro from '../src/api'
 
 describe('networkType', () => {
   test('should getNetworkType return Promise that resolve networkType', () => {

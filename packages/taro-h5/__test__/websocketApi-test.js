@@ -1,8 +1,7 @@
 /* eslint-disable */
 import { Websocket, Server } from 'mock-socket'
 import mockConsole from 'jest-mock-console'
-import Taro from '../index.js'
-Taro.initNativeApi(Taro)
+import * as Taro from '../src/api'
 
 describe('websocket', () => {
   test('options should be object', () => {
