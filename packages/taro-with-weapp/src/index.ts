@@ -119,7 +119,7 @@ export default function withWeapp (componentType: string) {
     componentWillMount () {
       this.executeComponentFunc(this.created)
       if (super.componentWillMount) {
-        super.componentWillMount.call(this, this.$router.params)
+        super.componentWillMount.call(this, this.$router.params || {})
       }
     }
 
