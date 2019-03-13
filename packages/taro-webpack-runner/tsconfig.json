@@ -13,6 +13,7 @@
     "preserveConstEnums": true,
     "removeComments": false,
     "rootDir": "./src",
+    "skipLibCheck": true,
     "sourceMap": false,
     "strictNullChecks": true,
     "target": "es2015",
