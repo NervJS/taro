@@ -2,9 +2,10 @@ import 'weui'
 import Taro from '@tarojs/taro-h5'
 import Nerv, { findDOMNode } from 'nervjs'
 import classNames from 'classnames'
-import URI from 'urijs'
+import resolvePathname from 'resolve-pathname'
 
 import TabbarItem from './tabbarItem'
+import { splitUrl } from '../../utils'
 import './style/index.scss'
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
@@ -58,15 +59,20 @@ class Tabbar extends Nerv.Component {
   }
 
   getOriginUrl = url => {
-    const customRoute = this.customRoutes.find(([originUrl, customUrl]) => URI(customUrl).equals(url))
+    const customRoute = this.customRoutes.find(([originUrl, customUrl]) => {
+      const patha = splitUrl(customUrl).path
+      const pathb = splitUrl(url).path
+      return patha === pathb
+    })
     return customRoute ? customRoute[0] : url
   }
 
-  getSelectedIndex = _url => {
-    const url = typeof _url === 'string'
-      ? URI(_url)
-      : _url
-    const foundIndex = this.state.list.findIndex(({ pagePath }) => url.equals(pagePath))
+  getSelectedIndex = url => {
+    const foundIndex = this.state.list.findIndex(({ pagePath }) => {
+      const patha = splitUrl(url).path
+      const pathb = splitUrl(pagePath).path
+      return patha === pathb
+    })
     return foundIndex
   }
 
@@ -86,7 +92,7 @@ class Tabbar extends Nerv.Component {
 
   switchTabHandler = ({ url, successHandler, errorHandler }) => {
     const currentUrl = this.getOriginUrl(this.getCurrentUrl() || this.homePage)
-    const nextTab = URI(url).absoluteTo(currentUrl)
+    const nextTab = resolvePathname(url, currentUrl)
     const foundIndex = this.getSelectedIndex(nextTab)
 
     if (foundIndex > -1) {
