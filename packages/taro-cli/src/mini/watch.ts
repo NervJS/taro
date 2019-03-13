@@ -8,7 +8,8 @@ import {
   REG_SCRIPT,
   REG_STYLE,
   processTypeEnum,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  isWindows
 } from '../util/constants'
 import {
   printLog,
@@ -30,7 +31,6 @@ import {
 import { buildEntry } from './entry'
 import { buildPages, buildSinglePage } from './page'
 import { buildSingleComponent, getComponentsNamedMap } from './component'
-import { isWindows } from './constants'
 
 export function watchFiles () {
   const appPath = process.cwd()

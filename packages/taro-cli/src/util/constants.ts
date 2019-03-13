@@ -1,3 +1,4 @@
+import * as os from 'os'
 import chalk, { Chalk } from 'chalk'
 
 export const enum processTypeEnum {
@@ -277,3 +278,18 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-common',
   '@tarojs/mobx-prop-types'
 ]
+
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL'
+}
+
+export const taroJsComponents = '@tarojs/components'
+export const taroJsQuickAppComponents = '@tarojs/components-qa'
+export const taroJsFramework = '@tarojs/taro'
+export const taroJsRedux = '@tarojs/redux'
+
+export const DEVICE_RATIO_NAME = 'deviceRatio'
+export const isWindows = os.platform() === 'win32'

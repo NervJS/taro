@@ -42,7 +42,7 @@ function qappNavigate (options = {}, method = 'push') {
     try {
       router[method]({
         uri: url,
-        params,
+        params
       })
       success && success(res)
       complete && complete(res)
@@ -58,18 +58,18 @@ function qappNavigate (options = {}, method = 'push') {
 
 function getUrlParams (url = '') {
   let params = {}
-  url && url.replace(/(\w+)=(\w+)/ig, function (a, b, c) {
+  url && url.replace(/(\w+)=(\w+)/ig, function (a, b, c) {
     params[b] = unescape(c)
   })
 
-  return params
+  return params
 }
 
-export default { 
+export default {
   reLaunch,
   switchTab,
   navigateTo,
   redirectTo,
   navigateBack,
-  getCurrentPages 
+  getCurrentPages
 }

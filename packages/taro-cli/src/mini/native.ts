@@ -4,11 +4,10 @@ import * as path from 'path'
 import { Config as IConfig } from '@tarojs/taro'
 import chalk from 'chalk'
 
-import { REG_WXML_IMPORT, processTypeEnum } from '../util/constants'
+import { REG_WXML_IMPORT, processTypeEnum, taroJsFramework } from '../util/constants'
 import { isEmptyObject, printLog, resolveScriptPath, copyFileSync } from '../util'
 
 import { buildDepComponents } from './component'
-import { taroJsFramework } from './constants'
 import { compileDepScripts } from './compileScript'
 import { compileDepStyles } from './compileStyle'
 import { getBuildData } from './helper'

@@ -18,13 +18,12 @@ import {
   processStyleImports,
   promoteRelativePath
 } from '../util'
-import { CSS_EXT, FILE_PROCESSOR_MAP } from '../util/constants'
+import { CSS_EXT, FILE_PROCESSOR_MAP, DEVICE_RATIO_NAME } from '../util/constants'
 import { IMiniAppConfig } from '../util/types'
 
 import {
   getBuildData
 } from './helper'
-import { DEVICE_RATIO_NAME } from './constants'
 
 const cssUrlParse = require('postcss-url')
 const genericNames = require('generic-names')

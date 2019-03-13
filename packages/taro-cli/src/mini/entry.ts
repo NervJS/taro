@@ -8,7 +8,8 @@ import {
   REG_SCRIPTS,
   REG_TYPESCRIPT,
   CONFIG_MAP,
-  processTypeEnum
+  processTypeEnum,
+  PARSE_AST_TYPE
 } from '../util/constants'
 import {
   isDifferentArray,
@@ -19,7 +20,6 @@ import {
 import { IWxTransformResult } from '../util/types'
 
 import { getBuildData, uglifyJS, copyFilesFromSrcToOutput, getDependencyTree } from './helper'
-import { PARSE_AST_TYPE } from './constants'
 import { compileDepScripts, compileScriptFile } from './compileScript'
 import { compileDepStyles } from './compileStyle'
 import { parseAst } from './astProcess'

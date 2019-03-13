@@ -12,7 +12,8 @@ import {
   BUILD_TYPES,
   processTypeEnum,
   REG_TYPESCRIPT,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  PARSE_AST_TYPE
 } from '../util/constants'
 import { callPlugin } from '../util/npm'
 import { IWxTransformResult } from '../util/types'
@@ -26,7 +27,6 @@ import {
   uglifyJS
 } from './helper'
 import { parseAst } from './astProcess'
-import { PARSE_AST_TYPE } from './constants'
 import { IDependency } from './interface'
 
 const isBuildingScripts: Map<string, boolean> = new Map<string, boolean>()

@@ -8,10 +8,10 @@ import traverse from 'babel-traverse'
 import _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
 
-import { PARSE_AST_TYPE } from './constants'
-import { getBuildData } from './helper'
+import { PARSE_AST_TYPE, taroJsComponents, taroJsQuickAppComponents } from '../util/constants'
+import { getBuildData, isQuickAppPkg } from './helper'
 import { getNotExistNpmList } from '../util/npmExact'
-import { traverseObjectNode } from '../util'
+import { traverseObjectNode, isAliasPath, replaceAliasPath, isNpmPkg } from '../util'
 
 export function parseAst (
   type: PARSE_AST_TYPE,
@@ -161,6 +161,25 @@ export function parseAst (
       const node = astPath.node
       if (node.key.name === 'config') {
         configObj = traverseObjectNode(node, buildAdapter)
+      }
+    },
+
+    ImportDeclaration (astPath) {
+      const node = astPath.node
+      const source = node.source
+      let value = source.value
+      const specifiers = node.specifiers
+      if (isAliasPath(value, pathAlias)) {
+        value = replaceAliasPath(sourceFilePath, value, pathAlias)
+        source.value = value
+      }
+      if (isNpmPkg(value)
+        && !isQuickAppPkg(value)
+        && !notExistNpmList.has(value)) {
+        if (value === taroJsComponents) {
+          source.value = taroJsQuickAppComponents
+        }
+
       }
     }
   })
