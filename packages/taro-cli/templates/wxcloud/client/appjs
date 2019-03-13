@@ -39,7 +39,7 @@ class App extends Component {
 
   componentDidMount () {
     if (process.env.TARO_ENV === 'weapp') {
-      wx.cloud.init()
+      Taro.cloud.init()
     }
   }
 

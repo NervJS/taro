@@ -17,7 +17,7 @@ export default class Login extends Component {
   componentDidHide() {}
 
   getLogin = () => {
-    wx.cloud
+    Taro.cloud
       .callFunction({
         name: "login",
         data: {}
