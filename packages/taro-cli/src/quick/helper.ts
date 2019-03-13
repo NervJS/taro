@@ -103,3 +103,7 @@ export function setManifestJSON (key, value) {
 export function getDependencyTree (): Map<string, IDependency> {
   return dependencyTree
 }
+
+export function isQuickAppPkg (name: string): boolean {
+  return /@system\./.test(name)
+}

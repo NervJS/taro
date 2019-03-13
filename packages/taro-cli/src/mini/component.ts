@@ -11,7 +11,8 @@ import {
   REG_TYPESCRIPT,
   processTypeEnum,
   NODE_MODULES_REG,
-  NODE_MODULES
+  NODE_MODULES,
+  PARSE_AST_TYPE
 } from '../util/constants'
 import {
   printLog,
@@ -39,7 +40,6 @@ import {
 import { compileScriptFile, compileDepScripts } from './compileScript'
 import { compileDepStyles } from './compileStyle'
 import { transfromNativeComponents, processNativeWxml } from './native'
-import { PARSE_AST_TYPE } from './constants'
 
 const notTaroComponents = new Set<string>()
 const componentsNamedMap = new Map<string, { name?: string, type?: string }>()

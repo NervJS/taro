@@ -1,6 +1,1 @@
-export enum PARSE_AST_TYPE {
-  ENTRY = 'ENTRY',
-  PAGE = 'PAGE',
-  COMPONENT = 'COMPONENT',
-  NORMAL = 'NORMAL'
-}
+

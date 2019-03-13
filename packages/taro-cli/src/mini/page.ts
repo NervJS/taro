@@ -8,7 +8,9 @@ import * as _ from 'lodash'
 import {
   REG_TYPESCRIPT,
   processTypeEnum,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  PARSE_AST_TYPE,
+  taroJsFramework
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -21,7 +23,6 @@ import {
 import { IWxTransformResult } from '../util/types'
 
 import { IComponentObj } from './interface'
-import { PARSE_AST_TYPE, taroJsFramework } from './constants'
 import {
   getBuildData,
   getRealComponentsPathList,

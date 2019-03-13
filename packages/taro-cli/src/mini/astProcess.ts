@@ -21,7 +21,12 @@ import {
   CSS_EXT,
   processTypeEnum,
   BUILD_TYPES,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  PARSE_AST_TYPE,
+  taroJsComponents,
+  taroJsRedux,
+  taroJsFramework,
+  DEVICE_RATIO_NAME
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -36,13 +41,6 @@ import { convertObjectToAstExpression, convertArrayToAstExpression } from '../ut
 import babylonConfig from '../config/babylon'
 import { getExactedNpmFilePath, getNotExistNpmList } from '../util/npmExact'
 
-import {
-  PARSE_AST_TYPE,
-  taroJsComponents,
-  taroJsRedux,
-  taroJsFramework,
-  DEVICE_RATIO_NAME
-} from './constants'
 import { IComponentObj } from './interface'
 import {
   getBuildData,
