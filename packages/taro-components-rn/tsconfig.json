@@ -4,9 +4,13 @@
     "src/**/*.tsx",
     "src/**/*.ts"
   ],
+  "exclude": [
+    "src/**/demo/**"
+  ],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "strictNullChecks": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
