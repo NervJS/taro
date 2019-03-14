@@ -1,0 +1,12 @@
+{
+  "name": "@tarojs/components-qa",
+  "version": "1.2.13",
+  "description": "多端解决方案基础组件（快应用）",
+  "main": "./index.js",
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "author": "O2Team",
+  "license": "MIT"
+}
