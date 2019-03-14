@@ -532,17 +532,32 @@ export function genCompid (): string {
   return String(id++)
 }
 
-export function findParentLoopsIndex (callee: NodePath<t.CallExpression>): t.Identifier | t.BinaryExpression {
+export function findParentLoops (
+  callee: NodePath<t.CallExpression>,
+  names: Map<NodePath<t.CallExpression>, string>,
+  loops: t.ArrayExpression
+) {
   let indexId: t.Identifier | null = null
+  let name: string | undefined
   const [ func ] = callee.node.arguments
   if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
     const params = func.params as t.Identifier[]
     indexId = params[1]
+    name = names.get(callee)
   }
 
   if (indexId === null || !t.isIdentifier(indexId!)) {
     throw codeFrameError(callee.node, '在循环中使用自定义组件时必须暴露循环的第二个参数 `index`')
   }
+
+  if (!name) {
+    throw codeFrameError(callee.node, '找不到循环对应的名称')
+  }
+
+  loops.elements.unshift(t.objectExpression([
+    t.objectProperty(t.identifier('indexId'), indexId),
+    t.objectProperty(t.identifier('name'), t.stringLiteral(name))
+  ]))
 
   const parentCallExpr = callee.findParent(p => p.isCallExpression())
   if (parentCallExpr && parentCallExpr.isCallExpression()) {
@@ -552,19 +567,9 @@ export function findParentLoopsIndex (callee: NodePath<t.CallExpression>): t.Ide
       t.isIdentifier(callee.property) &&
       callee.property.name === 'map'
     ) {
-      return t.binaryExpression(
-        '+',
-        indexId,
-        t.binaryExpression(
-          '+',
-          t.stringLiteral(''),
-          findParentLoopsIndex(parentCallExpr)
-        )
-      )
+      findParentLoops(parentCallExpr, names, loops)
     }
   }
-
-  return indexId
 }
 
 export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression): t.Expression {

@@ -6,9 +6,12 @@ class Manager {
   observers = {}
 
   set (props = {}, compid) {
+    if (!compid) return
+
     const { observers } = this
     if (!this.map[compid]) {
       Object.defineProperty(this.map, compid, {
+        configurable: true,
         get () {
           return this[`__${compid}`]
         },
@@ -18,11 +21,6 @@ class Manager {
           const component = observers[compid] && observers[compid].component
           const ComponentClass = observers[compid] && observers[compid].ComponentClass
           if (!component || !ComponentClass || !component.__isReady) return
-
-          if (component.unmounting) {
-            delete observers[compid]
-            return
-          }
 
           const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, props, component.props)
           component.props = nextProps
@@ -36,7 +34,9 @@ class Manager {
   }
 
   delete (compid) {
-    this.map[compid] = {}
+    delete this.map[compid]
+    delete this.map[`__${compid}`]
+    delete this.observers[compid]
   }
 }
 

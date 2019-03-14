@@ -20,7 +20,9 @@ import {
   GEL_ELEMENT_BY_ID,
   lessThanSignPlacehold,
   COMPONENTS_PACKAGE_NAME,
-  PROPS_MANAGER
+  PROPS_MANAGER,
+  GEN_COMP_ID,
+  GEN_LOOP_COMPID
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -500,7 +502,9 @@ export default function transform (options: Options): TransformResult {
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
           t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
-          t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER))
+          t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
+          t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+          t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
       }
       if (
