@@ -46,6 +46,7 @@
     "css-to-react-native-transform": "^1.4.0",
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
+    "fbjs": "^1.0.0",
     "fs-extra": "^5.0.0",
     "generic-names": "^2.0.1",
     "glob": "^7.1.2",
