@@ -158,8 +158,20 @@ const getModule = ({
 
   const postcssOption: PostcssOption = module.postcss || {}
 
-  const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
-  const topStyleLoader = getStyleLoader([{ sourceMap: enableSourceMap, insertAt: 'top' }, styleLoaderOption])
+  const defaultStyleLoaderOption = {
+    sourceMap: enableSourceMap,
+    singleton: true
+  }
+
+  const styleLoader = getStyleLoader([
+    defaultStyleLoaderOption,
+    styleLoaderOption
+  ])
+  const topStyleLoader = getStyleLoader([
+    defaultStyleLoaderOption,
+    { insertAt: 'top' },
+    styleLoaderOption
+  ])
 
   const extractCssLoader = getExtractCssLoader()
 
