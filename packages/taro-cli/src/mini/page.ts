@@ -206,8 +206,11 @@ export async function buildSinglePage (page: string) {
       }
       const taroJsQuickAppComponentsPath = path.join(path.dirname(taroJsQuickAppComponentsPkg as string), 'src/components')
       res.taroSelfComponents.forEach(c => {
-        const cPath = path.join(taroJsQuickAppComponentsPath, c, 'index')
-        const cRelativePath = promoteRelativePath(path.relative(outputPageJSPath, cPath.replace(nodeModulesPath, npmOutputDir)))
+        const cPath = path.join(taroJsQuickAppComponentsPath, c)
+        const cMainPath = path.join(cPath, 'index')
+        const cFiles = fs.readdirSync(cPath).map(item => path.join(cPath, item))
+        copyFilesFromSrcToOutput(cFiles)
+        const cRelativePath = promoteRelativePath(path.relative(outputPageJSPath, cMainPath.replace(nodeModulesPath, npmOutputDir)))
         importTaroSelfComponents.add({
           path: cRelativePath,
           name: c
