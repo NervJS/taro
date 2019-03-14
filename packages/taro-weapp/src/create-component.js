@@ -37,7 +37,10 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
   }
   weappComponentConf.properties.compid = {
     type: null,
-    value: null
+    value: null,
+    observer () {
+      initComponent.apply(this, [ComponentClass, isPage])
+    }
   }
 }
 
@@ -225,7 +228,6 @@ export function componentTrigger (component, key, args) {
   }
 
   if (key === 'componentWillUnmount') {
-    component.unmounting = true
     const compid = component.$scope.data.compid
     if (compid) propsManager.delete(compid)
   }
@@ -329,7 +331,7 @@ function createComponent (ComponentClass, isPage) {
           this.$component.$preloadData = null
         }
       }
-      if (!isPage || hasParamsCache || ComponentClass.defaultParams) {
+      if (hasParamsCache) {
         initComponent.apply(this, [ComponentClass, isPage])
       }
     },

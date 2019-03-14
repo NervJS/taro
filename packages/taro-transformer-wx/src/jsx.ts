@@ -98,9 +98,9 @@ export function isAllLiteral (...args) {
   return args.every(p => t.isLiteral(p))
 }
 
-export function buildBlockElement () {
+export function buildBlockElement (attrs: t.JSXAttribute[] = []) {
   return t.jSXElement(
-    t.jSXOpeningElement(t.jSXIdentifier('block'), []),
+    t.jSXOpeningElement(t.jSXIdentifier('block'), attrs),
     t.jSXClosingElement(t.jSXIdentifier('block')),
     []
   )

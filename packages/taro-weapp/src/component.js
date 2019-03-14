@@ -24,7 +24,6 @@ class BaseComponent {
   nextProps = {}
   _dirty = true
   _disable = true
-  _unmounting = false
   _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []

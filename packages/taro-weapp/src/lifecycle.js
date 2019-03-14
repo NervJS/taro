@@ -10,7 +10,6 @@ const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
 
-const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
   const { props, __propTypes } = component
   if (isDEV && __propTypes) {
@@ -65,7 +64,6 @@ function doUpdate (component, prevProps, prevState) {
     const isRunLoopRef = !component.__mounted
     data = component._createData(state, props, isRunLoopRef) || data
   }
-  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -87,8 +85,8 @@ function doUpdate (component, prevProps, prevState) {
     })
     data = _data
   }
-  // 改变这个私有的props用来触发(observer)子组件的更新
-  data[privatePropKeyName] = !privatePropKeyVal
+  data['$taroCompReady'] = true
+
   const dataDiff = diffObjToPath(data, component.$scope.data)
   const __mounted = component.__mounted
 
@@ -99,7 +97,7 @@ function doUpdate (component, prevProps, prevState) {
     component._pendingCallbacks = []
   }
 
-  component.$scope.setData(dataDiff, function () {
+  const cb = function () {
     if (__mounted) {
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
@@ -133,5 +131,10 @@ function doUpdate (component, prevProps, prevState) {
         typeof cbs[i] === 'function' && cbs[i].call(component)
       }
     }
-  })
+  }
+  if (Object.keys(dataDiff).length === 0) {
+    cb()
+  } else {
+    component.$scope.setData(dataDiff, cb)
+  }
 }

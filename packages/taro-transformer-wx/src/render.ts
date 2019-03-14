@@ -26,7 +26,7 @@ import {
   isContainStopPropagation,
   noop,
   genCompid,
-  findParentLoopsIndex,
+  findParentLoops,
   setAncestorCondition
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
@@ -40,11 +40,14 @@ import {
   MAP_CALL_ITERATOR,
   LOOP_STATE,
   LOOP_CALLEE,
+  COMPID,
   THIRD_PARTY_COMPONENTS,
   LOOP_ORIGINAL,
   INTERNAL_GET_ORIGNAL,
   GEL_ELEMENT_BY_ID,
   PROPS_MANAGER,
+  GEN_COMP_ID,
+  GEN_LOOP_COMPID,
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
@@ -108,6 +111,7 @@ export class RenderParser {
   private returnedPaths: NodePath<t.Node>[] = []
   private usedThisState = new Set<string>()
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
+  private loopComponentNames = new Map<NodePath<t.CallExpression>, string>()
   private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
   private reserveStateWords = new Set(['state', 'props'])
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
@@ -116,11 +120,12 @@ export class RenderParser {
   private loopCalleeId = new Set<t.Identifier>()
   private usedThisProperties = new Set<string>()
   private incrementCalleeId = incrementId()
+  private loopArrayId = incrementId()
   private classComputedState = new Set<string>()
   private loopCallees = new Set<t.Node>()
+  private propsSettingExpressions = new Set<t.ExpressionStatement | t.VariableDeclaration>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
-  private propsSettingExpressions = new Set<t.ExpressionStatement>()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -514,6 +519,14 @@ export class RenderParser {
                       throw codeFrameError(index, '包含 JSX 的 map 循环第二个参数只能是一个普通标识符')
                     }
                     this.loopComponents.set(callExpr, jsxElementPath)
+                    let loopComponentName
+                    const parentCallee = callExpr.findParent(c => isArrayMapCallExpression(c))
+                    if (isArrayMapCallExpression(parentCallee)) {
+                      loopComponentName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
+                    } else {
+                      loopComponentName = 'loopArray' + this.loopArrayId()
+                    }
+                    this.loopComponentNames.set(callExpr, loopComponentName)
                     // caller.replaceWith(jsxElementPath.node)
                     if (statementParent) {
                       const name = findIdentifierFromStatement(
@@ -596,7 +609,15 @@ export class RenderParser {
         if (blockStatement && blockStatement.isBlockStatement()) {
           blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
         }
-        const block = this.finalReturnElement || buildBlockElement()
+
+        const blockAttrs: t.JSXAttribute[] = []
+        if (Adapter.type === Adapters.weapp && !this.finalReturnElement) {
+          blockAttrs.push(t.jSXAttribute(
+            t.jSXIdentifier(Adapter.if),
+            t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
+          ))
+        }
+        const block = this.finalReturnElement || buildBlockElement(blockAttrs)
         if (isBlockIfStatement(ifStatement, blockStatement)) {
           const { test, alternate, consequent } = ifStatement.node
           // blockStatement.node.body.push(t.returnStatement(
@@ -920,23 +941,44 @@ export class RenderParser {
       !DEFAULT_Component_SET.has(openingElement.name.name) &&
       /[A-Z]/.test(openingElement.name.name.charAt(0))
     ) {
-      const id = t.stringLiteral(genCompid())
-
+      const name = `$compid__temp${genCompid()}`
+      const variableName = t.identifier(name)
+      this.referencedIdentifiers.add(variableName)
+      const idExpr = buildConstVariableDeclaration(name, t.logicalExpression(
+        '&&',
+        t.memberExpression(t.thisExpression(), t.identifier('$scope')),
+        t.logicalExpression(
+          '||',
+          t.memberExpression(
+            t.memberExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('$scope')),
+              t.identifier('data')
+            ),
+            variableName
+          ),
+          t.callExpression(t.identifier(GEN_COMP_ID), [])
+        )
+      ))
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
-      const propsSettingExpr = this.genPropsSettingExpression(properties, id)
+      const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
+      this.propsSettingExpressions.add(idExpr)
       this.propsSettingExpressions.add(t.expressionStatement(expr))
 
       // xml 中打上组件 ID
-      setJSXAttr(jsxElementPath.node, 'compid', id)
+      setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
     }
+  }
+
+  private handleComponents (renderBody: NodePath<t.Node>) {
+    renderBody.traverse({
+      JSXElement: jsxElementPath => this.addIdToElement(jsxElementPath)
+    })
   }
 
   private jsxElementVisitor: Visitor = {
     JSXElement: (jsxElementPath) => {
-      if (Adapter.type === Adapters.weapp) this.addIdToElement(jsxElementPath)
-
       this.handleJSXElement(jsxElementPath, (options) => {
         this.handleConditionExpr(options, jsxElementPath)
         this.handleJSXInIfStatement(jsxElementPath, options)
@@ -1392,6 +1434,7 @@ export class RenderParser {
       })
     }
     this.handleLoopComponents()
+    Adapter.type === Adapters.weapp && this.handleComponents(renderBody)
     renderBody.traverse(this.visitors)
     this.setOutputTemplate()
     this.checkDuplicateName()
@@ -1439,7 +1482,6 @@ export class RenderParser {
    * templates
    */
   handleLoopComponents = () => {
-    const loopArrayId = incrementId()
     const replaceQueue: Function[] = []
     let hasLoopRef = false
     this.loopComponents.forEach((component, callee) => {
@@ -1517,44 +1559,53 @@ export class RenderParser {
         }
       }
 
-      let seed: t.Identifier | t.BinaryExpression
-      Adapter.type === Adapters.weapp &&
-      blockStatementPath.traverse({
-        JSXElement: path => {
-          const element = path.node.openingElement
-          if (
-            t.isJSXIdentifier(element.name) &&
-            !DEFAULT_Component_SET.has(element.name.name) &&
-            /[A-Z]/.test(element.name.name.charAt(0))
-          ) {
-            // 寻找 map 循环的 index 变量
-            seed = findParentLoopsIndex(callee)
+      if (Adapter.type === Adapters.weapp) {
+        let loops: t.ArrayExpression | null = null
 
-            const id = genCompid()
-            const compid = t.binaryExpression(
-              '+',
-              t.stringLiteral(id + '_'),
-              seed
-            )
+        blockStatementPath.traverse({
+          JSXElement: path => {
+            const element = path.node.openingElement
+            if (
+              t.isJSXIdentifier(element.name) &&
+              !DEFAULT_Component_SET.has(element.name.name) &&
+              /[A-Z]/.test(element.name.name.charAt(0))
+            ) {
+              // 如果循环里包含自定义组件
+              if (!loops) {
+                loops = t.arrayExpression([])
+                findParentLoops(callee, this.loopComponentNames, loops)
+              }
 
-            // createData 函数里加入 compid 相关逻辑
-            const compidTemp = `$compid_temp${id}`
-            const compidTempDecl = buildConstVariableDeclaration(compidTemp, compid)
+              // createData 函数里加入 compid 相关逻辑
+              const variableName = `$compid__temp${genCompid()}`
+              const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
+                t.identifier(GEN_LOOP_COMPID),
+                [t.memberExpression(t.thisExpression(), t.identifier('$scope')), t.stringLiteral(variableName), loops]
+              ))
 
-            const properties = this.getPropsFromAttrs(element)
-            const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(compidTemp))
-            const expr = setAncestorCondition(path, propsSettingExpr)
+              const properties = this.getPropsFromAttrs(element)
+              const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName))
+              const expr = setAncestorCondition(path, propsSettingExpr)
 
-            body.push(compidTempDecl, t.expressionStatement(expr))
+              body.splice(body.length - 1, 0, compidTempDecl, t.expressionStatement(expr))
 
-            // wxml 组件打上 compid
-            element.attributes.push(t.jSXAttribute(
-              t.jSXIdentifier('compid'),
-              t.jSXExpressionContainer(compid)
-            ))
+              // wxml 组件打上 compid
+              const [ func ] = callee.node.arguments
+              let forItem: t.Identifier | null = null
+              if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+                forItem = func.params[0] as t.Identifier
+              }
+              if (forItem === null || !t.isIdentifier(forItem)) {
+                throw codeFrameError(callee.node, '在循环中使用自定义组件时必须暴露循环的第一个参数 `item`')
+              }
+              element.attributes.push(t.jSXAttribute(
+                t.jSXIdentifier('compid'),
+                t.jSXExpressionContainer(t.memberExpression(forItem, t.identifier(variableName)))
+              ))
+            }
           }
-        }
-      })
+        })
+      }
 
       let stateToBeAssign = new Set<string>(
         difference(
@@ -1586,7 +1637,8 @@ export class RenderParser {
                   const name = dcl.id.name
                   if (
                     name.startsWith(LOOP_STATE) ||
-                    name.startsWith(LOOP_CALLEE)
+                    name.startsWith(LOOP_CALLEE) ||
+                    name.startsWith(COMPID)
                   ) {
                     stateToBeAssign.add(name)
                     dcl.id = t.identifier(name)
@@ -1606,7 +1658,7 @@ export class RenderParser {
               path.isReferencedIdentifier() &&
               iterators.has(name) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
-              !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE)))
+              !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE) || parent.property.name.startsWith(COMPID)))
             ) {
               path.replaceWith(t.memberExpression(
                 t.identifier(name),
@@ -1705,7 +1757,7 @@ export class RenderParser {
               const funcBody = func.body
               if (t.isBlockStatement(funcBody)) {
                 if (t.isIdentifier(object) || t.isMemberExpression(object)) {
-                  const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
+                  const variableName = this.loopComponentNames.get(callee) as string
                   funcBody.body.splice(
                     funcBody.body.length - 1,
                     0,
@@ -1733,7 +1785,7 @@ export class RenderParser {
             body.push(returnStatement)
           } else {
             body.push(returnStatement)
-            const stateName = 'loopArray' + loopArrayId()
+            const stateName = this.loopComponentNames.get(callee) as string
             this.loopStateName.forEach((newName, callExpr) => {
               if (callExpr === callee) {
                 const classBody = this.renderPath.parent as t.ClassBody
