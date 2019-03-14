@@ -150,7 +150,7 @@ const getModule = ({
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
-  esnextModules = [] as string[],
+  esnextModules = [] as (string | RegExp)[],
 
   module,
   plugins
@@ -346,7 +346,15 @@ const getModule = ({
   ]
   if (Array.isArray(esnextModules) && esnextModules.length) {
     /* cnpm 安装的模块名前带下划线 `_` */
-    esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])
+    esnextModuleRegs = esnextModuleRegs.concat([
+      ...esnextModules.map(v => {
+        if (typeof v === 'string') {
+          return new RegExp(`\b${v}\b`)
+        } else {
+          return v
+        }
+      })
+    ])
   }
   /**
    * isEsnextModule
