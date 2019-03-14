@@ -39,6 +39,7 @@ function createStoreInjector (grabStoresFn, component, injectNames, { Component,
   }
 
   Object.defineProperties(Injector, proxiedInjectorProps)
+  Injector.config = component.config
 
   return Injector
 }
