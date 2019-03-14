@@ -71,7 +71,7 @@ class ScrollView extends Nerv.Component {
     // Y 轴滚动
     if (
       nextProps.scrollY &&
-      typeof props.scrollTop === 'number' &&
+      typeof nextProps.scrollTop === 'number' &&
       nextProps.scrollTop !== this._scrollTop
     ) {
       if ('scrollWithAnimation' in nextProps) {
@@ -170,7 +170,7 @@ class ScrollView extends Nerv.Component {
         ref={container => {
           this.container = container
         }}
-        {...omit(this.props, ['className'])}
+        {...omit(this.props, ['className', 'scrollTop', 'scrollLeft'])}
         className={cls}
         onScroll={_onScroll}
       >

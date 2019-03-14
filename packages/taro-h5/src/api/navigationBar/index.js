@@ -12,7 +12,7 @@ export function setNavigationBarTitle (options) {
   const { title, success, fail, complete } = options
   const res = { errMsg: 'setNavigationBarTitle:ok' }
 
-  if (title && typeof title !== 'string') {
+  if (!title || typeof title !== 'string') {
     res.errMsg = getParameterError({
       name: 'setNavigationBarTitle',
       para: 'title',

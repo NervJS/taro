@@ -1,7 +1,5 @@
 /* eslint-disable */
-import Taro from '../index.js'
-Taro.initNativeApi(Taro)
-
+import * as Taro from '../src/api'
 describe('others', () => {
   test('should covert arraybuffer to base64', () => {
     const arrayBuffer = new Uint8Array([11, 22, 33])

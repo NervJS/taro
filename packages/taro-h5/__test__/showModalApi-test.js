@@ -1,7 +1,6 @@
 /* eslint-disable */
-import Taro from '../index.js'
+import * as Taro from '../src/api'
 import 'jest-dom/extend-expect'
-Taro.initNativeApi(Taro)
 
 describe('modal', () => {
   test('options.title should be String', () => {

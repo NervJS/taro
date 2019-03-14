@@ -563,6 +563,16 @@ export class RenderParser {
     }
   }
 
+  findParallelIfStem = (p: NodePath<t.Node>) => {
+    const exprs: Set<NodePath<t.IfStatement>> = new Set()
+    let expr = p.parentPath
+    while (expr.isIfStatement()) {
+      exprs.add(expr)
+      expr = expr.parentPath
+    }
+    return exprs
+  }
+
   private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn, isIfStemInLoop }: JSXHandler) {
     if (t.isReturnStatement(parentNode)) {
       if (!isFinalReturn && !isIfStemInLoop) {
@@ -648,8 +658,10 @@ export class RenderParser {
         const assignmentName = parentNode.left.name
         const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
+        // tslint:disable-next-line
+        const parallelIfStems = this.findParallelIfStem(ifStatement)
         const parentIfStatement = ifStatement.findParent(p =>
-          p.isIfStatement() && p !== ifStatement.parentPath
+          p.isIfStatement() && !parallelIfStems.has(p)
         ) as NodePath<t.IfStatement>
         // @TODO: 重构 this.templates 为基于作用域的 HashMap，现在仍然可能会存在重复的情况
         let block = this.templates.get(assignmentName) || buildBlockElement()

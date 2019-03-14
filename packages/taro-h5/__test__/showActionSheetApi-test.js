@@ -1,7 +1,6 @@
 /* eslint-disable */
-import Taro from '../index.js'
+import * as Taro from '../src/api'
 import 'jest-dom/extend-expect'
-Taro.initNativeApi(Taro)
 
 describe('actionSheet', () => {
   test('options.itemList should be Array', () => {
@@ -134,7 +133,6 @@ describe('actionSheet', () => {
 
     const actionSheet = document.body.lastChild
     expect(actionSheet.childNodes.length).toBe(2)
-    expect(actionSheet).not.toBeVisible()
 
     const mask = actionSheet.firstChild
     const list = actionSheet.lastChild.firstChild
@@ -161,23 +159,21 @@ describe('actionSheet', () => {
       success,
       fail,
       complete
+    }).catch(res => {
+      const expectObj = { errMsg: 'showActionSheet:fail cancel' }
+      expect(success.mock.calls.length).toBe(0)
+      expect(fail).toHaveBeenCalledWith(expectObj)
+      expect(complete).toHaveBeenCalledWith(expectObj)
+      expect(res).toEqual(expectObj)
     })
-      .catch(res => {
-        const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectObj)
-        expect(complete).toHaveBeenCalledWith(expectObj)
-        expect(res).toEqual(expectObj)
-        expect(actionSheet).not.toBeVisible()
-        done()
-      })
 
     const actionSheet = document.body.lastChild
     const cancel = actionSheet.lastChild.lastChild
 
+    cancel.click()
     setTimeout(() => {
-      expect(actionSheet).toBeVisible()
-      cancel.click()
+      expect(actionSheet).not.toBeVisible()
+      done()
     }, 200)
   })
 
@@ -190,23 +186,21 @@ describe('actionSheet', () => {
       success,
       fail,
       complete
+    }).catch(res => {
+      const expectObj = { errMsg: 'showActionSheet:fail cancel' }
+      expect(success.mock.calls.length).toBe(0)
+      expect(fail).toHaveBeenCalledWith(expectObj)
+      expect(complete).toHaveBeenCalledWith(expectObj)
+      expect(res).toEqual(expectObj)
     })
-      .catch(res => {
-        const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectObj)
-        expect(complete).toHaveBeenCalledWith(expectObj)
-        expect(res).toEqual(expectObj)
-        expect(actionSheet).not.toBeVisible()
-        done()
-      })
 
     const actionSheet = document.body.lastChild
     const mask = actionSheet.firstChild
 
+    mask.click()
     setTimeout(() => {
-      expect(actionSheet).toBeVisible()
-      mask.click()
+      expect(actionSheet).not.toBeVisible()
+      done()
     }, 200)
   })
 

@@ -200,6 +200,24 @@ function canIUseWebp () {
   return false
 }
 
+function wxCloud (taro) {
+  const wxC = wx.cloud
+  const wxcloud = {}
+  const apiList = [
+    'init',
+    'database',
+    'uploadFile',
+    'downloadFile',
+    'getTempFileURL',
+    'deleteFile',
+    'callFunction'
+  ]
+  apiList.forEach(v => {
+    wxcloud[v] = wxC[v]
+  })
+  taro.cloud = wxcloud
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = link.request.bind(link)
@@ -210,4 +228,5 @@ export default function initNativeApi (taro) {
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
+  wxCloud(taro)
 }

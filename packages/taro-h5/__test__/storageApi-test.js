@@ -1,7 +1,6 @@
 /* eslint-disable */
-import Taro from '../index.js'
+import * as Taro from '../src/api'
 import mockConsole from 'jest-mock-console'
-Taro.initNativeApi(Taro)
 
 describe('storage', () => {
   beforeEach(() => {

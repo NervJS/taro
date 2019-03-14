@@ -1,6 +1,6 @@
 import { Component } from '@tarojs/taro-h5'
-import Nerv from 'nervjs'
 import classNames from 'classnames'
+import Nerv from 'nervjs'
 
 const noop = () => {}
 
