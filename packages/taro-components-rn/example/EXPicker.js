@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Picker } from '../src'
+import Picker2 from '../dist/components/Picker2'
 
 export default class EXPicker extends Component {
   pickerSelectorRange = [ 'Java', 'C++', 'PHP' ]
@@ -57,6 +58,46 @@ export default class EXPicker extends Component {
   render () {
     return (
       <View>
+        <Picker2
+          data={[
+            {
+              value: '广东省',
+              label: '广东省',
+              children: [
+                {
+                  value: '深圳市',
+                  label: '深圳市',
+                  children: [
+                    { value: '宝安区', label: '宝安区' },
+                    { value: '南山区', label: '南山区' }
+                  ]
+                },
+                {
+                  value: '广州市',
+                  label: '广州市',
+                  children: [
+                    { value: '白云区', label: '白云区' },
+                    { value: '番禺区', label: '番禺区' },
+                    { value: '荔湾区', label: '荔湾区' }
+                  ]
+                }
+              ]
+            },
+            {
+              value: '胡建省',
+              label: '胡建省',
+              children: [
+                {
+                  value: '莆田市',
+                  label: '莆田市'
+                }
+              ]
+            }
+          ]}
+        >
+          <Text>Picker 2</Text>
+        </Picker2>
+
         <Picker
           mode="selector"
           range={this.pickerSelectorRange}
