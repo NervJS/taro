@@ -109,7 +109,7 @@ class ScrollView extends Nerv.Component {
       scrollX,
       scrollY
     } = this.props
-    let { upperThreshold = 0, lowerThreshold = 0 } = this.props
+    let { upperThreshold = 50, lowerThreshold = 50 } = this.props
     const cls = classNames(
       'taro-scroll',
       {
@@ -119,7 +119,7 @@ class ScrollView extends Nerv.Component {
       className
     )
     upperThreshold = parseInt(upperThreshold)
-    lowerThreshold = parseInt(upperThreshold)
+    lowerThreshold = parseInt(lowerThreshold)
     const uperAndLower = () => {
       const {
         offsetWidth,
