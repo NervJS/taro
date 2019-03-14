@@ -13,7 +13,8 @@ import {
   promoteRelativePath,
   printLog,
   recursiveFindNodeModules,
-  generateEnvList
+  generateEnvList,
+  isQuickAppPkg
 } from './index'
 
 import {
@@ -138,6 +139,9 @@ function parseAst (
               const args = node.arguments as Array<t.StringLiteral>
               let requirePath = args[0].value
               if (excludeRequire.indexOf(requirePath) < 0) {
+                if (!isQuickAppPkg(requirePath)) {
+                  return
+                }
                 if (isNpmPkg(requirePath)) {
                   if (excludeNpmPkgs.indexOf(requirePath) < 0) {
                     const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)), compileInclude)

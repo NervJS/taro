@@ -5,7 +5,8 @@ import { AppConfig } from '@tarojs/taro'
 
 import {
   BUILD_TYPES,
-  PROJECT_CONFIG
+  PROJECT_CONFIG,
+  REG_SCRIPTS
 } from '../util/constants'
 import CONFIG from '../config'
 import {
@@ -104,6 +105,17 @@ export function getDependencyTree (): Map<string, IDependency> {
   return dependencyTree
 }
 
-export function isQuickAppPkg (name: string): boolean {
-  return /@system\./.test(name)
+export function isFileToBePage (filePath: string): boolean {
+  let isPage = false
+  const { appConfig, sourceDir } = BuildData
+  const extname = path.extname(filePath)
+  const pages = appConfig.pages || []
+  const filePathWithoutExt = filePath.replace(extname, '')
+  pages.forEach(page => {
+    if (filePathWithoutExt === path.join(sourceDir, page)) {
+      isPage = true
+    }
+  })
+  return isPage && REG_SCRIPTS.test(extname)
 }
+

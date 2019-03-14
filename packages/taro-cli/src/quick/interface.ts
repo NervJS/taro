@@ -4,3 +4,9 @@ export interface IDependency {
   json: string[],
   media: string[]
 }
+
+export interface IComponentObj {
+  name?: string,
+  path: string | null,
+  type?: string
+}

@@ -109,7 +109,7 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP }: IMiniAppBui
   const appConfig = await buildEntry()
   setAppConfig(appConfig)
   await buildPages()
-  if (watch) {
-    watchFiles()
-  }
+  // if (watch) {
+  //   watchFiles()
+  // }
 }

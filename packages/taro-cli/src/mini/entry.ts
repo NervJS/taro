@@ -9,13 +9,16 @@ import {
   REG_TYPESCRIPT,
   CONFIG_MAP,
   processTypeEnum,
-  PARSE_AST_TYPE
+  PARSE_AST_TYPE,
+  BUILD_TYPES
 } from '../util/constants'
 import {
   isDifferentArray,
   printLog,
   isEmptyObject,
-  resolveScriptPath
+  resolveScriptPath,
+  promoteRelativePath,
+  generateQuickAppUx
 } from '../util'
 import { IWxTransformResult } from '../util/types'
 
@@ -107,21 +110,11 @@ export async function buildEntry (): Promise<AppConfig> {
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
-    resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
-    if (isProduction) {
-      resCode = uglifyJS(resCode, entryFilePath)
-    }
-    if (appOutput) {
-      fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
-      printLog(processTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
-      fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
-      printLog(processTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
-    }
-    if (res.configObj.workers) {
-      buildWorkers(res.configObj.workers)
-    }
-    if (res.configObj.tabBar && res.configObj.tabBar.custom) {
-      await buildCustomTabbar()
+    if (buildAdapter !== BUILD_TYPES.QUICKAPP) {
+      resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
+      if (isProduction) {
+        resCode = uglifyJS(resCode, entryFilePath)
+      }
     }
     const dependencyTree = getDependencyTree()
     const fileDep = dependencyTree.get(entryFilePath) || {
@@ -132,7 +125,7 @@ export async function buildEntry (): Promise<AppConfig> {
     }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(res.scriptFiles)
+      compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
     }
     // 编译样式文件
     if (isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
@@ -144,25 +137,6 @@ export async function buildEntry (): Promise<AppConfig> {
       copyFilesFromSrcToOutput(res.jsonFiles)
     }
 
-    // 处理res.configObj 中的tabBar配置
-    const tabBar = res.configObj.tabBar
-    if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
-      const {
-        list: listConfig,
-        iconPath: pathConfig,
-        selectedIconPath: selectedPathConfig
-      } = CONFIG_MAP[buildAdapter]
-      const list = tabBar[listConfig] || []
-      let tabBarIcons: string[] = []
-      list.forEach(item => {
-        item[pathConfig] && tabBarIcons.push(item[pathConfig])
-        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
-      })
-      tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
-      if (tabBarIcons && tabBarIcons.length) {
-        res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
-      }
-    }
     if (isDifferentArray(fileDep['media'], res.mediaFiles)) {
       copyFilesFromSrcToOutput(res.mediaFiles)
     }
@@ -171,6 +145,47 @@ export async function buildEntry (): Promise<AppConfig> {
     fileDep['json'] = res.jsonFiles
     fileDep['media'] = res.mediaFiles
     dependencyTree.set(entryFilePath, fileDep)
+    if (buildAdapter === BUILD_TYPES.QUICKAPP) {
+      // 生成 快应用 ux 文件
+      const styleRelativePath = promoteRelativePath(path.relative(outputEntryFilePath, path.join(outputDir, `app${outputFilesTypes.STYLE}`)))
+      const uxTxt = generateQuickAppUx({
+        script: resCode,
+        style: styleRelativePath
+      })
+      fs.writeFileSync(path.join(outputDir, `app${outputFilesTypes.TEMPL}`), uxTxt)
+    } else {
+      if (res.configObj.workers) {
+        buildWorkers(res.configObj.workers)
+      }
+      if (res.configObj.tabBar && res.configObj.tabBar.custom) {
+        await buildCustomTabbar()
+      }
+      // 处理res.configObj 中的tabBar配置
+      const tabBar = res.configObj.tabBar
+      if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
+        const {
+          list: listConfig,
+          iconPath: pathConfig,
+          selectedIconPath: selectedPathConfig
+        } = CONFIG_MAP[buildAdapter]
+        const list = tabBar[listConfig] || []
+        let tabBarIcons: string[] = []
+        list.forEach(item => {
+          item[pathConfig] && tabBarIcons.push(item[pathConfig])
+          item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
+        })
+        tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
+        if (tabBarIcons && tabBarIcons.length) {
+          res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
+        }
+      }
+      if (appOutput) {
+        fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
+        printLog(processTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
+        fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
+        printLog(processTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
+      }
+    }
     return res.configObj
   } catch (err) {
     console.log(err)

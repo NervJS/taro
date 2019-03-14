@@ -88,7 +88,7 @@ function buildForRN ({ watch }: IBuildConfig) {
 }
 
 function buildForQuickApp ({ watch }: IBuildConfig) {
-  require('./quick').build({
+  require('./mini').build({
     watch,
     adapter: BUILD_TYPES.QUICKAPP
   })

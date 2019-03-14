@@ -11,7 +11,8 @@ import {
   PROJECT_CONFIG,
   processTypeEnum,
   REG_SCRIPTS,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  REG_STYLE
 } from '../util/constants'
 import {
   resolveScriptPath,

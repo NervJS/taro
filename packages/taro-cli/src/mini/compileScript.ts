@@ -35,7 +35,7 @@ export function initCompileScripts () {
   isBuildingScripts.clear()
 }
 
-export function compileDepScripts (scriptFiles: string[]) {
+export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean) {
   const {
     nodeModulesPath,
     npmOutputDir,
@@ -86,7 +86,9 @@ export function compileDepScripts (scriptFiles: string[]) {
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
           const fileDep = dependencyTree.get(item) || {} as IDependency
           let resCode = res.code
-          resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
+          if (needUseBabel) {
+            resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
+          }
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction) {
             uglifyJS(resCode, item)
@@ -97,7 +99,7 @@ export function compileDepScripts (scriptFiles: string[]) {
           printLog(processTypeEnum.GENERATE, '依赖文件', modifyOutput)
           // 编译依赖的脚本文件
           if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-            compileDepScripts(res.scriptFiles)
+            compileDepScripts(res.scriptFiles, needUseBabel)
           }
           // 拷贝依赖文件
           if (isDifferentArray(fileDep['json'], res.jsonFiles)) {
