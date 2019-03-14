@@ -106,28 +106,32 @@ export const enum TEMPLATE_TYPES {
   WEAPP = '.wxml',
   SWAN = '.swan',
   ALIPAY = '.axml',
-  TT = '.ttml'
+  TT = '.ttml',
+  QUICKAPP = '.ux'
 }
 
 export const enum STYLE_TYPES {
   WEAPP = '.wxss',
   SWAN = '.css',
   ALIPAY = '.acss',
-  TT = '.ttss'
+  TT = '.ttss',
+  QUICKAPP = '.css'
 }
 
 export const enum SCRIPT_TYPES {
   WEAPP = '.js',
   SWAN = '.js',
   ALIPAY = '.js',
-  TT = '.js'
+  TT = '.js',
+  QUICKAPP = '.js'
 }
 
 export const enum CONFIG_TYPES {
   WEAPP = '.json',
   SWAN = '.json',
   ALIPAY = '.json',
-  TT = '.json'
+  TT = '.json',
+  QUICKAPP = '.json'
 }
 
 export type IMINI_APP_FILE_TYPE = {
@@ -164,6 +168,12 @@ export const MINI_APP_FILES: IMINI_APP_FILES = {
     STYLE: STYLE_TYPES.TT,
     SCRIPT: SCRIPT_TYPES.TT,
     CONFIG: CONFIG_TYPES.TT
+  },
+  [BUILD_TYPES.QUICKAPP]: {
+    TEMPL: TEMPLATE_TYPES.QUICKAPP,
+    STYLE: STYLE_TYPES.QUICKAPP,
+    SCRIPT: SCRIPT_TYPES.QUICKAPP,
+    CONFIG: CONFIG_TYPES.QUICKAPP
   }
 }
 

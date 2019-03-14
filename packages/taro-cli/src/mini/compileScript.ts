@@ -35,7 +35,7 @@ export function initCompileScripts () {
   isBuildingScripts.clear()
 }
 
-export function compileDepScripts (scriptFiles: string[], buildDepSync?: boolean) {
+export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean, buildDepSync?: boolean) {
   const {
     nodeModulesPath,
     npmOutputDir,
@@ -88,7 +88,9 @@ export function compileDepScripts (scriptFiles: string[], buildDepSync?: boolean
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
           const fileDep = dependencyTree.get(item) || {} as IDependency
           let resCode = res.code
-          resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
+          if (needUseBabel) {
+            resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
+          }
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction) {
             uglifyJS(resCode, item)
@@ -100,9 +102,9 @@ export function compileDepScripts (scriptFiles: string[], buildDepSync?: boolean
           // 编译依赖的脚本文件
           if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
             if (buildDepSync) {
-              await Promise.all(compileDepScripts(res.scriptFiles, buildDepSync))
+              await Promise.all(compileDepScripts(res.scriptFiles, needUseBabel, buildDepSync))
             } else {
-              compileDepScripts(res.scriptFiles, buildDepSync)
+              compileDepScripts(res.scriptFiles, needUseBabel, buildDepSync)
             }
           }
           // 拷贝依赖文件

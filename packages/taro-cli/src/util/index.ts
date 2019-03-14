@@ -17,7 +17,8 @@ import {
   processTypeEnum,
   MINI_APP_FILES,
   BUILD_TYPES,
-  CONFIG_MAP
+  CONFIG_MAP,
+  REG_STYLE
 } from './constants'
 import { ICopyArgOptions, ICopyOptions } from './types'
 
@@ -497,4 +498,34 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
       }
     })
   }
+}
+
+export function isQuickAppPkg (name: string): boolean {
+  return /@system\./.test(name)
+}
+
+export function generateQuickAppUx ({
+  script,
+  template,
+  style
+}: {
+  script?: string,
+  template?: string,
+  style?: string
+}) {
+  let uxTxt = ''
+  if (style) {
+    if (REG_STYLE.test(style)) {
+      uxTxt += `<style src="${style}"></style>\n`
+    } else {
+      uxTxt += `<style>\n${style}\n</style>\n`
+    }
+  }
+  if (template) {
+    uxTxt += `<template>\n${template}\n</template>\n`
+  }
+  if (script) {
+    uxTxt += `<script>\n${script}\n</script>\n`
+  }
+  return uxTxt
 }

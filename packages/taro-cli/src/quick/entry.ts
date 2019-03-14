@@ -8,7 +8,7 @@ import { processTypeEnum, REG_TYPESCRIPT, PARSE_AST_TYPE } from '../util/constan
 import { printLog } from '../util'
 
 import { getBuildData, setAppConfig, getDependencyTree } from './helper'
-import { parseAst } from './astProcess'
+import { parseAst } from '../mini/astProcess'
 
 export async function buildEntry () {
   const {
@@ -36,10 +36,10 @@ export async function buildEntry () {
       adapter: buildAdapter,
       env: constantsReplaceList
     })
-    const { configObj, code } = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, entryFilePath, outputEntryFilePath)
+    const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     const dependencyTree = getDependencyTree()
-    setAppConfig(configObj)
-    console.log(code)
+    setAppConfig(res.configObj)
+    console.log(res)
   } catch (err) {
     console.log(err)
   }

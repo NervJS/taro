@@ -43,17 +43,18 @@ export function resolveNpmSync (pluginName: string): string {
     }
     return npmCached[pluginName]
   } catch (err) {
-    if (err.code === 'MODULE_NOT_FOUND') {
-      console.log(chalk.cyan(`缺少npm包${pluginName}，开始安装...`))
-      const installOptions: IInstallOptions = {
-        dev: false
-      }
-      if (pluginName.indexOf(taroPluginPrefix) >= 0) {
-        installOptions.dev = true
-      }
-      installNpmPkg(pluginName, installOptions)
-      return resolveNpmSync(pluginName)
-    }
+    console.log(err)
+    // if (err.code === 'MODULE_NOT_FOUND') {
+    //   console.log(chalk.cyan(`缺少npm包${pluginName}，开始安装...`))
+    //   const installOptions: IInstallOptions = {
+    //     dev: false
+    //   }
+    //   if (pluginName.indexOf(taroPluginPrefix) >= 0) {
+    //     installOptions.dev = true
+    //   }
+    //   installNpmPkg(pluginName, installOptions)
+    //   return resolveNpmSync(pluginName)
+    // }
     return ''
   }
 }
