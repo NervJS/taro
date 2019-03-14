@@ -383,15 +383,21 @@ export function recursiveFindNodeModules (filePath: string): string {
 export const pascalCase: (str: string) => string
   = (str: string): string => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
 
-export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): string | null {
+export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
   const resolvePath = require('resolve')
   try {
-    const pkg = resolvePath.sync(`${pkgName}/package.json`, { basedir })
-    const pkgJson = fs.readJSONSync(pkg)
-    return pkgJson.version
+    return resolvePath.sync(`${pkgName}/package.json`, { basedir })
   } catch (err) {
     return null
   }
+}
+
+export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): string | null {
+  const pkgPath = getInstalledNpmPkgPath(pkgName, basedir)
+  if (!pkgPath) {
+    return null
+  }
+  return fs.readJSONSync(pkgPath).version
 }
 
 export function traverseObjectNode (node, buildAdapter: string) {
@@ -491,13 +497,23 @@ export function isQuickAppPkg (name: string): boolean {
 export function generateQuickAppUx ({
   script,
   template,
-  style
+  style,
+  imports
 }: {
   script?: string,
   template?: string,
-  style?: string
+  style?: string,
+  imports?: Set<{
+    path: string,
+    name: string
+  }>
 }) {
   let uxTxt = ''
+  if (imports && imports.size) {
+    imports.forEach(item => {
+      uxTxt += `<import src='${item.path}' name='${item.name}'></import>\n`
+    })
+  }
   if (style) {
     if (REG_STYLE.test(style)) {
       uxTxt += `<style src="${style}"></style>\n`

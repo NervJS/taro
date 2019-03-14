@@ -5,7 +5,7 @@ import * as babel from 'babel-core'
 import * as t from 'babel-types'
 import generate from 'babel-generator'
 import traverse from 'babel-traverse'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
 
 const template = require('babel-template')
@@ -26,8 +26,7 @@ import {
   taroJsComponents,
   taroJsRedux,
   taroJsFramework,
-  DEVICE_RATIO_NAME,
-  taroJsQuickAppComponents
+  DEVICE_RATIO_NAME
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -192,7 +191,8 @@ export interface IParseAstReturn {
   jsonFiles: string[],
   mediaFiles: string[]
   configObj: IConfig,
-  componentClassName: string
+  componentClassName: string,
+  taroSelfComponents: Set<string>
 }
 
 export function parseAst (
@@ -234,6 +234,7 @@ export function parseAst (
   if (isQuickApp) {
     cannotRemoves.push(taroJsComponents)
   }
+  const taroSelfComponents = new Set<string>()
   ast = babel.transformFromAst(ast, '', {
     plugins: [
       [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }],
@@ -369,7 +370,9 @@ export function parseAst (
       if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
-            console.log(specifiers)
+            specifiers.forEach(specifier => {
+              taroSelfComponents.add(_.kebabCase(specifier.local.name))
+            })
           }
           astPath.remove()
         } else {
@@ -472,6 +475,7 @@ export function parseAst (
       } else if (callee.name === 'require') {
         const args = node.arguments as t.StringLiteral[]
         let value = args[0].value
+        const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
         if (isAliasPath(value, pathAlias)) {
           value = replaceAliasPath(sourceFilePath, value, pathAlias)
           args[0].value = value
@@ -479,11 +483,21 @@ export function parseAst (
         if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
           if (value === taroJsComponents) {
             if (buildAdapter === BUILD_TYPES.QUICKAPP) {
-              args[0].value = taroJsQuickAppComponents
-              value = taroJsQuickAppComponents
-            } else {
-              astPath.remove()
+              if (isQuickApp) {
+                if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
+                  const id = parentNode.declarations[0].id
+                  if (id.type === 'ObjectPattern') {
+                    const properties = id.properties as any
+                    properties.forEach(p => {
+                      if (p.type === 'ObjectProperty' && p.value.type === 'Identifier') {
+                        taroSelfComponents.add(_.kebabCase(p.value.name))
+                      }
+                    })
+                  }
+                }
+              }
             }
+            astPath.remove()
           } else {
             let isDepComponent = false
             if (depComponents && depComponents.length) {
@@ -497,7 +511,6 @@ export function parseAst (
               astPath.remove()
             } else {
               if (t.isVariableDeclaration(astPath.parentPath.parentPath)) {
-                const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
                 if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
                   const id = parentNode.declarations[0].id
                   if (value === taroJsFramework && id.type === 'Identifier') {
@@ -796,7 +809,8 @@ export function parseAst (
     jsonFiles,
     configObj,
     mediaFiles,
-    componentClassName
+    componentClassName,
+    taroSelfComponents
   }
 }
 

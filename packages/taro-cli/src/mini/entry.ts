@@ -153,6 +153,7 @@ export async function buildEntry (): Promise<AppConfig> {
         style: styleRelativePath
       })
       fs.writeFileSync(path.join(outputDir, `app${outputFilesTypes.TEMPL}`), uxTxt)
+      printLog(processTypeEnum.GENERATE, '入口文件', `${outputDirName}/app${outputFilesTypes.TEMPL}`)
     } else {
       if (res.configObj.workers) {
         buildWorkers(res.configObj.workers)
