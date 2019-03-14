@@ -182,7 +182,7 @@ const ClassDeclarationOrExpression = {
       } else {
         componentClassName = node.id.name
       }
-    } else if (node.superClass.name === 'Component') {
+    } else if (node.superClass.name === 'Component' || node.superClass.name === 'PureComponent') {
       resetTSClassProperty(node.body.body)
       if (node.id === null) {
         const renameComponentClassName = '_TaroComponentClass'
