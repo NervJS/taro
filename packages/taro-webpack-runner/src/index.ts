@@ -2,10 +2,8 @@ import chalk from 'chalk'
 import * as opn from 'opn'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
-import { deprecate } from 'util'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import * as webpackMerge from 'webpack-merge'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
@@ -21,25 +19,22 @@ const customizeChain = (chain, customizeFunc: Function) => {
   }
 }
 
-const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
-  if (customConfig instanceof Function) {
-    return customConfig(baseConfig, webpack)
-  } else if (customConfig instanceof Object) {
-    return webpackMerge({}, baseConfig, customConfig)
-  }
-}, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
+const warnConfigWebpack = () => {
+  console.log(chalk.yellow(`taro@1.3版本开始，h5.webpack配置项已经停止支持。作为代替，请使用配置项h5.webpackChain，文档：https://nervjs.github.io/taro/docs/config-detail.html#h5webpackchain`))
+}
+const warnConfigEnableDll = () => {
+  console.log(chalk.yellow(`taro@1.3版本开始，taro在h5端加强了代码体积控制，抽离dll的收益已经微乎其微，同时也容易导致一些问题（#1800等）。所以h5.enableDll配置项暂时移除。`))
+}
 
 const buildProd = (config: BuildConfig): Promise<void> => {
   return new Promise((resolve, reject) => {
     const webpackChain = prodConf(config)
-    let webpackConfig
+    const webpackConfig = webpackChain.toConfig()
 
     customizeChain(webpackChain, config.webpackChain)
 
     if (config.webpack) {
-      webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
-    } else {
-      webpackConfig = webpackChain.toConfig()
+      warnConfigWebpack()
     }
 
     const compiler = webpack(webpackConfig)
@@ -70,8 +65,9 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
     customizeChain(webpackChain, config.webpackChain)
 
     webpackConfig = webpackChain.toConfig()
+
     if (config.webpack) {
-      webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
+      warnConfigWebpack()
     }
 
     const devServerOptions = recursiveMerge(
@@ -115,6 +111,9 @@ export default async (config: BuildConfig): Promise<void> => {
   if (config.isWatch) {
     await buildDev(config)
   } else {
+    if ('enableDll' in config) {
+      warnConfigEnableDll()
+    }
     await buildProd(config)
   }
 }
