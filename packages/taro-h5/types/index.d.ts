@@ -16,7 +16,20 @@ declare namespace TaroH5 {
     componentDidHide?(): void;
   }
 
+  namespace eventCenter {
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
+
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+
+    function off(): void;
+
+    function trigger(eventName: string | symbol, ...args: any[]): boolean;
+  }
+
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
+  type Element = any
 
   class Component<P, S> {
     constructor(props?: P, context?: any);

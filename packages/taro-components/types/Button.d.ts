@@ -4,7 +4,7 @@ import { StandardProps, CommonEventFunction } from './common'
 type OpenType = 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber'
 
 
-interface ButtonProps extends StandardProps {
+export interface ButtonProps extends StandardProps {
 
   /**
    * 按钮的大小

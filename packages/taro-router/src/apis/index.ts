@@ -34,6 +34,7 @@ const createNavigateTo = (history: History) => {
     try {
       if (/^(https?:)\/\//.test(url)) {
         window.location.assign(url);
+        return
       }
       history.push(url)
       return Promise.resolve()

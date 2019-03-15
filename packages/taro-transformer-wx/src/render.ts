@@ -54,7 +54,6 @@ import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
-const gen = generate
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -582,6 +581,16 @@ export class RenderParser {
     }
   }
 
+  findParallelIfStem = (p: NodePath<t.Node>) => {
+    const exprs: Set<NodePath<t.IfStatement>> = new Set()
+    let expr = p.parentPath
+    while (expr.isIfStatement()) {
+      exprs.add(expr)
+      expr = expr.parentPath
+    }
+    return exprs
+  }
+
   private handleJSXInIfStatement (jsxElementPath: NodePath<t.JSXElement>, { parentNode, parentPath, isFinalReturn, isIfStemInLoop }: JSXHandler) {
     if (t.isReturnStatement(parentNode)) {
       if (!isFinalReturn && !isIfStemInLoop) {
@@ -675,8 +684,10 @@ export class RenderParser {
         const assignmentName = parentNode.left.name
         const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
+        // tslint:disable-next-line
+        const parallelIfStems = this.findParallelIfStem(ifStatement)
         const parentIfStatement = ifStatement.findParent(p =>
-          p.isIfStatement()
+          p.isIfStatement() && !parallelIfStems.has(p)
         ) as NodePath<t.IfStatement>
         // @TODO: 重构 this.templates 为基于作用域的 HashMap，现在仍然可能会存在重复的情况
         let block = this.templates.get(assignmentName) || buildBlockElement()
@@ -687,8 +698,14 @@ export class RenderParser {
           if (isBlockIfStatement(ifStatement, blockStatement)) {
             const { test, alternate, consequent } = ifStatement.node
             if (alternate === blockStatement.node) {
-              setJSXAttr(jsxElementPath.node, Adapter.else)
+              const newBlock = buildBlockElement()
+              setJSXAttr(newBlock, Adapter.else)
+              newBlock.children = [jsxElementPath.node]
+              jsxElementPath.node = newBlock
             } else if (consequent === blockStatement.node) {
+              const parentIfStatement = ifStatement.findParent(p =>
+                p.isIfStatement()
+              ) as NodePath<t.IfStatement>
               const assignments: t.AssignmentExpression[] = []
               let isAssignedBefore = false
               // @TODO: 重构这两种循环为通用模块
@@ -764,8 +781,20 @@ export class RenderParser {
               const newBlock = buildBlockElement()
               newBlock.children = [block, jsxElementPath.node]
               block = newBlock
-            } else if (parentIfStatement && parentIfStatement.get('alternate') !== ifStatement) {
-              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test)
+            } else if (
+              parentIfStatement && ifStatement.parentPath !== parentIfStatement
+            ) {
+              let hasNest = false
+              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test, hasNest)
+              if (!hasNest && parentIfStatement.get('alternate') !== ifStatement) {
+                const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: parentIfStatement.node.test })) {
+                  const newBlock = buildBlockElement()
+                  block.children.push(jsxElementPath.node)
+                  newBlock.children = [block]
+                  block = newBlock
+                }
+              }
             } else {
               block.children.push(jsxElementPath.node)
             }
@@ -874,7 +903,7 @@ export class RenderParser {
     })
   }
 
-  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression) => {
+  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression, hasNest: boolean) => {
     if (this.isEmptyBlock(block)) {
       return
     }
@@ -891,9 +920,10 @@ export class RenderParser {
         (ifElseAttr && t.isJSXExpressionContainer(ifElseAttr.value, { expression: test }))
       ) {
         child.children.push(jsx)
+        hasNest = true
         break
       } else {
-        this.handleNestedIfStatement(child, jsx, test)
+        this.handleNestedIfStatement(child, jsx, test, hasNest)
       }
     }
   }

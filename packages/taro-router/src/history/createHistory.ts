@@ -140,7 +140,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser", fir
     }
 
     Taro._set$router(history.location)
-    Taro['eventCenter'].trigger('routerChange', {...params})
+    Taro.eventCenter.trigger('__taroRouterChange', {...params})
     transitionManager.notifyListeners({...params})
   }
 
