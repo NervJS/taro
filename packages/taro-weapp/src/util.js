@@ -167,7 +167,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
         if (arrTo !== arrFrom) {
           res[targetKey] = toItem
         } else if (arrTo && arrFrom) {
-          if (toItem.length < fromItem.length) {
+          if (toItem.length === 0 || toItem.length < fromItem.length) {
             res[targetKey] = toItem
           } else {
             // 数组
