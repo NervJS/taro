@@ -175,12 +175,10 @@ function bindEvents (weappComponentConf, events, isPage) {
 }
 
 export function filterProps (properties, defaultProps = {}, componentProps = {}, curProps) {
-  let newProps = {}
+  let newProps = Object.assign({}, curProps)
   for (const propName in properties) {
     if (propName in componentProps) {
       newProps[propName] = componentProps[propName]
-    } else if (propName in curProps) {
-      newProps[propName] = curProps[propName]
     }
   }
   if (!isEmptyObject(defaultProps)) {
