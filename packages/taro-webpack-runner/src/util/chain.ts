@@ -349,7 +349,7 @@ const getModule = ({
     esnextModuleRegs = esnextModuleRegs.concat([
       ...esnextModules.map(v => {
         if (typeof v === 'string') {
-          return new RegExp(`\b${v}\b`)
+          return new RegExp(`\\b${v}\\b`)
         } else {
           return v
         }
