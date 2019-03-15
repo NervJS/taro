@@ -217,7 +217,16 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser", fir
     listenerCount += delta
 
     if (listenerCount === 1) {
-      window.addEventListener(PopStateEvent, handlePopState)
+      const isSafari = /^((?!chrome).)*safari/i.test(navigator.userAgent)
+      if (isSafari) {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            window.addEventListener(PopStateEvent, handlePopState)
+          }, 0);
+        });
+      } else {
+        window.addEventListener(PopStateEvent, handlePopState)
+      }
     } else if (listenerCount === 0) {
       window.removeEventListener(PopStateEvent, handlePopState)
     }

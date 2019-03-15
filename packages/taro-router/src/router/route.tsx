@@ -46,10 +46,10 @@ class Route extends Component<RouteProps, {}> {
   }
 
   computeMatch (currentLocation) {
-    const pathname = currentLocation.pathname;
+    const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
-    if (isIndex && pathname === '/') return true
+    if (isIndex && path === '/') return true
     return key === this.props.key
   }
 
