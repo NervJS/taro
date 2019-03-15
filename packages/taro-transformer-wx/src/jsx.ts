@@ -113,9 +113,10 @@ export function isAllLiteral (...args) {
 }
 
 export function buildBlockElement () {
+  const blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
   return t.jSXElement(
-    t.jSXOpeningElement(t.jSXIdentifier('block'), []),
-    t.jSXClosingElement(t.jSXIdentifier('block')),
+    t.jSXOpeningElement(t.jSXIdentifier(blockName), []),
+    t.jSXClosingElement(t.jSXIdentifier(blockName)),
     []
   )
 }
