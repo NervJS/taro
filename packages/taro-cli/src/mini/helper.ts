@@ -12,7 +12,7 @@ import {
   processTypeEnum,
   REG_SCRIPTS,
   NODE_MODULES_REG,
-  REG_STYLE
+  taroJsQuickAppComponents
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -23,7 +23,8 @@ import {
   printLog,
   generateEnvList,
   generateConstantsList,
-  isEmptyObject
+  isEmptyObject,
+  getInstalledNpmPkgPath
 } from '../util'
 import { callPluginSync } from '../util/npm'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
@@ -324,4 +325,30 @@ export function copyFilesFromSrcToOutput (files: string[]) {
       fs.copySync(file, outputFilePath)
     }
   })
+}
+
+export function getTaroJsQuickAppComponentsPath () {
+  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, getNodeModulesPath())
+  if (!taroJsQuickAppComponentsPkg) {
+    printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
+    process.exit(0)
+  }
+  return path.join(path.dirname(taroJsQuickAppComponentsPkg as string), 'src/components')
+}
+
+export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
+  const importTaroSelfComponents = new Set<{ path: string, name: string }>()
+  const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath()
+  taroSelfComponents.forEach(c => {
+    const cPath = path.join(taroJsQuickAppComponentsPath, c)
+    const cMainPath = path.join(cPath, 'index')
+    const cFiles = fs.readdirSync(cPath).map(item => path.join(cPath, item))
+    copyFilesFromSrcToOutput(cFiles)
+    const cRelativePath = promoteRelativePath(path.relative(filePath, cMainPath.replace(getNodeModulesPath(), BuildData.npmOutputDir)))
+    importTaroSelfComponents.add({
+      path: cRelativePath,
+      name: c
+    })
+  })
+  return importTaroSelfComponents
 }
