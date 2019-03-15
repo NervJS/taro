@@ -127,3 +127,20 @@ TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
 })
 
 export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'
+
+export const quickappComponentName = new Set([
+  'Swiper',
+  'Image',
+  'Progress',
+  'Text',
+  'Input',
+  'Label',
+  'Picker',
+  'Slider',
+  'Switch',
+  'Textarea',
+  'Video',
+  'Camera',
+  'Canvas',
+  'Map'
+])

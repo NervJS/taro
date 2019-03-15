@@ -28,6 +28,7 @@ import {
   GEL_ELEMENT_BY_ID,
   lessThanSignPlacehold,
   COMPONENTS_PACKAGE_NAME,
+  quickappComponentName,
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID
@@ -537,6 +538,19 @@ export default function transform (options: Options): TransformResult {
         importSources.add(source)
       }
       const names: string[] = []
+      if (source === COMPONENTS_PACKAGE_NAME && Adapters.quickapp === Adapter.type) {
+        path.node.specifiers.forEach((s) => {
+          if (t.isImportSpecifier(s)) {
+            const originalName = s.imported.name
+            if (quickappComponentName.has(originalName)) {
+              const importedName = `Taro${originalName}`
+              s.imported.name = importedName
+              s.local.name = importedName
+              path.scope.rename(originalName, importedName)
+            }
+          }
+        })
+      }
       if (source === TARO_PACKAGE_NAME) {
         isImportTaro = true
         path.node.specifiers.push(
