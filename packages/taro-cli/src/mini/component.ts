@@ -12,13 +12,17 @@ import {
   processTypeEnum,
   NODE_MODULES_REG,
   NODE_MODULES,
-  PARSE_AST_TYPE
+  PARSE_AST_TYPE,
+  BUILD_TYPES,
+  taroJsQuickAppComponents
 } from '../util/constants'
 import {
   printLog,
   isEmptyObject,
   promoteRelativePath,
-  isDifferentArray
+  isDifferentArray,
+  getInstalledNpmPkgPath,
+  generateQuickAppUx
 } from '../util'
 
 import { parseComponentExportAst, parseAst } from './astProcess'
@@ -35,7 +39,8 @@ import {
   getComponentsBuildResult,
   getDependencyTree,
   buildUsingComponents,
-  getDepComponents
+  getDepComponents,
+  getImportTaroSelfComponents
 } from './helper'
 import { compileScriptFile, compileDepScripts } from './compileScript'
 import { compileDepStyles } from './compileStyle'
@@ -142,6 +147,7 @@ export async function buildSingleComponent (
     isProduction,
     jsxAttributeNameReplace
   } = getBuildData()
+  const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
 
   if (componentObj.path) {
     componentsNamedMap.set(componentObj.path, {
@@ -225,11 +231,8 @@ export async function buildSingleComponent (
     const componentDepComponents = transformResult.components
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
-    resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
-    if (isProduction) {
-      uglifyJS(resCode, component)
-    }
+    // 解析原生组件
     const { usingComponents = {} }: IConfig = res.configObj
     if (usingComponents && !isEmptyObject(usingComponents)) {
       const keys = Object.keys(usingComponents)
@@ -242,6 +245,25 @@ export async function buildSingleComponent (
       })
       transfromNativeComponents(outputComponentJSONPath.replace(buildConfig.outputDir || buildOutputDir, sourceDirPath), res.configObj)
     }
+    if (!isQuickApp) {
+      resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
+      if (isProduction) {
+        uglifyJS(resCode, component)
+      }
+    } else {
+      // 快应用编译，搜集创建组件 ux 文件
+      const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
+      const styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
+      const uxTxt = generateQuickAppUx({
+        script: resCode,
+        style: styleRelativePath,
+        imports: importTaroSelfComponents,
+        template: componentWXMLContent
+      })
+      fs.writeFileSync(outputComponentWXMLPath, uxTxt)
+      printLog(processTypeEnum.GENERATE, '组件文件', `${outputDirName}/${componentObj.name}${outputFilesTypes.TEMPL}`)
+    }
+
     const dependencyTree = getDependencyTree()
     const fileDep = dependencyTree.get(component) || {}
     // 编译依赖的组件文件
@@ -284,16 +306,18 @@ export async function buildSingleComponent (
         }
       })
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(component, componentDepComponents, true), res.configObj), null, 2))
-    printLog(processTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
-    fs.writeFileSync(outputComponentJSPath, resCode)
-    printLog(processTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
-    fs.writeFileSync(outputComponentWXMLPath, componentWXMLContent)
-    processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), componentWXMLContent, outputComponentWXMLPath)
-    printLog(processTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
+    if (!isQuickApp) {
+      fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(component, componentDepComponents, true), res.configObj), null, 2))
+      printLog(processTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
+      fs.writeFileSync(outputComponentJSPath, resCode)
+      printLog(processTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
+      fs.writeFileSync(outputComponentWXMLPath, componentWXMLContent)
+      processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), componentWXMLContent, outputComponentWXMLPath)
+      printLog(processTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
+    }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(res.scriptFiles)
+      compileDepScripts(res.scriptFiles, !isQuickApp)
     }
     const depComponents = getDepComponents()
     // 编译样式文件

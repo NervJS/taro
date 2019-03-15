@@ -35,7 +35,9 @@ import {
   copyFilesFromSrcToOutput,
   getDependencyTree,
   getComponentExportsMap,
-  getDepComponents
+  getDepComponents,
+  getTaroJsQuickAppComponentsPath,
+  getImportTaroSelfComponents
 } from './helper'
 import { compileDepScripts, compileScriptFile } from './compileScript'
 import { compileDepStyles } from './compileStyle'
@@ -121,6 +123,66 @@ export async function buildSinglePage (page: string) {
       })
       transfromNativeComponents(outputPageJSONPath.replace(outputDir, sourceDir), res.configObj)
     }
+
+    if (!isQuickApp) {
+      resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
+      if (isProduction) {
+        uglifyJS(resCode, pageJs)
+      }
+    } else {
+      // 快应用编译，搜集创建页面 ux 文件
+      const importTaroSelfComponents = getImportTaroSelfComponents(outputPageJSPath, res.taroSelfComponents)
+      // 生成页面 ux 文件
+      const styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
+      const uxTxt = generateQuickAppUx({
+        script: resCode,
+        style: styleRelativePath,
+        imports: importTaroSelfComponents,
+        template: pageWXMLContent
+      })
+      fs.writeFileSync(outputPageWXMLPath, uxTxt)
+      printLog(processTypeEnum.GENERATE, '页面文件', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
+    }
+    // 编译依赖的组件文件
+    let realComponentsPathList: IComponentObj[] = []
+    if (pageDepComponents.length) {
+      realComponentsPathList = getRealComponentsPathList(pageJs, pageDepComponents)
+      res.scriptFiles = res.scriptFiles.map(item => {
+        for (let i = 0; i < realComponentsPathList.length; i++) {
+          const componentObj = realComponentsPathList[i]
+          const componentPath = componentObj.path
+          if (item === componentPath) {
+            return ''
+          }
+        }
+        return item
+      }).filter(item => item)
+      await buildDepComponents(realComponentsPathList)
+    }
+    const componentExportsMap = getComponentExportsMap()
+    if (!isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
+      const mapKeys = Object.keys(componentExportsMap)
+      realComponentsPathList.forEach(component => {
+        if (mapKeys.indexOf(component.path as string) >= 0) {
+          const componentMap = componentExportsMap.get(component.path as string)
+          componentMap && componentMap.forEach(component => {
+            pageDepComponents.forEach(depComponent => {
+              if (depComponent.name === component.name) {
+                let componentPath = component.path
+                let realPath
+                if (NODE_MODULES_REG.test(componentPath as string)) {
+                  componentPath = (componentPath as string).replace(nodeModulesPath, npmOutputDir)
+                  realPath = promoteRelativePath(path.relative(outputPageJSPath, componentPath))
+                } else {
+                  realPath = promoteRelativePath(path.relative(pageJs, componentPath as string))
+                }
+                depComponent.path = realPath.replace(path.extname(realPath), '')
+              }
+            })
+          })
+        }
+      })
+    }
     const fileDep = dependencyTree.get(pageJs) || {}
     if (!isQuickApp) {
       fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
@@ -147,89 +209,12 @@ export async function buildSinglePage (page: string) {
     if (isDifferentArray(fileDep['media'], res.mediaFiles)) {
       copyFilesFromSrcToOutput(res.mediaFiles)
     }
+    depComponents.set(pageJs, pageDepComponents)
     fileDep['style'] = res.styleFiles
     fileDep['script'] = res.scriptFiles
     fileDep['json'] = res.jsonFiles
     fileDep['media'] = res.mediaFiles
     dependencyTree[pageJs] = fileDep
-    if (!isQuickApp) {
-      resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
-      if (isProduction) {
-        uglifyJS(resCode, pageJs)
-      }
-      // 编译依赖的组件文件
-      let realComponentsPathList: IComponentObj[] = []
-      if (pageDepComponents.length) {
-        realComponentsPathList = getRealComponentsPathList(pageJs, pageDepComponents)
-        res.scriptFiles = res.scriptFiles.map(item => {
-          for (let i = 0; i < realComponentsPathList.length; i++) {
-            const componentObj = realComponentsPathList[i]
-            const componentPath = componentObj.path
-            if (item === componentPath) {
-              return ''
-            }
-          }
-          return item
-        }).filter(item => item)
-        await buildDepComponents(realComponentsPathList)
-      }
-      const componentExportsMap = getComponentExportsMap()
-      if (!isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
-        const mapKeys = Object.keys(componentExportsMap)
-        realComponentsPathList.forEach(component => {
-          if (mapKeys.indexOf(component.path as string) >= 0) {
-            const componentMap = componentExportsMap.get(component.path as string)
-            componentMap && componentMap.forEach(component => {
-              pageDepComponents.forEach(depComponent => {
-                if (depComponent.name === component.name) {
-                  let componentPath = component.path
-                  let realPath
-                  if (NODE_MODULES_REG.test(componentPath as string)) {
-                    componentPath = (componentPath as string).replace(nodeModulesPath, npmOutputDir)
-                    realPath = promoteRelativePath(path.relative(outputPageJSPath, componentPath))
-                  } else {
-                    realPath = promoteRelativePath(path.relative(pageJs, componentPath as string))
-                  }
-                  depComponent.path = realPath.replace(path.extname(realPath), '')
-                }
-              })
-            })
-          }
-        })
-      }
-      depComponents.set(pageJs, pageDepComponents)
-    } else {
-      // 快应用编译，搜集创建页面 ux 文件
-      const importTaroSelfComponents = new Set<{ path: string, name: string }>()
-      const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
-      if (!taroJsQuickAppComponentsPkg) {
-        printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
-        process.exit(0)
-      }
-      const taroJsQuickAppComponentsPath = path.join(path.dirname(taroJsQuickAppComponentsPkg as string), 'src/components')
-      res.taroSelfComponents.forEach(c => {
-        const cPath = path.join(taroJsQuickAppComponentsPath, c)
-        const cMainPath = path.join(cPath, 'index')
-        const cFiles = fs.readdirSync(cPath).map(item => path.join(cPath, item))
-        copyFilesFromSrcToOutput(cFiles)
-        const cRelativePath = promoteRelativePath(path.relative(outputPageJSPath, cMainPath.replace(nodeModulesPath, npmOutputDir)))
-        importTaroSelfComponents.add({
-          path: cRelativePath,
-          name: c
-        })
-      })
-      // 快应用编译组件
-      // TODO
-      const styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
-      const uxTxt = generateQuickAppUx({
-        script: resCode,
-        style: styleRelativePath,
-        imports: importTaroSelfComponents,
-        template: pageWXMLContent
-      })
-      fs.writeFileSync(outputPageWXMLPath, uxTxt)
-      printLog(processTypeEnum.GENERATE, '页面文件', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
-    }
   } catch (err) {
     printLog(processTypeEnum.ERROR, '页面编译', `页面${pagePath}编译失败！`)
     console.log(err)
