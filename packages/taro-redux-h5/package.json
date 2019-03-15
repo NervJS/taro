@@ -15,9 +15,11 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "main:h5": "dist/index.esm.js",
-  "main": "index.js",
+  "main": "dist/index.esm.js",
   "files": [
-    "lib"
+    "dist",
+    "react-redux",
+    "src"
   ],
   "scripts": {
     "build": "rollup -c --environment TARGET:umd",
