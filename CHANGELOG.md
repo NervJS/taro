@@ -1,5 +1,16 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.18...v) (2019-03-15)
+# [](https://github.com/NervJS/taro/compare/v1.2.19...v) (2019-03-15)
+
+
+
+<a name="1.2.19"></a>
+## [1.2.19](https://github.com/NervJS/taro/compare/v1.2.18...v1.2.19) (2019-03-15)
+
+
+### Bug Fixes
+
+* **redux-h5:** package.json中补充缺失的文件 ([bd8ac45](https://github.com/NervJS/taro/commit/bd8ac45))
+* **webpack-runner:** 修改了版本说明 ([c288a45](https://github.com/NervJS/taro/commit/c288a45))
 
 
 
