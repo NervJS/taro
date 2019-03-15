@@ -2,7 +2,7 @@
 import treeFilter from 'array-tree-filter';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { WithTheme, WithThemeStyles } from '../../lib/style';
+import { WithTheme, WithThemeStyles } from '../style';
 import RMCCascader from './cascader';
 import RMCPopupCascader from './cascader/Popup';
 import MultiPicker from './MultiPicker';

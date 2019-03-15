@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
-import Modal from '../../lib/modal/ModalView';
+import Modal from '../modal/ModalView';
 import PopupMixin from './PopupMixin';
 import themeStyles from './style'
 

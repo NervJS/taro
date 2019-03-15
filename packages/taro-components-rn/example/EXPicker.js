@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text, Picker } from '../src'
-import Picker2 from '../dist/components/Picker2'
+import { View, Text } from '../src'
+import Picker from '../dist/components/Picker'
 
 export default class EXPicker extends Component {
   pickerSelectorRange = [ 'Java', 'C++', 'PHP' ]
   state = {
-    pickerRange: [
+    selectorValue: 1,
+    selectorRange: [
+      { id: 0, name: 'Java' },
+      { id: 1, name: 'C++' },
+      { id: 2, name: 'PHP' },
+    ],
+    multiSelectorValue: [0, 1],
+    multiSelectorRange: [
       [
         { id: 0, name: 'Java' },
         { id: 1, name: 'C++' },
@@ -17,142 +24,105 @@ export default class EXPicker extends Component {
         { id: 2, name: '三級' },
       ]
     ],
-    pickerSelectorValue: 0
-  }
-
-  onSelectorChange = (event) => {
-    console.log('Picker::selector onChange', event)
-    this.setState({ pickerSelectorValue: event.detail.value })
-  }
-
-  onMultiSelectorCancel = () => {
-    console.log('Picker::multiSelector onCancel')
-  }
-
-  onMultiSelectorChange = (event) => {
-    console.log('Picker::multiSelector onChange', event)
-  }
-
-  onMultiSelectorColumnChange = (event) => {
-    console.log('Picker::1 onColumnChange', event)
-    if (event.detail.column === 0) {
-      if (event.detail.value.name === 'C++') {
-        this.state.pickerRange[1] = [
-          { id: 3, name: '四級' },
-          { id: 4, name: '五級' },
-          { id: 5, name: '六級' },
-        ]
-      } else {
-        this.state.pickerRange[1] = [
-          { id: 0, name: '一級' },
-          { id: 1, name: '二級' },
-          { id: 2, name: '三級' },
-        ]
-      }
-      this.setState({
-        pickerRange: [...this.state.pickerRange]
-      })
-    }
+    timeSelectorValue: '12:30',
+    dateSelectorValue: '2019-3-3',
+    regionSelectorValue: ['广东省', '深圳市', '宝安区']
   }
 
   render () {
     return (
       <View>
-        <Picker2
-          data={[
-            {
-              value: '广东省',
-              label: '广东省',
-              children: [
-                {
-                  value: '深圳市',
-                  label: '深圳市',
-                  children: [
-                    { value: '宝安区', label: '宝安区' },
-                    { value: '南山区', label: '南山区' }
-                  ]
-                },
-                {
-                  value: '广州市',
-                  label: '广州市',
-                  children: [
-                    { value: '白云区', label: '白云区' },
-                    { value: '番禺区', label: '番禺区' },
-                    { value: '荔湾区', label: '荔湾区' }
-                  ]
-                }
-              ]
-            },
-            {
-              value: '胡建省',
-              label: '胡建省',
-              children: [
-                {
-                  value: '莆田市',
-                  label: '莆田市'
-                }
-              ]
-            }
-          ]}
-        >
-          <Text>Picker 2</Text>
-        </Picker2>
-
         <Picker
-          mode="selector"
-          range={this.pickerSelectorRange}
-          onChange={this.onSelectorChange}
-        >
-          <View>
-            <Text>Picker&lt;selector&gt;: {this.pickerSelectorRange[this.state.pickerSelectorValue]}</Text>
-          </View>
-        </Picker>
-
-        <Picker
-          mode="multiSelector"
-          range={this.state.pickerRange}
+          range={this.state.selectorRange}
           rangeKey="name"
-          onCancel={this.onMultiSelectorCancel}
-          onChange={this.onMultiSelectorChange}
-          onColumnChange={this.onMultiSelectorColumnChange}
+          value={this.state.selectorValue}
+          onChange={(event) => {
+            this.setState({ selectorValue: event.detail.value })
+            console.log('onChange', event)
+          }}
+          onCancel={() => console.log('onCancel')}
+          // disabled
         >
-          <View>
-            <Text>Picker&lt;multiSelector&gt;</Text>
-          </View>
+          <Text>Picker:selector - VALUE:{this.state.selectorValue}</Text>
         </Picker>
 
         <Picker
-          // disabled={true}
-          // mode="date"
-          // value="2018-11-11"
-          // start="2018-12-12"
-          // end="2018-12-12"
-          mode="time"
-          value="12:00"
-          start="11:11"
-          end="20:00"
+          mode='multiSelector'
+          range={this.state.multiSelectorRange}
+          rangeKey="name"
+          value={this.state.multiSelectorValue}
           onChange={(event) => {
-            console.log(event)
+            this.setState({ multiSelectorValue: event.detail.value })
+            console.log('onChange', event)
           }}
-        />
+          onColumnChange={(event) => {
+            console.log('onColumnChange', event)
+            // const col = event.detail.column
+            // const row = event.detail.value
+            // if (col === 0) {
+            //   this.state.multiSelectorRange[1] = row === 1 ? [
+            //     { id: 0, name: 'A级' },
+            //     { id: 1, name: 'B级' },
+            //     { id: 2, name: 'C级' }
+            //   ] : [
+            //     { id: 0, name: '一級' },
+            //     { id: 1, name: '二級' },
+            //     { id: 2, name: '三級' },
+            //   ]
+            //   this.setState({
+            //     multiSelectorRange: [...this.state.multiSelectorRange]
+            //   })
+            // }
+          }}
+          onCancel={() => console.log('onCancel')}
+          // disabled
+        >
+          <Text>Picker:multiSelector - VALUE:{this.state.multiSelectorValue}</Text>
+        </Picker>
 
         <Picker
-          mode="region"
-          customItem="不限"
+          mode="time"
+          value={this.state.timeSelectorValue}
+          start="10:00"
+          end="18:00"
           onChange={(event) => {
-            console.log('Picker::region onChange', event)
+            this.setState({ timeSelectorValue: event.detail.value })
+            console.log('onChange', event)
           }}
+          onCancel={() => console.log('onCancel')}
+          // disabled
         >
-          <View><Text>Picker&lt;region&gt;</Text></View>
+          <Text>Picker:time - VALUE:{this.state.timeSelectorValue}</Text>
         </Picker>
 
         <Picker
           mode="date"
+          value={this.state.dateSelectorValue}
+          start="2018-6-18"
+          end="2019-11-11"
+          fields="month"
           onChange={(event) => {
-            console.log('Picker::date onChange', event)
+            this.setState({ dateSelectorValue: event.detail.value })
+            console.log('onChange', event)
           }}
+          onCancel={() => console.log('onCancel')}
+          // disabled
         >
-          <View><Text>Picker&lt;date&gt;</Text></View>
+          <Text>Picker:date - VALUE:{this.state.dateSelectorValue}</Text>
+        </Picker>
+
+        <Picker
+          mode="region"
+          value={this.state.regionSelectorValue}
+          customItem="不限"
+          onChange={(event) => {
+            this.setState({ regionSelectorValue: event.detail.value })
+            console.log('onChange', event)
+          }}
+          onCancel={() => console.log('onCancel')}
+          // disabled
+        >
+          <Text>Picker:region - VALUE:{this.state.regionSelectorValue}</Text>
         </Picker>
       </View>
     )

@@ -38,3 +38,4 @@ function images () {
 // watch(staticFiles, images)
 
 exports.default = parallel(scripts, typescripts, images)
+// exports.default = typescripts

@@ -12,11 +12,12 @@ import {
   CheckboxGroup,
   Radio,
   RadioGroup,
-  Picker,
+  // Picker,
   Form
 } from '../src'
+import Picker from '../dist/components/Picker'
 
-export default class EXRadio extends Component {
+export default class EXForm extends Component {
   state = {
     progressPercent: 70
   }

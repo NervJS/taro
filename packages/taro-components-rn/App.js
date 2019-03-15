@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { Picker as RNPicker } from 'react-native'
+import Provider from './dist/lib/provider'
 import {
   ScrollView,
   Text,
@@ -72,121 +74,123 @@ export default class App extends Component {
     //   }
     // }
     return (
-      <ScrollView
-        style={{
-          backgroundColor: '#f5fcff',
-          alignItems: 'center',
-          paddingVertical: 50
-        }}
-        scrollTop={this.state.scrollTop}
-        scrollWithAnimation={true}
-        enableBackToTop={false}
-        onScrollToUpper={() => {
-          console.log('to upper')
-        }}
-        onScrollToLower={() => {
-          console.log('to lower')
-        }}
-        onScroll={(e) => {
-          console.log('onScroll', e)
-        }}
-        // scrollX={true}
-      >
-        <Text>Welcome to React Native!</Text>
-
-        <EXMap />
-
-        <EXImage />
-
-        <EXVideo />
-
-        <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
-
-        <EXAudio />
-
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
-          <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
-          <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
-          <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
-          <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
-          <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
-          <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
-        </View>
-
-        <View
-          hoverStyle={{ backgroundColor: 'green' }}
-          style={{ padding: 50, backgroundColor: 'orange' }}
+      <Provider>
+        <ScrollView
+          style={{
+            backgroundColor: '#f5fcff',
+            alignItems: 'center',
+            paddingVertical: 50
+          }}
+          scrollTop={this.state.scrollTop}
+          scrollWithAnimation={true}
+          enableBackToTop={false}
+          onScrollToUpper={() => {
+            console.log('to upper')
+          }}
+          onScrollToLower={() => {
+            console.log('to lower')
+          }}
+          onScroll={(e) => {
+            console.log('onScroll', e)
+          }}
+          // scrollX={true}
         >
+          <Text>Welcome to React Native!</Text>
+
+          <Text>Picker</Text>
+          <EXPicker />
+
+          <EXMap />
+
+          <EXImage />
+
+          <EXVideo />
+
+          <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
+
+          <EXAudio />
+
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+          </View>
+
           <View
-            onClick={() => { console.log('you click me') }}
-            // onLongPress={() => { console.log('you longpress me') }}
-            // onTouchstart={this.onViewTouchstart}
-            // onTouchmove={this.onViewTouchmove}
-            // onTouchend={this.onViewTouchend}
-            style={{
-              width: 250,
-              height: 250,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'pink'
-            }}
-            hoverStyle={{
-              backgroundColor: 'green'
-            }}
+            hoverStyle={{ backgroundColor: 'green' }}
+            style={{ padding: 50, backgroundColor: 'orange' }}
           >
-            <Button
-              onClick={() => { alert('Hey, click button nested in view!') }}
+            <View
+              onClick={() => { console.log('you click me') }}
+              // onLongPress={() => { console.log('you longpress me') }}
+              // onTouchstart={this.onViewTouchstart}
+              // onTouchmove={this.onViewTouchmove}
+              // onTouchend={this.onViewTouchend}
               style={{
-                width: 200
+                width: 250,
+                height: 250,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'pink'
+              }}
+              hoverStyle={{
+                backgroundColor: 'green'
               }}
             >
-              default
-            </Button>
+              <Button
+                onClick={() => { alert('Hey, click button nested in view!') }}
+                style={{
+                  width: 200
+                }}
+              >
+                default
+              </Button>
+            </View>
           </View>
-        </View>
 
-        <Text>Swiper</Text>
-        <EXSwiper />
+          <Text>Swiper</Text>
+          <EXSwiper />
 
-        <Text>Icon</Text>
-        <EXIcon />
+          <Text>Icon</Text>
+          <EXIcon />
 
-        <Text>Picker</Text>
-        <EXPicker />
+          <Text>RichText</Text>
+          <EXRichText />
 
-        <Text>RichText</Text>
-        <EXRichText />
+          <Text>Progress</Text>
+          <EXProgress />
 
-        <Text>Progress</Text>
-        <EXProgress />
+          <Text>Radio（Single|Group）</Text>
+          <EXRadio />
 
-        <Text>Radio（Single|Group）</Text>
-        <EXRadio />
+          <Text>Slider</Text>
+          <EXSlider />
 
-        <Text>Slider</Text>
-        <EXSlider />
+          <Text>Switch</Text>
+          <EXSwitch />
 
-        <Text>Switch</Text>
-        <EXSwitch />
+          <Text>Image</Text>
+          {/* <EXImage /> */}
 
-        <Text>Image</Text>
-        {/* <EXImage /> */}
+          <Text>Checkbox（Single & Group）</Text>
+          <EXCheckbox />
 
-        <Text>Checkbox（Single & Group）</Text>
-        <EXCheckbox />
+          <Text>Input & Textarea</Text>
+          <EXTextinput />
 
-        <Text>Input & Textarea</Text>
-        <EXTextinput />
+          <Text>Button</Text>
+          <EXButton />
 
-        <Text>Button</Text>
-        <EXButton />
+          <Text>Form</Text>
+          <EXForm />
 
-        <Text>Form</Text>
-        <EXForm />
-
-        <Text>WebView</Text>
-        <EXWebView />
-      </ScrollView>
+          <Text>WebView</Text>
+          <EXWebView />
+        </ScrollView>
+      </Provider>
     )
   }
 }
