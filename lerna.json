@@ -40,7 +40,9 @@
     "packages/taro-mobx-h5",
     "packages/taro-mobx-rn",
     "packages/taro-with-weapp",
-    "packages/taroize"
+    "packages/taroize",
+    "packages/stylelint-taro-rn",
+    "packages/stylelint-config-taro-rn"
   ],
   "command": {
     "publish": {
