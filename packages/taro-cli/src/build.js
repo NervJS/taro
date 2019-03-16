@@ -8,16 +8,24 @@ const CONFIG = require('./config')
 
 const appPath = process.cwd()
 
-
 function build (args, buildConfig) {
-  const { type, watch } = buildConfig
+  const { FULL, DLL } = Util.BUILD_MODES
+  const { type, watch, excludes, mode = FULL } = buildConfig
+  const isDllMode = DLL === mode
   const configDir = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
   } else {
     if (type !== Util.BUILD_TYPES.H5) {
-      Util.emptyDirectory(outputPath)
+      const npmDir = path.join(outputPath, 'npm')
+      // weapp dll 模式下, 只删除 npm 文件夹
+      const includesDirs = type === Util.BUILD_TYPES.WEAPP && isDllMode ? [npmDir] : []
+      const excludesDirs = excludes ? [path.join(outputPath, excludes)] : []
+      Util.emptyDirectory(outputPath, {
+        includes: includesDirs,
+        excludes: excludesDirs
+      })
     }
   }
   switch (type) {
@@ -25,16 +33,16 @@ function build (args, buildConfig) {
       buildForH5({ watch })
       break
     case Util.BUILD_TYPES.WEAPP:
-      buildForWeapp({ watch })
+      buildForWeapp({ watch, mode })
       break
     case Util.BUILD_TYPES.SWAN:
-      buildForSwan({ watch })
+      buildForSwan({ watch, mode })
       break
     case Util.BUILD_TYPES.ALIPAY:
-      buildForAlipay({ watch })
+      buildForAlipay({ watch, mode })
       break
     case Util.BUILD_TYPES.TT:
-      buildForTt({ watch })
+      buildForTt({ watch, mode })
       break
     case Util.BUILD_TYPES.RN:
       buildForRN({ watch })
@@ -47,9 +55,10 @@ function build (args, buildConfig) {
   }
 }
 
-function buildForWeapp ({ watch }) {
+function buildForWeapp ({ watch, mode }) {
   require('./weapp').build({
     watch,
+    mode,
     adapter: Util.BUILD_TYPES.WEAPP
   })
 }

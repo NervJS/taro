@@ -68,6 +68,12 @@ const componentsBuildResult = {}
 const componentsNamedMap = {}
 const componentExportsMap = {}
 const wxssDepTree = {}
+const buildModes = {
+  DLL: false,
+  PAGE: false,
+  FULL: false
+}
+let isWatch = false
 let isBuildingScripts = {}
 let isBuildingStyles = {}
 let isCopyingFiles = {}
@@ -104,7 +110,7 @@ let constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.
 function getExactedNpmFilePath (npmName, filePath) {
   try {
     const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
-    const npmInfoMainPath = npmInfo.main
+    const npmInfoMainPath = npmInfo.main // /Users/qianzhaoy/myApp/node_modules/@tarojs/taro-weapp/index.js
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
       outputNpmPath = npmInfoMainPath
@@ -436,7 +442,7 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             }
           }
         }
-      } else if (Util.CSS_EXT.indexOf(path.extname(value)) !== -1 && specifiers.length > 0) { // 对 使用 import style from './style.css' 语法引入的做转化处理
+      } else if (!buildModes.DLL && Util.CSS_EXT.indexOf(path.extname(value)) !== -1 && specifiers.length > 0) { // 对 使用 import style from './style.css' 语法引入的做转化处理
         Util.printLog(Util.pocessTypeEnum.GENERATE, '替换代码', `为文件 ${sourceFilePath} 生成 css modules`)
         const styleFilePath = path.join(path.dirname(sourceFilePath), value)
         const styleCode = fs.readFileSync(styleFilePath).toString()
@@ -926,6 +932,7 @@ function copyFilesFromSrcToOutput (files) {
     if (NODE_MODULES_REG.test(file)) {
       outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
+      if (buildModes.DLL) return
       outputFilePath = file.replace(sourceDir, outputDir)
     }
     if (isCopyingFiles[outputFilePath]) {
@@ -1121,7 +1128,7 @@ async function buildEntry () {
         }
       }
     }
-    if (appOutput) {
+    if (appOutput || !buildModes.DLL) {
       fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口配置', `${outputDirName}/app.json`)
       fs.writeFileSync(path.join(outputDir, 'app.js'), resCode)
@@ -1139,7 +1146,7 @@ async function buildEntry () {
       compileDepScripts(res.scriptFiles)
     }
     // 编译样式文件
-    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
+    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) && appOutput && !buildModes.DLL) {
       await compileDepStyles(path.join(outputDir, `app${outputFilesTypes.STYLE}`), res.styleFiles, false)
       Util.printLog(Util.pocessTypeEnum.GENERATE, '入口样式', `${outputDirName}/app${outputFilesTypes.STYLE}`)
     }
@@ -1358,7 +1365,6 @@ async function buildSinglePage (page) {
         }
       }
     }
-    fs.ensureDirSync(outputPagePath)
     const { usingComponents = {} } = res.configObj
     if (usingComponents && !Util.isEmptyObject(usingComponents)) {
       const keys = Object.keys(usingComponents)
@@ -1412,23 +1418,26 @@ async function buildSinglePage (page) {
         }
       })
     }
-    fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
-    fs.writeFileSync(outputPageJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
-    fs.writeFileSync(outputPageWXMLPath, pageWXMLContent)
-    processNativeWxml(outputPageWXMLPath.replace(outputDir, sourceDir), pageWXMLContent, outputPageWXMLPath)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '页面模板', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
+    if (!buildModes.DLL) {
+      fs.ensureDirSync(outputPagePath)
+      fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
+      fs.writeFileSync(outputPageJSPath, resCode)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
+      fs.writeFileSync(outputPageWXMLPath, pageWXMLContent)
+      processNativeWxml(outputPageWXMLPath.replace(outputDir, sourceDir), pageWXMLContent, outputPageWXMLPath)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面模板', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
+      // 编译样式文件
+      if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[pageJs], pageDepComponents)) {
+        Util.printLog(Util.pocessTypeEnum.GENERATE, '页面样式', `${outputDirName}/${page}${outputFilesTypes.STYLE}`)
+        const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
+        wxssDepTree[outputPageWXSSPath] = depStyleList
+        await compileDepStyles(outputPageWXSSPath, res.styleFiles, false)
+      }
+    }
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(res.scriptFiles)
-    }
-    // 编译样式文件
-    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[pageJs], pageDepComponents)) {
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '页面样式', `${outputDirName}/${page}${outputFilesTypes.STYLE}`)
-      const depStyleList = getDepStyleList(outputPageWXSSPath, buildDepComponentsResult)
-      wxssDepTree[outputPageWXSSPath] = depStyleList
-      await compileDepStyles(outputPageWXSSPath, res.styleFiles, false)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1667,7 +1676,7 @@ function buildDepComponents (componentPathList, buildConfig) {
 function getDepStyleList (outputFilePath, buildDepComponentsResult) {
   let depWXSSList = []
   if (buildDepComponentsResult.length) {
-    depWXSSList = buildDepComponentsResult.map(item => {
+    depWXSSList = buildDepComponentsResult.filter(item => !!item).map(item => {
       let wxss = item.wxss
       wxss = wxss.replace(sourceDir, outputDir)
       wxss = Util.promoteRelativePath(path.relative(outputFilePath, wxss))
@@ -1765,6 +1774,15 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         componentExportsMap[component].push(realComponentObj)
       }
       return await buildSingleComponent(realComponentObj, buildConfig)
+    } else if (buildModes.PAGE && isComponentFromNodeModules) {
+      componentsBuildResult[component] = {
+        js: outputComponentJSPath,
+        wxss: outputComponentWXSSPath,
+        wxml: outputComponentWXMLPath
+      }
+      return componentsBuildResult[component]
+    } else if (!isWatch && componentsBuildResult[component]) {
+      return componentsBuildResult[component]
     }
     const transformResult = wxTransformer({
       code: componentContent,
@@ -1782,7 +1800,6 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
     resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
-    fs.ensureDirSync(path.dirname(outputComponentJSPath))
     if (isProduction) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
@@ -1808,7 +1825,7 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       })
       transfromNativeComponents(outputComponentJSONPath.replace(buildConfig.outputDir || buildOutputDir, sourceDirPath), res.configObj)
     }
-
+    
     const fileDep = dependencyTree[component] || {}
     // 编译依赖的组件文件
     let buildDepComponentsResult = []
@@ -1851,23 +1868,28 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
         }
       })
     }
-    fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(component, componentDepComponents, true), res.configObj), null, 2))
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
-    fs.writeFileSync(outputComponentJSPath, resCode)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
-    fs.writeFileSync(outputComponentWXMLPath, componentWXMLContent)
-    processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), componentWXMLContent, outputComponentWXMLPath)
-    Util.printLog(Util.pocessTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
+    // 组件编译
+    if (buildModes.FULL || buildModes.DLL === isComponentFromNodeModules) {
+      fs.ensureDirSync(path.dirname(outputComponentJSPath))
+      fs.writeFileSync(outputComponentJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(component, componentDepComponents, true), res.configObj), null, 2))
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件配置', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.CONFIG}`)
+      fs.writeFileSync(outputComponentJSPath, resCode)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件逻辑', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.SCRIPT}`)
+      fs.writeFileSync(outputComponentWXMLPath, componentWXMLContent)
+      processNativeWxml(outputComponentWXMLPath.replace(outputDir, sourceDir), componentWXMLContent, outputComponentWXMLPath)
+      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件模板', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
+
+      // 编译样式文件
+      if ((Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[component], componentDepComponents))) {
+        Util.printLog(Util.pocessTypeEnum.GENERATE, '组件样式', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.STYLE}`)
+        const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
+        wxssDepTree[outputComponentWXSSPath] = depStyleList
+        await compileDepStyles(outputComponentWXSSPath, res.styleFiles, true)
+      }
+    }
     // 编译依赖的脚本文件
     if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
       compileDepScripts(res.scriptFiles)
-    }
-    // 编译样式文件
-    if (Util.isDifferentArray(fileDep['style'], res.styleFiles) || Util.isDifferentArray(depComponents[component], componentDepComponents)) {
-      Util.printLog(Util.pocessTypeEnum.GENERATE, '组件样式', `${outputDirName}/${outputComponentShowPath}${outputFilesTypes.STYLE}`)
-      const depStyleList = getDepStyleList(outputComponentWXSSPath, buildDepComponentsResult)
-      wxssDepTree[outputComponentWXSSPath] = depStyleList
-      await compileDepStyles(outputComponentWXSSPath, res.styleFiles, true)
     }
     // 拷贝依赖文件
     if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -1898,7 +1920,8 @@ function compileDepScripts (scriptFiles) {
   scriptFiles.forEach(async item => {
     if (path.isAbsolute(item)) {
       let outputItem
-      if (NODE_MODULES_REG.test(item)) {
+      const isNodeModuleScript = NODE_MODULES_REG.test(item)
+      if (isNodeModuleScript) {
         outputItem = item.replace(nodeModulesPath, npmOutputDir).replace(path.extname(item), '.js')
       } else {
         outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
@@ -1933,24 +1956,26 @@ function compileDepScripts (scriptFiles) {
           const fileDep = dependencyTree[item] || {}
           let resCode = res.code
           resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
-          fs.ensureDirSync(path.dirname(outputItem))
-          if (isProduction) {
-            const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
-            if (uglifyPluginConfig.enable) {
-              const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
-              const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
-              if (uglifyResult.error) {
-                Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${item}`)
-                console.log(uglifyResult.error)
-              } else {
-                resCode = uglifyResult.code
+          if (buildModes.FULL || buildModes.DLL === isNodeModuleScript) {
+            fs.ensureDirSync(path.dirname(outputItem))
+            if (isProduction) {
+              const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+              if (uglifyPluginConfig.enable) {
+                const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+                const uglifyResult = npmProcess.callPluginSync('uglifyjs', resCode, item, uglifyConfig)
+                if (uglifyResult.error) {
+                  Util.printLog(Util.pocessTypeEnum.ERROR, '压缩错误', `文件${item}`)
+                  console.log(uglifyResult.error)
+                } else {
+                  resCode = uglifyResult.code
+                }
               }
             }
+            fs.writeFileSync(outputItem, resCode)
+            let modifyOutput = outputItem.replace(appPath + path.sep, '')
+            modifyOutput = modifyOutput.split(path.sep).join('/')
+            Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
           }
-          fs.writeFileSync(outputItem, resCode)
-          let modifyOutput = outputItem.replace(appPath + path.sep, '')
-          modifyOutput = modifyOutput.split(path.sep).join('/')
-          Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
           // 编译依赖的脚本文件
           if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
             compileDepScripts(res.scriptFiles)
@@ -1992,6 +2017,7 @@ function copyFileSync (from, to, options) {
 }
 
 function copyFiles () {
+  if (buildModes.DLL) return
   const copyConfig = projectConfig.copy || { patterns: [], options: {} }
   if (copyConfig.patterns && copyConfig.patterns.length) {
     copyConfig.options = copyConfig.options || {}
@@ -2026,6 +2052,7 @@ function copyFiles () {
 }
 
 function watchFiles () {
+  isWatch = true
   console.log()
   console.log(chalk.gray('监听文件修改中...'))
   console.log()
@@ -2190,10 +2217,13 @@ function watchFiles () {
     })
 }
 
-async function build ({ watch, adapter }) {
+async function build ({ watch, adapter, mode }) {
   process.env.TARO_ENV = adapter
   isProduction = process.env.NODE_ENV === 'production' || !watch
   buildAdapter = adapter
+  buildModes.DLL = mode === Util.BUILD_MODES.DLL
+  buildModes.PAGE = mode === Util.BUILD_MODES.DEV
+  buildModes.FULL = !buildModes.DLL && !buildModes.PAGE
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
   // 可以自定义输出文件类型
   if (weappConf.customFilesTypes && !Util.isEmptyObject(weappConf.customFilesTypes)) {
