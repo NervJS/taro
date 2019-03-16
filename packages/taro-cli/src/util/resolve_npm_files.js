@@ -190,7 +190,7 @@ async function recursiveRequire (filePath, files, isProduction, npmConfig = {}, 
   } catch (err) {
     console.log(err)
   }
-  if (!copyedFiles[outputNpmPath]) {
+  if (!copyedFiles[outputNpmPath] && !fs.existsSync(outputNpmPath)) {
     if (compileInclude && compileInclude.length) {
       const filePathArr = filePath.split(path.sep)
       const nodeModulesIndex = filePathArr.indexOf('node_modules')
