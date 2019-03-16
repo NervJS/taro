@@ -160,7 +160,10 @@ const getModule = ({
 
   const defaultStyleLoaderOption = {
     sourceMap: enableSourceMap,
-    singleton: true
+    /** 
+     * 移除singleton设置，会导致样式库优先级发生错误
+     * singleton: true
+    */
   }
 
   const styleLoader = getStyleLoader([
