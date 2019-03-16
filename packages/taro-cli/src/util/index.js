@@ -86,6 +86,12 @@ exports.REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|12
 
 exports.CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
+exports.BUILD_MODES = {
+  PAGE: 'page',
+  DLL: 'dll',
+  FULL: 'full'
+}
+
 exports.BUILD_TYPES = {
   WEAPP: 'weapp',
   H5: 'h5',
@@ -520,17 +526,24 @@ exports.processStyleImports = function (content, adapter, process) {
 }
 /*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
+exports.emptyDirectory = function (dirPath, opts = { excludes: [], includes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
+      if (opts.includes && opts.includes.length) {
+        const skip = !opts.includes.some(item => curPath.indexOf(item) >= 0)
+        if (skip) {
+          return
+        }
+      }
       if (fs.lstatSync(curPath).isDirectory()) {
         let removed = false
         let i = 0 // retry counter
 
         do {
           try {
-            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+            const excludes = opts.excludes || []
+            if (!excludes.length || !excludes.some(item => curPath.indexOf(item) >= 0)) {
               exports.emptyDirectory(curPath)
               fs.rmdirSync(curPath)
             }
@@ -608,4 +621,8 @@ exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
   } catch (err) {
     return null
   }
+}
+
+exports.debug = (...args) => {
+  console.log(chalk.yellow(...args))
 }
