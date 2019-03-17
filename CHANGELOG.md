@@ -1,5 +1,16 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.19...v) (2019-03-15)
+# [](https://github.com/NervJS/taro/compare/v1.2.20...v) (2019-03-17)
+
+
+
+<a name="1.2.20"></a>
+## [1.2.20](https://github.com/NervJS/taro/compare/v1.2.19...v1.2.20) (2019-03-17)
+
+
+### Bug Fixes
+
+* **webpack-runner:** 修复esnextModules的判断错误 ([995010a](https://github.com/NervJS/taro/commit/995010a))
+* **webpack-runner:** 移除singleton配置 ([eac53f5](https://github.com/NervJS/taro/commit/eac53f5))
 
 
 
