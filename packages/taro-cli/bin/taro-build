@@ -49,7 +49,7 @@ if (env) {
 }
 
 const projectConf = require(projectConfPath)(_.merge)
-console.log(chalk.green(`mytaro 开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
 build(args, {
   type,

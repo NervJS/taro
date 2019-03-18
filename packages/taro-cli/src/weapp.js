@@ -110,7 +110,7 @@ let constantsReplaceList = Object.assign({}, Util.generateEnvList(projectConfig.
 function getExactedNpmFilePath (npmName, filePath) {
   try {
     const npmInfo = resolveNpmFilesPath(npmName, isProduction, weappNpmConfig, buildAdapter, appPath, compileInclude)
-    const npmInfoMainPath = npmInfo.main // /Users/qianzhaoy/myApp/node_modules/@tarojs/taro-weapp/index.js
+    const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (Util.REG_STYLE.test(npmInfoMainPath)) {
       outputNpmPath = npmInfoMainPath

@@ -622,7 +622,3 @@ exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
     return null
   }
 }
-
-exports.debug = (...args) => {
-  console.log(chalk.yellow(...args))
-}

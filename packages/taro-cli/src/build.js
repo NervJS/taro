@@ -19,7 +19,6 @@ function build (args, buildConfig) {
   } else {
     if (type !== Util.BUILD_TYPES.H5) {
       const npmDir = path.join(outputPath, 'npm')
-      // weapp dll 模式下, 只删除 npm 文件夹
       const includesDirs = type === Util.BUILD_TYPES.WEAPP && isDllMode ? [npmDir] : []
       const excludesDirs = excludes ? [path.join(outputPath, excludes)] : []
       Util.emptyDirectory(outputPath, {
