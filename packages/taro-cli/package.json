@@ -83,6 +83,6 @@
     "babel-preset-stage-0": "^6.24.1",
     "jest": "^23.6.0",
     "jest-react-native": "^18.0.0",
-    "react-native": "^0.55.4"
+    "react-native": "0.55.4"
   }
 }
