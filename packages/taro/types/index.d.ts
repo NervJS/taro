@@ -1413,6 +1413,14 @@ declare namespace Taro {
        */
       size: number
     }
+    type ParamPropTempFiles = ParamPropTempFilesItem[]
+    type ParamPropTempFilesItem = {
+      path: string,
+      size: number
+    }
+    type ParamPropSuccess = (res: {tempFilePaths: string[], tempFiles: ParamPropTempFiles}) => void
+    type ParamPropFail = (err: any) => void
+    type ParamPropComplete = () => any
     type Param = {
       /**
        * 最多可以选择的图片张数，默认9
@@ -1425,7 +1433,13 @@ declare namespace Taro {
       /**
        * album 从相册选图，camera 使用相机，默认二者都有
        */
-      sourceType?: string[]
+      sourceType?: string[],
+      /**
+       * success 回调
+       */
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
   }
   /**
