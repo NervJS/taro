@@ -1425,7 +1425,13 @@ declare namespace Taro {
       /**
        * album 从相册选图，camera 使用相机，默认二者都有
        */
-      sourceType?: string[]
+      sourceType?: string[],
+      /**
+       * success 回调
+       */
+      success: (res : {tempFilePaths: string[], tempFiles: {path: string, size: number}[]}) => void
+      fail: (err: any) => void
+      complete: () => void
     }
   }
   /**
