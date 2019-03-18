@@ -13,7 +13,7 @@ import {
   incrementId,
   isContainStopPropagation
 } from './utils'
-import { DEFAULT_Component_SET } from './constant'
+import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -652,6 +652,9 @@ class Transformer {
 
   setComponents () {
     this.customComponents.forEach((component, name) => {
+      if (name.startsWith('Taro') && component.sourcePath === COMPONENTS_PACKAGE_NAME) {
+        return
+      }
       this.result.components.push({
         path: pathResolver(component.sourcePath, this.sourcePath),
         name: kebabCase(name),
