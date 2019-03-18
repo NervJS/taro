@@ -14,6 +14,7 @@ const reactImportDefaultName = 'React'
 let taroImportDefaultName // import default from @tarojs/taro
 let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
+const taroComponentsRNProviderName = 'TCRNProvider'
 const setStoreFuncName = 'setStore'
 const routerImportDefaultName = 'TaroRouter'
 const DEVICE_RATIO = 'deviceRatio'
@@ -353,10 +354,19 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             const node = astPath.node
             const key = node.key
             if (key.name !== 'render' || !isEntryFile) return
-            let funcBody = classRenderReturnJSX
+
+            let funcBody = `
+              <${taroComponentsRNProviderName}>
+                ${classRenderReturnJSX}
+              </${taroComponentsRNProviderName}>`
+
             if (pages.length > 0) {
-              funcBody = `<RootStack/>`
+              funcBody = `
+                <${taroComponentsRNProviderName}>
+                  <RootStack/>
+                </${taroComponentsRNProviderName}>`
             }
+
             if (providerComponentName && storeName) {
               // 使用redux 或 mobx
               funcBody = `
@@ -364,6 +374,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
                   ${funcBody}
                 </${providorImportName}>`
             }
+
             node.body = template(`{return (${funcBody});}`, babylonConfig)()
           },
 
@@ -446,6 +457,13 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             babylonConfig
           )()
           node.body.unshift(importTaroRouter)
+
+          // 根节点嵌套组件提供的 provider
+          const importTCRNProvider = template(
+            `import { ${taroComponentsRNProviderName} } from '${PACKAGES['@tarojs/components-rn']}'`,
+            babylonConfig
+          )()
+          node.body.unshift(importTCRNProvider)
 
           // Taro.initPxTransform
           node.body.push(getInitPxTransformNode(projectConfig))
