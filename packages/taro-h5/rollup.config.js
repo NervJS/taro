@@ -8,7 +8,6 @@ import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const cwd = __dirname
 const baseConfig = {
-  input: 'src/api/index.js',
   external: ['nervjs'],
   output: {
     format: 'cjs',
@@ -43,11 +42,13 @@ const baseConfig = {
 }
 
 const variesConfig = [{
+  input: 'src/api/index.js',
   output: {
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
 }, {
+  input: 'src/index.js',
   output: {
     file: 'dist/index.js'
   }
