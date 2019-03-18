@@ -188,14 +188,20 @@ declare namespace Taro {
     backgroundColor?: string,
     /**
      * tabbar上边框的颜色， 仅支持 black/white
-     * default: black
+     * @default: black
      */
     borderStyle?: 'black' | 'white',
     /**
      * tabar 的位置，可选值 bottom、top
-     * default: 'bottom'
+     * @default: 'bottom'
      */
     position?: 'bottom' | 'top',
+    /**
+     * 自定义 tabBar，见[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html)
+     * @default false
+     * @since 2.1.0
+     */
+    custom: boolean;
 
     list: TarbarList[]
   }
