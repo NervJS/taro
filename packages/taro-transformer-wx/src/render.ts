@@ -570,7 +570,7 @@ export class RenderParser {
           this.handleConditionExpr(options, jsxElementPath)
         })
       },
-      JSXExpressionContainer: this.replaceIdWithTemplate()
+      JSXExpressionContainer: this.replaceIdWithTemplate(true)
     }
   }
 
