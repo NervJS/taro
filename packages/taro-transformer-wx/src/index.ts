@@ -546,7 +546,6 @@ export default function transform (options: Options): TransformResult {
               const importedName = `Taro${originalName}`
               s.imported.name = importedName
               s.local.name = importedName
-              path.scope.rename(originalName, importedName)
             }
           }
         })
