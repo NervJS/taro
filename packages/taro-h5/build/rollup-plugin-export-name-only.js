@@ -3,7 +3,10 @@ export default function exportNameOnly () {
   return {
     name: 'export-name-only',
     renderChunk (code, chunk, options) {
-      chunk.exports.splice(chunk.exports.indexOf('default'), 1)
+      const pos = chunk.exports.indexOf('default')
+      if (pos > -1) {
+        chunk.exports.splice(pos, 1)
+      }
       return {
         code: `module.exports = new Set(${JSON.stringify(chunk.exports)})`,
         map: emptyMap
