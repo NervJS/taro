@@ -370,6 +370,9 @@ exports.resolveScriptPath = function (p) {
       if (fs.existsSync(`${p}${path.sep}index.${taroEnv}${item}`)) {
         return `${p}${path.sep}index.${taroEnv}${item}`
       }
+      if (fs.existsSync(`${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`)) {
+        return `${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`
+      }
     }
     if (fs.existsSync(`${p}${item}`)) {
       return `${p}${item}`
