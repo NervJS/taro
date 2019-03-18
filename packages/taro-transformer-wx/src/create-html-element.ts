@@ -1,3 +1,6 @@
+import { Adapters, Adapter } from './adapter'
+import { quickappComponentName } from './constant'
+
 const voidHtmlTags = new Set<string>([
   // 'image',
   'img',
@@ -51,6 +54,14 @@ export const createHTMLElement = (options: Options) => {
     },
     options
   )
+
+  if (Adapters.quickapp === Adapter.type) {
+    const name = options.name
+    const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
+    if (quickappComponentName.has(nameCapitalized)) {
+      options.name = `taro-${name}`
+    }
+  }
 
   const isVoidTag = voidHtmlTags.has(options.name)
 
