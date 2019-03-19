@@ -49,6 +49,15 @@ declare namespace TaroH5 {
     refs: {
         [key: string]: any
     };
+    $router: {
+      path: string;
+      scene: number;
+      query: {
+        [key: string]: string;
+      };
+      shareTicket: string;
+      referrerInfo: {};
+    };
   }
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> { }

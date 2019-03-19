@@ -1,16 +1,24 @@
-import { History } from '../src/utils/types'
-import createHistory from '../src/history/createHashHistory'
-import { createNavigateTo, createNavigateBack, createRedirectTo } from '../src/apis'
+import { History } from '../utils/types'
+import createHistory from '../history/createHistory'
+import { createNavigateTo, createNavigateBack, createRedirectTo } from '../apis'
 
 let history: History
 
 beforeEach(() => {
-  history = createHistory()
+  history = createHistory({
+    mode: 'browser',
+    basename: '/',
+    firstPagePath: '/pages/index/index',
+    customRoutes: {
+      '/index': '/pages/index/index',
+      '/about': '/pages/about/abtou'
+    }
+  })
 })
 
-xdescribe('navigateTo/navigateBack/redirectTo', () => {
+describe('navigateTo/navigateBack/redirectTo', () => {
   const location1 = {
-    pathname: '/',
+    path: '/pages/index/index',
     state: { key: '0' },
     search: '',
     hash: '',
@@ -19,7 +27,7 @@ xdescribe('navigateTo/navigateBack/redirectTo', () => {
 
   const url2 = '/pages/about/index?para=1'
   const location2 = {
-    pathname: '/pages/about/index',
+    path: '/pages/about/index',
     state: { key: '1' },
     search: '?para=1',
     hash: '',
@@ -30,7 +38,7 @@ xdescribe('navigateTo/navigateBack/redirectTo', () => {
 
   const url3 = '/pages/settings/index?para2=2'
   const location3 = {
-    pathname: '/pages/settings/index',
+    path: '/pages/settings/index',
     state: { key: '1' },
     search: '?para2=2',
     hash: '',
@@ -65,7 +73,7 @@ xdescribe('navigateTo/navigateBack/redirectTo', () => {
     // jsdom无法准确模拟history的全部功能，这里使用spy代替
     const spy = spyOn(window.history, 'go')
     navigateBack({ delta: 1 })
-    expect(spy).toHaveBeenCalledWith(1)
+    expect(spy).toHaveBeenCalledWith(-1)
   })
 
   it('should notify listeners with proper params when calling redirectTo', () => {

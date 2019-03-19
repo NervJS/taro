@@ -11,10 +11,11 @@
     "index.js"
   ],
   "scripts": {
-    "test": "jest",
-    "build": "rollup -c rollup.config.js",
+    "build": "npm run test && rollup -c rollup.config.js",
     "dev": "rollup -c rollup.config.js --watch",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test": "jest",
+    "test:dev": "jest --watch"
   },
   "repository": {
     "type": "git",

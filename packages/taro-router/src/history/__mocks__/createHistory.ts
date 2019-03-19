@@ -1,9 +1,11 @@
-import { History } from '../../utils/types';
+import Taro from '@tarojs/taro-h5'
+
+import { History } from '../../utils/types'
 
 const initLocation = {
   hash: "",
   params: {},
-  pathname: "/",
+  path: "/pages/index/index",
   search: "",
   state: {key: "0"}
 }
@@ -26,6 +28,7 @@ const notify = (opts) => {
   })
 }
 
+Taro._set$router(initLocation)
 
 const history = {
   listen,
@@ -33,4 +36,6 @@ const history = {
   notify
 }
 
-export default () => history
+export default () => {
+  return history
+}
