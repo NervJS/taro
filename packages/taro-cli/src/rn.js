@@ -82,7 +82,7 @@ function compileDepStyles (filePath, styleFiles) {
 function initProjectFile () {
   // generator app.json
   const appJsonObject = Object.assign({
-    name: _.camelCase(require(path.join(process.cwd(), 'package.json')).name)
+    name: require(path.join(process.cwd(), 'package.json')).name
   }, projectConfig.rn && projectConfig.rn.appJson)
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
