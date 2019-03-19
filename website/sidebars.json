@@ -28,6 +28,7 @@
       "ref",
       "envs",
       "relations",
+      "wxcloud",
       "react-native",
       "ui-lib",
       "taroize",
