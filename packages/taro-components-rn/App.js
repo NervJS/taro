@@ -6,9 +6,9 @@ import {
   Text,
   View,
   Button,
-  Tabbar,
-  TabbarContainer,
-  TabbarPanel,
+  // Tabbar,
+  // TabbarContainer,
+  // TabbarPanel,
 } from './src'
 import EXButton from './example/EXButton'
 import EXCheckbox from './example/EXCheckbox'
@@ -23,10 +23,10 @@ import EXProgress from './example/EXProgress'
 import EXRichText from './example/EXRichText'
 import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
-import EXAudio from './example/EXAudio'
-import EXVideo from './example/EXVideo'
-import EXMap from './example/EXMap'
-import EXWebView from './example/EXWebView'
+// import EXAudio from './example/EXAudio'
+// import EXVideo from './example/EXVideo'
+// import EXMap from './example/EXMap'
+// import EXWebView from './example/EXWebView'
 
 export default class App extends Component {
   state = {
@@ -46,7 +46,7 @@ export default class App extends Component {
     console.log('view touchend')
   }
 
-  render() {
+  render () {
     // return (
     //   <TabbarContainer>
     //     <TabbarPanel style={{ backgroundColor: 'red' }}>
@@ -100,15 +100,15 @@ export default class App extends Component {
           <Text>Picker</Text>
           <EXPicker />
 
-          <EXMap />
+        {/* <EXMap /> */}
 
           <EXImage />
 
-          <EXVideo />
+        {/* <EXVideo /> */}
 
           <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
 
-          <EXAudio />
+        {/* <EXAudio /> */}
 
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
             <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
@@ -119,37 +119,37 @@ export default class App extends Component {
             <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
           </View>
 
+        <View
+          hoverStyle={{ backgroundColor: 'green' }}
+          style={{ padding: 50, backgroundColor: 'orange' }}
+        >
           <View
-            hoverStyle={{ backgroundColor: 'green' }}
-            style={{ padding: 50, backgroundColor: 'orange' }}
+            onClick={() => { console.log('you click me') }}
+            // onLongPress={() => { console.log('you longpress me') }}
+            // onTouchstart={this.onViewTouchstart}
+            // onTouchmove={this.onViewTouchmove}
+            // onTouchend={this.onViewTouchend}
+            style={{
+              width: 250,
+              height: 250,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'pink'
+            }}
+            hoverStyle={{
+              backgroundColor: 'green'
+            }}
           >
-            <View
-              onClick={() => { console.log('you click me') }}
-              // onLongPress={() => { console.log('you longpress me') }}
-              // onTouchstart={this.onViewTouchstart}
-              // onTouchmove={this.onViewTouchmove}
-              // onTouchend={this.onViewTouchend}
+            <Button
+              onClick={() => { console.log('Hey, click button nested in view!') }}
               style={{
-                width: 250,
-                height: 250,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'pink'
-              }}
-              hoverStyle={{
-                backgroundColor: 'green'
+                width: 200
               }}
             >
-              <Button
-                onClick={() => { alert('Hey, click button nested in view!') }}
-                style={{
-                  width: 200
-                }}
-              >
-                default
-              </Button>
-            </View>
+              default
+            </Button>
           </View>
+        </View>
 
           <Text>Swiper</Text>
           <EXSwiper />

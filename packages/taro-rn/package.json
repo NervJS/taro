@@ -43,7 +43,7 @@
     "mock-socket": "^7.1.0",
     "react": "^16.4.1",
     "react-dom": "^16.7.0",
-    "react-native": "^0.55.4",
+    "react-native": "0.55.4",
     "react-test-renderer": "^16.5.2",
     "redux": "^4.0.0"
   }

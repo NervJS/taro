@@ -7,6 +7,7 @@ const transformCSS = require('css-to-react-native-transform').default
 const {StyleSheetValidation} = require('./StyleSheet/index')
 const Util = require('../util')
 const npmProcess = require('../util/npm')
+const stylelintConfig = require('../config/rn-stylelint')
 
 const DEVICE_RATIO = 'deviceRatio'
 
@@ -58,10 +59,16 @@ function postCSS ({css, filePath, projectConfig}) {
   if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
     pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
   }
-  return postcss(pxtransform({
-    platform: 'rn',
-    ...pxTransformConfig
-  }))
+  return postcss([
+    require('stylelint')(stylelintConfig),
+    require('postcss-reporter')({clearReportedMessages: true}),
+    pxtransform(
+      {
+        platform: 'rn',
+        ...pxTransformConfig
+      }
+    )
+  ])
     .process(css, {from: filePath})
     .then((result) => {
       return {

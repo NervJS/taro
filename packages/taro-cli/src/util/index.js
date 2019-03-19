@@ -597,7 +597,9 @@ exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types'
+  '@tarojs/mobx-prop-types',
+  'stylelint-taro-rn',
+  'styleint-config-taro-rn'
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
