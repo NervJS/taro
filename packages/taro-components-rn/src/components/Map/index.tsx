@@ -173,9 +173,9 @@ export interface Props {
   enableZoom?: boolean;
   enableScroll?: boolean;
   enableRotate?: boolean;
-  onMarkerClick?(markerId: number): void;
-  onCalloutClick?(markerId: number): void;
-  onControlClick?(controlId: number): void;
+  onMarkerClick?(markerId?: number): void;
+  onCalloutClick?(markerId?: number): void;
+  onControlClick?(controlId?: number): void;
   onRegionChange?(event: { type: 'begin' | 'end', timeStamp: number, causedBy?: 'scale' | 'drag' | 'update' }): void;
   onClick?(coordinate: Coordinate): void;
   onUpdated?(): void;
@@ -211,38 +211,44 @@ class _Map extends React.Component<Props, State> {
   }
 
   _onRegionChange = (region: Region) => {
-    this.props.onRegionChange({
+    const { onRegionChange } = this.props
+    onRegionChange && onRegionChange({
       type: 'begin',
       timeStamp: Date.now(),
     })
   }
 
   _onRegionChangeComplete = (region: Region) => {
-    this.props.onRegionChange({
+    const { onRegionChange } = this.props
+    onRegionChange && onRegionChange({
       type: 'end',
       timeStamp: Date.now(),
     })
   }
 
   _onClick = (e: any) => {
-    this.props.onClick(e.nativeEvent.coordinate)
+    const { onClick } = this.props
+    onClick && onClick(e.nativeEvent.coordinate)
   }
 
   _onMapReady = () => {
-    this.props.onUpdated()
+    const { onUpdated } = this.props
+    onUpdated && onUpdated()
   }
 
   _onPoiClick = () => {
-    this.props.onPoiClick()
+    const { onPoiClick } = this.props
+    onPoiClick && onPoiClick()
   }
 
   getCallout = (marker: Marker) => {
+    const { onCalloutClick } = this.props
     const { id, callout } = marker
     if (!callout) return null
     return (
       <MapView.Callout
         onPress={() => {
-          this.props.onCalloutClick(id)
+          onCalloutClick && onCalloutClick(id)
         }}
       >
         <View
@@ -313,7 +319,7 @@ class _Map extends React.Component<Props, State> {
         onMapReady={this._onMapReady}
         onPoiClick={this._onPoiClick}
       >
-        {markers.map((marker) => (
+        {(markers || []).map((marker) => (
           <MapView.Marker
             key={marker.id}
             coordinate={{
@@ -326,13 +332,13 @@ class _Map extends React.Component<Props, State> {
             opacity={marker.alpha}
             anchor={marker.anchor}
             onPress={() => {
-              onMarkerClick(marker.id)
+              onMarkerClick && onMarkerClick(marker.id)
             }}
           >
             {this.getCallout(marker)}
           </MapView.Marker>
         ))}
-        {polyline.map((p, index) => (
+        {(polyline || []).map((p, index) => (
           <MapView.Polyline
             key={`polyline_${index}`}
             coordinates={p.points}
@@ -340,7 +346,7 @@ class _Map extends React.Component<Props, State> {
             strokeWidth={p.width}
           />
         ))}
-        {polygons.map((p, index) => (
+        {(polygons || []).map((p, index) => (
           <MapView.Polygon
             key={`polygon_${index}`}
             coordinates={p.points}
@@ -349,7 +355,7 @@ class _Map extends React.Component<Props, State> {
             fillColor={p.fillColor}
           />
         ))}
-        {circles.map((c, index) => (
+        {(circles || []).map((c, index) => (
           <MapView.Circle
             key={`circle_${index}`}
             center={{ latitude: c.latitude, longitude: c.longitude }}

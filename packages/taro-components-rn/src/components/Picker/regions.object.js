@@ -24925,4 +24925,4 @@ let districts = {
   }
 }
 
-export {provinces, cities, districts}
+export { provinces, cities, districts }

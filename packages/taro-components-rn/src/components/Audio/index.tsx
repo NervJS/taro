@@ -111,26 +111,28 @@ class _Audio extends React.Component<Props, State> {
   }
 
   _setPlaybackState = (playbackState: PLAYBACK_STATES) => {
+    const { onPlay, onPause, onEnded, onTimeUpdate } = this.props
     if (playbackState === PLAYBACK_STATES.PLAYING) {
-      this.props.onTimeUpdate({ currentTime: this.state.playbackInstancePosition, duration: this.state.playbackInstanceDuration })
+      onTimeUpdate && onTimeUpdate({ currentTime: this.state.playbackInstancePosition, duration: this.state.playbackInstanceDuration })
     }
     if (this.state.playbackState !== playbackState) {
       this.setState({ playbackState, lastPlaybackStateUpdate: Date.now() })
       if (playbackState === PLAYBACK_STATES.PLAYING) {
-        this.props.onPlay()
+        onPlay && onPlay()
       } else if (playbackState === PLAYBACK_STATES.PAUSED) {
-        this.props.onPause()
+        onPause && onPause()
       } else if (playbackState === PLAYBACK_STATES.ENDED) {
-        this.props.onEnded()
+        onEnded && onEnded()
       }
     }
   }
 
   _onPlaybackStatusUpdate = (playbackStatus: any) => {
+    const { onError } = this.props
     if (!playbackStatus.isLoaded) {
       if (playbackStatus.error) {
         this._setPlaybackState(PLAYBACK_STATES.ERROR)
-        this.props.onError({ errMsg: MediaErrorCode.MEDIA_ERR_NETWORK })
+        onError && onError({ errMsg: MediaErrorCode.MEDIA_ERR_NETWORK })
       }
       return
     }

@@ -1,34 +1,41 @@
-const gulp = require('gulp')
+const { src, dest, parallel, watch } = require('gulp')
 const flowRemoveTypes = require('gulp-flow-remove-types')
 const babel = require('gulp-babel')
 const ts = require('gulp-typescript')
+
 const tsProject = ts.createProject('tsconfig.json')
 
-gulp.task('scripts', function () {
-  gulp
-    .src(['src/**/*.js'])
+const compatibleJsFiles = 'src/**/*.js'
+const staticFiles = 'src/**/*.png'
+
+function scripts () {
+  return src([compatibleJsFiles])
     .pipe(flowRemoveTypes({
       pretty: true
     }))
     .pipe(babel({
-      presets: ['react-native']
+      presets: ['module:metro-react-native-babel-preset']
     }))
-    .pipe(gulp.dest('dist'))
-})
+    .pipe(dest('dist'))
+}
 
-gulp.task('typescripts', function () {
-  tsProject
+function typescripts () {
+  return tsProject
     .src()
     .pipe(tsProject())
     .js.pipe(babel({
-      presets: ['react-native']
-    })).pipe(gulp.dest('dist'))
-})
+      presets: ['module:metro-react-native-babel-preset']
+    })).pipe(dest('dist'))
+}
 
-gulp.task('images', function () {
-  gulp
-    .src(['src/**/*.png'])
-    .pipe(gulp.dest('dist'))
-})
+function images () {
+  return src([staticFiles])
+    .pipe(dest('dist'))
+}
 
-gulp.task('default', ['scripts', 'typescripts', 'images'])
+// watch(compatibleJsFiles, scripts)
+
+// watch(staticFiles, images)
+
+exports.default = parallel(scripts, typescripts, images)
+// exports.default = typescripts
