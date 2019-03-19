@@ -64,6 +64,7 @@
     "postcss-modules-scope": "^1.1.0",
     "postcss-modules-values": "^1.3.0",
     "postcss-pxtransform": "1.2.15",
+    "postcss-reporter": "^6.0.1",
     "postcss-taro-unit-transform": "1.2.15",
     "postcss-url": "^7.3.2",
     "prettier": "^1.14.3",
@@ -71,6 +72,9 @@
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
     "shelljs": "^0.8.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-taro-rn": "1.2.15",
+    "stylelint-taro-rn": "1.2.15",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2"

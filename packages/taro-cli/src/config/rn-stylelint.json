@@ -1,0 +1,6 @@
+{
+  "extends": "stylelint-config-taro-rn",
+  "rules": {
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]*$"
+  }
+}

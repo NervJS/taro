@@ -29,7 +29,7 @@ Create the `.stylelintrc` config file (or open the existing one) and extend `sty
 
 ## Custom settings
 
-The config enables by default warnings for at-rules, units, CSS selectors that are not compatible with React Native CSS modules.
+The config enables by default warnings for at-rules, units, CSS selectors that are not compatible with React Native .
 
 If you want to turn off the warnings, you can use the following config:
 
@@ -60,56 +60,56 @@ If you want to change the at-rule, unit, and CSS selector warnings into stylelin
       ["keyframes", "font-face", "supports", "charset"],
       {
         "severity": "error",
-        "message": "the @-rule is ignored by React Native CSS modules."
+        "message": "the @-rule is ignored by React Native ."
       }
     ],
     "unit-whitelist": [
       ["px", "rem", "deg", "%", "vh", "vw", "vmin", "vmax"],
       {
         "severity": "error",
-        "message": "the unit is ignored by React Native CSS modules."
+        "message": "the unit is ignored by React Native ."
       }
     ],
     "selector-pseudo-class-whitelist": [
       ["export", "root"],
       {
         "severity": "error",
-        "message": "pseudo class selectors are ignored by React Native CSS modules."
+        "message": "pseudo class selectors are ignored by React Native ."
       }
     ],
     "selector-max-universal": [
       0,
       {
         "severity": "error",
-        "message": "universal selectors are ignored by React Native CSS modules."
+        "message": "universal selectors are ignored by React Native ."
       }
     ],
     "selector-max-attribute": [
       0,
       {
         "severity": "error",
-        "message": "attribute selectors are ignored by React Native CSS modules."
+        "message": "attribute selectors are ignored by React Native ."
       }
     ],
     "selector-max-type": [
       0,
       {
         "severity": "error",
-        "message": "type selectors are ignored by React Native CSS modules."
+        "message": "type selectors are ignored by React Native ."
       }
     ],
     "selector-max-combinators": [
       0,
       {
         "severity": "error",
-        "message": "combinator selectors are ignored by React Native CSS modules."
+        "message": "combinator selectors are ignored by React Native ."
       }
     ],
     "selector-max-id": [
       0,
       {
         "severity": "error",
-        "message": "id selectors are ignored by React Native CSS modules."
+        "message": "id selectors are ignored by React Native ."
       }
     ]
   }

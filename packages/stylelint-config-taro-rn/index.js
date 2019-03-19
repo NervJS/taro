@@ -7,7 +7,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'font-weight value other than 400, 700, normal or bold has not effect in React Native on Android. You can use it for Web when sharing the styles between React Native and browser.'
+          '400,700，normal 或 bold 之外的 font-weight 值在Android上的React Native中没有效果'
       }
     ],
     'value-no-vendor-prefix': true,
@@ -19,7 +19,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'the @-rule is ignored by React Native CSS modules. You can use it for Web when sharing the styles between React Native and browser.'
+          '@-rule 会被 React Native 忽略'
       }
     ],
     'unit-whitelist': [
@@ -27,7 +27,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'the unit is ignored by React Native CSS modules. You can use it for Web when sharing the styles between React Native and browser.'
+          '该单位会被 React Native 忽略'
       }
     ],
     'selector-pseudo-class-whitelist': [
@@ -35,7 +35,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'pseudo class selectors are ignored by React Native CSS modules. You can use them for Web when sharing the styles between React Native and browser.'
+          '伪类选择器会被 React Native 忽略'
       }
     ],
     'selector-max-universal': [
@@ -43,7 +43,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'universal selectors are ignored by React Native CSS modules. You can use them for Web when sharing the styles between React Native and browser.'
+          '通配选择器会被 React Native 忽略'
       }
     ],
     'selector-max-attribute': [
@@ -51,7 +51,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'attribute selectors are ignored by React Native CSS modules. You can use them for Web when sharing the styles between React Native and browser.'
+          '属性选择器会被 React Native 忽略'
       }
     ],
     'selector-max-type': [
@@ -59,7 +59,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'type selectors are ignored by React Native CSS modules. You can use them for Web when sharing the styles between React Native and browser.'
+          '通配选择器会被 React Native 忽略'
       }
     ],
     'selector-max-combinators': [
@@ -67,7 +67,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'combinator selectors are ignored by React Native CSS modules. You can use them for Web when sharing the styles between React Native and browser.'
+          '组合选择器会被 React Native 忽略'
       }
     ],
     'selector-max-id': [
@@ -75,7 +75,7 @@ module.exports = {
       {
         severity: 'warning',
         message:
-          'id selectors are ignored by React Native CSS modules. You can use them for Web when sharing the styles between React Native and browser.'
+          'ID 选择器会被 React Native 忽略'
       }
     ]
   }
