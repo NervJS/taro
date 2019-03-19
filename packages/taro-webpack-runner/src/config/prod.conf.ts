@@ -104,7 +104,6 @@ export default function (config: Partial<BuildConfig>): any {
     }, output]),
     resolve: { alias },
     module: getModule({
-      mode,
       designWidth,
       deviceRatio,
       enableExtract,
