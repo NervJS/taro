@@ -373,6 +373,18 @@ declare namespace Taro {
       preload: any
     }
 
+    /**
+     * 使用 `this.$preload` 函数进行页面跳转传参
+     * @example this.$preload('key', 'val');
+     * @example this.$preload({
+                  x: 1,
+                  y: 2
+                });
+     * @see https://nervjs.github.io/taro/docs/best-practice.html
+     */
+    $preload(key: string, value: any): void;
+    $preload(key: object): void;
+
     setState<K extends keyof S>(
         state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
         callback?: () => any
@@ -11504,7 +11516,7 @@ declare namespace Taro {
       interface uploadFile {
         /**
          * upload file
-         * @param param 
+         * @param param
          */
         (param: IUploadFileParam): IUploadFileTask
       }
@@ -11529,7 +11541,7 @@ declare namespace Taro {
       interface downloadFile {
         /**
          * download file
-         * @param param 
+         * @param param
          */
         (param: IDownloadFileParam): IDownloadFileTask
       }
