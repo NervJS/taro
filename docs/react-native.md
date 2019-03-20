@@ -649,4 +649,7 @@ rm -fr $TMPDIR/react-*
 ## 参考
 
 - [React Native 中文网](https://reactnative.cn/)
+- [Android 开发文档](https://developer.android.com/guide?hl=zh-cn)
+- [Android Studio 用户指南](https://developer.android.com/studio/intro?hl=zh-cn)
+- [Apple Developer Documentation](https://developer.apple.com/documentation/)
 - [React Native Debugger ](https://github.com/jhen0409/react-native-debugger)
