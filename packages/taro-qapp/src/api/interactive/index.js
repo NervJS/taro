@@ -9,14 +9,14 @@ export function showToast (options = {}) {
     try {
       prompt.showToast({
         message: title,
-        duration: duration > 2000 ? 1 : 0
+        duration
       })
       success && success(res)
       complete && complete(res)
       resolve(res)
     } catch (data) {
       res.errMsg = 'showToast: error'
-      res.data = res.data
+      res.data = data
       fail && fail(res)
       reject(res)
     }
@@ -121,7 +121,45 @@ export function showActionSheet (options = {}) {
   })
 }
 
-let unSupportApis = ['hideToast', 'showLoading', 'hideLoading']
+export function setNavigationBarTitle (options = {}) {
+  const { title = '', success, complete, fail } = options
+  const res = { errMsg: 'setNavigationBarTitle: ok' }
+
+  return new Promise((resolve, reject) => {
+    try {
+      this.$page.setTitleBar({text: title})
+      success && success(res)
+      complete && complete(res)
+      resolve(res)
+    } catch (data) {
+      res.errMsg = 'setNavigationBarTitle: error'
+      res.data = data
+      fail && fail(res)
+      reject(res)
+    }
+  })
+}
+
+export function setNavigationBarColor (options = {}) {
+  const { frontColor = '', backgroundColor = '', success, complete, fail } = options
+  const res = { errMsg: 'setNavigationBarColor: ok' }
+
+  return new Promise((resolve, reject) => {
+    try {
+      this.$page.setTitleBar({textColor: frontColor, backgroundColor})
+      success && success(res)
+      complete && complete(res)
+      resolve(res)
+    } catch (data) {
+      res.errMsg = 'setNavigationBarColor: error'
+      res.data = data
+      fail && fail(res)
+      reject(res)
+    }
+  })
+}
+
+let unSupportApis = ['hideToast', 'showLoading', 'hideLoading', 'showNavigationBarLoading', 'hideNavigationBarLoading']
 unSupportApis = generateUnSupportApi(
   '快应用暂不支持Toast等隐藏方法',
   unSupportApis
@@ -130,7 +168,9 @@ unSupportApis = generateUnSupportApi(
 const toast = {
   showToast,
   showModal,
-  showActionSheet
+  showActionSheet,
+  setNavigationBarTitle,
+  setNavigationBarColor
 }
 
 Object.assign(toast, unSupportApis)

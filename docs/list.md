@@ -12,37 +12,56 @@ const doubled = numbers.map((number) => number * 2)
 console.log(doubled)
 ```
 
-代码打印出`[2, 4, 6, 8, 10]`。
+代码打印出 `[2, 4, 6, 8, 10]`。
 
-在 `Taro` 中，把数组转化为数列元素的过程是相似的。
+在 Taro 中，把数组转化为数列元素的过程是相似的。
 
 
 ## 渲染多个组件
 
-下面，我们使用 JavaScript 中的 `map()` 方法遍历 `numbers` 数组。对数组中的每个元素返回`<Text>`标签，最后我们得到一个数组 `listItems`：
+下面，我们使用 JavaScript 中的 `map()` 方法遍历 `numbers` 数组。对数组中的每个元素返回 `<Text>` 标签，最后我们得到一个数组 `listItems`：
 
 ```jsx
 const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
-  return <Text class='li'> 我是第 {number + 1} 个数字</Text>
+  return <Text className='li'> 我是第 {number + 1} 个数字</Text>
 })
 ```
 
-这段代码生成了一个1到100的数字列表。
+这段代码生成了一个 1 到 100 的数字列表。
 
 ## Keys
 
-但是在上面的代码，你会得到一个报错：提醒你当循环一个数组时应该提供 keys。Keys 可以在DOM中的某些元素被增加或删除的时候帮助 Nerv/小程序 识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。
+但是在上面的代码，你会得到一个报错：提醒你当循环一个数组时应该提供 keys。Keys 可以在 DOM 中的某些元素被增加或删除的时候帮助 Nerv/小程序 识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。
 
 ```jsx
 const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
   return <Text
     key={String(number)}
-    class='li'
+    className='li'
     >
     我是第 {number + 1} 个数字
   </Text>
+})
+```
+
+## taroKeys
+
+`taroKey` 适用于循环渲染原生小程序组件，赋予每个元素唯一确定标识，转换为小程序的 `wx:key`。
+
+```jsx
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
+const listItems = numbers.map((number) => {
+  return (
+    // native component
+    <g-list
+      taroKey={String(number)}
+      className='g-list'
+    >
+    我是第 {number + 1} 个数字
+    </g-list>
+  )
 })
 ```
 
@@ -78,7 +97,7 @@ class App extends Componenet {
     return (
       <View>
         {sidebar}
-        <View class="divider" />
+        <View className="divider" />
         {content}
       </View>
     )
@@ -86,7 +105,7 @@ class App extends Componenet {
 }
 ```
 
-key会作为给 Taro 的提示，但不会传递给你的组件。如果您的组件中需要使用和key相同的值，请将其作为属性传递：
+key 会作为给 Taro 的提示，但不会传递给你的组件。如果您的组件中需要使用和 key 相同的值，请将其作为属性传递：
 
 ```jsx
 const content = posts.map((post) => {

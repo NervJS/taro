@@ -5,13 +5,18 @@ sidebar_label: Canvas
 
 ##### 画布
 
-> 组件 支持度
 
-| 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: |
-| ✔️ | x | x |
+`<Canvas />` 组件的 H5 与 RN 版本尚未实现。
 
-小程序全部支持，属性参考[canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html#canvas)。属性值请改写为驼峰式命名。
+>小程序端参数支持详见各小程序官网
+
+[微信小程序 Map](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html)。
+
+[百度小程序 Map](https://smartprogram.baidu.com/docs/develop/component/canvas/#canvas)。
+
+[支付宝小程序 Map](https://docs.alipay.com/mini/component/canvas)。
+
+[字节跳动小程序 Video](https://developer.toutiao.com/docs/comp/canvas.html)。
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'

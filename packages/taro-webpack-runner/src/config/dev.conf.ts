@@ -1,36 +1,31 @@
 import * as path from 'path';
 
+import { addLeadingSlash, addTrailingSlash, appPath } from '../util';
 import {
-  getCssLoader,
   getDefinePlugin,
+  getDevtool,
   getEntry,
+  getHotModuleReplacementPlugin,
   getHtmlWebpackPlugin,
-  getLessLoader,
-  getOutput,
-  getPostcssLoader,
-  getResolveUrlLoader,
-  getSassLoader,
-  getStyleLoader,
-  getStylusLoader,
-  getExtractCssLoader,
-  processEnvOption,
   getMiniCssExtractPlugin,
-  getHotModuleReplacementPlugin
+  getModule,
+  getOutput,
+  processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
-import chain from './base.conf';
-import { getPostcssPlugins } from './postcss.conf';
+import getBaseChain from './base.conf';
 
-const appPath = process.cwd()
 const emptyObj = {}
 
 export default function (config: Partial<BuildConfig>): any {
+  const chain = getBaseChain()
   const {
     alias = emptyObj,
     entry = emptyObj,
+    output = emptyObj,
     sourceRoot = '',
     outputRoot,
-    publicPath,
+    publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
 
@@ -51,154 +46,63 @@ export default function (config: Partial<BuildConfig>): any {
     imageUrlLoaderOption = emptyObj,
     
     miniCssExtractPluginOption = emptyObj,
+    esnextModules = [],
 
     module = {
       postcss: emptyObj
     },
-    plugins = {
-      babel: emptyObj
-    }
+    plugins
   } = config
-
-  const devtool = enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
-
-  const postcssOption = module.postcss || {}
-
-  const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
-
-  const extractCssLoader = getExtractCssLoader()
-
-  const lastCssLoader = enableExtract ? extractCssLoader : styleLoader
-
-  const cssLoader = getCssLoader([
-    {
-      importLoaders: 1,
-      sourceMap: enableSourceMap
-    },
-    cssLoaderOption
-  ])
-
-  const postcssLoader = getPostcssLoader([
-    { sourceMap: enableSourceMap },
-    {
-      ident: 'postcss',
-      plugins: getPostcssPlugins({
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
-    }
-  ])
-
-  const resolveUrlLoader = getResolveUrlLoader([])
-
-  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
-
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
-
-  const output = getOutput({
-    outputRoot,
-    publicPath,
-    chunkDirectory
-  })
 
   const plugin = {} as any
 
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
       filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css'
+      chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption])
   }
+
   plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
     filename: 'index.html',
     template: path.join(appPath, sourceRoot, 'index.html')
   }])
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
-  plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin([])
+  plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin()
+
+  const mode = 'development'
 
   chain.merge({
-    mode: 'development',
-    entry: Object.assign(getEntry(), entry),
-    output,
-    devtool,
+    mode,
+    devtool: getDevtool([enableSourceMap]),
+    entry: getEntry(entry),
+    output: getOutput([{
+      outputRoot,
+      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
+      chunkDirectory
+    }, output]),
     resolve: { alias },
-    module: {
-      rule: {
-        jsx: {
-          use: {
-            babelLoader: {
-              options: {
-                ...plugins.babel,
-                sourceMap: enableSourceMap
-              }
-            }
-          }
-        },
-        media: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/media/[name].[ext]`,
-                ...mediaUrlLoaderOption
-              }
-            }
-          }
-        },
-        font: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/fonts/[name].[ext]`,
-                ...fontUrlLoaderOption
-              }
-            }
-          }
-        },
-        image: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/images/[name].[ext]`,
-                ...imageUrlLoaderOption
-              }
-            }
-          }
-        },
-        sass: {
-          test: /\.(css|scss|sass)(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
-        },
-        less: {
-          test: /\.less(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
-        },
-        styl: {
-          test: /\.styl(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
-        },
-        sassInNodemodules: {
-          test: /\.(css|scss|sass)(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, sassLoader]
-        },
-        lessInNodemodules: {
-          test: /\.less(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, lessLoader]
-        },
-        stylInNodemodules: {
-          test: /\.styl(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, stylusLoader]
-        }
-      }
-    },
+    module: getModule({
+      mode,
+      designWidth,
+      deviceRatio,
+      enableExtract,
+      enableSourceMap,
+  
+      styleLoaderOption,
+      cssLoaderOption,
+      lessLoaderOption,
+      sassLoaderOption,
+      stylusLoaderOption,
+      fontUrlLoaderOption,
+      imageUrlLoaderOption,
+      mediaUrlLoaderOption,
+      esnextModules,
+  
+      module,
+      plugins,
+      staticDirectory
+    }),
     plugin,
     optimization: {
       noEmitOnErrors: true

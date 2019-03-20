@@ -1,0 +1,347 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RN transformJSCode app.js should transform appx.ts conrrect 1`] = `
+Object {
+  "code": "var _class, _temp;
+
+import TaroRouter from '@tarojs/taro-router-rn';
+import pagesIndexIndex from './pages/index/index';
+import Taro from '@tarojs/taro-rn';
+import React from 'react';
+import { Component } from \\"@tarojs/taro-rn\\";
+
+import appStyleSheet from \\"./app_styles\\";
+var _styleSheet = appStyleSheet;
+let App = (_temp = _class = class App extends Component {
+  constructor() {
+    super(...arguments);
+  }
+  componentDidMount() {}
+  componentDidShow() {}
+  componentDidHide() {}
+  componentCatchError() {}
+  render() {
+    return <RootStack />;
+  }
+}, _class.config = {
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
+  }
+}, _temp);
+const RootStack = TaroRouter.initRouter([['pages/index/index', pagesIndexIndex]], Taro, App.config);
+Taro.initNativeApi(Taro);
+Taro.initPxTransform({
+  \\"designWidth\\": 750,
+  \\"deviceRatio\\": {
+    \\"375\\": 0.5,
+    \\"640\\": 1.17,
+    \\"750\\": 1,
+    \\"828\\": 0.905
+  }
+});
+export default App;",
+  "styleFiles": Array [
+    "/Users/chengshuai/Taro/taro-quick-start/src/app.scss",
+  ],
+}
+`;
+
+exports[`RN transformJSCode app.js should transform projAppJS conrrect 1`] = `
+Object {
+  "code": "var _class, _temp;
+
+import TaroRouter from '@tarojs/taro-router-rn';
+import imageIconApiHlPng from './image/icon_API_HL.png';
+import imageIconApiPng from './image/icon_API.png';
+import imageIconComponentHlPng from './image/icon_component_HL.png';
+import imageIconComponentPng from './image/icon_component.png';
+import pagesScrollIndex from './pages/scroll/index';
+import pagesAboutIndex from './pages/about/index';
+import pagesExpoIndex from './pages/expo/index';
+import pagesHelloIndex from './pages/hello/index';
+import pagesIndexIndex from './pages/index/index';
+import Taro from '@tarojs/taro-rn';
+import React from 'react';
+
+import { Component } from \\"@tarojs/taro-rn\\";
+
+
+import appStyleSheet from \\"./app_styles\\";
+var _styleSheet = appStyleSheet;
+let App = (_temp = _class = class App extends Component {
+
+  componentDidMount() {}
+
+  componentDidShow() {}
+
+  componentDidHide() {}
+
+  componentCatchError() {}
+
+  render() {
+    return <RootStack />;
+  }
+}, _class.config = {
+  window: {
+    // backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: 'grey',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'blue',
+    enablePullDownRefresh: true,
+    navigationStyle: 'custom'
+  },
+
+  tabBar: {
+    'color': '#7A7E83',
+    'selectedColor': '#3cc51f',
+    'borderStyle': 'black',
+    'backgroundColor': '#ffffff',
+    'list': [{
+      'pagePath': 'pages/index/index',
+      iconPath: imageIconComponentPng,
+      selectedIconPath: imageIconComponentHlPng,
+
+      'text': '首页'
+    }, {
+      'pagePath': 'pages/expo/index',
+      iconPath: imageIconApiPng,
+      selectedIconPath: imageIconApiHlPng,
+
+      'text': 'expo'
+    }]
+  }
+}, _temp);
+const RootStack = TaroRouter.initRouter([['pages/index/index', pagesIndexIndex], ['pages/hello/index', pagesHelloIndex], ['pages/expo/index', pagesExpoIndex], ['pages/about/index', pagesAboutIndex], ['pages/scroll/index', pagesScrollIndex]], Taro, App.config);
+Taro.initNativeApi(Taro);
+Taro.initPxTransform({
+  \\"designWidth\\": 750,
+  \\"deviceRatio\\": {
+    \\"375\\": 0.5,
+    \\"640\\": 1.17,
+    \\"750\\": 1,
+    \\"828\\": 0.905
+  }
+});
+export default App;",
+  "styleFiles": Array [
+    "/Users/chengshuai/Taro/taro-quick-start/src/app.scss",
+    "/Users/chengshuai/Taro/taro-quick-start/src/variable.scss",
+  ],
+}
+`;
+
+exports[`RN transformJSCode app.js should transform reduxAppJS conrrect 1`] = `
+Object {
+  "code": "var _class, _temp;
+
+import TaroRouter from '@tarojs/taro-router-rn';
+import pagesIndexIndex from './pages/index/index';
+import Taro from '@tarojs/taro-rn';
+import React from 'react';
+
+import { Component } from \\"@tarojs/taro-rn\\";
+import '@tarojs/async-await';
+import { Provider } from \\"@tarojs/taro-redux-rn\\";
+
+import configStore from './store';
+
+import appStyleSheet from \\"./app_styles\\";
+
+var _styleSheet = appStyleSheet;
+const store = configStore();
+
+let App = (_temp = _class = class App extends Component {
+
+  componentDidMount() {}
+
+  componentDidShow() {}
+
+  componentDidHide() {}
+
+  componentCatchError() {}
+
+  render() {
+    return <Provider store={store}>
+                  <RootStack />
+                </Provider>;
+  }
+}, _class.config = {
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
+  }
+}, _temp);
+const RootStack = TaroRouter.initRouter([['pages/index/index', pagesIndexIndex]], Taro, App.config);
+Taro.initNativeApi(Taro);
+Taro.initPxTransform({
+  \\"designWidth\\": 750,
+  \\"deviceRatio\\": {
+    \\"375\\": 0.5,
+    \\"640\\": 1.17,
+    \\"750\\": 1,
+    \\"828\\": 0.905
+  }
+});
+export default App;",
+  "styleFiles": Array [
+    "/Users/chengshuai/Taro/taro-quick-start/src/app.scss",
+  ],
+}
+`;
+
+exports[`RN transformJSCode app.js should transform simpleAppJS conrrect 1`] = `
+Object {
+  "code": "var _class, _temp;
+
+import TaroRouter from '@tarojs/taro-router-rn';
+import pagesIndexIndex from './pages/index/index';
+import Taro from '@tarojs/taro-rn';
+import React from 'react';
+
+import { Component } from \\"@tarojs/taro-rn\\";
+
+
+import appStyleSheet from \\"./app_styles\\";
+
+var _styleSheet = appStyleSheet;
+let App = (_temp = _class = class App extends Component {
+
+  componentDidMount() {}
+
+  componentDidShow() {}
+
+  componentDidHide() {}
+
+  componentCatchError() {}
+
+  render() {
+    return <RootStack />;
+  }
+}, _class.config = {
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
+  }
+}, _temp);
+const RootStack = TaroRouter.initRouter([['pages/index/index', pagesIndexIndex]], Taro, App.config);
+Taro.initNativeApi(Taro);
+Taro.initPxTransform({
+  \\"designWidth\\": 750,
+  \\"deviceRatio\\": {
+    \\"375\\": 0.5,
+    \\"640\\": 1.17,
+    \\"750\\": 1,
+    \\"828\\": 0.905
+  }
+});
+export default App;",
+  "styleFiles": Array [
+    "/Users/chengshuai/Taro/taro-quick-start/src/app.scss",
+  ],
+}
+`;
+
+exports[`RN transformJSCode page.js should transform reduxPageJS conrrect , with decorator 1`] = `
+Object {
+  "code": "var _dec, _class, _class2, _temp;
+
+import React from 'react';
+
+import { Component } from \\"@tarojs/taro-rn\\";
+import { View, Button, Text } from \\"@tarojs/components-rn\\";
+import { connect } from \\"@tarojs/taro-redux-rn\\";
+
+import { add, minus, asyncAdd } from '../../actions/counter';
+
+import appStyleSheet from \\"./app_styles\\";
+
+var _styleSheet = appStyleSheet;
+let Index = (_dec = connect(({ counter }) => ({
+  counter
+}), dispatch => ({
+  add() {
+    dispatch(add());
+  },
+  dec() {
+    dispatch(minus());
+  },
+  asyncAdd() {
+    dispatch(asyncAdd());
+  }
+})), _dec(_class = (_temp = _class2 = class Index extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props, nextProps);
+  }
+
+  componentWillUnmount() {}
+
+  componentDidShow() {}
+
+  componentDidHide() {}
+
+  render() {
+    return <View style={_styleSheet[\\"index\\"]}>
+        <Button onClick={this.props.add} style={_styleSheet[\\"add_btn\\"]}>+</Button>
+        <Button onClick={this.props.dec} style={_styleSheet[\\"dec_btn\\"]}>-</Button>
+        <Button onClick={this.props.asyncAdd} style={_styleSheet[\\"dec_btn\\"]}>async</Button>
+        <View><Text>{this.props.counter.num}</Text></View>
+        <View><Text>Hello, World</Text></View>
+      </View>;
+  }
+}, _class2.config = {
+  navigationBarTitleText: '首页'
+}, _temp)) || _class);
+
+
+export default Index;",
+  "styleFiles": Array [
+    "/Users/chengshuai/Taro/taro-quick-start/src/index.scss",
+  ],
+}
+`;
+
+exports[`RN transformJSCode page.js should transform simplePageJS conrrect 1`] = `
+Object {
+  "code": "var _class, _temp;
+
+import React from 'react';
+
+import { Component } from \\"@tarojs/taro-rn\\";
+import { View, Text } from \\"@tarojs/components-rn\\";
+import appStyleSheet from \\"./app_styles\\";
+
+var _styleSheet = appStyleSheet;
+let Index = (_temp = _class = class Index extends Component {
+
+  componentWillMount() {}
+
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
+  componentDidShow() {}
+
+  componentDidHide() {}
+
+  render() {
+    return <View style={_styleSheet[\\"index\\"]}>
+        <Text>Hello world!</Text>
+      </View>;
+  }
+}, _class.config = {
+  navigationBarTitleText: '首页'
+}, _temp);
+export { Index as default };",
+  "styleFiles": Array [
+    "/Users/chengshuai/Taro/taro-quick-start/src/index.css",
+  ],
+}
+`;

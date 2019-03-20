@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
-interface ImageProps extends StandardProps {
+export interface ImageProps extends StandardProps {
 
   /**
    * 图片资源地址
@@ -29,14 +29,14 @@ interface ImageProps extends StandardProps {
    *
    * event.detail = {errMsg: 'something wrong'}
    */
-  onError?: BaseEventFunction,
+  onError?: CommonEventFunction,
 
   /**
    * 当图片载入完毕时，发布到 AppService 的事件名，事件对象
    *
    * event.detail = {height:'图片高度px', width:'图片宽度px'}
    */
-  onLoad?: BaseEventFunction
+  onLoad?: CommonEventFunction
 }
 
 declare const Image: ComponentType<ImageProps>

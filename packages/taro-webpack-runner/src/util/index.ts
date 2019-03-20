@@ -1,4 +1,5 @@
 import * as path from 'path'
+import { mergeWith } from 'lodash';
 
 const isEmptyObject = function (obj) {
   if (obj == null) {
@@ -35,9 +36,42 @@ const formatTime = function (date?) {
   return `${year}-${zeroPad(month, 2)}-${zeroPad(day, 2)} ${zeroPad(hour, 2)}:${zeroPad(minute, 2)}`
 }
 
+const appPath = process.cwd()
+const emptyObj = {}
+const emptyTogglableObj = {
+  enable: false,
+  config: {}
+}
+
+const recursiveMerge = (src, ...args) => {
+  return mergeWith(src, ...args, (value, srcValue, key, obj, source) => {
+    const typeValue = typeof value
+    const typeSrcValue = typeof srcValue
+    if (typeValue !== typeSrcValue) return
+    if (Array.isArray(value) && Array.isArray(srcValue)) {
+      return value.concat(srcValue)
+    }
+    if (typeValue === 'object') {
+      return recursiveMerge(value, srcValue)
+    }
+  })
+}
+
+const isNpmPackage = (name: string) => !/^(\.|\/)/.test(name)
+
+const addLeadingSlash = (url: string) => url.charAt(0) === '/' ? url : '/' + url
+const addTrailingSlash = (url: string) => url.charAt(url.length - 1) === '/' ? url : url + '/'
+
 export {
+  appPath,
+  emptyObj,
+  emptyTogglableObj,
   isEmptyObject,
+  isNpmPackage,
   getRootPath,
   zeroPad,
-  formatTime
+  formatTime,
+  recursiveMerge,
+  addLeadingSlash,
+  addTrailingSlash
 }

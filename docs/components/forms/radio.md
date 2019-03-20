@@ -3,27 +3,48 @@ title: Radio
 sidebar_label: Radio
 ---
 
-##### RadioGroup
-##### 单项选择器，内部由多个 <Radio/> 组成
+### RadioGroup
+##### 单项选择器，内部由多个 Radio 组成
 > 属性及支持度
 
 | 微信小程序 | H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
 | √ | √ | √ | name | String |  | 表单组件中加上 name 来作为 key |
-| √ | √ | √ | onChange | EventHandle |  | <RadioGroup/>中选中项发生改变是触发 change 事件，detail = value:[选中的 radio 的 value 的数组] |
+| √ | √ | √ | onChange | EventHandle |  | `<RadioGroup/>` 中选中项发生改变时触发 change 事件，detail = value:[选中的 radio 的 value 的数组] |
 
 
-##### Radio
+>其他相关属性请看各小程序官方文档
+
+[微信小程序 RadioGroup](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)。
+
+[百度小程序 RadioGroup](https://smartprogram.baidu.com/docs/develop/component/formlist/#radio)。
+
+[支付宝小程序 RadioGroup](https://docs.alipay.com/mini/component/radio)。
+
+[字节跳动小程序 RadioGroup](https://developer.toutiao.com/docs/comp/radio.html)。
+
+
+### Radio
 ##### 单选项目
 > 属性及支持度
 
 | 微信小程序 | H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| √ |   | √ | value      | String      | false  | <Radio/> 标识。当该<Radio/> 选中时，<RadioGroup/> 的 change 事件会携带<Radio/>的 value |
+| √ |   | √ | value      | String      | false  | `<Radio/>` 标识。当该 `<Radio/>` 选中时，`<RadioGroup/>` 的 change 事件会携带 `<Radio/>` 的 value |
 | √ | √ | √ | checked    | Boolean     | false  | 当前是否选中    |
 | √ | √ | √ | disabled   | Boolean     | false  | 是否禁用        |
 | √ |   | √ | color      | Color       | false  | radio 的颜色，同 css 的 color   |
 | √ | √ | √ | onChange   | EventHandle |        | 选中项发生变化时触发 change 事件   |
+
+>其他相关属性请看各小程序官方文档
+
+[微信小程序 Radio](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)。
+
+[百度小程序 Radio](https://smartprogram.baidu.com/docs/develop/component/formlist/#radio)。
+
+[支付宝小程序 Radio](https://docs.alipay.com/mini/component/radio)。
+
+[字节跳动小程序 Radio](https://developer.toutiao.com/docs/comp/radio.html)。
 
 
 ###### 示例：

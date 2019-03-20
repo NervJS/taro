@@ -12,7 +12,7 @@ $ npm install --save @tarojs/async-await
 
 随后在项目入口文件 `app.js` 中直接 `import` ，就可以开始使用 `async functions` 功能了
 
-```jsx
+```javascript
 // src/app.js
 import '@tarojs/async-await'
 ```

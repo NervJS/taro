@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface SwitchProps extends StandardProps {
+export interface SwitchProps extends StandardProps, FormItemProps {
 
   /**
    * 是否选中
@@ -9,6 +9,13 @@ interface SwitchProps extends StandardProps {
    * 默认值：`false`
    */
   checked?: boolean,
+
+  /**
+   * 是否禁用
+   *
+   * 默认值：`false`
+   */
+  disabled?: boolean,
 
   /**
    * 样式，有效值：switch, checkbox
@@ -22,7 +29,7 @@ interface SwitchProps extends StandardProps {
    *
    * event.detail={ value:checked}
    */
-  onChange?: BaseEventFunction,
+  onChange?: CommonEventFunction,
 
   /**
    * switch 的颜色，同 css 的 color

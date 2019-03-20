@@ -1,37 +1,30 @@
-const { join } = require('path')
-const resolve = require('rollup-plugin-node-resolve')
-const babel = require('rollup-plugin-babel')
-const postcss = require('rollup-plugin-postcss')
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import resolve from 'rollup-plugin-node-resolve'
+import typescript from 'rollup-plugin-typescript'
 
-const cwd = __dirname
-
-const baseConfig = {
-  input: join(cwd, 'src/index.js'),
+export default {
+  input: 'src/index.tsx',
   external: ['nervjs', '@tarojs/taro-h5'],
-  output: [
-    {
-      file: join(cwd, 'dist/index.js'),
-      format: 'cjs',
-      sourcemap: true,
-      exports: 'named'
-    },
-    {
-      file: join(cwd, 'dist/router.js'),
-      format: 'umd',
-      name: 'Router',
-      sourcemap: true,
-      exports: 'named'
-    }
-  ],
+  output: [{
+    file: 'dist/index.js',
+    format: 'cjs',
+    sourcemap: false,
+    exports: 'named'
+  }, {
+    file: 'dist/index.esm.js',
+    format: 'esm',
+    sourcemap: false,
+    exports: 'named'
+  }],
   plugins: [
-    postcss({
-      extensions: [ '.css' ]
-    }),
     resolve({
       preferBuiltins: false
     }),
+    typescript(),
     babel({
       babelrc: false,
+      extensions: ['.ts', '.tsx', '.es6', '.es', '.mjs'],
       presets: [
         ['@babel/preset-env', {
           modules: false
@@ -40,34 +33,16 @@ const baseConfig = {
       plugins: [
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-syntax-dynamic-import',
         ['@babel/plugin-transform-react-jsx', {
           'pragma': 'Nerv.createElement'
         }]
       ]
-    })
+    }),
+    commonjs()
   ],
   watch: {
     include: 'src/**',
     clearScreen: true
   }
 }
-const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
-    sourcemap: true,
-    format: 'es',
-    file: join(cwd, 'dist/index.esm.js')
-  })
-})
-
-function rollup () {
-  const target = process.env.TARGET
-
-  if (target === 'umd') {
-    return baseConfig
-  } else if (target === 'esm') {
-    return esmConfig
-  } else {
-    return [baseConfig, esmConfig]
-  }
-}
-module.exports = rollup()

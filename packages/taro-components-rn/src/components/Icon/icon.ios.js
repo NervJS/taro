@@ -27,7 +27,7 @@ const iconTypeMap: Object = {
 type Props = {
   style?: StyleSheet.Styles,
   type: 'success' | 'success_no_circle' | 'info' | 'warn' | 'waiting' | 'cancel' | 'download' | 'search' | 'clear',
-  size?: number,
+  size?: number | string,
   color?: string,
 }
 
@@ -37,6 +37,8 @@ module.exports = function _Icon ({
   size = 23,
   color,
 }: Props) {
+  size = ~~size
+
   const iconObj = WEUI[iconTypeMap[type]]
 
   if (!iconObj) {

@@ -2,16 +2,18 @@ import {
   onAndSyncApis,
   noPromiseApis,
   otherApis,
-  initPxTransform
+  initPxTransform,
+  Link
 } from '@tarojs/taro'
-import { cacheDataSet } from './data-cache'
+import { cacheDataSet, cacheDataGet } from './data-cache'
 import { queryToJson, getUniqueKey } from './util'
 const RequestQueue = {
   MAX_REQUEST: 5,
   queue: [],
   request (options) {
     this.push(options)
-    this.run()
+    // 返回request task
+    return this.run()
   },
 
   push (options) {
@@ -25,14 +27,20 @@ const RequestQueue = {
     if (this.queue.length <= this.MAX_REQUEST) {
       let options = this.queue.shift()
       let completeFn = options.complete
-      options.complete = () => {
-        completeFn && completeFn.apply(options, [...arguments])
+      options.complete = (...args) => {
+        completeFn && completeFn.apply(options, args)
         this.run()
       }
-      wx.request(options)
+      return wx.request(options)
     }
   }
 }
+
+function taroInterceptor (chain) {
+  return request(chain.requestParams)
+}
+
+const link = new Link(taroInterceptor)
 
 function request (options) {
   options = options || {}
@@ -44,6 +52,7 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
+  let requestTask
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       originSuccess && originSuccess(res)
@@ -58,8 +67,15 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    RequestQueue.request(options)
+    requestTask = RequestQueue.request(options)
   })
+  p.abort = (cb) => {
+    cb && cb()
+    if (requestTask) {
+      requestTask.abort()
+    }
+    return p
+  }
   return p
 }
 
@@ -71,15 +87,39 @@ function processApis (taro) {
     'reLaunch': true
   }
   const routerParamsPrivateKey = '__key_'
+  const preloadPrivateKey = '__preload_'
+  const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
-      taro[key] = options => {
+      taro[key] = (options, ...args) => {
         options = options || {}
         let task = null
         let obj = Object.assign({}, options)
         if (typeof options === 'string') {
+          if (args.length) {
+            return wx[key](options, ...args)
+          }
           return wx[key](options)
         }
+
+        if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
+          let url = obj['url'] ? obj['url'].replace(/^\//, '') : ''
+          if (url.indexOf('?') > -1) url = url.split('?')[0]
+
+          const Component = cacheDataGet(url)
+          if (Component) {
+            const component = new Component()
+            if (component.componentWillPreload) {
+              const cacheKey = getUniqueKey()
+              const MarkIndex = obj.url.indexOf('?')
+              const params = queryToJson(obj.url.substring(MarkIndex + 1, obj.url.length))
+              obj.url += (MarkIndex > -1 ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
+              cacheDataSet(cacheKey, component.componentWillPreload(params))
+              cacheDataSet(preloadInitedComponent, component)
+            }
+          }
+        }
+
         if (useDataCacheApis[key]) {
           const url = obj['url'] = obj['url'] || ''
           const MarkIndex = url.indexOf('?')
@@ -88,27 +128,42 @@ function processApis (taro) {
           obj.url += (MarkIndex > -1 ? '&' : '?') + `${routerParamsPrivateKey}=${cacheKey}`
           cacheDataSet(cacheKey, params)
         }
+
         const p = new Promise((resolve, reject) => {
           ['fail', 'success', 'complete'].forEach((k) => {
             obj[k] = (res) => {
               options[k] && options[k](res)
               if (k === 'success') {
-                resolve(res)
+                if (key === 'connectSocket') {
+                  resolve(
+                    Promise.resolve().then(() => Object.assign(task, res))
+                  )
+                } else {
+                  resolve(res)
+                }
               } else if (k === 'fail') {
                 reject(res)
               }
             }
           })
-          task = wx[key](obj)
+          if (args.length) {
+            task = wx[key](obj, ...args)
+          } else {
+            task = wx[key](obj)
+          }
         })
         if (key === 'uploadFile' || key === 'downloadFile') {
           p.progress = cb => {
-            task.onProgressUpdate(cb)
+            if (task) {
+              task.onProgressUpdate(cb)
+            }
             return p
           }
           p.abort = cb => {
             cb && cb()
-            task.abort()
+            if (task) {
+              task.abort()
+            }
             return p
           }
         }
@@ -116,7 +171,13 @@ function processApis (taro) {
       }
     } else {
       taro[key] = (...args) => {
-        return wx[key].apply(wx, args)
+        const argsLen = args.length
+        const newArgs = args.concat()
+        const lastArg = newArgs[argsLen - 1]
+        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
+          newArgs.splice(argsLen - 1, 1, lastArg.$scope)
+        }
+        return wx[key].apply(wx, newArgs)
       }
     }
   })
@@ -139,13 +200,33 @@ function canIUseWebp () {
   return false
 }
 
+function wxCloud (taro) {
+  const wxC = wx.cloud || {}
+  const wxcloud = {}
+  const apiList = [
+    'init',
+    'database',
+    'uploadFile',
+    'downloadFile',
+    'getTempFileURL',
+    'deleteFile',
+    'callFunction'
+  ]
+  apiList.forEach(v => {
+    wxcloud[v] = wxC[v]
+  })
+  taro.cloud = wxcloud
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
-  taro.request = request
+  taro.request = link.request.bind(link)
+  taro.addInterceptor = link.addInterceptor.bind(link)
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
   taro.requirePlugin = requirePlugin
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
+  wxCloud(taro)
 }

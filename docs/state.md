@@ -43,7 +43,6 @@ class Clock extends Component {
 }
 ```
 
-
 注意我们如何传递 props 到基础构造函数的：
 
 ```jsx
@@ -53,15 +52,14 @@ constructor (props) {
 }
 ```
 
-类组件应始终使用props调用基础构造函数。
-接下来，我们将使Clock设置自己的计时器并每秒更新一次。
-
+类组件应始终使用 props 调用基础构造函数。
+接下来，我们将使 Clock 设置自己的计时器并每秒更新一次。
 
 ## 将生命周期方法添加到类中
 
 在具有许多组件的应用程序中，在销毁时释放组件所占用的资源非常重要。
 
-每当 `Clock` 组件第一次加载到DOM中的时候，我们都想生成定时器，这在Taro/React  中被称为挂载。
+每当 `Clock` 组件第一次加载到 DOM 中的时候，我们都想生成定时器，这在 Taro/React 中被称为挂载。
 
 同样，每当 Clock 生成的这个 DOM 被移除的时候，我们也会想要清除定时器，这在 Taro/React 中被称为卸载。
 
@@ -106,7 +104,7 @@ componentDidMount() {
 }
 ```
 
-注意我们如何在 this 中保存定时器ID。
+注意我们如何在 this 中保存定时器 ID。
 
 虽然 `this.props` 由 Taro 本身设置以及 `this.state` 具有特殊的含义，但如果需要存储不用于视觉输出的东西，则可以手动向类中添加其他字段。
 
@@ -162,6 +160,7 @@ class Clock extends Component {
 ```
 
 ## 正确地使用 State
+
 关于 setState() 这里有三件事情需要知道：
 
 ### 不要直接更新状态
@@ -180,8 +179,7 @@ this.state.comment = 'Hello'
 this.setState({ comment: 'Hello' })
 ```
 
-`setState()` 函数是唯一能够初始化 `this.state` 的地方。
-
+`setState()` 函数是唯一能够更新 `this.state` 的地方。
 
 ### 状态更新一定是异步的
 
@@ -212,7 +210,7 @@ updateCounter () {
 }
 ```
 
-> 这是 Taro 和 React 另一个不同的地方：React 的 `setState` 不一定总是异步的，他内部有一套事务机制控制，且 React 15/16 的实现也各不相同。而对于 Taro 而言，`setState` 之后 `state` 会把加入一个数组，然后在执行下一个[eventloop](https://github.com/aooy/blog/issues/5) 的时候合并它们。
+> 这是 Taro 和 React 另一个不同的地方：React 的 `setState` 不一定总是异步的，他内部有一套事务机制控制，且 React 15/16 的实现也各不相同。而对于 Taro 而言，`setState` 之后，你提供的对象会被加入一个数组，然后在执行下一个 [eventloop](https://github.com/aooy/blog/issues/5) 的时候合并它们。
 
 ### state 更新会被合并
 
@@ -249,6 +247,3 @@ componentDidMount() {
 ```
 
 合并是浅合并，所以 `this.setState({comments})` 不会改变 `this.state.posts` 的值，但会完全替换 `this.state.comments` 的值。
-
-
-

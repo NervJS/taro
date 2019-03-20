@@ -16,7 +16,20 @@ declare namespace TaroH5 {
     componentDidHide?(): void;
   }
 
+  namespace eventCenter {
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
+
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+
+    function off(): void;
+
+    function trigger(eventName: string | symbol, ...args: any[]): boolean;
+  }
+
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
+  type Element = any
 
   class Component<P, S> {
     constructor(props?: P, context?: any);
@@ -79,7 +92,7 @@ declare namespace TaroH5 {
 
   function getEnv(): 'WEAPP' | 'WEB' | 'RN';
 
-  function render(component: Component, element: Element)
+  function render(component: Component, element: Element): any;
 
   /**
    *
@@ -156,7 +169,7 @@ declare namespace TaroH5 {
     }
   }
   /**
-   * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
+   * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
    *
    * **返回值：**
    *
@@ -207,7 +220,7 @@ declare namespace TaroH5 {
    *
    *     requestTask.abort() // 取消请求任务
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
   function request(OBJECT: request.Param): Promise<request.Promised>
 
@@ -221,6 +234,31 @@ declare namespace TaroH5 {
        * 开发者服务器返回的 HTTP 状态码
        */
       statusCode: number
+    }
+    /**
+     * 上传进度
+     */
+    type UploadTaskProgress = {
+      progress: number
+      totalBytesSent: number
+      totalBytesExpectedToSend: number
+    }
+    /**
+     * 上传进度回调
+     */
+    type UploadTaskProgressCallback = (res: UploadTaskProgress) => any
+    /**
+     * 上传任务
+     */
+    type UploadTask = Promise<uploadFile.Promised> & {
+      /**
+       * 上传进度回调
+       */
+      progress: (callback: UploadTaskProgressCallback) => void
+      /**
+       * 终止上传任务
+       */
+      abort: () => void
     }
     type Param = {
       /**
@@ -304,7 +342,7 @@ declare namespace TaroH5 {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject
    */
-  function uploadFile(OBJECT: uploadFile.Param): Promise<uploadFile.Promised>
+  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
 
   namespace downloadFile {
     type Promised = {
@@ -6461,6 +6499,16 @@ declare namespace TaroH5 {
    */
   function navigateBack(OBJECT: navigateBack.Param): void
 
+  /**
+   * getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。
+   *
+   * 注意：
+   *
+   * 不要尝试修改页面栈，会导致路由以及页面状态错误。
+   * 不要在 App.onLaunch 的时候调用 getCurrentPages()，此时 page 还没有生成。
+   */
+  function getCurrentPages(): any[];
+
   namespace createAnimation {
     type Param = {
       /**
@@ -10211,4 +10259,23 @@ declare namespace TaroH5 {
 
   /* initNativeApi */
   function initNativeApi(any): void
+
+  function _set$app(any): void;
+  function getApp(): any;
+  function _set$router(any): void;
+
+  namespace Router {
+    export interface Location {
+      pathname: string;
+      search: string;
+      hash: string;
+      state: {
+        key: string;
+      };
+      params: {
+        [key: string]: string;
+      };
+    }
+  }
+  function getRouter(): Router.Location;
 }

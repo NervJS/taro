@@ -12,16 +12,22 @@ function buildDocsMeta (description, rule) {
 }
 
 const parserOptions = {
-  ecmaVersion: 9,
+  ecmaVersion: 2018,
   sourceType: 'module',
   ecmaFeatures: {
-    jsx: true
+    jsx: true,
+    experimentalObjectRestSpread: true
   }
 }
 
 function isTaroComponent (context, node) {
-  const parents = context.getAncestors(node)
-  const classDcl = parents.find(p => p.type === 'ClassDeclaration')
+  let classDcl
+  if (node.type === 'ClassDeclaration') {
+    classDcl = node
+  } else {
+    const parents = context.getAncestors(node)
+    classDcl = parents.find(p => p.type === 'ClassDeclaration')
+  }
   if (
     classDcl && classDcl.superClass
   ) {

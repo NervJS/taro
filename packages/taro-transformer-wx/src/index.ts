@@ -1,29 +1,31 @@
 import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
-import * as fs from 'fs'
-import { Transformer } from './class'
 import { prettyPrint } from 'html'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError } from './utils'
-import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, ASYNC_PACKAGE_NAME, REDUX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL } from './constant'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
+import { Transformer } from './class'
+import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression, getSuperClassCode } from './utils'
+import * as t from 'babel-types'
+import {
+  DEFAULT_Component_SET,
+  INTERNAL_SAFE_GET,
+  TARO_PACKAGE_NAME,
+  REDUX_PACKAGE_NAME,
+  MOBX_PACKAGE_NAME,
+  IMAGE_COMPONENTS,
+  INTERNAL_INLINE_STYLE,
+  THIRD_PARTY_COMPONENTS,
+  INTERNAL_GET_ORIGNAL,
+  setLoopOriginal,
+  GEL_ELEMENT_BY_ID,
+  lessThanSignPlacehold,
+  COMPONENTS_PACKAGE_NAME
+} from './constant'
+import { Adapters, setAdapter, Adapter } from './adapter'
+import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
+import { get as safeGet } from 'lodash'
+
 const template = require('babel-template')
-
-interface ENVS {
-  TARO_ENV: string
-}
-
-export interface Options {
-  isRoot?: boolean,
-  isApp: boolean,
-  outputPath: string,
-  sourcePath: string,
-  code: string,
-  isTyped: boolean,
-  isNormal?: boolean,
-  env?: ENVS
-}
 
 function getIdsFromMemberProps (member: t.MemberExpression) {
   let ids: string[] = []
@@ -151,6 +153,13 @@ interface TransformResult extends Result {
 }
 
 export default function transform (options: Options): TransformResult {
+  if (options.adapter) {
+    setAdapter(options.adapter)
+  }
+  if (Adapter.type === Adapters.swan) {
+    setLoopOriginal('privateOriginal')
+  }
+  THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
       jsx: ts.JsxEmit.Preserve,
@@ -159,38 +168,14 @@ export default function transform (options: Options): TransformResult {
       noEmitHelpers: true
     })
     : options.code
-  options.env = Object.assign({ TARO_ENV: 'weapp' }, options.env || {})
-  const taroEnv = options.env.TARO_ENV
+  options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
+  setTransformOptions(options)
   setting.sourceCode = code
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
   // 原因大概是 babylon.parse 没有生成 File 实例导致 scope 和 path 原型上都没有 `file`
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
-  const ast = parse(code, {
-    parserOpts: {
-      sourceType: 'module',
-      plugins: [
-        'classProperties',
-        'jsx',
-        'flow',
-        'flowComment',
-        'trailingFunctionCommas',
-        'asyncFunctions',
-        'exponentiationOperator',
-        'asyncGenerators',
-        'objectRestSpread',
-        'decorators',
-        'dynamicImport'
-      ] as any[]
-    },
-    plugins: [
-      require('babel-plugin-transform-flow-strip-types'),
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
-      [require('babel-plugin-transform-define').default, {
-        'process.env.TARO_ENV': taroEnv
-      }]
-    ].concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
-  }).ast as t.File
+  const ast = parse(code, buildBabelTransformOptions()).ast as t.File
   if (options.isNormal) {
     return { ast } as any
   }
@@ -198,35 +183,59 @@ export default function transform (options: Options): TransformResult {
   let result
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
+  const importSources = new Set<string>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
   let renderMethod!: NodePath<t.ClassMethod>
+  let isImportTaro = false
   traverse(ast, {
+    TemplateLiteral (path) {
+      const nodes: t.Expression[] = []
+      const { quasis, expressions } = path.node
+      let index = 0
+      if (path.parentPath.isTaggedTemplateExpression()) {
+        return
+      }
+      for (const elem of quasis) {
+        if (elem.value.cooked) {
+          nodes.push(t.stringLiteral(elem.value.cooked))
+        }
+
+        if (index < expressions.length) {
+          const expr = expressions[index++]
+          if (!t.isStringLiteral(expr, { value: '' })) {
+            nodes.push(expr)
+          }
+        }
+      }
+
+      // + 号连接符必须保证第一和第二个 node 都是字符串
+      if (!t.isStringLiteral(nodes[0]) && !t.isStringLiteral(nodes[1])) {
+        nodes.unshift(t.stringLiteral(''))
+      }
+
+      let root = nodes[0]
+      for (let i = 1; i < nodes.length; i++) {
+        root = t.binaryExpression('+', root, nodes[i])
+      }
+      path.replaceWith(root)
+    },
     ClassDeclaration (path) {
       mainClass = path
-      const superClass = path.node.superClass
-      if (t.isIdentifier(superClass)) {
-        const binding = path.scope.getBinding(superClass.name)
-        if (binding && binding.kind === 'module') {
-          const bindingPath = binding.path.parentPath
-          if (bindingPath.isImportDeclaration()) {
-            const source = bindingPath.node.source
-            try {
-              const p = fs.existsSync(source.value + '.js') ? source.value + '.js' : source.value + '.tsx'
-              const code = fs.readFileSync(p, 'utf8')
-              componentProperies = transform({
-                isRoot: false,
-                isApp: false,
-                code,
-                isTyped: true,
-                sourcePath: source.value,
-                outputPath: source.value
-              }).componentProperies
-            } catch (error) {
-              //
-            }
-          }
+      const superClass = getSuperClassCode(path)
+      if (superClass) {
+        try {
+          componentProperies = transform({
+            isRoot: false,
+            isApp: false,
+            code: superClass.code,
+            isTyped: true,
+            sourcePath: superClass.sourcePath,
+            outputPath: superClass.sourcePath
+          }).componentProperies
+        } catch (error) {
+          //
         }
       }
     },
@@ -255,8 +264,18 @@ export default function transform (options: Options): TransformResult {
       }
       if (callee.isReferencedMemberExpression()) {
         const id = findFirstIdentifierFromMemberExpression(callee.node)
+        const property = callee.node.property
+        if (t.isIdentifier(property) && property.name.startsWith('on')) {
+          const funcExpr = path.findParent(p => p.isFunctionExpression())
+          if (funcExpr && funcExpr.isFunctionExpression()) {
+            const taroAPI = funcExpr.findParent(p => p.isCallExpression() && t.isMemberExpression(p.node.callee) && t.isIdentifier(p.node.callee.object, { name: 'Taro' }))
+            if (taroAPI && taroAPI.isCallExpression()) {
+              throw codeFrameError(funcExpr.node, '在回调函数使用从 props 传递的函数时，请把回调函数改造为箭头函数并一直使用 `this` 取值')
+            }
+          }
+        }
         const calleeIds = getIdsFromMemberProps(callee.node)
-        if (t.isIdentifier(id) && id.name.startsWith('on')) {
+        if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
           if (fullPath) {
             path.replaceWith(
@@ -273,6 +292,13 @@ export default function transform (options: Options): TransformResult {
         const id = callee.node
         const ids = [id.name]
         if (t.isIdentifier(id) && id.name.startsWith('on')) {
+          const funcExpr = path.findParent(p => p.isFunctionExpression())
+          if (funcExpr && funcExpr.isFunctionExpression()) {
+            const taroAPI = funcExpr.findParent(p => p.isCallExpression() && t.isMemberExpression(p.node.callee) && t.isIdentifier(p.node.callee.object, { name: 'Taro' }))
+            if (taroAPI && taroAPI.isCallExpression()) {
+              throw codeFrameError(funcExpr.node, '在回调函数使用从 props 传递的函数时，请把回调函数改造为箭头函数并一直使用 `this` 取值')
+            }
+          }
           const fullPath = buildFullPathThisPropsRef(id, ids, path)
           if (fullPath) {
             path.replaceWith(
@@ -283,16 +309,6 @@ export default function transform (options: Options): TransformResult {
             )
           }
         }
-      }
-    },
-    AwaitExpression () {
-      const isAsyncImported = ast.program.body.some(statement => {
-        return t.isImportDeclaration(statement) && statement.source.value === ASYNC_PACKAGE_NAME
-      })
-      if (!isAsyncImported) {
-        ast.program.body.unshift(
-          t.importDeclaration([], t.stringLiteral(ASYNC_PACKAGE_NAME))
-        )
       }
     },
     // JSXIdentifier (path) {
@@ -315,8 +331,84 @@ export default function transform (options: Options): TransformResult {
     //   const expr = parentPath.get('value.expression')
 
     // },
+    JSXElement (path) {
+      const assignment = path.findParent(p => p.isAssignmentExpression())
+      if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
+        const left = assignment.node.left
+        if (t.isIdentifier(left)) {
+          const binding = assignment.scope.getBinding(left.name)
+          if (binding && binding.scope === assignment.scope) {
+            if (binding.path.isVariableDeclarator()) {
+              binding.path.node.init = path.node
+              assignment.remove()
+            } else {
+              throw codeFrameError(path.node, '同一个作用域的JSX 变量延时赋值没有意义。详见：https://github.com/NervJS/taro/issues/550')
+            }
+          }
+        }
+      }
+
+      const switchStatement = path.findParent(p => p.isSwitchStatement())
+      if (switchStatement && switchStatement.isSwitchStatement()) {
+        const { discriminant, cases } = switchStatement.node
+        const ifStatement = cases.map((Case, index) => {
+          const [ consequent ] = Case.consequent
+          if (!t.isBlockStatement(consequent)) {
+            throw codeFrameError(switchStatement.node, '含有 JSX 的 switch case 语句必须每种情况都用花括号 `{}` 包裹结果')
+          }
+          const block = t.blockStatement(consequent.body.filter(b => !t.isBreakStatement(b)))
+          if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
+            throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
+          }
+          const test = Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant, Case.test)
+          return { block, test }
+        }).reduceRight((ifStatement, item) => {
+          if (t.isNullLiteral(item.test)) {
+            ifStatement.alternate = item.block
+            return ifStatement
+          }
+          const newStatement = t.ifStatement(
+            item.test,
+            item.block,
+            t.isBooleanLiteral(ifStatement.test, { value: false })
+              ? ifStatement.alternate
+              : ifStatement
+          )
+          return newStatement
+        }, t.ifStatement(t.booleanLiteral(false), t.blockStatement([])))
+
+        switchStatement.insertAfter(ifStatement)
+        switchStatement.remove()
+      }
+      const isForStatement = (p) => p && (p.isForStatement() || p.isForInStatement() || p.isForOfStatement())
+
+      const forStatement = path.findParent(isForStatement)
+      if (isForStatement(forStatement)) {
+        throw codeFrameError(forStatement.node, '不行使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
+      }
+
+      const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
+      if (loopCallExpr && loopCallExpr.isCallExpression()) {
+        const [ func ] = loopCallExpr.node.arguments
+        if (t.isArrowFunctionExpression(func) && !t.isBlockStatement(func.body)) {
+          func.body = t.blockStatement([
+            t.returnStatement(func.body)
+          ])
+        }
+      }
+    },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
+      const binding = path.scope.getBinding(name)
+      if (process.env.NODE_ENV !== 'test' && DEFAULT_Component_SET.has(name) && binding && binding.kind === 'module') {
+        const bindingPath = binding.path
+        if (bindingPath.parentPath.isImportDeclaration()) {
+          const source = bindingPath.parentPath.node.source
+          if (source.value !== COMPONENTS_PACKAGE_NAME) {
+            throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 ${COMPONENTS_PACKAGE_NAME} 引入。`)
+          }
+        }
+      }
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
         const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
@@ -354,7 +446,13 @@ export default function transform (options: Options): TransformResult {
 
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
-      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
+      const classDecl = path.findParent(p => p.isClassDeclaration())
+      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '')
+      let isConverted = false
+      if (classDeclName) {
+        isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')
+      }
+      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style' && !isConverted) {
         const jsxID = path.findParent(p => p.isJSXOpeningElement()).get('name')
         if (jsxID && jsxID.isJSXIdentifier() && DEFAULT_Component_SET.has(jsxID.node.name)) {
           exprPath.replaceWith(
@@ -388,16 +486,23 @@ export default function transform (options: Options): TransformResult {
     },
     ImportDeclaration (path) {
       const source = path.node.source.value
+      if (importSources.has(source)) {
+        throw codeFrameError(path.node, '无法在同一文件重复 import 相同的包。')
+      } else {
+        importSources.add(source)
+      }
       const names: string[] = []
       if (source === TARO_PACKAGE_NAME) {
+        isImportTaro = true
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-          t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+          t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
+          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID))
         )
       }
       if (
-        source === REDUX_PACKAGE_NAME
+        source === REDUX_PACKAGE_NAME || source === MOBX_PACKAGE_NAME
       ) {
         path.node.specifiers.forEach((s, index, specs) => {
           if (s.local.name === 'Provider') {
@@ -411,11 +516,11 @@ export default function transform (options: Options): TransformResult {
       path.traverse({
         ImportDefaultSpecifier (path) {
           const name = path.node.local.name
-          DEFAULT_Component_SET.has(name) || names.push(name)
+          names.push(name)
         },
         ImportSpecifier (path) {
           const name = path.node.imported.name
-          DEFAULT_Component_SET.has(name) || names.push(name)
+          names.push(name)
           if (source === TARO_PACKAGE_NAME && name === 'Component') {
             path.node.local = t.identifier('__BaseComponent')
           }
@@ -424,6 +529,18 @@ export default function transform (options: Options): TransformResult {
       componentSourceMap.set(source, names)
     }
   })
+
+  if (!isImportTaro) {
+    ast.program.body.unshift(
+      t.importDeclaration([
+        t.importDefaultSpecifier(t.identifier('Taro')),
+        t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
+        t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+      ], t.stringLiteral('@tarojs/taro'))
+    )
+  }
+
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
   }
@@ -455,7 +572,13 @@ export default function transform (options: Options): TransformResult {
   result = new Transformer(mainClass, options.sourcePath, componentProperies).result
   result.code = generate(ast).code
   result.ast = ast
-  result.template = prettyPrint(result.template)
+  const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
+  result.compressedTemplate = result.template
+  result.template = prettyPrint(result.template, {
+    max_char: 0,
+    unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
+  })
+  result.template = result.template.replace(lessThanSignReg, '<')
   result.imageSrcs = Array.from(imageSource)
   return result
 }

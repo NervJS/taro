@@ -4,7 +4,7 @@
 [![](https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
+[![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
 
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
@@ -12,27 +12,22 @@
 
 **Taro** 是一套遵循 [React](https://reactjs.org/) 语法规范的 **多端开发** 解决方案。现如今市面上端的形态多种多样，Web、React-Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。
 
-使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信小程序、H5、React-Native 等）运行的代码。
+使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动小程序、H5、React-Native 等）运行的代码。
+
+## 学习资源
+
+[awesome-taro](https://github.com/NervJS/awesome-taro)
+
+掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
+
 
 ## 使用案例
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-![案例](https://i.loli.net/2018/09/21/5ba4944f67b49.jpg)
+[![案例](https://storage.360buyimg.com/taro-resource/user-cases.jpg?v4)](https://nervjs.github.io/taro-user-cases/)
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
-
-## 示例项目
-
-* Taro Redux 示例 [taro-redux-sample](https://github.com/NervJS/taro-redux-sample)
-* [TodoMVC](https://github.com/NervJS/TodoMVC)
-* Taro 组件库示例 [taro-components-sample](https://github.com/NervJS/taro-components-sample)
-* Taro 端能力示例 [taro-apis-sample](https://github.com/NervJS/taro-apis-sample)
-* Taro 实验性特性项目 [taro-todo](https://github.com/NervJS/taro-todo)
-* [仿知乎小程序](https://github.com/NervJS/taro-zhihu-sample)
-* [Taro整合Dva示例](https://github.com/zuoge85/taro-dva)
-* [V2ex小程序（TypeScript）](https://github.com/NervJS/taro-v2ex)
-* [与微信小程序原生融合的示例](https://github.com/NervJS/taro-sample-weapp)
 
 ## Taro 特性
 
@@ -101,86 +96,40 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 ✅ 支持使用 Redux 进行状态管理。
 
+✅ 支持使用 Mobx 进行状态管理。
+
 ✅ 小程序 API 优化，异步 API Promise 化等等。
 
 #### 支持多端开发转化
 
-Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信小程序** 以及 **H5 端**。
+Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、 **H5 端** 以及 **移动端（React-Native）**。
 
-<div align="center"><img src="http://ww1.sinaimg.cn/large/49320207gy1fr21yeoexvj20hw0tu0vg.jpg" width="320"/><br><span style="font-size: 12px; color: #999;">微信小程序</span></div>
+<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
 
-<div align="center"><img src="http://ww1.sinaimg.cn/large/49320207gy1fr226kdgeyj20i40wcgmv.jpg" width="320"/><br><span style="font-size: 12px; color: #999;">H5端</span></div>
+## 更多功能
+如果你还想 Taro 支持新的特性，请使用 [FeatHub](https://feathub.com/NervJS/taro) 进行投票，我们将综合考虑投票结果等因素来确定开发的优先级。
 
+[![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](http://feathub.com/NervJS/taro)
 
-## 快速开始
+[![Feature Requests](http://feathub.com/NervJS/taro?format=svg)](http://feathub.com/NervJS/taro)
 
-安装 Taro 开发工具 `@tarojs/cli`
+## 🤝 参与共建 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-使用 npm 或者 yarn 全局安装，或者直接使用 [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
+请参考[贡献指南](https://nervjs.github.io/taro/docs/CONTRIBUTING.html).
 
-```bash
-$ npm install -g @tarojs/cli
-$ yarn global add @tarojs/cli
-```
+> 强烈推荐阅读 [《提问的智慧》](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way)、[《如何向开源社区提问题》](https://github.com/seajs/seajs/issues/545) 和 [《如何有效地报告 Bug》](http://www.chiark.greenend.org.uk/%7Esgtatham/bugs-cn.html)、[《如何向开源项目提交无法解答的问题》](https://zhuanlan.zhihu.com/p/25795393)，更好的问题更容易获得帮助。
 
-使用命令创建模板项目
+[![Let's fund issues in this repository](https://issuehunt.io/static/embed/issuehunt-button-v1.svg)](https://issuehunt.io/repos/128624453)
 
-```bash
-$ taro init myApp
-```
+## 特别鸣谢
 
-npm5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/)
+:---:|:---:
+[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/)
 
-```bash
-$ npx @tarojs/cli init myApp
-```
+## 贡献者们
 
-进入项目目录开始开发，可以选择小程序预览模式，或者 H5 预览模式。若使用微信小程序预览模式，则需要自行下载并打开[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，选择预览项目根目录。
-
-微信小程序编译预览模式
-
-```bash
-# npm script
-$ npm run dev:weapp
-# 仅限全局安装
-$ taro build --type weapp --watch
-# npx 用户也可以使用
-$ npx taro build --type weapp --watch
-```
-
-H5 编译预览模式
-
-```bash
-# npm script
-$ npm run dev:h5
-# 仅限全局安装
-$ taro build --type h5 --watch
-# npx 用户也可以使用
-$ npx taro build --type h5 --watch
-```
-
-## 项目打包
-打包小程序代码
-
-```bash
-# npm script
-$ npm run build:weapp
-# 仅限全局安装
-$ taro build --type weapp
-# npx 用户也可以使用
-$ npx taro build --type weapp
-```
-
-打包 H5 代码
-
-```bash
-# npm script
-$ npm run build:h5
-# 仅限全局安装
-$ taro build --type h5
-# npx 用户也可以使用
-$ npx taro build --type h5
-```
+<a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
 
 ## 开发计划
 
@@ -198,7 +147,7 @@ $ npx taro build --type h5
 
 MIT License
 
-Copyright (c) 2018 O2Team
+Copyright (c) O2Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

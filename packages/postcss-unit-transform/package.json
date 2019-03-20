@@ -1,0 +1,14 @@
+{
+  "name": "postcss-taro-unit-transform",
+  "version": "1.2.20",
+  "description": "小程序单位转换",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "luckyadam",
+  "license": "MIT",
+  "dependencies": {
+    "postcss": "^6.0.21"
+  }
+}

@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
-interface FormProps extends StandardProps {
+export interface FormProps extends StandardProps {
   /**
    * 是否返回 formId 用于发送模板消息
    */
@@ -12,12 +12,12 @@ interface FormProps extends StandardProps {
    *
    * event.detail = {value : {'name': 'value'} , formId: ''}
    */
-  onSubmit?: BaseEventFunction,
+  onSubmit?: CommonEventFunction,
 
   /**
    * 表单重置时会触发 reset 事件
    */
-  onReset?: BaseEventFunction
+  onReset?: CommonEventFunction
 }
 
 declare const Form: ComponentType<FormProps>

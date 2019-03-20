@@ -27,7 +27,7 @@ const TextStylePropTypes = {
    * in that case the closest one is chosen.
    */
   fontWeight: ReactPropTypes.oneOf([
-    'normal' /*default*/,
+    'normal' /* default */,
     'bold',
     '100',
     '200',
@@ -67,7 +67,7 @@ const TextStylePropTypes = {
    * fallbacks to `left` on Android.
    */
   textAlign: ReactPropTypes.oneOf([
-    'auto' /*default*/,
+    'auto' /* default */,
     'left',
     'right',
     'center',
@@ -77,7 +77,7 @@ const TextStylePropTypes = {
    * @platform android
    */
   textAlignVertical: ReactPropTypes.oneOf([
-    'auto' /*default*/,
+    'auto' /* default */,
     'top',
     'bottom',
     'center'
@@ -90,7 +90,7 @@ const TextStylePropTypes = {
    */
   includeFontPadding: ReactPropTypes.bool,
   textDecorationLine: ReactPropTypes.oneOf([
-    'none' /*default*/,
+    'none' /* default */,
     'underline',
     'line-through',
     'underline line-through'
@@ -99,7 +99,7 @@ const TextStylePropTypes = {
    * @platform ios
    */
   textDecorationStyle: ReactPropTypes.oneOf([
-    'solid' /*default*/,
+    'solid' /* default */,
     'double',
     'dotted',
     'dashed'
@@ -109,7 +109,7 @@ const TextStylePropTypes = {
    */
   textDecorationColor: ColorPropType,
   textTransform: ReactPropTypes.oneOf([
-    'none' /*default*/,
+    'none' /* default */,
     'capitalize',
     'uppercase',
     'lowercase'
@@ -117,7 +117,7 @@ const TextStylePropTypes = {
   /**
    * @platform ios
    */
-  writingDirection: ReactPropTypes.oneOf(['auto' /*default*/, 'ltr', 'rtl'])
+  writingDirection: ReactPropTypes.oneOf(['auto' /* default */, 'ltr', 'rtl'])
 }
 
 module.exports = TextStylePropTypes

@@ -57,8 +57,16 @@ export default function (WrappedComponent: React.ComponentType<*>) {
 
     panResponder: any = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => {
-        const { hoverStyle, onTouchstart, onTouchmove, onTouchcancel, onTouchend } = this.props
-        return hoverStyle || onTouchstart || onTouchmove || onTouchcancel || onTouchend
+        const {
+          hoverStyle,
+          onClick,
+          onLongPress,
+          onTouchstart,
+          onTouchmove,
+          onTouchcancel,
+          onTouchend
+        } = this.props
+        return hoverStyle || onClick || onLongPress || onTouchstart || onTouchmove || onTouchcancel || onTouchend
       },
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         const { onTouchmove, onTouchcancel, onTouchend } = this.props
@@ -80,10 +88,13 @@ export default function (WrappedComponent: React.ComponentType<*>) {
         onTouchend && onTouchend(this.getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
         const gapTime = endTimestamp - this.startTimestamp
-        if (gapTime <= 350) {
-          onClick && onClick(this.getWxAppEvent(evt))
-        } else {
-          onLongPress && onLongPress(this.getWxAppEvent(evt))
+        const hasMove = Math.abs(gestureState.dx) >= 1 || Math.abs(gestureState.dy) >= 1
+        if (!hasMove) {
+          if (gapTime <= 350) {
+            onClick && onClick(this.getWxAppEvent(evt))
+          } else {
+            onLongPress && onLongPress(this.getWxAppEvent(evt))
+          }
         }
         this.setStayTimer()
       },
@@ -191,6 +202,27 @@ export default function (WrappedComponent: React.ComponentType<*>) {
       ) {
         return (
           <WrappedComponent {...this.props} />
+        )
+      }
+
+      if (WrappedComponent.name === '_View') {
+        return (
+          <WrappedComponent
+            {...omit(this.props, [
+              'style',
+              'hoverStyle',
+              'hoverStartTime',
+              'hoverStayTime',
+              'onClick',
+              'onLongPress',
+              'onTouchstart',
+              'onTouchmove',
+              'onTouchcancel',
+              'onTouchend'
+            ])}
+            {...this.panResponder.panHandlers}
+            style={[style, isHover && hoverStyle]}
+          />
         )
       }
 

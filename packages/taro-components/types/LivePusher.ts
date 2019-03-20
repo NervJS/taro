@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 /**
  * 实时音视频录制。
@@ -8,7 +8,7 @@ import { StandardProps, BaseEventFunction } from './common'
  * @since 1.7.0
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html}
  */
-interface LivePusherProps extends StandardProps {
+export interface LivePusherProps extends StandardProps {
 
   /**
    * 推流地址。目前仅支持 flv, rtmp 格式
@@ -106,17 +106,17 @@ interface LivePusherProps extends StandardProps {
   /**
    * 状态变化事件，detail = {code}
    */
-  onStateChange?: BaseEventFunction,
+  onStateChange?: CommonEventFunction,
 
   /**
    * 网络状态通知，detail = {info}
    */
-  onNetstatus?: BaseEventFunction,
+  onNetstatus?: CommonEventFunction,
 
   /**
    * 渲染错误事件，detail = {errMsg, errCode}
    */
-  onError?: BaseEventFunction
+  onError?: CommonEventFunction
 }
 
 declare const LivePusher: ComponentType<LivePusherProps>

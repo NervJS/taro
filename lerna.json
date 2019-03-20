@@ -23,19 +23,33 @@
     "packages/taro-rn-runner",
     "packages/taro-router",
     "packages/taro-weapp",
+    "packages/taro-swan",
+    "packages/taro-alipay",
+    "packages/taro-tt",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
     "packages/taro-transformer-wx",
     "packages/postcss-pxtransform",
-    "packages/babel-plugin-transform-jsx-to-stylesheet"
+    "packages/postcss-unit-transform",
+    "packages/babel-plugin-transform-jsx-to-stylesheet",
+    "packages/babel-plugin-transform-taroapi",
+    "packages/taro-mobx-prop-types",
+    "packages/taro-mobx",
+    "packages/taro-mobx-common",
+    "packages/taro-mobx-h5",
+    "packages/taro-mobx-rn",
+    "packages/taro-with-weapp",
+    "packages/taroize",
+    "packages/stylelint-taro-rn",
+    "packages/stylelint-config-taro-rn"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.0.3",
+  "version": "1.2.20",
   "npmClient": "npm"
 }

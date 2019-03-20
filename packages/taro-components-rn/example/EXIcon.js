@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Icon } from '../src'
+import { View, Icon } from '../dist'
 
 export default class EXIcon extends Component {
   render () {

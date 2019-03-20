@@ -34,7 +34,7 @@ export default class C extends Component {
 
 ### 首字母大写与驼峰式命名
 
-例如使用H5端尚未支持 map 组件
+例如使用 H5 端尚未支持 map 组件
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'

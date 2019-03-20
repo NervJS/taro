@@ -20,6 +20,64 @@ declare namespace Taro {
     isEntryPage: boolean
   }
 
+  interface PageScrollObject {
+    /**
+     * 页面在垂直方向已滚动的距离（单位px）
+     */
+    scrollTop: number
+  }
+
+  interface ShareAppMessageObject {
+    /**
+     * 转发事件来源
+     */
+    from?: string,
+    /**
+     * 如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
+     */
+    target?: object,
+    /**
+     * 页面中包含<web-view>组件时，返回当前<web-view>的url
+     */
+    webViewUrl?: string
+  }
+
+  interface ShareAppMessageReturn {
+    /**
+     * 	转发标题，默认为当前小程序名称
+     */
+    title?: string,
+
+    /**
+     * 转发路径，必须是以 / 开头的完整路径，默认为当前页面 path
+     */
+    path?: string,
+
+    /**
+     * 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径
+     * 支持PNG及JPG
+     * 显示图片长宽比是 5:4
+     */
+    imageUrl?: string
+  }
+
+  interface TabItemTapObject {
+    /**
+     * 被点击tabItem的序号，从0开始
+     */
+    index: string,
+
+    /**
+     * 被点击tabItem的页面路径
+     */
+    pagePath: string,
+
+    /**
+     * 被点击tabItem的按钮文字
+     */
+    text: string
+  }
+
   // Components
   interface ComponentLifecycle<P, S> {
     componentWillMount?(): void;
@@ -29,10 +87,17 @@ declare namespace Taro {
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
     componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
     componentWillUnmount?(): void;
+    componentWillPreload?(params: {[propName: string]: any}): any;
     componentDidShow?(): void;
     componentDidHide?(): void;
     componentDidCatchError?(err: string): void;
     componentDidNotFound?(obj: PageNotFoundObject): void;
+    onPullDownRefresh?(): void;
+    onReachBottom?(): void;
+    onPageScroll?(obj: PageScrollObject): void;
+    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
+    onTabItemTap?(obj: TabItemTapObject): void;
+    onResize?(): void
   }
 
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
@@ -121,14 +186,20 @@ declare namespace Taro {
     backgroundColor?: string,
     /**
      * tabbar上边框的颜色， 仅支持 black/white
-     * default: black
+     * @default: black
      */
     borderStyle?: 'black' | 'white',
     /**
      * tabar 的位置，可选值 bottom、top
-     * default: 'bottom'
+     * @default: 'bottom'
      */
     position?: 'bottom' | 'top',
+    /**
+     * 自定义 tabBar，见[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html)
+     * @default false
+     * @since 2.1.0
+     */
+    custom: boolean;
 
     list: TarbarList[]
   }
@@ -191,6 +262,14 @@ declare namespace Taro {
     }
   }
 
+  interface Permission {
+    [key: string]: {
+      /**
+       * 小程序获取权限时展示的接口用途说明。最长30个字符
+       */
+      desc: string
+    }
+  }
   interface AppConfig {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
@@ -230,7 +309,7 @@ declare namespace Taro {
     /**
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
-     * @since 1.9.9
+     * @since 1.9.90
       */
     workers?: string
     /**
@@ -257,6 +336,16 @@ declare namespace Taro {
      * @since 2.3.0
      */
     resizable?: boolean
+    /**
+     * 需要跳转的小程序列表
+     * @since 2.4.0
+     */
+    navigateToMiniProgramAppIdList?: string[]
+    /**
+     * 小程序接口权限相关设置
+     * @since 微信客户端 7.0.0
+     */
+    permission?: Permission
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -277,9 +366,24 @@ declare namespace Taro {
 
     options?: ComponentOptions;
 
+    $componentType: 'PAGE' | 'COMPONENT'
+
     $router: {
       params: any
+      preload: any
     }
+
+    /**
+     * 使用 `this.$preload` 函数进行页面跳转传参
+     * @example this.$preload('key', 'val');
+     * @example this.$preload({
+                  x: 1,
+                  y: 2
+                });
+     * @see https://nervjs.github.io/taro/docs/best-practice.html
+     */
+    $preload(key: string, value: any): void;
+    $preload(key: object): void;
 
     setState<K extends keyof S>(
         state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
@@ -318,6 +422,11 @@ declare namespace Taro {
     off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
 
     /**
+     * 取消监听的所有事件
+     */
+    off(): this;
+
+    /**
      * 触发一个事件，传参
      */
     trigger(eventName: string | symbol, ...args: any[]): boolean;
@@ -332,6 +441,8 @@ declare namespace Taro {
 
     function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
 
+    function off(): void;
+
     function trigger(eventName: string | symbol, ...args: any[]): boolean;
   }
 
@@ -340,15 +451,51 @@ declare namespace Taro {
   enum ENV_TYPE {
     WEAPP = 'WEAPP',
     WEB = 'WEB',
-    RN = 'RN'
+    RN = 'RN',
+    SWAN = 'SWAN',
+    ALIPAY = 'ALIPAY',
+    TT = 'TT'
   }
 
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN;
+  function render(component: Component | JSX.Element, element: Element | null): any;
 
-  function render(component: Component | JSX.Element, element: Element | null)
+  function internal_safe_set (...arg: any[]): any;
+  function internal_safe_get (...arg: any[]): any;
+
+  type MessageType = 'info' | 'success' | 'error' | 'warning';
+
+  interface AtMessageOptions {
+    message: string,
+    type?: MessageType,
+    duration?: number
+  }
+
+  function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
+
+  interface RequestParams {
+    [propName: string]: any
+  }
+
+  type interceptor = (chain: Chain) => any
+
+  interface Chain {
+    index: number
+    requestParams: RequestParams
+    interceptors: interceptor[]
+    proceed(requestParams: RequestParams): any
+  }
+
+  namespace interceptors {
+    function logInterceptor (chain: Chain): Promise<any>
+
+    function timeoutInterceptor (chain: Chain): Promise<any>
+  }
+
+  function addInterceptor (interceptor: interceptor): any
 
   /**
    * 小程序引用插件 JS 接口
@@ -358,7 +505,7 @@ declare namespace Taro {
   /**
    *
    * 微信端能力
-   * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+   * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
    * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
    *
@@ -409,7 +556,7 @@ declare namespace Taro {
        */
       method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
-       * 如果设为json，会尝试对返回的数据做一次 JSON.parse
+       * 如果设为 json，会尝试对返回的数据做一次 JSON.parse
        *
        * @default json
        */
@@ -422,39 +569,101 @@ declare namespace Taro {
        */
       responseType?: string,
       /**
-       * 设置H5端是否使用jsonp方式获取数据
+       * 设置 H5 端是否使用jsonp方式获取数据
        *
        * @default false
        */
       jsonp?: boolean,
       /**
-       * 设置H5端 jsonp 请求 url 是否需要被缓存
+       * 设置 H5 端 jsonp 请求 url 是否需要被缓存
        *
        * @default false
        */
       jsonpCache?: boolean,
       /**
-       * 设置H5端是否允许跨域请求。有效值：no-cors, cors, same-origin
+       * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
        *
        * @default same-origin
        */
       mode?: 'no-cors' | 'cors' | 'same-origin',
       /**
-       * 设置H5端是否携带 Cookie。有效值：include, same-origin, omit
+       * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
        *
        * @default omit
        */
       credentials?: 'include' | 'same-origin' | 'omit',
       /**
-       * 设置H5端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
+       * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
        *
        * @default default
        */
-      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached',
+      /**
+       * 设置 H5 端请求响应超时时间
+       *
+       * @default 2000
+       */
+      timeout?: number,
+      /**
+       * 设置 H5 端请求重试次数
+       *
+       * @default 2
+       */
+      retryTimes?: number,
+      /**
+       * 设置 H5 端请求的兜底接口
+       */
+      backup?: string | string[],
+      /**
+       * 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
+       */
+      dataCheck?(): boolean,
+      /**
+       * 设置 H5 端请求是否使用缓存
+       *
+       * @default false
+       */
+      useStore?: boolean,
+      /**
+       * 设置 H5 端请求缓存校验的 key
+       */
+      storeCheckKey?: string,
+      /**
+       * 设置 H5 端请求缓存签名
+       */
+      storeSign?: string,
+      /**
+       * 设置 H5 端请求校验函数，一般不需要设置
+       */
+      storeCheck?(): boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
-   * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
+   * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
    *
    * **返回值：**
    *
@@ -505,9 +714,31 @@ declare namespace Taro {
    *
    *     requestTask.abort() // 取消请求任务
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
+
+  type arrayBuffer = Uint8Array |
+    Int8Array |
+    Uint8Array |
+    Uint8ClampedArray |
+    Int16Array |
+    Uint16Array |
+    Int32Array |
+    Uint32Array |
+    Float32Array |
+    Float64Array |
+    ArrayBuffer
+
+  /**
+   * 将 ArrayBuffer 数据转成 Base64 字符串
+   */
+  function arrayBufferToBase64(buffer: arrayBuffer): string
+
+  /**
+   * 将 Base64 字符串转成 ArrayBuffer 数据
+   */
+  function base64ToArrayBuffer(base64: string): arrayBuffer
 
   namespace uploadFile {
     type Promised = {
@@ -519,6 +750,31 @@ declare namespace Taro {
        * 开发者服务器返回的 HTTP 状态码
        */
       statusCode: number
+    }
+    /**
+     * 上传进度
+     */
+    type UploadTaskProgress = {
+      progress: number
+      totalBytesSent: number
+      totalBytesExpectedToSend: number
+    }
+    /**
+     * 上传进度回调
+     */
+    type UploadTaskProgressCallback = (res: UploadTaskProgress) => any
+    /**
+     * 上传任务
+     */
+    type UploadTask = Promise<uploadFile.Promised> & {
+      /**
+       * 上传进度回调
+       */
+      progress: (callback: UploadTaskProgressCallback) => void
+      /**
+       * 终止上传任务
+       */
+      abort: () => void
     }
     type Param = {
       /**
@@ -541,7 +797,31 @@ declare namespace Taro {
        * HTTP 请求中其他额外的 form data
        */
       formData?: any
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data` 。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
@@ -592,7 +872,7 @@ declare namespace Taro {
    *         }
    *     })
    *
-   *     uploadTask.onProgressUpdate((res) => {
+   *     uploadTask.progress((res) => {
    *         console.log('上传进度', res.progress)
    *         console.log('已经上传的数据长度', res.totalBytesSent)
    *         console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
@@ -602,7 +882,7 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject
    */
-  function uploadFile(OBJECT: uploadFile.Param): Promise<uploadFile.Promised>
+  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
 
   namespace downloadFile {
     type Promised = {
@@ -624,6 +904,55 @@ declare namespace Taro {
        * HTTP 请求 Header，header 中不能设置 Referer
        */
       header?: any
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+    /**
+     * 下载进度
+     */
+    type DownloadTaskProgress = {
+      progress: number
+      totalBytesWritten: number
+      totalBytesExpectedToWrite: number
+    }
+    /**
+     * 下载进度回调
+     */
+    type DownloadTaskProgressCallback = (res: DownloadTaskProgress) => any
+    /**
+     * 下载任务
+     */
+    type DownloadTask = Promise<downloadFile.Promised> & {
+      /**
+       * 下载进度回调
+       */
+      progress: (params: DownloadTaskProgressCallback) => void
+      /**
+       * 终止下载任务
+       */
+      abort: () => void
     }
   }
   /**
@@ -667,7 +996,7 @@ declare namespace Taro {
    *         }
    *     })
    *
-   *     downloadTask.onProgressUpdate((res) => {
+   *     downloadTask.progress((res) => {
    *         console.log('下载进度', res.progress)
    *         console.log('已经下载的数据长度', res.totalBytesWritten)
    *         console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
@@ -677,15 +1006,11 @@ declare namespace Taro {
    *     ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject
    */
-  function downloadFile(OBJECT: downloadFile.Param): Promise<downloadFile.Promised>
+  function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
   namespace connectSocket {
-    type Promised = {
-      /**
-       * 返回一个SocketTask
-       */
-      socketTask: SocketTask
-    }
+    type Promised = SocketTask;
+
     type Param = {
       /**
        * 开发者服务器接口地址，必须是 wss 协议，且域名必须是后台配置的合法域名
@@ -1100,6 +1425,14 @@ declare namespace Taro {
        */
       size: number
     }
+    type ParamPropTempFiles = ParamPropTempFilesItem[]
+    type ParamPropTempFilesItem = {
+      path: string,
+      size: number
+    }
+    type ParamPropSuccess = (res: {tempFilePaths: string[], tempFiles: ParamPropTempFiles}) => void
+    type ParamPropFail = (err: any) => void
+    type ParamPropComplete = () => any
     type Param = {
       /**
        * 最多可以选择的图片张数，默认9
@@ -1112,7 +1445,13 @@ declare namespace Taro {
       /**
        * album 从相册选图，camera 使用相机，默认二者都有
        */
-      sourceType?: string[]
+      sourceType?: string[],
+      /**
+       * success 回调
+       */
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
   }
   /**
@@ -1476,8 +1815,32 @@ declare namespace Taro {
        *
        * @since 1.6.0
        */
-      duration?: number
+      duration?: number,
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
@@ -1503,6 +1866,7 @@ declare namespace Taro {
   function playVoice(OBJECT: playVoice.Param): Promise<any>
 
   /**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
    *
    * **示例代码：**
@@ -1527,6 +1891,7 @@ declare namespace Taro {
   function pauseVoice(): void
 
   /**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
    * 结束播放语音。
    *
    * **示例代码：**
@@ -1548,6 +1913,122 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxstopvoice
    */
   function stopVoice(): void
+
+  namespace setInnerAudioOption {
+    type Param = {
+      /**
+       * 是否与其他音频混播，设置为 true 之后，不会终止其他应用或微信内的音乐
+       */
+      mixWithOther?: boolean,
+      /**
+       * （仅在 iOS 生效）是否遵循静音开关，设置为 false 之后，即使是在静音模式下，也能播放声音
+       */
+      obeyMuteSwitch?: boolean,
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+  }
+  /**
+   * @since 2.3.0
+   *
+   * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   */
+  function setInnerAudioOption(OBJECT: setInnerAudioOption.Param): Promise<any>
+
+  const enum audioSourcesTypes {
+    /**
+     * 自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用
+     */
+    auto = 'auto',
+    /**
+     * 手机麦克风，仅限 iOS
+     */
+    buildInMic = 'buildInMic',
+    /**
+     * 耳机麦克风，仅限 iOS
+     */
+    headsetMic = 'headsetMic',
+    /**
+     * 麦克风（没插耳麦时是手机麦克风，插耳麦时是耳机麦克风），仅限 Android
+     */
+    mic = 'mic',
+    /**
+     * 同 mic，适用于录制音视频内容，仅限 Android
+     */
+    camcorder = 'camcorder',
+    /**
+     * 同 mic，适用于实时沟通，仅限 Android
+     */
+    voice_communication = 'voice_communication',
+    /**
+     * 同 mic，适用于语音识别，仅限 Android
+     */
+    voice_recognition = 'voice_recognition'
+  }
+
+  namespace getAvailableAudioSources {
+    type Param = {
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Result) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+
+    type Result = {
+      /**
+       * 支持的音频输入源列表，可在 RecorderManager.start() 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSourc
+       */
+      audioSources: audioSourcesTypes[]
+    }
+  }
+  /**
+   * @since 2.1.0
+   * 获取当前支持的音频输入源。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   */
+  function getAvailableAudioSources(OBJECT: getAvailableAudioSources.Param): Promise<any>
 
   namespace getBackgroundAudioPlayerState {
     type Promised = {
@@ -2296,6 +2777,12 @@ declare namespace Taro {
      */
     pause(): void
     /**
+     * 停止
+     *
+     * @since 1.7.0
+     */
+    stop(): void
+    /**
      * 跳转到指定位置，单位 s
      */
     seek(position: number): void
@@ -2314,13 +2801,25 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(): void
+    requestFullScreen(param: {direction: 0 | 90 | -90}): void
     /**
      * 退出全屏
      *
      * @since 1.4.0
      */
     exitFullScreen(): void
+    /**
+     * 显示状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    showStatusBar(): void
+    /**
+     * 隐藏状态栏，仅在iOS全屏下有效
+     *
+     * @since 2.1.0
+     */
+    hideStatusBar(): void
   }
   /**
    * @since 1.6.0
@@ -2421,7 +2920,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath, tempVideoPath }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -3427,7 +3926,31 @@ declare namespace Taro {
        * @since 1.6.0
        */
       altitude?: boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
@@ -6128,7 +6651,31 @@ declare namespace Taro {
        * 是否显示透明蒙层，防止触摸穿透，默认：false
        */
       mask?: boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 显示消息提示框
@@ -6156,7 +6703,31 @@ declare namespace Taro {
        * 是否显示透明蒙层，防止触摸穿透，默认：false
        */
       mask?: boolean
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -6164,7 +6735,7 @@ declare namespace Taro {
    * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
    */
-  function showLoading(OBJECT: showLoading.Param): Promise<any>
+  function showLoading(OBJECT?: showLoading.Param): Promise<any>
 
   /**
    * 隐藏消息提示框
@@ -6234,7 +6805,31 @@ declare namespace Taro {
        * 确定按钮的文字颜色，默认为"#3CC51F"
        */
       confirmColor?: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * ​显示模态弹窗
@@ -6274,7 +6869,31 @@ declare namespace Taro {
        * 按钮的文字颜色，默认为"#000000"
        */
       itemColor?: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: Param0PropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: Param0PropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: Param0PropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type Param0PropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type Param0PropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type Param0PropComplete = () => any
   }
   /**
    * ​显示操作菜单
@@ -6625,8 +7244,23 @@ declare namespace Taro {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
-      url: string
+      url: string,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+      * 接口调用成功的回调函数
+      */
+    type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
@@ -6658,8 +7292,23 @@ declare namespace Taro {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径，路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
-      url: string
+      url: string,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+      * 接口调用成功的回调函数
+      */
+     type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
@@ -6680,8 +7329,23 @@ declare namespace Taro {
       /**
        * 需要跳转的应用内页面路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'，如果跳转的页面路径是 tabBar 页面则不能带参数
        */
-      url: string
+      url: string,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+        /**
+      * 接口调用成功的回调函数
+      */
+     type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -6715,8 +7379,23 @@ declare namespace Taro {
       /**
        * 需要跳转的 tabBar 页面的路径（需在 app.json 的 [tabBar](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#tabbar) 字段定义的页面），路径后不能带参数
        */
-      url: string
+      url: string,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+      * 接口调用成功的回调函数
+      */
+    type ParamPropSuccess = (res: any) => any
+    /**
+      * 接口调用失败的回调函数
+      */
+    type ParamPropFail = (err: any) => any
+    /**
+      * 接口调用结束的回调函数（调用成功、失败都会执行）
+      */
+    type ParamPropComplete = () => any
   }
   /**
    * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
@@ -6755,8 +7434,23 @@ declare namespace Taro {
        *
        * @default 1
        */
-      delta?: number
+      delta?: number,
+      success?: ParamPropSuccess,
+      fail?: ParamPropFail,
+      complete?: ParamPropComplete
     }
+    /**
+      * 接口调用成功的回调函数
+      */
+     type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
@@ -6849,6 +7543,17 @@ declare namespace Taro {
   function createAnimation(OBJECT: createAnimation.Param): Animation
 
   class Animation {
+    /**
+     * 导出动画队列
+     * export 方法每次调用后会清掉之前的动画操作
+     */
+    export(): object[]
+    /**
+     * 表示一组动画完成
+     * 可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画
+     * @param obj
+     */
+    step(obj: object): any
     /**
      * 透明度，参数范围 0~1
      */
@@ -7262,9 +7967,21 @@ declare namespace Taro {
    *       }
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstoppulldownrefresh
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
    */
   function stopPullDownRefresh(): void
+
+  /**
+   * 收起键盘。
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.hideKeyboard()
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
+   */
+  function hideKeyboard(): void
 
   /**
    * @since 1.4.0
@@ -7868,7 +8585,31 @@ declare namespace Taro {
        * 签名,具体签名方案参见[小程序支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3);
        */
       paySign: string
+      /**
+       * 接口调用成功的回调函数
+       */
+      success?: ParamPropSuccess
+      /**
+       * 接口调用失败的回调函数
+       */
+      fail?: ParamPropFail
+      /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 发起微信支付。
@@ -8451,6 +9192,42 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigateBackMiniProgram.html#wxnavigatebackminiprogramobject
    */
   function navigateBackMiniProgram(OBJECT?: navigateBackMiniProgram.Param): Promise<navigateBackMiniProgram.Promised>
+
+  namespace chooseInvoice {
+    type Promised = {
+      /**
+       * 所选发票卡券的 cardId
+       */
+      cardId: string
+      /**
+       * 所选发票卡券的加密 code，报销方可以通过 cardId 和 encryptCode 获得报销发票的信息。
+       */
+      encryptCode: string
+      /**
+       * 发票方的 appId
+       */
+      publisherAppId: string
+    }
+    type Param = {}
+  }
+  /**
+   * @since 1.5.0
+   *
+   * 选择用户的发票抬头。
+   *
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.invoice
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.chooseInvoice({
+   *       success(res) {
+   *       }
+   *     })
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseInvoice.html
+   */
+  function chooseInvoice(OBJECT?: chooseInvoice.Param): Promise<chooseInvoice.Promised>
 
   namespace chooseInvoiceTitle {
     type Promised = {
@@ -10242,87 +11019,29 @@ declare namespace Taro {
      *     })
      *     ```
      */
-    drawImage(dx: number, dy: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(dx: number, dy: number, dWidth: number, dHeight: any): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: any): void
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+    ): void
+    drawImage(
+      imageResource: string,
+      dx: number,
+      dy: number,
+      dWidth: number,
+      dHeight: number,
+    ): void
+    drawImage(
+      imageResource: string,
+      sx: number,
+      sy: number,
+      sWidth: number,
+      sHeight: number,
+      dx: number,
+      dy: number,
+      dWidth: number,
+      dHeight: number,
+    ): void
     /**
      *
      * **定义：**
@@ -10656,4 +11375,553 @@ declare namespace Taro {
 
   function getCurrentPages(): Page[]
   function getApp(): any
+
+  namespace cloud {
+    interface ICloudConfig {
+      env?: string | object,
+      traceUser?: boolean,
+    }
+    interface IAPIError {
+      errMsg: string,
+    }
+
+    interface IAPIParam<T = any> {
+      config?: ICloudConfig,
+      success?: (res: T) => void,
+      fail?: (err: IAPIError) => void,
+      complete?: (val: T | IAPIError) => void,
+    }
+
+    interface IAPISuccessParam {
+      errMsg: string,
+    }
+
+    class InternalSymbol {
+
+    }
+    type AnyObject = {
+      [x: string]: any
+    }
+    type AnyFunction = (...args: any[]) => any
+    namespace ICloud {
+
+      interface ICloudAPIParam<T = any> extends IAPIParam<T> {
+        config?: ICloudConfig
+      }
+      // === API: callFunction ===
+      export type CallFunctionData = AnyObject
+
+      export interface CallFunctionResult extends IAPISuccessParam {
+        result: AnyObject | string | undefined,
+      }
+
+      export interface CallFunctionParam extends ICloudAPIParam<CallFunctionResult> {
+        name: string,
+        data?: CallFunctionData,
+        slow?: boolean,
+      }
+      // === end ===
+
+      // === API: uploadFile ===
+      export interface UploadFileResult extends IAPISuccessParam {
+        fileID: string,
+        statusCode: number,
+      }
+
+      export interface UploadFileParam extends ICloudAPIParam<UploadFileResult> {
+        cloudPath: string,
+        filePath: string,
+        header?: AnyObject,
+      }
+      // === end ===
+
+      // === API: downloadFile ===
+      export interface DownloadFileResult extends IAPISuccessParam {
+        tempFilePath: string,
+        statusCode: number,
+      }
+
+      export interface DownloadFileParam extends ICloudAPIParam<DownloadFileResult> {
+        fileID: string,
+        cloudPath?: string,
+      }
+      // === end ===
+
+      // === API: getTempFileURL ===
+      export interface GetTempFileURLResult extends IAPISuccessParam {
+        fileList: GetTempFileURLResultItem[],
+      }
+
+      export interface GetTempFileURLResultItem {
+        fileID: string,
+        tempFileURL: string,
+        maxAge: number,
+        status: number,
+        errMsg: string,
+      }
+
+      export interface GetTempFileURLParam extends ICloudAPIParam<GetTempFileURLResult> {
+        fileList: string[],
+      }
+      // === end ===
+
+      // === API: deleteFile ===
+      interface DeleteFileResult extends IAPISuccessParam {
+        fileList: DeleteFileResultItem[],
+      }
+
+      interface DeleteFileResultItem {
+        fileID: string,
+        status: number,
+        errMsg: string,
+      }
+
+      interface DeleteFileParam extends ICloudAPIParam<DeleteFileResult> {
+        fileList: string[],
+      }
+      // === end ===
+
+    }
+
+    namespace WXNS {
+
+      interface AnyObject {
+        [key: string]: any
+      }
+
+      interface IAPIParam<T> {
+        success?: (res: T) => void,
+        fail?: (err: IAPIError) => void,
+        complete?: (val: T | IAPIError) => void,
+      }
+
+      interface CommonAPIResult {
+        errMsg: string,
+      }
+
+      interface IAPIError {
+        errMsg: string,
+      }
+
+      interface IProgressUpdateEvent {
+        progress: number,
+        totalBytesWritten: number,
+        totalBytesExpectedToWrite: number,
+      }
+
+      interface operateWXData {
+        (param: any): void
+      }
+
+      interface uploadFile {
+        /**
+         * upload file
+         * @param param
+         */
+        (param: IUploadFileParam): IUploadFileTask
+      }
+
+      interface IUploadFileParam extends IAPIParam<IUploadFileSuccessResult> {
+        url: string,
+        filePath: string,
+        name: string,
+        header?: AnyObject,
+      }
+
+      interface IUploadFileSuccessResult extends CommonAPIResult {
+        data: string,
+        statusCode: number,
+      }
+
+      interface IUploadFileTask {
+        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void,
+        abort: AnyFunction,
+      }
+
+      interface downloadFile {
+        /**
+         * download file
+         * @param param
+         */
+        (param: IDownloadFileParam): IDownloadFileTask
+      }
+
+      interface IDownloadFileParam extends IAPIParam<IDownloadFileSuccessResult> {
+        url: string,
+        header?: AnyObject,
+      }
+
+      interface IDownloadFileSuccessResult extends CommonAPIResult {
+        tempFilePath: string,
+        statusCode: number,
+      }
+
+      interface IDownloadFileTask {
+        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void,
+        abort: AnyFunction,
+      }
+
+      interface request {
+        (param: IRequestParam): IRequestTask
+      }
+
+      interface IRequestParam extends IAPIParam<IRequestSuccessResult> {
+        url: string,
+        data?: AnyObject | string | ArrayBuffer,
+        header?: AnyObject,
+        method?: string,
+        dataType?: string,
+        responseType?: string,
+      }
+
+      interface IRequestSuccessResult {
+        data: AnyObject | string | ArrayBuffer,
+        statusCode: number,
+        header: AnyObject,
+      }
+
+      interface IRequestTask {
+        abort: () => void
+      }
+
+      interface getFileInfo {
+        (param: IGetFileInfoParam): void
+      }
+
+      interface IGetFileInfoParam extends IAPIParam<IGetFileInfoSuccessResult> {
+        filePath: string,
+        digestAlgorithm?: string,
+      }
+
+      interface IGetFileInfoSuccessResult {
+        size: number,
+        digest: string,
+      }
+
+    }
+
+    // === Database ===
+    namespace DB {
+      /**
+       * The class of all exposed cloud database instances
+       */
+      export class Database {
+
+        public readonly config: ICloudConfig
+        public readonly command: DatabaseCommand
+        public readonly Geo: Geo
+        public readonly serverDate: () => ServerDate
+
+        private constructor();
+
+        collection(collectionName: string): CollectionReference
+
+      }
+
+      export class CollectionReference extends Query {
+
+        public readonly collectionName: string
+        public readonly database: Database
+
+        private constructor(name: string, database: Database)
+
+        doc(docId: string | number): DocumentReference
+
+        add(options: IAddDocumentOptions): Promise<IAddResult> | void
+
+      }
+
+      export class DocumentReference {
+
+        private constructor(docId: string | number, database: Database)
+
+        field(object: object): this
+
+        get(options?: IGetDocumentOptions): Promise<IQuerySingleResult> | void
+
+        set(options?: ISetSingleDocumentOptions): Promise<ISetResult> | void
+
+        update(options?: IUpdateSingleDocumentOptions): Promise<IUpdateResult> | void
+
+        remove(options?: IRemoveSingleDocumentOptions): Promise<IRemoveResult> | void
+
+      }
+
+      export class Query {
+
+        where(condition: IQueryCondition): Query
+
+        orderBy(fieldPath: string, order: string): Query
+
+        limit(max: number): Query
+
+        skip(offset: number): Query
+
+        field(object: object): Query
+
+        get(options?: IGetDocumentOptions): Promise<IQueryResult> | void
+
+        count(options?: ICountDocumentOptions): Promise<ICountResult> | void
+      }
+
+      export interface DatabaseCommand {
+
+        eq(val: any): DatabaseQueryCommand
+        neq(val: any): DatabaseQueryCommand
+        gt(val: any): DatabaseQueryCommand
+        gte(val: any): DatabaseQueryCommand
+        lt(val: any): DatabaseQueryCommand
+        lte(val: any): DatabaseQueryCommand
+        in(val: any[]): DatabaseQueryCommand
+        nin(val: any[]): DatabaseQueryCommand
+
+        and(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+        or(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+
+        set(val: any): DatabaseUpdateCommand
+        remove(): DatabaseUpdateCommand
+        inc(val: number): DatabaseUpdateCommand
+        mul(val: number): DatabaseUpdateCommand
+
+        push(...values: any[]): DatabaseUpdateCommand
+        pop(): DatabaseUpdateCommand
+        shift(): DatabaseUpdateCommand
+        unshift(...values: any[]): DatabaseUpdateCommand
+
+      }
+
+      export enum LOGIC_COMMANDS_LITERAL {
+        AND = 'and',
+        OR = 'or',
+        NOT = 'not',
+        NOR = 'nor',
+      }
+
+      export class DatabaseLogicCommand {
+
+        public fieldName: string | InternalSymbol
+        public operator: LOGIC_COMMANDS_LITERAL | string
+        public operands: any[]
+
+        _setFieldName(fieldName: string): DatabaseLogicCommand
+
+        and(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+        or(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+
+      }
+
+      export enum QUERY_COMMANDS_LITERAL {
+        EQ = 'eq',
+        NEQ = 'neq',
+        GT = 'gt',
+        GTE = 'gte',
+        LT = 'lt',
+        LTE = 'lte',
+        IN = 'in',
+        NIN = 'nin',
+      }
+
+      export class DatabaseQueryCommand extends DatabaseLogicCommand {
+
+        public operator: QUERY_COMMANDS_LITERAL | string
+
+        _setFieldName(fieldName: string): DatabaseQueryCommand
+
+        eq(val: any): DatabaseLogicCommand
+        neq(val: any): DatabaseLogicCommand
+        gt(val: any): DatabaseLogicCommand
+        gte(val: any): DatabaseLogicCommand
+        lt(val: any): DatabaseLogicCommand
+        lte(val: any): DatabaseLogicCommand
+        in(val: any[]): DatabaseLogicCommand
+        nin(val: any[]): DatabaseLogicCommand
+
+      }
+
+      export enum UPDATE_COMMANDS_LITERAL {
+        SET = 'set',
+        REMOVE = 'remove',
+        INC = 'inc',
+        MUL = 'mul',
+        PUSH = 'push',
+        POP = 'pop',
+        SHIFT = 'shift',
+        UNSHIFT = 'unshift',
+      }
+
+      export class DatabaseUpdateCommand {
+
+        public fieldName: string | InternalSymbol
+        public operator: UPDATE_COMMANDS_LITERAL
+        public operands: any[]
+
+        constructor(operator: UPDATE_COMMANDS_LITERAL, operands: any[], fieldName?: string | InternalSymbol)
+
+        _setFieldName(fieldName: string): DatabaseUpdateCommand
+      }
+
+      export class Batch {
+
+      }
+
+      /**
+       * A contract that all API provider must adhere to
+       */
+      export class APIBaseContract<PROMISE_RETURN, CALLBACK_RETURN, PARAM extends IAPIParam, CONTEXT = any> {
+
+        getContext(param: PARAM): CONTEXT
+
+        /**
+         * In case of callback-style invocation, this function will be called
+         */
+        getCallbackReturn(param: PARAM, context: CONTEXT): CALLBACK_RETURN
+
+        getFinalParam<T extends PARAM>(param: PARAM, context: CONTEXT): T
+
+        run<T extends PARAM>(param: T): Promise<PROMISE_RETURN>
+
+      }
+
+      export interface GeoPointConstructor {
+        new(longitude: number, latitide: number): GeoPoint
+      }
+
+      export interface Geo {
+        Point: {
+          new(longitude: number, latitide: number): GeoPoint
+          (longitude: number, latitide: number): GeoPoint
+        }
+      }
+
+      export abstract class GeoPoint {
+        public longitude: number
+        public latitude: number
+
+        constructor(longitude: number, latitude: number)
+
+        toJSON(): object
+        toString(): string
+      }
+
+      export interface IServerDateOptions {
+        offset: number,
+      }
+
+      export abstract class ServerDate {
+        public readonly options: IServerDateOptions
+        constructor(options?: IServerDateOptions)
+      }
+
+      export type DocumentId = string | number
+
+      export interface IDocumentData {
+        _id?: DocumentId,
+        [key: string]: any,
+      }
+
+      export interface IDBAPIParam extends IAPIParam {
+
+      }
+
+      export interface IAddDocumentOptions extends IDBAPIParam {
+        data: IDocumentData,
+      }
+
+      export interface IGetDocumentOptions extends IDBAPIParam {
+
+      }
+
+      export interface ICountDocumentOptions extends IDBAPIParam {
+
+      }
+
+      export interface IUpdateDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition,
+      }
+
+      export interface IUpdateSingleDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition,
+      }
+
+      export interface ISetDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition,
+      }
+
+      export interface ISetSingleDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition,
+      }
+
+      export interface IRemoveDocumentOptions extends IDBAPIParam {
+        query: IQueryCondition,
+      }
+
+      export interface IRemoveSingleDocumentOptions extends IDBAPIParam {
+
+      }
+
+      export interface IQueryCondition {
+        [key: string]: any,
+      }
+
+      export type IStringQueryCondition = string
+
+      export interface IQueryResult extends IAPISuccessParam {
+        data: IDocumentData[],
+      }
+
+      export interface IQuerySingleResult extends IAPISuccessParam {
+        data: IDocumentData,
+      }
+
+      export interface IUpdateCondition {
+        [key: string]: any,
+      }
+
+      export type IStringUpdateCondition = string
+
+      export interface ISetCondition {
+
+      }
+
+      export interface IAddResult extends IAPISuccessParam {
+        _id: DocumentId,
+      }
+
+      export interface IUpdateResult extends IAPISuccessParam {
+        stats: {
+          updated: number,
+          // created: number,
+        }
+      }
+
+      export interface ISetResult extends IAPISuccessParam {
+        _id: DocumentId,
+        stats: {
+          updated: number,
+          created: number,
+        }
+      }
+
+      export interface IRemoveResult extends IAPISuccessParam {
+        stats: {
+          removed: number,
+        }
+      }
+
+      export interface ICountResult extends IAPISuccessParam {
+        total: number
+      }
+
+    }
+    function init(OBJECT?: ICloudConfig): void
+
+
+    function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> | void
+    function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> | WXNS.IUploadFileTask
+    function downloadFile(param: ICloud.DownloadFileParam): Promise<ICloud.DownloadFileResult> | WXNS.IDownloadFileTask
+    function getTempFileURL(param: ICloud.GetTempFileURLParam): Promise<ICloud.GetTempFileURLResult> | void
+    function deleteFile(param: ICloud.DeleteFileParam): Promise<ICloud.DeleteFileResult> | void
+
+    function database(config?: ICloudConfig): DB.Database
+  }
 }

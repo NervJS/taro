@@ -60,4 +60,4 @@ function showModal (obj) {
   }
 }
 
-export default showModal
+export default {showModal}

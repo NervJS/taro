@@ -1,3 +1,4 @@
+import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
@@ -10,9 +11,16 @@ function getTrueType (type, confirmType, password) {
   }
   if (confirmType === 'search') type = 'search'
   if (password) type = 'password'
-  if (type === 'number') type = 'number'
+  if (type === 'digit') type = 'number'
 
   return type
+}
+
+function fixControlledValue (value) {
+  if (typeof value === 'undefined' || value === null) {
+    return ''
+  }
+  return value
 }
 
 class Input extends Nerv.Component {
@@ -21,20 +29,62 @@ class Input extends Nerv.Component {
     this.onInput = this.onInput.bind(this)
     this.onFocus = this.onFocus.bind(this)
     this.onBlur = this.onBlur.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.handleComposition = this.handleComposition.bind(this)
+
+    // input hook
+    this.isOnComposition = false
+  }
+
+  componentDidMount () {
+    // 修复无法选择文件
+    if (this.props.type === 'file') {
+      this.inputRef.addEventListener('change', this.onInput)
+    }
+  }
+
+  componentWillUnMount () {
+    // 修复无法选择文件
+    if (this.props.type === 'file') {
+      this.inputRef.removeEventListener('change', this.onInput)
+    }
   }
 
   onInput (e) {
-    const { onInput, onChange = '' } = this.props
-    Object.defineProperty(e, 'detail', {
-      enumerable: true,
-      value: {
-        value: e.target.value
+    const {
+      type,
+      maxLength,
+      confirmType,
+      password,
+      onInput = '',
+      onChange = ''
+    } = this.props
+    if (!this.isOnComposition) {
+      let value = e.target.value
+      const inputType = getTrueType(type, confirmType, password)
+      /* 修复 number 类型 maxLength 无效 */
+      if (inputType === 'number' && value && maxLength <= value.length) {
+        value = value.substring(0, maxLength)
+        e.target.value = value
       }
-    })
-    if (onChange) {
-      onChange && onChange(e)
-    } else {
-      onInput && onInput(e)
+
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: { value }
+      })
+      // 修复 IOS 光标跳转问题
+      if (!['number', 'file'].includes(inputType)) {
+        const pos = e.target.selectionEnd
+        setTimeout(
+          () => {
+            e.target.selectionStart = pos
+            e.target.selectionEnd = pos
+          }
+        )
+      }
+
+      if (onChange) return onChange(e)
+      if (onInput) return onInput(e)
     }
   }
 
@@ -60,6 +110,30 @@ class Input extends Nerv.Component {
     onBlur && onBlur(e)
   }
 
+  onKeyDown (e) {
+    const { onConfirm } = this.props
+    if (e.keyCode === 13 && onConfirm) {
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        value: {
+          value: e.target.value
+        }
+      })
+      onConfirm(e)
+    }
+  }
+
+  handleComposition (e) {
+    if (!(e.target instanceof HTMLInputElement)) return
+
+    if (e.type === 'compositionend') {
+      this.isOnComposition = false
+    } else {
+      this.isOnComposition = true
+    }
+    this.onInput(e)
+  }
+
   render () {
     const {
       className = '',
@@ -68,33 +142,54 @@ class Input extends Nerv.Component {
       password,
       disabled,
       maxLength,
-      confirmType = ''
+      confirmType = '',
+      focus = false,
+      value
     } = this.props
     const cls = classNames('weui-input', className)
+
+    const otherProps = omit(this.props, [
+      'className',
+      'placeholder',
+      'disabled',
+      'max',
+      'onChange',
+      'onFocus',
+      'onBlur',
+      'type',
+      'focus'
+    ])
+
+    if ('value' in this.props) {
+      otherProps.value = fixControlledValue(value)
+    }
+
     return (
       <input
-        {...omit(this.props, [
-          'className',
-          'placeholder',
-          'disabled',
-          'max',
-          'onChange',
-          'onFocus',
-          'onBlur',
-          'type'
-        ])}
+        ref={input => {
+          this.inputRef = input
+          input && focus && input.focus()
+        }}
+        {...otherProps}
         className={cls}
         placeholder={placeholder}
         disabled={disabled}
         max={maxLength}
-        onChange={this.onInput}
         onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
+        autofocus={focus}
+        onKeyDown={this.onKeyDown}
         type={getTrueType(type, confirmType, password)}
+        onCompositionStart={this.handleComposition}
+        onCompositionEnd={this.handleComposition}
       />
     )
   }
+}
+
+Input.defaultProps = {
+  type: 'text'
 }
 
 export default Input

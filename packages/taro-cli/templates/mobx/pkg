@@ -1,0 +1,61 @@
+{
+  "name": "<%= projectName %>",
+  "version": "1.0.0",
+  "private": true,
+  "description": "<%= description %>",
+  "main": "index.js",
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "build:swan": "taro build --type swan",
+    "build:alipay": "taro build --type alipay",
+    "build:tt": "taro build --type tt",
+    "build:h5": "taro build --type h5",
+    "build:rn": "taro build --type rn",
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:swan": "npm run build:swan -- --watch",
+    "dev:alipay": "npm run build:alipay -- --watch",
+    "dev:tt": "npm run build:tt -- --watch",
+    "dev:h5": "npm run build:h5 -- --watch",
+    "dev:rn": "npm run build:rn -- --watch"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/components": "<%= version %>",
+    "@tarojs/router": "<%= version %>",
+    "@tarojs/taro": "<%= version %>",
+    "@tarojs/taro-alipay": "<%= version %>",
+    "@tarojs/taro-h5": "<%= version %>",
+    "@tarojs/taro-swan": "<%= version %>",
+    "@tarojs/taro-tt": "<%= version %>",
+    "@tarojs/taro-weapp": "<%= version %>",
+    "@tarojs/rn-runner": "<%= version %>",
+    "@tarojs/mobx": "<%= version %>",
+    "@tarojs/mobx-h5": "<%= version %>",
+    "@tarojs/mobx-rn": "<%= version %>",
+    "mobx": "4.8.0",
+    "nervjs": "^1.3.9",
+    "nerv-devtools": "^1.3.9"
+  },
+  "devDependencies": {
+    "@types/react": "16.3.14",
+    "@types/webpack-env": "^1.13.6",
+    "@tarojs/plugin-babel": "<%= version %>",
+    "@tarojs/plugin-csso": "<%= version %>",<% if (css !== 'none') {%>
+    "@tarojs/plugin-<%= css %>": "<%= version %>",<%}%>
+    "@tarojs/plugin-uglifyjs": "<%= version %>",
+    "@tarojs/webpack-runner": "<%= version %>",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-jsx-stylesheet": "^0.6.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-config-taro": "<%= version %>",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-taro": "<%= version %>"<% if (typescript) {%>,
+    "typescript": "^3.0.1"<%}%>
+  }
+}

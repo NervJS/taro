@@ -4,10 +4,12 @@ const os = require('os')
 const fs = require('fs-extra')
 const execSync = require('child_process').execSync
 const chalk = require('chalk')
+const _ = require('lodash')
 
 const pocessTypeEnum = {
   CREATE: 'create',
   COMPILE: 'compile',
+  CONVERT: 'convert',
   COPY: 'copy',
   GENERATE: 'generate',
   MODIFY: 'modify',
@@ -25,6 +27,10 @@ const processTypeMap = {
   [pocessTypeEnum.COMPILE]: {
     name: '编译',
     color: 'green'
+  },
+  [pocessTypeEnum.CONVERT]: {
+    name: '转换',
+    color: chalk.rgb(255, 136, 0)
   },
   [pocessTypeEnum.COPY]: {
     name: '拷贝',
@@ -62,7 +68,7 @@ const processTypeMap = {
 
 exports.pocessTypeEnum = pocessTypeEnum
 
-exports.CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss']
+exports.CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
 exports.SCSS_EXT = ['.scss']
 exports.JS_EXT = ['.js', '.jsx']
 exports.TS_EXT = ['.ts', '.tsx']
@@ -72,17 +78,88 @@ exports.REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
 exports.REG_SCRIPTS = /\.[tj]sx?$/i
 exports.REG_STYLE = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
 exports.REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
-exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
+exports.REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 exports.REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 exports.REG_JSON = /\.json(\?.*)?$/
+exports.REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
+exports.REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
 
-exports.CSS_IMPORT_REG = /\@import (["'])(.+?)\1;/g
+exports.CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 exports.BUILD_TYPES = {
   WEAPP: 'weapp',
   H5: 'h5',
   RN: 'rn',
+  SWAN: 'swan',
+  ALIPAY: 'alipay',
+  TT: 'tt',
   UI: 'ui'
+}
+
+exports.MINI_APP_FILES = {
+  [exports.BUILD_TYPES.WEAPP]: {
+    TEMPL: '.wxml',
+    STYLE: '.wxss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.SWAN]: {
+    TEMPL: '.swan',
+    STYLE: '.css',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.ALIPAY]: {
+    TEMPL: '.axml',
+    STYLE: '.acss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  },
+  [exports.BUILD_TYPES.TT]: {
+    TEMPL: '.ttml',
+    STYLE: '.ttss',
+    SCRIPT: '.js',
+    CONFIG: '.json'
+  }
+}
+
+exports.CONFIG_MAP = {
+  [exports.BUILD_TYPES.WEAPP]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.SWAN]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.TT]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
+  },
+  [exports.BUILD_TYPES.ALIPAY]: {
+    navigationBarTitleText: 'defaultTitle',
+    navigationBarBackgroundColor: 'titleBarColor',
+    enablePullDownRefresh: 'pullRefresh',
+    list: 'items',
+    text: 'name',
+    iconPath: 'icon',
+    selectedIconPath: 'activeIcon'
+  }
 }
 
 exports.PROJECT_CONFIG = 'config/index.js'
@@ -106,6 +183,31 @@ exports.isNpmPkg = function (name) {
     return false
   }
   return true
+}
+
+exports.isAliasPath = function (name, pathAlias = {}) {
+  const prefixs = Object.keys(pathAlias)
+  if (prefixs.length === 0) {
+    return false
+  }
+  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
+}
+
+exports.replaceAliasPath = function (filePath, name, pathAlias = {}) {
+  // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
+  // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
+  // 源代码文件，导致文件被意外修改
+  filePath = fs.realpathSync(filePath)
+
+  const prefixs = Object.keys(pathAlias)
+  if (prefixs.includes(name)) {
+    return exports.promoteRelativePath(path.relative(filePath, fs.realpathSync(pathAlias[name])))
+  }
+  const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
+  name = name.replace(reg, function (m, $1, $2) {
+    return exports.promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
+  })
+  return name
 }
 
 exports.promoteRelativePath = function (fPath) {
@@ -257,9 +359,21 @@ exports.urlJoin = function () {
 
 exports.resolveScriptPath = function (p) {
   let realPath = p
+  const taroEnv = process.env.TARO_ENV
   const SCRIPT_EXT = exports.JS_EXT.concat(exports.TS_EXT)
   for (let i = 0; i < SCRIPT_EXT.length; i++) {
     const item = SCRIPT_EXT[i]
+    if (taroEnv) {
+      if (fs.existsSync(`${p}.${taroEnv}${item}`)) {
+        return `${p}.${taroEnv}${item}`
+      }
+      if (fs.existsSync(`${p}${path.sep}index.${taroEnv}${item}`)) {
+        return `${p}${path.sep}index.${taroEnv}${item}`
+      }
+      if (fs.existsSync(`${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`)) {
+        return `${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`
+      }
+    }
     if (fs.existsSync(`${p}${item}`)) {
       return `${p}${item}`
     }
@@ -316,7 +430,11 @@ exports.printLog = function (type, tag, filePath) {
   }
   const padding = ''
   filePath = filePath || ''
-  console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  if (typeof typeShow.color === 'string') {
+    console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  } else {
+    console.log(typeShow.color(typeShow.name), padding, tag, padding, filePath)
+  }
 }
 
 exports.replaceContentEnv = function (content, env) {
@@ -330,6 +448,20 @@ exports.replaceContentEnv = function (content, env) {
   return content
 }
 
+exports.generateEnvList = function (env) {
+  const res = { }
+  if (env && !exports.isEmptyObject(env)) {
+    for (const key in env) {
+      try {
+        res[`process.env.${key}`] = JSON.parse(env[key])
+      } catch (err) {
+        res[`process.env.${key}`] = env[key]
+      }
+    }
+  }
+  return res
+}
+
 exports.replaceContentConstants = function (content, constants) {
   if (constants && !exports.isEmptyObject(constants)) {
     for (const key in constants) {
@@ -341,33 +473,57 @@ exports.replaceContentConstants = function (content, constants) {
   return content
 }
 
+exports.generateConstantsList = function (constants) {
+  const res = { }
+  if (constants && !exports.isEmptyObject(constants)) {
+    for (const key in constants) {
+      try {
+        res[key] = JSON.parse(constants[key])
+      } catch (err) {
+        res[key] = constants[key]
+      }
+    }
+  }
+  return res
+}
+
 exports.cssImports = function (content) {
   let match = {}
   const results = []
-  content = new String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while (match = exports.CSS_IMPORT_REG.exec(content)) {
+  content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  while ((match = exports.CSS_IMPORT_REG.exec(content))) {
     results.push(match[2])
   }
   return results
 }
 
-exports.processWxssImports = function (content) {
-  const wxss = []
+exports.processStyleImports = function (content, adapter, process) {
+  const style = []
+  const imports = []
+  const styleReg = new RegExp(`\\${exports.MINI_APP_FILES[adapter].STYLE}`)
   content = content.replace(exports.CSS_IMPORT_REG, (m, $1, $2) => {
-    if (/\.wxss/.test($2)) {
-      wxss.push(m)
+    if (styleReg.test($2)) {
+      style.push(m)
+      imports.push($2)
+      if (process && typeof process === 'function') {
+        return process(m, $2)
+      }
       return ''
+    }
+    if (process && typeof process === 'function') {
+      return process(m, $2)
     }
     return m
   })
   return {
     content,
-    wxss
+    style,
+    imports
   }
 }
-
+/*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-exports.emptyDirectory = function (dirPath) {
+exports.emptyDirectory = function (dirPath, opts = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -377,8 +533,10 @@ exports.emptyDirectory = function (dirPath) {
 
         do {
           try {
-            exports.emptyDirectory(curPath)
-            fs.rmdirSync(curPath)
+            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+              exports.emptyDirectory(curPath)
+              fs.rmdirSync(curPath)
+            }
             removed = true
           } catch (e) {
           } finally {
@@ -391,5 +549,68 @@ exports.emptyDirectory = function (dirPath) {
         fs.unlinkSync(curPath)
       }
     })
+  }
+}
+/* eslint-enable */
+
+exports.recursiveFindNodeModules = function (filePath) {
+  const dirname = path.dirname(filePath)
+  const nodeModules = path.join(dirname, 'node_modules')
+  if (fs.existsSync(nodeModules)) {
+    return nodeModules
+  }
+  return exports.recursiveFindNodeModules(dirname)
+}
+
+exports.UPDATE_PACKAGE_LIST = [
+  '@tarojs/taro',
+  '@tarojs/async-await',
+  '@tarojs/cli',
+  '@tarojs/components',
+  '@tarojs/components-rn',
+  '@tarojs/taro-h5',
+  '@tarojs/taro-swan',
+  '@tarojs/taro-alipay',
+  '@tarojs/taro-tt',
+  '@tarojs/plugin-babel',
+  '@tarojs/plugin-csso',
+  '@tarojs/plugin-sass',
+  '@tarojs/plugin-less',
+  '@tarojs/plugin-stylus',
+  '@tarojs/plugin-uglifyjs',
+  '@tarojs/redux',
+  '@tarojs/redux-h5',
+  '@tarojs/taro-redux-rn',
+  '@tarojs/taro-router-rn',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
+  '@tarojs/router',
+  '@tarojs/taro-weapp',
+  '@tarojs/webpack-runner',
+  'postcss-plugin-constparse',
+  'eslint-config-taro',
+  'eslint-plugin-taro',
+  'taro-transformer-wx',
+  'postcss-pxtransform',
+  'babel-plugin-transform-jsx-to-stylesheet',
+  '@tarojs/mobx',
+  '@tarojs/mobx-h5',
+  '@tarojs/mobx-rn',
+  '@tarojs/mobx-common',
+  '@tarojs/mobx-prop-types',
+  'stylelint-taro-rn',
+  'styleint-config-taro-rn'
+]
+
+exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
+
+exports.getInstalledNpmPkgVersion = function (pkgName, basedir) {
+  const resolvePath = require('resolve')
+  try {
+    const pkg = resolvePath.sync(`${pkgName}/package.json`, { basedir })
+    const pkgJson = fs.readJSONSync(pkg)
+    return pkgJson.version
+  } catch (err) {
+    return null
   }
 }

@@ -4,8 +4,9 @@
  * ✔ color
  *
  * @warn
- *  IOS: Remember to link the libART.a into your project,
- *  see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.
+ *  ~~iOS: Remember to link the libART.a into your project,~~
+ *  ~~see more: https://stackoverflow.com/questions/37658957/no-component-found-for-view-with-name-artshape.~~
+ *  现在 iOS 上用图片了
  *
  * @see https://github.com/react-native-china/react-native-ART-doc
  * @example <Icon type='success' color='green' />
@@ -37,7 +38,7 @@ const iconTypeMap: Object = {
 type Props = {
   style?: StyleSheet.Styles,
   type: 'success' | 'success_no_circle' | 'info' | 'warn' | 'waiting' | 'cancel' | 'download' | 'search' | 'clear',
-  size?: number,
+  size?: number | string,
   color?: string,
 }
 
@@ -47,6 +48,8 @@ module.exports = function _Icon ({
   size = 23,
   color,
 }: Props) {
+  size = ~~size
+
   const iconObj = WEUI[iconTypeMap[type]]
 
   if (!iconObj) {

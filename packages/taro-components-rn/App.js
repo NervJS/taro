@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import {
+  Provider,
   ScrollView,
   Text,
   View,
   Button,
-  Tabbar,
-  TabbarContainer,
-  TabbarPanel,
-} from './src'
+  // Tabbar,
+  // TabbarContainer,
+  // TabbarPanel,
+} from './dist'
 import EXButton from './example/EXButton'
 import EXCheckbox from './example/EXCheckbox'
 import EXIcon from './example/EXIcon'
@@ -21,6 +22,10 @@ import EXProgress from './example/EXProgress'
 import EXRichText from './example/EXRichText'
 import EXPicker from './example/EXPicker'
 import EXForm from './example/EXForm'
+// import EXAudio from './example/EXAudio'
+// import EXVideo from './example/EXVideo'
+// import EXMap from './example/EXMap'
+import EXWebView from './example/EXWebView'
 
 export default class App extends Component {
   state = {
@@ -40,7 +45,7 @@ export default class App extends Component {
     console.log('view touchend')
   }
 
-  render() {
+  render () {
     // return (
     //   <TabbarContainer>
     //     <TabbarPanel style={{ backgroundColor: 'red' }}>
@@ -57,28 +62,61 @@ export default class App extends Component {
     //     />
     //   </TabbarContainer>
     // )
-
+    // for (let key in global) {
+    //   if (global.hasOwnProperty(key)) {
+    //     console.log(key)
+    //   }
+    // }
+    // for (let key in global.window) {
+    //   if (global.window.hasOwnProperty(key)) {
+    //     console.log(key)
+    //   }
+    // }
     return (
-      <ScrollView
-        style={{
-          backgroundColor: '#f5fcff',
-          alignItems: 'center',
-          paddingVertical: 50
-        }}
-        scrollTop={this.state.scrollTop}
-        scrollWithAnimation={true}
-        enableBackToTop={false}
-        onScrollToUpper={() => {
-          console.log('to upper')
-        }}
-        onScrollToLower={() => {
-          console.log('to lower')
-        }}
-        onScroll={(e) => {
-          console.log('onScroll', e)
-        }}
-      >
-        <Text>Welcome to React Native!</Text>
+      <Provider>
+        <ScrollView
+          style={{
+            backgroundColor: '#f5fcff',
+            alignItems: 'center',
+            paddingVertical: 50
+          }}
+          scrollTop={this.state.scrollTop}
+          scrollWithAnimation={true}
+          enableBackToTop={false}
+          onScrollToUpper={() => {
+            console.log('to upper')
+          }}
+          onScrollToLower={() => {
+            console.log('to lower')
+          }}
+          onScroll={(e) => {
+            console.log('onScroll', e)
+          }}
+          // scrollX={true}
+        >
+          <Text>Welcome to React Native!</Text>
+
+          <Text>Picker</Text>
+          <EXPicker />
+
+          {/* <EXMap /> */}
+
+          <EXImage />
+
+          {/* <EXVideo /> */}
+
+          <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
+
+          {/* <EXAudio /> */}
+
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>
+            <View style={{ width: '33.33%', height: 100, backgroundColor: 'green' }}></View>
+          </View>
 
         <View
           hoverStyle={{ backgroundColor: 'green' }}
@@ -86,10 +124,10 @@ export default class App extends Component {
         >
           <View
             onClick={() => { console.log('you click me') }}
-            onLongPress={() => { console.log('you longpress me') }}
-            onTouchstart={this.onViewTouchstart}
-            onTouchmove={this.onViewTouchmove}
-            onTouchend={this.onViewTouchend}
+            // onLongPress={() => { console.log('you longpress me') }}
+            // onTouchstart={this.onViewTouchstart}
+            // onTouchmove={this.onViewTouchmove}
+            // onTouchend={this.onViewTouchend}
             style={{
               width: 250,
               height: 250,
@@ -102,7 +140,7 @@ export default class App extends Component {
             }}
           >
             <Button
-              onClick={() => { alert('Hey, click button nested in view!') }}
+              onClick={() => { console.log('Hey, click button nested in view!') }}
               style={{
                 width: 200
               }}
@@ -112,45 +150,46 @@ export default class App extends Component {
           </View>
         </View>
 
-        <Text>Swiper</Text>
-        <EXSwiper />
+          <Text>Swiper</Text>
+          <EXSwiper />
 
-        <Text>Icon</Text>
-        <EXIcon />
+          <Text>Icon</Text>
+          <EXIcon />
 
-        <Text>Picker</Text>
-        <EXPicker />
+          <Text>RichText</Text>
+          <EXRichText />
 
-        <Text>RichText</Text>
-        <EXRichText />
+          <Text>Progress</Text>
+          <EXProgress />
 
-        <Text>Progress</Text>
-        <EXProgress />
+          <Text>Radio（Single|Group）</Text>
+          <EXRadio />
 
-        <Text>Radio（Single|Group）</Text>
-        <EXRadio />
+          <Text>Slider</Text>
+          <EXSlider />
 
-        <Text>Slider</Text>
-        <EXSlider />
+          <Text>Switch</Text>
+          <EXSwitch />
 
-        <Text>Switch</Text>
-        <EXSwitch />
+          <Text>Image</Text>
+          {/* <EXImage /> */}
 
-        <Text>Image</Text>
-        <EXImage />
+          <Text>Checkbox（Single & Group）</Text>
+          <EXCheckbox />
 
-        <Text>Checkbox（Single & Group）</Text>
-        <EXCheckbox />
+          <Text>Input & Textarea</Text>
+          <EXTextinput />
 
-        <Text>Input & Textarea</Text>
-        <EXTextinput />
+          <Text>Button</Text>
+          <EXButton />
 
-        <Text>Button</Text>
-        <EXButton />
+          <Text>Form</Text>
+          <EXForm />
 
-        <Text>Form</Text>
-        <EXForm />
-      </ScrollView>
+          <Text>WebView</Text>
+          <EXWebView />
+        </ScrollView>
+      </Provider>
     )
   }
 }

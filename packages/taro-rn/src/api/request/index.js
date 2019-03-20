@@ -30,16 +30,21 @@ function request (options) {
 
   if (method === 'GET') {
     url = generateRequestUrlWithParams(url, data)
-  } else if (method === 'POST' && typeof data === 'object') {
-    const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
-    if (contentType === 'application/json') {
-      data = JSON.stringify(data)
-    } else if (contentType === 'application/x-www-form-urlencoded') {
-      data = serializeParams(data)
+  } else {
+    if (typeof data === 'object') {
+      const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
+      if (contentType === 'application/json') {
+        data = JSON.stringify(data)
+      } else if (contentType === 'application/x-www-form-urlencoded') {
+        data = serializeParams(data)
+      }
     }
   }
 
-  params.body = data
+  if (method !== 'GET' && method !== 'HEAD') {
+    params.body = data
+  }
+
   params.headers = options.header
   params.mode = options.mode
   params.credentials = options.credentials

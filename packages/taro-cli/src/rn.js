@@ -3,26 +3,18 @@ const path = require('path')
 const {performance} = require('perf_hooks')
 const chokidar = require('chokidar')
 const chalk = require('chalk')
-const vfs = require('vinyl-fs')
 const ejs = require('ejs')
-const Vinyl = require('vinyl')
-const through2 = require('through2')
-const babel = require('babel-core')
-const traverse = require('babel-traverse').default
-const t = require('babel-types')
-const generate = require('babel-generator').default
-const template = require('babel-template')
 const _ = require('lodash')
 const shelljs = require('shelljs')
-const wxTransformer = require('@tarojs/transformer-wx')
+const klaw = require('klaw')
 
 const Util = require('./util')
-const npmProcess = require('./util/npm')
+const child_process = require('child_process') // eslint-disable-line
+const execSync = require('child_process').execSync
 const CONFIG = require('./config')
-const babylonConfig = require('./config/babylon')
-const AstConvert = require('./util/ast_convert')
 const {getPkgVersion} = require('./util')
 const StyleProcess = require('./rn/styleProcess')
+const {transformJSCode} = require('./rn/transformJS')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -36,497 +28,13 @@ const pluginsConfig = projectConfig.plugins || {}
 
 const pkgPath = path.join(__dirname, './rn/pkg')
 
+let depTree = {}
+
 let isBuildingStyles = {}
 const styleDenpendencyTree = {}
 
-const reactImportDefaultName = 'React'
-let taroImportDefaultName // import default from @tarojs/taro
-let componentClassName // get app.js class name
-const providerComponentName = 'Provider'
-const setStoreFuncName = 'setStore'
-const routerImportDefaultName = 'TaroRouter'
-
-const taroApis = [
-  'getEnv',
-  'ENV_TYPE',
-  'eventCenter',
-  'Events',
-  'internal_safe_get',
-  'internal_dynamic_recursive'
-]
-
-const PACKAGES = {
-  '@tarojs/taro': '@tarojs/taro',
-  '@tarojs/taro-rn': '@tarojs/taro-rn',
-  '@tarojs/taro-router-rn': '@tarojs/taro-router-rn',
-  '@tarojs/redux': '@tarojs/redux',
-  '@tarojs/components': '@tarojs/components',
-  '@tarojs/components-rn': '@tarojs/components-rn',
-  'react': 'react',
-  'react-native': 'react-native',
-  'react-redux-rn': '@tarojs/taro-redux-rn'
-}
-
 function isEntryFile (filePath) {
   return path.basename(filePath) === entryFileName
-}
-
-function getClassPropertyVisitor ({filePath, pages, iconPaths}) {
-  return (astPath) => {
-    const node = astPath.node
-    const key = node.key
-    const value = node.value
-    if (key.name !== 'config' || !t.isObjectExpression(value)) return
-    // 入口文件的 config ，与页面的分开处理
-    if (isEntryFile(filePath)) {
-      // 读取 config 配置
-      astPath.traverse({
-        ObjectProperty (astPath) {
-          const node = astPath.node
-          const key = node.key
-          const value = node.value
-          // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-          if (key.name === 'pages' && t.isArrayExpression(value)) {
-            value.elements.forEach(v => {
-              pages.push(v.value)
-            })
-            astPath.remove()
-          }
-          // window
-          if (key.name === 'window' && t.isObjectExpression(value)) {
-            let navigationOptions = {}
-            astPath.traverse({
-              ObjectProperty (astPath) {
-                const node = astPath.node
-                // 导航栏标题文字内容
-                if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-                  navigationOptions['title'] = node.value.value
-                }
-                // 导航栏标题颜色，仅支持 black/white
-                if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-                  navigationOptions['headerTintColor'] = node.value.value
-                }
-                // 导航栏背景颜色
-                if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-                  navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-                }
-                // 开启下拉刷新
-                if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-                  navigationOptions['enablePullDownRefresh'] = node.value.value
-                }
-              }
-            })
-            astPath.replaceWith(t.objectProperty(
-              t.identifier('navigationOptions'),
-              t.objectExpression(AstConvert.obj(navigationOptions))
-            ))
-          }
-          if (key.name === 'tabBar' && t.isObjectExpression(value)) {
-            astPath.traverse({
-              ObjectProperty (astPath) {
-                let node = astPath.node
-                let value = node.value.value
-                if (node.key.name === 'iconPath' ||
-                  node.key.value === 'iconPath' ||
-                  node.key.name === 'selectedIconPath' ||
-                  node.key.value === 'selectedIconPath'
-                ) {
-                  if (typeof value !== 'string') return
-                  let iconName = _.camelCase(value.split('/'))
-                  iconPaths.push(value)
-                  astPath.insertAfter(t.objectProperty(
-                    t.identifier(node.key.name || node.key.value),
-                    t.identifier(iconName)
-                  ))
-                  astPath.remove()
-                }
-              }
-            })
-          }
-        }
-      })
-      astPath.node.static = 'true'
-    } else {
-      let navigationOptions = {}
-      astPath.traverse({
-        ObjectProperty (astPath) {
-          const node = astPath.node
-          // 导航栏标题文字内容
-          if (node.key.name === 'navigationBarTitleText' || node.key.value === 'navigationBarTitleText') {
-            navigationOptions['title'] = node.value.value
-          }
-          // 导航栏标题颜色，仅支持 black/white
-          if (node.key.name === 'navigationBarTextStyle' || node.key.value === 'navigationBarTextStyle') {
-            navigationOptions['headerTintColor'] = node.value.value
-          }
-          // 导航栏背景颜色
-          if (node.key.name === 'navigationBarBackgroundColor' || node.key.value === 'navigationBarBackgroundColor') {
-            navigationOptions['headerStyle'] = {backgroundColor: node.value.value}
-          }
-          // 开启下拉刷新
-          if (node.key.name === 'enablePullDownRefresh' || node.key.value === 'enablePullDownRefresh') {
-            navigationOptions['enablePullDownRefresh'] = node.value.value
-          }
-        }
-      })
-      astPath.replaceWith(t.classProperty(
-        t.identifier('navigationOptions'),
-        t.objectExpression(AstConvert.obj(navigationOptions))
-      ))
-      astPath.node.static = 'true'
-    }
-  }
-}
-
-function getJSAst (code, filePath) {
-  return wxTransformer({
-    code,
-    sourcePath: filePath,
-    isNormal: true,
-    isTyped: Util.REG_TYPESCRIPT.test(filePath),
-    env: {
-      TARO_ENV: Util.BUILD_TYPES.RN
-    }
-  }).ast
-}
-
-/**
- * TS 编译器会把 class property 移到构造器，
- * 而小程序要求 `config` 和所有函数在初始化(after new Class)之后就收集到所有的函数和 config 信息，
- * 所以当如构造器里有 this.func = () => {...} 的形式，就给他转换成普通的 classProperty function
- * 如果有 config 就给他还原
- */
-function resetTSClassProperty (body) {
-  for (const method of body) {
-    if (t.isClassMethod(method) && method.kind === 'constructor') {
-      for (const statement of _.cloneDeep(method.body.body)) {
-        if (t.isExpressionStatement(statement) && t.isAssignmentExpression(statement.expression)) {
-          const expr = statement.expression
-          const {left, right} = expr
-          if (
-            t.isMemberExpression(left) &&
-            t.isThisExpression(left.object) &&
-            t.isIdentifier(left.property)
-          ) {
-            if (
-              (t.isArrowFunctionExpression(right) || t.isFunctionExpression(right)) ||
-              (left.property.name === 'config' && t.isObjectExpression(right))
-            ) {
-              body.push(
-                t.classProperty(left.property, right)
-              )
-              _.remove(method.body.body, statement)
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-const ClassDeclarationOrExpression = {
-  enter (astPath) {
-    const node = astPath.node
-    if (!node.superClass) return
-    if (
-      node.superClass.type === 'MemberExpression' &&
-      node.superClass.object.name === taroImportDefaultName
-    ) {
-      node.superClass.object.name = reactImportDefaultName
-      if (node.id === null) {
-        const renameComponentClassName = '_TaroComponentClass'
-        componentClassName = renameComponentClassName
-        astPath.replaceWith(
-          t.classDeclaration(
-            t.identifier(renameComponentClassName),
-            node.superClass,
-            node.body,
-            node.decorators || []
-          )
-        )
-      } else {
-        componentClassName = node.id.name
-      }
-    } else if (node.superClass.name === 'Component') {
-      resetTSClassProperty(node.body.body)
-      if (node.id === null) {
-        const renameComponentClassName = '_TaroComponentClass'
-        componentClassName = renameComponentClassName
-        astPath.replaceWith(
-          t.classDeclaration(
-            t.identifier(renameComponentClassName),
-            node.superClass,
-            node.body,
-            node.decorators || []
-          )
-        )
-      } else {
-        componentClassName = node.id.name
-      }
-    }
-  }
-}
-
-function parseJSCode (code, filePath) {
-  let ast
-  try {
-    ast = getJSAst(code, filePath)
-  } catch (e) {
-    throw e
-  }
-  const styleFiles = []
-  let pages = [] // app.js 里面的config 配置里面的 pages
-  let iconPaths = [] // app.js 里面的config 配置里面的需要引入的 iconPath
-  const isEntryFile = path.basename(filePath) === entryFileName
-  let hasAddReactImportDefaultName = false
-  let providorImportName
-  let storeName
-  let hasAppExportDefault
-  let classRenderReturnJSX
-
-  traverse(ast, {
-    ClassExpression: ClassDeclarationOrExpression,
-    ClassDeclaration: ClassDeclarationOrExpression,
-    ImportDeclaration (astPath) {
-      const node = astPath.node
-      const source = node.source
-      const value = source.value
-      const valueExtname = path.extname(value)
-      const specifiers = node.specifiers
-
-      // 引入的包为 npm 包
-      if (!Util.isNpmPkg(value)) {
-        // import 样式处理
-        if (Util.REG_STYLE.test(valueExtname)) {
-          const stylePath = path.resolve(path.dirname(filePath), value)
-          if (styleFiles.indexOf(stylePath) < 0) {
-            styleFiles.push(stylePath)
-          }
-        }
-        return
-      }
-      if (value === PACKAGES['@tarojs/taro']) {
-        let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
-        if (specifier) {
-          hasAddReactImportDefaultName = true
-          taroImportDefaultName = specifier.local.name
-          specifier.local.name = reactImportDefaultName
-        } else if (!hasAddReactImportDefaultName) {
-          hasAddReactImportDefaultName = true
-          node.specifiers.unshift(
-            t.importDefaultSpecifier(t.identifier(reactImportDefaultName))
-          )
-        }
-        // 删除从@tarojs/taro引入的 React
-        specifiers.forEach((item, index) => {
-          if (item.type === 'ImportDefaultSpecifier') {
-            specifiers.splice(index, 1)
-          }
-        })
-        const taroApisSpecifiers = []
-        specifiers.forEach((item, index) => {
-          if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
-            taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-            specifiers.splice(index, 1)
-          }
-        })
-        source.value = PACKAGES['@tarojs/taro-rn']
-        // insert React
-        astPath.insertBefore(template(`import React from 'react'`, babylonConfig)())
-
-        if (taroApisSpecifiers.length) {
-          astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-rn'])))
-        }
-        if (!specifiers.length) {
-          astPath.remove()
-        }
-      } else if (value === PACKAGES['@tarojs/redux']) {
-        const specifier = specifiers.find(item => {
-          return t.isImportSpecifier(item) && item.imported.name === providerComponentName
-        })
-        if (specifier) {
-          providorImportName = specifier.local.name
-        } else {
-          providorImportName = providerComponentName
-          specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
-        }
-        source.value = PACKAGES['react-redux-rn']
-      } else if (value === PACKAGES['@tarojs/components']) {
-        source.value = PACKAGES['@tarojs/components-rn']
-      }
-    },
-    ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths}),
-    // 获取 classRenderReturnJSX
-    ClassMethod (astPath) {
-      let node = astPath.node
-      const key = node.key
-      if (key.name !== 'render' || filePath !== entryFilePath) return
-      astPath.traverse({
-        BlockStatement (astPath) {
-          if (astPath.parent === node) {
-            node = astPath.node
-            astPath.traverse({
-              ReturnStatement (astPath) {
-                if (astPath.parent === node) {
-                  astPath.traverse({
-                    JSXElement (astPath) {
-                      classRenderReturnJSX = generate(astPath.node).code
-                    }
-                  })
-                }
-              }
-            })
-          }
-        }
-      })
-    },
-
-    ExportDefaultDeclaration () {
-      if (filePath === entryFilePath) {
-        hasAppExportDefault = true
-      }
-    },
-    JSXOpeningElement: {
-      enter (astPath) {
-        if (astPath.node.name.name === 'Provider') {
-          for (let v of astPath.node.attributes) {
-            if (v.name.name !== 'store') continue
-            storeName = v.value.expression.name
-            break
-          }
-        }
-      }
-    },
-    Program: {
-      exit (astPath) {
-        const node = astPath.node
-        astPath.traverse({
-          ClassMethod (astPath) {
-            const node = astPath.node
-            const key = node.key
-            if (key.name !== 'render' || filePath !== entryFilePath) return
-            let funcBody = classRenderReturnJSX
-            if (pages.length > 0) {
-              funcBody = `<RootStack/>`
-            }
-            if (providerComponentName && storeName) {
-              // 使用redux
-              funcBody = `
-                <${providorImportName} store={${storeName}}>
-                  ${funcBody}
-                </${providorImportName}>`
-            }
-            node.body = template(`{return (${funcBody});}`, babylonConfig)()
-          },
-
-          CallExpression (astPath) {
-            const node = astPath.node
-            const callee = node.callee
-            const calleeName = callee.name
-            const parentPath = astPath.parentPath
-
-            if (t.isMemberExpression(callee)) {
-              if (callee.object.name === taroImportDefaultName && callee.property.name === 'render') {
-                astPath.remove()
-              }
-            } else {
-              if (calleeName === setStoreFuncName) {
-                if (parentPath.isAssignmentExpression() ||
-                  parentPath.isExpressionStatement() ||
-                  parentPath.isVariableDeclarator()) {
-                  parentPath.remove()
-                }
-              }
-            }
-          }
-        })
-        // import Taro from @tarojs/taro-rn
-        if (taroImportDefaultName) {
-          const importTaro = template(
-            `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
-            babylonConfig
-          )()
-          node.body.unshift(importTaro)
-        }
-
-        if (isEntryFile) {
-          // 注入 import page from 'XXX'
-          pages.forEach(item => {
-            const pagePath = item.startsWith('/') ? item : `/${item}`
-            const screenName = _.camelCase(pagePath.split('/'), {pascalCase: true})
-            const importScreen = template(
-              `import ${screenName} from '.${pagePath}'`,
-              babylonConfig
-            )()
-            node.body.unshift(importScreen)
-          })
-          iconPaths.forEach(item => {
-            const iconPath = item.startsWith('/') ? item : `/${item}`
-            const iconName = _.camelCase(iconPath.split('/'))
-            const importIcon = template(
-              `import ${iconName} from '.${iconPath}'`,
-              babylonConfig
-            )()
-            node.body.unshift(importIcon)
-          })
-          // Taro.initRouter  生成 RootStack
-          const routerPages = pages
-            .map(item => {
-              const pagePath = item.startsWith('/') ? item : `/${item}`
-              const screenName = _.camelCase(pagePath.split('/'), {pascalCase: true})
-              return `['${item}',${screenName}]`
-            })
-            .join(',')
-          node.body.push(template(
-            `const RootStack = ${routerImportDefaultName}.initRouter(
-            [${routerPages}],
-            ${taroImportDefaultName},
-            App.config
-            )`,
-            babylonConfig
-          )())
-          // initNativeApi
-          const initNativeApi = template(
-            `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
-            babylonConfig
-          )()
-          node.body.push(initNativeApi)
-          // import @tarojs/taro-router-rn
-          if (isEntryFile) {
-            const importTaroRouter = template(
-              `import TaroRouter from '${PACKAGES['@tarojs/taro-router-rn']}'`,
-              babylonConfig
-            )()
-            node.body.unshift(importTaroRouter)
-          }
-          // export default App
-          if (!hasAppExportDefault) {
-            const appExportDefault = template(
-              `export default ${componentClassName}`,
-              babylonConfig
-            )()
-            node.body.push(appExportDefault)
-          }
-        }
-      }
-    }
-  })
-  try {
-    // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
-    ast = babel.transformFromAst(ast, code, {
-      plugins: [
-        require('babel-plugin-transform-jsx-to-stylesheet'),
-        require('babel-plugin-transform-decorators-legacy').default
-      ]
-    }).ast
-  } catch (e) {
-    throw e
-  }
-
-  return {
-    code: unescape(generate(ast).code.replace(/\\u/g, '%u')),
-    styleFiles
-  }
 }
 
 function compileDepStyles (filePath, styleFiles) {
@@ -546,7 +54,7 @@ function compileDepStyles (filePath, styleFiles) {
   }).then(resList => {
     let styleObjectEntire = {}
     resList.forEach(item => {
-      let styleObject = StyleProcess.getStyleObject(item.css)
+      let styleObject = StyleProcess.getStyleObject({css: item.css, filePath: item.filePath})
       // validate styleObject
       StyleProcess.validateStyle({styleObject, filePath: item.filePath})
 
@@ -571,16 +79,11 @@ function compileDepStyles (filePath, styleFiles) {
   })
 }
 
-function initProjectFile (cb) {
+function initProjectFile () {
   // generator app.json
-  const appJson = new Vinyl({
-    path: 'app.json',
-    contents: Buffer.from(JSON.stringify({
-      expo: {
-        sdkVersion: '27.0.0'
-      }
-    }, null, 2))
-  })
+  const appJsonObject = Object.assign({
+    name: require(path.join(process.cwd(), 'package.json')).name
+  }, projectConfig.rn && projectConfig.rn.appJson)
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
     ejs.render(
@@ -592,58 +95,73 @@ function initProjectFile (cb) {
   )
   const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
   pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
-  const pkg = new Vinyl({
-    path: 'package.json',
-    contents: Buffer.from(JSON.stringify(pkgTempObj, null, 2))
-  })
+
   // Copy bin/crna-entry.js ?
-  const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
-  const crnaEntryCode = fs.readFileSync(crnaEntryPath).toString()
-  const crnaEntry = new Vinyl({
-    path: 'bin/crna-entry.js',
-    contents: Buffer.from(crnaEntryCode)
-  })
-  this.push(appJson)
+  // const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
+
+  const indexJsStr = `
+  import {AppRegistry} from 'react-native';
+  import App from './${entryFileName}';
+  import {name as appName} from './app.json';
+
+  AppRegistry.registerComponent(appName, () => App);`
+
+  fs.writeFileSync(path.join(tempDir, 'index.js'), indexJsStr)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, 'index.js', path.join(tempPath, 'index.js'))
+  fs.writeFileSync(path.join(tempDir, 'app.json'), JSON.stringify(appJsonObject, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
-  this.push(pkg)
+  fs.writeFileSync(path.join(tempDir, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
-  this.push(crnaEntry)
-  Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
-  cb()
+  // fs.copySync(crnaEntryPath, path.join(tempDir, 'bin/crna-entry.js'))
+  // Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
 }
 
+async function processFile (filePath) {
+  if (!fs.existsSync(filePath)) {
+    return
+  }
+  const dirname = path.dirname(filePath)
+  const distDirname = dirname.replace(sourceDir, tempDir)
+  let distPath = path.format({dir: distDirname, base: path.basename(filePath)})
+  const code = fs.readFileSync(filePath, 'utf-8')
+  if (Util.REG_STYLE.test(filePath)) {
+    // do something
+  } else if (Util.REG_SCRIPTS.test(filePath)) {
+    if (Util.REG_TYPESCRIPT.test(filePath)) {
+      distPath = distPath.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
+    }
+    Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+    // transformJSCode
+    let transformResult = transformJSCode({code, filePath, isEntryFile: isEntryFile(filePath), projectConfig})
+    const jsCode = transformResult.code
+    fs.ensureDirSync(distDirname)
+    fs.writeFileSync(distPath, Buffer.from(jsCode))
+    // compileDepStyles
+    const styleFiles = transformResult.styleFiles
+    depTree[filePath] = styleFiles
+    await compileDepStyles(filePath, styleFiles)
+  } else {
+    fs.ensureDirSync(distDirname)
+    fs.copySync(filePath, distPath)
+    Util.printLog(Util.pocessTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+  }
+}
+
+/**
+ * @description 编译文件，安装依赖
+ * @returns {Promise}
+ */
 function buildTemp () {
-  // fs.emptyDirSync(tempPath)
   fs.ensureDirSync(path.join(tempPath, 'bin'))
   return new Promise((resolve, reject) => {
-    vfs.src(path.join(sourceDir, '**'))
-      .pipe(through2.obj(async function (file, enc, cb) {
-        if (file.isNull() || file.isStream()) {
-          return cb(null, file)
+    klaw(sourceDir)
+      .on('data', file => {
+        if (!file.stats.isDirectory()) {
+          processFile(file.path)
         }
-        const filePath = file.path
-        let content = file.contents.toString()
-        if (Util.REG_STYLE.test(filePath)) {
-          return cb()
-        }
-        if (Util.REG_SCRIPTS.test(filePath)) {
-          if (Util.REG_TYPESCRIPT.test(filePath)) {
-            file.path = file.path.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
-          }
-          Util.printLog(Util.pocessTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
-          // parseJSCode
-          let transformResult = parseJSCode(content, filePath)
-          const jsCode = transformResult.code
-          const styleFiles = transformResult.styleFiles
-          // compileDepStyles
-          await compileDepStyles(filePath, styleFiles)
-          file.contents = Buffer.from(jsCode)
-        }
-        this.push(file)
-        cb()
-      }, initProjectFile))
-      .pipe(vfs.dest(path.join(tempPath)))
+      })
       .on('end', () => {
+        initProjectFile()
         if (!fs.existsSync(path.join(tempPath, 'node_modules'))) {
           console.log()
           console.log(chalk.yellow('开始安装依赖~'))
@@ -660,33 +178,21 @@ function buildTemp () {
         }
         resolve()
       })
-  }).catch(e => {
-    throw e
   })
 }
 
-async function buildDist ({watch}) {
-  const entry = {
-    app: path.join(tempPath, entryFileName)
-  }
-  const rnConfig = projectConfig.rn || {}
-  rnConfig.env = projectConfig.env
-  rnConfig.defineConstants = projectConfig.defineConstants
-  rnConfig.designWidth = projectConfig.designWidth
-  rnConfig.entry = entry
-  if (watch) {
-    rnConfig.isWatch = true
-  }
-  rnConfig.projectDir = tempPath
-  const rnRunner = await npmProcess.getNpmPkg('@tarojs/rn-runner')
-  rnRunner(rnConfig)
+function buildBundle () {
+  process.chdir(tempDir)
+  fs.ensureDirSync('./tmp')
+  execSync(`node node_modules/react-native/local-cli/cli.js bundle --entry-file ./index.js --bundle-output ./tmp/index.bundle --assets-dest ./tmp`,
+    {stdio: 'inherit'})
 }
 
-async function processFiles (filePath) {
+async function perfWrap (callback, args) {
   isBuildingStyles = {} // 清空
   // 后期可以优化，不编译全部
   let t0 = performance.now()
-  await buildTemp()
+  await callback(args)
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 }
@@ -707,33 +213,116 @@ function watchFiles () {
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
-      processFiles(filePath)
+      perfWrap(buildTemp)
     })
     .on('change', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
-      processFiles(filePath)
+      if (Util.REG_SCRIPTS.test(filePath)) {
+        perfWrap(processFile, filePath)
+      }
+      if (Util.REG_STYLE.test(filePath)) {
+        _.forIn(depTree, (styleFiles, jsFilePath) => {
+          if (styleFiles.indexOf(filePath) > -1) {
+            perfWrap(processFile, jsFilePath)
+          }
+        })
+      }
     })
     .on('unlink', filePath => {
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.UNLINK, '删除文件', relativePath)
-      processFiles(filePath)
+      perfWrap(buildTemp)
     })
     .on('error', error => console.log(`Watcher error: ${error}`))
 }
 
 async function build ({watch}) {
+  process.env.TARO_ENV = Util.BUILD_TYPES.RN
   fs.ensureDirSync(tempPath)
   let t0 = performance.now()
   await buildTemp()
   let t1 = performance.now()
   Util.printLog(Util.pocessTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-  await buildDist({watch})
+
   if (watch) {
     watchFiles()
+    startServerInNewWindow()
+  } else {
+    buildBundle()
   }
 }
 
-module.exports = {
-  build
+/**
+ * @description run packager server
+ * copy from react-native/local-cli/runAndroid/runAndroid.js
+ */
+function startServerInNewWindow (port = 8081) {
+  // set up OS-specific filenames and commands
+  const isWindows = /^win/.test(process.platform)
+  const scriptFile = isWindows
+    ? 'launchPackager.bat'
+    : 'launchPackager.command'
+  const packagerEnvFilename = isWindows ? '.packager.bat' : '.packager.env'
+  const portExportContent = isWindows
+    ? `set RCT_METRO_PORT=${port}`
+    : `export RCT_METRO_PORT=${port}`
+
+  // set up the launchpackager.(command|bat) file
+  const scriptsDir = path.resolve(tempPath, './node_modules', 'react-native', 'scripts')
+  const launchPackagerScript = path.resolve(scriptsDir, scriptFile)
+  const procConfig = {cwd: scriptsDir}
+  const terminal = process.env.REACT_TERMINAL
+
+  // set up the .packager.(env|bat) file to ensure the packager starts on the right port
+  const packagerEnvFile = path.join(
+    tempPath,
+    'node_modules',
+    'react-native',
+    'scripts',
+    packagerEnvFilename
+  )
+
+  // ensure we overwrite file by passing the 'w' flag
+  fs.writeFileSync(packagerEnvFile, portExportContent, {
+    encoding: 'utf8',
+    flag: 'w'
+  })
+
+  if (process.platform === 'darwin') {
+    if (terminal) {
+      return child_process.spawnSync(
+        'open',
+        ['-a', terminal, launchPackagerScript],
+        procConfig
+      )
+    }
+    return child_process.spawnSync('open', [launchPackagerScript], procConfig)
+  } else if (process.platform === 'linux') {
+    procConfig.detached = true
+    if (terminal) {
+      return child_process.spawn(
+        terminal,
+        ['-e', 'sh ' + launchPackagerScript],
+        procConfig
+      )
+    }
+    return child_process.spawn('sh', [launchPackagerScript], procConfig)
+  } else if (/^win/.test(process.platform)) {
+    procConfig.detached = true
+    procConfig.stdio = 'ignore'
+    return child_process.spawn(
+      'cmd.exe',
+      ['/C', launchPackagerScript],
+      procConfig
+    )
+  } else {
+    console.log(
+      chalk.red(
+        `Cannot start the packager. Unknown platform ${process.platform}`
+      )
+    )
+  }
 }
+
+module.exports = {build}

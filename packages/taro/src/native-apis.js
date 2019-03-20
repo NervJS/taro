@@ -26,7 +26,22 @@ const onAndSyncApis = {
   clearStorageSync: true,
   getSystemInfoSync: true,
   getExtConfigSync: true,
-  getLogManager: true
+  getLogManager: true,
+  onMemoryWarning: true,
+  reportAnalytics: true,
+  navigateToSmartGameProgram: true,
+  // 文件
+  getFileSystemManager: true,
+
+  getLaunchOptionsSync: true,
+  onPageNotFound: true,
+  onError: true,
+  onAppShow: true,
+  onAppHide: true,
+  offPageNotFound: true,
+  offError: true,
+  offAppShow: true,
+  offAppHide: true
 }
 const noPromiseApis = {
   // 媒体
@@ -60,7 +75,6 @@ const noPromiseApis = {
   showNavigationBarLoading: true,
   hideNavigationBarLoading: true,
   createAnimation: true,
-  pageScrollTo: true,
   createSelectorQuery: true,
   createCanvasContext: true,
   createContext: true,
@@ -76,6 +90,7 @@ const noPromiseApis = {
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,
 
+  getAccountInfoSync: true,
   getUpdateManager: true,
   createWorker: true
 }
@@ -89,11 +104,15 @@ const otherApis = {
 
   // 媒体
   chooseImage: true,
+  chooseMessageFile: true,
   previewImage: true,
   getImageInfo: true,
+  compressImage: true,
   saveImageToPhotosAlbum: true,
   startRecord: true,
   playVoice: true,
+  setInnerAudioOption: true,
+  getAvailableAudioSources: true,
   getBackgroundAudioPlayerState: true,
   playBackgroundAudio: true,
   seekBackgroundAudio: true,
@@ -170,6 +189,7 @@ const otherApis = {
   getConnectedWifi: true,
 
   // 界面
+  pageScrollTo: true,
   showToast: true,
   showLoading: true,
   showModal: true,
@@ -204,6 +224,7 @@ const otherApis = {
   checkIsSupportFacialRecognition: true,
   startFacialRecognitionVerify: true,
   startFacialRecognitionVerifyAndUploadVideo: true,
+  faceVerifyForPay: true,
   requestPayment: true,
   showShareMenu: true,
   hideShareMenu: true,
@@ -217,11 +238,39 @@ const otherApis = {
   getWeRunData: true,
   navigateToMiniProgram: true,
   navigateBackMiniProgram: true,
+  chooseInvoice: true,
   chooseInvoiceTitle: true,
   checkIsSupportSoterAuthentication: true,
   startSoterAuthentication: true,
-  checkIsSoterEnrolledInDevice: true
-  //
+  checkIsSoterEnrolledInDevice: true,
+
+  setEnableDebug: true,
+
+  // 百度小程序专有 API
+  // 百度小程序 AI 相关
+  ocrIdCard: true,
+  ocrBankCard: true,
+  ocrDrivingLicense: true,
+  ocrVehicleLicense: true,
+  textReview: true,
+  textToAudio: true,
+  imageAudit: true,
+  advancedGeneralIdentify: true,
+  objectDetectIdentify: true,
+  carClassify: true,
+  dishClassify: true,
+  logoClassify: true,
+  animalClassify: true,
+  plantClassify: true,
+
+  // 用户信息
+  getSwanId: true,
+  // 百度收银台支付
+  requestPolymerPayment: true,
+  // 打开小程序
+  navigateToSmartProgram: true,
+  navigateBackSmartProgram: true,
+  preloadSubPackage: true
 }
 
 function initPxTransform (config) {

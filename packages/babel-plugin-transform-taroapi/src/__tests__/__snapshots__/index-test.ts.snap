@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should leave other apis untouched 1`] = `
+"
+import Taro from '@tarojs/taro-h5';
+Taro.noop;"
+`;
+
+exports[`should move static apis under "Taro" 1`] = `
+"
+import Taro from '@tarojs/taro-h5';
+Taro.noop;
+Taro.noop();"
+`;
+
+exports[`should not go wrong when using an api twice 1`] = `
+"
+import { createAnimation as _createAnimation } from '@tarojs/taro-h5';
+const animation = _createAnimation({
+  duration: dura * 1000,
+  timingFunction: 'linear'
+});
+const resetAnimation = _createAnimation({
+  duration: 0,
+  timingFunction: 'linear'
+});"
+`;
+
+exports[`should not import taro duplicatly 1`] = `
+"
+import Taro, { createAnimation as _createAnimation } from \\"@tarojs/taro-h5\\";
+
+Taro.Component;
+_createAnimation();
+Taro.initPxTransform();"
+`;
+
+exports[`should work! 1`] = `
+"
+import Taro, { setStorage as _setStorage, getStorage as _getStorage } from '@tarojs/taro-h5';
+Taro.initPxTransform(Taro.param);
+Taro.initPxTransform();
+Taro.initPxTransform();
+_getStorage();
+_setStorage();
+export { Taro };"
+`;

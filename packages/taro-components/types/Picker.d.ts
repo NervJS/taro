@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface PickerStandardProps extends StandardProps {
+export interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
    * 是否禁用
    *
@@ -11,14 +11,14 @@ interface PickerStandardProps extends StandardProps {
   /**
    * 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
    */
-  onChange: BaseEventFunction
+  onChange: CommonEventFunction
   /**
    * 取消选择或点遮罩层收起 picker 时触发
    */
-  onCancel?: BaseEventFunction
+  onCancel?: CommonEventFunction
 }
 
-interface PickerSelectorProps extends PickerStandardProps {
+export interface PickerSelectorProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -37,7 +37,7 @@ interface PickerSelectorProps extends PickerStandardProps {
   value: number
 }
 
-interface PickerMultiSelectorProps extends PickerStandardProps {
+export interface PickerMultiSelectorProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -57,10 +57,10 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   /**
    * 某一列的值改变时触发 columnchange 事件，event.detail = {column: column, value: value}，column 的值表示改变了第几列（下标从0开始），value 的值表示变更值的下标
    */
-  onColumnChange?: BaseEventFunction
+  onColumnChange?: CommonEventFunction
 }
 
-interface PickerTimeProps extends PickerStandardProps {
+export interface PickerTimeProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -79,7 +79,7 @@ interface PickerTimeProps extends PickerStandardProps {
   end?: string
 }
 
-interface PickerDateProps extends PickerStandardProps {
+export interface PickerDateProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -104,7 +104,7 @@ interface PickerDateProps extends PickerStandardProps {
   fields?: 'year' | 'month' | 'day'
 }
 
-interface PickerRegionProps extends PickerStandardProps {
+export interface PickerRegionProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -116,7 +116,7 @@ interface PickerRegionProps extends PickerStandardProps {
   /**
    * 仅当 mode = region 时有效，可为每一列的顶部添加一个自定义的项
    */
-  customItem: string
+  customItem?: string
 }
 
 declare const Picker: ComponentType<

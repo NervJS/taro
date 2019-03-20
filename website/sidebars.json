@@ -11,34 +11,58 @@
       "specials"
     ],
     "教程": [
+      "spec-for-taro",
       "tutorial",
+      "project-config",
       "router",
       "size",
       "static-reference",
+      "component-style",
       "jsx",
       "props",
       "state",
       "event",
       "condition",
       "list",
+      "children",
       "ref",
       "envs",
-      "wx-relations",
-      "component-style",
+      "relations",
+      "wxcloud",
       "react-native",
-      "best-practice"
+      "ui-lib",
+      "taroize",
+      "best-practice",
+      "debug"
     ],
-    "组件库": [
-      "components-desc",
+    "进阶指南": [
+      "config",
+      "config-detail",
+      "async-await",
+      "redux",
+      "mobx",
+      "mini-third-party",
+      "hybrid",
+      "css-modules",
+      "CONTRIBUTING"
+    ]
+  },
+  "components": {
+    "关于组件库":  ["components-desc"],
+    "视图容器": [
       "components/viewContainer/view",
       "components/viewContainer/scroll-view",
       "components/viewContainer/swiper",
       "components/viewContainer/movable-view",
-      "components/viewContainer/cover-view",
+      "components/viewContainer/cover-view"
+    ],
+    "基础内容": [
       "components/base/icon",
       "components/base/text",
       "components/base/progress",
-      "components/base/rich-text",
+      "components/base/rich-text"
+    ],
+    "表单组件": [
       "components/forms/button",
       "components/forms/checkbox",
       "components/forms/form",
@@ -49,32 +73,29 @@
       "components/forms/radio",
       "components/forms/slider",
       "components/forms/switch",
-      "components/forms/textarea",
-      "components/navig/navigator",
+      "components/forms/textarea"
+    ],
+    "导航": ["components/navig/navigator"],
+    "媒体组件": [
       "components/media/audio",
       "components/media/image",
       "components/media/video",
-      "components/media/camera",
-      "components/media/live-player",
-      "components/media/live-pusher",
-      "components/maps/map",
-      "components/canvas/canvas",
-      "components/open/open-data",
-      "components/open/web-view"
+      "components/media/camera"
     ],
+    "地图": ["components/maps/map"],
+    "画布": ["components/canvas/canvas"],
+    "开放能力": [
+      "components/open/web-view",
+      "components/open/open-data"
+    ]
+  },
+  "api": {
     "API": [
+      "api-desc",
       "component",
       "env",
       "events",
       "native-api"
-    ],
-    "进阶指南": [
-      "config",
-      "config-detail",
-      "async-await",
-      "redux",
-      "wx-third-party",
-      "wx-hybrid"
     ]
   }
 }

@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   Dimensions,
   StyleSheet,
-  Platform
+  Platform,
+  ViewPropTypes
 } from 'react-native'
 import { Mask } from '../Mask'
 import { create } from '../StyleSheet'
@@ -209,13 +210,13 @@ Index.propTypes = {
   visible: PropTypes.bool,
   onShow: PropTypes.func,
   onClose: PropTypes.func,
-  style: View.propTypes.style,
-  maskStyle: View.propTypes.style,
-  headerStyle: View.propTypes.style,
+  style: ViewPropTypes.style,
+  maskStyle: ViewPropTypes.style,
+  headerStyle: ViewPropTypes.style,
   titleStyle: Text.propTypes.style,
-  bodyStyle: View.propTypes.style,
+  bodyStyle: ViewPropTypes.style,
   bodyTextStyle: Text.propTypes.style,
-  footerStyle: View.propTypes.style,
+  footerStyle: ViewPropTypes.style,
   children: PropTypes.node
 }
 

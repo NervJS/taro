@@ -66,17 +66,29 @@ function installNpmPkg (pkgList, options) {
   options = Object.assign({}, defaultInstallOptions, options)
   let installer = ''
   let args = []
-  if (Util.shouldUseCnpm()) {
+
+  if (Util.shouldUseYarn()) {
+    installer = 'yarn'
+  } else if (Util.shouldUseCnpm()) {
     installer = 'cnpm'
   } else {
     installer = 'npm'
   }
-  args = ['install'].concat(pkgList).filter(Boolean)
-  args.push('--silent', '--no-progress')
-  if (options.dev) {
-    args.push('--save-dev')
+
+  if (Util.shouldUseYarn()) {
+    args = ['add'].concat(pkgList).filter(Boolean)
+    args.push('--silent', '--no-progress')
+    if (options.dev) {
+      args.push('-D')
+    }
   } else {
-    args.push('--save')
+    args = ['install'].concat(pkgList).filter(Boolean)
+    args.push('--silent', '--no-progress')
+    if (options.dev) {
+      args.push('--save-dev')
+    } else {
+      args.push('--save')
+    }
   }
   const output = spawn.sync(installer, args, {
     stdio: ['ignore', 'pipe', 'inherit']
@@ -124,7 +136,7 @@ function getNpmPkgSync (npmName) {
 async function getNpmPkg (npmName) {
   let npmPath
   try {
-    npmPath = await resolveNpm(npmName)
+    npmPath = resolveNpmSync(npmName)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${npmName}，开始安装...`))

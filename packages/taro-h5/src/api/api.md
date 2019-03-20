@@ -202,7 +202,7 @@
 
 #### 拨打电话
 
-☑️ wx.makePhoneCall
+✅ wx.makePhoneCall
 
 #### 扫码
 
@@ -378,7 +378,7 @@
 
 #### 动画
 
-☑️ wx.createAnimation
+✅ wx.createAnimation
 
 #### 位置
 

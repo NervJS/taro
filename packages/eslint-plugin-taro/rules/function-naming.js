@@ -8,7 +8,10 @@ const lifeCycles = new Set([
   'shouldComponentUpdate',
   'getDerivedStateFromProps',
   'getSnapshotBeforeUpdate',
-  'componentWillReceiveProps'
+  'componentWillReceiveProps',
+  'componentDidCatchError',
+  'componentDidNotFound',
+  'componentDidCatch'
 ])
 
 module.exports = {

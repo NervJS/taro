@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction } from './common'
 
 /**
  * 实时音视频播放。
@@ -7,7 +7,7 @@ import { StandardProps, BaseEventFunction } from './common'
  * @since 1.7.0
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html}
  */
-interface LivePlayerProps extends StandardProps {
+export interface LivePlayerProps extends StandardProps {
 
   /**
    * 音视频地址。目前仅支持 flv, rtmp 格式
@@ -66,17 +66,17 @@ interface LivePlayerProps extends StandardProps {
   /**
    * 播放状态变化事件，detail = {code}
    */
-  onStateChange?: BaseEventFunction,
+  onStateChange?: CommonEventFunction,
 
   /**
    * 全屏变化事件，detail = {direction, fullScreen}
    */
-  onFullscreenChange?: BaseEventFunction,
+  onFullscreenChange?: CommonEventFunction,
 
   /**
    * 网络状态通知，detail = {info}
    */
-  onNetstatus?: BaseEventFunction
+  onNetstatus?: CommonEventFunction
 }
 
 declare const LivePlayer: ComponentType<LivePlayerProps>

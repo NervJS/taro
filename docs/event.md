@@ -5,7 +5,7 @@ title: 事件处理
 Taro 元素的事件处理和 DOM 元素的很相似。但是有一点语法上的不同:
 
 Taro 事件绑定属性的命名采用驼峰式写法，而不是小写。
-如果采用 JSX 的语法你需要传入一个函数作为事件处理函数，而不是一个字符串 (DOM元素的写法)。
+如果采用 JSX 的语法你需要传入一个函数作为事件处理函数，而不是一个字符串 (DOM 元素的写法)。
 例如，传统的微信小程序模板：
 
 ```html
@@ -25,7 +25,7 @@ Taro 中稍稍有点不同：
 在 Taro 中另一个不同是你不能使用 `catchEvent` 的方式阻止事件冒泡。你必须明确的使用 `stopPropagation`。例如，阻止事件冒泡你可以这样写：
 
 ```jsx
-class Toggle extends React.Component {
+class Toggle extends Component {
   constructor (props) {
     super(props)
     this.state = {isToggleOn: true}
@@ -50,7 +50,7 @@ class Toggle extends React.Component {
 
 ## 向事件处理程序传递参数
 
-通常我们会为事件处理程序传递额外的参数。例如，若是 `id` 是你要删除那一行的 `id`，以下两种方式都可以向事件处理程序传递参数：
+通常我们会为事件处理程序传递额外的参数。例如，传入欲删除行的 `id`：
 
 ```jsx
 <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
@@ -66,8 +66,8 @@ class Popper extends Component {
   }
 
   // 你可以通过 bind 传入多个参数
-  preventPop (name, test, e) {    //事件对象e要放在最后
-    e.preventDefault()
+  preventPop (name, test, e) {    //事件对象 e 要放在最后
+    e.stopPropagation()
   }
 
   render () {
@@ -76,7 +76,34 @@ class Popper extends Component {
 }
 ```
 
-> Taro 目前暂时不支持通过匿名函数传值，也不支持多层 lambda 嵌套。当你有传参需求时，请全部使用 `bind` 来处理。
+### 使用匿名函数
+
+> 自 v1.2.9 开始支持
+
+> 注意：在各小程序端，使用匿名函数，尤其是在 **循环中** 使用匿名函数，比使用 `bind` 进行事件传参占用更大的内存，速度也会更慢。
+
+除了 `bind` 之外，事件参数也可以使用匿名函数进行传参。直接写匿名函数不会打乱原有监听函数的参数顺序：
+
+```jsx
+class Popper extends Component {
+  constructor () {
+    super(...arguments)
+    this.state = { name: 'Hello world!' }
+  }
+
+  render () {
+    const name = 'test'
+    return <Button onClick={(e) => {
+      e.stopPropagation()
+      this.setState({
+        name
+      })
+    }}>
+      {this.state.name}
+    </Button>
+  }
+}
+```
 
 ## 任何组件的事件传递都要以 `on` 开头
 
@@ -97,4 +124,3 @@ const element = <View onClick={this.onTag} />
 const element2 = <Input onFocus={this.onFocus} />
 const element3 = <CustomElement onAnimationEnd={this.props.onAnimationEnd} />
 ```
-

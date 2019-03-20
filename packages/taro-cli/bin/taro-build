@@ -10,14 +10,17 @@ const { PROJECT_CONFIG } = require('../src/util')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program
-  .option('--type [typeName]', 'Build type, weapp/rn/h5')
+  .option('--type [typeName]', 'Build type, weapp/h5/rn/swan/alipay/tt')
   .option('--watch', 'Watch mode')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
   .parse(process.argv)
 
 const args = program.args
-const { type, watch, env, ui } = program
+const { type, watch, ui } = program
+let { env } =  program
+
+env = process.env.NODE_ENV || env
 
 if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))

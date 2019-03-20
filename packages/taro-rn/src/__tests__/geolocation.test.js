@@ -1,11 +1,11 @@
-import navigator from './__mock__/mockNavigator'
+import mockNavigator from './__mock__/mockNavigator'
 import Taro from '../index.js'
 
 Taro.initNativeApi(Taro)
 
 describe('geolocation', () => {
   describe('getLocation', () => {
-    test('不支持定位时返回执行fail', async () => {
+    test('不支持定位时返回执行fail', () => {
       global.navigator = {}
 
       const success = jest.fn()
@@ -31,7 +31,7 @@ describe('geolocation', () => {
     })
 
     test('定位功能返回正常参数', () => {
-      global.navigator = navigator
+      global.navigator.geolocation = mockNavigator.geolocation
 
       const success = jest.fn()
       const fail = jest.fn()

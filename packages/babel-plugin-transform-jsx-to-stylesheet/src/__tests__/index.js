@@ -260,6 +260,27 @@ class App extends Component {
 }`)
   })
 
+  it('transform scss file with hyphen(-) in the filename', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app-style.scss';
+
+class App extends Component {
+  render() {
+    return <div className="header" />;
+  }
+}`)).toBe(`
+import { createElement, Component } from 'rax';
+import app_styleStyleSheet from './app-style.scss';
+
+var _styleSheet = app_styleStyleSheet;
+class App extends Component {
+  render() {
+    return <div style={_styleSheet["header"]} />;
+  }
+}`)
+  })
+
   it('transform constant elements in render', () => {
     expect(getTransfromCode(`
 import { createElement, render } from 'rax';
@@ -269,6 +290,20 @@ render(<div className="header" />);
 `)).toBe(`
 import { createElement, render } from 'rax';
 import appStyleSheet from './app.css';
+
+var _styleSheet = appStyleSheet;
+render(<div style={_styleSheet["header"]} />);`)
+  })
+
+  it('transform stylus in render', () => {
+    expect(getTransfromCode(`
+import { createElement, render } from 'rax';
+import './app.styl';
+
+render(<div className="header" />);
+`)).toBe(`
+import { createElement, render } from 'rax';
+import appStyleSheet from './app_styles';
 
 var _styleSheet = appStyleSheet;
 render(<div style={_styleSheet["header"]} />);`)

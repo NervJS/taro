@@ -1,29 +1,13 @@
 const voidHtmlTags = new Set<string>([
-  'area',
-  'base',
-  'basefont',
-  'bgsound',
-  'br',
-  'col',
-  'command',
-  'embed',
-  'frame',
-  'hr',
-  'image',
+  // 'image',
   'img',
   'input',
-  'isindex',
-  'keygen',
-  'link',
-  'menuitem',
-  'meta',
-  'nextid',
-  'param',
-  'source',
-  'track',
-  'wbr',
   'import'
 ])
+
+if (process.env.NODE_ENV === 'test') {
+  voidHtmlTags.add('image')
+}
 
 interface Options {
   name: string,

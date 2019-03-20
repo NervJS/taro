@@ -9,13 +9,18 @@ function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps 
   return (WrappedComponent) => {
     let Connect = connectAdvanced(WrappedComponent)
 
+    /**
+     * @description 必须暴露出 config 配置和 getWrappedInstance 方法，
+     * 不然会影响相关生命周期调用及 Taro API 调用
+     */
     class WrappedConnect extends React.Component {
       constructor (props, context) {
         super(props, context)
         this.connectRef = React.createRef()
       }
 
-      static navigationOptions = WrappedComponent.navigationOptions || {}
+      // 必须将 config 暴露出去
+      static config = WrappedComponent.config || {}
 
       /**
        * @description 获取 被包裹组件的实例

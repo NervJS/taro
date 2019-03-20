@@ -1,15 +1,40 @@
 import React, { Component } from 'react'
-import { View, Image } from '../src'
+import { StyleSheet } from 'react-native'
+import { View, Image } from '../dist'
+
+const temp = StyleSheet.create({
+  img: {
+    width: 240,
+    height: 500
+  }
+})
 
 export default class EXImage extends Component {
+  constructor () {
+    super()
+    this.state = {
+      src: null
+    }
+  }
+
+  // componentDidMount () {
+  //   setTimeout(() => {
+  //     this.setState({
+  //       src: 'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'
+  //     })
+  //   }, 0)
+  // }
+
   render () {
     return (
-      <View>
+      <View style={{ width: 100 }}>
         <Image
-          src="https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png"
+          src={'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'}
+          // src={require('./jdlogo.png')}
+          mode="widthFix"
           style={{
-            width: 240,
-            height: 74
+            width: '100%',
+            // height: 500
           }}
         />
       </View>

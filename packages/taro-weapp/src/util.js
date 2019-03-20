@@ -122,7 +122,18 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             res[targetKey] = toItem
           } else {
             // 对象
-            diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            let shouldDiffObject = true
+            Object.keys(fromItem).some(key => {
+              if (typeof toItem[key] === 'undefined') {
+                shouldDiffObject = false
+                return true
+              }
+            })
+            if (shouldDiffObject) {
+              diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            } else {
+              res[targetKey] = toItem
+            }
           }
         }
       }
@@ -143,11 +154,9 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
     const targetKey = `${keyPrev}${key}`
     if (toItem === fromItem) {
       continue
-    } else
-    if (!hasProp.call(from, key)) {
+    } else if (!hasProp.call(from, key)) {
       res[targetKey] = toItem
-    } else
-    if (typeof toItem !== typeof fromItem) {
+    } else if (typeof toItem !== typeof fromItem) {
       res[targetKey] = toItem
     } else {
       if (typeof toItem !== 'object') {
@@ -166,11 +175,22 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
           }
         } else {
           // null
-          if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
+          if (!toItem || !fromItem) {
             res[targetKey] = toItem
           } else {
-          // 对象
-            diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            // 对象
+            let shouldDiffObject = true
+            Object.keys(fromItem).some(key => {
+              if (typeof toItem[key] === 'undefined') {
+                shouldDiffObject = false
+                return true
+              }
+            })
+            if (shouldDiffObject) {
+              diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            } else {
+              res[targetKey] = toItem
+            }
           }
         }
       }
@@ -214,4 +234,21 @@ const _loadTime = (new Date()).getTime().toString()
 let _i = 1
 export function getUniqueKey () {
   return _loadTime + (_i++)
+}
+
+export function getElementById (component, id, type) {
+  if (!component) return null
+
+  let res
+  if (type === 'component') {
+    res = component.selectComponent(id)
+    res = res ? (res.$component || res) : null
+  } else {
+    const query = wx.createSelectorQuery().in(component)
+    res = query.select(id)
+  }
+
+  if (res) return res
+
+  return null
 }

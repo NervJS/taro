@@ -1,10 +1,10 @@
 ---
-title: 端能力API
+title: 端能力 API
 ---
 
-由于不同的端自身会提供不同的端能力API，例如微信小程序中提供了网络请求、本地存储等等端能力的封装，目前在所有端中，微信小程序所提供的端能力API最为丰富，所以 Taro 在设计之初端能力的 API 便是采用微信小程序标准，在其他端各自对应实现，同时又对微信小程序的 API 进行了一些优化处理，例如异步的 API 支持 `Promise` 化，利用队列解决了 `wx.request` 的请求个数限制问题等等。
+由于不同的端自身会提供不同的端能力 API，例如微信小程序中提供了网络请求、本地存储等等端能力的封装，目前在所有端中，微信小程序所提供的端能力 API 最为丰富，所以 Taro 在设计之初端能力的 API 便是采用微信小程序标准，在其他端各自对应实现，同时又对微信小程序的 API 进行了一些优化处理，例如异步的 API 支持 `Promise` 化，利用队列解决了 `wx.request` 的请求个数限制问题等等。
 
-因为采用微信小程序标准的缘故，Taro 项目在编译到微信小程序端 API 都是可以正常运行的，如果编译到其他端，则要视当前端的能力支持而定，例如H5端就无法调用扫码、蓝牙等端能力，所以这些 API 在H5端运行的时候将什么也不做。
+因为采用微信小程序标准的缘故，Taro 项目在编译到微信小程序端 API 都是可以正常运行的，如果编译到其他端，则要视当前端的能力支持而定，例如 H5 端就无法调用扫码、蓝牙等端能力，所以这些 API 在 H5 端运行的时候将什么也不做。
 
 ## 网络
 
@@ -22,7 +22,7 @@ title: 端能力API
 | data | Object/String/ArrayBuffer | 否 |  |请求的参数 |
 | header | Object | 否 |  | 设置请求的 header，header 中不能设置 Referer。 |
 | method | String | 否 | GET | （需大写）有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
-| dataType | String | 否 | json | 如果设为json，会尝试对返回的数据做一次 JSON.parse |
+| dataType | String | 否 | json | 如果设为 json，会尝试对返回的数据做一次 JSON.parse |
 | responseType | String | 否 | text | 设置响应的数据类型。合法值：text、arraybuffer |
 | success | Function | 否 |  | 接口调用成功的回调函数 |
 | fail | Function | 否 |  | 接口调用失败的回调函数 |
@@ -64,17 +64,54 @@ Taro.request({
   .then(res => console.log(res.data))
 ```
 
+#### 拦截器
+
+> 自 `1.2.16` 开始支持
+
+可以使用拦截器在请求发出前或发出后做一些额外操作。
+
+在调用 `Taro.request` 发起请求之前，调用 `Taro.addInterceptor` 方法为请求添加拦截器，拦截器的调用顺序遵循洋葱模型。
+
+拦截器是一个函数，接受 chain 对象作为参数。chain 对象中含有 **requestParmas** 属性，代表请求参数。拦截器内最后需要调用 `chain.proceed(requestParams)` 以调用下一个拦截器或发起请求。
+
+拦截器例子：
+
+```js
+const interceptor = function (chain) {
+  const requestParams = chain.requestParams
+  const { method, data, url } = requestParams
+  console.log(`http ${method || 'GET'} --> ${url} data: `, data)
+  return chain.proceed(requestParams)
+    .then(res => {
+      console.log(`http <-- ${url} result:`, res)
+      return res
+    })
+}
+
+Taro.addInterceptor(interceptor)
+Taro.request({ url })
+```
+
+Taro 提供了两个内置拦截器 `logInterceptor` 与 `timeoutInterceptor`，分别用于打印请求的相关信息和在请求超时时抛出错误。
+
+```js
+Taro.addInterceptor(Taro.interceptors.logInterceptor)
+Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)
+Taro.request({ url })
+```
+
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.request | ✔️ | ✔️ | ✔️ |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 | 头条小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.request | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Taro.addInterceptor | ✔️ | ✔️ |  | ✔️ | ✔️ | ✔️ |
 
 ### 上传、下载
 
 #### Taro.uploadFile(OBJECT)
 
-使用方式同 [`wx.uploadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.uploadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.uploadFile.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -86,7 +123,7 @@ const uploadTask = Taro.uploadFile(params).then(...)
 
 #### Taro.downloadFile(OBJECT)
 
-使用方式同 [`wx.downloadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.downloadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.downloadFile.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -98,10 +135,10 @@ Taro.downloadFile(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.uploadFile | ✔️ |  | ✔️ |
-| Taro.downloadFile | ✔️ |  | ✔️ |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.uploadFile | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.downloadFile | ✔️ |  | ✔️ | ✔️ | ✔️ |
 
 ### WebSocket
 
@@ -117,7 +154,7 @@ Taro.downloadFile(params).then(...)
 | :-- | :-- | :-- | :-- |
 | url | String | 是 | 开发者服务器接口地址，必须是 wss 协议 |
 | header | Object | 否 | HTTP Header , header 中不能设置 Referer |
-| method | String | 否 | 默认是GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
+| method | String | 否 | 默认是 GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
 | protocols | StringArray | 否 | 子协议数组 |
 | success | Function | 否 | 接口调用成功的回调函数 |
 | fail | Function | 否 | 接口调用失败的回调函数 |
@@ -157,17 +194,17 @@ WebSocket 任务，可通过 [wx.connectSocket()](native-api.md#taroconnectsocke
 
 属性
 
-socketTask.readyState: websocket 当前的连接状态。
+socketTask.readyState: WebSocket 当前的连接状态。
 
-socketTask.CONNECTING: websocket 状态值：连接中。
+socketTask.CONNECTING: WebSocket 状态值：连接中。
 
-socketTask.OPEN: websocket 状态值：已连接。
+socketTask.OPEN: WebSocket 状态值：已连接。
 
-socketTask.CLOSING: websocket 状态值：关闭中。
+socketTask.CLOSING: WebSocket 状态值：关闭中。
 
-socketTask.CLOSED: websocket 状态值：已关闭。
+socketTask.CLOSED: WebSocket 状态值：已关闭。
 
-socketTask.ws: 浏览器 websocket 实例。（**h5 端独有**）
+socketTask.ws: 浏览器 WebSocket 实例。（**H5 端独有**）
 
 方法
 
@@ -192,7 +229,7 @@ SocketTask.close(OBJECT)
 
 | 参数 | 类型 | 必填 | 说明 |
 | :-- | :-- | :-- | :-- |
-| code | Number | 否 | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。如果这个参数没有被指定，默认的取值是1000 （表示正常连接关闭） |
+| code | Number | 否 | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。如果这个参数没有被指定，默认的取值是 1000 （表示正常连接关闭） |
 | reason | String | 否 | 一个可读的字符串，表示连接被关闭的原因 |
 | success | Function | 否 | 接口调用成功的回调函数 |
 | fail | Function | 否 | 接口调用失败的回调函数 |
@@ -206,7 +243,7 @@ SocketTask.onClose(CALLBACK)
 
 监听 WebSocket 连接关闭事件。
 
-**CALLBACK返回参数**
+**CALLBACK 返回参数**
 
 | 参数 | 类型 | 说明 |
 | :-- | :-- | :-- |
@@ -217,7 +254,7 @@ SocketTask.onError(CALLBACK)
 
 监听 WebSocket 错误。
 
-**CALLBACK返回参数**
+**CALLBACK 返回参数**
 
 | 参数 | 类型 | 说明 |
 | :-- | :-- | :-- |
@@ -225,9 +262,9 @@ SocketTask.onError(CALLBACK)
 
 SocketTask.onMessage(CALLBACK)
 
-监听WebSocket接受到服务器的消息事件。
+监听 WebSocket 接受到服务器的消息事件。
 
-**CALLBACK返回参数**
+**CALLBACK 返回参数**
 
 | 参数 | 类型 | 说明 |
 | :-- | :-- | :-- |
@@ -259,16 +296,16 @@ SocketTask.onMessage(CALLBACK)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.connectSocket | ✔️ | ✔️ | ✔️ |
-| SocketTask | ✔️ | ✔️ | ✔️ |
-| Taro.onSocketOpen | ✔️ |  |  |
-| Taro.onSocketError | ✔️ |  |  |
-| Taro.sendSocketMessage | ✔️ |  |  |
-| Taro.onSocketMessage | ✔️ |  |  |
-| Taro.closeSocket | ✔️ |  |  |
-| Taro.onSocketClose | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.connectSocket | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Taro.onSocketOpen | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.onSocketError | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.sendSocketMessage | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.onSocketMessage | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.closeSocket | ✔️ |  |  | ✔️ | ✔️ |
+| Taro.onSocketClose | ✔️ |  |  | ✔️ | ✔️ |
 
 ## 媒体
 
@@ -276,7 +313,9 @@ SocketTask.onMessage(CALLBACK)
 
 #### Taro.chooseImage(OBJECT)
 
-使用方式同 [`wx.chooseImage `](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.chooseImage `](https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseImage.html)，支持 `Promise` 化使用。
+
+注：RN 端该 API 不支持 `count` 属性；不支持相机与相册同时选择，只会取 `sourceType` 数组里的第一个值。默认从相册选取图片。
 
 **示例代码：**
 
@@ -288,7 +327,7 @@ Taro.chooseImage(params).then(...)
 
 #### Taro.previewImage(OBJECT)
 
-使用方式同 [`wx.previewImage`](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxpreviewimageobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.previewImage`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.previewImage.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -300,7 +339,7 @@ Taro.previewImage(params).then(...)
 
 #### Taro.getImageInfo(OBJECT)
 
-使用方式同 [`wx.getImageInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxgetimageinfoobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getImageInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getImageInfo.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -312,7 +351,7 @@ Taro.getImageInfo(params).then(...)
 
 #### Taro.saveImageToPhotosAlbum(OBJECT)
 
-使用方式同 [`wx.saveImageToPhotosAlbum`](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxsaveimagetophotosalbumobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.saveImageToPhotosAlbum`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.saveImageToPhotosAlbum.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -324,18 +363,18 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.chooseImage | ✔️ |  |  |
-| Taro.previewImage | ✔️ |  | ✔️ |
-| Taro.getImageInfo | ✔️ |  | ✔️ |
-| Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.chooseImage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Taro.previewImage | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.getImageInfo | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ | ✔️ | ✔️ |
 
 ### 录音
 
 #### Taro.startRecord(OBJECT)
 
-使用方式同 [`wx.startRecord`](https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstartrecordobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.startRecord`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startRecord.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -359,16 +398,16 @@ Taro.stopRecord()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.startRecord | ✔️ |  |  |
-| Taro.stopRecord | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.startRecord | ✔️ |  |  |  |  |
+| Taro.stopRecord | ✔️ |  |  |  |  |
 
 ### 录音管理
 
 #### Taro.getRecorderManager()
 
-使用方式同 [`wx.getRecorderManager`](https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html)。
+使用方式同 [`wx.getRecorderManager`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getRecorderManager.html)。
 
 **示例代码：**
 
@@ -380,15 +419,15 @@ const recorderManager = Taro.getRecorderManager()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.getRecorderManager | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.getRecorderManager | ✔️ |  |  |  |  |
 
 ### 音频播放控制
 
 #### Taro.playVoice(OBJECT)
 
-使用方式同 [`wx.playVoice`](https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxplayvoiceobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.playVoice`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.playVoice.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -436,17 +475,17 @@ Taro.startRecord(params)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.playVoice | ✔️ |  |  |
-| Taro.pauseVoice | ✔️ |  |  |
-| Taro.stopVoice | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Taro.playVoice | ✔️ |  |  |  |  |
+| Taro.pauseVoice | ✔️ |  |  |  |  |
+| Taro.stopVoice | ✔️ |  |  |  |  |
 
 ### 音乐播放控制
 
 #### Taro.getBackgroundAudioPlayerState(OBJECT)
 
-使用方式同 [`wx.getBackgroundAudioPlayerState`](https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxgetbackgroundaudioplayerstateobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getBackgroundAudioPlayerState`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getBackgroundAudioPlayerState.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -458,7 +497,7 @@ Taro.getBackgroundAudioPlayerState(params).then(...)
 
 #### Taro.playBackgroundAudio(OBJECT)
 
-使用方式同 [`wx.playBackgroundAudio`](https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxplaybackgroundaudioobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.playBackgroundAudio`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.playBackgroundAudio.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -482,7 +521,7 @@ Taro.pauseBackgroundAudio()
 
 #### Taro.seekBackgroundAudio(OBJECT)
 
-使用方式同 [`wx.seekBackgroundAudio`](https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxseekbackgroundaudioobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.seekBackgroundAudio`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.seekBackgroundAudio.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -518,8 +557,8 @@ Taro.stopBackgroundAudio()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.getBackgroundAudioPlayerState | ✔️ |  |  |
 | Taro.playBackgroundAudio | ✔️ |  |  |
 | Taro.pauseBackgroundAudio | ✔️ |  |  |
@@ -533,7 +572,7 @@ Taro.stopBackgroundAudio()
 
 #### Taro.getBackgroundAudioManager()
 
-使用方式同 [`wx.getBackgroundAudioManager`](https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html)。
+使用方式同 [`wx.getBackgroundAudioManager`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getBackgroundAudioManager.html)。
 
 **示例代码：**
 
@@ -545,7 +584,7 @@ const backgroundAudioManager = Taro.getBackgroundAudioManager()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.getBackgroundAudioManager | ✔️ |  |  |
 
@@ -553,7 +592,7 @@ const backgroundAudioManager = Taro.getBackgroundAudioManager()
 
 #### Taro.createAudioContext(audioId, this.$scope)
 
-使用方式同 [`wx.createAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-audio.html#wxcreateaudiocontextaudioid)。
+使用方式同 [`wx.createAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createAudioContext.html)。
 
 **示例代码：**
 
@@ -565,7 +604,7 @@ const audioCtx = Taro.createAudioContext('myAudio')
 
 #### Taro.createInnerAudioContext()
 
-使用方式同 [`wx.createInnerAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html)。
+使用方式同 [`wx.createInnerAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createInnerAudioContext.html)。
 
 **示例代码：**
 
@@ -577,8 +616,8 @@ const innerAudioContext = Taro.createInnerAudioContext()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.createAudioContext | ✔️ |  |  |
 | Taro.createInnerAudioContext | ✔️ |  |  |
 
@@ -586,7 +625,9 @@ const innerAudioContext = Taro.createInnerAudioContext()
 
 #### Taro.chooseVideo(OBJECT)
 
-使用方式同 [`wx.chooseVideo`](https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxchoosevideoobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.chooseVideo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseVideo.html)，支持 `Promise` 化使用。
+
+注：RN端该API不支持 `compressed` 、`maxDuration`、`camera` 属性；不支持相册与相机同时选择，只会取 `sourceType` 数组里的第一个值。默认从相册选取视频。
 
 **示例代码：**
 
@@ -598,7 +639,7 @@ Taro.chooseVideo(params).then(...)
 
 #### Taro.saveVideoToPhotosAlbum(OBJECT)
 
-使用方式同 [`wx.saveVideoToPhotosAlbum`](https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxsavevideotophotosalbumobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.saveVideoToPhotosAlbum`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.saveVideoToPhotosAlbum.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -610,16 +651,16 @@ Taro.saveVideoToPhotosAlbum(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.chooseVideo | ✔️ |  |  |
-| Taro.saveVideoToPhotosAlbum | ✔️ |  |  |
+| Taro.chooseVideo | ✔️ |  | ✔️ |
+| Taro.saveVideoToPhotosAlbum | ✔️ |  | ✔️ |
 
 ### 视频组件控制
 
 #### Taro.createVideoContext(videoId, this.$scope)
 
-使用方式同 [`wx.createVideoContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-video.html#wxcreatevideocontextvideoid)。
+使用方式同 [`wx.createVideoContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createVideoContext.html)。
 
 **示例代码：**
 
@@ -631,7 +672,7 @@ const videoContext = Taro.createVideoContext('myVideo')
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.createVideoContext | ✔️ |  |  |
 
@@ -639,7 +680,7 @@ const videoContext = Taro.createVideoContext('myVideo')
 
 #### Taro.createCameraContext(this.$scope)
 
-使用方式同 [`wx.createCameraContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-camera.html)。
+使用方式同 [`wx.createCameraContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createCameraContext.html)。
 
 **示例代码：**
 
@@ -651,7 +692,7 @@ const cameraContext = Taro.createCameraContext()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.createCameraContext | ✔️ |  |  |
 
@@ -659,7 +700,7 @@ const cameraContext = Taro.createCameraContext()
 
 #### Taro.saveFile(OBJECT)
 
-使用方式同 [`wx.saveFile`](https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxsavefileobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.saveFile`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.saveFile.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -671,7 +712,7 @@ Taro.saveFile(params).then(...)
 
 #### Taro.getFileInfo(OBJECT)
 
-使用方式同 [`wx.getFileInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.getFileInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getFileInfo.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -683,7 +724,7 @@ Taro.getFileInfo(params).then(...)
 
 #### Taro.getSavedFileList(OBJECT)
 
-使用方式同 [`wx.getSavedFileList`](https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxgetsavedfilelistobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getSavedFileList`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getSavedFileList.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -695,7 +736,7 @@ Taro.getSavedFileList(params).then(...)
 
 #### Taro.getSavedFileInfo(OBJECT)
 
-使用方式同 [`wx.getSavedFileInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxgetsavedfileinfoobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getSavedFileInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getSavedFileInfo.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -707,7 +748,7 @@ Taro.getSavedFileInfo(params).then(...)
 
 #### Taro.removeSavedFile(OBJECT)
 
-使用方式同 [`wx.removeSavedFile`](https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxremovesavedfileobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.removeSavedFile`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.removeSavedFile.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -719,7 +760,7 @@ Taro.removeSavedFile(params).then(...)
 
 #### Taro.openDocument(OBJECT)
 
-使用方式同 [`wx.openDocument`](https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxopendocumentobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.openDocument`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openDocument.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -731,7 +772,7 @@ Taro.openDocument(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.saveFile | ✔️ |  |  |
 | Taro.getFileInfo | ✔️ |  |  |
@@ -832,7 +873,7 @@ const data = Taro.getStorageSync('key')
 
 #### Taro.getStorageInfo(OBJECT)
 
-异步获取当前storage的相关信息，支持 `Promise` 化使用。
+异步获取当前 storage 的相关信息，支持 `Promise` 化使用。
 
 **OBJECT 参数说明：**
 
@@ -859,7 +900,7 @@ Taro.getStorageInfo()
 
 #### Taro.getStorageInfoSync()
 
-同步获取当前storage的相关信息。
+同步获取当前 storage 的相关信息。
 
 **示例代码：**
 
@@ -936,7 +977,7 @@ Taro.clearStorageSync()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.setStorage | ✔️ | ✔️ | ✔️ |
 | Taro.setStorageSync | ✔️ | ✔️ |  |
@@ -955,7 +996,7 @@ Taro.clearStorageSync()
 
 #### Taro.getLocation(OBJECT)
 
-使用方式同 [`wx.getLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxgetlocationobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getLocation.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -967,7 +1008,7 @@ Taro.getLocation(params).then(...)
 
 #### Taro.chooseLocation(OBJECT)
 
-使用方式同 [`wx.chooseLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxchooselocationobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.chooseLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseLocation.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -979,7 +1020,7 @@ Taro.chooseLocation(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.getLocation | ✔️ |  | ✔️ |
 | Taro.chooseLocation | ✔️ |  |  |
@@ -988,7 +1029,7 @@ Taro.chooseLocation(params).then(...)
 
 #### Taro.openLocation(OBJECT)
 
-使用方式同 [`wx.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openLocation.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1000,7 +1041,7 @@ Taro.openLocation(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.openLocation | ✔️ |  |  |
 
@@ -1008,7 +1049,7 @@ Taro.openLocation(params).then(...)
 
 #### Taro.createMapContext(mapId, this.$scope)
 
-使用方式同 [`wx.createMapContext`](https://developers.weixin.qq.com/miniprogram/dev/api/api-map.html#wxcreatemapcontextmapid)。
+使用方式同 [`wx.createMapContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createMapContext.html)。
 
 **示例代码：**
 
@@ -1020,7 +1061,7 @@ const mapCtx = Taro.createMapContext('myMap')
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.createMapContext | ✔️ |  |  |
 
@@ -1114,7 +1155,7 @@ console.log(res.platform)
 
 #### Taro.canIUse(String)
 
-使用方式同 [`wx.canIUse`](https://developers.weixin.qq.com/miniprogram/dev/api/api-caniuse.html)。
+使用方式同 [`wx.canIUse`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.canIUse.html)。
 
 **示例代码：**
 
@@ -1134,7 +1175,7 @@ Taro.canIUse('button.open-type.contact')
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.getSystemInfo | ✔️ | ✔️ | ✔️ |
 | Taro.getSystemInfoSync | ✔️ | ✔️ | ✔️ |
@@ -1226,7 +1267,7 @@ Taro.onNetworkStatusChange(res => {
 
 #### Taro.onAccelerometerChange(CALLBACK)
 
-使用方式同 [`wx.onAccelerometerChange`](https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxonaccelerometerchangecallback)。
+使用方式同 [`wx.onAccelerometerChange`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onAccelerometerChange.html)。
 
 **示例代码：**
 
@@ -1242,7 +1283,7 @@ Taro.onAccelerometerChange(res => {
 
 #### Taro.startAccelerometer(OBJECT)
 
-使用方式同 [`wx.startAccelerometer`](https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstartaccelerometerobject)。
+使用方式同 [`wx.startAccelerometer`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startAccelerometer.html)。
 
 **示例代码：**
 
@@ -1254,7 +1295,7 @@ Taro.startAccelerometer({ interval: 'game' })
 
 #### Taro.stopAccelerometer(OBJECT)
 
-使用方式同 [`wx.stopAccelerometer`](https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstopaccelerometerobject)。
+使用方式同 [`wx.stopAccelerometer`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopAccelerometer.html)。
 
 **示例代码：**
 
@@ -1266,7 +1307,7 @@ Taro.stopAccelerometer()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.onAccelerometerChange | ✔️ |  |  |
 | Taro.startAccelerometer | ✔️ |  |  |
@@ -1276,7 +1317,7 @@ Taro.stopAccelerometer()
 
 #### Taro.onCompassChange(CALLBACK)
 
-使用方式同 [`wx.onCompassChange`](https://developers.weixin.qq.com/miniprogram/dev/api/compass.html)。
+使用方式同 [`wx.onCompassChange`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onCompassChange.html)。
 
 **示例代码：**
 
@@ -1290,7 +1331,7 @@ Taro.onCompassChange(res => {
 
 #### Taro.startCompass(OBJECT)
 
-使用方式同 [`wx.startCompass`](https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstartcompassobject)。
+使用方式同 [`wx.startCompass`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startCompass.html)。
 
 **示例代码：**
 
@@ -1302,7 +1343,7 @@ Taro.startCompass()
 
 #### Taro.stopCompass(OBJECT)
 
-使用方式同 [`wx.stopCompass`](https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstopcompassobject)。
+使用方式同 [`wx.stopCompass`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopCompass.html)。
 
 **示例代码：**
 
@@ -1314,7 +1355,7 @@ Taro.stopCompass()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.onCompassChange | ✔️ |  |  |
 | Taro.startCompass | ✔️ |  |  |
@@ -1324,7 +1365,7 @@ Taro.stopCompass()
 
 #### Taro.makePhoneCall(OBJECT)
 
-使用方式同 [`wx.makePhoneCall`](https://developers.weixin.qq.com/miniprogram/dev/api/phonecall.html#wxmakephonecallobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.makePhoneCall`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.makePhoneCall.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1336,15 +1377,15 @@ Taro.makePhoneCall(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.makePhoneCall | ✔️ |  | ✔️ |
+| Taro.makePhoneCall | ✔️ | ✔️ | ✔️ |
 
 ### 扫码
 
 #### Taro.scanCode(OBJECT)
 
-使用方式同 [`wx.scanCode`](https://developers.weixin.qq.com/miniprogram/dev/api/scancode.html#wxscancodeobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.scanCode`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.scanCode.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1356,7 +1397,7 @@ Taro.scanCode(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.scanCode | ✔️ |  |  |
 
@@ -1364,7 +1405,7 @@ Taro.scanCode(params).then(...)
 
 #### Taro.setClipboardData(OBJECT)
 
-使用方式同 [`wx.setClipboardData`](https://developers.weixin.qq.com/miniprogram/dev/api/clipboard.html#wxsetclipboarddataobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setClipboardData`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setClipboardData.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1376,7 +1417,7 @@ Taro.setClipboardData(params).then(...)
 
 #### Taro.getClipboardData(OBJECT)
 
-使用方式同 [`wx.getClipboardData`](https://developers.weixin.qq.com/miniprogram/dev/api/clipboard.html#wxgetclipboarddataobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getClipboardData`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getClipboardData.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1388,7 +1429,7 @@ Taro.getClipboardData(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.setClipboardData | ✔️ |  | ✔️ |
 | Taro.getClipboardData | ✔️ |  | ✔️ |
@@ -1397,7 +1438,7 @@ Taro.getClipboardData(params).then(...)
 
 #### Taro.openBluetoothAdapter(OBJECT)
 
-使用方式同 [`wx.openBluetoothAdapter`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxopenbluetoothadapterobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.openBluetoothAdapter`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openBluetoothAdapter.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1409,7 +1450,7 @@ Taro.openBluetoothAdapter(params).then(...)
 
 #### Taro.closeBluetoothAdapter(OBJECT)
 
-使用方式同 [`wx.closeBluetoothAdapter`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxclosebluetoothadapterobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.closeBluetoothAdapter`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.closeBluetoothAdapter.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1421,7 +1462,7 @@ Taro.closeBluetoothAdapter(params).then(...)
 
 #### Taro.getBluetoothAdapterState(OBJECT)
 
-使用方式同 [`wx.getBluetoothAdapterState`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbluetoothadapterstateobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getBluetoothAdapterState`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getBluetoothAdapterState.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1433,7 +1474,7 @@ Taro.getBluetoothAdapterState(params).then(...)
 
 #### Taro.onBluetoothAdapterStateChange(CALLBACK)
 
-使用方式同 [`wx.onBluetoothAdapterStateChange`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbluetoothadapterstatechangecallback)。
+使用方式同 [`wx.onBluetoothAdapterStateChange`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onBluetoothAdapterStateChange.html)。
 
 **示例代码：**
 
@@ -1447,7 +1488,7 @@ Taro.onBluetoothAdapterStateChange(res => {
 
 #### Taro.startBluetoothDevicesDiscovery(OBJECT)
 
-使用方式同 [`wx.startBluetoothDevicesDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxstartbluetoothdevicesdiscoveryobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.startBluetoothDevicesDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startBluetoothDevicesDiscovery.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1459,7 +1500,7 @@ Taro.startBluetoothDevicesDiscovery(params).then(...)
 
 #### Taro.stopBluetoothDevicesDiscovery(OBJECT)
 
-使用方式同 [`wx.stopBluetoothDevicesDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxstopbluetoothdevicesdiscoveryobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.stopBluetoothDevicesDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopBluetoothDevicesDiscovery.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1471,7 +1512,7 @@ Taro.stopBluetoothDevicesDiscovery(params).then(...)
 
 #### Taro.getBluetoothDevices(OBJECT)
 
-使用方式同 [`wx.getBluetoothDevices`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbluetoothdevicesobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getBluetoothDevices`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getBluetoothDevices.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1483,7 +1524,7 @@ Taro.getBluetoothDevices(params).then(...)
 
 #### Taro.getConnectedBluetoothDevices(OBJECT)
 
-使用方式同 [`wx.getConnectedBluetoothDevices`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetconnectedbluetoothdevicesobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getConnectedBluetoothDevices`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getConnectedBluetoothDevices.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1495,7 +1536,7 @@ Taro.getConnectedBluetoothDevices(params).then(...)
 
 #### Taro.onBluetoothDeviceFound(CALLBACK)
 
-使用方式同 [`wx.onBluetoothDeviceFound `](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbluetoothdevicefoundcallback)。
+使用方式同 [`wx.onBluetoothDeviceFound `](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onBluetoothDeviceFound.html)。
 
 **示例代码：**
 
@@ -1510,7 +1551,7 @@ Taro.onBluetoothDeviceFound(devices => {
 
 #### Taro.createBLEConnection(OBJECT)
 
-使用方式同 [`wx.createBLEConnection`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxcreatebleconnectionobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.createBLEConnection`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.createBLEConnection.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1522,7 +1563,7 @@ Taro.createBLEConnection(params).then(...)
 
 #### Taro.closeBLEConnection(OBJECT)
 
-使用方式同 [`wx.closeBLEConnection`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxclosebleconnectionobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.closeBLEConnection`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.closeBLEConnection.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1534,7 +1575,7 @@ Taro.closeBLEConnection(params).then(...)
 
 #### Taro.getBLEDeviceServices(OBJECT)
 
-使用方式同 [`wx.getBLEDeviceServices`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbledeviceservicesobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getBLEDeviceServices`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getBLEDeviceServices.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1546,7 +1587,7 @@ Taro.getBLEDeviceServices(params).then(...)
 
 #### Taro.getBLEDeviceCharacteristics(OBJECT)
 
-使用方式同 [`wx.getBLEDeviceCharacteristics`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbledevicecharacteristicsobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getBLEDeviceCharacteristics`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getBLEDeviceCharacteristics.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1558,7 +1599,7 @@ Taro.getBLEDeviceCharacteristics(params).then(...)
 
 #### Taro.readBLECharacteristicValue(OBJECT)
 
-使用方式同 [`wx.readBLECharacteristicValue`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxreadblecharacteristicvalueobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.readBLECharacteristicValue`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.readBLECharacteristicValue.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1570,7 +1611,7 @@ Taro.readBLECharacteristicValue(params).then(...)
 
 #### Taro.writeBLECharacteristicValue(OBJECT)
 
-使用方式同 [`wx.writeBLECharacteristicValue`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxwriteblecharacteristicvalueobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.writeBLECharacteristicValue`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.writeBLECharacteristicValue.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1582,7 +1623,7 @@ Taro.writeBLECharacteristicValue(params).then(...)
 
 #### Taro.notifyBLECharacteristicValueChange(OBJECT)
 
-使用方式同 [`wx.notifyBLECharacteristicValueChange`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxnotifyblecharacteristicvaluechangeobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.notifyBLECharacteristicValueChange`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.notifyBLECharacteristicValueChange.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1594,7 +1635,7 @@ Taro.notifyBLECharacteristicValueChange(params).then(...)
 
 #### Taro.onBLEConnectionStateChange(CALLBACK)
 
-使用方式同 [`wx.onBLEConnectionStateChange`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbleconnectionstatechangecallback)。
+使用方式同 [`wx.onBLEConnectionStateChange`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBLEConnectionStateChange.html)。
 
 **示例代码：**
 
@@ -1609,7 +1650,7 @@ Taro.onBLEConnectionStateChange(res => {
 
 #### Taro.onBLECharacteristicValueChange(CALLBACK)
 
-使用方式同 [`wx.onBLECharacteristicValueChange`](https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonblecharacteristicvaluechangecallback)。
+使用方式同 [`wx.onBLECharacteristicValueChange`](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBLECharacteristicValueChange.html)。
 
 **示例代码：**
 
@@ -1624,7 +1665,7 @@ Taro.onBLECharacteristicValueChange(res => {
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.openBluetoothAdapter | ✔️ |  |  |
 | Taro.closeBluetoothAdapter | ✔️ |  |  |
@@ -1649,7 +1690,7 @@ Taro.onBLECharacteristicValueChange(res => {
 
 #### Taro.startBeaconDiscovery(OBJECT)
 
-使用方式同 [`wx.startBeaconDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxstartbeacondiscoveryobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.startBeaconDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startBeaconDiscovery.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1661,7 +1702,7 @@ Taro.startBeaconDiscovery(params).then(...)
 
 #### Taro.stopBeaconDiscovery(OBJECT)
 
-使用方式同 [`wx.stopBeaconDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxstopbeacondiscoveryobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.stopBeaconDiscovery`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopBeaconDiscovery.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1673,7 +1714,7 @@ Taro.stopBeaconDiscovery(params).then(...)
 
 #### Taro.getBeacons(OBJECT)
 
-使用方式同 [`wx.getBeacons`](https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxgetbeaconsobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getBeacons`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getBeacons.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1685,15 +1726,15 @@ Taro.getBeacons(params).then(...)
 
 #### Taro.onBeaconUpdate(CALLBACK)
 
-使用方式同 [`wx.onBeaconUpdate`](https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxonbeaconupdatecallback)。
+使用方式同 [`wx.onBeaconUpdate`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onBeaconUpdate.html)。
 
 #### Taro.onBeaconServiceChange(CALLBACK)
 
-使用方式同 [`wx.onBeaconServiceChange`](https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxonbeaconservicechangecallback)。
+使用方式同 [`wx.onBeaconServiceChange`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onBeaconServiceChange.html)。
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.startBeaconDiscovery | ✔️ |  |  |
 | Taro.stopBeaconDiscovery | ✔️ |  |  |
@@ -1705,7 +1746,7 @@ Taro.getBeacons(params).then(...)
 
 #### Taro.setScreenBrightness(OBJECT)
 
-使用方式同 [`wx.setScreenBrightness`](https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxsetscreenbrightnessobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setScreenBrightness`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setScreenBrightness.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1717,7 +1758,7 @@ Taro.setScreenBrightness(params).then(...)
 
 #### Taro.getScreenBrightness(OBJECT)
 
-使用方式同 [`wx.getScreenBrightness`](https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxgetscreenbrightnessobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getScreenBrightness`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getScreenBrightness.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1729,7 +1770,7 @@ Taro.getScreenBrightness(params).then(...)
 
 #### Taro.setKeepScreenOn(OBJECT)
 
-使用方式同 [`wx.setKeepScreenOn`](https://developers.weixin.qq.com/miniprogram/dev/api/setKeepScreenOn.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.setKeepScreenOn`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setKeepScreenOn.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1741,7 +1782,7 @@ Taro.setKeepScreenOn(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.setScreenBrightness | ✔️ |  |  |
 | Taro.getScreenBrightness | ✔️ |  |  |
@@ -1765,7 +1806,7 @@ Taro.onUserCaptureScreen(() => {
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.onUserCaptureScreen | ✔️ |  |  |
 
@@ -1773,7 +1814,7 @@ Taro.onUserCaptureScreen(() => {
 
 #### Taro.vibrateLong(OBJECT)
 
-使用方式同 [`wx.vibrateLong`](https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxvibratelongobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.vibrateLong`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.vibrateLong.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1785,7 +1826,7 @@ Taro.vibrateLong(params).then(...)
 
 #### Taro.vibrateShort(OBJECT)
 
-使用方式同 [`wx.vibrateShort`](https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxvibrateshortobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.vibrateShort`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.vibrateShort.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1797,7 +1838,7 @@ Taro.vibrateShort(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.vibrateLong | ✔️ |  | ✔️ |
 | Taro.vibrateShort | ✔️ |  | ✔️ |
@@ -1806,7 +1847,7 @@ Taro.vibrateShort(params).then(...)
 
 #### Taro.addPhoneContact(OBJECT)
 
-使用方式同 [`wx.addPhoneContact`](https://developers.weixin.qq.com/miniprogram/dev/api/phone-contact.html#wxaddphonecontactobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.addPhoneContact`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.addPhoneContact.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1818,7 +1859,7 @@ Taro.addPhoneContact(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.addPhoneContact | ✔️ |  |  |
 
@@ -1826,7 +1867,7 @@ Taro.addPhoneContact(params).then(...)
 
 #### Taro.getHCEState(OBJECT)
 
-使用方式同 [`wx.getHCEState`](https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxgethcestateobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getHCEState`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getHCEState.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1838,7 +1879,7 @@ Taro.getHCEState(params).then(...)
 
 #### Taro.startHCE(OBJECT)
 
-使用方式同 [`wx.startHCE`](https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxstarthceobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.startHCE`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startHCE.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1850,7 +1891,7 @@ Taro.startHCE(params).then(...)
 
 #### Taro.stopHCE(OBJECT)
 
-使用方式同 [`wx.stopHCE`](https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxstophceobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.stopHCE`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopHCE.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1862,11 +1903,11 @@ Taro.stopHCE(params).then(...)
 
 #### Taro.onHCEMessage(CALLBACK)
 
-使用方式同 [`wx.onHCEMessage`](https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxonhcemessagecallback)。
+使用方式同 [`wx.onHCEMessage`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onHCEMessage.html)。
 
 #### Taro.sendHCEMessage(OBJECT)
 
-使用方式同 [`wx.sendHCEMessage`](https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wx.sendhcemessageobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.sendHCEMessage`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.sendHCEMessage.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1878,7 +1919,7 @@ Taro.sendHCEMessage(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.getHCEState | ✔️ |  |  |
 | Taro.startHCE | ✔️ |  |  |
@@ -1890,7 +1931,7 @@ Taro.sendHCEMessage(params).then(...)
 
 #### Taro.startWifi(OBJECT)
 
-使用方式同 [`wx.startWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxstartwifiobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.startWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startWifi.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1902,7 +1943,7 @@ Taro.startWifi(params).then(...)
 
 #### Taro.stopWifi(OBJECT)
 
-使用方式同 [`wx.stopWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxstopwifiobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.stopWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopWifi.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1914,7 +1955,7 @@ Taro.stopWifi(params).then(...)
 
 #### Taro.connectWifi(OBJECT)
 
-使用方式同 [`wx.connectWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxconnectwifiobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.connectWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.connectWifi.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1926,7 +1967,7 @@ Taro.connectWifi(params).then(...)
 
 #### Taro.getWifiList(OBJECT)
 
-使用方式同 [`wx.getWifiList`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetwifilistobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getWifiList`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getWifiList.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1938,11 +1979,11 @@ Taro.getWifiList(params).then(...)
 
 #### Taro.onGetWifiList(CALLBACK)
 
-使用方式同 [`wx.onGetWifiList`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxongetwifilistcallback)。
+使用方式同 [`wx.onGetWifiList`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onGetWifiList.html)。
 
 #### Taro.setWifiList(OBJECT)
 
-使用方式同 [`wx.setWifiList`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxsetwifilistobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setWifiList`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setWifiList.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1954,11 +1995,11 @@ Taro.setWifiList(params).then(...)
 
 #### Taro.onWifiConnected(CALLBACK)
 
-使用方式同 [`wx.onWifiConnected`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxonwificonnectedcallback)。
+使用方式同 [`wx.onWifiConnected`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onWifiConnected.html)。
 
 #### Taro.getConnectedWifi(OBJECT)
 
-使用方式同 [`wx.getConnectedWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetconnectedwifiobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.getConnectedWifi`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getConnectedWifi.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1970,7 +2011,7 @@ Taro.getConnectedWifi(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.startWifi | ✔️ |  |  |
 | Taro.stopWifi | ✔️ |  |  |
@@ -2025,7 +2066,7 @@ Taro.showToast({
 
 #### Taro.showLoading(OBJECT)
 
-显示 loading 提示框, 需主动调用 Taro.hideLoading 才能关闭提示框，支持 `Promise` 化使用。
+显示 Loading 提示框, 需主动调用 Taro.hideLoading 才能关闭提示框，支持 `Promise` 化使用。
 
 **OBJECT 参数说明：**
 
@@ -2103,7 +2144,7 @@ Taro.showModal({
 
 | 参数 | 类型 | 必填 | 说明 |
 | :-- | :-- | :-- | :-- |
-| itemList | String Array | 是 | 按钮的文字数组，数组长度最大为6个 |
+| itemList | String Array | 是 | 按钮的文字数组，数组长度最大为 6 个 |
 | itemColor | HexColor | 否 | 按钮的文字颜色，默认为"#000000" |
 | success | Function | 否 | 接口调用成功的回调函数 |
 | fail | Function | 否 | 接口调用失败的回调函数 |
@@ -2113,7 +2154,7 @@ Taro.showModal({
 
 | 参数值 | 类型 | 说明 |
 | :-- | :-- | :-- |
-| tapIndex | Number | 用户点击的按钮，从上到下的顺序，从0开始 |
+| tapIndex | Number | 用户点击的按钮，从上到下的顺序，从 0 开始 |
 
 ```jsx
 import Taro from '@tarojs/taro'
@@ -2128,7 +2169,7 @@ Taro.showActionSheet({
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.showToast | ✔️ | ✔️ | ✔️ |
 | Taro.showLoading | ✔️ | ✔️ | ✔️ |
@@ -2141,7 +2182,7 @@ Taro.showActionSheet({
 
 #### Taro.setNavigationBarTitle(OBJECT)
 
-使用方式同 [`wx.setNavigationBarTitle`](https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsettopbartextobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setNavigationBarTitle`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setNavigationBarTitle.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2161,7 +2202,7 @@ Taro.setNavigationBarTitle(params).then(...)
 
 #### Taro.setNavigationBarColor(OBJECT)
 
-使用方式同 [`wx.setNavigationBarColor`](https://developers.weixin.qq.com/miniprogram/dev/api/setNavigationBarColor.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.setNavigationBarColor`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setNavigationBarColor.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2173,18 +2214,18 @@ Taro.setNavigationBarColor(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.setNavigationBarTitle | ✔️ |  |  |
-| Taro.showNavigationBarLoading | ✔️ |  |  |
-| Taro.hideNavigationBarLoading | ✔️ |  |  |
-| Taro.setNavigationBarColor | ✔️ |  |  |
+| Taro.setNavigationBarTitle | ✔️ |  |✔️  |
+| Taro.showNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.hideNavigationBarLoading | ✔️ |  | ✔️ |
+| Taro.setNavigationBarColor | ✔️ |  | ✔️(不支持 animation 参数) |
 
-### 设置tabBar
+### 设置 TabBar
 
 #### Taro.setTabBarBadge(OBJECT)
 
-使用方式同 [`wx.setTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarbadgeobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTabBarBadge.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2196,7 +2237,7 @@ Taro.setTabBarBadge(params).then(...)
 
 #### Taro.removeTabBarBadge(OBJECT)
 
-使用方式同 [`wx.removeTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxremovetabbarbadgeobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.removeTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.removeTabBarBadge.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2208,7 +2249,7 @@ Taro.removeTabBarBadge(params).then(...)
 
 #### Taro.showTabBarRedDot(OBJECT)
 
-使用方式同 [`wx.showTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarreddotobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.showTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.showTabBarRedDot.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2220,7 +2261,7 @@ Taro.showTabBarRedDot(params).then(...)
 
 #### Taro.hideTabBarRedDot(OBJECT)
 
-使用方式同 [`wx.hideTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarreddotobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.hideTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.hideTabBarRedDot.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2232,7 +2273,7 @@ Taro.hideTabBarRedDot(params).then(...)
 
 #### Taro.setTabBarStyle(OBJECT)
 
-使用方式同 [`wx.setTabBarStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarstyleobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setTabBarStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTabBarStyle.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2244,7 +2285,7 @@ Taro.setTabBarStyle(params).then(...)
 
 #### Taro.setTabBarItem(OBJECT)
 
-使用方式同 [`wx.setTabBarItem`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbaritemobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setTabBarItem`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTabBarItem.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2256,7 +2297,7 @@ Taro.setTabBarItem(params).then(...)
 
 #### Taro.showTabBar(OBJECT)
 
-使用方式同 [`wx.showTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.showTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.showTabBar.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2268,7 +2309,7 @@ Taro.showTabBar(params).then(...)
 
 #### Taro.hideTabBar(OBJECT)
 
-使用方式同 [`wx.hideTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.hideTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.hideTabBar.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2280,7 +2321,7 @@ Taro.hideTabBar(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.setTabBarBadge | ✔️ |  |  |
 | Taro.removeTabBarBadge | ✔️ |  |  |
@@ -2295,7 +2336,7 @@ Taro.hideTabBar(params).then(...)
 
 #### Taro.setTopBarText(OBJECT)
 
-使用方式同 [`wx.setTopBarText`](https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsettopbartextobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.setTopBarText`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTopBarText.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2307,7 +2348,7 @@ Taro.setTopBarText(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.setTopBarText | ✔️ |  |  |
 
@@ -2315,7 +2356,7 @@ Taro.setTopBarText(params).then(...)
 
 #### Taro.navigateTo(OBJECT)
 
-使用方式同 [`wx.navigateTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.navigateTo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateTo.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2327,7 +2368,7 @@ Taro.navigateTo(params).then(...)
 
 #### Taro.redirectTo(OBJECT)
 
-使用方式同 [`wx.redirectTo`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.redirectTo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.redirectTo.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2339,7 +2380,7 @@ Taro.redirectTo(params).then(...)
 
 #### Taro.switchTab(OBJECT)
 
-使用方式同 [`wx.switchTab`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxswitchtabobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.switchTab`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.switchTab.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2351,7 +2392,7 @@ Taro.switchTab(params).then(...)
 
 #### Taro.navigateBack(OBJECT)
 
-使用方式同 [`wx.navigateBack`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject)。
+使用方式同 [`wx.navigateBack`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateBack.html)。
 
 **示例代码：**
 
@@ -2363,7 +2404,7 @@ Taro.navigateBack({ delta: 2 })
 
 #### Taro.reLaunch(OBJECT)
 
-使用方式同 [`wx.reLaunch`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxrelaunchobject)，支持 `Promise` 化使用。
+使用方式同 [`wx.reLaunch`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.reLaunch.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2375,7 +2416,7 @@ Taro.reLaunch(params).then(...)
 
 #### Taro.getCurrentPages(OBJECT)
 
-使用方式同 [`getCurrentPages`](https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigateBack)， 获取当前的页面栈，决定需要返回几层。
+使用方式同 [`getCurrentPages`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html#getcurrentpages)， 获取当前的页面栈，决定需要返回几层。
 
 **示例代码：**
 
@@ -2387,20 +2428,20 @@ Taro.getCurrentPages().length
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.navigateTo | ✔️ | ✔️ | ✔️ |
 | Taro.redirectTo | ✔️ | ✔️ | ✔️ |
 | Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
 | Taro.reLaunch | ✔️ |  | ✔️ |
-| Taro.getCurrentPages | ✔️ |   |   |
+| Taro.getCurrentPages | ✔️ |   | ✔️|
 
 ### 动画
 
 #### Taro.createAnimation(OBJECT)
 
-使用方式同 [`wx.createAnimation`](https://developers.weixin.qq.com/miniprogram/dev/api/api-animation.html#wxcreateanimationobject)。
+使用方式同 [`wx.createAnimation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createAnimation.html)。
 
 **示例代码：**
 
@@ -2417,15 +2458,15 @@ const animation = Taro.createAnimation({
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.createAnimation | ✔️ |  |  |
+| Taro.createAnimation | ✔️ | ✔️ |  |
 
 ### 位置
 
 #### Taro.pageScrollTo(OBJECT)
 
-使用方式同 [`wx.pageScrollTo`](https://developers.weixin.qq.com/miniprogram/dev/api/scroll.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.pageScrollTo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.pageScrollTo.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2437,7 +2478,7 @@ Taro.pageScrollTo(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.pageScrollTo | ✔️ |  |  |
 
@@ -2445,7 +2486,7 @@ Taro.pageScrollTo(params).then(...)
 
 #### Taro.createCanvasContext(canvasId, this.$scope)
 
-使用方式同 [`wx.createCanvasContext`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/create-canvas-context.html)。
+使用方式同 [`wx.createCanvasContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createCanvasContext.html)。
 
 #### Taro.createContext(不推荐使用)
 
@@ -2457,7 +2498,7 @@ Taro.pageScrollTo(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.createCanvasContext | ✔️ |  |  |
 | Taro.createContext | ✔️ |  |  |
@@ -2467,7 +2508,7 @@ Taro.pageScrollTo(params).then(...)
 
 #### Taro.startPullDownRefresh(OBJECT)
 
-使用方式同 [`wx.startPullDownRefresh`](https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstartpulldownrefresh)，支持 `Promise` 化使用。
+使用方式同 [`wx.startPullDownRefresh`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startPullDownRefresh.html)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2491,16 +2532,16 @@ Taro.stopPullDownRefresh()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.startPullDownRefresh | ✔️ |  |  |
-| Taro.stopPullDownRefresh | ✔️ |  |  |
+| Taro.startPullDownRefresh | ✔️ |  |  ✔️（无动画效果）  |
+| Taro.stopPullDownRefresh | ✔️ |  |  ✔️  |
 
-### WXML节点信息
+### WXML 节点信息
 
 #### Taro.createSelectorQuery()
 
-返回一个SelectorQuery对象实例。可以在这个实例上使用select等方法选择节点，并使用boundingClientRect等方法选择需要查询的信息。
+返回一个 SelectorQuery 对象实例。可以在这个实例上使用 select 等方法选择节点，并使用 boundingClientRect 等方法选择需要查询的信息。
 
 **示例代码：**
 
@@ -2512,9 +2553,9 @@ const query = Taro.createSelectorQuery()
 
 #### selectorQuery.in(component)
 
-将选择器的选取范围更改为自定义组件component内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
+将选择器的选取范围更改为自定义组件 component 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
 
-注意：对 h5 侧不起作用，h5 侧还是从全局查找。
+注意：H5 端传 this 而不是传 this.$scope。
 
 **示例代码：**
 
@@ -2523,17 +2564,21 @@ import Taro from '@tarojs/taro'
 
 Component({
   ready () {
-    const query = Taro.createSelectorQuery().in(this.$scope)
-  })
+    if (process.env.TARO_ENV === 'h5') {
+      const query = Taro.createSelectorQuery().in(this)
+    } else {
+      const query = Taro.createSelectorQuery().in(this.$scope)
+    }
+  }
 })
 ```
 
 #### selectorQuery.select(selector)
 
-在当前页面下选择第一个匹配选择器selector的节点，返回一个NodesRef对象实例，可以用于获取节点信息。
+在当前页面下选择第一个匹配选择器 selector 的节点，返回一个 NodesRef 对象实例，可以用于获取节点信息。
 
 * ID 选择器：`#the-id`
-* class选择器（可以连续指定多个）：`.a-class.another-class`
+* class 选择器（可以连续指定多个）：`.a-class.another-class`
 * 子元素选择器：`.the-parent > .the-child`
 * 后代选择器：`.the-ancestor .the-descendant`
 * 跨自定义组件的后代选择器：`.the-ancestor >>> .the-descendant`
@@ -2562,8 +2607,8 @@ const query = Taro.createSelectorQuery()
 query
   .select('#the-id')
   .boundingClientRect(rect => {
-    rect.id      // 节点的ID
-    rect.dataset // 节点的dataset
+    rect.id      // 节点的 ID
+    rect.dataset // 节点的 dataset
     rect.left    // 节点的左边界坐标
     rect.right   // 节点的右边界坐标
     rect.top     // 节点的上边界坐标
@@ -2589,8 +2634,8 @@ import Taro from '@tarojs/taro'
 Taro.createSelectorQuery()
   .selectViewport()
   .scrollOffset(rect => {
-    rect.id      // 节点的ID
-    rect.dataset // 节点的dataset
+    rect.id      // 节点的 ID
+    rect.dataset // 节点的 dataset
     res.scrollLeft // 节点的水平滚动位置
     res.scrollTop  // 节点的竖直滚动位置
   })
@@ -2603,7 +2648,7 @@ Taro.createSelectorQuery()
 获取节点的相关信息，需要获取的字段在 fields 中指定。返回值是 nodesRef 对应的 selectorQuery。可指定获取的字段包括：
 
 | 字段名 | 默认值 | 说明 |
-| :-: | :-: | :-: | :-: |
+| :-: | :-: | :-: |
 | id | 否 | 是否返回节点 `id` |
 | dataset | 否 | 是否返回节点 `dataset` |
 | rect | 否 | 是否返回节点布局位置（`left` `right` `top` `bottom`） |
@@ -2628,7 +2673,7 @@ Taro.createSelectorQuery()
     properties: ['scrollX', 'scrollY'],
     computedStyle: ['margin', 'backgroundColor']
   }, res => {
-    res.dataset    // 节点的dataset
+    res.dataset    // 节点的 dataset
     res.width      // 节点的宽度
     res.height     // 节点的高度
     res.scrollLeft // 节点的水平滚动位置
@@ -2640,7 +2685,6 @@ Taro.createSelectorQuery()
     res.backgroundColor
   })
   .exec()
-})
 ```
 
 #### selectorQuery.exec([callback])
@@ -2649,7 +2693,7 @@ Taro.createSelectorQuery()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | ReactNative |
+| API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.createSelectorQuery | ✔️ | ✔️ |  |
 | selectorQuery.in | ✔️ | ✔️ |  |
@@ -2660,3 +2704,384 @@ Taro.createSelectorQuery()
 | nodesRef.scrollOffset | ✔️ | ✔️ |  |
 | nodesRef.fields | ✔️ | ✔️ |  |
 | selectorQuery.exec | ✔️ | ✔️ |  |
+
+## 开放接口
+
+### 设置
+
+#### Taro.getSetting(OBJECT)
+
+使用方式同 [`wx.getSetting`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getSetting.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getSetting(params).then(...)
+```
+
+#### Taro.openSetting(OBJECT)
+
+使用方式同 [`wx.openSetting`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openSetting.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.openSetting(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.getSetting | ✔️ |  |  |
+| Taro.openSetting | ✔️ |  |  |
+
+### 收货地址
+
+#### Taro.chooseAddress(OBJECT)
+
+使用方式同 [`wx.chooseAddress`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseAddress.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.chooseAddress(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.chooseAddress | ✔️ |  |  |
+
+### 授权
+
+#### Taro.authorize(OBJECT)
+
+使用方式同 [`wx.authorize`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.authorize.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.authorize(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.authorize | ✔️ |  |  |
+
+### 卡券
+
+#### Taro.addCard(OBJECT)
+
+使用方式同 [`wx.addCard`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.addCard.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.addCard(params).then(...)
+```
+
+#### Taro.openCard(OBJECT)
+
+使用方式同 [`wx.openCard`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openCard.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.openCard(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.addCard | ✔️ |  |  |
+| Taro.openCard | ✔️ |  |  |
+
+### 发票
+
+#### Taro.chooseInvoice(OBJECT)
+
+使用方式同 [`wx.chooseInvoice`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseInvoice.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.chooseInvoice(params).then(...)
+```
+
+#### Taro.chooseInvoiceTitle(OBJECT)
+
+使用方式同 [`wx.chooseInvoiceTitle`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseInvoiceTitle.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.chooseInvoiceTitle(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.chooseInvoice | ✔️ |  |  |
+| Taro.chooseInvoiceTitle | ✔️ |  |  |
+
+### 支付
+
+#### Taro.faceVerifyForPay(OBJECT)
+
+使用方式同 [`wx.faceVerifyForPay`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.faceVerifyForPay(params).then(...)
+```
+
+#### Taro.requestPayment(OBJECT)
+
+使用方式同 [`wx.requestPayment`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.requestPayment.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.requestPayment(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.faceVerifyForPay | ✔️ |  |  |
+| Taro.requestPayment | ✔️ |  |  |
+
+### 用户信息
+
+#### Taro.getUserInfo(OBJECT)
+
+使用方式同 [`wx.getUserInfo`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getUserInfo.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getUserInfo(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.getUserInfo | ✔️ |  |  |
+
+### 微信运动
+
+#### Taro.getWeRunData(OBJECT)
+
+使用方式同 [`wx.getWeRunData`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getWeRunData.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getWeRunData(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.getWeRunData | ✔️ |  |  |
+
+### 登录
+
+#### Taro.login(OBJECT)
+
+使用方式同 [`wx.login`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.login.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.login(params).then(...)
+```
+
+#### Taro.checkSession(OBJECT)
+
+使用方式同 [`wx.checkSession`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.checkSession.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.checkSession(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.login | ✔️ |  |  |
+| Taro.checkSession | ✔️ |  |  |
+
+### 生物认证
+
+#### Taro.checkIsSoterEnrolledInDevice(OBJECT)
+
+使用方式同 [`wx.checkIsSoterEnrolledInDevice`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.checkIsSoterEnrolledInDevice.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.checkIsSoterEnrolledInDevice(params).then(...)
+```
+
+#### Taro.checkIsSupportSoterAuthentication(OBJECT)
+
+使用方式同 [`wx.checkIsSupportSoterAuthentication`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.checkIsSupportSoterAuthentication.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.checkIsSupportSoterAuthentication(params).then(...)
+```
+
+#### Taro.startSoterAuthentication(OBJECT)
+
+使用方式同 [`wx.startSoterAuthentication`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startSoterAuthentication.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.startSoterAuthentication(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.checkIsSoterEnrolledInDevice | ✔️ |  |  |
+| Taro.checkIsSupportSoterAuthentication | ✔️ |  |  |
+| Taro.startSoterAuthentication | ✔️ |  |  |
+
+### 小程序跳转
+
+#### Taro.navigateBackMiniProgram(OBJECT)
+
+使用方式同 [`wx.navigateBackMiniProgram`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateBackMiniProgram.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.navigateBackMiniProgram(params).then(...)
+```
+
+#### Taro.navigateToMiniProgram(OBJECT)
+
+使用方式同 [`wx.navigateToMiniProgram`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateToMiniProgram.html)，支持 `Promise` 化使用。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.navigateToMiniProgram(params).then(...)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.navigateBackMiniProgram | ✔️ |  |  |
+| Taro.navigateToMiniProgram | ✔️ |  |  |
+
+## 更新
+
+#### Taro.getUpdateManager()
+
+使用方式同 [`wx.getUpdateManager`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getUpdateManager.html)。
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+Taro.getUpdateManager()
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.getUpdateManager | ✔️ |  |  |
+
+## 拓展接口
+
+#### Taro.arrayBufferToBase64(arrayBuffer)
+
+将 ArrayBuffer 数据转成 Base64 字符串。(小程序端基础库 1.1.0 开始支持，低版本需做兼容处理)
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+const arrayBuffer = new Uint8Array([11, 22, 33])
+const base64 = Taro.arrayBufferToBase64(arrayBuffer)
+```
+
+#### Taro.base64ToArrayBuffer(base64)
+
+将 Base64 字符串转成 ArrayBuffer 数据。(小程序端基础库 1.1.0 开始支持，低版本需做兼容处理)
+
+**示例代码：**
+
+```jsx
+import Taro from '@tarojs/taro'
+
+const base64 = 'CxYh'
+const arrayBuffer = Taro.base64ToArrayBuffer(base64)
+```
+
+> API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :-: | :-: | :-: | :-: |
+| Taro.arrayBufferToBase64 | ✔️ | ✔️ |  |
+| Taro.base64ToArrayBuffer | ✔️ | ✔️ |  |

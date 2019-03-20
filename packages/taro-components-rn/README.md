@@ -12,13 +12,17 @@ Alo, alo! Bilibilibilibibili~
   > 为了尽可能地减少用户需要的操作，斟酌再三，目前方案改成：IOS使用图片来实现 Icon。
 </details>
 
+## 特别鸣谢
+
+Picker 组件的重写，copy 了部分 [ant-design-mobile-rn](https://github.com/ant-design/ant-design-mobile-rn) 的组件代码，同时也给予了不少组件实现的思路。
+
 ## Example
 
 [组件演示（视频480p）](http://storage.jd.com/temporary/%E7%BB%84%E4%BB%B6%E6%BC%94%E7%A4%BA480p.mov)
 
 > 由于在开发环境中用到 `create-react-native-app` 的模式，所以**务必**以 `dependencies` 的方式安装 `react-native` 和 `expo`，查看例子期间，务必保证它们待在 `dependencies` 下哦。
 > 
-> 设置 package.json 中的 `main` 为 `./node_modules/react-native-scripts/build/bin/crna-entry.js`
+> 设置 package.json 中的 `main` 为 `node_modules/expo/AppEntry.js`
 
 - [Expo版本清单](https://expo.io/--/api/v2/versions)，这里可以看到每个版本Expo对应的版本关系，**这很重要**
 
@@ -82,12 +86,6 @@ npm run android
   - [ ] camera
 - 其他
   - [ ] tabbar
-
-## pureDependencies
-
-- react: ^16.2.0
-- "react-native": "~0.55.2"
-- "expo": "~27.0.0"
 
 ## 开发者日志
 

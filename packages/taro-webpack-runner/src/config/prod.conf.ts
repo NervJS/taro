@@ -1,56 +1,30 @@
-import { merge } from 'lodash';
 import * as path from 'path';
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
+import { addTrailingSlash, appPath, emptyObj } from '../util';
 import {
-  getCssLoader,
+  getCssoWebpackPlugin,
   getDefinePlugin,
+  getDevtool,
   getEntry,
-  getExtractCssLoader,
   getHtmlWebpackPlugin,
-  getStyleLoader,
-  getLessLoader,
   getMiniCssExtractPlugin,
+  getModule,
   getOutput,
-  getPostcssLoader,
-  getResolveUrlLoader,
-  getSassLoader,
-  getStylusLoader,
+  getUglifyPlugin,
   processEnvOption
 } from '../util/chain';
 import { BuildConfig } from '../util/types';
-import chain from './base.conf';
-import { getPostcssPlugins } from './postcss.conf';
-
-const appPath = process.cwd()
-const defaultCSSCompressOption = {
-  mergeRules: false,
-  mergeIdents: false,
-  reduceIdents: false,
-  discardUnused: false,
-  minifySelectors: false
-}
-
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
-
-const emptyObj = {}
+import getBaseChain from './base.conf';
 
 export default function (config: Partial<BuildConfig>): any {
+  const chain = getBaseChain()
   const {
     alias = emptyObj,
     entry = emptyObj,
+    output = emptyObj,
     sourceRoot = '',
-    outputRoot,
-    publicPath,
+    outputRoot = 'dist',
+    publicPath = '',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
 
@@ -71,70 +45,22 @@ export default function (config: Partial<BuildConfig>): any {
     imageUrlLoaderOption = emptyObj,
 
     miniCssExtractPluginOption = emptyObj,
+    esnextModules = [],
 
     module = {
       postcss: emptyObj
     },
     plugins = {
-      babel: emptyObj,
-      csso: emptyObj,
-      uglify: emptyObj
+      babel: {}
     }
   } = config
 
-  const devtool = enableSourceMap ? 'hidden-source-map' : 'none'
-
-  const postcssOption = module.postcss || {}
-
-  const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
-
-  const extractCssLoader = getExtractCssLoader()
-
-  const lastCssLoader = enableExtract ? extractCssLoader : styleLoader
-
-  const cssLoader = getCssLoader([
-    {
-      importLoaders: 1,
-      sourceMap: enableSourceMap
-    },
-    cssLoaderOption,
-    {
-      minimize: merge(defaultCSSCompressOption, plugins.csso)
-    }
-  ])
-
-  const postcssLoader = getPostcssLoader([
-    { sourceMap: enableSourceMap },
-    {
-      ident: 'postcss',
-      plugins: getPostcssPlugins({
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
-    }
-  ])
-
-  const resolveUrlLoader = getResolveUrlLoader([])
-
-  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
-
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
-
-  const output = getOutput({
-    outputRoot,
-    publicPath,
-    chunkDirectory
-  })
-
-  const plugin = {} as any
+  const plugin: any = {}
 
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
       filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css'
+      chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption])
   }
 
@@ -145,98 +71,66 @@ export default function (config: Partial<BuildConfig>): any {
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
+  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
+    ? false
+    : true
+
+  if (isCssoEnabled) {
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([plugins.csso ? plugins.csso.config : {}])
+  }
+
+  const mode = 'production'
+
+  const minimizer: any[] = []
+  const isUglifyEnabled = (plugins.uglify && plugins.uglify.enable === false)
+    ? false
+    : true
+
+  if (isUglifyEnabled) {
+    minimizer.push(getUglifyPlugin([
+      enableSourceMap,
+      plugins.uglify ? plugins.uglify.config : {}
+    ]))
+  }
+
   chain.merge({
-    mode: 'production',
-    devtool,
-    entry: Object.assign(getEntry(), entry),
-    output,
+    mode,
+    devtool: getDevtool(enableSourceMap),
+    entry: getEntry(entry),
+    output: getOutput([{
+      outputRoot,
+      publicPath: addTrailingSlash(publicPath),
+      chunkDirectory
+    }, output]),
     resolve: { alias },
-    module: {
-      rule: {
-        jsx: {
-          use: {
-            babelLoader: {
-              options: {
-                ...plugins.babel,
-                sourceMap: enableSourceMap
-              }
-            }
-          }
-        },
-        media: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/media/[name].[ext]`,
-                ...mediaUrlLoaderOption
-              }
-            }
-          }
-        },
-        font: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/fonts/[name].[ext]`,
-                ...fontUrlLoaderOption
-              }
-            }
-          }
-        },
-        image: {
-          use: {
-            urlLoader: {
-              options: {
-                name: `${staticDirectory}/images/[name].[ext]`,
-                ...imageUrlLoaderOption
-              }
-            }
-          }
-        },
-        sass: {
-          test: /\.(css|scss|sass)(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, resolveUrlLoader, sassLoader]
-        },
-        less: {
-          test: /\.less(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, lessLoader]
-        },
-        styl: {
-          test: /\.styl(\?.*)?$/,
-          exclude: [/node_modules/],
-          use: [lastCssLoader, cssLoader, postcssLoader, stylusLoader]
-        },
-        sassInNodemodules: {
-          test: /\.(css|scss|sass)(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, sassLoader]
-        },
-        lessInNodemodules: {
-          test: /\.less(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, lessLoader]
-        },
-        stylInNodemodules: {
-          test: /\.styl(\?.*)?$/,
-          include: [/node_modules/],
-          use: [lastCssLoader, cssLoader, stylusLoader]
-        }
-      }
-    },
+    module: getModule({
+      mode,
+      designWidth,
+      deviceRatio,
+      enableExtract,
+      enableSourceMap,
+  
+      styleLoaderOption,
+      cssLoaderOption,
+      lessLoaderOption,
+      sassLoaderOption,
+      stylusLoaderOption,
+      fontUrlLoaderOption,
+      imageUrlLoaderOption,
+      mediaUrlLoaderOption,
+      esnextModules,
+  
+      module,
+      plugins,
+      staticDirectory
+    }),
     plugin,
     optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true,
-          sourceMap: enableSourceMap,
-          uglifyOptions: merge(defaultUglifyJsOption, plugins.uglify)
-        })
-      ]
+      minimizer,
+      splitChunks: {
+        name: false
+      }
     }
   })
-
   return chain
 }

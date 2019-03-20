@@ -5,30 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- *      
+ *
  */
 
 /* eslint no-bitwise: 0 */
-'use strict';
+'use strict'
 
-function normalizeColor(color                 )          {
-  const matchers = getMatchers();
-  let match;
+function normalizeColor (color) {
+  const matchers = getMatchers()
+  let match
 
   if (typeof color === 'number') {
     if (color >>> 0 === color && color >= 0 && color <= 0xffffffff) {
-      return color;
+      return color
     }
-    return null;
+    return null
   }
 
   // Ordered based on occurrences on Facebook codebase
   if ((match = matchers.hex6.exec(color))) {
-    return parseInt(match[1] + 'ff', 16) >>> 0;
+    return parseInt(match[1] + 'ff', 16) >>> 0
   }
 
   if (names.hasOwnProperty(color)) {
-    return names[color];
+    return names[color]
   }
 
   if ((match = matchers.rgb.exec(color))) {
@@ -39,7 +39,7 @@ function normalizeColor(color                 )          {
         (parse255(match[3]) << 8) |
         0x000000ff) >>> // a
       0
-    );
+    )
   }
 
   if ((match = matchers.rgba.exec(color))) {
@@ -50,7 +50,7 @@ function normalizeColor(color                 )          {
         (parse255(match[3]) << 8) |
         parse1(match[4])) >>> // a
       0
-    );
+    )
   }
 
   if ((match = matchers.hex3.exec(color))) {
@@ -63,14 +63,14 @@ function normalizeColor(color                 )          {
         match[3] +
         match[3] + // b
           'ff', // a
-        16,
+        16
       ) >>> 0
-    );
+    )
   }
 
   // https://drafts.csswg.org/css-color-4/#hex-notation
   if ((match = matchers.hex8.exec(color))) {
-    return parseInt(match[1], 16) >>> 0;
+    return parseInt(match[1], 16) >>> 0
   }
 
   if ((match = matchers.hex4.exec(color))) {
@@ -84,9 +84,9 @@ function normalizeColor(color                 )          {
         match[3] + // b
           match[4] +
           match[4], // a
-        16,
+        16
       ) >>> 0
-    );
+    )
   }
 
   if ((match = matchers.hsl.exec(color))) {
@@ -94,11 +94,11 @@ function normalizeColor(color                 )          {
       (hslToRgb(
         parse360(match[1]), // h
         parsePercentage(match[2]), // s
-        parsePercentage(match[3]), // l
+        parsePercentage(match[3]) // l
       ) |
         0x000000ff) >>> // a
       0
-    );
+    )
   }
 
   if ((match = matchers.hsla.exec(color))) {
@@ -106,60 +106,60 @@ function normalizeColor(color                 )          {
       (hslToRgb(
         parse360(match[1]), // h
         parsePercentage(match[2]), // s
-        parsePercentage(match[3]), // l
+        parsePercentage(match[3]) // l
       ) |
         parse1(match[4])) >>> // a
       0
-    );
+    )
   }
 
-  return null;
+  return null
 }
 
-function hue2rgb(p        , q        , t        )         {
+function hue2rgb (p, q, t) {
   if (t < 0) {
-    t += 1;
+    t += 1
   }
   if (t > 1) {
-    t -= 1;
+    t -= 1
   }
   if (t < 1 / 6) {
-    return p + (q - p) * 6 * t;
+    return p + (q - p) * 6 * t
   }
   if (t < 1 / 2) {
-    return q;
+    return q
   }
   if (t < 2 / 3) {
-    return p + (q - p) * (2 / 3 - t) * 6;
+    return p + (q - p) * (2 / 3 - t) * 6
   }
-  return p;
+  return p
 }
 
-function hslToRgb(h        , s        , l        )         {
-  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-  const p = 2 * l - q;
-  const r = hue2rgb(p, q, h + 1 / 3);
-  const g = hue2rgb(p, q, h);
-  const b = hue2rgb(p, q, h - 1 / 3);
+function hslToRgb (h, s, l) {
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s
+  const p = 2 * l - q
+  const r = hue2rgb(p, q, h + 1 / 3)
+  const g = hue2rgb(p, q, h)
+  const b = hue2rgb(p, q, h - 1 / 3)
 
   return (
     (Math.round(r * 255) << 24) |
     (Math.round(g * 255) << 16) |
     (Math.round(b * 255) << 8)
-  );
+  )
 }
 
 // var INTEGER = '[-+]?\\d+';
-const NUMBER = '[-+]?\\d*\\.?\\d+';
-const PERCENTAGE = NUMBER + '%';
+const NUMBER = '[-+]?\\d*\\.?\\d+'
+const PERCENTAGE = NUMBER + '%'
 
-function call(...args) {
-  return '\\(\\s*(' + args.join(')\\s*,\\s*(') + ')\\s*\\)';
+function call (...args) {
+  return '\\(\\s*(' + args.join(')\\s*,\\s*(') + ')\\s*\\)'
 }
 
-let cachedMatchers;
+let cachedMatchers
 
-function getMatchers() {
+function getMatchers () {
   if (cachedMatchers === undefined) {
     cachedMatchers = {
       rgb: new RegExp('rgb' + call(NUMBER, NUMBER, NUMBER)),
@@ -169,49 +169,49 @@ function getMatchers() {
       hex3: /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
       hex4: /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
       hex6: /^#([0-9a-fA-F]{6})$/,
-      hex8: /^#([0-9a-fA-F]{8})$/,
-    };
+      hex8: /^#([0-9a-fA-F]{8})$/
+    }
   }
-  return cachedMatchers;
+  return cachedMatchers
 }
 
-function parse255(str        )         {
-  const int = parseInt(str, 10);
+function parse255 (str) {
+  const int = parseInt(str, 10)
   if (int < 0) {
-    return 0;
+    return 0
   }
   if (int > 255) {
-    return 255;
+    return 255
   }
-  return int;
+  return int
 }
 
-function parse360(str        )         {
-  const int = parseFloat(str);
-  return (((int % 360) + 360) % 360) / 360;
+function parse360 (str) {
+  const int = parseFloat(str)
+  return (((int % 360) + 360) % 360) / 360
 }
 
-function parse1(str        )         {
-  const num = parseFloat(str);
+function parse1 (str) {
+  const num = parseFloat(str)
   if (num < 0) {
-    return 0;
+    return 0
   }
   if (num > 1) {
-    return 255;
+    return 255
   }
-  return Math.round(num * 255);
+  return Math.round(num * 255)
 }
 
-function parsePercentage(str        )         {
+function parsePercentage (str) {
   // parseFloat conveniently ignores the final %
-  const int = parseFloat(str);
+  const int = parseFloat(str)
   if (int < 0) {
-    return 0;
+    return 0
   }
   if (int > 100) {
-    return 1;
+    return 1
   }
-  return int / 100;
+  return int / 100
 }
 
 const names = {
@@ -366,7 +366,7 @@ const names = {
   white: 0xffffffff,
   whitesmoke: 0xf5f5f5ff,
   yellow: 0xffff00ff,
-  yellowgreen: 0x9acd32ff,
-};
+  yellowgreen: 0x9acd32ff
+}
 
-module.exports = normalizeColor;
+module.exports = normalizeColor

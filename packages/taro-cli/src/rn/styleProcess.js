@@ -7,6 +7,9 @@ const transformCSS = require('css-to-react-native-transform').default
 const {StyleSheetValidation} = require('./StyleSheet/index')
 const Util = require('../util')
 const npmProcess = require('../util/npm')
+const stylelintConfig = require('../config/rn-stylelint')
+
+const DEVICE_RATIO = 'deviceRatio'
 
 /**
  * @description 读取 css/scss/less 文件，预处理后，返回 css string
@@ -50,10 +53,22 @@ function loadStyle ({filePath, pluginsConfig}) {
  * @returns {Function | any}
  */
 function postCSS ({css, filePath, projectConfig}) {
-  return postcss(pxtransform({
-    platform: 'rn',
+  let pxTransformConfig = {
     designWidth: projectConfig.designWidth || 750
-  }))
+  }
+  if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
+    pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
+  }
+  return postcss([
+    require('stylelint')(stylelintConfig),
+    require('postcss-reporter')({clearReportedMessages: true}),
+    pxtransform(
+      {
+        platform: 'rn',
+        ...pxTransformConfig
+      }
+    )
+  ])
     .process(css, {from: filePath})
     .then((result) => {
       return {
@@ -63,12 +78,13 @@ function postCSS ({css, filePath, projectConfig}) {
     })
 }
 
-function getStyleObject (css) {
+function getStyleObject ({css, filePath}) {
   var styleObject = {}
   try {
     styleObject = transformCSS(css)
   } catch (err) {
-    console.log(chalk.red(err))
+    Util.printLog(Util.pocessTypeEnum.WARNING, 'css-to-react-native 报错', filePath)
+    console.log(chalk.red(err.stack))
   }
   return styleObject
 }
@@ -88,6 +104,7 @@ function writeStyleFile ({css, tempFilePath}) {
   const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${css})`
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, '生成文件', tempFilePath)
 }
 
 module.exports = {

@@ -1,26 +1,45 @@
+import { getCurrentPageUrl } from '@tarojs/utils'
+
 import { isEmptyObject, noop } from './util'
 import { updateComponent } from './lifecycle'
-import { cacheDataGet, cacheDataHas } from './data-cache'
+import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
+
 const privatePropValName = '__triggerObserer'
-const anonymousFnNamePreffix = 'func__'
+const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
-const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
+const preloadPrivateKey = '__preload_'
+const PRELOAD_DATA_KEY = 'preload'
+const preloadInitedComponent = '$preloadComponent'
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
 
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties = ComponentClass.properties || {}
   const defaultProps = ComponentClass.defaultProps || {}
   for (const key in defaultProps) {
     if (defaultProps.hasOwnProperty(key)) {
-      weappComponentConf.properties[key] = null
+      weappComponentConf.properties[key] = {
+        type: null,
+        value: null
+      }
     }
   }
   if (isPage) {
-    weappComponentConf.properties[routerParamsPrivateKey] = null
+    weappComponentConf.properties[routerParamsPrivateKey] = {
+      type: null,
+      value: null
+    }
+    weappComponentConf.properties[preloadPrivateKey] = {
+      type: null,
+      value: null
+    }
     const defaultParams = ComponentClass.defaultParams || {}
     for (const key in defaultParams) {
       if (defaultParams.hasOwnProperty(key)) {
-        weappComponentConf.properties[key] = null
+        weappComponentConf.properties[key] = {
+          type: null,
+          value: null
+        }
       }
     }
   }
@@ -51,6 +70,17 @@ function bindStaticOptions (weappComponentConf, ComponentClass) {
   }
 }
 
+function bindMultipleSlots (weappComponentConf, ComponentClass) {
+  const multipleSlots = ComponentClass.multipleSlots
+  if (!multipleSlots) {
+    return
+  }
+  weappComponentConf.options = {
+    ...weappComponentConf.options,
+    ...{ multipleSlots }
+  }
+}
+
 function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
     typeof ComponentClass[key] === 'function' && (weappComponentConf[key] = ComponentClass[key])
@@ -72,7 +102,9 @@ function processEvent (eventHandlerName, obj) {
       event.preventDefault = function () {}
       event.stopPropagation = function () {}
       event.currentTarget = event.currentTarget || event.target || {}
-      Object.assign(event.target, event.detail)
+      if (event.target) {
+        Object.assign(event.target, event.detail)
+      }
       Object.assign(event.currentTarget, event.detail)
     }
 
@@ -86,16 +118,17 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventHandlerNameLower = eventHandlerName.toLocaleLowerCase()
+    const eventType = event.type.toLocaleLowerCase()
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
         // 小程序属性里中划线后跟一个下划线会解析成不同的结果
         keyLower = keyLower.replace(/^e/, '')
-        keyLower = keyLower.toLocaleLowerCase()
-        if (keyLower.indexOf(eventHandlerNameLower) >= 0) {
-          const argName = keyLower.replace(eventHandlerNameLower, '')
-          bindArgs[argName] = dataset[key]
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
+          if (/^(a[a-z]|so)$/.test(argName)) {
+            bindArgs[argName] = dataset[key]
+          }
         }
       }
     })
@@ -143,7 +176,7 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
     }
-    scope[eventHandlerName].apply(callScope, realArgs)
+    return scope[eventHandlerName].apply(callScope, realArgs)
   }
 }
 
@@ -163,8 +196,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData &&
-      (properties[propName] !== null || weappComponentData[propName] !== null)) {
+    } else if (propName in weappComponentData) {
       newProps[propName] = weappComponentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -177,7 +209,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
   }
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined) {
+      if (newProps[propName] === undefined || newProps[propName] === null) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -195,52 +227,17 @@ function filterParams (data, defaultParams = {}) {
 
 export function componentTrigger (component, key, args) {
   args = args || []
-  if (key === 'componentWillMount') {
+
+  if (key === 'componentDidMount') {
     if (component['$$refs'] && component['$$refs'].length > 0) {
       let refs = {}
       component['$$refs'].forEach(ref => {
         let target
         if (ref.type === 'component') {
           target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = wx.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'dom') {
-          target = query.select(`#${ref.id}`)
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
-        }
-      })
-      component.refs = Object.assign({}, component.refs || {}, refs)
-    }
-  }
-  if (key === 'componentDidMount') {
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      let refs = {}
-      component['$$refs'].forEach(ref => {
-        let target
-        const query = wx.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'component') {
-          target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target.$component || target
+          target = target ? (target.$component || target) : null
         } else {
+          const query = wx.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
         if ('refName' in ref && ref['refName']) {
@@ -248,24 +245,32 @@ export function componentTrigger (component, key, args) {
         } else if ('fn' in ref && typeof ref['fn'] === 'function') {
           ref['fn'].call(component, target)
         }
+        ref.target = target
       })
-      component.refs = refs
+      component.refs = Object.assign({}, component.refs || {}, refs)
     }
   }
-  if (key === 'componentWillUnmount') {
-    component._dirty = true
-    component._disable = true
-    component.$router = {
-      params: {}
-    }
-    component._pendingStates = []
-    component._pendingCallbacks = []
-  }
+
   component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
     component.state = component.getState()
+  }
+  if (key === 'componentWillUnmount') {
+    component._dirty = true
+    component._disable = true
+    component.$router = {
+      params: {},
+      path: ''
+    }
+    component._pendingStates = []
+    component._pendingCallbacks = []
+    // refs
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))
+      component.refs = {}
+    }
   }
 }
 
@@ -280,6 +285,8 @@ function initComponent (ComponentClass, isPage) {
   if (!isPage) {
     const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
     this.$component.props = nextProps
+  } else {
+    this.$component.$router.path = getCurrentPageUrl()
   }
   updateComponent(this.$component)
 }
@@ -294,7 +301,11 @@ function createComponent (ComponentClass, isPage) {
   try {
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
-    console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    if (isPage) {
+      console.warn(`[Taro warn] 请给页面提供初始 \`state\` 以提高初次渲染性能！`)
+    } else {
+      console.warn(`[Taro warn] 请给组件提供一个 \`defaultProps\` 以提高初次渲染性能！`)
+    }
     console.warn(err)
   }
   initData = Object.assign({}, initData, componentInstance.props, componentInstance.state)
@@ -302,7 +313,11 @@ function createComponent (ComponentClass, isPage) {
   const weappComponentConf = {
     data: initData,
     created (options = {}) {
-      this.$component = new ComponentClass()
+      if (isPage && cacheDataHas(preloadInitedComponent)) {
+        this.$component = cacheDataGet(preloadInitedComponent, true)
+      } else {
+        this.$component = new ComponentClass({}, isPage)
+      }
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
@@ -311,6 +326,7 @@ function createComponent (ComponentClass, isPage) {
     attached () {
       let hasParamsCache
       if (isPage) {
+        // params
         let params = {}
         hasParamsCache = cacheDataHas(this.data[routerParamsPrivateKey])
         if (hasParamsCache) {
@@ -319,7 +335,17 @@ function createComponent (ComponentClass, isPage) {
           // 直接启动，非内部跳转
           params = filterParams(this.data, ComponentClass.defaultParams)
         }
+        if (cacheDataHas(PRELOAD_DATA_KEY)) {
+          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+          this.$component.$router.preload = data
+        }
         Object.assign(this.$component.$router.params, params)
+        // preload
+        if (cacheDataHas(this.data[preloadPrivateKey])) {
+          this.$component.$preloadData = cacheDataGet(this.data[preloadPrivateKey], true)
+        } else {
+          this.$component.$preloadData = null
+        }
       }
       if (!isPage || hasParamsCache || ComponentClass.defaultParams) {
         initComponent.apply(this, [ComponentClass, isPage])
@@ -362,11 +388,27 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
+    __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
+  } else {
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes || {}
+
+    weappComponentConf.pageLifetimes['show'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['hide'] = function () {
+      componentTrigger(this.$component, 'componentDidHide')
+    }
+
+    weappComponentConf.pageLifetimes['resize'] = function () {
+      componentTrigger(this.$component, 'onResize')
+    }
   }
   bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
   bindStaticOptions(weappComponentConf, ComponentClass)
+  bindMultipleSlots(weappComponentConf, ComponentClass)
   ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
   if (ComponentClass['externalClasses'] && ComponentClass['externalClasses'].length) {
     weappComponentConf['externalClasses'] = ComponentClass['externalClasses']

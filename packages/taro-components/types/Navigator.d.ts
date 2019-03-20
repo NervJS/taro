@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-interface NavigatorProps extends StandardProps {
+export interface NavigatorProps extends StandardProps {
 
   /**
    * 在哪个目标上发生跳转，默认当前小程序

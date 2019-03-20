@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Swiper, SwiperItem } from '../src'
+import { View, Text, Swiper, SwiperItem } from '../dist'
 
 export default class EXSwiper extends Component {
   render () {
@@ -9,18 +9,18 @@ export default class EXSwiper extends Component {
           showsPagination={true}
           indicatorColor="white"
           indicatorActiveColor="purple"
-          autoplay={true}
+          autoplay={false}
           current={1}
           interval={6000}
           circular={false}
-          vertical={true}
+          vertical={false}
           onChange={() => null}
           onAnimationFinish={() => null}
           style={{
             backgroundColor: 'black'
           }}
         >
-          <SwiperItem style={{ backgroundColor: 'red' }}>
+          <SwiperItem onClick={() => { alert('click item') }} style={{ backgroundColor: 'red' }}>
             <Text>Hello Swiper</Text>
           </SwiperItem>
           <SwiperItem style={{ backgroundColor: 'green' }}>

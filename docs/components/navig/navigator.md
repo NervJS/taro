@@ -5,13 +5,17 @@ sidebar_label: Navigator
 
 ##### 页面链接
 
-`<Navigator />` 组件的H5版本尚未实现，请使用 [导航API](https://nervjs.github.io/taro/native-api.html#WXML%E8%8A%82%E7%82%B9%E4%BF%A1%E6%81%AF)。
+`<Navigator />` 组件的 H5 与 RN 版本尚未实现。
 
-> 组件 支持度
 
-| 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: |
-| ✔️ | x | x |
-| ✔️ | x | x |
+>小程序端参数支持详见各小程序官网
+
+[微信小程序 Navigator](https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html)。
+
+[百度小程序 Navigator](https://smartprogram.baidu.com/docs/develop/component/nav/#navigator)。
+
+[支付宝小程序 Navigator](https://docs.alipay.com/mini/component/navigator)。
+
+[字节跳动小程序 Navigator](https://developer.toutiao.com/docs/comp/navigator.html)。
 
 

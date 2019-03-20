@@ -7,12 +7,18 @@ import {
   findMethodName,
   pathResolver,
   createRandomLetters,
-  isContainJSXElement
+  isContainJSXElement,
+  getSlotName,
+  isArrayMapCallExpression,
+  incrementId,
+  isContainStopPropagation
 } from './utils'
 import { DEFAULT_Component_SET } from './constant'
-import { kebabCase, uniqueId } from 'lodash'
+import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
+import { Adapters, Adapter } from './adapter'
+import { LoopRef } from './interface'
 import generate from 'babel-generator'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -33,7 +39,12 @@ function buildConstructor () {
   return ctor
 }
 
-function processThisPropsFnMemberProperties (member: t.MemberExpression, path: NodePath, args: Array<t.Expression | t.SpreadElement>) {
+function processThisPropsFnMemberProperties (
+  member: t.MemberExpression,
+  path: NodePath<t.CallExpression>,
+  args: Array<t.Expression | t.SpreadElement>,
+  binded: boolean
+) {
   const propertyArray: string[] = []
   function traverseMember (member: t.MemberExpression) {
     const object = member.object
@@ -45,17 +56,31 @@ function processThisPropsFnMemberProperties (member: t.MemberExpression, path: N
 
     if (t.isMemberExpression(object)) {
       if (t.isThisExpression(object.object) &&
-      t.isIdentifier(object.property) &&
-      object.property.name === 'props') {
-        path.replaceWith(
-          t.callExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-            [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
-              t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
-              [t.arrayExpression(args)]
-            )]
+        t.isIdentifier(object.property) &&
+        object.property.name === 'props'
+      ) {
+        if (Adapters.alipay === Adapter.type) {
+          if (binded) args.shift()
+          path.replaceWith(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+              [
+                t.stringLiteral(propertyArray.reverse().join('.')),
+                t.arrayExpression(args)
+              ]
+            )
           )
-        )
+        } else {
+          path.replaceWith(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
+              [t.stringLiteral(propertyArray.reverse().join('.')), t.callExpression(
+                t.memberExpression(t.arrayExpression([t.nullLiteral()]), t.identifier('concat')),
+                [t.arrayExpression(args)]
+              )]
+            )
+          )
+        }
       }
       traverseMember(object)
     }
@@ -101,6 +126,8 @@ class Transformer {
   private componentProperies: Set<string>
   private sourcePath: string
   private refs: Ref[] = []
+  private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
+  private anonymousFuncCounter = incrementId()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -112,6 +139,16 @@ class Transformer {
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.componentProperies = new Set(componentProperies)
     this.compile()
+  }
+
+  setMultipleSlots () {
+    const body = this.classPath.node.body.body
+    if (body.some(c => t.isClassProperty(c) && c.key.name === 'multipleSlots')) {
+      return
+    }
+    const multipleSlots: any = t.classProperty(t.identifier('multipleSlots'), t.booleanLiteral(true))
+    multipleSlots.static = true
+    body.push(multipleSlots)
   }
 
   createStringRef (componentName: string, id: string, refName: string) {
@@ -167,36 +204,73 @@ class Transformer {
         if (!t.isJSXIdentifier(jsx.name)) {
           return
         }
+        const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
         const componentName = jsx.name.name
         const refAttr = findJSXAttrByName(attrs, 'ref')
         if (!refAttr) {
           return
         }
         const idAttr = findJSXAttrByName(attrs, 'id')
-        let id = createRandomLetters(5)
+        let id: string = createRandomLetters(5)
+        let idExpr: t.Expression
         if (!idAttr) {
-          attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          if (loopCallExpr && loopCallExpr.isCallExpression()) {
+            const [ func ] = loopCallExpr.node.arguments
+            let indexId: t.Identifier | null = null
+            if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+              const params = func.params as t.Identifier[]
+              indexId = params[1]
+            }
+            if (indexId === null || !t.isIdentifier(indexId!)) {
+              throw codeFrameError(path.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
+            }
+            attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.jSXExpressionContainer(
+              t.binaryExpression('+', t.stringLiteral(id), indexId)
+            )))
+          } else {
+            attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.stringLiteral(id)))
+          }
         } else {
           const idValue = idAttr.value
           if (t.isStringLiteral(idValue)) {
             id = idValue.value
-          } else if (t.isJSXExpressionContainer(idValue) && t.isStringLiteral(idValue.expression)) {
-            id = idValue.expression.value
+          } else if (t.isJSXExpressionContainer(idValue)) {
+            if (t.isStringLiteral(idValue.expression)) {
+              id = idValue.expression.value
+            } else {
+              idExpr = idValue.expression
+            }
           }
         }
         if (t.isStringLiteral(refAttr.value)) {
+          if (loopCallExpr) {
+            throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+          }
           this.createStringRef(componentName, id, refAttr.value.value)
         }
         if (t.isJSXExpressionContainer(refAttr.value)) {
           const expr = refAttr.value.expression
           if (t.isStringLiteral(expr)) {
+            if (loopCallExpr) {
+              throw codeFrameError(refAttr, '循环中的 ref 只能使用函数。')
+            }
             this.createStringRef(componentName, id, expr.value)
           } else if (t.isArrowFunctionExpression(expr) || t.isMemberExpression(expr)) {
-            this.refs.push({
-              type: DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component',
-              id,
-              fn: expr
-            })
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            if (loopCallExpr) {
+              this.loopRefs.set(path.parentPath.node as t.JSXElement, {
+                id: idExpr! || id,
+                fn: expr,
+                type,
+                component: path.parentPath as NodePath<t.JSXElement>
+              })
+            } else {
+              this.refs.push({
+                type,
+                id,
+                fn: expr
+              })
+            }
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
@@ -273,16 +347,16 @@ class Transformer {
         }
       },
       JSXExpressionContainer (path) {
+        const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+        const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
         path.traverse({
           MemberExpression (path) {
             const sibling = path.getSibling('property')
             if (
               path.get('object').isThisExpression() &&
-              path.get('property').isIdentifier({ name: 'props' }) &&
+              (path.get('property').isIdentifier({ name: 'props' }) || path.get('property').isIdentifier({ name: 'state' })) &&
               sibling.isIdentifier()
             ) {
-              const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
-              const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
               if (!isFunctionProp) {
                 self.usedState.add(sibling.node.name)
               }
@@ -293,29 +367,102 @@ class Transformer {
         const expression = path.get('expression') as NodePath<t.Expression>
         const scope = self.renderMethod && self.renderMethod.scope || path.scope
         const calleeExpr = expression.get('callee')
+        const parentPath = path.parentPath
         if (
           hasComplexExpression(expression) &&
+          !isFunctionProp &&
           !(calleeExpr &&
             calleeExpr.isMemberExpression() &&
             calleeExpr.get('object').isMemberExpression() &&
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
           generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+        } else {
+          if (parentPath.isJSXAttribute()) {
+            if (!(expression.isMemberExpression() || expression.isIdentifier()) && parentPath.node.name.name === 'key') {
+              generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
+            }
+          }
         }
-        const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
         if (!attr) return
         const key = attr.node.name
         const value = attr.node.value
+        if (!t.isJSXIdentifier(key)) {
+          return
+        }
         if (t.isJSXIdentifier(key) && key.name.startsWith('on') && t.isJSXExpressionContainer(value)) {
           const expr = value.expression
           if (t.isCallExpression(expr) && t.isMemberExpression(expr.callee) && t.isIdentifier(expr.callee.property, { name: 'bind' })) {
-            self.buildAnonymousFunc(attr, expr, true)
+            self.buildPropsAnonymousFunc(attr, expr, true)
           } else if (t.isMemberExpression(expr)) {
-            self.buildAnonymousFunc(attr, expr as any, false)
+            self.buildPropsAnonymousFunc(attr, expr as any, false)
+          } else if (t.isArrowFunctionExpression(expr)) {
+            const exprPath = attr.get('value.expression')
+            const stemParent = path.getStatementParent()
+            const counter = self.anonymousFuncCounter()
+            const anonymousFuncName = `anonymousFunc${counter}`
+            const isCatch = isContainStopPropagation(exprPath)
+            const classBody = self.classPath.node.body.body
+            const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
+            let index: t.Identifier
+            if (loopCallExpr) {
+              index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
+              if (!t.isIdentifier(index)) {
+                index = t.identifier('__index' + counter)
+                safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
+              }
+              classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Array'), t.arrayExpression([])))
+              const arrayFunc = t.memberExpression(
+                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Array')),
+                t.identifier(index.name),
+                true
+              )
+              classBody.push(
+                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(index.name), t.identifier('e')], t.blockStatement([
+                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
+                  t.expressionStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+                ]))
+              )
+              exprPath.replaceWith(t.callExpression(
+                t.memberExpression(
+                  t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+                  t.identifier('bind')
+                ),
+                [t.thisExpression(), t.identifier(index.name)]
+              ))
+              stemParent.insertBefore(
+                t.expressionStatement(t.assignmentExpression(
+                  '=',
+                  arrayFunc,
+                  expr
+                ))
+              )
+            } else {
+              classBody.push(
+                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
+                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement()
+                ]))
+              )
+              exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
+              stemParent.insertBefore(
+                t.expressionStatement(t.assignmentExpression(
+                  '=',
+                  t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+                  expr
+                ))
+              )
+            }
           } else {
-            throw codeFrameError(expr.loc, '组件事件传参只能在类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
+            throw codeFrameError(path.node, '组件事件传参只能在使用匿名箭头函数，或使用类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
           }
         }
+        const jsx = path.findParent(p => p.isJSXOpeningElement()) as NodePath<t.JSXOpeningElement>
+        if (!jsx) return
+        const jsxName = jsx.node.name
+        if (!t.isJSXIdentifier(jsxName)) return
+        if (expression.isJSXElement()) return
+        if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
+        generateAnonymousState(scope, expression, self.jsxReferencedIdentifiers)
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
@@ -342,7 +489,7 @@ class Transformer {
           }
         }
       },
-      MemberExpression (path) {
+      MemberExpression: (path) => {
         const object = path.get('object')
         const property = path.get('property')
         if (
@@ -360,6 +507,12 @@ class Transformer {
             const name = siblingProp.node.name
             if (name === 'children') {
               parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true))
+            } else if (/^render[A-Z]/.test(name)) {
+              const slotName = getSlotName(name)
+              parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
+                t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
+              ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
+              this.setMultipleSlots()
             } else {
               self.componentProperies.add(siblingProp.node.name)
             }
@@ -387,10 +540,10 @@ class Transformer {
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {
               self.componentProperies.add(`__fn_${property.name}`)
-              processThisPropsFnMemberProperties(callee, path, node.arguments)
+              processThisPropsFnMemberProperties(callee, path, node.arguments, false)
             } else if (property.name === 'call' || property.name === 'apply') {
               self.componentProperies.add(`__fn_${property.name}`)
-              processThisPropsFnMemberProperties(callee.object, path, node.arguments)
+              processThisPropsFnMemberProperties(callee.object, path, node.arguments, true)
             }
           }
         }
@@ -398,7 +551,7 @@ class Transformer {
     })
   }
 
-  buildAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
+  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
     const { code } = generate(expr)
     if (code.startsWith('this.props')) {
       const methodName = findMethodName(expr)
@@ -406,7 +559,7 @@ class Transformer {
       const funcName = hasMethodName
         ? this.anonymousMethod.get(methodName)!
         // 测试时使用1个稳定的 uniqueID 便于测试，实际使用5个英文字母，否则小程序不支持
-        : process.env.NODE_ENV === 'test' ? uniqueId('func__') : `func__${createRandomLetters(5)}`
+        : process.env.NODE_ENV === 'test' ? uniqueId('funPrivate') : `funPrivate${createRandomLetters(5)}`
       this.anonymousMethod.set(methodName, funcName)
       const newVal = isBind
         ? t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier(funcName)), t.identifier('bind')), expr.arguments || [])
@@ -442,6 +595,18 @@ class Transformer {
         type: component.type
       })
     })
+  }
+
+  setMethods () {
+    const methods: Array<NodePath<t.ClassProperty | t.ClassMethod>> = (this.classPath as any).get('body').get('body')
+    for (const method of methods) {
+      if (method.isClassMethod()) {
+        const key = method.get('key')
+        if (key.isIdentifier()) {
+          this.methods.set(key.node.name, method)
+        }
+      }
+    }
   }
 
   resetConstructor () {
@@ -557,15 +722,15 @@ class Transformer {
           this.loopStateName,
           this.customComponentNames,
           this.customComponentData,
-          this.componentProperies
+          this.componentProperies,
+          this.loopRefs
         ).outputTemplate
-    } else {
-      throw codeFrameError(this.classPath.node.loc, '没有定义 render 方法')
     }
   }
 
   compile () {
     this.traverse()
+    this.setMethods()
     this.setComponents()
     this.resetConstructor()
     this.findMoreProps()

@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, BaseEventFunction } from './common'
+import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface TextareaProps extends StandardProps {
+export interface TextareaProps extends StandardProps, FormItemProps {
 
   /**
    * 输入框的内容
@@ -115,7 +115,7 @@ interface TextareaProps extends StandardProps {
    *
    * height 为键盘高度
    */
-  onFocus?: BaseEventFunction,
+  onFocus?: CommonEventFunction,
 
   /**
    * 输入框失去焦点时触发
@@ -123,14 +123,14 @@ interface TextareaProps extends StandardProps {
    * event.detail = {value, cursor}
    *
    */
-  onBlur?: BaseEventFunction,
+  onBlur?: CommonEventFunction,
 
   /**
    * 输入框行数变化时调用
    *
    * event.detail = {height: 0, heightRpx: 0, lineCount: 0}
    */
-  onChange?: BaseEventFunction,
+  onChange?: CommonEventFunction,
 
   /**
    * 当键盘输入时，触发 input 事件
@@ -139,14 +139,14 @@ interface TextareaProps extends StandardProps {
    *
    * **onInput 处理函数的返回值并不会反映到 textarea 上**
    */
-  onInput?: BaseEventFunction,
+  onInput?: CommonEventFunction,
 
   /**
    * 点击完成时， 触发 confirm 事件，
    *
    * event.detail = {value: value}
    */
-  onConfirm?: BaseEventFunction
+  onConfirm?: CommonEventFunction
 }
 
 declare const Textarea: ComponentType<TextareaProps>
