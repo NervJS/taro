@@ -22,7 +22,8 @@ const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
 const tempDir = '.rn_temp'
 const tempPath = path.join(appPath, tempDir)
-const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+const entryName = projectConfig.entryName || CONFIG.ENTRY
+const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, entryName))
 const entryFileName = path.basename(entryFilePath)
 const pluginsConfig = projectConfig.plugins || {}
 

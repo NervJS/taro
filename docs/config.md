@@ -22,6 +22,8 @@ const config = {
   sourceRoot: 'src',
   // 项目产出目录
   outputRoot: 'dist',
+  // 项目入口名称
+  entryName: 'app',
   // 通用插件配置
   plugins: {
     babel: {
