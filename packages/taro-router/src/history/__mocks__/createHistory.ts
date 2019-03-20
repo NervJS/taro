@@ -28,7 +28,7 @@ const notify = (opts) => {
   })
 }
 
-Taro._set$router(initLocation)
+Taro._$router = initLocation
 
 const history = {
   listen,

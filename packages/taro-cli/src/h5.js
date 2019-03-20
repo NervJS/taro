@@ -151,7 +151,7 @@ function processEntry (code, filePath) {
   let hasState = false
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
-  const additionalConstructorNode = toAst(`Taro._set$app(this)`)
+  const additionalConstructorNode = toAst(`Taro._$app = this`)
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
