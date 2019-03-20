@@ -1,17 +1,12 @@
 import * as React from 'react';
-import Portal from '../portal';
-import { Theme, ThemeProvider } from '../style';
+import { Provider as AntProvider } from '@ant-design/react-native'
 
-export interface ProviderProps {
-  theme?: Partial<Theme>;
-}
-
-export default class Provider extends React.Component<ProviderProps> {
+export default class Provider extends React.Component<any> {
   render() {
     return (
-      <ThemeProvider value={this.props.theme}>
-        <Portal.Host>{this.props.children}</Portal.Host>
-      </ThemeProvider>
-    );
+      <AntProvider>
+        {this.props.children}
+      </AntProvider>
+    )
   }
 }
