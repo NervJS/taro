@@ -264,6 +264,20 @@ git clone git@github.com:NervJS/taro-native-shell.git
 ```
 然后 `cd taro-native-shell`，使用 yarn 或者 npm install 安装依赖。
 
+工程目录如下：
+
+```sh
+➜  taro-native-shell git:(master) ✗ tree -L 1
+.
+├── LICENSE
+├── README.md
+├── android // Android 工程目录
+├── ios // iOS 工程目录
+├── node_modules
+├── package.json
+└── yarn.lock
+```
+
 
 ### iOS
 iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run 按钮就行。
@@ -521,7 +535,7 @@ $ brew update && brew cask install react-native-debugger
 在启动 React Native Debugger 之前，请先确认以下内容：
 
 - 所有的 React Native 的 debugger 客户端已关闭，特别是 `http://localhost:<port>/debugger-ui`
-- React Native Debugger 会尝试连接 debugger 代理， Expo 默认使用 `19001` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
+- React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 `8081` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
 - 保证 [developer menu](https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu)  的  `Debug JS Remotely` 处于开启状态
 
 你可以启动应用之后再修改端口，也可以直接通过命令行启动应用时指定端口：
