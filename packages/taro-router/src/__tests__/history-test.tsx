@@ -1,8 +1,13 @@
-import { History } from '../utils/types'
+import mountApis from '../apis'
 import createHistory from '../history/createHistory'
-import { createNavigateTo, createNavigateBack, createRedirectTo } from '../apis'
+import Taro from '@tarojs/taro-h5'
+import { History } from '../utils/types'
 
 let history: History
+let navigateTo
+let navigateBack
+let redirectTo
+let reLaunch
 
 beforeEach(() => {
   history = createHistory({
@@ -11,12 +16,17 @@ beforeEach(() => {
     firstPagePath: '/pages/index/index',
     customRoutes: {
       '/index': '/pages/index/index',
-      '/about': '/pages/about/abtou'
+      '/about': '/pages/about/about'
     }
   })
+  mountApis(history)
+  navigateTo = Taro.navigateTo
+  navigateBack = Taro.navigateBack
+  redirectTo = Taro.redirectTo
+  reLaunch = Taro.reLaunch
 })
 
-describe('navigateTo/navigateBack/redirectTo', () => {
+describe('navigateTo/navigateBack/redirectTo/reLaunch', () => {
   const location1 = {
     path: '/pages/index/index',
     state: { key: '0' },
@@ -49,7 +59,7 @@ describe('navigateTo/navigateBack/redirectTo', () => {
 
   it('should be able to navigate to third-party websites', () => {
     const thirdPartyWebsite = 'https://www.baidu.com'
-    const navigateTo = createNavigateTo(history)
+    const navigateTo = Taro.navigateTo
     
     const spy = jest.spyOn(window.location, 'assign').mockImplementation(() => {})
     navigateTo({ url: thirdPartyWebsite })
@@ -58,8 +68,6 @@ describe('navigateTo/navigateBack/redirectTo', () => {
   })
 
   it('should notify listeners with proper params when calling navigateTo', () => {
-    const navigateTo = createNavigateTo(history)
-
     const mockListener = jest.fn()
     history.listen(mockListener)
 
@@ -68,8 +76,6 @@ describe('navigateTo/navigateBack/redirectTo', () => {
   })
 
   it('should notify listeners with proper params when calling navigateBack', () => {
-    const navigateBack = createNavigateBack(history)
-
     // jsdom无法准确模拟history的全部功能，这里使用spy代替
     const spy = spyOn(window.history, 'go')
     navigateBack({ delta: 1 })
@@ -77,12 +83,16 @@ describe('navigateTo/navigateBack/redirectTo', () => {
   })
 
   it('should notify listeners with proper params when calling redirectTo', () => {
-    const redirectTo = createRedirectTo(history)
-
     const mockListener = jest.fn()
     history.listen(mockListener)
 
     redirectTo({ url: url3 })
     expect(mockListener).toHaveBeenCalledWith({ fromLocation: location2, toLocation: location3, action: 'REPLACE' })
+  })
+
+  xit('should disable back button when calling reLaunch', () => {
+    // navigateTo({ url: url2 })
+    reLaunch({ url: url2 })
+    expect(history.length).toBe(0)
   })
 })

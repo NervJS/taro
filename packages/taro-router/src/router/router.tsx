@@ -4,7 +4,6 @@ import invariant from 'invariant';
 import toPairs from 'lodash/toPairs';
 import assign from 'lodash/assign';
 
-import { createNavigateBack, createNavigateTo, createRedirectTo, createReLaunch } from '../apis';
 import Route from './route';
 import * as Types from '../utils/types';
 
@@ -36,10 +35,6 @@ class Router extends Component<Props, State> {
 
   mountApis () {
     // 挂载Apis
-    Taro.navigateTo = createNavigateTo(this.props.history)
-    Taro.navigateBack = createNavigateBack(this.props.history)
-    Taro.redirectTo = createRedirectTo(this.props.history)
-    Taro.reLaunch = createReLaunch(this.props.history)
     Taro.getCurrentPages = () => {
       return this.currentPages
     }

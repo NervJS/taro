@@ -1,5 +1,6 @@
 import { History } from '../utils/types'
 import invariant from 'invariant';
+import Taro from '@tarojs/taro-h5';
 
 type SuccessCallback = (res: any) => any
 type FailCallback = (err: any) => any
@@ -90,7 +91,11 @@ const createReLaunch = (history: History) => {
     const res: Result = {}
     try {
       history.go(-(history.length - 1))
-      history.replace(url)
+      if (/^(https?:)\/\//.test(url)) {
+        window.location.assign(url);
+      } else {
+        history.replace(url)
+      }
       res.errMsg = 'reLaunch:ok'
       return Promise.resolve(res)
     } catch (e) {
@@ -100,4 +105,11 @@ const createReLaunch = (history: History) => {
   }
 }
 
-export { createNavigateTo, createNavigateBack, createRedirectTo, createReLaunch }
+const mountApis = (history: History) => {
+  Taro.navigateTo = createNavigateTo(history)
+  Taro.navigateBack = createNavigateBack(history)
+  Taro.redirectTo = createRedirectTo(history)
+  Taro.reLaunch = createReLaunch(history)
+}
+
+export default mountApis

@@ -574,7 +574,7 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import { Router, createHistory } from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
@@ -585,13 +585,15 @@ function processEntry (code, filePath) {
             basename: "${routerBasename}",
             customRoutes: ${JSON.stringify(customRoutes)},
             firstPagePath: "${addLeadingSlash(pages[0])}"
-          })
+          });
         `)
+        const mountApisNode = toAst(`mountApis(_taroHistory);`)
         const extraNodes = [
           importTaroH5Node,
           importRouterNode,
           initPxTransformNode,
-          createHistoryNode
+          createHistoryNode,
+          mountApisNode
         ]
 
         astPath.traverse(programExitVisitor)

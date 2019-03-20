@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro-h5'
 import Nerv from 'nervjs'
 
+import mountApis from '../apis'
 import createHistory from '../history/createHistory'
 import Router from '../router/router'
 
@@ -23,6 +24,7 @@ beforeEach(() => {
       '/pages/about/about': '/about'
     }
   })
+  mountApis(mockHistory)
 })
 
 describe('router component', () => {
