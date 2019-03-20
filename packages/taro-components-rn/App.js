@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Picker as RNPicker } from 'react-native'
-import Provider from './dist/lib/provider'
 import {
+  Provider,
   ScrollView,
   Text,
   View,
@@ -9,7 +8,7 @@ import {
   // Tabbar,
   // TabbarContainer,
   // TabbarPanel,
-} from './src'
+} from './dist'
 import EXButton from './example/EXButton'
 import EXCheckbox from './example/EXCheckbox'
 import EXIcon from './example/EXIcon'
@@ -26,7 +25,7 @@ import EXForm from './example/EXForm'
 // import EXAudio from './example/EXAudio'
 // import EXVideo from './example/EXVideo'
 // import EXMap from './example/EXMap'
-// import EXWebView from './example/EXWebView'
+import EXWebView from './example/EXWebView'
 
 export default class App extends Component {
   state = {
@@ -100,15 +99,15 @@ export default class App extends Component {
           <Text>Picker</Text>
           <EXPicker />
 
-        {/* <EXMap /> */}
+          {/* <EXMap /> */}
 
           <EXImage />
 
-        {/* <EXVideo /> */}
+          {/* <EXVideo /> */}
 
           <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
 
-        {/* <EXAudio /> */}
+          {/* <EXAudio /> */}
 
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', height: 200 }}>
             <View style={{ width: '33.33%', height: 100, backgroundColor: 'red' }}></View>

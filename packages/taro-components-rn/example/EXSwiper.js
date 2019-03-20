@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Swiper, SwiperItem } from '../src'
+import { View, Text, Swiper, SwiperItem } from '../dist'
 
 export default class EXSwiper extends Component {
   render () {
