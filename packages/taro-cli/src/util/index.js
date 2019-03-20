@@ -162,7 +162,7 @@ exports.CONFIG_MAP = {
   }
 }
 
-exports.PROJECT_CONFIG = 'config/index.js'
+exports.PROJECT_CONFIG = process.env.CONFIG_PATH || 'config/index.js'
 
 exports.DEVICE_RATIO = {
   '640': 2.34 / 2,

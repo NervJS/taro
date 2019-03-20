@@ -14,11 +14,12 @@ program
   .option('--watch', 'Watch mode')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
+  .option('--config [configPath]', 'Configuration file path')
   .parse(process.argv)
 
 const args = program.args
-const { type, watch, ui } = program
-let { env } =  program
+const { type, watch, ui, configPath } = program
+let { env } = program
 
 env = process.env.NODE_ENV || env
 
@@ -32,7 +33,11 @@ if (ui) {
 }
 
 if (!fs.existsSync(projectConfPath)) {
-  console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
+  console.log(
+    chalk.red(
+      `找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`
+    )
+  )
   process.exit(1)
 }
 
@@ -45,6 +50,8 @@ if (env) {
     process.env.NODE_ENV = 'production'
   }
 }
+
+if (configPath) process.env.CONFIG_PATH = configPath
 
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
