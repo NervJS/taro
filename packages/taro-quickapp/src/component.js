@@ -1,6 +1,8 @@
 import {
   internal_safe_get as safeGet
 } from '@tarojs/taro'
+import { enqueueRender } from './render-queue'
+import { updateComponent } from './lifecycle'
 
 export default class BaseComponent {
   // _createData的时候生成，小程序中通过data.__createData访问
@@ -33,7 +35,15 @@ export default class BaseComponent {
     this.$scope = scope
   }
   setState (state, callback) {
-
+    if (state) {
+      (this._pendingStates = this._pendingStates || []).push(state)
+    }
+    if (typeof callback === 'function') {
+      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
+    }
+    if (!this._disable) {
+      enqueueRender(this)
+    }
   }
 
   getState () {
@@ -58,6 +68,7 @@ export default class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    updateComponent(this)
   }
 
   // 会被匿名函数调用

@@ -13,15 +13,13 @@ import {
   NODE_MODULES_REG,
   NODE_MODULES,
   PARSE_AST_TYPE,
-  BUILD_TYPES,
-  taroJsQuickAppComponents
+  BUILD_TYPES
 } from '../util/constants'
 import {
   printLog,
   isEmptyObject,
   promoteRelativePath,
   isDifferentArray,
-  getInstalledNpmPkgPath,
   generateQuickAppUx
 } from '../util'
 

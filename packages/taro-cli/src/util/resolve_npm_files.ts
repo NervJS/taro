@@ -139,7 +139,7 @@ function parseAst (
               const args = node.arguments as Array<t.StringLiteral>
               let requirePath = args[0].value
               if (excludeRequire.indexOf(requirePath) < 0) {
-                if (!isQuickAppPkg(requirePath)) {
+                if (isQuickAppPkg(requirePath)) {
                   return
                 }
                 if (isNpmPkg(requirePath)) {
