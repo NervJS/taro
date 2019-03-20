@@ -11,8 +11,7 @@ import {
   NODE_MODULES_REG,
   PARSE_AST_TYPE,
   taroJsFramework,
-  BUILD_TYPES,
-  taroJsQuickAppComponents
+  BUILD_TYPES
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -21,7 +20,6 @@ import {
   promoteRelativePath,
   isDifferentArray,
   copyFileSync,
-  getInstalledNpmPkgPath,
   generateQuickAppUx
 } from '../util'
 import { IWxTransformResult } from '../util/types'
@@ -36,7 +34,6 @@ import {
   getDependencyTree,
   getComponentExportsMap,
   getDepComponents,
-  getTaroJsQuickAppComponentsPath,
   getImportTaroSelfComponents
 } from './helper'
 import { compileDepScripts, compileScriptFile } from './compileScript'
