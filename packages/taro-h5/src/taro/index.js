@@ -26,7 +26,7 @@ const taro = {
 
 class Component extends Nerv.Component {
   get $router () {
-    return taro.getRouter()
+    return getRouter()
   }
   set $router (args) {
     console.warn('Property "$router" is read-only.')
@@ -43,7 +43,7 @@ class Component extends Nerv.Component {
 
 class PureComponent extends Nerv.PureComponent {
   get $router () {
-    return taro.getRouter()
+    return getRouter()
   }
   set $router (args) {
     console.warn('Property "$router" is read-only.')
@@ -60,17 +60,35 @@ class PureComponent extends Nerv.PureComponent {
 
 const initPxTransform = originalInitPxTransform.bind(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
-const _set$app = function (app) {
-  taro._$app = app
-}
 const getApp = function () {
   return taro._$app
 }
-const _set$router = function (router) {
-  taro._$router = router
-}
+
+/**
+ * RouterParams
+ *
+ * @typedef {Object} RouterParams
+ * @property {string} path 小程序切前台的路径
+ * @property {number} scene 小程序切前台的场景值
+ * @property {Object} query 小程序切前台的 query 参数
+ * @property {string} shareTicket shareTicket，详见获取更多转发信息
+ * @property {Object} referrerInfo 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}。(参见后文注意)
+ */
+
+/**
+ * getRouter
+ *
+ * @returns {RouterParams} router router参数
+ */
 const getRouter = function () {
-  return taro._$router
+  const { path, params } = taro._$router
+  return {
+    path,
+    scene: 1000,
+    params,
+    shareTicket: '',
+    referrerInfo: {}
+  }
 }
 const pxTransform = function (size) {
   const { designWidth } = taro.config
@@ -85,15 +103,11 @@ taro.Component = Component
 taro.PureComponent = PureComponent
 taro.initPxTransform = initPxTransform
 taro.requirePlugin = requirePlugin
-taro._set$app = _set$app
 taro.getApp = getApp
-taro._set$router = _set$router
-taro.getRouter = getRouter
 taro.pxTransform = pxTransform
 taro.canIUseWebp = canIUseWebp
 
 export default taro
-
 export {
   getEnv,
   ENV_TYPE,
@@ -107,9 +121,7 @@ export {
   Component,
   initPxTransform,
   requirePlugin,
-  _set$app,
   getApp,
-  getRouter,
   pxTransform,
   canIUseWebp
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { View, Image } from '../src'
-
 import { StyleSheet } from 'react-native'
+import { View, Image } from '../dist'
 
 const temp = StyleSheet.create({
   img: {

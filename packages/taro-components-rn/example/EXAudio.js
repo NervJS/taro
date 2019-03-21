@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View } from '../src'
+import { View } from '../dist'
 import Audio from '../dist/components/Audio'
 
 export default class EXAudio extends Component {

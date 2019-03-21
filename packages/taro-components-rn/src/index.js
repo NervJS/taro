@@ -1,4 +1,4 @@
-export { default as TCRNProvider } from './lib/provider'
+export { default as Provider } from './lib/provider'
 export { default as View } from './components/View'
 export { default as ScrollView } from './components/ScrollView'
 export { default as Swiper } from './components/Swiper'

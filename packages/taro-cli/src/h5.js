@@ -88,10 +88,6 @@ const FILE_TYPE = {
 
 const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
 
-const publicPath = h5Config.publicPath
-  ? stripTrailingSlash(addLeadingSlash(h5Config.publicPath || ''))
-  : ''
-
 function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
   const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
   return `{
@@ -151,7 +147,7 @@ function processEntry (code, filePath) {
   let hasState = false
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
-  const additionalConstructorNode = toAst(`Taro._set$app(this)`)
+  const additionalConstructorNode = toAst(`Taro._$app = this`)
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -232,11 +228,9 @@ function processEntry (code, filePath) {
 
           funcBody = `
             <Router
-              mode={${JSON.stringify(routerMode)}}
-              publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
+              history={_taroHistory}
               routes={[${routes.join(',')}]}
-              customRoutes={${JSON.stringify(customRoutes)}}
-              basename={${JSON.stringify(routerBasename)}} />
+              customRoutes={${JSON.stringify(customRoutes)}} />
             `
 
           /* 插入Tabbar */
@@ -580,15 +574,26 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import { Router } from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
         const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
+        const createHistoryNode = toAst(`
+          const _taroHistory = createHistory({
+            mode: "${routerMode}",
+            basename: "${routerBasename}",
+            customRoutes: ${JSON.stringify(customRoutes)},
+            firstPagePath: "${addLeadingSlash(pages[0])}"
+          });
+        `)
+        const mountApisNode = toAst(`mountApis(_taroHistory);`)
         const extraNodes = [
           importTaroH5Node,
           importRouterNode,
-          initPxTransformNode
+          initPxTransformNode,
+          createHistoryNode,
+          mountApisNode
         ]
 
         astPath.traverse(programExitVisitor)

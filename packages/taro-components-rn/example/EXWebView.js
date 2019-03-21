@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { WebView } from '../src'
+import { WebView } from '../dist'
 
 export default class EXSlider extends Component {
   render () {

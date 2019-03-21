@@ -522,11 +522,15 @@ function transformIf (
 function handleConditions (conditions: Condition[]) {
   if (conditions.length === 1) {
     const ct = conditions[0]
-    ct.path.replaceWith(
-      t.jSXExpressionContainer(
-        t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+    try {
+      ct.path.replaceWith(
+        t.jSXExpressionContainer(
+          t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+        )
       )
-    )
+    } catch (error) {
+      //
+    }
   }
   if (conditions.length > 1) {
     const lastLength = conditions.length - 1

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import AntDatePicker from '../../lib/date-picker'
+import { DatePicker as AntDatePicker } from '@ant-design/react-native'
 import { DateProps } from './PropsType'
 
 function formatTimeStr (time: string = ''): Date {

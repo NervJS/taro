@@ -272,6 +272,16 @@ declare namespace Router {
   function navigateBack(OBJECT: navigateBack.Param): void
 }
 
+declare const createHistory: (props: {
+  basename?: string;
+  mode: 'hash' | 'browser',
+  firstPagePath: string;
+  customRoutes: {
+    [key: string]: string
+  };
+}) => any;
+
 export {
-  Router
+  Router,
+  createHistory
 }

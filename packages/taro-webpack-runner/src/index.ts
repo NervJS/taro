@@ -29,7 +29,6 @@ const warnConfigEnableDll = () => {
 const buildProd = (config: BuildConfig): Promise<void> => {
   return new Promise((resolve, reject) => {
     const webpackChain = prodConf(config)
-    const webpackConfig = webpackChain.toConfig()
 
     customizeChain(webpackChain, config.webpackChain)
 
@@ -37,6 +36,7 @@ const buildProd = (config: BuildConfig): Promise<void> => {
       warnConfigWebpack()
     }
 
+    const webpackConfig = webpackChain.toConfig()
     const compiler = webpack(webpackConfig)
     bindProdLogger(compiler)
 
@@ -60,11 +60,8 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
     const outputPath = path.join(appPath, conf.outputRoot as string)
     const customDevServerOption = config.devServer || {}
     const webpackChain = devConf(config)
-    let webpackConfig
 
     customizeChain(webpackChain, config.webpackChain)
-
-    webpackConfig = webpackChain.toConfig()
 
     if (config.webpack) {
       warnConfigWebpack()
@@ -87,6 +84,8 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
       port: devServerOptions.port,
       pathname: routerMode === 'browser' ? routerBasename : '/'
     })
+
+    const webpackConfig = webpackChain.toConfig()
     WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
     const compiler = webpack(webpackConfig)
     bindDevLogger(devUrl, compiler)

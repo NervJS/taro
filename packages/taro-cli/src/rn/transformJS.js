@@ -473,7 +473,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
 
           // 根节点嵌套组件提供的 provider
           const importTCRNProvider = template(
-            `import { ${taroComponentsRNProviderName} } from '${PACKAGES['@tarojs/components-rn']}'`,
+            `import { Provider as ${taroComponentsRNProviderName} } from '${PACKAGES['@tarojs/components-rn']}'`,
             babylonConfig
           )()
           node.body.unshift(importTCRNProvider)

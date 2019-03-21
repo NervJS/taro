@@ -213,6 +213,8 @@ const otherApis = {
   setBackgroundColor: true,
   setBackgroundTextStyle: true,
 
+  getMenuButtonBoundingClientRect: true,
+
   // 第三方平台
   getExtConfig: true,
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from '../src'
-import Picker from '../dist/components/Picker'
+import { View, Text, Picker } from '../dist'
 
 export default class EXPicker extends Component {
   pickerSelectorRange = [ 'Java', 'C++', 'PHP' ]

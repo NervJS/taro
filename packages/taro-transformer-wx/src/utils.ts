@@ -16,6 +16,9 @@ export const incrementId = () => {
   return () => id++
 }
 
+// tslint:disable-next-line:no-empty
+export const noop = function () {}
+
 export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
   const superClass = path.node.superClass
   if (t.isIdentifier(superClass)) {
@@ -218,7 +221,7 @@ export function generateAnonymousState (
           t.returnStatement(func.body)
         ])
       } else {
-        if (ifExpr && ifExpr.isIfStatement()) {
+        if (ifExpr && ifExpr.isIfStatement() && ifExpr.findParent(p => p === callExpr)) {
           const consequent = ifExpr.get('consequent')
           const test = ifExpr.get('test')
           if (consequent.isBlockStatement()) {

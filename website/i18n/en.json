@@ -207,6 +207,9 @@
       "native-api": {
         "title": "端能力 API"
       },
+      "optimized-practice": {
+        "title": "性能优化实践"
+      },
       "project-config": {
         "title": "项目配置"
       },

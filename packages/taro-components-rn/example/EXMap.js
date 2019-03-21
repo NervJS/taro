@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View } from '../src'
-import Map from '../dist/components/Map'
+import { View, Map } from '../dist'
 
 export default class EXAudio extends Component {
   state = {

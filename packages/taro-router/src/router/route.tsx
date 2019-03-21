@@ -65,9 +65,14 @@ class Route extends Component<RouteProps, {}> {
   updateComponent (props = this.props) {
     props.componentLoader()
       .then(({ default: component }) => {
-        let WrappedComponent = createWrappedComponent(component)
+        if (!component) {
+          throw Error(`Received a falsy component for route "${props.path}". Forget to export it?`)
+        }
+        const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
         this.forceUpdate()
+      }).catch((e) => {
+        console.error(e)
       })
   }
 

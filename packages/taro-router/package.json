@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "1.2.20",
+  "version": "1.2.21",
   "description": "Taro-router",
   "main:h5": "dist/index.esm.js",
   "main": "index.js",
@@ -11,10 +11,11 @@
     "index.js"
   ],
   "scripts": {
-    "test": "jest",
-    "build": "rollup -c rollup.config.js",
+    "build": "npm run test && rollup -c rollup.config.js",
     "dev": "rollup -c rollup.config.js --watch",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test": "jest",
+    "test:dev": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,7 @@
     "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "@babel/plugin-transform-react-jsx": "7.0.0",
     "@babel/preset-env": "7.1.5",
-    "@tarojs/taro-h5": "1.2.20",
+    "@tarojs/taro-h5": "1.2.21",
     "@types/history": "4.7.2",
     "@types/jasmine": "2.8.11",
     "@types/jest": "23.3.9",

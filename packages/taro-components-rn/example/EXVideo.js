@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Video } from '../src'
+import { Video } from '../dist'
 
 export default class EXSlider extends Component {
   state = {
