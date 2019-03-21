@@ -16,6 +16,9 @@ export const incrementId = () => {
   return () => id++
 }
 
+// tslint:disable-next-line:no-empty
+export const noop = function () {}
+
 export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
   const superClass = path.node.superClass
   if (t.isIdentifier(superClass)) {
@@ -210,7 +213,6 @@ export function generateAnonymousState (
     }
   } else {
     variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
-    debugger
     const func = callExpr.node.arguments[0]
     if (t.isArrowFunctionExpression(func)) {
       if (!t.isBlockStatement(func.body)) {

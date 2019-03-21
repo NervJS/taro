@@ -23,7 +23,8 @@ import {
   isContainJSXElement,
   getSlotName,
   getSuperClassCode,
-  isContainStopPropagation
+  isContainStopPropagation,
+  noop
 } from './utils'
 import { difference, get as safeGet, cloneDeep } from 'lodash'
 import {
@@ -1384,7 +1385,7 @@ export class RenderParser {
       if (body.length > 1) {
         const [ func ] = callee.node.arguments
         if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
-          const [ item ] = func.params as t.Identifier[]
+          const [ item, indexParam ] = func.params as t.Identifier[]
           const parents = findParents(callee, (p) => isArrayMapCallExpression(p))
           const iterators = new Set<string>(
             [item.name, ...parents
@@ -1436,6 +1437,13 @@ export class RenderParser {
           })
           const replacements = new Set()
           component.traverse({
+            JSXAttribute: !t.isIdentifier(indexParam) ? noop : (path: NodePath<t.JSXAttribute>) => {
+              const { value } = path.node
+              if (t.isJSXExpressionContainer(value) && t.isIdentifier(value.expression, { name: indexParam.name })) {
+                // tslint:disable-next-line:no-console
+                console.warn(codeFrameError(value.expression, '建议修改：使用循环的 index 变量作为 key 是一种反优化。参考：https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md').message)
+              }
+            },
             JSXExpressionContainer: this.replaceIdWithTemplate(),
             Identifier: (path) => {
               const name = path.node.name
