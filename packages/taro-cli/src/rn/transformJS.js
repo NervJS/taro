@@ -432,6 +432,8 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             )()
             node.body.unshift(importScreen)
           })
+
+          // import tabBar icon
           iconPaths.forEach(item => {
             const iconPath = item.startsWith('/') ? item : `/${item}`
             const iconName = _.camelCase(iconPath.split('/'))
@@ -441,6 +443,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             )()
             node.body.unshift(importIcon)
           })
+
           // Taro.initRouter  生成 RootStack
           const routerPages = pages
             .map(item => {
@@ -457,6 +460,7 @@ function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             )`,
             babylonConfig
           )())
+
           // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,

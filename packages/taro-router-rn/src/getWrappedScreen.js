@@ -4,6 +4,8 @@ import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
 
+import { YellowBox } from 'react-native'
+
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
  * @param Screen 页面的组件，有可能是 react-redux 里面的 connect 包裹后的 Screen
@@ -16,6 +18,8 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     constructor (props, context) {
       super(props, context)
       this.screenRef = React.createRef()
+      // issue https://github.com/react-navigation/react-navigation/issues/3956
+      YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader'])
     }
 
     static navigationOptions = ({navigation}) => {
