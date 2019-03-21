@@ -100,13 +100,13 @@ React Native 需要 Java Development Kit [JDK] 1.8（暂不支持 1.9 及更高�
 
 ```
 #systemProp.socks.proxyHost=127.0.0.1
-#systemProp.socks.proxyPort=7077
+#systemProp.socks.proxyPort=8016
 
 #systemProp.https.proxyHost=127.0.0.1
-#systemProp.https.proxyPort=7077
+#systemProp.https.proxyPort=8016
 
 #systemProp.https.proxyHost=socks5://127.0.0.1
-#systemProp.https.proxyPort=7077
+#systemProp.https.proxyPort=8016
 ```
 
 > 正确设置方法应该是这样：
