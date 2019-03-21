@@ -210,6 +210,7 @@ export function generateAnonymousState (
     }
   } else {
     variableName = `${LOOP_STATE}_${callExpr.scope.generateUid()}`
+    debugger
     const func = callExpr.node.arguments[0]
     if (t.isArrowFunctionExpression(func)) {
       if (!t.isBlockStatement(func.body)) {
@@ -218,7 +219,7 @@ export function generateAnonymousState (
           t.returnStatement(func.body)
         ])
       } else {
-        if (ifExpr && ifExpr.isIfStatement()) {
+        if (ifExpr && ifExpr.isIfStatement() && ifExpr.findParent(p => p === callExpr)) {
           const consequent = ifExpr.get('consequent')
           const test = ifExpr.get('test')
           if (consequent.isBlockStatement()) {
