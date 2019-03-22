@@ -761,6 +761,7 @@ function handleAttrKey (key: string) {
       return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
+      key = camelCase(key)
       if (!isValidVarName(key)) {
         throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
       }
