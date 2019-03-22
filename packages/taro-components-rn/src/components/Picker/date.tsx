@@ -33,11 +33,14 @@ export default class DateSelector extends React.Component<DateProps, any> {
 
   onChange = (date: Date) => {
     const { fields = 'day', onChange } = this.props
-    let ret: string = date.getFullYear() + ''
+    const yyyy: string = date.getFullYear() + ''
+    const MM: string = ('0' + (date.getMonth() + 1)).slice(-2)
+    const dd: string = ('0' + date.getDate()).slice(-2)
+    let ret: string = yyyy
     if (fields === 'month' || fields === 'day') {
-      ret += `-${date.getMonth() + 1}`
+      ret += `-${MM}`
       if (fields === 'day') {
-        ret += `-${date.getDate()}`
+        ret += `-${dd}`
       }
     }
     onChange && onChange({
