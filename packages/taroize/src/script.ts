@@ -1,7 +1,7 @@
 import * as t from 'babel-types'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
 import * as template from 'babel-template'
-import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode, isAliasThis } from './utils'
+import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode, isAliasThis, isValidVarName } from './utils'
 import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 import { usedComponents } from './global'
@@ -204,11 +204,20 @@ function parsePage (
           .map(p => p.node)
           .forEach(prop => {
             if (t.isObjectProperty(prop)) {
+              let propKey = ''
               if (t.isStringLiteral(prop.key)) {
-                currentStateKeys.push(prop.key.value)
+                propKey = prop.key.value
               }
               if (t.isIdentifier(prop.key)) {
-                currentStateKeys.push(prop.key.name)
+                propKey = prop.key.name
+              }
+
+              if (!isValidVarName(propKey)) {
+                throw codeFrameError(prop, `${propKey} 不是一个合法的 JavaScript 变量名`)
+              }
+
+              if (propKey) {
+                currentStateKeys.push(propKey)
               }
             }
           })
@@ -251,6 +260,9 @@ function parsePage (
                         name: propKey,
                         observer: p.value
                       })
+                    }
+                    if (!isValidVarName(propKey)) {
+                      throw codeFrameError(prop, `${propKey} 不是一个合法的 JavaScript 变量名`)
                     }
                   }
                   if (t.isObjectMethod(p) && t.isIdentifier(p.key, { name: 'observer' })) {
