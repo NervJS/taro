@@ -24,6 +24,7 @@ const tempDir = '.rn_temp'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
+const entryBaseName = path.basename(entryFilePath, path.extname(entryFileName))
 const pluginsConfig = projectConfig.plugins || {}
 
 const pkgPath = path.join(__dirname, './rn/pkg')
@@ -101,7 +102,7 @@ function initProjectFile () {
 
   const indexJsStr = `
   import {AppRegistry} from 'react-native';
-  import App from './${entryFileName}';
+  import App from './${entryBaseName}';
   import {name as appName} from './app.json';
 
   AppRegistry.registerComponent(appName, () => App);`
