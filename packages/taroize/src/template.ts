@@ -180,7 +180,11 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)
-    jsx.remove()
+    try {
+      jsx.remove()
+    } catch (error) {
+     //
+    }
     return imports
   } else {
     const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type), true)
