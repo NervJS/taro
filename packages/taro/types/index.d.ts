@@ -199,7 +199,7 @@ declare namespace Taro {
      * @default false
      * @since 2.1.0
      */
-    custom: boolean;
+    custom?: boolean;
 
     list: TarbarList[]
   }
