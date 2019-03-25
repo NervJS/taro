@@ -30,14 +30,14 @@ module.exports = function (creater, params, helper, cb) {
   }
   const currentStyleExt = styleExtMap[css] || 'css'
 
-  fs.mkdirSync(projectPath)
-  fs.mkdirSync(sourceDir)
-  fs.mkdirSync(configDir)
-  fs.mkdirSync(path.join(sourceDir, 'pages'))
-  fs.mkdirSync(constantsDir)
-  fs.mkdirSync(actionsDir)
-  fs.mkdirSync(reducersDir)
-  fs.mkdirSync(storeDir)
+  fs.ensureDirSync(projectPath)
+  fs.ensureDirSync(sourceDir)
+  fs.ensureDirSync(configDir)
+  fs.ensureDirSync(path.join(sourceDir, 'pages'))
+  fs.ensureDirSync(constantsDir)
+  fs.ensureDirSync(actionsDir)
+  fs.ensureDirSync(reducersDir)
+  fs.ensureDirSync(storeDir)
 
   creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
