@@ -440,6 +440,18 @@ export default function transform (options: Options): TransformResult {
     },
     JSXAttribute (path) {
       const { name, value } = path.node
+
+      if (options.jsxAttributeNameReplace) {
+        for (const r in options.jsxAttributeNameReplace) {
+          if (options.jsxAttributeNameReplace.hasOwnProperty(r)) {
+            const element = options.jsxAttributeNameReplace[r]
+            if (t.isJSXIdentifier(name, { name: r })) {
+              path.node.name = t.jSXIdentifier(element)
+            }
+          }
+        }
+      }
+
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }
