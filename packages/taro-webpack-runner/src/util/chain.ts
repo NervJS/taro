@@ -375,10 +375,8 @@ const getModule = ({
     test: fontReg,
     use: {
       urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
-        options: {
-          name: `${staticDirectory}/fonts/[name].[ext]`,
-          ...fontUrlLoaderOption
-        }
+        name: `${staticDirectory}/fonts/[name].[ext]`,
+        ...fontUrlLoaderOption
       }])
     }
   }
@@ -386,10 +384,8 @@ const getModule = ({
     test: imageReg,
     use: {
       urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
-        options: {
-          name: `${staticDirectory}/images/[name].[ext]`,
-          ...imageUrlLoaderOption
-        }
+        name: `${staticDirectory}/images/[name].[ext]`,
+        ...imageUrlLoaderOption
       }])
     }
   }
