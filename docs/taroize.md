@@ -137,7 +137,7 @@ Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期
 | onHide | componentDidHide |
 | onReady | componentDidMount |
 | onUnload | componentWillUnmount |
-| onError | componentCatchError |
+| onError | componentDidCatchError |
 | App.onLaunch | componentWillMount |
 | Component.created | componentWillMount |
 | attached | componentDidMount |
