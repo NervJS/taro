@@ -263,7 +263,7 @@ exports.getRootPath = function () {
 exports.getTaroPath = function () {
   const taroPath = path.join(exports.homedir(), '.taro')
   if (!fs.existsSync(taroPath)) {
-    fs.mkdirSync(taroPath)
+    fs.ensureDirSync(taroPath)
   }
   return taroPath
 }
