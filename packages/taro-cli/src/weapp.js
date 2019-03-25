@@ -866,7 +866,8 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
     adapter: buildAdapter,
-    env: constantsReplaceList
+    env: constantsReplaceList,
+    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
   })
   const { ast } = transformResult
   let isTaroComponent = false
@@ -979,7 +980,8 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
     isNormal: true,
     isTyped: false,
     adapter,
-    env: constantsReplaceList
+    env: constantsReplaceList,
+    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
   })
   const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
   return res.code
@@ -1102,7 +1104,8 @@ async function buildEntry () {
       isApp: true,
       isTyped: Util.REG_TYPESCRIPT.test(entryFilePath),
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
@@ -1337,7 +1340,8 @@ async function buildSinglePage (page) {
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs),
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
     })
     const pageDepComponents = transformResult.components
     const compressTemplate = useCompileConf.compressTemplate
@@ -1774,7 +1778,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       isTyped: Util.REG_TYPESCRIPT.test(component),
       isNormal: false,
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
     })
     const compressTemplate = useCompileConf.compressTemplate
     const componentWXMLContent = (isProduction && compressTemplate) ? transformResult.compressedTemplate : transformResult.template
@@ -1926,7 +1931,8 @@ function compileDepScripts (scriptFiles) {
             isNormal: true,
             isTyped: Util.REG_TYPESCRIPT.test(item),
             adapter: buildAdapter,
-            env: constantsReplaceList
+            env: constantsReplaceList,
+            jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)

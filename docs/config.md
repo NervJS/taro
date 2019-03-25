@@ -54,7 +54,10 @@ const config = {
           }
         }
       }
-    }
+    },
+    // 替换 JSX 中的属性名，参考：
+    // https://github.com/NervJS/taro/issues/2077
+    jsxAttributeNameReplace: {}
   },
   // H5 端专用配置
   h5: {

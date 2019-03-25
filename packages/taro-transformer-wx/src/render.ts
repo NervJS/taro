@@ -1440,8 +1440,10 @@ export class RenderParser {
             JSXAttribute: !t.isIdentifier(indexParam) ? noop : (path: NodePath<t.JSXAttribute>) => {
               const { value } = path.node
               if (t.isJSXExpressionContainer(value) && t.isIdentifier(value.expression, { name: indexParam.name })) {
-                // tslint:disable-next-line:no-console
-                console.warn(codeFrameError(value.expression, '建议修改：使用循环的 index 变量作为 key 是一种反优化。参考：https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md').message)
+                if (process.env.TERM_PROGRAM) { // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
+                  // tslint:disable-next-line:no-console
+                  console.log(codeFrameError(value.expression, '建议修改：使用循环的 index 变量作为 key 是一种反优化。参考：https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md').message)
+                }
               }
             },
             JSXExpressionContainer: this.replaceIdWithTemplate(),
