@@ -3,12 +3,17 @@ import * as path from 'path'
 
 import chalk from 'chalk'
 import * as _ from 'lodash'
+import * as ora from 'ora'
+import * as shelljs from 'shelljs'
 
 import {
   printLog,
   getInstalledNpmPkgVersion,
   getPkgVersion,
-  copyFiles
+  copyFiles,
+  unzip,
+  shouldUseYarn,
+  shouldUseCnpm
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
@@ -22,24 +27,9 @@ import {
 import { buildEntry } from './entry'
 import { buildPages } from './page'
 import { watchFiles } from './watch'
+import { downloadGithubRepoLatestRelease } from '../util/dowload'
 
 const appPath = process.cwd()
-
-// async function checkCliAndFrameworkVersion () {
-//   const { buildAdapter, nodeModulesPath } = getBuildData()
-//   const frameworkName = `@tarojs/taro-${buildAdapter}`
-//   const frameworkVersion = getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
-//   if (frameworkVersion) {
-//     if (frameworkVersion !== getPkgVersion()) {
-//       printLog(processTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
-//       console.log(`Taro CLI: ${getPkgVersion()}`)
-//       console.log(`${frameworkName}: ${frameworkVersion}`)
-//       process.exit(1)
-//     }
-//   } else {
-//     printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
-//   }
-// }
 
 function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName } = getBuildData()
@@ -97,20 +87,146 @@ async function buildFrameworkInfo () {
   }
 }
 
+function generateQuickAppManifest () {
+  const { appConfig, pageConfigs, appPath, outputDir } = getBuildData()
+  // 生成 router
+  const pages = appConfig.pages as string[]
+  const routerPages = {}
+  pages.forEach(element => {
+    routerPages[path.dirname(element)] = {
+      component: path.basename(element),
+      filter: {
+        view: {
+          uri: 'https?://.*'
+        }
+      }
+    }
+  })
+  const routerEntry = pages.shift()
+  const router = {
+    entry: path.dirname(routerEntry as string),
+    pages: routerPages
+  }
+  // 生成 display
+  const display = JSON.parse(JSON.stringify(appConfig.window || {}))
+  display.pages = {}
+  pageConfigs.forEach((item, page) => {
+    if (item) {
+      display.pages[path.dirname(page)] = item
+    }
+  })
+  // 读取 project.quickapp.json
+  const quickappJSONPath = path.join(appPath, 'project.quickapp.json')
+  let quickappJSON
+  if (fs.existsSync(quickappJSONPath)) {
+    quickappJSON = fs.readJSONSync(quickappJSONPath)
+  } else {
+    quickappJSON = fs.readJSONSync('../config/manifest.default.json')
+  }
+  quickappJSON.router = router
+  quickappJSON.display = display
+  fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
+}
+
+async function prepareQuickAppEnvironment (isWatch, buildData) {
+  let isReady = false
+  let needDownload = false
+  let needInstall = false
+  const originalOutputDir = buildData.originalOutputDir
+  console.log()
+  if (isWatch) {
+    if (fs.existsSync(path.join(buildData.originalOutputDir, 'sign'))) {
+      needDownload = false
+    } else {
+      needDownload = true
+    }
+  } else {
+    needDownload = true
+  }
+  if (needDownload) {
+    const getSpinner = ora('开始下载快应用运行容器...').start()
+    await downloadGithubRepoLatestRelease('NervJS/quickapp-container', originalOutputDir)
+    await unzip(path.join(originalOutputDir, 'download_temp.zip'))
+    getSpinner.succeed('快应用运行容器下载完成')
+  } else {
+    console.log(`${chalk.green('✔ ')} 快应用容器已经准备好`)
+  }
+
+  console.log()
+  process.chdir(originalOutputDir)
+  if (isWatch) {
+    if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
+      needInstall = false
+    } else {
+      needInstall = true
+    }
+  } else {
+    needInstall = true
+  }
+  if (needInstall) {
+    let command
+    if (shouldUseYarn) {
+      command = 'yarn install'
+    } else if (shouldUseCnpm()) {
+      command = 'cnpm install'
+    } else {
+      command = 'npm install'
+    }
+    const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
+    const install = shelljs.exec(command, { silent: true })
+    if (install.code === 0) {
+      installSpinner.color = 'green'
+      installSpinner.succeed('安装成功')
+      console.log(`${install.stderr}${install.stdout}`)
+      isReady = true
+    } else {
+      installSpinner.color = 'red'
+      installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
+      console.log(`${install.stderr}${install.stdout}`)
+      isReady = false
+    }
+  } else {
+    console.log(`${chalk.green('✔ ')} 快应用依赖已经安装好`)
+    isReady = true
+  }
+  return isReady
+}
+
+async function runQuickApp (isWatch) {
+  if (isWatch) {
+    shelljs.exec('npm run server -- --port 12306', { silent: false })
+    // shelljs.exec('npm run watch', { silent: false })
+  }
+}
+
 export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false }: IMiniAppBuildConfig) {
-  const { projectConfig } = getBuildData()
+  const buildData = getBuildData()
+  const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   }
   setBuildAdapter(adapter)
-  // await checkCliAndFrameworkVersion()
-  buildProjectConfig()
-  await buildFrameworkInfo()
-  copyFiles(appPath, projectConfig.copy)
+  fs.ensureDirSync(buildData.outputDir)
+  if (!isQuickApp) {
+    buildProjectConfig()
+    await buildFrameworkInfo()
+  }
+  copyFiles(appPath, buildData.projectConfig.copy)
   const appConfig = await buildEntry()
   setAppConfig(appConfig)
   await buildPages()
+  if (isQuickApp) {
+    generateQuickAppManifest()
+    const isReady = await prepareQuickAppEnvironment(watch, buildData)
+    if (!isReady) {
+      console.log()
+      console.log(chalk.red('快应用环境准备失败，请重试！'))
+      process.exit(0)
+      return
+    }
+    await runQuickApp(watch)
+  }
   // if (watch) {
   //   watchFiles()
   // }

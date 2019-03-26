@@ -194,7 +194,7 @@ async function recursiveRequire (
       filePath.slice(0, filePath.search('node_modules')),
       process.cwd()
     )
-    outputNpmPath = filePath.replace('node_modules', path.join(cwdRelate2Npm, outputDirName, npmConfig.name))
+    outputNpmPath = filePath.replace('node_modules', path.join(cwdRelate2Npm, buildAdapter !== BUILD_TYPES.QUICKAPP ? outputDirName : `${outputDirName}/src`, npmConfig.name))
     outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
   } else {
     const matches = filePath.match(/(?=(node_modules)).*/)

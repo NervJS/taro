@@ -55,7 +55,8 @@ export async function buildSinglePage (page: string) {
     outputFilesTypes,
     nodeModulesPath,
     npmOutputDir,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    pageConfigs
   } = getBuildData()
   const pagePath = path.join(sourceDir, `${page}`)
   const pageJs = resolveScriptPath(pagePath)
@@ -107,6 +108,7 @@ export async function buildSinglePage (page: string) {
     const res = parseAst(PARSE_AST_TYPE.PAGE, transformResult.ast, pageDepComponents, pageJs, outputPageJSPath)
     let resCode = res.code
     fs.ensureDirSync(outputPagePath)
+    pageConfigs.set(page, res.configObj)
     // 解析原生组件
     const { usingComponents = {} }: IConfig = res.configObj
     if (usingComponents && !isEmptyObject(usingComponents)) {
@@ -180,6 +182,7 @@ export async function buildSinglePage (page: string) {
         }
       })
     }
+
     const fileDep = dependencyTree.get(pageJs) || {}
     if (!isQuickApp) {
       fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
