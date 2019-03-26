@@ -32,11 +32,15 @@ if (ui) {
   return
 }
 
-if (plugin === 'weapp') {
-  console.log(chalk.green(`开始编译微信小程序插件`))
+if (plugin === 'weapp' || plugin === 'alipay') {
+  const typeMap = {
+    'weapp': '微信',
+    'alipay': '支付宝'
+  }
+  console.log(chalk.green(`开始编译${typeMap[plugin]}小程序插件`))
   build(args, {
     type: 'plugin',
-    platform: 'weapp',
+    platform: plugin,
     watch
   })
   return

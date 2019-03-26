@@ -112,3 +112,18 @@ export default class Index extends Component {
     console.log('answer: ', answer)
   }
 ```
+
+## 支付宝小程序插件开发
+
+[支付宝小程序插件开发概述](https://docs.alipay.com/mini/isv/plugin-intro)
+
+### 项目结构
+
+目前支付宝小程序只支持开发页面插件，因此项目结构和普通 Taro 项目的一致。只需在源码目录下再增加 `plugin.json` 和 `plugin-mock.json` 两个文件即可。
+
+### 编译项目
+
+```bin
+taro build --plugin alipay
+taro build --plugin alipay --watch
+```

@@ -34,6 +34,7 @@ const PLUGIN_ROOT = 'plugin/'
 const DOC_ROOT = 'doc/'
 const NPM_DIR = 'npm/'
 const PLUGIN_JSON = 'plugin.json'
+const PLUGIN_MOCK_JSON = 'plugin-mock.json'
 const configDir = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = configDir.sourceRoot || CONFIG.SOURCE_DIR
 const outputDirName = configDir.outputRoot || CONFIG.OUTPUT_DIR
@@ -50,11 +51,15 @@ let outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
 const entryFilePath = Util.resolveScriptPath(path.join(srcPath, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 
-function build ({ watch, platform }) {
+async function build ({ watch, platform }) {
   setEnv(watch)
   switch (platform) {
     case Util.BUILD_TYPES.WEAPP:
       buildWxPlugin({ watch })
+      break
+    case Util.BUILD_TYPES.ALIPAY:
+      await buildWeapp({ watch, adapter: Util.BUILD_TYPES.ALIPAY })
+      buildAlipayPlugin()
       break
     default:
       console.log(chalk.red('输入插件类型错误，目前只支持 weapp 插件类型'))
@@ -364,6 +369,17 @@ async function buildWxPlugin ({ watch }) {
   await Promise.all(ioPromises)
 
   watch && wxPluginWatchFiles()
+}
+
+function buildAlipayPlugin () {
+  const pluginJson = path.join(srcPath, PLUGIN_JSON)
+  const pluginMockJson = path.join(srcPath, PLUGIN_MOCK_JSON)
+  if (fs.existsSync(pluginJson)) {
+    fs.copyFileSync(pluginJson, path.join(outputPath, PLUGIN_JSON))
+  }
+  if (fs.existsSync(pluginMockJson)) {
+    fs.copyFileSync(pluginMockJson, path.join(outputPath, PLUGIN_MOCK_JSON))
+  }
 }
 
 module.exports = {
