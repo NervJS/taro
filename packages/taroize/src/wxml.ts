@@ -652,7 +652,7 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
 function parseText (node: Text) {
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
-    return t.jSXText(content)
+    return t.jSXText(content.replace(/{/g, `{'{'}`).replace(/}/g, `{'}'}`))
   }
   return t.jSXExpressionContainer(buildTemplate(content))
 }
