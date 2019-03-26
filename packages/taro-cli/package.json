@@ -32,6 +32,7 @@
   "dependencies": {
     "@tarojs/taroize": "1.2.13",
     "@tarojs/transformer-wx": "1.2.13",
+    "@types/request": "^2.48.1",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -84,16 +85,18 @@
     "postcss-url": "^7.3.2",
     "prettier": "^1.16.4",
     "prop-types": "^15.6.2",
+    "request": "^2.88.0",
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
     "shelljs": "^0.8.1",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
-    "vinyl-fs": "^3.0.2"
+    "vinyl-fs": "^3.0.2",
+    "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@types/autoprefixer": "^9.1.1",
     "@tarojs/taro": "^1.2.2",
+    "@types/autoprefixer": "^9.1.1",
     "@types/babel-core": "^6.25.5",
     "@types/babel-generator": "^6.25.2",
     "@types/babel-traverse": "^6.25.4",

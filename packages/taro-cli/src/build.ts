@@ -16,10 +16,8 @@ export default function build (args, buildConfig: IBuildConfig) {
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath)
-  } else {
-    if (type !== BUILD_TYPES.H5) {
-      Util.emptyDirectory(outputPath)
-    }
+  } else if (type !== BUILD_TYPES.H5 && (type !== BUILD_TYPES.QUICKAPP || !watch)) {
+    Util.emptyDirectory(outputPath)
   }
   switch (type) {
     case BUILD_TYPES.H5:

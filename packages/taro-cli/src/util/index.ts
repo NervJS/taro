@@ -7,6 +7,8 @@ import * as chalk from 'chalk'
 import * as _ from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
+import * as yauzl from 'yauzl'
+import { Transform } from 'stream'
 
 import {
   TS_EXT,
@@ -528,4 +530,50 @@ export function generateQuickAppUx ({
     uxTxt += `<script>\n${script}\n</script>\n`
   }
   return uxTxt
+}
+
+
+export function unzip (zipPath) {
+  return new Promise((resolve, reject) => {
+    yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
+      if (err) throw err
+      zipfile.on('close', () => {
+        fs.removeSync(zipPath)
+        resolve()
+      })
+      zipfile.readEntry()
+      zipfile.on('error', (err) => {
+        reject(err)
+      })
+      zipfile.on('entry', entry => {
+        if (/\/$/.test(entry.fileName)) {
+          const fileNameArr = entry.fileName.replace(/\\/g, '/').split('/')
+          fileNameArr.shift()
+          const fileName = fileNameArr.join('/')
+          fs.ensureDirSync(path.join(path.dirname(zipPath), fileName))
+          zipfile.readEntry()
+        } else {
+          zipfile.openReadStream(entry, (err, readStream) => {
+            if (err) throw err
+            const filter = new Transform()
+            filter._transform = function (chunk, encoding, cb) {
+              cb(undefined, chunk)
+            }
+            filter._flush = function (cb) {
+              cb()
+              zipfile.readEntry()
+            }
+            const fileNameArr = entry.fileName.replace(/\\/g, '/').split('/')
+            fileNameArr.shift()
+            const fileName = fileNameArr.join('/')
+            const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
+            writeStream.on('close', () => {})
+            readStream
+              .pipe(filter)
+              .pipe(writeStream)
+          })
+        }
+      })
+    })
+  })
 }

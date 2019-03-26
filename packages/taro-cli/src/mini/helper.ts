@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import * as _ from 'lodash'
-import { AppConfig } from '@tarojs/taro'
+import { Config } from '@tarojs/taro'
 
 import {
   BUILD_TYPES,
@@ -78,11 +78,13 @@ export interface IBuildData {
   outputDirName: string,
   sourceDir: string,
   outputDir: string,
+  originalOutputDir: string,
   entryFilePath: string,
   entryFileName: string,
   projectConfig: IProjectConfig,
   npmConfig: INpmConfig,
-  appConfig: AppConfig,
+  appConfig: Config,
+  pageConfigs: Map<string, Config>,
   alias: IOption,
   compileInclude: string[],
   isProduction: boolean,
@@ -100,6 +102,7 @@ const BuildData: IBuildData = {
   outputDirName,
   sourceDir,
   outputDir,
+  originalOutputDir: outputDir,
   entryFilePath,
   entryFileName,
   projectConfig,
@@ -107,6 +110,7 @@ const BuildData: IBuildData = {
   alias: pathAlias,
   isProduction: false,
   appConfig: {},
+  pageConfigs: new Map<string, Config>(),
   compileInclude,
   buildAdapter: BUILD_TYPES.WEAPP,
   outputFilesTypes: MINI_APP_FILES[BUILD_TYPES.WEAPP],
@@ -129,7 +133,7 @@ export const shouldTransformAgain = (function () {
   return false
 })()
 
-export function setAppConfig (appConfig: AppConfig) {
+export function setAppConfig (appConfig: Config) {
   BuildData.appConfig = appConfig
 }
 
@@ -147,6 +151,12 @@ export function setBuildAdapter (adapter: BUILD_TYPES) {
   BuildData.constantsReplaceList = Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
     'process.env.TARO_ENV': adapter
   })
+  if (adapter === BUILD_TYPES.QUICKAPP) {
+    BuildData.originalOutputDir = outputDir
+    BuildData.outputDirName = `${outputDirName}/src`
+    BuildData.outputDir = path.join(appPath, BuildData.outputDirName)
+    BuildData.npmOutputDir = getNpmOutputDir(BuildData.outputDir, configDir, npmConfig)
+  }
 }
 
 export function getBuildData (): IBuildData {
