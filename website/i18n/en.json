@@ -201,6 +201,9 @@
       "mini-third-party": {
         "title": "使用小程序原生第三方组件和插件"
       },
+      "miniprogram-plugin": {
+        "title": "小程序插件开发"
+      },
       "mobx": {
         "title": "使用 MobX"
       },

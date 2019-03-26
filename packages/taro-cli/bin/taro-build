@@ -14,10 +14,11 @@ program
   .option('--watch', 'Watch mode')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
+  .option('--plugin [typeName]', 'Build Taro plugin project, weapp')
   .parse(process.argv)
 
 const args = program.args
-const { type, watch, ui } = program
+const { type, watch, ui, plugin } = program
 let { env } =  program
 
 env = process.env.NODE_ENV || env
@@ -26,6 +27,16 @@ if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
   build(args, {
     type: 'ui',
+    watch
+  })
+  return
+}
+
+if (plugin === 'weapp') {
+  console.log(chalk.green(`开始编译微信小程序插件`))
+  build(args, {
+    type: 'plugin',
+    platform: 'weapp',
     watch
   })
   return
