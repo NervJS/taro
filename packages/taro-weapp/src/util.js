@@ -12,6 +12,14 @@ export function isEmptyObject (obj) {
   return true
 }
 
+export function isUndefined (o) {
+  return o === undefined
+}
+
+export function isNullOrUndef (o) {
+  return isUndefined(o) || o === null
+}
+
 /**
  * JSON 克隆
  * @param {Object | Json} jsonObj json对象
