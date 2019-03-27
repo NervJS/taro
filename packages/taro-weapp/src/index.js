@@ -17,6 +17,7 @@ import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
 import { getElementById } from './util'
+import { useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo, useImperativeHandle } from './hooks'
 
 export const Taro = {
   Component,
@@ -33,7 +34,9 @@ export const Taro = {
   internal_inline_style,
   createComponent,
   internal_get_original,
-  getElementById
+  getElementById,
+  // eslint-disable-next-line object-property-newline
+  useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo, useImperativeHandle
 }
 
 export default Taro

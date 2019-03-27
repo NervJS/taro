@@ -26,7 +26,7 @@ import {
 } from './helper'
 import { buildEntry } from './entry'
 import { buildPages } from './page'
-import { watchFiles } from './watch'
+// import { watchFiles } from './watch'
 import { downloadGithubRepoLatestRelease } from '../util/dowload'
 
 const appPath = process.cwd()
