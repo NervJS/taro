@@ -13,3 +13,5 @@ export * from './system'
 export * from './others'
 export * from './navigationBar'
 export * from './imageUtils'
+
+export * from './privateApis'
