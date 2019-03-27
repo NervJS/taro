@@ -261,12 +261,8 @@ const getModule = ({
     let cssModuleCondition
 
     if (cssModuleOptions.config!.namingPattern === 'module') {
-      cssModuleCondition = {
-        and: [
-          { include: styleModuleReg },
-          { exclude: [isNodeModule] }
-        ]
-      }
+      /* 不排除 node_modules 内的样式 */
+      cssModuleCondition = styleModuleReg
     } else {
       cssModuleCondition = {
         and: [

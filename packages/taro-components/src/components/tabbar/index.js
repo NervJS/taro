@@ -39,6 +39,12 @@ class Tabbar extends Nerv.Component {
       this.customRoutes.push([key, customRoutes[key]])
     }
 
+    list.forEach( item => {
+      if (item.pagePath.indexOf('/') !== 0){
+        item.pagePath = "/" + item.pagePath
+      }
+    })
+
     this.state = {
       list,
       selectedIndex: -1,

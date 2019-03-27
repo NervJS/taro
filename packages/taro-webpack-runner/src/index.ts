@@ -108,11 +108,19 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
 
 export default async (config: BuildConfig): Promise<void> => {
   if (config.isWatch) {
-    await buildDev(config)
+    try {
+      await buildDev(config)
+    } catch (e) {
+      console.error(e)
+    }
   } else {
     if ('enableDll' in config) {
       warnConfigEnableDll()
     }
-    await buildProd(config)
+    try {
+      await buildProd(config)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
