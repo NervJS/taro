@@ -24,7 +24,7 @@ import {
   processStyleImports,
   promoteRelativePath
 } from '../util'
-import { CSS_EXT, FILE_PROCESSOR_MAP, DEVICE_RATIO_NAME } from '../util/constants'
+import { CSS_EXT, FILE_PROCESSOR_MAP, DEVICE_RATIO_NAME, BUILD_TYPES } from '../util/constants'
 import { IMiniAppConfig } from '../util/types'
 
 import {
@@ -137,7 +137,7 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
   if (customAutoprefixerConf.enable) {
     processors.push(autoprefixer(customAutoprefixerConf.config))
   }
-  if (customPxtransformConf.enable) {
+  if (customPxtransformConf.enable && buildAdapter !== BUILD_TYPES.QUICKAPP) {
     processors.push(pxtransform(postcssPxtransformConf))
   }
   if (cssUrlConf.enable) {

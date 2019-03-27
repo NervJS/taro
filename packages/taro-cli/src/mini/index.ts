@@ -88,7 +88,7 @@ async function buildFrameworkInfo () {
 }
 
 function generateQuickAppManifest () {
-  const { appConfig, pageConfigs, appPath, outputDir } = getBuildData()
+  const { appConfig, pageConfigs, appPath, outputDir, projectConfig } = getBuildData()
   // 生成 router
   const pages = appConfig.pages as string[]
   const routerPages = {}
@@ -125,6 +125,9 @@ function generateQuickAppManifest () {
   }
   quickappJSON.router = router
   quickappJSON.display = display
+  quickappJSON.config = Object.assign({}, quickappJSON.config, {
+    designWidth: projectConfig.designWidth || 750
+  })
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
 
@@ -194,8 +197,7 @@ async function prepareQuickAppEnvironment (isWatch, buildData) {
 
 async function runQuickApp (isWatch) {
   if (isWatch) {
-    shelljs.exec('npm run server -- --port 12306', { silent: false })
-    // shelljs.exec('npm run watch', { silent: false })
+    shelljs.exec('npm run watch & npm run server -- --port 12310', { silent: false })
   }
 }
 
