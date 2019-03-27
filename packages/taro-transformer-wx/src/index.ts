@@ -177,6 +177,14 @@ export default function transform (options: Options): TransformResult {
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
   const ast = parse(code, buildBabelTransformOptions()).ast as t.File
   if (options.isNormal) {
+    if (options.isTyped) {
+      const mainClassNode = ast.program.body.find(v => {
+        return t.isClassDeclaration(v)
+      }) as t.ClassDeclaration | undefined
+      if (mainClassNode) {
+        resetTSClassProperty(mainClassNode.body.body)
+      }
+    }
     return { ast } as any
   }
   // transformFromAst(ast, code)
