@@ -3,10 +3,16 @@ title: React Native 端开发流程
 ---
 
 > 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](https://nervjs.github.io/taro/docs/before-dev-remind.html)
+> 
+> 适配 RN 端可参考项目：[首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native） - By 趣店 FED](https://github.com/js-newbee/taro-yanxuan)
 
 ## 简介
 
 Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，目前是项目依赖中固定 React Native 版本为 `0.55.4`。
+
+整个 RN 端的架构如下：
+
+![image](http://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png)
 
 ## 搭建 iOS 开发环境
 
@@ -200,7 +206,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 ![image](https://reactnative.cn/docs/assets/GettingStartedAVDManagerMacOS.png)
 
-然后点击 "Next" 和 "Finish" 来完成虚拟设备的创建。现在你应该可以点击虚拟设备旁的绿色三角按钮来启动它了，启动完后我们可以尝试运行应用。
+然后点击 "Next" 和 "Finish" 来完成虚拟设备的创建。
 
 ## 开发
 
@@ -336,6 +342,7 @@ app.json 字段的配置默认取自于 package.json 的 name 字段，除非你
 更多资料，可以查看 Xcode 文档：[Building Your App](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/BuildingYourApp.html)
 
 ### Android 
+使用 Android Studio 打开 android 目录，你就可以看到 React Native 的工程代码。
 
 ### 在真实设备上运行
 
@@ -355,6 +362,9 @@ app.json 字段的配置默认取自于 package.json 的 name 字段，除非你
 按照以下步骤操作，在您的设备上运行应用：
 
 1. 在 Android Studio 中，点击 Project 窗口中的 app 模块，然后选择 Run > Run（或点击工具栏中的 Run  ）。
+
+![image](https://sdtimes.com/wp-content/uploads/2016/04/0408.sdt-androidstudio.png)
+
 2. 在 Select Deployment Target 窗口中，选择您的设备，然后点击 OK。
 
 ![image](https://developer.android.com/training/basics/firstapp/images/run-device_2x.png?hl=zh-cn)
