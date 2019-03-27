@@ -144,7 +144,11 @@ function processEvent (eventHandlerName, obj) {
       }
       realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
     }
-    return scope[eventHandlerName].apply(callScope, realArgs)
+    if (scope[eventHandlerName]) {
+      return scope[eventHandlerName].apply(callScope, realArgs)
+    } else {
+      throw `事件处理函数${eventHandlerName}不存在`
+    }
   }
 }
 
