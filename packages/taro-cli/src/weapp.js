@@ -164,6 +164,9 @@ function traverseObjectNode (node, obj) {
   if (node.type === 'NullLiteral') {
     return null
   }
+  if (node.type === 'Identifier') {
+    return node
+  }
   return node.value
 }
 
