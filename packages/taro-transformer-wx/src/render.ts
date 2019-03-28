@@ -113,6 +113,7 @@ export class RenderParser {
   private usedThisProperties = new Set<string>()
   private incrementCalleeId = incrementId()
   private classComputedState = new Set<string>()
+  private loopCallees = new Set<t.Node>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
 
@@ -446,6 +447,7 @@ export class RenderParser {
                 ) {
                   let ary = callee.object
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
+                    this.loopCallees.add(ary)
                     const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
                     callExpr.getStatementParent().insertBefore(
                       buildConstVariableDeclaration(variableName, setParentCondition(jsxElementPath, ary, true))
@@ -1464,6 +1466,9 @@ export class RenderParser {
                   if (grandParentPath.isCallExpression() && this.loopComponents.has(grandParentPath)) {
                     return
                   }
+                }
+                if (path.findParent(p => this.loopCallees.has(p.node))) {
+                  return
                 }
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
