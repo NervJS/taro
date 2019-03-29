@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro-h5'
 import classNames from 'classnames'
 import Nerv from 'nervjs'
 
-import touchable from '../../utils/touchable'
+import hoverable from '../../utils/hoverable'
 
 import './navigator.css'
+
+/* eslint-disable prefer-promise-reject-errors */
 
 /*
  *target  String  self  在哪个目标上发生跳转，默认当前小程序，可选值self/miniProgram
@@ -103,7 +105,7 @@ class Navigator extends Taro.Component {
   }
 }
 
-export default touchable({
+export default hoverable({
   hoverClass: 'navigator-hover',
   hoverStopPropergation: false,
   hoverStartTime: 50,
