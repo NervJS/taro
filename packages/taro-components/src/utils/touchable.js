@@ -16,23 +16,24 @@ const touchable = (opt = {
       }
       timer = null
 
-      onTouchStart () {
+      onTouchStart = () => {
         const { bindTouchStart, bindLongTap } = this.props
         bindTouchStart && bindTouchStart()
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
           bindLongTap && bindLongTap()
         }, opt.longTapTime)
       }
-      onTouchMove () {
+      onTouchMove = () => {
+        this.timer && clearTimeout(this.timer)
         const { bindTouchMove } = this.props
         bindTouchMove && bindTouchMove()
       }
-      onTouchEnd () {
+      onTouchEnd = () => {
         this.timer && clearTimeout(this.timer)
         const { bindTouchEnd } = this.props
         bindTouchEnd && bindTouchEnd()
       }
-      onTouchCancel () {
+      onTouchCancel = () => {
         this.timer && clearTimeout(this.timer)
         const { bindTouchCancel } = this.props
         bindTouchCancel && bindTouchCancel()

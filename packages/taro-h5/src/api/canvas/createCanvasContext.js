@@ -8,6 +8,7 @@ import { isFunction } from '../utils/index'
 */
 const createCanvasContext = (canvasId, componentInstance) => {
   const dom = findDOMNode(componentInstance)
+  /** @type {HTMLCanvasElement} */
   const canvas = dom.querySelector(`[canvasId=${canvasId}]`);
   
   /** @type {CanvasRenderingContext2D} */
