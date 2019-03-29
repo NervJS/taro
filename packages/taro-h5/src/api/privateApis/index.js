@@ -1,2 +1,2 @@
-export * from './pageScroll'
-export * from './reachBottom'
+export * from './onPageScroll'
+export * from './onReachBottom'
