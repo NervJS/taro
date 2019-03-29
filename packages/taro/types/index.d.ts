@@ -87,7 +87,7 @@ declare namespace Taro {
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
     componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
     componentWillUnmount?(): void;
-    componentWillPreload?(params: {[propName: string]: any}): any;
+    componentWillPreload?(params: { [propName: string]: any }): any;
     componentDidShow?(): void;
     componentDidHide?(): void;
     componentDidCatchError?(err: string): void;
@@ -150,6 +150,11 @@ declare namespace Taro {
      * default: false
      */
     disableScroll?: boolean
+    /**
+     * 设置为 true 则禁止页面右滑手势返回；只在页面配置中有效，无法在 app.json 中设置该项
+     * default: false
+     */
+    disableSwipeBack?: boolean
   }
 
   interface TarbarList {
@@ -386,8 +391,8 @@ declare namespace Taro {
     $preload(key: object): void;
 
     setState<K extends keyof S>(
-        state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
-        callback?: () => any
+      state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
+      callback?: () => any
     ): void;
 
     forceUpdate(callBack?: () => any): void;
@@ -398,7 +403,7 @@ declare namespace Taro {
     state: Readonly<S>;
     context: any;
     refs: {
-        [key: string]: any
+      [key: string]: any
     };
   }
 
@@ -461,8 +466,8 @@ declare namespace Taro {
 
   function render(component: Component | JSX.Element, element: Element | null): any;
 
-  function internal_safe_set (...arg: any[]): any;
-  function internal_safe_get (...arg: any[]): any;
+  function internal_safe_set(...arg: any[]): any;
+  function internal_safe_get(...arg: any[]): any;
 
   type MessageType = 'info' | 'success' | 'error' | 'warning';
 
@@ -472,7 +477,7 @@ declare namespace Taro {
     duration?: number
   }
 
-  function atMessage (options: AtMessageOptions): void;
+  function atMessage(options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
 
@@ -490,12 +495,12 @@ declare namespace Taro {
   }
 
   namespace interceptors {
-    function logInterceptor (chain: Chain): Promise<any>
+    function logInterceptor(chain: Chain): Promise<any>
 
-    function timeoutInterceptor (chain: Chain): Promise<any>
+    function timeoutInterceptor(chain: Chain): Promise<any>
   }
 
-  function addInterceptor (interceptor: interceptor): any
+  function addInterceptor(interceptor: interceptor): any
 
   /**
    * 小程序引用插件 JS 接口
@@ -1430,7 +1435,7 @@ declare namespace Taro {
       path: string,
       size: number
     }
-    type ParamPropSuccess = (res: {tempFilePaths: string[], tempFiles: ParamPropTempFiles}) => void
+    type ParamPropSuccess = (res: { tempFilePaths: string[], tempFiles: ParamPropTempFiles }) => void
     type ParamPropFail = (err: any) => void
     type ParamPropComplete = () => any
     type Param = {
@@ -2801,7 +2806,7 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(param: {direction: 0 | 90 | -90}): void
+    requestFullScreen(param: { direction: 0 | 90 | -90 }): void
     /**
      * 退出全屏
      *
@@ -7289,14 +7294,14 @@ declare namespace Taro {
       * 接口调用成功的回调函数
       */
     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+    /**
+      * 接口调用失败的回调函数
+      */
+    type ParamPropFail = (err: any) => any
+    /**
+      * 接口调用结束的回调函数（调用成功、失败都会执行）
+      */
+    type ParamPropComplete = () => any
   }
   /**
    * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
@@ -7336,15 +7341,15 @@ declare namespace Taro {
     /**
       * 接口调用成功的回调函数
       */
-     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+    type ParamPropSuccess = (res: any) => any
+    /**
+      * 接口调用失败的回调函数
+      */
+    type ParamPropFail = (err: any) => any
+    /**
+      * 接口调用结束的回调函数（调用成功、失败都会执行）
+      */
+    type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
@@ -7370,18 +7375,18 @@ declare namespace Taro {
       fail?: ParamPropFail,
       complete?: ParamPropComplete
     }
-        /**
-      * 接口调用成功的回调函数
+    /**
+  * 接口调用成功的回调函数
+  */
+    type ParamPropSuccess = (res: any) => any
+    /**
+      * 接口调用失败的回调函数
       */
-     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+    type ParamPropFail = (err: any) => any
+    /**
+      * 接口调用结束的回调函数（调用成功、失败都会执行）
+      */
+    type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -7478,15 +7483,15 @@ declare namespace Taro {
     /**
       * 接口调用成功的回调函数
       */
-     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+    type ParamPropSuccess = (res: any) => any
+    /**
+      * 接口调用失败的回调函数
+      */
+    type ParamPropFail = (err: any) => any
+    /**
+      * 接口调用结束的回调函数（调用成功、失败都会执行）
+      */
+    type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
@@ -8195,22 +8200,22 @@ declare namespace Taro {
     scrollLeft: number,
     scrollTop: number
   }
-  interface clientRectElement extends baseElement, rectElement, sizeElement {}
+  interface clientRectElement extends baseElement, rectElement, sizeElement { }
 
-  interface scrollOffsetElement extends baseElement, scrollElement {}
+  interface scrollOffsetElement extends baseElement, scrollElement { }
 
   interface fieldsObject {
-    id?:boolean,
-    dataset?:boolean,
-    rect?:boolean,
-    size?:boolean,
-    scrollOffset?:boolean,
+    id?: boolean,
+    dataset?: boolean,
+    rect?: boolean,
+    size?: boolean,
+    scrollOffset?: boolean,
     properties?: string[],
-    computedStyle?:string[],
+    computedStyle?: string[],
   }
 
   interface fieldElement extends baseElement, rectElement, sizeElement {
-    [key:string]: any
+    [key: string]: any
   }
 
 
