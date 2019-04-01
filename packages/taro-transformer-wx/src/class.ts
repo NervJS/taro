@@ -13,7 +13,7 @@ import {
   incrementId,
   isContainStopPropagation
 } from './utils'
-import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, quickappComponentName } from './constant'
+import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, DEFAULT_Component_SET_COPY } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -655,7 +655,7 @@ class Transformer {
       if (name.startsWith('Taro') && component.sourcePath === COMPONENTS_PACKAGE_NAME) {
         return
       }
-      if (Adapter.type === Adapters.quickapp && quickappComponentName.has(name)) {
+      if (Adapter.type === Adapters.quickapp && DEFAULT_Component_SET_COPY.has(name)) {
         return
       }
       this.result.components.push({

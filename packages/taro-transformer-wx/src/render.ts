@@ -911,6 +911,9 @@ export class RenderParser {
                 }
               }
               path.node.name = t.jSXIdentifier(transformName)
+            } else if (Adapter.type === Adapters.quickapp) {
+              const transformName = name.name
+              path.node.name = t.jSXIdentifier(transformName)
             } else if (DEFAULT_Component_SET.has(componentName)) {
               let transformName = `${eventShouldBeCatched ? 'catch' : 'bind'}`
                 + name.name.slice(2).toLowerCase()
