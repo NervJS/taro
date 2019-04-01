@@ -9,7 +9,7 @@ import { shakeFnFromObject, isEmptyObject } from './util'
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
-const privatePropKeyName = '_triggerObserer'
+const privatePropKeyName = 'privateTriggerObsererKey'
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
@@ -62,7 +62,7 @@ function doUpdate (component, prevProps, prevState) {
     // 返回null或undefined则保持不变
     data = component._createData(state, props) || data
   }
-  let privatePropKeyVal = component.$scope[privatePropKeyName] || false
+  let privatePropKeyVal = component.$scope[privatePropKeyName] || 0
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -85,7 +85,7 @@ function doUpdate (component, prevProps, prevState) {
     data = _data
   }
   // 改变这个私有的props用来触发(observer)子组件的更新
-  data[privatePropKeyName] = !privatePropKeyVal
+  data[privatePropKeyName] = privatePropKeyVal + 1
 
   const __mounted = component.__mounted
   // 每次 setData 都独立生成一个 callback 数组
@@ -93,5 +93,25 @@ function doUpdate (component, prevProps, prevState) {
   if (component._pendingCallbacks && component._pendingCallbacks.length) {
     cbs = component._pendingCallbacks
     component._pendingCallbacks = []
+  }
+
+  Object.keys(data).map(item => {
+    if (!(item in component.$scope)) {
+      component.$scope.$set(item, data[item])
+    } else {
+      component.$scope[item] = data[item]
+    }
+  })
+  if (__mounted) {
+    if (typeof component.componentDidUpdate === 'function') {
+      component.componentDidUpdate(prevProps, prevState)
+    }
+  }
+
+  if (cbs.length) {
+    let i = cbs.length
+    while (--i >= 0) {
+      typeof cbs[i] === 'function' && cbs[i].call(component)
+    }
   }
 }

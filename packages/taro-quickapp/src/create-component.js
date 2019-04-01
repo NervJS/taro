@@ -2,7 +2,8 @@ import { isEmptyObject, queryToJson } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
 
-const privatePropValName = '__triggerObserer'
+const privatePropValName = 'privateTriggerObserer'
+const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onBackPress', 'onMenuPress']
@@ -15,7 +16,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
     }
     if (typeof componentProps[propName] === 'function') {
       newProps[propName] = componentProps[propName]
-    } else if (propName in componentData) {
+    } else if (componentData && propName in componentData) {
       newProps[propName] = componentData[propName]
     }
     if (componentFnReg.test(propName)) {
@@ -36,12 +37,135 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
   return newProps
 }
 
-function bindEvents (componentConf, componentInstance, events) {
+function processEvent (eventHandlerName, obj) {
+  if (obj[eventHandlerName]) return
+
+  obj[eventHandlerName] = function (event) {
+    if (event) {
+      event.preventDefault = function () {}
+      event.stopPropagation = function () {}
+      event.currentTarget = event.currentTarget || event.target || {}
+      if (event.target) {
+        Object.assign(event.target, event.detail)
+      }
+      Object.assign(event.currentTarget, event.detail)
+    }
+
+    const scope = this.$component
+    let callScope = scope
+    const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
+    let realArgs = []
+    let detailArgs = []
+    let datasetArgs = []
+    let isScopeBinded = false
+    // 解析从dataset中传过来的参数
+    const dataset = event.currentTarget.dataset || {}
+    const bindArgs = {}
+    const eventType = event.type.toLocaleLowerCase()
+    Object.keys(dataset).forEach(key => {
+      let keyLower = key.toLocaleLowerCase()
+      if (/^e/.test(keyLower)) {
+        // 小程序属性里中划线后跟一个下划线会解析成不同的结果
+        keyLower = keyLower.replace(/^e/, '')
+        if (keyLower.indexOf(eventType) >= 0) {
+          const argName = keyLower.replace(eventType, '')
+          if (/^(a[a-z]|so)$/.test(argName)) {
+            bindArgs[argName] = dataset[key]
+          }
+        }
+      }
+    })
+    // 如果是通过triggerEvent触发,并且带有参数
+    if (event.__arguments && event.__arguments.length > 0) {
+      detailArgs = event.__arguments
+    }
+    // 普通的事件（非匿名函数），会直接call
+    if (!isAnonymousFn) {
+      if ('so' in bindArgs) {
+        if (bindArgs['so'] !== 'this') {
+          callScope = bindArgs['so']
+        }
+        isScopeBinded = true
+        delete bindArgs['so']
+      }
+      if (detailArgs.length > 0) {
+        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
+        detailArgs.shift()
+      }
+      if (!isEmptyObject(bindArgs)) {
+        datasetArgs = Object.keys(bindArgs)
+          .sort()
+          .map(key => bindArgs[key])
+      }
+      realArgs = [...datasetArgs, ...detailArgs, event]
+    } else {
+      // 匿名函数，会将scope作为第一个参数
+      let _scope = null
+      if ('so' in bindArgs) {
+        if (bindArgs['so'] !== 'this') {
+          _scope = bindArgs['so']
+        }
+        isScopeBinded = true
+        delete bindArgs['so']
+      }
+      if (detailArgs.length > 0) {
+        !isScopeBinded && detailArgs[0] && (callScope = detailArgs[0])
+        detailArgs.shift()
+      }
+      if (!isEmptyObject(bindArgs)) {
+        datasetArgs = Object.keys(bindArgs)
+          .sort()
+          .map(key => bindArgs[key])
+      }
+      realArgs = [_scope, ...datasetArgs, ...detailArgs, event]
+    }
+    return scope[eventHandlerName].apply(callScope, realArgs)
+  }
+}
+
+function bindEvents (componentConf, events) {
   events.forEach(name => {
-    if (componentInstance[name]) {
-      componentConf[name] = componentInstance[name]
+    processEvent(name, componentConf)
+  })
+}
+
+function bindStaticFns (componentConf, ComponentClass) {
+  for (const key in ComponentClass) {
+    typeof ComponentClass[key] === 'function' && (componentConf[key] = ComponentClass[key])
+  }
+  // 低版本 IOS 下部分属性不能直接访问
+  Object.getOwnPropertyNames(ComponentClass).forEach(key => {
+    const excludes = ['arguments', 'caller', 'length', 'name', 'prototype']
+    if (excludes.indexOf(key) < 0) {
+      typeof ComponentClass[key] === 'function' && (componentConf[key] = ComponentClass[key])
     }
   })
+}
+
+function bindProperties (componentConf, ComponentClass) {
+  componentConf.properties = ComponentClass.properties || {}
+  const defaultProps = ComponentClass.defaultProps || {}
+  for (const key in defaultProps) {
+    if (defaultProps.hasOwnProperty(key)) {
+      componentConf.properties[key] = {
+        type: null,
+        value: defaultProps[key]
+      }
+    }
+  }
+  componentConf.props = []
+  Object.keys(componentConf.properties).forEach(item => {
+    componentConf.props.push(item)
+  })
+  componentConf.props.push(privatePropValName)
+  componentConf.onPrivatePropChange = function () {
+    if (!this.$component || !this.$component.__isReady) return
+    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this)
+    this.$component.props = nextProps
+    this.$component._unsafeCallUpdate = true
+    updateComponent(this.$component)
+    this.$component._unsafeCallUpdate = false
+  }
 }
 
 function getPageUrlParams (url) {
@@ -121,6 +245,8 @@ export default function createComponent (ComponentClass, isPage) {
         // this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       }
+      // 监听数据变化
+      this.$watch(privatePropValName, 'onPrivatePropChange')
     },
 
     onReady () {
@@ -156,6 +282,8 @@ export default function createComponent (ComponentClass, isPage) {
       }
     })
   }
-  ComponentClass['$$events'] && bindEvents(componentConf, componentInstance, ComponentClass['$$events'])
+  bindStaticFns(componentConf, ComponentClass)
+  bindProperties(componentConf, ComponentClass)
+  ComponentClass['$$events'] && bindEvents(componentConf, ComponentClass['$$events'])
   return componentConf
 }
