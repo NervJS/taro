@@ -167,7 +167,10 @@ interface TransformResult extends Result {
 export default function transform (options: Options): TransformResult {
   if (options.adapter) {
     setAdapter(options.adapter)
-    if (Adapter.type === Adapters.quickapp) DEFAULT_Component_SET.add('div')
+    if (Adapter.type === Adapters.quickapp) {
+      DEFAULT_Component_SET.add('div')
+      quickappComponentName.forEach((n) => DEFAULT_Component_SET.delete(n))
+    }
   }
   if (Adapter.type === Adapters.swan) {
     setLoopOriginal('privateOriginal')
