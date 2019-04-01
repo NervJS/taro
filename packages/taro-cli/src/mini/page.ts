@@ -131,12 +131,16 @@ export async function buildSinglePage (page: string) {
     } else {
       // 快应用编译，搜集创建页面 ux 文件
       const importTaroSelfComponents = getImportTaroSelfComponents(outputPageJSPath, res.taroSelfComponents)
+      const importCustomComponents = new Set(pageDepComponents.map(item => {
+        delete item.type
+        return item
+      }))
       // 生成页面 ux 文件
       const styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
-        imports: importTaroSelfComponents,
+        imports: new Set([...importTaroSelfComponents, ...importCustomComponents]),
         template: pageWXMLContent
       })
       fs.writeFileSync(outputPageWXMLPath, uxTxt)

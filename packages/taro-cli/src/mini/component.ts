@@ -251,11 +251,15 @@ export async function buildSingleComponent (
     } else {
       // 快应用编译，搜集创建组件 ux 文件
       const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
+      const importCustomComponents = new Set(componentDepComponents.map(item => {
+        delete item.type
+        return item
+      }))
       const styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
-        imports: importTaroSelfComponents,
+        imports: new Set([...importTaroSelfComponents, ...importCustomComponents]),
         template: componentWXMLContent
       })
       fs.writeFileSync(outputComponentWXMLPath, uxTxt)
