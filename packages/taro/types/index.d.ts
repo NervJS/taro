@@ -353,6 +353,7 @@ declare namespace Taro {
       [key: string]: string
     },
     window?: PageConfig
+    cloud?: boolean
   }
 
   interface ComponentOptions {
