@@ -200,7 +200,7 @@ export function parseJSXElement (element: t.JSXElement): string {
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
-        const isAlipayEvent = Adapter.type === Adapters.alipay && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
+        const isAlipayOrQuickappEvent = (Adapter.type === Adapters.alipay || Adapter.type === Adapters.quickapp) && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
         if (t.isStringLiteral(attrValue)) {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {
@@ -230,7 +230,7 @@ export function parseJSXElement (element: t.JSXElement): string {
                 value = code
               }
             } else {
-              value = isBindEvent || isAlipayEvent ? code : `{{${isJSXMetHod && name === 'data' ? '...' : ''}${code}}}`
+              value = isBindEvent || isAlipayOrQuickappEvent ? code : `{{${isJSXMetHod && name === 'data' ? '...' : ''}${code}}}`
             }
           }
           if (Adapter.type === Adapters.swan && name === Adapter.for) {
@@ -258,7 +258,7 @@ export function parseJSXElement (element: t.JSXElement): string {
         } else if (
           componentSpecialProps && componentSpecialProps.has(name) ||
           name.startsWith('__fn_') ||
-          isAlipayEvent
+          isAlipayOrQuickappEvent
         ) {
           obj[name] = value
         } else {
