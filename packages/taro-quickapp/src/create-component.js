@@ -36,6 +36,14 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
   return newProps
 }
 
+function bindEvents (componentConf, componentInstance, events) {
+  events.forEach(name => {
+    if (componentInstance[name]) {
+      componentConf[name] = componentInstance[name]
+    }
+  })
+}
+
 function getPageUrlParams (url) {
   const queryStr = url.replace(/^.*\?&?/, '')
   const params = queryToJson(queryStr)
@@ -148,5 +156,6 @@ export default function createComponent (ComponentClass, isPage) {
       }
     })
   }
+  ComponentClass['$$events'] && bindEvents(componentConf, componentInstance, ComponentClass['$$events'])
   return componentConf
 }
