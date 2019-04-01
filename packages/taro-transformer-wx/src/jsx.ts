@@ -159,7 +159,8 @@ function parseJSXChildren (
 export function parseJSXElement (element: t.JSXElement): string {
   const children = element.children
   const { attributes, name } = element.openingElement
-  const TRIGGER_OBSERER = Adapter.type === Adapters.swan ? 'privateTriggerObserer' : '__triggerObserer'
+  const TRIGGER_OBSERER = Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp ? 'privateTriggerObserer' : '__triggerObserer'
+  const TRIGGER_OBSERER_KEY = Adapter.type === Adapters.quickapp ? 'privateTriggerObsererKey' : '_triggerObserer'
   if (t.isJSXMemberExpression(name)) {
     throw codeFrameError(name.loc, '暂不支持 JSX 成员表达式')
   }
@@ -266,13 +267,13 @@ export function parseJSXElement (element: t.JSXElement): string {
         }
       }
       if (!isDefaultComponent && !specialComponentName.includes(componentName) && Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) {
-        obj[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
+        obj[TRIGGER_OBSERER] = `{{ ${TRIGGER_OBSERER_KEY} }}`
       }
       return obj
     }, {})
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
     if (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) {
-      attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
+      attributesTrans[TRIGGER_OBSERER] = `{{ ${TRIGGER_OBSERER_KEY} }}`
     }
   }
 
