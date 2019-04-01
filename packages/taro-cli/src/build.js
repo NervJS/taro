@@ -8,13 +8,12 @@ const CONFIG = require('./config')
 
 const appPath = process.cwd()
 
-
 function build (args, buildConfig) {
   const { type, watch } = buildConfig
   const configDir = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
-    fs.mkdirSync(outputPath)
+    fs.ensureDirSync(outputPath)
   } else {
     if (type !== Util.BUILD_TYPES.H5) {
       Util.emptyDirectory(outputPath)

@@ -91,7 +91,7 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
     bindDevLogger(devUrl, compiler)
     const server = new WebpackDevServer(compiler, devServerOptions)
 
-    server.listen(devServerOptions.port as number, devServerOptions.host as string, err => {
+    server.listen(devServerOptions.port as number, devServerOptions.disableHostCheck ? '0.0.0.0' : (devServerOptions.host as string), err => {
       if (err) {
         reject()
         return console.log(err)
@@ -108,11 +108,19 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
 
 export default async (config: BuildConfig): Promise<void> => {
   if (config.isWatch) {
-    await buildDev(config)
+    try {
+      await buildDev(config)
+    } catch (e) {
+      console.error(e)
+    }
   } else {
     if ('enableDll' in config) {
       warnConfigEnableDll()
     }
-    await buildProd(config)
+    try {
+      await buildProd(config)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }

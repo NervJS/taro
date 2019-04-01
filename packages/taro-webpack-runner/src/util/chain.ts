@@ -198,6 +198,8 @@ const getModule = ({
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
+  const { namingPattern, generateScopedName } = cssModuleOptions.config!
+
   const cssOptions = [
     {
       importLoaders: 1,
@@ -207,12 +209,16 @@ const getModule = ({
     cssLoaderOption
   ]
   const cssOptionsWithModule = [
-    {
-      importLoaders: 1,
-      sourceMap: enableSourceMap,
-      modules: cssModuleOptions.config!.namingPattern === 'module' ? true : 'global',
-      localIdentName: cssModuleOptions.config!.generateScopedName
-    },
+    Object.assign(
+      {
+        importLoaders: 1,
+        sourceMap: enableSourceMap,
+        modules: namingPattern === 'module' ? true : 'global'
+      },
+      typeof generateScopedName === 'function'
+        ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+        : { localIdentName: generateScopedName }
+    ),
     cssLoaderOption
   ]
   const additionalBabelOptions = {
@@ -261,12 +267,8 @@ const getModule = ({
     let cssModuleCondition
 
     if (cssModuleOptions.config!.namingPattern === 'module') {
-      cssModuleCondition = {
-        and: [
-          { include: styleModuleReg },
-          { exclude: [isNodeModule] }
-        ]
-      }
+      /* 不排除 node_modules 内的样式 */
+      cssModuleCondition = styleModuleReg
     } else {
       cssModuleCondition = {
         and: [
@@ -375,10 +377,8 @@ const getModule = ({
     test: fontReg,
     use: {
       urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
-        options: {
-          name: `${staticDirectory}/fonts/[name].[ext]`,
-          ...fontUrlLoaderOption
-        }
+        name: `${staticDirectory}/fonts/[name].[ext]`,
+        ...fontUrlLoaderOption
       }])
     }
   }
@@ -386,10 +386,8 @@ const getModule = ({
     test: imageReg,
     use: {
       urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
-        options: {
-          name: `${staticDirectory}/images/[name].[ext]`,
-          ...imageUrlLoaderOption
-        }
+        name: `${staticDirectory}/images/[name].[ext]`,
+        ...imageUrlLoaderOption
       }])
     }
   }

@@ -1,3 +1,5 @@
+// import { findDOMNode } from 'nervjs'
+
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
   return {
@@ -77,6 +79,55 @@ const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
+const createCallbackManager = () => {
+  const callbacks = []
+
+  const add = (opt) => {
+    callbacks.push(opt)
+  }
+
+  const remove = (opt) => {
+    const pos = callbacks.findIndex(({ callback }) => {
+      return callback === opt.callback
+    })
+    if (pos > -1) {
+      callbacks.splice(pos, 1)
+    }
+  }
+
+  const count = () => callbacks.length
+  const trigger = (...args) => {
+    callbacks.forEach(({ callback, ctx }) => {
+      callback.call(ctx, ...args)
+    })
+  }
+
+  return {
+    add,
+    remove,
+    count,
+    trigger
+  }
+}
+
+const createScroller = inst => {
+  // const dom = findDOMNode(inst)
+  const el = document.querySelector('.taro-tabbar__panel') || document.body
+
+  const listen = callback => {
+    el.addEventListener('scroll', callback)
+  }
+  const unlisten = callback => {
+    el.removeEventListener('scroll', callback)
+  }
+  const getPos = () => el.scrollTop
+  const isReachBottom = (distance = 0) => {
+    return el.scrollHeight - el.scrollTop - el.clientHeight < distance
+  }
+  
+  return { listen, unlisten, getPos, isReachBottom }
+}
+
 export {
   shouleBeObject,
   getParameterError,
@@ -88,5 +139,7 @@ export {
   temporarilyNotSupport,
   permanentlyNotSupport,
   isValidColor,
-  isFunction
+  isFunction,
+  createCallbackManager,
+  createScroller
 }

@@ -1,6 +1,6 @@
 export default {
   compress: true,
-  disableHostCheck: process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
+  disableHostCheck: true,
   historyApiFallback: {
     disableDotRule: true
   },

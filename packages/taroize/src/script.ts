@@ -300,16 +300,10 @@ function parsePage (
     }
     if (PageLifecycle.has(name)) {
       const lifecycle = PageLifecycle.get(name)!
-      const node = value.node as
-        | t.FunctionExpression
-        | t.ArrowFunctionExpression
-      const method = t.classMethod(
-        'method',
-        t.identifier(lifecycle),
-        params,
-        node ? node.body as t.BlockStatement : (prop.get('body') as any).node
-      )
-      method.async = isAsync
+      const node = value.node
+      const method = t.isFunctionExpression(node) || t.isArrowFunctionExpression(node)
+        ? t.classProperty(t.identifier(lifecycle), t.arrowFunctionExpression(params, node.body, isAsync))
+        : t.classProperty(t.identifier(lifecycle), node)
       return method
     }
     let hasArguments = false

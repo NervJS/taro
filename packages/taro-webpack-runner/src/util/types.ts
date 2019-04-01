@@ -16,7 +16,7 @@ type TogglableOptions<T = Option> = {
 export namespace PostcssOption {
   export type cssModules = TogglableOptions<{
     namingPattern: 'global' | string;
-    generateScopedName: string;
+    generateScopedName: string | ((localName: string, absoluteFilePath: string) => string);
   }>;
 }
 
