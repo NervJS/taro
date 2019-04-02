@@ -7,6 +7,7 @@ import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as path from 'path'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
+import * as sass from 'dart-sass'
 
 import { appPath, recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
@@ -297,7 +298,10 @@ const getModule = ({
 
   const resolveUrlLoader = getResolveUrlLoader([])
 
-  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
+  const sassLoader = getSassLoader([{
+    sourceMap: true,
+    implementation: sass
+  }, sassLoaderOption])
 
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
