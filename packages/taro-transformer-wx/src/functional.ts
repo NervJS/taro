@@ -62,9 +62,9 @@ export const functionalComponent: () => {
           }
           if (arg) {
             if (t.isIdentifier(arg)) {
-              cloneBody.body.push(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
+              cloneBody.body.unshift(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
             } else if (t.isObjectPattern(arg)) {
-              cloneBody.body.push(
+              cloneBody.body.unshift(
                 t.variableDeclaration('const', [
                   t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props')))
                 ])
