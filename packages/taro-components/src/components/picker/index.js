@@ -43,6 +43,7 @@ export default class Picker extends Nerv.Component {
         range = []
         this.props.range = []
       }
+      if (range.length === this.index.length) this.index = []
       range.forEach((r, i) => {
         const v = value && value.length ? value[i] : undefined
         this.index.push(this.verifyValue(v, r) ? Math.floor(value[i]) : 0)
