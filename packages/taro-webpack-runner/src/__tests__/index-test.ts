@@ -1,4 +1,4 @@
-import { isNodeModule, isTaroModule, getEsnextModuleRegs, getModule } from '../util/chain'
+import { isNodeModule, isTaroModule, getEsnextModuleRules, getModule } from '../util/chain'
 
 describe('Regs', () => {
   it('should recognize "node_modules"', () => {
@@ -13,11 +13,19 @@ describe('Regs', () => {
   })
 
   it('should recognize esnextModules', () => {
-    const esnextModules = ['taro-ui']
-    const esnextModuleRegs = getEsnextModuleRegs(esnextModules)
-    const isEsnextModules = (filename: string) => esnextModuleRegs.some(v => v.test(filename))
+    const esnextModules = ['taro-ui', '@jd/jd-ui']
+    const esnextModuleRules = getEsnextModuleRules(esnextModules)
+    const isEsnextModules = (filename: string) => esnextModuleRules.some(pattern => {
+      if (pattern instanceof RegExp) {
+        return pattern.test(filename)
+      } else {
+        return filename.indexOf(pattern) > -1
+      }
+    })
     expect(isEsnextModules('node_modules/taro-ui/dist/...')).toEqual(true)
-    expect(isEsnextModules('node_modules/taro-ui2/dist/...')).toEqual(false)
+    expect(isEsnextModules('node_modules/@jd/jd-ui/src/...')).toEqual(true)
+    expect(isEsnextModules('node_modules/taro-ui2/dist/...')).toEqual(true)
+    expect(isEsnextModules('node_modules/tarojs-ui/dist/...')).toEqual(false)
   })
 
   it('should get a correct webpackConfig.module object', () => {
