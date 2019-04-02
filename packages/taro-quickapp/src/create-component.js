@@ -2,7 +2,7 @@ import { isEmptyObject, queryToJson } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
 
-const privatePropValName = 'privateTriggerObserer'
+const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^__fn_/
 const PRELOAD_DATA_KEY = 'preload'
@@ -155,7 +155,7 @@ function bindProperties (componentConf, ComponentClass) {
   }
   componentConf.props = []
   Object.keys(componentConf.properties).forEach(item => {
-    componentConf.props.push(item)
+    componentConf.props.push(item.toLocaleLowerCase())
   })
   componentConf.props.push(privatePropValName)
   componentConf.onPrivatePropChange = function () {
