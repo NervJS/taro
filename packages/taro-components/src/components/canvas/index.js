@@ -22,23 +22,20 @@ export default class Canvas extends Nerv.Component {
     bindError: null
   }
   state = {
-    width: null,
-    height: null
+    width: 300,
+    height: 150
   }
-  getRef = ref => { 
+  getWrapRef = ref => { 
+    const dom = findDOMNode(ref)
+    this.wrapDom = dom
+  }
+  getCanvasRef = ref => {
     const dom = findDOMNode(ref)
     this.canvasDom = dom
   }
-  shouldComponentUpdate (nProps, nState) {
-    if (nState.width !== this.state.width
-      || nState.height !== this.state.height) {
-      return true
-    }
-    return false
-  }
   componentDidMount () {
-    if (!this.canvasDom) return
-    const { width, height } = this.canvasDom.getBoundingClientRect()
+    if (!this.wrapDom) return
+    const { width, height } = this.wrapDom.getBoundingClientRect()
     this.setState({
       width,
       height
@@ -47,27 +44,23 @@ export default class Canvas extends Nerv.Component {
   render () {
     const { canvasId, onTouchStart, onTouchMove, onTouchEnd, onTouchCancel, className } = this.props
     const { width, height } = this.state
-    const props = {
+    const wrapProps = {
+      className: classnames('taro-canvas', className),
+      ref: this.getWrapRef
+    }
+    const canvasProps = {
       canvasId,
       onTouchStart,
       onTouchMove,
       onTouchEnd,
-      onTouchCancel
-    }
-    if (isNumber(width)) {
-      props.width = width
-    }
-    if (isNumber(height)) {
-      props.height = height
+      onTouchCancel,
+      width,
+      height,
+      ref: this.canvasRef
     }
     return (
-      <div
-        className={classnames(
-          'taro-canvas',
-          className
-        )}
-        ref={this.getRef}>
-        <canvas {...props} />
+      <div {...wrapProps}>
+        <canvas {...canvasProps} />
       </div>
     )
   }

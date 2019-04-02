@@ -6,7 +6,7 @@ import { isFunction } from '../utils/index'
 * @param {string} canvasId 要获取上下文的 <canvas> 组件 canvas-id 属性
 * @param {Object} componentInstance 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 <canvas> ，如果省略则不在任何自定义组件内查找
 */
-const createCanvasContext = (canvasId, componentInstance) => {
+const createCanvasContext = (canvasId, componentInstance=document.body) => {
   const dom = findDOMNode(componentInstance)
   /** @type {HTMLCanvasElement} */
   const canvas = dom.querySelector(`[canvasId=${canvasId}]`);
@@ -43,21 +43,28 @@ const createCanvasContext = (canvasId, componentInstance) => {
    * 即 reserve 参数为 false，则在本次调用绘制之前 native 层会先清空画布再继续绘制；
    * 若 reserve 参数为 true，则保留当前画布上的内容，本次调用 drawCanvas 绘制的内容覆盖在上面，
    * 默认 false。
-   * @param {Function} callback 绘制完成后执行的回调函数
+   * @param {Function} [callback] 绘制完成后执行的回调函数
    * @todo 每次draw都会读取width和height
    */
   const draw = (reserve = false, callback) => {
-    if (!reserve) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+    try {
+      if (!reserve) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+      }
+      actions.forEach(({func, args}) => {
+        func.apply(ctx, args)
+      })
+      emptyActions()
+      callback && callback()
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject({
+        errMsg: e.message
+      })
     }
-    actions.forEach(({func, args}) => {
-      func.apply(ctx, args)
-    })
-    emptyActions()
-    callback && callback()
   }
 
-  const CanvasContext = new Proxy({
+  const customProperties = {
     /**
      * 设置填充色。
      * @param {String} color 填充的颜色，默认颜色为 black。
@@ -150,27 +157,27 @@ const createCanvasContext = (canvasId, componentInstance) => {
     setTextBaseline (textBaseline) {
       ctx.textBaseline = textBaseline
     }
-  }, {
+  }
+
+  const CanvasContext = new Proxy(ctx, {
     get (target, p) {
       if (p === 'draw') return draw
 
-      if (isFunction(target[p])) {
-        return enqueueActions(target[p])
-      } else if (isFunction(ctx[p])) {
-        return enqueueActions(ctx[p])
+      const value = customProperties[p] || target[p]
+      if (isFunction(value)) {
+        return enqueueActions(value)
       } else {
-        return p in target
-          ? target[p]
-          : ctx[p]
+        return value
       }
     },
     set (target, p, value) {
       enqueueActions(() => {
-        ctx[p] = value
+        target[p] = value
       })()
       return true
     }
   })
+
   return CanvasContext
 }
 

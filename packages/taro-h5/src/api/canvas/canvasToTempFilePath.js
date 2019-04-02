@@ -1,4 +1,5 @@
 import { findDOMNode } from 'nervjs'
+
 /**
  * @typedef {Object} Param
  * @property {Number} [x] 指定的画布区域的左上角横坐标，默认值 0
@@ -17,12 +18,11 @@ import { findDOMNode } from 'nervjs'
 
 /**
  * 把当前画布指定区域的内容导出生成指定大小的图片。在 draw() 回调里调用该方法才能保证图片导出成功。
- * @param {Param} opt 参数
+ * @param {Param} object 参数
  * @param {Object} componentInstance 在自定义组件下，当前组件实例的this，以操作组件内 <canvas> 组件
  * @todo 暂未支持尺寸相关功能
  */
-
-const canvasToTempFilePath = ({ canvasId, fileType, success, fail, complete }, componentInstance) => {
+const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, complete }, componentInstance=document.body) => {
   const dom = findDOMNode(componentInstance)
 
   /** @type {HTMLCanvasElement} */
@@ -30,19 +30,23 @@ const canvasToTempFilePath = ({ canvasId, fileType, success, fail, complete }, c
 
   try {
     // /** @type {CanvasRenderingContext2D} */
-    const dataURL = canvas.toDataURL(`image/${fileType || 'png'}`, opt.quality)
+    const dataURL = canvas.toDataURL(`image/${fileType || 'png'}`, quality)
+    const res = {
+      tempFilePath: dataURL,
+      res: 'canvasToTempFilePath:ok'
+    }
 
-    success && success({
-      tempFilePath: dataURL
-    })
+    success && success(res)
+    complete && complete()
+    return Promise.resolve(res)
   } catch (e) {
-    fail && fail({
+    const res = {
       errMsg: e.message
-    })
+    }
+    fail && fail(res)
+    complete && complete()
+    return Promise.reject(res)
   }
-  complete && complete({
-    res: 'canvasToTempFilePath:ok'
-  })
 
 }
 
