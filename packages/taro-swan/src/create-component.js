@@ -322,7 +322,18 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
+  } else {
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes || {}
+
+    weappComponentConf.pageLifetimes['show'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['hide'] = function () {
+      componentTrigger(this.$component, 'componentDidHide')
+    }
   }
+
   bindProperties(weappComponentConf, ComponentClass)
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
