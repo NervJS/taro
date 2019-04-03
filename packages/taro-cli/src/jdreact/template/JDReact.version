@@ -1,0 +1,9 @@
+{
+  "moduleName":"$$MODULE_NAME",
+  "moduleCode":"1.0",
+  "targetAppVersion":"5.5.0",
+  "frameworkVersion":"$$SDK_VERSION",
+  "platform":"$$PLATFORM",
+  "chineseModuleName":"Taro流程测试",
+  "poErp":"chengshuai"
+}

@@ -15,17 +15,20 @@ const CONFIG = require('./config')
 const {getPkgVersion} = require('./util')
 const StyleProcess = require('./rn/styleProcess')
 const {transformJSCode} = require('./rn/transformJS')
+const {convertToJDReact} = require('./jdreact/convert_to_jdreact')
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
 const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourceDir = path.join(appPath, sourceDirName)
 const tempDir = '.rn_temp'
+const bundleDir = 'bundle'
 const tempPath = path.join(appPath, tempDir)
 const entryFilePath = Util.resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const entryBaseName = path.basename(entryFilePath, path.extname(entryFileName))
 const pluginsConfig = projectConfig.plugins || {}
+const rnConfig = projectConfig.rn || {}
 
 const pkgPath = path.join(__dirname, './rn/pkg')
 
@@ -83,22 +86,19 @@ function compileDepStyles (filePath, styleFiles) {
 function initProjectFile () {
   // generator app.json
   const appJsonObject = Object.assign({
-    name: require(path.join(process.cwd(), 'package.json')).name
-  }, projectConfig.rn && projectConfig.rn.appJson)
+    name: _.camelCase(require(path.join(process.cwd(), 'package.json')).name)
+  }, rnConfig.appJson)
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
     ejs.render(
       fs.readFileSync(pkgPath, 'utf-8'), {
-        projectName: projectConfig.projectName,
+        projectName: _.camelCase(projectConfig.projectName),
         version: getPkgVersion()
       }
     ).replace(/(\r\n|\n|\r|\s+)/gm, '')
   )
   const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
   pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
-
-  // Copy bin/crna-entry.js ?
-  // const crnaEntryPath = path.join(path.dirname(npmProcess.resolveNpmSync('@tarojs/rn-runner')), 'src/bin/crna-entry.js')
 
   const indexJsStr = `
   import {AppRegistry} from 'react-native';
@@ -113,8 +113,6 @@ function initProjectFile () {
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'app.json', path.join(tempPath, 'app.json'))
   fs.writeFileSync(path.join(tempDir, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
   Util.printLog(Util.pocessTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
-  // fs.copySync(crnaEntryPath, path.join(tempDir, 'bin/crna-entry.js'))
-  // Util.printLog(Util.pocessTypeEnum.COPY, 'crna-entry.js', path.join(tempPath, 'bin/crna-entry.js'))
 }
 
 async function processFile (filePath) {
@@ -184,8 +182,18 @@ function buildTemp () {
 
 function buildBundle () {
   process.chdir(tempDir)
-  fs.ensureDirSync('./tmp')
-  execSync(`node node_modules/react-native/local-cli/cli.js bundle --entry-file ./index.js --bundle-output ./tmp/index.bundle --assets-dest ./tmp`,
+  // 通过 jdreact  构建 bundle
+  if (rnConfig.bundleType === 'jdreact') {
+    console.log()
+    console.log(chalk.green('生成JDReact 目录：'))
+    console.log()
+    convertToJDReact({tempPath, entryBaseName})
+    return
+  }
+  // 默认打包到 bundle 文件夹
+  fs.ensureDirSync(bundleDir)
+  execSync(
+    `node node_modules/react-native/local-cli/cli.js bundle --entry-file ./index.js --bundle-output ./${bundleDir}/index.bundle --assets-dest ./${bundleDir}`,
     {stdio: 'inherit'})
 }
 
