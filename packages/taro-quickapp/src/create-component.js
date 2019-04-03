@@ -4,7 +4,7 @@ import { updateComponent } from './lifecycle'
 
 const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
-const componentFnReg = /^__fn_/
+const componentFnReg = /^prv-fn-/
 const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onBackPress', 'onMenuPress']
 
@@ -20,7 +20,7 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
       newProps[propName] = componentData[propName]
     }
     if (componentFnReg.test(propName)) {
-      if (componentData[propName] === true) {
+      if (componentData && componentData[propName] === true) {
         const fnName = propName.replace(componentFnReg, '')
         newProps[fnName] = noop
       }
@@ -59,9 +59,22 @@ function processEvent (eventHandlerName, obj) {
     let datasetArgs = []
     let isScopeBinded = false
     // 解析从dataset中传过来的参数
-    const dataset = event.currentTarget.dataset || {}
+    const currentTarget = event.currentTarget
+    const dataset = {}
+    if (currentTarget._vm) {
+      const tempalateAttr = currentTarget._vm._externalBinding.template.attr
+      Object.keys(tempalateAttr).forEach(item => {
+        if (/^data/.test(item)) {
+          dataset[item.replace(/^data/, '')] = tempalateAttr[item]
+        }
+      })
+    }
+
     const bindArgs = {}
-    const eventType = event.type.toLocaleLowerCase()
+    const eventType = `on${event.type}`.toLocaleLowerCase()
+
+    if (event.detail && event.detail.__detail) Object.assign(dataset, event.detail.__detail)
+
     Object.keys(dataset).forEach(key => {
       let keyLower = key.toLocaleLowerCase()
       if (/^e/.test(keyLower)) {
@@ -76,8 +89,8 @@ function processEvent (eventHandlerName, obj) {
       }
     })
     // 如果是通过triggerEvent触发,并且带有参数
-    if (event.__arguments && event.__arguments.length > 0) {
-      detailArgs = event.__arguments
+    if (event.detail && event.detail.__arguments && event.detail.__arguments.length > 0) {
+      detailArgs = event.detail.__arguments
     }
     // 普通的事件（非匿名函数），会直接call
     if (!isAnonymousFn) {

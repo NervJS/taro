@@ -89,10 +89,24 @@ export default class BaseComponent {
     } else {
       // 普通的
       const keyLower = key.toLocaleLowerCase()
-      this.$scope.triggerEvent(keyLower, {
+      const payload = {
         __isCustomEvt: true,
         __arguments: args
-      })
+      }
+      const detail = {}
+      if (this.$scope._externalBinding) {
+        const tempalateAttr = this.$scope._externalBinding.template.attr
+        Object.keys(tempalateAttr).forEach(item => {
+          if (/^data/.test(item)) {
+            detail[item.replace(/^data/, '')] = tempalateAttr[item]
+          }
+        })
+      }
+
+      if (Object.keys(detail).length) {
+        payload.__detail = detail
+      }
+      this.$scope.$emit(keyLower.replace(/^on/, ''), payload)
     }
   }
 }
