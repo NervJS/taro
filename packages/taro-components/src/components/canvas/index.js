@@ -1,7 +1,7 @@
+import Taro from '@tarojs/taro-h5'
 import Nerv, { findDOMNode } from 'nervjs'
 import touchable from '../../utils/touchable'
 import classnames from 'classnames'
-import { isNumber } from '../../utils/index'
 
 import './style/index.css'
 
@@ -15,16 +15,14 @@ import './style/index.css'
 // binderror EventHandle 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'}
 
 @touchable()
-export default class Canvas extends Nerv.Component {
+export default class Canvas extends Taro.PureComponent {
   static defaultProps = {
     canvasId: '',
     disableScroll: false,
     bindError: null
   }
-  state = {
-    width: 300,
-    height: 150
-  }
+  width = 300
+  height = 150
   getWrapRef = ref => { 
     const dom = findDOMNode(ref)
     this.wrapDom = dom
@@ -36,14 +34,19 @@ export default class Canvas extends Nerv.Component {
   componentDidMount () {
     if (!this.wrapDom) return
     const { width, height } = this.wrapDom.getBoundingClientRect()
-    this.setState({
-      width,
-      height
+    this.canvasDom.setAttribute('width', width)
+    this.canvasDom.setAttribute('height', height)
+    this.width = width
+    this.height = height
+  }
+  componentDidCatch (e) {
+    const bindError = this.props.bindError
+    bindError && bindError({
+      errMsg: e.message
     })
   }
   render () {
     const { canvasId, onTouchStart, onTouchMove, onTouchEnd, onTouchCancel, className } = this.props
-    const { width, height } = this.state
     const wrapProps = {
       className: classnames('taro-canvas', className),
       ref: this.getWrapRef
@@ -54,9 +57,9 @@ export default class Canvas extends Nerv.Component {
       onTouchMove,
       onTouchEnd,
       onTouchCancel,
-      width,
-      height,
-      ref: this.canvasRef
+      width: this.width,
+      height: this.height,
+      ref: this.getCanvasRef
     }
     return (
       <div {...wrapProps}>
