@@ -122,6 +122,10 @@ TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
 
 export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'
 
+export let FN_PREFIX = '__fn_'
+
+export const setFnPrefix = (s: string) => FN_PREFIX = s
+
 export const quickappComponentName = new Set([
   'Swiper',
   'Image',

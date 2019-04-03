@@ -42,7 +42,8 @@ import {
   LOOP_ORIGINAL,
   INTERNAL_GET_ORIGNAL,
   GEL_ELEMENT_BY_ID,
-  ALIPAY_BUBBLE_EVENTS
+  ALIPAY_BUBBLE_EVENTS,
+  FN_PREFIX
 } from './constant'
 import { Adapter, Adapters } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -892,7 +893,7 @@ export class RenderParser {
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
               if (process.env.NODE_ENV !== 'test' && Adapter.type !== Adapters.alipay) {
-                const fnName = `__fn_${name.name}`
+                const fnName = `${FN_PREFIX}${name.name}`
                 element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
               }
             }
@@ -1592,7 +1593,7 @@ export class RenderParser {
     const componentProperies = cloneDeep(this.componentProperies)
 
     componentProperies.forEach(s => {
-      if (s.startsWith('__fn_')) {
+      if (s.startsWith(FN_PREFIX)) {
         const eventName = s.slice(5)
         if (componentProperies.has(eventName)) {
           componentProperies.delete(s)

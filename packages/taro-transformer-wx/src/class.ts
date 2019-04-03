@@ -13,7 +13,7 @@ import {
   incrementId,
   isContainStopPropagation
 } from './utils'
-import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, DEFAULT_Component_SET_COPY } from './constant'
+import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, DEFAULT_Component_SET_COPY, FN_PREFIX } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -602,10 +602,10 @@ class Transformer {
           const property = callee.property
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {
-              self.componentProperies.add(`__fn_${property.name}`)
+              self.componentProperies.add(`${FN_PREFIX}${property.name}`)
               processThisPropsFnMemberProperties(callee, path, node.arguments, false)
             } else if (property.name === 'call' || property.name === 'apply') {
-              self.componentProperies.add(`__fn_${property.name}`)
+              self.componentProperies.add(`${FN_PREFIX}${property.name}`)
               processThisPropsFnMemberProperties(callee.object, path, node.arguments, true)
             }
           }
@@ -635,10 +635,10 @@ class Transformer {
       }
       const attrName = attr.node.name
       if (t.isJSXIdentifier(attrName) && attrName.name.startsWith('on')) {
-        this.componentProperies.add(`__fn_${attrName.name}`)
+        this.componentProperies.add(`${FN_PREFIX}${attrName.name}`)
       }
       if (methodName.startsWith('on')) {
-        this.componentProperies.add(`__fn_${methodName}`)
+        this.componentProperies.add(`${FN_PREFIX}${methodName}`)
       }
       const method = t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
         t.expressionStatement(t.callExpression(
