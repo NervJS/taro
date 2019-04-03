@@ -29,6 +29,7 @@ import {
   lessThanSignPlacehold,
   COMPONENTS_PACKAGE_NAME,
   quickappComponentName,
+  setFnPrefix,
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID
@@ -170,6 +171,7 @@ export default function transform (options: Options): TransformResult {
     if (Adapter.type === Adapters.quickapp) {
       DEFAULT_Component_SET.clear()
       DEFAULT_Component_SET.add('div')
+      setFnPrefix('prv-fn-')
     }
   }
   if (Adapter.type === Adapters.swan) {

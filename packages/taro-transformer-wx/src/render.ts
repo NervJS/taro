@@ -50,7 +50,8 @@ import {
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID,
-  ALIPAY_BUBBLE_EVENTS
+  ALIPAY_BUBBLE_EVENTS,
+  FN_PREFIX
 } from './constant'
 import { Adapter, Adapters } from './adapter'
 import { buildBabelTransformOptions } from './options'
@@ -1188,6 +1189,13 @@ export class RenderParser {
                 }
               }
             }
+            if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
+              const element = path.parent as t.JSXOpeningElement
+              if (process.env.NODE_ENV !== 'test' && Adapter.type !== Adapters.alipay) {
+                const fnName = `${FN_PREFIX}${name.name}`
+                element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
+              }
+            }
           }
           if (
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
@@ -1998,7 +2006,15 @@ export class RenderParser {
 
     const componentProperies = cloneDeep(this.componentProperies)
 
-    componentProperies.clear()
+    componentProperies.forEach(s => {
+      if (s.startsWith(FN_PREFIX)) {
+        const eventName = s.slice(5)
+        if (componentProperies.has(eventName)) {
+          componentProperies.delete(s)
+          componentProperies.delete(eventName)
+        }
+      }
+    })
 
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
     const usedState = Array.from(

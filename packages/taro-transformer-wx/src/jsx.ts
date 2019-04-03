@@ -8,7 +8,8 @@ import {
   swanSpecialAttrs,
   THIRD_PARTY_COMPONENTS,
   TRANSFORM_COMPONENT_PROPS,
-  lessThanSignPlacehold
+  lessThanSignPlacehold,
+  FN_PREFIX
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
@@ -258,7 +259,7 @@ export function parseJSXElement (element: t.JSXElement): string {
           obj['maxlength'] = value
         } else if (
           componentSpecialProps && componentSpecialProps.has(name) ||
-          name.startsWith('__fn_') ||
+          name.startsWith(FN_PREFIX) ||
           isAlipayOrQuickappEvent
         ) {
           obj[name] = value
