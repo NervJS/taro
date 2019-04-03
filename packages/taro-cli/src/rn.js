@@ -181,6 +181,7 @@ function buildTemp () {
 }
 
 function buildBundle () {
+  fs.ensureDirSync(tempDir)
   process.chdir(tempDir)
   // 通过 jdreact  构建 bundle
   if (rnConfig.bundleType === 'jdreact') {
