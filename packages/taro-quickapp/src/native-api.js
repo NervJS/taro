@@ -6,6 +6,7 @@ import {
 } from '@tarojs/taro'
 import request from './api/request'
 import storage from './api/storage'
+import router from './api/router'
 
 function processApis (taro) {
   const weApis = Object.assign({}, onAndSyncApis, noPromiseApis, otherApis)
@@ -30,5 +31,5 @@ export default function initNativeApi (taro) {
   taro.canIUseWebp = canIUseWebp
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
-  Object.assign(taro, storage)
+  Object.assign(taro, storage, router)
 }

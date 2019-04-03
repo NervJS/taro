@@ -41,7 +41,7 @@ function qappNavigate (options = {}, method = 'push') {
     params = getUrlParams(url)
     try {
       router[method]({
-        uri: url,
+        uri: url.substr(0, url.lastIndexOf('/')),
         params
       })
       success && success(res)
