@@ -65,7 +65,7 @@ export async function buildSinglePage (page: string) {
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
 
   printLog(processTypeEnum.COMPILE, '页面文件', `${sourceDirName}/${page}`)
-  if (!fs.existsSync(pageJs)) {
+  if (!fs.existsSync(pageJs) || !fs.statSync(pageJs).isFile()) {
     printLog(processTypeEnum.ERROR, '页面文件', `${sourceDirName}/${page} 不存在！`)
     return
   }
