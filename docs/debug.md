@@ -173,6 +173,22 @@ render () {
 
 虽然使用小程序原生方法也能做很多同样的事，但当 Taro 运行时框架出现问题时，我们还是强烈建议开发者向 Taro 官方 [提交 issue](https://github.com/NervJS/taro/issues/new/choose)，有能力的开发者朋友也可以 [提交 PR](https://github.com/NervJS/taro/pulls)。一方面使用 Taro API 实现可以帮助你抹平多端差异，另一方面寻找甚至是修复 bug 也有助于加强你对 Taro 和小程序底层的理解。
 
+### 微信小程序表单组件问题
+
+微信小程序表单组件不是受控组件，当用户操作表单时视图会**立即改变**，但表单的 value 值还是没有变化。
+
+如果在表单 `onChange`、`onInput` 此类值改变回调中 setState value 为用户操作改变表单之前的值时，Taro 的 diff 逻辑会判断 setState 的 value 值和当前 data.value 一致，则**放弃 setData**，导致视图没有正确更新。
+
+解决办法：
+
+Input 组件可以通过在回调中 return 需要改变的值来更新视图。详见 [#2642](https://github.com/NervJS/taro/issues/2642)
+
+小程序 Input 组件文档截图：
+
+![inputdoc](https://user-images.githubusercontent.com/11807297/55405139-fcb44b00-558b-11e9-845f-afbc73863b48.png)
+
+其它组件需要立即 `setState({ value: e.detail.value })` 以立即更新同步 data.value 值，然后再 setState 真正需要表单改变的值。详见 [#1981](https://github.com/NervJS/taro/issues/1981)、[#2257](https://github.com/NervJS/taro/issues/2257)
+
 ## H5
 
 ### 运行时报 DOM 相关错误

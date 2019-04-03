@@ -7,6 +7,7 @@ import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as path from 'path'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
+import * as sass from 'dart-sass'
 
 import { appPath, recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
@@ -152,16 +153,10 @@ const defaultEsnextModuleRegs = [
   /@tarojs[/\\_]redux-h5/, /\btaro-redux-h5\b/
 ]
 
-const getEsnextModuleRegs = esnextModules => {
+const getEsnextModuleRules = esnextModules => {
    return [
     ...defaultEsnextModuleRegs,
-    ...esnextModules.map(v => {
-      if (typeof v === 'string') {
-        return new RegExp(`\\b${v}\\b`)
-      } else {
-        return v
-      }
-    })
+    ...esnextModules
   ]
 }
 
@@ -225,7 +220,7 @@ const getModule = ({
     ...plugins.babel,
     sourceMap: enableSourceMap
   }
-  const esnextModuleRegs = getEsnextModuleRegs(esnextModules)
+  const esnextModuleRules = getEsnextModuleRules(esnextModules)
 
   /**
    * isEsnextModule
@@ -233,7 +228,13 @@ const getModule = ({
    * 使用正则匹配判断是否是es模块
    * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
    */
-  const isEsnextModule = (filename: string) => esnextModuleRegs.some(reg => reg.test(filename))
+  const isEsnextModule = (filename: string) => esnextModuleRules.some(pattern => {
+    if (pattern instanceof RegExp) {
+      return pattern.test(filename)
+    } else {
+      return filename.indexOf(pattern) > -1
+    }
+  })
 
   const styleLoader = getStyleLoader([
     defaultStyleLoaderOption,
@@ -297,7 +298,10 @@ const getModule = ({
 
   const resolveUrlLoader = getResolveUrlLoader([])
 
-  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
+  const sassLoader = getSassLoader([{
+    sourceMap: true,
+    implementation: sass
+  }, sassLoaderOption])
 
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
@@ -412,7 +416,7 @@ const getDevtool = enableSourceMap => {
 export {
   isNodeModule,
   isTaroModule,
-  getEsnextModuleRegs
+  getEsnextModuleRules
 }
 
 export { getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin }

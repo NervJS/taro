@@ -2617,7 +2617,6 @@ query
     rect.height  // 节点的高度
   })
   .exec()
-})
 ```
 
 #### nodesRef.scrollOffset([callback])

@@ -98,3 +98,7 @@ export const splitUrl = _url => {
 
   return res
 }
+
+export const isNumber = obj => {
+  return typeof obj === 'number'
+}
