@@ -13,12 +13,17 @@
     "preserveConstEnums": true,
     "removeComments": false,
     "rootDir": "./src",
+    "skipLibCheck": true,
     "sourceMap": false,
     "strictNullChecks": true,
     "target": "es2015",
-    "traceResolution": false
+    "traceResolution": false,
+    "types": ["jest"]
   },
   "include": [
     "./src"
+  ],
+  "exclude": [
+    "./src/__tests__"
   ]
 }

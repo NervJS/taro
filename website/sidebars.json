@@ -17,6 +17,7 @@
       "router",
       "size",
       "static-reference",
+      "component-style",
       "jsx",
       "props",
       "state",
@@ -26,12 +27,14 @@
       "children",
       "ref",
       "envs",
-      "wx-relations",
-      "component-style",
+      "relations",
+      "wxcloud",
       "react-native",
       "ui-lib",
       "taroize",
-      "best-practice"
+      "best-practice",
+      "optimized-practice",
+      "debug"
     ],
     "进阶指南": [
       "config",
@@ -39,10 +42,9 @@
       "async-await",
       "redux",
       "mobx",
-      "wx-third-party",
-      "wx-hybrid",
+      "mini-third-party",
+      "hybrid",
       "css-modules",
-      "debug",
       "CONTRIBUTING"
     ]
   },

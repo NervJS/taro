@@ -10,12 +10,12 @@ export default {
     file: 'dist/index.js',
     format: 'cjs',
     sourcemap: false,
-    exports: 'auto'
+    exports: 'named'
   }, {
     file: 'dist/index.esm.js',
     format: 'esm',
     sourcemap: false,
-    exports: 'auto'
+    exports: 'named'
   }],
   plugins: [
     resolve({

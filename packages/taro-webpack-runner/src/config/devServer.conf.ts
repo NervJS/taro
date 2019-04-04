@@ -1,6 +1,6 @@
 export default {
   compress: true,
-  disableHostCheck: process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
+  disableHostCheck: true,
   historyApiFallback: {
     disableDotRule: true
   },
@@ -12,6 +12,6 @@ export default {
   overlay: true,
   port: 10086,
   quiet: true,
-  watchContentBase: true,
-  watchOptions: { ignored: /node_modules/ }
+  watchContentBase: true
+  // watchOptions: { ignored: /node_modules/ }
 }

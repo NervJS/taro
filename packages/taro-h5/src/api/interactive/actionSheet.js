@@ -133,6 +133,9 @@ export default class ActionSheet {
   show (options = {}) {
     const config = this.options
 
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
     // itemColor
     if (config.itemColor !== options.itemColor) this.menu.style.color = options.itemColor
 
@@ -196,10 +199,13 @@ export default class ActionSheet {
   }
 
   hide () {
-    setTimeout(() => {
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
+    this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
       setTransform(this.actionSheet, 'translate(0, 100%)')
-      setTimeout(() => { this.el.style.display = 'none' }, 200)
+      this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)
   }
 }

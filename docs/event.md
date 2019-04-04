@@ -93,14 +93,16 @@ class Popper extends Component {
 
   render () {
     const name = 'test'
-    return <Button onClick={(e) => {
-      e.stopPropagation()
-      this.setState({
-        name
-      })
-    }}>
-      {this.state.name}
-    </Button>
+    return (
+      <Button onClick={(e) => {
+        e.stopPropagation()
+        this.setState({
+          name
+        })
+      }}>
+        {this.state.name}
+      </Button>
+    )
   }
 }
 ```
@@ -124,4 +126,3 @@ const element = <View onClick={this.onTag} />
 const element2 = <Input onFocus={this.onFocus} />
 const element3 = <CustomElement onAnimationEnd={this.props.onAnimationEnd} />
 ```
-

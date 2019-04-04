@@ -32,7 +32,7 @@ sidebar_label: Image
 ###### 示例：
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-import { View, Icon } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 
 export default class PageView extends Component {
   constructor() {

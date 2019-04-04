@@ -263,7 +263,7 @@ exports.getRootPath = function () {
 exports.getTaroPath = function () {
   const taroPath = path.join(exports.homedir(), '.taro')
   if (!fs.existsSync(taroPath)) {
-    fs.mkdirSync(taroPath)
+    fs.ensureDirSync(taroPath)
   }
   return taroPath
 }
@@ -359,9 +359,21 @@ exports.urlJoin = function () {
 
 exports.resolveScriptPath = function (p) {
   let realPath = p
+  const taroEnv = process.env.TARO_ENV
   const SCRIPT_EXT = exports.JS_EXT.concat(exports.TS_EXT)
   for (let i = 0; i < SCRIPT_EXT.length; i++) {
     const item = SCRIPT_EXT[i]
+    if (taroEnv) {
+      if (fs.existsSync(`${p}.${taroEnv}${item}`)) {
+        return `${p}.${taroEnv}${item}`
+      }
+      if (fs.existsSync(`${p}${path.sep}index.${taroEnv}${item}`)) {
+        return `${p}${path.sep}index.${taroEnv}${item}`
+      }
+      if (fs.existsSync(`${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`)) {
+        return `${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`
+      }
+    }
     if (fs.existsSync(`${p}${item}`)) {
       return `${p}${item}`
     }
@@ -585,7 +597,9 @@ exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types'
+  '@tarojs/mobx-prop-types',
+  'stylelint-taro-rn',
+  'styleint-config-taro-rn'
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))

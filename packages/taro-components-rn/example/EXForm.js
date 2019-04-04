@@ -14,9 +14,9 @@ import {
   RadioGroup,
   Picker,
   Form
-} from '../src'
+} from '../dist'
 
-export default class EXRadio extends Component {
+export default class EXForm extends Component {
   state = {
     progressPercent: 70
   }

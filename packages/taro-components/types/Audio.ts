@@ -7,7 +7,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * @deprecated
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/audio.html}
  */
-interface AudioProps extends StandardProps {
+export interface AudioProps extends StandardProps {
 
   /**
    * audio 组件的唯一标识符

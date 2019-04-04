@@ -6,7 +6,7 @@ title: 组件的外部样式和全局样式
 
 - 组件和引用组件的页面不能使用 id 选择器（`#a`）、属性选择器（`[a]`）和标签名选择器，请改用 class 选择器。
 - 组件和引用组件的页面中使用后代选择器（`.a .b`）在一些极端情况下会有非预期的表现，如遇，请避免使用。
-- 子元素选择器（`.a>.b`）只能用于 `View` 组件与其子节点之间，用于其他组件可能导致非预期的情况。
+- 子元素选择器（`.a > .b`）只能用于 `View` 组件与其子节点之间，用于其他组件可能导致非预期的情况。
 - **继承样式，如 `font` 、 `color` ，会从组件外（父组件）继承到组件内。但是引用组件时在组件节点上书写的 `className` 无效。** *（具体解决方案请参见下面的外部和全局样式介绍。）*
 - 除继承样式外， `app.scss` 中的样式、组件所在页面的样式，均对自定义组件无效。
 
@@ -32,7 +32,7 @@ button { } /* 在组件中不能使用 */
 
 ```jsx
 /* CustomComp.js */
-export default CustomComp extends Component {
+export default class CustomComp extends Component {
   static defaultProps = {
     className: ''
   }
@@ -45,7 +45,7 @@ export default CustomComp extends Component {
 
 ```jsx
 /* MyPage.js */
-export default MyPage extends Component {
+export default class MyPage extends Component {
   render () {
     return <CustomComp className="red-text" />
   }
@@ -63,7 +63,7 @@ export default MyPage extends Component {
 
 ```jsx
 /* CustomComp.js */
-export default CustomComp extends Component {
+export default class CustomComp extends Component {
   static externalClasses = ['my-class']
 
   render () {
@@ -74,7 +74,7 @@ export default CustomComp extends Component {
 
 ```jsx
 /* MyPage.js */
-export default MyPage extends Component {
+export default class MyPage extends Component {
   render () {
     return <CustomComp my-class="red-text" />
   }
@@ -96,7 +96,7 @@ export default MyPage extends Component {
 
 ```jsx
 /* CustomComp.js */
-export default CustomComp extends Component {
+export default class CustomComp extends Component {
   static options = {
     addGlobalClass: true
   }

@@ -171,6 +171,9 @@ export default class Modal {
   show (options = {}) {
     const config = this.options
 
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
     // title & text
     const { textStyle } = this.getstyle()
 
@@ -234,9 +237,12 @@ export default class Modal {
   }
 
   hide () {
-    setTimeout(() => {
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
+    this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
-      setTimeout(() => { this.el.style.display = 'none' }, 200)
+      this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)
   }
 }

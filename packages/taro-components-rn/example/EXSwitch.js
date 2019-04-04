@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Label, Switch } from '../src'
+import { View, Text, Label, Switch } from '../dist'
 
 export default class EXSwitch extends Component {
   state = {

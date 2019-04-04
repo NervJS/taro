@@ -1,7 +1,11 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface CanvasProps extends StandardProps {
+export interface CanvasProps extends StandardProps {
+
+  width: number | string,
+
+  height: number | string
 
   /**
    * canvas 组件的唯一标识符

@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface InputProps extends StandardProps, FormItemProps {
+export interface InputProps extends StandardProps, FormItemProps {
 
   /**
    * 输入框的初始内容

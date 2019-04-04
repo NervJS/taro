@@ -25,11 +25,12 @@ const ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED'
 class StyleSheetValidation {
   static validateStyleProp (prop, style, caller) {
     if (allStylePropTypes[prop] === undefined) {
-      const message1 = '"' + prop + '" is not a valid style property.'
-      const message2 =
-        '\nValid style props: ' +
-        JSON.stringify(Object.keys(allStylePropTypes).sort(), null, '  ')
-      styleError(message1, style, caller, message2)
+      const message1 = '"' + prop + '" 不是一个有效的 React Native 样式属性'
+      // const message2 =
+      //   '\nValid style props: ' +
+      //   JSON.stringify(Object.keys(allStylePropTypes).sort(), null, '  ')
+      // styleError(message1, style, caller, message2)
+      styleError(message1, style, caller)
     }
     const error = allStylePropTypes[prop](
       style,

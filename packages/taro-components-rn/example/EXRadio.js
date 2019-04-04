@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Label, Radio, RadioGroup } from '../src'
+import { View, Text, Label, Radio, RadioGroup } from '../dist'
 
 export default class EXRadio extends Component {
   onGroupChange = (event) => {

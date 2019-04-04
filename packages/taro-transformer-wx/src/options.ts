@@ -11,7 +11,8 @@ export interface Options {
   isTyped: boolean,
   isNormal?: boolean,
   env?: object,
-  adapter?: Adapters
+  adapter?: Adapters,
+  jsxAttributeNameReplace?: Object
 }
 
 export const transformOptions: Options = {} as any

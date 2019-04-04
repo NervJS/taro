@@ -12,6 +12,10 @@ Alo, alo! Bilibilibilibibili~
   > 为了尽可能地减少用户需要的操作，斟酌再三，目前方案改成：IOS使用图片来实现 Icon。
 </details>
 
+## 特别鸣谢
+
+Picker 组件的重写，copy 了部分 [ant-design-mobile-rn](https://github.com/ant-design/ant-design-mobile-rn) 的组件代码，同时也给予了不少组件实现的思路。
+
 ## Example
 
 [组件演示（视频480p）](http://storage.jd.com/temporary/%E7%BB%84%E4%BB%B6%E6%BC%94%E7%A4%BA480p.mov)

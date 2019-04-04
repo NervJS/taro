@@ -46,10 +46,10 @@ class Route extends Component<RouteProps, {}> {
   }
 
   computeMatch (currentLocation) {
-    const pathname = currentLocation.pathname;
+    const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
-    if (isIndex && pathname === '/') return true
+    if (isIndex && path === '/') return true
     return key === this.props.key
   }
 
@@ -65,9 +65,14 @@ class Route extends Component<RouteProps, {}> {
   updateComponent (props = this.props) {
     props.componentLoader()
       .then(({ default: component }) => {
-        let WrappedComponent = createWrappedComponent(component)
+        if (!component) {
+          throw Error(`Received a falsy component for route "${props.path}". Forget to export it?`)
+        }
+        const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
         this.forceUpdate()
+      }).catch((e) => {
+        console.error(e)
       })
   }
 

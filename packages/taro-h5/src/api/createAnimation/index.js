@@ -283,4 +283,4 @@ function createAnimation (...arg) {
   return new Animation(...arg)
 }
 
-export default createAnimation
+export { createAnimation }

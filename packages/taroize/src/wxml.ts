@@ -522,11 +522,15 @@ function transformIf (
 function handleConditions (conditions: Condition[]) {
   if (conditions.length === 1) {
     const ct = conditions[0]
-    ct.path.replaceWith(
-      t.jSXExpressionContainer(
-        t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+    try {
+      ct.path.replaceWith(
+        t.jSXExpressionContainer(
+          t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+        )
       )
-    )
+    } catch (error) {
+      //
+    }
   }
   if (conditions.length > 1) {
     const lastLength = conditions.length - 1
@@ -642,13 +646,14 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
       || node.type === NodeType.Comment
-  })
+  }).filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
 function parseText (node: Text) {
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
-    return t.jSXText(content)
+    const text = content.replace(/([{}]+)/g,"{'$1'}")
+    return t.jSXText(text)
   }
   return t.jSXExpressionContainer(buildTemplate(content))
 }
@@ -753,13 +758,14 @@ function handleAttrKey (key: string) {
   } else if (key === 'class') {
     return 'className'
   } else if (/^(bind|catch)[a-z|:]/.test(key)) {
-    if (!isValidVarName(key)) {
-      throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
-    }
     if (specialEvents.has(key)) {
       return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
+      key = camelCase(key)
+      if (!isValidVarName(key)) {
+        throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
+      }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
     }
   }

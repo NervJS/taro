@@ -1,7 +1,7 @@
 import 'weui'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import Swipers from 'swiper/dist/js/swiper.min.js'
+import Swipers from 'swiper'
 
 import 'swiper/dist/css/swiper.min.css'
 import './style/index.scss'

@@ -15,7 +15,11 @@ const minimatch = require('minimatch')
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
-const { source: toAst, getObjKey } = require('./util/ast_convert')
+const { source: toAst, obj: objToAst, toVariable: toVar } = require('./util/ast_convert')
+
+const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
+const removeLeadingSlash = path => path.replace(/^\.?\//, '')
+const stripTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, Util.PROJECT_CONFIG))(_.merge)
@@ -23,7 +27,7 @@ const h5Config = projectConfig.h5 || {}
 const routerConfig = h5Config.router || {}
 const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
 const customRoutes = routerConfig.customRoutes || {}
-const routerBasename = routerConfig.basename || '/'
+const routerBasename = addLeadingSlash(stripTrailingSlash(routerConfig.basename || '/'))
 const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
 const sourcePath = path.join(appPath, sourceDir)
 const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
@@ -50,6 +54,7 @@ const PACKAGES = {
 
 const taroApis = [
   'Component',
+  'PureComponent',
   'getEnv',
   'ENV_TYPE',
   'eventCenter',
@@ -73,6 +78,7 @@ if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
 let pages = []
 let tabBar
 let tabbarPos
+// let appConfig = {}
 
 const FILE_TYPE = {
   ENTRY: 'ENTRY',
@@ -81,14 +87,7 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
-const stripTrailingSlash = path => path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
-
-const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
-
-const publicPath = h5Config.publicPath
-  ? stripTrailingSlash(addLeadingSlash(h5Config.publicPath || ''))
-  : ''
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(toVar(parentPath.node.key)))
 
 function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
   const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
@@ -97,6 +96,32 @@ function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
     componentLoader: () => import(${chunkNameComment}'${relPagename}'),
     isIndex: ${isIndex}
   }`
+}
+
+function classifyFiles (filename) {
+  const relPath = path.normalize(
+    path.relative(appPath, filename)
+  )
+  if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
+
+  let relSrcPath = path.relative('src', relPath)
+  relSrcPath = path.format({
+    dir: path.dirname(relSrcPath),
+    base: path.basename(relSrcPath, path.extname(relSrcPath))
+  })
+
+  const isPage = pages.some(page => {
+    const relPage = path.normalize(
+      path.relative(appPath, page)
+    )
+    if (path.relative(relPage, relSrcPath) === '') return true
+  })
+
+  if (isPage) {
+    return FILE_TYPE.PAGE
+  } else {
+    return FILE_TYPE.NORMAL
+  }
 }
 
 function processEntry (code, filePath) {
@@ -123,7 +148,7 @@ function processEntry (code, filePath) {
   let hasState = false
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
-  const additionalConstructorNode = toAst(`Taro._set$app(this)`)
+  const additionalConstructorNode = toAst(`Taro._$app = this`)
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -137,7 +162,9 @@ function processEntry (code, filePath) {
       if (!node.superClass) return
       if (
         node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName
+        node.superClass.object.name === taroImportDefaultName &&
+        (node.superClass.property.name === 'Component' ||
+        node.superClass.property.name === 'PureComponent')
       ) {
         node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
@@ -151,7 +178,8 @@ function processEntry (code, filePath) {
             )
           )
         }
-      } else if (node.superClass.name === 'Component') {
+      } else if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'PureComponent') {
         resetTSClassProperty(node.body.body)
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
@@ -177,7 +205,7 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
         let funcBody
 
         const isRender = keyName === 'render'
@@ -185,7 +213,6 @@ function processEntry (code, filePath) {
         const isComponentDidMount = keyName === 'componentDidMount'
         const isComponentWillUnmount = keyName === 'componentWillUnmount'
         const isConstructor = keyName === 'constructor'
-        const basename = JSON.stringify(addLeadingSlash(stripTrailingSlash(routerBasename)))
 
         if (isRender) {
           const routes = pages.map((v, k) => {
@@ -200,13 +227,12 @@ function processEntry (code, filePath) {
             })
           })
 
-          funcBody = `<Router
-            mode={${JSON.stringify(routerMode)}}
-            publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
-            routes={[${routes.join(',')}]}
-            customRoutes={${JSON.stringify(customRoutes)}}
-            basename={${basename}}
-          />`
+          funcBody = `
+            <Router
+              history={_taroHistory}
+              routes={[${routes.join(',')}]}
+              customRoutes={${JSON.stringify(customRoutes)}} />
+            `
 
           /* 插入Tabbar */
           if (tabBar) {
@@ -214,10 +240,17 @@ function processEntry (code, filePath) {
             if (tabbarPos === 'top') {
               funcBody = `
                 <${tabBarContainerComponentName}>
-                  <${tabBarComponentName} conf={${tabBarConfigName}} homePage="${homePage}" router={${taroImportDefaultName}}/>
+
+                  <${tabBarComponentName}
+                    conf={this.state.${tabBarConfigName}}
+                    homePage="${homePage}"
+                    tabbarPos={'top'}
+                    router={${taroImportDefaultName}} />
+
                   <${tabBarPanelComponentName}>
                     ${funcBody}
                   </${tabBarPanelComponentName}>
+
                 </${tabBarContainerComponentName}>`
             } else {
               funcBody = `
@@ -228,11 +261,9 @@ function processEntry (code, filePath) {
                   </${tabBarPanelComponentName}>
 
                   <${tabBarComponentName}
-                    mode={${JSON.stringify(routerMode)}}
                     conf={this.state.${tabBarConfigName}}
                     homePage="${homePage}"
-                    router={${taroImportDefaultName}}
-                    basename={${basename}} />
+                    router={${taroImportDefaultName}} />
 
                 </${tabBarContainerComponentName}>`
             }
@@ -326,31 +357,63 @@ function processEntry (code, filePath) {
       const node = astPath.node
       const key = node.key
       const value = node.value
-      const keyName = getObjKey(key)
+      const keyName = toVar(key)
       if (keyName === 'pages' && t.isArrayExpression(value)) {
         const subPackageParent = astPath.findParent(isUnderSubPackages)
         let root = ''
         if (subPackageParent) {
           /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
           const rootNode = astPath.parent.properties.find(v => {
-            return getObjKey(v.key) === 'root'
+            return toVar(v.key) === 'root'
           })
           root = rootNode ? rootNode.value.value : ''
         }
         value.elements.forEach(v => {
           const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
-          pages.push(pagePath.replace(/^\//, ''))
+          pages.push(removeLeadingSlash(pagePath))
+          v.value = addLeadingSlash(v.value)
         })
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
-        // tabBar
+        // tabBar相关处理
         tabBar = value
         value.properties.forEach(node => {
-          if (node.keyName === 'position') tabbarPos = node.value.value
+          switch (node.key.name) {
+            case 'position':
+              tabbarPos = node.value.value
+              break
+            case 'list':
+              t.isArrayExpression(node.value) && node.value.elements.forEach(v => {
+                v.properties.forEach(property => {
+                  switch (property.key.name) {
+                    case 'iconPath':
+                    case 'selectedIconPath':
+                      if (t.isStringLiteral(property.value)) {
+                        property.value = t.callExpression(
+                          t.identifier('require'),
+                          [t.stringLiteral(`./${property.value.value}`)]
+                        )
+                      }
+                      break
+                    case 'pagePath':
+                      property.value.value = addLeadingSlash(property.value.value)
+                      break
+                  }
+                })
+              })
+          }
         })
-      } else if ((keyName === 'iconPath' || keyName === 'selectedIconPath') && t.isStringLiteral(value)) {
-        astPath.replaceWith(
-          t.objectProperty(t.stringLiteral(keyName), t.callExpression(t.identifier('require'), [t.stringLiteral(`./${value.value}`)]))
-        )
+        value.properties.push(t.ObjectProperty(
+          t.identifier('mode'),
+          t.stringLiteral(routerMode)
+        ))
+        value.properties.push(t.ObjectProperty(
+          t.identifier('basename'),
+          t.stringLiteral(routerBasename)
+        ))
+        value.properties.push(t.ObjectProperty(
+          t.identifier('customRoutes'),
+          t.objectExpression(objToAst(customRoutes))
+        ))
       }
     }
   }
@@ -362,12 +425,14 @@ function processEntry (code, filePath) {
       enter (astPath) {
         const node = astPath.node
         const key = node.key
-        const value = node.value
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
 
-        if (keyName === 'state') hasState = true
-        if (keyName !== 'config' || !t.isObjectExpression(value)) return
-        astPath.traverse(classPropertyVisitor)
+        if (keyName === 'state') {
+          hasState = true
+        } else if (keyName === 'config') {
+          // appConfig = toVar(node.value)
+          astPath.traverse(classPropertyVisitor)
+        }
       }
     },
     ImportDeclaration: {
@@ -384,11 +449,12 @@ function processEntry (code, filePath) {
             const pathArr = value.split('/')
             if (pathArr.indexOf('pages') >= 0) {
               astPath.remove()
-            } else if (Util.REG_SCRIPTS.test(value)) {
-              const realPath = path.resolve(filePath, '..', value)
-              const dirname = path.dirname(realPath)
-              const extname = path.extname(realPath)
-              const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+            } else if (Util.REG_SCRIPTS.test(value) || path.extname(value) === '') {
+              const absolutePath = path.resolve(filePath, '..', value)
+              const dirname = path.dirname(absolutePath)
+              const extname = path.extname(absolutePath)
+              const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+              const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
               node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
             }
           }
@@ -476,7 +542,7 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
         if (keyName === 'constructor') {
           hasConstructor = true
         } else if (keyName === 'componentWillMount') {
@@ -511,15 +577,26 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import { Router } from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
         const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
+        const createHistoryNode = toAst(`
+          const _taroHistory = createHistory({
+            mode: "${routerMode}",
+            basename: "${routerBasename}",
+            customRoutes: ${JSON.stringify(customRoutes)},
+            firstPagePath: "${addLeadingSlash(pages[0])}"
+          });
+        `)
+        const mountApisNode = toAst(`mountApis(_taroHistory);`)
         const extraNodes = [
           importTaroH5Node,
           importRouterNode,
-          initPxTransformNode
+          initPxTransformNode,
+          createHistoryNode,
+          mountApisNode
         ]
 
         astPath.traverse(programExitVisitor)
@@ -564,6 +641,10 @@ function processOthers (code, filePath, fileType) {
   let isPage = fileType === FILE_TYPE.PAGE
   let hasComponentDidMount = false
   let hasComponentDidShow = false
+  let hasComponentDidHide = false
+  let hasOnPageScroll = false
+  let hasOnReachBottom = false
+  let pageConfig = {}
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -577,7 +658,9 @@ function processOthers (code, filePath, fileType) {
       if (!node.superClass) return
       if (
         node.superClass.type === 'MemberExpression' &&
-        node.superClass.object.name === taroImportDefaultName
+        node.superClass.object.name === taroImportDefaultName &&
+        (node.superClass.property.name === 'Component' ||
+        node.superClass.property.name === 'PureComponent')
       ) {
         node.superClass.object.name = taroImportDefaultName
         if (node.id === null) {
@@ -591,7 +674,8 @@ function processOthers (code, filePath, fileType) {
             )
           )
         }
-      } else if (node.superClass.name === 'Component') {
+      } else if (node.superClass.name === 'Component' ||
+        node.superClass.name === 'PureComponent') {
         resetTSClassProperty(node.body.body)
         if (node.id === null) {
           const renameComponentClassName = '_TaroComponentClass'
@@ -621,6 +705,46 @@ function processOthers (code, filePath, fileType) {
             'method', t.identifier('componentDidShow'), [],
             t.blockStatement([]), false, false))
         }
+        if (!hasComponentDidHide) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidHide'), [],
+            t.blockStatement([]), false, false))
+        }
+      }
+    },
+    ClassMethod: {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const keyName = toVar(key)
+        if (hasOnReachBottom) {
+          if (keyName === 'componentDidShow') {
+            node.body.body.unshift(
+              toAst(`
+                this._offReachBottom = Taro.onReachBottom({
+                  callback: this.onReachBottom,
+                  ctx: this,
+                  onReachBottomDistance: ${JSON.stringify(pageConfig.onReachBottomDistance)}
+                })
+              `)
+            )
+          } else if (keyName === 'componentDidHide') {
+            node.body.body.unshift(
+              toAst('this._offReachBottom()')
+            )
+          }
+        }
+        if (hasOnPageScroll) {
+          if (keyName === 'componentDidShow') {
+            node.body.body.unshift(
+              toAst('this._offPageScroll = Taro.onPageScroll({ callback: this.onPageScroll, ctx: this })')
+            )
+          } else if (keyName === 'componentDidHide') {
+            node.body.body.unshift(
+              toAst('this._offPageScroll()')
+            )
+          }
+        }
       }
     }
   }
@@ -628,15 +752,30 @@ function processOthers (code, filePath, fileType) {
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
+    ClassProperty: isPage ? {
+      enter (astPath) {
+        const node = astPath.node
+        const key = toVar(node.key)
+        if (key === 'config') {
+          pageConfig = toVar(node.value)
+        }
+      }
+    } : {},
     ClassMethod: isPage ? {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
         if (keyName === 'componentDidMount') {
           hasComponentDidMount = true
         } else if (keyName === 'componentDidShow') {
           hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        } else if (keyName === 'onPageScroll') {
+          hasOnPageScroll = true
+        } else if (keyName === 'onReachBottom') {
+          hasOnReachBottom = true
         }
       }
     } : {},
@@ -650,11 +789,12 @@ function processOthers (code, filePath, fileType) {
           source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
         }
         if (!Util.isNpmPkg(value)) {
-          if (Util.REG_SCRIPTS.test(value)) {
-            const realPath = path.resolve(filePath, '..', value)
-            const dirname = path.dirname(realPath)
-            const extname = path.extname(realPath)
-            const removeExtPath = path.join(dirname, path.basename(realPath, extname))
+          if (Util.REG_SCRIPTS.test(value) || path.extname(value) === '') {
+            const absolutePath = path.resolve(filePath, '..', value)
+            const dirname = path.dirname(absolutePath)
+            const extname = path.extname(absolutePath)
+            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
             node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {
@@ -763,32 +903,6 @@ function resetTSClassProperty (body) {
   }
 }
 
-function classifyFiles (filename) {
-  const relPath = path.normalize(
-    path.relative(appPath, filename)
-  )
-  if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
-
-  let relSrcPath = path.relative('src', relPath)
-  relSrcPath = path.format({
-    dir: path.dirname(relSrcPath),
-    base: path.basename(relSrcPath, path.extname(relSrcPath))
-  })
-
-  const isPage = pages.some(page => {
-    const relPage = path.normalize(
-      path.relative(appPath, page)
-    )
-    if (path.relative(relPage, relSrcPath) === '') return true
-  })
-
-  if (isPage) {
-    return FILE_TYPE.PAGE
-  } else {
-    return FILE_TYPE.NORMAL
-  }
-}
-
 function getDist (filename, isScriptFile) {
   const dirname = path.dirname(filename)
   const distDirname = dirname.replace(sourcePath, tempDir)
@@ -817,9 +931,13 @@ function processFiles (filePath) {
       // 脚本文件 处理一下
       const fileType = classifyFiles(filePath)
       const content = file.toString()
-      const transformResult = fileType === FILE_TYPE.ENTRY
-        ? processEntry(content, filePath)
-        : processOthers(content, filePath, fileType)
+      let transformResult
+      if (fileType === FILE_TYPE.ENTRY) {
+        pages = []
+        transformResult = processEntry(content, filePath)
+      } else {
+        transformResult = processOthers(content, filePath, fileType)
+      }
       const jsCode = transformResult.code
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
@@ -841,13 +959,11 @@ function watchFiles () {
   })
   watcher
     .on('add', filePath => {
-      pages = []
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
       processFiles(filePath)
     })
     .on('change', filePath => {
-      pages = []
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)

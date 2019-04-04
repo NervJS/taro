@@ -6,7 +6,21 @@ import * as ts from 'typescript'
 import { Transformer } from './class'
 import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression, getSuperClassCode } from './utils'
 import * as t from 'babel-types'
-import { DEFAULT_Component_SET, INTERNAL_SAFE_GET, TARO_PACKAGE_NAME, REDUX_PACKAGE_NAME, MOBX_PACKAGE_NAME, IMAGE_COMPONENTS, INTERNAL_INLINE_STYLE, THIRD_PARTY_COMPONENTS, INTERNAL_GET_ORIGNAL, setLoopOriginal, GEL_ELEMENT_BY_ID, lessThanSignPlacehold } from './constant'
+import {
+  DEFAULT_Component_SET,
+  INTERNAL_SAFE_GET,
+  TARO_PACKAGE_NAME,
+  REDUX_PACKAGE_NAME,
+  MOBX_PACKAGE_NAME,
+  IMAGE_COMPONENTS,
+  INTERNAL_INLINE_STYLE,
+  THIRD_PARTY_COMPONENTS,
+  INTERNAL_GET_ORIGNAL,
+  setLoopOriginal,
+  GEL_ELEMENT_BY_ID,
+  lessThanSignPlacehold,
+  COMPONENTS_PACKAGE_NAME
+} from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
 import { get as safeGet } from 'lodash'
@@ -163,6 +177,14 @@ export default function transform (options: Options): TransformResult {
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
   const ast = parse(code, buildBabelTransformOptions()).ast as t.File
   if (options.isNormal) {
+    if (options.isTyped) {
+      const mainClassNode = ast.program.body.find(v => {
+        return t.isClassDeclaration(v)
+      }) as t.ClassDeclaration | undefined
+      if (mainClassNode) {
+        resetTSClassProperty(mainClassNode.body.body)
+      }
+    }
     return { ast } as any
   }
   // transformFromAst(ast, code)
@@ -390,8 +412,8 @@ export default function transform (options: Options): TransformResult {
         const bindingPath = binding.path
         if (bindingPath.parentPath.isImportDeclaration()) {
           const source = bindingPath.parentPath.node.source
-          if (source.value !== TARO_PACKAGE_NAME) {
-            throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 @tarojs/components 引入。`)
+          if (source.value !== COMPONENTS_PACKAGE_NAME) {
+            throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 ${COMPONENTS_PACKAGE_NAME} 引入。`)
           }
         }
       }
@@ -426,6 +448,18 @@ export default function transform (options: Options): TransformResult {
     },
     JSXAttribute (path) {
       const { name, value } = path.node
+
+      if (options.jsxAttributeNameReplace) {
+        for (const r in options.jsxAttributeNameReplace) {
+          if (options.jsxAttributeNameReplace.hasOwnProperty(r)) {
+            const element = options.jsxAttributeNameReplace[r]
+            if (t.isJSXIdentifier(name, { name: r })) {
+              path.node.name = t.jSXIdentifier(element)
+            }
+          }
+        }
+      }
+
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }

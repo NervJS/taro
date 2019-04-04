@@ -42,7 +42,7 @@ class _Form extends React.Component<Props, State> {
   bindValueChangeEvent = (child: any) => {
     // onChange: _CheckboxGroup _RadioGroup _Switch _Slider _Picker
     // onBlur: _Input _Textarea
-    const childTypeName = child.type.name
+    const childTypeName = child.type && child.type.name
     const childPropsName = child.props.name
     const valueChangeCbName = childTypeName === '_Input' || childTypeName === '_Textarea' ? 'onBlur' : 'onChange'
     const tmpProps = { ...child.props }
@@ -56,7 +56,7 @@ class _Form extends React.Component<Props, State> {
         this.formValues[childPropsName] = value
       }
     }
-    tmpProps[valueChangeCbName] = (event) => {
+    tmpProps[valueChangeCbName] = function (event) {
       const valueChangeCb = child.props[valueChangeCbName]
       this.formValues[childPropsName] = event.detail.value
       valueChangeCb && valueChangeCb(...arguments)
@@ -66,7 +66,7 @@ class _Form extends React.Component<Props, State> {
 
   deppDiveIntoChildren = (children: any) => {
     return React.Children.toArray(children).map((child) => {
-      const childTypeName = child.type.name
+      const childTypeName = child.type && child.type.name
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {
         const onClick = child.props.onClick

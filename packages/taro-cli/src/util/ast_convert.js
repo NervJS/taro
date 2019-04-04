@@ -64,16 +64,30 @@ function convertSourceStringToAstExpression (str, opts = {}) {
   return template(str, Object.assign({}, babylonConfig, opts))()
 }
 
-const getObjKey = (node) => {
-  if (t.isIdentifier(node)) {
-    return node.name
-  } else {
+const convertAstExpressionToVariable = (node) => {
+  if (t.isObjectExpression(node)) {
+    const obj = {}
+    const properties = node.properties
+    properties.forEach(property => {
+      const key = convertAstExpressionToVariable(property.key)
+      const value = convertAstExpressionToVariable(property.value)
+      obj[key] = value
+    })
+    return obj
+  } else if (t.isArrayExpression(node)) {
+    return node.elements.map(convertAstExpressionToVariable)
+  } else if (t.isLiteral(node)) {
     return node.value
+  } else if (t.isIdentifier(node)) {
+    const name = node.name
+    return name === 'undefined'
+      ? undefined
+      : name
   }
 }
 
 exports.obj = convertObjectToAstExpression
 exports.array = convertArrayToAstExpression
 exports.source = convertSourceStringToAstExpression
-exports.getObjKey = getObjKey
 exports.generateMinimalEscapeCode = generateMinimalEscapeCode
+exports.toVariable = convertAstExpressionToVariable

@@ -4,7 +4,6 @@ import invariant from 'invariant';
 import toPairs from 'lodash/toPairs';
 import assign from 'lodash/assign';
 
-import { createNavigateBack, createNavigateTo, createRedirectTo } from '../apis';
 import Route from './route';
 import * as Types from '../utils/types';
 
@@ -36,9 +35,6 @@ class Router extends Component<Props, State> {
 
   mountApis () {
     // 挂载Apis
-    Taro.navigateTo = createNavigateTo(this.props.history)
-    Taro.navigateBack = createNavigateBack(this.props.history)
-    Taro.redirectTo = createRedirectTo(this.props.history)
     Taro.getCurrentPages = () => {
       return this.currentPages
     }
@@ -67,6 +63,7 @@ class Router extends Component<Props, State> {
   push (toLocation: Types.Location) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
+    routeStack.forEach(v => { v.isRedirect = false })
     routeStack.push(assign({}, matchedRoute, {
       key: toLocation.state.key,
       isRedirect: false
@@ -142,7 +139,7 @@ class Router extends Component<Props, State> {
 
   render () {
     const router = this
-    const currentLocation = Taro.getRouter()
+    const currentLocation = Taro._$router
     router.currentPages.length = this.state.routeStack.length
     return (
       <div className="taro_router">
@@ -164,6 +161,5 @@ class Router extends Component<Props, State> {
     )
   }
 }
-
 
 export default Router

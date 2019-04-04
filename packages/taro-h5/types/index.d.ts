@@ -16,7 +16,20 @@ declare namespace TaroH5 {
     componentDidHide?(): void;
   }
 
+  namespace eventCenter {
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
+
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+
+    function off(): void;
+
+    function trigger(eventName: string | symbol, ...args: any[]): boolean;
+  }
+
   interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> { }
+  type Element = any
 
   class Component<P, S> {
     constructor(props?: P, context?: any);
@@ -35,6 +48,15 @@ declare namespace TaroH5 {
     context: any;
     refs: {
         [key: string]: any
+    };
+    $router: {
+      path: string;
+      scene: number;
+      query: {
+        [key: string]: string;
+      };
+      shareTicket: string;
+      referrerInfo: {};
     };
   }
 
@@ -10247,13 +10269,11 @@ declare namespace TaroH5 {
   /* initNativeApi */
   function initNativeApi(any): void
 
-  function _set$app(any): void;
   function getApp(): any;
-  function _set$router(any): void;
 
   namespace Router {
-    export interface Location {
-      pathname: string;
+    interface Location {
+      path: string;
       search: string;
       hash: string;
       state: {
@@ -10263,6 +10283,16 @@ declare namespace TaroH5 {
         [key: string]: string;
       };
     }
+    interface RouterParams {
+      path: string;
+      scene: number;
+      params: {
+        [key: string]: string;
+      };
+      shareTicket: string;
+      referrerInfo: Object;
+    }
   }
-  function getRouter(): Router.Location;
+  let _$router: Router.Location
+  const $router: Router.RouterParams
 }
