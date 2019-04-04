@@ -12,6 +12,6 @@ export default {
   overlay: true,
   port: 10086,
   quiet: true,
-  watchContentBase: true,
-  watchOptions: { ignored: /node_modules/ }
+  watchContentBase: true
+  // watchOptions: { ignored: /node_modules/ }
 }

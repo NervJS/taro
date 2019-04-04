@@ -534,10 +534,10 @@ export class RenderParser {
 
   private renameIfScopeVaribale = (blockStatement: NodePath<t.BlockStatement>): Visitor => {
     return {
-      VariableDeclarator: (p) => {
-        const { id, init } = p.node
-        const ifStem = p.parentPath.parentPath.parentPath
-        if (!ifStem.isIfStatement() || isContainJSXElement(p)) {
+      VariableDeclarator: (path) => {
+        const { id, init } = path.node
+        const ifStem = path.parentPath.parentPath.parentPath
+        if (!ifStem.isIfStatement() || isContainJSXElement(path)) {
           return
         }
         if (t.isIdentifier(id)) {
@@ -545,13 +545,13 @@ export class RenderParser {
             this.renderPath.node.body.body.unshift(
               t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
             )
-            p.parentPath.replaceWith(
+            path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
             )
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
             blockStatement.scope.rename(id.name, newId.name)
-            p.parentPath.replaceWith(
+            path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
             )
           }

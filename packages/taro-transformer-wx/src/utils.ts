@@ -192,8 +192,17 @@ export function generateAnonymousState (
     )
     if (blockStatement && blockStatement.isBlockStatement()) {
       blockStatement.traverse({
-        VariableDeclarator: (p) => {
-          const { id, init } = p.node
+        VariableDeclarator: (path) => {
+          const { id, init } = path.node
+          const isArrowFunctionInJSX = path.findParent(p => p.isJSXAttribute() ||
+            (
+              p.isAssignmentExpression() && t.isMemberExpression(p.node.left) && t.isThisExpression(p.node.left.object)
+                && t.isIdentifier(p.node.left.property) && p.node.left.property.name.startsWith('')
+            )
+          )
+          if (isArrowFunctionInJSX) {
+            return
+          }
           if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE)) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
@@ -204,7 +213,7 @@ export function generateAnonymousState (
             variableName = newId.name
             refIds.add(t.identifier(variableName))
             blockStatement.scope.rename(id.name, newId.name)
-            p.parentPath.replaceWith(
+            path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init })
             )
           }

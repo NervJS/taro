@@ -13,7 +13,7 @@ import {
   incrementId,
   isContainStopPropagation
 } from './utils'
-import { DEFAULT_Component_SET } from './constant'
+import { DEFAULT_Component_SET, ANONYMOUS_FUNC } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -400,7 +400,7 @@ class Transformer {
             const exprPath = attr.get('value.expression')
             const stemParent = path.getStatementParent()
             const counter = self.anonymousFuncCounter()
-            const anonymousFuncName = `anonymousFunc${counter}`
+            const anonymousFuncName = `${ANONYMOUS_FUNC}${counter}`
             const isCatch = isContainStopPropagation(exprPath)
             const classBody = self.classPath.node.body.body
             const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
