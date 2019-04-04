@@ -16,6 +16,6 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "node-sass": "^4.11.0"
+    "dart-sass": "^1.17.4"
   }
 }
