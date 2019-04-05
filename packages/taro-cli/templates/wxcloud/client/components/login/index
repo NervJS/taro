@@ -24,7 +24,7 @@ export default class Login extends Component {
       })
       .then(res => {
         this.setState({
-          context: res.result.userInfo
+          context: res.result
         })
       })
   }
