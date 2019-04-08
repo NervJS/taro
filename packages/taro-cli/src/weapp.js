@@ -1617,7 +1617,12 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
         .then(res => ({
           css: cssImportsRes.style.join('\n') + '\n' + res.css,
           filePath
-        }))
+        })).catch(err => {
+          if (err) {
+            console.log(err)
+            process.exit(0)
+          }
+        })
     }
     return new Promise(resolve => {
       resolve({
