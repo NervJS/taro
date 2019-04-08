@@ -221,7 +221,7 @@ class Transformer {
               const params = func.params as t.Identifier[]
               indexId = params[1]
             }
-            if (indexId === null || !t.isIdentifier(indexId!)) {
+            if (indexId === null || !t.isIdentifier(indexId)) {
               throw codeFrameError(path.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
             }
             attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.jSXExpressionContainer(
