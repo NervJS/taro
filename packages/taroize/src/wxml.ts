@@ -8,6 +8,7 @@ import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
 import { reserveKeyWords } from './constant'
 import { parseExpression } from 'babylon'
+import * as template from 'babel-template'
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -155,7 +156,9 @@ export const createWxmlVistor = (
             if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
               return
             }
-            refIds.add(p.node.name)
+            if (isValidVarName(p.node.name)) {
+              refIds.add(p.node.name)
+            }
           },
           JSXAttribute: jsxAttrVisitor
         })
@@ -622,7 +625,11 @@ function parseElement (element: Element): t.JSXElement {
         if (content.type === 'expression') {
           isSpread = true
           const str = content.content
-          attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+          if (str.includes('...') && str.includes(',')) {
+            attr.value = `{{${str.slice(1, str.length - 1)}}}`
+          } else {
+            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+          }
         } else {
           attr.value = content.content
         }
@@ -717,7 +724,6 @@ function parseAttribute (attr: Attribute) {
       try {
         expr = buildTemplate(content)
       } catch (error) {
-        debugger
         const pureContent = content.slice(1, content.length - 1)
         if (reserveKeyWords.has(pureContent) && type !== 'raw') {
           const err = `转换模板参数： \`${key}: ${value}\` 报错: \`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值。`
@@ -729,6 +735,18 @@ function parseAttribute (attr: Attribute) {
         } else if (content.includes(':')) {
           const [ key, value ] = pureContent.split(':')
           expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), parseExpression(value))])
+        } else if (content.includes('...') && content.includes(',')) {
+          const objExpr = content.slice(1, content.length - 1).split(',')
+          const props: (t.SpreadProperty | t.ObjectProperty)[] = []
+          for (const str of objExpr) {
+            const s = str.trim()
+            if (s.includes('...')) {
+              props.push(t.spreadProperty(t.identifier(s.slice(3))))
+            } else {
+              props.push(t.objectProperty(t.identifier(s), t.identifier(s)))
+            }
+          }
+          expr = t.objectExpression(props)
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)
