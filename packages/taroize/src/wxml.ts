@@ -8,7 +8,6 @@ import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors } from './global'
 import { reserveKeyWords } from './constant'
 import { parseExpression } from 'babylon'
-import * as template from 'babel-template'
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
