@@ -24,7 +24,6 @@ class BaseComponent {
   _disable = true
   _pendingStates = []
   _pendingCallbacks = []
-  _childs = {}
   $componentType = ''
   $router = {
     params: {},
@@ -46,7 +45,7 @@ class BaseComponent {
       typeof scope.props[COLLECT_CHILDS] === 'function' &&
       typeof scope.props.id === 'string'
     ) {
-      scope.props[COLLECT_CHILDS](scope, scope.props.id)
+      scope.props[COLLECT_CHILDS](scope.$component, scope.props.id)
     }
   }
   setState (state, callback) {

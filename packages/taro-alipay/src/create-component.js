@@ -142,7 +142,8 @@ function bindEvents (weappComponentConf, events, isPage) {
 
 function bindCollectChilds (weappComponentConf, isPage) {
   function collectChilds (child, id) {
-    this.$component._childs[id] = child
+    if (!this._childs) this._childs = {}
+    this._childs[id] = child
   }
   if (isPage) {
     weappComponentConf[COLLECT_CHILDS] = collectChilds
@@ -185,7 +186,8 @@ export function componentTrigger (component, key, args) {
       component['$$refs'].forEach(ref => {
         let target
         if (ref.type === 'component') {
-          target = component._childs[ref.id] || null
+          const _childs = component.$scope._childs || {}
+          target = _childs[ref.id] || null
         } else {
           const query = my.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
