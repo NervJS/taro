@@ -93,6 +93,15 @@ function buildForUILibrary ({ watch }) {
 }
 
 function buildForPlugin ({ watch, platform }) {
+  const typeMap = {
+    [Util.BUILD_TYPES.WEAPP]: '微信',
+    [Util.BUILD_TYPES.ALIPAY]: '支付宝'
+  }
+  if (platform !== Util.BUILD_TYPES.WEAPP && platform !== Util.BUILD_TYPES.ALIPAY) {
+    console.log(chalk.red('目前插件编译仅支持 微信/支付宝 小程序！'))
+    return
+  }
+  console.log(chalk.green(`开始编译${typeMap[platform]}小程序插件`))
   require('./plugin').build({ watch, platform })
 }
 
