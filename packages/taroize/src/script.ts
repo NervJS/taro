@@ -303,6 +303,10 @@ function parsePage (
       }
       if (PageLifecycle.has(name)) {
         const lifecycle = PageLifecycle.get(name)!
+        if (prop.isObjectMethod()) {
+          const body = prop.get('body')
+          return t.classMethod('method', t.identifier(lifecycle), params, body.node)
+        }
         const node = value.node
         const method = t.isFunctionExpression(node) || t.isArrowFunctionExpression(node)
           ? t.classProperty(t.identifier(lifecycle), t.arrowFunctionExpression(params, node.body, isAsync))
