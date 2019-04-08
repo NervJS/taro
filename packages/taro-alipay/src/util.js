@@ -224,3 +224,20 @@ export function getObjChainValue (obj, keyChain) {
     obj = obj[key]
   }
 }
+
+export function getElementById (component, id, type) {
+  if (!component) return null
+
+  let res
+  if (type === 'component') {
+    const _childs = component._childs || {}
+    res = _childs[id.replace('#', '')] || null
+  } else {
+    const query = my.createSelectorQuery().in(component)
+    res = query.select(id)
+  }
+
+  if (res) return res
+
+  return null
+}
