@@ -120,8 +120,8 @@ module.exports = function (creater, params, helper, cb) {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.tsx'), {
-      css: currentStyleExt,
+    creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.tsx'))
+    creater.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'), {
       typescript: true
     })
   } else {
@@ -137,13 +137,11 @@ module.exports = function (creater, params, helper, cb) {
     creater.template(template, 'listjs', path.join(sourceDir, 'plugin', 'pages', 'list', 'list.js'), {
       css: currentStyleExt
     })
-    creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.js'), {
-      css: currentStyleExt
-    })
+    creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.js'))
+    creater.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'))
   }
   creater.template(template, 'jpeg', path.join(sourceDir, 'plugin', 'doc', 'example.jpeg'))
   creater.template(template, 'plugindoc', path.join(sourceDir, 'plugin', 'doc', 'README.md'))
-  creater.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'))
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
   creater.fs.commit(() => {
