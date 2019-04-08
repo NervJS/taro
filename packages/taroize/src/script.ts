@@ -6,6 +6,8 @@ import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
 import { usedComponents } from './global'
 
+const defaultClassName = '_C'
+
 const buildDecorator = (type: string, id?: string) => id ? t.decorator(
   t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type), t.identifier(id)])
 ) : t.decorator(
@@ -61,7 +63,7 @@ export function parseScript (
           json,
           componentType,
           refId
-        )!
+        )
         if (componentType !== 'App' && !classDecl.decorators) {
           classDecl.decorators = [buildDecorator(componentType)]
         }
@@ -100,8 +102,6 @@ export function parseScript (
 
   return ast
 }
-
-const defaultClassName = '_C'
 
 const staticProps = ['externalClasses', 'relations', 'options']
 
