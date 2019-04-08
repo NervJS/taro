@@ -644,6 +644,7 @@ function processOthers (code, filePath, fileType) {
   let hasComponentDidHide = false
   let hasOnPageScroll = false
   let hasOnReachBottom = false
+  let hasOnPullDownRefresh = false
   let pageConfig = {}
 
   ast = babel.transformFromAst(ast, '', {
@@ -693,6 +694,26 @@ function processOthers (code, filePath, fileType) {
   }
 
   const programExitVisitor = {
+    ImportDeclaration: {
+      exit (astPath) {
+        const node = astPath.node
+        const specifiers = node.specifiers
+        if (toVar(node.source) !== PACKAGES['@tarojs/components']) return
+        const pos = specifiers.findIndex(specifier => {
+          if (!specifier.imported) return false
+          const importedComponent = toVar(specifier.imported)
+          return importedComponent === 'PullDownRefresh'
+        })
+        if (pos === -1) {
+          specifiers.push(
+            t.importSpecifier(
+              t.identifier('PullDownRefresh'),
+              t.identifier('PullDownRefresh')
+            )
+          )
+        }
+      }
+    },
     ClassBody: {
       exit (astPath) {
         if (!hasComponentDidMount) {
@@ -745,6 +766,47 @@ function processOthers (code, filePath, fileType) {
             )
           }
         }
+        if (hasOnPullDownRefresh) {
+          if (keyName === 'componentDidShow') {
+            node.body.body.unshift(
+              toAst(`
+                this.pullDownRefreshRef.bindEvent()
+              `)
+            )
+          }
+          if (keyName === 'componentDidHide') {
+            node.body.body.unshift(
+              toAst(`
+                this.pullDownRefreshRef.unbindEvent()
+              `)
+            )
+          }
+          if (keyName === 'render') {
+            node.body.body = _.flatMap(node.body.body, statement => {
+              if (!t.isReturnStatement(statement)) return statement
+              const varName = astPath.scope.generateUid()
+              const returnValue = statement.argument
+              const pullDownRefreshNode = t.variableDeclaration(
+                'const',
+                [t.variableDeclarator(
+                  t.identifier(varName),
+                  returnValue
+                )]
+              )
+              return [
+                pullDownRefreshNode,
+                toAst(`
+                  return (
+                    <PullDownRefresh
+                      onRefresh={this.onPullDownRefresh.bind(this)}
+                      ref={ref => {
+                        this.pullDownRefreshRef = ref
+                      }}>{${varName}}</PullDownRefresh>
+                  );`)
+              ]
+            })
+          }
+        }
       }
     }
   }
@@ -776,6 +838,8 @@ function processOthers (code, filePath, fileType) {
           hasOnPageScroll = true
         } else if (keyName === 'onReachBottom') {
           hasOnReachBottom = true
+        } else if (keyName === 'onPullDownRefresh') {
+          hasOnPullDownRefresh = true
         }
       }
     } : {},
