@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import Nerv from 'nervjs'
 import Taro from '@tarojs/taro-h5'
 
-import './style/index.less'
+import './style/index.css'
 
 class StaticRenderer extends Nerv.Component {
   shouldComponentUpdate (nextProps) {
