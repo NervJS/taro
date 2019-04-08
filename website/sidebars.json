@@ -29,6 +29,7 @@
       "envs",
       "relations",
       "wxcloud",
+      "miniprogram-plugin",
       "react-native",
       "ui-lib",
       "taroize",

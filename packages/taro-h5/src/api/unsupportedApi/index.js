@@ -135,15 +135,15 @@ export const openDocument = temporarilyNotSupport('openDocument')
 // export const reLaunch = temporarilyNotSupport('reLaunch')
 
 // 位置
-export const getLocation = temporarilyNotSupport('getLocation')
+// export const getLocation = temporarilyNotSupport('getLocation')
 export const chooseLocation = temporarilyNotSupport('chooseLocation')
-export const openLocation = temporarilyNotSupport('openLocation')
+// export const openLocation = temporarilyNotSupport('openLocation')
 
 // 设备
 // export const getSystemInfo = temporarilyNotSupport('getSystemInfo')
 // export const getNetworkType = temporarilyNotSupport('getNetworkType')
 // export const makePhoneCall = temporarilyNotSupport('makePhoneCall')
-export const scanCode = temporarilyNotSupport('scanCode')
+// export const scanCode = temporarilyNotSupport('scanCode')
 export const setClipboardData = temporarilyNotSupport('setClipboardData')
 export const getClipboardData = temporarilyNotSupport('getClipboardData')
 export const openBluetoothAdapter = temporarilyNotSupport('openBluetoothAdapter')

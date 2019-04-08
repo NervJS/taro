@@ -93,7 +93,8 @@ exports.BUILD_TYPES = {
   SWAN: 'swan',
   ALIPAY: 'alipay',
   TT: 'tt',
-  UI: 'ui'
+  UI: 'ui',
+  PLUGIN: 'plugin'
 }
 
 exports.MINI_APP_FILES = {
