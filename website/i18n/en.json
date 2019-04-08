@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝小程序、H5、React Native 等的应用。",
+    "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝小程序、H5、React Native 等平台的应用。",
     "docs": {
       "api-desc": {
         "title": "API 说明"
@@ -201,11 +201,17 @@
       "mini-third-party": {
         "title": "使用小程序原生第三方组件和插件"
       },
+      "miniprogram-plugin": {
+        "title": "小程序插件开发"
+      },
       "mobx": {
-        "title": "使用 Mobx"
+        "title": "使用 MobX"
       },
       "native-api": {
         "title": "端能力 API"
+      },
+      "optimized-practice": {
+        "title": "性能优化实践"
       },
       "project-config": {
         "title": "项目配置"
@@ -260,6 +266,9 @@
       },
       "ui-lib": {
         "title": "基于 Taro 开发第三方多端 UI 库"
+      },
+      "wxcloud": {
+        "title": "小程序云开发模板"
       }
     },
     "links": {

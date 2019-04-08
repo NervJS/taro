@@ -13,7 +13,7 @@ import {
   incrementId,
   isContainStopPropagation
 } from './utils'
-import { DEFAULT_Component_SET } from './constant'
+import { DEFAULT_Component_SET, ANONYMOUS_FUNC } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -221,7 +221,7 @@ class Transformer {
               const params = func.params as t.Identifier[]
               indexId = params[1]
             }
-            if (indexId === null || !t.isIdentifier(indexId!)) {
+            if (indexId === null || !t.isIdentifier(indexId)) {
               throw codeFrameError(path.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
             }
             attrs.push(t.jSXAttribute(t.jSXIdentifier('id'), t.jSXExpressionContainer(
@@ -274,6 +274,9 @@ class Transformer {
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
+        }
+        if (Adapters.alipay === Adapter.type) {
+          attrs.push(t.jSXAttribute(t.jSXIdentifier('onTaroCollectChilds'), t.stringLiteral('onTaroCollectChilds')))
         }
         for (const [index, attr] of attrs.entries()) {
           if (attr === refAttr) {
@@ -417,7 +420,7 @@ class Transformer {
             const exprPath = attr.get('value.expression')
             const stemParent = path.getStatementParent()
             const counter = self.anonymousFuncCounter()
-            const anonymousFuncName = `anonymousFunc${counter}`
+            const anonymousFuncName = `${ANONYMOUS_FUNC}${counter}`
             const isCatch = isContainStopPropagation(exprPath)
             const classBody = self.classPath.node.body.body
             const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>

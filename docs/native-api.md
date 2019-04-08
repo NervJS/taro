@@ -66,6 +66,8 @@ Taro.request({
 
 #### 拦截器
 
+> 自 `1.2.16` 开始支持
+
 可以使用拦截器在请求发出前或发出后做一些额外操作。
 
 在调用 `Taro.request` 发起请求之前，调用 `Taro.addInterceptor` 方法为请求添加拦截器，拦截器的调用顺序遵循洋葱模型。
@@ -994,7 +996,7 @@ Taro.clearStorageSync()
 
 #### Taro.getLocation(OBJECT)
 
-使用方式同 [`wx.getLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getLocation.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.getLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getLocation.html)，h5端仅支持[微信公众号](https://qydev.weixin.qq.com/wiki/index.php?title=%E5%BE%AE%E4%BF%A1JS%E6%8E%A5%E5%8F%A3#.E8.8E.B7.E5.8F.96.E5.9C.B0.E7.90.86.E4.BD.8D.E7.BD.AE.E6.8E.A5.E5.8F.A3)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1020,14 +1022,14 @@ Taro.chooseLocation(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.getLocation | ✔️ |  | ✔️ |
+| Taro.getLocation | ✔️ | ✔️ | ✔️ |
 | Taro.chooseLocation | ✔️ |  |  |
 
 ### 查看位置
 
 #### Taro.openLocation(OBJECT)
 
-使用方式同 [`wx.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openLocation.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.openLocation.html)，h5端仅支持[微信公众号](https://qydev.weixin.qq.com/wiki/index.php?title=%E5%BE%AE%E4%BF%A1JS%E6%8E%A5%E5%8F%A3#.E4.BD.BF.E7.94.A8.E5.BE.AE.E4.BF.A1.E5.86.85.E7.BD.AE.E5.9C.B0.E5.9B.BE.E6.9F.A5.E7.9C.8B.E4.BD.8D.E7.BD.AE.E6.8E.A5.E5.8F.A3)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1041,7 +1043,7 @@ Taro.openLocation(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.openLocation | ✔️ |  |  |
+| Taro.openLocation | ✔️ | ✔️ |  |
 
 ### 地图组件控制
 
@@ -1383,7 +1385,7 @@ Taro.makePhoneCall(params).then(...)
 
 #### Taro.scanCode(OBJECT)
 
-使用方式同 [`wx.scanCode`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.scanCode.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.scanCode`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.scanCode.html)，h5端仅支持[微信公众号](https://qydev.weixin.qq.com/wiki/index.php?title=%E5%BE%AE%E4%BF%A1JS%E6%8E%A5%E5%8F%A3#.E8.B0.83.E8.B5.B7.E5.BE.AE.E4.BF.A1.E6.89.AB.E4.B8.80.E6.89.AB.E6.8E.A5.E5.8F.A3)，支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -1397,7 +1399,7 @@ Taro.scanCode(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.scanCode | ✔️ |  |  |
+| Taro.scanCode | ✔️ | ✔️ |  |
 
 ### 剪贴板
 
@@ -2432,7 +2434,7 @@ Taro.getCurrentPages().length
 | Taro.redirectTo | ✔️ | ✔️ | ✔️ |
 | Taro.switchTab | ✔️ |  | ✔️ |
 | Taro.navigateBack | ✔️ | ✔️ | ✔️ |
-| Taro.reLaunch | ✔️ |  | ✔️ |
+| Taro.reLaunch | ✔️ |  | ✔️ |      |
 | Taro.getCurrentPages | ✔️ |   | ✔️|
 
 ### 动画
@@ -2615,7 +2617,6 @@ query
     rect.height  // 节点的高度
   })
   .exec()
-})
 ```
 
 #### nodesRef.scrollOffset([callback])

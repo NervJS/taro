@@ -93,14 +93,16 @@ class Popper extends Component {
 
   render () {
     const name = 'test'
-    return <Button onClick={(e) => {
-      e.stopPropagation()
-      this.setState({
-        name
-      })
-    }}>
-      {this.state.name}
-    </Button>
+    return (
+      <Button onClick={(e) => {
+        e.stopPropagation()
+        this.setState({
+          name
+        })
+      }}>
+        {this.state.name}
+      </Button>
+    )
   }
 }
 ```

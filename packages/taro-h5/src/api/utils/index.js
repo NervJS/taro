@@ -1,3 +1,5 @@
+// import { findDOMNode } from 'nervjs'
+
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
   return {
@@ -67,6 +69,10 @@ function temporarilyNotSupport (apiName) {
   return () => console.error(`暂时不支持 API ${apiName}`)
 }
 
+function weixinCorpSupport (apiName) {
+  return () => console.error(`h5端仅在微信公众号中支持 API ${apiName}`)
+}
+
 function permanentlyNotSupport (apiName) {
   return () => console.error(`不支持 API ${apiName}`)
 }
@@ -75,6 +81,55 @@ const VALID_COLOR_REG = /^#\d{6}$/
 
 const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
+}
+
+const createCallbackManager = () => {
+  const callbacks = []
+
+  const add = (opt) => {
+    callbacks.push(opt)
+  }
+
+  const remove = (opt) => {
+    const pos = callbacks.findIndex(({ callback }) => {
+      return callback === opt.callback
+    })
+    if (pos > -1) {
+      callbacks.splice(pos, 1)
+    }
+  }
+
+  const count = () => callbacks.length
+  const trigger = (...args) => {
+    callbacks.forEach(({ callback, ctx }) => {
+      callback.call(ctx, ...args)
+    })
+  }
+
+  return {
+    add,
+    remove,
+    count,
+    trigger
+  }
+}
+
+const createScroller = inst => {
+  // const dom = findDOMNode(inst)
+  const el = document.querySelector('.taro-tabbar__panel') || document.body
+
+  const listen = callback => {
+    el.addEventListener('scroll', callback)
+  }
+  const unlisten = callback => {
+    el.removeEventListener('scroll', callback)
+  }
+  const getPos = () => el.scrollTop
+  const isReachBottom = (distance = 0) => {
+    return el.scrollHeight - el.scrollTop - el.clientHeight < distance
+  }
+  
+  return { listen, unlisten, getPos, isReachBottom }
 }
 
 export {
@@ -86,7 +141,10 @@ export {
   errorHandler,
   serializeParams,
   temporarilyNotSupport,
+  weixinCorpSupport,
   permanentlyNotSupport,
   isValidColor,
-  isFunction
+  isFunction,
+  createCallbackManager,
+  createScroller
 }

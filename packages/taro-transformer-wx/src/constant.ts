@@ -115,6 +115,8 @@ export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
   'onLongTap'
 ])
 
+export const ANONYMOUS_FUNC = 'anonymousFunc'
+
 export const TRANSFORM_COMPONENT_PROPS = new Map<Adapters, { [key: string]: { [key: string]: string } }>()
 
 TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {

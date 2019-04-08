@@ -11,7 +11,7 @@ export interface NavigatorProps extends StandardProps {
   /**
    * 当前小程序内的跳转链接
    */
-  url: string,
+  url?: string,
 
   /**
    * 跳转方式

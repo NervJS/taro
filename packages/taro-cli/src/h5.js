@@ -15,7 +15,7 @@ const minimatch = require('minimatch')
 const Util = require('./util')
 const npmProcess = require('./util/npm')
 const CONFIG = require('./config')
-const { source: toAst, getObjKey, obj: objToAst } = require('./util/ast_convert')
+const { source: toAst, obj: objToAst, toVariable: toVar } = require('./util/ast_convert')
 
 const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
 const removeLeadingSlash = path => path.replace(/^\.?\//, '')
@@ -78,6 +78,7 @@ if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
 let pages = []
 let tabBar
 let tabbarPos
+// let appConfig = {}
 
 const FILE_TYPE = {
   ENTRY: 'ENTRY',
@@ -86,11 +87,7 @@ const FILE_TYPE = {
   NORMAL: 'NORMAL'
 }
 
-const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(getObjKey(parentPath.node.key)))
-
-const publicPath = h5Config.publicPath
-  ? stripTrailingSlash(addLeadingSlash(h5Config.publicPath || ''))
-  : ''
+const isUnderSubPackages = (parentPath) => (parentPath.isObjectProperty() && /subPackages|subpackages/i.test(toVar(parentPath.node.key)))
 
 function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
   const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
@@ -151,7 +148,7 @@ function processEntry (code, filePath) {
   let hasState = false
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
-  const additionalConstructorNode = toAst(`Taro._set$app(this)`)
+  const additionalConstructorNode = toAst(`Taro._$app = this`)
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -208,7 +205,7 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
         let funcBody
 
         const isRender = keyName === 'render'
@@ -232,11 +229,9 @@ function processEntry (code, filePath) {
 
           funcBody = `
             <Router
-              mode={${JSON.stringify(routerMode)}}
-              publicPath={${JSON.stringify(routerMode === 'hash' ? '/' : publicPath)}}
+              history={_taroHistory}
               routes={[${routes.join(',')}]}
-              customRoutes={${JSON.stringify(customRoutes)}}
-              basename={${JSON.stringify(routerBasename)}} />
+              customRoutes={${JSON.stringify(customRoutes)}} />
             `
 
           /* 插入Tabbar */
@@ -362,14 +357,14 @@ function processEntry (code, filePath) {
       const node = astPath.node
       const key = node.key
       const value = node.value
-      const keyName = getObjKey(key)
+      const keyName = toVar(key)
       if (keyName === 'pages' && t.isArrayExpression(value)) {
         const subPackageParent = astPath.findParent(isUnderSubPackages)
         let root = ''
         if (subPackageParent) {
           /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
           const rootNode = astPath.parent.properties.find(v => {
-            return getObjKey(v.key) === 'root'
+            return toVar(v.key) === 'root'
           })
           root = rootNode ? rootNode.value.value : ''
         }
@@ -430,12 +425,14 @@ function processEntry (code, filePath) {
       enter (astPath) {
         const node = astPath.node
         const key = node.key
-        const value = node.value
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
 
-        if (keyName === 'state') hasState = true
-        if (keyName !== 'config' || !t.isObjectExpression(value)) return
-        astPath.traverse(classPropertyVisitor)
+        if (keyName === 'state') {
+          hasState = true
+        } else if (keyName === 'config') {
+          // appConfig = toVar(node.value)
+          astPath.traverse(classPropertyVisitor)
+        }
       }
     },
     ImportDeclaration: {
@@ -545,7 +542,7 @@ function processEntry (code, filePath) {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
         if (keyName === 'constructor') {
           hasConstructor = true
         } else if (keyName === 'componentWillMount') {
@@ -580,15 +577,26 @@ function processEntry (code, filePath) {
     Program: {
       exit (astPath) {
         const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-        const importRouterNode = toAst(`import { Router } from '${PACKAGES['@tarojs/router']}'`)
+        const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${PACKAGES['@tarojs/router']}'`)
         const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
         const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
+        const createHistoryNode = toAst(`
+          const _taroHistory = createHistory({
+            mode: "${routerMode}",
+            basename: "${routerBasename}",
+            customRoutes: ${JSON.stringify(customRoutes)},
+            firstPagePath: "${addLeadingSlash(pages[0])}"
+          });
+        `)
+        const mountApisNode = toAst(`mountApis(_taroHistory);`)
         const extraNodes = [
           importTaroH5Node,
           importRouterNode,
-          initPxTransformNode
+          initPxTransformNode,
+          createHistoryNode,
+          mountApisNode
         ]
 
         astPath.traverse(programExitVisitor)
@@ -633,6 +641,10 @@ function processOthers (code, filePath, fileType) {
   let isPage = fileType === FILE_TYPE.PAGE
   let hasComponentDidMount = false
   let hasComponentDidShow = false
+  let hasComponentDidHide = false
+  let hasOnPageScroll = false
+  let hasOnReachBottom = false
+  let pageConfig = {}
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -693,6 +705,46 @@ function processOthers (code, filePath, fileType) {
             'method', t.identifier('componentDidShow'), [],
             t.blockStatement([]), false, false))
         }
+        if (!hasComponentDidHide) {
+          astPath.pushContainer('body', t.classMethod(
+            'method', t.identifier('componentDidHide'), [],
+            t.blockStatement([]), false, false))
+        }
+      }
+    },
+    ClassMethod: {
+      exit (astPath) {
+        const node = astPath.node
+        const key = node.key
+        const keyName = toVar(key)
+        if (hasOnReachBottom) {
+          if (keyName === 'componentDidShow') {
+            node.body.body.unshift(
+              toAst(`
+                this._offReachBottom = Taro.onReachBottom({
+                  callback: this.onReachBottom,
+                  ctx: this,
+                  onReachBottomDistance: ${JSON.stringify(pageConfig.onReachBottomDistance)}
+                })
+              `)
+            )
+          } else if (keyName === 'componentDidHide') {
+            node.body.body.unshift(
+              toAst('this._offReachBottom()')
+            )
+          }
+        }
+        if (hasOnPageScroll) {
+          if (keyName === 'componentDidShow') {
+            node.body.body.unshift(
+              toAst('this._offPageScroll = Taro.onPageScroll({ callback: this.onPageScroll, ctx: this })')
+            )
+          } else if (keyName === 'componentDidHide') {
+            node.body.body.unshift(
+              toAst('this._offPageScroll()')
+            )
+          }
+        }
       }
     }
   }
@@ -700,15 +752,30 @@ function processOthers (code, filePath, fileType) {
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
+    ClassProperty: isPage ? {
+      enter (astPath) {
+        const node = astPath.node
+        const key = toVar(node.key)
+        if (key === 'config') {
+          pageConfig = toVar(node.value)
+        }
+      }
+    } : {},
     ClassMethod: isPage ? {
       exit (astPath) {
         const node = astPath.node
         const key = node.key
-        const keyName = getObjKey(key)
+        const keyName = toVar(key)
         if (keyName === 'componentDidMount') {
           hasComponentDidMount = true
         } else if (keyName === 'componentDidShow') {
           hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        } else if (keyName === 'onPageScroll') {
+          hasOnPageScroll = true
+        } else if (keyName === 'onReachBottom') {
+          hasOnReachBottom = true
         }
       }
     } : {},
@@ -864,9 +931,13 @@ function processFiles (filePath) {
       // 脚本文件 处理一下
       const fileType = classifyFiles(filePath)
       const content = file.toString()
-      const transformResult = fileType === FILE_TYPE.ENTRY
-        ? processEntry(content, filePath)
-        : processOthers(content, filePath, fileType)
+      let transformResult
+      if (fileType === FILE_TYPE.ENTRY) {
+        pages = []
+        transformResult = processEntry(content, filePath)
+      } else {
+        transformResult = processOthers(content, filePath, fileType)
+      }
       const jsCode = transformResult.code
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
@@ -888,13 +959,11 @@ function watchFiles () {
   })
   watcher
     .on('add', filePath => {
-      pages = []
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.CREATE, '添加文件', relativePath)
       processFiles(filePath)
     })
     .on('change', filePath => {
-      pages = []
       const relativePath = path.relative(appPath, filePath)
       Util.printLog(Util.pocessTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)

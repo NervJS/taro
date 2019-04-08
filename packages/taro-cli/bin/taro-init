@@ -9,7 +9,7 @@ program
   .option('--description [description]', '项目介绍')
   .option('--typescript', '使用TypeScript')
   .option('--no-typescript', '不使用TypeScript')
-  .option('--template [template]', '项目模板(default/redux/mobx)')
+  .option('--template [template]', '项目模板(default/redux/mobx/wxcloud/wxplugin)')
   .option('--css [css]', 'CSS预处理器(sass/less/stylus/none)')
   .parse(process.argv)
 

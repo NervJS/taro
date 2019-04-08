@@ -39,6 +39,12 @@ class Tabbar extends Nerv.Component {
       this.customRoutes.push([key, customRoutes[key]])
     }
 
+    list.forEach( item => {
+      if (item.pagePath.indexOf('/') !== 0){
+        item.pagePath = "/" + item.pagePath
+      }
+    })
+
     this.state = {
       list,
       selectedIndex: -1,
@@ -108,9 +114,16 @@ class Tabbar extends Nerv.Component {
   }
 
   routerChangeHandler = ({ toLocation } = {}) => {
-    const currentPage = toLocation && toLocation.path
-      ? addLeadingSlash(toLocation.path)
-      : this.getCurrentUrl()
+    let currentPage
+
+    if (toLocation && toLocation.path) {
+      const tmpPath = addLeadingSlash(toLocation.path)
+      currentPage = tmpPath === '/'
+        ? this.homePage
+        : tmpPath
+    } else {
+      currentPage = this.getCurrentUrl()
+    }
 
     this.setState({
       selectedIndex: this.getSelectedIndex(this.getOriginUrl(currentPage))

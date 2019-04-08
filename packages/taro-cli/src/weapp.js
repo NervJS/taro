@@ -225,13 +225,15 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
             defaultSpecifier = item.local.name
           }
         })
-        let sourceDirPath = sourceDir
+        let showPath
         if (NODE_MODULES_REG.test(vpath)) {
-          sourceDirPath = nodeModulesPath
+          showPath = vpath.replace(nodeModulesPath, `/${weappNpmConfig.name}`)
+        } else {
+          showPath = vpath.replace(sourceDir, '')
         }
 
         if (defaultSpecifier) {
-          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
+          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(showPath.replace(/\\/g, '/')))]))
         } else {
           astPath.remove()
         }
@@ -702,11 +704,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     if (mediaFiles.indexOf(vpath) < 0) {
                       mediaFiles.push(vpath)
                     }
-                    let sourceDirPath = sourceDir
+                    let showPath
                     if (NODE_MODULES_REG.test(vpath)) {
-                      sourceDirPath = nodeModulesPath
+                      showPath = vpath.replace(nodeModulesPath, `/${weappNpmConfig.name}`)
+                    } else {
+                      showPath = vpath.replace(sourceDir, '')
                     }
-                    astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
+                    astPath.replaceWith(t.stringLiteral(showPath.replace(/\\/g, '/')))
                   } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
@@ -866,7 +870,8 @@ function isFileToBeTaroComponent (code, sourcePath, outputPath) {
     isNormal: true,
     isTyped: Util.REG_TYPESCRIPT.test(sourcePath),
     adapter: buildAdapter,
-    env: constantsReplaceList
+    env: constantsReplaceList,
+    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
   })
   const { ast } = transformResult
   let isTaroComponent = false
@@ -979,26 +984,27 @@ async function compileScriptFile (content, sourceFilePath, outputFilePath, adapt
     isNormal: true,
     isTyped: false,
     adapter,
-    env: constantsReplaceList
+    env: constantsReplaceList,
+    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
   })
   const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
   return res.code
 }
 
-async function checkCliAndFrameworkVersion () {
-  const frameworkName = `@tarojs/taro-${buildAdapter}`
-  const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
-  if (frameworkVersion) {
-    if (frameworkVersion !== Util.getPkgVersion()) {
-      Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
-      console.log(`Taro CLI: ${Util.getPkgVersion()}`)
-      console.log(`${frameworkName}: ${frameworkVersion}`)
-      process.exit(1)
-    }
-  } else {
-    Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
-  }
-}
+// async function checkCliAndFrameworkVersion () {
+//   const frameworkName = `@tarojs/taro-${buildAdapter}`
+//   const frameworkVersion = Util.getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
+//   if (frameworkVersion) {
+//     if (frameworkVersion !== Util.getPkgVersion()) {
+//       Util.printLog(Util.pocessTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装的小程序框架 ${frameworkName} 版本不一致，请确保一致`)
+//       console.log(`Taro CLI: ${Util.getPkgVersion()}`)
+//       console.log(`${frameworkName}: ${frameworkVersion}`)
+//       process.exit(1)
+//     }
+//   } else {
+//     Util.printLog(Util.pocessTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
+//   }
+// }
 
 function buildProjectConfig () {
   let projectConfigFileName = `project.${buildAdapter}.json`
@@ -1102,7 +1108,8 @@ async function buildEntry () {
       isApp: true,
       isTyped: Util.REG_TYPESCRIPT.test(entryFilePath),
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
     })
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
@@ -1337,7 +1344,8 @@ async function buildSinglePage (page) {
       isRoot: true,
       isTyped: Util.REG_TYPESCRIPT.test(pageJs),
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
     })
     const pageDepComponents = transformResult.components
     const compressTemplate = useCompileConf.compressTemplate
@@ -1481,7 +1489,9 @@ function processStyleUseCssModule (styleObj) {
   const context = process.cwd()
   let scopedName
   if (generateScopedName) {
-    scopedName = genericNames(generateScopedName, { context })
+    scopedName = typeof generateScopedName === 'function'
+      ? (local, filename) => generateScopedName(local, filename)
+      : genericNames(generateScopedName, { context })
   } else {
     scopedName = (local, filename) => Scope.generateScopedName(local, path.relative(context, filename))
   }
@@ -1607,7 +1617,12 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
         .then(res => ({
           css: cssImportsRes.style.join('\n') + '\n' + res.css,
           filePath
-        }))
+        })).catch(err => {
+          if (err) {
+            console.log(err)
+            process.exit(0)
+          }
+        })
     }
     return new Promise(resolve => {
       resolve({
@@ -1616,7 +1631,7 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
       })
     })
   })).then(async resList => {
-    Promise.all(resList.map(res => processStyleWithPostCSS(res)))
+    await Promise.all(resList.map(res => processStyleWithPostCSS(res)))
       .then(cssList => {
         let resContent = cssList.map(res => res).join('\n')
         if (isProduction) {
@@ -1774,7 +1789,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       isTyped: Util.REG_TYPESCRIPT.test(component),
       isNormal: false,
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
     })
     const compressTemplate = useCompileConf.compressTemplate
     const componentWXMLContent = (isProduction && compressTemplate) ? transformResult.compressedTemplate : transformResult.template
@@ -1894,8 +1910,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   }
 }
 
-function compileDepScripts (scriptFiles) {
-  scriptFiles.forEach(async item => {
+function compileDepScripts (scriptFiles, buildDepSync) {
+  return scriptFiles.map(async item => {
     if (path.isAbsolute(item)) {
       let outputItem
       if (NODE_MODULES_REG.test(item)) {
@@ -1926,7 +1942,8 @@ function compileDepScripts (scriptFiles) {
             isNormal: true,
             isTyped: Util.REG_TYPESCRIPT.test(item),
             adapter: buildAdapter,
-            env: constantsReplaceList
+            env: constantsReplaceList,
+            jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace
           })
           const ast = transformResult.ast
           const res = parseAst(PARSE_AST_TYPE.NORMAL, ast, [], item, outputItem)
@@ -1953,7 +1970,11 @@ function compileDepScripts (scriptFiles) {
           Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
           // 编译依赖的脚本文件
           if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-            compileDepScripts(res.scriptFiles)
+            if (buildDepSync) {
+              await Promise.all(compileDepScripts(res.scriptFiles))
+            } else {
+              compileDepScripts(res.scriptFiles)
+            }
           }
           // 拷贝依赖文件
           if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -2190,9 +2211,9 @@ function watchFiles () {
     })
 }
 
-async function build ({ watch, adapter }) {
+async function build ({ watch, adapter, envHasBeenSet = false }) {
   process.env.TARO_ENV = adapter
-  isProduction = process.env.NODE_ENV === 'production' || !watch
+  if (!envHasBeenSet) isProduction = process.env.NODE_ENV === 'production' || !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
   // 可以自定义输出文件类型
@@ -2212,10 +2233,61 @@ async function build ({ watch, adapter }) {
   }
 }
 
+function getHasBeenBuiltComponents () {
+  return hasBeenBuiltComponents || []
+}
+
+function spliceHasBeenBuiltComponents (index) {
+  index >= 0 && hasBeenBuiltComponents.splice(index, 1)
+}
+
+function getDependencyTree () {
+  return dependencyTree || {}
+}
+
+function getAppConfig () {
+  return appConfig
+}
+
+function setAppConfig (config) {
+  appConfig = config
+}
+
+function getComponentsNamedMap () {
+  return componentsNamedMap
+}
+
+function setEnv (watch) {
+  isProduction = process.env.NODE_ENV === 'production' || !watch
+}
+
+function resetIsBuildingScripts () {
+  isBuildingScripts = {}
+}
+
+function resetIsBuildingStyles () {
+  isBuildingStyles = {}
+}
+
 module.exports = {
   build,
+  buildEntry,
+  buildPages,
+  buildSinglePage,
   buildDepComponents,
   buildSingleComponent,
+  getRealComponentsPathList,
   compileDepStyles,
-  parseAst
+  compileDepScripts,
+  parseAst,
+  isFileToBePage,
+  getHasBeenBuiltComponents,
+  spliceHasBeenBuiltComponents,
+  getDependencyTree,
+  getAppConfig,
+  setAppConfig,
+  getComponentsNamedMap,
+  setEnv,
+  resetIsBuildingScripts,
+  resetIsBuildingStyles
 }

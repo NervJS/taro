@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Swiper, SwiperItem } from '../src'
+import { View, Text, Swiper, SwiperItem } from '../dist'
 
 export default class EXSwiper extends Component {
   render () {
@@ -9,7 +9,7 @@ export default class EXSwiper extends Component {
           showsPagination={true}
           indicatorColor="white"
           indicatorActiveColor="purple"
-          autoplay={true}
+          autoplay={false}
           current={1}
           interval={6000}
           circular={false}

@@ -57,7 +57,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     if (isChanged) {
       this.prevProps = prevProps
       this._unsafeCallUpdate = true
-      this.forceUpdate(() => {
+      this.setState({}, () => {
         delete this._unsafeCallUpdate
       })
     }

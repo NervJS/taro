@@ -28,10 +28,13 @@
       "ref",
       "envs",
       "relations",
+      "wxcloud",
+      "miniprogram-plugin",
       "react-native",
       "ui-lib",
       "taroize",
       "best-practice",
+      "optimized-practice",
       "debug"
     ],
     "进阶指南": [

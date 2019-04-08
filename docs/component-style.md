@@ -32,7 +32,7 @@ button { } /* 在组件中不能使用 */
 
 ```jsx
 /* CustomComp.js */
-export default CustomComp extends Component {
+export default class CustomComp extends Component {
   static defaultProps = {
     className: ''
   }
@@ -45,7 +45,7 @@ export default CustomComp extends Component {
 
 ```jsx
 /* MyPage.js */
-export default MyPage extends Component {
+export default class MyPage extends Component {
   render () {
     return <CustomComp className="red-text" />
   }
@@ -63,7 +63,7 @@ export default MyPage extends Component {
 
 ```jsx
 /* CustomComp.js */
-export default CustomComp extends Component {
+export default class CustomComp extends Component {
   static externalClasses = ['my-class']
 
   render () {
@@ -74,7 +74,7 @@ export default CustomComp extends Component {
 
 ```jsx
 /* MyPage.js */
-export default MyPage extends Component {
+export default class MyPage extends Component {
   render () {
     return <CustomComp my-class="red-text" />
   }
@@ -96,7 +96,7 @@ export default MyPage extends Component {
 
 ```jsx
 /* CustomComp.js */
-export default CustomComp extends Component {
+export default class CustomComp extends Component {
   static options = {
     addGlobalClass: true
   }

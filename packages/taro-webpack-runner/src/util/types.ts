@@ -16,7 +16,7 @@ type TogglableOptions<T = Option> = {
 export namespace PostcssOption {
   export type cssModules = TogglableOptions<{
     namingPattern: 'global' | string;
-    generateScopedName: string;
+    generateScopedName: string | ((localName: string, absoluteFilePath: string) => string);
   }>;
 }
 
@@ -36,7 +36,6 @@ export interface TaroH5Config {
   webpack: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
 
   webpackChain: (chain: any, webpack: any) => void;
-  dllWebpackChain: (chain: any, webpack: any) => void;
 
   alias: Option;
   entry: webpack.Entry;

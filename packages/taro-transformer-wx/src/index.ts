@@ -165,7 +165,7 @@ export default function transform (options: Options): TransformResult {
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
-      jsx: ts.JsxEmit.Preserve,
+      jsx: options.sourcePath.endsWith('.tsx') ? ts.JsxEmit.Preserve : ts.JsxEmit.None,
       target: ts.ScriptTarget.ESNext,
       importHelpers: true,
       noEmitHelpers: true
@@ -180,6 +180,14 @@ export default function transform (options: Options): TransformResult {
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
   const ast = parse(code, buildBabelTransformOptions()).ast as t.File
   if (options.isNormal) {
+    if (options.isTyped) {
+      const mainClassNode = ast.program.body.find(v => {
+        return t.isClassDeclaration(v)
+      }) as t.ClassDeclaration | undefined
+      if (mainClassNode) {
+        resetTSClassProperty(mainClassNode.body.body)
+      }
+    }
     return { ast } as any
   }
   // transformFromAst(ast, code)
@@ -443,6 +451,18 @@ export default function transform (options: Options): TransformResult {
     },
     JSXAttribute (path) {
       const { name, value } = path.node
+
+      if (options.jsxAttributeNameReplace) {
+        for (const r in options.jsxAttributeNameReplace) {
+          if (options.jsxAttributeNameReplace.hasOwnProperty(r)) {
+            const element = options.jsxAttributeNameReplace[r]
+            if (t.isJSXIdentifier(name, { name: r })) {
+              path.node.name = t.jSXIdentifier(element)
+            }
+          }
+        }
+      }
+
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }

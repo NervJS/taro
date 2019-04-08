@@ -159,6 +159,8 @@ const apiDiff = {
   }
 }
 
+const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
+
 const RequestQueue = {
   MAX_REQUEST: 5,
   queue: [],
@@ -183,7 +185,7 @@ const RequestQueue = {
         completeFn && completeFn.apply(options, [...arguments])
         this.run()
       }
-      return my.request(options)
+      return nativeRequest(options)
     }
   }
 }

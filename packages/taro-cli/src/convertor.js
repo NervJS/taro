@@ -116,7 +116,7 @@ class Convertor {
     if (fs.existsSync(this.convertRoot)) {
       emptyDirectory(this.convertRoot, { excludes: ['node_modules'] })
     } else {
-      fs.mkdirpSync(this.convertRoot)
+      fs.ensureDirSync(this.convertRoot)
     }
   }
 

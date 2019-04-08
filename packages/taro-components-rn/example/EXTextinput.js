@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Input, Textarea } from '../src'
+import { View, Input, Textarea } from '../dist'
 
 export default class EXTextinput extends Component {
   state = {

@@ -155,8 +155,11 @@ export const createWxmlVistor = (
             if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
               return
             }
-            refIds.add(p.node.name)
-          }
+            if (isValidVarName(p.node.name)) {
+              refIds.add(p.node.name)
+            }
+          },
+          JSXAttribute: jsxAttrVisitor
         })
         const slotAttr = attrs.find(a => a.node.name.name === 'slot')
         if (slotAttr) {
@@ -208,6 +211,9 @@ export const createWxmlVistor = (
           wxses.push(getWXS(attrs.map(a => a.node), path, imports))
         }
         if (tagName === 'Template') {
+          // path.traverse({
+          //   JSXAttribute: jsxAttrVisitor
+          // })
           const template = parseTemplate(path, dirPath)
           if (template) {
             const { ast: classDecl, name } = template
@@ -522,11 +528,15 @@ function transformIf (
 function handleConditions (conditions: Condition[]) {
   if (conditions.length === 1) {
     const ct = conditions[0]
-    ct.path.replaceWith(
-      t.jSXExpressionContainer(
-        t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+    try {
+      ct.path.replaceWith(
+        t.jSXExpressionContainer(
+          t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+        )
       )
-    )
+    } catch (error) {
+      //
+    }
   }
   if (conditions.length > 1) {
     const lastLength = conditions.length - 1
@@ -610,12 +620,15 @@ function parseElement (element: Element): t.JSXElement {
     attributes = attributes.map(attr => {
       if (attr.key === 'data') {
         const value = attr.value || ''
-        // debugger
         const content = parseContent(value)
         if (content.type === 'expression') {
           isSpread = true
           const str = content.content
-          attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+          if (str.includes('...') && str.includes(',')) {
+            attr.value = `{{${str.slice(1, str.length - 1)}}}`
+          } else {
+            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+          }
         } else {
           attr.value = content.content
         }
@@ -642,13 +655,14 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
       || node.type === NodeType.Comment
-  })
+  }).filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
 function parseText (node: Text) {
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
-    return t.jSXText(content)
+    const text = content.replace(/([{}]+)/g,"{'$1'}")
+    return t.jSXText(text)
   }
   return t.jSXExpressionContainer(buildTemplate(content))
 }
@@ -720,6 +734,18 @@ function parseAttribute (attr: Attribute) {
         } else if (content.includes(':')) {
           const [ key, value ] = pureContent.split(':')
           expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), parseExpression(value))])
+        } else if (content.includes('...') && content.includes(',')) {
+          const objExpr = content.slice(1, content.length - 1).split(',')
+          const props: (t.SpreadProperty | t.ObjectProperty)[] = []
+          for (const str of objExpr) {
+            const s = str.trim()
+            if (s.includes('...')) {
+              props.push(t.spreadProperty(t.identifier(s.slice(3))))
+            } else {
+              props.push(t.objectProperty(t.identifier(s), t.identifier(s)))
+            }
+          }
+          expr = t.objectExpression(props)
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)
@@ -730,7 +756,7 @@ function parseAttribute (attr: Attribute) {
         console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
         expr = t.stringLiteral('__placeholder__')
       }
-      jsxValue = t.jSXExpressionContainer(expr!)
+      jsxValue = t.jSXExpressionContainer(expr)
     }
   }
 
@@ -757,6 +783,7 @@ function handleAttrKey (key: string) {
       return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
+      key = camelCase(key)
       if (!isValidVarName(key)) {
         throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
       }

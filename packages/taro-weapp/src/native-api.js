@@ -201,7 +201,7 @@ function canIUseWebp () {
 }
 
 function wxCloud (taro) {
-  const wxC = wx.cloud
+  const wxC = wx.cloud || {}
   const wxcloud = {}
   const apiList = [
     'init',

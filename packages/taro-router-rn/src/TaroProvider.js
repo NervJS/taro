@@ -107,10 +107,7 @@ class TaroProvider extends React.Component {
       return
     }
     let {delta = 1} = params
-    while (delta > 0) {
-      this.props.navigation.goBack()
-      delta--
-    }
+    this.props.navigation.pop(delta)
   }
 
   wxGetCurrentPages () {

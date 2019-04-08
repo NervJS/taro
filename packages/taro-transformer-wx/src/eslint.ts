@@ -6,6 +6,10 @@ const cli = new CLIEngine({
   baseConfig: {
     extends: ['plugin:taro/transformer']
   },
+  rules: {
+    'react/no-multi-comp': [2, { ignoreStateless: false }]
+  },
+  plugins: ['react'],
   useEslintrc: false,
   parser: 'babel-eslint',
   parserOptions: {
@@ -39,7 +43,7 @@ export const eslintValidation: () => {
                 }
               }, msg.message)
               // tslint:disable-next-line
-              console.warn('\n' + `ESLint(${msg.ruleId}) 错误：` + err.message + '\n')
+              console.warn('\n' + `ESLint(${msg.ruleId}) 错误：` + err.message.replace('Declare only one React component per file', '一个文件只能定义一个 Taro 类或 Taro 函数式组件') + '\n')
             }
           }
         }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Slider } from '../src'
+import { View, Slider } from '../dist'
 
 export default class EXSlider extends Component {
   state = {

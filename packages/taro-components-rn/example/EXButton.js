@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
-import { View, Label, Text, Button } from '../src'
+import { View, Label, Text, Button } from '../dist'
 
 export default class EXButton extends Component {
   render () {

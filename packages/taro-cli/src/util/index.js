@@ -93,7 +93,8 @@ exports.BUILD_TYPES = {
   SWAN: 'swan',
   ALIPAY: 'alipay',
   TT: 'tt',
-  UI: 'ui'
+  UI: 'ui',
+  PLUGIN: 'plugin'
 }
 
 exports.MINI_APP_FILES = {
@@ -263,7 +264,7 @@ exports.getRootPath = function () {
 exports.getTaroPath = function () {
   const taroPath = path.join(exports.homedir(), '.taro')
   if (!fs.existsSync(taroPath)) {
-    fs.mkdirSync(taroPath)
+    fs.ensureDirSync(taroPath)
   }
   return taroPath
 }
@@ -369,6 +370,9 @@ exports.resolveScriptPath = function (p) {
       }
       if (fs.existsSync(`${p}${path.sep}index.${taroEnv}${item}`)) {
         return `${p}${path.sep}index.${taroEnv}${item}`
+      }
+      if (fs.existsSync(`${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`)) {
+        return `${p.replace(/\/index$/, `.${taroEnv}/index`)}${item}`
       }
     }
     if (fs.existsSync(`${p}${item}`)) {
@@ -594,7 +598,9 @@ exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types'
+  '@tarojs/mobx-prop-types',
+  'stylelint-taro-rn',
+  'styleint-config-taro-rn'
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))

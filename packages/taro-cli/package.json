@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "1.2.17",
+  "version": "1.2.23",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -23,8 +23,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taroize": "1.2.17",
-    "@tarojs/transformer-wx": "1.2.17",
+    "@tarojs/taroize": "1.2.23",
+    "@tarojs/transformer-wx": "1.2.23",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
@@ -32,7 +32,7 @@
     "babel-plugin-remove-dead-code": "^1.3.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-define": "^1.3.0",
-    "babel-plugin-transform-jsx-to-stylesheet": "1.2.17",
+    "babel-plugin-transform-jsx-to-stylesheet": "1.2.23",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-template": "^6.26.0",
     "babel-traverse": "^6.26.0",
@@ -64,14 +64,18 @@
     "postcss-modules-resolve-imports": "^1.3.0",
     "postcss-modules-scope": "^1.1.0",
     "postcss-modules-values": "^1.3.0",
-    "postcss-pxtransform": "1.2.17",
-    "postcss-taro-unit-transform": "1.2.17",
+    "postcss-pxtransform": "1.2.23",
+    "postcss-reporter": "^6.0.1",
+    "postcss-taro-unit-transform": "1.2.15",
     "postcss-url": "^7.3.2",
     "prettier": "^1.14.3",
     "prop-types": "^15.6.1",
     "resolve": "^1.6.0",
     "semver": "^5.5.0",
     "shelljs": "^0.8.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-taro-rn": "1.2.23",
+    "stylelint-taro-rn": "1.2.23",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2"
@@ -84,6 +88,6 @@
     "babel-preset-stage-0": "^6.24.1",
     "jest": "^23.6.0",
     "jest-react-native": "^18.0.0",
-    "react-native": "^0.55.4"
+    "react-native": "0.55.4"
   }
 }

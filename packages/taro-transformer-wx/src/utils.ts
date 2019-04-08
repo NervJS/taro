@@ -16,6 +16,9 @@ export const incrementId = () => {
   return () => id++
 }
 
+// tslint:disable-next-line:no-empty
+export const noop = function () {}
+
 export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
   const superClass = path.node.superClass
   if (t.isIdentifier(superClass)) {
@@ -189,8 +192,17 @@ export function generateAnonymousState (
     )
     if (blockStatement && blockStatement.isBlockStatement()) {
       blockStatement.traverse({
-        VariableDeclarator: (p) => {
-          const { id, init } = p.node
+        VariableDeclarator: (path) => {
+          const { id, init } = path.node
+          const isArrowFunctionInJSX = path.findParent(p => p.isJSXAttribute() ||
+            (
+              p.isAssignmentExpression() && t.isMemberExpression(p.node.left) && t.isThisExpression(p.node.left.object)
+                && t.isIdentifier(p.node.left.property) && p.node.left.property.name.startsWith('')
+            )
+          )
+          if (isArrowFunctionInJSX) {
+            return
+          }
           if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE)) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
@@ -201,7 +213,7 @@ export function generateAnonymousState (
             variableName = newId.name
             refIds.add(t.identifier(variableName))
             blockStatement.scope.rename(id.name, newId.name)
-            p.parentPath.replaceWith(
+            path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init })
             )
           }
@@ -218,7 +230,7 @@ export function generateAnonymousState (
           t.returnStatement(func.body)
         ])
       } else {
-        if (ifExpr && ifExpr.isIfStatement()) {
+        if (ifExpr && ifExpr.isIfStatement() && ifExpr.findParent(p => p === callExpr)) {
           const consequent = ifExpr.get('consequent')
           const test = ifExpr.get('test')
           if (consequent.isBlockStatement()) {

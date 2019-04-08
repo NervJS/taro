@@ -30,12 +30,12 @@ module.exports = function (creater, params, helper, cb) {
   }
   const currentStyleExt = styleExtMap[css] || 'css'
 
-  fs.mkdirSync(projectPath)
-  fs.mkdirSync(projectClientPath)
-  fs.mkdirSync(projectCloudPath)
-  fs.mkdirSync(sourceDir)
-  fs.mkdirSync(configDir)
-  fs.mkdirSync(path.join(sourceDir, 'pages'))
+  fs.ensureDirSync(projectPath)
+  fs.ensureDirSync(projectClientPath)
+  fs.ensureDirSync(projectCloudPath)
+  fs.ensureDirSync(sourceDir)
+  fs.ensureDirSync(configDir)
+  fs.ensureDirSync(path.join(sourceDir, 'pages'))
 
   creater.template(template, path.join(clientDirName, 'pkg'), path.join(projectClientPath, 'package.json'), {
     description,
@@ -55,7 +55,7 @@ module.exports = function (creater, params, helper, cb) {
   })
   creater.template(template, path.join(clientDirName, 'indexhtml'), path.join(projectClientPath, 'index.html'))
   if (typescript) {
-    creater.template(template, path.join(clientDirName, 'appjs'), path.join(projectClientPath, 'app.tsx'), {
+    creater.template(template, path.join(clientDirName, 'appjs'), path.join(sourceDir, 'app.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
@@ -98,7 +98,7 @@ module.exports = function (creater, params, helper, cb) {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, path.join(clientDirName, 'components', 'login', 'index'), path.join(sourceDir, 'components', 'login', 'index.tsx'), {
+    creater.template(template, path.join(clientDirName, 'components', 'login', 'index'), path.join(sourceDir, 'components', 'login', 'index.weapp.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
@@ -126,15 +126,17 @@ module.exports = function (creater, params, helper, cb) {
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建源码目录: ${projectName}/${clientDirName}/${src}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${clientDirName}/${src}/pages`)}`)
     if (typescript) {
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 TS 文件: ${projectName}/${clientDirName}/${src}/pages/index/index.weapp.tsx`)}`)
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 TS 文件: ${projectName}/${clientDirName}/${src}/pages/index/index.tsx`)}`)
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${clientDirName}/${src}/components/login/index.weapp.tsx`)}`)
     } else {
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${clientDirName}/${src}/pages/index/index.weapp.js`)}`)
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${clientDirName}/${src}/pages/index/index.js`)}`)
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${clientDirName}/${src}/components/login/index.weapp.js`)}`)
     }
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${currentStyleExt.toLocaleUpperCase()} 文件: ${projectName}/${clientDirName}/${src}/pages/index/${pageCSSName}`)}`)
     if (typescript) {
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${clientDirName}/${src}/app.weapp.tsx`)}`)
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${clientDirName}/${src}/app.tsx`)}`)
     } else {
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${clientDirName}/${src}/app.weapp.js`)}`)
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${clientDirName}/${src}/app.js`)}`)
     }
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${clientDirName}/${src}/${appCSSName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/${clientDirName}/${src}/index.html`)}`)

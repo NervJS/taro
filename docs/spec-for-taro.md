@@ -1104,7 +1104,7 @@ render () {
     <MyComponent className='long body' foo='bar'>
       <MyChild />
     </MyComponent>
-  );
+  )
 }
 
 // good

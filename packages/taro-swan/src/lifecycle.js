@@ -60,9 +60,10 @@ function doUpdate (component, prevProps, prevState) {
   let data = state || {}
   if (component._createData) {
     // 返回null或undefined则保持不变
-    data = component._createData(state, props) || data
+    const isRunLoopRef = !component.__mounted
+    data = component._createData(state, props, isRunLoopRef) || data
   }
-  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
+  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || 0
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -85,7 +86,7 @@ function doUpdate (component, prevProps, prevState) {
     data = _data
   }
   // 改变这个私有的props用来触发(observer)子组件的更新
-  data[privatePropKeyName] = !privatePropKeyVal
+  data[privatePropKeyName] = privatePropKeyVal + 1
 
   const __mounted = component.__mounted
   // 每次 setData 都独立生成一个 callback 数组
@@ -113,6 +114,11 @@ function doUpdate (component, prevProps, prevState) {
           }
         })
       }
+
+      if (component['$$hasLoopRef']) {
+        component._createData(component.state, component.props, true)
+      }
+
       if (typeof component.componentDidUpdate === 'function') {
         component.componentDidUpdate(prevProps, prevState)
       }

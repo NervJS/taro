@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Label, Checkbox, CheckboxGroup } from '../src'
+import { View, Text, Label, Checkbox, CheckboxGroup } from '../dist'
 
 export default class EXCheckbox extends Component {
   state = {

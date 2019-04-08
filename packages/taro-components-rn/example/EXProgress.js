@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Progress } from '../src'
+import { View, Progress } from '../dist'
 
 export default class EXProgress extends Component {
   state = {

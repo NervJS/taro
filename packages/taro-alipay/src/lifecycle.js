@@ -60,7 +60,8 @@ function doUpdate (component, prevProps, prevState) {
   let data = state || {}
   if (component._createData) {
     // 返回null或undefined则保持不变
-    data = component._createData(state, props) || data
+    const isRunLoopRef = !component.__mounted
+    data = component._createData(state, props, isRunLoopRef) || data
   }
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
@@ -85,16 +86,45 @@ function doUpdate (component, prevProps, prevState) {
     data = _data
   }
   data[privatePropKeyName] = !privatePropKeyVal
+  const dataDiff = diffObjToPath(data, component.$scope.data)
+
   // 每次 setData 都独立生成一个 callback 数组
   let cbs = []
   if (component._pendingCallbacks && component._pendingCallbacks.length) {
     cbs = component._pendingCallbacks
     component._pendingCallbacks = []
   }
-  const dataDiff = diffObjToPath(data, component.$scope.data)
+
   component.$scope.setData(dataDiff, function () {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
+    if (component.__mounted) {
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          if (ref.type !== 'component') return
+
+          const _childs = component.$scope._childs || {}
+          let target = _childs[ref.id] || null
+          const prevRef = ref.target
+
+          if (target !== prevRef) {
+            if (ref.refName) component.refs[ref.refName] = target
+            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            ref.target = target
+          }
+        })
+      }
+
+      if (component['$$hasLoopRef']) {
+        component._createData(component.state, component.props, true)
+      }
+
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
+      }
+    }
+
+    // 解决初始化时 onLoad 最先触发，但拿不到子组件 ref 的问题
+    if (component.$componentType === 'PAGE' && component['$$hasLoopRef']) {
+      component._createData(component.state, component.props, true)
     }
 
     if (cbs.length) {
