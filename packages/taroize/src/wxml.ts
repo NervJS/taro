@@ -156,7 +156,8 @@ export const createWxmlVistor = (
               return
             }
             refIds.add(p.node.name)
-          }
+          },
+          JSXAttribute: jsxAttrVisitor
         })
         const slotAttr = attrs.find(a => a.node.name.name === 'slot')
         if (slotAttr) {
@@ -208,6 +209,9 @@ export const createWxmlVistor = (
           wxses.push(getWXS(attrs.map(a => a.node), path, imports))
         }
         if (tagName === 'Template') {
+          // path.traverse({
+          //   JSXAttribute: jsxAttrVisitor
+          // })
           const template = parseTemplate(path, dirPath)
           if (template) {
             const { ast: classDecl, name } = template
@@ -614,7 +618,6 @@ function parseElement (element: Element): t.JSXElement {
     attributes = attributes.map(attr => {
       if (attr.key === 'data') {
         const value = attr.value || ''
-        // debugger
         const content = parseContent(value)
         if (content.type === 'expression') {
           isSpread = true
@@ -714,6 +717,7 @@ function parseAttribute (attr: Attribute) {
       try {
         expr = buildTemplate(content)
       } catch (error) {
+        debugger
         const pureContent = content.slice(1, content.length - 1)
         if (reserveKeyWords.has(pureContent) && type !== 'raw') {
           const err = `转换模板参数： \`${key}: ${value}\` 报错: \`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值。`
@@ -735,7 +739,7 @@ function parseAttribute (attr: Attribute) {
         console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
         expr = t.stringLiteral('__placeholder__')
       }
-      jsxValue = t.jSXExpressionContainer(expr!)
+      jsxValue = t.jSXExpressionContainer(expr)
     }
   }
 
