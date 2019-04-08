@@ -1369,7 +1369,18 @@ export class RenderParser {
         const callRefFunc = t.expressionStatement(
           process.env.NODE_ENV === 'test' ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
         )
-        body.push(refDecl, callRefFunc)
+        if (Adapter.type === Adapters.tt) {
+          body.push(
+            t.expressionStatement(
+              t.callExpression(
+                t.memberExpression(t.identifier('Taro'), t.identifier('handleLoopRef')),
+                args.length === 2 ? [...args, t.nullLiteral(), ref.fn] : [...args, ref.fn]
+              )
+            )
+          )
+        } else {
+          body.push(refDecl, callRefFunc)
+        }
       }
       let stateToBeAssign = new Set<string>(
         difference(
