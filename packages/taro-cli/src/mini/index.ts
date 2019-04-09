@@ -26,7 +26,7 @@ import {
 } from './helper'
 import { buildEntry } from './entry'
 import { buildPages } from './page'
-// import { watchFiles } from './watch'
+import { watchFiles } from './watch'
 import { downloadGithubRepoLatestRelease } from '../util/dowload'
 
 const appPath = process.cwd()
@@ -229,7 +229,7 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet
     }
     await runQuickApp(watch)
   }
-  // if (watch) {
-  //   watchFiles()
-  // }
+  if (watch) {
+    watchFiles()
+  }
 }
