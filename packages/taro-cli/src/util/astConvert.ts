@@ -95,9 +95,3 @@ export const getObjKey = (node) => {
     return node.value
   }
 }
-
-// exports.obj = convertObjectToAstExpression
-// exports.array = convertArrayToAstExpression
-// exports.source = convertSourceStringToAstExpression
-// exports.getObjKey = getObjKey
-// exports.generateMinimalEscapeCode = generateMinimalEscapeCode
