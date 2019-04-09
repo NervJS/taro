@@ -38,7 +38,11 @@ import {
   traverseObjectNode,
   isQuickAppPkg
 } from '../util'
-import { convertObjectToAstExpression, convertArrayToAstExpression } from '../util/astConvert'
+import {
+  convertObjectToAstExpression,
+  convertArrayToAstExpression,
+  convertSourceStringToAstExpression
+} from '../util/astConvert'
 import babylonConfig from '../config/babylon'
 import { getExactedNpmFilePath, getNotExistNpmList } from '../util/npmExact'
 
@@ -231,6 +235,9 @@ export function parseAst (
   let exportTaroReduxConnected: string | null = null
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
   const cannotRemoves = [taroJsFramework, 'react', 'nervjs']
+  let hasComponentDidHide
+  let hasComponentDidShow
+  let hasComponentWillMount
   if (isQuickApp) {
     cannotRemoves.push(taroJsComponents)
   }
@@ -350,10 +357,31 @@ export function parseAst (
       }
     },
 
+    ClassMethod (astPath) {
+      const keyName = (astPath.get('key').node as t.Identifier).name
+      if (keyName === 'componentWillMount') {
+        hasComponentWillMount = true
+      } else if (keyName === 'componentDidShow') {
+        hasComponentDidShow = true
+      } else if (keyName === 'componentDidHide') {
+        hasComponentDidHide = true
+      }
+    },
+
     ClassProperty (astPath) {
       const node = astPath.node
-      if (node.key.name === 'config') {
+      const keyName = node.key.name
+      const valuePath = astPath.get('value')
+      if (keyName === 'config') {
         configObj = traverseObjectNode(node, buildAdapter)
+      } else if (valuePath.isFunctionExpression() || valuePath.isArrowFunctionExpression()) {
+        if (keyName === 'componentWillMount') {
+          hasComponentWillMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        }
       }
     },
 
@@ -482,18 +510,16 @@ export function parseAst (
         }
         if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
           if (value === taroJsComponents) {
-            if (buildAdapter === BUILD_TYPES.QUICKAPP) {
-              if (isQuickApp) {
-                if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
-                  const id = parentNode.declarations[0].id
-                  if (id.type === 'ObjectPattern') {
-                    const properties = id.properties as any
-                    properties.forEach(p => {
-                      if (p.type === 'ObjectProperty' && p.value.type === 'Identifier') {
-                        taroSelfComponents.add(_.kebabCase(p.value.name))
-                      }
-                    })
-                  }
+            if (isQuickApp) {
+              if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
+                const id = parentNode.declarations[0].id
+                if (id.type === 'ObjectPattern') {
+                  const properties = id.properties as any
+                  properties.forEach(p => {
+                    if (p.type === 'ObjectProperty' && p.value.type === 'Identifier') {
+                      taroSelfComponents.add(_.kebabCase(p.value.name))
+                    }
+                  })
                 }
               }
             }
@@ -643,6 +669,59 @@ export function parseAst (
     Program: {
       exit (astPath) {
         astPath.traverse({
+          ClassBody (astPath) {
+            if (isQuickApp) {
+              const node = astPath.node
+              if (!hasComponentWillMount) {
+                node.body.push(t.classMethod(
+                  'method', t.identifier('hasComponentWillMount'), [],
+                  t.blockStatement([]), false, false))
+              }
+              if (!hasComponentDidShow) {
+                node.body.push(t.classMethod(
+                  'method', t.identifier('componentDidShow'), [],
+                  t.blockStatement([]), false, false))
+              }
+              if (!hasComponentDidHide) {
+                node.body.push(t.classMethod(
+                  'method', t.identifier('componentDidHide'), [],
+                  t.blockStatement([]), false, false))
+              }
+              node.body.push(t.classMethod(
+                'method', t.identifier('__listenToSetNavigationBarEvent'), [],
+                t.blockStatement([convertSourceStringToAstExpression(
+                  `if (!Taro.eventCenter.callbacks['TaroEvent:setNavigationBar']) {
+                    Taro.eventCenter.on('TaroEvent:setNavigationBar', params => {
+                      if (params.title) {
+                        this.$scope.$page.setTitleBar({ text: params.title })
+                      }
+                      if (params.frontColor) {
+                        this.$scope.$page.setTitleBar({ textColor: params.frontColor })
+                      }
+                      if (params.backgroundColor) {
+                        this.$scope.$page.setTitleBar({ backgroundColor: params.backgroundColor })
+                      }
+                    })
+                  }`
+                )]), false, false))
+              node.body.push(t.classMethod(
+                'method', t.identifier('__offListenToSetNavigationBarEvent'), [],
+                t.blockStatement([convertSourceStringToAstExpression(
+                  `Taro.eventCenter.off('TaroEvent:setNavigationBar')`
+              )]), false, false))
+            }
+          },
+          ClassMethod (astPath) {
+            if (isQuickApp) {
+              const node = astPath.node
+              const keyName = (node.key as t.Identifier).name
+              if (keyName === 'componentDidShow' || keyName === 'componentWillMount') {
+                node.body.body.unshift(convertSourceStringToAstExpression(`this.__listenToSetNavigationBarEvent()`))
+              } else if (keyName === 'componentDidHide') {
+                node.body.body.unshift(convertSourceStringToAstExpression(`this.__offListenToSetNavigationBarEvent()`))
+              }
+            }
+          },
           ImportDeclaration (astPath) {
             const node = astPath.node
             const source = node.source
@@ -752,7 +831,7 @@ export function parseAst (
         })
         const node = astPath.node as t.Program
         const exportVariableName = exportTaroReduxConnected || componentClassName
-        if (needExportDefault && buildAdapter !== BUILD_TYPES.QUICKAPP) {
+        if (needExportDefault && !isQuickApp) {
           const exportDefault = template(`export default ${exportVariableName}`, babylonConfig as any)()
           node.body.push(exportDefault as any)
         }
@@ -773,7 +852,7 @@ export function parseAst (
             if (projectConfig.hasOwnProperty(DEVICE_RATIO_NAME)) {
               pxTransformConfig[DEVICE_RATIO_NAME] = projectConfig.deviceRatio
             }
-            if (buildAdapter === BUILD_TYPES.QUICKAPP) {
+            if (isQuickApp) {
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createApp(${exportVariableName})`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`App(require('${taroMiniAppFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig as any)() as any)
@@ -783,14 +862,14 @@ export function parseAst (
           case PARSE_AST_TYPE.PAGE:
             if (buildAdapter === BUILD_TYPES.WEAPP) {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
-            } else if (buildAdapter === BUILD_TYPES.QUICKAPP) {
+            } else if (isQuickApp) {
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true)`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Page(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             }
             break
           case PARSE_AST_TYPE.COMPONENT:
-            if (buildAdapter === BUILD_TYPES.QUICKAPP) {
+            if (isQuickApp) {
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName})`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig as any)() as any)
