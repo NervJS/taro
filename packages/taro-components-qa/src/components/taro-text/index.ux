@@ -1,12 +1,12 @@
 <template>
-  <div
+  <text
     class="{{className}}"
     id="{{id}}"
     style="{{style}}"
     onclick="handleClick"
   >
     <slot></slot>
-  </div>
+  </text>
 </template>
 
 <script>
