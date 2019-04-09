@@ -133,7 +133,10 @@ class Route extends Component<RouteProps, {}> {
 
     const WrappedComponent = this.wrappedComponent
     return (
-      <div className="taro_page" ref={this.getWrapRef}>
+      <div
+        className="taro_page"
+        ref={this.getWrapRef}
+        style={"min-height: 100%"}>
         <WrappedComponent ref={this.getRef} />
       </div>
     )

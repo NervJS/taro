@@ -142,7 +142,9 @@ class Router extends Component<Props, State> {
     const currentLocation = Taro._$router
     router.currentPages.length = this.state.routeStack.length
     return (
-      <div className="taro_router">
+      <div
+        className="taro_router"
+        style={"min-height: 100%"}>
         {this.state.routeStack.map(({ path, componentLoader, isIndex, key, isRedirect }, k) => {
           return (
             <Route
