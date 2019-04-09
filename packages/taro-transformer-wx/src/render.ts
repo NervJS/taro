@@ -838,9 +838,9 @@ export class RenderParser {
         if (t.isJSXIdentifier(name)
           && name.name !== 'key'
           && name.name !== 'id'
-          && name.name !== 'wx:for'
-          && name.name !== 'wx:for-item'
-          && name.name !== 'wx:for-index'
+          && name.name !== Adapter.for
+          && name.name !== Adapter.forItem
+          && name.name !== Adapter.forIndex
           && name.name.indexOf('render') !== 0
           && !t.isJSXElement(value)
         ) {
