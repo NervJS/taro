@@ -118,7 +118,7 @@ export type BaseEvent = BaseEventOrig<any>
 
 export type CommonEvent = BaseEventOrig<any>
 
-export type CommonEventFunction = BaseEventOrigFunction<any>
+export type CommonEventFunction<T = any> = BaseEventOrigFunction<T>
 
 export interface BaseEventOrig<T> {
   /**
