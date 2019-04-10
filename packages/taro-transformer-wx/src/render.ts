@@ -607,7 +607,7 @@ export class RenderParser {
         }
 
         const blockAttrs: t.JSXAttribute[] = []
-        if (Adapter.type === Adapters.weapp && !this.finalReturnElement) {
+        if (Adapter.type === Adapters.weapp && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
           blockAttrs.push(t.jSXAttribute(
             t.jSXIdentifier(Adapter.if),
             t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
@@ -863,14 +863,19 @@ export class RenderParser {
     const openingElement = jsxElementPath.node.openingElement
     if (openingElement.attributes.find(attr => {
       return t.isJSXAttribute(attr) && attr.name.name === 'compid'
-    })) return
+    })) {
+      return
+    }
 
     if (
       t.isJSXIdentifier(openingElement.name) &&
       !DEFAULT_Component_SET.has(openingElement.name.name) &&
       /[A-Z]/.test(openingElement.name.name.charAt(0))
     ) {
-      const name = `$compid__temp${genCompid()}`
+      if (this.isEmptyProps(openingElement.attributes)) {
+        return
+      }
+      const name = `$compid__${genCompid()}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
       const idExpr = buildConstVariableDeclaration(name, t.logicalExpression(
@@ -1141,9 +1146,9 @@ export class RenderParser {
                 transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
               }
               path.node.name = t.jSXIdentifier(transformName)
-            } else if (THIRD_PARTY_COMPONENTS.has(componentName) && Adapter.type !== Adapters.weapp) {
+            } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
               path.node.name = t.jSXIdentifier('bind' + name.name[2].toLowerCase() + name.name.slice(3))
-            } else if (Adapter.type !== Adapters.weapp) {
+            } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
           }
@@ -1428,6 +1433,8 @@ export class RenderParser {
     }
   }
 
+  isEmptyProps = (attrs: t.JSXAttribute[]) => attrs.filter(a => ![Adapter.for, Adapter.forIndex, Adapter.forItem, 'id'].includes(a.name.name as string)).length === 0
+
   /**
    * jsxDeclarations,
    * renderScope,
@@ -1514,6 +1521,9 @@ export class RenderParser {
               !DEFAULT_Component_SET.has(element.name.name) &&
               /[A-Z]/.test(element.name.name.charAt(0))
             ) {
+              if (this.isEmptyProps(element.attributes)) {
+                return
+              }
               // 如果循环里包含自定义组件
               if (!loops) {
                 loops = t.arrayExpression([])
@@ -1521,7 +1531,7 @@ export class RenderParser {
               }
 
               // createData 函数里加入 compid 相关逻辑
-              const variableName = `$compid__temp${genCompid()}`
+              const variableName = `$compid__${genCompid()}`
               const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
                 t.identifier(GEN_LOOP_COMPID),
                 [t.memberExpression(t.thisExpression(), t.identifier('$scope')), t.stringLiteral(variableName), loops]
@@ -1722,7 +1732,7 @@ export class RenderParser {
                     }
                   })
                 } else {
-                  throw codeFrameError(object.loc, '多层循环中循环的数组只能是一个变量或成员表达式')
+                  throw codeFrameError(object.loc, '多层循环中循环的数组只能是一个变量或成员表达式，可以尝试把该表达式赋值给循环内部的一个新变量。')
                 }
               }
             }

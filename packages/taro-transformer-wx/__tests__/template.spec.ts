@@ -156,9 +156,11 @@ describe('Template', () => {
       removeShadowData(inst.state)
       expect(Object.keys(inst.state).length).toEqual(1)
       expect(template).toMatch(
-        `<test test=\"{{style}}\" __triggerObserer=\"{{ _triggerObserer }}\"></test>`
+        `<test compid=\"{{$compid__0}}\"></test>`
       )
-      expect(inst.state.style).toEqual('color:' + 'red')
+      expect(inst.testProps).toEqual({
+        test: 'color:' + 'red'
+      })
     })
 
     test('能在循环中使用, 无 return', () => {
@@ -377,7 +379,7 @@ describe('Template', () => {
     })
   })
 
-  test('不支持 spread 表达式', () => {
+  test.skip('不支持 spread 表达式', () => {
     expect(() => {
       transform({
         ...baseOptions,
@@ -531,7 +533,7 @@ describe('Template', () => {
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
         expect(template).toMatch(
-          `<custom hidden=\"{{true}}\" __triggerObserer=\"{{ _triggerObserer }}\"></custom>`
+          `<custom compid=\"{{$compid__1}}\"></custom>`
         )
       })
 
@@ -558,7 +560,13 @@ describe('Template', () => {
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
         expect(template).toMatch(
-          `<custom wx:for=\"{{array}}\" __triggerObserer=\"{{ _triggerObserer }}\" wx:for-item=\"a1\"></custom>`
+          prettyPrint(`
+            <block>
+                <view>
+                    <custom wx:for=\"{{array}}\" wx:for-item=\"a1\"></custom>
+                </view>
+            </block>
+          `)
         )
       })
     })
@@ -633,7 +641,7 @@ describe('Template', () => {
       expect(template).toMatch(
         prettyPrint(`
         <block>
-            <ec-chart bindchange="handleChange" __triggerObserer="{{ _triggerObserer }}"></ec-chart>
+            <ec-chart bindchange="handleChange"></ec-chart>
         </block>
       `)
       )
@@ -656,7 +664,7 @@ describe('Template', () => {
       expect(template).toMatch(
         prettyPrint(`
         <block>
-            <ec-chart bindchange="handleChange" __triggerObserer="{{ _triggerObserer }}"></ec-chart>
+            <ec-chart bindchange="handleChange"></ec-chart>
         </block>
       `)
       )
@@ -814,7 +822,7 @@ describe('字符不转义', () => {
       expect(template).toMatch(
         prettyPrint(`
         <block>
-            <link __triggerObserer=\"{{ _triggerObserer }}\"></link>
+            <link></link>
         </block>
       `)
       )
