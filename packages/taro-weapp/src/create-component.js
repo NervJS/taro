@@ -174,13 +174,9 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-export function filterProps (properties, defaultProps = {}, componentProps = {}, curProps) {
-  let newProps = Object.assign({}, curProps)
-  for (const propName in properties) {
-    if (propName in componentProps) {
-      newProps[propName] = componentProps[propName]
-    }
-  }
+export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}) {
+  let newProps = Object.assign({}, curAllProps, propsFromPropsManager)
+
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
       if (newProps[propName] === undefined) {
@@ -267,7 +263,7 @@ function initComponent (ComponentClass, isPage) {
       component: this.$component,
       ComponentClass
     }
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, propsManager.map[compid], this.$component.props)
+    const nextProps = filterProps(ComponentClass.defaultProps, propsManager.map[compid], this.$component.props)
     this.$component.props = nextProps
   } else {
     this.$component.$router.path = getCurrentPageUrl()
@@ -277,7 +273,7 @@ function initComponent (ComponentClass, isPage) {
 
 function createComponent (ComponentClass, isPage) {
   let initData = {}
-  const componentProps = filterProps({}, ComponentClass.defaultProps)
+  const componentProps = filterProps(ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
