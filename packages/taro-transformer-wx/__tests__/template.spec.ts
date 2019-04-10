@@ -156,7 +156,7 @@ describe('Template', () => {
       removeShadowData(inst.state)
       expect(Object.keys(inst.state).length).toEqual(1)
       expect(template).toMatch(
-        `<test test=\"{{style}}\" __triggerObserer=\"{{ _triggerObserer }}\"></test>`
+        `<test compid=\"{{$compid__0}}\"></test>`
       )
       expect(inst.state.style).toEqual('color:' + 'red')
     })
@@ -531,7 +531,7 @@ describe('Template', () => {
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
         expect(template).toMatch(
-          `<custom hidden=\"{{true}}\" __triggerObserer=\"{{ _triggerObserer }}\"></custom>`
+          `<custom compid=\"{{$compid__1}}\"></custom>`
         )
       })
 
@@ -814,7 +814,7 @@ describe('字符不转义', () => {
       expect(template).toMatch(
         prettyPrint(`
         <block>
-            <link __triggerObserer=\"{{ _triggerObserer }}\"></link>
+            <link></link>
         </block>
       `)
       )
