@@ -158,7 +158,9 @@ describe('Template', () => {
       expect(template).toMatch(
         `<test compid=\"{{$compid__0}}\"></test>`
       )
-      expect(inst.state.style).toEqual('color:' + 'red')
+      expect(inst.testProps).toEqual({
+        test: 'color:' + 'red'
+      })
     })
 
     test('能在循环中使用, 无 return', () => {
@@ -558,7 +560,13 @@ describe('Template', () => {
         // expect(props.$name).toBe('Custom')
         // expect(props.hidden).toBe(true)
         expect(template).toMatch(
-          `<custom wx:for=\"{{array}}\" __triggerObserer=\"{{ _triggerObserer }}\" wx:for-item=\"a1\"></custom>`
+          prettyPrint(`
+            <block>
+                <view>
+                    <custom wx:for=\"{{array}}\" wx:for-item=\"a1\"></custom>
+                </view>
+            </block>
+          `)
         )
       })
     })
