@@ -943,6 +943,9 @@ export class RenderParser {
       !DEFAULT_Component_SET.has(openingElement.name.name) &&
       /[A-Z]/.test(openingElement.name.name.charAt(0))
     ) {
+      if (openingElement.attributes.length === 0) {
+        return
+      }
       const name = `$compid__${genCompid()}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
@@ -1573,6 +1576,9 @@ export class RenderParser {
               /[A-Z]/.test(element.name.name.charAt(0))
             ) {
               // 如果循环里包含自定义组件
+              if (element.attributes.length === 0) {
+                return
+              }
               if (!loops) {
                 loops = t.arrayExpression([])
                 findParentLoops(callee, this.loopComponentNames, loops)
@@ -1780,7 +1786,7 @@ export class RenderParser {
                     }
                   })
                 } else {
-                  throw codeFrameError(object.loc, '多层循环中循环的数组只能是一个变量或成员表达式')
+                  throw codeFrameError(object.loc, '多层循环中循环的数组只能是一个变量或成员表达式，可以尝试把该表达式赋值给循环内部的一个新变量。')
                 }
               }
             }

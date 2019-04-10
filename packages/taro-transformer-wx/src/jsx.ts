@@ -267,7 +267,9 @@ export function parseJSXElement (element: t.JSXElement): string {
       return obj
     }, {})
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
-    attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
+    if (Adapter.type !== Adapters.weapp) {
+      attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
+    }
   }
 
   return createHTMLElement({

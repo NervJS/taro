@@ -332,14 +332,14 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{c}}\">
-                      <aa compid=\"{{$compid__0}}\"></aa>
+                      <aa></aa>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
-                  <bb compid=\"{{$compid__1}}\"></bb>
+                  <bb></bb>
               </block>
               <block wx:else>
-                  <c compid=\"{{$compid__2}}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -373,15 +373,15 @@ describe('if statement', () => {
       <view>
           <block>
               <block wx:if=\"{{a}}\">
-                  <aa compid=\"{{$compid__3}}\"></aa>
+                  <aa></aa>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                      <bb compid=\"{{$compid__4}}\"></bb>
+                      <bb></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c compid=\"{{$compid__5}}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -418,16 +418,16 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{d}}\">
-                      <aa compid=\"{{$compid__6}}\"></aa>
+                      <aa></aa>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                      <bb compid=\"{{$compid__7}}\"></bb>
+                      <bb></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c compid=\"{{$compid__8}}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -466,19 +466,19 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{d}}\">
-                      <aa compid=\"{{$compid__9}}\"></aa>
+                      <aa></aa>
                   </block>
                   <block wx:elif=\"{{e}}\">
-                      <d compid=\"{{$compid__10}}\"></d>
+                      <d></d>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                      <bb compid=\"{{$compid__11}}\"></bb>
+                      <bb></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c compid=\"{{$compid__12}}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -507,7 +507,7 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-      <container compid=\"{{$compid__13}}\">
+      <container>
           <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
               <block wx:if=\"{{item.$original === 0}}\">
                   <image/>
@@ -541,13 +541,13 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-      <container compid=\"{{$compid__15}}\">
+      <container>
           <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
               <block wx:if=\"{{item.$original === 0}}\">
                   <image/>
               </block>
               <block wx:elif=\"{{item.$original === 1}}\">
-                  <test compid=\"{{item.$compid__14}}\"></test>
+                  <test></test>
               </block>
               <video wx:else></video>
           </block>
@@ -576,13 +576,13 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-      <container compid=\"{{$compid__17}}\">
+      <container>
           <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
               <block wx:if=\"{{item.$original === 0}}\">
                   <image/>
               </block>
               <block wx:elif=\"{{item.$original === 1}}\">
-                  <test compid=\"{{item.$compid__16}}\"></test>
+                  <test></test>
               </block>
               <block wx:else></block>
           </block>
@@ -611,13 +611,13 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-      <container compid=\"{{$compid__19}}\">
+      <container>
           <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
               <block wx:if=\"{{item.$loopState__temp2}}\">
                   <image/>
               </block>
               <block wx:elif=\"{{item.$original === 1}}\">
-                  <test compid=\"{{item.$compid__18}}\"></test>
+                  <test></test>
               </block>
               <block wx:else></block>
           </block>
@@ -646,13 +646,13 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-      <container compid=\"{{$compid__21}}\">
+      <container>
           <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
               <block wx:if=\"{{item.$loopState__temp2}}\">
                   <image src=\"{{item.$loopState__temp4}}\" />
               </block>
               <block wx:elif=\"{{item.$original === 1}}\">
-                  <test compid=\"{{item.$compid__20}}\"></test>
+                  <test></test>
               </block>
               <block wx:else></block>
           </block>
@@ -682,13 +682,13 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-      <container compid=\"{{$compid__23}}\">
+      <container>
           <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
               <block wx:if=\"{{item.$loopState__temp2}}\">
                   <image src=\"{{item.$loopState__temp4}}\" />
               </block>
               <block wx:if=\"{{item.$original === 1}}\">
-                  <test compid=\"{{item.$compid__22}}\"></test>
+                  <test></test>
               </block>
               <block wx:else></block>
           </block>
@@ -722,13 +722,13 @@ describe('if statement', () => {
     <view>
         <block>
             <block wx:if=\"{{current === 0}}\">
-                <home compid=\"{{$compid__24}}\"></home>
+                <home></home>
             </block>
             <block wx:elif=\"{{current === 1}}\">
-                <goods compid=\"{{$compid__25}}\"></goods>
+                <goods></goods>
             </block>
             <block wx:elif=\"{{current === 2}}\">
-                <order compid=\"{{$compid__26}}\"></order>
+                <order></order>
             </block>
         </block>
     </view>
@@ -1218,7 +1218,7 @@ describe('inline 表达式', () => {
       <block>
           <view>
               <block wx:if=\"{{!text}}\">
-                <btn compid=\"{{$compid__27}}\"></btn>
+                <btn></btn>
               </block>
           </view>
       </block>
