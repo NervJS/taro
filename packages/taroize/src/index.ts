@@ -3,7 +3,7 @@ import { parseWXML } from './wxml'
 import { parseScript } from './script'
 import { parseJSON } from './json'
 import { errors } from './global'
-import { setting } from './utils';
+import { setting } from './utils'
 
 interface Option {
   json?: string,

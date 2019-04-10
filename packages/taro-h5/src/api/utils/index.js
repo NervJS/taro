@@ -69,6 +69,10 @@ function temporarilyNotSupport (apiName) {
   return () => console.error(`暂时不支持 API ${apiName}`)
 }
 
+function weixinCorpSupport (apiName) {
+  return () => console.error(`h5端仅在微信公众号中支持 API ${apiName}`)
+}
+
 function permanentlyNotSupport (apiName) {
   return () => console.error(`不支持 API ${apiName}`)
 }
@@ -137,6 +141,7 @@ export {
   errorHandler,
   serializeParams,
   temporarilyNotSupport,
+  weixinCorpSupport,
   permanentlyNotSupport,
   isValidColor,
   isFunction,

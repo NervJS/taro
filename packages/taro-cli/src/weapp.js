@@ -225,13 +225,15 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
             defaultSpecifier = item.local.name
           }
         })
-        let sourceDirPath = sourceDir
+        let showPath
         if (NODE_MODULES_REG.test(vpath)) {
-          sourceDirPath = nodeModulesPath
+          showPath = vpath.replace(nodeModulesPath, `/${weappNpmConfig.name}`)
+        } else {
+          showPath = vpath.replace(sourceDir, '')
         }
 
         if (defaultSpecifier) {
-          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
+          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(showPath.replace(/\\/g, '/')))]))
         } else {
           astPath.remove()
         }
@@ -702,11 +704,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     if (mediaFiles.indexOf(vpath) < 0) {
                       mediaFiles.push(vpath)
                     }
-                    let sourceDirPath = sourceDir
+                    let showPath
                     if (NODE_MODULES_REG.test(vpath)) {
-                      sourceDirPath = nodeModulesPath
+                      showPath = vpath.replace(nodeModulesPath, `/${weappNpmConfig.name}`)
+                    } else {
+                      showPath = vpath.replace(sourceDir, '')
                     }
-                    astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
+                    astPath.replaceWith(t.stringLiteral(showPath.replace(/\\/g, '/')))
                   } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
@@ -1613,7 +1617,12 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
         .then(res => ({
           css: cssImportsRes.style.join('\n') + '\n' + res.css,
           filePath
-        }))
+        })).catch(err => {
+          if (err) {
+            console.log(err)
+            process.exit(0)
+          }
+        })
     }
     return new Promise(resolve => {
       resolve({
@@ -1622,7 +1631,7 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
       })
     })
   })).then(async resList => {
-    Promise.all(resList.map(res => processStyleWithPostCSS(res)))
+    await Promise.all(resList.map(res => processStyleWithPostCSS(res)))
       .then(cssList => {
         let resContent = cssList.map(res => res).join('\n')
         if (isProduction) {
@@ -1901,8 +1910,8 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
   }
 }
 
-function compileDepScripts (scriptFiles) {
-  scriptFiles.forEach(async item => {
+function compileDepScripts (scriptFiles, buildDepSync) {
+  return scriptFiles.map(async item => {
     if (path.isAbsolute(item)) {
       let outputItem
       if (NODE_MODULES_REG.test(item)) {
@@ -1961,7 +1970,11 @@ function compileDepScripts (scriptFiles) {
           Util.printLog(Util.pocessTypeEnum.GENERATE, '依赖文件', modifyOutput)
           // 编译依赖的脚本文件
           if (Util.isDifferentArray(fileDep['script'], res.scriptFiles)) {
-            compileDepScripts(res.scriptFiles)
+            if (buildDepSync) {
+              await Promise.all(compileDepScripts(res.scriptFiles))
+            } else {
+              compileDepScripts(res.scriptFiles)
+            }
           }
           // 拷贝依赖文件
           if (Util.isDifferentArray(fileDep['json'], res.jsonFiles)) {
@@ -2198,9 +2211,9 @@ function watchFiles () {
     })
 }
 
-async function build ({ watch, adapter }) {
+async function build ({ watch, adapter, envHasBeenSet = false }) {
   process.env.TARO_ENV = adapter
-  isProduction = process.env.NODE_ENV === 'production' || !watch
+  if (!envHasBeenSet) isProduction = process.env.NODE_ENV === 'production' || !watch
   buildAdapter = adapter
   outputFilesTypes = Util.MINI_APP_FILES[buildAdapter]
   // 可以自定义输出文件类型
@@ -2220,10 +2233,61 @@ async function build ({ watch, adapter }) {
   }
 }
 
+function getHasBeenBuiltComponents () {
+  return hasBeenBuiltComponents || []
+}
+
+function spliceHasBeenBuiltComponents (index) {
+  index >= 0 && hasBeenBuiltComponents.splice(index, 1)
+}
+
+function getDependencyTree () {
+  return dependencyTree || {}
+}
+
+function getAppConfig () {
+  return appConfig
+}
+
+function setAppConfig (config) {
+  appConfig = config
+}
+
+function getComponentsNamedMap () {
+  return componentsNamedMap
+}
+
+function setEnv (watch) {
+  isProduction = process.env.NODE_ENV === 'production' || !watch
+}
+
+function resetIsBuildingScripts () {
+  isBuildingScripts = {}
+}
+
+function resetIsBuildingStyles () {
+  isBuildingStyles = {}
+}
+
 module.exports = {
   build,
+  buildEntry,
+  buildPages,
+  buildSinglePage,
   buildDepComponents,
   buildSingleComponent,
+  getRealComponentsPathList,
   compileDepStyles,
-  parseAst
+  compileDepScripts,
+  parseAst,
+  isFileToBePage,
+  getHasBeenBuiltComponents,
+  spliceHasBeenBuiltComponents,
+  getDependencyTree,
+  getAppConfig,
+  setAppConfig,
+  getComponentsNamedMap,
+  setEnv,
+  resetIsBuildingScripts,
+  resetIsBuildingStyles
 }

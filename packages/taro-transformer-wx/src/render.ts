@@ -1363,13 +1363,24 @@ export class RenderParser {
         }
         const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
         const refDecl = buildConstVariableDeclaration(refDeclName,
-          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), t.logicalExpression('&&', t.identifier('__runloopRef'), callGetElementById))
+          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), t.logicalExpression('&&', t.identifier('__isRunloopRef'), callGetElementById))
         )
         const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
         const callRefFunc = t.expressionStatement(
           process.env.NODE_ENV === 'test' ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
         )
-        body.push(refDecl, callRefFunc)
+        if (Adapter.type === Adapters.tt) {
+          body.push(
+            t.expressionStatement(
+              t.callExpression(
+                t.memberExpression(t.identifier('Taro'), t.identifier('handleLoopRef')),
+                args.length === 2 ? [...args, t.nullLiteral(), ref.fn] : [...args, ref.fn]
+              )
+            )
+          )
+        } else {
+          body.push(refDecl, callRefFunc)
+        }
       }
       let stateToBeAssign = new Set<string>(
         difference(
@@ -1441,8 +1452,8 @@ export class RenderParser {
           component.traverse({
             JSXAttribute: !t.isIdentifier(indexParam) ? noop : (path: NodePath<t.JSXAttribute>) => {
               const { value } = path.node
-              if (t.isJSXExpressionContainer(value) && t.isIdentifier(value.expression, { name: indexParam.name })) {
-                if (process.env.TERM_PROGRAM) { // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
+              if (t.isJSXExpressionContainer(value) && t.isJSXIdentifier(path.node.name, { name: 'key' }) && t.isIdentifier(value.expression, { name: indexParam.name })) {
+                if (process.env.TERM_PROGRAM || process.env.NODE_ENV === 'test') { // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
                   // tslint:disable-next-line:no-console
                   console.log(codeFrameError(value.expression, '建议修改：使用循环的 index 变量作为 key 是一种反优化。参考：https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md').message)
                 }
@@ -1824,7 +1835,7 @@ export class RenderParser {
     this.renderPath.node.body.body.unshift(
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
-      template(`const __runloopRef = arguments[2];`)(),
+      template(`const __isRunloopRef = arguments[2];`)(),
       this.usedThisProperties.size
         ? t.variableDeclaration(
           'const',

@@ -162,7 +162,7 @@ export default function transform (options: Options): TransformResult {
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
-      jsx: ts.JsxEmit.Preserve,
+      jsx: options.sourcePath.endsWith('.tsx') ? ts.JsxEmit.Preserve : ts.JsxEmit.None,
       target: ts.ScriptTarget.ESNext,
       importHelpers: true,
       noEmitHelpers: true

@@ -9,6 +9,7 @@ import { cacheDataSet, cacheDataGet } from './data-cache'
 //          -> 触发子组件componentWillReciveProps，更新子组件props,componentShouldUpdate -> 子组件_createData -> 子组件setData
 
 const PRELOAD_DATA_KEY = 'preload'
+const COLLECT_CHILDS = 'onTaroCollectChilds'
 
 class BaseComponent {
   // _createData的时候生成，小程序中通过data.__createData访问
@@ -40,6 +41,12 @@ class BaseComponent {
   }
   _init (scope) {
     this.$scope = scope
+    if (scope.$component.$componentType === 'COMPONENT' &&
+      typeof scope.props[COLLECT_CHILDS] === 'function' &&
+      typeof scope.props.id === 'string'
+    ) {
+      scope.props[COLLECT_CHILDS](scope.$component, scope.props.id)
+    }
   }
   setState (state, callback) {
     if (state) {

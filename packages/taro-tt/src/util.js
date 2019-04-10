@@ -235,3 +235,21 @@ let _i = 1
 export function getUniqueKey () {
   return _loadTime + (_i++)
 }
+
+export function handleLoopRef (component, id, type, handler = function () {}) {
+  if (!component) return null
+
+  let res
+  if (type === 'component') {
+    component.selectComponent(id, function (res) {
+      res = res ? res.$component || res : null
+      res && handler.call(component.$component, res)
+    })
+  } else {
+    const query = wx.createSelectorQuery().in(component)
+    res = query.select(id)
+    res && handler.call(component.$component, res)
+  }
+
+  return null
+}
