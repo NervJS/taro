@@ -616,7 +616,7 @@ class Transformer {
           ))
         ])) :
         t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
-          t.expressionStatement(t.callExpression(
+          t.returnStatement(t.callExpression(
             t.memberExpression(
               t.memberExpression(
                 t.memberExpression(t.thisExpression(), t.identifier('props')),
