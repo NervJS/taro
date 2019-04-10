@@ -872,7 +872,7 @@ export class RenderParser {
       !DEFAULT_Component_SET.has(openingElement.name.name) &&
       /[A-Z]/.test(openingElement.name.name.charAt(0))
     ) {
-      if (openingElement.attributes.length === 0) {
+      if (this.isEmptyProps(openingElement.attributes)) {
         return
       }
       const name = `$compid__${genCompid()}`
@@ -1433,6 +1433,8 @@ export class RenderParser {
     }
   }
 
+  isEmptyProps = (attrs: t.JSXAttribute[]) => attrs.filter(a => ![Adapter.for, Adapter.forIndex, Adapter.forItem, 'id'].includes(a.name.name as string)).length === 0
+
   /**
    * jsxDeclarations,
    * renderScope,
@@ -1519,10 +1521,10 @@ export class RenderParser {
               !DEFAULT_Component_SET.has(element.name.name) &&
               /[A-Z]/.test(element.name.name.charAt(0))
             ) {
-              // 如果循环里包含自定义组件
-              if (element.attributes.length === 0) {
+              if (this.isEmptyProps(element.attributes)) {
                 return
               }
+              // 如果循环里包含自定义组件
               if (!loops) {
                 loops = t.arrayExpression([])
                 findParentLoops(callee, this.loopComponentNames, loops)

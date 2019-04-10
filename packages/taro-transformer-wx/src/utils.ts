@@ -559,7 +559,8 @@ export function findParentLoops (
   }
 
   if (indexId === null || !t.isIdentifier(indexId)) {
-    indexId = t.identifier(callee.scope.generateUid('anonIdx'))
+    indexId = t.identifier(callee.scope.generateUid('anonIdx'));
+    (func as any).params = [(func as any).params[0], indexId]
   }
 
   if (!name) {

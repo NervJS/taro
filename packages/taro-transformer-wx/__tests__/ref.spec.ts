@@ -38,7 +38,7 @@ describe('ref', () => {
       expect(refs[0].type).toBe('component')
       expect(refs[0].refName).toBe('a')
       expect(refs[0].fn).toBe(null)
-      expect(template).toMatch(/<custom id="[a-zA-Z]{5}" compid=\"{{\$compid__0}}\"><\/custom>/)
+      expect(template).toMatch(/<custom id="[a-zA-Z]{5}"><\/custom>/)
     })
 
     test('字符串模板', () => {
@@ -160,7 +160,7 @@ describe('ref', () => {
       expect(template).toMatch(prettyPrint(`
       <block>
       <view>
-          <cover id=\"{{item.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\" wx:for-index=\"index\" compid=\"{{item.$compid__1}}\">
+          <cover id=\"{{item.$loopState__temp2}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"item\" wx:for-index=\"index\">
               <text wx:for=\"{{item.$original.list}}\" wx:for-item=\"item2\">{{item2}}</text>
           </cover>
       </view>
