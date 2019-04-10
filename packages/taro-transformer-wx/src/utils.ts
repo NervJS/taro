@@ -558,8 +558,8 @@ export function findParentLoops (
     name = names.get(callee)
   }
 
-  if (indexId === null || !t.isIdentifier(indexId!)) {
-    throw codeFrameError(callee.node, '在循环中使用自定义组件时必须暴露循环的第二个参数 `index`')
+  if (indexId === null || !t.isIdentifier(indexId)) {
+    indexId = t.identifier(callee.scope.generateUid('anonIdx'))
   }
 
   if (!name) {

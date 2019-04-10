@@ -1,6 +1,7 @@
 import traverse from 'babel-traverse'
 import * as t from 'babel-types'
 import generate from 'babel-generator'
+import template from 'babel-template'
 import * as html from 'html'
 
 export function prettyPrint (str: string): string {
@@ -38,6 +39,20 @@ function getElementById (a, b, c) {
   }
   return 'test-ref'
 }
+
+var Current = {
+  inst: {}
+}
+
+function genLoopCompid () {
+  return 'id'
+}
+
+var propsManager = {
+  set (o, id) {
+    Current.inst[id || 'testProps'] = o
+  }
+};
 
 function internal_get_original(item) {
   if (isObject(item)) {
@@ -115,7 +130,9 @@ export const baseOptions = {
 
 export function evalClass (ast: t.File, props = '', isRequire = false) {
   let mainClass!: t.ClassDeclaration
-  const statements = new Set<t.ExpressionStatement>()
+  const statements = new Set<t.ExpressionStatement>([
+    template('Current.inst = this;')() as any
+  ])
 
   traverse(ast, {
     ClassDeclaration (path) {
@@ -162,7 +179,7 @@ export function evalClass (ast: t.File, props = '', isRequire = false) {
 
   let code = `function f() {};` +
     generate(t.classDeclaration(t.identifier('Test'), t.identifier('f'), mainClass.body, [])).code +
-    ';' + `new Test(${props})`
+    ';' + `var classInst =  new Test(${props});classInst`
 
   code = internalFunction + code
 

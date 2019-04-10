@@ -12,10 +12,10 @@ describe('if statement', () => {
           let dom = null
           if (a) {
             if (c) {
-              dom = <A />
+              dom = <AA />
             }
           } else if (b) {
-            dom = <B />
+            dom = <BB />
           } else {
             dom = <C />
           }
@@ -30,14 +30,14 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{c}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                      <aa compid=\"{{$compid__0}}\"></aa>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
-                  <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                  <bb compid=\"{{$compid__1}}\"></bb>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c compid=\"{{$compid__2}}\"></c>
               </block>
           </block>
       </view>
@@ -53,10 +53,10 @@ describe('if statement', () => {
           const { a, b, c, d, e, f, g } = this.props
           let dom = null
           if (a) {
-              dom = <A />
+              dom = <AA />
           } else if (b) {
             if (c) {
-              dom = <B />
+              dom = <BB />
             }
           } else {
             dom = <C />
@@ -71,15 +71,15 @@ describe('if statement', () => {
       <view>
           <block>
               <block wx:if=\"{{a}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                  <aa compid=\"{{$compid__3}}\"></aa>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                      <bb compid=\"{{$compid__4}}\"></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c compid=\"{{$compid__5}}\"></c>
               </block>
           </block>
       </view>
@@ -96,11 +96,11 @@ describe('if statement', () => {
           let dom = null
           if (a) {
             if (d) {
-              dom = <A />
+              dom = <AA />
             }
           } else if (b) {
             if (c) {
-              dom = <B />
+              dom = <BB />
             }
           } else {
             dom = <C />
@@ -116,16 +116,16 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{d}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                      <aa compid=\"{{$compid__6}}\"></aa>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                      <bb compid=\"{{$compid__7}}\"></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c compid=\"{{$compid__8}}\"></c>
               </block>
           </block>
       </view>
@@ -142,13 +142,13 @@ describe('if statement', () => {
           let dom = null
           if (a) {
             if (d) {
-              dom = <A />
+              dom = <AA />
             } else if (e) {
               dom = <D />
             }
           } else if (b) {
             if (c) {
-              dom = <B />
+              dom = <BB />
             }
           } else {
             dom = <C />
@@ -164,19 +164,19 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{d}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                      <aa compid=\"{{$compid__9}}\"></aa>
                   </block>
                   <block wx:elif=\"{{e}}\">
-                        <d __triggerObserer=\"{{ _triggerObserer }}\"></d>
-                    </block>
+                      <d compid=\"{{$compid__10}}\"></d>
+                  </block>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                      <bb compid=\"{{$compid__11}}\"></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c compid=\"{{$compid__12}}\"></c>
               </block>
           </block>
       </view>
@@ -205,15 +205,15 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$original === 0}}\">
-                      <image/>
-                  </block>
-                  <video wx:else></video>
+      <container compid=\"{{$compid__13}}\">
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$original === 0}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <video wx:else></video>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -239,18 +239,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$original === 0}}\">
-                      <image/>
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <video wx:else></video>
+      <container compid=\"{{$compid__15}}\">
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$original === 0}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test compid=\"{{item.$compid__14}}\"></test>
+              </block>
+              <video wx:else></video>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -274,18 +274,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$original === 0}}\">
-                      <image/>
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container compid=\"{{$compid__17}}\">
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$original === 0}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test compid=\"{{item.$compid__16}}\"></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -309,18 +309,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$loopState__temp2}}\">
-                      <image/>
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container compid=\"{{$compid__19}}\">
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$loopState__temp2}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test compid=\"{{item.$compid__18}}\"></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -344,18 +344,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$loopState__temp2}}\">
-                    <image src=\"{{item.$loopState__temp4}}\" />
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container compid=\"{{$compid__21}}\">
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$loopState__temp2}}\">
+                  <image src=\"{{item.$loopState__temp4}}\" />
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test compid=\"{{item.$compid__20}}\"></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -380,18 +380,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$loopState__temp2}}\">
-                    <image src=\"{{item.$loopState__temp4}}\" />
-                  </block>
-                  <block wx:if=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container compid=\"{{$compid__23}}\">
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$loopState__temp2}}\">
+                  <image src=\"{{item.$loopState__temp4}}\" />
               </block>
-          </container>
-      </block>
+              <block wx:if=\"{{item.$original === 1}}\">
+                  <test compid=\"{{item.$compid__22}}\"></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
   })
@@ -419,14 +419,14 @@ describe('if statement', () => {
     <block>
     <view>
         <block>
-            <block wx:if="{{current === 0}}">
-                <home __triggerObserer="{{ _triggerObserer }}"></home>
+            <block wx:if=\"{{current === 0}}\">
+                <home compid=\"{{$compid__24}}\"></home>
             </block>
-            <block wx:elif="{{current === 1}}">
-                <goods __triggerObserer="{{ _triggerObserer }}"></goods>
+            <block wx:elif=\"{{current === 1}}\">
+                <goods compid=\"{{$compid__25}}\"></goods>
             </block>
-            <block wx:elif="{{current === 2}}">
-                <order __triggerObserer="{{ _triggerObserer }}"></order>
+            <block wx:elif=\"{{current === 2}}\">
+                <order compid=\"{{$compid__26}}\"></order>
             </block>
         </block>
     </view>
@@ -916,7 +916,7 @@ describe('inline 表达式', () => {
       <block>
           <view>
               <block wx:if=\"{{!text}}\">
-                <btn __triggerObserer=\"{{ _triggerObserer }}\"></btn>
+                <btn compid=\"{{$compid__27}}\"></btn>
               </block>
           </view>
       </block>
