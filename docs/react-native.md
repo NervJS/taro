@@ -248,11 +248,7 @@ Taro 将会开始编译文件：
 
 ```
 
-如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 [Metro](https://github.com/facebook/metro) Bundler 负责打包 jsbundle：
-
-![image](https://user-images.githubusercontent.com/9441951/54654650-d1484f80-4af9-11e9-87df-96252b9af0e4.png)
-
-同时，编译后的代码及应用文件在根目录的 `.rn_temp` 目录下，常见的工程目录结构如下：
+编译后的代码及应用文件在根目录的 `.rn_temp` 目录下，常见的工程目录结构如下：
 
 ```shell
 .rn_temp
@@ -278,6 +274,22 @@ Taro 将会开始编译文件：
 
 - app.json React Native 应用的配置，从 `config.rn.appJson` 中获取
 - tmp:实时编译的 jsbundle 临时文件
+
+如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 [Metro](https://github.com/facebook/metro) Bundler 负责打包 jsbundle：
+
+![image](https://user-images.githubusercontent.com/9441951/54654650-d1484f80-4af9-11e9-87df-96252b9af0e4.png)
+
+这时，在浏览器输入 http://127.0.0.1:8081，可以看到如下页面：
+![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
+
+输入 http://127.0.0.1:8081/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
+
+![image](https://user-images.githubusercontent.com/9441951/55865039-37336e80-5bb0-11e9-8aca-c121be4542f6.png)
+
+构建完成后，浏览器会显示构建后的 js 代码。
+
+> Note：进入下一步之前浏览器能正常访问访问 jsbundle
+
 
 ### 启动应用
 如果上一步的编译和 Metro Bundler 服务启动没问题，接下来就可以启动应用了。为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 应用的壳子。
