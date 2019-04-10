@@ -483,6 +483,7 @@ declare namespace Taro {
   function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
+  function initPxTransform(config: { designWidth: number, deviceRatio: object })
 
   interface RequestParams {
     [propName: string]: any
