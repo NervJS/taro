@@ -337,6 +337,9 @@ export class RenderParser {
   }
 
   setProperies () {
+    if ([Adapters.alipay, Adapters.weapp].includes(Adapter.type)) {
+      return
+    }
     const properties: t.ObjectProperty[] = []
     this.componentProperies.forEach((propName) => {
       properties.push(
@@ -352,7 +355,7 @@ export class RenderParser {
     ) as any
     classProp.static = true
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    Adapter.type !== Adapters.alipay && classPath.node.body.body.unshift(classProp)
+    classPath.node.body.body.unshift(classProp)
   }
 
   setLoopRefFlag () {
@@ -1886,15 +1889,19 @@ export class RenderParser {
 
     const componentProperies = cloneDeep(this.componentProperies)
 
-    componentProperies.forEach(s => {
-      if (s.startsWith('__fn_')) {
-        const eventName = s.slice(5)
-        if (componentProperies.has(eventName)) {
-          componentProperies.delete(s)
-          componentProperies.delete(eventName)
+    if ([Adapters.alipay, Adapters.weapp].includes(Adapter.type)) {
+      componentProperies.clear()
+    } else {
+      componentProperies.forEach(s => {
+        if (s.startsWith('__fn_')) {
+          const eventName = s.slice(5)
+          if (componentProperies.has(eventName)) {
+            componentProperies.delete(s)
+            componentProperies.delete(eventName)
+          }
         }
-      }
-    })
+      })
+    }
 
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
     const usedState = Array.from(
