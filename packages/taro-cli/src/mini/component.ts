@@ -194,9 +194,9 @@ export async function buildSingleComponent (
       }
       let isInMap = false
       notTaroComponents.add(component)
-      if (!isEmptyObject(componentExportsMap)) {
-        Object.keys(componentExportsMap).forEach(key => {
-          componentExportsMap[key].forEach(item => {
+      if (componentExportsMap.size) {
+        componentExportsMap.forEach(componentExports => {
+          componentExports.forEach(item => {
             if (item.path === component) {
               isInMap = true
               item.path = componentRealPath
@@ -281,21 +281,20 @@ export async function buildSingleComponent (
       realComponentsPathList = realComponentsPathList.filter(item => !isComponentHasBeenBuilt(item.path as string) || notTaroComponents.has(item.path as string))
       await buildDepComponents(realComponentsPathList)
     }
-    if (!isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
-      const mapKeys = Object.keys(componentExportsMap)
+    if (componentExportsMap.size && realComponentsPathList.length) {
       realComponentsPathList.forEach(componentObj => {
-        if (mapKeys.indexOf(componentObj.path as string) >= 0) {
-          const componentMap = componentExportsMap[componentObj.path as string]
-          componentMap.forEach(componentObj => {
+        if (componentExportsMap.has(componentObj.path as string)) {
+          const componentMap = componentExportsMap.get(componentObj.path as string)
+          componentMap && componentMap.forEach(componentObj => {
             componentDepComponents.forEach(depComponent => {
               if (depComponent.name === componentObj.name) {
                 let componentPath = componentObj.path
                 let realPath
-                if (NODE_MODULES_REG.test(componentPath)) {
-                  componentPath = componentPath.replace(nodeModulesPath, npmOutputDir)
+                if (NODE_MODULES_REG.test(componentPath as string)) {
+                  componentPath = (componentPath as string).replace(nodeModulesPath, npmOutputDir)
                   realPath = promoteRelativePath(path.relative(outputComponentJSPath, componentPath))
                 } else {
-                  realPath = promoteRelativePath(path.relative(component, componentPath))
+                  realPath = promoteRelativePath(path.relative(component, (componentPath as string)))
                 }
                 depComponent.path = realPath.replace(path.extname(realPath), '')
               }
@@ -315,7 +314,7 @@ export async function buildSingleComponent (
     }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(res.scriptFiles, !isQuickApp)
+      await compileDepScripts(res.scriptFiles, !isQuickApp)
     }
     const depComponents = getDepComponents()
     // 编译样式文件

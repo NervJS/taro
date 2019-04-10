@@ -84,7 +84,7 @@ export async function buildSinglePage (page: string) {
       copyFileSync(pageJSONPath, outputPageJSONPath)
       transfromNativeComponents(pageJSONPath, pageJSON)
     }
-    compileDepScripts([pageJs])
+    await compileDepScripts([pageJs], true)
     copyFileSync(pageWXMLPath, outputPageWXMLPath)
     if (fs.existsSync(pageWXSSPath)) {
       await compileDepStyles(outputPageWXSSPath, [pageWXSSPath])
@@ -161,10 +161,9 @@ export async function buildSinglePage (page: string) {
       await buildDepComponents(realComponentsPathList)
     }
     const componentExportsMap = getComponentExportsMap()
-    if (!isEmptyObject(componentExportsMap) && realComponentsPathList.length) {
-      const mapKeys = Object.keys(componentExportsMap)
+    if (componentExportsMap.size && realComponentsPathList.length) {
       realComponentsPathList.forEach(component => {
-        if (mapKeys.indexOf(component.path as string) >= 0) {
+        if (componentExportsMap.has(component.path as string)) {
           const componentMap = componentExportsMap.get(component.path as string)
           componentMap && componentMap.forEach(component => {
             pageDepComponents.forEach(depComponent => {
@@ -184,7 +183,6 @@ export async function buildSinglePage (page: string) {
         }
       })
     }
-
     const fileDep = dependencyTree.get(pageJs) || {}
     if (!isQuickApp) {
       fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
@@ -197,7 +195,7 @@ export async function buildSinglePage (page: string) {
     }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
+      await compileDepScripts(res.scriptFiles, !isQuickApp)
     }
     // 编译样式文件
     if (isDifferentArray(fileDep['style'], res.styleFiles) || isDifferentArray(depComponents.get(pageJs) || [], pageDepComponents)) {
