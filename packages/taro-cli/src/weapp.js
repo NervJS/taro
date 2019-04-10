@@ -1781,6 +1781,11 @@ async function buildSingleComponent (componentObj, buildConfig = {}) {
       }
       return await buildSingleComponent(realComponentObj, buildConfig)
     }
+    componentsBuildResult[component] = {
+      js: outputComponentJSPath,
+      wxss: outputComponentWXSSPath,
+      wxml: outputComponentWXMLPath
+    }
     const transformResult = wxTransformer({
       code: componentContent,
       sourcePath: component,
