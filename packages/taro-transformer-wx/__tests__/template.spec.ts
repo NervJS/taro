@@ -377,7 +377,7 @@ describe('Template', () => {
     })
   })
 
-  test('不支持 spread 表达式', () => {
+  test.skip('不支持 spread 表达式', () => {
     expect(() => {
       transform({
         ...baseOptions,
@@ -633,7 +633,7 @@ describe('Template', () => {
       expect(template).toMatch(
         prettyPrint(`
         <block>
-            <ec-chart bindchange="handleChange" __triggerObserer="{{ _triggerObserer }}"></ec-chart>
+            <ec-chart bindchange="handleChange"></ec-chart>
         </block>
       `)
       )
@@ -656,7 +656,7 @@ describe('Template', () => {
       expect(template).toMatch(
         prettyPrint(`
         <block>
-            <ec-chart bindchange="handleChange" __triggerObserer="{{ _triggerObserer }}"></ec-chart>
+            <ec-chart bindchange="handleChange"></ec-chart>
         </block>
       `)
       )
