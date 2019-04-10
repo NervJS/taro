@@ -128,8 +128,47 @@ const createScroller = inst => {
   const isReachBottom = (distance = 0) => {
     return el.scrollHeight - el.scrollTop - el.clientHeight < distance
   }
-  
+
   return { listen, unlisten, getPos, isReachBottom }
+}
+
+function processApis (apiName, defaultOptions, formatResult = res => res) {
+  if (!window.wx) {
+    return weixinCorpSupport(apiName)
+  }
+  return (options, ...args) => {
+    options = options || {}
+    let task = null
+    let obj = Object.assign({}, defaultOptions, options)
+    if (typeof options === 'string') {
+      if (args.length) {
+        return wx[apiName](options, ...args)
+      }
+      return wx[apiName](options)
+    }
+    const p = new Promise((resolve, reject) => {
+      ;['fail', 'success', 'complete'].forEach(k => {
+        obj[k] = res => {
+          options[k] && options[k](res)
+          if (k === 'success') {
+            if (apiName === 'connectSocket') {
+              resolve(Promise.resolve().then(() => Object.assign(task, formatResult(res))))
+            } else {
+              resolve(formatResult(res))
+            }
+          } else if (k === 'fail') {
+            reject(formatResult(res))
+          }
+        }
+      })
+      if (args.length) {
+        task = wx[apiName](obj, ...args)
+      } else {
+        task = wx[apiName](obj)
+      }
+    })
+    return p
+  }
 }
 
 export {
@@ -146,5 +185,6 @@ export {
   isValidColor,
   isFunction,
   createCallbackManager,
-  createScroller
+  createScroller,
+  processApis
 }
