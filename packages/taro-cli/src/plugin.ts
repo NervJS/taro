@@ -171,7 +171,7 @@ function wxPluginWatchFiles () {
 
           if (isImported || filePath.includes(path.join(pluginDir, main))) {
             Util.printLog(processTypeEnum.MODIFY, 'JS文件', modifySource)
-            await Promise.all(compileDepScripts([filePath], true))
+            await Promise.all(compileDepScripts([filePath], true, true))
           } else {
             Util.printLog(processTypeEnum.WARNING, 'JS文件', `${modifySource} 没有被引用到，不会被编译`)
           }
@@ -359,7 +359,7 @@ async function buildWxPlugin ({ watch }) {
   // 编译插件 main.js
   if (main) {
     Util.printLog(processTypeEnum.COMPILE, '插件 JS')
-    await Promise.all(compileDepScripts([path.join(pluginDir, main)], true))
+    await Promise.all(compileDepScripts([path.join(pluginDir, main)], true, true))
   }
 
   // 把 plugin 目录挪到根目录

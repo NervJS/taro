@@ -16,6 +16,7 @@ import {
   PARSE_AST_TYPE
 } from '../util/constants'
 import { callPlugin } from '../util/npm'
+import { npmCodeHack } from '../util/resolve_npm_files'
 import { IWxTransformResult } from '../util/types'
 
 import {
@@ -94,6 +95,9 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction) {
             uglifyJS(resCode, item)
+          }
+          if (NODE_MODULES_REG.test(item)) {
+            resCode = npmCodeHack(outputItem, resCode, buildAdapter)
           }
           fs.writeFileSync(outputItem, resCode)
           let modifyOutput = outputItem.replace(appPath + path.sep, '')

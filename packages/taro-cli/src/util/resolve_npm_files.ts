@@ -265,7 +265,7 @@ async function recursiveRequire (
   }
 }
 
-function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
+export function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
   const basename = path.basename(filePath)
   switch (basename) {
     case 'lodash.js':

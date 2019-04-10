@@ -53,7 +53,7 @@ function buildWorkers (worker: string) {
       } else {
         files.forEach(filename => {
           const filePath = path.join(fileDir, filename)
-          fs.stat(filePath, (err, stats) => {
+          fs.stat(filePath, async (err, stats) => {
             if (err) {
               console.warn(err)
             } else {
@@ -61,7 +61,7 @@ function buildWorkers (worker: string) {
               const isDir = stats.isDirectory()
               if (isFile) {
                 if (REG_SCRIPTS.test(filePath)) {
-                  compileDepScripts([filePath])
+                  await compileDepScripts([filePath], true)
                 } else {
                   copyFilesFromSrcToOutput([filePath])
                 }
@@ -127,7 +127,7 @@ export async function buildEntry (): Promise<AppConfig> {
     }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
+      await compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
     }
     // 编译样式文件
     if (isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {

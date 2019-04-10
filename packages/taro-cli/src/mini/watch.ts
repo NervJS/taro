@@ -9,7 +9,8 @@ import {
   REG_STYLE,
   processTypeEnum,
   NODE_MODULES_REG,
-  isWindows
+  isWindows,
+  BUILD_TYPES
 } from '../util/constants'
 import {
   printLog,
@@ -50,9 +51,11 @@ export function watchFiles () {
     nodeModulesPath,
     npmOutputDir,
     entryFileName,
-    entryFilePath
+    entryFilePath,
+    buildAdapter
   } = getBuildData()
   const dependencyTree = getDependencyTree()
+  const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
   const watcherPaths = [path.join(sourceDir)].concat(projectConfig.watcher || [])
   const watcher = chokidar.watch(watcherPaths, {
     ignored: /(^|[/\\])\../,
@@ -123,7 +126,7 @@ export function watchFiles () {
             modifySource = modifySource.split(path.sep).join('/')
             if (isImported) {
               printLog(processTypeEnum.MODIFY, 'JS文件', modifySource)
-              compileDepScripts([filePath])
+              await compileDepScripts([filePath], !isQuickApp)
             } else {
               printLog(processTypeEnum.WARNING, 'JS文件', `${modifySource} 没有被引用到，不会被编译`)
             }
