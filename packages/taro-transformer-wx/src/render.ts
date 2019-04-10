@@ -1190,9 +1190,9 @@ export class RenderParser {
                 transformName = eventShouldBeCatched ? 'catchtap' : 'bindtap'
               }
               path.node.name = t.jSXIdentifier(transformName)
-            } else if (THIRD_PARTY_COMPONENTS.has(componentName) && Adapter.type !== Adapters.weapp) {
+            } else if (THIRD_PARTY_COMPONENTS.has(componentName)) {
               path.node.name = t.jSXIdentifier('bind' + name.name[2].toLowerCase() + name.name.slice(3))
-            } else if (Adapter.type !== Adapters.weapp) {
+            } else {
               path.node.name = t.jSXIdentifier('bind' + name.name.toLowerCase())
             }
           }
