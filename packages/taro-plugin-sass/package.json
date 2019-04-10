@@ -16,6 +16,7 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "dart-sass": "^1.17.4"
+    "dart-sass": "^1.17.4",
+    "scss-bundle": "^2.5.1"
   }
 }
