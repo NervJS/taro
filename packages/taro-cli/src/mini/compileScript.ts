@@ -16,6 +16,7 @@ import {
   PARSE_AST_TYPE
 } from '../util/constants'
 import { callPlugin } from '../util/npm'
+import { npmCodeHack } from '../util/resolve_npm_files'
 import { IWxTransformResult } from '../util/types'
 
 import {
@@ -93,13 +94,16 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           if (isProduction) {
             uglifyJS(resCode, item)
           }
+          if (NODE_MODULES_REG.test(item)) {
+            resCode = npmCodeHack(outputItem, resCode, buildAdapter)
+          }
           fs.writeFileSync(outputItem, resCode)
           let modifyOutput = outputItem.replace(appPath + path.sep, '')
           modifyOutput = modifyOutput.split(path.sep).join('/')
           printLog(processTypeEnum.GENERATE, '依赖文件', modifyOutput)
           // 编译依赖的脚本文件
           if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-            compileDepScripts(res.scriptFiles, needUseBabel)
+            await compileDepScripts(res.scriptFiles, needUseBabel)
           }
           // 拷贝依赖文件
           if (isDifferentArray(fileDep['json'], res.jsonFiles)) {
