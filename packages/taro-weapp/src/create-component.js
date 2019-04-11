@@ -325,7 +325,7 @@ function createComponent (ComponentClass, isPage) {
           this.$component.$preloadData = null
         }
       }
-      if (hasParamsCache) {
+      if (hasParamsCache || !isPage) {
         initComponent.apply(this, [ComponentClass, isPage])
       }
     },
