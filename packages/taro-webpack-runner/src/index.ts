@@ -36,7 +36,7 @@ const buildDll = async (config: BuildConfig): Promise<any> => {
     const webpackChain = dllConf(config)
 
     customizeChain(webpackChain, config.dllWebpackChain)
-    
+
     const webpackConfig = webpackChain.toConfig()
     const compiler = webpack(webpackConfig)
     bindDllLogger(compiler)
@@ -110,7 +110,7 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
     const devUrl = formatUrl({
       protocol: devServerOptions.https ? 'https' : 'http',
       hostname: devServerOptions.host,
-      port: devServerOptions.port,
+      port: config.port || devServerOptions.port,
       pathname: routerMode === 'browser' ? routerBasename : '/'
     })
     WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)

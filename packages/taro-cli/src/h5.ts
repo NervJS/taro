@@ -23,6 +23,7 @@ import {
   processTypeEnum,
   BUILD_TYPES
 } from './util/constants'
+import { IBuildConfig } from './util/types'
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
@@ -891,7 +892,7 @@ export function buildTemp () {
   })
 }
 
-async function buildDist (buildConfig) {
+async function buildDist (buildConfig: IBuildConfig) {
   const { watch } = buildConfig
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
@@ -913,6 +914,7 @@ async function buildDist (buildConfig) {
   if (watch) {
     h5Config.isWatch = true
   }
+  h5Config.port = buildConfig.port
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
   webpackRunner(h5Config)
 }
@@ -928,7 +930,7 @@ async function clean () {
   }
 }
 
-export async function build (buildConfig) {
+export async function build (buildConfig: IBuildConfig) {
   process.env.TARO_ENV = BUILD_TYPES.H5
   await clean()
   Util.copyFiles(appPath, projectConfig.copy)

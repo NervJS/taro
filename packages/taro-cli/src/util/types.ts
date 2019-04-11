@@ -46,12 +46,14 @@ export interface IPrettierConfig {
 
 export interface IBuildConfig {
   type?: BUILD_TYPES,
-  watch?: boolean
+  watch?: boolean,
+  port?: number
 }
 
 export interface IMiniAppBuildConfig {
   adapter: BUILD_TYPES,
-  watch?: boolean
+  watch?: boolean,
+  port?: number
 }
 
 export interface IOption {

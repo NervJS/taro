@@ -23,7 +23,8 @@ import {
   getBuildData,
   setIsProduction,
   setBuildAdapter,
-  setAppConfig
+  setAppConfig,
+  IBuildData
 } from './helper'
 import { buildEntry } from './entry'
 import { buildPages } from './page'
@@ -132,7 +133,7 @@ function generateQuickAppManifest () {
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
 
-async function prepareQuickAppEnvironment (isWatch, buildData) {
+async function prepareQuickAppEnvironment (isWatch: boolean | void, buildData: IBuildData) {
   let isReady = false
   let needDownload = false
   let needInstall = false
@@ -196,7 +197,7 @@ async function prepareQuickAppEnvironment (isWatch, buildData) {
   return isReady
 }
 
-async function runQuickApp (isWatch, buildData) {
+async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number) {
   const originalOutputDir = buildData.originalOutputDir
   if (isWatch) {
     const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
@@ -204,7 +205,7 @@ async function runQuickApp (isWatch, buildData) {
     const launchServer = require(path.join(hapToolkitLib, 'server'))
     const compile = require(path.join(hapToolkitLib, 'commands/compile'))
     launchServer({
-      port: 12130,
+      port: port || 12306,
       watch: isWatch,
       clearRecords: false,
       disableADB: false
@@ -215,7 +216,7 @@ async function runQuickApp (isWatch, buildData) {
   }
 }
 
-export async function build ({ watch, adapter = BUILD_TYPES.WEAPP }: IMiniAppBuildConfig) {
+export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, port }: IMiniAppBuildConfig) {
   const buildData = getBuildData()
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   process.env.TARO_ENV = adapter
@@ -242,6 +243,6 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP }: IMiniAppBui
       process.exit(0)
       return
     }
-    await runQuickApp(watch, buildData)
+    await runQuickApp(watch, buildData, port)
   }
 }
