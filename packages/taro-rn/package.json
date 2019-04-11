@@ -8,6 +8,7 @@
     "index.js"
   ],
   "scripts": {
+    "dev": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
