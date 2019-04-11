@@ -1,8 +1,4 @@
-<%if (locals.typescript) {-%>
-import Taro, { Component, Config } from '@tarojs/taro'
-<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
-<%}-%>
 import { View } from '@tarojs/components'
 import ListItem from '../../components/listItem/listItem'
 import './list.<%= css %>'
@@ -20,10 +16,11 @@ export default class List extends Component {
       value: '3'
     }]
   }
+
   render () {
     return (
       <View>
-        {this.state.list.map((item, index) => {
+        {this.state.list.map(item => {
           return <ListItem name={item.name} value={item.value} key={item.name} />
         })}
       </View>

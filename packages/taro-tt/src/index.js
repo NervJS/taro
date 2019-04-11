@@ -17,6 +17,7 @@ import PureComponent from './pure-component'
 import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
+import { handleLoopRef } from './util'
 
 export const Taro = {
   Component,
@@ -33,7 +34,8 @@ export const Taro = {
   internal_inline_style,
   createComponent,
   internal_get_original,
-  interceptors
+  interceptors,
+  handleLoopRef
 }
 
 export default Taro

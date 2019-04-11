@@ -40,10 +40,14 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
         'asyncGenerators',
         'objectRestSpread',
         'decorators',
-        'dynamicImport'
+        'dynamicImport',
+        'doExpressions',
+        'exportExtensions'
       ] as any[]
     },
     plugins: [
+      require('babel-plugin-transform-do-expressions'),
+      require('babel-plugin-transform-export-extensions'),
       require('babel-plugin-transform-flow-strip-types'),
       [require('babel-plugin-transform-define').default, transformOptions.env]
     ].concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)

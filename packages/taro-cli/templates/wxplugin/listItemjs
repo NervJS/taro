@@ -1,12 +1,15 @@
-<%if (locals.typescript) {-%>
-import Taro, { Component, Config } from '@tarojs/taro'
-<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
-<%}-%>
 import { View } from '@tarojs/components'
 import './listItem.<%= css %>'
 
-export default class ListItem extends Component {
+<%if (locals.typescript) {-%>
+interface IListItem {
+  name: string,
+  value: string
+}
+<%}-%>
+
+export default class ListItem extends Component<%if (locals.typescript) {-%><IListItem, any><%}-%> {
   render () {
     const { name, value } = this.props
     return (

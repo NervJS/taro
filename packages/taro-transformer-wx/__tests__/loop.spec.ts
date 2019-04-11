@@ -7,8 +7,77 @@ import {
   removeShadowData,
   prettyPrint
 } from './utils'
-
+// tslint:disable: no-console
 describe('loop', () => {
+  describe('key', () => {
+    let logs: string[] = []
+    const oldWarn = console.log
+    const warning = '使用循环的 index 变量作为 key 是一种反优化'
+    beforeAll(() => {
+      console.log = function () {
+        logs.push(...arguments)
+      }
+    })
+
+    beforeEach(() => {
+      logs = []
+    })
+
+    afterAll(() => {
+      console.log = oldWarn
+    })
+
+    test('key 使用 index 作为值', () => {
+      transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [] }]
+          return (
+            <View>{array.map((item, i) => {
+              return <CoverView key={i} data={escape(i)} />
+            })}</View>
+          )
+        `)
+      })
+
+      expect(logs.some(l => l.includes(warning))).toBeTruthy()
+    })
+
+    test('key 不使用 index 作为值', () => {
+      transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [] }]
+          return (
+            <View>{array.map((item, i) => {
+              return <CoverView key={item} data={escape(i)} />
+            })}</View>
+          )
+        `)
+      })
+
+      expect(logs.some(l => l.includes(warning))).toBeFalsy()
+    })
+
+    test('其它 props 使用 index 作为值', () => {
+      transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          const array = [{ list: [] }]
+          return (
+            <View>{array.map((item, i) => {
+              return <CoverView test={item} data={escape(i)} />
+            })}</View>
+          )
+        `)
+      })
+
+      expect(logs.some(l => l.includes(warning))).toBeFalsy()
+    })
+  })
   describe('有 block 有 return', () => {
     describe('多层 loop', () => {
       test('简单情况', () => {

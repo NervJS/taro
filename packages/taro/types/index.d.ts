@@ -104,6 +104,13 @@ declare namespace Taro {
     $scope?: any
   }
 
+  interface ComponentClass<P = {}> {
+    new (...args: any[]): Component<P, {}>
+    propTypes?: any
+    defaultProps?: Partial<P>
+    displayName?: string
+  }
+
   interface PageConfig {
     /**
      * 导航栏背景颜色，HexColor
@@ -476,6 +483,7 @@ declare namespace Taro {
   function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
+  function initPxTransform(config: { designWidth: number, deviceRatio: object })
 
   interface RequestParams {
     [propName: string]: any
