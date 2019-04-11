@@ -4,7 +4,7 @@
     "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
   },
-  <%if (!typescript) {-%>
+  <%if (!locals.typescript) {-%>
   "parser": "babel-eslint"
   <%} else { -%>
   "parser": "@typescript-eslint/parser",
