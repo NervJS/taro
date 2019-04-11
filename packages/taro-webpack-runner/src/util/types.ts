@@ -101,4 +101,5 @@ export interface TaroBaseConfig {
 
 export interface BuildConfig extends TaroBaseConfig, TaroH5Config {
   isWatch: boolean;
+  port?: number
 };

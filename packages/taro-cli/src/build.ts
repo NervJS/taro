@@ -11,7 +11,7 @@ import { IBuildConfig } from './util/types'
 const appPath = process.cwd()
 
 export default function build (args, buildConfig: IBuildConfig) {
-  const { type, watch, platform } = buildConfig
+  const { type, watch, platform, port } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
@@ -21,7 +21,7 @@ export default function build (args, buildConfig: IBuildConfig) {
   }
   switch (type) {
     case BUILD_TYPES.H5:
-      buildForH5({ watch })
+      buildForH5({ watch, port })
       break
     case BUILD_TYPES.WEAPP:
       buildForWeapp({ watch })
@@ -39,7 +39,7 @@ export default function build (args, buildConfig: IBuildConfig) {
       buildForRN({ watch })
       break
     case BUILD_TYPES.QUICKAPP:
-      buildForQuickApp({ watch })
+      buildForQuickApp({ watch, port })
       break
     case BUILD_TYPES.UI:
       buildForUILibrary({ watch })
@@ -91,10 +91,11 @@ function buildForRN ({ watch }: IBuildConfig) {
   require('./rn').build({ watch })
 }
 
-function buildForQuickApp ({ watch }: IBuildConfig) {
+function buildForQuickApp ({ watch, port }: IBuildConfig) {
   require('./mini').build({
     watch,
-    adapter: BUILD_TYPES.QUICKAPP
+    adapter: BUILD_TYPES.QUICKAPP,
+    port
   })
 }
 
