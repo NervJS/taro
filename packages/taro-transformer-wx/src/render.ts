@@ -122,7 +122,7 @@ export class RenderParser {
   private incrementCalleeId = incrementId()
   private loopArrayId = incrementId()
   private classComputedState = new Set<string>()
-  private propsSettingExpressions = new Set<t.ExpressionStatement | t.VariableDeclaration>()
+  private propsSettingExpressions = new Set<t.ExpressionStatement | t.VariableDeclaration | Function>()
   private loopCallees = new Set<t.Node>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
@@ -899,9 +899,8 @@ export class RenderParser {
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
       const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
-      const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
       this.propsSettingExpressions.add(idExpr)
-      this.propsSettingExpressions.add(t.expressionStatement(expr))
+      this.propsSettingExpressions.add(() => t.expressionStatement(setAncestorCondition(jsxElementPath, propsSettingExpr)))
 
       // xml 中打上组件 ID
       setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
@@ -1990,8 +1989,13 @@ export class RenderParser {
         })
       )
     )
+
+    const propsStatement: t.ExpressionStatement | t.VariableDeclaration[] = [...this.propsSettingExpressions].map(expr => {
+      if (typeof expr === 'function') return expr()
+      return expr
+    })
     this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
-      ...this.propsSettingExpressions,
+      ...propsStatement,
       buildAssignState(pendingState),
       t.returnStatement(
         t.memberExpression(t.thisExpression(), t.identifier('state'))
