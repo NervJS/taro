@@ -17,7 +17,7 @@ import 'weui'
 /**
  * Video组件参数
  * @typedef {Object} VideoProps
- * @property {string} src 要播放视频的资源地址，支持云文件ID（2.3.0）
+ * @property {string} src 要播放视频的资源地址
  * @property {boolean} [autoPauseIfNavigate=true] 当跳转到其它小程序页面时，是否自动暂停本页面的视频
  * @property {boolean} [autoPauseIfOpenNative=true] 当跳转到其它微信原生页面时，是否自动暂停本页面的视频
  * @property {boolean} [autoplay=false] 是否自动播放
@@ -41,12 +41,12 @@ import 'weui'
  * @property {boolean} [vslideGestureInFullscreen=true] 在全屏模式下，是否开启亮度与音量调节手势
  * @property {number} [direction]  设置全屏时视频的方向，不指定则根据宽高比自动判断
  * @property {number} [duration]  指定视频时长
- * @property {string} [poster]  视频封面的图片网络资源地址或云文件ID（2.3.0）。若 controls 属性值为 false 则设置 poster 无效
+ * @property {string} [poster]  视频封面的图片网络资源地址。若 controls 属性值为 false 则设置 poster 无效
  * @property {string} [title]  视频的标题，全屏时在顶部展示
  * @property {Function} [onPlay] 当开始/继续播放时触发play事件
  * @property {Function} [onPause] 当暂停播放时触发 pause 事件
  * @property {Function} [onEnded] 当播放到末尾时触发 ended 事件
- * @property {Function} [onTimeupdate] 播放进度变化时触发，event.detail = {currentTime, duration} 。触发频率 250ms 一次
+ * @property {Function} [onTimeUpdate] 播放进度变化时触发，event.detail = {currentTime, duration} 。触发频率 250ms 一次
  * @property {Function} [onFullscreenChange] 视频进入和退出全屏时触发，event.detail = {fullScreen, direction}，direction 有效值为 vertical 或 horizontal
  * @property {Function} [onWaiting] 视频出现缓冲时触发
  * @property {Function} [onError] 视频播放出错时触发
