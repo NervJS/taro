@@ -5,6 +5,7 @@ import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as ora from 'ora'
 import * as shelljs from 'shelljs'
+import * as resolvePath from 'resolve'
 
 import {
   printLog,
@@ -90,7 +91,7 @@ async function buildFrameworkInfo () {
 function generateQuickAppManifest () {
   const { appConfig, pageConfigs, appPath, outputDir, projectConfig } = getBuildData()
   // 生成 router
-  const pages = appConfig.pages as string[]
+  const pages = (appConfig.pages as string[]).concat()
   const routerPages = {}
   pages.forEach(element => {
     routerPages[path.dirname(element)] = {
@@ -195,9 +196,22 @@ async function prepareQuickAppEnvironment (isWatch, buildData) {
   return isReady
 }
 
-async function runQuickApp (isWatch) {
+async function runQuickApp (isWatch, buildData) {
+  const originalOutputDir = buildData.originalOutputDir
   if (isWatch) {
-    shelljs.exec('npm run watch & npm run server -- --port 12310', { silent: false })
+    const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
+    const hapToolkitLib = path.join(path.dirname(hapToolkitPath), 'lib')
+    const launchServer = require(path.join(hapToolkitLib, 'server'))
+    const compile = require(path.join(hapToolkitLib, 'commands/compile'))
+    launchServer({
+      port: 12130,
+      watch: isWatch,
+      clearRecords: false,
+      disableADB: false
+    })
+    if (isWatch) {
+      compile('native', 'dev', true)
+    }
   }
 }
 
@@ -216,6 +230,9 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP }: IMiniAppBui
   const appConfig = await buildEntry()
   setAppConfig(appConfig)
   await buildPages()
+  if (watch) {
+    watchFiles()
+  }
   if (isQuickApp) {
     generateQuickAppManifest()
     const isReady = await prepareQuickAppEnvironment(watch, buildData)
@@ -225,9 +242,6 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP }: IMiniAppBui
       process.exit(0)
       return
     }
-    await runQuickApp(watch)
-  }
-  if (watch) {
-    watchFiles()
+    await runQuickApp(watch, buildData)
   }
 }
