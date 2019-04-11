@@ -184,7 +184,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
-        if (Adapter.type === Adapters.weapp) return {}
+        if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) return {}
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
       let name = attr.name.name
@@ -261,13 +261,13 @@ export function parseJSXElement (element: t.JSXElement): string {
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
       }
-      if (!isDefaultComponent && !specialComponentName.includes(componentName) && Adapter.type !== Adapters.weapp) {
+      if (!isDefaultComponent && !specialComponentName.includes(componentName) && Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan) {
         obj[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
       }
       return obj
     }, {})
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
-    if (Adapter.type !== Adapters.weapp) {
+    if (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan) {
       attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
     }
   }

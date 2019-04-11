@@ -17,7 +17,8 @@ import PureComponent from './pure-component'
 import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
-import { getElementById } from './util'
+import propsManager from './propsManager'
+import { getElementById, genCompid, genLoopCompid } from './util'
 
 export const Taro = {
   Component,
@@ -35,7 +36,10 @@ export const Taro = {
   createComponent,
   internal_get_original,
   interceptors,
-  getElementById
+  getElementById,
+  propsManager,
+  genCompid,
+  genLoopCompid
 }
 
 export default Taro
