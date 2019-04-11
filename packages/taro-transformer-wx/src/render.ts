@@ -337,7 +337,7 @@ export class RenderParser {
   }
 
   setProperies () {
-    if ([Adapters.alipay, Adapters.weapp].includes(Adapter.type)) {
+    if ([Adapters.alipay, Adapters.weapp, Adapters.swan].includes(Adapter.type)) {
       return
     }
     const properties: t.ObjectProperty[] = []
@@ -614,7 +614,7 @@ export class RenderParser {
         }
 
         const blockAttrs: t.JSXAttribute[] = []
-        if (Adapter.type === Adapters.weapp && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
+        if ((Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
           blockAttrs.push(t.jSXAttribute(
             t.jSXIdentifier(Adapter.if),
             t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
@@ -1015,7 +1015,7 @@ export class RenderParser {
             .node as t.JSXElement
           const componentName = JSXElement.openingElement.name
           if (
-            Adapter.type === Adapters.weapp &&
+            (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) &&
             t.isJSXIdentifier(componentName) &&
             !DEFAULT_Component_SET.has(componentName.name)
           ) {
@@ -1126,7 +1126,7 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind') &&
               (
-                Adapter.type !== Adapters.weapp ||
+                (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan) ||
                 (t.isJSXIdentifier(componentName) && DEFAULT_Component_SET.has(componentName.name))
               )
             ) {
@@ -1164,7 +1164,8 @@ export class RenderParser {
               if (
                 process.env.NODE_ENV !== 'test' &&
                 Adapter.type !== Adapters.alipay &&
-                Adapter.type !== Adapters.weapp
+                Adapter.type !== Adapters.weapp &&
+                Adapter.type !== Adapters.swan
               ) {
                 const fnName = `__fn_${name.name}`
                 element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
@@ -1441,7 +1442,7 @@ export class RenderParser {
       })
     }
     this.handleLoopComponents()
-    Adapter.type === Adapters.weapp && this.handleComponents(renderBody)
+    if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) this.handleComponents(renderBody)
     renderBody.traverse(this.visitors)
     this.setOutputTemplate()
     this.checkDuplicateName()
@@ -1568,7 +1569,7 @@ export class RenderParser {
         }
       }
 
-      if (Adapter.type === Adapters.weapp) {
+      if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) {
         let loops: t.ArrayExpression | null = null
 
         blockStatementPath.traverse({
@@ -1944,7 +1945,7 @@ export class RenderParser {
 
     const componentProperies = cloneDeep(this.componentProperies)
 
-    if ([Adapters.alipay, Adapters.weapp].includes(Adapter.type)) {
+    if ([Adapters.alipay, Adapters.weapp, Adapters.swan].includes(Adapter.type)) {
       componentProperies.clear()
     } else {
       componentProperies.forEach(s => {
@@ -2030,11 +2031,6 @@ export class RenderParser {
     }
     const pendingState = t.objectExpression(
       properties.concat(
-        Adapter.type === Adapters.swan && transformOptions.isRoot ? t.objectProperty(
-          t.identifier('_triggerObserer'),
-          t.booleanLiteral(false)
-        ) : []
-      ).concat(
         Array.from(this.classComputedState).filter(i => {
           return !propertyKeys.includes(i)
         }).map(i => {
