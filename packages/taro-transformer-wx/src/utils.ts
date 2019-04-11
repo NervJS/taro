@@ -381,7 +381,15 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
-    element.attributes.push(buildJSXAttr(Adapter.if, value))
+    const attrs = element.attributes
+    if (!attrs.some(a => a.name.name === Adapter.for)) {
+      element.attributes.push(buildJSXAttr(Adapter.if, value))
+    } else if (path) {
+      const block = buildBlockElement()
+      newJSXIfAttr(block, value)
+      block.children.push(jsx)
+      path.node = block
+    }
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)
