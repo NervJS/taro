@@ -76,8 +76,6 @@ if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
 }
 
 let pages = []
-let tabBar
-let tabbarPos
 // let appConfig = {}
 
 const FILE_TYPE = {
@@ -137,6 +135,8 @@ function processEntry (code, filePath) {
   let storeName
   let renderCallCode
 
+  let tabBar
+  let tabbarPos
   let hasAddNervJsImportDefaultName = false
   let hasConstructor = false
   let hasComponentWillMount = false
