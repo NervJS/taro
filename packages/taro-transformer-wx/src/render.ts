@@ -301,11 +301,11 @@ export class RenderParser {
           setTemplate(name, jsxElementPath, this.templates)
         }
       } else if (t.isJSXElement(consequent) && t.isCallExpression(alternate) && !isArrayMapCallExpression(parentPath.get('alternate'))) {
-        const id = generateAnonymousState(this.renderScope!, parentPath.get('alternate') as any, this.referencedIdentifiers, true)
+        const id = generateAnonymousState(this.renderScope, parentPath.get('alternate') as any, this.referencedIdentifiers, true)
         parentPath.get('alternate').replaceWith(id)
         //
       } else if (t.isJSXElement(alternate) && t.isCallExpression(consequent) && !isArrayMapCallExpression(parentPath.get('consequent'))) {
-        const id = generateAnonymousState(this.renderScope!, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
+        const id = generateAnonymousState(this.renderScope, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
         parentPath.get('consequent').replaceWith(id)
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
@@ -496,6 +496,7 @@ export class RenderParser {
                         t.stringLiteral(index.name)
                       )
                       this.loopScopes.add(index.name)
+                    // tslint:disable-next-line: strict-type-predicates
                     } else if (index === undefined) {
                       if (process.env.NODE_ENV !== 'test') {
                         setJSXAttr(
@@ -660,7 +661,7 @@ export class RenderParser {
       if (t.isIdentifier(parentNode.left)) {
         const assignmentName = parentNode.left.name
         const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
-        const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
+        const bindingNode = renderScope.getOwnBinding(assignmentName).path.node
         // tslint:disable-next-line
         const parallelIfStems = this.findParallelIfStem(ifStatement)
         const parentIfStatement = ifStatement.findParent(p =>
@@ -668,6 +669,7 @@ export class RenderParser {
         ) as NodePath<t.IfStatement>
         // @TODO: 重构 this.templates 为基于作用域的 HashMap，现在仍然可能会存在重复的情况
         let block = this.templates.get(assignmentName) || buildBlockElement()
+        let isElse = false
         if (isEmptyDeclarator(bindingNode)) {
           const blockStatement = parentPath.findParent(p =>
             p.isBlockStatement()
@@ -739,6 +741,14 @@ export class RenderParser {
                 if (parentIfStatement) {
                   if (this.isEmptyBlock(block)) {
                     newJSXIfAttr(block, parentIfStatement.node.test, jsxElementPath)
+                  } else if (parentIfStatement.node.alternate === ifStatement.parent) {
+                    const newBlock = buildBlockElement()
+                    setJSXAttr(
+                      newBlock,
+                      Adapter.else
+                    )
+                    this.insertElseBlock(block, newBlock, parentIfStatement.node.test)
+                    isElse = true
                   } else {
                     const newBlock = buildBlockElement()
                     setJSXAttr(
@@ -762,7 +772,7 @@ export class RenderParser {
               parentIfStatement && ifStatement.parentPath !== parentIfStatement
             ) {
               let hasNest = false
-              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test, hasNest)
+              this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test, hasNest, isElse || !!ifStatement.findParent(p => p.node === parentIfStatement.node.alternate))
               if (!hasNest && parentIfStatement.get('alternate') !== ifStatement) {
                 const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
                 if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: parentIfStatement.node.test })) {
@@ -793,7 +803,7 @@ export class RenderParser {
     }
   }
 
-  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression, hasNest: boolean) => {
+  insertElseBlock = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression) => {
     if (this.isEmptyBlock(block)) {
       return
     }
@@ -809,11 +819,42 @@ export class RenderParser {
         ||
         (ifElseAttr && t.isJSXExpressionContainer(ifElseAttr.value, { expression: test }))
       ) {
-        child.children.push(jsx)
+        block.children.push(jsx)
+        break
+      } else {
+        this.insertElseBlock(child, jsx, test)
+      }
+    }
+  }
+
+  handleNestedIfStatement = (block: t.JSXElement, jsx: t.JSXElement, test: t.Expression, hasNest: boolean, isElse: boolean) => {
+    if (this.isEmptyBlock(block)) {
+      return
+    }
+
+    for (const [index, child] of block.children.entries()) {
+      if (!t.isJSXElement(child)) {
+        continue
+      }
+      const ifAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.if)
+      const ifElseAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.elseif)
+      if (
+        (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test }))
+        ||
+        (ifElseAttr && t.isJSXExpressionContainer(ifElseAttr.value, { expression: test }))
+      ) {
+        if (isElse) {
+          const nextChild = block.children[index + 1]
+          if (t.isJSXElement(nextChild)) {
+            nextChild.children.push(jsx)
+          }
+        } else {
+          child.children.push(jsx)
+        }
         hasNest = true
         break
       } else {
-        this.handleNestedIfStatement(child, jsx, test, hasNest)
+        this.handleNestedIfStatement(child, jsx, test, hasNest, isElse)
       }
     }
   }
@@ -876,7 +917,7 @@ export class RenderParser {
               } else {
                 let expr: any = null
                 if (t.isIdentifier(node) && path.scope.hasBinding(argName)) {
-                  this.addRefIdentifier(path, node as t.Identifier)
+                  this.addRefIdentifier(path, node)
                   expr = t.jSXExpressionContainer(node)
                 } else if (t.isMemberExpression(node)) {
                   const id = findFirstIdentifierFromMemberExpression(node)
@@ -898,7 +939,7 @@ export class RenderParser {
                 setJSXAttr(
                   JSXElement,
                   `data-e-${bindEventName}-a-${toLetters(index)}`,
-                  expr!
+                  expr
                 )
               }
             })
@@ -1144,6 +1185,7 @@ export class RenderParser {
       const init = path.get('init')
       const id = path.get('id')
       const ifStem = init.findParent(p => p.isIfStatement())
+      // tslint:disable-next-line: strict-type-predicates
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
       }
@@ -1349,7 +1391,7 @@ export class RenderParser {
           const params = func.params as t.Identifier[]
           indexId = params[1]
         }
-        if (indexId === null || !t.isIdentifier(indexId!)) {
+        if (indexId === null || !t.isIdentifier(indexId)) {
           throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
         }
         const id = typeof ref.id === 'string' ? t.binaryExpression('+', t.stringLiteral(ref.id), indexId) : ref.id
