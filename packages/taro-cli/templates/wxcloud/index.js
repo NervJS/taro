@@ -103,7 +103,7 @@ module.exports = function (creater, params, helper, cb) {
       typescript: true
     })
   } else {
-    creater.template(template, path.join(clientDirName, 'pagejs'), path.join(sourceDir, 'pages', 'index', 'index.weapp.js'), {
+    creater.template(template, path.join(clientDirName, 'pagejs'), path.join(sourceDir, 'pages', 'index', 'index.js'), {
       css: currentStyleExt
     })
     creater.template(template, path.join(clientDirName, 'components', 'login', 'index'), path.join(sourceDir, 'components', 'login', 'index.weapp.js'), {
