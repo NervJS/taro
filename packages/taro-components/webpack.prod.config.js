@@ -64,6 +64,14 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 2000,
+          name: 'img/[name].[ext]'
+        }
       }
     ]
   }
