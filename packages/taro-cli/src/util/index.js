@@ -482,10 +482,14 @@ exports.generateConstantsList = function (constants) {
   const res = { }
   if (constants && !exports.isEmptyObject(constants)) {
     for (const key in constants) {
-      try {
-        res[key] = JSON.parse(constants[key])
-      } catch (err) {
-        res[key] = constants[key]
+      if (_.isPlainObject(constants[key])) {
+        res[key] = exports.generateConstantsList(constants[key])
+      } else {
+        try {
+          res[key] = JSON.parse(constants[key])
+        } catch (err) {
+          res[key] = constants[key]
+        }
       }
     }
   }
