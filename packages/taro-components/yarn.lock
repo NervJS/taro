@@ -682,9 +682,10 @@
   version "1.1.3"
   resolved "https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
 
-"@tarojs/taro-h5@1.2.24":
-  version "1.2.24"
-  resolved "https://registry.npmjs.org/@tarojs/taro-h5/-/taro-h5-1.2.24.tgz#8581a97fe713cc0835cd7e283dc6fbbedc606e81"
+"@tarojs/taro-h5@1.2.25":
+  version "1.2.25"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro-h5/-/taro-h5-1.2.25.tgz#01e47ab3f8216222b3530346d52f6ef25da0a59f"
+  integrity sha512-7iB8FfURPgfqzYlQuOp+TucOOeTW0EtD2wAGwV5u/nG0EaRH89jhli2ryTamM2RZfpVppYB9K3YEUGksHmTmWw==
   dependencies:
     base64-js "^1.3.0"
     jsonp-retry "^1.0.3"
