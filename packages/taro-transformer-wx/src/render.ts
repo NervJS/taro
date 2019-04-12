@@ -1481,7 +1481,10 @@ export class RenderParser {
     }
   }
 
-  isEmptyProps = (attrs: t.JSXAttribute[]) => attrs.filter(a => ![Adapter.for, Adapter.forIndex, Adapter.forItem, 'id'].includes(a.name.name as string)).length === 0
+  isEmptyProps = (attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[]) => attrs.filter(a => {
+    if (t.isJSXSpreadAttribute(a)) return true
+    return ![Adapter.for, Adapter.forIndex, Adapter.forItem, 'id'].includes(a.name.name as string)
+  }).length === 0
 
   /**
    * jsxDeclarations,
