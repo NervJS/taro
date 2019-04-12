@@ -409,8 +409,6 @@ function parsePage (
     []
   )
 
-  debugger
-
   if (weappConf) {
     classDecl.decorators = [buildDecorator(componentType || 'Page', weappConf)]
   }

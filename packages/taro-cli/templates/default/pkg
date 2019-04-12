@@ -50,7 +50,7 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-taro": "<%= version %>"<% if (typescript) {%>,
-    "@typescript-eslint/parser": "^0.12.0",
+    "@typescript-eslint/parser": "^1.6.0",
     "typescript": "^3.0.1"<%}%>
   }
 }
