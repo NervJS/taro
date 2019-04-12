@@ -132,7 +132,8 @@ exports.CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
   [exports.BUILD_TYPES.SWAN]: {
     navigationBarTitleText: 'navigationBarTitleText',
@@ -141,7 +142,8 @@ exports.CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
   [exports.BUILD_TYPES.TT]: {
     navigationBarTitleText: 'navigationBarTitleText',
@@ -150,7 +152,8 @@ exports.CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
   [exports.BUILD_TYPES.ALIPAY]: {
     navigationBarTitleText: 'defaultTitle',
@@ -159,7 +162,8 @@ exports.CONFIG_MAP = {
     list: 'items',
     text: 'name',
     iconPath: 'icon',
-    selectedIconPath: 'activeIcon'
+    selectedIconPath: 'activeIcon',
+    color: 'textColor'
   }
 }
 
