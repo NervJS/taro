@@ -642,10 +642,21 @@ See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debu
 - [Troubleshooting](https://github.com/jhen0409/react-native-debugger/blob/master/docs/troubleshooting.md)
 - [Contributing](https://github.com/jhen0409/react-native-debugger/blob/master/docs/contributing.md)
 
+## 使用原生模块
+有一些平台性的差异是 Taro 无法抹平的，比如支付、登录等，这时候就需要自己写跨端代码，RN 端这边可能还需要修改原生代码。
+
+例如登录的功能：
+
+![image](https://user-images.githubusercontent.com/9441951/56015544-ff513600-5d2b-11e9-92a6-ad01d21b2b8f.png)
+
+React Native 参考文档:[原生模块](https://reactnative.cn/docs/0.55/native-modules-ios/)
+
 ## 集成到现有原生 app
+Taro  编译后的项目实际上就是一个 native React Native 项目，所以集成到现有原生 app 的流程和 React Native 也是一样的。
+
 如果你正准备从头开始制作一个新的应用，那么 React Native 会是个非常好的选择。但如果你只想给现有的原生应用中添加一两个视图或是业务流程，React Native 也同样不在话下。只需简单几步，你就可以给原有应用加上新的基于 React Native 的特性、画面和视图等。
 
-参考文档：[集成到现有原生应用](https://reactnative.cn/docs/0.55/integration-with-existing-apps/)
+React Native 参考文档：[集成到现有原生应用](https://reactnative.cn/docs/0.55/integration-with-existing-apps/)
 
 ## 构建独立 app
 
