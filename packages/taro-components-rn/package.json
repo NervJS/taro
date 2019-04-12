@@ -9,12 +9,8 @@
     "flow": "flow",
     "flow-stop": "flow stop",
     "lint": "eslint .",
-    "test": "jest --coverage",
     "prepare": "npm run build",
-    "test-update": "jest --updateSnapshot",
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios"
+    "test-update": "jest --updateSnapshot"
   },
   "files": [
     "dist"
@@ -40,21 +36,19 @@
     "utility-types": "^3.4.1"
   },
   "peerDependencies": {
-    "expo": "27.0.0",
     "react": "^16.4.1",
-    "react-native": "^0.55.4"
+    "react-native": "0.55.4"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/preset-env": "^7.3.4",
-    "@types/expo": "^30.0.0",
-    "@types/expo__vector-icons": "^6.2.3",
     "@types/react": "^16.7.5",
     "@types/react-native": "^0.57.8",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^22.4.3",
     "babel-preset-flow": "^6.23.0",
+    "babel-preset-react-native": "^4.0.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
