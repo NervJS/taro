@@ -197,6 +197,7 @@ class Transformer {
 
   traverse () {
     const self = this
+    let hasRender = false
     self.classPath.traverse({
       JSXOpeningElement: (path) => {
         const jsx = path.node
@@ -290,6 +291,7 @@ class Transformer {
           const name = node.key.name
           self.methods.set(name, path)
           if (name === 'render') {
+            hasRender = true
             self.renderMethod = path
             path.traverse({
               ReturnStatement (returnPath) {
@@ -323,6 +325,14 @@ class Transformer {
                 }
               }
             })
+          }
+        }
+      },
+      ClassBody: {
+        exit (path) {
+          const node = path.node as t.ClassBody
+          if (!hasRender) {
+            node.body.push(t.classMethod('method', t.identifier('_createData'), [], t.blockStatement([])))
           }
         }
       },
