@@ -64,7 +64,7 @@ export function parseScript (
           componentType,
           refId
         )
-        if (componentType !== 'App' && !classDecl.decorators) {
+        if (componentType !== 'App' && classDecl.decorators!.length === 0) {
           classDecl.decorators = [buildDecorator(componentType)]
         }
         ast.program.body.push(
@@ -408,6 +408,8 @@ function parsePage (
     ),
     []
   )
+
+  debugger
 
   if (weappConf) {
     classDecl.decorators = [buildDecorator(componentType || 'Page', weappConf)]
