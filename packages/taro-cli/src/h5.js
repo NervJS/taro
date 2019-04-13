@@ -76,8 +76,6 @@ if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
 }
 
 let pages = []
-let tabBar
-let tabbarPos
 // let appConfig = {}
 
 const FILE_TYPE = {
@@ -137,6 +135,8 @@ function processEntry (code, filePath) {
   let storeName
   let renderCallCode
 
+  let tabBar
+  let tabbarPos
   let hasAddNervJsImportDefaultName = false
   let hasConstructor = false
   let hasComponentWillMount = false
@@ -782,28 +782,28 @@ function processOthers (code, filePath, fileType) {
             )
           }
           if (keyName === 'render') {
-            node.body.body = _.flatMap(node.body.body, statement => {
-              if (!t.isReturnStatement(statement)) return statement
-              const varName = astPath.scope.generateUid()
-              const returnValue = statement.argument
-              const pullDownRefreshNode = t.variableDeclaration(
-                'const',
-                [t.variableDeclarator(
-                  t.identifier(varName),
-                  returnValue
-                )]
-              )
-              return [
-                pullDownRefreshNode,
-                toAst(`
-                  return (
+            astPath.traverse({
+              ReturnStatement: {
+                exit (returnAstPath) {
+                  const statement = returnAstPath.node
+                  const varName = returnAstPath.scope.generateUid()
+                  const returnValue = statement.argument
+                  const pullDownRefreshNode = t.variableDeclaration(
+                    'const',
+                    [t.variableDeclarator(
+                      t.identifier(varName),
+                      returnValue
+                    )]
+                  )
+                  returnAstPath.insertBefore(pullDownRefreshNode)
+                  statement.argument = toAst(`
                     <PullDownRefresh
                       onRefresh={this.onPullDownRefresh.bind(this)}
                       ref={ref => {
                         this.pullDownRefreshRef = ref
-                      }}>{${varName}}</PullDownRefresh>
-                  );`)
-              ]
+                    }}>{${varName}}</PullDownRefresh>`).expression
+                }
+              }
             })
           }
         }
