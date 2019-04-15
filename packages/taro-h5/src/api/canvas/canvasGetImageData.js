@@ -1,4 +1,4 @@
-import { findDOMNode } from 'nervjs'
+import { findRef } from '../utils/index'
 
 /**
  * @typedef {Object} Param
@@ -15,13 +15,15 @@ import { findDOMNode } from 'nervjs'
 /**
  * 获取 canvas 区域隐含的像素数据。
  * @param {Param} object 参数
- * @param {Object} componentInstance
+ * @param {Object} componentInstance 在自定义组件下，当前组件实例的this，以操作组件内 <canvas> 组件
  */
-const canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, componentInstance=document.body) => {
-  const dom = findDOMNode(componentInstance)
+const canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, componentInstance) => {
+  const refId = `__taroref_${canvasId}`
+  const component = findRef(refId, componentInstance)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = dom.querySelector(`[canvasId=${canvasId}]`);
+  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`);
+
   try {
     const ctx = canvas.getContext('2d')
     const data = ctx.getImageData(x, y, width, height)

@@ -77,7 +77,10 @@ const MAP_FROM_COMPONENTNAME_TO_ID = new Map([
 ])
 const APIS_NEED_TO_APPEND_THIS = new Map([
   ['createVideoContext', 1],
-  ['createCanvasContext', 1]
+  ['createCanvasContext', 1],
+  ['canvasGetImageData', 1],
+  ['canvasPutImageData', 1],
+  ['canvasToTempFilePath', 1]
 ])
 
 if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {

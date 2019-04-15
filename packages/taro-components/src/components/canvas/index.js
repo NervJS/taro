@@ -31,19 +31,17 @@ class Canvas extends Taro.PureComponent {
   props
   width = 300
   height = 150
-  getWrapRef = ref => { 
-    const dom = findDOMNode(ref)
-    this.wrapDom = dom
+  getWrapRef = ref => {
+    if (ref) this.wrapDom = ref
   }
   getCanvasRef = ref => {
-    const dom = findDOMNode(ref)
-    this.canvasDom = dom
+    if (ref) this.canvasRef = ref
   }
   componentDidMount () {
     if (!this.wrapDom) return
     const { width, height } = this.wrapDom.getBoundingClientRect()
-    this.canvasDom.setAttribute('width', width)
-    this.canvasDom.setAttribute('height', height)
+    this.canvasRef.setAttribute('width', width)
+    this.canvasRef.setAttribute('height', height)
     this.width = width
     this.height = height
   }
