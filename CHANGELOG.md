@@ -1,5 +1,36 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.24...v) (2019-04-10)
+# [](https://github.com/NervJS/taro/compare/v1.2.25...v) (2019-04-15)
+
+
+
+<a name="1.2.25"></a>
+## [1.2.25](https://github.com/NervJS/taro/compare/v1.2.24...v1.2.25) (2019-04-12)
+
+
+### Bug Fixes
+
+* **cli:** 修复h5修改tabbar配置需要重启才能生效的问题 ([277856c](https://github.com/NervJS/taro/commit/277856c))
+* **cli:** 修复render函数中pullDownRefresh的处理错误 ([d131ab8](https://github.com/NervJS/taro/commit/d131ab8))
+* **cli:** 修复云开发模板生成文件问题 ([3fc0ec0](https://github.com/NervJS/taro/commit/3fc0ec0))
+* **cli:** 修复全局变量为对象时替换的 bug ([97067d5](https://github.com/NervJS/taro/commit/97067d5))
+* **cli:** 修复支付宝小程序端 tabBar 文字颜色配置，close [#2739](https://github.com/NervJS/taro/issues/2739) ([27b1afa](https://github.com/NervJS/taro/commit/27b1afa))
+* **cli:** 升级 [@typescript-eslint](https://github.com/typescript-eslint)/parser 的版本，close [#2742](https://github.com/NervJS/taro/issues/2742) ([19226c2](https://github.com/NervJS/taro/commit/19226c2))
+* **cli:** 模版内 eslintrc 变量读读取错误导致初始化报错 ([09cdab1](https://github.com/NervJS/taro/commit/09cdab1))
+* **taro-components:** 解决组件库缺少 loader 导致构建失败的问题 ([bcd379f](https://github.com/NervJS/taro/commit/bcd379f))
+* **taro-redux:** connect 继承原组件时需要传入 isPage。#closed 2729 ([39e0e66](https://github.com/NervJS/taro/commit/39e0e66))
+* **taroize:** 装饰器没有插入到类声明中, close [#2740](https://github.com/NervJS/taro/issues/2740) ([f6c15b8](https://github.com/NervJS/taro/commit/f6c15b8))
+* **transformer:** 在循环中重复删除节点导致报错 ([7992502](https://github.com/NervJS/taro/commit/7992502))
+* **transformer:** 循环的上级和内部都有 if-else 解析错误，close [#2732](https://github.com/NervJS/taro/issues/2732) ([c57e18a](https://github.com/NervJS/taro/commit/c57e18a))
+* **transformer:** 超过三级 if-else 嵌套时解析失败 ([fe26a7e](https://github.com/NervJS/taro/commit/fe26a7e))
+* **transformer-wx:** 当类中不存在 render 方法时补充一个空的 _createData 方法，close [#2733](https://github.com/NervJS/taro/issues/2733) ([c9df847](https://github.com/NervJS/taro/commit/c9df847))
+* **webpack-runner:** 把mobx-h5加入默认esnextModules中 ([04f0580](https://github.com/NervJS/taro/commit/04f0580))
+
+
+### Features
+
+* **components:** video组件md更新 ([a5108c5](https://github.com/NervJS/taro/commit/a5108c5))
+* **components:** 增加video组件 ([03b13a0](https://github.com/NervJS/taro/commit/03b13a0))
+* **scss:** support global scss inject ([#2725](https://github.com/NervJS/taro/issues/2725)) ([1187e24](https://github.com/NervJS/taro/commit/1187e24))
 
 
 
