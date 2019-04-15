@@ -5,7 +5,7 @@ import traverse, { NodePath, Visitor } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
-import { usedComponents, errors } from './global'
+import { usedComponents, errors, globals } from './global'
 import { reserveKeyWords } from './constant'
 import { parseExpression } from 'babylon'
 
@@ -765,6 +765,13 @@ function parseAttribute (attr: Attribute) {
     jsxValue = t.jSXExpressionContainer(
       t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))
     )
+  }
+
+  if (key.startsWith('catch') && value && value === 'true') {
+    jsxValue = t.jSXExpressionContainer(
+      t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
+    )
+    globals.hasCatchTrue = true
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }

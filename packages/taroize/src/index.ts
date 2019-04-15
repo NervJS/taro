@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import { parseWXML } from './wxml'
 import { parseScript } from './script'
 import { parseJSON } from './json'
-import { errors } from './global'
+import { errors, resetGlobals } from './global'
 import { setting } from './utils'
 
 interface Option {
@@ -13,6 +13,7 @@ interface Option {
 }
 
 export function parse (option: Option) {
+  resetGlobals()
   const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
   const json = parseJSON(option.json)
   setting.sourceCode = option.script!
