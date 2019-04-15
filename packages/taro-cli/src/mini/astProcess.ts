@@ -645,6 +645,12 @@ export function parseAst (
             }
           }
         }
+      } else if (declaration.type === 'Identifier') {
+        const name = declaration.name
+        if (name === componentClassName || name === exportTaroReduxConnected) {
+          needExportDefault = true
+          astPath.remove()
+        }
       }
     },
 
