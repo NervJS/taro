@@ -152,13 +152,17 @@ class Video extends Component {
   }
 
   onEnded = e => {
+    this.setState({
+      isFirst: true
+    })
     this.pause()
+    this.controlsRef.toggleVisibility()
     this.props.onEnded && this.props.onEnded(e)
   }
 
   onPlay = e => {
     this.props.onPlay && this.props.onPlay(e)
-    this.controlsRef.toggleVisible(true)
+    this.controlsRef.toggleVisibility(true)
     if (!this.state.isPlaying) {
       this.setState({
         isPlaying: true
@@ -168,7 +172,7 @@ class Video extends Component {
 
   onPause = e => {
     this.props.onPause && this.props.onPause(e)
-    this.controlsRef.toggleVisible(true)
+    this.controlsRef.toggleVisibility(true)
     if (this.state.isPlaying) {
       this.setState({
         isPlaying: false
@@ -197,7 +201,7 @@ class Video extends Component {
       }
       this.lastClickedTime = now
     }
-    this.controlsRef.toggleVisible()
+    this.controlsRef.toggleVisibility()
   }
 
   onLoadedMetadata = e => {
@@ -212,7 +216,7 @@ class Video extends Component {
 
   toggleDanmu = e => {
     e.stopPropagation()
-    this.controlsRef.toggleVisible(true)
+    this.controlsRef.toggleVisibility(true)
     this.setState({
       enableDanmu: !this.state.enableDanmu
     })
@@ -235,7 +239,7 @@ class Video extends Component {
         this.danmuRef.danmuList = danmuList
         this.seek(currentTime)
         this.state.isPlaying && this.play()
-        this.controlsRef.toggleVisible(true)
+        this.controlsRef.toggleVisibility(true)
       }
     )
   }
@@ -245,7 +249,7 @@ class Video extends Component {
     this.setState(() => {
       const nextMuteState = !this.state.isMute
       this.videoRef.muted = nextMuteState
-      this.controlsRef.toggleVisible(true)
+      this.controlsRef.toggleVisibility(true)
       return { isMute: nextMuteState }
     })
   }
@@ -328,7 +332,7 @@ class Video extends Component {
         this.isDraggingProgress = true
         nextPercentage = Math.max(Math.min(lastPercentage + gestureObj.dataX, 1), 0)
         this.controlsRef.setProgressBall(nextPercentage)
-        this.controlsRef.toggleVisible(true)
+        this.controlsRef.toggleVisibility(true)
         this.toastProgressTitleRef.innerHTML = `${formatTime(nextPercentage * this.duration)} / ${formatTime(this.duration)}`
         this.toastProgressRef.style.visibility = 'visible'
       }

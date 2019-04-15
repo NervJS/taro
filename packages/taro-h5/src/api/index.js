@@ -14,7 +14,7 @@ export * from './request'
 export * from './storage'
 export * from './system'
 export * from './tabBar'
-// export * from './videoUtils'
+export * from './videoUtils'
 export * from './webSocket'
 
 export * from './privateApis'

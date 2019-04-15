@@ -1,5 +1,3 @@
-// import { findDOMNode } from 'nervjs'
-
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
   return {
@@ -132,6 +130,11 @@ const createScroller = inst => {
   return { listen, unlisten, getPos, isReachBottom }
 }
 
+const findRef = (refId, componentInstance) => {
+  if (componentInstance.isRoute) return
+  return componentInstance[refId] || findRef(refId, componentInstance.vnode._owner)
+}
+
 export {
   shouleBeObject,
   getParameterError,
@@ -146,5 +149,6 @@ export {
   isValidColor,
   isFunction,
   createCallbackManager,
-  createScroller
+  createScroller,
+  findRef
 }

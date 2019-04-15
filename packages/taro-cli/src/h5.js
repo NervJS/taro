@@ -52,16 +52,16 @@ const PACKAGES = {
   'nerv-redux': 'nerv-redux'
 }
 
-const taroApis = [
-  'Component',
-  'PureComponent',
-  'getEnv',
-  'ENV_TYPE',
-  'eventCenter',
-  'Events',
-  'internal_safe_get',
-  'internal_dynamic_recursive'
-]
+// const taroApis = [
+//   'Component',
+//   'PureComponent',
+//   'getEnv',
+//   'ENV_TYPE',
+//   'eventCenter',
+//   'Events',
+//   'internal_safe_get',
+//   'internal_dynamic_recursive'
+// ]
 const nervJsImportDefaultName = 'Nerv'
 const tabBarComponentName = 'Tabbar'
 const tabBarContainerComponentName = 'TabbarContainer'
@@ -70,6 +70,15 @@ const providerComponentName = 'Provider'
 const setStoreFuncName = 'setStore'
 const tabBarConfigName = '__tabs'
 const DEVICE_RATIO = 'deviceRatio'
+
+const MAP_FROM_COMPONENTNAME_TO_ID = new Map([
+  ['Video', 'id'],
+  ['Canvas', 'canvasId']
+])
+const APIS_NEED_TO_APPEND_THIS = new Map([
+  ['createVideoContext', 1],
+  ['createCanvasContext', 1]
+])
 
 if (projectConfig.hasOwnProperty(DEVICE_RATIO)) {
   pxTransformConfig[DEVICE_RATIO] = projectConfig.deviceRatio
@@ -137,7 +146,6 @@ function processEntry (code, filePath) {
 
   let tabBar
   let tabbarPos
-  let hasAddNervJsImportDefaultName = false
   let hasConstructor = false
   let hasComponentWillMount = false
   let hasComponentDidMount = false
@@ -145,6 +153,7 @@ function processEntry (code, filePath) {
   let hasComponentDidHide = false
   let hasComponentWillUnmount = false
   let hasJSX = false
+  let hasNerv = false
   let hasState = false
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
@@ -461,33 +470,10 @@ function processEntry (code, filePath) {
           return
         }
         if (value === PACKAGES['@tarojs/taro']) {
-          let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
+          source.value = PACKAGES['@tarojs/taro-h5']
+          const specifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
           if (specifier) {
-            hasAddNervJsImportDefaultName = true
-            taroImportDefaultName = specifier.local.name
-            specifier.local.name = nervJsImportDefaultName
-          } else if (!hasAddNervJsImportDefaultName) {
-            hasAddNervJsImportDefaultName = true
-            node.specifiers.unshift(
-              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-            )
-          }
-          const taroApisSpecifiers = []
-          const deletedIdx = []
-          specifiers.forEach((item, index) => {
-            if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
-              taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-              deletedIdx.push(index)
-            }
-          })
-          _.pullAt(specifiers, deletedIdx)
-          source.value = PACKAGES['nervjs']
-
-          if (taroApisSpecifiers.length) {
-            astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
-          }
-          if (!specifiers.length) {
-            astPath.remove()
+            taroImportDefaultName = toVar(specifier.local)
           }
         } else if (value === PACKAGES['@tarojs/redux']) {
           const specifier = specifiers.find(item => {
@@ -511,6 +497,14 @@ function processEntry (code, filePath) {
             specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
           }
           source.value = PACKAGES['@tarojs/mobx-h5']
+        } else if (value === PACKAGES['nervjs']) {
+          hasNerv = true
+          let defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
+          if (!defaultSpecifier) {
+            specifiers.unshift(
+              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+            )
+          }
         }
       }
     },
@@ -576,9 +570,7 @@ function processEntry (code, filePath) {
     },
     Program: {
       exit (astPath) {
-        const importNervjsNode = t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
         const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${PACKAGES['@tarojs/router']}'`)
-        const importTaroH5Node = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
         const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
@@ -592,7 +584,6 @@ function processEntry (code, filePath) {
         `)
         const mountApisNode = toAst(`mountApis(_taroHistory);`)
         const extraNodes = [
-          importTaroH5Node,
           importRouterNode,
           initPxTransformNode,
           createHistoryNode,
@@ -601,8 +592,13 @@ function processEntry (code, filePath) {
 
         astPath.traverse(programExitVisitor)
 
-        if (hasJSX && !hasAddNervJsImportDefaultName) {
-          extraNodes.unshift(importNervjsNode)
+        if (hasJSX && !hasNerv) {
+          extraNodes.unshift(
+            t.importDeclaration(
+              [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
+              t.stringLiteral(PACKAGES['nervjs'])
+            )
+          )
         }
         if (tabBar) {
           extraNodes.unshift(importComponentNode)
@@ -628,6 +624,8 @@ function processEntry (code, filePath) {
 }
 
 function processOthers (code, filePath, fileType) {
+  const componentnameMap = new Map()
+  const taroapiMap = new Map()
   let ast = wxTransformer({
     code,
     sourcePath: filePath,
@@ -636,8 +634,8 @@ function processOthers (code, filePath, fileType) {
     adapter: 'h5'
   }).ast
   let taroImportDefaultName
-  let hasAddNervJsImportDefaultName = false
   let hasJSX = false
+  let hasNerv = false
   let isPage = fileType === FILE_TYPE.PAGE
   let hasComponentDidMount = false
   let hasComponentDidShow = false
@@ -699,18 +697,20 @@ function processOthers (code, filePath, fileType) {
         const node = astPath.node
         const specifiers = node.specifiers
         if (toVar(node.source) !== PACKAGES['@tarojs/components']) return
-        const pos = specifiers.findIndex(specifier => {
-          if (!specifier.imported) return false
-          const importedComponent = toVar(specifier.imported)
-          return importedComponent === 'PullDownRefresh'
-        })
-        if (pos === -1) {
-          specifiers.push(
-            t.importSpecifier(
-              t.identifier('PullDownRefresh'),
-              t.identifier('PullDownRefresh')
+        if (hasOnPullDownRefresh) {
+          const pos = specifiers.findIndex(specifier => {
+            if (!specifier.imported) return false
+            const importedComponent = toVar(specifier.imported)
+            return importedComponent === 'PullDownRefresh'
+          })
+          if (pos === -1) {
+            specifiers.push(
+              t.importSpecifier(
+                t.identifier('PullDownRefresh'),
+                t.identifier('PullDownRefresh')
+              )
             )
-          )
+          }
         }
       }
     },
@@ -811,6 +811,29 @@ function processOthers (code, filePath, fileType) {
     }
   }
 
+  const getComponentId = (componentName, node) => {
+    const idAttrName = MAP_FROM_COMPONENTNAME_TO_ID.get(componentName)
+    return node.attributes.reduce((prev, attribute) => {
+      if (prev) return prev
+      const attrName = toVar(attribute.name)
+      if (attrName === idAttrName) return toVar(attribute.value)
+      else return false
+    }, false)
+  }
+  const getComponentRef = node => {
+    return node.attributes.find(attribute => {
+      return toVar(attribute.name) === 'ref'
+    })
+  }
+  const createRefFunc = componentId => {
+    return t.arrowFunctionExpression(
+      [t.identifier('ref')],
+      t.blockStatement([
+        toAst(`this['__taroref_${componentId}'] = ref`)
+      ])
+    )
+  }
+
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
@@ -862,44 +885,88 @@ function processOthers (code, filePath, fileType) {
             node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {
-          let specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
-          if (specifier) {
-            hasAddNervJsImportDefaultName = true
-            taroImportDefaultName = specifier.local.name
-            specifier.local.name = nervJsImportDefaultName
-          } else if (!hasAddNervJsImportDefaultName) {
-            hasAddNervJsImportDefaultName = true
-            node.specifiers.unshift(
-              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-            )
-          }
-          const taroApisSpecifiers = []
-          const deletedIdx = []
-          specifiers.forEach((item, index) => {
-            if (item.imported && taroApis.indexOf(item.imported.name) >= 0) {
-              taroApisSpecifiers.push(t.importSpecifier(t.identifier(item.local.name), t.identifier(item.imported.name)))
-              deletedIdx.push(index)
+          source.value = PACKAGES['@tarojs/taro-h5']
+          specifiers.forEach(specifier => {
+            if (t.isImportDefaultSpecifier(specifier)) {
+              taroImportDefaultName = toVar(specifier.local)
+            } else if (t.isImportSpecifier(specifier)) {
+              taroapiMap.set(toVar(specifier.local), toVar(specifier.imported))
             }
           })
-          _.pullAt(specifiers, deletedIdx)
-          source.value = PACKAGES['nervjs']
-
-          if (taroApisSpecifiers.length) {
-            astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-h5'])))
-          }
-          if (!specifiers.length) {
-            astPath.remove()
-          }
         } else if (value === PACKAGES['@tarojs/redux']) {
           source.value = PACKAGES['@tarojs/redux-h5']
         } else if (value === PACKAGES['@tarojs/mobx']) {
           source.value = PACKAGES['@tarojs/mobx-h5']
+        } else if (value === PACKAGES['@tarojs/components']) {
+          node.specifiers.forEach(specifier => {
+            if (t.isImportDefaultSpecifier(specifier)) return
+            componentnameMap.set(toVar(specifier.local), toVar(specifier.imported))
+          })
+        } else if (value === PACKAGES['nervjs']) {
+          hasNerv = true
+          let defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
+          if (!defaultSpecifier) {
+            specifiers.unshift(
+              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+            )
+          }
         }
       }
     },
-    JSXElement: {
-      enter (astPath) {
+    JSXOpeningElement: {
+      exit (astPath) {
         hasJSX = true
+        const node = astPath.node
+        const componentName = componentnameMap.get(toVar(node.name))
+        const componentId = getComponentId(componentName, node)
+        const componentRef = getComponentRef(node)
+
+        if (!componentId) return
+        const refFunc = createRefFunc(componentId)
+
+        if (componentRef) {
+          const expression = componentRef.value.expression
+          refFunc.body.body.unshift(
+            t.callExpression(expression, [t.identifier('ref')])
+          )
+          componentRef.value.expression = refFunc
+        } else {
+          node.attributes.push(
+            t.jSXAttribute(
+              t.jSXIdentifier('ref'),
+              t.jSXExpressionContainer(refFunc)
+            )
+          )
+        }
+      }
+    },
+    CallExpression: {
+      exit (astPath) {
+        const node = astPath.node
+        const callee = node.callee
+        let needToAppendThis = false
+        let funcName = ''
+        if (t.isMemberExpression(callee)) {
+          const objName = toVar(callee.object)
+          const tmpFuncName = toVar(callee.property)
+          if (objName === taroImportDefaultName && APIS_NEED_TO_APPEND_THIS.has(tmpFuncName)) {
+            needToAppendThis = true
+            funcName = tmpFuncName
+          }
+        } else if (t.isIdentifier(callee)) {
+          const tmpFuncName = toVar(callee)
+          const oriFuncName = taroapiMap.get(tmpFuncName)
+          if (APIS_NEED_TO_APPEND_THIS.has(oriFuncName)) {
+            needToAppendThis = true
+            funcName = oriFuncName
+          }
+        }
+        if (needToAppendThis) {
+          const thisOrder = APIS_NEED_TO_APPEND_THIS.get(funcName)
+          if (!node.arguments[thisOrder]) {
+            node.arguments[thisOrder] = t.thisExpression()
+          }
+        }
       }
     },
     Program: {
@@ -908,16 +975,13 @@ function processOthers (code, filePath, fileType) {
           astPath.traverse(programExitVisitor)
         }
         const node = astPath.node
-        if (hasJSX && !hasAddNervJsImportDefaultName) {
+        if (hasJSX && !hasNerv) {
           node.body.unshift(
-            t.importDeclaration([
-              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-            ], t.stringLiteral(PACKAGES['nervjs']))
+            t.importDeclaration(
+              [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
+              t.stringLiteral(PACKAGES['nervjs'])
+            )
           )
-        }
-        if (taroImportDefaultName) {
-          const importTaro = toAst(`import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-h5']}'`)
-          node.body.unshift(importTaro)
         }
       }
     }
