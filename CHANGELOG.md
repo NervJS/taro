@@ -1,5 +1,20 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.2.25...v) (2019-04-15)
+# [](https://github.com/NervJS/taro/compare/v1.2.26...v) (2019-04-15)
+
+
+
+<a name="1.2.26"></a>
+## [1.2.26](https://github.com/NervJS/taro/compare/v1.2.25...v1.2.26) (2019-04-15)
+
+
+### Bug Fixes
+
+* **h5:** 暂时移除chooseVideo ([769227e](https://github.com/NervJS/taro/commit/769227e))
+
+
+### Features
+
+* **taroize:**  支持 wxml catch 函数直接写 true ([d94032f](https://github.com/NervJS/taro/commit/d94032f))
 
 
 
