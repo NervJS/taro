@@ -108,7 +108,7 @@ export const getAvailableAudioSources = temporarilyNotSupport('getAvailableAudio
 export const getBackgroundAudioPlayerState = temporarilyNotSupport('getBackgroundAudioPlayerState')
 export const playBackgroundAudio = temporarilyNotSupport('playBackgroundAudio')
 export const seekBackgroundAudio = temporarilyNotSupport('seekBackgroundAudio')
-export const chooseVideo = temporarilyNotSupport('chooseVideo')
+// export const chooseVideo = temporarilyNotSupport('chooseVideo')
 export const saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')
 export const loadFontFace = temporarilyNotSupport('loadFontFace')
 

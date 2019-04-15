@@ -1,6 +1,5 @@
 import Nerv, { Component } from 'nervjs'
-import classnames from 'classnames'
-import { formatTime, calcDist } from './utils'
+import { formatTime } from './utils'
 
 /**
  * @typedef {Object} ControlsProps
