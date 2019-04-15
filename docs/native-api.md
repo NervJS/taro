@@ -2861,7 +2861,7 @@ Taro.faceVerifyForPay(params).then(...)
 
 #### Taro.requestPayment(OBJECT)
 
-使用方式同 [`wx.requestPayment`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.requestPayment.html)，支持 `Promise` 化使用。
+使用方式同 [`wx.requestPayment`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.requestPayment.html)，h5端仅支持[微信公众号](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115)（API以小程序为准），支持 `Promise` 化使用。
 
 **示例代码：**
 
@@ -2876,7 +2876,7 @@ Taro.requestPayment(params).then(...)
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.faceVerifyForPay | ✔️ |  |  |
-| Taro.requestPayment | ✔️ |  |  |
+| Taro.requestPayment | ✔️ | ✔️ |  |
 
 ### 用户信息
 

@@ -16,3 +16,4 @@ export * from './navigationBar'
 export * from './imageUtils'
 
 export * from './privateApis'
+export * from './open'
