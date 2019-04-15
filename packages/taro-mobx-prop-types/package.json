@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx-prop-types",
-  "version": "1.2.25",
+  "version": "1.2.26",
   "description": "mobx-prop-types library for taro",
   "keywords": [
     "mobx",
