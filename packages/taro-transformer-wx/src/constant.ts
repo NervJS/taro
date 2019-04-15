@@ -72,13 +72,17 @@ export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
 export const GEL_ELEMENT_BY_ID = 'getElementById'
 
-export const LOOP_STATE = '$loopState'
+export let LOOP_STATE = '$loopState'
+
+export const setLoopState = (s: string) => LOOP_STATE = s
 
 export let LOOP_ORIGINAL = '$original'
 
 export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 
-export const LOOP_CALLEE = '$anonymousCallee_'
+export let LOOP_CALLEE = '$anonymousCallee_'
+
+export let setLoopCallee = (s: string) => LOOP_CALLEE = s
 
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
