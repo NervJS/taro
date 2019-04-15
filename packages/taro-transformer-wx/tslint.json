@@ -4,6 +4,7 @@
     "no-console": true,
     "no-unused-variable": false,
     "member-ordering": false,
-    "no-debugger": true
+    "no-debugger": true,
+    "no-unnecessary-type-assertion": false
   }
 }

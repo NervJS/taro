@@ -51,7 +51,7 @@ import {
   ALIPAY_BUBBLE_EVENTS
 } from './constant'
 import { Adapter, Adapters } from './adapter'
-import { transformOptions, buildBabelTransformOptions } from './options'
+import { buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 const template = require('babel-template')
@@ -918,6 +918,7 @@ export class RenderParser {
           && name.name.indexOf('render') !== 0
           && !t.isJSXElement(value)
         ) {
+          // tslint:disable-next-line: strict-type-predicates
           const v: t.StringLiteral | t.Expression | t.BooleanLiteral = value === null
             ? t.booleanLiteral(true)
             : (t.isJSXExpressionContainer(value)

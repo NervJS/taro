@@ -297,6 +297,7 @@ class Transformer {
               ReturnStatement (returnPath) {
                 const arg = returnPath.node.argument
                 const ifStem = returnPath.findParent(p => p.isIfStatement())
+                // tslint:disable-next-line: strict-type-predicates
                 if (ifStem && ifStem.isIfStatement() && arg === null) {
                   const consequent = ifStem.get('consequent')
                   if (consequent.isBlockStatement() && consequent.node.body.includes(returnPath.node)) {
@@ -441,14 +442,47 @@ class Transformer {
                 index = t.identifier('__index' + counter)
                 safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
               }
-              classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Array'), t.arrayExpression([])))
+              classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
+              const indexKey = stemParent.scope.generateUid('indexKey')
+              // tslint:disable-next-line: no-inner-declarations
+              function findParentLoopCallExprIndices (callExpr: NodePath<t.CallExpression>) {
+                const indices: Set<t.Identifier> = new Set([])
+                // tslint:disable-next-line: no-conditional-assignment
+                while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
+                  let index = safeGet(callExpr, 'node.arguments[0].params[1]')
+                  if (!t.isIdentifier(index)) {
+                    index = t.identifier('__index' + counter)
+                    safeSet(callExpr, 'node.arguments[0].params[1]', index)
+                  }
+                  indices.add(index)
+                }
+                return indices
+              }
+              const indices = [...findParentLoopCallExprIndices(loopCallExpr)].reverse()
+              const indexKeyDecl = t.variableDeclaration('const', [t.variableDeclarator(
+                t.identifier(indexKey),
+                indices.length === 0
+                  ? t.binaryExpression('+', t.stringLiteral(createRandomLetters(5)), index)
+                  : t.templateLiteral(
+                    [
+                      t.templateElement({ raw: createRandomLetters(5) }),
+                      ...indices.map(() => t.templateElement({ raw: '-' })),
+                      t.templateElement({ raw: '' })
+                    ],
+                    [
+                      ...indices.map(i => t.identifier(i.name)),
+                      index
+                    ]
+                  )
+              )])
+              stemParent.insertBefore(indexKeyDecl)
               const arrayFunc = t.memberExpression(
-                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Array')),
-                t.identifier(index.name),
+                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
+                t.identifier(indexKey),
                 true
               )
               classBody.push(
-                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(index.name), t.identifier('e')], t.blockStatement([
+                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
                   isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
                   t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
                 ]))
@@ -458,7 +492,7 @@ class Transformer {
                   t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
                   t.identifier('bind')
                 ),
-                [t.thisExpression(), t.identifier(index.name)]
+                [t.thisExpression(), t.identifier(indexKey)]
               ))
               stemParent.insertBefore(
                 t.expressionStatement(t.assignmentExpression(
