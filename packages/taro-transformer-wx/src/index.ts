@@ -32,7 +32,11 @@ import {
   setFnPrefix,
   PROPS_MANAGER,
   GEN_COMP_ID,
-  GEN_LOOP_COMPID
+  GEN_LOOP_COMPID,
+  setLoopCallee,
+  LOOP_CALLEE,
+  setLoopState,
+  LOOP_STATE
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -174,8 +178,10 @@ export default function transform (options: Options): TransformResult {
       setFnPrefix('prv-fn-')
     }
   }
-  if (Adapter.type === Adapters.swan) {
+  if (Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp) {
     setLoopOriginal('privateOriginal')
+    setLoopCallee(LOOP_CALLEE.slice(1))
+    setLoopState(LOOP_STATE.slice(1))
   }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped

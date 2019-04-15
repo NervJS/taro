@@ -78,7 +78,9 @@ export const GEN_COMP_ID = 'genCompid'
 
 export const GEN_LOOP_COMPID = 'genLoopCompid'
 
-export const LOOP_STATE = '$loopState'
+export let LOOP_STATE = '$loopState'
+
+export const setLoopState = (s: string) => LOOP_STATE = s
 
 export const COMPID = '$compid'
 
@@ -86,7 +88,9 @@ export let LOOP_ORIGINAL = '$original'
 
 export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 
-export const LOOP_CALLEE = '$anonymousCallee_'
+export let LOOP_CALLEE = '$anonymousCallee_'
+
+export let setLoopCallee = (s: string) => LOOP_CALLEE = s
 
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
