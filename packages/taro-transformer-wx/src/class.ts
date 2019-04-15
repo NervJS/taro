@@ -70,7 +70,7 @@ function processThisPropsFnMemberProperties (
               ]
             )
           )
-        } else if (Adapters.weapp !== Adapter.type && Adapters.swan !== Adapter.type) {
+        } else if (Adapters.weapp !== Adapter.type && Adapters.swan !== Adapter.type && Adapters.tt !== Adapter.type) {
           path.replaceWith(
             t.callExpression(
               t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
@@ -415,14 +415,14 @@ class Transformer {
             t.isIdentifier(expr.callee.property, { name: 'bind' })
           ) {
             if (
-              (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan) ||
+              (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapters.tt !== Adapter.type) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
               self.buildPropsAnonymousFunc(attr, expr, true)
             }
           } else if (t.isMemberExpression(expr)) {
             if (
-              (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan) ||
+              (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapters.tt !== Adapter.type) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
               self.buildPropsAnonymousFunc(attr, expr as any, false)
@@ -642,7 +642,7 @@ class Transformer {
       if (methodName.startsWith('on')) {
         this.componentProperies.add(`__fn_${methodName}`)
       }
-      const method = (Adapters.weapp !== Adapter.type && Adapters.swan !== Adapter.type) ?
+      const method = (Adapters.weapp !== Adapter.type && Adapters.swan !== Adapter.type && Adapters.tt !== Adapter.type) ?
         t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
           t.expressionStatement(t.callExpression(
             t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),

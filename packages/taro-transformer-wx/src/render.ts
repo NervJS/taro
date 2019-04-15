@@ -336,28 +336,6 @@ export class RenderParser {
     }
   }
 
-  setProperies () {
-    if ([Adapters.alipay, Adapters.weapp, Adapters.swan].includes(Adapter.type)) {
-      return
-    }
-    const properties: t.ObjectProperty[] = []
-    this.componentProperies.forEach((propName) => {
-      properties.push(
-        t.objectProperty(t.stringLiteral(propName), t.objectExpression([
-          t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),
-          t.objectProperty(t.stringLiteral('value'), t.nullLiteral())
-        ]))
-      )
-    })
-    let classProp = t.classProperty(
-      t.identifier('properties'),
-      t.objectExpression(properties)
-    ) as any
-    classProp.static = true
-    const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    classPath.node.body.body.unshift(classProp)
-  }
-
   setLoopRefFlag () {
     if (this.loopRefs.size) {
       const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
@@ -614,7 +592,7 @@ export class RenderParser {
         }
 
         const blockAttrs: t.JSXAttribute[] = []
-        if ((Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
+        if ((Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
           blockAttrs.push(t.jSXAttribute(
             t.jSXIdentifier(Adapter.if),
             t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
@@ -1016,7 +994,7 @@ export class RenderParser {
             .node as t.JSXElement
           const componentName = JSXElement.openingElement.name
           if (
-            (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) &&
+            (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) &&
             t.isJSXIdentifier(componentName) &&
             !DEFAULT_Component_SET.has(componentName.name)
           ) {
@@ -1127,7 +1105,7 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind') &&
               (
-                (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan) ||
+                (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) ||
                 (t.isJSXIdentifier(componentName) && DEFAULT_Component_SET.has(componentName.name))
               )
             ) {
@@ -1158,18 +1136,6 @@ export class RenderParser {
                 } catch (error) {
                   //
                 }
-              }
-            }
-            if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
-              const element = path.parent as t.JSXOpeningElement
-              if (
-                process.env.NODE_ENV !== 'test' &&
-                Adapter.type !== Adapters.alipay &&
-                Adapter.type !== Adapters.weapp &&
-                Adapter.type !== Adapters.swan
-              ) {
-                const fnName = `__fn_${name.name}`
-                element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
               }
             }
           }
@@ -1443,7 +1409,7 @@ export class RenderParser {
       })
     }
     this.handleLoopComponents()
-    if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) this.handleComponents(renderBody)
+    if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) this.handleComponents(renderBody)
     renderBody.traverse(this.visitors)
     this.setOutputTemplate()
     this.checkDuplicateName()
@@ -1452,7 +1418,6 @@ export class RenderParser {
     this.setPendingState()
     this.setCustomEvent()
     this.createData()
-    this.setProperies()
     this.setLoopRefFlag()
   }
 
@@ -1573,7 +1538,7 @@ export class RenderParser {
         }
       }
 
-      if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan) {
+      if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) {
         let loops: t.ArrayExpression | null = null
 
         blockStatementPath.traverse({
@@ -1949,19 +1914,7 @@ export class RenderParser {
 
     const componentProperies = cloneDeep(this.componentProperies)
 
-    if ([Adapters.alipay, Adapters.weapp, Adapters.swan].includes(Adapter.type)) {
-      componentProperies.clear()
-    } else {
-      componentProperies.forEach(s => {
-        if (s.startsWith('__fn_')) {
-          const eventName = s.slice(5)
-          if (componentProperies.has(eventName)) {
-            componentProperies.delete(s)
-            componentProperies.delete(eventName)
-          }
-        }
-      })
-    }
+    componentProperies.clear()
 
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
     const usedState = Array.from(

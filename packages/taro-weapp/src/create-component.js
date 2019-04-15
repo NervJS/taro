@@ -1,13 +1,11 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 
-import { isEmptyObject, noop } from './util'
+import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
 
-const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
-const componentFnReg = /^__fn_/
 const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'
 const PRELOAD_DATA_KEY = 'preload'
