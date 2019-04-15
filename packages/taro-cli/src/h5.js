@@ -331,12 +331,16 @@ function processEntry (code, filePath) {
         if (hasComponentDidShow && !hasComponentDidMount) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidMount'), [],
-            t.blockStatement([]), false, false))
+            t.blockStatement([
+              toAst('super.componentDidMount && super.componentDidMount()')
+            ]), false, false))
         }
         if (hasComponentDidHide && !hasComponentWillUnmount) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentWillUnmount'), [],
-            t.blockStatement([]), false, false))
+            t.blockStatement([
+              toAst('super.componentWillUnmount && super.componentWillUnmount()')
+            ]), false, false))
         }
         if (!hasConstructor) {
           astPath.pushContainer('body', t.classMethod(
@@ -347,7 +351,9 @@ function processEntry (code, filePath) {
           if (!hasComponentWillMount) {
             astPath.pushContainer('body', t.classMethod(
               'method', t.identifier('componentWillMount'), [],
-              t.blockStatement([]), false, false))
+              t.blockStatement([
+                toAst('super.componentWillMount && super.componentWillMount()')
+              ]), false, false))
           }
           if (!hasState) {
             astPath.unshiftContainer('body', t.classProperty(
@@ -722,17 +728,23 @@ function processOthers (code, filePath, fileType) {
         if (!hasComponentDidMount) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidMount'), [],
-            t.blockStatement([]), false, false))
+            t.blockStatement([
+              toAst('super.componentDidMount && super.componentDidMount()')
+            ]), false, false))
         }
         if (!hasComponentDidShow) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidShow'), [],
-            t.blockStatement([]), false, false))
+            t.blockStatement([
+              toAst('super.componentDidShow && super.componentDidShow()')
+            ]), false, false))
         }
         if (!hasComponentDidHide) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidHide'), [],
-            t.blockStatement([]), false, false))
+            t.blockStatement([
+              toAst('super.componentDidHide && super.componentDidHide()')
+            ]), false, false))
         }
       }
     },
@@ -743,7 +755,7 @@ function processOthers (code, filePath, fileType) {
         const keyName = toVar(key)
         if (hasOnReachBottom) {
           if (keyName === 'componentDidShow') {
-            node.body.body.unshift(
+            node.body.body.push(
               toAst(`
                 this._offReachBottom = Taro.onReachBottom({
                   callback: this.onReachBottom,
@@ -753,32 +765,32 @@ function processOthers (code, filePath, fileType) {
               `)
             )
           } else if (keyName === 'componentDidHide') {
-            node.body.body.unshift(
+            node.body.body.push(
               toAst('this._offReachBottom && this._offReachBottom()')
             )
           }
         }
         if (hasOnPageScroll) {
           if (keyName === 'componentDidShow') {
-            node.body.body.unshift(
+            node.body.body.push(
               toAst('this._offPageScroll = Taro.onPageScroll({ callback: this.onPageScroll, ctx: this })')
             )
           } else if (keyName === 'componentDidHide') {
-            node.body.body.unshift(
+            node.body.body.push(
               toAst('this._offPageScroll && this._offPageScroll()')
             )
           }
         }
         if (hasOnPullDownRefresh) {
           if (keyName === 'componentDidShow') {
-            node.body.body.unshift(
+            node.body.body.push(
               toAst(`
                 this.pullDownRefreshRef && this.pullDownRefreshRef.bindEvent()
               `)
             )
           }
           if (keyName === 'componentDidHide') {
-            node.body.body.unshift(
+            node.body.body.push(
               toAst(`
                 this.pullDownRefreshRef && this.pullDownRefreshRef.unbindEvent()
               `)
