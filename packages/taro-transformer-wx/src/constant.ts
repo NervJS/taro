@@ -140,5 +140,6 @@ export const quickappComponentName = new Set([
   'Video',
   'Camera',
   'Canvas',
-  'Map'
+  'Map',
+  'Button'
 ])
