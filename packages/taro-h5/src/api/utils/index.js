@@ -112,9 +112,20 @@ const createCallbackManager = () => {
   }
 }
 
-const createScroller = inst => {
-  // const dom = findDOMNode(inst)
-  const el = document.querySelector('.taro-tabbar__panel') || document.body
+const createScroller = () => {
+  let el = document.querySelector('.taro-tabbar__panel') || window
+
+  const getScrollHeight = el === window
+    ? () => document.documentElement.scrollHeight
+    : () =>  el.scrollHeight
+
+  const getPos = el === window
+    ? () => window.pageYOffset
+    : () => el.scrollTop
+
+  const getClientHeight = el === window
+    ? () => window.screen.height
+    : () => el.clientHeight
 
   const listen = callback => {
     el.addEventListener('scroll', callback)
@@ -122,9 +133,9 @@ const createScroller = inst => {
   const unlisten = callback => {
     el.removeEventListener('scroll', callback)
   }
-  const getPos = () => el.scrollTop
+
   const isReachBottom = (distance = 0) => {
-    return el.scrollHeight - el.scrollTop - el.clientHeight < distance
+    return getScrollHeight() - getPos() - getClientHeight() < distance
   }
   
   return { listen, unlisten, getPos, isReachBottom }

@@ -754,7 +754,7 @@ function processOthers (code, filePath, fileType) {
             )
           } else if (keyName === 'componentDidHide') {
             node.body.body.unshift(
-              toAst('this._offReachBottom()')
+              toAst('this._offReachBottom && this._offReachBottom()')
             )
           }
         }
@@ -765,7 +765,7 @@ function processOthers (code, filePath, fileType) {
             )
           } else if (keyName === 'componentDidHide') {
             node.body.body.unshift(
-              toAst('this._offPageScroll()')
+              toAst('this._offPageScroll && this._offPageScroll()')
             )
           }
         }
@@ -773,14 +773,14 @@ function processOthers (code, filePath, fileType) {
           if (keyName === 'componentDidShow') {
             node.body.body.unshift(
               toAst(`
-                this.pullDownRefreshRef.bindEvent()
+                this.pullDownRefreshRef && this.pullDownRefreshRef.bindEvent()
               `)
             )
           }
           if (keyName === 'componentDidHide') {
             node.body.body.unshift(
               toAst(`
-                this.pullDownRefreshRef.unbindEvent()
+                this.pullDownRefreshRef && this.pullDownRefreshRef.unbindEvent()
               `)
             )
           }
@@ -801,9 +801,9 @@ function processOthers (code, filePath, fileType) {
                   returnAstPath.insertBefore(pullDownRefreshNode)
                   statement.argument = toAst(`
                     <PullDownRefresh
-                      onRefresh={this.onPullDownRefresh.bind(this)}
+                      onRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
                       ref={ref => {
-                        this.pullDownRefreshRef = ref
+                        if (ref) this.pullDownRefreshRef = ref
                     }}>{${varName}}</PullDownRefresh>`).expression
                 }
               }
