@@ -4,6 +4,16 @@ import getWrappedScreen from './getWrappedScreen'
 import { Image } from 'react-native'
 import { getNavigationOptions } from './utils'
 
+function getTabBarVisible (navigation) {
+  let routeState = navigation.state.routes[navigation.state.index]
+  const tabBarVisible = routeState.params && routeState.params._tabBarVisible
+  if (typeof tabBarVisible === 'boolean') {
+    return tabBarVisible
+  } else {
+    return navigation.state.index === 0 // 第一级不显示 tabBar
+  }
+}
+
 /**
  * @param pageList
  * @param Taro
@@ -59,7 +69,7 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
         )
       },
       tabBarLabel: tabBar.list.find(item => item.pagePath === navigation.state.routeName).text,
-      tabBarVisible: navigation.state.index === 0 // 第一级不显示 tabBar
+      tabBarVisible: getTabBarVisible(navigation)
     }),
     tabBarOptions: {
       backBehavior: 'none',
