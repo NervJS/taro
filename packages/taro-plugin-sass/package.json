@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-sass",
-  "version": "1.2.23",
+  "version": "1.2.26",
   "description": "Taro编译sass文件",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "dart-sass": "^1.17.4"
+    "dart-sass": "^1.17.4",
+    "scss-bundle": "^2.5.1"
   }
 }

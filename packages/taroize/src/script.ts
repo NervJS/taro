@@ -4,7 +4,9 @@ import * as template from 'babel-template'
 import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode, isAliasThis, isValidVarName } from './utils'
 import { WXS } from './wxml'
 import { PageLifecycle, Lifecycle } from './lifecycle'
-import { usedComponents } from './global'
+import { usedComponents, globals } from './global'
+
+const defaultClassName = '_C'
 
 const buildDecorator = (type: string, id?: string) => id ? t.decorator(
   t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type), t.identifier(id)])
@@ -61,8 +63,8 @@ export function parseScript (
           json,
           componentType,
           refId
-        )!
-        if (componentType !== 'App' && !classDecl.decorators) {
+        )
+        if (componentType !== 'App' && classDecl.decorators!.length === 0) {
           classDecl.decorators = [buildDecorator(componentType)]
         }
         ast.program.body.push(
@@ -100,8 +102,6 @@ export function parseScript (
 
   return ast
 }
-
-const defaultClassName = '_C'
 
 const staticProps = ['externalClasses', 'relations', 'options']
 
@@ -353,6 +353,17 @@ function parsePage (
 
       return classProp
     })
+
+    if (globals.hasCatchTrue) {
+      classBody.push(t.classMethod('method', t.identifier('privateStopNoop'), [t.identifier('e')], t.blockStatement([
+        t.expressionStatement(
+          t.callExpression(
+            t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')),
+            []
+          )
+        )
+      ])))
+    }
 
     if (defaultProps.length) {
       let classProp = t.classProperty(t.identifier('defaultProps'), t.objectExpression(

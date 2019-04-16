@@ -67,7 +67,15 @@ export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
 export const GEL_ELEMENT_BY_ID = 'getElementById'
 
+export const PROPS_MANAGER = 'propsManager'
+
+export const GEN_COMP_ID = 'genCompid'
+
+export const GEN_LOOP_COMPID = 'genLoopCompid'
+
 export const LOOP_STATE = '$loopState'
+
+export const COMPID = '$compid'
 
 export let LOOP_ORIGINAL = '$original'
 

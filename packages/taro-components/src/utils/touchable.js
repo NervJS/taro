@@ -8,35 +8,35 @@ const touchable = (opt = {
   return ComponentClass => {
     return class TouchableComponent extends Taro.Component {
       static defaultProps = {
-        bindTouchStart: null,
-        bindTouchMove: null,
-        bindTouchEnd: null,
-        bindTouchCancel: null,
-        bindLongTap: null
+        onTouchStart: null,
+        onTouchMove: null,
+        onTouchEnd: null,
+        onTouchCancel: null,
+        onLongTap: null
       }
       timer = null
 
       onTouchStart = e => {
-        const { bindTouchStart, bindLongTap } = this.props
-        bindTouchStart && bindTouchStart(e)
+        const { onTouchStart, onLongTap } = this.props
+        onTouchStart && onTouchStart(e)
         this.timer = setTimeout(() => {
-          bindLongTap && bindLongTap(e)
+          onLongTap && onLongTap(e)
         }, opt.longTapTime)
       }
       onTouchMove = e => {
         this.timer && clearTimeout(this.timer)
-        const { bindTouchMove } = this.props
-        bindTouchMove && bindTouchMove(e)
+        const { onTouchMove } = this.props
+        onTouchMove && onTouchMove(e)
       }
       onTouchEnd = e => {
         this.timer && clearTimeout(this.timer)
-        const { bindTouchEnd } = this.props
-        bindTouchEnd && bindTouchEnd(e)
+        const { onTouchEnd } = this.props
+        onTouchEnd && onTouchEnd(e)
       }
       onTouchCancel = e => {
         this.timer && clearTimeout(this.timer)
-        const { bindTouchCancel } = this.props
-        bindTouchCancel && bindTouchCancel(e)
+        const { onTouchCancel } = this.props
+        onTouchCancel && onTouchCancel(e)
       }
       render () {
         const props = {
@@ -45,11 +45,11 @@ const touchable = (opt = {
           onTouchEnd: this.onTouchEnd,
           onTouchCancel: this.onTouchCancel,
           ...omit(this.props, [
-            'bindTouchStart',
-            'bindTouchMove',
-            'bindTouchEnd',
-            'bindTouchCancel',
-            'bindLongTap'
+            'onTouchStart',
+            'onTouchMove',
+            'onTouchEnd',
+            'onTouchCancel',
+            'onLongTap'
           ])
         }
         return <ComponentClass {...props} />

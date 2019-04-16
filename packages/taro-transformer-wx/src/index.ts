@@ -19,7 +19,10 @@ import {
   setLoopOriginal,
   GEL_ELEMENT_BY_ID,
   lessThanSignPlacehold,
-  COMPONENTS_PACKAGE_NAME
+  COMPONENTS_PACKAGE_NAME,
+  PROPS_MANAGER,
+  GEN_COMP_ID,
+  GEN_LOOP_COMPID
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -162,7 +165,7 @@ export default function transform (options: Options): TransformResult {
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
-      jsx: ts.JsxEmit.Preserve,
+      jsx: options.sourcePath.endsWith('.tsx') ? ts.JsxEmit.Preserve : ts.JsxEmit.None,
       target: ts.ScriptTarget.ESNext,
       importHelpers: true,
       noEmitHelpers: true
@@ -368,6 +371,7 @@ export default function transform (options: Options): TransformResult {
           if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
             throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
           }
+          // tslint:disable-next-line: strict-type-predicates
           const test = Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant, Case.test)
           return { block, test }
         }).reduceRight((ifStatement, item) => {
@@ -460,6 +464,7 @@ export default function transform (options: Options): TransformResult {
         }
       }
 
+      // tslint:disable-next-line: strict-type-predicates
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }
@@ -518,7 +523,10 @@ export default function transform (options: Options): TransformResult {
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID))
+          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+          t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
+          t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+          t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
       }
       if (
@@ -556,7 +564,11 @@ export default function transform (options: Options): TransformResult {
         t.importDefaultSpecifier(t.identifier('Taro')),
         t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
         t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
+        t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+        t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
+        t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+        t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
       ], t.stringLiteral('@tarojs/taro'))
     )
   }

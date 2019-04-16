@@ -235,3 +235,45 @@ let _i = 1
 export function getUniqueKey () {
   return _loadTime + (_i++)
 }
+
+export function handleLoopRef (component, id, type, handler = function () {}) {
+  if (!component) return null
+
+  let res
+  if (type === 'component') {
+    component.selectComponent(id, function (res) {
+      res = res ? res.$component || res : null
+      res && handler.call(component.$component, res)
+    })
+  } else {
+    const query = wx.createSelectorQuery().in(component)
+    res = query.select(id)
+    res && handler.call(component.$component, res)
+  }
+
+  return null
+}
+
+let id = 0
+export function genCompid () {
+  return String(id++)
+}
+
+export function genLoopCompid (scope, variableName, loops) {
+  if (scope && scope.data) {
+    let data = scope.data
+    for (let len = loops.length, i = 0; i < len; i++) {
+      const { indexId, name } = loops[i]
+      if (data[name] && data[name][indexId]) {
+        data = data[name][indexId]
+      } else {
+        return genCompid()
+      }
+    }
+    if (data[variableName]) {
+      return data[variableName]
+    } else {
+      return genCompid()
+    }
+  }
+}

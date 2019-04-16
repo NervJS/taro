@@ -130,7 +130,7 @@ test.rn.js 文件，这是 Pay 组件的 RN 版本
 ### 其他注意事项
 1. **运行时** 报缺少包，需要要在 `.rn_temp` 目录里面安装。
 2. 文字要包在 `Text` 组件里面，否则不显示。
-3. `display:fixed` React Native 不支持
+3. `position:fixed` React Native 不支持
 4. Animation 和 transform React Native 动画不支持
 5. React Native 与 H5/小程序 的 Flex 布局相关属性的默认值有差异
 

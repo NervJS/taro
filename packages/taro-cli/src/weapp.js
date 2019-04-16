@@ -225,13 +225,15 @@ function analyzeImportUrl ({ astPath, value, depComponents, sourceFilePath, file
             defaultSpecifier = item.local.name
           }
         })
-        let sourceDirPath = sourceDir
+        let showPath
         if (NODE_MODULES_REG.test(vpath)) {
-          sourceDirPath = nodeModulesPath
+          showPath = vpath.replace(nodeModulesPath, `/${weappNpmConfig.name}`)
+        } else {
+          showPath = vpath.replace(sourceDir, '')
         }
 
         if (defaultSpecifier) {
-          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))]))
+          astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(showPath.replace(/\\/g, '/')))]))
         } else {
           astPath.remove()
         }
@@ -702,11 +704,13 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
                     if (mediaFiles.indexOf(vpath) < 0) {
                       mediaFiles.push(vpath)
                     }
-                    let sourceDirPath = sourceDir
+                    let showPath
                     if (NODE_MODULES_REG.test(vpath)) {
-                      sourceDirPath = nodeModulesPath
+                      showPath = vpath.replace(nodeModulesPath, `/${weappNpmConfig.name}`)
+                    } else {
+                      showPath = vpath.replace(sourceDir, '')
                     }
-                    astPath.replaceWith(t.stringLiteral(vpath.replace(sourceDirPath, '').replace(/\\/g, '/')))
+                    astPath.replaceWith(t.stringLiteral(showPath.replace(/\\/g, '/')))
                   } else {
                     let vpath = Util.resolveScriptPath(path.resolve(sourceFilePath, '..', value))
                     let outputVpath
@@ -1613,7 +1617,12 @@ function compileDepStyles (outputFilePath, styleFiles, isComponent) {
         .then(res => ({
           css: cssImportsRes.style.join('\n') + '\n' + res.css,
           filePath
-        }))
+        })).catch(err => {
+          if (err) {
+            console.log(err)
+            process.exit(0)
+          }
+        })
     }
     return new Promise(resolve => {
       resolve({

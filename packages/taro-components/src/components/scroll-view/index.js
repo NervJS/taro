@@ -40,6 +40,11 @@ class ScrollView extends Nerv.Component {
   constructor () {
     super(...arguments)
   }
+
+  onTouchMove = e => {
+    e.stopPropagation()
+  }
+
   componentDidMount () {
     setTimeout(() => {
       const props = this.props
@@ -173,7 +178,7 @@ class ScrollView extends Nerv.Component {
         {...omit(this.props, ['className', 'scrollTop', 'scrollLeft'])}
         className={cls}
         onScroll={_onScroll}
-      >
+        onTouchMove={this.onTouchMove}>
         {this.props.children}
       </div>
     )

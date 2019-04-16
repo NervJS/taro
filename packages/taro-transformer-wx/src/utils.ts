@@ -66,7 +66,7 @@ export function decodeUnicode (s: string) {
   return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
 }
 
-export function isVarName (str: string) {
+export function isVarName (str: string | unknown) {
   if (typeof str !== 'string') {
     return false
   }
@@ -326,6 +326,10 @@ export function pathResolver (source: string, location: string) {
   return slash(promotedPath.split('.').slice(0, -1).join('.'))
 }
 
+export const setting = {
+  sourceCode: ''
+}
+
 export function codeFrameError (node, msg: string) {
   let errMsg = ''
   try {
@@ -338,10 +342,6 @@ export function codeFrameError (node, msg: string) {
   return new Error(`${msg}
 -----
 ${errMsg}`)
-}
-
-export const setting = {
-  sourceCode: ''
 }
 
 export function createUUID () {
@@ -381,7 +381,15 @@ export function newJSXIfAttr (jsx: t.JSXElement, value: t.Identifier | t.Express
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
-    element.attributes.push(buildJSXAttr(Adapter.if, value))
+    const attrs = element.attributes
+    if (!attrs.some(a => a.name.name === Adapter.for)) {
+      element.attributes.push(buildJSXAttr(Adapter.if, value))
+    } else if (path) {
+      const block = buildBlockElement()
+      newJSXIfAttr(block, value)
+      block.children.push(jsx)
+      path.node = block
+    }
   } else {
     const block = buildBlockElement()
     newJSXIfAttr(block, value)
@@ -513,6 +521,7 @@ export function reverseBoolean (expression: t.Expression) {
 export function isEmptyDeclarator (node: t.Node) {
   if (
     t.isVariableDeclarator(node) &&
+    // tslint:disable-next-line: strict-type-predicates
     (node.init === null ||
     t.isNullLiteral(node.init))
   ) {
@@ -537,4 +546,78 @@ export function findIdentifierFromStatement (statement: t.Node) {
     }
   }
   return '__return'
+}
+
+let id: number = 0
+export function genCompid (): string {
+  return String(id++)
+}
+
+export function findParentLoops (
+  callee: NodePath<t.CallExpression>,
+  names: Map<NodePath<t.CallExpression>, string>,
+  loops: t.ArrayExpression
+) {
+  let indexId: t.Identifier | null = null
+  let name: string | undefined
+  const [ func ] = callee.node.arguments
+  if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+    const params = func.params as t.Identifier[]
+    indexId = params[1]
+    name = names.get(callee)
+  }
+
+  if (indexId === null || !t.isIdentifier(indexId)) {
+    indexId = t.identifier(callee.scope.generateUid('anonIdx'));
+    (func as any).params = [(func as any).params[0], indexId]
+  }
+
+  if (!name) {
+    throw codeFrameError(callee.node, '找不到循环对应的名称')
+  }
+
+  loops.elements.unshift(t.objectExpression([
+    t.objectProperty(t.identifier('indexId'), indexId),
+    t.objectProperty(t.identifier('name'), t.stringLiteral(name))
+  ]))
+
+  const parentCallExpr = callee.findParent(p => p.isCallExpression())
+  if (parentCallExpr && parentCallExpr.isCallExpression()) {
+    const callee = parentCallExpr.node.callee
+    if (
+      t.isMemberExpression(callee) &&
+      t.isIdentifier(callee.property) &&
+      callee.property.name === 'map'
+    ) {
+      findParentLoops(parentCallExpr, names, loops)
+    }
+  }
+}
+
+export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression): t.Expression {
+  const ifAttrSet = new Set<string>([
+    Adapter.if,
+    Adapter.else
+  ])
+  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
+  if (logicalJSX) {
+    const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
+    if (attr) {
+      if (attr.name.name === Adapter.else) {
+        const prevElement: NodePath<t.JSXElement | null> = (logicalJSX as any).getPrevSibling()
+        if (prevElement && prevElement.isJSXElement()) {
+          const attr = prevElement.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+          if (attr && t.isJSXExpressionContainer(attr.value)) {
+            const condition = reverseBoolean(cloneDeep(attr.value.expression))
+            expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, condition), expr)
+          }
+        }
+      } else if (t.isJSXExpressionContainer(attr.value)) {
+        const condition = cloneDeep(attr.value.expression)
+        expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, condition), expr)
+      }
+    }
+  }
+
+  return expr
 }

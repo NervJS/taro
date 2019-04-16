@@ -150,7 +150,8 @@ const defaultEsnextModuleRegs = [
   /@tarojs[/\\_]components/, /\btaro-components\b/,
   /@tarojs[/\\_]taro-h5/, /\btaro-h5\b/,
   /@tarojs[/\\_]router/, /\btaro-router\b/,
-  /@tarojs[/\\_]redux-h5/, /\btaro-redux-h5\b/
+  /@tarojs[/\\_]redux-h5/, /\btaro-redux-h5\b/,
+  /@tarojs[/\\_]mobx-h5/, /\btaro-mobx-h5\b/
 ]
 
 const getEsnextModuleRules = esnextModules => {

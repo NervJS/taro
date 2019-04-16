@@ -132,7 +132,8 @@ exports.CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
   [exports.BUILD_TYPES.SWAN]: {
     navigationBarTitleText: 'navigationBarTitleText',
@@ -141,7 +142,8 @@ exports.CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
   [exports.BUILD_TYPES.TT]: {
     navigationBarTitleText: 'navigationBarTitleText',
@@ -150,7 +152,8 @@ exports.CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
   [exports.BUILD_TYPES.ALIPAY]: {
     navigationBarTitleText: 'defaultTitle',
@@ -159,7 +162,8 @@ exports.CONFIG_MAP = {
     list: 'items',
     text: 'name',
     iconPath: 'icon',
-    selectedIconPath: 'activeIcon'
+    selectedIconPath: 'activeIcon',
+    color: 'textColor'
   }
 }
 
@@ -478,10 +482,14 @@ exports.generateConstantsList = function (constants) {
   const res = { }
   if (constants && !exports.isEmptyObject(constants)) {
     for (const key in constants) {
-      try {
-        res[key] = JSON.parse(constants[key])
-      } catch (err) {
-        res[key] = constants[key]
+      if (_.isPlainObject(constants[key])) {
+        res[key] = exports.generateConstantsList(constants[key])
+      } else {
+        try {
+          res[key] = JSON.parse(constants[key])
+        } catch (err) {
+          res[key] = constants[key]
+        }
       }
     }
   }

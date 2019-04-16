@@ -72,8 +72,8 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
 
     let unSubscribe = null
     return class Connect extends Component {
-      constructor (props) {
-        super(Object.assign(...arguments, mergeObjects(mapStateToProps(store.getState(), props), initMapDispatch)))
+      constructor (props, isPage) {
+        super(Object.assign(...arguments, mergeObjects(mapStateToProps(store.getState(), props), initMapDispatch)), isPage)
         Object.keys(initMapDispatch).forEach(key => {
           this[`__event_${key}`] = initMapDispatch[key]
         })

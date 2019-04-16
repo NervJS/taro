@@ -98,9 +98,9 @@ export function isAllLiteral (...args) {
   return args.every(p => t.isLiteral(p))
 }
 
-export function buildBlockElement () {
+export function buildBlockElement (attrs: t.JSXAttribute[] = []) {
   return t.jSXElement(
-    t.jSXOpeningElement(t.jSXIdentifier('block'), []),
+    t.jSXOpeningElement(t.jSXIdentifier('block'), attrs),
     t.jSXClosingElement(t.jSXIdentifier('block')),
     []
   )
@@ -166,7 +166,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   const componentTransfromProps = TRANSFORM_COMPONENT_PROPS.get(Adapter.type)
   let hasElseAttr = false
   attributes.forEach((a, index) => {
-    if (a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
+    if (t.isJSXAttribute(a) && a.name.name === Adapter.else && !['block', 'Block'].includes(componentName) && !isDefaultComponent) {
       hasElseAttr = true
       attributes.splice(index, 1)
     }
@@ -184,6 +184,7 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
+        if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) return {}
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
       let name = attr.name.name
@@ -260,13 +261,15 @@ export function parseJSXElement (element: t.JSXElement): string {
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
       }
-      if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
+      if (!isDefaultComponent && !specialComponentName.includes(componentName) && Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) {
         obj[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
       }
       return obj
     }, {})
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
-    attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
+    if (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) {
+      attributesTrans[TRIGGER_OBSERER] = '{{ _triggerObserer }}'
+    }
   }
 
   return createHTMLElement({

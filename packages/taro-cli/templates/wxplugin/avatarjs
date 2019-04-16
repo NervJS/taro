@@ -1,8 +1,4 @@
-<%if (locals.typescript) {-%>
-import Taro, { Component, Config } from '@tarojs/taro'
-<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
-<%}-%>
 import { View, Image } from '@tarojs/components'
 import './avatar.<%= css %>'
 

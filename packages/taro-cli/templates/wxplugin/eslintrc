@@ -4,6 +4,16 @@
     "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
   },
-  "parser": "babel-eslint"<% if (typescript) {%>,
-  "plugins": ["typescript"]<%}%>
+  <%if (!locals.typescript) {-%>
+  "parser": "babel-eslint"
+  <%} else { -%>
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "useJSXTextNode": true,
+    "project": "./tsconfig.json"
+  }
+  <%}-%>
 }

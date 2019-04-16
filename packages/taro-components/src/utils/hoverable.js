@@ -39,7 +39,7 @@ const hoverable = ({
       }
 
       getInitState = ({ hoverClass, hoverStartTime, hoverStayTime, hoverStopPropergation, onTouchStart, onTouchEnd }) => {
-        if (hoverClass === 'none') return
+        if (hoverClass === 'none') return {}
         return {
           onTouchStart: this.getOnTouchStart({ hoverStartTime, hoverStopPropergation, onTouchStart }),
           onTouchEnd: this.getOnTouchEnd({ hoverStayTime, hoverStopPropergation, onTouchEnd })
