@@ -1,5 +1,6 @@
 export { default as Provider } from './lib/provider'
 export { default as View } from './components/View'
+export { default as Block } from './components/Block'
 export { default as ScrollView } from './components/ScrollView'
 export { default as Swiper } from './components/Swiper'
 export { default as SwiperItem } from './components/Swiper/SwiperItem'
