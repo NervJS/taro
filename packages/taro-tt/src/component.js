@@ -26,6 +26,7 @@ class BaseComponent {
   _pendingStates = []
   _pendingCallbacks = []
   $componentType = ''
+  refs = {}
   $router = {
     params: {},
     path: ''
@@ -33,7 +34,7 @@ class BaseComponent {
 
   constructor (props = {}, isPage) {
     this.state = {}
-    this.props = {}
+    this.props = props
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
   }

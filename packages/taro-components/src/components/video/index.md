@@ -5,6 +5,7 @@
 |    | autoPauseIfNavigate | boolean | true |当跳转到其它小程序页面时，是否自动暂停本页面的视频
 |    | autoPauseIfOpenNative | boolean | true |当跳转到其它微信原生页面时，是否自动暂停本页面的视频
 |    | direction | number |  |设置全屏时视频的方向，不指定则根据宽高比自动判断
+|    | title | string |  |视频的标题，全屏时在顶部展示
 | √ | autoplay | boolean | false |是否自动播放
 | √ | controls | boolean | true |是否显示默认播放控件（播放/暂停按钮、播放进度、时间）
 | √ | danmuBtn | boolean | false |是否显示弹幕按钮，只在初始化时有效，不能动态变更
@@ -33,6 +34,5 @@
 | √ | showPlayBtn | boolean | true |是否显示视频底部控制栏的播放按钮
 | √ | showProgress | boolean | true |若不设置，宽度大于240时才会显示
 | √ | src | string |  |要播放视频的资源地址
-| √ | title  | string |  |视频的标题，全屏时在顶部展示
 | √ | vslideGesture | boolean | false |在非全屏模式下，是否开启亮度与音量调节手势（同 pageGesture）
 | √ | vslideGestureInFullscreen | boolean | true |在全屏模式下，是否开启亮度与音量调节手势

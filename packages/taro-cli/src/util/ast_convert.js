@@ -78,11 +78,13 @@ const convertAstExpressionToVariable = (node) => {
     return node.elements.map(convertAstExpressionToVariable)
   } else if (t.isLiteral(node)) {
     return node.value
-  } else if (t.isIdentifier(node)) {
+  } else if (t.isIdentifier(node) || t.isJSXIdentifier(node)) {
     const name = node.name
     return name === 'undefined'
       ? undefined
       : name
+  } else if (t.isJSXExpressionContainer(node)) {
+    return convertAstExpressionToVariable(node.expression)
   }
 }
 

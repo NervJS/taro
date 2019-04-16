@@ -1,6 +1,5 @@
 import Nerv, { Component } from 'nervjs'
-import classnames from 'classnames'
-import { formatTime, calcDist } from './utils'
+import { formatTime } from './utils'
 
 /**
  * @typedef {Object} ControlsProps
@@ -57,13 +56,13 @@ class Controls extends Component {
     this.progressBallRef.style.left = `${percentage * 100}%`
   }
 
-  toggleVisible (nextVisible) {
+  toggleVisibility (nextVisible) {
     const visible = nextVisible === undefined ? !this.visible : nextVisible
     if (visible) {
       this.hideControlsTimer && clearTimeout(this.hideControlsTimer)
       if (this.props.isPlaying) {
         this.hideControlsTimer = setTimeout(() => {
-          this.toggleVisible(false)
+          this.toggleVisibility(false)
         }, 2000)
       }
       this.controlsRef.style.visibility = 'visible'
@@ -82,7 +81,7 @@ class Controls extends Component {
     const seekFunc = this.props.seekFunc
     const percentage = this.calcPercentage(e.pageX)
     seekFunc(percentage * this.props.duration)
-    this.toggleVisible(true)
+    this.toggleVisibility(true)
   }
   bindTouchEvents = () => {
     let percentage = 0
@@ -97,7 +96,7 @@ class Controls extends Component {
       const seekFunc = this.props.seekFunc
       this.isDraggingProgressBall = false
       seekFunc(percentage * this.props.duration)
-      this.toggleVisible(true)
+      this.toggleVisibility(true)
     }
 
     document.body.addEventListener('touchmove', touchMove)

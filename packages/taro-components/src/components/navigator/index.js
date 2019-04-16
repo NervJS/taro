@@ -93,9 +93,9 @@ class Navigator extends Taro.Component {
     if (promise) {
       promise.then(res => {
         onSuccess && onSuccess(res)
+        onComplete && onComplete(res)
       }).catch(res => {
         onFail && onFail(res)
-      }).finally(res => {
         onComplete && onComplete(res)
       })
     }

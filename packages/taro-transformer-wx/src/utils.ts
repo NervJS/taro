@@ -66,7 +66,7 @@ export function decodeUnicode (s: string) {
   return unescape(s.replace(/\\(u[0-9a-fA-F]{4})/gm, '%$1'))
 }
 
-export function isVarName (str: string) {
+export function isVarName (str: string | unknown) {
   if (typeof str !== 'string') {
     return false
   }
@@ -326,6 +326,10 @@ export function pathResolver (source: string, location: string) {
   return slash(promotedPath.split('.').slice(0, -1).join('.'))
 }
 
+export const setting = {
+  sourceCode: ''
+}
+
 export function codeFrameError (node, msg: string) {
   let errMsg = ''
   try {
@@ -338,10 +342,6 @@ export function codeFrameError (node, msg: string) {
   return new Error(`${msg}
 -----
 ${errMsg}`)
-}
-
-export const setting = {
-  sourceCode: ''
 }
 
 export function createUUID () {
@@ -521,6 +521,7 @@ export function reverseBoolean (expression: t.Expression) {
 export function isEmptyDeclarator (node: t.Node) {
   if (
     t.isVariableDeclarator(node) &&
+    // tslint:disable-next-line: strict-type-predicates
     (node.init === null ||
     t.isNullLiteral(node.init))
   ) {

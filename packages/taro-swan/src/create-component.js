@@ -1,6 +1,6 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 
-import { isEmptyObject, noop } from './util'
+import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
