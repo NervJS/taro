@@ -170,6 +170,20 @@ const findRef = (refId, componentInstance) => {
   return componentInstance[refId] || findRef(refId, componentInstance.vnode._owner)
 }
 
+/**
+ * ease-in-out的函数
+ * @param {number} t 0-1的数字
+ */
+const easeInOut = t => t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1
+
+const getTimingFunc = (easeFunc, frameCnt) => {
+  return x => {
+    const t = x / (frameCnt - 1)
+    return easeFunc(t)
+  }
+}
+
+
 export {
   shouleBeObject,
   getParameterError,
@@ -186,5 +200,7 @@ export {
   createCallbackManager,
   createScroller,
   processApis,
-  findRef
+  findRef,
+  easeInOut,
+  getTimingFunc
 }
