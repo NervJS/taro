@@ -52,6 +52,7 @@ import {
   isFileToBePage
 } from './helper'
 import { processStyleUseCssModule } from './compileStyle'
+import { QUICKAPP_SPECIAL_COMPONENTS } from './constants'
 
 function createCssModuleMap (styleFilePath, tokens) {
   const {
@@ -415,9 +416,13 @@ export function parseAst (
         if (value === taroJsComponents) {
           if (isQuickApp) {
             specifiers.forEach(specifier => {
-              taroSelfComponents.add(_.kebabCase(specifier.local.name))
+              const name = specifier.local.name
+              if (!QUICKAPP_SPECIAL_COMPONENTS.has(name)) {
+                taroSelfComponents.add(_.kebabCase(name))
+              }
             })
           }
+          taroSelfComponents.add('taro-page')
           astPath.remove()
         } else {
           let isDepComponent = false
