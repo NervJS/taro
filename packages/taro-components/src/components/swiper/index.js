@@ -15,6 +15,17 @@ class SwiperItem extends Nerv.Component {
   }
 }
 
+const createEvent = type => {
+  let e
+  try {
+    e = new TouchEvent(type);
+  } catch (e) {
+    e = document.createEvent('Event');
+    e.initEvent(type, true, true);
+  }
+  return e
+}
+
 class Swiper extends Nerv.Component {
   constructor () {
     super(...arguments)
@@ -48,23 +59,27 @@ class Swiper extends Nerv.Component {
       observer: true,
       on: {
         slideChange () {
-          let e = new TouchEvent('touchend')
-          Object.defineProperty(e, 'detail', {
-            enumerable: true,
-            value: {
-              current: this.realIndex
-            }
-          })
+          let e = createEvent('touchend')
+          try {
+            Object.defineProperty(e, 'detail', {
+              enumerable: true,
+              value: {
+                current: this.realIndex
+              }
+            })
+          } catch (err) {}
           onChange && onChange(e)
         },
         transitionEnd () {
-          let e = new TouchEvent('touchend')
-          Object.defineProperty(e, 'detail', {
-            enumerable: true,
-            value: {
-              current: this.realIndex
-            }
-          })
+          let e = createEvent('touchend')
+          try {
+            Object.defineProperty(e, 'detail', {
+              enumerable: true,
+              value: {
+                current: this.realIndex
+              }
+            })
+          } catch (err) {}
           onAnimationfinish && onAnimationfinish(e)
         }
       }
