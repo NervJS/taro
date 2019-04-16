@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
 import Toast from 'react-native-root-toast'
 import RootSiblings from 'react-native-root-siblings'
 import success from './success.png'
+import { errorHandler, shouleBeObject, successHandler } from '../utils'
 
 const styles = StyleSheet.create({
   toastView: {
@@ -82,8 +83,16 @@ const iconList = ['success', 'loading', 'none']
 const sourceMap = {success, none: ''}
 let wx
 
-function showToast (obj) {
-  let {title = '', icon = 'success', image, duration = 1500, mask, success, fail, complete} = obj || {} // eslint-disable-line
+function showToast (options) {
+  const isObject = shouleBeObject(options)
+  if (!isObject.res) {
+    const res = {errMsg: `showLoading${isObject.msg}`}
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  
+  const res = {errMsg: 'showToast:ok'}
+  let {title = '', icon = 'success', image, duration = 1500, mask, success, fail, complete} = options || {} // eslint-disable-line
   let source
   if (image) {
     source = image
@@ -114,15 +123,24 @@ function showToast (obj) {
         sibling.destroy()
       }, duration)
     }
+    return successHandler(success, complete)(res)
   } catch (e) {
-    fail && fail()
-    complete && complete()
+    res.errMsg = `showToast:fail invalid ${e}`
+    return errorHandler(success, complete)(res)
   }
 }
 
-function showLoading (obj) {
-  let {title = '', mask, success, fail, complete} = obj || {}
-  showToast({
+function showLoading (options) {
+  const isObject = shouleBeObject(options)
+  if (!isObject.res) {
+    const res = {errMsg: `showLoading${isObject.msg}`}
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  let {title = '', mask, success, fail, complete} = options || {}
+
+  return showToast({
     title,
     icon: 'loading',
     duration: 0,
