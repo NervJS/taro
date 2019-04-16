@@ -157,7 +157,7 @@ function parseJSXChildren (
     }, '')
 }
 
-export function parseJSXElement (element: t.JSXElement): string {
+export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): string {
   const children = element.children
   const { attributes, name } = element.openingElement
   const TRIGGER_OBSERER = Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp ? 'privateTriggerObserer' : '__triggerObserer'
@@ -190,12 +190,15 @@ export function parseJSXElement (element: t.JSXElement): string {
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
-        throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
+        throw codeFrameError(attr.loc, '内置组件的JSX 参数暂不支持 ...spread 表达式')
       }
       let name = attr.name.name
       if (DEFAULT_Component_SET.has(componentName)) {
         if (name === 'className') {
           name = 'class'
+        }
+        if (typeof name === 'string' && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+          name = name.toLowerCase()
         }
       }
       let value: string | boolean = true
@@ -279,7 +282,7 @@ export function parseJSXElement (element: t.JSXElement): string {
     name: kebabCase(componentName),
     attributes: attributesTrans,
     value: parseJSXChildren(children)
-  })
+  }, isFirstEmit)
 }
 
 export function generateHTMLTemplate (template: t.JSXElement, name: string) {

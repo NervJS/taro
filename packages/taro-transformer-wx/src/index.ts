@@ -152,6 +152,7 @@ export default function transform (options: Options): TransformResult {
     if (Adapter.type === Adapters.quickapp) {
       DEFAULT_Component_SET.clear()
       DEFAULT_Component_SET.add('div')
+      DEFAULT_Component_SET.add('Text')
       setFnPrefix('prv-fn-')
     }
   }
@@ -411,6 +412,9 @@ export default function transform (options: Options): TransformResult {
     },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
+      if (name === 'View' && Adapter.type === Adapters.quickapp) {
+        path.node.name = t.jSXIdentifier('div')
+      }
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
         const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
