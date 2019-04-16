@@ -16,6 +16,7 @@ export * from './system'
 export * from './tabBar'
 export * from './videoUtils'
 export * from './webSocket'
+export * from './clipboard'
 
 export * from './privateApis'
 export * from './open'
