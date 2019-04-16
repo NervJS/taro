@@ -102,7 +102,7 @@ class Swiper extends Nerv.Component {
 
   componentWillUnmount () {
     this.$el = null
-    this.mySwiper.destroy()
+    if (this.mySwiper) this.mySwiper.destroy()
   }
 
   render () {
