@@ -1,5 +1,6 @@
 import { Adapters, Adapter } from './adapter'
 import { quickappComponentName } from './constant'
+import { transformOptions } from './options';
 
 const voidHtmlTags = new Set<string>([
   // 'image',
@@ -61,7 +62,7 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
     }
-    if (isFirstEmit && name === 'div') {
+    if (isFirstEmit && name === 'div' && transformOptions.isRoot) {
       options.name = 'taro-page'
     }
   }
