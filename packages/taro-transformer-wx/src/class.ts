@@ -11,7 +11,8 @@ import {
   getSlotName,
   isArrayMapCallExpression,
   incrementId,
-  isContainStopPropagation
+  isContainStopPropagation,
+  isDerivedFromProps
 } from './utils'
 import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, DEFAULT_Component_SET_COPY, FN_PREFIX } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
@@ -526,6 +527,26 @@ class Transformer {
         if (expression.isJSXElement()) return
         if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
         generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
+      },
+      Identifier (path) {
+        if (path.node.name !== 'children') {
+          return
+        }
+        const parentPath = path.parentPath
+        const slot = t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true)
+        if (parentPath.isMemberExpression() && parentPath.isReferenced()) {
+          const object = parentPath.get('object')
+          if (object.isIdentifier()) {
+            const objectName = object.node.name
+            if (isDerivedFromProps(path.scope, objectName)) {
+              parentPath.replaceWith(slot)
+            }
+          }
+        } else if (path.isReferencedIdentifier()) {
+          if (isDerivedFromProps(path.scope, 'children')) {
+            parentPath.replaceWith(slot)
+          }
+        }
       },
       JSXElement (path) {
         const id = path.node.openingElement.name
