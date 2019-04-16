@@ -1909,7 +1909,7 @@ export class RenderParser {
   }
 
   setOutputTemplate () {
-    this.outputTemplate = parseJSXElement(this.finalReturnElement)
+    this.outputTemplate = parseJSXElement(this.finalReturnElement, true)
     if (!this.isDefaultRender) {
       this.outputTemplate = `<template name="${this.renderMethodName}">${this.outputTemplate}</template>`
     }

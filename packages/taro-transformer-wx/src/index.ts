@@ -175,6 +175,7 @@ export default function transform (options: Options): TransformResult {
     if (Adapter.type === Adapters.quickapp) {
       DEFAULT_Component_SET.clear()
       DEFAULT_Component_SET.add('div')
+      DEFAULT_Component_SET.add('Text')
       setFnPrefix('prv-fn-')
     }
   }
@@ -452,6 +453,9 @@ export default function transform (options: Options): TransformResult {
             throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 ${COMPONENTS_PACKAGE_NAME} 引入。`)
           }
         }
+      }
+      if (name === 'View' && Adapter.type === Adapters.quickapp) {
+        path.node.name = t.jSXIdentifier('div')
       }
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')

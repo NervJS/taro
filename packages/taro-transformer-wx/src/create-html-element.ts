@@ -45,7 +45,7 @@ function stringifyAttributes (input: object) {
 
 }
 
-export const createHTMLElement = (options: Options) => {
+export const createHTMLElement = (options: Options, isFirstEmit = false) => {
   options = Object.assign(
     {
       name: 'div',
@@ -60,6 +60,9 @@ export const createHTMLElement = (options: Options) => {
     const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
+    }
+    if (isFirstEmit && name === 'div') {
+      options.name = 'taro-page'
     }
   }
 

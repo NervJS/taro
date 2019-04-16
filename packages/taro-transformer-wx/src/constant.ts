@@ -144,7 +144,7 @@ export const quickappComponentName = new Set([
   'Swiper',
   'Image',
   'Progress',
-  'Text',
+  // 'Text',
   'Input',
   'Label',
   'Picker',
