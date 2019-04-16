@@ -308,7 +308,7 @@ export function initCopyFiles () {
 }
 
 export function copyFilesFromSrcToOutput (files: string[]) {
-  const { nodeModulesPath, npmOutputDir } = BuildData
+  const { nodeModulesPath, npmOutputDir, outputDir } = BuildData
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
