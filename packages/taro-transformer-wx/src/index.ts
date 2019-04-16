@@ -30,13 +30,11 @@ import {
   COMPONENTS_PACKAGE_NAME,
   quickappComponentName,
   setFnPrefix,
+  setLoopCallee,
+  setLoopState,
   PROPS_MANAGER,
   GEN_COMP_ID,
-  GEN_LOOP_COMPID,
-  setLoopCallee,
-  LOOP_CALLEE,
-  setLoopState,
-  LOOP_STATE
+  GEN_LOOP_COMPID
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
