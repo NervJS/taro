@@ -208,9 +208,9 @@ export function componentTrigger (component, key, args) {
           const query = wx.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
-        if ('refName' in ref && ref['refName']) {
+        if (target && 'refName' in ref && ref['refName']) {
           refs[ref.refName] = target
-        } else if ('fn' in ref && typeof ref['fn'] === 'function') {
+        } else if (target && 'fn' in ref && typeof ref['fn'] === 'function') {
           ref['fn'].call(component, target)
         }
         ref.target = target
