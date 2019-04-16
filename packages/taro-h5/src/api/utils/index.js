@@ -137,8 +137,32 @@ const createScroller = () => {
   const isReachBottom = (distance = 0) => {
     return getScrollHeight() - getPos() - getClientHeight() < distance
   }
-  
+
   return { listen, unlisten, getPos, isReachBottom }
+}
+
+function processApis (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
+  if (!window.wx) {
+    return weixinCorpSupport(apiName)
+  }
+  return options => {
+    options = options || {}
+    let obj = Object.assign({}, defaultOptions, options)
+    const p = new Promise((resolve, reject) => {
+      ;['fail', 'success', 'complete'].forEach(k => {
+        obj[k] = res => {
+          options[k] && options[k](res)
+          if (k === 'success') {
+            resolve(formatResult(res))
+          } else if (k === 'fail') {
+            reject(formatResult(res))
+          }
+        }
+      })
+      wx[apiName](formatParams(obj))
+    })
+    return p
+  }
 }
 
 const findRef = (refId, componentInstance) => {
@@ -161,5 +185,6 @@ export {
   isFunction,
   createCallbackManager,
   createScroller,
+  processApis,
   findRef
 }
