@@ -59,7 +59,7 @@
       tabBar: {
         type: Object,
         required: false,
-        default: {}
+        default: null
       },
       pagePath: {
         type: String,
