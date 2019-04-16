@@ -158,8 +158,8 @@ export default function transform (options: Options): TransformResult {
   }
   if (Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp) {
     setLoopOriginal('privateOriginal')
-    setLoopCallee(LOOP_CALLEE.slice(1))
-    setLoopState(LOOP_STATE.slice(1))
+    setLoopCallee('anonymousCallee_')
+    setLoopState('loopState')
   }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
