@@ -18,3 +18,4 @@ export * from './videoUtils'
 export * from './webSocket'
 
 export * from './privateApis'
+export * from './open'
