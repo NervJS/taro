@@ -90,6 +90,10 @@ function processApis (taro) {
   const preloadPrivateKey = '__preload_'
   const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
+    // 兼容低基础库
+    if (typeof wx[key] === 'undefined') {
+      taro[key] = () => {}
+    }
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         options = options || {}
