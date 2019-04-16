@@ -40,17 +40,13 @@ import { createCallbackManager } from '../utils/index'
  * @property {(callback: function) => void} onWaiting(function callback) 监听音频加载中事件。当音频因为数据不足，需要停下来加载时会触发
  */
 
-let audioEl
 /**
  * 创建内部 audio 上下文 InnerAudioContext 对象。
  * @returns {InnerAudioContext}
  */
 export const createInnerAudioContext = () => {
-  if (audioEl) document.body.removeChild(audioEl)
-
   /** @type {HTMLAudioElement} */
-  audioEl = document.createElement('audio')
-  document.body.appendChild(audioEl)
+  let audioEl = new Audio()
 
   /** @type {InnerAudioContext} */
   const iac = {}
@@ -79,7 +75,7 @@ export const createInnerAudioContext = () => {
     audioEl = null
   }
 
-  const simpleProperties = [ 'src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered' ]
+  const simpleProperties = [ 'src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered', 'paused' ]
   simpleProperties.forEach(propertyName => {
     Object.defineProperty(iac, propertyName, {
       get: () => audioEl[propertyName],
@@ -89,9 +85,6 @@ export const createInnerAudioContext = () => {
 
   Object.defineProperty(iac, 'startTime', {
     value: 0
-  })
-  Object.defineProperty(iac, 'paused', {
-    get: () => !audioEl.played
   })
   Object.defineProperty(iac, 'obeyMuteSwitch', {
     value: true
@@ -137,6 +130,8 @@ export const createInnerAudioContext = () => {
       })
     })
   })
+
+  Taro.eventCenter.on('__taroRouterChange', () => { iac.stop() })
 
   return iac
 }
