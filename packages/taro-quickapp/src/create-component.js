@@ -74,13 +74,15 @@ function processEvent (eventHandlerName, obj) {
     let datasetArgs = []
     let isScopeBinded = false
     // 解析从dataset中传过来的参数
-    const currentTarget = event.currentTarget
     const dataset = {}
-    if (currentTarget._vm) {
-      const tempalateAttr = currentTarget._vm._externalBinding.template.attr
-      Object.keys(tempalateAttr).forEach(item => {
-        if (/^data/.test(item)) {
-          dataset[item.replace(/^data/, '')] = tempalateAttr[item]
+    const currentTarget = event.currentTarget
+    const vm = currentTarget._vm || (currentTarget._target ? currentTarget._target._vm : null)
+    if (vm) {
+      const tempalateAttr = vm._externalBinding.template.attr
+      Object.keys(tempalateAttr).forEach(key => {
+        if (/^data/.test(key)) {
+          const item = tempalateAttr[key]
+          dataset[key.replace(/^data/, '')] = typeof item === 'function' ? item() : item
         }
       })
     }
