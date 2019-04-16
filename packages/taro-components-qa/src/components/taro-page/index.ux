@@ -1,0 +1,86 @@
+<template>
+  <div style="width:100%; padding-bottom: {{showTabBar ? '110px': '0px'}};">
+    <block if="isPageRefresh">
+      <refresh refreshing="{{isPageRefreshing}}" @refresh="onPullDownRefresh">
+        <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
+          <list-item type='a'>
+            <slot></slot>
+          </list-item>
+        </list>
+      </refresh>
+    </block>
+    <block else>
+      <slot></slot>
+    </block>
+    <div class="taro-tabbar" if="{{showTabBar}}" style="background-color:{{tabBar.backgroundColor}}">
+      <div class="taro-tabbar_item" for="(index, item) in tabBar.list" @click="onSelected(item)">
+        <image src="{{ item.selected ? item.selectedIconPath : item.iconPath }}" />
+        <text style="color:{{ item.selected ? tabBar.selectedColor: tabBar.color }};font-size: 20px;">
+          {{item.text}}
+        </text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+  .taro-tabbar {
+    border-style: solid;
+    border-color: #ddd;
+    border-top-width: 1px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 110px;
+  }
+
+  .taro-tabbar .tab {
+    flex: 1;
+    margin: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .taro-tabbar .tab image {
+    width: 45px;
+    height: 45px;
+  }
+
+  .taro-tabbar .tab a {
+    margin: 10px;
+    border: 1px solid #eeeeee;
+  }
+</style>
+
+<script>
+  export default {
+    props: {
+      tabBar: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      pagePath: {
+        type: String,
+        required: false,
+        default: ''
+      }
+    },
+    data () {
+      let showTabBar = false
+      if (this.tabBar && this.tabBar.list.length) {
+        this.tabBar.list.forEach(item => {
+          if (item.pagePath === this.pagePath) {
+            showTabBar = true
+          }
+        })
+      }
+      return {
+        showTabBar,
+        isPageRefresh: false,
+        isPageRefreshing: false,
+      }
+    }
+  }
+</script>
