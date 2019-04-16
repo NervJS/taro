@@ -1,36 +1,48 @@
 import { getStore } from './store'
 
-/**
- * Store Injection
- */
-function createStoreInjector (grabStoresFn, injectNames, Component) {
+function createStoreInjector (grabStoresFn, sourceComponent, injectNames, { Component, createElement }) {
   let displayName =
         'inject-' +
-        (Component.displayName ||
-          Component.name ||
-            (Component.constructor && Component.constructor.name) ||
+        (sourceComponent.displayName ||
+          sourceComponent.name ||
+            (sourceComponent.constructor && sourceComponent.constructor.name) ||
             'Unknown')
-  if (injectNames) {
-    displayName += '-with-' + injectNames
-  }
+  if (injectNames) displayName += '-with-' + injectNames
 
   class Injector extends Component {
     static isMobxInjector = true
     static displayName = displayName
-    constructor (props) {
+    static config = sourceComponent.config || {}
+
+    render () {
       let newProps = {}
-      for (let key in props) {
-        if (props.hasOwnProperty(key)) {
-          newProps[key] = props[key]
+      for (let key in this.props) {
+        if (this.props.hasOwnProperty(key)) {
+          newProps[key] = this.props[key]
         }
       }
-      const additionalProps = grabStoresFn(getStore() || {}, newProps) || {}
+      const additionalProps = grabStoresFn(getStore() || {}, newProps, this.context) || {}
       for (let key in additionalProps) {
         newProps[key] = additionalProps[key]
       }
-      super(Object.assign(...arguments, newProps))
+      return createElement(sourceComponent, newProps)
+    }
+
+    componentDidShow () {
+      const { componentDidShow } = sourceComponent.prototype
+      if (typeof componentDidShow === 'function') {
+        componentDidShow()
+      }
+    }
+
+    componentDidHide () {
+      const { componentDidHide } = sourceComponent.prototype
+      if (typeof componentDidHide === 'function') {
+        componentDidHide()
+      }
     }
   }
+
   return Injector
 }
 
@@ -50,19 +62,20 @@ function grabStoresByName (storeNames) {
   }
 }
 
-export function inject (/* fn(stores, nextProps) or ...storeNames */) {
+export function inject (/* fn(stores, nextProps) or ...storeNames, { Component, createElement } */) {
   let grabStoresFn
+  let platformSpecialParams = arguments[arguments.length - 1]
   if (typeof arguments[0] === 'function') {
     grabStoresFn = arguments[0]
     return function (componentClass) {
-      return createStoreInjector(grabStoresFn, null, componentClass)
+      return createStoreInjector(grabStoresFn, componentClass, null, platformSpecialParams)
     }
   } else {
     const storeNames = []
-    for (let i = 0; i < arguments.length; i++) storeNames[i] = arguments[i]
+    for (let i = 0; i < arguments.length - 1; i++) storeNames[i] = arguments[i]
     grabStoresFn = grabStoresByName(storeNames)
     return function (componentClass) {
-      return createStoreInjector(grabStoresFn, storeNames.join('-'), componentClass)
+      return createStoreInjector(grabStoresFn, componentClass, storeNames.join('-'), platformSpecialParams)
     }
   }
 }
