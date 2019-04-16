@@ -42,13 +42,28 @@ function processEvent (eventHandlerName, obj) {
 
   obj[eventHandlerName] = function (event) {
     if (event) {
-      event.preventDefault = function () {}
-      event.stopPropagation = function () {}
-      event.currentTarget = event.currentTarget || event.target || {}
-      if (event.target) {
-        Object.assign(event.target, event.detail)
-      }
-      Object.assign(event.currentTarget, event.detail)
+      const currentTarget = event.currentTarget
+      const target = event.target
+      Object.defineProperties(event, {
+        target: {
+          configurable: true,
+          get () {
+            return Object.assign(target || {}, event.detail)
+          }
+        },
+        currentTarget: {
+          configurable: true,
+          get () {
+            return Object.assign(currentTarget || target || {}, event.detail)
+          }
+        },
+        stopPropagation: {
+          value: () => {}
+        },
+        preventDefault: {
+          value: () => {}
+        }
+      })
     }
 
     const scope = this.$component
