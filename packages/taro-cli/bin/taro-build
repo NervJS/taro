@@ -60,6 +60,8 @@ if (env) {
   }
 }
 
+process.env.TARO_ENV = type
+
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
