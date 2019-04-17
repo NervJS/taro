@@ -13,7 +13,8 @@ export interface Options {
   isNormal?: boolean,
   env?: object,
   adapter?: Adapters,
-  jsxAttributeNameReplace?: Object
+  jsxAttributeNameReplace?: Object,
+  rootProps?: object
 }
 
 export const transformOptions: Options = {} as any
