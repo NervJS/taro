@@ -119,6 +119,7 @@ export {
   /* eslint-disable-next-line camelcase */
   internal_safe_get,
   Component,
+  PureComponent,
   initPxTransform,
   requirePlugin,
   getApp,
