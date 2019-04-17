@@ -99,7 +99,8 @@ export const enum BUILD_TYPES {
   TT ='tt',
   UI ='ui',
   PLUGIN = 'plugin',
-  QUICKAPP = 'quickapp'
+  QUICKAPP = 'quickapp',
+  QQ = 'qq'
 }
 
 export const enum TEMPLATE_TYPES {
@@ -107,7 +108,8 @@ export const enum TEMPLATE_TYPES {
   SWAN = '.swan',
   ALIPAY = '.axml',
   TT = '.ttml',
-  QUICKAPP = '.ux'
+  QUICKAPP = '.ux',
+  QQ = '.qml'
 }
 
 export const enum STYLE_TYPES {
@@ -115,7 +117,8 @@ export const enum STYLE_TYPES {
   SWAN = '.css',
   ALIPAY = '.acss',
   TT = '.ttss',
-  QUICKAPP = '.css'
+  QUICKAPP = '.css',
+  QQ = '.qss'
 }
 
 export const enum SCRIPT_TYPES {
@@ -123,7 +126,8 @@ export const enum SCRIPT_TYPES {
   SWAN = '.js',
   ALIPAY = '.js',
   TT = '.js',
-  QUICKAPP = '.js'
+  QUICKAPP = '.js',
+  QQ = '.js'
 }
 
 export const enum CONFIG_TYPES {
@@ -131,7 +135,8 @@ export const enum CONFIG_TYPES {
   SWAN = '.json',
   ALIPAY = '.json',
   TT = '.json',
-  QUICKAPP = '.json'
+  QUICKAPP = '.json',
+  QQ = '.json'
 }
 
 export type IMINI_APP_FILE_TYPE = {
@@ -174,6 +179,12 @@ export const MINI_APP_FILES: IMINI_APP_FILES = {
     STYLE: STYLE_TYPES.QUICKAPP,
     SCRIPT: SCRIPT_TYPES.QUICKAPP,
     CONFIG: CONFIG_TYPES.QUICKAPP
+  },
+  [BUILD_TYPES.QQ]: {
+    TEMPL: TEMPLATE_TYPES.QQ,
+    STYLE: STYLE_TYPES.QQ,
+    SCRIPT: SCRIPT_TYPES.QQ,
+    CONFIG: CONFIG_TYPES.QQ
   }
 }
 
@@ -233,6 +244,15 @@ export const CONFIG_MAP = {
     backgroundColorBottom: false,
     backgroundColorTop: false,
     navigationStyle: false
+  },
+  [BUILD_TYPES.QQ]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath'
   }
 }
 

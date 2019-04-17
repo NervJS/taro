@@ -14,13 +14,13 @@ import {
   REG_IMAGE,
   REG_MEDIA,
   REG_TYPESCRIPT,
-  processTypeEnum
+  processTypeEnum,
+  isWindows
 } from './util/constants'
 
 import { buildEntry } from './mini/entry'
 import { buildPages, buildSinglePage } from './mini/page'
 import { build as buildWeapp } from './mini'
-import { isWindows } from './mini/constants'
 import {
   getRealComponentsPathList,
   isFileToBePage,

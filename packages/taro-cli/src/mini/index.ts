@@ -36,7 +36,7 @@ const appPath = process.cwd()
 function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName } = getBuildData()
   let projectConfigFileName = `project.${buildAdapter}.json`
-  if (buildAdapter === BUILD_TYPES.WEAPP) {
+  if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
     projectConfigFileName = 'project.config.json'
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)

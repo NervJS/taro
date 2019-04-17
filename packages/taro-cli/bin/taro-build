@@ -10,7 +10,7 @@ const { PROJECT_CONFIG, BUILD_TYPES } = require('../dist/util/constants')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 
 program
-  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn')
+  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq')
   .option('--watch', 'Watch mode')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
