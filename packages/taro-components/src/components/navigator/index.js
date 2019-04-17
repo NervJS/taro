@@ -101,10 +101,10 @@ class Navigator extends Taro.Component {
     }
   }
   render () {
-    const { isHover, hoverClass, onTouchStart, onTouchEnd } = this.props
+    const { isHover, hoverClass, onTouchStart, onTouchEnd, className } = this.props
     return (
       <div
-        className={classNames({
+        className={classNames(className, {
           [hoverClass]: isHover
         })}
         onTouchStart={onTouchStart}
