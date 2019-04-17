@@ -104,6 +104,7 @@ export default class Picker extends Nerv.Component {
         range = []
         this.props.range = []
       }
+      if (this.index.length >= 1) this.index = []
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
   }
