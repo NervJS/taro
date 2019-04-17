@@ -41,6 +41,9 @@ export default function build (args, buildConfig: IBuildConfig) {
     case BUILD_TYPES.QUICKAPP:
       buildForQuickApp({ watch, port })
       break
+    case BUILD_TYPES.QQ:
+      buildForQQ({ watch })
+      break
     case BUILD_TYPES.UI:
       buildForUILibrary({ watch })
       break
@@ -90,6 +93,13 @@ function buildForQuickApp ({ watch, port }: IBuildConfig) {
     watch,
     adapter: BUILD_TYPES.QUICKAPP,
     port
+  })
+}
+
+function buildForQQ ({ watch }: IBuildConfig) {
+  require('./mini').build({
+    watch,
+    adapter: BUILD_TYPES.QQ
   })
 }
 
