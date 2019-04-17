@@ -3,17 +3,16 @@
     class="{{btnClass}}"
     style="{{btnStyle}}"
     id="{{id}}"
-    onclick="handleClick"
     disabled="{{disabled}}"
   >
-    <image show="{{loading}}" class="taro_btn_loading" src="{{loadingImg}}"></image>
+    <image if="{{loading}}" class="taro_btn_loading" src="{{loadingImg}}"></image>
     <slot></slot>
   </div>
 </template>
 
 <script>
   import LOADING_IMG from './img.js'
-  
+
   export default {
     props: {
       className: {
@@ -66,15 +65,11 @@
 
     onInit () {
 
-      this.btnClass = this.plain ? 
-        `taro_button btn_plain btn_plain_${this.type}` 
-        : 
+      this.btnClass = this.plain ?
+        `taro_button btn_plain btn_plain_${this.type}`
+        :
         `taro_button ${this.className} btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`}`
       this.btnStyle = Object.assign({}, this.style, this.btnStyle)
-    },
-
-    handleClick (e) {
-      this.$emit('click', e)
     }
   }
 </script>
