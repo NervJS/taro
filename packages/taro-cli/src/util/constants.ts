@@ -230,7 +230,6 @@ export const CONFIG_MAP = {
     navigationBarTextStyle: 'titleBarTextColor',
     pageOrientation: 'orientation',
     backgroundTextStyle: false,
-    enablePullDownRefresh: false,
     list: false,
     text: false,
     iconPath: false,

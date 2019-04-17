@@ -55,7 +55,8 @@ export async function buildSinglePage (page: string) {
     outputFilesTypes,
     nodeModulesPath,
     npmOutputDir,
-    pageConfigs
+    pageConfigs,
+    appConfig
   } = getBuildData()
   const pagePath = path.join(sourceDir, `${page}`)
   const pageJs = resolveScriptPath(pagePath)
@@ -92,6 +93,26 @@ export async function buildSinglePage (page: string) {
     return
   }
   try {
+    const rootProps: { [key: string]: any } = {}
+    if (isQuickApp) {
+      // 如果是快应用，需要提前解析一次 ast，获取 config
+      const aheadTransformResult: IWxTransformResult = wxTransformer({
+        code: pageJsContent,
+        sourcePath: pageJs,
+        outputPath: outputPageJSPath,
+        isRoot: true,
+        isTyped: REG_TYPESCRIPT.test(pageJs),
+        adapter: buildAdapter,
+        env: constantsReplaceList
+      })
+      const res = parseAst(PARSE_AST_TYPE.PAGE, aheadTransformResult.ast, [], pageJs, outputPageJSPath)
+      if (res.configObj.enablePullDownRefresh || (appConfig.window && appConfig.window.enablePullDownRefresh)) {
+        rootProps.enablePullDownRefresh = true
+      }
+      if (appConfig.tabBar) {
+        rootProps.tabBar = appConfig.tabBar
+      }
+    }
     const transformResult: IWxTransformResult = wxTransformer({
       code: pageJsContent,
       sourcePath: pageJs,
@@ -99,7 +120,8 @@ export async function buildSinglePage (page: string) {
       isRoot: true,
       isTyped: REG_TYPESCRIPT.test(pageJs),
       adapter: buildAdapter,
-      env: constantsReplaceList
+      env: constantsReplaceList,
+      rootProps
     })
     const pageDepComponents = transformResult.components
     const pageWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template

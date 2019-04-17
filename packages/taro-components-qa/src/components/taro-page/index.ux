@@ -1,6 +1,6 @@
 <template>
   <div style="width:100%; padding-bottom: {{showTabBar ? '110px': '0px'}};">
-    <block if="isPageRefresh">
+    <block if="enablePullDownRefresh">
       <refresh refreshing="{{isPageRefreshing}}" @refresh="onPullDownRefresh">
         <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
           <list-item type='a'>
@@ -65,6 +65,11 @@
         type: String,
         required: false,
         default: ''
+      },
+      enablePullDownRefresh: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
     data () {
@@ -78,7 +83,6 @@
       }
       return {
         showTabBar,
-        isPageRefresh: false,
         isPageRefreshing: false,
       }
     }
