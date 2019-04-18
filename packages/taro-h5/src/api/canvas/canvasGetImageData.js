@@ -22,7 +22,7 @@ const canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, he
   const component = findRef(refId, componentInstance)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`);
+  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
 
   try {
     const ctx = canvas.getContext('2d')

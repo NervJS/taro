@@ -24,7 +24,7 @@ const canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, c
   const component = findRef(refId, componentInstance)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`);
+  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
 
   try {
     const ctx = canvas.getContext('2d')

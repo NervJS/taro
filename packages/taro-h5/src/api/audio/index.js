@@ -1,5 +1,6 @@
 // import { findRef } from '../utils/index'
 import { createCallbackManager } from '../utils/index'
+import Taro from '@tarojs/taro-h5'
 
 /**
  * @typedef {object} InnerAudioContext
@@ -53,7 +54,7 @@ export const createInnerAudioContext = () => {
 
   const callbackManagers = {
     error: createCallbackManager(),
-    stop: createCallbackManager() 
+    stop: createCallbackManager()
   }
 
   iac.play = () => audioEl.play()
@@ -120,7 +121,7 @@ export const createInnerAudioContext = () => {
     ['on', 'add'],
     ['off', 'remove']
   ]
-  
+
   customEvents.forEach(eventName => {
     customListenerTuples.forEach(([eventNamePrefix, actionName]) => {
       Object.defineProperty(iac, `${eventNamePrefix}${eventName}`, {
@@ -156,5 +157,5 @@ export const createInnerAudioContext = () => {
 //   return audioComponent
 
 //   /** @type {AudioContext} */
-//   // const audioContext = {}  
+//   // const audioContext = {}
 // }

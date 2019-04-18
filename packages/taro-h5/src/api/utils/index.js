@@ -86,7 +86,7 @@ const createCallbackManager = () => {
 
   /**
    * 添加回调
-   * @param {{ callback: function, ctx: any } | function} opt 
+   * @param {{ callback: function, ctx: any } | function} opt
    */
   const add = (opt) => {
     callbacks.push(opt)
@@ -94,7 +94,7 @@ const createCallbackManager = () => {
 
   /**
    * 移除回调
-   * @param {{ callback: function, ctx: any } | function} opt 
+   * @param {{ callback: function, ctx: any } | function} opt
    */
   const remove = (opt) => {
     const pos = callbacks.findIndex(callback => {
@@ -139,7 +139,7 @@ const createScroller = () => {
 
   const getScrollHeight = el === window
     ? () => document.documentElement.scrollHeight
-    : () =>  el.scrollHeight
+    : () => el.scrollHeight
 
   const getPos = el === window
     ? () => window.pageYOffset
@@ -196,7 +196,7 @@ const findRef = (refId, componentInstance) => {
  * ease-in-out的函数
  * @param {number} t 0-1的数字
  */
-const easeInOut = t => t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1
+const easeInOut = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
 
 const getTimingFunc = (easeFunc, frameCnt) => {
   return x => {
@@ -204,7 +204,6 @@ const getTimingFunc = (easeFunc, frameCnt) => {
     return easeFunc(t)
   }
 }
-
 
 export {
   shouleBeObject,

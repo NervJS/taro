@@ -1,4 +1,4 @@
-import { setStorage, getStorage } from '../storage/index';
+import { setStorage, getStorage } from '../storage/index'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
 
@@ -9,8 +9,7 @@ document.addEventListener('copy', () => {
   }).catch(e => {
     console.error(e)
   })
-});
-
+})
 
 /**
  * 成功回调
@@ -21,7 +20,7 @@ document.addEventListener('copy', () => {
 /**
  * 失败回调
  * @callback FailCallback
- * @param {{ errMsg: string }} 
+ * @param {{ errMsg: string }}
  */
 
 /**
@@ -34,28 +33,28 @@ document.addEventListener('copy', () => {
  * @param {{ data: string, success: SuccessCallback, fail: FailCallback, complete: CompleteCallback }} object 参数
  * @returns {Promise<{ errMsg: string, data: string }>}
  */
-export const setClipBoardData = ({ data }) => {
+export const setClipBoardData = ({ data, success, fail, complete }) => {
   return new Promise((resolve, reject) => {
     setStorage({
       key: CLIPBOARD_STORAGE_NAME,
       data
     }).then(() => {
       if (document.execCommand('copy')) {
-        const input = document.createElement('input');
-        input.setAttribute('readonly', 'readonly');
-        input.setAttribute('value', data);
-        input.style.position = 'absolute';
-        input.style.width = '100px';
-        input.style.left = '-10000px';
-        document.body.appendChild(input);
-        input.focus();
+        const input = document.createElement('input')
+        input.setAttribute('readonly', 'readonly')
+        input.setAttribute('value', data)
+        input.style.position = 'absolute'
+        input.style.width = '100px'
+        input.style.left = '-10000px'
+        document.body.appendChild(input)
+        input.focus()
         if (input.setSelectionRange) {
-          input.setSelectionRange(0, input.value.length);
-          document.execCommand('copy');
-          document.body.removeChild(input);
+          input.setSelectionRange(0, input.value.length)
+          document.execCommand('copy')
+          document.body.removeChild(input)
         }
       }
-      const res = { 
+      const res = {
         errMsg: 'setClipBoardData:ok',
         data
       }
@@ -64,12 +63,12 @@ export const setClipBoardData = ({ data }) => {
       resolve(res)
     }).catch(e => {
       const res = {
-        errMsg: `setClipBoardData:fail ${e.message}`,
+        errMsg: `setClipBoardData:fail ${e.message}`
       }
       fail && fail(res)
       complete && complete()
-      reject(res);
-    });
+      reject(res)
+    })
   })
 }
 
@@ -92,11 +91,11 @@ export const getClipBoardData = ({ success, fail, complete } = {}) => {
       resolve(res)
     }).catch(e => {
       const res = {
-        errMsg: `getClipboardData:fail ${e.message}`,
+        errMsg: `getClipboardData:fail ${e.message}`
       }
       fail && fail(res)
       complete && complete()
-      reject(res);
-    });
+      reject(res)
+    })
   })
 }
