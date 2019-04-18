@@ -1,4 +1,4 @@
-import { isFunction, findRef } from '../utils/index'
+import { findRef } from '../utils/index'
 
 /**
 * 创建 canvas 的绘图上下文 CanvasContext 对象
@@ -10,10 +10,10 @@ const createCanvasContext = (canvasId, componentInstance) => {
   const component = findRef(refId, componentInstance)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`);
-  
+  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
+
   /** @type {CanvasRenderingContext2D} */
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d')
 
   /**
    * @typedef {Object} Action
@@ -59,6 +59,7 @@ const createCanvasContext = (canvasId, componentInstance) => {
       callback && callback()
       return Promise.resolve()
     } catch (e) {
+      /* eslint-disable prefer-promise-reject-errors */
       return Promise.reject({
         errMsg: e.message
       })
@@ -102,7 +103,7 @@ const createCanvasContext = (canvasId, componentInstance) => {
     */
     ['setLineCap', (lineCap) => {
       ctx.lineCap = lineCap
-    }], 
+    }],
     /**
     * 设置线条的交点样式
     * @param {String} lineJoin 线条的结束交点样式
@@ -237,6 +238,9 @@ const createCanvasContext = (canvasId, componentInstance) => {
 
   valueProperties.forEach(propertyName => {
     Object.defineProperty(CanvasContext, propertyName, {
+      get () {
+        return ctx[propertyName]
+      },
       set (value) {
         enqueueActions(() => {
           ctx[propertyName] = value

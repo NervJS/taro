@@ -2,10 +2,14 @@
 {
   "include": [
     "src/**/*.tsx",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/assets/weui.js"
   ],
   "exclude": [
-    "src/**/demo/**"
+    "src/**/demo/**",
+    "src/**/Audio/**",
+    "src/**/Video/**",
+    "src/**/Map/**"
   ],
   "compilerOptions": {
     "rootDir": "./src",
@@ -22,9 +26,7 @@
     ],
     "types": [
       "react",
-      "react-native",
-      "expo",
-      "expo__vector-icons"
+      "react-native"
     ]
   }
 }

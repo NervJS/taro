@@ -20,7 +20,7 @@ import {
   Image,
   StyleSheet,
 } from 'react-native'
-import Clickable from '../_Clickable'
+import ClickableSimplified from '../ClickableSimplified'
 
 const resizeModeMap: Object = {
   scaleToFill: 'stretch',
@@ -168,4 +168,4 @@ class _Image extends React.Component<Props, State> {
 }
 
 export { _Image }
-export default Clickable(_Image)
+export default ClickableSimplified(_Image)

@@ -1,4 +1,4 @@
-import Taro from './taro'
+import Taro from './taro/index'
 
 export * from './taro/index'
 export * from './api/index'

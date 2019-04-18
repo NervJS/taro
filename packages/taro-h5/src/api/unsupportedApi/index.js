@@ -90,8 +90,8 @@ export const createWorker = temporarilyNotSupport('createWorker')
 
 // otherApis
 // 网络
-export const uploadFile = temporarilyNotSupport('uploadFile')
-export const downloadFile = temporarilyNotSupport('downloadFile')
+// export const uploadFile = temporarilyNotSupport('uploadFile')
+// export const downloadFile = temporarilyNotSupport('downloadFile')
 // export const connectSocket = temporarilyNotSupport('connectSocket')
 // export const sendSocketMessage = temporarilyNotSupport('sendSocketMessage')
 // export const closeSocket = temporarilyNotSupport('closeSocket')

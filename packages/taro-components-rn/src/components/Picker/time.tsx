@@ -33,7 +33,9 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
 
   onChange = (date: Date) => {
     const { onChange } = this.props
-    onChange && onChange({ detail: { value: `${date.getHours()}:${date.getMinutes()}` } })
+    const hh: string = ('0' + date.getHours()).slice(-2)
+    const mm: string = ('0' + date.getMinutes()).slice(-2)
+    onChange && onChange({ detail: { value: `${hh}:${mm}` } })
   }
 
   onValueChange = (vals: any, index: number) => {

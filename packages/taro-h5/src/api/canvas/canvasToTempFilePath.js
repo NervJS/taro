@@ -27,7 +27,7 @@ const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, comp
   const component = findRef(refId, componentInstance)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`);
+  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
 
   try {
     // /** @type {CanvasRenderingContext2D} */
@@ -48,7 +48,6 @@ const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, comp
     complete && complete()
     return Promise.reject(res)
   }
-
 }
 
 export default canvasToTempFilePath
