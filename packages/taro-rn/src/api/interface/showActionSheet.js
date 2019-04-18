@@ -1,3 +1,4 @@
+import React from 'react'
 import ActionSheet from '../ActionSheet'
 import RootSiblings from 'react-native-root-siblings'
 
@@ -81,4 +82,4 @@ function showActionSheet (obj) {
   }
 }
 
-export default {showActionSheet}
+export { showActionSheet }

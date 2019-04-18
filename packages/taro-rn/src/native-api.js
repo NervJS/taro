@@ -15,8 +15,8 @@ import webSocket from './api/webSocket'
 // import geolocation from './api/geolocation'
 import toast from './api/WxToast'
 import showModal from './api/WxModal'
-import showActionSheet from './api/WxActionSheet'
-import previewImage from './api/WxPreviewImage'
+import { showActionSheet } from './api/interface'
+import { previewImage } from './api/image'
 import web from './api/web'
 
 function processApis (taro) {

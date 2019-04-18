@@ -5192,6 +5192,10 @@ react-is@^16.8.1, react-is@^16.8.6:
   version "16.8.6"
   resolved "http://registry.m.jd.com/react-is/download/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
 
+react-native-image-crop-picker@^0.23.1:
+  version "0.23.1"
+  resolved "http://registry.m.jd.com/react-native-image-crop-picker/download/react-native-image-crop-picker-0.23.1.tgz#26c1b899dbe4358b9f2c98369109a42a8141682a"
+
 react-native-image-pan-zoom@^2.1.7:
   version "2.1.7"
   resolved "http://registry.npm.taobao.org/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.1.7.tgz#1c066e66f8f345f5e1fc187f02d92c482952bb59"
@@ -5322,9 +5326,9 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@^16.4.1:
-  version "16.4.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.4.1.tgz#de51ba5764b5dbcd1f9079037b862bd26b82fe32"
+react@16.3.1:
+  version "16.3.1"
+  resolved "http://registry.m.jd.com/react/download/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
