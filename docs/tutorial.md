@@ -225,8 +225,8 @@ class App extends Component {
 | - | - | - | - |
 | pagePath | String | 是 |  页面路径，必须在 pages 中先定义 |
 | text | String | 是 |  tab 上按钮文字 |
-| iconPath | String | 否 |  图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 postion 为 top 时，不显示 icon。 |
-| selectedIconPath | String | 否 |  选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 postion 为 top 时，不显示 icon。 |
+| iconPath | String | 否 |  图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 position 为 top 时，不显示 icon。 |
+| selectedIconPath | String | 否 |  选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 position 为 top 时，不显示 icon。 |
 
 #### networkTimeout
 
