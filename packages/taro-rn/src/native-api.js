@@ -13,10 +13,8 @@ import others from './api/others'
 // import file from './api/file'
 import webSocket from './api/webSocket'
 // import geolocation from './api/geolocation'
-import toast from './api/WxToast'
-import showModal from './api/WxModal'
-import { showActionSheet } from './api/interface'
-import { previewImage } from './api/image'
+import * as toast from './api/interface'
+import * as image from './api/image'
 import web from './api/web'
 
 function processApis (taro) {
@@ -57,9 +55,7 @@ export default function initNativeApi (taro) {
     webSocket,
     // geolocation,
     toast,
-    showModal,
-    showActionSheet,
-    previewImage,
+    image,
     others
   )
 }

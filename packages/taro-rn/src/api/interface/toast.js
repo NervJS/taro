@@ -90,7 +90,7 @@ function showToast (options) {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  
+
   const res = {errMsg: 'showToast:ok'}
   let {title = '', icon = 'success', image, duration = 1500, mask, success, fail, complete} = options || {} // eslint-disable-line
   let source
@@ -156,11 +156,13 @@ function hideToast () {
   global.wxToastRootSiblings = undefined
 }
 
-wx = {
+function hideLoading () {
+  hideToast()
+}
+
+export {
   showToast,
   showLoading,
   hideToast,
-  hideLoading: hideToast
+  hideLoading
 }
-
-export default wx

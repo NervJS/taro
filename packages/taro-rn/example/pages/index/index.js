@@ -2,6 +2,9 @@ import React from 'react'
 import Taro, { Component } from '@tarojs/taro-rn'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { chooseImage } from '../../../src/api/image'
+import * as toast from '../../../src/api/interface'
+
+console.log('toast', toast)
 
 const styles = StyleSheet.create({
   index: {
