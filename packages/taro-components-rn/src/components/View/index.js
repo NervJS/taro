@@ -14,7 +14,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import Clickable from '../_Clickable'
+import ClickableSimplified from '../ClickableSimplified'
 
 type Props = {
   style?: StyleSheet.Styles,
@@ -55,4 +55,4 @@ class _View extends React.Component<Props, State> {
 }
 
 export { _View }
-export default Clickable(_View)
+export default ClickableSimplified(_View)

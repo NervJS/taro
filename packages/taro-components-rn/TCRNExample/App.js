@@ -82,8 +82,6 @@ export default class App extends Component<Props> {
 
           {/* <EXMap /> */}
 
-          <EXImage />
-
           {/* <EXVideo /> */}
 
           <Text numberOfLines={1}>Welcome to React Native!Welcome to React Native!Welcome to React Native!Welcome to React Native!</Text>
@@ -150,7 +148,7 @@ export default class App extends Component<Props> {
           <EXSwitch />
 
           <Text>Image</Text>
-          {/* <EXImage /> */}
+          <EXImage />
 
           <Text>Checkbox（Single & Group）</Text>
           <EXCheckbox />
