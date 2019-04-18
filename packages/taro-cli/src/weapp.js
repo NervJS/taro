@@ -447,34 +447,8 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
           filePath: styleFilePath
         })
         const tokens = result.root.exports || {}
-        const objectPropperties = []
-        for (const key in tokens) {
-          if (tokens.hasOwnProperty(key)) {
-            let keyPath = key
-            if (key.indexOf('-') >= 0) {
-              keyPath = `'${key}'`
-            }
-            objectPropperties.push(t.objectProperty(t.identifier(keyPath), t.stringLiteral(tokens[key])))
-          }
-        }
-        let defaultDeclator = null
-        let normalDeclator = null
-        let importItems = []
-        specifiers.forEach(s => {
-          if (t.isImportDefaultSpecifier(s)) {
-            defaultDeclator = [t.variableDeclarator(t.identifier(s.local.name), t.objectExpression(objectPropperties))]
-          } else {
-            importItems.push(t.objectProperty(t.identifier(s.local.name), t.identifier(s.local.name)))
-          }
-        })
-        normalDeclator = [t.variableDeclarator(t.objectPattern(importItems), t.objectExpression(objectPropperties))]
-        if (defaultDeclator) {
-          astPath.insertBefore(t.variableDeclaration('const', defaultDeclator))
-        }
-        if (normalDeclator) {
-          astPath.insertBefore(t.variableDeclaration('const', normalDeclator))
-        }
-        astPath.remove()
+        const cssModuleMapFile = createCssModuleMap(styleFilePath, tokens)
+        astPath.node.source = t.stringLiteral(astPath.node.source.value.replace(path.basename(styleFilePath), path.basename(cssModuleMapFile)))
         if (styleFiles.indexOf(styleFilePath) < 0) { // add this css file to queue
           styleFiles.push(styleFilePath)
         }
@@ -553,13 +527,8 @@ function parseAst (type, ast, depComponents, sourceFilePath, filePath, npmSkip =
             filePath: styleFilePath
           })
           const tokens = result.root.exports || {}
-          const objectPropperties = []
-          for (const key in tokens) {
-            if (tokens.hasOwnProperty(key)) {
-              objectPropperties.push(t.objectProperty(t.identifier(key), t.stringLiteral(tokens[key])))
-            }
-          }
-          astPath.replaceWith(t.objectExpression(objectPropperties))
+          const cssModuleMapFile = createCssModuleMap(styleFilePath, tokens)
+          astPath.node.arguments = [t.stringLiteral(astPath.node.arguments[0].value.replace(path.basename(styleFilePath), path.basename(cssModuleMapFile)))]
           if (styleFiles.indexOf(styleFilePath) < 0) { // add this css file to queue
             styleFiles.push(styleFilePath)
           }
@@ -1507,6 +1476,15 @@ function processStyleUseCssModule (styleObj) {
   return result
 }
 
+function createCssModuleMap (styleFilePath, tokens) {
+  const cssModuleMapFilename = path.basename(styleFilePath) + '.map.js'
+  const cssModuleMapFile = path.join(path.dirname(styleFilePath), cssModuleMapFilename).replace(sourceDir, outputDir)
+  Util.printLog(Util.pocessTypeEnum.GENERATE, 'CSS Modules map', cssModuleMapFile)
+  fs.ensureDirSync(path.dirname(cssModuleMapFile))
+  fs.writeFileSync(cssModuleMapFile, `module.exports = ${JSON.stringify(tokens, null, 2)};\n`)
+  return cssModuleMapFile
+}
+
 async function processStyleWithPostCSS (styleObj) {
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
@@ -1572,7 +1550,11 @@ async function processStyleWithPostCSS (styleObj) {
   })
   let css = styleObj.css
   if (customCssModulesConf.enable) {
-    css = processStyleUseCssModule(styleObj).css
+    const result = processStyleUseCssModule(styleObj)
+    css = result.css
+    if (result.root && result.root.exports) {
+      createCssModuleMap(styleObj.filePath, result.root.exports || {})
+    }
   }
   const postcssResult = await postcss(processors).process(css, {
     from: styleObj.filePath
