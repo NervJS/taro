@@ -112,6 +112,7 @@ export async function buildSinglePage (page: string) {
       if (appConfig.tabBar) {
         rootProps.tabBar = appConfig.tabBar
       }
+      rootProps.pagePath = page
     }
     const transformResult: IWxTransformResult = wxTransformer({
       code: pageJsContent,
