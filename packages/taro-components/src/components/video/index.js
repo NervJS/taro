@@ -1,3 +1,7 @@
+/**
+ * Video组件的样式参考了[uni-app](https://github.com/dcloudio/uni-app/tree/master/packages/uni-h5)的实现
+ */
+
 import Nerv, { Component, createPortal } from 'nervjs'
 import classnames from 'classnames'
 import Danmu from './danmu'
