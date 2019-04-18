@@ -9,7 +9,7 @@ import {
   /* eslint-disable-next-line camelcase */
   internal_safe_set,
   render,
-  intercepters
+  interceptors
 } from '@tarojs/taro'
 import Nerv from 'nervjs'
 
@@ -107,7 +107,7 @@ taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.canIUseWebp = canIUseWebp
-taro.intercepters = intercepters
+taro.interceptors = interceptors
 
 export default taro
 export {
@@ -116,7 +116,7 @@ export {
   Events,
   eventCenter,
   render,
-  intercepters,
+  interceptors,
   /* eslint-disable-next-line camelcase */
   internal_safe_set,
   /* eslint-disable-next-line camelcase */
