@@ -7,13 +7,14 @@
  */
 
 import React, {Component} from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Provider, ScrollView, View, Text, Button } from '../dist'
 import EXButton from './example/EXButton'
 import EXCheckbox from './example/EXCheckbox'
 import EXIcon from './example/EXIcon'
 import EXImage from './example/EXImage'
 import EXTextinput from './example/EXTextinput'
+import EXSwiper from './example/EXSwiper'
 import EXSwitch from './example/EXSwitch'
 import EXSlider from './example/EXSlider'
 import EXRadio from './example/EXRadio'
@@ -25,13 +26,6 @@ import EXForm from './example/EXForm'
 // import EXVideo from './example/EXVideo'
 // import EXMap from './example/EXMap'
 import EXWebView from './example/EXWebView'
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -143,6 +137,9 @@ export default class App extends Component<Props> {
 
           <Text>Slider</Text>
           <EXSlider />
+
+          <Text>Swiper</Text>
+          <EXSwiper />
 
           <Text>Switch</Text>
           <EXSwitch />

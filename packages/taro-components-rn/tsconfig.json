@@ -2,14 +2,7 @@
 {
   "include": [
     "src/**/*.tsx",
-    "src/**/*.ts",
-    "src/assets/weui.js"
-  ],
-  "exclude": [
-    "src/**/demo/**",
-    "src/**/Audio/**",
-    "src/**/Video/**",
-    "src/**/Map/**"
+    "src/**/*.ts"
   ],
   "compilerOptions": {
     "rootDir": "./src",
@@ -24,9 +17,9 @@
     "lib": [
       "es2015"
     ],
-    "types": [
-      "react",
-      "react-native"
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
     ]
   }
 }
