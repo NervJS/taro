@@ -1981,7 +1981,7 @@ export class RenderParser {
       .filter(i => isVarName(i))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('$$'))
-      .filter(i => !i.startsWith('_$'))
+      .filter(i => !i.startsWith('_$indexKey'))
       .filter(i => !this.loopRefIdentifiers.has(i))
     let properties = propertyKeys.map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {
