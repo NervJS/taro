@@ -1,3 +1,10 @@
+/**
+ * 剪贴板部分的api参考了Chameleon项目的实现：
+ * 
+ * setClipboardData: https://github.com/chameleon-team/chameleon-api/tree/master/src/interfaces/setClipBoardData
+ * getClipboardData: https://github.com/chameleon-team/chameleon-api/tree/master/src/interfaces/getClipBoardData
+ */
+
 import { setStorage, getStorage } from '../storage/index'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'

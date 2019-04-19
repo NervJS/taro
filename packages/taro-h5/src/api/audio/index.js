@@ -1,6 +1,6 @@
 // import { findRef } from '../utils/index'
 import { createCallbackManager } from '../utils/index'
-import Taro from '@tarojs/taro-h5'
+import Taro from '../../taro'
 
 /**
  * @typedef {object} InnerAudioContext
