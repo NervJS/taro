@@ -1,6 +1,7 @@
 import { Adapters, Adapter } from './adapter'
 import { quickappComponentName } from './constant'
-import { transformOptions } from './options';
+import { transformOptions } from './options'
+import { camelCase } from 'lodash'
 
 const voidHtmlTags = new Set<string>([
   // 'image',
@@ -64,6 +65,13 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     }
     if (isFirstEmit && name === 'div' && transformOptions.isRoot) {
       options.name = 'taro-page'
+      for (const key in options.attributes) {
+        if (options.attributes.hasOwnProperty(key)) {
+          const attr = options.attributes[key]
+          options.attributes[camelCase(key)] = attr
+          delete options.attributes[key]
+        }
+      }
     }
   }
 

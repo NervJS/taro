@@ -871,7 +871,7 @@ export function parseAst (
             node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig as any)() as any)
             break
           case PARSE_AST_TYPE.PAGE:
-            if (buildAdapter === BUILD_TYPES.WEAPP) {
+            if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             } else if (isQuickApp) {
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true)`, babylonConfig as any)() as any)

@@ -3,7 +3,8 @@ export const enum Adapters {
   swan = 'swan',
   alipay = 'alipay',
   quickapp = 'quickapp',
-  tt = 'tt'
+  tt = 'tt',
+  qq = 'qq'
 }
 
 interface Adapter {
@@ -72,6 +73,17 @@ const quickappAdapter: Adapter = {
   type: Adapters.quickapp
 }
 
+const qqAdapter: Adapter = {
+  if: 'qq:if',
+  else: 'qq:else',
+  elseif: 'qq:elif',
+  for: 'qq:for',
+  forItem: 'qq:for-item',
+  forIndex: 'qq:for-index',
+  key: 'qq:key',
+  type: Adapters.qq
+}
+
 export let Adapter: Adapter = weixinAdapter
 
 export function setAdapter (adapter: Adapters) {
@@ -87,6 +99,9 @@ export function setAdapter (adapter: Adapters) {
       break
     case Adapters.quickapp:
       Adapter = quickappAdapter
+      break
+    case Adapters.qq:
+      Adapter = qqAdapter
       break
     default:
       Adapter = weixinAdapter

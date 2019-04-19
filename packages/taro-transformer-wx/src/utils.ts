@@ -7,7 +7,7 @@ import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
 import { buildBlockElement } from './jsx'
-import { Adapter } from './adapter'
+import { Adapter, Adapters } from './adapter'
 import { transformOptions } from './options'
 const template = require('babel-template')
 
@@ -224,6 +224,11 @@ export function generateAnonymousState (
               }
             })
             variableName = newId.name
+            if (Adapter.type === Adapters.quickapp && variableName.startsWith('_$')) {
+              const newVarName = variableName.slice(2)
+              scope.rename(variableName, newVarName)
+              variableName = newVarName
+            }
             refIds.add(t.identifier(variableName))
             blockStatement.scope.rename(id.name, newId.name)
             p.parentPath.replaceWith(

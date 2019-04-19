@@ -1501,6 +1501,20 @@ export class RenderParser {
   }
 
   setOutputTemplate () {
+    if (Adapter.type === Adapters.quickapp && transformOptions.rootProps && transformOptions.isRoot) {
+      const attrs: t.JSXAttribute[] = []
+      for (const key in transformOptions.rootProps) {
+        if (transformOptions.rootProps.hasOwnProperty(key)) {
+          const value = transformOptions.rootProps[key]
+          const keyName = key + '__temp'
+          const decl = buildConstVariableDeclaration(keyName, t.identifier(JSON.stringify(value)))
+          this.referencedIdentifiers.add(t.identifier(keyName))
+          this.renderPath.node.body.body.push(decl)
+          attrs.push(t.jSXAttribute(t.jSXIdentifier(key), t.jSXExpressionContainer(t.identifier(keyName))))
+        }
+      }
+      this.finalReturnElement.openingElement.attributes.push(...attrs)
+    }
     this.outputTemplate = parseJSXElement(this.finalReturnElement, true)
     if (!this.isDefaultRender) {
       this.outputTemplate = `<template name="${this.renderMethodName}">${this.outputTemplate}</template>`
