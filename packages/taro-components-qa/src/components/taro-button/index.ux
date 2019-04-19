@@ -1,17 +1,13 @@
 <template>
   <div
-    class="{{btnClass}}"
-    style="{{btnStyle}}"
-    id="{{id}}"
-    disabled="{{disabled}}"
+    class="taro-button taro-button_default"
   >
-    <image if="{{loading}}" class="taro_btn_loading" src="{{loadingImg}}"></image>
     <slot></slot>
   </div>
 </template>
 
 <script>
-  import LOADING_IMG from './img.js'
+  // import LOADING_IMG from './img.js'
 
   export default {
     props: {
@@ -60,91 +56,60 @@
     data: () => ({
       btnStyle: {},
       btnClass: '',
-      loadingImg: LOADING_IMG,
+      // loadingImg: LOADING_IMG,
     }),
 
     onInit () {
+      console.log(this)
+      this.btnClass = `taro-button taro-button_default`
+      // this.btnClass = this.plain ?
+      //   `taro_button btn_plain btn_plain_${this.type}`
+      //   :
+      //   `taro_button ${this.className} btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`}`
+      // this.btnStyle = Object.assign({}, this.style, this.btnStyle)
 
-      this.btnClass = this.plain ?
-        `taro_button btn_plain btn_plain_${this.type}`
-        :
-        `taro_button ${this.className} btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`}`
-      this.btnStyle = Object.assign({}, this.style, this.btnStyle)
+    },
+
+    handleClick (e) {
+      console.log(1)
+      console.log(this)
+      this.$emit('click', e)
     }
   }
 </script>
 
 <style>
-  .taro_button {
-    display: flex;
-    height: 46px;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  .taro-button {
+    width: 100%;
     padding-left: 14px;
     padding-right: 14px;
     font-size: 18px;
     text-align: center;
+    text-decoration: none;
+    line-height: 46px;
     border-radius: 5px;
-    background-color: #fff;
+    border: 1px solid #000;
+  }
+  /* .taro-button::after {
+      content: " ";
+      width: 200%;
+      height: 200%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      transform: scale(0.5);
+      transform-origin: 0 0;
+      box-sizing: border-box;
+      border-radius: 10px;
+  } */
+  .taro-button text {
+    color: #000;
+  }
+  .taro-button_default {
+      background-color: #F8F8F8;
+  }
+  .taro-button_default text{
     color: #000000;
-    margin-top: 14px;
   }
-  .btn_plain {
-    width: 100%;
-    height: 60px;
-    border-width: 1px;
-    color: #1AAD19;
-    background-color: transparent;
-  }
-  /*默认大小*/
-  .btn_size_default {
-    width: 100%;
-    height: 70px;
-  }
-  .btn_size_mini {
-    height: 60px;
-  }
-  /*按钮颜色*/
-  .btn_color_default {
-    background-color: #fff;
-  }
-  .btn_color_primary {
-    background-color: #1AAD19;
-  }
-  .btn_color_warn {
-    background-color: #E64340;
-  }
-  .disabled_default{
-    background-color: #F7F7F7;
-  }
-  .disabled_primary {
-    color: #fff;
-    background-color: #9ED99D;
-  }
-  .disabled_warn {
-    background-color: #EC8B89;
-  }
-  .btn_plain_primary {
-    color: #1AAD19;
-    border: 1px solid #1AAD19;
-  }
-  .btn_plain_default {
-    color: #353535;
-    border: 1px solid #353535;
-  }
-  .taro_btn_loading {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
-  @keyframes taroQuickLoading {
-    0% {
-      transform: rotate(0deg)
-    }
-    100% {
-      transform: rotate(360deg)
-    }
-  }
-
 </style>
