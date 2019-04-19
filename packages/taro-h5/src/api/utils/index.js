@@ -64,15 +64,33 @@ function serializeParams (params) {
 }
 
 function temporarilyNotSupport (apiName) {
-  return () => console.error(`暂时不支持 API ${apiName}`)
+  return () => {
+    const errMsg = `暂时不支持 API ${apiName}`
+    console.error(errMsg)
+    return Promise.reject({
+      errMsg
+    })
+  }
 }
 
 function weixinCorpSupport (apiName) {
-  return () => console.error(`h5端仅在微信公众号中支持 API ${apiName}`)
+  return () => {
+    const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
+    console.error(errMsg)
+    return Promise.reject({
+      errMsg
+    })
+  }
 }
 
 function permanentlyNotSupport (apiName) {
-  return () => console.error(`不支持 API ${apiName}`)
+  return () => {
+    const errMsg = `不支持 API ${apiName}`
+    console.error(errMsg)
+    return Promise.reject({
+      errMsg
+    })
+  }
 }
 
 const VALID_COLOR_REG = /^#\d{6}$/
@@ -163,7 +181,7 @@ const createScroller = () => {
   return { listen, unlisten, getPos, isReachBottom }
 }
 
-function processApis (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
+function processOpenapi (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
   if (!window.wx) {
     return weixinCorpSupport(apiName)
   }
@@ -172,12 +190,13 @@ function processApis (apiName, defaultOptions, formatResult = res => res, format
     let obj = Object.assign({}, defaultOptions, options)
     const p = new Promise((resolve, reject) => {
       ;['fail', 'success', 'complete'].forEach(k => {
-        obj[k] = res => {
+        obj[k] = oriRes => {
+          const res = formatResult(oriRes)
           options[k] && options[k](res)
           if (k === 'success') {
-            resolve(formatResult(res))
+            resolve(res)
           } else if (k === 'fail') {
-            reject(formatResult(res))
+            reject(res)
           }
         }
       })
@@ -220,7 +239,7 @@ export {
   isFunction,
   createCallbackManager,
   createScroller,
-  processApis,
+  processOpenapi,
   findRef,
   easeInOut,
   getTimingFunc
