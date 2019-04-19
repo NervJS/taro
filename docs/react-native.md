@@ -150,10 +150,6 @@ Android Studio 默认会安装最新版本的 Android SDK。目前编译 React N
 - `Android SDK Platform 28`
 - `Intel x86 Atom_64 System Image`（官方模拟器镜像文件，使用非官方模拟器不需要安装此组件）
 
-然后点击 "SDK Tools" 选项卡，同样勾中右下角的 "Show Package Details"。展开 "Android SDK Build-Tools" 选项，确保选中了 React Native 所必须的 28.0.3 版本。你可以同时安装多个其他版本。
-
-![image](https://reactnative.cn/docs/assets/GettingStartedAndroidSDKManagerMacOS.png)
-
 然后点击"SDK Tools"选项卡，同样勾中右下角的"Show Package Details"。展开"Android SDK Build-Tools"选项，确保选中了 React Native 所必须的 `23.0.1` 版本。你可以同时安装多个其他版本，然后还要勾选最底部的 `Android Support Repository`。
 
 ![image](https://reactnative.cn/docs/assets/GettingStartedAndroidSDKManagerSDKToolsMacOS.png)
