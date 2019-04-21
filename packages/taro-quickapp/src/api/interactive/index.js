@@ -1,5 +1,7 @@
 import prompt from '@system.prompt'
-import { generateUnSupportApi } from '../utils'
+import {
+  eventCenter
+} from '@tarojs/taro'
 
 export function showToast (options = {}) {
   const { title = '', duration = 1500, success, complete, fail } = options
@@ -121,18 +123,17 @@ export function showActionSheet (options = {}) {
   })
 }
 
-export function setNavigationBarTitle (options = {}) {
-  const { title = '', success, complete, fail } = options
-  const res = { errMsg: 'setNavigationBarTitle: ok' }
-
+function setNavigationBar (params, fnName) {
+  const { success, complete, fail } = params
+  const res = { errMsg: `${fnName}: ok` }
   return new Promise((resolve, reject) => {
     try {
-      this.$page.setTitleBar({text: title})
+      eventCenter.trigger('TaroEvent:setNavigationBar', params)
       success && success(res)
       complete && complete(res)
       resolve(res)
     } catch (data) {
-      res.errMsg = 'setNavigationBarTitle: error'
+      res.errMsg = `${fnName}: error`
       res.data = data
       fail && fail(res)
       reject(res)
@@ -140,18 +141,25 @@ export function setNavigationBarTitle (options = {}) {
   })
 }
 
-export function setNavigationBarColor (options = {}) {
-  const { frontColor = '', backgroundColor = '', success, complete, fail } = options
-  const res = { errMsg: 'setNavigationBarColor: ok' }
+export function setNavigationBarTitle (params) {
+  setNavigationBar(params, 'setNavigationBarTitle')
+}
 
+export function setNavigationBarColor (params) {
+  setNavigationBar(params, 'setNavigationBarColor')
+}
+
+export function startPullDownRefresh (options = {}) {
+  const { success, complete, fail } = options
+  const res = { errMsg: `startPullDownRefresh: ok` }
   return new Promise((resolve, reject) => {
     try {
-      this.$page.setTitleBar({textColor: frontColor, backgroundColor})
+      eventCenter.trigger('TaroPage:startPullDownRefresh')
       success && success(res)
       complete && complete(res)
       resolve(res)
     } catch (data) {
-      res.errMsg = 'setNavigationBarColor: error'
+      res.errMsg = 'startPullDownRefresh: error'
       res.data = data
       fail && fail(res)
       reject(res)
@@ -159,20 +167,30 @@ export function setNavigationBarColor (options = {}) {
   })
 }
 
-let unSupportApis = ['hideToast', 'showLoading', 'hideLoading', 'showNavigationBarLoading', 'hideNavigationBarLoading']
-unSupportApis = generateUnSupportApi(
-  '快应用暂不支持Toast等隐藏方法',
-  unSupportApis
-)
+export function stopPullDownRefresh (options = {}) {
+  const { success, complete, fail } = options
+  const res = { errMsg: `stopPullDownRefresh: ok` }
+  return new Promise((resolve, reject) => {
+    try {
+      eventCenter.trigger('TaroPage:stopPullDownRefresh')
+      success && success(res)
+      complete && complete(res)
+      resolve(res)
+    } catch (data) {
+      res.errMsg = 'stopPullDownRefresh: error'
+      res.data = data
+      fail && fail(res)
+      reject(res)
+    }
+  })
+}
 
-const toast = {
+export default {
   showToast,
   showModal,
   showActionSheet,
   setNavigationBarTitle,
-  setNavigationBarColor
+  setNavigationBarColor,
+  startPullDownRefresh,
+  stopPullDownRefresh
 }
-
-Object.assign(toast, unSupportApis)
-
-export default toast

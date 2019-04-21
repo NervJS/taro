@@ -267,6 +267,8 @@ export default function createComponent (ComponentClass, isPage) {
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, getPageUrlParams(this.$page.uri))
+      this.$app.pageInstaceMap = this.$app.pageInstaceMap || {}
+      this.$app.pageInstaceMap[isPage] = this.$component
       if (isPage) {
         if (cacheDataHas(PRELOAD_DATA_KEY)) {
           const data = cacheDataGet(PRELOAD_DATA_KEY, true)

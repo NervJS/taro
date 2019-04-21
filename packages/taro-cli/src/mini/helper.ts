@@ -3,6 +3,7 @@ import * as path from 'path'
 
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
+import * as wxTransformer from '@tarojs/transformer-wx'
 
 import {
   BUILD_TYPES,
@@ -12,7 +13,8 @@ import {
   processTypeEnum,
   REG_SCRIPTS,
   NODE_MODULES_REG,
-  taroJsQuickAppComponents
+  taroJsQuickAppComponents,
+  PARSE_AST_TYPE
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -31,7 +33,8 @@ import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
 import {
   IProjectConfig,
   IOption,
-  INpmConfig
+  INpmConfig,
+  IWxTransformResult
 } from '../util/types'
 import defaultBabelConfig from '../config/babel'
 import defaultUglifyConfig from '../config/uglify'
@@ -43,6 +46,7 @@ import {
   IDependency
 } from './interface'
 import { getNodeModulesPath, getNpmOutputDir } from '../util/npmExact'
+import { parseAst } from './astProcess'
 
 const appPath = process.cwd()
 const configDir = path.join(appPath, PROJECT_CONFIG)
@@ -315,7 +319,7 @@ export function initCopyFiles () {
   isCopyingFiles.clear()
 }
 
-export function copyFilesFromSrcToOutput (files: string[]) {
+export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
   const { nodeModulesPath, npmOutputDir, outputDir } = BuildData
   files.forEach(file => {
     let outputFilePath
@@ -340,7 +344,11 @@ export function copyFilesFromSrcToOutput (files: string[]) {
       if (file === outputFilePath) {
         return
       }
-      fs.copySync(file, outputFilePath)
+      if (cb) {
+        cb(file, outputFilePath)
+      } else {
+        fs.copySync(file, outputFilePath)
+      }
     }
   })
 }
@@ -354,6 +362,8 @@ export function getTaroJsQuickAppComponentsPath () {
   return path.join(path.dirname(taroJsQuickAppComponentsPkg as string), 'src/components')
 }
 
+const SCRIPT_CONTENT_REG = /<script\b[^>]*>([\s\S]*?)<\/script>/gm
+
 export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
   const importTaroSelfComponents = new Set<{ path: string, name: string }>()
   const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath()
@@ -361,7 +371,26 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
     const cPath = path.join(taroJsQuickAppComponentsPath, c)
     const cMainPath = path.join(cPath, 'index')
     const cFiles = fs.readdirSync(cPath).map(item => path.join(cPath, item))
-    copyFilesFromSrcToOutput(cFiles)
+    copyFilesFromSrcToOutput(cFiles, (sourceFilePath, outputFilePath) => {
+      if (fs.existsSync(sourceFilePath)) {
+        const fileContent = fs.readFileSync(sourceFilePath).toString()
+        const match = SCRIPT_CONTENT_REG.exec(fileContent)
+        if (match) {
+          const scriptContent = match[1]
+          const transformResult: IWxTransformResult = wxTransformer({
+            code: scriptContent,
+            sourcePath: sourceFilePath,
+            outputPath: outputFilePath,
+            isNormal: true,
+            isTyped: false,
+            adapter: BUILD_TYPES.QUICKAPP
+          })
+          const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
+          const newFileContent = fileContent.replace(SCRIPT_CONTENT_REG, `<script>${res.code}</script>`)
+          fs.writeFileSync(outputFilePath, newFileContent)
+        }
+      }
+    })
     const cRelativePath = promoteRelativePath(path.relative(filePath, cMainPath.replace(getNodeModulesPath(), BuildData.npmOutputDir)))
     importTaroSelfComponents.add({
       path: cRelativePath,

@@ -213,7 +213,8 @@ export interface IParseAstReturn {
   mediaFiles: string[]
   configObj: IConfig,
   componentClassName: string,
-  taroSelfComponents: Set<string>
+  taroSelfComponents: Set<string>,
+  hasEnablePageScroll: boolean
 }
 
 export function parseAst (
@@ -255,6 +256,7 @@ export function parseAst (
   let hasComponentDidHide
   let hasComponentDidShow
   let hasComponentWillMount
+  let hasEnablePageScroll
   if (isQuickApp) {
     cannotRemoves.push(taroJsComponents)
   }
@@ -382,6 +384,8 @@ export function parseAst (
         hasComponentDidShow = true
       } else if (keyName === 'componentDidHide') {
         hasComponentDidHide = true
+      } else if (keyName === 'onPageScroll' || keyName === 'onReachBottom') {
+        hasEnablePageScroll = true
       }
     },
 
@@ -870,7 +874,8 @@ export function parseAst (
             if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             } else if (isQuickApp) {
-              node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true)`, babylonConfig as any)() as any)
+              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/, '/').replace(path.extname(sourceFilePath), '')
+              node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, '${pagePath}')`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Page(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             }
@@ -896,7 +901,8 @@ export function parseAst (
     configObj,
     mediaFiles,
     componentClassName,
-    taroSelfComponents
+    taroSelfComponents,
+    hasEnablePageScroll
   }
 }
 
