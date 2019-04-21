@@ -112,7 +112,10 @@ export async function buildSinglePage (page: string) {
       if (appConfig.tabBar) {
         rootProps.tabBar = appConfig.tabBar
       }
-      rootProps.pagePath = page
+      rootProps.pagePath = /^\//.test(page) ? page : `/${page}`
+      if (res.hasEnablePageScroll) {
+        rootProps.enablePageScroll = true
+      }
     }
     const transformResult: IWxTransformResult = wxTransformer({
       code: pageJsContent,
