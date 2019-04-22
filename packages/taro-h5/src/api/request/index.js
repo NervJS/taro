@@ -106,5 +106,6 @@ function taroInterceptor (chain) {
 
 const link = new Link(taroInterceptor)
 
+/** @type {TaroH5.request} */
 export const request = link.request.bind(link)
 export const addInterceptor = link.addInterceptor.bind(link)

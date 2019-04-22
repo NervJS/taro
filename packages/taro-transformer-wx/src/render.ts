@@ -1689,6 +1689,16 @@ export class RenderParser {
                 if (path.findParent(p => this.loopCallees.has(p.node))) {
                   return
                 }
+                const parentCondition = path.findParent(p => p.isConditionalExpression() || p.isLogicalExpression())
+                if (parentCondition) {
+                  const varDecl = parentCondition.findParent(p => p.isVariableDeclarator())
+                  if (varDecl && varDecl.isVariableDeclarator()) {
+                    const init = varDecl.node.id
+                    if (t.isIdentifier(init) && init.name.startsWith(LOOP_STATE)) {
+                      return
+                    }
+                  }
+                }
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
@@ -1981,6 +1991,7 @@ export class RenderParser {
       .filter(i => isVarName(i))
       .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
       .filter(i => !i.startsWith('$$'))
+      .filter(i => !i.startsWith('_$indexKey'))
       .filter(i => !this.loopRefIdentifiers.has(i))
     let properties = propertyKeys.map(i => t.objectProperty(t.identifier(i), t.identifier(i)))
     if (this.customComponentData.length > 0) {

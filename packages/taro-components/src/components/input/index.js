@@ -174,7 +174,7 @@ class Input extends Nerv.Component {
         className={cls}
         placeholder={placeholder}
         disabled={disabled}
-        max={maxLength}
+        maxlength={maxLength}
         onInput={this.onInput}
         onFocus={this.onFocus}
         onBlur={this.onBlur}

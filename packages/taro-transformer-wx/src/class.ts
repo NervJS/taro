@@ -443,7 +443,7 @@ class Transformer {
                 safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
               }
               classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
-              const indexKey = stemParent.scope.generateUid('indexKey')
+              const indexKey = stemParent.scope.generateUid('$indexKey')
               // tslint:disable-next-line: no-inner-declarations
               function findParentLoopCallExprIndices (callExpr: NodePath<t.CallExpression>) {
                 const indices: Set<t.Identifier> = new Set([])

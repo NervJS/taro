@@ -185,7 +185,7 @@ function parsePage (
     classBody = properties.map(prop => {
       const key = prop.get('key')
       const value = prop.get('value')
-      const params = prop.isObjectMethod()
+      let params = prop.isObjectMethod()
         ? prop.node.params
         : value.isFunctionExpression() || value.isArrowFunctionExpression()
           ? value.node.params
@@ -303,6 +303,15 @@ function parsePage (
       }
       if (PageLifecycle.has(name)) {
         const lifecycle = PageLifecycle.get(name)!
+        if (name === 'onLoad' && t.isIdentifier(params[0])) {
+          params = [t.assignmentPattern(params[0] as t.Identifier, t.logicalExpression('||', t.memberExpression(
+            t.memberExpression(
+              t.thisExpression(),
+              t.identifier('$router')
+            ),
+            t.identifier('params')
+          ), t.objectExpression([])))]
+        }
         if (prop.isObjectMethod()) {
           const body = prop.get('body')
           return t.classMethod('method', t.identifier(lifecycle), params, body.node)

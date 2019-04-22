@@ -14,12 +14,14 @@
 import * as React from 'react'
 import {
   View,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  GestureResponderEvent
 } from 'react-native'
 import { omit, noop } from '../../utils'
-import { ClickableProps, TouchableEvent } from './PropsType'
+import { ClickableProps } from './PropsType'
 
-const getWxAppEvent = (event: TouchableEvent) => {
+const getWxAppEvent = (event: GestureResponderEvent) => {
+  event.persist()
   const nativeEvent = event.nativeEvent || {}
   const { timestamp, target, pageX, pageY, touches = [], changedTouches = [] } = nativeEvent
   return {
@@ -58,8 +60,10 @@ const getWxAppEvent = (event: TouchableEvent) => {
   }
 }
 
-export default function ClickableSimplified (WrappedComponent: React.ComponentType<ClickableProps>) {
-  return class extends React.Component<ClickableProps, any> {
+export default function clickableSimplified (WrappedComponent: React.ComponentType<any>) {
+  class ClickableSimplified extends React.Component<ClickableProps, any> {
+    static displayName: string = 'Component'
+
     static defaultProps = {
       hoverStartTime: 20,
       hoverStayTime: 70
@@ -69,23 +73,23 @@ export default function ClickableSimplified (WrappedComponent: React.ComponentTy
       isHover: false
     }
 
-    onPress = (evt: TouchableEvent) => {
+    onPress = (evt: GestureResponderEvent) => {
       const { onClick = noop } = this.props
       onClick(getWxAppEvent(evt))
     }
 
-    onLongPress = (evt: TouchableEvent) => {
+    onLongPress = (evt: GestureResponderEvent) => {
       const { onLongPress = noop } = this.props
       onLongPress(getWxAppEvent(evt))
     }
 
-    onPressIn = (evt: TouchableEvent) => {
+    onPressIn = (evt: GestureResponderEvent) => {
       const { onTouchstart = noop } = this.props
       onTouchstart(getWxAppEvent(evt))
       this.setState({ isHover: true })
     }
 
-    onPressOut = (evt: TouchableEvent) => {
+    onPressOut = (evt: GestureResponderEvent) => {
       const { onTouchend = noop } = this.props
       onTouchend(getWxAppEvent(evt))
       this.setState({ isHover: false })
@@ -140,4 +144,8 @@ export default function ClickableSimplified (WrappedComponent: React.ComponentTy
       )
     }
   }
+
+  ClickableSimplified.displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
+
+  return ClickableSimplified
 }

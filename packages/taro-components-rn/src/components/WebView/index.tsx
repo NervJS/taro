@@ -46,4 +46,6 @@ const _WebView: React.SFC<WebViewProps> = ({
   )
 }
 
+_WebView.displayName = '_WebView'
+
 export default _WebView
