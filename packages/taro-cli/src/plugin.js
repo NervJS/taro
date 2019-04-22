@@ -62,7 +62,7 @@ async function build ({ watch, platform }) {
       buildAlipayPlugin()
       break
     default:
-      console.log(chalk.red('输入插件类型错误，目前只支持 weapp 插件类型'))
+      console.log(chalk.red('输入插件类型错误，目前只支持 weapp/alipay 插件类型'))
       break
   }
 }
@@ -355,14 +355,14 @@ async function buildWxPlugin ({ watch }) {
   compilePluginJson(pluginJson, path.join(pluginPath, PLUGIN_JSON))
 
   // plugin 文件夹内对 npm 的引用路径修改
-  const names = glob.sync('plugin/!(npm)/**/*.js')
+  const names = glob.sync('plugin/{,!(npm)/**/}*.js')
   const ioPromises = names.map(async name => {
     let content = await fs.readFile(name)
     content = content.toString()
     let shouldWrite
-    const replacement = content.replace(/['|"](\.\.\/)+npm\/.+?['|"]/g, str => {
+    const replacement = content.replace(/['|"]((\.\.\/)+)npm\/.+?['|"]/g, (str, $1) => {
       shouldWrite = true
-      return str.replace('../', '')
+      return $1 === '../' ? str.replace('../', './') : str.replace('../', '')
     })
     if (shouldWrite) await fs.writeFile(path.join(appPath, name), replacement)
   })
