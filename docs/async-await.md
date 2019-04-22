@@ -10,10 +10,9 @@ $ yarn add @tarojs/async-await
 $ npm install --save @tarojs/async-await
 ```
 
-随后在项目入口文件 `app.js` 中直接 `import` ，就可以开始使用 `async functions` 功能了
+随后在需要使用 async/await 的文件中直接 `import` ，就可以开始使用 `async functions` 功能了
 
 ```javascript
-// src/app.js
 import '@tarojs/async-await'
 ```
 
