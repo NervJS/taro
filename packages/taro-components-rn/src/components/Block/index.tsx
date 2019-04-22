@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { _View as _Block } from '../View/index'
 
 // _Block.displayName = '_Block'
