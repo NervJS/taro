@@ -67,9 +67,9 @@ class LocationChooser extends Taro.Component {
 /**
  * 打开地图选择位置。
  * @param {Object} object 参数
- * @param {(obj: LocationObject) => void} [success] 接口调用成功的回调函数
- * @param {Function} [fail] 接口调用失败的回调函数
- * @param {Function} [complete] 接口调用结束的回调函数（调用成功、失败都会执行）
+ * @param {(obj: LocationObject) => void} [object.success] 接口调用成功的回调函数
+ * @param {Function} [object.fail] 接口调用失败的回调函数
+ * @param {Function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
  */
 const chooseLocation = ({ success, fail, complete } = {}) => {
   return new Promise((resolve, reject) => {
