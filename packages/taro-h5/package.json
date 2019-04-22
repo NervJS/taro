@@ -60,6 +60,7 @@
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-postcss": "^2.0.3",
     "rollup-pluginutils": "^2.3.3"
   }
 }
