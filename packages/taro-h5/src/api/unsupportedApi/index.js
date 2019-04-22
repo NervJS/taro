@@ -98,7 +98,7 @@ export const createWorker = temporarilyNotSupport('createWorker')
 
 // 媒体
 // export const chooseImage = temporarilyNotSupport('chooseImage')
-export const previewImage = temporarilyNotSupport('previewImage')
+// export const previewImage = temporarilyNotSupport('previewImage')
 // export const getImageInfo = temporarilyNotSupport('getImageInfo')
 export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
 export const startRecord = temporarilyNotSupport('startRecord')

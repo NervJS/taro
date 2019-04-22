@@ -42,7 +42,7 @@
  * @param {function} [object.fail] 接口调用失败的回调函数
  * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
  */
-const getImageInfo = ({ src, success, fail, complete }) => {
+const getImageInfo = ({ src, success, fail, complete } = {}) => {
   return new Promise((resolve, reject) => {
     const onSuccess = res => {
       success && success(res)
