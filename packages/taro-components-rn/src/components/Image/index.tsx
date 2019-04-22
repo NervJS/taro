@@ -55,7 +55,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
 
   onLoad = () => {
     const { src, onLoad = noop } = this.props
-    const { width, height } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
+    const { width, height }: { width: number, height: number } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src) || {}
     onLoad({
       detail: { width, height }
     })

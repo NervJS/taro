@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import { Text as ReactNativeText } from 'react-native'
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import * as sinon from 'sinon'
 import Text from '../src/components/text'
-// import renderer from 'react-test-renderer'
+// import * as renderer from 'react-test-renderer'
 
 describe('<Text />', () => {
   // it('renders correctly', () => {
@@ -23,6 +23,7 @@ describe('<Text />', () => {
   it('onClick', () => {
     const spy = sinon.spy()
     const wrapper = shallow(<Text onClick={spy}>Test Text</Text>)
+    // @ts-ignore
     wrapper.find(ReactNativeText).props().onPress()
     expect(spy.calledOnce).toBe(true)
   })
