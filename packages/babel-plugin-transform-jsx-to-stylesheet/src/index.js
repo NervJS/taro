@@ -255,7 +255,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           if (cssFileCount === 0) {
             const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
             // 引入样式对应的变量名
-            const styleSheetIdentifierValue = `${cssFileBaseName.replace(/-/g, '_') + NAME_SUFFIX}`
+            const styleSheetIdentifierValue = `${cssFileBaseName.replace(/[-.]/g, '_') + NAME_SUFFIX}`
             const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
 
