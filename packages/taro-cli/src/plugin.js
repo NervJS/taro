@@ -258,16 +258,18 @@ function wxPluginWatchFiles () {
       // 最后删除 output/plugin
       const names = glob.sync(`${outputPath}/${PLUGIN_ROOT}/**/*`)
       if (names.length) {
-        const jsNames = glob.sync(`${outputPath}/${PLUGIN_ROOT}/!(npm)/**/*.js`)
+        const jsNames = glob.sync(`${outputPath}/${PLUGIN_ROOT}/{,!(npm)/**/}*.js`)
         const ioPromises = jsNames.map(async name => {
           let content = await fs.readFile(name)
           content = content.toString()
-          let shouldWrite
-          const replacement = content.replace(/['|"](\.\.\/)+npm\/.+?['|"]/g, str => {
-            shouldWrite = true
-            return str.replace('../', '')
+
+          let isShouldBeWritten
+          let replacement = content.replace(/['|"]((\.\.\/)+)npm\/.+?['|"]/g, (str, $1) => {
+            isShouldBeWritten = true
+            return $1 === '../' ? str.replace('../', './') : str.replace('../', '')
           })
-          if (shouldWrite) await fs.writeFile(name, replacement)
+
+          if (isShouldBeWritten) await fs.writeFile(name, replacement)
         })
         await Promise.all(ioPromises)
 
@@ -359,12 +361,14 @@ async function buildWxPlugin ({ watch }) {
   const ioPromises = names.map(async name => {
     let content = await fs.readFile(name)
     content = content.toString()
-    let shouldWrite
-    const replacement = content.replace(/['|"]((\.\.\/)+)npm\/.+?['|"]/g, (str, $1) => {
-      shouldWrite = true
+
+    let isShouldBeWritten
+    let replacement = content.replace(/['|"]((\.\.\/)+)npm\/.+?['|"]/g, (str, $1) => {
+      isShouldBeWritten = true
       return $1 === '../' ? str.replace('../', './') : str.replace('../', '')
     })
-    if (shouldWrite) await fs.writeFile(path.join(appPath, name), replacement)
+
+    if (isShouldBeWritten) await fs.writeFile(path.join(appPath, name), replacement)
   })
   await Promise.all(ioPromises)
 
