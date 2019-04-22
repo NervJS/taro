@@ -1,5 +1,4 @@
 const { src, dest, parallel, watch } = require('gulp')
-const babel = require('gulp-babel')
 const ts = require('gulp-typescript')
 
 const tsProject = ts.createProject('tsconfig.json')
@@ -12,9 +11,7 @@ function typescripts () {
     .on('error', (err) => {
       console.log(err)
     })
-    .js.pipe(babel({
-      presets: ['module:metro-react-native-babel-preset']
-    })).pipe(dest(distPath))
+    .pipe(dest(distPath))
 }
 
 function images () {
