@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import * as sinon from 'sinon'
 import { Label, Checkbox, CheckboxGroup } from '../src'
-import renderer from 'react-test-renderer'
+import * as renderer from 'react-test-renderer'
 
 describe('<Checkbox />', () => {
   describe('<Checkbox />', () => {
@@ -29,6 +29,7 @@ describe('<Checkbox />', () => {
         const wrapper = shallow(
           <Checkbox onChange={onChange} />
         )
+        // @ts-ignore
         wrapper.find(TouchableWithoutFeedback).at(0).props().onPress()
         expect(onChange.calledOnce).toBe(true)
         expect(wrapper.state('checked')).toBe(true)
@@ -39,6 +40,7 @@ describe('<Checkbox />', () => {
         const wrapper = shallow(
           <Checkbox onChange={onChange} disabled={true} />
         )
+        // @ts-ignore
         wrapper.find(TouchableWithoutFeedback).at(0).props().onPress()
         expect(onChange.calledOnce).toBe(false)
         expect(wrapper.state('checked')).toBe(false)
@@ -57,12 +59,12 @@ describe('<Checkbox />', () => {
           <Label><Checkbox value={2} /></Label>
         </CheckboxGroup>
       )
-      wrapper.find(Checkbox).at(0).props().onChange({ checked: true })
+      wrapper.find(Checkbox).at(0).props().onChange!({ checked: true, value: 0 })
       expect(spy.calledOnce).toBe(true)
-      wrapper.find(Checkbox).at(0).props().onChange({ checked: false })
+      wrapper.find(Checkbox).at(0).props().onChange!({ checked: false, value: 0 })
       expect(spy.calledTwice).toBe(true)
-      wrapper.find(Checkbox).at(1).props().onChange({ checked: true })
-      wrapper.find(Checkbox).at(2).props().onChange({ checked: true })
+      wrapper.find(Checkbox).at(1).props().onChange!({ checked: true, value: 1 })
+      wrapper.find(Checkbox).at(2).props().onChange!({ checked: true, value: 2 })
       expect(spy.callCount).toBe(4)
     })
   })

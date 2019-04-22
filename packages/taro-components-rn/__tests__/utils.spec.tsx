@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native'
 import utils from '../src/utils'
 
 describe('Utils', () => {
@@ -17,6 +18,7 @@ describe('Utils', () => {
       const result = utils.dismemberStyle({
         alignSelf: 'center',
         flex: 1,
+        // @ts-ignore
         unknownProperty: 'unknownProperty'
       })
       // @todo so much properties!!!
