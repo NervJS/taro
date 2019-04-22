@@ -12,7 +12,7 @@ declare module 'react-dom/server.browser' {
   export const renderToStaticMarkup: (element: ReactElement) => string;
 }
 
-declare module '@nart/react-native-swiper' {
+declare module '@nart/react-native-swiper/src' {
   import { ViewStyle } from 'react-native'
   import { Component } from 'react'
 

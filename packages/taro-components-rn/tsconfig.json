@@ -11,11 +11,11 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "downlevelIteration": true,
     "jsx": "react",
-    "target": "es2015",
+    "target": "es5",
     "lib": [
-      "es2015"
+      "es5"
     ],
     "typeRoots": [
       "./node_modules/@types",
