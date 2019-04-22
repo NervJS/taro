@@ -43,7 +43,7 @@
     "chokidar": "^2.0.3",
     "commander": "^2.19.0",
     "cross-spawn": "^6.0.5",
-    "css-to-react-native-transform": "^1.4.0",
+    "taro-css-to-react-native": "1.2.27-beta.0",
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
     "fbjs": "^1.0.0",

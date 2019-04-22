@@ -608,7 +608,8 @@ exports.UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-common',
   '@tarojs/mobx-prop-types',
   'stylelint-taro-rn',
-  'styleint-config-taro-rn'
+  'stylelint-config-taro-rn',
+  'taro-css-to-react-native'
 ]
 
 exports.pascalCase = (str) => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
