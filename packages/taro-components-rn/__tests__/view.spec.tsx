@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 // import 'react-native'
 import { _View } from '../src/components/view'
-import renderer from 'react-test-renderer'
+import * as renderer from 'react-test-renderer'
 
 describe('<View />', () => {
   it('renders correctly', () => {

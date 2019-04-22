@@ -4,6 +4,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import common from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
+import postcss from 'rollup-plugin-postcss'
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const cwd = __dirname
@@ -22,6 +23,7 @@ const baseConfig = {
       preferBuiltins: false,
       jsnext: true
     }),
+    postcss(),
     babel({
       babelrc: false,
       presets: [

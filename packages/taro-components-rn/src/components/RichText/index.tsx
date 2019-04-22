@@ -7,7 +7,7 @@ import {
   View,
   WebView,
 } from 'react-native'
-import ReactDOMServer from 'react-dom/server.browser'
+import * as ReactDOMServer from 'react-dom/server.browser'
 import { omit, parseStyles } from '../../utils'
 import { RichTextProps, Node } from './PropsType'
 

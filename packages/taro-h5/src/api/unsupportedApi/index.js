@@ -99,7 +99,7 @@ export const createWorker = temporarilyNotSupport('createWorker')
 // 媒体
 // export const chooseImage = temporarilyNotSupport('chooseImage')
 export const previewImage = temporarilyNotSupport('previewImage')
-export const getImageInfo = temporarilyNotSupport('getImageInfo')
+// export const getImageInfo = temporarilyNotSupport('getImageInfo')
 export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
 export const startRecord = temporarilyNotSupport('startRecord')
 export const playVoice = temporarilyNotSupport('playVoice')
@@ -136,7 +136,7 @@ export const openDocument = temporarilyNotSupport('openDocument')
 
 // 位置
 // export const getLocation = temporarilyNotSupport('getLocation')
-export const chooseLocation = temporarilyNotSupport('chooseLocation')
+// export const chooseLocation = temporarilyNotSupport('chooseLocation')
 // export const openLocation = temporarilyNotSupport('openLocation')
 
 // 设备
