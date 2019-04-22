@@ -73,6 +73,7 @@ class LocationChooser extends Taro.Component {
  */
 const chooseLocation = ({ success, fail, complete } = {}) => {
   return new Promise((resolve, reject) => {
+    const div = document.createElement('div')
     const choosenLocation = {}
     const onSuccess = res => {
       success && success(res)
@@ -108,9 +109,9 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
       }
       window.removeEventListener('message', onMessage, false)
       setTimeout(() => {
-        Nerv.unmountComponentAtNode(document.body)
+        Nerv.unmountComponentAtNode(div)
       }, 300)
-    }} />, document.body)
+    }} />, div)
 
     const onMessage = event => {
       // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
