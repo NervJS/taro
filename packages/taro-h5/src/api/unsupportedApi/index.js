@@ -136,7 +136,7 @@ export const openDocument = temporarilyNotSupport('openDocument')
 
 // 位置
 // export const getLocation = temporarilyNotSupport('getLocation')
-export const chooseLocation = temporarilyNotSupport('chooseLocation')
+// export const chooseLocation = temporarilyNotSupport('chooseLocation')
 // export const openLocation = temporarilyNotSupport('openLocation')
 
 // 设备
