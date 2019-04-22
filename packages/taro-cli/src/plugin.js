@@ -269,6 +269,14 @@ function wxPluginWatchFiles () {
             return $1 === '../' ? str.replace('../', './') : str.replace('../', '')
           })
 
+          const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
+          replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
+            if (Util.REG_FONT.test($1) || Util.REG_IMAGE.test($1) || Util.REG_MEDIA.test($1)) {
+              return str.replace(RegExp(`^['|"]/${PLUGIN_ROOT}`, 'g'), str => str.replace(`${PLUGIN_ROOT}`, ''))
+            }
+            return str
+          })
+
           if (isShouldBeWritten) await fs.writeFile(name, replacement)
         })
         await Promise.all(ioPromises)
@@ -366,6 +374,14 @@ async function buildWxPlugin ({ watch }) {
     let replacement = content.replace(/['|"]((\.\.\/)+)npm\/.+?['|"]/g, (str, $1) => {
       isShouldBeWritten = true
       return $1 === '../' ? str.replace('../', './') : str.replace('../', '')
+    })
+
+    const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
+    replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
+      if (Util.REG_FONT.test($1) || Util.REG_IMAGE.test($1) || Util.REG_MEDIA.test($1)) {
+        return str.replace(RegExp(`^['|"]/${PLUGIN_ROOT}`, 'g'), str => str.replace(`${PLUGIN_ROOT}`, ''))
+      }
+      return str
     })
 
     if (isShouldBeWritten) await fs.writeFile(path.join(appPath, name), replacement)
