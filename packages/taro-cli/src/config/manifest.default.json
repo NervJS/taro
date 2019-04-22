@@ -9,7 +9,8 @@
     { "name": "system.router" },
     { "name": "system.shortcut" },
     { "name": "system.fetch" },
-    { "name": "system.storage" }
+    { "name": "system.storage" },
+    { "name": "system.barcode" }
   ],
   "permissions": [
     { "origin": "*" }
