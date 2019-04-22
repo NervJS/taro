@@ -413,7 +413,7 @@ array-sort@^1.0.0:
     get-value "^2.0.6"
     kind-of "^5.0.2"
 
-array-tree-filter@^2.1.0, array-tree-filter@~2.1.0:
+array-tree-filter@~2.1.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/array-tree-filter/download/array-tree-filter-2.1.0.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Farray-tree-filter%2Fdownload%2Farray-tree-filter-2.1.0.tgz#873ac00fec83749f255ac8dd083814b4f6329190"
   integrity sha1-hzrAD+yDdJ8lWsjdCDgUtPYykZA=
@@ -1609,7 +1609,7 @@ deep-is@~0.1.3:
   resolved "http://registry.npm.taobao.org/deep-is/download/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
 
-deepmerge@^3.0.0, deepmerge@^3.2.0:
+deepmerge@^3.0.0:
   version "3.2.0"
   resolved "http://registry.npm.taobao.org/deepmerge/download/deepmerge-3.2.0.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Fdeepmerge%2Fdownload%2Fdeepmerge-3.2.0.tgz#58ef463a57c08d376547f8869fdc5bcee957f44e"
   integrity sha1-WO9GOlfAjTdlR/iGn9xbzulX9E4=

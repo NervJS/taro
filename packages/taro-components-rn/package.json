@@ -5,7 +5,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "rm -rf ./dist && gulp",
-    "tsc-watch": "tsc --watch",
+    "buildv2": "rm -rf ./dist && npm run build:static && tsc",
+    "dev": "npm run build:static && tsc --watch",
+    "build:static": "rsync -avr --exclude=*.ts ./src/assets ./dist",
     "lint": "eslint .",
     "prepare": "npm run build",
     "test-update": "jest --updateSnapshot"
@@ -28,8 +30,6 @@
   "dependencies": {
     "@ant-design/react-native": "^3.1.4",
     "@nart/react-native-swiper": "^1.5.13",
-    "array-tree-filter": "^2.1.0",
-    "deepmerge": "^3.2.0",
     "prop-types": "^15.6.2",
     "react-dom": "^16.4.0",
     "react-mixin": "^5.0.0",
