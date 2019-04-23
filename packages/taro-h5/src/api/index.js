@@ -2,6 +2,7 @@
 export * from './unsupportedApi'
 
 /* 已实现api */
+export * from './accelerometer'
 export * from './audio'
 export * from './canvas'
 export * from './clipboard'
