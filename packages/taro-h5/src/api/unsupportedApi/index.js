@@ -11,6 +11,7 @@ export const onBackgroundAudioStop = temporarilyNotSupport('onBackgroundAudioSto
 // export const onNetworkStatusChange = temporarilyNotSupport('onNetworkStatusChange')
 // export const onAccelerometerChange = temporarilyNotSupport('onAccelerometerChange')
 // export const onCompassChange = temporarilyNotSupport('onCompassChange')
+// export const onDeviceMotionChange = temporarilyNotSupport('onDeviceMotionChange')
 export const onBluetoothAdapterStateChange = temporarilyNotSupport('onBluetoothAdapterStateChange')
 export const onBluetoothDeviceFound = temporarilyNotSupport('onBluetoothDeviceFound')
 export const onBLEConnectionStateChange = temporarilyNotSupport('onBLEConnectionStateChange')
@@ -61,6 +62,8 @@ export const canIUse = temporarilyNotSupport('canIUse')
 // export const stopAccelerometer = temporarilyNotSupport('stopAccelerometer')
 // export const startCompass = temporarilyNotSupport('startCompass')
 // export const stopCompass = temporarilyNotSupport('stopCompass')
+// export const startDeviceMotionListening = temporarilyNotSupport('startDeviceMotionListening')
+// export const stopDeviceMotionListening = temporarilyNotSupport('stopDeviceMotionListening')
 
 // 界面
 // export const hideToast = temporarilyNotSupport('hideToast')
