@@ -43,6 +43,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/plugin-transform-react-jsx": "^7.2.2",
     "@babel/preset-env": "^7.3.4",
+    "@tarojs/components": "^1.2.27-beta.0",
     "@tarojs/taro": "1.2.27-beta.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "24.4.0",
