@@ -20,12 +20,12 @@ sidebar_label: PickerView
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| value | ✔ |  |  | ✔ | ✔ | ✔ |
-| indicatorStyle | ✔ |  |  | ✔ | ✔ | ✔ |
-| indicatorClass | ✔ |  |  | ✔ | ✔ |  |
-| maskStyle | ✔ |  |  | ✔ | ✔ | ✔ |
-| maskClass | ✔ |  |  | ✔ | ✔ |  |
-| onChange | ✔ |  |  | ✔ | ✔ | ✔ |
+| value | ✔ |  | x | ✔ | ✔ | ✔ |
+| indicatorStyle | ✔ |  | x | ✔ | ✔ | ✔ |
+| indicatorClass | ✔ |  | x | ✔ | ✔ |  |
+| maskStyle | ✔ |  | x | ✔ | ✔ | ✔ |
+| maskClass | ✔ |  | x | ✔ | ✔ |  |
+| onChange | ✔ |  | x | ✔ | ✔ | ✔ |
 
 
 

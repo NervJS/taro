@@ -9,7 +9,7 @@ sidebar_label: WebView
 
 | H5 | ReactNative |
 | :-: | :-: |
-| ✔ | x |
+| ✔ | ✔ |
 
 
 >其他相关属性请看各小程序官方文档

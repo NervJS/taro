@@ -25,18 +25,18 @@ sidebar_label: ScrollView
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| scrollX     | ✔ | ✔ |  X (二选一)| ✔ | ✔ | ✔ |       
-| scrollY            | ✔ | ✔ |  X (二选一)| ✔ | ✔ | ✔ |
-| upperThreshold     | ✔ | ✔ |  ✔ | ✔ | ✔ | ✔ |
-| lowerThreshold     | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollTop          | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollLeft         | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollIntoView     | ✔ | ✔ |  | ✔ | ✔ | ✔ |
-| scrollWithAnimation| ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| enableBackToTop    | ✔ |  |  ✔|  | ✔ |  |
-| onScrollToUpper    | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| onScrollToLower    | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| onScroll  | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
+| scrollX     | ✔ | ✔ | 二选一 | ✔ | ✔ | ✔ |       
+| scrollY            | ✔ | ✔ | 二选一 | ✔ | ✔ | ✔ |
+| upperThreshold     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| lowerThreshold     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| scrollTop          | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| scrollLeft         | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| scrollIntoView     | ✔ | ✔ | x | ✔ | ✔ | ✔ |
+| scrollWithAnimation| ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| enableBackToTop    | ✔ |  | ✔ |  | ✔ |  |
+| onScrollToUpper    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| onScrollToLower    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| onScroll  | ✔ | ✔ |  ✔ | ✔ | ✔ | ✔ |
 
 使用竖向滚动时，需要给 `<scroll-view/>` 一个固定高度，通过 WXSS 设置 height。
 

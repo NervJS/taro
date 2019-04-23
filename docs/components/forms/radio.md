@@ -9,8 +9,8 @@ sidebar_label: Radio
 
 | 微信小程序 | H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| √ | √ | √ | name | String |  | 表单组件中加上 name 来作为 key |
-| √ | √ | √ | onChange | EventHandle |  | `<RadioGroup/>` 中选中项发生改变时触发 change 事件，detail = value:[选中的 radio 的 value 的数组] |
+| √ | √ | x | name | String |  | 表单组件中加上 name 来作为 key |
+| √ | √ | x | onChange | EventHandle |  | `<RadioGroup/>` 中选中项发生改变时触发 change 事件，detail = value:[选中的 radio 的 value 的数组] |
 
 
 >其他相关属性请看各小程序官方文档

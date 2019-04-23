@@ -22,7 +22,7 @@ sidebar_label: View
 | hoverClass | ✔ | ✔ |  (支持 hoverStyle 属性，但框架未支持 hoverClass)| ✔ | ✔ | ✔ |
 | hoverStartTime | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | hoverStayTime | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| hoverStopPropagation | ✔ | |  | ✔ | ✔ | ✔ |
+| hoverStopPropagation | ✔ | | x | ✔ | ✔ | ✔ |
 
 ###### 示例：
 ```jsx

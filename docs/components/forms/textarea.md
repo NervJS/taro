@@ -20,7 +20,7 @@ sidebar_label: Textarea
 |   | √ | autoHeight             | Boolean     | false | 是否自动增高，设置 auto-height 时，style.height 不生效    |
 |   | x | fixed             | Boolean     | false | 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true     |
 |   | x | cursorSpacing    | Number      | 0 | 指定光标与键盘的距离，单位 px 。取 textarea 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
-|   | x| showConfirmBar  | Boolean     | true | 是否显示键盘上方带有”完成“按钮那一栏   |
+|   | x | showConfirmBar  | Boolean     | true | 是否显示键盘上方带有”完成“按钮那一栏   |
 |   | √ | selectionStart   | Number      | -1 | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用   |
 |   | √ | selectionEnd     | Number      | -1 | 光标结束位置，自动聚集时有效，需与 selectionStart 搭配使用|
 | √ | √ | onFocus         | EventHandle |  | event.detail = { value, height }，height 为键盘高度，在基础库 1.9.90 起支持  |
