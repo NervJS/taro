@@ -22,6 +22,7 @@ export * from './scroll'
 export * from './storage'
 export * from './system'
 export * from './tabBar'
+export * from './vibrate'
 export * from './video'
 export * from './webSocket'
 
