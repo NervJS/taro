@@ -80,8 +80,15 @@ export const hideKeyboard = temporarilyNotSupport('hideKeyboard')
 // export const stopPullDownRefresh = temporarilyNotSupport('stopPullDownRefresh')
 export const createIntersectionObserver = temporarilyNotSupport('createIntersectionObserver')
 
-export const onWindowResize = temporarilyNotSupport('onWindowResize')
-export const offWindowResize = temporarilyNotSupport('offWindowResize')
+// 自定义组件
+// export const nextTick = temporarilyNotSupport('nextTick')
+
+// 菜单
+export const getMenuButtonBoundingClientRect = temporarilyNotSupport('getMenuButtonBoundingClientRect')
+
+// 窗口
+// export const onWindowResize = temporarilyNotSupport('onWindowResize')
+// export const offWindowResize = temporarilyNotSupport('offWindowResize')
 
 // 拓展接口
 // export const arrayBufferToBase64 = temporarilyNotSupport('arrayBufferToBase64')
