@@ -53,12 +53,12 @@ class Route extends Component<RouteProps, {}> {
     return key === this.props.key
   }
 
-  getWrapRef = (ref) => {
-    this.containerRef = ref
+  getWrapRef = ref => {
+    if (ref) this.containerRef = ref
   }
 
-  getRef = (ref) => {
-    this.componentRef = ref
+  getRef = ref => {
+    if (ref) this.componentRef = ref
     this.props.collectComponent(ref, this.props.k)
   }
 
@@ -120,11 +120,17 @@ class Route extends Component<RouteProps, {}> {
 
   showPage () {
     const dom = this.containerRef
+    if (!dom) {
+      return console.error(`showPage:fail Received a falsy component for route "${this.props.path}". Forget to export it?`)
+    }
     dom.style.display = 'block'
   }
 
   hidePage () {
     const dom = this.containerRef
+    if (!dom) {
+      return console.error(`showPage:fail Received a falsy component for route "${this.props.path}". Forget to export it?`)
+    }
     dom.style.display = 'none'
   }
 
