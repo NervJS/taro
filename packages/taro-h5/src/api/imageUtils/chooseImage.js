@@ -53,7 +53,7 @@ export default function chooseImage (options) {
       let blob = new Blob([item])
       let url = URL.createObjectURL(blob)
       res.tempFilePaths.push(url)
-      res.tempFiles.push({path: url, size: item.size, type: item.type})
+      res.tempFiles.push({path: url, file: item, size: item.size, type: item.type})
     })
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)
