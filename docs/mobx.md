@@ -112,19 +112,32 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillRect')
+  componentWillMount () {
+    console.log('componentWillMount')
   }
 
-  componentDidMount () { }
+  /**
+   * 该方法将在 observable 对象更新时触发
+   */
+  componentWillReact () {
+    console.log('componentWillReact')
+  }
 
-  componentWillUnmount () { }
+  componentDidMount () {
+    console.log('componentDidMount')
+  }
 
-  componentDidShow () { }
+  componentWillUnmount () {
+    console.log('componentWillUnmount')
+  }
 
-  componentDidHide () { }
+  componentDidShow () {
+    console.log('componentDidShow')
+  }
+
+  componentDidHide () {
+    console.log('componentDidHide')
+  }
 
   increment = () => {
     const { counterStore } = this.props
@@ -228,3 +241,5 @@ export default Index
   ```
 
   `propTypes` 使用与 [mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 一致
+
+  > 注：自 `1.2.27-beta.0` 后，`@tarojs/mobx-prop-types` 已被移除，请使用 [mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 替代。
