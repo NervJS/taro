@@ -1,9 +1,9 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-
+import { commitAttachRef, detachAllRef } from '@tarojs/taro'
 import { isEmptyObject, noop, isFunction } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
-import { Current } from './current-owner';
+import { Current } from './current-owner'
 
 const privatePropValName = '__triggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
@@ -241,11 +241,7 @@ export function componentTrigger (component, key, args) {
           const query = qq.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
-        if ('refName' in ref && ref['refName']) {
-          refs[ref.refName] = target
-        } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-          ref['fn'].call(component, target)
-        }
+        commitAttachRef(ref, target, component, refs, true)
         ref.target = target
       })
       component.refs = Object.assign({}, component.refs || {}, refs)
@@ -268,10 +264,7 @@ export function componentTrigger (component, key, args) {
     component._pendingStates = []
     component._pendingCallbacks = []
     // refs
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))
-      component.refs = {}
-    }
+    detachAllRef(component)
   }
 }
 

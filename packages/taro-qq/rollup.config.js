@@ -16,9 +16,9 @@ const baseConfig = {
       exports: 'named'
     },
     {
-      file: join(cwd, 'dist/taro-weapp.js'),
+      file: join(cwd, 'dist/taro-qq.js'),
       format: 'umd',
-      name: 'TaroWeapp',
+      name: 'TaroQq',
       sourcemap: true,
       exports: 'named'
     }
