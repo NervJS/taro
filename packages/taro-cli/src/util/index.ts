@@ -11,6 +11,8 @@ import * as yauzl from 'yauzl'
 import { Transform } from 'stream'
 
 import {
+  JS_EXT,
+  TS_EXT,
   CSS_EXT,
   CSS_IMPORT_REG,
   processTypeMap,
@@ -177,7 +179,7 @@ export function urlJoin (...agrs: string[]): string {
 export function resolveScriptPath (p: string): string {
   const realPath = p
   const taroEnv = process.env.TARO_ENV
-  const SCRIPT_EXT = exports.JS_EXT.concat(exports.TS_EXT)
+  const SCRIPT_EXT = JS_EXT.concat(TS_EXT)
   for (let i = 0; i < SCRIPT_EXT.length; i++) {
     const item = SCRIPT_EXT[i]
     if (taroEnv) {
