@@ -1612,9 +1612,13 @@ export class RenderParser {
         if (Adapter.type === Adapters.tt) {
           body.push(
             t.expressionStatement(
-              t.callExpression(
-                t.memberExpression(t.identifier('Taro'), t.identifier('handleLoopRef')),
-                args.length === 2 ? [...args, t.nullLiteral(), ref.fn] : [...args, ref.fn]
+              t.logicalExpression(
+                '&&',
+                t.logicalExpression('&&', t.identifier('__scope'), t.identifier('__isRunloopRef')),
+                t.callExpression(
+                  t.memberExpression(t.identifier('Taro'), t.identifier('handleLoopRef')),
+                  args.length === 2 ? [...args, t.nullLiteral(), ref.fn] : [...args, ref.fn]
+                )
               )
             )
           )

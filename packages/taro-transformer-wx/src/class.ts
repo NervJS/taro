@@ -187,11 +187,21 @@ class Transformer {
         )
       ])
     })
-
-    this.classPath.node.body.body.push(t.classProperty(
-      t.identifier('$$refs'),
-      t.arrayExpression(objExpr)
-    ))
+    const _constructor = this.classPath.node.body.body.find(item => {
+      if (t.isClassMethod(item) && t.isIdentifier(item.key) && item.key.name === '_constructor') {
+        return true
+      }
+      return false
+    })
+    if (_constructor && t.isClassMethod(_constructor)) {
+      _constructor.body.body.push(
+        t.expressionStatement(t.assignmentExpression(
+          '=',
+          t.memberExpression(t.thisExpression(), t.identifier('$$refs')),
+          t.arrayExpression(objExpr)
+        ))
+      )
+    }
   }
 
   traverse () {

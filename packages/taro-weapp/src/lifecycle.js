@@ -1,6 +1,7 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet
+  internal_safe_set as safeSet,
+  commitAttachRef
 } from '@tarojs/taro'
 // import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
@@ -120,8 +121,7 @@ function doUpdate (component, prevProps, prevState) {
 
           const prevRef = ref.target
           if (target !== prevRef) {
-            if (ref.refName) component.refs[ref.refName] = target
-            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            commitAttachRef(ref, target, component, component.refs)
             ref.target = target
           }
         })

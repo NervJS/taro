@@ -1,5 +1,5 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-
+import { commitAttachRef, detachAllRef } from '@tarojs/taro'
 import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
@@ -169,6 +169,8 @@ export function componentTrigger (component, key, args) {
     }
     component._pendingStates = []
     component._pendingCallbacks = []
+    // refs
+    detachAllRef(component)
   }
   if (key === 'componentWillMount') {
     component._dirty = false
@@ -256,11 +258,7 @@ function createComponent (ComponentClass, isPage) {
           } else {
             target = query.select(`#${ref.id}`)
           }
-          if (target && 'refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if (target && 'fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
+          commitAttachRef(ref, target, component, refs, true)
           ref.target = target
         })
         component.refs = Object.assign({}, component.refs || {}, refs)

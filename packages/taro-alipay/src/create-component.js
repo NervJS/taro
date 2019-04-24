@@ -1,5 +1,5 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-
+import { commitAttachRef, detachAllRef } from '@tarojs/taro'
 import { isEmptyObject } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
@@ -192,11 +192,7 @@ export function componentTrigger (component, key, args) {
           const query = my.createSelectorQuery().in(component.$scope)
           target = query.select(`#${ref.id}`)
         }
-        if (target && 'refName' in ref && ref['refName']) {
-          refs[ref.refName] = target
-        } else if (target && 'fn' in ref && typeof ref['fn'] === 'function') {
-          ref['fn'].call(component, target)
-        }
+        commitAttachRef(ref, target, component, refs, true)
         ref.target = target
       })
       component.refs = Object.assign({}, component.refs || {}, refs)
@@ -219,10 +215,7 @@ export function componentTrigger (component, key, args) {
     component._pendingStates = []
     component._pendingCallbacks = []
     // refs
-    if (component['$$refs'] && component['$$refs'].length > 0) {
-      component['$$refs'].forEach(ref => typeof ref['fn'] === 'function' && ref['fn'].call(component, null))
-      component.refs = {}
-    }
+    detachAllRef(component)
     const scope = component.$scope
     if (component.$componentType === 'COMPONENT' &&
       typeof scope.props[COLLECT_CHILDS] === 'function' &&
