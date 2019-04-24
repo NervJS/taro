@@ -62,13 +62,13 @@ export function processStyleUseCssModule (styleObj: IStyleObj): any {
   const weappConf = Object.assign({}, projectConfig.weapp)
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
-  const customCssModulesConf: ICSSModulesConf = Object.assign({
+  const customCssModulesConf = Object.assign({
     enable: false,
     config: {
       generateScopedName: '[name]__[local]___[hash:base64:5]',
       namingPattern: 'global'
     }
-  }, customPostcssConf.cssModules || {})
+  }, customPostcssConf.cssModules || {}) as ICSSModulesConf
   if (!customCssModulesConf.enable) {
     return styleObj
   }

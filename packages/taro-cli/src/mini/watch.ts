@@ -79,7 +79,7 @@ export function watchFiles () {
           const config = await buildEntry()
           // TODO 此处待优化
           if ((checksum(JSON.stringify(config.pages)) !== checksum(JSON.stringify(appConfig.pages))) ||
-            (checksum(JSON.stringify(config.subPackages || config.subpackages || {})) !== checksum(JSON.stringify(appConfig.subPackages || appConfig.subpackages || {})))) {
+            (checksum(JSON.stringify(config.subPackages || config['subpackages'] || {})) !== checksum(JSON.stringify(appConfig.subPackages || appConfig['subpackages'] || {})))) {
             setAppConfig(config)
             await buildPages()
           }

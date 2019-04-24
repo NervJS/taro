@@ -30,8 +30,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taroize": "1.2.13",
-    "@tarojs/transformer-wx": "1.2.13",
+    "@tarojs/taroize": "1.2.27-beta.0",
+    "@tarojs/transformer-wx": "1.2.27-beta.0",
     "@types/request": "^2.48.1",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
@@ -57,10 +57,10 @@
     "envinfo": "^6.0.1",
     "fbjs": "^1.0.0",
     "eslint": "^4.15.0",
-    "eslint-config-taro": "^1.1.4",
+    "eslint-config-taro": "1.2.27-beta.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-taro": "^1.1.4",
+    "eslint-plugin-taro": "1.2.27-beta.0",
     "eslint-plugin-typescript": "^0.12.0",
     "fs-extra": "^5.0.0",
     "generic-names": "^2.0.1",
@@ -100,7 +100,7 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/taro": "^1.2.2",
+    "@tarojs/taro": "1.2.27-beta.0",
     "@types/autoprefixer": "^9.1.1",
     "@types/babel-core": "^6.25.5",
     "@types/babel-generator": "^6.25.2",

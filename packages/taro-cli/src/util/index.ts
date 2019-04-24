@@ -4,15 +4,13 @@ import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
 import * as chalk from 'chalk'
-import * as _ from 'lodash'
+import { mergeWith, isPlainObject, camelCase } from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
 import { Transform } from 'stream'
 
 import {
-  TS_EXT,
-  JS_EXT,
   CSS_EXT,
   CSS_IMPORT_REG,
   processTypeMap,
@@ -77,22 +75,7 @@ export function promoteRelativePath (fPath: string): string {
   return fPath.replace(/\\/g, '/')
 }
 
-export const homedir = (function () {
-  let homedir: any
-  const env: NodeJS.ProcessEnv = process.env
-  const home = env.HOME
-  const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
-  if (process.platform === 'win32') {
-    homedir = env.USERPROFILE || (env.HOMEDRIVE as string) + (env.HOMEPATH as string) || home || null
-  } else if (process.platform === 'darwin') {
-    homedir = home || (user ? `/Users/${user}` : null)
-  } else if (process.platform === 'linux') {
-    homedir = home || (process.getuid() === 0 ? '/root' : (user ? `/home/${user}` : null))
-  }
-  return typeof os.homedir === 'function' ? os.homedir : function () {
-    return homedir
-  }
-})()
+export const homedir = os.homedir
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')
@@ -310,7 +293,7 @@ export function generateConstantsList (constants: object): object {
   const res = { }
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
-      if (_.isPlainObject(constants[key])) {
+      if (isPlainObject(constants[key])) {
         res[key] = generateConstantsList(constants[key])
       } else {
         try {
@@ -399,7 +382,7 @@ export function recursiveFindNodeModules (filePath: string): string {
 }
 
 export const pascalCase: (str: string) => string
-  = (str: string): string => str.charAt(0).toUpperCase() + _.camelCase(str.substr(1))
+  = (str: string): string => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
 export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
   const resolvePath = require('resolve')
@@ -548,6 +531,19 @@ export function generateQuickAppUx ({
   return uxTxt
 }
 
+export const recursiveMerge = (src, ...args) => {
+  return mergeWith(src, ...args, (value, srcValue, key, obj, source) => {
+    const typeValue = typeof value
+    const typeSrcValue = typeof srcValue
+    if (typeValue !== typeSrcValue) return
+    if (Array.isArray(value) && Array.isArray(srcValue)) {
+      return value.concat(srcValue)
+    }
+    if (typeValue === 'object') {
+      return recursiveMerge(value, srcValue)
+    }
+  })
+}
 
 export function unzip (zipPath) {
   return new Promise((resolve, reject) => {

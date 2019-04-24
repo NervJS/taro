@@ -1,33 +1,26 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-
-import * as chokidar from 'chokidar'
-import * as wxTransformer from '@tarojs/transformer-wx'
 import { PageConfig } from '@tarojs/taro'
-import * as klaw from 'klaw'
-import traverse from 'babel-traverse'
-import * as t from 'babel-types'
+import * as wxTransformer from '@tarojs/transformer-wx'
 import * as babel from 'babel-core'
+import traverse, { NodePath } from 'babel-traverse'
+import * as t from 'babel-types'
 import generate from 'better-babel-generator'
+import * as chokidar from 'chokidar'
+import * as fs from 'fs-extra'
+import * as klaw from 'klaw'
 import * as _ from 'lodash'
+import * as path from 'path'
 import * as rimraf from 'rimraf'
 import { promisify } from 'util'
 
-import * as Util from './util'
-import * as npmProcess from './util/npm'
 import CONFIG from './config'
+import { copyFiles, isAliasPath, isNpmPkg, printLog, promoteRelativePath, replaceAliasPath, resolveScriptPath, recursiveMerge } from './util'
 import {
-  convertSourceStringToAstExpression as toAst,
+  convertAstExpressionToVariable as toVar,
   convertObjectToAstExpression as objToAst,
-  convertAstExpressionToVariable as toVar
+  convertSourceStringToAstExpression as toAst
 } from './util/astConvert'
-import {
-  PROJECT_CONFIG,
-  REG_TYPESCRIPT,
-  REG_SCRIPTS,
-  processTypeEnum,
-  BUILD_TYPES
-} from './util/constants'
+import { BUILD_TYPES, processTypeEnum, PROJECT_CONFIG, REG_SCRIPTS, REG_TYPESCRIPT } from './util/constants'
+import * as npmProcess from './util/npm'
 import { IBuildConfig } from './util/types'
 
 const addLeadingSlash = path => path.charAt(0) === '/' ? path : '/' + path
@@ -47,7 +40,7 @@ const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
 const outputPath = path.join(appPath, outputDir)
 const tempDir = CONFIG.TEMP_DIR
 const tempPath = path.join(appPath, tempDir)
-const entryFilePath = Util.resolveScriptPath(path.join(sourcePath, CONFIG.ENTRY))
+const entryFilePath = resolveScriptPath(path.join(sourcePath, CONFIG.ENTRY))
 const entryFileName = path.basename(entryFilePath)
 const pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
 const pathAlias = projectConfig.alias || {}
@@ -227,7 +220,7 @@ function processEntry (code, filePath) {
    */
   const programExitVisitor = {
     ClassMethod: {
-      exit (astPath) {
+      exit (astPath: NodePath<t.ClassMethod>) {
         const node = astPath.node
         const key = node.key
         const keyName = toVar(key)
@@ -308,67 +301,68 @@ function processEntry (code, filePath) {
 
         if (tabBar && isComponentWillMount) {
           const initTabBarApisCallNode = toAst(`Taro.initTabBarApis(this, Taro)`)
-          astPath.get('body').pushContainer('body', initTabBarApisCallNode)
+          node.body.body.push(initTabBarApisCallNode)
         }
 
         if (hasConstructor && isConstructor) {
-          astPath.get('body').pushContainer('body', additionalConstructorNode)
+          node.body.body.push(additionalConstructorNode)
         }
 
         if (hasComponentDidShow && isComponentDidMount) {
           const componentDidShowCallNode = toAst(`this.componentDidShow()`)
-          astPath.get('body').pushContainer('body', componentDidShowCallNode)
+          node.body.body.push(componentDidShowCallNode)
         }
 
         if (hasComponentDidHide && isComponentWillUnmount) {
           const componentDidHideCallNode = toAst(`this.componentDidHide()`)
-          astPath.get('body').unshiftContainer('body', componentDidHideCallNode)
+          node.body.body.unshift(componentDidHideCallNode)
         }
       }
     },
     ClassProperty: {
-      exit (astPath) {
+      exit (astPath: NodePath<t.ClassProperty>) {
         const node = astPath.node
         const key = node.key
         const value = node.value
         if (key.name !== 'state' || !t.isObjectExpression(value)) return
-        astPath.node.value.properties.push(t.objectProperty(
+        value.properties.push(t.objectProperty(
           t.identifier(tabBarConfigName),
           tabBar
         ))
       }
     },
     ClassBody: {
-      exit (astPath) {
+      exit (astPath: NodePath<t.ClassBody>) {
+        const node = astPath.node
         if (hasComponentDidShow && !hasComponentDidMount) {
-          astPath.pushContainer('body', t.classMethod(
+          node.body.push(t.classMethod(
             'method', t.identifier('componentDidMount'), [],
             t.blockStatement([
-              toAst('super.componentDidMount && super.componentDidMount()')
+              toAst('super.componentDidMount && super.componentDidMount()') as t.Statement
             ]), false, false))
         }
         if (hasComponentDidHide && !hasComponentWillUnmount) {
-          astPath.pushContainer('body', t.classMethod(
+          node.body.push(t.classMethod(
             'method', t.identifier('componentWillUnmount'), [],
             t.blockStatement([
-              toAst('super.componentWillUnmount && super.componentWillUnmount()')
+              toAst('super.componentWillUnmount && super.componentWillUnmount()') as t.Statement
             ]), false, false))
         }
         if (!hasConstructor) {
-          astPath.pushContainer('body', t.classMethod(
+          node.body.push(t.classMethod(
             'method', t.identifier('constructor'), [t.identifier('props'), t.identifier('context')],
             t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as any), false, false))
         }
         if (tabBar) {
           if (!hasComponentWillMount) {
-            astPath.pushContainer('body', t.classMethod(
+            node.body.push(t.classMethod(
               'method', t.identifier('componentWillMount'), [],
               t.blockStatement([
-                toAst('super.componentWillMount && super.componentWillMount()')
+                toAst('super.componentWillMount && super.componentWillMount()') as t.Statement
               ]), false, false))
           }
           if (!hasState) {
-            astPath.unshiftContainer('body', t.classProperty(
+            node.body.unshift(t.classProperty(
               t.identifier('state'),
               t.objectExpression([])
             ))
@@ -383,7 +377,7 @@ function processEntry (code, filePath) {
    * 负责收集config中的pages，收集tabbar的position，替换icon。
    */
   const classPropertyVisitor = {
-    ObjectProperty (astPath) {
+    ObjectProperty (astPath: NodePath<t.ObjectProperty>) {
       const node = astPath.node
       const key = node.key
       const value = node.value
@@ -393,10 +387,12 @@ function processEntry (code, filePath) {
         let root = ''
         if (subPackageParent) {
           /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
-          const rootNode = astPath.parent.properties.find(v => {
+          const parent = astPath.parent as t.ObjectExpression
+          const rootNode = parent.properties.find(v => {
+            if (t.isSpreadProperty(v)) return false
             return toVar(v.key) === 'root'
-          })
-          root = rootNode ? rootNode.value.value : ''
+          }) as t.ObjectProperty
+          root = rootNode ? toVar(rootNode.value) : ''
         }
         (value.elements as t.StringLiteral[]).forEach(v => {
           const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
@@ -406,18 +402,18 @@ function processEntry (code, filePath) {
       } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
         // tabBar相关处理
         tabBar = value
-        value.properties.forEach((node: any) => {
-          if (node.type === 'SpreadProperty') {
-            return
-          }
-          switch (node.key.name) {
+        value.properties.forEach((node) => {
+          if (t.isSpreadProperty(node)) return
+          switch (toVar(node.key)) {
             case 'position':
-              tabbarPos = node.value.value
+              tabbarPos = toVar(node.value)
               break
             case 'list':
               t.isArrayExpression(node.value) && node.value.elements.forEach(v => {
+                if (!t.isObjectExpression(v)) return
                 v.properties.forEach(property => {
-                  switch (property.key.name) {
+                  if (!t.isObjectProperty(property)) return
+                  switch (toVar(property.key)) {
                     case 'iconPath':
                     case 'selectedIconPath':
                       if (t.isStringLiteral(property.value)) {
@@ -428,7 +424,7 @@ function processEntry (code, filePath) {
                       }
                       break
                     case 'pagePath':
-                      property.value.value = addLeadingSlash(property.value.value)
+                      property.value = t.stringLiteral(addLeadingSlash(toVar(property.value)))
                       break
                   }
                 })
@@ -455,8 +451,8 @@ function processEntry (code, filePath) {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
     ClassProperty: {
-      enter (astPath) {
-        const node = astPath.node as t.ClassProperty
+      enter (astPath: NodePath<t.ClassProperty>) {
+        const node = astPath.node
         const key = node.key
         const keyName = toVar(key)
 
@@ -469,15 +465,15 @@ function processEntry (code, filePath) {
       }
     },
     ImportDeclaration: {
-      enter (astPath) {
-        const node = astPath.node as any
+      enter (astPath: NodePath<t.ImportDeclaration>) {
+        const node = astPath.node
         const source = node.source
         const specifiers = node.specifiers
         let value = source.value
-        if (Util.isAliasPath(value, pathAlias)) {
-          source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
+        if (isAliasPath(value, pathAlias)) {
+          source.value = value = replaceAliasPath(filePath, value, pathAlias)
         }
-        if (!Util.isNpmPkg(value)) {
+        if (!isNpmPkg(value)) {
           if (value.indexOf('.') === 0) {
             const pathArr = value.split('/')
             if (pathArr.indexOf('pages') >= 0) {
@@ -486,9 +482,9 @@ function processEntry (code, filePath) {
               const absolutePath = path.resolve(filePath, '..', value)
               const dirname = path.dirname(absolutePath)
               const extname = path.extname(absolutePath)
-              const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+              const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
               const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-              node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
+              node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
             }
           }
           return
@@ -533,10 +529,10 @@ function processEntry (code, filePath) {
       }
     },
     CallExpression: {
-      enter (astPath) {
-        const node = astPath.node as t.CallExpression
-        const callee = node.callee as t.Identifier
-        const calleeName = callee.name
+      enter (astPath: NodePath<t.CallExpression>) {
+        const node = astPath.node
+        const callee = node.callee
+        const calleeName = toVar(callee)
         const parentPath = astPath.parentPath
 
         if (t.isMemberExpression(callee)) {
@@ -559,8 +555,8 @@ function processEntry (code, filePath) {
       }
     },
     ClassMethod: {
-      exit (astPath) {
-        const node = astPath.node as t.ClassMethod
+      exit (astPath: NodePath<t.ClassMethod>) {
+        const node = astPath.node
         const key = node.key
         const keyName = toVar(key)
         if (keyName === 'constructor') {
@@ -584,23 +580,25 @@ function processEntry (code, filePath) {
       }
     },
     JSXOpeningElement: {
-      enter (astPath) {
-        const node = astPath.node as t.JSXOpeningElement
-        if ((node.name as any).name === 'Provider') {
+      enter (astPath: NodePath<t.JSXOpeningElement>) {
+        const node = astPath.node
+        if (toVar(node.name) === 'Provider') {
           for (const v of node.attributes) {
             if (v.name.name !== 'store') continue
-            storeName = (v.value as any).expression.name
+            if (!t.isJSXExpressionContainer(v.value)) return
+            storeName = toVar(v.value.expression)
             break
           }
         }
       }
     },
     Program: {
-      exit (astPath: any) {
+      exit (astPath: NodePath<t.Program>) {
+        const node = astPath.node
         const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${PACKAGES['@tarojs/router']}'`)
         const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${PACKAGES['@tarojs/components']}'`)
         const lastImportIndex = _.findLastIndex(astPath.node.body, t.isImportDeclaration)
-        const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`)
+        const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`) as NodePath<babel.types.Node>
         const createHistoryNode = toAst(`
           const _taroHistory = createHistory({
             mode: "${routerMode}",
@@ -634,7 +632,7 @@ function processEntry (code, filePath) {
         lastImportNode.insertAfter(extraNodes)
         if (renderCallCode) {
           const renderCallNode = toAst(renderCallCode)
-          astPath.pushContainer('body', renderCallNode)
+          node.body.push(renderCallNode)
         }
       }
     }
@@ -747,21 +745,21 @@ function processOthers (code, filePath, fileType) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidMount'), [],
             t.blockStatement([
-              toAst('super.componentDidMount && super.componentDidMount()')
+              toAst('super.componentDidMount && super.componentDidMount()') as t.Statement
             ]), false, false))
         }
         if (!hasComponentDidShow) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidShow'), [],
             t.blockStatement([
-              toAst('super.componentDidShow && super.componentDidShow()')
+              toAst('super.componentDidShow && super.componentDidShow()') as t.Statement
             ]), false, false))
         }
         if (!hasComponentDidHide) {
           astPath.pushContainer('body', t.classMethod(
             'method', t.identifier('componentDidHide'), [],
             t.blockStatement([
-              toAst('super.componentDidHide && super.componentDidHide()')
+              toAst('super.componentDidHide && super.componentDidHide()') as t.Statement
             ]), false, false))
         }
       }
@@ -829,12 +827,12 @@ function processOthers (code, filePath, fileType) {
                     )]
                   )
                   returnAstPath.insertBefore(pullDownRefreshNode)
-                  statement.argument = toAst(`
+                  statement.argument = (toAst(`
                     <PullDownRefresh
                       onRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
                       ref={ref => {
                         if (ref) this.pullDownRefreshRef = ref
-                    }}>{${varName}}</PullDownRefresh>`).expression
+                    }}>{${varName}}</PullDownRefresh>`) as t.ExpressionStatement).expression
                 }
               }
             })
@@ -862,7 +860,7 @@ function processOthers (code, filePath, fileType) {
     return t.arrowFunctionExpression(
       [t.identifier('ref')],
       t.blockStatement([
-        toAst(`this['__taroref_${componentId}'] = ref`)
+        toAst(`this['__taroref_${componentId}'] = ref`) as t.Statement
       ])
     )
   }
@@ -905,17 +903,17 @@ function processOthers (code, filePath, fileType) {
         const source = node.source
         let value = source.value
         const specifiers = node.specifiers
-        if (Util.isAliasPath(value, pathAlias)) {
-          source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
+        if (isAliasPath(value, pathAlias)) {
+          source.value = value = replaceAliasPath(filePath, value, pathAlias)
         }
-        if (!Util.isNpmPkg(value)) {
+        if (!isNpmPkg(value)) {
           if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
             const absolutePath = path.resolve(filePath, '..', value)
             const dirname = path.dirname(absolutePath)
             const extname = path.extname(absolutePath)
-            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
             const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-            node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
+            node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         } else if (value === PACKAGES['@tarojs/taro']) {
           source.value = PACKAGES['@tarojs/taro-h5']
@@ -1121,12 +1119,12 @@ function watchFiles () {
   watcher
     .on('add', filePath => {
       const relativePath = path.relative(appPath, filePath)
-      Util.printLog(processTypeEnum.CREATE, '添加文件', relativePath)
+      printLog(processTypeEnum.CREATE, '添加文件', relativePath)
       processFiles(filePath)
     })
     .on('change', filePath => {
       const relativePath = path.relative(appPath, filePath)
-      Util.printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
+      printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
       processFiles(filePath)
     })
     .on('unlink', filePath => {
@@ -1134,7 +1132,7 @@ function watchFiles () {
       const extname = path.extname(relativePath)
       const isScriptFile = REG_SCRIPTS.test(extname)
       const dist = getDist(filePath, isScriptFile)
-      Util.printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
+      printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
       fs.unlinkSync(dist)
     })
 }
@@ -1146,7 +1144,7 @@ export function buildTemp () {
       .on('data', file => {
         const relativePath = path.relative(appPath, file.path)
         if (!file.stats.isDirectory()) {
-          Util.printLog(processTypeEnum.CREATE, '发现文件', relativePath)
+          printLog(processTypeEnum.CREATE, '发现文件', relativePath)
           processFiles(file.path)
         }
       })
@@ -1160,30 +1158,33 @@ async function buildDist (buildConfig: IBuildConfig) {
   const { watch } = buildConfig
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-  h5Config.env = projectConfig.env
-  Object.assign(h5Config.env, {
-    TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
-  })
-  h5Config.defineConstants = projectConfig.defineConstants
-  h5Config.plugins = projectConfig.plugins
-  h5Config.designWidth = projectConfig.designWidth
   if (projectConfig.deviceRatio) {
     h5Config.deviceRatio = projectConfig.deviceRatio
   }
-  h5Config.sourceRoot = sourceRoot
-  h5Config.outputRoot = outputDir
-  h5Config.entry = Object.assign({
-    app: [path.join(tempPath, entryFile)]
-  }, h5Config.entry)
-  if (watch) {
-    h5Config.isWatch = true
+  if (projectConfig.env) {
+    h5Config.env = projectConfig.env
   }
-  h5Config.port = buildConfig.port
+  recursiveMerge(h5Config, {
+    defineConstants: projectConfig.defineConstants,
+    designWidth: projectConfig.designWidth,
+    entry: {
+      app: [path.join(tempPath, entryFile)]
+    },
+    env: {
+      TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
+    },
+    isWatch: !!watch,
+    outputRoot: outputDir,
+    plugins: projectConfig.plugins,
+    port: buildConfig.port,
+    sourceRoot: sourceRoot
+  })
+  
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
   webpackRunner(h5Config)
 }
 
-const pRimraf = promisify(rimraf) as any
+const pRimraf = promisify(rimraf)
 
 async function clean () {
   try {
@@ -1197,7 +1198,7 @@ async function clean () {
 export async function build (buildConfig: IBuildConfig) {
   process.env.TARO_ENV = BUILD_TYPES.H5
   await clean()
-  Util.copyFiles(appPath, projectConfig.copy)
+  copyFiles(appPath, projectConfig.copy)
   await buildTemp()
   await buildDist(buildConfig)
   if (buildConfig.watch) {

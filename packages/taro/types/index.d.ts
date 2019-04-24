@@ -1,3 +1,4 @@
+import { JSX } from 'babel-types'
 export = Taro;
 export as namespace Taro;
 
@@ -87,7 +88,7 @@ declare namespace Taro {
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
     componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
     componentWillUnmount?(): void;
-    componentWillPreload?(params: { [propName: string]: any }): any;
+    componentWillPreload?(params: {[propName: string]: any}): any;
     componentDidShow?(): void;
     componentDidHide?(): void;
     componentDidCatchError?(err: string): void;
@@ -105,7 +106,7 @@ declare namespace Taro {
   }
 
   interface ComponentClass<P = {}> {
-    new(...args: any[]): Component<P, {}>
+    new (...args: any[]): Component<P, {}>
     propTypes?: any
     defaultProps?: Partial<P>
     displayName?: string
@@ -208,15 +209,7 @@ declare namespace Taro {
      */
     custom?: boolean;
 
-    list: TarbarList[],
-
-    /**
-     * 自定义 tabBar
-     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html?search-key=%E8%87%AA%E5%AE%9A%E4%B9%89%20tabbar
-     * @default false
-     * @since 2.5.0
-     */
-    custom?: boolean
+    list: TarbarList[]
   }
 
   interface NetworkTimeout {
@@ -320,13 +313,12 @@ declare namespace Taro {
      * ]
      * @since 1.7.3
      */
-    subPackages?: SubPackage[],
-    subpackages?: SubPackage[]
+    subPackages?: SubPackage[]
     /**
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
-     */
+      */
     workers?: string
     /**
      * 申明需要后台运行的能力，类型为数组。目前支持以下项目：
@@ -403,8 +395,8 @@ declare namespace Taro {
     $preload(key: object): void;
 
     setState<K extends keyof S>(
-      state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
-      callback?: () => any
+        state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
+        callback?: () => any
     ): void;
 
     forceUpdate(callBack?: () => any): void;
@@ -415,7 +407,7 @@ declare namespace Taro {
     state: Readonly<S>;
     context: any;
     refs: {
-      [key: string]: any
+        [key: string]: any
     };
   }
 
@@ -476,10 +468,10 @@ declare namespace Taro {
 
   function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
 
-  function render(component: Component | any, element: Element | null): any;
+  function render(component: Component | JSX.Element, element: Element | null): any;
 
-  function internal_safe_set(...arg: any[]): any;
-  function internal_safe_get(...arg: any[]): any;
+  function internal_safe_set (...arg: any[]): any;
+  function internal_safe_get (...arg: any[]): any;
 
   type MessageType = 'info' | 'success' | 'error' | 'warning';
 
@@ -489,7 +481,7 @@ declare namespace Taro {
     duration?: number
   }
 
-  function atMessage(options: AtMessageOptions): void;
+  function atMessage (options: AtMessageOptions): void;
 
   function pxTransform(size: number): string
   function initPxTransform(config: { designWidth: number, deviceRatio: object })
@@ -508,12 +500,12 @@ declare namespace Taro {
   }
 
   namespace interceptors {
-    function logInterceptor(chain: Chain): Promise<any>
+    function logInterceptor (chain: Chain): Promise<any>
 
-    function timeoutInterceptor(chain: Chain): Promise<any>
+    function timeoutInterceptor (chain: Chain): Promise<any>
   }
 
-  function addInterceptor(interceptor: interceptor): any
+  function addInterceptor (interceptor: interceptor): any
 
   /**
    * 小程序引用插件 JS 接口
@@ -524,7 +516,7 @@ declare namespace Taro {
    *
    * 微信端能力
    * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
-   * Licensed under MIT license: https://github.com/qiu8310/minapp/issues/69
+   * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
    * thanks for the great work by @qiu8310 👍👍👍
    *
    */
@@ -1365,7 +1357,7 @@ declare namespace Taro {
 
     /**
      * websocket 状态值：已关闭。
-     */
+    */
     readonly CLOSED: boolean;
 
     /**
@@ -1448,7 +1440,7 @@ declare namespace Taro {
       path: string,
       size: number
     }
-    type ParamPropSuccess = (res: { tempFilePaths: string[], tempFiles: ParamPropTempFiles }) => void
+    type ParamPropSuccess = (res: {tempFilePaths: string[], tempFiles: ParamPropTempFiles}) => void
     type ParamPropFail = (err: any) => void
     type ParamPropComplete = () => any
     type Param = {
@@ -2819,7 +2811,7 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(param: { direction: 0 | 90 | -90 }): void
+    requestFullScreen(param: {direction: 0 | 90 | -90}): void
     /**
      * 退出全屏
      *
@@ -7304,17 +7296,17 @@ declare namespace Taro {
       complete?: ParamPropComplete
     }
     /**
-     * 接口调用成功的回调函数
-     */
+      * 接口调用成功的回调函数
+      */
     type ParamPropSuccess = (res: any) => any
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
@@ -7352,17 +7344,17 @@ declare namespace Taro {
       complete?: ParamPropComplete
     }
     /**
-     * 接口调用成功的回调函数
-     */
-    type ParamPropSuccess = (res: any) => any
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
+      * 接口调用成功的回调函数
+      */
+     type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
@@ -7388,18 +7380,18 @@ declare namespace Taro {
       fail?: ParamPropFail,
       complete?: ParamPropComplete
     }
-    /**
-     * 接口调用成功的回调函数
-     */
-    type ParamPropSuccess = (res: any) => any
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
+        /**
+      * 接口调用成功的回调函数
+      */
+     type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -7439,16 +7431,16 @@ declare namespace Taro {
       complete?: ParamPropComplete
     }
     /**
-     * 接口调用成功的回调函数
-     */
+      * 接口调用成功的回调函数
+      */
     type ParamPropSuccess = (res: any) => any
     /**
-     * 接口调用失败的回调函数
-     */
+      * 接口调用失败的回调函数
+      */
     type ParamPropFail = (err: any) => any
     /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
+      * 接口调用结束的回调函数（调用成功、失败都会执行）
+      */
     type ParamPropComplete = () => any
   }
   /**
@@ -7494,17 +7486,17 @@ declare namespace Taro {
       complete?: ParamPropComplete
     }
     /**
-     * 接口调用成功的回调函数
-     */
-    type ParamPropSuccess = (res: any) => any
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
+      * 接口调用成功的回调函数
+      */
+     type ParamPropSuccess = (res: any) => any
+     /**
+       * 接口调用失败的回调函数
+       */
+     type ParamPropFail = (err: any) => any
+     /**
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+     type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
@@ -7754,19 +7746,12 @@ declare namespace Taro {
    *
    * **定义：**
    *
-   * 创建 canvas 的绘图上下文 CanvasContext 对象（指定 canvasId）。
-   * 在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<canvas />` 组件
+   * 创建 canvas 绘图上下文（指定 canvasId）。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<canvas/>` 组件
    *
-   * @param canvasId 要获取上下文的 `<canvas />` 组件 `canvasId` 属性
-   * @param componentInstance 在自定义组件下，当前组件实例的this，
-   * 表示在这个自定义组件下查找拥有 `canvasId` 的 `<canvas />`，
-   * 如果省略则不在任何自定义组件内查找
-   *
-   * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas />`
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.createCanvasContext.html
-   *
+   * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/create-canvas-context.html#wxcreatecanvascontextcanvasid-this
    */
-  function createCanvasContext(canvasId: string, componentInstance?: any): CanvasContext
+  function createCanvasContext(canvasId: string, componentInstance: any): CanvasContext
 
   namespace canvasToTempFilePath {
     type Param0 = {
@@ -7807,8 +7792,7 @@ declare namespace Taro {
        */
       destHeight?: number
       /**
-       * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html)
-       * 的 canvasId
+       * 画布标识，传入 [`<canvas/>`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的 canvas-id
        */
       canvasId: string
       /**
@@ -7818,12 +7802,11 @@ declare namespace Taro {
        */
       fileType?: string
       /**
-       * 图片的质量，取值范围为 (0, 1)，不在范围内时当作1.0处理
-       * 必填
+       * 图片的质量，取值范围为 (0, 1]，不在范围内时当作1.0处理
        *
        * @since 1.7.0
        */
-      quality: number
+      quality?: number
       /**
        * 接口调用成功的回调函数
        */
@@ -7836,13 +7819,6 @@ declare namespace Taro {
        * 接口调用结束的回调函数（调用成功、失败都会执行）
        */
       complete?: Param0PropComplete
-    }
-
-    type Promised = {
-      /** errMsg */
-      errMsg: string
-      /** 生成文件的临时路径 */
-      tempFilePath: string
     }
     /**
      * 接口调用成功的回调函数
@@ -7859,9 +7835,6 @@ declare namespace Taro {
   }
   /**
    * 把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径。
-   *
-   * @param instance 在自定义组件下，当前组件实例的 `this`，
-   * 以操作组件内 `<canvas />` 组件
    *
    * **Bug & Tip：**
    *
@@ -7883,9 +7856,9 @@ declare namespace Taro {
    *       }
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.canvasToTempFilePath.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/temp-file.html#wxcanvastotempfilepathobject-this
    */
-  function canvasToTempFilePath(OBJECT: canvasToTempFilePath.Param0, instance?: any): Promise<canvasToTempFilePath.Promised>
+  function canvasToTempFilePath(OBJECT: canvasToTempFilePath.Param0, instance?: any): void
 
   namespace canvasGetImageData {
     type Promised = {
@@ -7908,8 +7881,7 @@ declare namespace Taro {
     }
     type Param = {
       /**
-       * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html)
-       * 的 canvasId
+       * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的 canvas-id
        */
       canvasId: string
       /**
@@ -7928,22 +7900,7 @@ declare namespace Taro {
        * 将要被提取的图像数据矩形区域的高度
        */
       height: number
-      /**
-       * 接口调用成功的回调函数
-       */
-      success?: ParamPropSuccess;
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail;
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete;
     }
-    type ParamPropSuccess = (res: Partial<Promised>) => any;
-    type ParamPropFail = (res: any) => any;
-    type ParamPropComplete = () => any;
   }
   /**
    * @since 1.9.0
@@ -7967,15 +7924,14 @@ declare namespace Taro {
    *       }
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.canvasGetImageData.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/get-image-data.html#wxcanvasgetimagedataobject
    */
   function canvasGetImageData(OBJECT: canvasGetImageData.Param): Promise<canvasGetImageData.Promised>
 
   namespace canvasPutImageData {
     type Param = {
       /**
-       * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html)
-       * 的 canvasId
+       * 画布标识，传入 [`<canvas />`](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的 canvas-id
        */
       canvasId: string
       /**
@@ -7997,23 +7953,8 @@ declare namespace Taro {
       /**
        * 源图像数据矩形区域的高度
        */
-      height: number
-      /**
-       * 接口调用成功的回调函数
-       */
-      success?: ParamPropSuccess;
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail;
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete;
+      height?: number
     }
-    type ParamPropSuccess = (res: any) => any;
-    type ParamPropFail = (res: any) => any;
-    type ParamPropComplete = () => any;
   }
   /**
    * @since 1.9.0
@@ -8033,7 +7974,7 @@ declare namespace Taro {
    *       success(res) {}
    *     })
    *     ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.canvasPutImageData.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/put-image-data.html#wxcanvasputimagedataobject
    */
   function canvasPutImageData(OBJECT: canvasPutImageData.Param): Promise<any>
 
@@ -8264,22 +8205,22 @@ declare namespace Taro {
     scrollLeft: number,
     scrollTop: number
   }
-  interface clientRectElement extends baseElement, rectElement, sizeElement { }
+  interface clientRectElement extends baseElement, rectElement, sizeElement {}
 
-  interface scrollOffsetElement extends baseElement, scrollElement { }
+  interface scrollOffsetElement extends baseElement, scrollElement {}
 
   interface fieldsObject {
-    id?: boolean,
-    dataset?: boolean,
-    rect?: boolean,
-    size?: boolean,
-    scrollOffset?: boolean,
+    id?:boolean,
+    dataset?:boolean,
+    rect?:boolean,
+    size?:boolean,
+    scrollOffset?:boolean,
     properties?: string[],
-    computedStyle?: string[],
+    computedStyle?:string[],
   }
 
   interface fieldElement extends baseElement, rectElement, sizeElement {
-    [key: string]: any
+    [key:string]: any
   }
 
 
@@ -9716,8 +9657,7 @@ declare namespace Taro {
      *
      * **postMessage(message) 说明：**
      *
-     * 向 Worker 线程发送消息，`message` 参数为需要发送的消息，
-     * 必须是一个可序列化的 JavaScript 对象。
+     * 向 Worker 线程发送消息，`message` 参数为需要发送的消息，必须是一个可序列化的 JavaScript 对象。
      */
     postMessage(Object: any): any
     /**
@@ -9785,9 +9725,9 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型                                                                        |  定义
-     * ----------|-----------------------------------------------------------------------------|--------------------
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/Color.html)   |  Gradient Object
+     *   参数    |  类型                                                                              |  定义
+     * ----------|------------------------------------------------------------------------------------|--------------------
+     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object
      *
      * **语法：**
      *
@@ -9816,9 +9756,9 @@ declare namespace Taro {
      *
      * **参数：**
      *
-     *   参数    |  类型                                                                        |  定义
-     * ----------|-----------------------------------------------------------------------------|--------------------
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/Color.html)   |  Gradient Object
+     *   参数    |  类型                                                                              |  定义
+     * ----------|------------------------------------------------------------------------------------|--------------------
+     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object
      *
      * **语法：**
      *
@@ -9843,24 +9783,16 @@ declare namespace Taro {
      *
      * 设置阴影样式。
      *
-     * **Tip**: 如果没有设置，offsetX 默认值为0，
-     * offsetY 默认值为0，blur 默认值为0，
-     * color 默认值为 `black`。
-     *
-     * > 从基础库 1.9.90 开始，本接口停止维护，
-     * > 请使用 CanvasContext.shadowOffsetX
-     * > CanvasContext.shadowOffsetY
-     * > CanvasContext.shadowColor
-     * > CanvasContext.shadowBlur 代替
+     * **Tip**: 如果没有设置，offsetX 默认值为0， offsetY 默认值为0， blur 默认值为0，color 默认值为 `black`。
      *
      * **参数：**
      *
-     *   参数      |  类型                                                                        |    范围   |  定义
-     * ------------|-----------------------------------------------------------------------------|----------|--------------------
-     *   offsetX   |  Number                                                                     |          |  阴影相对于形状在水平方向的偏移
-     *   offsetY   |  Number                                                                     |          |  阴影相对于形状在竖直方向的偏移
-     *   blur      |  Number                                                                     |  0~100   |  阴影的模糊级别，数值越大越模糊
-     *   color     |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/Color.html)   |          |  阴影的颜色
+     *   参数      |  类型                                                                              |  范围    |  定义
+     * ------------|------------------------------------------------------------------------------------|----------|--------------------
+     *   offsetX   |  Number                                                                            |          |阴影相对于形状在水平方向的偏移
+     *   offsetY   |  Number                                                                            |          |阴影相对于形状在竖直方向的偏移
+     *   blur      |  Number                                                                            |  0~100   |阴影的模糊级别，数值越大越模糊
+     *   color     |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |          |  阴影的颜色
      *
      * **例子：**
      *
@@ -9886,7 +9818,7 @@ declare namespace Taro {
      *     canvasContext.shadowBlur = value
      *     ```
      */
-    shadowBlur: number;
+    shadowBlur(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9900,7 +9832,7 @@ declare namespace Taro {
      *     canvasContext.shadowColor = value
      *     ```
      */
-    shadowColor: string;
+    shadowColor(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9914,7 +9846,7 @@ declare namespace Taro {
      *     canvasContext.shadowOffsetX = value
      *     ```
      */
-    shadowOffsetX: number;
+    shadowOffsetX(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -9928,7 +9860,7 @@ declare namespace Taro {
      *     canvasContext.shadowOffsetY = value
      *     ```
      */
-    shadowOffsetY: number;
+    shadowOffsetY(): void
     /**
      *
      * **定义：**
@@ -9962,7 +9894,6 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    // TODO createLinearGradient 方法返回 CanvasGradient 对象，非 void
     createLinearGradient(x0: number, y0: number, x1: number, y1: number): void
     /**
      *
@@ -9998,7 +9929,6 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    // TODO createCircularGradient 方法返回 CanvasGradient 对象，非 void
     createCircularGradient(x: number, y: number, r: number): void
     /**
      *
@@ -10038,16 +9968,12 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    // TODO addColorStop 属于 CanvasGradient 下的方法，非 CanvasContext
-    // 参见 https://developers.weixin.qq.com/miniprogram/dev/api/CanvasGradient.addColorStop.html
     addColorStop(stop: number, color: string): void
     /**
      *
      * **定义：**
      *
      * 设置线条的宽度。
-     *
-     * **Tips：** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.lineWidth 代替
      *
      * **参数：**
      *
@@ -10098,8 +10024,6 @@ declare namespace Taro {
      * **定义：**
      *
      * 设置线条的端点样式。
-     *
-     * **Tips：** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.lineCap 代替
      *
      * **参数：**
      *
@@ -10153,8 +10077,6 @@ declare namespace Taro {
      * **定义：**
      *
      * 设置线条的交点样式。
-     *
-     * **Tips:** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.lineJoin 代替
      *
      * **参数：**
      *
@@ -10214,21 +10136,12 @@ declare namespace Taro {
      *
      * 设置线条的宽度。
      *
-     * **Tips:** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.lineDashOffset 代替
-     *
      * **参数：**
      *
      *   参数      |  类型     |  说明
      * ------------|-----------|-------------------------------
      *   pattern   |  Array    |一组描述交替绘制线段和间距（坐标空间单位）长度的数字
      *   offset    |  Number   |  虚线偏移量
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setLineDash(pattern, offset)
-     *     canvasContext.lineDashOffset = offset // 基础库 1.9.90 起支持
-     *     ```
      *
      * **例子：**
      *
@@ -10245,16 +10158,12 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    setLineDash(pattern: number[], offset: number): void;
+    setLineDash(pattern: any[], offset: number): void
     /**
      *
      * **定义：**
      *
-     * 设置最大斜接长度，斜接长度指的是在两条线交汇处内角和外角之间的距离。
-     * 当 `setLineJoin()` 为 miter 时才有效。超过最大倾斜长度的，
-     * 连接处将以 lineJoin 为 bevel 来显示
-     *
-     * **Tips:** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.miterLimit 代替
+     * 设置最大斜接长度，斜接长度指的是在两条线交汇处内角和外角之间的距离。 当 `setLineJoin()` 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示
      *
      * **参数：**
      *
@@ -10397,12 +10306,6 @@ declare namespace Taro {
     strokeRect(x: number, y: number, width: number, height: number): void
     /**
      *
-     * **定义：**
-     *
-     * 清除画布上在该矩形区域内的内容
-     *
-     * **Tips:** clearRect 并非画一个白色的矩形在地址区域，而是清空。
-     *
      * **参数：**
      *
      *   参数     |  类型     |  说明
@@ -10411,6 +10314,12 @@ declare namespace Taro {
      *   y        |  Number   |矩形区域左上角的y坐标
      *   width    |  Number   | 矩形区域的宽度
      *   height   |  Number   | 矩形区域的高度
+     *
+     * **定义：**
+     *
+     *     ```html
+     *     <canvas canvas-id="myCanvas" style="border: 1px solid; background: #123456;"/>
+     *     ```
      *
      * **例子：**
      *
@@ -10727,7 +10636,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    arc(x: number, y: number, r: number, sAngle: number, eAngle: number, counterclockwise?: boolean): void
+    arc(x: number, y: number, r: number, sAngle: number, eAngle: number, counterclockwise: boolean): void
     /**
      *
      * **定义：**
@@ -10887,8 +10796,7 @@ declare namespace Taro {
      *
      * **定义：**
      *
-     * 以原点为中心，原点可以用 [translate](https://developers.weixin.qq.com/miniprogram/dev/api/CanvasContext.translate.html)
-     * 方法修改。顺时针旋转当前坐标轴。多次调用`rotate`，旋转的角度会叠加。
+     * 以原点为中心，原点可以用 [translate](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/rotate.html#translate)方法修改。顺时针旋转当前坐标轴。多次调用`rotate`，旋转的角度会叠加。
      *
      * **参数：**
      *
@@ -10896,7 +10804,7 @@ declare namespace Taro {
      * -----------|-----------|-----------------------------------------------------
      *   rotate   |  Number   |旋转角度，以弧度计(degrees * Math.PI/180；degrees范围为0~360)
      *
-     * ![rotate.png](https://mp.weixin.qq.com/debug/wxadoc/dev/image/canvas/rotate.png)
+     * ![](https://mp.weixin.qq.com/debug/wxadoc/dev/image/canvas/rotate.png)
      *
      * **参数：**
      *
@@ -10946,10 +10854,7 @@ declare namespace Taro {
      *
      * **定义：**
      *
-     * clip() 方法从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，
-     * 则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。
-     * 可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，
-     * 并在以后的任意时间对其进行恢复（通过 restore() 方法）。
+     * clip() 方法从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，并在以后的任意时间对其进行恢复（通过 restore() 方法）。
      *
      * **例子：**
      *
@@ -10977,20 +10882,11 @@ declare namespace Taro {
      *
      * 设置字体的字号。
      *
-     * **Tips:** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.font 代替
-     *
      * **参数：**
      *
      *   参数       |  类型     |  说明
      * -------------|-----------|----------
      *   fontSize   |  Number   |字体的字号
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setFontSize(fontSize)
-     *     canvasContext.font = fontSize // 基础库 1.9.90 起支持
-     *     ```
      *
      * **例子：**
      *
@@ -11198,8 +11094,6 @@ declare namespace Taro {
      *
      * 设置全局画笔透明度。
      *
-     * **Tips:** 从基础库 1.9.90 开始，本接口停止维护，请使用 CanvasContext.globalAlpha 代替
-     *
      * **参数：**
      *
      *   参数    |  类型     |  范围  |  说明
@@ -11331,7 +11225,7 @@ declare namespace Taro {
      *     console.log(metrics.width)
      *     ```
      */
-    measureText(text: string): number;
+    measureText(width: number): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11360,7 +11254,7 @@ declare namespace Taro {
      *     canvasContext.globalCompositeOperation = type
      *     ```
      */
-    globalCompositeOperation: string;
+    globalCompositeOperation(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11384,7 +11278,7 @@ declare namespace Taro {
      *     canvasContext.arcTo(x1, y1, x2, y2, radius)
      *     ```
      */
-    arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
+    arcTo(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11407,7 +11301,7 @@ declare namespace Taro {
      *     canvasContext.strokeText(text, x, y, maxWidth)
      *     ```
      */
-    strokeText(text: string, x: number, y: number, maxWidth: number): void;
+    strokeText(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11427,7 +11321,7 @@ declare namespace Taro {
      *     canvasContext.lineDashOffset = value
      *     ```
      */
-    lineDashOffset: number;
+    lineDashOffset(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11458,7 +11352,7 @@ declare namespace Taro {
      *     ctx.draw()
      *     ```
      */
-    createPattern(image: string, repetition: string): void;
+    createPattern(): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11487,7 +11381,7 @@ declare namespace Taro {
      *     canvasContext.font = value
      *     ```
      */
-    font: string;
+    font(style: any, weight: any, size: any, family: any): void
     /**
      * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
@@ -11512,14 +11406,7 @@ declare namespace Taro {
      *     canvasContext.setTransform(scaleX, skewX, skewY, scaleY, translateX, translateY)
      *     ```
      */
-    setTransform(
-      scaleX: number,
-      scaleY: number,
-      skewX: number,
-      skewY: number,
-      translateX: number,
-      translateY: number
-    ): void;
+    setTransform(): void
   }
 
 
@@ -12083,219 +11970,4 @@ declare namespace Taro {
 
     function database(config?: ICloudConfig): DB.Database
   }
-    //
-    // React Hooks
-    // ----------------------------------------------------------------------
-
-    interface RefObject<T> {
-      readonly current: T | null;
-    }
-
-    // based on the code in https://github.com/facebook/react/pull/13968
-
-    // Unlike the class component setState, the updates are not allowed to be partial
-    type SetStateAction<S> = S | ((prevState: S) => S);
-    // this technically does accept a second argument, but it's already under a deprecation warning
-    // and it's not even released so probably better to not define it.
-    type Dispatch<A> = (value: A) => void;
-    // Unlike redux, the actions _can_ be anything
-    type Reducer<S, A> = (prevState: S, action: A) => S;
-    // types used to try and prevent the compiler from reducing S
-    // to a supertype common with the second argument to useReducer()
-    type ReducerState<R extends Reducer<any, any>> = R extends Reducer<infer S, any> ? S : never;
-    type ReducerAction<R extends Reducer<any, any>> = R extends Reducer<any, infer A> ? A : never;
-    // The identity check is done with the SameValue algorithm (Object.is), which is stricter than ===
-    // TODO (TypeScript 3.0): ReadonlyArray<unknown>
-    type DependencyList = ReadonlyArray<any>;
-
-    // NOTE: callbacks are _only_ allowed to return either void, or a destructor.
-    // The destructor is itself only allowed to return void.
-    type EffectCallback = () => (void | (() => void | undefined));
-
-    interface MutableRefObject<T> {
-        current: T;
-    }
-
-    /**
-     * Returns a stateful value, and a function to update it.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usestate
-     */
-    function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
-    // convenience overload when first argument is ommitted
-    /**
-     * Returns a stateful value, and a function to update it.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usestate
-     */
-    function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
-    /**
-     * An alternative to `useState`.
-     *
-     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
-     * multiple sub-values. It also lets you optimize performance for components that trigger deep
-     * updates because you can pass `dispatch` down instead of callbacks.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
-     */
-    // overload where "I" may be a subset of ReducerState<R>; used to provide autocompletion.
-    // If "I" matches ReducerState<R> exactly then the last overload will allow initializer to be ommitted.
-    // the last overload effectively behaves as if the identity function (x => x) is the initializer.
-    function useReducer<R extends Reducer<any, any>, I>(
-        reducer: R,
-        initializerArg: I & ReducerState<R>,
-        initializer?: (arg: I & ReducerState<R>) => ReducerState<R>
-    ): [ReducerState<R>, Dispatch<ReducerAction<R>>];
-    /**
-     * An alternative to `useState`.
-     *
-     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
-     * multiple sub-values. It also lets you optimize performance for components that trigger deep
-     * updates because you can pass `dispatch` down instead of callbacks.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
-     */
-    // overload for free "I"; all goes as long as initializer converts it into "ReducerState<R>".
-    function useReducer<R extends Reducer<any, any>, I>(
-        reducer: R,
-        initializerArg: I,
-        initializer: (arg: I) => ReducerState<R>
-    ): [ReducerState<R>, Dispatch<ReducerAction<R>>];
-    /**
-     * An alternative to `useState`.
-     *
-     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
-     * multiple sub-values. It also lets you optimize performance for components that trigger deep
-     * updates because you can pass `dispatch` down instead of callbacks.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
-     */
-
-    // I'm not sure if I keep this 2-ary or if I make it (2,3)-ary; it's currently (2,3)-ary.
-    // The Flow types do have an overload for 3-ary invocation with undefined initializer.
-
-    // NOTE: without the ReducerState indirection, TypeScript would reduce S to be the most common
-    // supertype between the reducer's return type and the initialState (or the initializer's return type),
-    // which would prevent autocompletion from ever working.
-
-    // TODO: double-check if this weird overload logic is necessary. It is possible it's either a bug
-    // in older versions, or a regression in newer versions of the typescript completion service.
-    function useReducer<R extends Reducer<any, any>>(
-        reducer: R,
-        initialState: ReducerState<R>,
-        initializer?: undefined
-    ): [ReducerState<R>, Dispatch<ReducerAction<R>>];
-    /**
-     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
-     * (`initialValue`). The returned object will persist for the full lifetime of the component.
-     *
-     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
-     * value around similar to how you’d use instance fields in classes.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#useref
-     */
-    // TODO (TypeScript 3.0): <T extends unknown>
-    function useRef<T>(initialValue: T): MutableRefObject<T>;
-    // convenience overload for refs given as a ref prop as they typically start with a null value
-    /**
-     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
-     * (`initialValue`). The returned object will persist for the full lifetime of the component.
-     *
-     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
-     * value around similar to how you’d use instance fields in classes.
-     *
-     * Usage note: if you need the result of useRef to be directly mutable, include `| null` in the type
-     * of the generic argument.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#useref
-     */
-    // TODO (TypeScript 3.0): <T extends unknown>
-    function useRef<T>(initialValue: T|null): RefObject<T>;
-    // convenience overload for potentially undefined initialValue / call with 0 arguments
-    // has a default to stop it from defaulting to {} instead
-    /**
-     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
-     * (`initialValue`). The returned object will persist for the full lifetime of the component.
-     *
-     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
-     * value around similar to how you’d use instance fields in classes.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#useref
-     */
-    // TODO (TypeScript 3.0): <T extends unknown>
-    function useRef<T = undefined>(): MutableRefObject<T | undefined>;
-    /**
-     * The signature is identical to `useEffect`, but it fires synchronously after all DOM mutations.
-     * Use this to read layout from the DOM and synchronously re-render. Updates scheduled inside
-     * `useLayoutEffect` will be flushed synchronously, before the browser has a chance to paint.
-     *
-     * Prefer the standard `useEffect` when possible to avoid blocking visual updates.
-     *
-     * If you’re migrating code from a class component, `useLayoutEffect` fires in the same phase as
-     * `componentDidMount` and `componentDidUpdate`.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#uselayouteffect
-     */
-    function useLayoutEffect(effect: EffectCallback, deps?: DependencyList): void;
-    /**
-     * Accepts a function that contains imperative, possibly effectful code.
-     *
-     * @param effect Imperative function that can return a cleanup function
-     * @param deps If present, effect will only activate if the values in the list change.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#useeffect
-     */
-    function useEffect(effect: EffectCallback, deps?: DependencyList): void;
-    // NOTE: this does not accept strings, but this will have to be fixed by removing strings from type Ref<T>
-    /**
-     * `useImperativeHandle` customizes the instance value that is exposed to parent components when using
-     * `ref`. As always, imperative code using refs should be avoided in most cases.
-     *
-     * `useImperativeHandle` should be used with `React.forwardRef`.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
-     */
-    function useImperativeHandle<T, R extends T>(ref: RefObject<T>|undefined, init: () => R, deps?: DependencyList): void;
-    // I made 'inputs' required here and in useMemo as there's no point to memoizing without the memoization key
-    // useCallback(X) is identical to just using X, useMemo(() => Y) is identical to just using Y.
-    /**
-     * `useCallback` will return a memoized version of the callback that only changes if one of the `inputs`
-     * has changed.
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usecallback
-     */
-    // TODO (TypeScript 3.0): <T extends (...args: never[]) => unknown>
-    function useCallback<T extends (...args: any[]) => any>(callback: T, deps: DependencyList): T;
-    /**
-     * `useMemo` will only recompute the memoized value when one of the `deps` has changed.
-     *
-     * Usage note: if calling `useMemo` with a referentially stable function, also give it as the input in
-     * the second argument.
-     *
-     * ```ts
-     * function expensive () { ... }
-     *
-     * function Component () {
-     *   const expensiveResult = useMemo(expensive, [expensive])
-     *   return ...
-     * }
-     * ```
-     *
-     * @version 16.8.0
-     * @see https://reactjs.org/docs/hooks-reference.html#usememo
-     */
-    // allow undefined, but don't make it optional as that is very likely a mistake
-    function useMemo<T>(factory: () => T, deps: DependencyList | undefined): T;
 }

@@ -126,7 +126,7 @@ function wxPluginWatchFiles () {
           const config = await buildEntry()
           // TODO 此处待优化
           if ((Util.checksum(JSON.stringify(config.pages)) !== Util.checksum(JSON.stringify(appConfig.pages))) ||
-            (Util.checksum(JSON.stringify(config.subPackages || config.subpackages || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || appConfig.subpackages || {})))) {
+            (Util.checksum(JSON.stringify(config.subPackages || config['subpackages'] || {})) !== Util.checksum(JSON.stringify(appConfig.subPackages || appConfig['subpackages'] || {})))) {
             setAppConfig(config)
             await buildPages()
           }

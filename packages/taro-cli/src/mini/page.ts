@@ -254,7 +254,7 @@ export async function buildPages () {
   const { appConfig } = getBuildData()
   // 支持分包，解析子包页面
   const pages = appConfig.pages || []
-  const subPackages = appConfig.subPackages || appConfig.subpackages
+  const subPackages = appConfig.subPackages || appConfig['subpackages']
   if (subPackages && subPackages.length) {
     subPackages.forEach(item => {
       if (item.pages && item.pages.length) {
