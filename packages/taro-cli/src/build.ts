@@ -11,7 +11,7 @@ import { IBuildConfig } from './util/types'
 const appPath = process.cwd()
 
 export default function build (args, buildConfig: IBuildConfig) {
-  const { type, watch, platform, port } = buildConfig
+  const { type, watch, platform, port, release } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
@@ -39,7 +39,7 @@ export default function build (args, buildConfig: IBuildConfig) {
       buildForRN({ watch })
       break
     case BUILD_TYPES.QUICKAPP:
-      buildForQuickApp({ watch, port })
+      buildForQuickApp({ watch, port, release })
       break
     case BUILD_TYPES.QQ:
       buildForQQ({ watch })
@@ -94,11 +94,12 @@ function buildForRN ({ watch }: IBuildConfig) {
   require('./rn').build({ watch })
 }
 
-function buildForQuickApp ({ watch, port }: IBuildConfig) {
+function buildForQuickApp ({ watch, port, release }: IBuildConfig) {
   require('./mini').build({
     watch,
     adapter: BUILD_TYPES.QUICKAPP,
-    port
+    port,
+    release
   })
 }
 

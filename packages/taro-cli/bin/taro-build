@@ -16,10 +16,11 @@ program
   .option('--ui', 'Build Taro UI library')
   .option('--plugin [typeName]', 'Build Taro plugin project, weapp')
   .option('--port [port]', 'Specified port')
+  .option('--release', 'Release quickapp')
   .parse(process.argv)
 
 const args = program.args
-const { type, watch, ui, port } = program
+const { type, watch, ui, port, release } = program
 let { env, plugin } = program
 
 env = process.env.NODE_ENV || env
@@ -68,5 +69,6 @@ console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName
 build(args, {
   type,
   watch,
-  port: typeof port === 'string' ? port: undefined
+  port: typeof port === 'string' ? port: undefined,
+  release: !!release
 })

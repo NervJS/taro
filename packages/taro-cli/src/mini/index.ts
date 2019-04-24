@@ -197,26 +197,30 @@ async function prepareQuickAppEnvironment (isWatch: boolean | void, buildData: I
   return isReady
 }
 
-async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number) {
+async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number, release?: boolean) {
   const originalOutputDir = buildData.originalOutputDir
+  const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
+  const hapToolkitLib = path.join(path.dirname(hapToolkitPath), 'lib')
+  const compile = require(path.join(hapToolkitLib, 'commands/compile'))
   if (isWatch) {
-    const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
-    const hapToolkitLib = path.join(path.dirname(hapToolkitPath), 'lib')
     const launchServer = require(path.join(hapToolkitLib, 'server'))
-    const compile = require(path.join(hapToolkitLib, 'commands/compile'))
     launchServer({
       port: port || 12306,
       watch: isWatch,
       clearRecords: false,
       disableADB: false
     })
-    if (isWatch) {
-      compile('native', 'dev', true)
+    compile('native', 'dev', true)
+  } else {
+    if (!release) {
+      compile('native', 'dev', false)
+    } else {
+      compile('native', 'prod', false)
     }
   }
 }
 
-export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port }: IMiniAppBuildConfig) {
+export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
   const buildData = getBuildData()
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   process.env.TARO_ENV = adapter
@@ -245,6 +249,6 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet
       process.exit(0)
       return
     }
-    await runQuickApp(watch, buildData, port)
+    await runQuickApp(watch, buildData, port, release)
   }
 }

@@ -48,14 +48,16 @@ export interface IBuildConfig {
   type?: BUILD_TYPES,
   watch?: boolean,
   platform?: string,
-  port?: number
+  port?: number,
+  release?: boolean
 }
 
 export interface IMiniAppBuildConfig {
   adapter: BUILD_TYPES,
   watch?: boolean,
   envHasBeenSet?: boolean,
-  port?: number
+  port?: number,
+  release?: boolean
 }
 
 export interface IOption {
