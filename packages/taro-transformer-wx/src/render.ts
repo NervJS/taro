@@ -1474,7 +1474,9 @@ export class RenderParser {
       })
     }
     this.handleLoopComponents()
-    if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) this.handleComponents(renderBody)
+    if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) {
+      this.handleComponents(renderBody)
+    }
     renderBody.traverse(this.visitors)
     if (Adapter.type === Adapters.quickapp) {
       renderBody.traverse(this.quickappVistor)
@@ -1866,7 +1868,7 @@ export class RenderParser {
             body.push(returnStatement)
           } else {
             body.push(returnStatement)
-            const stateName = 'loopArray' + this.loopArrayId()
+            const stateName = this.loopComponentNames.get(callee) as string
             // setJSXAttr(returned, Adapter.for, t.identifier(stateName))
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
@@ -2119,7 +2121,12 @@ export class RenderParser {
       )
     )
     if (this.isDefaultRender) {
+      const propsStatement: t.ExpressionStatement | t.VariableDeclaration[] = [...this.propsSettingExpressions].map(expr => {
+        if (typeof expr === 'function') return expr()
+        return expr
+      })
       this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
+        ...propsStatement,
         buildAssignState(pendingState),
         t.returnStatement(
           t.memberExpression(t.thisExpression(), t.identifier('state'))
