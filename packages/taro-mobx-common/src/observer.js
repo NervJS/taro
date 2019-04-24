@@ -1,11 +1,11 @@
 import { Reaction, _allowStateChanges } from 'mobx'
 
-function isStateless (component) {
-  return !(component.prototype && component.prototype.render)
+function isStateless (component, renderMedthod) {
+  return !(component.prototype && component.prototype[renderMedthod])
 }
 
-export function observer (Component) {
-  if (typeof Component !== 'function' || isStateless(Component)) {
+export function observer (Component, renderMedthod) {
+  if (typeof Component !== 'function' || isStateless(Component, renderMedthod)) {
     throw new Error("Please pass a valid component to 'observer'")
   }
 
@@ -42,8 +42,8 @@ export function observer (Component) {
   }
 
   const target = ObserverComponent.prototype
-  const originRender = target.render
-  target.render = function () {
+  const originRender = target[renderMedthod]
+  target[renderMedthod] = function () {
     let result
     let exception
     if (this._reaction && this._reaction instanceof Reaction) {

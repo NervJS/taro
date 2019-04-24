@@ -20,7 +20,7 @@
     "index.js"
   ],
   "scripts": {
-    "build": "rollup -c --environment TARGET:umd",
+    "build": "rollup -c rollup.config.js",
     "clear": "rimraf dist"
   },
   "peerDependencies": {
