@@ -387,6 +387,7 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
           })
           const res = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], sourceFilePath, outputFilePath)
           const newFileContent = fileContent.replace(SCRIPT_CONTENT_REG, `<script>${res.code}</script>`)
+          fs.ensureDirSync(path.dirname(outputFilePath))
           fs.writeFileSync(outputFilePath, newFileContent)
         }
       }
