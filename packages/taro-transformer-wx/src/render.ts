@@ -2120,11 +2120,11 @@ export class RenderParser {
         })
       )
     )
+    const propsStatement: t.ExpressionStatement | t.VariableDeclaration[] = [...this.propsSettingExpressions].map(expr => {
+      if (typeof expr === 'function') return expr()
+      return expr
+    })
     if (this.isDefaultRender) {
-      const propsStatement: t.ExpressionStatement | t.VariableDeclaration[] = [...this.propsSettingExpressions].map(expr => {
-        if (typeof expr === 'function') return expr()
-        return expr
-      })
       this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
         ...propsStatement,
         buildAssignState(pendingState),
@@ -2162,6 +2162,7 @@ export class RenderParser {
       //   }
       // }
       this.renderPath.node.body.body.push(
+        ...propsStatement,
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
       )
     }
