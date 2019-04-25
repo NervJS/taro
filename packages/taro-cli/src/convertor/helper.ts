@@ -1,5 +1,5 @@
-import path from 'path'
-import fs from 'fs-extra'
+import * as path from 'path'
+import * as fs from 'fs-extra'
 import * as t from 'babel-types'
 
 import {
