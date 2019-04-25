@@ -51,20 +51,38 @@ export default class PageView extends Component {
   }
 
   render() {
+    const scrollStyle = {
+      height: '150px'
+    }
+    const scrollTop = 0
+    const Threshold = 20
+    const vStyleA = {
+      height: '150px',
+      'background-color': rgb(26, 173, 25)
+    }
+    const vStyleB = {
+       height: '150px',
+      'background-color': rgb(39,130,215)
+    }
+    const vStyleC = {
+      height: '150px',
+      'background-color': rgb(241,241,241),
+      color: '#333'
+    }
     return (
           <ScrollView
             className='scrollview'
             scrollY
             scrollWithAnimation
-            scrollTop='0'
-            style='height: 150px;'
-            lowerThreshold='20'
-            upperThreshold='20'
+            scrollTop={scrollTop}
+            style={scrollStyle}
+            lowerThreshold={Threshold}
+            upperThreshold={Threshold}
             onScrolltoupper={this.onScrolltoupper}
             onScroll={this.onScroll}>
-            <View style='height:150px;background-color:rgb(26,173,25);'>A</View>
-            <View style='height:150px;background-color:rgb(39,130,215);'>B</View>
-            <View style='height:150px;background-color:rgb(241,241,241);color: #333;'>C</View>
+            <View style={vStyleA}>A</View>
+            <View style={vStyleB}>B</View>
+            <View style={vStyleC}>C</View>
           </ScrollView>
     )
   }
