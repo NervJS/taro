@@ -133,18 +133,14 @@ function generateQuickAppManifest () {
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
 
-async function prepareQuickAppEnvironment (isWatch: boolean | void, buildData: IBuildData) {
+async function prepareQuickAppEnvironment (buildData: IBuildData) {
   let isReady = false
   let needDownload = false
   let needInstall = false
   const originalOutputDir = buildData.originalOutputDir
   console.log()
-  if (isWatch) {
-    if (fs.existsSync(path.join(buildData.originalOutputDir, 'sign'))) {
-      needDownload = false
-    } else {
-      needDownload = true
-    }
+  if (fs.existsSync(path.join(buildData.originalOutputDir, 'sign'))) {
+    needDownload = false
   } else {
     needDownload = true
   }
@@ -159,23 +155,19 @@ async function prepareQuickAppEnvironment (isWatch: boolean | void, buildData: I
 
   console.log()
   process.chdir(originalOutputDir)
-  if (isWatch) {
-    if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
-      needInstall = false
-    } else {
-      needInstall = true
-    }
+  if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
+    needInstall = false
   } else {
     needInstall = true
   }
   if (needInstall) {
     let command
-    if (shouldUseYarn) {
-      command = 'yarn install'
+    if (shouldUseYarn()) {
+      command = 'NODE_ENV=development yarn install'
     } else if (shouldUseCnpm()) {
-      command = 'cnpm install'
+      command = 'NODE_ENV=development cnpm install'
     } else {
-      command = 'npm install'
+      command = 'NODE_ENV=development npm install'
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
     const install = shelljs.exec(command, { silent: true })
@@ -242,7 +234,7 @@ export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet
   }
   if (isQuickApp) {
     generateQuickAppManifest()
-    const isReady = await prepareQuickAppEnvironment(watch, buildData)
+    const isReady = await prepareQuickAppEnvironment(buildData)
     if (!isReady) {
       console.log()
       console.log(chalk.red('快应用环境准备失败，请重试！'))
