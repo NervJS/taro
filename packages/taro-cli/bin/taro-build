@@ -7,7 +7,8 @@ const _ = require('lodash')
 
 const build = require('../dist/build').default
 const { PROJECT_CONFIG, BUILD_TYPES } = require('../dist/util/constants')
-const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
+const appPath = process.cwd()
+const projectConfPath = path.join(appPath, PROJECT_CONFIG)
 
 program
   .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq')
@@ -19,7 +20,6 @@ program
   .option('--release', 'Release quickapp')
   .parse(process.argv)
 
-const args = program.args
 const { type, watch, ui, port, release } = program
 let { env, plugin } = program
 
@@ -27,7 +27,7 @@ env = process.env.NODE_ENV || env
 
 if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
-  build(args, {
+  build(appPath, {
     type: 'ui',
     watch
   })
@@ -38,7 +38,7 @@ if (plugin) {
   if (typeof plugin === 'boolean') {
     plugin = BUILD_TYPES.WEAPP
   }
-  build(args, {
+  build(appPath, {
     type: BUILD_TYPES.PLUGIN,
     platform: plugin,
     watch
@@ -66,7 +66,7 @@ process.env.TARO_ENV = type
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
-build(args, {
+build(appPath, {
   type,
   watch,
   port: typeof port === 'string' ? port: undefined,

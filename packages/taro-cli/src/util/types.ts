@@ -2,7 +2,7 @@ import * as webpack from 'webpack'
 import * as webpackDevServer from 'webpack-dev-server'
 import * as t from 'babel-types'
 
-import { BUILD_TYPES } from './constants'
+import { BUILD_TYPES, IMINI_APP_FILE_TYPE } from './constants'
 import { IBabelOptions } from '../config/babel'
 
 export interface IInstallOptions {
@@ -121,7 +121,8 @@ export interface IMiniAppConfig {
   module?: {
     postcss?: IPostcssOption
   },
-  compile?: ICompileOption
+  compile?: ICompileOption,
+  customFilesTypes: IMINI_APP_FILE_TYPE
 }
 
 type TogglableOptions<T = IOption> = {

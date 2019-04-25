@@ -20,6 +20,7 @@ import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
 
 import {
+  setBuildData,
   getBuildData,
   setIsProduction,
   setBuildAdapter,
@@ -31,10 +32,8 @@ import { buildPages } from './page'
 import { watchFiles } from './watch'
 import { downloadGithubRepoLatestRelease } from '../util/dowload'
 
-const appPath = process.cwd()
-
 function buildProjectConfig () {
-  const { buildAdapter, sourceDir, outputDir, outputDirName } = getBuildData()
+  const { buildAdapter, sourceDir, outputDir, outputDirName, appPath } = getBuildData()
   let projectConfigFileName = `project.${buildAdapter}.json`
   if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
     projectConfigFileName = 'project.config.json'
@@ -212,8 +211,8 @@ async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port
   }
 }
 
-export async function build ({ watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
-  const buildData = getBuildData()
+export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
+  const buildData = setBuildData(appPath)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {

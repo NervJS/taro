@@ -1179,7 +1179,7 @@ async function buildDist (buildConfig: IBuildConfig) {
     port: buildConfig.port,
     sourceRoot: sourceRoot
   })
-  
+
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
   webpackRunner(h5Config)
 }

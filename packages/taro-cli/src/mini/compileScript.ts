@@ -20,7 +20,7 @@ import { npmCodeHack } from '../util/resolve_npm_files'
 import { IWxTransformResult } from '../util/types'
 
 import {
-  babelConfig,
+  getBabelConfig,
   shouldTransformAgain,
   getBuildData,
   copyFilesFromSrcToOutput,
@@ -144,9 +144,10 @@ export async function compileScriptFile (
   if (NODE_MODULES_REG.test(sourceFilePath) && fs.existsSync(outputFilePath)) {
     return fs.readFileSync(outputFilePath).toString()
   }
+  const babelConfig = getBabelConfig()
   const compileScriptRes = await callPlugin('babel', content, sourceFilePath, babelConfig)
   const code = compileScriptRes.code
-  if (!shouldTransformAgain) {
+  if (!shouldTransformAgain()) {
     return code
   }
   const transformResult: IWxTransformResult = wxTransformer({

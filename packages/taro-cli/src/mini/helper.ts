@@ -48,26 +48,6 @@ import {
 import { getNodeModulesPath, getNpmOutputDir } from '../util/npmExact'
 import { parseAst } from './astProcess'
 
-const appPath = process.cwd()
-const configDir = path.join(appPath, PROJECT_CONFIG)
-const projectConfig = require(configDir)(_.merge)
-const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-const sourceDir = path.join(appPath, sourceDirName)
-const outputDir = path.join(appPath, outputDirName)
-const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
-const entryFileName = path.basename(entryFilePath)
-
-const plugins = projectConfig.plugins || {}
-const pathAlias = projectConfig.alias || {}
-const weappConf = projectConfig.weapp || {}
-const npmConfig = Object.assign({
-  name: CONFIG.NPM_DIR,
-  dir: null
-}, weappConf.npm)
-const useCompileConf = Object.assign({}, weappConf.compile)
-const compileInclude = useCompileConf.include || []
-
 const isCopyingFiles: Map<string, boolean> = new Map<string, boolean>()
 const dependencyTree: Map<string, IDependency> = new Map<string, IDependency>()
 const hasBeenBuiltComponents: Set<string> = new Set<string>()
@@ -102,44 +82,25 @@ export interface IBuildData {
   }
 }
 
-const BuildData: IBuildData = {
-  appPath,
-  configDir,
-  sourceDirName,
-  outputDirName,
-  sourceDir,
-  outputDir,
-  originalOutputDir: outputDir,
-  entryFilePath,
-  entryFileName,
-  projectConfig,
-  npmConfig,
-  alias: pathAlias,
-  isProduction: false,
-  appConfig: {},
-  pageConfigs: new Map<string, Config>(),
-  compileInclude,
-  buildAdapter: BUILD_TYPES.WEAPP,
-  outputFilesTypes: MINI_APP_FILES[BUILD_TYPES.WEAPP],
-  constantsReplaceList: {},
-  nodeModulesPath: getNodeModulesPath(),
-  npmOutputDir: getNpmOutputDir(outputDir, configDir, npmConfig),
-  jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {}
+let BuildData: IBuildData
+
+export function getBabelConfig () {
+  const plugins = BuildData.projectConfig.plugins || {}
+  return _.mergeWith({}, defaultBabelConfig, plugins.babel, (objValue, srcValue) => {
+    if (Array.isArray(objValue)) {
+      return Array.from(new Set(srcValue.concat(objValue)))
+    }
+  })
 }
 
-export const babelConfig = _.mergeWith({}, defaultBabelConfig, plugins.babel, (objValue, srcValue) => {
-  if (Array.isArray(objValue)) {
-    return Array.from(new Set(srcValue.concat(objValue)))
-  }
-})
-
-export const shouldTransformAgain = (function () {
+export const shouldTransformAgain = function () {
+  const babelConfig = getBabelConfig()
   const pluginsStr = JSON.stringify(babelConfig.plugins)
   if (/transform-runtime/.test(pluginsStr)) {
     return true
   }
   return false
-})()
+}
 
 export function setAppConfig (appConfig: Config) {
   BuildData.appConfig = appConfig
@@ -150,21 +111,69 @@ export function setIsProduction (isProduction: boolean) {
 }
 
 export function setBuildAdapter (adapter: BUILD_TYPES) {
+  const  projectConfig = BuildData.projectConfig
+  const weappConf = projectConfig.weapp
   BuildData.buildAdapter = adapter
   BuildData.outputFilesTypes = MINI_APP_FILES[adapter]
   // 可以自定义输出文件类型
-  if (weappConf.customFilesTypes && !isEmptyObject(weappConf.customFilesTypes)) {
-    BuildData.outputFilesTypes = Object.assign({}, BuildData.outputFilesTypes, weappConf.customFilesTypes[adapter] || {})
+  if (weappConf!.customFilesTypes && !isEmptyObject(weappConf!.customFilesTypes)) {
+    BuildData.outputFilesTypes = Object.assign({}, BuildData.outputFilesTypes, weappConf!.customFilesTypes[adapter] || {})
   }
   BuildData.constantsReplaceList = Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
     'process.env.TARO_ENV': adapter
   })
   if (adapter === BUILD_TYPES.QUICKAPP) {
-    BuildData.originalOutputDir = outputDir
-    BuildData.outputDirName = `${outputDirName}/src`
-    BuildData.outputDir = path.join(appPath, BuildData.outputDirName)
-    BuildData.npmOutputDir = getNpmOutputDir(BuildData.outputDir, configDir, npmConfig)
+    BuildData.originalOutputDir = BuildData.outputDir
+    BuildData.outputDirName = `${BuildData.outputDirName}/src`
+    BuildData.outputDir = path.join(BuildData.appPath, BuildData.outputDirName)
+    BuildData.npmOutputDir = getNpmOutputDir(BuildData.outputDir, BuildData.configDir, BuildData.npmConfig)
   }
+}
+
+export function setBuildData (appPath: string): IBuildData {
+  const configDir = path.join(appPath, PROJECT_CONFIG)
+  const projectConfig = require(configDir)(_.merge)
+  const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+  const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+  const sourceDir = path.join(appPath, sourceDirName)
+  const outputDir = path.join(appPath, outputDirName)
+  const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+  const entryFileName = path.basename(entryFilePath)
+
+  const pathAlias = projectConfig.alias || {}
+  const weappConf = projectConfig.weapp || {}
+  const npmConfig = Object.assign({
+    name: CONFIG.NPM_DIR,
+    dir: null
+  }, weappConf.npm)
+  const useCompileConf = Object.assign({}, weappConf.compile)
+  const compileInclude = useCompileConf.include || []
+  BuildData = {
+    appPath,
+    configDir,
+    sourceDirName,
+    outputDirName,
+    sourceDir,
+    outputDir,
+    originalOutputDir: outputDir,
+    entryFilePath,
+    entryFileName,
+    projectConfig,
+    npmConfig,
+    alias: pathAlias,
+    isProduction: false,
+    appConfig: {},
+    pageConfigs: new Map<string, Config>(),
+    compileInclude,
+    buildAdapter: BUILD_TYPES.WEAPP,
+    outputFilesTypes: MINI_APP_FILES[BUILD_TYPES.WEAPP],
+    constantsReplaceList: {},
+    nodeModulesPath: getNodeModulesPath(),
+    npmOutputDir: getNpmOutputDir(outputDir, configDir, npmConfig),
+    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {}
+  }
+
+  return BuildData
 }
 
 export function getBuildData (): IBuildData {
@@ -172,6 +181,7 @@ export function getBuildData (): IBuildData {
 }
 
 export function uglifyJS (resCode: string, filePath: string): string {
+  const plugins = BuildData.projectConfig.plugins || {}
   const uglifyPluginConfig = plugins.uglify || { enable: true }
   if (uglifyPluginConfig.enable) {
     const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
@@ -234,6 +244,7 @@ export function buildUsingComponents (
   isComponent?: boolean
 ): IOption {
   const usingComponents = Object.create(null)
+  const pathAlias = BuildData.projectConfig.alias || {}
   for (const component of components) {
     let componentPath = component.path
     if (isAliasPath(componentPath as string, pathAlias)) {
@@ -258,7 +269,8 @@ export function getRealComponentsPathList (
   filePath: string,
   components: IComponentObj[]
 ): IComponentObj[] {
-  const { isProduction, buildAdapter } = BuildData
+  const { isProduction, buildAdapter, projectConfig, npmConfig } = BuildData
+  const pathAlias = projectConfig.alias || {}
   return components.map(component => {
     let componentPath = component.path
     if (isAliasPath(componentPath as string, pathAlias)) {
@@ -303,6 +315,7 @@ export function getDepStyleList (
   outputFilePath: string,
   buildDepComponentsResult: IBuildResult[]
 ): string[] {
+  const { sourceDir, outputDir } = BuildData
   let depWXSSList: string[] = []
   if (buildDepComponentsResult.length) {
     depWXSSList = buildDepComponentsResult.map(item => {
@@ -320,7 +333,7 @@ export function initCopyFiles () {
 }
 
 export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
-  const { nodeModulesPath, npmOutputDir, outputDir } = BuildData
+  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath } = BuildData
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {

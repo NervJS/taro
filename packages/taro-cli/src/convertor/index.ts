@@ -92,8 +92,8 @@ export default class Convertor {
   entryJSON: AppConfig
   entryStyle: string
 
-  constructor () {
-    this.root = process.cwd()
+  constructor (root) {
+    this.root = root
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
     this.importsDir = path.join(this.convertDir, 'imports')

@@ -29,11 +29,13 @@ import {
   getDependencyTree,
   getBuildData,
   setAppConfig,
-  setIsProduction
+  setIsProduction,
+  setBuildData
 } from './mini/helper'
 import { buildDepComponents, buildSingleComponent, getComponentsNamedMap } from './mini/component'
 import { compileDepScripts, initCompileScripts } from './mini/compileScript'
 import { compileDepStyles, initCompileStyles } from './mini/compileStyle'
+import { IBuildConfig } from './util/types'
 
 const PLUGIN_ROOT = 'plugin/'
 const DOC_ROOT = 'doc/'
@@ -43,14 +45,14 @@ const PLUGIN_MOCK_JSON = 'plugin-mock.json'
 
 let isCopyingFiles = {}
 
-export async function build ({ watch, platform }) {
+export async function build (appPath: string, { watch, platform }: IBuildConfig) {
   setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   switch (platform) {
     case BUILD_TYPES.WEAPP:
-      buildWxPlugin({ watch })
+      buildWxPlugin(appPath, { watch })
       break
     case BUILD_TYPES.ALIPAY:
-      await buildWeapp({ watch, adapter: BUILD_TYPES.ALIPAY })
+      await buildWeapp(appPath, { watch, adapter: BUILD_TYPES.ALIPAY })
       buildAlipayPlugin()
       break
     default:
@@ -308,12 +310,11 @@ function isWxPluginPage (pages, filePath) {
   return pages.findIndex(page => filePath.includes(page)) >= 0
 }
 
-async function buildWxPlugin ({ watch }) {
+async function buildWxPlugin (appPath, { watch }) {
   const {
-    appPath,
     sourceDir,
     outputDir
-  } = getBuildData()
+  } = setBuildData(appPath)
   const pluginDir = path.join(sourceDir, PLUGIN_ROOT)
   const pluginPath = path.join(appPath, PLUGIN_ROOT)
   const docDir = path.join(pluginDir, DOC_ROOT)
@@ -322,7 +323,7 @@ async function buildWxPlugin ({ watch }) {
   fs.existsSync(pluginPath) && Util.emptyDirectory(pluginPath)
   fs.existsSync(docPath) && Util.emptyDirectory(docPath)
   // 编译调试项目
-  await buildWeapp({ adapter: BUILD_TYPES.WEAPP, envHasBeenSet: true })
+  await buildWeapp(appPath, { adapter: BUILD_TYPES.WEAPP, envHasBeenSet: true })
 
   const pluginJsonPath = path.join(pluginDir, PLUGIN_JSON)
   if (!fs.existsSync(pluginDir) || !fs.existsSync(pluginJsonPath)) {

@@ -8,9 +8,7 @@ import CONFIG from './config'
 import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
 import { IBuildConfig } from './util/types'
 
-const appPath = process.cwd()
-
-export default function build (args, buildConfig: IBuildConfig) {
+export default function build (appPath, buildConfig: IBuildConfig) {
   const { type, watch, platform, port, release } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
@@ -21,34 +19,34 @@ export default function build (args, buildConfig: IBuildConfig) {
   }
   switch (type) {
     case BUILD_TYPES.H5:
-      buildForH5({ watch, port })
+      buildForH5(appPath, { watch, port })
       break
     case BUILD_TYPES.WEAPP:
-      buildForWeapp({ watch })
+      buildForWeapp(appPath, { watch })
       break
     case BUILD_TYPES.SWAN:
-      buildForSwan({ watch })
+      buildForSwan(appPath, { watch })
       break
     case BUILD_TYPES.ALIPAY:
-      buildForAlipay({ watch })
+      buildForAlipay(appPath, { watch })
       break
     case BUILD_TYPES.TT:
-      buildForTt({ watch })
+      buildForTt(appPath, { watch })
       break
     case BUILD_TYPES.RN:
-      buildForRN({ watch })
+      buildForRN(appPath, { watch })
       break
     case BUILD_TYPES.QUICKAPP:
-      buildForQuickApp({ watch, port, release })
+      buildForQuickApp(appPath, { watch, port, release })
       break
     case BUILD_TYPES.QQ:
-      buildForQQ({ watch })
+      buildForQQ(appPath, { watch })
       break
     case BUILD_TYPES.UI:
-      buildForUILibrary({ watch })
+      buildForUILibrary(appPath, { watch })
       break
     case BUILD_TYPES.PLUGIN:
-      buildForPlugin({
+      buildForPlugin(appPath, {
         watch,
         platform
       })
@@ -58,44 +56,44 @@ export default function build (args, buildConfig: IBuildConfig) {
   }
 }
 
-function buildForWeapp ({ watch }: IBuildConfig) {
-  require('./mini').build({
+function buildForWeapp (appPath: string, { watch }: IBuildConfig) {
+  require('./mini').build(appPath, {
     watch,
     adapter: BUILD_TYPES.WEAPP
   })
 }
 
-function buildForSwan ({ watch }: IBuildConfig) {
-  require('./mini').build({
+function buildForSwan (appPath: string, { watch }: IBuildConfig) {
+  require('./mini').build(appPath, {
     watch,
     adapter: BUILD_TYPES.SWAN
   })
 }
 
-function buildForAlipay ({ watch }: IBuildConfig) {
-  require('./mini').build({
+function buildForAlipay (appPath: string, { watch }: IBuildConfig) {
+  require('./mini').build(appPath, {
     watch,
     adapter: BUILD_TYPES.ALIPAY
   })
 }
 
-function buildForTt ({ watch }: IBuildConfig) {
-  require('./mini').build({
+function buildForTt (appPath: string, { watch }: IBuildConfig) {
+  require('./mini').build(appPath, {
     watch,
     adapter: BUILD_TYPES.TT
   })
 }
 
-function buildForH5 (buildConfig: IBuildConfig) {
-  require('./h5').build(buildConfig)
+function buildForH5 (appPath: string, buildConfig: IBuildConfig) {
+  require('./h5').build(appPath, buildConfig)
 }
 
-function buildForRN ({ watch }: IBuildConfig) {
-  require('./rn').build({ watch })
+function buildForRN (appPath: string, { watch }: IBuildConfig) {
+  require('./rn').build(appPath, { watch })
 }
 
-function buildForQuickApp ({ watch, port, release }: IBuildConfig) {
-  require('./mini').build({
+function buildForQuickApp (appPath: string, { watch, port, release }: IBuildConfig) {
+  require('./mini').build(appPath, {
     watch,
     adapter: BUILD_TYPES.QUICKAPP,
     port,
@@ -103,18 +101,18 @@ function buildForQuickApp ({ watch, port, release }: IBuildConfig) {
   })
 }
 
-function buildForQQ ({ watch }: IBuildConfig) {
-  require('./mini').build({
+function buildForQQ (appPath: string, { watch }: IBuildConfig) {
+  require('./mini').build(appPath, {
     watch,
     adapter: BUILD_TYPES.QQ
   })
 }
 
-function buildForUILibrary ({ watch }: IBuildConfig) {
-  require('./ui').build({ watch })
+function buildForUILibrary (appPath: string, { watch }: IBuildConfig) {
+  require('./ui').build(appPath, { watch })
 }
 
-function buildForPlugin ({ watch, platform }) {
+function buildForPlugin (appPath: string, { watch, platform }) {
   const typeMap = {
     [BUILD_TYPES.WEAPP]: '微信',
     [BUILD_TYPES.ALIPAY]: '支付宝'
@@ -124,5 +122,5 @@ function buildForPlugin ({ watch, platform }) {
     return
   }
   console.log(chalk.green(`开始编译${typeMap[platform]}小程序插件`))
-  require('./plugin').build({ watch, platform })
+  require('./plugin').build(appPath, { watch, platform })
 }
