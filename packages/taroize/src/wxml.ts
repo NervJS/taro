@@ -595,9 +595,9 @@ function findWXIfProps (
   return matches
 }
 
-function parseNode (node: AllKindNode) {
+function parseNode (node: AllKindNode, tagName?: string) {
   if (node.type === NodeType.Text) {
-    return parseText(node)
+    return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
     const emptyStatement = t.jSXEmptyExpression()
     emptyStatement.innerComments = [{
@@ -645,7 +645,7 @@ function parseElement (element: Element): t.JSXElement {
   return t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    removEmptyTextAndComment(element.children).map(parseNode),
+    removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
 }
@@ -658,7 +658,10 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
   }).filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
-function parseText (node: Text) {
+function parseText (node: Text, tagName?: string) {
+  if (tagName === 'wxs') {
+    return t.jSXText(node.content)
+  }
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
     const text = content.replace(/([{}]+)/g,"{'$1'}")
