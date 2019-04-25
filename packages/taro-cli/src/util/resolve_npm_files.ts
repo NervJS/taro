@@ -243,7 +243,7 @@ async function recursiveRequire (
         fileContent = compileScriptRes.code
       }
     }
-    if (isProduction) {
+    if (isProduction && buildAdapter !== BUILD_TYPES.QUICKAPP) {
       const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})

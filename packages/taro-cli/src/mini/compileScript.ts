@@ -93,7 +93,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
             resCode = await compileScriptFile(res.code, item, outputItem, buildAdapter)
           }
           fs.ensureDirSync(path.dirname(outputItem))
-          if (isProduction) {
+          if (isProduction && needUseBabel) {
             uglifyJS(resCode, item)
           }
           if (NODE_MODULES_REG.test(item)) {
