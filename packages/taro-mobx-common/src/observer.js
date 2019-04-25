@@ -1,4 +1,5 @@
 import { Reaction, _allowStateChanges } from 'mobx'
+import { errorsReporter } from './reporter'
 
 function isStateless (component, renderMedthod) {
   return !(component.prototype && component.prototype[renderMedthod])
@@ -58,6 +59,7 @@ export function observer (Component, renderMedthod) {
       result = originRender.call(this)
     }
     if (exception) {
+      errorsReporter.emit(exception)
       throw exception
     }
     return result

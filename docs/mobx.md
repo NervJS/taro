@@ -48,7 +48,7 @@ export default counterStore
 ```jsx
 // src/app.js
 import Taro, { Component } from '@tarojs/taro'
-import { Provider } from '@tarojs/mobx'
+import { Provider, onError } from '@tarojs/mobx'
 import Index from './pages/index'
 
 import counterStore from './store/counter'
@@ -58,6 +58,10 @@ import './app.scss'
 const store = {
   counterStore
 }
+
+onError(error => {
+  console.log('mobx global error listener:', error)
+})
 
 class App extends Component {
 
@@ -171,7 +175,7 @@ export default Index
 
 ```
 
-上例中 `Provider`、`inject`、 `observer` 的使用方式基本上与 [mobx-react](https://github.com/mobxjs/mobx-react) 保持了一致，但也有以下几点需要注意：
+上例中 `Provider`、`inject`、 `observer`、`onError` 的使用方式基本上与 [mobx-react](https://github.com/mobxjs/mobx-react) 保持了一致，但也有以下几点需要注意：
 
 * `Provider` 不支持嵌套，即全局只能存在一个 `Provider`
 * 在 `mobx-react` 中，可通过以下方式设置 `store`：

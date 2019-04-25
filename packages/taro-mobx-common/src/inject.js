@@ -1,12 +1,15 @@
 import { getStore } from './store'
+import { errorsReporter } from './reporter'
 
 function grabStoresByName (storeNames) {
   return function (baseStores, nextProps) {
     storeNames.forEach(function (storeName) {
       if (!(storeName in baseStores)) {
-        throw new Error(
+        const error = new Error(
           "MobX injector: Store '" + storeName + "' is not available! Make sure it is provided by some Provider"
         )
+        errorsReporter.emit(error)
+        throw error
       }
       nextProps[storeName] = baseStores[storeName]
     })

@@ -1,5 +1,5 @@
 import { createStoreInjector } from './inject'
-import { getStore, setStore, observer as originObserver, inject as originInject } from '@tarojs/mobx-common'
+import { onError, getStore, setStore, observer as originObserver, inject as originInject } from '@tarojs/mobx-common'
 
 class Provider {}
 
@@ -12,6 +12,7 @@ function inject () {
 }
 
 export default {
+  onError,
   getStore,
   setStore,
   observer,
@@ -20,6 +21,7 @@ export default {
 }
 
 export {
+  onError,
   getStore,
   setStore,
   observer,
