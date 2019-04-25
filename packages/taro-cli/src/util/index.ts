@@ -4,7 +4,7 @@ import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
 import * as chalk from 'chalk'
-import { mergeWith, isPlainObject, camelCase } from 'lodash'
+import { mergeWith, isPlainObject, camelCase, flatMap } from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
@@ -545,6 +545,47 @@ export const recursiveMerge = (src, ...args) => {
       return recursiveMerge(value, srcValue)
     }
   })
+}
+
+export const mergeVisitors = (src, ...args) => {
+  const validFuncs = ["exit", "enter"];
+  return mergeWith(src, ...args, (value, srcValue, key, object, srcObject) => {
+    if (!object.hasOwnProperty(key) || !srcObject.hasOwnProperty(key)) {
+      return undefined;
+    }
+
+    const shouldMergeToArray = validFuncs.indexOf(key) > -1
+    if (shouldMergeToArray) {
+      return flatMap([value, srcValue])
+    }
+    const [newValue, newSrcValue] = [value, srcValue].map(v => {
+      if (typeof v === "function") {
+        return {
+          enter: v
+        };
+      } else {
+        return v;
+      }
+    })
+    return mergeVisitors(newValue, newSrcValue);
+  });
+};
+
+export const applyArrayedVisitors = obj => {
+  let key
+  for (key in obj) {
+    const funcs = obj[key]
+    if (Array.isArray(funcs)) {
+      obj[key] = (astPath, ...args) => {
+        funcs.forEach(func => {
+          func(astPath, ...args)
+        });
+      };
+    } else if (typeof funcs === "object") {
+      applyArrayedVisitors(funcs)
+    }
+  }
+  return obj
 }
 
 export function unzip (zipPath) {

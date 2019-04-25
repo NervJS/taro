@@ -13,7 +13,7 @@ import * as rimraf from 'rimraf'
 import { promisify } from 'util'
 
 import CONFIG from './config'
-import { copyFiles, isAliasPath, isNpmPkg, printLog, promoteRelativePath, replaceAliasPath, resolveScriptPath, recursiveMerge } from './util'
+import { copyFiles, isAliasPath, isNpmPkg, printLog, promoteRelativePath, replaceAliasPath, resolveScriptPath, recursiveMerge, mergeVisitors } from './util'
 import {
   convertAstExpressionToVariable as toVar,
   convertObjectToAstExpression as objToAst,
@@ -163,7 +163,7 @@ function processEntry (code, filePath) {
   let hasComponentWillUnmount = false
   let hasJSX = false
   let hasNerv = false
-  let hasState = false
+  let stateNode: t.ClassProperty
 
   const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
   const additionalConstructorNode = toAst(`Taro._$app = this`)
@@ -319,18 +319,6 @@ function processEntry (code, filePath) {
         }
       }
     },
-    ClassProperty: {
-      exit (astPath: NodePath<t.ClassProperty>) {
-        const node = astPath.node
-        const key = node.key
-        const value = node.value
-        if (key.name !== 'state' || !t.isObjectExpression(value)) return
-        value.properties.push(t.objectProperty(
-          t.identifier(tabBarConfigName),
-          tabBar
-        ))
-      }
-    },
     ClassBody: {
       exit (astPath: NodePath<t.ClassBody>) {
         const node = astPath.node
@@ -351,7 +339,7 @@ function processEntry (code, filePath) {
         if (!hasConstructor) {
           node.body.push(t.classMethod(
             'method', t.identifier('constructor'), [t.identifier('props'), t.identifier('context')],
-            t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as any), false, false))
+            t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as t.Statement[]), false, false))
         }
         if (tabBar) {
           if (!hasComponentWillMount) {
@@ -361,10 +349,17 @@ function processEntry (code, filePath) {
                 toAst('super.componentWillMount && super.componentWillMount()') as t.Statement
               ]), false, false))
           }
-          if (!hasState) {
-            node.body.unshift(t.classProperty(
+          if (!stateNode) {
+            stateNode = t.classProperty(
               t.identifier('state'),
               t.objectExpression([])
+            )
+            node.body.unshift(stateNode)
+          }
+          if (t.isObjectExpression(stateNode.value)) {
+            stateNode.value.properties.push(t.objectProperty(
+              t.identifier(tabBarConfigName),
+              tabBar
             ))
           }
         }
@@ -457,7 +452,7 @@ function processEntry (code, filePath) {
         const keyName = toVar(key)
 
         if (keyName === 'state') {
-          hasState = true
+          stateNode = node
         } else if (keyName === 'config') {
           // appConfig = toVar(node.value)
           astPath.traverse(classPropertyVisitor)
@@ -575,7 +570,7 @@ function processEntry (code, filePath) {
       }
     },
     JSXElement: {
-      enter (astPath) {
+      enter (astPath: NodePath<t.JSXElement>) {
         hasJSX = true
       }
     },
@@ -661,14 +656,16 @@ function processOthers (code, filePath, fileType) {
   }).ast
   let taroImportDefaultName
   let hasJSX = false
-  let hasNerv = false
-  let hasComponentDidMount = false
-  let hasComponentDidShow = false
-  let hasComponentDidHide = false
   let hasOnPageScroll = false
   let hasOnReachBottom = false
   let hasOnPullDownRefresh = false
   let pageConfig: PageConfig = {}
+  let componentDidMountNode: t.ClassMethod
+  let componentDidShowNode: t.ClassMethod
+  let componentDidHideNode: t.ClassMethod
+  let importTaroComponentNode: t.ImportDeclaration
+  let importNervNode: t.ImportDeclaration
+  const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
 
   ast = babel.transformFromAst(ast, '', {
     plugins: [
@@ -716,133 +713,7 @@ function processOthers (code, filePath, fileType) {
     }
   }
 
-  const programExitVisitor = {
-    ImportDeclaration: {
-      exit (astPath) {
-        const node = astPath.node
-        const specifiers = node.specifiers
-        if (toVar(node.source) !== PACKAGES['@tarojs/components']) return
-        if (hasOnPullDownRefresh) {
-          const pos = specifiers.findIndex(specifier => {
-            if (!specifier.imported) return false
-            const importedComponent = toVar(specifier.imported)
-            return importedComponent === 'PullDownRefresh'
-          })
-          if (pos === -1) {
-            specifiers.push(
-              t.importSpecifier(
-                t.identifier('PullDownRefresh'),
-                t.identifier('PullDownRefresh')
-              )
-            )
-          }
-        }
-      }
-    },
-    ClassBody: {
-      exit (astPath) {
-        if (!hasComponentDidMount) {
-          astPath.pushContainer('body', t.classMethod(
-            'method', t.identifier('componentDidMount'), [],
-            t.blockStatement([
-              toAst('super.componentDidMount && super.componentDidMount()') as t.Statement
-            ]), false, false))
-        }
-        if (!hasComponentDidShow) {
-          astPath.pushContainer('body', t.classMethod(
-            'method', t.identifier('componentDidShow'), [],
-            t.blockStatement([
-              toAst('super.componentDidShow && super.componentDidShow()') as t.Statement
-            ]), false, false))
-        }
-        if (!hasComponentDidHide) {
-          astPath.pushContainer('body', t.classMethod(
-            'method', t.identifier('componentDidHide'), [],
-            t.blockStatement([
-              toAst('super.componentDidHide && super.componentDidHide()') as t.Statement
-            ]), false, false))
-        }
-      }
-    },
-    ClassMethod: {
-      exit (astPath) {
-        const node = astPath.node
-        const key = node.key
-        const keyName = toVar(key)
-        if (hasOnReachBottom) {
-          if (keyName === 'componentDidShow') {
-            node.body.body.push(
-              toAst(`
-                this._offReachBottom = Taro.onReachBottom({
-                  callback: this.onReachBottom,
-                  ctx: this,
-                  onReachBottomDistance: ${JSON.stringify(pageConfig.onReachBottomDistance)}
-                })
-              `)
-            )
-          } else if (keyName === 'componentDidHide') {
-            node.body.body.push(
-              toAst('this._offReachBottom && this._offReachBottom()')
-            )
-          }
-        }
-        if (hasOnPageScroll) {
-          if (keyName === 'componentDidShow') {
-            node.body.body.push(
-              toAst('this._offPageScroll = Taro.onPageScroll({ callback: this.onPageScroll, ctx: this })')
-            )
-          } else if (keyName === 'componentDidHide') {
-            node.body.body.push(
-              toAst('this._offPageScroll && this._offPageScroll()')
-            )
-          }
-        }
-        if (hasOnPullDownRefresh) {
-          if (keyName === 'componentDidShow') {
-            node.body.body.push(
-              toAst(`
-                this.pullDownRefreshRef && this.pullDownRefreshRef.bindEvent()
-              `)
-            )
-          }
-          if (keyName === 'componentDidHide') {
-            node.body.body.push(
-              toAst(`
-                this.pullDownRefreshRef && this.pullDownRefreshRef.unbindEvent()
-              `)
-            )
-          }
-          if (keyName === 'render') {
-            astPath.traverse({
-              ReturnStatement: {
-                exit (returnAstPath) {
-                  const statement = returnAstPath.node
-                  const varName = returnAstPath.scope.generateUid()
-                  const returnValue = statement.argument
-                  const pullDownRefreshNode = t.variableDeclaration(
-                    'const',
-                    [t.variableDeclarator(
-                      t.identifier(varName),
-                      returnValue
-                    )]
-                  )
-                  returnAstPath.insertBefore(pullDownRefreshNode)
-                  statement.argument = (toAst(`
-                    <PullDownRefresh
-                      onRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
-                      ref={ref => {
-                        if (ref) this.pullDownRefreshRef = ref
-                    }}>{${varName}}</PullDownRefresh>`) as t.ExpressionStatement).expression
-                }
-              }
-            })
-          }
-        }
-      }
-    }
-  }
-
-  const getComponentId = (componentName, node) => {
+  const getComponentId = (componentName: string, node: t.JSXOpeningElement) => {
     const idAttrName = MAP_FROM_COMPONENTNAME_TO_ID.get(componentName)
     return node.attributes.reduce((prev, attribute) => {
       if (prev) return prev
@@ -851,12 +722,12 @@ function processOthers (code, filePath, fileType) {
       else return false
     }, false)
   }
-  const getComponentRef = node => {
+  const getComponentRef = (node: t.JSXOpeningElement) => {
     return node.attributes.find(attribute => {
       return toVar(attribute.name) === 'ref'
     })
   }
-  const createRefFunc = componentId => {
+  const createRefFunc = (componentId: string) => {
     return t.arrowFunctionExpression(
       [t.identifier('ref')],
       t.blockStatement([
@@ -865,41 +736,12 @@ function processOthers (code, filePath, fileType) {
     )
   }
 
-  traverse(ast, {
+  const defaultVisitor = {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
-    ClassProperty: isPage ? {
-      enter (astPath: any) {
-        const node = astPath.node
-        const key = toVar(node.key)
-        if (key === 'config') {
-          pageConfig = toVar(node.value)
-        }
-      }
-    } : {},
-    ClassMethod: isPage ? {
-      exit (astPath) {
-        const node = astPath.node as t.ClassMethod
-        const key = node.key
-        const keyName = toVar(key)
-        if (keyName === 'componentDidMount') {
-          hasComponentDidMount = true
-        } else if (keyName === 'componentDidShow') {
-          hasComponentDidShow = true
-        } else if (keyName === 'componentDidHide') {
-          hasComponentDidHide = true
-        } else if (keyName === 'onPageScroll') {
-          hasOnPageScroll = true
-        } else if (keyName === 'onReachBottom') {
-          hasOnReachBottom = true
-        } else if (keyName === 'onPullDownRefresh') {
-          hasOnPullDownRefresh = true
-        }
-      }
-    } : {},
     ImportDeclaration: {
-      enter (astPath) {
-        const node = astPath.node as t.ImportDeclaration
+      enter (astPath: NodePath<t.ImportDeclaration>) {
+        const node = astPath.node
         const source = node.source
         let value = source.value
         const specifiers = node.specifiers
@@ -929,23 +771,18 @@ function processOthers (code, filePath, fileType) {
         } else if (value === PACKAGES['@tarojs/mobx']) {
           source.value = PACKAGES['@tarojs/mobx-h5']
         } else if (value === PACKAGES['@tarojs/components']) {
-          node.specifiers.forEach((specifier: any) => {
-            if (t.isImportDefaultSpecifier(specifier)) return
+          importTaroComponentNode = node
+          node.specifiers.forEach((specifier) => {
+            if (!t.isImportSpecifier(specifier)) return
             componentnameMap.set(toVar(specifier.local), toVar(specifier.imported))
           })
         } else if (value === PACKAGES['nervjs']) {
-          hasNerv = true
-          const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
-          if (!defaultSpecifier) {
-            specifiers.unshift(
-              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-            )
-          }
+          importNervNode = node
         }
       }
     },
     JSXOpeningElement: {
-      exit (astPath: any) {
+      exit (astPath: NodePath<t.JSXOpeningElement>) {
         hasJSX = true
         const node = astPath.node
         const componentName = componentnameMap.get(toVar(node.name))
@@ -953,14 +790,16 @@ function processOthers (code, filePath, fileType) {
         const componentRef = getComponentRef(node)
 
         if (!componentId) return
-        const refFunc = createRefFunc(componentId) as any
+        const refFunc = createRefFunc(componentId)
 
         if (componentRef) {
-          const expression = componentRef.value.expression
-          refFunc.body.body.unshift(
-            t.callExpression(expression, [t.identifier('ref')])
-          )
-          componentRef.value.expression = refFunc
+          const expression = (componentRef.value as t.JSXExpressionContainer).expression;
+          (refFunc.body as t.BlockStatement).body.unshift(
+            t.expressionStatement(
+              t.callExpression(expression, [t.identifier('ref')])
+            )
+          );
+          (componentRef.value as t.JSXExpressionContainer).expression = refFunc
         } else {
           node.attributes.push(
             t.jSXAttribute(
@@ -972,7 +811,7 @@ function processOthers (code, filePath, fileType) {
       }
     },
     CallExpression: {
-      exit (astPath: any) {
+      exit (astPath: NodePath<t.CallExpression>) {
         const node = astPath.node
         const callee = node.callee
         let needToAppendThis = false
@@ -1001,22 +840,192 @@ function processOthers (code, filePath, fileType) {
       }
     },
     Program: {
-      exit (astPath: any) {
-        if (isPage) {
-          astPath.traverse(programExitVisitor)
-        }
+      exit (astPath: NodePath<t.Program>) {
         const node = astPath.node
-        if (hasJSX && !hasNerv) {
-          node.body.unshift(
-            t.importDeclaration(
-              [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
-              t.stringLiteral(PACKAGES['nervjs'])
-            )
+        if (hasJSX && !importNervNode) {
+          importNervNode = t.importDeclaration(
+            [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
+            t.stringLiteral(PACKAGES['nervjs'])
           )
+          const specifiers = importNervNode.specifiers
+          const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
+          if (!defaultSpecifier) {
+            specifiers.unshift(
+              t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+            )
+          }
+          node.body.unshift(importNervNode)
         }
       }
     }
-  })
+  }
+
+  const pageVisitor = {
+    ClassProperty: {
+      enter (astPath: NodePath<t.ClassProperty>) {
+        const node = astPath.node
+        const key = toVar(node.key)
+        if (key === 'config') {
+          pageConfig = toVar(node.value)
+        }
+      }
+    },
+    ClassMethod: {
+      exit (astPath: NodePath<t.ClassMethod>) {
+        const node = astPath.node
+        const key = node.key
+        const keyName = toVar(key)
+        if (keyName === 'componentDidMount') {
+          componentDidMountNode = node
+        } else if (keyName === 'componentDidShow') {
+          componentDidShowNode = node
+        } else if (keyName === 'componentDidHide') {
+          componentDidHideNode = node
+        } else if (keyName === 'onPageScroll') {
+          hasOnPageScroll = true
+        } else if (keyName === 'onReachBottom') {
+          hasOnReachBottom = true
+        } else if (keyName === 'onPullDownRefresh') {
+          hasOnPullDownRefresh = true
+        } else if (keyName === 'render') {
+          renderReturnStatementPaths.length = 0
+          astPath.traverse({
+            ReturnStatement: {
+              exit (returnAstPath: NodePath<t.ReturnStatement>) {
+                renderReturnStatementPaths.push(returnAstPath)
+              }
+            }
+          })
+        }
+      }
+    },
+    ClassBody: {
+      exit (astPath: NodePath<t.ClassBody>) {
+        const node = astPath.node
+        if (!componentDidMountNode) {
+          componentDidMountNode = t.classMethod('method', t.identifier('componentDidMount'), [],
+            t.blockStatement([
+              toAst('super.componentDidMount && super.componentDidMount()') as t.Statement
+            ]), false, false)
+          node.body.push(componentDidMountNode)
+        }
+        if (!componentDidShowNode) {
+          componentDidShowNode = t.classMethod('method', t.identifier('componentDidShow'), [],
+            t.blockStatement([
+              toAst('super.componentDidShow && super.componentDidShow()') as t.Statement
+            ]), false, false)
+          node.body.push(componentDidShowNode)
+        }
+        if (!componentDidHideNode) {
+          componentDidHideNode = t.classMethod('method', t.identifier('componentDidHide'), [],
+            t.blockStatement([
+              toAst('super.componentDidHide && super.componentDidHide()') as t.Statement
+            ]), false, false)
+          node.body.push(componentDidHideNode)
+        }
+        if (hasOnReachBottom) {
+          componentDidShowNode.body.body.push(
+            toAst(`
+              this._offReachBottom = Taro.onReachBottom({
+                callback: this.onReachBottom,
+                ctx: this,
+                onReachBottomDistance: ${JSON.stringify(pageConfig.onReachBottomDistance)}
+              })
+            `)
+          )
+          componentDidHideNode.body.body.push(
+            toAst('this._offReachBottom && this._offReachBottom()')
+          )
+        }
+        if (hasOnPageScroll) {
+          componentDidShowNode.body.body.push(
+            toAst('this._offPageScroll = Taro.onPageScroll({ callback: this.onPageScroll, ctx: this })')
+          )
+          componentDidHideNode.body.body.push(
+            toAst('this._offPageScroll && this._offPageScroll()')
+          )
+        }
+        if (hasOnPullDownRefresh) {
+          componentDidShowNode.body.body.push(
+            toAst(`
+              this.pullDownRefreshRef && this.pullDownRefreshRef.bindEvent()
+            `)
+          )
+          componentDidHideNode.body.body.push(
+            toAst(`
+              this.pullDownRefreshRef && this.pullDownRefreshRef.unbindEvent()
+            `)
+          )
+        }
+        // ReturnStatement: {
+        //   exit (returnAstPath: NodePath<t.ReturnStatement>) {
+        //     const statement = returnAstPath.node
+        //     const varName = returnAstPath.scope.generateUid()
+        //     const returnValue = statement.argument
+        //     const pullDownRefreshNode = t.variableDeclaration(
+        //       'const',
+        //       [t.variableDeclarator(
+        //         t.identifier(varName),
+        //         returnValue
+        //       )]
+        //     )
+        //     returnAstPath.insertBefore(pullDownRefreshNode)
+        //     statement.argument = (toAst(`
+        //       <PullDownRefresh
+        //         onRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
+        //         ref={ref => {
+        //           if (ref) this.pullDownRefreshRef = ref
+        //       }}>{${varName}}</PullDownRefresh>`) as t.ExpressionStatement).expression
+        //   }
+        // }
+      }
+    },
+    Program: {
+      exit (astPath: NodePath<t.Program>) {
+        if (hasOnPullDownRefresh) {
+          // 增加PullDownRefresh组件
+          const specifiers = importTaroComponentNode.specifiers
+          const pos = importTaroComponentNode.specifiers.findIndex(specifier => {
+            if (!t.isImportSpecifier(specifier)) return false
+            const importedComponent = toVar(specifier.imported)
+            return importedComponent === 'PullDownRefresh'
+          })
+          if (pos === -1) {
+            specifiers.push(
+              t.importSpecifier(
+                t.identifier('PullDownRefresh'),
+                t.identifier('PullDownRefresh')
+              )
+            )
+          }
+          renderReturnStatementPaths.forEach(returnAstPath => {
+            const statement = returnAstPath.node
+            const varName = returnAstPath.scope.generateUid()
+            const returnValue = statement.argument
+            const pullDownRefreshNode = t.variableDeclaration(
+              'const',
+              [t.variableDeclarator(
+                t.identifier(varName),
+                returnValue
+              )]
+            )
+            returnAstPath.insertBefore(pullDownRefreshNode)
+            statement.argument = (toAst(`
+              <PullDownRefresh
+                onRefresh={this.onPullDownRefresh && this.onPullDownRefresh.bind(this)}
+                ref={ref => {
+                  if (ref) this.pullDownRefreshRef = ref
+              }}>{${varName}}</PullDownRefresh>`) as t.ExpressionStatement).expression
+            })
+        }
+      }
+    }
+  }
+  
+  const visitor = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
+
+  traverse(ast, visitor)
+
   const generateCode = generate(ast, {
     jsescOption: {
       minimal: true
