@@ -61,7 +61,7 @@ export default class PageView extends Component {
         <Text>设置 step</Text>
         <Slider step={1} value={50}/>
         <Text>显示当前 value</Text>
-        <Slider step={1} value={50】 showValue/>
+        <Slider step={1} value={50} showValue/>
         <Text>设置最小/最大值</Text>
         <Slider step={1} value={100} showValue min={50} max={200}/>
       </View>
