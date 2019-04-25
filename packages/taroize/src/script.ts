@@ -62,7 +62,8 @@ export function parseScript (
           returned || t.nullLiteral(),
           json,
           componentType,
-          refId
+          refId,
+          wxses
         )
         if (componentType !== 'App' && classDecl.decorators!.length === 0) {
           classDecl.decorators = [buildDecorator(componentType)]
@@ -110,7 +111,8 @@ function parsePage (
   returned: t.Expression,
   json?: t.ObjectExpression,
   componentType?: string,
-  refId?: Set<string>
+  refId?: Set<string>,
+  wxses?: WXS[]
 ) {
   const stateKeys: string[] = []
   let weappConf: string | null = null
@@ -418,7 +420,9 @@ function parsePage (
     }
   }
 
-  const renderFunc = buildRender(returned, stateKeys, propsKeys)
+  const wxsNames = new Set(wxses ? wxses.map(w => w.module) : [])
+
+  const renderFunc = buildRender(returned, stateKeys.filter(s => !wxsNames.has(s)), propsKeys)
 
   const classDecl = t.classDeclaration(
     t.identifier(componentType === 'App' ? 'App' : defaultClassName),
