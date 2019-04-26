@@ -28,7 +28,8 @@ import {
   genCompid,
   findParentLoops,
   setAncestorCondition,
-  replaceJSXTextWithTextComponent
+  replaceJSXTextWithTextComponent,
+  createRandomLetters
 } from './utils'
 import { difference, get as safeGet, cloneDeep, uniq } from 'lodash'
 import {
@@ -49,9 +50,9 @@ import {
   GEL_ELEMENT_BY_ID,
   PROPS_MANAGER,
   GEN_COMP_ID,
-  GEN_LOOP_COMPID,
   ALIPAY_BUBBLE_EVENTS,
-  FN_PREFIX
+  FN_PREFIX,
+  CLASS_COMPONENT_UID
 } from './constant'
 import { Adapter, Adapters } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -963,6 +964,8 @@ export class RenderParser {
     return properties
   }
 
+  private prefixExpr = () => this.isDefaultRender ? t.memberExpression(t.thisExpression(), t.identifier('_prefix')) : t.identifier(CLASS_COMPONENT_UID)
+
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
     if (openingElement.attributes.find(attr => {
@@ -982,21 +985,15 @@ export class RenderParser {
       const name = `$compid__${genCompid()}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
-      const idExpr = buildConstVariableDeclaration(name, t.logicalExpression(
-        '&&',
-        t.memberExpression(t.thisExpression(), t.identifier('$scope')),
-        t.logicalExpression(
-          '||',
-          t.memberExpression(
-            t.memberExpression(
-              t.memberExpression(t.thisExpression(), t.identifier('$scope')),
-              t.identifier('data')
-            ),
+      const idExpr = buildConstVariableDeclaration(name,
+        t.callExpression(t.identifier(GEN_COMP_ID), [
+          t.binaryExpression(
+            '+',
+            this.prefixExpr(),
             variableName
-          ),
-          t.callExpression(t.identifier(GEN_COMP_ID), [])
-        )
-      ))
+          )
+        ])
+      )
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
       const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
@@ -1582,15 +1579,15 @@ export class RenderParser {
           loopRefComponent = jsx
         }
       })
+      const [ func ] = callee.node.arguments
+      let indexId: t.Identifier | null = null
+      if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
+        const params = func.params as t.Identifier[]
+        indexId = params[1]
+      }
       if (this.loopRefs.has(component.node) || loopRefComponent!) {
         hasLoopRef = true
         const ref = this.loopRefs.get(component.node)! || this.loopRefs.get(loopRefComponent)
-        const [ func ] = callee.node.arguments
-        let indexId: t.Identifier | null = null
-        if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
-          const params = func.params as t.Identifier[]
-          indexId = params[1]
-        }
         if (indexId === null || !t.isIdentifier(indexId)) {
           throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
         }
@@ -1631,8 +1628,35 @@ export class RenderParser {
 
       if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) {
         let loops: t.ArrayExpression | null = null
+        const loopIndices: string[] = []
+        const deferCallBack: Function[] = []
 
         blockStatementPath.traverse({
+          CallExpression (path) {
+            const pathCallee = path.node.callee
+            if (
+              t.isMemberExpression(pathCallee) &&
+              t.isThisExpression(pathCallee.object) &&
+              t.isIdentifier(pathCallee.property) &&
+              pathCallee.property.name.startsWith('_create') &&
+              pathCallee.property.name.endsWith('Data')
+            ) {
+              const arg = path.node.arguments[0]
+              if (t.isBinaryExpression(arg)) {
+                deferCallBack.push(() => {
+                  path.node.arguments = [
+                    t.binaryExpression('+', arg, t.templateLiteral(
+                      [
+                        t.templateElement({ raw: '' }),
+                        ...loopIndices.map(() => t.templateElement({ raw: '' }))
+                      ],
+                      loopIndices.map(l => t.identifier(l))
+                    ))
+                  ]
+                })
+              }
+            }
+          },
           JSXElement: path => {
             const element = path.node.openingElement
             if (
@@ -1647,13 +1671,40 @@ export class RenderParser {
               if (!loops) {
                 loops = t.arrayExpression([])
                 findParentLoops(callee, this.loopComponentNames, loops)
+                for (const el of loops.elements) {
+                  if (t.isObjectExpression(el)) {
+                    for (const prop of el.properties) {
+                      if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: 'indexId' }) && t.isIdentifier(prop.value)) {
+                        loopIndices.push(prop.value.name)
+                      }
+                    }
+                  }
+                }
+              }
+
+              if (loopIndices.length === 0) {
+                if (t.isIdentifier(indexId!)) {
+                  loopIndices.push(indexId!.name)
+                } else {
+                  throw codeFrameError(callee.node, '循环中使用自定义组件需要暴露循环的 index')
+                }
               }
 
               // createData 函数里加入 compid 相关逻辑
               const variableName = `$compid__${genCompid()}`
               const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
-                t.identifier(GEN_LOOP_COMPID),
-                [t.memberExpression(t.thisExpression(), t.identifier('$scope')), t.stringLiteral(variableName), loops]
+                t.identifier(GEN_COMP_ID),
+                [t.templateLiteral(
+                  [
+                    t.templateElement({ raw: '' }),
+                    t.templateElement({ raw: createRandomLetters(10) }),
+                    ...loopIndices.map(() => t.templateElement({ raw: '' }))
+                  ],
+                  [
+                    this.prefixExpr(),
+                    ...loopIndices.map(i => t.identifier(i))
+                  ]
+                )]
               ))
 
               const properties = this.getPropsFromAttrs(element)
@@ -1678,6 +1729,8 @@ export class RenderParser {
             }
           }
         })
+
+        deferCallBack.forEach(cb => cb())
       }
 
       let stateToBeAssign = new Set<string>(
@@ -2011,6 +2064,16 @@ export class RenderParser {
 
   setUsedState () {
     if (!this.isDefaultRender) {
+      const { async, body, params } = this.renderPath.node
+      this.renderPath.replaceWith(
+        t.classMethod('method', t.identifier(this.renderMethodName), [t.identifier(CLASS_COMPONENT_UID)], t.blockStatement([
+          t.returnStatement(t.arrowFunctionExpression(
+            params,
+            body,
+            async
+          ))
+        ]))
+      )
       return
     }
     for (const [ key, method ] of this.methods) {

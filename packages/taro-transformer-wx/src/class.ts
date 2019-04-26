@@ -14,7 +14,7 @@ import {
   isContainStopPropagation,
   isDerivedFromProps
 } from './utils'
-import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT_Component_SET_COPY, FN_PREFIX } from './constant'
+import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT_Component_SET_COPY, FN_PREFIX, CLASS_COMPONENT_UID } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -306,11 +306,11 @@ class Transformer {
       ClassMethod (path) {
         const node = path.node
         if (t.isIdentifier(node.key)) {
-          const name = node.key.name
-          self.methods.set(name, path)
-          if (name.startsWith('render')) {
+          const methodName = node.key.name
+          self.methods.set(methodName, path)
+          if (methodName.startsWith('render')) {
             hasRender = true
-            self.renderJSX.set(name, path)
+            self.renderJSX.set(methodName, path)
             self.refIdMap.set(path, new Set([]))
             path.traverse({
               ReturnStatement (returnPath) {
@@ -335,18 +335,23 @@ class Transformer {
                   if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
                     const name = property.name
                     const templateAttr = [
-                      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name))
-                    ]
-                    if (args.length) {
-                      templateAttr.push(
-                        t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
+                      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
+                      t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
+                        t.callExpression(
                           t.callExpression(t.memberExpression(
                             t.thisExpression(),
                             t.identifier(`_create${name.slice(6)}Data`)
-                          ), args)
-                        ))
-                      )
-                    }
+                          ), [t.binaryExpression(
+                            '+',
+                            methodName === 'render'
+                              ? t.memberExpression(t.thisExpression(), t.identifier('_prefix'))
+                              : t.identifier(CLASS_COMPONENT_UID),
+                            t.stringLiteral(createRandomLetters(10))
+                          )]),
+                          args
+                        )
+                      ))
+                    ]
                     callPath.replaceWith(t.jSXElement(
                       t.jSXOpeningElement(t.jSXIdentifier('Template'), templateAttr),
                       t.jSXClosingElement(t.jSXIdentifier('Template')),
@@ -373,11 +378,11 @@ class Transformer {
               }
             })
           }
-          if (name.startsWith('render')) {
-            self.renderJSX.set(name, path)
+          if (methodName.startsWith('render')) {
+            self.renderJSX.set(methodName, path)
             self.refIdMap.set(path, new Set([]))
           }
-          if (name === 'constructor') {
+          if (methodName === 'constructor') {
             path.traverse({
               AssignmentExpression (p) {
                 if (

@@ -78,6 +78,8 @@ export const GEN_COMP_ID = 'genCompid'
 
 export const GEN_LOOP_COMPID = 'genLoopCompid'
 
+export const CLASS_COMPONENT_UID = '_$uid'
+
 export let LOOP_STATE = '$loopState'
 
 export const setLoopState = (s: string) => LOOP_STATE = s
