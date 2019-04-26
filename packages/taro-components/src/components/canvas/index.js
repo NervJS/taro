@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro-h5'
-import Nerv, { findDOMNode } from 'nervjs'
+import Nerv from 'nervjs'
 import touchable from '../../utils/touchable'
 import classnames from 'classnames'
 
@@ -8,14 +8,14 @@ import './style/index.css'
 /**
  * Canvas组件参数
  * @typedef CanvasProps
- * @param {String} [canvasId=canvas] 组件的唯一标识符
- * @param {Boolean} [disableScroll=false] 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新
- * @param {EventHandle} onTouchstart 手指触摸动作开始
- * @param {EventHandle} onTouchmove 手指触摸后移动
- * @param {EventHandle} onTouchend 手指触摸动作结束
- * @param {EventHandle} onTouchcancel 手指触摸动作被打断，如来电提醒，弹窗
- * @param {EventHandle} onLongtap 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动
- * @param {EventHandle} onError 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'}
+ * @property {String} [canvasId=canvas] 组件的唯一标识符
+ * @property {Boolean} [disableScroll=false] 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新
+ * @property {EventHandle} onTouchstart 手指触摸动作开始
+ * @property {EventHandle} onTouchmove 手指触摸后移动
+ * @property {EventHandle} onTouchend 手指触摸动作结束
+ * @property {EventHandle} onTouchcancel 手指触摸动作被打断，如来电提醒，弹窗
+ * @property {EventHandle} onLongtap 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动
+ * @property {EventHandle} onError 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'}
  */
 
 @touchable()
