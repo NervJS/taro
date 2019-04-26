@@ -9,7 +9,7 @@ import generate from 'babel-generator'
 import traverse from 'babel-traverse'
 import * as _ from 'lodash'
 
-import { processFiles } from './h5'
+import { Compiler } from './h5'
 import * as npmProcess from './util/npm'
 
 import CONFIG from './config'
@@ -359,10 +359,10 @@ function watchFiles () {
     }
   }
 
-  function syncH5File (filePath) {
+  function syncH5File (filePath, compiler) {
     const outputDir = path.join(appPath, outputDirName, h5OutputName)
     const fileTempPath = filePath.replace(sourceDir, tempPath)
-    processFiles(filePath)
+    compiler.processFiles(filePath)
 
     if (process.env.TARO_BUILD_TYPE === 'script') {
       buildH5Script()
@@ -380,6 +380,7 @@ function watchFiles () {
 
   function handleChange (filePath, type, tips) {
     const relativePath = path.relative(appPath, filePath)
+    const compiler = new Compiler(appPath)
     printLog(type, tips, relativePath)
 
     let processed = false
@@ -394,7 +395,7 @@ function watchFiles () {
 
     try {
       syncWeappFile(filePath)
-      syncH5File(filePath)
+      syncH5File(filePath, compiler)
     } catch (err) {
       console.log(err)
     }

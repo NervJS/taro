@@ -95,15 +95,6 @@ export function getTaroPath (): string {
   return taroPath
 }
 
-export function setConfig (config: object): void {
-  const taroPath = getTaroPath()
-  if (typeof config === 'object') {
-    const oldConfig = getConfig()
-    config = Object.assign({}, oldConfig, config)
-    fs.writeFileSync(path.join(taroPath, 'config.json'), JSON.stringify(config, null, 2))
-  }
-}
-
 export function getConfig (): object {
   const configPath = path.join(getTaroPath(), 'config.json')
   if (fs.existsSync(configPath)) {
@@ -331,12 +322,12 @@ export function processStyleImports (content: string, adapter: BUILD_TYPES, proc
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
-      if (processFn && typeof processFn === 'function') {
+      if (processFn) {
         return processFn(m, $2)
       }
       return ''
     }
-    if (processFn && typeof processFn === 'function') {
+    if (processFn) {
       return processFn(m, $2)
     }
     return m
@@ -450,7 +441,7 @@ export function traverseObjectNode (node, buildAdapter: string) {
 export function copyFileSync (from: string, to: string, options?: ICopyArgOptions) {
   const filename = path.basename(from)
   if (fs.statSync(from).isFile() && !path.extname(to)) {
-    fs.ensureDir(to)
+    fs.ensureDirSync(to)
     if (from === path.join(to, filename)) {
       return
     }
@@ -459,7 +450,7 @@ export function copyFileSync (from: string, to: string, options?: ICopyArgOption
   if (from === to) {
     return
   }
-  fs.ensureDir(path.dirname(to))
+  fs.ensureDirSync(path.dirname(to))
   return fs.copySync(from, to, options)
 }
 
@@ -470,7 +461,7 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
     const globalIgnore = copyConfig.options.ignore
     const projectDir = appPath
     copyConfig.patterns.forEach(pattern => {
-      if (typeof pattern === 'object' && pattern.from && pattern.to) {
+      if (pattern.from && pattern.to) {
         const from = path.join(projectDir, pattern.from)
         const to = path.join(projectDir, pattern.to)
         let ignore = pattern.ignore || globalIgnore
