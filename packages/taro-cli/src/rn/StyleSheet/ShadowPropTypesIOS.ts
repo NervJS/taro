@@ -8,7 +8,7 @@
  * @format
  */
 import ColorPropType from './ColorPropType'
-import ReactPropTypes from 'prop-types'
+import * as ReactPropTypes from 'prop-types'
 
 /**
  * These props can be used to dynamically generate shadows on views, images, text, etc.

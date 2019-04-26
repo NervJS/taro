@@ -1,14 +1,15 @@
-import path from 'path'
-import fs from 'fs-extra'
-import postcss from 'postcss'
+import * as path from 'path'
+import * as fs from 'fs-extra'
+import * as postcss from 'postcss'
 import chalk from 'chalk'
-import pxtransform from 'postcss-pxtransform'
+import * as pxtransform from 'postcss-pxtransform'
 import transformCSS from 'css-to-react-native-transform'
 
-import { StyleSheetValidation } from './StyleSheet/index'
+import {StyleSheetValidation} from './StyleSheet/index'
 import * as Util from '../util'
 import * as npmProcess from '../util/npm'
-import { FILE_PROCESSOR_MAP, processTypeEnum } from '../util/constants'
+import {FILE_PROCESSOR_MAP, processTypeEnum} from '../util/constants'
+
 import stylelintConfig from '../config/rn-stylelint.json'
 
 const DEVICE_RATIO = 'deviceRatio'
@@ -54,7 +55,7 @@ function loadStyle ({filePath, pluginsConfig}, appPath) {
  * @param {object} projectConfig
  * @returns {Function | any}
  */
-function postCSS ({ css, filePath, projectConfig }) {
+function postCSS({css, filePath, projectConfig}) {
   const pxTransformConfig = {
     designWidth: projectConfig.designWidth || 750
   }
@@ -80,7 +81,7 @@ function postCSS ({ css, filePath, projectConfig }) {
     })
 }
 
-function getStyleObject ({css, filePath}) {
+function getStyleObject({css, filePath}) {
   let styleObject = {}
   try {
     styleObject = transformCSS(css)
@@ -91,7 +92,7 @@ function getStyleObject ({css, filePath}) {
   return styleObject
 }
 
-function validateStyle ({styleObject, filePath}) {
+function validateStyle({styleObject, filePath}) {
   for (const name in styleObject) {
     try {
       StyleSheetValidation.validateStyle(name, styleObject)
@@ -102,7 +103,7 @@ function validateStyle ({styleObject, filePath}) {
   }
 }
 
-function writeStyleFile ({css, tempFilePath}) {
+function writeStyleFile({css, tempFilePath}) {
   const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${css})`
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)

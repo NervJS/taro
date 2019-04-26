@@ -8,7 +8,7 @@
  *       strict
  */
 
-import ReactPropTypes from 'prop-types'
+import * as ReactPropTypes from 'prop-types'
 
 /**
  * React Native's layout system is based on Flexbox and is powered both

@@ -10,7 +10,7 @@
 
 'use strict'
 
-import ReactPropTypes from 'prop-types'
+import * as ReactPropTypes from 'prop-types'
 
 import deprecatedPropType from './deprecatedPropType'
 

@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import child_process, { execSync, SpawnSyncOptions } from 'child_process'
-import { performance } from 'perf_hooks'
+import {spawn, spawnSync, execSync, SpawnSyncOptions} from 'child_process'
+import {performance} from 'perf_hooks'
 import * as chokidar from 'chokidar'
 import chalk from 'chalk'
 import * as ejs from 'ejs'
@@ -12,9 +12,10 @@ import * as klaw from 'klaw'
 import * as Util from './util'
 import CONFIG from './config'
 import * as StyleProcess from './rn/styleProcess'
-import { parseJSCode as transformJSCode } from './rn/transformJS'
-import { PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES } from './util/constants'
-import { convertToJDReact } from './jdreact/convert_to_jdreact'
+import {parseJSCode as transformJSCode} from './rn/transformJS'
+import {PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES} from './util/constants'
+import {convertToJDReact} from './jdreact/convert_to_jdreact'
+import { IBuildConfig } from './util/types'
 
 const appPath = process.cwd()
 const projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
@@ -29,7 +30,20 @@ const entryBaseName = path.basename(entryFilePath, path.extname(entryFileName))
 const pluginsConfig = projectConfig.plugins || {}
 const rnConfig = projectConfig.rn || {}
 
-const pkgPath = path.join(__dirname, './rn/pkg')
+const pkgTmpl = `{
+  "name":"<%= projectName %>",
+  "dependencies": {
+    "@tarojs/components-rn": "^<%= version %>",
+    "@tarojs/taro-rn": "^<%= version %>",
+    "@tarojs/taro-router-rn": "^<%= version %>",
+    "@tarojs/taro-redux-rn": "^<%= version %>",
+    "react": "16.3.1",
+    "react-native": "0.55.4",
+    "redux": "^4.0.0",
+    "tslib": "^1.8.0"
+  }
+}
+`
 
 const depTree: {
   [key: string]: string[]
@@ -38,11 +52,11 @@ const depTree: {
 let isBuildingStyles = {}
 const styleDenpendencyTree = {}
 
-function isEntryFile (filePath) {
+function isEntryFile(filePath) {
   return path.basename(filePath) === entryFileName
 }
 
-function compileDepStyles (filePath, styleFiles) {
+function compileDepStyles(filePath, styleFiles) {
   if (isBuildingStyles[filePath] || styleFiles.length === 0) {
     return Promise.resolve({})
   }
@@ -54,7 +68,7 @@ function compileDepStyles (filePath, styleFiles) {
     return StyleProcess.loadStyle({filePath, pluginsConfig}, appPath)
   })).then(resList => { // postcss
     return Promise.all(resList.map(item => {
-      return StyleProcess.postCSS({ ...item as { css: string, filePath: string }, projectConfig })
+      return StyleProcess.postCSS({...item as { css: string, filePath: string }, projectConfig})
     }))
   }).then(resList => {
     const styleObjectEntire = {}
@@ -84,15 +98,14 @@ function compileDepStyles (filePath, styleFiles) {
   })
 }
 
-function initProjectFile () {
+function initProjectFile() {
   // generator app.json
   const appJsonObject = Object.assign({
     name: _.camelCase(require(path.join(process.cwd(), 'package.json')).name)
   }, rnConfig.appJson)
   // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
   const pkgTempObj = JSON.parse(
-    ejs.render(
-      fs.readFileSync(pkgPath, 'utf-8'), {
+    ejs.render(pkgTmpl, {
         projectName: _.camelCase(projectConfig.projectName),
         version: Util.getPkgVersion()
       }
@@ -116,7 +129,7 @@ function initProjectFile () {
   Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(tempPath, 'package.json'))
 }
 
-async function processFile (filePath) {
+async function processFile(filePath) {
   if (!fs.existsSync(filePath)) {
     return
   }
@@ -151,7 +164,7 @@ async function processFile (filePath) {
  * @description 编译文件，安装依赖
  * @returns {Promise}
  */
-function buildTemp () {
+function buildTemp() {
   fs.ensureDirSync(path.join(tempPath, 'bin'))
   return new Promise((resolve, reject) => {
     klaw(sourceDir)
@@ -181,7 +194,7 @@ function buildTemp () {
   })
 }
 
-function buildBundle () {
+function buildBundle() {
   fs.ensureDirSync(tempDir)
   process.chdir(tempDir)
   // 通过 jdreact  构建 bundle
@@ -199,7 +212,7 @@ function buildBundle () {
     {stdio: 'inherit'})
 }
 
-async function perfWrap (callback, args?) {
+async function perfWrap(callback, args?) {
   isBuildingStyles = {} // 清空
   // 后期可以优化，不编译全部
   const t0 = performance.now()
@@ -208,7 +221,7 @@ async function perfWrap (callback, args?) {
   Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 }
 
-function watchFiles () {
+function watchFiles() {
   const watcher = chokidar.watch(path.join(sourceDir), {
     ignored: /(^|[/\\])\../,
     persistent: true,
@@ -248,7 +261,8 @@ function watchFiles () {
     .on('error', error => console.log(`Watcher error: ${error}`))
 }
 
-export async function build ({watch}) {
+export async function build(appPath, buildConfig: IBuildConfig) {
+  const {watch} = buildConfig
   process.env.TARO_ENV = BUILD_TYPES.RN
   fs.ensureDirSync(tempPath)
   const t0 = performance.now()
@@ -268,7 +282,7 @@ export async function build ({watch}) {
  * @description run packager server
  * copy from react-native/local-cli/runAndroid/runAndroid.js
  */
-function startServerInNewWindow (port = 8081) {
+function startServerInNewWindow(port = 8081) {
   // set up OS-specific filenames and commands
   const isWindows = /^win/.test(process.platform)
   const scriptFile = isWindows
@@ -282,7 +296,7 @@ function startServerInNewWindow (port = 8081) {
   // set up the launchpackager.(command|bat) file
   const scriptsDir = path.resolve(tempPath, './node_modules', 'react-native', 'scripts')
   const launchPackagerScript = path.resolve(scriptsDir, scriptFile)
-  const procConfig: SpawnSyncOptions = { cwd: scriptsDir }
+  const procConfig: SpawnSyncOptions = {cwd: scriptsDir}
   const terminal = process.env.REACT_TERMINAL
 
   // set up the .packager.(env|bat) file to ensure the packager starts on the right port
@@ -302,25 +316,25 @@ function startServerInNewWindow (port = 8081) {
 
   if (process.platform === 'darwin') {
     if (terminal) {
-      return child_process.spawnSync(
+      return spawnSync(
         'open',
         ['-a', terminal, launchPackagerScript],
         procConfig
       )
     }
-    return child_process.spawnSync('open', [launchPackagerScript], procConfig)
+    return spawnSync('open', [launchPackagerScript], procConfig)
   } else if (process.platform === 'linux') {
     if (terminal) {
-      return child_process.spawn(
+      return spawn(
         terminal,
         ['-e', 'sh ' + launchPackagerScript],
         procConfig
       )
     }
-    return child_process.spawn('sh', [launchPackagerScript], procConfig)
+    return spawn('sh', [launchPackagerScript], procConfig)
   } else if (/^win/.test(process.platform)) {
     procConfig.stdio = 'ignore'
-    return child_process.spawn(
+    return spawn(
       'cmd.exe',
       ['/C', launchPackagerScript],
       procConfig
