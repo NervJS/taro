@@ -11,7 +11,7 @@
 'use strict'
 
 import ColorPropType from './ColorPropType'
-import ReactPropTypes from 'prop-types'
+import * as ReactPropTypes from 'prop-types'
 import ViewStylePropTypes from './ViewStylePropTypes'
 
 const TextStylePropTypes = {

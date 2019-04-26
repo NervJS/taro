@@ -12,7 +12,7 @@
 import ColorPropType from './ColorPropType'
 import ImageResizeMode from './ImageResizeMode'
 import LayoutPropTypes from './LayoutPropTypes'
-import ReactPropTypes from 'prop-types'
+import * as ReactPropTypes from 'prop-types'
 import ShadowPropTypesIOS from './ShadowPropTypesIOS'
 import TransformPropTypes from './TransformPropTypes'
 
