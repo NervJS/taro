@@ -22,6 +22,11 @@ import './style/index.scss'
 // 4. timePicker 样式问题：不在指定时间范围时，选项样式置灰。缩窄两列间宽度。
 
 export default class Picker extends Nerv.Component {
+  /** @type {PickerProps} */
+  static defaultProps = {
+    mode: 'selector'
+  }
+
   constructor (props) {
     super(props)
 
