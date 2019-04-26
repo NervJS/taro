@@ -617,7 +617,7 @@ describe('State', () => {
         })
 
         test('作用域有值', () => {
-          const { ast } = transform({
+          const { ast, code } = transform({
             ...baseOptions,
             code: buildComponent(`
               const a = true

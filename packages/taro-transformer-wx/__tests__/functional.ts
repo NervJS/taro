@@ -14,25 +14,24 @@ describe('类函数式组件', () => {
           )
         `, `state = { tasks: [] }; renderTest () {
           return (
-            <View>abc</View>
+            <Custom data='s'>abc</Custom>
           )
         }`)
       })
-
       const inst = evalClass(ast)
-      expect(inst.state).toEqual({ tasks: [] })
+      expect(inst.state.hasOwnProperty('anonymousState__temp')).toBeTruthy()
 
       expect(template).toMatch(prettyPrint(`
-      <template name="renderTest">
-          <block>
-              <view>abc</view>
-          </block>
-      </template>
+      <template name=\"renderTest\">
       <block>
-          <view>
-              <template is="renderTest"></template>
-          </view>
+          <custom compid=\"{{$compid__0}}\">abc</custom>
       </block>
+  </template>
+  <block>
+      <view>
+          <template is=\"renderTest\" data=\"{{...anonymousState__temp}}\"></template>
+      </view>
+  </block>
       `))
     })
 
@@ -53,19 +52,19 @@ describe('类函数式组件', () => {
       })
 
       const inst = evalClass(ast)
-      expect(inst.state).toEqual({ tasks: [] })
+      expect(inst.state.hasOwnProperty('anonymousState__temp')).toBeTruthy()
 
       expect(template).toMatch(prettyPrint(`
-      <template name="renderTest">
-          <block>
-              <view>abc</view>
-          </block>
-      </template>
+      <template name=\"renderTest\">
       <block>
-          <view>
-              <template is="renderTest"></template>
-          </view>
+          <view>abc</view>
       </block>
+  </template>
+  <block>
+      <view>
+          <template is=\"renderTest\" data=\"{{...anonymousState__temp}}\"></template>
+      </view>
+  </block>
       `))
     })
 
@@ -88,21 +87,22 @@ describe('类函数式组件', () => {
       })
 
       const inst = evalClass(ast)
-      expect(inst.state).toEqual({ tasks: [] })
+      expect(inst.state.hasOwnProperty('anonymousState__temp')).toBeTruthy()
+      expect(inst.state.hasOwnProperty('loopArray0')).toBeTruthy()
 
       expect(template).toMatch(prettyPrint(`
-        <template name="renderTest">
-            <block>
-                <view>abc</view>
-            </block>
-        </template>
-        <block>
-            <view>
-                <block wx:for="{{tasks}}" wx:for-item="i">
-                    <template is="renderTest"></template>
-                </block>
-            </view>
-        </block>
+      <template name=\"renderTest\">
+      <block>
+          <view>abc</view>
+      </block>
+  </template>
+  <block>
+      <view>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"i\">
+              <template is=\"renderTest\" data=\"{{...i.$loopState__temp3}}\"></template>
+          </block>
+      </view>
+  </block>
       `))
     })
 
@@ -123,19 +123,20 @@ describe('类函数式组件', () => {
       })
 
       const inst = evalClass(ast)
-      expect(inst.state).toEqual({ tasks: [] })
+      expect(inst.state.hasOwnProperty('anonymousState__temp')).toBeTruthy()
+      expect(inst.state.hasOwnProperty('loopArray0')).toBeTruthy()
 
       expect(template).toMatch(prettyPrint(`
-        <template name=\"renderTest\">
-            <block>
-                <view>abc</view>
-            </block>
-        </template>
-        <block>
-            <view>
-                <template is=\"renderTest\" wx:for=\"{{tasks}}\" wx:for-item=\"i\"></template>
-            </view>
-        </block>
+      <template name=\"renderTest\">
+      <block>
+          <view>abc</view>
+      </block>
+  </template>
+  <block>
+      <view>
+          <template is=\"renderTest\" data=\"{{...i.$loopState__temp3}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"i\"></template>
+      </view>
+  </block>
       `))
     })
   })
@@ -260,19 +261,20 @@ describe('类函数式组件', () => {
       })
 
       const inst = evalClass(ast)
-      expect(inst.state).toEqual({ tasks: [] })
+      expect(inst.state.hasOwnProperty('anonymousState__temp')).toBeTruthy()
+      expect(inst.state.hasOwnProperty('loopArray0')).toBeTruthy()
 
       expect(template).toMatch(prettyPrint(`
-        <template name=\"renderTest\">
-            <block>
-                <view>abc</view>
-            </block>
-        </template>
-        <block>
-            <view>
-                <template is=\"renderTest\" wx:for=\"{{tasks}}\" wx:for-item=\"i\"></template>
-            </view>
-        </block>
+      <template name=\"renderTest\">
+          <block>
+              <view>abc</view>
+          </block>
+      </template>
+      <block>
+          <view>
+              <template is=\"renderTest\" data=\"{{...i.$loopState__temp3}}\" wx:for=\"{{loopArray0}}\" wx:for-item=\"i\"></template>
+          </view>
+      </block>
       `))
     })
   })

@@ -45,7 +45,11 @@ var Current = {
 }
 
 function genLoopCompid () {
-  return 'id'
+  return null
+}
+
+function genCompid () {
+  return undefined
 }
 
 var propsManager = {

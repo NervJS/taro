@@ -966,7 +966,7 @@ export class RenderParser {
     return properties
   }
 
-  private prefixExpr = () => this.isDefaultRender ? t.memberExpression(t.thisExpression(), t.identifier('_prefix')) : t.identifier(CLASS_COMPONENT_UID)
+  private prefixExpr = () => this.isDefaultRender ? t.memberExpression(t.thisExpression(), t.identifier('$prefix')) : t.identifier(CLASS_COMPONENT_UID)
 
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
@@ -992,7 +992,7 @@ export class RenderParser {
           t.binaryExpression(
             '+',
             this.prefixExpr(),
-            variableName
+            t.stringLiteral(name)
           )
         ])
       )
@@ -2066,16 +2066,6 @@ export class RenderParser {
 
   setUsedState () {
     if (!this.isDefaultRender) {
-      const { async, body, params } = this.renderPath.node
-      this.renderPath.replaceWith(
-        t.classMethod('method', t.identifier(this.renderMethodName), [t.identifier(CLASS_COMPONENT_UID)], t.blockStatement([
-          t.returnStatement(t.arrowFunctionExpression(
-            params,
-            body,
-            async
-          ))
-        ]))
-      )
       return
     }
     for (const [ key, method ] of this.methods) {
@@ -2229,6 +2219,17 @@ export class RenderParser {
       this.renderPath.node.body.body.push(
         ...propsStatement,
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
+      )
+
+      const { async, body, params } = this.renderPath.node
+      this.renderPath.replaceWith(
+        t.classMethod('method', t.identifier(`_create${this.renderMethodName.slice(6)}Data`), [t.identifier(CLASS_COMPONENT_UID)], t.blockStatement([
+          t.returnStatement(t.arrowFunctionExpression(
+            params,
+            body,
+            async
+          ))
+        ]))
       )
     }
   }

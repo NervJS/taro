@@ -334,6 +334,7 @@ class Transformer {
                   const { object, property } = callee.node
                   if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
                     const name = property.name
+                    // @TODO 优化创建函数的机制，如果函数的 JSX 没有自定义组件或自定义组件里没有参数，不需要创建新函数
                     const templateAttr = [
                       t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
                       t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
@@ -344,7 +345,7 @@ class Transformer {
                           ), [t.binaryExpression(
                             '+',
                             methodName === 'render'
-                              ? t.memberExpression(t.thisExpression(), t.identifier('_prefix'))
+                              ? t.memberExpression(t.thisExpression(), t.identifier('$prefix'))
                               : t.identifier(CLASS_COMPONENT_UID),
                             t.stringLiteral(createRandomLetters(10))
                           )]),
