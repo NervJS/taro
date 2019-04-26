@@ -18,11 +18,12 @@ import {
   isEmptyObject,
   resolveScriptPath,
   promoteRelativePath,
-  generateQuickAppUx
+  generateQuickAppUx,
+  uglifyJS
 } from '../util'
-import { IWxTransformResult } from '../util/types'
+import { IWxTransformResult, TogglableOptions } from '../util/types'
 
-import { getBuildData, uglifyJS, copyFilesFromSrcToOutput, getDependencyTree } from './helper'
+import { getBuildData, copyFilesFromSrcToOutput, getDependencyTree } from './helper'
 import { compileDepScripts, compileScriptFile } from './compileScript'
 import { compileDepStyles } from './compileStyle'
 import { parseAst } from './astProcess'
@@ -79,6 +80,7 @@ function buildWorkers (worker: string) {
 
 export async function buildEntry (): Promise<AppConfig> {
   const {
+    appPath,
     buildAdapter,
     constantsReplaceList,
     entryFilePath,
@@ -115,7 +117,7 @@ export async function buildEntry (): Promise<AppConfig> {
     if (buildAdapter !== BUILD_TYPES.QUICKAPP) {
       resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
       if (isProduction) {
-        resCode = uglifyJS(resCode, entryFilePath)
+        resCode = uglifyJS(resCode, entryFilePath, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     }
     const dependencyTree = getDependencyTree()

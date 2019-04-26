@@ -37,7 +37,6 @@ interface IStyleObj {
   filePath: string
 }
 
-const appPath = process.cwd()
 const isBuildingStyles: Map<string, boolean> = new Map<string, boolean>()
 
 export function initCompileStyles () {
@@ -58,7 +57,7 @@ export interface ICSSModulesConf {
  * @returns postcss.process()
  */
 export function processStyleUseCssModule (styleObj: IStyleObj): any {
-  const { projectConfig } = getBuildData()
+  const { projectConfig, appPath } = getBuildData()
   const weappConf = Object.assign({}, projectConfig.weapp)
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
@@ -83,7 +82,7 @@ export function processStyleUseCssModule (styleObj: IStyleObj): any {
     if (DO_NOT_USE_CSS_MODULE_REGEX.test(styleObj.filePath)) return styleObj
   }
   const generateScopedName = customCssModulesConf.config.generateScopedName
-  const context = process.cwd()
+  const context = appPath
   let scopedName
   if (generateScopedName) {
     scopedName = typeof generateScopedName === 'function'
@@ -105,7 +104,7 @@ export function processStyleUseCssModule (styleObj: IStyleObj): any {
 }
 
 async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
-  const { projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const { appPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
   const weappConf = Object.assign({}, projectConfig.weapp)
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
@@ -165,7 +164,7 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
         if (!isNpmPkg(pluginName)) { // local plugin
           pluginName = path.join(appPath, pluginName)
         }
-        processors.push(require(resolveNpmPkgMainPath(pluginName, isProduction, npmConfig, buildAdapter))(pluginConf.config || {}))
+        processors.push(require(resolveNpmPkgMainPath(pluginName, isProduction, npmConfig, buildAdapter, appPath))(pluginConf.config || {}))
       }
     }
   })
@@ -195,7 +194,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
   if (isBuildingStyles.get(outputFilePath)) {
     return Promise.resolve({})
   }
-  const { projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
   const pluginsConfig = projectConfig.plugins || {}
   const weappConf = projectConfig.weapp || {} as IMiniAppConfig
   const useCompileConf = Object.assign({}, weappConf.compile)
@@ -210,7 +209,19 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
       if (stylePath.indexOf('~') === 0) {
         let newStylePath = stylePath
         newStylePath = stylePath.replace('~', '')
-        const npmInfo = resolveNpmFilesPath(newStylePath, isProduction, npmConfig, buildAdapter, appPath, compileInclude)
+        const npmInfo = resolveNpmFilesPath({
+          pkgName: newStylePath,
+          isProduction,
+          npmConfig,
+          buildAdapter,
+          root: appPath,
+          rootNpm: nodeModulesPath,
+          npmOutputDir,
+          compileInclude,
+          env: projectConfig.env || {},
+          uglify: projectConfig!.plugins!.uglify || {},
+          babelConfig: projectConfig!.plugins!.babel || {}
+        })
         const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
         return str.replace(stylePath, importRelativePath)
       }
@@ -218,7 +229,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
     })
     compileImportStyles(filePath, cssImportsRes.imports)
     if (pluginName) {
-      return callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {})
+      return callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {}, appPath)
         .then(res => ({
           css: cssImportsRes.style.join('\n') + '\n' + res.css,
           filePath
@@ -243,7 +254,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           const cssoPuginConfig = pluginsConfig.csso || { enable: true }
           if (cssoPuginConfig.enable) {
             const cssoConfig = cssoPuginConfig.config || {}
-            const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig)
+            const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig, appPath)
             resContent = cssoResult.css
           }
         }

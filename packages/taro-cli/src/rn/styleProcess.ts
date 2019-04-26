@@ -19,11 +19,11 @@ const DEVICE_RATIO = 'deviceRatio'
  * @param {object} pluginsConfig
  * @returns {*}
  */
-function loadStyle ({filePath, pluginsConfig}) {
+function loadStyle ({filePath, pluginsConfig}, appPath) {
   const fileExt = path.extname(filePath)
   const pluginName = FILE_PROCESSOR_MAP[fileExt]
   if (pluginName) {
-    return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {})
+    return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {}, appPath)
       .then((item) => {
         return {
           css: item.css.toString(),

@@ -6,7 +6,9 @@ import * as wxTransformer from '@tarojs/transformer-wx'
 import {
   printLog,
   isDifferentArray,
-  copyFileSync
+  copyFileSync,
+  getBabelConfig,
+  uglifyJS
 } from '../util'
 import {
   BUILD_TYPES,
@@ -17,15 +19,13 @@ import {
 } from '../util/constants'
 import { callPlugin } from '../util/npm'
 import { npmCodeHack } from '../util/resolve_npm_files'
-import { IWxTransformResult } from '../util/types'
+import { IWxTransformResult, TogglableOptions } from '../util/types'
 
 import {
-  getBabelConfig,
   shouldTransformAgain,
   getBuildData,
   copyFilesFromSrcToOutput,
-  getDependencyTree,
-  uglifyJS
+  getDependencyTree
 } from './helper'
 import { parseAst } from './astProcess'
 import { IDependency } from './interface'
@@ -94,7 +94,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           }
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction && needUseBabel) {
-            uglifyJS(resCode, item)
+            uglifyJS(resCode, item, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
           }
           if (NODE_MODULES_REG.test(item)) {
             resCode = npmCodeHack(outputItem, resCode, buildAdapter)
@@ -138,14 +138,16 @@ export async function compileScriptFile (
   adapter: BUILD_TYPES
 ): Promise<string> {
   const {
+    appPath,
     constantsReplaceList,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    projectConfig
   } = getBuildData()
   if (NODE_MODULES_REG.test(sourceFilePath) && fs.existsSync(outputFilePath)) {
     return fs.readFileSync(outputFilePath).toString()
   }
-  const babelConfig = getBabelConfig()
-  const compileScriptRes = await callPlugin('babel', content, sourceFilePath, babelConfig)
+  const babelConfig = getBabelConfig(projectConfig!.plugins!.babel)
+  const compileScriptRes = await callPlugin('babel', content, sourceFilePath, babelConfig, appPath)
   const code = compileScriptRes.code
   if (!shouldTransformAgain()) {
     return code

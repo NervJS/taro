@@ -6,7 +6,7 @@ import * as wxTransformer from '@tarojs/transformer-wx'
 import * as _ from 'lodash'
 import traverse from 'babel-traverse'
 
-import { IWxTransformResult } from '../util/types'
+import { IWxTransformResult, TogglableOptions } from '../util/types'
 import {
   REG_TYPESCRIPT,
   processTypeEnum,
@@ -20,7 +20,8 @@ import {
   isEmptyObject,
   promoteRelativePath,
   isDifferentArray,
-  generateQuickAppUx
+  generateQuickAppUx,
+  uglifyJS
 } from '../util'
 
 import { parseComponentExportAst, parseAst } from './astProcess'
@@ -32,7 +33,6 @@ import {
   setComponentExportsMap,
   getComponentExportsMap,
   getRealComponentsPathList,
-  uglifyJS,
   copyFilesFromSrcToOutput,
   getComponentsBuildResult,
   getDependencyTree,
@@ -143,7 +143,8 @@ export async function buildSingleComponent (
     nodeModulesPath,
     outputFilesTypes,
     isProduction,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    projectConfig
   } = getBuildData()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
 
@@ -246,7 +247,7 @@ export async function buildSingleComponent (
     if (!isQuickApp) {
       resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
       if (isProduction) {
-        uglifyJS(resCode, component)
+        uglifyJS(resCode, component, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     } else {
       // 快应用编译，搜集创建组件 ux 文件

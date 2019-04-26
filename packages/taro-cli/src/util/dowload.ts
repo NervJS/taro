@@ -5,7 +5,7 @@ import * as request from 'request'
 const GITHUB_API = 'https://api.github.com/'
 const GITHUB = 'https://github.com/'
 
-export function getGithubRepoLatestReleaseVersion (repoName) {
+export function getGithubRepoLatestReleaseVersion (repoName: string) {
   const latestReleaseApi = `${GITHUB_API}repos/${repoName}/releases/latest`
   const p = new Promise((resolve, reject) => {
     request({
@@ -24,7 +24,7 @@ export function getGithubRepoLatestReleaseVersion (repoName) {
   return p
 }
 
-export async function downloadGithubRepoLatestRelease (repoName, dest) {
+export async function downloadGithubRepoLatestRelease (repoName: string, appPath: string, dest: string) {
   const latestTagName = await getGithubRepoLatestReleaseVersion(repoName)
   return new Promise((resolve, reject) => {
     const downloadUrl = `${GITHUB}${repoName}/archive/${latestTagName}.zip`
@@ -37,7 +37,7 @@ export async function downloadGithubRepoLatestRelease (repoName, dest) {
     })
     .on('error', reject)
     .on('complete', () => {
-      const downloadTempPath = path.join(process.cwd(), downloadTemp)
+      const downloadTempPath = path.join(appPath, downloadTemp)
       if (fs.existsSync(downloadTempPath)) {
         fs.moveSync(downloadTempPath, path.join(dest, downloadTemp))
         resolve()

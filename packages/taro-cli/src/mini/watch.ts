@@ -34,7 +34,6 @@ import { buildPages, buildSinglePage } from './page'
 import { buildSingleComponent, getComponentsNamedMap } from './component'
 
 export function watchFiles () {
-  const appPath = process.cwd()
   console.log()
   console.log(chalk.gray('监听文件修改中...'))
   console.log()
@@ -52,7 +51,8 @@ export function watchFiles () {
     npmOutputDir,
     entryFileName,
     entryFilePath,
-    buildAdapter
+    buildAdapter,
+    appPath
   } = getBuildData()
   const dependencyTree = getDependencyTree()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP

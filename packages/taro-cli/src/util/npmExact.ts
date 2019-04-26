@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import { resolveNpmFilesPath } from './resolve_npm_files'
-import { INpmConfig } from './types'
+import { INpmConfig, TogglableOptions } from './types'
 import { BUILD_TYPES, REG_STYLE, NODE_MODULES } from './constants'
 import { promoteRelativePath, recursiveFindNodeModules } from './index'
 
@@ -11,12 +11,15 @@ interface IArgs {
   isProduction: boolean,
   npmConfig: INpmConfig,
   buildAdapter: BUILD_TYPES,
+  root: string,
   npmOutputDir: string,
-  compileInclude: string[]
+  compileInclude: string[],
+  env: object,
+  uglify: TogglableOptions,
+  babelConfig: object
 }
-const appPath = process.cwd()
+
 const notExistNpmList: Set<string> = new Set()
-const nodeModulesPath = recursiveFindNodeModules(path.join(appPath, NODE_MODULES))
 
 export function getNpmOutputDir (outputDir: string, configDir: string, npmConfig: INpmConfig): string {
   let npmOutputDir
@@ -34,11 +37,28 @@ export function getExactedNpmFilePath ({
   isProduction,
   npmConfig,
   buildAdapter,
+  root,
   npmOutputDir,
-  compileInclude
+  compileInclude,
+  env,
+  uglify,
+  babelConfig
 }: IArgs) {
   try {
-    const npmInfo = resolveNpmFilesPath(npmName, isProduction, npmConfig, buildAdapter, appPath, compileInclude)
+    const nodeModulesPath = recursiveFindNodeModules(path.join(root, NODE_MODULES))
+    const npmInfo = resolveNpmFilesPath({
+      pkgName: npmName,
+      isProduction,
+      npmConfig,
+      buildAdapter,
+      root,
+      rootNpm: nodeModulesPath,
+      npmOutputDir,
+      compileInclude,
+      env,
+      uglify,
+      babelConfig
+    })
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
     if (REG_STYLE.test(npmInfoMainPath)) {
@@ -60,8 +80,4 @@ export function getExactedNpmFilePath ({
 
 export function getNotExistNpmList () {
   return notExistNpmList
-}
-
-export function getNodeModulesPath (): string {
-  return nodeModulesPath
 }

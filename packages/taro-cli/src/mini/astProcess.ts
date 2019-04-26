@@ -231,6 +231,7 @@ export function parseAst (
   const mediaFiles: string[] = []
 
   const {
+    appPath,
     nodeModulesPath,
     npmOutputDir,
     sourceDir,
@@ -469,8 +470,12 @@ export function parseAst (
                 isProduction,
                 npmConfig,
                 buildAdapter,
+                root: appPath,
                 npmOutputDir,
-                compileInclude
+                compileInclude,
+                env: projectConfig.env || {},
+                uglify: projectConfig!.plugins!.uglify || {},
+                babelConfig: projectConfig!.plugins!.babel || {}
               })
             } else {
               source.value = value
@@ -570,8 +575,12 @@ export function parseAst (
                   isProduction,
                   npmConfig,
                   buildAdapter,
+                  root: appPath,
                   npmOutputDir,
-                  compileInclude
+                  compileInclude,
+                  env: projectConfig.env || {},
+                  uglify: projectConfig!.plugins!.uglify || {},
+                  babelConfig: projectConfig!.plugins!.babel || {}
                 })
               } else {
                 args[0].value = value
@@ -852,8 +861,12 @@ export function parseAst (
           isProduction,
           npmConfig,
           buildAdapter,
+          root: appPath,
           npmOutputDir,
-          compileInclude
+          compileInclude,
+          env: projectConfig.env || {},
+          uglify: projectConfig!.plugins!.uglify || {},
+          babelConfig: projectConfig!.plugins!.babel || {}
         }) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:

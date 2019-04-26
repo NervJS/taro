@@ -1021,7 +1021,7 @@ function processOthers (code, filePath, fileType) {
       }
     }
   }
-  
+
   const visitor = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
 
   traverse(ast, visitor)
@@ -1189,7 +1189,7 @@ async function buildDist (buildConfig: IBuildConfig) {
     sourceRoot: sourceRoot
   })
 
-  const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner')
+  const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', appPath)
   webpackRunner(h5Config)
 }
 

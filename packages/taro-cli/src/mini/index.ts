@@ -23,7 +23,6 @@ import {
   setBuildData,
   getBuildData,
   setIsProduction,
-  setBuildAdapter,
   setAppConfig,
   IBuildData
 } from './helper'
@@ -145,7 +144,7 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
   }
   if (needDownload) {
     const getSpinner = ora('开始下载快应用运行容器...').start()
-    await downloadGithubRepoLatestRelease('NervJS/quickapp-container', originalOutputDir)
+    await downloadGithubRepoLatestRelease('NervJS/quickapp-container', buildData.appPath, originalOutputDir)
     await unzip(path.join(originalOutputDir, 'download_temp.zip'))
     getSpinner.succeed('快应用运行容器下载完成')
   } else {
@@ -212,13 +211,12 @@ async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port
 }
 
 export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
-  const buildData = setBuildData(appPath)
+  const buildData = setBuildData(appPath, adapter)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   }
-  setBuildAdapter(adapter)
   fs.ensureDirSync(buildData.outputDir)
   if (!isQuickApp) {
     buildProjectConfig()

@@ -10,6 +10,9 @@ import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
 import { Transform } from 'stream'
 
+import defaultBabelConfig from '../config/babel'
+import defaultUglifyConfig from '../config/uglify'
+
 import {
   JS_EXT,
   TS_EXT,
@@ -22,7 +25,8 @@ import {
   CONFIG_MAP,
   REG_STYLE
 } from './constants'
-import { ICopyArgOptions, ICopyOptions } from './types'
+import { ICopyArgOptions, ICopyOptions, TogglableOptions } from './types'
+import { callPluginSync } from './npm'
 
 const execSync = child_process.execSync
 
@@ -548,10 +552,10 @@ export const recursiveMerge = (src, ...args) => {
 }
 
 export const mergeVisitors = (src, ...args) => {
-  const validFuncs = ["exit", "enter"];
+  const validFuncs = ['exit', 'enter']
   return mergeWith(src, ...args, (value, srcValue, key, object, srcObject) => {
     if (!object.hasOwnProperty(key) || !srcObject.hasOwnProperty(key)) {
-      return undefined;
+      return undefined
     }
 
     const shouldMergeToArray = validFuncs.indexOf(key) > -1
@@ -559,17 +563,17 @@ export const mergeVisitors = (src, ...args) => {
       return flatMap([value, srcValue])
     }
     const [newValue, newSrcValue] = [value, srcValue].map(v => {
-      if (typeof v === "function") {
+      if (typeof v === 'function') {
         return {
           enter: v
-        };
+        }
       } else {
-        return v;
+        return v
       }
     })
-    return mergeVisitors(newValue, newSrcValue);
-  });
-};
+    return mergeVisitors(newValue, newSrcValue)
+  })
+}
 
 export const applyArrayedVisitors = obj => {
   let key
@@ -579,9 +583,9 @@ export const applyArrayedVisitors = obj => {
       obj[key] = (astPath, ...args) => {
         funcs.forEach(func => {
           func(astPath, ...args)
-        });
-      };
-    } else if (typeof funcs === "object") {
+        })
+      }
+    } else if (typeof funcs === 'object') {
       applyArrayedVisitors(funcs)
     }
   }
@@ -631,4 +635,32 @@ export function unzip (zipPath) {
       })
     })
   })
+}
+
+let babelConfig
+
+export function getBabelConfig (babel) {
+  if (!babelConfig) {
+    babelConfig = mergeWith({}, defaultBabelConfig, babel, (objValue, srcValue) => {
+      if (Array.isArray(objValue)) {
+        return Array.from(new Set(srcValue.concat(objValue)))
+      }
+    })
+  }
+  return babelConfig
+}
+
+export function uglifyJS (resCode: string, filePath: string, root: string, uglify: TogglableOptions): string {
+  const uglifyPluginConfig = uglify || { enable: true }
+  if (uglifyPluginConfig.enable) {
+    const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
+    const uglifyResult = callPluginSync('uglifyjs', resCode, filePath, uglifyConfig, root)
+    if (uglifyResult.error) {
+      printLog(processTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
+      console.log(uglifyResult.error)
+      return resCode
+    }
+    return uglifyResult.code
+  }
+  return resCode
 }

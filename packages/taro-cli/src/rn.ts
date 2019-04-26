@@ -51,7 +51,7 @@ function compileDepStyles (filePath, styleFiles) {
     const filePath = path.join(p)
     const fileExt = path.extname(filePath)
     Util.printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
-    return StyleProcess.loadStyle({filePath, pluginsConfig})
+    return StyleProcess.loadStyle({filePath, pluginsConfig}, appPath)
   })).then(resList => { // postcss
     return Promise.all(resList.map(item => {
       return StyleProcess.postCSS({ ...item as { css: string, filePath: string }, projectConfig })

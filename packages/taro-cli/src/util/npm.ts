@@ -5,13 +5,12 @@ import chalk from 'chalk'
 import * as Util from './'
 import { IInstallOptions } from './types'
 
-const basedir = process.cwd()
 const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
 const npmCached = {}
 
 const erroneous: string[] = []
 
-type pluginFunction = (pluginName: string, content: string | null, file: string, config: object) => any
+type pluginFunction = (pluginName: string, content: string | null, file: string, config: object, root: string) => any
 
 const defaultInstallOptions: IInstallOptions = {
   dev: false,
@@ -20,10 +19,10 @@ const defaultInstallOptions: IInstallOptions = {
 
 export const taroPluginPrefix = '@tarojs/plugin-'
 
-export function resolveNpm (pluginName: string): Promise<string> {
+export function resolveNpm (pluginName: string, root): Promise<string> {
   if (!npmCached[pluginName]) {
     return new Promise((resolve, reject) => {
-      resolvePath(`${pluginName}`, {basedir}, (err, res) => {
+      resolvePath(`${pluginName}`, { basedir: root }, (err, res) => {
         if (err) {
           return reject(err)
         }
@@ -35,10 +34,10 @@ export function resolveNpm (pluginName: string): Promise<string> {
   return Promise.resolve(npmCached[pluginName])
 }
 
-export function resolveNpmSync (pluginName: string): string {
+export function resolveNpmSync (pluginName: string, root): string {
   try {
     if (!npmCached[pluginName]) {
-      const res = resolvePath.sync(pluginName, {basedir})
+      const res = resolvePath.sync(pluginName, { basedir: root })
       return res
     }
     return npmCached[pluginName]
@@ -52,7 +51,7 @@ export function resolveNpmSync (pluginName: string): string {
         installOptions.dev = true
       }
       installNpmPkg(pluginName, installOptions)
-      return resolveNpmSync(pluginName)
+      return resolveNpmSync(pluginName, root)
     }
     return ''
   }
@@ -126,26 +125,26 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
   return output
 }
 
-export const callPlugin: pluginFunction = async (pluginName: string, content: string | null, file: string, config: object) => {
-  const pluginFn = await getNpmPkg(`${taroPluginPrefix}${pluginName}`)
+export const callPlugin: pluginFunction = async (pluginName: string, content: string | null, file: string, config: object, root: string) => {
+  const pluginFn = await getNpmPkg(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }
 
-export const callPluginSync: pluginFunction = (pluginName: string, content: string | null, file: string, config: object) => {
-  const pluginFn = getNpmPkgSync(`${taroPluginPrefix}${pluginName}`)
+export const callPluginSync: pluginFunction = (pluginName: string, content: string | null, file: string, config: object, root: string) => {
+  const pluginFn = getNpmPkgSync(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }
 
-export function getNpmPkgSync (npmName: string) {
-  const npmPath = resolveNpmSync(npmName)
+export function getNpmPkgSync (npmName: string, root: string) {
+  const npmPath = resolveNpmSync(npmName, root)
   const npmFn = require(npmPath)
   return npmFn
 }
 
-export async function getNpmPkg (npmName: string) {
+export async function getNpmPkg (npmName: string, root: string) {
   let npmPath
   try {
-    npmPath = resolveNpmSync(npmName)
+    npmPath = resolveNpmSync(npmName, root)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${npmName}，开始安装...`))
@@ -156,7 +155,7 @@ export async function getNpmPkg (npmName: string) {
         installOptions.dev = true
       }
       installNpmPkg(npmName, installOptions)
-      npmPath = await resolveNpm(npmName)
+      npmPath = await resolveNpm(npmName, root)
     }
   }
   const npmFn = require(npmPath)

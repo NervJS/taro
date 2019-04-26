@@ -20,16 +20,16 @@ import {
   promoteRelativePath,
   isDifferentArray,
   copyFileSync,
-  generateQuickAppUx
+  generateQuickAppUx,
+  uglifyJS
 } from '../util'
-import { IWxTransformResult } from '../util/types'
+import { IWxTransformResult, TogglableOptions } from '../util/types'
 
 import { IComponentObj } from './interface'
 import {
   getBuildData,
   getRealComponentsPathList,
   buildUsingComponents,
-  uglifyJS,
   copyFilesFromSrcToOutput,
   getDependencyTree,
   getComponentExportsMap,
@@ -45,6 +45,7 @@ import { parseAst } from './astProcess'
 // 小程序页面编译
 export async function buildSinglePage (page: string) {
   const {
+    appPath,
     buildAdapter,
     constantsReplaceList,
     outputDir,
@@ -57,7 +58,8 @@ export async function buildSinglePage (page: string) {
     npmOutputDir,
     jsxAttributeNameReplace,
     pageConfigs,
-    appConfig
+    appConfig,
+    projectConfig
   } = getBuildData()
   const pagePath = path.join(sourceDir, `${page}`)
   const pageJs = resolveScriptPath(pagePath)
@@ -152,7 +154,7 @@ export async function buildSinglePage (page: string) {
     if (!isQuickApp) {
       resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
       if (isProduction) {
-        uglifyJS(resCode, pageJs)
+        uglifyJS(resCode, pageJs, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     } else {
       // 快应用编译，搜集创建页面 ux 文件

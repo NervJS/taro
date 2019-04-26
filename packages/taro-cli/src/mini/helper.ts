@@ -14,7 +14,8 @@ import {
   REG_SCRIPTS,
   NODE_MODULES_REG,
   taroJsQuickAppComponents,
-  PARSE_AST_TYPE
+  PARSE_AST_TYPE,
+  NODE_MODULES
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -26,9 +27,10 @@ import {
   generateEnvList,
   generateConstantsList,
   isEmptyObject,
-  getInstalledNpmPkgPath
+  getInstalledNpmPkgPath,
+  recursiveFindNodeModules,
+  getBabelConfig
 } from '../util'
-import { callPluginSync } from '../util/npm'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
 import {
   IProjectConfig,
@@ -36,8 +38,6 @@ import {
   INpmConfig,
   IWxTransformResult
 } from '../util/types'
-import defaultBabelConfig from '../config/babel'
-import defaultUglifyConfig from '../config/uglify'
 import CONFIG from '../config'
 
 import {
@@ -45,7 +45,7 @@ import {
   IBuildResult,
   IDependency
 } from './interface'
-import { getNodeModulesPath, getNpmOutputDir } from '../util/npmExact'
+import { getNpmOutputDir } from '../util/npmExact'
 import { parseAst } from './astProcess'
 
 const isCopyingFiles: Map<string, boolean> = new Map<string, boolean>()
@@ -84,17 +84,8 @@ export interface IBuildData {
 
 let BuildData: IBuildData
 
-export function getBabelConfig () {
-  const plugins = BuildData.projectConfig.plugins || {}
-  return _.mergeWith({}, defaultBabelConfig, plugins.babel, (objValue, srcValue) => {
-    if (Array.isArray(objValue)) {
-      return Array.from(new Set(srcValue.concat(objValue)))
-    }
-  })
-}
-
 export const shouldTransformAgain = function () {
-  const babelConfig = getBabelConfig()
+  const babelConfig = getBabelConfig(BuildData.projectConfig!.plugins!.babel)
   const pluginsStr = JSON.stringify(babelConfig.plugins)
   if (/transform-runtime/.test(pluginsStr)) {
     return true
@@ -110,31 +101,11 @@ export function setIsProduction (isProduction: boolean) {
   BuildData.isProduction = isProduction
 }
 
-export function setBuildAdapter (adapter: BUILD_TYPES) {
-  const  projectConfig = BuildData.projectConfig
-  const weappConf = projectConfig.weapp
-  BuildData.buildAdapter = adapter
-  BuildData.outputFilesTypes = MINI_APP_FILES[adapter]
-  // 可以自定义输出文件类型
-  if (weappConf!.customFilesTypes && !isEmptyObject(weappConf!.customFilesTypes)) {
-    BuildData.outputFilesTypes = Object.assign({}, BuildData.outputFilesTypes, weappConf!.customFilesTypes[adapter] || {})
-  }
-  BuildData.constantsReplaceList = Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
-    'process.env.TARO_ENV': adapter
-  })
-  if (adapter === BUILD_TYPES.QUICKAPP) {
-    BuildData.originalOutputDir = BuildData.outputDir
-    BuildData.outputDirName = `${BuildData.outputDirName}/src`
-    BuildData.outputDir = path.join(BuildData.appPath, BuildData.outputDirName)
-    BuildData.npmOutputDir = getNpmOutputDir(BuildData.outputDir, BuildData.configDir, BuildData.npmConfig)
-  }
-}
-
-export function setBuildData (appPath: string): IBuildData {
+export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData {
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
   const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-  const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+  const outputDirName = `${projectConfig.outputRoot || CONFIG.OUTPUT_DIR}/${adapter}`
   const sourceDir = path.join(appPath, sourceDirName)
   const outputDir = path.join(appPath, outputDirName)
   const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
@@ -165,12 +136,24 @@ export function setBuildData (appPath: string): IBuildData {
     appConfig: {},
     pageConfigs: new Map<string, Config>(),
     compileInclude,
-    buildAdapter: BUILD_TYPES.WEAPP,
-    outputFilesTypes: MINI_APP_FILES[BUILD_TYPES.WEAPP],
-    constantsReplaceList: {},
-    nodeModulesPath: getNodeModulesPath(),
+    buildAdapter: adapter,
+    outputFilesTypes: MINI_APP_FILES[adapter],
+    constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
+      'process.env.TARO_ENV': adapter
+    }),
+    nodeModulesPath: recursiveFindNodeModules(path.join(appPath, NODE_MODULES)),
     npmOutputDir: getNpmOutputDir(outputDir, configDir, npmConfig),
     jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {}
+  }
+  // 可以自定义输出文件类型
+  if (weappConf!.customFilesTypes && !isEmptyObject(weappConf!.customFilesTypes)) {
+    BuildData.outputFilesTypes = Object.assign({}, BuildData.outputFilesTypes, weappConf!.customFilesTypes[adapter] || {})
+  }
+  if (adapter === BUILD_TYPES.QUICKAPP) {
+    BuildData.originalOutputDir = BuildData.outputDir
+    BuildData.outputDirName = `${BuildData.outputDirName}/src`
+    BuildData.outputDir = path.join(BuildData.appPath, BuildData.outputDirName)
+    BuildData.npmOutputDir = getNpmOutputDir(BuildData.outputDir, BuildData.configDir, BuildData.npmConfig)
   }
 
   return BuildData
@@ -178,22 +161,6 @@ export function setBuildData (appPath: string): IBuildData {
 
 export function getBuildData (): IBuildData {
   return BuildData
-}
-
-export function uglifyJS (resCode: string, filePath: string): string {
-  const plugins = BuildData.projectConfig.plugins || {}
-  const uglifyPluginConfig = plugins.uglify || { enable: true }
-  if (uglifyPluginConfig.enable) {
-    const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
-    const uglifyResult = callPluginSync('uglifyjs', resCode, filePath, uglifyConfig)
-    if (uglifyResult.error) {
-      printLog(processTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
-      console.log(uglifyResult.error)
-      return resCode
-    }
-    return uglifyResult.code
-  }
-  return resCode
 }
 
 export function getDependencyTree (): Map<string, IDependency> {
@@ -269,7 +236,7 @@ export function getRealComponentsPathList (
   filePath: string,
   components: IComponentObj[]
 ): IComponentObj[] {
-  const { isProduction, buildAdapter, projectConfig, npmConfig } = BuildData
+  const { appPath, isProduction, buildAdapter, projectConfig, npmConfig } = BuildData
   const pathAlias = projectConfig.alias || {}
   return components.map(component => {
     let componentPath = component.path
@@ -278,7 +245,7 @@ export function getRealComponentsPathList (
     }
     if (isNpmPkg(componentPath as string)) {
       try {
-        componentPath = resolveNpmPkgMainPath(componentPath as string, isProduction, npmConfig, buildAdapter)
+        componentPath = resolveNpmPkgMainPath(componentPath as string, isProduction, npmConfig, buildAdapter, appPath)
       } catch (err) {
         console.log(err)
       }
@@ -367,7 +334,7 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
 }
 
 export function getTaroJsQuickAppComponentsPath () {
-  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, getNodeModulesPath())
+  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, BuildData.nodeModulesPath)
   if (!taroJsQuickAppComponentsPkg) {
     printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
     process.exit(0)
@@ -405,7 +372,7 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
         }
       }
     })
-    const cRelativePath = promoteRelativePath(path.relative(filePath, cMainPath.replace(getNodeModulesPath(), BuildData.npmOutputDir)))
+    const cRelativePath = promoteRelativePath(path.relative(filePath, cMainPath.replace(BuildData.nodeModulesPath, BuildData.npmOutputDir)))
     importTaroSelfComponents.add({
       path: cRelativePath,
       name: c

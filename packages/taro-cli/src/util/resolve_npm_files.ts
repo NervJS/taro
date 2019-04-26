@@ -19,42 +19,27 @@ import {
 
 import {
   processTypeEnum,
-  PROJECT_CONFIG,
   REG_TYPESCRIPT,
   BUILD_TYPES,
   REG_STYLE
 } from './constants'
 
 import defaultUglifyConfig from '../config/uglify'
-import defaultBabelConfig from '../config/babel'
-import CONFIG from '../config'
 
 import * as npmProcess from './npm'
-import { IInstallOptions, INpmConfig, IResolvedCache } from './types'
+import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions } from './types'
 
 const excludeNpmPkgs = ['ReactPropTypes']
 
 const resolvedCache: IResolvedCache = {}
 const copyedFiles = {}
 
-const basedir = process.cwd()
-const configDir = path.join(basedir, PROJECT_CONFIG)
-const projectConfig = require(configDir)(_.merge)
-const pluginsConfig = projectConfig.plugins || {}
-const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-
-const babelConfig = _.mergeWith({}, defaultBabelConfig, pluginsConfig.babel, (objValue, srcValue) => {
-  if (Array.isArray(objValue)) {
-    return Array.from(new Set(srcValue.concat(objValue)))
-  }
-})
-
 export function resolveNpmPkgMainPath (
   pkgName: string,
   isProduction: boolean,
   npmConfig: INpmConfig,
   buildAdapter: BUILD_TYPES = BUILD_TYPES.WEAPP,
-  root: string = basedir
+  root: string
 ) {
   try {
     return resolvePath.sync(pkgName, { basedir: root })
@@ -73,14 +58,31 @@ export function resolveNpmPkgMainPath (
   }
 }
 
-export function resolveNpmFilesPath (
+export function resolveNpmFilesPath ({
+  pkgName,
+  isProduction,
+  npmConfig,
+  buildAdapter,
+  root,
+  rootNpm,
+  npmOutputDir,
+  compileInclude = [],
+  env,
+  uglify,
+  babelConfig
+}: {
   pkgName: string,
   isProduction: boolean,
   npmConfig: INpmConfig,
-  buildAdapter: BUILD_TYPES = BUILD_TYPES.WEAPP,
-  root: string = basedir,
-  compileInclude: string[] = []
-) {
+  buildAdapter: BUILD_TYPES,
+  root: string,
+  rootNpm: string,
+  npmOutputDir: string,
+  compileInclude: string[],
+  env: object,
+  uglify: TogglableOptions,
+  babelConfig: object
+}) {
   if (!resolvedCache[pkgName]) {
     const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
     resolvedCache[pkgName] = {
@@ -88,20 +90,50 @@ export function resolveNpmFilesPath (
       files: []
     }
     resolvedCache[pkgName].files.push(res)
-    recursiveRequire(res, resolvedCache[pkgName].files, isProduction, npmConfig, buildAdapter, compileInclude)
+    recursiveRequire({
+      filePath: res,
+      files: resolvedCache[pkgName].files,
+      isProduction,
+      npmConfig,
+      buildAdapter,
+      rootNpm,
+      npmOutputDir: npmOutputDir,
+      compileInclude,
+      env,
+      uglify,
+      babelConfig
+    })
   }
   return resolvedCache[pkgName]
 }
 
-function parseAst (
+function parseAst ({
+  ast,
+  filePath,
+  files,
+  isProduction,
+  npmConfig,
+  rootNpm,
+  npmOutputDir,
+  buildAdapter,
+  compileInclude = [],
+  env,
+  uglify,
+  babelConfig
+}: {
   ast: t.File,
   filePath: string,
   files: string[],
   isProduction: boolean,
   npmConfig: INpmConfig,
-  buildAdapter: BUILD_TYPES = BUILD_TYPES.WEAPP,
-  compileInclude: string[] = []
-) {
+  rootNpm: string,
+  npmOutputDir: string,
+  buildAdapter: BUILD_TYPES,
+  compileInclude: string[],
+  env: object,
+  uglify: TogglableOptions,
+  babelConfig: object
+}) {
   const excludeRequire: string[] = []
   traverse(ast, {
     IfStatement (astPath) {
@@ -144,7 +176,19 @@ function parseAst (
                 }
                 if (isNpmPkg(requirePath)) {
                   if (excludeNpmPkgs.indexOf(requirePath) < 0) {
-                    const res = resolveNpmFilesPath(requirePath, isProduction, npmConfig, buildAdapter, path.dirname(recursiveFindNodeModules(filePath)), compileInclude)
+                    const res = resolveNpmFilesPath({
+                      pkgName: requirePath,
+                      isProduction,
+                      npmConfig,
+                      buildAdapter,
+                      root: path.dirname(recursiveFindNodeModules(filePath)),
+                      rootNpm,
+                      npmOutputDir,
+                      compileInclude,
+                      env,
+                      uglify,
+                      babelConfig
+                    })
                     let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
                     relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
                     if (buildAdapter === BUILD_TYPES.ALIPAY) {
@@ -165,7 +209,19 @@ function parseAst (
                   }
                   if (files.indexOf(realRequirePath) < 0) {
                     files.push(realRequirePath)
-                    recursiveRequire(realRequirePath, files, isProduction, npmConfig, buildAdapter, compileInclude)
+                    recursiveRequire({
+                      filePath: realRequirePath,
+                      files,
+                      isProduction,
+                      npmConfig,
+                      buildAdapter,
+                      rootNpm,
+                      npmOutputDir,
+                      compileInclude,
+                      env,
+                      uglify,
+                      babelConfig
+                    })
                   }
                   args[0].value = requirePath
                 }
@@ -179,31 +235,33 @@ function parseAst (
   return generate(ast).code
 }
 
-async function recursiveRequire (
+async function recursiveRequire ({
+  filePath,
+  files,
+  isProduction,
+  npmConfig,
+  buildAdapter,
+  npmOutputDir,
+  rootNpm,
+  compileInclude = [],
+  env,
+  uglify,
+  babelConfig
+}: {
   filePath: string,
   files: string[],
   isProduction: boolean,
   npmConfig: INpmConfig,
   buildAdapter: BUILD_TYPES,
-  compileInclude: string[] = []
-) {
+  rootNpm: string,
+  npmOutputDir: string,
+  compileInclude: string[],
+  env: object,
+  uglify: TogglableOptions,
+  babelConfig: object
+}) {
   let fileContent = fs.readFileSync(filePath).toString()
-  let outputNpmPath
-  if (!npmConfig.dir) {
-    const cwdRelate2Npm = path.relative(
-      filePath.slice(0, filePath.search('node_modules')),
-      process.cwd()
-    )
-    outputNpmPath = filePath.replace('node_modules', path.join(cwdRelate2Npm, buildAdapter !== BUILD_TYPES.QUICKAPP ? outputDirName : `${outputDirName}/src`, npmConfig.name))
-    outputNpmPath = outputNpmPath.replace(/node_modules/g, npmConfig.name)
-  } else {
-    const matches = filePath.match(/(?=(node_modules)).*/)
-    if (matches) {
-      let npmFilePath = matches[0]
-      npmFilePath = npmFilePath.replace(/node_modules/g, npmConfig.name)
-      outputNpmPath = path.join(path.resolve(configDir, '..', npmConfig.dir), npmFilePath)
-    }
-  }
+  let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
   if (buildAdapter === BUILD_TYPES.ALIPAY) {
     outputNpmPath = outputNpmPath.replace(/@/g, '_')
   }
@@ -214,7 +272,7 @@ async function recursiveRequire (
   try {
     const constantsReplaceList = Object.assign({
       'process.env.TARO_ENV': buildAdapter
-    }, generateEnvList(projectConfig.env || {}))
+    }, generateEnvList(env || {}))
     const transformResult = wxTransformer({
       code: fileContent,
       sourcePath: filePath,
@@ -229,7 +287,20 @@ async function recursiveRequire (
         [require('babel-plugin-transform-define').default, constantsReplaceList]
       ]
     }).ast as t.File
-    fileContent = parseAst(ast, filePath, files, isProduction, npmConfig, buildAdapter, compileInclude)
+    fileContent = parseAst({
+      ast,
+      filePath,
+      files,
+      isProduction,
+      npmConfig,
+      rootNpm,
+      buildAdapter,
+      compileInclude,
+      npmOutputDir,
+      env,
+      uglify,
+      babelConfig
+    })
   } catch (err) {
     console.log(err)
   }
@@ -239,15 +310,15 @@ async function recursiveRequire (
       const nodeModulesIndex = filePathArr.indexOf('node_modules')
       const npmPkgName = filePathArr[nodeModulesIndex + 1]
       if (compileInclude.indexOf(npmPkgName) >= 0) {
-        const compileScriptRes = await npmProcess.callPlugin('babel', fileContent, filePath, babelConfig)
+        const compileScriptRes = await npmProcess.callPlugin('babel', fileContent, filePath, babelConfig, rootNpm)
         fileContent = compileScriptRes.code
       }
     }
     if (isProduction && buildAdapter !== BUILD_TYPES.QUICKAPP) {
-      const uglifyPluginConfig = pluginsConfig.uglify || { enable: true }
+      const uglifyPluginConfig = uglify || { enable: true }
       if (uglifyPluginConfig.enable) {
         const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
-        const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig)
+        const uglifyResult = npmProcess.callPluginSync('uglifyjs', fileContent, outputNpmPath, uglifyConfig, rootNpm)
         if (uglifyResult.error) {
           printLog(processTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
           console.log(uglifyResult.error)
@@ -258,7 +329,7 @@ async function recursiveRequire (
     }
     fs.ensureDirSync(path.dirname(outputNpmPath))
     fs.writeFileSync(outputNpmPath, fileContent)
-    let modifyOutput = outputNpmPath.replace(basedir + path.sep, '')
+    let modifyOutput = outputNpmPath.replace(path.dirname(rootNpm) + path.sep, '')
     modifyOutput = modifyOutput.split(path.sep).join('/')
     printLog(processTypeEnum.COPY, 'NPM文件', modifyOutput)
     copyedFiles[outputNpmPath] = true

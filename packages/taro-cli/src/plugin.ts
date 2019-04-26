@@ -314,7 +314,7 @@ async function buildWxPlugin (appPath, { watch }) {
   const {
     sourceDir,
     outputDir
-  } = setBuildData(appPath)
+  } = setBuildData(appPath, BUILD_TYPES.WEAPP)
   const pluginDir = path.join(sourceDir, PLUGIN_ROOT)
   const pluginPath = path.join(appPath, PLUGIN_ROOT)
   const docDir = path.join(pluginDir, DOC_ROOT)

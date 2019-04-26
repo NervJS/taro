@@ -125,7 +125,7 @@ export interface IMiniAppConfig {
   customFilesTypes: IMINI_APP_FILE_TYPE
 }
 
-type TogglableOptions<T = IOption> = {
+export type TogglableOptions<T = IOption> = {
   enable?: boolean,
   config?: T
 }
