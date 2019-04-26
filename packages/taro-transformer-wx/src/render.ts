@@ -645,10 +645,12 @@ export class RenderParser {
 
         const blockAttrs: t.JSXAttribute[] = []
         if ((Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
-          blockAttrs.push(t.jSXAttribute(
-            t.jSXIdentifier(Adapter.if),
-            t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
-          ))
+          if (this.isDefaultRender) {
+            blockAttrs.push(t.jSXAttribute(
+              t.jSXIdentifier(Adapter.if),
+              t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
+            ))
+          }
         }
         const block = this.finalReturnElement || buildBlockElement(blockAttrs)
         if (isBlockIfStatement(ifStatement, blockStatement)) {
