@@ -1,19 +1,18 @@
 import { JSX } from 'babel-types'
-export = Taro;
-export as namespace Taro;
+export = Taro
+export as namespace Taro
 
 declare namespace Taro {
-
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
      */
-    path: string,
+    path: string
 
     /**
      * 打开不存在页面的 query
      */
-    query: object,
+    query: object
 
     /**
      * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
@@ -32,11 +31,11 @@ declare namespace Taro {
     /**
      * 转发事件来源
      */
-    from?: string,
+    from?: string
     /**
      * 如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
      */
-    target?: object,
+    target?: object
     /**
      * 页面中包含<web-view>组件时，返回当前<web-view>的url
      */
@@ -47,12 +46,12 @@ declare namespace Taro {
     /**
      * 	转发标题，默认为当前小程序名称
      */
-    title?: string,
+    title?: string
 
     /**
      * 转发路径，必须是以 / 开头的完整路径，默认为当前页面 path
      */
-    path?: string,
+    path?: string
 
     /**
      * 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径
@@ -66,12 +65,12 @@ declare namespace Taro {
     /**
      * 被点击tabItem的序号，从0开始
      */
-    index: string,
+    index: string
 
     /**
      * 被点击tabItem的页面路径
      */
-    pagePath: string,
+    pagePath: string
 
     /**
      * 被点击tabItem的按钮文字
@@ -81,23 +80,23 @@ declare namespace Taro {
 
   // Components
   interface ComponentLifecycle<P, S> {
-    componentWillMount?(): void;
-    componentDidMount?(): void;
-    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void;
-    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean;
-    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
-    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
-    componentWillUnmount?(): void;
-    componentWillPreload?(params: {[propName: string]: any}): any;
-    componentDidShow?(): void;
-    componentDidHide?(): void;
-    componentDidCatchError?(err: string): void;
-    componentDidNotFound?(obj: PageNotFoundObject): void;
-    onPullDownRefresh?(): void;
-    onReachBottom?(): void;
-    onPageScroll?(obj: PageScrollObject): void;
-    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
-    onTabItemTap?(obj: TabItemTapObject): void;
+    componentWillMount?(): void
+    componentDidMount?(): void
+    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
+    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
+    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
+    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void
+    componentWillUnmount?(): void
+    componentWillPreload?(params: { [propName: string]: any }): any
+    componentDidShow?(): void
+    componentDidHide?(): void
+    componentDidCatchError?(err: string): void
+    componentDidNotFound?(obj: PageNotFoundObject): void
+    onPullDownRefresh?(): void
+    onReachBottom?(): void
+    onPageScroll?(obj: PageScrollObject): void
+    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
+    onTabItemTap?(obj: TabItemTapObject): void
     onResize?(): void
   }
 
@@ -117,37 +116,37 @@ declare namespace Taro {
      * 导航栏背景颜色，HexColor
      * default: #000000
      */
-    navigationBarBackgroundColor?: string,
+    navigationBarBackgroundColor?: string
     /**
      * 导航栏标题颜色，仅支持 black/white
      * default: 'white'
      */
-    navigationBarTextStyle?: 'white' | 'black',
+    navigationBarTextStyle?: 'white' | 'black'
     /**
      * 导航栏标题文字内容
      */
-    navigationBarTitleText?: string,
+    navigationBarTitleText?: string
     /**
      * 导航栏样式，仅支持以下值：
      * default 默认样式
      * custom 自定义导航栏
      */
-    navigationStyle?: string,
+    navigationStyle?: string
     /**
      * 窗口的背景色， HexColor
      * default: #ffffff
      */
-    backgroundColor?: string,
+    backgroundColor?: string
     /**
      * 下拉背景字体、loading 图的样式，仅支持 dark/light
      * default: 'dark'
      */
-    backgroundTextStyle?: 'dark' | 'light',
+    backgroundTextStyle?: 'dark' | 'light'
     /**
      * 是否开启下拉刷新
      * default: false
      */
-    enablePullDownRefresh?: boolean,
+    enablePullDownRefresh?: boolean
     /**
      * 页面上拉触底事件触发时距页面底部距离，单位为px
      * default: 50
@@ -164,50 +163,50 @@ declare namespace Taro {
     /**
      * 页面路径，必须在 pages 中先定义
      */
-    pagePath: string,
+    pagePath: string
     /**
      * tab 上按钮文字
      */
-    text: string,
+    text: string
     /**
      * 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
      */
-    iconPath?: string,
+    iconPath?: string
     /**
      * 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
      */
-    selectedIconPath?: string,
+    selectedIconPath?: string
   }
 
   interface TabBar {
     /**
      * tab 上的文字默认颜色
      */
-    color?: string,
+    color?: string
     /**
      * tab 上的文字选中时的颜色
      */
-    selectedColor?: string,
+    selectedColor?: string
     /**
      * tab 的背景色
      */
-    backgroundColor?: string,
+    backgroundColor?: string
     /**
      * tabbar上边框的颜色， 仅支持 black/white
      * @default: black
      */
-    borderStyle?: 'black' | 'white',
+    borderStyle?: 'black' | 'white'
     /**
      * tabar 的位置，可选值 bottom、top
      * @default: 'bottom'
      */
-    position?: 'bottom' | 'top',
+    position?: 'bottom' | 'top'
     /**
      * 自定义 tabBar，见[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html)
      * @default false
      * @since 2.1.0
      */
-    custom?: boolean;
+    custom?: boolean
 
     list: TarbarList[]
   }
@@ -240,7 +239,7 @@ declare namespace Taro {
      * 分包根路径
      * - 注意：不能放在主包pages目录下
      */
-    root: string,
+    root: string
     /**
      * 分包路径下的所有页面配置
      */
@@ -282,8 +281,8 @@ declare namespace Taro {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
-    pages?: string[],
-    tabBar?: TabBar,
+    pages?: string[]
+    tabBar?: TabBar
     /**
      * 各类网络请求的超时时间，单位均为毫秒。
      */
@@ -318,13 +317,13 @@ declare namespace Taro {
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
-      */
+     */
     workers?: string
     /**
      * 申明需要后台运行的能力，类型为数组。目前支持以下项目：
      * @since 微信客户端 6.7.2 及以上版本支持
      */
-    requiredBackgroundModes?: ["audio"]
+    requiredBackgroundModes?: ['audio']
     /**
      * 使用到的插件
      * @since 1.9.6
@@ -359,7 +358,7 @@ declare namespace Taro {
   interface Config extends PageConfig, AppConfig {
     usingComponents?: {
       [key: string]: string
-    },
+    }
     window?: PageConfig
     cloud?: boolean
   }
@@ -369,11 +368,11 @@ declare namespace Taro {
   }
 
   class Component<P, S> {
-    constructor(props?: P, context?: any);
+    constructor(props?: P, context?: any)
 
-    config?: Config;
+    config?: Config
 
-    options?: ComponentOptions;
+    options?: ComponentOptions
 
     $componentType: 'PAGE' | 'COMPONENT'
 
@@ -391,68 +390,65 @@ declare namespace Taro {
                 });
      * @see https://nervjs.github.io/taro/docs/best-practice.html
      */
-    $preload(key: string, value: any): void;
-    $preload(key: object): void;
+    $preload(key: string, value: any): void
+    $preload(key: object): void
 
-    setState<K extends keyof S>(
-        state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
-        callback?: () => any
-    ): void;
+    setState<K extends keyof S>(state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S), callback?: () => any): void
 
-    forceUpdate(callBack?: () => any): void;
+    forceUpdate(callBack?: () => any): void
 
-    render(): any;
+    render(): any
 
-    props: Readonly<P> & Readonly<{ children?: any }>;
-    state: Readonly<S>;
-    context: any;
+    props: Readonly<P> & Readonly<{ children?: any }>
+    state: Readonly<S>
+    context: any
     refs: {
-        [key: string]: any
-    };
+      [key: string]: any
+    }
   }
 
-  class PureComponent<P = {}, S = {}> extends Component<P, S> { }
+  class PureComponent<P = {}, S = {}> extends Component<P, S> {}
 
   // Events
   class Events {
     /**
      * 监听一个事件，接受参数
      */
-    on(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    on(eventName: string | symbol, listener: (...args: any[]) => void): this
 
     /**
      * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
      */
-    once(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    once(eventName: string | symbol, listener: (...args: any[]) => void): this
 
     /**
      * 取消监听一个事件
      */
-    off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
+    off(eventName: string | symbol, listener?: (...args: any[]) => void): this
 
     /**
      * 取消监听的所有事件
      */
-    off(): this;
+    off(): this
 
     /**
      * 触发一个事件，传参
      */
-    trigger(eventName: string | symbol, ...args: any[]): boolean;
+    trigger(eventName: string | symbol, ...args: any[]): boolean
   }
 
   // eventCenter
 
   namespace eventCenter {
-    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void
 
-    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void
 
-    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void
 
-    function off(): void;
+    function off(): void
 
-    function trigger(eventName: string | symbol, ...args: any[]): boolean;
+    function trigger(eventName: string | symbol, ...args: any[]): boolean
   }
 
   // ENV_TYPE
@@ -466,25 +462,25 @@ declare namespace Taro {
     TT = 'TT'
   }
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN
 
-  function render(component: Component | JSX.Element, element: Element | null): any;
+  function render(component: Component | JSX.Element, element: Element | null): any
 
-  function internal_safe_set (...arg: any[]): any;
-  function internal_safe_get (...arg: any[]): any;
+  function internal_safe_set(...arg: any[]): any
+  function internal_safe_get(...arg: any[]): any
 
-  type MessageType = 'info' | 'success' | 'error' | 'warning';
+  type MessageType = 'info' | 'success' | 'error' | 'warning'
 
   interface AtMessageOptions {
-    message: string,
-    type?: MessageType,
+    message: string
+    type?: MessageType
     duration?: number
   }
 
-  function atMessage (options: AtMessageOptions): void;
+  function atMessage(options: AtMessageOptions): void
 
   function pxTransform(size: number): string
-  function initPxTransform(config: { designWidth: number, deviceRatio: object })
+  function initPxTransform(config: { designWidth: number; deviceRatio: object })
 
   interface RequestParams extends request.Param<any> {
     [propName: string]: any
@@ -500,12 +496,12 @@ declare namespace Taro {
   }
 
   namespace interceptors {
-    function logInterceptor (chain: Chain): Promise<any>
+    function logInterceptor(chain: Chain): Promise<any>
 
-    function timeoutInterceptor (chain: Chain): Promise<any>
+    function timeoutInterceptor(chain: Chain): Promise<any>
   }
 
-  function addInterceptor (interceptor: interceptor): any
+  function addInterceptor(interceptor: interceptor): any
 
   /**
    * 小程序引用插件 JS 接口
@@ -522,7 +518,7 @@ declare namespace Taro {
    */
 
   namespace request {
-    type Promised<T extends any | string | ArrayBuffer = any> = {
+    type Promised < T extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器返回的数据
        *
@@ -546,7 +542,7 @@ declare namespace Taro {
        */
       header: any
     }
-    type Param<P extends any | string | ArrayBuffer = any> = {
+    type Param < P extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器接口地址
        */
@@ -577,71 +573,71 @@ declare namespace Taro {
        * @default text
        * @since 1.7.0
        */
-      responseType?: string,
+      responseType?: string
       /**
        * 设置 H5 端是否使用jsonp方式获取数据
        *
        * @default false
        */
-      jsonp?: boolean,
+      jsonp?: boolean
       /**
        * 设置 H5 端 jsonp 请求 url 是否需要被缓存
        *
        * @default false
        */
-      jsonpCache?: boolean,
+      jsonpCache?: boolean
       /**
        * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
        *
        * @default same-origin
        */
-      mode?: 'no-cors' | 'cors' | 'same-origin',
+      mode?: 'no-cors' | 'cors' | 'same-origin'
       /**
        * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
        *
        * @default omit
        */
-      credentials?: 'include' | 'same-origin' | 'omit',
+      credentials?: 'include' | 'same-origin' | 'omit'
       /**
        * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
        *
        * @default default
        */
-      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached',
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
       /**
        * 设置 H5 端请求响应超时时间
        *
        * @default 2000
        */
-      timeout?: number,
+      timeout?: number
       /**
        * 设置 H5 端请求重试次数
        *
        * @default 2
        */
-      retryTimes?: number,
+      retryTimes?: number
       /**
        * 设置 H5 端请求的兜底接口
        */
-      backup?: string | string[],
+      backup?: string | string[]
       /**
        * 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
        */
-      dataCheck?(): boolean,
+      dataCheck?(): boolean
       /**
        * 设置 H5 端请求是否使用缓存
        *
        * @default false
        */
-      useStore?: boolean,
+      useStore?: boolean
       /**
        * 设置 H5 端请求缓存校验的 key
        */
-      storeCheckKey?: string,
+      storeCheckKey?: string
       /**
        * 设置 H5 端请求缓存签名
        */
-      storeSign?: string,
+      storeSign?: string
       /**
        * 设置 H5 端请求校验函数，一般不需要设置
        */
@@ -728,17 +724,7 @@ declare namespace Taro {
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
 
-  type arrayBuffer = Uint8Array |
-    Int8Array |
-    Uint8Array |
-    Uint8ClampedArray |
-    Int16Array |
-    Uint16Array |
-    Int32Array |
-    Uint32Array |
-    Float32Array |
-    Float64Array |
-    ArrayBuffer
+  type arrayBuffer = Uint8Array | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | ArrayBuffer
 
   /**
    * 将 ArrayBuffer 数据转成 Base64 字符串
@@ -1019,7 +1005,7 @@ declare namespace Taro {
   function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
   namespace connectSocket {
-    type Promised = SocketTask;
+    type Promised = SocketTask
 
     type Param = {
       /**
@@ -1158,8 +1144,8 @@ declare namespace Taro {
   function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>
 
   namespace onSocketMessage {
-    type Param<T = any> = (res: ParamParam<T>) => any
-    type ParamParam<T extends any | string | ArrayBuffer = any> = {
+    type Param < T = any > = (res: ParamParam<T>) => any
+    type ParamParam < T extends any | string | ArrayBuffer = any > = {
       /**
        * 服务器返回的消息
        */
@@ -1320,8 +1306,8 @@ declare namespace Taro {
       }
     }
     namespace onMessage {
-      type Param<T = any> = (res: ParamParam<T>) => any
-      type ParamParam<T extends any | string | ArrayBuffer = any> = {
+      type Param < T = any > = (res: ParamParam<T>) => any
+      type ParamParam < T extends any | string | ArrayBuffer = any > = {
         /**
          * 服务器返回的消息
          */
@@ -1338,32 +1324,32 @@ declare namespace Taro {
     /**
      * websocket 当前的连接状态。
      */
-    readonly readyState: boolean;
+    readonly readyState: boolean
 
     /**
      * websocket 状态值：连接中。
      */
-    readonly CONNECTING: boolean;
+    readonly CONNECTING: boolean
 
     /**
      * websocket 状态值：已连接。
      */
-    readonly OPEN: boolean;
+    readonly OPEN: boolean
 
     /**
      * websocket 状态值：关闭中。
      */
-    readonly CLOSING: boolean;
+    readonly CLOSING: boolean
 
     /**
      * websocket 状态值：已关闭。
-    */
-    readonly CLOSED: boolean;
+     */
+    readonly CLOSED: boolean
 
     /**
      * 浏览器 websocket 实例。（h5 端独有）
      */
-    readonly ws: WebSocket;
+    readonly ws: WebSocket
 
     /**
      *
@@ -1437,10 +1423,10 @@ declare namespace Taro {
     }
     type ParamPropTempFiles = ParamPropTempFilesItem[]
     type ParamPropTempFilesItem = {
-      path: string,
+      path: string
       size: number
     }
-    type ParamPropSuccess = (res: {tempFilePaths: string[], tempFiles: ParamPropTempFiles}) => void
+    type ParamPropSuccess = (res: { tempFilePaths: string[]; tempFiles: ParamPropTempFiles }) => void
     type ParamPropFail = (err: any) => void
     type ParamPropComplete = () => any
     type Param = {
@@ -1455,7 +1441,7 @@ declare namespace Taro {
       /**
        * album 从相册选图，camera 使用相机，默认二者都有
        */
-      sourceType?: string[],
+      sourceType?: string[]
       /**
        * success 回调
        */
@@ -1825,7 +1811,7 @@ declare namespace Taro {
        *
        * @since 1.6.0
        */
-      duration?: number,
+      duration?: number
       /**
        * 接口调用成功的回调函数
        */
@@ -1929,11 +1915,11 @@ declare namespace Taro {
       /**
        * 是否与其他音频混播，设置为 true 之后，不会终止其他应用或微信内的音乐
        */
-      mixWithOther?: boolean,
+      mixWithOther?: boolean
       /**
        * （仅在 iOS 生效）是否遵循静音开关，设置为 false 之后，即使是在静音模式下，也能播放声音
        */
-      obeyMuteSwitch?: boolean,
+      obeyMuteSwitch?: boolean
       /**
        * 接口调用成功的回调函数
        */
@@ -2799,7 +2785,7 @@ declare namespace Taro {
     /**
      * 发送弹幕，danmu 包含两个属性 text, color。
      */
-    sendDanmu(danmu: { text: string, color: string }): void
+    sendDanmu(danmu: { text: string; color: string }): void
     /**
      * 设置倍速播放，支持的倍率有 0.5/0.8/1.0/1.25/1.5
      *
@@ -2811,7 +2797,7 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(param: {direction: 0 | 90 | -90}): void
+    requestFullScreen(param: { direction: 0 | 90 | -90 }): void
     /**
      * 退出全屏
      *
@@ -2898,7 +2884,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string; tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -2910,7 +2896,7 @@ declare namespace Taro {
       /**
        * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropTimeoutCallback = (res: { tempThumbPath: string, tempVideoPath: string }) => void
+      type ParamPropTimeoutCallback = (res: { tempThumbPath: string; tempVideoPath: string }) => void
     }
     namespace stopRecord {
       type Param = {
@@ -2930,7 +2916,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string; tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -4154,7 +4140,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
        */
-      type ParamPropSuccess = (res: { longitude: number, latitude: number }) => void
+      type ParamPropSuccess = (res: { longitude: number; latitude: number }) => void
       /**
        * 接口调用失败的回调函数
        */
@@ -7290,23 +7276,23 @@ declare namespace Taro {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
-      url: string,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
     /**
-      * 接口调用成功的回调函数
-      */
+     * 接口调用成功的回调函数
+     */
     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
@@ -7338,23 +7324,23 @@ declare namespace Taro {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径，路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
-      url: string,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
     /**
-      * 接口调用成功的回调函数
-      */
-     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
@@ -7375,23 +7361,23 @@ declare namespace Taro {
       /**
        * 需要跳转的应用内页面路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'，如果跳转的页面路径是 tabBar 页面则不能带参数
        */
-      url: string,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
-        /**
-      * 接口调用成功的回调函数
-      */
-     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -7425,22 +7411,22 @@ declare namespace Taro {
       /**
        * 需要跳转的 tabBar 页面的路径（需在 app.json 的 [tabBar](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#tabbar) 字段定义的页面），路径后不能带参数
        */
-      url: string,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
     /**
-      * 接口调用成功的回调函数
-      */
+     * 接口调用成功的回调函数
+     */
     type ParamPropSuccess = (res: any) => any
     /**
-      * 接口调用失败的回调函数
-      */
+     * 接口调用失败的回调函数
+     */
     type ParamPropFail = (err: any) => any
     /**
-      * 接口调用结束的回调函数（调用成功、失败都会执行）
-      */
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
     type ParamPropComplete = () => any
   }
   /**
@@ -7480,23 +7466,23 @@ declare namespace Taro {
        *
        * @default 1
        */
-      delta?: number,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      delta?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
     /**
-      * 接口调用成功的回调函数
-      */
-     type ParamPropSuccess = (res: any) => any
-     /**
-       * 接口调用失败的回调函数
-       */
-     type ParamPropFail = (err: any) => any
-     /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-     type ParamPropComplete = () => any
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
@@ -8178,31 +8164,31 @@ declare namespace Taro {
    *     ```
    */
   interface nodesRef {
-    boundingClientRect: (callback?: clientRectCallback) => nodesRef;
-    scrollOffset: (callback?: scrollCallback) => nodesRef;
-    fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef;
-    exec: (callback?: execCallback) => void;
+    boundingClientRect: (callback?: clientRectCallback) => nodesRef
+    scrollOffset: (callback?: scrollCallback) => nodesRef
+    fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef
+    exec: (callback?: execCallback) => void
   }
 
   interface baseElement {
-    id: string,
-    dataset: object,
+    id: string
+    dataset: object
   }
 
   interface rectElement {
-    left: number,
-    right: number,
-    top: number,
-    bottom: number,
+    left: number
+    right: number
+    top: number
+    bottom: number
   }
 
   interface sizeElement {
-    width: number,
-    height: number,
+    width: number
+    height: number
   }
 
   interface scrollElement {
-    scrollLeft: number,
+    scrollLeft: number
     scrollTop: number
   }
   interface clientRectElement extends baseElement, rectElement, sizeElement {}
@@ -8210,19 +8196,18 @@ declare namespace Taro {
   interface scrollOffsetElement extends baseElement, scrollElement {}
 
   interface fieldsObject {
-    id?:boolean,
-    dataset?:boolean,
-    rect?:boolean,
-    size?:boolean,
-    scrollOffset?:boolean,
-    properties?: string[],
-    computedStyle?:string[],
+    id?: boolean
+    dataset?: boolean
+    rect?: boolean
+    size?: boolean
+    scrollOffset?: boolean
+    properties?: string[]
+    computedStyle?: string[]
   }
 
   interface fieldElement extends baseElement, rectElement, sizeElement {
-    [key:string]: any
+    [key: string]: any
   }
-
 
   type execObject = clientRectElement & scrollOffsetElement & fieldElement
   type clientRectCallback = (rect: clientRectElement | clientRectElement[]) => void
@@ -8335,9 +8320,9 @@ declare namespace Taro {
        *
        * @since 1.9.90
        */
-      timeout?: number,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      timeout?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
     /**
@@ -9710,9 +9695,7 @@ declare namespace Taro {
   function setEnableDebug(OBJECT: setEnableDebug.Param): Promise<setEnableDebug.Promised>
 
   namespace CanvasContext {
-    namespace draw {
-      type Param1 = () => any
-    }
+    namespace draw { type Param1 = () => any }
   }
   class CanvasContext {
     /**
@@ -11065,29 +11048,9 @@ declare namespace Taro {
      *     })
      *     ```
      */
-    drawImage(
-      imageResource: string,
-      dx: number,
-      dy: number,
-    ): void
-    drawImage(
-      imageResource: string,
-      dx: number,
-      dy: number,
-      dWidth: number,
-      dHeight: number,
-    ): void
-    drawImage(
-      imageResource: string,
-      sx: number,
-      sy: number,
-      sWidth: number,
-      sHeight: number,
-      dx: number,
-      dy: number,
-      dWidth: number,
-      dHeight: number,
-    ): void
+    drawImage(imageResource: string, dx: number, dy: number): void
+    drawImage(imageResource: string, dx: number, dy: number, dWidth: number, dHeight: number): void
+    drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: number): void
     /**
      *
      * **定义：**
@@ -11409,7 +11372,6 @@ declare namespace Taro {
     setTransform(): void
   }
 
-
   interface Page {
     /**
      * 当前页面的路径
@@ -11424,33 +11386,30 @@ declare namespace Taro {
 
   namespace cloud {
     interface ICloudConfig {
-      env?: string | object,
-      traceUser?: boolean,
+      env?: string | object
+      traceUser?: boolean
     }
     interface IAPIError {
-      errMsg: string,
+      errMsg: string
     }
 
     interface IAPIParam<T = any> {
-      config?: ICloudConfig,
-      success?: (res: T) => void,
-      fail?: (err: IAPIError) => void,
-      complete?: (val: T | IAPIError) => void,
+      config?: ICloudConfig
+      success?: (res: T) => void
+      fail?: (err: IAPIError) => void
+      complete?: (val: T | IAPIError) => void
     }
 
     interface IAPISuccessParam {
-      errMsg: string,
+      errMsg: string
     }
 
-    class InternalSymbol {
-
-    }
+    class InternalSymbol {}
     type AnyObject = {
       [x: string]: any
     }
     type AnyFunction = (...args: any[]) => any
     namespace ICloud {
-
       interface ICloudAPIParam<T = any> extends IAPIParam<T> {
         config?: ICloudConfig
       }
@@ -11458,101 +11417,99 @@ declare namespace Taro {
       export type CallFunctionData = AnyObject
 
       export interface CallFunctionResult extends IAPISuccessParam {
-        result: AnyObject | string | undefined,
+        result: AnyObject | string | undefined
       }
 
       export interface CallFunctionParam extends ICloudAPIParam<CallFunctionResult> {
-        name: string,
-        data?: CallFunctionData,
-        slow?: boolean,
+        name: string
+        data?: CallFunctionData
+        slow?: boolean
       }
       // === end ===
 
       // === API: uploadFile ===
       export interface UploadFileResult extends IAPISuccessParam {
-        fileID: string,
-        statusCode: number,
+        fileID: string
+        statusCode: number
       }
 
       export interface UploadFileParam extends ICloudAPIParam<UploadFileResult> {
-        cloudPath: string,
-        filePath: string,
-        header?: AnyObject,
+        cloudPath: string
+        filePath: string
+        header?: AnyObject
       }
       // === end ===
 
       // === API: downloadFile ===
       export interface DownloadFileResult extends IAPISuccessParam {
-        tempFilePath: string,
-        statusCode: number,
+        tempFilePath: string
+        statusCode: number
       }
 
       export interface DownloadFileParam extends ICloudAPIParam<DownloadFileResult> {
-        fileID: string,
-        cloudPath?: string,
+        fileID: string
+        cloudPath?: string
       }
       // === end ===
 
       // === API: getTempFileURL ===
       export interface GetTempFileURLResult extends IAPISuccessParam {
-        fileList: GetTempFileURLResultItem[],
+        fileList: GetTempFileURLResultItem[]
       }
 
       export interface GetTempFileURLResultItem {
-        fileID: string,
-        tempFileURL: string,
-        maxAge: number,
-        status: number,
-        errMsg: string,
+        fileID: string
+        tempFileURL: string
+        maxAge: number
+        status: number
+        errMsg: string
       }
 
       export interface GetTempFileURLParam extends ICloudAPIParam<GetTempFileURLResult> {
-        fileList: string[],
+        fileList: string[]
       }
       // === end ===
 
       // === API: deleteFile ===
       interface DeleteFileResult extends IAPISuccessParam {
-        fileList: DeleteFileResultItem[],
+        fileList: DeleteFileResultItem[]
       }
 
       interface DeleteFileResultItem {
-        fileID: string,
-        status: number,
-        errMsg: string,
+        fileID: string
+        status: number
+        errMsg: string
       }
 
       interface DeleteFileParam extends ICloudAPIParam<DeleteFileResult> {
-        fileList: string[],
+        fileList: string[]
       }
       // === end ===
-
     }
 
     namespace WXNS {
-
       interface AnyObject {
         [key: string]: any
       }
 
       interface IAPIParam<T> {
-        success?: (res: T) => void,
-        fail?: (err: IAPIError) => void,
-        complete?: (val: T | IAPIError) => void,
+        success?: (res: T) => void
+        fail?: (err: IAPIError) => void
+        complete?: (val: T | IAPIError) => void
       }
 
       interface CommonAPIResult {
-        errMsg: string,
+        errMsg: string
       }
 
       interface IAPIError {
-        errMsg: string,
+        errMsg: string
       }
 
       interface IProgressUpdateEvent {
-        progress: number,
-        totalBytesWritten: number,
-        totalBytesExpectedToWrite: number,
+        progress: number
+        totalBytesWritten: number
+        totalBytesExpectedToWrite: number
       }
 
       interface operateWXData {
@@ -11568,20 +11525,20 @@ declare namespace Taro {
       }
 
       interface IUploadFileParam extends IAPIParam<IUploadFileSuccessResult> {
-        url: string,
-        filePath: string,
-        name: string,
-        header?: AnyObject,
+        url: string
+        filePath: string
+        name: string
+        header?: AnyObject
       }
 
       interface IUploadFileSuccessResult extends CommonAPIResult {
-        data: string,
-        statusCode: number,
+        data: string
+        statusCode: number
       }
 
       interface IUploadFileTask {
-        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void,
-        abort: AnyFunction,
+        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void
+        abort: AnyFunction
       }
 
       interface downloadFile {
@@ -11593,18 +11550,18 @@ declare namespace Taro {
       }
 
       interface IDownloadFileParam extends IAPIParam<IDownloadFileSuccessResult> {
-        url: string,
-        header?: AnyObject,
+        url: string
+        header?: AnyObject
       }
 
       interface IDownloadFileSuccessResult extends CommonAPIResult {
-        tempFilePath: string,
-        statusCode: number,
+        tempFilePath: string
+        statusCode: number
       }
 
       interface IDownloadFileTask {
-        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void,
-        abort: AnyFunction,
+        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void
+        abort: AnyFunction
       }
 
       interface request {
@@ -11612,18 +11569,18 @@ declare namespace Taro {
       }
 
       interface IRequestParam extends IAPIParam<IRequestSuccessResult> {
-        url: string,
-        data?: AnyObject | string | ArrayBuffer,
-        header?: AnyObject,
-        method?: string,
-        dataType?: string,
-        responseType?: string,
+        url: string
+        data?: AnyObject | string | ArrayBuffer
+        header?: AnyObject
+        method?: string
+        dataType?: string
+        responseType?: string
       }
 
       interface IRequestSuccessResult {
-        data: AnyObject | string | ArrayBuffer,
-        statusCode: number,
-        header: AnyObject,
+        data: AnyObject | string | ArrayBuffer
+        statusCode: number
+        header: AnyObject
       }
 
       interface IRequestTask {
@@ -11635,15 +11592,14 @@ declare namespace Taro {
       }
 
       interface IGetFileInfoParam extends IAPIParam<IGetFileInfoSuccessResult> {
-        filePath: string,
-        digestAlgorithm?: string,
+        filePath: string
+        digestAlgorithm?: string
       }
 
       interface IGetFileInfoSuccessResult {
-        size: number,
-        digest: string,
+        size: number
+        digest: string
       }
-
     }
 
     // === Database ===
@@ -11652,20 +11608,17 @@ declare namespace Taro {
        * The class of all exposed cloud database instances
        */
       export class Database {
-
         public readonly config: ICloudConfig
         public readonly command: DatabaseCommand
         public readonly Geo: Geo
         public readonly serverDate: () => ServerDate
 
-        private constructor();
+        private constructor()
 
         collection(collectionName: string): CollectionReference
-
       }
 
       export class CollectionReference extends Query {
-
         public readonly collectionName: string
         public readonly database: Database
 
@@ -11674,11 +11627,9 @@ declare namespace Taro {
         doc(docId: string | number): DocumentReference
 
         add(options: IAddDocumentOptions): Promise<IAddResult> | void
-
       }
 
       export class DocumentReference {
-
         private constructor(docId: string | number, database: Database)
 
         field(object: object): this
@@ -11690,11 +11641,9 @@ declare namespace Taro {
         update(options?: IUpdateSingleDocumentOptions): Promise<IUpdateResult> | void
 
         remove(options?: IRemoveSingleDocumentOptions): Promise<IRemoveResult> | void
-
       }
 
       export class Query {
-
         where(condition: IQueryCondition): Query
 
         orderBy(fieldPath: string, order: string): Query
@@ -11711,7 +11660,6 @@ declare namespace Taro {
       }
 
       export interface DatabaseCommand {
-
         eq(val: any): DatabaseQueryCommand
         neq(val: any): DatabaseQueryCommand
         gt(val: any): DatabaseQueryCommand
@@ -11733,18 +11681,16 @@ declare namespace Taro {
         pop(): DatabaseUpdateCommand
         shift(): DatabaseUpdateCommand
         unshift(...values: any[]): DatabaseUpdateCommand
-
       }
 
       export enum LOGIC_COMMANDS_LITERAL {
         AND = 'and',
         OR = 'or',
         NOT = 'not',
-        NOR = 'nor',
+        NOR = 'nor'
       }
 
       export class DatabaseLogicCommand {
-
         public fieldName: string | InternalSymbol
         public operator: LOGIC_COMMANDS_LITERAL | string
         public operands: any[]
@@ -11753,7 +11699,6 @@ declare namespace Taro {
 
         and(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
         or(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
-
       }
 
       export enum QUERY_COMMANDS_LITERAL {
@@ -11764,11 +11709,10 @@ declare namespace Taro {
         LT = 'lt',
         LTE = 'lte',
         IN = 'in',
-        NIN = 'nin',
+        NIN = 'nin'
       }
 
       export class DatabaseQueryCommand extends DatabaseLogicCommand {
-
         public operator: QUERY_COMMANDS_LITERAL | string
 
         _setFieldName(fieldName: string): DatabaseQueryCommand
@@ -11781,7 +11725,6 @@ declare namespace Taro {
         lte(val: any): DatabaseLogicCommand
         in(val: any[]): DatabaseLogicCommand
         nin(val: any[]): DatabaseLogicCommand
-
       }
 
       export enum UPDATE_COMMANDS_LITERAL {
@@ -11792,11 +11735,10 @@ declare namespace Taro {
         PUSH = 'push',
         POP = 'pop',
         SHIFT = 'shift',
-        UNSHIFT = 'unshift',
+        UNSHIFT = 'unshift'
       }
 
       export class DatabaseUpdateCommand {
-
         public fieldName: string | InternalSymbol
         public operator: UPDATE_COMMANDS_LITERAL
         public operands: any[]
@@ -11806,15 +11748,12 @@ declare namespace Taro {
         _setFieldName(fieldName: string): DatabaseUpdateCommand
       }
 
-      export class Batch {
-
-      }
+      export class Batch {}
 
       /**
        * A contract that all API provider must adhere to
        */
       export class APIBaseContract<PROMISE_RETURN, CALLBACK_RETURN, PARAM extends IAPIParam, CONTEXT = any> {
-
         getContext(param: PARAM): CONTEXT
 
         /**
@@ -11825,16 +11764,15 @@ declare namespace Taro {
         getFinalParam<T extends PARAM>(param: PARAM, context: CONTEXT): T
 
         run<T extends PARAM>(param: T): Promise<PROMISE_RETURN>
-
       }
 
       export interface GeoPointConstructor {
-        new(longitude: number, latitide: number): GeoPoint
+        new (longitude: number, latitide: number): GeoPoint
       }
 
       export interface Geo {
         Point: {
-          new(longitude: number, latitide: number): GeoPoint
+          new (longitude: number, latitide: number): GeoPoint
           (longitude: number, latitide: number): GeoPoint
         }
       }
@@ -11850,7 +11788,7 @@ declare namespace Taro {
       }
 
       export interface IServerDateOptions {
-        offset: number,
+        offset: number
       }
 
       export abstract class ServerDate {
@@ -11861,106 +11799,94 @@ declare namespace Taro {
       export type DocumentId = string | number
 
       export interface IDocumentData {
-        _id?: DocumentId,
-        [key: string]: any,
+        _id?: DocumentId
+        [key: string]: any
       }
 
-      export interface IDBAPIParam extends IAPIParam {
-
-      }
+      export interface IDBAPIParam extends IAPIParam {}
 
       export interface IAddDocumentOptions extends IDBAPIParam {
-        data: IDocumentData,
+        data: IDocumentData
       }
 
-      export interface IGetDocumentOptions extends IDBAPIParam {
+      export interface IGetDocumentOptions extends IDBAPIParam {}
 
-      }
-
-      export interface ICountDocumentOptions extends IDBAPIParam {
-
-      }
+      export interface ICountDocumentOptions extends IDBAPIParam {}
 
       export interface IUpdateDocumentOptions extends IDBAPIParam {
-        data: IUpdateCondition,
+        data: IUpdateCondition
       }
 
       export interface IUpdateSingleDocumentOptions extends IDBAPIParam {
-        data: IUpdateCondition,
+        data: IUpdateCondition
       }
 
       export interface ISetDocumentOptions extends IDBAPIParam {
-        data: IUpdateCondition,
+        data: IUpdateCondition
       }
 
       export interface ISetSingleDocumentOptions extends IDBAPIParam {
-        data: IUpdateCondition,
+        data: IUpdateCondition
       }
 
       export interface IRemoveDocumentOptions extends IDBAPIParam {
-        query: IQueryCondition,
+        query: IQueryCondition
       }
 
-      export interface IRemoveSingleDocumentOptions extends IDBAPIParam {
-
-      }
+      export interface IRemoveSingleDocumentOptions extends IDBAPIParam {}
 
       export interface IQueryCondition {
-        [key: string]: any,
+        [key: string]: any
       }
 
       export type IStringQueryCondition = string
 
       export interface IQueryResult extends IAPISuccessParam {
-        data: IDocumentData[],
+        data: IDocumentData[]
       }
 
       export interface IQuerySingleResult extends IAPISuccessParam {
-        data: IDocumentData,
+        data: IDocumentData
       }
 
       export interface IUpdateCondition {
-        [key: string]: any,
+        [key: string]: any
       }
 
       export type IStringUpdateCondition = string
 
-      export interface ISetCondition {
-
-      }
+      export interface ISetCondition {}
 
       export interface IAddResult extends IAPISuccessParam {
-        _id: DocumentId,
+        _id: DocumentId
       }
 
       export interface IUpdateResult extends IAPISuccessParam {
         stats: {
-          updated: number,
+          updated: number
           // created: number,
         }
       }
 
       export interface ISetResult extends IAPISuccessParam {
-        _id: DocumentId,
+        _id: DocumentId
         stats: {
-          updated: number,
-          created: number,
+          updated: number
+          created: number
         }
       }
 
       export interface IRemoveResult extends IAPISuccessParam {
         stats: {
-          removed: number,
+          removed: number
         }
       }
 
       export interface ICountResult extends IAPISuccessParam {
         total: number
       }
-
     }
     function init(OBJECT?: ICloudConfig): void
-
 
     function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> | void
     function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> | WXNS.IUploadFileTask
