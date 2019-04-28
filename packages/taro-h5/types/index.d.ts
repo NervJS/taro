@@ -1,3 +1,3 @@
-import Taro from '@tarojs/taro'
+import TaroH5 from './type'
 
-export = Taro;
+export = TaroH5
