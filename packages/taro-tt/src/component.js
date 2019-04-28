@@ -1,5 +1,6 @@
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
+import { genCompPrefix } from './util'
 import {
   internal_safe_get as safeGet
 } from '@tarojs/taro'
@@ -36,6 +37,7 @@ class BaseComponent {
     this.state = {}
     this.props = props
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
+    this.$prefix = genCompPrefix()
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
   }
   _constructor (props) {

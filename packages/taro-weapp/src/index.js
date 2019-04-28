@@ -19,7 +19,7 @@ import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
 import propsManager from './propsManager'
-import { getElementById, genCompid, genLoopCompid } from './util'
+import { getElementById, genCompid } from './util'
 import { useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo, useImperativeHandle } from './hooks'
 
 export const Taro = {
@@ -42,7 +42,6 @@ export const Taro = {
   propsManager,
   interceptors,
   genCompid,
-  genLoopCompid,
   useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo, useImperativeHandle
 }
 
