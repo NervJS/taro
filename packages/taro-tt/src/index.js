@@ -10,7 +10,15 @@ import {
   internal_safe_set,
   internal_inline_style,
   internal_get_original,
-  interceptors
+  interceptors,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -40,7 +48,15 @@ export const Taro = {
   interceptors,
   handleLoopRef,
   propsManager,
-  genCompid
+  genCompid,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
 }
 
 export default Taro
