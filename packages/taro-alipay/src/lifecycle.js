@@ -1,7 +1,9 @@
 import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet,
-  commitAttachRef
+  commitAttachRef,
+  Current,
+  invokeEffects
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
@@ -62,7 +64,15 @@ function doUpdate (component, prevProps, prevState) {
   if (component._createData) {
     // 返回null或undefined则保持不变
     const isRunLoopRef = !component.__mounted
+    if (component.__isReady) {
+      Current.current = component
+      Current.index = 0
+      invokeEffects(component, true)
+    }
     data = component._createData(state, props, isRunLoopRef) || data
+    if (component.__isReady) {
+      Current.current = null
+    }
   }
   let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
@@ -98,6 +108,7 @@ function doUpdate (component, prevProps, prevState) {
 
   component.$scope.setData(dataDiff, function () {
     if (component.__mounted) {
+      invokeEffects(component)
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
           if (ref.type !== 'component') return
@@ -114,7 +125,9 @@ function doUpdate (component, prevProps, prevState) {
       }
 
       if (component['$$hasLoopRef']) {
+        component._disableEffect = true
         component._createData(component.state, component.props, true)
+        component._disableEffect = false
       }
 
       if (typeof component.componentDidUpdate === 'function') {

@@ -32,6 +32,13 @@ class BaseComponent {
     path: ''
   }
 
+  // hooks
+  _afterScheduleEffect = false
+  _disableEffect = false
+  hooks = []
+  effects = []
+  layoutEffects = []
+
   constructor (props = {}, isPage) {
     this.state = {}
     this.props = {}

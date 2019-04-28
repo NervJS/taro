@@ -1,6 +1,6 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef } from '@tarojs/taro'
-import { isEmptyObject } from './util'
+import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
+import { isEmptyObject, isFunction } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
@@ -213,6 +213,8 @@ function createComponent (ComponentClass, isPage) {
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
+    Current.current = componentInstance
+    Current.index = 0
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
     if (isPage) {
@@ -269,7 +271,13 @@ function createComponent (ComponentClass, isPage) {
       }
     },
     detached () {
-      componentTrigger(this.$component, 'componentWillUnmount')
+      const component = this.$component
+      componentTrigger(component, 'componentWillUnmount')
+      component.hooks.forEach((hook) => {
+        if (isFunction(hook.cleanup)) {
+          hook.cleanup()
+        }
+      })
     }
   }
   if (isPage) {

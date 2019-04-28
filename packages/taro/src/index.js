@@ -25,7 +25,8 @@ import {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  invokeEffects
 } from './hooks'
 import { Current } from './current'
 
@@ -59,7 +60,8 @@ export {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  invokeEffects
 }
 
 export default {
@@ -90,5 +92,6 @@ export default {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  invokeEffects
 }

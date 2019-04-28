@@ -1,7 +1,9 @@
 import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet,
-  commitAttachRef
+  commitAttachRef,
+  Current,
+  invokeEffects
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject } from './util'
@@ -61,7 +63,15 @@ function doUpdate (component, prevProps, prevState) {
   if (component._createData) {
     // 返回null或undefined则保持不变
     const isRunLoopRef = !component.__mounted
+    if (component.__isReady) {
+      Current.current = component
+      Current.index = 0
+      invokeEffects(component, true)
+    }
     data = component._createData(state, props, isRunLoopRef) || data
+    if (component.__isReady) {
+      Current.current = null
+    }
   }
 
   data = Object.assign({}, props, data)
@@ -96,6 +106,7 @@ function doUpdate (component, prevProps, prevState) {
 
   const cb = function () {
     if (__mounted) {
+      invokeEffects(component)
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
           // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
@@ -113,7 +124,9 @@ function doUpdate (component, prevProps, prevState) {
       }
 
       if (component['$$hasLoopRef']) {
+        component._disableEffect = true
         component._createData(component.state, component.props, true)
+        component._disableEffect = false
       }
 
       if (typeof component.componentDidUpdate === 'function') {
