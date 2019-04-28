@@ -9,7 +9,7 @@ const ERROR_MESSAGE = '组件名不得与小程序内置组件名重复'
 function testClassMethod (name, expr, from) {
   const source = from || '@tarojs/components'
   return `
-  import { Text } from '${source}'
+  import { View } from '${source}'
   class ${name} extends Component {
     render () { ${expr} }
   }`
