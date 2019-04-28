@@ -512,6 +512,7 @@ export class RenderParser {
                         Adapter.forItem,
                         t.stringLiteral('__item')
                       )
+                      func.params[0] = t.identifier('__item')
                     }
                     if (t.isIdentifier(index)) {
                       if (Adapters.quickapp !== Adapter.type) {
@@ -527,6 +528,8 @@ export class RenderParser {
                     // tslint:disable-next-line: strict-type-predicates
                     } else if (index === undefined) {
                       if (process.env.NODE_ENV !== 'test') {
+                        const uid = this.renderScope.generateUid('anonIdx')
+                        func.params[1] = t.identifier(uid)
                         setJSXAttr(
                           jsxElementPath.node,
                           Adapter.forIndex,
@@ -1538,6 +1541,31 @@ export class RenderParser {
     return ![Adapter.for, Adapter.forIndex, Adapter.forItem, 'id'].includes(a.name.name as string)
   }).length === 0
 
+  findParentIndices (callee: NodePath<t.CallExpression>, indexId: t.Identifier) {
+    const loopIndices: string[] = []
+    const loops = t.arrayExpression([])
+    findParentLoops(callee, this.loopComponentNames, loops)
+    for (const el of loops.elements) {
+      if (t.isObjectExpression(el)) {
+        for (const prop of el.properties) {
+          if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: 'indexId' }) && t.isIdentifier(prop.value)) {
+            loopIndices.push(prop.value.name)
+          }
+        }
+      }
+    }
+
+    if (loopIndices.length === 0) {
+      if (t.isIdentifier(indexId!)) {
+        loopIndices.push(indexId!.name)
+      } else {
+        throw codeFrameError(callee.node, '循环中使用自定义组件需要暴露循环的 index')
+      }
+    }
+
+    return loopIndices
+  }
+
   /**
    * jsxDeclarations,
    * renderScope,
@@ -1629,8 +1657,7 @@ export class RenderParser {
       }
 
       if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) {
-        let loops: t.ArrayExpression | null = null
-        const loopIndices: string[] = []
+        const loopIndices: string[] = this.findParentIndices(callee, indexId!)
         const deferCallBack: Function[] = []
 
         blockStatementPath.traverse({
@@ -1668,28 +1695,6 @@ export class RenderParser {
             ) {
               if (this.isEmptyProps(element.attributes)) {
                 return
-              }
-              // 如果循环里包含自定义组件
-              if (!loops) {
-                loops = t.arrayExpression([])
-                findParentLoops(callee, this.loopComponentNames, loops)
-                for (const el of loops.elements) {
-                  if (t.isObjectExpression(el)) {
-                    for (const prop of el.properties) {
-                      if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: 'indexId' }) && t.isIdentifier(prop.value)) {
-                        loopIndices.push(prop.value.name)
-                      }
-                    }
-                  }
-                }
-              }
-
-              if (loopIndices.length === 0) {
-                if (t.isIdentifier(indexId!)) {
-                  loopIndices.push(indexId!.name)
-                } else {
-                  throw codeFrameError(callee.node, '循环中使用自定义组件需要暴露循环的 index')
-                }
               }
 
               // createData 函数里加入 compid 相关逻辑
