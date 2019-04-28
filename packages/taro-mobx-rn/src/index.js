@@ -10,5 +10,4 @@ export function observer (Component) {
 }
 
 export { onError } from '@tarojs/mobx-common'
-
 export { default as Provider } from './Provider'

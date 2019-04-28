@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c rollup.config.js --watch"
+    "clear": "rimraf dist"
   },
   "main:h5": "dist/index.esm.js",
   "main": "index.js",
@@ -32,11 +32,8 @@
     "@tarojs/mobx-common": "1.2.27-beta.0"
   },
   "devDependencies": {
-    "@tarojs/taro-h5": "1.2.16",
-    "lodash": "4.17.11",
+    "rimraf": "^2.6.2",
     "rollup": "1.1.0",
-    "rollup-plugin-babel": "4.0.3",
-    "rollup-plugin-commonjs": "9.2.0",
-    "rollup-plugin-node-resolve": "^4.0.0"
+    "rollup-plugin-babel": "4.0.3"
   }
 }

@@ -14,16 +14,22 @@
   },
   "main": "index.js",
   "files": [
-    "dist"
+    "dist",
+    "index.js"
   ],
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "clear": "rimraf dist"
   },
+  "dependencies": {
+    "@tarojs/mobx-common": "1.2.27-beta.0"
+  },
   "peerDependencies": {
     "mobx": "4.8.0"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "rollup": "1.1.0",
+    "rollup-plugin-babel": "4.0.3"
   }
 }

@@ -48,7 +48,7 @@ export default counterStore
 ```jsx
 // src/app.js
 import Taro, { Component } from '@tarojs/taro'
-import { Provider } from '@tarojs/mobx'
+import { Provider, onError } from '@tarojs/mobx'
 import Index from './pages/index'
 
 import counterStore from './store/counter'
@@ -58,6 +58,10 @@ import './app.scss'
 const store = {
   counterStore
 }
+
+onError(error => {
+  console.log('mobx global error listener:', error)
+})
 
 class App extends Component {
 
@@ -112,19 +116,32 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillRect')
+  componentWillMount () {
+    console.log('componentWillMount')
   }
 
-  componentDidMount () { }
+  /**
+   * 该方法将在 observable 对象更新时触发
+   */
+  componentWillReact () {
+    console.log('componentWillReact')
+  }
 
-  componentWillUnmount () { }
+  componentDidMount () {
+    console.log('componentDidMount')
+  }
 
-  componentDidShow () { }
+  componentWillUnmount () {
+    console.log('componentWillUnmount')
+  }
 
-  componentDidHide () { }
+  componentDidShow () {
+    console.log('componentDidShow')
+  }
+
+  componentDidHide () {
+    console.log('componentDidHide')
+  }
 
   increment = () => {
     const { counterStore } = this.props
@@ -158,7 +175,7 @@ export default Index
 
 ```
 
-上例中 `Provider`、`inject`、 `observer` 的使用方式基本上与 [mobx-react](https://github.com/mobxjs/mobx-react) 保持了一致，但也有以下几点需要注意：
+上例中 `Provider`、`inject`、 `observer`、`onError` 的使用方式基本上与 [mobx-react](https://github.com/mobxjs/mobx-react) 保持了一致，但也有以下几点需要注意：
 
 * `Provider` 不支持嵌套，即全局只能存在一个 `Provider`
 * 在 `mobx-react` 中，可通过以下方式设置 `store`：
@@ -228,3 +245,5 @@ export default Index
   ```
 
   `propTypes` 使用与 [mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 一致
+
+  > 注：自 `1.2.27-beta.0` 后，`@tarojs/mobx-prop-types` 已被移除，请使用 [mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 替代。
