@@ -128,8 +128,8 @@ export async function buildSingleComponent (
   buildConfig: IComponentBuildConfig = {}
 ): Promise<IBuildResult> {
   const componentsBuildResult = getComponentsBuildResult()
-  if (isComponentHasBeenBuilt(componentObj.path as string) && componentsBuildResult[componentObj.path as string]) {
-    return componentsBuildResult[componentObj.path as string]
+  if (isComponentHasBeenBuilt(componentObj.path as string) && componentsBuildResult.get(componentObj.path as string)) {
+    return componentsBuildResult.get(componentObj.path as string) as IBuildResult
   }
   const {
     appPath,
@@ -268,7 +268,12 @@ export async function buildSingleComponent (
     }
 
     const dependencyTree = getDependencyTree()
-    const fileDep = dependencyTree.get(component) || {}
+    const fileDep = dependencyTree.get(component) || {
+      style: [],
+      script: [],
+      json: [],
+      media: []
+    }
     // 编译依赖的组件文件
     let realComponentsPathList: IComponentObj[] = []
     if (componentDepComponents.length) {
@@ -338,7 +343,7 @@ export async function buildSingleComponent (
     fileDep['script'] = res.scriptFiles
     fileDep['json'] = res.jsonFiles
     fileDep['media'] = res.mediaFiles
-    dependencyTree[component] = fileDep
+    dependencyTree.set(component, fileDep)
     depComponents.set(component, componentDepComponents)
     const buildResult = {
       js: outputComponentJSPath,

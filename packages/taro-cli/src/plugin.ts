@@ -161,12 +161,12 @@ function wxPluginWatchFiles () {
         } else {
           const dependencyTree = getDependencyTree()
           let isImported = false
-          for (const key in dependencyTree) {
-            const scripts = dependencyTree[key].script || []
+          dependencyTree.forEach(dependencyTreeItem => {
+            const scripts = dependencyTreeItem.script || []
             if (scripts.indexOf(filePath) >= 0) {
               isImported = true
             }
-          }
+          })
 
           let modifySource = filePath.replace(appPath + path.sep, '')
           modifySource = modifySource.split(path.sep).join('/')
@@ -181,8 +181,8 @@ function wxPluginWatchFiles () {
       } else if (REG_STYLE.test(extname)) {
         const dependencyTree = getDependencyTree()
         const includeStyleJSPath: { filePath: string, styles: any[] }[] = []
-        for (const key in dependencyTree) {
-          const styles = dependencyTree[key]['style'] || []
+        dependencyTree.forEach((dependencyTreeItem, key) => {
+          const styles = dependencyTreeItem['style'] || []
           styles.forEach(item => {
             if (item === filePath) {
               includeStyleJSPath.push({
@@ -191,7 +191,7 @@ function wxPluginWatchFiles () {
               })
             }
           })
-        }
+        })
 
         if (includeStyleJSPath.length) {
           await Promise.all(includeStyleJSPath.map(async item => {

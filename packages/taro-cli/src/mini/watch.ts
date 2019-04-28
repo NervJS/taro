@@ -113,15 +113,14 @@ export function watchFiles () {
             }
           } else {
             let isImported = false
-            for (const key in dependencyTree) {
-              const dependencyTreeItem = dependencyTree.get(key)
+            dependencyTree.forEach((dependencyTreeItem) => {
               if (dependencyTreeItem) {
                 const scripts = dependencyTreeItem.script
                 if (scripts.indexOf(filePath) >= 0) {
                   isImported = true
                 }
               }
-            }
+            })
             let modifySource = filePath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             if (isImported) {
@@ -134,8 +133,8 @@ export function watchFiles () {
         }
       } else if (REG_STYLE.test(extname)) {
         const includeStyleJSPath: any[] = []
-        for (const key in dependencyTree) {
-          const styles = dependencyTree[key]['style'] || []
+        dependencyTree.forEach((dependencyTreeItem, key) => {
+          const styles = dependencyTreeItem['style'] || []
           styles.forEach(item => {
             if (item === filePath) {
               includeStyleJSPath.push({
@@ -144,7 +143,7 @@ export function watchFiles () {
               })
             }
           })
-        }
+        })
         if (includeStyleJSPath.length) {
           includeStyleJSPath.forEach(async item => {
             let outputWXSSPath = item.filePath.replace(path.extname(item.filePath), outputFilesTypes.STYLE)

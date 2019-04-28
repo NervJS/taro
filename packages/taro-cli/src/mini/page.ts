@@ -213,7 +213,12 @@ export async function buildSinglePage (page: string) {
         }
       })
     }
-    const fileDep = dependencyTree.get(pageJs) || {}
+    const fileDep = dependencyTree.get(pageJs) || {
+      style: [],
+      script: [],
+      json: [],
+      media: []
+    }
     if (!isQuickApp) {
       fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
       printLog(processTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
@@ -244,7 +249,7 @@ export async function buildSinglePage (page: string) {
     fileDep['script'] = res.scriptFiles
     fileDep['json'] = res.jsonFiles
     fileDep['media'] = res.mediaFiles
-    dependencyTree[pageJs] = fileDep
+    dependencyTree.set(pageJs, fileDep)
   } catch (err) {
     printLog(processTypeEnum.ERROR, '页面编译', `页面${pagePath}编译失败！`)
     console.log(err)
