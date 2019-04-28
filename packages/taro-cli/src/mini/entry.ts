@@ -120,35 +120,6 @@ export async function buildEntry (): Promise<AppConfig> {
         resCode = uglifyJS(resCode, entryFilePath, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     }
-    const dependencyTree = getDependencyTree()
-    const fileDep = dependencyTree.get(entryFilePath) || {
-      style: [],
-      script: [],
-      json: [],
-      media: []
-    }
-    // 编译依赖的脚本文件
-    if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      await compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
-    }
-    // 编译样式文件
-    if (isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
-      await compileDepStyles(path.join(outputDir, `app${outputFilesTypes.STYLE}`), res.styleFiles)
-      printLog(processTypeEnum.GENERATE, '入口样式', `${outputDirName}/app${outputFilesTypes.STYLE}`)
-    }
-    // 拷贝依赖文件
-    if (isDifferentArray(fileDep['json'], res.jsonFiles)) {
-      copyFilesFromSrcToOutput(res.jsonFiles)
-    }
-
-    if (isDifferentArray(fileDep['media'], res.mediaFiles)) {
-      copyFilesFromSrcToOutput(res.mediaFiles)
-    }
-    fileDep['style'] = res.styleFiles
-    fileDep['script'] = res.scriptFiles
-    fileDep['json'] = res.jsonFiles
-    fileDep['media'] = res.mediaFiles
-    dependencyTree.set(entryFilePath, fileDep)
     if (buildAdapter === BUILD_TYPES.QUICKAPP) {
       // 生成 快应用 ux 文件
       const styleRelativePath = promoteRelativePath(path.relative(outputEntryFilePath, path.join(outputDir, `app${outputFilesTypes.STYLE}`)))
@@ -191,6 +162,35 @@ export async function buildEntry (): Promise<AppConfig> {
         printLog(processTypeEnum.GENERATE, '入口文件', `${outputDirName}/app.js`)
       }
     }
+    const dependencyTree = getDependencyTree()
+    const fileDep = dependencyTree.get(entryFilePath) || {
+      style: [],
+      script: [],
+      json: [],
+      media: []
+    }
+    // 编译依赖的脚本文件
+    if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
+      await compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
+    }
+    // 编译样式文件
+    if (isDifferentArray(fileDep['style'], res.styleFiles) && appOutput) {
+      await compileDepStyles(path.join(outputDir, `app${outputFilesTypes.STYLE}`), res.styleFiles)
+      printLog(processTypeEnum.GENERATE, '入口样式', `${outputDirName}/app${outputFilesTypes.STYLE}`)
+    }
+    // 拷贝依赖文件
+    if (isDifferentArray(fileDep['json'], res.jsonFiles)) {
+      copyFilesFromSrcToOutput(res.jsonFiles)
+    }
+
+    if (isDifferentArray(fileDep['media'], res.mediaFiles)) {
+      copyFilesFromSrcToOutput(res.mediaFiles)
+    }
+    fileDep['style'] = res.styleFiles
+    fileDep['script'] = res.scriptFiles
+    fileDep['json'] = res.jsonFiles
+    fileDep['media'] = res.mediaFiles
+    dependencyTree.set(entryFilePath, fileDep)
     return res.configObj
   } catch (err) {
     console.log(err)
