@@ -1,4 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject'
+import { Current } from './current-owner'
 
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
@@ -257,4 +258,23 @@ export function getElementById (component, id, type) {
   if (res) return res
 
   return null
+}
+
+let id = 0
+function genId () {
+  return String(id++)
+}
+
+const compIdsMapper = new Map()
+export function genCompid (key) {
+  if (!Current || !Current.current || !Current.current.$scope) return
+  const prevId = compIdsMapper.get(key)
+  const id = prevId || genId()
+  !prevId && compIdsMapper.set(key, id)
+  return id
+}
+
+let prefix = 0
+export function genCompPrefix () {
+  return String(prefix++)
 }
