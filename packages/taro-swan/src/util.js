@@ -1,5 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject'
-import { Current } from './current-owner'
+import { Current } from '@tarojs/taro'
 
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
