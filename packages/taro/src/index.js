@@ -11,7 +11,23 @@ import render from './render'
 import { createRef, commitAttachRef, detachAllRef } from './ref'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
-import { noPromiseApis, onAndSyncApis, otherApis, initPxTransform } from './native-apis'
+import {
+  noPromiseApis,
+  onAndSyncApis,
+  otherApis,
+  initPxTransform
+} from './native-apis'
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
+} from './hooks'
+import { Current } from './current'
 
 const eventCenter = new Events()
 
@@ -34,7 +50,16 @@ export {
   commitAttachRef,
   detachAllRef,
   Link,
-  interceptors
+  interceptors,
+  Current,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
 }
 
 export default {
@@ -56,5 +81,14 @@ export default {
   commitAttachRef,
   detachAllRef,
   Link,
-  interceptors
+  interceptors,
+  Current,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
 }

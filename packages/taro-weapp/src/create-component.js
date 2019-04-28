@@ -1,10 +1,9 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef } from '@tarojs/taro'
+import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
 import { isEmptyObject, isFunction } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
-import { Current } from './current-owner'
 
 const anonymousFnNamePreffix = 'funPrivate'
 const routerParamsPrivateKey = '__key_'

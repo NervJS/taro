@@ -1,6 +1,5 @@
-import { isFunction, isUndefined, isArray, isNullOrUndef } from './util'
-import { Current } from './current-owner'
-import nextTick from './next-tick'
+import { isFunction, isUndefined, isArray, isNullOrUndef, defer } from './util'
+import { Current } from './current'
 
 function getHooks (index) {
   if (Current.current === null) {
@@ -88,7 +87,7 @@ function invokeScheduleEffects (component) {
     component._afterScheduleEffect = true
     scheduleEffectComponents.push(component)
     if (scheduleEffectComponents.length === 1) {
-      nextTick(() => {
+      defer(() => {
         setTimeout(() => {
           scheduleEffectComponents.forEach((c) => {
             c._afterScheduleEffect = false

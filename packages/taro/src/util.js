@@ -10,6 +10,24 @@ export function isEmptyObject (obj) {
   return true
 }
 
+export function isFunction (arg) {
+  return typeof arg === 'function'
+}
+
+export const defer = typeof Promise === 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
+
+export function isUndefined (o) {
+  return o === undefined
+}
+
+export function isArray (arg) {
+  return Array.isArray(arg)
+}
+
+export function isNullOrUndef (o) {
+  return isUndefined(o) || o === null
+}
+
 /**
  * JSON 克隆
  * @param {Object | Json} jsonObj json对象
