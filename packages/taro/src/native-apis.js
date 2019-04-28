@@ -92,7 +92,11 @@ const noPromiseApis = {
 
   getAccountInfoSync: true,
   getUpdateManager: true,
-  createWorker: true
+  createWorker: true,
+
+  // 广告
+  createRewardedVideoAd: true,
+  createInterstitialAd: true
 }
 const otherApis = {
   // 网络
