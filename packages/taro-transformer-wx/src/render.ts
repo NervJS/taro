@@ -1498,6 +1498,9 @@ export class RenderParser {
     this.setPendingState()
     this.setCustomEvent()
     this.createData()
+    if (Adapter.type === Adapters.quickapp) {
+      this.setProperies()
+    }
     this.setLoopRefFlag()
   }
 
