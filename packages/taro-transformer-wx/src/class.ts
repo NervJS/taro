@@ -797,6 +797,7 @@ class Transformer {
   }
 
   setComponents () {
+    const components: string[] = []
     this.customComponents.forEach((component, name) => {
       if (name.startsWith('Taro') && component.sourcePath === COMPONENTS_PACKAGE_NAME) {
         return
@@ -804,12 +805,18 @@ class Transformer {
       if (Adapter.type === Adapters.quickapp && DEFAULT_Component_SET_COPY.has(name)) {
         return
       }
+      components.push(name)
       this.result.components.push({
         path: pathResolver(component.sourcePath, this.sourcePath),
         name: kebabCase(name),
         type: component.type
       })
     })
+    this.classPath.node.body.body.push(
+      t.classProperty(t.identifier('customComponents'), t.arrayExpression(
+        components.map(c => t.stringLiteral(c))
+      ))
+    )
   }
 
   setMethods () {
