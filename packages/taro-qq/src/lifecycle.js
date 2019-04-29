@@ -2,12 +2,12 @@ import {
   internal_safe_get as safeGet,
   internal_safe_set as safeSet,
   commitAttachRef,
-  Current
+  Current,
+  invokeEffects
 } from '@tarojs/taro'
 // import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
-import { invokeEffects } from './hooks'
 
 // const isDEV = typeof process === 'undefined' ||
 //   !process.env ||
