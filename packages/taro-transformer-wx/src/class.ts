@@ -309,6 +309,9 @@ class Transformer {
           const methodName = node.key.name
           self.methods.set(methodName, path)
           if (methodName.startsWith('render')) {
+            if (!isContainJSXElement(path)) {
+              throw codeFrameError(path.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。')
+            }
             hasRender = true
             self.renderJSX.set(methodName, path)
             self.refIdMap.set(path, new Set([]))
@@ -430,6 +433,16 @@ class Transformer {
         const { key: { name }, value } = path.node
         if (t.isArrowFunctionExpression(value) || t.isFunctionExpression(value)) {
           self.methods.set(name, path)
+          if (name.startsWith('render')) {
+            path.replaceWith(t.classMethod(
+              'method',
+              t.identifier(name),
+              value.params,
+              t.isBlockStatement(value.body) ? value.body : t.blockStatement([
+                t.returnStatement(value.body)
+              ])
+            ))
+          }
         }
         if (name === 'state' && t.isObjectExpression(value)) {
           value.properties.forEach(p => {
