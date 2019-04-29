@@ -9,6 +9,8 @@ import storage from './api/storage'
 import router from './api/router'
 import interactive from './api/interactive'
 import equipment from './api/equipment'
+import share from './api/share'
+import notification from './api/notification'
 
 function processApis (taro) {
   const weApis = Object.assign({}, onAndSyncApis, noPromiseApis, otherApis)
@@ -33,5 +35,5 @@ export default function initNativeApi (taro) {
   taro.canIUseWebp = canIUseWebp
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
-  Object.assign(taro, storage, router, interactive, equipment)
+  Object.assign(taro, storage, router, interactive, equipment, share, notification)
 }
