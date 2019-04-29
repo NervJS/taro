@@ -1,5 +1,6 @@
 import { updateComponent } from './lifecycle'
 import { filterProps } from './create-component'
+import nextTick from './next-tick'
 
 class Manager {
   map = {}
@@ -25,7 +26,7 @@ class Manager {
           const nextProps = filterProps(ComponentClass.defaultProps, props, component.props)
           component.props = nextProps
           component._unsafeCallUpdate = true
-          updateComponent(component)
+          nextTick(() => updateComponent(component))
           component._unsafeCallUpdate = false
         }
       })

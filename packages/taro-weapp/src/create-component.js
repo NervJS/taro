@@ -250,9 +250,11 @@ function initComponent (ComponentClass, isPage) {
   // 动态组件执行改造函数副本的时,在初始化数据前计算好props
   if (!isPage) {
     const compid = this.data.compid
-    propsManager.observers[compid] = {
-      component: this.$component,
-      ComponentClass
+    if (compid) {
+      propsManager.observers[compid] = {
+        component: this.$component,
+        ComponentClass
+      }
     }
     const nextProps = filterProps(ComponentClass.defaultProps, propsManager.map[compid], this.$component.props)
     this.$component.props = nextProps
