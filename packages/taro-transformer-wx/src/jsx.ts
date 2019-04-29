@@ -13,7 +13,7 @@ import {
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
-import { Adapter, Adapters } from './adapter'
+import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -190,7 +190,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
   if (attributes.length) {
     attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
-        if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) return {}
+        if (isNewPropsSystem()) return {}
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
       let name = attr.name.name
@@ -270,13 +270,13 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           obj[isDefaultComponent && !name.includes('-') && !name.includes(':') ? kebabCase(name) : name] = value
         }
       }
-      if (!isDefaultComponent && !specialComponentName.includes(componentName) && Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) {
+      if (!isDefaultComponent && !specialComponentName.includes(componentName) && !isNewPropsSystem()) {
         obj[TRIGGER_OBSERER] = `{{ ${TRIGGER_OBSERER_KEY} }}`
       }
       return obj
     }, {})
   } else if (!isDefaultComponent && !specialComponentName.includes(componentName)) {
-    if (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) {
+    if (!isNewPropsSystem()) {
       attributesTrans[TRIGGER_OBSERER] = `{{ ${TRIGGER_OBSERER_KEY} }}`
     }
   }

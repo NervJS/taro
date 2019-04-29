@@ -54,7 +54,7 @@ import {
   FN_PREFIX,
   CLASS_COMPONENT_UID
 } from './constant'
-import { Adapter, Adapters } from './adapter'
+import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
@@ -647,7 +647,7 @@ export class RenderParser {
         }
 
         const blockAttrs: t.JSXAttribute[] = []
-        if ((Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
+        if ((isNewPropsSystem()) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
           if (this.isDefaultRender) {
             blockAttrs.push(t.jSXAttribute(
               t.jSXIdentifier(Adapter.if),
@@ -1047,7 +1047,7 @@ export class RenderParser {
             .node as t.JSXElement
           const componentName = JSXElement.openingElement.name
           if (
-            (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) &&
+            isNewPropsSystem() &&
             t.isJSXIdentifier(componentName) &&
             !DEFAULT_Component_SET.has(componentName.name)
           ) {
@@ -1158,7 +1158,7 @@ export class RenderParser {
             // }
             if (!generate(value.expression).code.includes('.bind') &&
               (
-                (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapter.type !== Adapters.tt) ||
+                !isNewPropsSystem() ||
                 (t.isJSXIdentifier(componentName) && DEFAULT_Component_SET.has(componentName.name))
               )
             ) {
@@ -1476,7 +1476,7 @@ export class RenderParser {
       })
     }
     this.handleLoopComponents()
-    if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) {
+    if (isNewPropsSystem()) {
       this.handleComponents(renderBody)
     }
     renderBody.traverse(this.visitors)
@@ -1659,7 +1659,7 @@ export class RenderParser {
         }
       }
 
-      if (Adapter.type === Adapters.weapp || Adapter.type === Adapters.swan || Adapter.type === Adapters.tt) {
+      if (isNewPropsSystem()) {
         const loopIndices: string[] = this.findParentIndices(callee, indexId!)
         const deferCallBack: Function[] = []
 

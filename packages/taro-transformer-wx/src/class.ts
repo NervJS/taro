@@ -18,7 +18,7 @@ import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
-import { Adapters, Adapter } from './adapter'
+import { Adapters, Adapter, isNewPropsSystem } from './adapter'
 import { LoopRef } from './interface'
 import generate from 'babel-generator'
 
@@ -71,7 +71,7 @@ function processThisPropsFnMemberProperties (
               ]
             )
           )
-        } else if (Adapters.weapp !== Adapter.type && Adapters.swan !== Adapter.type && Adapters.tt !== Adapter.type) {
+        } else if (!isNewPropsSystem()) {
           path.replaceWith(
             t.callExpression(
               t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
@@ -517,14 +517,14 @@ class Transformer {
             t.isIdentifier(expr.callee.property, { name: 'bind' })
           ) {
             if (
-              (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapters.tt !== Adapter.type) ||
+              (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
               self.buildPropsAnonymousFunc(attr, expr, true)
             }
           } else if (t.isMemberExpression(expr)) {
             if (
-              (Adapter.type !== Adapters.weapp && Adapter.type !== Adapters.swan && Adapters.tt !== Adapter.type) ||
+              (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
               self.buildPropsAnonymousFunc(attr, expr as any, false)
@@ -764,7 +764,7 @@ class Transformer {
       if (methodName.startsWith('on')) {
         this.componentProperies.add(`${FN_PREFIX}${methodName}`)
       }
-      const method = (Adapters.weapp !== Adapter.type && Adapters.swan !== Adapter.type && Adapters.tt !== Adapter.type) ?
+      const method = !isNewPropsSystem() ?
         t.classMethod('method', t.identifier(funcName), [], t.blockStatement([
           t.expressionStatement(t.callExpression(
             t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),

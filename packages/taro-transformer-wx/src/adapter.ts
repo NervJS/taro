@@ -86,6 +86,10 @@ const qqAdapter: Adapter = {
 
 export let Adapter: Adapter = weixinAdapter
 
+export const isNewPropsSystem = () => {
+  return [Adapters.weapp, Adapters.swan, Adapters.tt, Adapters.qq].includes(Adapter.type)
+}
+
 export function setAdapter (adapter: Adapters) {
   switch (adapter.toLowerCase()) {
     case Adapters.swan:
