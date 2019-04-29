@@ -46,14 +46,10 @@
 
 import * as React from 'react'
 import {
-  // Text,
-  // View,
   StyleSheet,
-  StyleProp,
   ViewStyle
 } from 'react-native'
 import Swiper from '@nart/react-native-swiper/src'
-// import styles from './styles'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
 

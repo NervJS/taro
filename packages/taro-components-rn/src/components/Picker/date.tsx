@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { DatePicker as AntDatePicker } from '@ant-design/react-native'
+import { noop } from '../../utils'
 import { DateProps } from './PropsType'
 
 function formatTimeStr (time: string = ''): Date {
@@ -32,7 +33,7 @@ export default class DateSelector extends React.Component<DateProps, any> {
   }
 
   onChange = (date: Date) => {
-    const { fields = 'day', onChange } = this.props
+    const { fields = 'day', onChange = noop } = this.props
     const yyyy: string = date.getFullYear() + ''
     const MM: string = ('0' + (date.getMonth() + 1)).slice(-2)
     const dd: string = ('0' + date.getDate()).slice(-2)
@@ -43,7 +44,7 @@ export default class DateSelector extends React.Component<DateProps, any> {
         ret += `-${dd}`
       }
     }
-    onChange && onChange({
+    onChange({
       detail: {
         value: ret
       }
@@ -55,8 +56,8 @@ export default class DateSelector extends React.Component<DateProps, any> {
   }
 
   onDismiss = () => {
-    const { onCancel } = this.props
-    onCancel && onCancel()
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render () {

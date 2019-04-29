@@ -33,6 +33,7 @@ import {
   TextInputContentSizeChangeEventData,
   KeyboardTypeOptions
 } from 'react-native'
+import { noop } from '../../utils'
 import { InputProps, InputState  } from './PropsType'
 
 const keyboardTypeMap: { [key: string]: string } = {
@@ -95,17 +96,17 @@ class _Input extends React.Component<InputProps, InputState> {
   }
 
   onFocus = () => {
-    const { onFocus } = this.props
+    const { onFocus = noop } = this.props
     // event.detail = { value, height }
-    onFocus && onFocus({
+    onFocus({
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
     })
   }
 
   onBlur = () => {
-    const { onBlur } = this.props
-    onBlur && onBlur({
+    const { onBlur = noop } = this.props
+    onBlur({
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
     })
@@ -119,31 +120,31 @@ class _Input extends React.Component<InputProps, InputState> {
    * Fires before `onChange` callbacks.
    */
   onKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-    const { onKeyDown, onConfirm } = this.props
+    const { onKeyDown = noop, onConfirm = noop } = this.props
     const keyValue = event.nativeEvent.key
     let which
     keyValue === 'Enter' && (which = 13)
     keyValue === 'Backspace' && (which = 8)
-    onKeyDown && onKeyDown({
+    onKeyDown({
       which,
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
     })
     if (keyValue !== 'Enter') return
-    onConfirm && onConfirm({
+    onConfirm({
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
     })
   }
 
   onSubmitEditing = () => {
-    const { onKeyDown, onConfirm } = this.props
-    onKeyDown && onKeyDown({
+    const { onKeyDown = noop, onConfirm = noop } = this.props
+    onKeyDown({
       which: 13,
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
     })
-    onConfirm && onConfirm({
+    onConfirm({
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
     })
@@ -153,10 +154,10 @@ class _Input extends React.Component<InputProps, InputState> {
     const { width, height } = event.nativeEvent.contentSize
     // One of width and height may be 0.
     if (width && height) {
-      const { _autoHeight, _onLineChange } = this.props
+      const { _autoHeight, _onLineChange = noop } = this.props
       if (!_autoHeight || height === this.state.height) return
       this.lineCount += height > this.state.height ? 1 : -1
-      _onLineChange && _onLineChange({ detail: { height, lineCount: this.lineCount } })
+      _onLineChange({ detail: { height, lineCount: this.lineCount } })
       this.setState({ height })
     }
   }

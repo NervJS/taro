@@ -15,6 +15,7 @@ import {
 } from 'react-native'
 import Icon from '../Icon'
 import styles from './styles'
+import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
 
 class _Radio extends React.Component<RadioProps, RadioState> {
@@ -39,13 +40,13 @@ class _Radio extends React.Component<RadioProps, RadioState> {
   }
 
   onPress = (): void => {
-    const { disabled, onChange, value } = this.props
+    const { disabled, onChange = noop, value } = this.props
 
     if (disabled) return
 
     if (this.state.checked) return
 
-    onChange && onChange({
+    onChange({
       value,
       checked: !this.state.checked
     })

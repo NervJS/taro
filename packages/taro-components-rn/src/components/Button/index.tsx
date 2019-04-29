@@ -59,7 +59,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     hoverStayTime: 70
   }
 
-  animate = () => {
+  animate = (): void => {
     if (!this.props.loading) return
 
     Animated.sequence([
@@ -75,20 +75,20 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     ]).start(() => { this.animate() })
   }
 
-  onPress = () => {
+  onPress = (): void => {
     const { disabled, onClick = noop } = this.props
     !disabled && onClick()
   }
 
-  onPressIn = () => {
+  onPressIn = (): void => {
     this.setState({ isHover: true })
   }
 
-  onPressOut = () => {
+  onPressOut = (): void => {
     this.setState({ isHover: false })
   }
 
-  _simulateNativePress = (evt: GestureResponderEvent) => {
+  _simulateNativePress = (evt: GestureResponderEvent): void => {
     this.$touchable && this.$touchable.touchableHandlePress(evt)
   }
 

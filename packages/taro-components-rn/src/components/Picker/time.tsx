@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { DatePicker as AntDatePicker } from '@ant-design/react-native'
+import { noop } from '../../utils'
 import { TimeProps } from './PropsType'
 
 function formatTimeStr (time: string = ''): Date {
@@ -32,10 +33,10 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
   }
 
   onChange = (date: Date) => {
-    const { onChange } = this.props
+    const { onChange = noop } = this.props
     const hh: string = ('0' + date.getHours()).slice(-2)
     const mm: string = ('0' + date.getMinutes()).slice(-2)
-    onChange && onChange({ detail: { value: `${hh}:${mm}` } })
+    onChange({ detail: { value: `${hh}:${mm}` } })
   }
 
   onValueChange = (vals: any, index: number) => {
@@ -45,8 +46,8 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
   }
 
   onDismiss = () => {
-    const { onCancel } = this.props
-    onCancel && onCancel()
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render () {

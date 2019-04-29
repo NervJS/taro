@@ -13,9 +13,9 @@
  *   ✔ disabled
  *   ✔ onColumnChange
  * Time:
- *   ✔ start: IOS
- *   ✔ end: IOS
- *   ✔ disabled: IOS
+ *   ✔ start
+ *   ✔ end
+ *   ✔ disabled
  * Date:
  *   ✔ start
  *   ✔ end

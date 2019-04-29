@@ -1,5 +1,7 @@
 /**
- * Icon
+ * ✔ type
+ * ✔ size
+ * ✔ color
  */
 
 import * as React from 'react'

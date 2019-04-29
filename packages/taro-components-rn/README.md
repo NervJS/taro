@@ -11,10 +11,10 @@ emulator @YOUR_AVD_NAME
 # 安装依赖
 yarn
 
-# 编译源码
-npm run build
+# 编译
+npm run dev
 
-# 例子目录安装依赖
+# 进入例子目录安装依赖
 cd TCRNExample
 yarn
 

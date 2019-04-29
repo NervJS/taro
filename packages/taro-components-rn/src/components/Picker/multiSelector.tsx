@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Picker as AntPicker } from '@ant-design/react-native'
+import { noop } from '../../utils'
 import { MultiSelectorProps } from './PropsType'
 
 /**
@@ -96,13 +97,13 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
   }
 
   onChange = (value: any[]) => {
-    const { onChange } = this.props
+    const { onChange = noop } = this.props
     const { range } = this.state
-    onChange && onChange({ detail: { value: getIndexByValues(range, value) } })
+    onChange({ detail: { value: getIndexByValues(range, value) } })
   }
 
   onPickerChange = (value: any[]) => {
-    const { onColumnChange } = this.props
+    const { onColumnChange = noop } = this.props
     const { range, value: stateValue } = this.state
     const indexes = getIndexByValues(range, value)
     // 通过比对确定是哪一列数据变了
@@ -113,13 +114,13 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
         break
       }
     }
-    onColumnChange && onColumnChange({ detail: { column: changingColIndex, value: indexes[changingColIndex] } })
+    onColumnChange({ detail: { column: changingColIndex, value: indexes[changingColIndex] } })
     this.setState({ value })
   }
 
   onDismiss = () => {
-    const { onCancel } = this.props
-    onCancel && onCancel()
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render () {

@@ -20,6 +20,7 @@ import {
   GestureResponderEvent
 } from 'react-native'
 import Checkbox from '../Checkbox'
+import { noop } from '../../utils'
 import { SwitchProps, SwitchState } from './PropsType'
 
 class _Switch extends React.Component<SwitchProps, SwitchState> {
@@ -45,8 +46,8 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
   }
 
   onCheckedChange = (isChecked: boolean): void => {
-    const { onChange } = this.props
-    onChange && onChange({ detail: { value: isChecked } })
+    const { onChange = noop } = this.props
+    onChange({ detail: { value: isChecked } })
     this.setState({ checked: isChecked })
   }
 
