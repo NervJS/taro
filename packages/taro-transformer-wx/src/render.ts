@@ -2131,9 +2131,12 @@ export class RenderParser {
 
   checkDuplicateName () {
     this.loopScopes.forEach(s => {
+      if (s.includes('anonIdx')) {
+        return
+      }
       if (this.renderPath.scope.hasBinding(s)) {
         const err = codeFrameError(this.renderPath.scope.getBinding(s)!.path.node, '此变量声明与循环变量冲突，可能会造成问题。')
-        // tslint:disable-next-line
+        // tslint:disable-next-line: no-console
         console.warn('Warning: ', err.message)
         this.loopScopes.delete(s)
       }
