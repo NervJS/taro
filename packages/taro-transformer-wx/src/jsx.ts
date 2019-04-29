@@ -198,7 +198,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (name === 'className') {
           name = 'class'
         }
-        if (typeof name === 'string' && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+        if (typeof name === 'string' && /(^on[A-Z_])|(^catch[A-Z_])/.test(name) && Adapter.type === Adapters.quickapp) {
           name = name.toLowerCase()
         }
       }
