@@ -360,14 +360,7 @@ const getModule = ({
     test: jsxReg,
     use: {
       babelLoader: getBabelLoader([defaultBabelLoaderOption, additionalBabelOptions])
-    },
-    exclude: [(filename: string) => {
-      if (isEsnextModule(filename)) {
-        return false
-      } else {
-        return isNodeModule(filename)
-      }
-    }]
+    }
   }
   rule.media = {
     test: mediaReg,

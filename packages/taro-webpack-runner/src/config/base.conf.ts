@@ -8,7 +8,7 @@ export default () => {
   chain.merge({
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      mainFields: ['main:h5', 'main', 'module'],
+      mainFields: ['main:h5', 'module', 'main'],
       symlinks: true,
       modules: [
         path.join(appPath, 'node_modules'),
