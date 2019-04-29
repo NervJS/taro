@@ -42,7 +42,7 @@ import {
   tabBarConfigName,
   tabBarContainerComponentName,
   tabBarPanelComponentName
-} from './consts'
+} from './constants'
 import {
   addLeadingSlash,
   createRoute,
@@ -51,7 +51,7 @@ import {
   removeLeadingSlash,
   resetTSClassProperty,
   stripTrailingSlash
-} from './helpers'
+} from './helper'
 
 let pages: string[] = []
 
