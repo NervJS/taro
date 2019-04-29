@@ -1,4 +1,4 @@
-import { NodePath } from 'babel-traverse'
+import { NodePath, Scope } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
@@ -12,7 +12,8 @@ import {
   isArrayMapCallExpression,
   incrementId,
   isContainStopPropagation,
-  isDerivedFromProps
+  isDerivedFromProps,
+  findFirstIdentifierFromMemberExpression
 } from './utils'
 import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT_Component_SET_COPY, FN_PREFIX, CLASS_COMPONENT_UID } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
@@ -516,6 +517,7 @@ class Transformer {
             t.isMemberExpression(expr.callee) &&
             t.isIdentifier(expr.callee.property, { name: 'bind' })
           ) {
+            debugger
             if (
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
@@ -738,7 +740,18 @@ class Transformer {
 
   buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
     const { code } = generate(expr)
-    if (code.startsWith('this.props')) {
+    let renderScope: Scope | null = null
+    this.renderJSX.forEach(m => {
+      const method = attr.findParent(a => a === m)
+      if (method && method.scope) {
+        renderScope = method.get('body').scope
+      }
+    })
+    const id = t.isMemberExpression(expr.callee) ? findFirstIdentifierFromMemberExpression(expr.callee) : null
+    if (
+      code.startsWith('this.props') ||
+      (id && renderScope && isDerivedFromProps(renderScope, id.name))
+    ) {
       const methodName = findMethodName(expr)
       const uniqueMethodName = `${methodName}${String(isBind)}`
       const hasMethodName = this.anonymousMethod.has(uniqueMethodName) || !methodName
