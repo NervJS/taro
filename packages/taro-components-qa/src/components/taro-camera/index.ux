@@ -16,7 +16,7 @@
         required: false,
         default: ''
       },
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''

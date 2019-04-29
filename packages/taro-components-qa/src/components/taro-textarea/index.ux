@@ -16,7 +16,7 @@
 <script>
   export default {
     props: {
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -41,7 +41,7 @@
         required: false,
         default: 140
       },
-      placeholderClass: {
+      placeholderclass: {
         type: String,
         required: false,
         default: 'textarea-placeholder'

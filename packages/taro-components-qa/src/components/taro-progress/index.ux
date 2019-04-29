@@ -8,6 +8,7 @@
       percent="{{percent}}" 
       onclick="handleClick" 
       disabled="{{disabled}}"
+      stroke-width="{{strokewidth}}"
     >
     </progress>
     <text class="taro_progress_text" if="showInfo">{{percent}}%</text>
@@ -22,7 +23,7 @@
         required: false,
         default: 'horizontal'
       },
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -42,7 +43,7 @@
         default: {flex: 1}
       },
       percent: {
-        type: Number,
+        type: Number | String,
         required: false,
         default: 0
       },
@@ -56,18 +57,18 @@
         required: false,
         default: '#09BB07'
       },
-      backgroundColor: {
+      backgroundcolor: {
         type: String,
         required: false,
         default: '#fff'
       },
-      activeColor: {
+      activecolor: {
         type: String,
         required: false,
         default: '#09BB07'
       },
-      strokeWidth: {
-        type: String,
+      strokewidth: {
+        type: Number | String,
         required: false,
         default: 6
       }
@@ -78,13 +79,12 @@
     }),
 
     onInit() {
-      this.progressStyle = Object.assign(this.style, { 'background': this.backgroundColor,
-        'color': this.color, 'stroke-width': `${this.strokeWidth}px`})
+      this.progressStyle = this.style
     },
 
-    handleClick(e) {
-      this.$emit('click', e)
-    }
+    // handleClick(e) {
+    //   this.$emit('click', e)
+    // }
   }
 </script>
 

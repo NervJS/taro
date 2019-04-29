@@ -15,7 +15,7 @@
 <script>
   export default {
     props: {
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -55,22 +55,22 @@
         required: false,
         default: '#e9e9e9'
       },
-      activeColor: {
+      activecolor: {
         type: String,
         required: false,
         default: '#1aad19'
       },
-      selectedColor: {
+      selectedcolor: {
         type: String,
         required: false,
         default: '#1aad19'
       },
-      backgroundColor: {
+      backgroundcolor: {
         type: String,
         required: false,
         default: '#e9e9e9'
       },
-      showValue: {
+      showvalue: {
         type: Boolean,
         required: false,
         default: true
@@ -85,7 +85,7 @@
 
     onInit () {
       this.inputValue = this.value
-      this.sliderStyle = Object.assign(this.style, { 'selected-color:': this.activeColor, 'color: ': this.backgroundColor })
+      this.sliderStyle = Object.assign(this.style, { 'selected-color:': this.activecolor, 'color: ': this.backgroundcolor })
     },
 
     handleChange ( {progress} ) {

@@ -30,7 +30,7 @@
         required: false,
         default: ''
       },
-      className: {
+      classname: {
         type: String,
         required: false,
         default: 'taro_input'
@@ -65,12 +65,12 @@
         required: false,
         default: 10000
       },
-      confirmType: {
+      confirmtype: {
         type: String,
         required: false,
         default: 'default'
       },
-      placeholderStyle: {
+      placeholderstyle: {
         type: String,
         required: false,
         default: ''

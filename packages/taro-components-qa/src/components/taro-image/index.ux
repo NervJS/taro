@@ -76,8 +76,8 @@
 
 <style>
   .taro_image {
-    width: 300px;
-    height: 300px;
+    width: 600px;
+    height: 600px;
     resize-mode: contain;
   }
 

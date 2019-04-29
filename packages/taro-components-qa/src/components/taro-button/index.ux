@@ -1,6 +1,8 @@
 <template>
   <div
-    class="taro-button taro-button_default"
+    class="{{btnClass}}"
+    disabled="{{disabled}}"
+    style="{{btnStyle}}"
   >
     <slot></slot>
   </div>
@@ -8,10 +10,10 @@
 
 <script>
   // import LOADING_IMG from './img.js'
-
+  
   export default {
     props: {
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -60,21 +62,14 @@
     }),
 
     onInit () {
-      console.log(this)
       this.btnClass = `taro-button taro-button_default`
-      // this.btnClass = this.plain ?
-      //   `taro_button btn_plain btn_plain_${this.type}`
-      //   :
-      //   `taro_button ${this.className} btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`}`
-      // this.btnStyle = Object.assign({}, this.style, this.btnStyle)
+      this.btnClass = this.plain ? 
+        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.classname}` 
+        : 
+        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.classname}`
+      this.btnStyle = Object.assign({}, this.style, this.btnStyle)
 
     },
-
-    handleClick (e) {
-      console.log(1)
-      console.log(this)
-      this.$emit('click', e)
-    }
   }
 </script>
 

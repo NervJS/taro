@@ -18,7 +18,7 @@
         required: false,
         default: 'html'
       },
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''

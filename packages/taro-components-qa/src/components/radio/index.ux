@@ -37,7 +37,7 @@
         required: false,
         default: ''
       },
-      className: {
+      classname: {
         type: String,
         required: false,
         default: 'taro_input'
