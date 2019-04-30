@@ -25,9 +25,11 @@ class Manager {
 
           const nextProps = filterProps(ComponentClass.defaultProps, props, component.props)
           component.props = nextProps
-          component._unsafeCallUpdate = true
-          nextTick(() => updateComponent(component))
-          component._unsafeCallUpdate = false
+          nextTick(() => {
+            component._unsafeCallUpdate = true
+            updateComponent(component)
+            component._unsafeCallUpdate = false
+          })
         }
       })
     }
