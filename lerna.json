@@ -7,6 +7,7 @@
     "packages/taro-cli",
     "packages/taro-components",
     "packages/taro-components-rn",
+    "packages/taro-components-qa",
     "packages/taro-h5",
     "packages/taro-plugin-babel",
     "packages/taro-plugin-csso",
