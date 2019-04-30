@@ -1,4 +1,4 @@
-import { NodePath, Scope } from 'babel-traverse'
+import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import {
   codeFrameError,
@@ -517,7 +517,6 @@ class Transformer {
             t.isMemberExpression(expr.callee) &&
             t.isIdentifier(expr.callee.property, { name: 'bind' })
           ) {
-            debugger
             if (
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))

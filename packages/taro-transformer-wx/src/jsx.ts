@@ -133,7 +133,7 @@ function parseJSXChildren (
       if (t.isJSXText(child)) {
         const strings: string[] = []
         child.value.split(/(\r?\n\s*)/).forEach((val) => {
-          const value = val.replace(/\u00a0/g, '&nbsp;').trimLeft()
+          const value = val.replace(/\u00a0/g, '&nbsp;')
           if (!value) {
             return
           }
@@ -244,6 +244,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
+        // tslint:disable-next-line: strict-type-predicates
         } else if (attrValue === null && name !== Adapter.else) {
           value = `{{true}}`
         }
