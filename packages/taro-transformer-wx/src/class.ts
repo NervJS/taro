@@ -304,19 +304,19 @@ class Transformer {
           }
         }
       },
-      ClassMethod (path) {
-        const node = path.node
+      ClassMethod (classMethodPath) {
+        const node = classMethodPath.node
         if (t.isIdentifier(node.key)) {
           const methodName = node.key.name
-          self.methods.set(methodName, path)
+          self.methods.set(methodName, classMethodPath)
           if (methodName.startsWith('render')) {
-            if (!isContainJSXElement(path)) {
-              throw codeFrameError(path.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。')
+            if (!isContainJSXElement(classMethodPath)) {
+              throw codeFrameError(classMethodPath.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。')
             }
             hasRender = true
-            self.renderJSX.set(methodName, path)
-            self.refIdMap.set(path, new Set([]))
-            path.traverse({
+            self.renderJSX.set(methodName, classMethodPath)
+            self.refIdMap.set(classMethodPath, new Set([]))
+            classMethodPath.traverse({
               ReturnStatement (returnPath) {
                 const arg = returnPath.node.argument
                 const ifStem = returnPath.findParent(p => p.isIfStatement())
@@ -378,17 +378,17 @@ class Transformer {
                   if (!t.isJSXIdentifier(attrName, { name: 'data' })) {
                     return
                   }
-                  generateAnonymousState(callPath.scope, callPath, self.refIdMap.get(path)!)
+                  generateAnonymousState(callPath.scope, callPath, self.refIdMap.get(classMethodPath)!)
                 }
               }
             })
           }
           if (methodName.startsWith('render')) {
-            self.renderJSX.set(methodName, path)
-            self.refIdMap.set(path, new Set([]))
+            self.renderJSX.set(methodName, classMethodPath)
+            self.refIdMap.set(classMethodPath, new Set([]))
           }
           if (methodName === 'constructor') {
-            path.traverse({
+            classMethodPath.traverse({
               AssignmentExpression (p) {
                 if (
                   t.isMemberExpression(p.node.left) &&
@@ -740,17 +740,10 @@ class Transformer {
 
   buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
     const { code } = generate(expr)
-    let renderScope: Scope | null = null
-    this.renderJSX.forEach(m => {
-      const method = attr.findParent(a => a === m)
-      if (method && method.scope) {
-        renderScope = method.get('body').scope
-      }
-    })
     const id = t.isMemberExpression(expr.callee) ? findFirstIdentifierFromMemberExpression(expr.callee) : null
     if (
       code.startsWith('this.props') ||
-      (id && renderScope && isDerivedFromProps(renderScope, id.name))
+      (id && isDerivedFromProps(attr.scope, id.name))
     ) {
       const methodName = findMethodName(expr)
       const uniqueMethodName = `${methodName}${String(isBind)}`
