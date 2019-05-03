@@ -8,6 +8,218 @@
       "api-desc": {
         "title": "API 说明"
       },
+      "apis/device/accelerometer": {
+        "title": "加速度计",
+        "sidebar_label": "加速度计"
+      },
+      "apis/device/bluetooth": {
+        "title": "蓝牙",
+        "sidebar_label": "蓝牙"
+      },
+      "apis/device/brightness": {
+        "title": "屏幕亮度",
+        "sidebar_label": "屏幕亮度"
+      },
+      "apis/device/clipboard": {
+        "title": "剪贴板",
+        "sidebar_label": "剪贴板"
+      },
+      "apis/device/compass": {
+        "title": "罗盘",
+        "sidebar_label": "罗盘"
+      },
+      "apis/device/contacts": {
+        "title": "手机联系人",
+        "sidebar_label": "手机联系人"
+      },
+      "apis/device/ibeacon": {
+        "title": "iBeacon",
+        "sidebar_label": "iBeacon"
+      },
+      "apis/device/netstat": {
+        "title": "网络状态",
+        "sidebar_label": "网络状态"
+      },
+      "apis/device/nfc": {
+        "title": "NFC",
+        "sidebar_label": "NFC"
+      },
+      "apis/device/phone": {
+        "title": "拨打电话",
+        "sidebar_label": "拨打电话"
+      },
+      "apis/device/scancode": {
+        "title": "扫码",
+        "sidebar_label": "扫码"
+      },
+      "apis/device/screenshot": {
+        "title": "用户截屏事件",
+        "sidebar_label": "用户截屏事件"
+      },
+      "apis/device/systeminfo": {
+        "title": "系统信息",
+        "sidebar_label": "系统信息"
+      },
+      "apis/device/vibrate": {
+        "title": "振动",
+        "sidebar_label": "振动"
+      },
+      "apis/device/wifi": {
+        "title": "Wi-Fi",
+        "sidebar_label": "Wi-Fi"
+      },
+      "apis/extend-apis/arrayBufferToBase64": {
+        "title": "arrayBufferToBase64",
+        "sidebar_label": "arrayBufferToBase64"
+      },
+      "apis/extend-apis/base64ToArrayBuffer": {
+        "title": "base64ToArrayBuffer",
+        "sidebar_label": "base64ToArrayBuffer"
+      },
+      "apis/files/index": {
+        "title": "文件",
+        "sidebar_label": "文件"
+      },
+      "apis/interface/animation": {
+        "title": "动画",
+        "sidebar_label": "动画"
+      },
+      "apis/interface/canvas": {
+        "title": "绘图",
+        "sidebar_label": "绘图"
+      },
+      "apis/interface/interactives": {
+        "title": "交互反馈",
+        "sidebar_label": "交互反馈"
+      },
+      "apis/interface/navigation": {
+        "title": "导航",
+        "sidebar_label": "导航"
+      },
+      "apis/interface/navigationbar": {
+        "title": "设置导航条",
+        "sidebar_label": "设置导航条"
+      },
+      "apis/interface/pagescroll": {
+        "title": "滚动位置",
+        "sidebar_label": "滚动位置"
+      },
+      "apis/interface/pulldownrefresh": {
+        "title": "下拉刷新",
+        "sidebar_label": "下拉刷新"
+      },
+      "apis/interface/tabbar": {
+        "title": "设置 TabBar",
+        "sidebar_label": "设置 TabBar"
+      },
+      "apis/interface/topbar": {
+        "title": "设置置顶信息",
+        "sidebar_label": "设置置顶信息"
+      },
+      "apis/interface/wxml": {
+        "title": "WXML 节点信息",
+        "sidebar_label": "WXML 节点信息"
+      },
+      "apis/location/getLocation": {
+        "title": "获取位置",
+        "sidebar_label": "获取位置"
+      },
+      "apis/location/openLocation": {
+        "title": "查看位置",
+        "sidebar_label": "查看位置"
+      },
+      "apis/multimedia/audio": {
+        "title": "音频播放控制",
+        "sidebar_label": "音频播放控制"
+      },
+      "apis/multimedia/backgroundaudio": {
+        "title": "背景音频",
+        "sidebar_label": "背景音频"
+      },
+      "apis/multimedia/camera": {
+        "title": "相机组件控制",
+        "sidebar_label": "相机组件控制"
+      },
+      "apis/multimedia/images": {
+        "title": "图片",
+        "sidebar_label": "图片"
+      },
+      "apis/multimedia/map": {
+        "title": "地图组件控制",
+        "sidebar_label": "地图组件控制"
+      },
+      "apis/multimedia/recordings": {
+        "title": "录音",
+        "sidebar_label": "录音"
+      },
+      "apis/multimedia/video": {
+        "title": "视频",
+        "sidebar_label": "视频"
+      },
+      "apis/network/filetransfer": {
+        "title": "上传、下载",
+        "sidebar_label": "上传、下载"
+      },
+      "apis/network/request": {
+        "title": "发起请求",
+        "sidebar_label": "发起请求"
+      },
+      "apis/network/sockets": {
+        "title": "WebSocket",
+        "sidebar_label": "WebSocket"
+      },
+      "apis/open-api/address": {
+        "title": "收货地址",
+        "sidebar_label": "收货地址"
+      },
+      "apis/open-api/auth": {
+        "title": "授权",
+        "sidebar_label": "授权"
+      },
+      "apis/open-api/bioauth": {
+        "title": "生物认证",
+        "sidebar_label": "生物认证"
+      },
+      "apis/open-api/cards": {
+        "title": "卡券",
+        "sidebar_label": "卡券"
+      },
+      "apis/open-api/invoice": {
+        "title": "发票",
+        "sidebar_label": "发票"
+      },
+      "apis/open-api/login": {
+        "title": "登录",
+        "sidebar_label": "登录"
+      },
+      "apis/open-api/payment": {
+        "title": "支付",
+        "sidebar_label": "支付"
+      },
+      "apis/open-api/redirect": {
+        "title": "小程序跳转",
+        "sidebar_label": "小程序跳转"
+      },
+      "apis/open-api/settings": {
+        "title": "设置",
+        "sidebar_label": "设置"
+      },
+      "apis/open-api/userinfo": {
+        "title": "用户信息",
+        "sidebar_label": "用户信息"
+      },
+      "apis/open-api/werun": {
+        "title": "微信运动",
+        "sidebar_label": "微信运动"
+      },
+      "apis/storage/index": {
+        "title": "数据缓存",
+        "sidebar_label": "数据缓存"
+      },
+      "apis/updates/manager": {
+        "title": "更新管理",
+        "sidebar_label": "更新管理"
+      },
       "async-await": {
         "title": "异步编程"
       },
@@ -22,9 +234,6 @@
       },
       "component-style": {
         "title": "组件的外部样式和全局样式"
-      },
-      "component": {
-        "title": "Taro.Component"
       },
       "components-desc": {
         "title": "组件库说明"
@@ -174,17 +383,11 @@
       "debug": {
         "title": "Debug 指南"
       },
-      "env": {
-        "title": "环境判断"
-      },
       "envs": {
         "title": "跨平台开发"
       },
       "event": {
         "title": "事件处理"
-      },
-      "events": {
-        "title": "消息机制"
       },
       "GETTING-STARTED": {
         "title": "安装及使用"
@@ -294,7 +497,17 @@
       "地图": "地图",
       "画布": "画布",
       "开放能力": "开放能力",
-      "API": "API"
+      "关于API": "关于API",
+      "设备": "设备",
+      "扩展API": "扩展API",
+      "文件": "文件",
+      "界面": "界面",
+      "位置": "位置",
+      "媒体": "媒体",
+      "网络": "网络",
+      "开放接口": "开放接口",
+      "数据缓存": "数据缓存",
+      "更新": "更新"
     }
   },
   "pages-strings": {

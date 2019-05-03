@@ -6,7 +6,7 @@ sidebar_label: Canvas
 ##### 画布
 
 
-`<Canvas />` 组件的 H5 与 RN 版本尚未实现。
+`<Canvas />` 组件的 RN 版本尚未实现。
 
 >小程序端参数支持详见各小程序官网
 

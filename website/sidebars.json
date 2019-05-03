@@ -94,13 +94,80 @@
       "components/open/open-data"
     ]
   },
-  "api": {
-    "API": [
-      "api-desc",
-      "component",
-      "env",
-      "events",
-      "native-api"
+  "API": {
+    "关于API": [ "api-desc" ],
+    "设备": [
+      "apis/device/accelerometer",
+      "apis/device/bluetooth",
+      "apis/device/brightness",
+      "apis/device/clipboard",
+      "apis/device/compass",
+      "apis/device/contacts",
+      "apis/device/ibeacon",
+      "apis/device/netstat",
+      "apis/device/nfc",
+      "apis/device/phone",
+      "apis/device/scancode",
+      "apis/device/screenshot",
+      "apis/device/vibrate",
+      "apis/device/systeminfo",
+      "apis/device/wifi"
+    ],
+    "扩展API": [
+      "apis/extend-apis/arrayBufferToBase64",
+      "apis/extend-apis/base64ToArrayBuffer"
+    ],
+    "文件": [
+      "apis/files/index"
+    ],
+    "界面": [
+      "apis/interface/animation",
+      "apis/interface/canvas",
+      "apis/interface/interactives",
+      "apis/interface/navigation",
+      "apis/interface/navigationbar",
+      "apis/interface/pagescroll",
+      "apis/interface/pulldownrefresh",
+      "apis/interface/tabbar",
+      "apis/interface/topbar",
+      "apis/interface/wxml"
+    ],
+    "位置": [
+      "apis/location/getLocation",
+      "apis/location/openLocation"
+    ],
+    "媒体": [
+      "apis/multimedia/audio",
+      "apis/multimedia/backgroundaudio",
+      "apis/multimedia/camera",
+      "apis/multimedia/images",
+      "apis/multimedia/map",
+      "apis/multimedia/recordings",
+      "apis/multimedia/video"
+    ],
+    "网络": [
+      "apis/network/filetransfer",
+      "apis/network/request",
+      "apis/network/sockets"
+    ],
+    "开放接口": [
+      "apis/open-api/address",
+      "apis/open-api/auth",
+      "apis/open-api/bioauth",
+      "apis/open-api/cards",
+      "apis/open-api/invoice",
+      "apis/open-api/login",
+      "apis/open-api/paymeng",
+      "apis/open-api/redirect",
+      "apis/open-api/settings",
+      "apis/open-api/userinfo",
+      "apis/open-api/werun"
+    ],
+    "数据缓存": [
+      "apis/storage/index"
+    ],
+    "更新": [
+      "apis/updates/manager"
     ]
   }
 }
