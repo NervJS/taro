@@ -1394,6 +1394,7 @@ declare namespace Taro {
      */
     onMessage<T = any>(CALLBACK: SocketTask.onMessage.Param<T>): void
   }
+
   namespace chooseImage {
     type Promised = {
       /**
@@ -1573,6 +1574,103 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxgetimageinfoobject
    */
   function getImageInfo(OBJECT: getImageInfo.Param): Promise<getImageInfo.Promised>
+  
+  namespace compressImage {
+    type Promised = {
+      /**
+       * 压缩后图片的临时文件路径
+       */
+      tempFilePath: string
+    }
+    type Param = {
+      /**
+       * 图片路径，图片的路径，可以是相对路径、临时文件路径、存储文件路径
+       */
+      src: string
+      /**
+       * 压缩质量，范围0～100，数值越小，质量越低，压缩率越高（仅对jpg有效）。默认值80
+       */
+      quality?: number
+    }
+  }
+
+  /**
+   * @since 2.4.0
+   * 
+   * 压缩图片接口，可选压缩质量
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.compressImage({
+   *       src: '', // 图片路径
+   *       quality: 80 // 压缩质量
+   *     })
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.compressImage.html
+   */
+  function compressImage (OBJECT: compressImage.Param): Promise<compressImage.Promised>
+
+  namespace chooseMessageFile {
+    type TempFiles = {
+      /**
+       * 本地临时文件路径
+       */
+      path: string
+      /**
+       * 本地临时文件大小，单位 B
+       */
+      size:	number
+      /**
+       * 选择的文件名称
+       */
+      name:	string
+      /**
+       * 选择的文件类型
+       */
+      type: 'video' | 'image' | 'file'
+      /**
+       * 选择的文件的会话发送时间，Unix时间戳，工具暂不支持此属性
+       */
+      time: number
+    }
+    type Promised = {
+      tempFiles: TempFiles[]
+    }
+    type Param = {
+      /**
+       * 最多可以选择的图片张数，可以 0～100
+       */
+      count: number
+      /**
+       * 所选的文件的类型 all
+       */
+      type: 'all' | 'video' | 'image' | 'file'
+      /**
+       * 根据文件拓展名过滤，仅 type == file 时有效。每一项都不能是空字符串。默认不过滤。
+       */
+      extension?: string[]
+    }
+  }
+
+  /**
+   * @since 2.5.0
+   * 
+   * 从客户端会话选择文件。
+   * 
+   * **示例代码：**
+   *
+   *    ```javascript
+   *    Taro.chooseMessageFile({
+   *      count: 10,
+   *      type: 'image',
+   *      success(res) {
+   *        // tempFilePath可以作为img标签的src属性显示图片
+   *        const tempFilePaths = res.tempFilePaths
+   *      }
+   *    })
+   *    ```
+   */
+  function chooseMessageFile (OBJECT: chooseMessageFile.Param): Promise<chooseMessageFile.Promised>
 
   namespace saveImageToPhotosAlbum {
     type Promised = {
@@ -4790,6 +4888,41 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/phonecall.html#wxmakephonecallobject
    */
   function makePhoneCall(OBJECT: makePhoneCall.Param): Promise<any>
+  
+  namespace onMemoryWarning {
+    enum LEVEL {
+      TRIM_MEMORY_RUNNING_MODERATE = 5,
+      TRIM_MEMORY_RUNNING_LOW = 10,
+      TRIM_MEMORY_RUNNING_CRITICAL = 15
+    }
+
+    type Param = {
+      /**
+      * 内存告警等级，只有 Android 才有，对应系统宏定义
+      */
+      level: LEVEL
+    }
+
+    type onCallback = (e: Param) => void
+  }
+
+  /**
+   * @since 2.0.2
+   *
+   * 监听内存不足告警事件。
+   * 
+   * - 注意: 
+   *
+   * **示例代码：**
+   *    ```javascript
+   *    wx.onMemoryWarning(function () {
+   *      console.log('onMemoryWarningReceive')
+   *    })
+   *    ```
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onMemoryWarning.html
+   */
+  function onMemoryWarning(callback: onMemoryWarning.onCallback): void
 
   namespace scanCode {
     type Promised = {
@@ -6930,7 +7063,9 @@ declare namespace Taro {
    * @since 1.4.3
    *
    * 动态设置置顶栏文字内容，只有当前小程序被置顶时能生效，如果当前小程序没有被置顶，也能调用成功，但是不会立即生效，只有在用户将这个小程序置顶后才换上设置的文字内容。**注意：调用成功后，需间隔 5s 才能再次调用此接口，如果在 5s 内再次调用此接口，会回调 fail，errMsg："setTopBarText: fail invoke too frequently"**
-   *
+   *  
+   * - 注意： 从基础库 1.9.9 开始，本接口停止维护
+   * 
    * **示例代码：**
    *
    *     ```javascript
@@ -6942,6 +7077,23 @@ declare namespace Taro {
    */
   function setTopBarText(OBJECT: setTopBarText.Param): Promise<any>
 
+  /**
+   * @since 2.2.3
+   *
+   * 延迟一部分操作到下一个时间片再执行。（类似于 setTimeout）
+   * 
+   * **示例代码：**
+   *     
+   *     ```javascript
+   *        Taro.nextTick(() => {
+   *          this.setData({number: 3}) // 在当前同步流程结束后，下一个时间片执行
+   *        })
+   *     ```
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.nextTick.html
+   */
+  function nextTick(callback: Function): void
+  
   namespace setNavigationBarTitle {
     type Param = {
       /**
@@ -7295,6 +7447,64 @@ declare namespace Taro {
    */
   function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>
 
+  namespace loadFontFace {
+    type Param = {
+      /**
+      * 定义的字体名称 
+      */
+      family: string
+      /**
+      * 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的iOS上会不兼容。 
+      */
+      source: string
+      /**
+      * 可选的字体描述符 
+      */
+      desc?: FontDesc
+
+    }
+
+    type FontDesc = {
+      /**
+      * 字体样式，可选值为 normal / italic / oblique 'normal'
+      */
+      style?: string
+      /**
+      * 字体粗细，可选值为 normal / bold / 100 / 200../ 900 'normal'
+      */
+      weight?: string
+      /**
+      * 设置小型大写字母的字体显示文本，可选值为 normal / small-caps / inherit 'normal'
+      */
+      variant?: string
+    }
+  }
+
+  /**
+   * @since 2.1.0
+   *
+   * 动态加载网络字体。文件地址需为下载类型。iOS 仅支持 https 格式文件地址。
+   * 
+   * - 注意: 引入中文字体，体积过大时会发生错误，建议抽离出部分中文，减少体积，或者用图片替代
+   * - 注意：字体链接必须是https（ios不支持http)
+   * - 注意：字体链接必须是同源下的，或开启了cors支持，小程序的域名是servicewechat.com
+   * - 注意：canvas等原生组件不支持使用接口添加的字体
+   * - 注意：工具里提示 Faild to load font可以忽略
+   * 
+   * **示例代码：**
+   * 
+   *   ``` javascript
+   *   Taro.loadFontFace({
+   *     family: 'Bitstream Vera Serif Bold',
+   *     source: 'url("https://sungd.github.io/Pacifico.ttf")',
+   *     success: console.log
+   *   })
+   *   ```
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.loadFontFace.html
+   */
+  function loadFontFace(Object: loadFontFace.Param): void
+
   namespace getMenuButtonBoundingClientRect {
     type Return = {
       /**
@@ -7330,6 +7540,41 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.getMenuButtonBoundingClientRect.html
    */
   function getMenuButtonBoundingClientRect(): getMenuButtonBoundingClientRect.Return
+
+
+  namespace onWindowResize {
+    type CallbackParam = {
+      size: {
+        /**
+        * 变化后的窗口宽度，单位 px
+        */
+        windowWidth: number
+        /**
+        * 变化后的窗口高度，单位 px
+        */
+        windowHeight: number
+      }
+    }
+    type onCallback = (e: CallbackParam) => void
+  }
+
+  /**
+   * @since 2.3.0
+   *
+   * 监听窗口尺寸变化事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onWindowResize.html
+   */
+  function onWindowResize(callback: onWindowResize.onCallback): void
+
+  /**
+   * @since 2.3.0
+   *
+   * 取消监听窗口尺寸变化事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offWindowResize.html
+   */
+  function offWindowResize(callback: Function): void
 
   namespace navigateTo {
     type Param = {
@@ -8363,6 +8608,108 @@ declare namespace Taro {
    */
   function getExtConfigSync(): getExtConfigSync.Return
 
+  class InterstitialAd {
+    /**
+     * 显示插屏广告。
+     */
+    show (): Promise<any>
+    /**
+     * 监听插屏广告加载事件
+     */
+    onLoad (callback: Function): void
+    /**
+     * 监听插屏广告关闭事件
+     */
+    onClose (callback: Function): void
+    /**
+     * 监听插屏错误事件
+     */
+    onError (callback: Function): void
+    /**
+     * 取消监听插屏广告加载事件
+     */
+    offLoad (callback: Function): void
+    /**
+     * 取消监听插屏广告关闭事件
+     */
+    offClose (callback: Function): void
+    /**
+     * 取消监听插屏错误事件
+     */
+    offError (callback: Function): void
+  }
+
+  class RewardedVideoAd {
+    /**
+     * 加载激励视频广告
+     */
+    load (): Promise<any>
+    /**
+     * 显示激励视频广告。激励视频广告将从屏幕下方推入。
+     */
+    show (): Promise<any>
+    /**
+     * 监听激励视频广告加载事件
+     */
+    onLoad (callback: Function): void
+    /**
+     * 监听用户点击 关闭广告 按钮的事件
+     */
+    onClose (callback: Function): void
+    /**
+     * 监听激励视频错误事件
+     */
+    onError (callback: Function): void
+    /**
+     * 取消监听插屏广告加载事件
+     */
+    offLoad (callback: Function): void
+    /**
+     * 取消监听用户点击 关闭广告 按钮的事件
+     */
+    offClose (callback: Function): void
+    /**
+     * 取消监听激励视频错误事件
+     */
+    offError (callback: Function): void
+  }
+
+  namespace createRewardedVideoAd {
+    type Param = {
+        /**
+        * 广告单元 id 
+        */
+        adUnitId: string
+      }
+  }
+
+  /**
+   * @since 2.0.4
+   *
+   * 创建激励视频广告组件。请通过 wx.getSystemInfoSync() 返回对象的 SDKVersion 判断基础库版本号后再使用该 API（小游戏端要求 >= 2.0.4， 小程序端要求 >= 2.6.0）。调用该方法创建的激励视频广告是一个单例（小游戏端是全局单例，小程序端是页面内单例，在小程序端的单例对象不允许跨页面使用）。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.createRewardedVideoAd.html
+   */
+  function createRewardedVideoAd(Object: createRewardedVideoAd.Param): RewardedVideoAd
+
+  namespace createInterstitialAd {
+    type Param = {
+      /**
+      * 广告单元 id 
+      */
+      adUnitId: string
+    }
+  }
+
+  /**
+   * @since 2.6.0
+   *
+   * 创建插屏广告组件。请通过 wx.getSystemInfoSync() 返回对象的 SDKVersion 判断基础库版本号后再使用该 API。每次调用该方法创建插屏广告都会返回一个全新的实例（小程序端的插屏广告实例不允许跨页面使用）。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.createInterstitialAd.html
+   */
+  function createInterstitialAd(Object: createInterstitialAd.Param): InterstitialAd
+
   namespace login {
     type Promised = {
       /**
@@ -8614,6 +8961,40 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open.html#wxgetuserinfoobject
    */
   function getUserInfo(OBJECT?: getUserInfo.Param): Promise<getUserInfo.Promised>
+
+  /**
+   * @since 2.0.1
+   *
+   * @param name 监控ID，在「小程序管理后台」新建数据指标后获得
+   * @param value 上报数值，经处理后会在「小程序管理后台」上展示每分钟的上报总量
+   * 自定义业务数据监控上报接口。
+   * 
+   * 使用前，需要在「小程序管理后台-运维中心-性能监控-业务数据监控」中新建监控事件，配置监控描述与告警类型。每一个监控事件对应唯一的监控ID，开发者最多可以创建128个监控事件。
+   * 
+   * **示例代码：**
+   * 
+   *    ```javascript
+   *    Taro.reportMonitor('1', 1)
+   *    ```
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.reportMonitor.html
+   */
+  function reportMonitor(name: string, value: number): void
+
+  /**
+   * 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
+   * 
+   * **示例代码：**
+   *
+   *    ```javascript
+   *    Taro.reportAnalytics('purchase', {
+   *      price: 120,
+   *      color: 'red'
+   *    })
+   *    ```
+   *
+   */
+  function reportAnalytics(eventName: string, data: { key: string, value: any }): void
 
   namespace checkIsSupportFacialRecognition {
     type Promised = {
@@ -9284,6 +9665,51 @@ declare namespace Taro {
    */
   function navigateBackMiniProgram(OBJECT?: navigateBackMiniProgram.Param): Promise<navigateBackMiniProgram.Promised>
 
+  namespace getAccountInfoSync {
+    type Return = {
+      /**
+      * 小程序帐号信息
+      */
+      miniProgram: {
+        /**
+        * 小程序 appId
+        */
+        appId: string
+      }
+      /**
+      * 插件帐号信息（仅在插件中调用时包含这一项）
+      */
+      plugin: {
+        /**
+        * 插件 appId
+        */
+        appId: string
+        /**
+        * 插件版本号
+        */
+        version: string
+      }
+    }
+  }
+
+  /**
+   * @since 2.2.2
+   *
+   * 获取当前帐号信息
+   * 
+   * **示例代码：**
+   * 
+   *    ```javascript
+   *    const accountInfo = Taro.getAccountInfoSync()
+   *    console.log(accountInfo.miniProgram.appId) // 小程序 appId
+   *    console.log(accountInfo.plugin.appId) // 插件 appId
+   *    console.log(accountInfo.plugin.version) // 插件版本号， 'a.b.c' 这样的形式
+   *    ```
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.getAccountInfoSync.html
+   */
+  function getAccountInfoSync(): getAccountInfoSync.Return
+
   namespace chooseInvoice {
     type Promised = {
       /**
@@ -9657,6 +10083,233 @@ declare namespace Taro {
      */
     applyUpdate(): any
   }
+
+  namespace getLaunchOptionsSync {
+    type Return = {
+      /**
+       * 启动小程序的路径
+       */
+      path: string
+      /**
+       * 启动小程序的场景值
+       */
+      scene: number
+      /**
+       * 启动小程序的query参数
+       */
+      query: Record<string, any>
+      /**
+       * shareTicket，详见获取更多转发信息
+       */
+      shareTicket: string
+      /**
+       * 来源信息。从另一个小程序、公众号或App进入小程序时返回。否则返回{}。(参见后文注意)
+       */
+      referrerInfo: {
+        /**
+         * 来源小程序、公众号或 App 的 appId
+         */
+        appId: string
+        /**
+         * 来源小程序传过来的数据，scene=1037或1038时支持
+         */
+        extraData: any
+      }
+    }
+  }
+
+  /**
+   * @since 2.1.2
+   * 获取小程序启动时的参数。与 `App.onLaunch` 的回调参数一致。
+   * 
+   * ** 注意 **
+   * 
+   * 部分版本在无`referrerInfo`的时候会返回 undefined，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.getLaunchOptionsSync.html
+   */
+  function getLaunchOptionsSync (): getLaunchOptionsSync.Return
+
+  namespace onPageNotFound {
+
+    type CallbackParam = {
+      /**
+      * 不存在页面的路径
+      */
+      path: string
+      /**
+      * 打开不存在页面的 query 参数
+      */
+      query: Record<string, any>
+      /**
+      * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
+      */
+      isEntryPage: boolean
+    }
+
+    type onCallback = (e: CallbackParam) => void
+  }
+
+
+  /**
+   * @since 2.1.2
+   *
+   * 监听小程序要打开的页面不存在事件。该事件与 App.onPageNotFound 的回调时机一致。
+   * 
+   * - 注意: 开发者可以在回调中进行页面重定向，但必须在回调中同步处理，异步处理（例如 setTimeout 异步执行）无效。
+   * - 注意: 若开发者没有调用 wx.onPageNotFound 绑定监听，也没有声明 App.onPageNotFound，当跳转页面不存在时，将推入微信客户端原生的页面不存在提示页面。
+   * - 注意: 如果回调中又重定向到另一个不存在的页面，将推入微信客户端原生的页面不存在提示页面，并且不再第二次回调。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onPageNotFound.html
+   */
+  function onPageNotFound(callback: onPageNotFound.onCallback): void
+
+  namespace onError {
+    type onCallback = (e: any) => void
+  }
+
+
+  /**
+   * @since 2.1.2
+   *
+   * 监听小程序错误事件。如脚本错误或 API 调用报错等。该事件与 App.onError 的回调时机与参数一致。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onError.html
+   * 
+   */
+  function onError(OBJECT: onError.onCallback): void
+
+  /**
+   * @since 2.6.2
+   *
+   * 监听音频中断结束事件。在收到 onAudioInterruptionBegin 事件之后，小程序内所有音频会暂停，收到此事件之后才可再次播放成功
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onAudioInterruptionEnd.html
+   * 
+   */
+  function onAudioInterruptionEnd(onCallback: Function): void
+
+  /**
+   * @since 2.6.2
+   *
+   * 监听音频因为受到系统占用而被中断开始事件。以下场景会触发此事件：闹钟、电话、FaceTime 通话、微信语音聊天、微信视频聊天。此事件触发后，小程序内所有音频会暂停。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onAudioInterruptionBegin.html
+   */
+  function onAudioInterruptionBegin(onCallback: Function): void
+
+  namespace onAppShow {
+    type CallbackParam = {
+      /**
+      * 小程序切前台的路径
+      */
+      path: string
+      /**
+      * 小程序切前台的场景值
+      */
+      scene: number
+      /**
+      * 小程序切前台的 query 参数
+      */
+      query: Record<string, any>
+      /**
+      * shareTicket，详见获取更多转发信息
+      */
+      shareTicket: string
+      /**
+      * 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}。(参见后文注意)
+      */
+      referrerInfo: {
+        /**
+        * 来源小程序、公众号或 App 的 appId
+        */
+        appId: string
+        /**
+        * 来源小程序传过来的数据，scene=1037或1038时支持
+        */
+        extraData: any
+      }
+    }
+
+    type onCallback = (e: onAppShow.CallbackParam) => void
+  }
+
+  /**
+   * @since 2.1.2
+   *
+   * 监听小程序切前台事件。该事件与 App.onShow 的回调参数一致。
+   * 
+   * - 注意: 部分版本在无referrerInfo的时候会返回 undefined，建议使用 options.referrerInfo && options.referrerInfo.appId 进行判断。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onAppShow.html
+   * 
+   */
+  function onAppShow(OBJECT: onAppShow.onCallback): void
+
+  /**
+   * @since 2.1.2
+   *
+   * 监听小程序切后台事件。该事件与 App.onHide 的回调时机一致。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.onAppHide.html
+   * 
+   */
+  function onAppHide(callback: Function): void
+
+  /**
+   * @since 2.1.2
+   *
+   * 取消监听小程序要打开的页面不存在事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offPageNotFound.html
+   */
+  function offPageNotFound(callback: Function): void
+
+  /**
+   * @since 2.1.2
+   *
+   * 取消监听小程序错误事件。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offError.html
+   */
+  function offError(callback: Function): void
+
+  /**
+   * @since 2.6.2
+   *
+   * 取消监听音频中断结束事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offAudioInterruptionEnd.html
+   */
+  function offAudioInterruptionEnd(callback: Function): void
+
+  /**
+   * @since 2.6.2
+   *
+   * 取消监听音频因为受到系统占用而被中断开始事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offAudioInterruptionBegin.html
+   */
+  function offAudioInterruptionBegin(callback: Function): void
+
+  /**
+   * @since 2.1.2
+   *
+   * 取消监听小程序切前台事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offAppShow.html
+   */
+  function offAppShow(callback: Function): void
+
+  /**
+   * @since 2.1.2
+   *
+   * 取消监听小程序切后台事件
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.offAppHide.html
+   */
+  function offAppHide(callback: Function): void
+
   /**
    * @since 1.9.90
    *
