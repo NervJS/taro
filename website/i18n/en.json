@@ -219,6 +219,9 @@
       "props": {
         "title": "组件化 & Props"
       },
+      "quick-app": {
+        "title": "快应用端开发流程"
+      },
       "react-native": {
         "title": "React Native 端开发流程"
       },
