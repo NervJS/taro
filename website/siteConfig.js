@@ -41,7 +41,7 @@ const siteConfig = {
   headerLinks: [
     { doc: 'README', label: '文档' },
     { doc: 'components-desc', label: '组件库' },
-    { doc: 'api-desc', label: 'API' },
+    { doc: 'apis/about/desc', label: 'API' },
     { href: 'https://github.com/NervJS/taro', label: 'GitHub' },
     { search: true }
   ],
