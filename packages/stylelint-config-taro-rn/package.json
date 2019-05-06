@@ -31,7 +31,6 @@
     "stylelint-taro-rn": "1.3.0-beta.0"
   },
   "peerDependencies": {
-    "stylelint": "^8.0.0 || ^9.0.0",
-    "stylelint-taro-rn": "^1.2.15"
+    "stylelint": "^8.0.0 || ^9.0.0"
   }
 }

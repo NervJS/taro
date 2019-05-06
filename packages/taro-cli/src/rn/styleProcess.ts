@@ -3,7 +3,7 @@ import * as fs from 'fs-extra'
 import * as postcss from 'postcss'
 import chalk from 'chalk'
 import * as pxtransform from 'postcss-pxtransform'
-import transformCSS from 'css-to-react-native-transform'
+import transformCSS from 'taro-css-to-react-native'
 
 import {StyleSheetValidation} from './StyleSheet/index'
 import * as Util from '../util'
@@ -20,7 +20,7 @@ const DEVICE_RATIO = 'deviceRatio'
  * @param {object} pluginsConfig
  * @returns {*}
  */
-function loadStyle ({filePath, pluginsConfig}, appPath) {
+function loadStyle({filePath, pluginsConfig}, appPath) {
   const fileExt = path.extname(filePath)
   const pluginName = FILE_PROCESSOR_MAP[fileExt]
   if (pluginName) {
