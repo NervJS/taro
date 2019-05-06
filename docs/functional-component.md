@@ -65,7 +65,7 @@ class SomePage extends Taro.Component {
 2. 函数的参数不得传入 JSX 元素或 JSX 元素引用
 3. 函数不能递归地调用自身
 
-> 形如 `renderHeader` 这样的函数在小程序中会编译成 `template`，而小程序的 `template` 是无法做到递归调用自身的。当你有这样的需求时，可以把函数写成两个除了命名之外完全一样的函数: `renderHeaderOne` 和 `renderHeaderTwo`，在 `renderHeaderOne` 中调用 `renderHeaderTwo`，在 `renderHeaderOne` 中调用 `renderHeaderTwo`。
+> 形如 `renderHeader` 这样的函数在小程序中会编译成 `template`，而小程序的 `template` 是无法做到递归调用自身的。当你有这样的需求时，可以把函数写成两个除了命名之外完全一样的函数: `renderHeaderOne` 和 `renderHeaderTwo`，在 `renderHeaderOne` 中调用 `renderHeaderTwo`，在 `renderHeaderTwo` 中调用 `renderHeaderOne`。
 
 ## 闭包函数式组件
 
