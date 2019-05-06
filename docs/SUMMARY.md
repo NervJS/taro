@@ -19,6 +19,7 @@
   * [事件处理](event.md)
   * [条件渲染](condition.md)
   * [列表渲染](list.md)
+  * [函数式组件](functional-component.md)
   * [Refs 引用](ref.md)
   * [消息机制](events.md)
   * [内置环境变量](envs.md)

@@ -24,6 +24,7 @@
       "event",
       "condition",
       "list",
+      "functional-component",
       "children",
       "ref",
       "envs",
