@@ -83,6 +83,9 @@ const noPromiseApis = {
   stopPullDownRefresh: true,
   createIntersectionObserver: true,
 
+  // 菜单
+  getMenuButtonBoundingClientRect: true,
+
   onWindowResize: true,
   offWindowResize: true,
 
@@ -216,8 +219,6 @@ const otherApis = {
 
   setBackgroundColor: true,
   setBackgroundTextStyle: true,
-
-  getMenuButtonBoundingClientRect: true,
 
   // 第三方平台
   getExtConfig: true,
