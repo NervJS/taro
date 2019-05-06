@@ -25,6 +25,7 @@
       "condition",
       "list",
       "functional-component",
+      "hooks",
       "children",
       "ref",
       "envs",
