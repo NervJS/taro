@@ -21,7 +21,7 @@ export default class EXRichText extends Component {
           nodes={this.richTextNodes}
           style={{
             width: 300,
-            height: 200,
+            height: 100,
             borderColor: 'black',
             borderWidth: 1
           }}
