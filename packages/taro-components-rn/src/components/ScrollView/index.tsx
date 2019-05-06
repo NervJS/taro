@@ -18,10 +18,19 @@ import {
   ScrollView,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  StyleSheet,
+  ViewStyle
 } from 'react-native'
-import { dismemberStyle, omit, noop } from '../../utils'
+import { omit, noop } from '../../utils'
 import { ScrollViewProps, ScrollMetrics } from './PropsType'
+
+// const SCROLLVIEW_CONT_STYLE = [
+//   // Source code of ScrollView, ['alignItems','justifyContent']
+//   'alignItems',
+//   'justifyContent',
+//   // Other
+// ]
 
 class _ScrollView extends React.Component<ScrollViewProps> {
   // eslint-disable-next-line no-useless-constructor
@@ -198,9 +207,16 @@ class _ScrollView extends React.Component<ScrollViewProps> {
       enableBackToTop,
     } = this.props
 
-    const dismember: { wrapperStyle: any, innerStyle: any } = dismemberStyle(style)
-    const wrapperStyle: any = Object.assign(dismember.wrapperStyle, { height: dismember.innerStyle.height })
-    const innerStyle: any = omit(dismember.innerStyle, [ 'height' ])
+    const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
+    const wrapperStyle: ViewStyle = omit(flattenStyle, [
+      'alignItems',
+      'justifyContent'
+    ])
+    const contentContainerStyle: ViewStyle & { [key: string]: any } = {}
+    if (flattenStyle) {
+      flattenStyle.alignItems && (contentContainerStyle.alignItems = flattenStyle.alignItems)
+      flattenStyle.justifyContent && (contentContainerStyle.justifyContent = flattenStyle.justifyContent)
+    }
 
     return (
       <ScrollView
@@ -213,8 +229,8 @@ class _ScrollView extends React.Component<ScrollViewProps> {
         ref={this._captureScrollRef}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
-        style={[{ flexGrow: 0 }, wrapperStyle]}
-        contentContainerStyle={innerStyle}
+        style={wrapperStyle}
+        contentContainerStyle={contentContainerStyle}
       >
         {children}
       </ScrollView>
