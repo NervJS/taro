@@ -1,5 +1,5 @@
 // eslint-disable-next-line camelcase
-export const DEFAULT_Components_SET = new Set([
+const DEFAULT_Components_SET = new Set([
   'View',
   'ScrollView',
   'Swiper',
@@ -39,3 +39,7 @@ export const DEFAULT_Components_SET = new Set([
   'MovableArea',
   'MovableView'
 ])
+
+module.exports = {
+  DEFAULT_Components_SET
+}
