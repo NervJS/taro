@@ -68,6 +68,7 @@ class Compiler {
   sourceRoot: string
   sourcePath: string
   outputPath: string
+  outputDir: string
   tempDir: string
   tempPath: string
   entryFilePath: string
@@ -89,7 +90,7 @@ class Compiler {
     const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceRoot = sourceDir
     const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-
+    this.outputDir = outputDir
     this.h5Config = projectConfig.h5
     const routerConfig = this.h5Config.router
 
@@ -179,7 +180,7 @@ class Compiler {
     const entryFileName = this.entryFileName
     const projectConfig = this.projectConfig
     const h5Config = this.h5Config
-    const outputPath = this.outputPath
+    const outputDir = this.outputDir
     const sourceRoot = this.sourceRoot
     const tempPath = this.tempPath
 
@@ -201,7 +202,7 @@ class Compiler {
         TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
       },
       isWatch: !!watch,
-      outputRoot: outputPath,
+      outputRoot: outputDir,
       plugins: projectConfig.plugins,
       port,
       sourceRoot: sourceRoot
