@@ -100,7 +100,8 @@ const siteConfig = {
   ogImage: 'img/logo-taro.png',
   twitterImage: 'img/logo-taro.png',
 
-  scrollToTop: true
+  scrollToTop: true,
+  docsSideNavCollapsible: true
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
