@@ -22,6 +22,25 @@ class Component extends React.Component {
   }
 }
 
+class PureComponent extends React.PureComponent {
+  constructor (props, context) {
+    super(props, context)
+    if (props.navigation) {
+      this.$router = {params: props.navigation.state.params || {}}
+    }
+  }
+
+  get $app () {
+    if (!this._reactInternalFiber) return {}
+    if (!this._$app) this._$app = getApp(this)
+    return this._$app
+  }
+
+  set $app (app) {
+    console.warn('Please try not to set $app.')
+  }
+}
+
 /**
  * 往上遍历直到找到根节点
  * @param  {React Component} component 当前的组件实例
@@ -38,4 +57,4 @@ function getApp (component) {
   }
 }
 
-export default Component
+export { Component, PureComponent }
