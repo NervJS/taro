@@ -74,7 +74,6 @@
     "testRegex": ".*\\.test\\.js$|src/.*/__tests__/.*\\.js$"
   },
   "peerDependencies": {
-    "stylelint": "^8.0.0 || ^9.0.0"
   },
   "lint-staged": {
     "**/*.{js,json,md}": [
@@ -98,7 +97,7 @@
     "npmpub": "^4.1.0",
     "prettier": "^1.15.2",
     "rimraf": "^2.6.3",
-    "stylelint": "^9.8.0"
+    "stylelint": "9.3.0"
   },
   "prettier": {
     "semi": true,

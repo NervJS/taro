@@ -10,7 +10,7 @@ import * as Util from '../util'
 import * as npmProcess from '../util/npm'
 import {FILE_PROCESSOR_MAP, processTypeEnum} from '../util/constants'
 
-import stylelintConfig from '../config/rn-stylelint.json'
+import * as stylelintConfig from '../config/rn-stylelint.json'
 
 const DEVICE_RATIO = 'deviceRatio'
 
@@ -78,6 +78,9 @@ function postCSS({css, filePath, projectConfig}) {
         css: result.css,
         filePath
       }
+    }).catch((e) => {
+      Util.printLog(processTypeEnum.ERROR, '样式转换', filePath)
+      console.log(e.stack)
     })
 }
 
