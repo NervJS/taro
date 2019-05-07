@@ -7,6 +7,7 @@ import { promoteRelativePath, recursiveFindNodeModules } from './index'
 
 interface IArgs {
   npmName: string,
+  sourceFilePath: string,
   filePath: string,
   isProduction: boolean,
   npmConfig: INpmConfig,
@@ -33,6 +34,7 @@ export function getNpmOutputDir (outputDir: string, configDir: string, npmConfig
 
 export function getExactedNpmFilePath ({
   npmName,
+  sourceFilePath,
   filePath,
   isProduction,
   npmConfig,
@@ -63,6 +65,7 @@ export function getExactedNpmFilePath ({
     let outputNpmPath
     if (REG_STYLE.test(npmInfoMainPath)) {
       outputNpmPath = npmInfoMainPath
+      filePath = sourceFilePath
     } else {
       outputNpmPath = npmInfoMainPath.replace(nodeModulesPath, npmOutputDir)
     }

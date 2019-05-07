@@ -466,6 +466,7 @@ export function parseAst (
             if (!npmSkip) {
               source.value = getExactedNpmFilePath({
                 npmName: value,
+                sourceFilePath,
                 filePath,
                 isProduction,
                 npmConfig,
@@ -571,6 +572,7 @@ export function parseAst (
               if (!npmSkip) {
                 args[0].value = getExactedNpmFilePath({
                   npmName: value,
+                  sourceFilePath,
                   filePath,
                   isProduction,
                   npmConfig,
@@ -857,6 +859,7 @@ export function parseAst (
         }
         const taroMiniAppFrameworkPath = !npmSkip ? getExactedNpmFilePath({
           npmName: taroMiniAppFramework,
+          sourceFilePath,
           filePath,
           isProduction,
           npmConfig,
