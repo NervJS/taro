@@ -236,7 +236,9 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
         })).catch(err => {
           if (err) {
             console.log(err)
-            process.exit(0)
+            if (isProduction) {
+              process.exit(0)
+            }
           }
         })
     }
