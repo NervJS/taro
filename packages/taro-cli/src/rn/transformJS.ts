@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as babel from 'babel-core'
-import traverse from 'babel-traverse'
+import traverse, { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import * as _ from 'lodash'
 import generate from 'babel-generator'
@@ -9,6 +9,7 @@ import * as Util from '../util'
 import babylonConfig from '../config/babylon'
 import { convertSourceStringToAstExpression as toAst } from '../util/astConvert'
 import { REG_STYLE, REG_TYPESCRIPT, BUILD_TYPES, REG_SCRIPTS } from '../util/constants'
+import { convertAstExpressionToVariable as toVar } from '../util/astConvert'
 
 const template = require('babel-template')
 
@@ -43,6 +44,8 @@ const PACKAGES = {
   '@tarojs/mobx': '@tarojs/mobx',
   '@tarojs/mobx-rn': '@tarojs/mobx-rn'
 }
+
+const additionalConstructorNode = toAst(`Taro._$app = this`)
 
 function getInitPxTransformNode (projectConfig) {
   const pxTransformConfig = {designWidth: projectConfig.designWidth || 750}
@@ -207,7 +210,7 @@ const ClassDeclarationOrExpression = {
   }
 }
 
-export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
+export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
   let ast
   try {
     ast = getJSAst(code, filePath)
@@ -222,6 +225,12 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
   let storeName
   let hasAppExportDefault
   let classRenderReturnJSX
+
+  let hasConstructor = false
+  let hasComponentDidMount = false
+  let hasComponentDidShow = false
+  let hasComponentDidHide = false
+  let hasComponentWillUnmount = false
 
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
@@ -281,7 +290,8 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
         const taroApisSpecifiers: t.ImportSpecifier[] = []
         specifiers.forEach((item, index) => {
           if ((item as t.ImportSpecifier).imported && taroApis.indexOf((item as t.ImportSpecifier).imported.name) >= 0) {
-            taroApisSpecifiers.push(t.importSpecifier(t.identifier((item as t.ImportSpecifier).local.name), t.identifier((item as t.ImportSpecifier).imported.name)))
+            taroApisSpecifiers.push(
+              t.importSpecifier(t.identifier((item as t.ImportSpecifier).local.name), t.identifier((item as t.ImportSpecifier).imported.name)))
             specifiers.splice(index, 1)
           }
         })
@@ -322,29 +332,47 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
       }
     },
     ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths, isEntryFile}),
-    // 获取 classRenderReturnJSX
-    ClassMethod (astPath) {
-      const node = astPath.node as t.ClassMethod
-      const key = node.key as t.Identifier
-      if (key.name !== 'render' || !isEntryFile) return
-      astPath.traverse({
-        BlockStatement (astPath) {
-          if (astPath.parent === node) {
-            const node = astPath.node
-            astPath.traverse({
-              ReturnStatement (astPath) {
-                if (astPath.parent === node) {
-                  astPath.traverse({
-                    JSXElement (astPath) {
-                      classRenderReturnJSX = generate(astPath.node).code
-                    }
-                  })
-                }
-              }
-            })
-          }
+    ClassMethod: {
+      enter (astPath: NodePath<t.ClassMethod>) {
+        const node = astPath.node
+        const key = node.key
+        const keyName = toVar(key)
+        // 仅关注 app.js
+        if (!isEntryFile) return
+        // 初始化 生命周期函数判断
+        if (keyName === 'constructor') {
+          hasConstructor = true
+        } else if (keyName === 'componentDidMount') {
+          hasComponentDidMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        } else if (keyName === 'componentWillUnmount') {
+          hasComponentWillUnmount = true
         }
-      })
+        // 获取 app.js 的 classRenderReturnJSX
+        if (keyName == 'render') {
+          astPath.traverse({
+            BlockStatement (astPath) {
+              if (astPath.parent === node) {
+                const node = astPath.node
+                astPath.traverse({
+                  ReturnStatement (astPath) {
+                    if (astPath.parent === node) {
+                      astPath.traverse({
+                        JSXElement (astPath) {
+                          classRenderReturnJSX = generate(astPath.node).code
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }
+      }
     },
 
     ExportDefaultDeclaration () {
@@ -371,30 +399,77 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
           ClassMethod (astPath) {
             const node = astPath.node
             const key = node.key as t.Identifier
-            if (key.name !== 'render' || !isEntryFile) return
 
-            let funcBody = `
+            const keyName = toVar(key)
+            const isComponentDidMount = keyName === 'componentDidMount'
+            const isComponentWillUnmount = keyName === 'componentWillUnmount'
+            const isConstructor = keyName === 'constructor'
+
+            if (!isEntryFile) return
+
+            if (hasConstructor && isConstructor) {
+              node.body.body.push(additionalConstructorNode)
+            }
+
+            if (hasComponentDidShow && isComponentDidMount) {
+              const componentDidShowCallNode = toAst(`this.componentDidShow()`)
+              node.body.body.push(componentDidShowCallNode)
+            }
+
+            if (hasComponentDidHide && isComponentWillUnmount) {
+              const componentDidHideCallNode = toAst(`this.componentDidHide()`)
+              node.body.body.unshift(componentDidHideCallNode)
+            }
+
+            if (key.name == 'render') {
+              let funcBody = `
               <${taroComponentsRNProviderName}>
                 ${classRenderReturnJSX}
               </${taroComponentsRNProviderName}>`
 
-            if (pages.length > 0) {
-              funcBody = `
+              if (pages.length > 0) {
+                funcBody = `
                 <${taroComponentsRNProviderName}>
                   <RootStack/>
                 </${taroComponentsRNProviderName}>`
-            }
+              }
 
-            if (providerComponentName && storeName) {
-              // 使用redux 或 mobx
-              funcBody = `
+              if (providerComponentName && storeName) {
+                // 使用redux 或 mobx
+                funcBody = `
                 <${providorImportName} store={${storeName}}>
                   ${funcBody}
                 </${providorImportName}>`
+              }
+              node.body = template(`{return (${funcBody});}`, babylonConfig as any)() as any
             }
-            node.body = template(`{return (${funcBody});}`, babylonConfig as any)() as any
           },
 
+          ClassBody: {
+            exit (astPath: NodePath<t.ClassBody>) {
+              if (!isEntryFile) return
+              const node = astPath.node
+              if (hasComponentDidShow && !hasComponentDidMount) {
+                node.body.push(t.classMethod(
+                  'method', t.identifier('componentDidMount'), [],
+                  t.blockStatement([
+                    toAst('this.componentDidShow && this.componentDidShow()') as t.Statement
+                  ]), false, false))
+              }
+              if (hasComponentDidHide && !hasComponentWillUnmount) {
+                node.body.push(t.classMethod(
+                  'method', t.identifier('componentWillUnmount'), [],
+                  t.blockStatement([
+                    toAst('this.componentDidHide && this.componentDidHide()') as t.Statement
+                  ]), false, false))
+              }
+              if (!hasConstructor) {
+                node.body.unshift(t.classMethod(
+                  'method', t.identifier('constructor'), [t.identifier('props'), t.identifier('context')],
+                  t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as t.Statement[]), false, false))
+              }
+            }
+          },
           CallExpression (astPath) {
             const node = astPath.node
             const callee = node.callee as t.Identifier
