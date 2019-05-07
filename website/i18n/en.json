@@ -5,8 +5,763 @@
     "previous": "Previous",
     "tagline": "多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝小程序、H5、React Native 等平台的应用。",
     "docs": {
-      "api-desc": {
+      "apis/about/desc": {
         "title": "API 说明"
+      },
+      "apis/about/env": {
+        "title": "环境判断"
+      },
+      "apis/about/events": {
+        "title": "消息机制"
+      },
+      "apis/about/tarocomponent": {
+        "title": "Taro.Component"
+      },
+      "apis/device/accelerometer/onAccelerometerChange": {
+        "title": "Taro.onAccelerometerChange(callback)",
+        "sidebar_label": "onAccelerometerChange"
+      },
+      "apis/device/accelerometer/startAccelerometer": {
+        "title": "Taro.startAccelerometer(res)",
+        "sidebar_label": "startAccelerometer"
+      },
+      "apis/device/accelerometer/stopAccelerometer": {
+        "title": "Taro.stopAccelerometer(res)",
+        "sidebar_label": "stopAccelerometer"
+      },
+      "apis/device/ble/closeBLEConnection": {
+        "title": "Taro.closeBLEConnection(OBJECT)",
+        "sidebar_label": "closeBLEConnection"
+      },
+      "apis/device/ble/createBLEConnection": {
+        "title": "Taro.createBLEConnection(OBJECT)",
+        "sidebar_label": "createBLEConnection"
+      },
+      "apis/device/ble/getBLEDeviceCharacteristics": {
+        "title": "Taro.getBLEDeviceCharacteristics(OBJECT)",
+        "sidebar_label": "getBLEDeviceCharacteristics"
+      },
+      "apis/device/ble/getBLEDeviceServices": {
+        "title": "Taro.getBLEDeviceServices(OBJECT)",
+        "sidebar_label": "getBLEDeviceServices"
+      },
+      "apis/device/ble/notifyBLECharacteristicValueChange": {
+        "title": "Taro.notifyBLECharacteristicValueChange(OBJECT)",
+        "sidebar_label": "notifyBLECharacteristicValueChange"
+      },
+      "apis/device/ble/onBLECharacteristicValueChange": {
+        "title": "Taro.onBLECharacteristicValueChange(CALLBACK)",
+        "sidebar_label": "onBLECharacteristicValueChange"
+      },
+      "apis/device/ble/onBLEConnectionStateChange": {
+        "title": "Taro.onBLEConnectionStateChange(CALLBACK)",
+        "sidebar_label": "onBLEConnectionStateChange"
+      },
+      "apis/device/ble/readBLECharacteristicValue": {
+        "title": "Taro.readBLECharacteristicValue(OBJECT)",
+        "sidebar_label": "readBLECharacteristicValue"
+      },
+      "apis/device/ble/writeBLECharacteristicValue": {
+        "title": "Taro.writeBLECharacteristicValue(OBJECT)",
+        "sidebar_label": "writeBLECharacteristicValue"
+      },
+      "apis/device/bluetooth/closeBluetoothAdapter": {
+        "title": "Taro.closeBluetoothAdapter(OBJECT)",
+        "sidebar_label": "closeBluetoothAdapter"
+      },
+      "apis/device/bluetooth/getBluetoothAdapterState": {
+        "title": "Taro.getBluetoothAdapterState(OBJECT)",
+        "sidebar_label": "getBluetoothAdapterState"
+      },
+      "apis/device/bluetooth/getBluetoothDevices": {
+        "title": "Taro.getBluetoothDevices(OBJECT)",
+        "sidebar_label": "getBluetoothDevices"
+      },
+      "apis/device/bluetooth/getConnectedBluetoothDevices": {
+        "title": "Taro.getConnectedBluetoothDevices(OBJECT)",
+        "sidebar_label": "getConnectedBluetoothDevices"
+      },
+      "apis/device/bluetooth/onBluetoothAdapterStateChange": {
+        "title": "Taro.onBluetoothAdapterStateChange(CALLBACK)",
+        "sidebar_label": "onBluetoothAdapterStateChange"
+      },
+      "apis/device/bluetooth/onBluetoothDeviceFound": {
+        "title": "Taro.onBluetoothDeviceFound(CALLBACK)",
+        "sidebar_label": "onBluetoothDeviceFound"
+      },
+      "apis/device/bluetooth/openBluetoothAdapter": {
+        "title": "Taro.openBluetoothAdapter(OBJECT)",
+        "sidebar_label": "openBluetoothAdapter"
+      },
+      "apis/device/bluetooth/startBluetoothDevicesDiscovery": {
+        "title": "Taro.startBluetoothDevicesDiscovery(OBJECT)",
+        "sidebar_label": "startBluetoothDevicesDiscovery"
+      },
+      "apis/device/bluetooth/stopBluetoothDevicesDiscovery": {
+        "title": "Taro.stopBluetoothDevicesDiscovery(OBJECT)",
+        "sidebar_label": "stopBluetoothDevicesDiscovery"
+      },
+      "apis/device/brightness/getScreenBrightness": {
+        "title": "Taro.getScreenBrightness(OBJECT)",
+        "sidebar_label": "getScreenBrightness"
+      },
+      "apis/device/brightness/setKeepScreenOn": {
+        "title": "Taro.setKeepScreenOn(OBJECT)",
+        "sidebar_label": "setKeepScreenOn"
+      },
+      "apis/device/brightness/setScreenBrightness": {
+        "title": "Taro.setScreenBrightness(OBJECT)",
+        "sidebar_label": "setScreenBrightness"
+      },
+      "apis/device/clipboard/getClipboardData": {
+        "title": "Taro.getClipboardData(OBJECT)",
+        "sidebar_label": "getClipboardData"
+      },
+      "apis/device/clipboard/setClipboardData": {
+        "title": "Taro.setClipboardData(OBJECT)",
+        "sidebar_label": "setClipboardData"
+      },
+      "apis/device/compass/onCompassChange": {
+        "title": "Taro.onCompassChange(CALLBACK)",
+        "sidebar_label": "onCompassChange"
+      },
+      "apis/device/compass/startCompass": {
+        "title": "Taro.startCompass(OBJECT)",
+        "sidebar_label": "startCompass"
+      },
+      "apis/device/compass/stopCompass": {
+        "title": "Taro.stopCompass(OBJECT)",
+        "sidebar_label": "stopCompass"
+      },
+      "apis/device/contacts/addPhoneContact": {
+        "title": "Taro.addPhoneContact(OBJECT)",
+        "sidebar_label": "addPhoneContact"
+      },
+      "apis/device/deviceMotion/onDeviceMotionChange": {
+        "title": "Taro.onDeviceMotionChange(callback)",
+        "sidebar_label": "onDeviceMotionChange"
+      },
+      "apis/device/deviceMotion/startDeviceMotionListening": {
+        "title": "Taro.startDeviceMotionListening(callback)",
+        "sidebar_label": "startDeviceMotionListening"
+      },
+      "apis/device/deviceMotion/stopDeviceMotionListening": {
+        "title": "Taro.stopDeviceMotionListening(callback)",
+        "sidebar_label": "stopDeviceMotionListening"
+      },
+      "apis/device/ibeacon/getBeacons": {
+        "title": "Taro.getBeacons(OBJECT)",
+        "sidebar_label": "getBeacons"
+      },
+      "apis/device/ibeacon/onBeaconServiceChange": {
+        "title": "Taro.onBeaconServiceChange(CALLBACK)",
+        "sidebar_label": "onBeaconServiceChange"
+      },
+      "apis/device/ibeacon/onBeaconUpdate": {
+        "title": "Taro.onBeaconUpdate(CALLBACK)",
+        "sidebar_label": "onBeaconUpdate"
+      },
+      "apis/device/ibeacon/startBeaconDiscovery": {
+        "title": "Taro.startBeaconDiscovery(OBJECT)",
+        "sidebar_label": "startBeaconDiscovery"
+      },
+      "apis/device/ibeacon/stopBeaconDiscovery": {
+        "title": "Taro.stopBeaconDiscovery(OBJECT)",
+        "sidebar_label": "stopBeaconDiscovery"
+      },
+      "apis/device/netstat/getNetworkType": {
+        "title": "Taro.getNetworkType(OBJECT)",
+        "sidebar_label": "getNetworkType"
+      },
+      "apis/device/netstat/onNetworkStatusChange": {
+        "title": "Taro.onNetworkStatusChange(CALLBACK)",
+        "sidebar_label": "onNetworkStatusChange"
+      },
+      "apis/device/nfc/getHCEState": {
+        "title": "Taro.getHCEState(OBJECT)",
+        "sidebar_label": "getHCEState"
+      },
+      "apis/device/nfc/onHCEMessage": {
+        "title": "Taro.onHCEMessage(CALLBACK)",
+        "sidebar_label": "onHCEMessage"
+      },
+      "apis/device/nfc/sendHCEMessage": {
+        "title": "Taro.sendHCEMessage(OBJECT)",
+        "sidebar_label": "sendHCEMessage"
+      },
+      "apis/device/nfc/startHCE": {
+        "title": "Taro.startHCE(OBJECT)",
+        "sidebar_label": "startHCE"
+      },
+      "apis/device/nfc/stopHCE": {
+        "title": "Taro.stopHCE(OBJECT)",
+        "sidebar_label": "stopHCE"
+      },
+      "apis/device/phone/makePhoneCall": {
+        "title": "Taro.makePhoneCall(OBJECT)",
+        "sidebar_label": "makePhoneCall"
+      },
+      "apis/device/scancode/scancode": {
+        "title": "Taro.scanCode(OBJECT)",
+        "sidebar_label": "scanCode"
+      },
+      "apis/device/screenshot/onUserCaptureScreen": {
+        "title": "Taro.onUserCaptureScreen(CALLBACK)",
+        "sidebar_label": "onUserCaptureScreen"
+      },
+      "apis/device/systeminfo/canIUse": {
+        "title": "Taro.canIUse(String)",
+        "sidebar_label": "canIUse"
+      },
+      "apis/device/systeminfo/getSystemInfo": {
+        "title": "Taro.getSystemInfo(OBJECT)",
+        "sidebar_label": "getSystemInfo"
+      },
+      "apis/device/systeminfo/getSystemInfoSync": {
+        "title": "Taro.getSystemInfoSync()",
+        "sidebar_label": "getSystemInfoSync"
+      },
+      "apis/device/vibrate/vibrateLong": {
+        "title": "Taro.vibrateLong(OBJECT)",
+        "sidebar_label": "vibrateLong"
+      },
+      "apis/device/vibrate/vibrateShort": {
+        "title": "Taro.vibrateShort(OBJECT)",
+        "sidebar_label": "vibrateShort"
+      },
+      "apis/device/wifi/connectWifi": {
+        "title": "Taro.connectWifi(OBJECT)",
+        "sidebar_label": "connectWifi"
+      },
+      "apis/device/wifi/getConnectedWifi": {
+        "title": "Taro.getConnectedWifi(OBJECT)",
+        "sidebar_label": "getConnectedWifi"
+      },
+      "apis/device/wifi/getWifiList": {
+        "title": "Taro.getWifiList(OBJECT)",
+        "sidebar_label": "getWifiList"
+      },
+      "apis/device/wifi/onGetWifiList": {
+        "title": "Taro.onGetWifiList(CALLBACK)",
+        "sidebar_label": "onGetWifiList"
+      },
+      "apis/device/wifi/onWifiConnected": {
+        "title": "Taro.onWifiConnected(CALLBACK)",
+        "sidebar_label": "onWifiConnected"
+      },
+      "apis/device/wifi/setWifiList": {
+        "title": "Taro.setWifiList(OBJECT)",
+        "sidebar_label": "setWifiList"
+      },
+      "apis/device/wifi/startWifi": {
+        "title": "Taro.startWifi(OBJECT)",
+        "sidebar_label": "startWifi"
+      },
+      "apis/device/wifi/stopWifi": {
+        "title": "Taro.stopWifi(OBJECT)",
+        "sidebar_label": "stopWifi"
+      },
+      "apis/extend-apis/arrayBufferToBase64": {
+        "title": "arrayBufferToBase64",
+        "sidebar_label": "arrayBufferToBase64"
+      },
+      "apis/extend-apis/base64ToArrayBuffer": {
+        "title": "base64ToArrayBuffer",
+        "sidebar_label": "base64ToArrayBuffer"
+      },
+      "apis/files/getFileInfo": {
+        "title": "Taro.getFileInfo(OBJECT)",
+        "sidebar_label": "getFileInfo"
+      },
+      "apis/files/getSavedFileInfo": {
+        "title": "Taro.getSavedFileInfo(OBJECT)",
+        "sidebar_label": "getSavedFileInfo"
+      },
+      "apis/files/getSavedFileList": {
+        "title": "Taro.getSavedFileList(OBJECT)",
+        "sidebar_label": "getSavedFileList"
+      },
+      "apis/files/openDocument": {
+        "title": "Taro.openDocument(OBJECT)",
+        "sidebar_label": "openDocument"
+      },
+      "apis/files/removeSavedFile": {
+        "title": "Taro.removeSavedFile(OBJECT)",
+        "sidebar_label": "removeSavedFile"
+      },
+      "apis/files/saveFile": {
+        "title": "Taro.saveFile(OBJECT)",
+        "sidebar_label": "saveFile"
+      },
+      "apis/interface/animation/createAnimation": {
+        "title": "Taro.createAnimation(OBJECT)",
+        "sidebar_label": "createAnimation"
+      },
+      "apis/interface/canvas/canvasGetImageData": {
+        "title": "Taro.canvasGetImageData(param, componentInstance)",
+        "sidebar_label": "canvasGetImageData"
+      },
+      "apis/interface/canvas/canvasPutImageData": {
+        "title": "Taro.canvasPutImageData(param, componentInstance)",
+        "sidebar_label": "canvasPutImageData"
+      },
+      "apis/interface/canvas/canvasToTempFilePath": {
+        "title": "Taro.canvasToTempFilePath(param, componentInstance)",
+        "sidebar_label": "canvasToTempFilePath"
+      },
+      "apis/interface/canvas/createCanvasContext": {
+        "title": "Taro.createCanvasContext(canvasId, this.$scope)",
+        "sidebar_label": "createCanvasContext"
+      },
+      "apis/interface/canvas/createContext": {
+        "title": "Taro.createContext(不推荐使用)",
+        "sidebar_label": "createContext"
+      },
+      "apis/interface/canvas/drawCanvas": {
+        "title": "Taro.drawCanvas(不推荐使用)",
+        "sidebar_label": "drawCanvas"
+      },
+      "apis/interface/interactives/hideLoading": {
+        "title": "Taro.hideLoading()",
+        "sidebar_label": "hideLoading"
+      },
+      "apis/interface/interactives/hideToast": {
+        "title": "Taro.hideToast()",
+        "sidebar_label": "hideToast"
+      },
+      "apis/interface/interactives/showActionSheet": {
+        "title": "Taro.showActionSheet(OBJECT)",
+        "sidebar_label": "showActionSheet"
+      },
+      "apis/interface/interactives/showLoading": {
+        "title": "Taro.showLoading(OBJECT)",
+        "sidebar_label": "showLoading"
+      },
+      "apis/interface/interactives/showModal": {
+        "title": "Taro.showModal(OBJECT)",
+        "sidebar_label": "showModal"
+      },
+      "apis/interface/interactives/showToast": {
+        "title": "Taro.showToast(OBJECT)",
+        "sidebar_label": "showToast"
+      },
+      "apis/interface/navigation/getCurrentPages": {
+        "title": "Taro.getCurrentPages(OBJECT)",
+        "sidebar_label": "getCurrentPages"
+      },
+      "apis/interface/navigation/navigateBack": {
+        "title": "Taro.navigateBack(OBJECT)",
+        "sidebar_label": "navigateBack"
+      },
+      "apis/interface/navigation/navigateTo": {
+        "title": "Taro.navigateTo(OBJECT)",
+        "sidebar_label": "navigateTo"
+      },
+      "apis/interface/navigation/redirectTo": {
+        "title": "Taro.redirectTo(OBJECT)",
+        "sidebar_label": "redirectTo"
+      },
+      "apis/interface/navigation/reLaunch": {
+        "title": "Taro.reLaunch(OBJECT)",
+        "sidebar_label": "reLaunch"
+      },
+      "apis/interface/navigation/switchTab": {
+        "title": "Taro.switchTab(OBJECT)",
+        "sidebar_label": "switchTab"
+      },
+      "apis/interface/navigationbar/hideNavigationBarLoading": {
+        "title": "Taro.hideNavigationBarLoading()",
+        "sidebar_label": "hideNavigationBarLoading"
+      },
+      "apis/interface/navigationbar/setNavigationBarColor": {
+        "title": "Taro.setNavigationBarColor(OBJECT)",
+        "sidebar_label": "setNavigationBarColor"
+      },
+      "apis/interface/navigationbar/setNavigationBarTitle": {
+        "title": "Taro.setNavigationBarTitle(OBJECT)",
+        "sidebar_label": "setNavigationBarTitle"
+      },
+      "apis/interface/navigationbar/showNavigationBarLoading": {
+        "title": "Taro.showNavigationBarLoading()",
+        "sidebar_label": "showNavigationBarLoading"
+      },
+      "apis/interface/pagescroll/pageScrollTo": {
+        "title": "Taro.pageScrollTo(OBJECT)",
+        "sidebar_label": "pageScrollTo"
+      },
+      "apis/interface/pulldownrefresh/startPullDownRefresh": {
+        "title": "Taro.startPullDownRefresh(OBJECT)",
+        "sidebar_label": "startPullDownRefresh"
+      },
+      "apis/interface/pulldownrefresh/stopPullDownRefresh": {
+        "title": "Taro.stopPullDownRefresh()",
+        "sidebar_label": "stopPullDownRefresh"
+      },
+      "apis/interface/tabbar/hideTabBar": {
+        "title": "Taro.hideTabBar(OBJECT)",
+        "sidebar_label": "hideTabBar"
+      },
+      "apis/interface/tabbar/hideTabBarRedDot": {
+        "title": "Taro.hideTabBarRedDot(OBJECT)",
+        "sidebar_label": "hideTabBarRedDot"
+      },
+      "apis/interface/tabbar/removeTabBarBadge": {
+        "title": "Taro.removeTabBarBadge(OBJECT)",
+        "sidebar_label": "removeTabBarBadge"
+      },
+      "apis/interface/tabbar/setTabBarBadge": {
+        "title": "Taro.setTabBarBadge(OBJECT)",
+        "sidebar_label": "setTabBarBadge"
+      },
+      "apis/interface/tabbar/setTabBarItem": {
+        "title": "Taro.setTabBarItem(OBJECT)",
+        "sidebar_label": "setTabBarItem"
+      },
+      "apis/interface/tabbar/setTabBarStyle": {
+        "title": "Taro.setTabBarStyle(OBJECT)",
+        "sidebar_label": "setTabBarStyle"
+      },
+      "apis/interface/tabbar/showTabBar": {
+        "title": "Taro.showTabBar(OBJECT)",
+        "sidebar_label": "showTabBar"
+      },
+      "apis/interface/tabbar/showTabBarRedDot": {
+        "title": "Taro.showTabBarRedDot(OBJECT)",
+        "sidebar_label": "showTabBarRedDot"
+      },
+      "apis/interface/topbar/setTopBarText": {
+        "title": "Taro.setTopBarText(OBJECT)",
+        "sidebar_label": "setTopBarText"
+      },
+      "apis/interface/window/offWindowResize": {
+        "title": "Taro.offWindowResize(callback)",
+        "sidebar_label": "offWindowResize"
+      },
+      "apis/interface/window/onWindowResize": {
+        "title": "apis/interface/window/onWindowResize"
+      },
+      "apis/interface/wxml/createSelectorQuery": {
+        "title": "Taro.createSelectorQuery()",
+        "sidebar_label": "createSelectorQuery"
+      },
+      "apis/interface/wxml/nodesRef_boundingClientRect": {
+        "title": "nodesRef.boundingClientRect([callback])",
+        "sidebar_label": "nodesRef.boundingClientRect"
+      },
+      "apis/interface/wxml/nodesRef_fields": {
+        "title": "nodesRef.fields(fields, [callback])",
+        "sidebar_label": "nodesRef.fields"
+      },
+      "apis/interface/wxml/nodesRef_scrollOffset": {
+        "title": "nodesRef.scrollOffset([callback])",
+        "sidebar_label": "nodesRef.scrollOffset"
+      },
+      "apis/interface/wxml/selectorQuery_exec": {
+        "title": "selectorQuery.exec([callback])",
+        "sidebar_label": "selectorQuery.exec"
+      },
+      "apis/interface/wxml/selectorQuery_in": {
+        "title": "selectorQuery.in(component)",
+        "sidebar_label": "selectorQuery.in"
+      },
+      "apis/interface/wxml/selectorQuery_select": {
+        "title": "selectorQuery.select(selector)",
+        "sidebar_label": "selectorQuery.select"
+      },
+      "apis/interface/wxml/selectorQuery_selectAll": {
+        "title": "selectorQuery.selectAll(selector)",
+        "sidebar_label": "selectorQuery.selectAll"
+      },
+      "apis/interface/wxml/selectorQuery_selectViewport": {
+        "title": "selectorQuery.selectViewport()",
+        "sidebar_label": "selectorQuery.selectViewport"
+      },
+      "apis/location/chooseLocation": {
+        "title": "Taro.chooseLocation(OBJECT)",
+        "sidebar_label": "chooseLocation"
+      },
+      "apis/location/getLocation": {
+        "title": "Taro.getLocation(OBJECT)",
+        "sidebar_label": "getLocation"
+      },
+      "apis/location/openLocation": {
+        "title": "Taro.openLocation(OBJECT)",
+        "sidebar_label": "openLocation"
+      },
+      "apis/multimedia/audio/createAudioContext": {
+        "title": "Taro.createAudioContext(audioId, this.$scope)",
+        "sidebar_label": "createAudioContext"
+      },
+      "apis/multimedia/audio/createInnerAudioContext": {
+        "title": "Taro.createInnerAudioContext()",
+        "sidebar_label": "createInnerAudioContext"
+      },
+      "apis/multimedia/audio/pauseVoice": {
+        "title": "Taro.pauseVoice()",
+        "sidebar_label": "pauseVoice"
+      },
+      "apis/multimedia/audio/playVoice": {
+        "title": "Taro.playVoice(OBJECT)",
+        "sidebar_label": "playVoice"
+      },
+      "apis/multimedia/audio/stopVoice": {
+        "title": "Taro.stopVoice()",
+        "sidebar_label": "stopVoice"
+      },
+      "apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState": {
+        "title": "Taro.getBackgroundAudioPlayerState(OBJECT)",
+        "sidebar_label": "getBackgroundAudioPlayerState"
+      },
+      "apis/multimedia/backgroundaudio/onBackgroundAudioPause": {
+        "title": "Taro.onBackgroundAudioPause(CALLBACK)",
+        "sidebar_label": "onBackgroundAudioPause"
+      },
+      "apis/multimedia/backgroundaudio/onBackgroundAudioPlay": {
+        "title": "Taro.onBackgroundAudioPlay(CALLBACK)",
+        "sidebar_label": "onBackgroundAudioPlay"
+      },
+      "apis/multimedia/backgroundaudio/onBackgroundAudioStop": {
+        "title": "Taro.onBackgroundAudioStop(CALLBACK)",
+        "sidebar_label": "onBackgroundAudioStop"
+      },
+      "apis/multimedia/backgroundaudio/pauseBackgroundAudio": {
+        "title": "Taro.pauseBackgroundAudio()",
+        "sidebar_label": "pauseBackgroundAudio"
+      },
+      "apis/multimedia/backgroundaudio/playBackgroundAudio": {
+        "title": "Taro.playBackgroundAudio(OBJECT)",
+        "sidebar_label": "playBackgroundAudio"
+      },
+      "apis/multimedia/backgroundaudio/seekBackgroundAudio": {
+        "title": "Taro.seekBackgroundAudio(OBJECT)",
+        "sidebar_label": "seekBackgroundAudio"
+      },
+      "apis/multimedia/backgroundaudio/stopBackgroundAudio": {
+        "title": "Taro.stopBackgroundAudio()",
+        "sidebar_label": "stopBackgroundAudio"
+      },
+      "apis/multimedia/camera/createCameraContext": {
+        "title": "Taro.createCameraContext(this.$scope)",
+        "sidebar_label": "createCameraContext"
+      },
+      "apis/multimedia/images/chooseImage": {
+        "title": "Taro.chooseImage(OBJECT)",
+        "sidebar_label": "chooseImage"
+      },
+      "apis/multimedia/images/getImageInfo": {
+        "title": "Taro.getImageInfo(OBJECT)",
+        "sidebar_label": "getImageInfo"
+      },
+      "apis/multimedia/images/previewImage": {
+        "title": "Taro.previewImage(OBJECT)",
+        "sidebar_label": "previewImage"
+      },
+      "apis/multimedia/images/saveImageToPhotosAlbum": {
+        "title": "Taro.saveImageToPhotosAlbum(OBJECT)",
+        "sidebar_label": "saveImageToPhotosAlbum"
+      },
+      "apis/multimedia/map/createMapContext": {
+        "title": "Taro.createMapContext(mapId, this.$scope)",
+        "sidebar_label": "createMapContext"
+      },
+      "apis/multimedia/recording/startRecord": {
+        "title": "Taro.startRecord(OBJECT)",
+        "sidebar_label": "startRecord"
+      },
+      "apis/multimedia/recording/stopRecord": {
+        "title": "Taro.stopRecord()",
+        "sidebar_label": "stopRecord"
+      },
+      "apis/multimedia/video/chooseVideo": {
+        "title": "Taro.chooseVideo(OBJECT)",
+        "sidebar_label": "chooseVideo"
+      },
+      "apis/multimedia/video/createVideoContext": {
+        "title": "Taro.createVideoContext(videoId, this.$scope)",
+        "sidebar_label": "createVideoContext"
+      },
+      "apis/multimedia/video/saveVideoToPhotosAlbum": {
+        "title": "Taro.saveVideoToPhotosAlbum(OBJECT)",
+        "sidebar_label": "saveVideoToPhotosAlbum"
+      },
+      "apis/multimedia/video/videocontext": {
+        "title": "apis/multimedia/video/videocontext"
+      },
+      "apis/network/fileTransfer/downloadFile": {
+        "title": "Taro.downloadFile(OBJECT)",
+        "sidebar_label": "downloadFile"
+      },
+      "apis/network/fileTransfer/uploadFile": {
+        "title": "Taro.uploadFile(OBJECT)",
+        "sidebar_label": "uploadFile"
+      },
+      "apis/network/request/addInterceptor": {
+        "title": "Taro.addInterceptor(function func)",
+        "sidebar_label": "addInterceptor"
+      },
+      "apis/network/request/request": {
+        "title": "Taro.request(OBJECT)",
+        "sidebar_label": "request"
+      },
+      "apis/network/socket/closeSocket": {
+        "title": "Taro.closeSocket",
+        "sidebar_label": "closeSocket"
+      },
+      "apis/network/socket/connectSocket": {
+        "title": "Taro.connectSocket(OBJECT)",
+        "sidebar_label": "connectSocket"
+      },
+      "apis/network/socket/onSocketClose": {
+        "title": "Taro.onSocketClose",
+        "sidebar_label": "onSocketClose"
+      },
+      "apis/network/socket/onSocketError": {
+        "title": "Taro.onSocketError",
+        "sidebar_label": "onSocketError"
+      },
+      "apis/network/socket/onSocketMessage": {
+        "title": "Taro.onSocketMessage",
+        "sidebar_label": "onSocketMessage"
+      },
+      "apis/network/socket/onSocketOpen": {
+        "title": "Taro.onSocketOpen",
+        "sidebar_label": "onSocketOpen"
+      },
+      "apis/network/socket/sendSocketMessage": {
+        "title": "Taro.sendSocketMessage",
+        "sidebar_label": "sendSocketMessage"
+      },
+      "apis/network/socket/SocketTask": {
+        "title": "SocketTask",
+        "sidebar_label": "SocketTask"
+      },
+      "apis/open-api/address/chooseAddress": {
+        "title": "Taro.chooseAddress(OBJECT)",
+        "sidebar_label": "chooseAddress"
+      },
+      "apis/open-api/auth/authorize": {
+        "title": "Taro.authorize(OBJECT)",
+        "sidebar_label": "authorize"
+      },
+      "apis/open-api/bioauth/checkIsSoterEnrolledInDevice": {
+        "title": "Taro.checkIsSoterEnrolledInDevice(OBJECT)",
+        "sidebar_label": "checkIsSoterEnrolledInDevice"
+      },
+      "apis/open-api/bioauth/checkIsSupportSoterAuthentication": {
+        "title": "Taro.checkIsSupportSoterAuthentication(OBJECT)",
+        "sidebar_label": "checkIsSupportSoterAuthentication"
+      },
+      "apis/open-api/bioauth/startSoterAuthentication": {
+        "title": "Taro.startSoterAuthentication(OBJECT)",
+        "sidebar_label": "startSoterAuthentication"
+      },
+      "apis/open-api/card/addCard": {
+        "title": "Taro.addCard(OBJECT)",
+        "sidebar_label": "addCard"
+      },
+      "apis/open-api/card/card": {
+        "title": "卡券",
+        "sidebar_label": "卡券"
+      },
+      "apis/open-api/card/openCard": {
+        "title": "Taro.openCard(OBJECT)",
+        "sidebar_label": "openCard"
+      },
+      "apis/open-api/invoice/chooseInvoice": {
+        "title": "Taro.chooseInvoice(OBJECT)",
+        "sidebar_label": "chooseInvoice"
+      },
+      "apis/open-api/invoice/chooseInvoiceTitle": {
+        "title": "Taro.chooseInvoiceTitle(OBJECT)",
+        "sidebar_label": "chooseInvoiceTitle"
+      },
+      "apis/open-api/login/checkSession": {
+        "title": "Taro.checkSession(OBJECT)",
+        "sidebar_label": "checkSession"
+      },
+      "apis/open-api/login/login": {
+        "title": "Taro.login(OBJECT)",
+        "sidebar_label": "login"
+      },
+      "apis/open-api/payment/faceVerifyForPay": {
+        "title": "Taro.faceVerifyForPay(OBJECT)",
+        "sidebar_label": "faceVerifyForPay"
+      },
+      "apis/open-api/payment/requestPayment": {
+        "title": "Taro.requestPayment(OBJECT)",
+        "sidebar_label": "requestPayment"
+      },
+      "apis/open-api/redirect/navigateBackMiniProgram": {
+        "title": "Taro.navigateBackMiniProgram(OBJECT)",
+        "sidebar_label": "navigateBackMiniProgram"
+      },
+      "apis/open-api/redirect/navigateToMiniProgram": {
+        "title": "Taro.navigateToMiniProgram(OBJECT)",
+        "sidebar_label": "navigateToMiniProgram"
+      },
+      "apis/open-api/settings/getSetting": {
+        "title": "Taro.getSetting(OBJECT)",
+        "sidebar_label": "getSetting"
+      },
+      "apis/open-api/settings/openSetting": {
+        "title": "Taro.openSetting(OBJECT)",
+        "sidebar_label": "openSetting"
+      },
+      "apis/open-api/userinfo/getUserInfo": {
+        "title": "Taro.getUserInfo(OBJECT)",
+        "sidebar_label": "getUserInfo"
+      },
+      "apis/open-api/werun/getWeRunData": {
+        "title": "Taro.getWeRunData(OBJECT)",
+        "sidebar_label": "getWeRunData"
+      },
+      "apis/storage/clearStorage": {
+        "title": "Taro.clearStorage()",
+        "sidebar_label": "clearStorage"
+      },
+      "apis/storage/clearStorageSync": {
+        "title": "Taro.clearStorageSync()",
+        "sidebar_label": "clearStorageSync"
+      },
+      "apis/storage/getStorage": {
+        "title": "Taro.getStorage(OBJECT)",
+        "sidebar_label": "getStorage"
+      },
+      "apis/storage/getStorageInfo": {
+        "title": "Taro.getStorageInfo(OBJECT)",
+        "sidebar_label": "getStorageInfo"
+      },
+      "apis/storage/getStorageInfoSync": {
+        "title": "Taro.getStorageInfoSync()",
+        "sidebar_label": "getStorageInfoSync"
+      },
+      "apis/storage/getStorageSync": {
+        "title": "Taro.getStorageSync(KEY)",
+        "sidebar_label": "getStorageSync"
+      },
+      "apis/storage/removeStorage": {
+        "title": "Taro.removeStorage(OBJECT)",
+        "sidebar_label": "removeStorage"
+      },
+      "apis/storage/removeStorageSync": {
+        "title": "Taro.removeStorageSync(KEY)",
+        "sidebar_label": "removeStorageSync"
+      },
+      "apis/storage/setStorage": {
+        "title": "Taro.setStorage(OBJECT)",
+        "sidebar_label": "setStorage"
+      },
+      "apis/storage/setStorageSync": {
+        "title": "Taro.setStorageSync(KEY, DATA)",
+        "sidebar_label": "setStorageSync"
+      },
+      "apis/updates/getUpdateManager": {
+        "title": "Taro.getUpdateManager()",
+        "sidebar_label": "getUpdateManager"
+      },
+      "apis/updates/manager": {
+        "title": "更新管理",
+        "sidebar_label": "更新管理"
       },
       "async-await": {
         "title": "异步编程"
@@ -22,9 +777,6 @@
       },
       "component-style": {
         "title": "组件的外部样式和全局样式"
-      },
-      "component": {
-        "title": "Taro.Component"
       },
       "components-desc": {
         "title": "组件库说明"
@@ -174,17 +926,11 @@
       "debug": {
         "title": "Debug 指南"
       },
-      "env": {
-        "title": "环境判断"
-      },
       "envs": {
         "title": "跨平台开发"
       },
       "event": {
         "title": "事件处理"
-      },
-      "events": {
-        "title": "消息机制"
       },
       "GETTING-STARTED": {
         "title": "安装及使用"
@@ -294,7 +1040,17 @@
       "地图": "地图",
       "画布": "画布",
       "开放能力": "开放能力",
-      "API": "API"
+      "关于API": "关于API",
+      "设备": "设备",
+      "扩展API": "扩展API",
+      "文件": "文件",
+      "界面": "界面",
+      "位置": "位置",
+      "媒体": "媒体",
+      "网络": "网络",
+      "开放接口": "开放接口",
+      "数据缓存": "数据缓存",
+      "更新": "更新"
     }
   },
   "pages-strings": {

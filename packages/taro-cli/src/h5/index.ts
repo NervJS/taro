@@ -42,7 +42,7 @@ import {
   tabBarConfigName,
   tabBarContainerComponentName,
   tabBarPanelComponentName
-} from './consts'
+} from './constants'
 import {
   addLeadingSlash,
   createRoute,
@@ -51,7 +51,7 @@ import {
   removeLeadingSlash,
   resetTSClassProperty,
   stripTrailingSlash
-} from './helpers'
+} from './helper'
 
 let pages: string[] = []
 
@@ -1182,8 +1182,8 @@ class Compiler {
 export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildConfig) {
-  const compiler = new Compiler(appPath)
   process.env.TARO_ENV = BUILD_TYPES.H5
+  const compiler = new Compiler(appPath)
   await compiler.clean()
   copyFiles(appPath, compiler.copyConfig)
   await compiler.buildTemp()

@@ -93,8 +93,7 @@ describe('Regs', () => {
       test: /\.jsx?$/,
       use: {
         babelLoader: expect.anything()
-      },
-      exclude: expect.anything()
+      }
     })
     expect(rule.media).toMatchObject({
       test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

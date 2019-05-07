@@ -169,9 +169,11 @@ const createScroller = () => {
 
   const listen = callback => {
     el.addEventListener('scroll', callback)
+    document.body.addEventListener('touchmove', callback)
   }
   const unlisten = callback => {
     el.removeEventListener('scroll', callback)
+    document.body.removeEventListener('touchmove', callback)
   }
 
   const isReachBottom = (distance = 0) => {

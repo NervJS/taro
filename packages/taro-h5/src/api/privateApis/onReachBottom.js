@@ -22,10 +22,7 @@ export const onReachBottom = (opt) => {
   const onScroll = () => {
     if (scroller.isReachBottom(distance)) {
       canTrigger && callbackManager.trigger()
-      /**
-       * @todo 暂时不实现“在触发距离内滑动期间，本事件只会被触发一次”的功能。移动端环境scroll事件只会在停下后触发
-       * canTrigger = false
-       */
+      canTrigger = false
     } else {
       canTrigger = true
     }
