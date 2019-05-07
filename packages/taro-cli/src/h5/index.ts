@@ -89,7 +89,7 @@ class Compiler {
     this.projectConfig = projectConfig
     const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceRoot = sourceDir
-    const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+    const outputDir = `${projectConfig.outputRoot || CONFIG.OUTPUT_DIR}/h5`
     this.outputDir = outputDir
     this.h5Config = projectConfig.h5
     const routerConfig = this.h5Config.router
