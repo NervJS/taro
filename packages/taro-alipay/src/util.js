@@ -122,7 +122,18 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             res[targetKey] = toItem
           } else {
             // 对象
-            diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            let shouldDiffObject = true
+            Object.keys(fromItem).some(key => {
+              if (!toItem.hasOwnProperty(key)) {
+                shouldDiffObject = false
+                return true
+              }
+            })
+            if (shouldDiffObject) {
+              diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            } else {
+              res[targetKey] = toItem
+            }
           }
         }
       }
@@ -143,11 +154,9 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
     const targetKey = `${keyPrev}${key}`
     if (toItem === fromItem) {
       continue
-    } else
-    if (!hasProp.call(from, key)) {
+    } else if (!hasProp.call(from, key)) {
       res[targetKey] = toItem
-    } else
-    if (typeof toItem !== typeof fromItem) {
+    } else if (typeof toItem !== typeof fromItem) {
       res[targetKey] = toItem
     } else {
       if (typeof toItem !== 'object') {
@@ -166,11 +175,22 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
           }
         } else {
           // null
-          if (!toItem || !fromItem || keyList(toItem).length < keyList(fromItem).length) {
+          if (!toItem || !fromItem) {
             res[targetKey] = toItem
           } else {
-          // 对象
-            diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            // 对象
+            let shouldDiffObject = true
+            Object.keys(fromItem).some(key => {
+              if (!toItem.hasOwnProperty(key)) {
+                shouldDiffObject = false
+                return true
+              }
+            })
+            if (shouldDiffObject) {
+              diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
+            } else {
+              res[targetKey] = toItem
+            }
           }
         }
       }

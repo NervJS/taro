@@ -132,7 +132,7 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             // 对象
             let shouldDiffObject = true
             Object.keys(fromItem).some(key => {
-              if (typeof toItem[key] === 'undefined') {
+              if (!toItem.hasOwnProperty(key)) {
                 shouldDiffObject = false
                 return true
               }
@@ -188,7 +188,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
             // 对象
             let shouldDiffObject = true
             Object.keys(fromItem).some(key => {
-              if (typeof toItem[key] === 'undefined') {
+              if (!toItem.hasOwnProperty(key)) {
                 shouldDiffObject = false
                 return true
               }
