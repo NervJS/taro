@@ -122,6 +122,7 @@ export default async (config: BuildConfig): Promise<void> => {
       await buildProd(config)
     } catch (e) {
       console.error(e)
+      process.exit(1);
     }
   }
 }
