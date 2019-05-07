@@ -2,6 +2,7 @@ import { Adapters, Adapter } from './adapter'
 import { quickappComponentName } from './constant'
 import { transformOptions } from './options'
 import { camelCase } from 'lodash'
+import { isTestEnv } from './env'
 
 const voidHtmlTags = new Set<string>([
   // 'image',
@@ -10,7 +11,7 @@ const voidHtmlTags = new Set<string>([
   'import'
 ])
 
-if (process.env.NODE_ENV === 'test') {
+if (isTestEnv) {
   voidHtmlTags.add('image')
 }
 

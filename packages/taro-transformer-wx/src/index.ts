@@ -39,6 +39,7 @@ import {
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
 import { get as safeGet } from 'lodash'
+import { isTestEnv } from './env'
 
 const template = require('babel-template')
 
@@ -654,7 +655,7 @@ export default function transform (options: Options): TransformResult {
   result.compressedTemplate = result.template
   result.template = prettyPrint(result.template, {
     max_char: 0,
-    unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
+    unformatted: isTestEnv ? [] : ['text']
   })
   result.template = result.template.replace(lessThanSignReg, '<')
   result.imageSrcs = Array.from(imageSource)

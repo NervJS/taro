@@ -22,6 +22,7 @@ import { findJSXAttrByName } from './jsx'
 import { Adapters, Adapter, isNewPropsSystem } from './adapter'
 import { LoopRef } from './interface'
 import generate from 'babel-generator'
+import { isTestEnv } from './env'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -189,7 +190,7 @@ class Transformer {
       ])
     })
 
-    if (process.env.NODE_ENV === 'test') {
+    if (isTestEnv) {
       this.classPath.node.body.body.push(t.classProperty(
         t.identifier('$$refs'),
         t.arrayExpression(objExpr)
@@ -754,7 +755,7 @@ class Transformer {
       const funcName = hasMethodName
         ? this.anonymousMethod.get(uniqueMethodName)!
         // 测试时使用1个稳定的 uniqueID 便于测试，实际使用5个英文字母，否则小程序不支持
-        : process.env.NODE_ENV === 'test' ? uniqueId('funPrivate') : `funPrivate${createRandomLetters(5)}`
+        : isTestEnv ? uniqueId('funPrivate') : `funPrivate${createRandomLetters(5)}`
       this.anonymousMethod.set(uniqueMethodName, funcName)
 
       const newVal = isBind
@@ -846,7 +847,7 @@ class Transformer {
       const ctor = buildConstructor()
       body.unshift(ctor)
     }
-    if (process.env.NODE_ENV === 'test') {
+    if (isTestEnv) {
       return
     }
     for (const method of body) {

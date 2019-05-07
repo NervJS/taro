@@ -58,6 +58,7 @@ import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
+import { isTestEnv } from './env'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -105,6 +106,9 @@ function buildAssignState (
   )
 }
 
+const incrementCalleeId = incrementId()
+const incrementLoopArrayId = incrementId()
+
 export class RenderParser {
   public outputTemplate: string
 
@@ -123,8 +127,8 @@ export class RenderParser {
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
   private usedThisProperties = new Set<string>()
-  private incrementCalleeId = incrementId()
-  private loopArrayId = incrementId()
+  private incrementCalleeId = isTestEnv ? incrementId() : incrementCalleeId
+  private loopArrayId = isTestEnv ? incrementId() : incrementLoopArrayId
   private classComputedState = new Set<string>()
   private propsSettingExpressions = new Set<t.ExpressionStatement | t.VariableDeclaration | Function>()
   private loopCallees = new Set<t.Node>()
@@ -1635,11 +1639,11 @@ export class RenderParser {
         }
         const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
         const refDecl = buildConstVariableDeclaration(refDeclName,
-          process.env.NODE_ENV === 'test' ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), t.logicalExpression('&&', t.identifier('__isRunloopRef'), callGetElementById))
+          isTestEnv ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), t.logicalExpression('&&', t.identifier('__isRunloopRef'), callGetElementById))
         )
         const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
         const callRefFunc = t.expressionStatement(
-          process.env.NODE_ENV === 'test' ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
+          isTestEnv ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
         )
         if (Adapter.type === Adapters.tt) {
           body.push(
@@ -1815,7 +1819,7 @@ export class RenderParser {
             JSXAttribute: !t.isIdentifier(indexParam) ? noop : (path: NodePath<t.JSXAttribute>) => {
               const { value } = path.node
               if (t.isJSXExpressionContainer(value) && t.isJSXIdentifier(path.node.name, { name: 'key' }) && t.isIdentifier(value.expression, { name: indexParam.name })) {
-                if (process.env.TERM_PROGRAM || process.env.NODE_ENV === 'test') { // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
+                if (process.env.TERM_PROGRAM || isTestEnv) { // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
                   // tslint:disable-next-line:no-console
                   console.log(codeFrameError(value.expression, '建议修改：使用循环的 index 变量作为 key 是一种反优化。参考：https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md').message)
                 }
