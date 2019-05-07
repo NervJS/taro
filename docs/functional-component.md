@@ -4,13 +4,13 @@ title: 函数式组件
 
 ## 普通函数式组件
 
-> 自 `v1.3.0-beta-0` 起支持
+> 自 `v1.3.0-beta.0` 起支持
 
 定义一个函数式组件非常简单：
 
 ```jsx
 function Welcome(props) {
-  return <h1>Hello, {props.name}</h1>;
+  return <View>Hello, {props.name}</View>;
 }
 ```
 
@@ -19,7 +19,7 @@ function Welcome(props) {
 ```jsx
 class Welcome extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <View>Hello, {this.props.name}</View>;
   }
 }
 ```
@@ -32,7 +32,7 @@ class Welcome extends React.Component {
 
 ## 类函数式组件
 
-> 自 `v1.3.0-beta-0` 起支持
+> 自 `v1.3.0-beta.0` 起支持
 
 由于一个文件不能定义两个组件，但有时候我们需要组件内部的抽象组件，这时类函数式组件就是你想要答案。假设我们有一个 Class 组件，它包括了一个 `Header` 一个 `Footer`，我们可以这样定义：
 
@@ -69,7 +69,7 @@ class SomePage extends Taro.Component {
 
 ## 闭包函数式组件
 
-> 自 `v1.3.0-beta-1` 起支持
+> 自 `v1.3.0-beta.1` 起支持
 
 在一个普通的函数式组件中，我们需要一个另外的抽象组件多次调用，同时我们还希望这个抽象组件能访问到我们当前作用域的值，这时候我们就需要闭包函数式组件：
 
