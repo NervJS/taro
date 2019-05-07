@@ -114,7 +114,7 @@
         "sidebar_label": "setScreenBrightness"
       },
       "apis/device/clipboard/getClipboardData": {
-        "title": "Taro.getClipboardData(OBJECT)",
+        "title": "Taro.getClipboardData(param)",
         "sidebar_label": "getClipboardData"
       },
       "apis/device/clipboard/setClipboardData": {
@@ -122,15 +122,15 @@
         "sidebar_label": "setClipboardData"
       },
       "apis/device/compass/onCompassChange": {
-        "title": "Taro.onCompassChange(CALLBACK)",
+        "title": "Taro.onCompassChange(callback)",
         "sidebar_label": "onCompassChange"
       },
       "apis/device/compass/startCompass": {
-        "title": "Taro.startCompass(OBJECT)",
+        "title": "Taro.startCompass(param)",
         "sidebar_label": "startCompass"
       },
       "apis/device/compass/stopCompass": {
-        "title": "Taro.stopCompass(OBJECT)",
+        "title": "Taro.stopCompass(param)",
         "sidebar_label": "stopCompass"
       },
       "apis/device/contacts/addPhoneContact": {
@@ -222,11 +222,11 @@
         "sidebar_label": "getSystemInfoSync"
       },
       "apis/device/vibrate/vibrateLong": {
-        "title": "Taro.vibrateLong(OBJECT)",
+        "title": "Taro.vibrateLong(param)",
         "sidebar_label": "vibrateLong"
       },
       "apis/device/vibrate/vibrateShort": {
-        "title": "Taro.vibrateShort(OBJECT)",
+        "title": "Taro.vibrateShort(param)",
         "sidebar_label": "vibrateShort"
       },
       "apis/device/wifi/connectWifi": {
@@ -310,7 +310,7 @@
         "sidebar_label": "canvasToTempFilePath"
       },
       "apis/interface/canvas/createCanvasContext": {
-        "title": "Taro.createCanvasContext(canvasId, this.$scope)",
+        "title": "Taro.createCanvasContext(canvasId, componentInstance)",
         "sidebar_label": "createCanvasContext"
       },
       "apis/interface/canvas/createContext": {
@@ -374,11 +374,11 @@
         "sidebar_label": "hideNavigationBarLoading"
       },
       "apis/interface/navigationbar/setNavigationBarColor": {
-        "title": "Taro.setNavigationBarColor(OBJECT)",
+        "title": "Taro.setNavigationBarColor(param)",
         "sidebar_label": "setNavigationBarColor"
       },
       "apis/interface/navigationbar/setNavigationBarTitle": {
-        "title": "Taro.setNavigationBarTitle(OBJECT)",
+        "title": "Taro.setNavigationBarTitle(param)",
         "sidebar_label": "setNavigationBarTitle"
       },
       "apis/interface/navigationbar/showNavigationBarLoading": {
@@ -386,11 +386,11 @@
         "sidebar_label": "showNavigationBarLoading"
       },
       "apis/interface/pagescroll/pageScrollTo": {
-        "title": "Taro.pageScrollTo(OBJECT)",
+        "title": "Taro.pageScrollTo(param)",
         "sidebar_label": "pageScrollTo"
       },
       "apis/interface/pulldownrefresh/startPullDownRefresh": {
-        "title": "Taro.startPullDownRefresh(OBJECT)",
+        "title": "Taro.startPullDownRefresh(param)",
         "sidebar_label": "startPullDownRefresh"
       },
       "apis/interface/pulldownrefresh/stopPullDownRefresh": {
@@ -438,7 +438,8 @@
         "sidebar_label": "offWindowResize"
       },
       "apis/interface/window/onWindowResize": {
-        "title": "apis/interface/window/onWindowResize"
+        "title": "Taro.onWindowResize(callback)",
+        "sidebar_label": "onWindowResize"
       },
       "apis/interface/wxml/createSelectorQuery": {
         "title": "Taro.createSelectorQuery()",
@@ -477,7 +478,7 @@
         "sidebar_label": "selectorQuery.selectViewport"
       },
       "apis/location/chooseLocation": {
-        "title": "Taro.chooseLocation(OBJECT)",
+        "title": "Taro.chooseLocation(param)",
         "sidebar_label": "chooseLocation"
       },
       "apis/location/getLocation": {
@@ -489,7 +490,7 @@
         "sidebar_label": "openLocation"
       },
       "apis/multimedia/audio/createAudioContext": {
-        "title": "Taro.createAudioContext(audioId, this.$scope)",
+        "title": "Taro.createAudioContext(audioId, componentInstance)",
         "sidebar_label": "createAudioContext"
       },
       "apis/multimedia/audio/createInnerAudioContext": {
@@ -553,7 +554,7 @@
         "sidebar_label": "getImageInfo"
       },
       "apis/multimedia/images/previewImage": {
-        "title": "Taro.previewImage(OBJECT)",
+        "title": "Taro.previewImage(param)",
         "sidebar_label": "previewImage"
       },
       "apis/multimedia/images/saveImageToPhotosAlbum": {
@@ -577,22 +578,19 @@
         "sidebar_label": "chooseVideo"
       },
       "apis/multimedia/video/createVideoContext": {
-        "title": "Taro.createVideoContext(videoId, this.$scope)",
+        "title": "Taro.createVideoContext(videoId, componentInstance)",
         "sidebar_label": "createVideoContext"
       },
       "apis/multimedia/video/saveVideoToPhotosAlbum": {
         "title": "Taro.saveVideoToPhotosAlbum(OBJECT)",
         "sidebar_label": "saveVideoToPhotosAlbum"
       },
-      "apis/multimedia/video/videocontext": {
-        "title": "apis/multimedia/video/videocontext"
-      },
       "apis/network/fileTransfer/downloadFile": {
-        "title": "Taro.downloadFile(OBJECT)",
+        "title": "Taro.downloadFile(param)",
         "sidebar_label": "downloadFile"
       },
       "apis/network/fileTransfer/uploadFile": {
-        "title": "Taro.uploadFile(OBJECT)",
+        "title": "Taro.uploadFile(param)",
         "sidebar_label": "uploadFile"
       },
       "apis/network/request/addInterceptor": {
@@ -932,8 +930,14 @@
       "event": {
         "title": "事件处理"
       },
+      "functional-component": {
+        "title": "函数式组件"
+      },
       "GETTING-STARTED": {
         "title": "安装及使用"
+      },
+      "hooks": {
+        "title": "Hooks"
       },
       "hybrid": {
         "title": "Taro 代码与小程序代码混写"

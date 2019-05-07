@@ -96,7 +96,7 @@ const startAccelerometer = ({ interval = 'normal', success, fail, complete } = {
 
 /**
  * 监听加速度数据事件。频率根据 wx.startAccelerometer() 的 interval 参数。可使用 wx.stopAccelerometer() 停止监听。
- ** @param {(res: AccelerometerParam) => void} callback 加速度数据事件的回调函数
+ * @param {(res: AccelerometerParam) => void} callback 加速度数据事件的回调函数
  */
 const onAccelerometerChange = callback => {
   callbackManager.add(callback)

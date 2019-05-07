@@ -1,3 +1,8 @@
+---
+title: Taro.onWindowResize(callback)
+sidebar_label: onWindowResize
+---
+
 ## wx.onWindowResize(callback)
 
 监听窗口尺寸变化事件。

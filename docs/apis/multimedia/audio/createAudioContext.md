@@ -1,5 +1,5 @@
 ---
-title: Taro.createAudioContext(audioId, this.$scope)
+title: Taro.createAudioContext(audioId, componentInstance)
 sidebar_label: createAudioContext
 ---
 
