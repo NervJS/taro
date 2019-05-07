@@ -13,8 +13,7 @@ class Component extends React.Component {
 
   get $app () {
     if (!this._reactInternalFiber) return {}
-    if (!this._$app) this._$app = getApp(this)
-    return this._$app
+    return Taro._$app
   }
 
   set $app (app) {
@@ -32,8 +31,7 @@ class PureComponent extends React.PureComponent {
 
   get $app () {
     if (!this._reactInternalFiber) return {}
-    if (!this._$app) this._$app = getApp(this)
-    return this._$app
+    return Taro._$app // eslint-disable-line
   }
 
   set $app (app) {
@@ -41,20 +39,5 @@ class PureComponent extends React.PureComponent {
   }
 }
 
-/**
- * 往上遍历直到找到根节点
- * @param  {React Component} component 当前的组件实例
- * @return {React Component}           根节点实例
- */
-function getApp (component) {
-  if (component.constructor.name) {
-    return component
-  } else {
-    const vnode = component._reactInternalFiber
-    if (!vnode) return {}
-    if (vnode._debugOwner) return getApp(vnode._debugOwner.stateNode)
-    return component
-  }
-}
 
 export { Component, PureComponent }
