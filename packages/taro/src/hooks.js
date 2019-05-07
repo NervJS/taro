@@ -54,11 +54,30 @@ export function useReducer (
   return hook.state
 }
 
+// Object.is polyfill
+// https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+function is (x, y) {
+  if (x === y) { // Steps 1-5, 7-10
+    // Steps 6.b-6.e: +0 != -0
+    return x !== 0 || 1 / x === 1 / y
+  }
+  // eslint-disable-next-line no-self-compare
+  return x !== x && y !== y
+}
+
 function areDepsChanged (prevDeps, deps) {
   if (isNullOrUndef(prevDeps) || isNullOrUndef(deps)) {
     return true
   }
-  return deps.some((a, i) => a !== prevDeps[i])
+  for (let i = 0; i < deps.length; i += 1) {
+    const val1 = deps[i]
+    const val2 = prevDeps[i]
+    if (is(val1, val2)) {
+      continue
+    }
+    return false
+  }
+  return true
 }
 
 export function invokeEffects (component, delay) {
