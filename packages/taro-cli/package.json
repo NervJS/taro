@@ -94,6 +94,7 @@
     "stylelint": "^9.10.1",
     "stylelint-config-taro-rn": "1.3.0-beta.0",
     "stylelint-taro-rn": "1.3.0-beta.0",
+    "taro-css-to-react-native": "1.3.0-beta.0",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2",
