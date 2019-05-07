@@ -274,6 +274,9 @@ class Compiler {
   
     const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
     const additionalConstructorNode = toAst(`Taro._$app = this`)
+    const callComponentDidShowNode = toAst(`this.componentDidShow()`)
+    const callComponentDidHideNode = toAst(`this.componentDidHide()`)
+    const initTabbarApiNode = toAst(`Taro.initTabBarApis(this, Taro)`)
   
     ast = babel.transformFromAst(ast, '', {
       plugins: [
@@ -407,8 +410,7 @@ class Compiler {
           }
   
           if (tabBar && isComponentWillMount) {
-            const initTabBarApisCallNode = toAst(`Taro.initTabBarApis(this, Taro)`)
-            node.body.body.push(initTabBarApisCallNode)
+            node.body.body.push(initTabbarApiNode)
           }
   
           if (hasConstructor && isConstructor) {
@@ -416,13 +418,11 @@ class Compiler {
           }
   
           if (hasComponentDidShow && isComponentDidMount) {
-            const componentDidShowCallNode = toAst(`this.componentDidShow()`)
-            node.body.body.push(componentDidShowCallNode)
+            node.body.body.push(callComponentDidShowNode)
           }
   
           if (hasComponentDidHide && isComponentWillUnmount) {
-            const componentDidHideCallNode = toAst(`this.componentDidHide()`)
-            node.body.body.unshift(componentDidHideCallNode)
+            node.body.body.unshift(callComponentDidHideNode)
           }
         }
       },
@@ -432,16 +432,12 @@ class Compiler {
           if (hasComponentDidShow && !hasComponentDidMount) {
             node.body.push(t.classMethod(
               'method', t.identifier('componentDidMount'), [],
-              t.blockStatement([
-                toAst('super.componentDidMount && super.componentDidMount()') as t.Statement
-              ]), false, false))
+              t.blockStatement([callComponentDidShowNode]), false, false))
           }
           if (hasComponentDidHide && !hasComponentWillUnmount) {
             node.body.push(t.classMethod(
               'method', t.identifier('componentWillUnmount'), [],
-              t.blockStatement([
-                toAst('super.componentWillUnmount && super.componentWillUnmount()') as t.Statement
-              ]), false, false))
+              t.blockStatement([callComponentDidHideNode]), false, false))
           }
           if (!hasConstructor) {
             node.body.push(t.classMethod(
@@ -451,10 +447,8 @@ class Compiler {
           if (tabBar) {
             if (!hasComponentWillMount) {
               node.body.push(t.classMethod(
-                'method', t.identifier('componentWillMount'), [],
-                t.blockStatement([
-                  toAst('super.componentWillMount && super.componentWillMount()') as t.Statement
-                ]), false, false))
+                'method', t.identifier('componentWillMount'), [ initTabbarApiNode ],
+                t.blockStatement([]), false, false))
             }
             if (!stateNode) {
               stateNode = t.classProperty(
