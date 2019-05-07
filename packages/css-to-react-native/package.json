@@ -1,7 +1,7 @@
 {
   "name": "taro-css-to-react-native",
   "description": "Convert CSS text to a React Native stylesheet object",
-  "version": "1.3.0-beta.0",
+  "version": "1.3.0-beta.1",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -58,8 +58,8 @@
   "dependencies": {
     "camelize": "^1.0.0",
     "css": "^2.2.4",
-    "css-mediaquery": "^0.1.2",
     "css-color-keywords": "^1.0.0",
+    "css-mediaquery": "^0.1.2",
     "postcss-value-parser": "^3.3.0"
   },
   "repository": {
