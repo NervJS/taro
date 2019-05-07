@@ -1,5 +1,45 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.0...v) (2019-04-30)
+# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.1...v) (2019-05-07)
+
+
+
+<a name="1.3.0-beta.1"></a>
+# [1.3.0-beta.1](https://github.com/NervJS/taro/compare/v1.3.0-beta.0...v1.3.0-beta.1) (2019-05-07)
+
+
+### Bug Fixes
+
+* **cli:** RN编译报错：Unknown error from PostCSS plugin. close [#2934](https://github.com/NervJS/taro/issues/2934) ([aa09cd4](https://github.com/NervJS/taro/commit/aa09cd4))
+* **cli:** 修复 taro info 命令报错 ([f124574](https://github.com/NervJS/taro/commit/f124574))
+* **cli:** 修复h5端入口文件的生命周期处理错误 ([caf5269](https://github.com/NervJS/taro/commit/caf5269))
+* **cli:** 修复h5端生成文件路径错误的问题 ([81fa286](https://github.com/NervJS/taro/commit/81fa286))
+* **cli:** 小程序使用 npm 中静态资源编译报错 ([afd7fb1](https://github.com/NervJS/taro/commit/afd7fb1))
+* **cli:** 小程序使用 npm 包中样式时路径编译错误 ([8f6bd02](https://github.com/NervJS/taro/commit/8f6bd02))
+* **cli:** 项目预览时 css 报错不会中断项目，close [#2945](https://github.com/NervJS/taro/issues/2945) ([987b8cd](https://github.com/NervJS/taro/commit/987b8cd))
+* **components-rn:** build es5 ([8cdcfd3](https://github.com/NervJS/taro/commit/8cdcfd3))
+* **eslint:** 使用 commonjs 模块化 ([a2de977](https://github.com/NervJS/taro/commit/a2de977))
+* **h5:** 修复interactive系列api错误地缓存了调用参数的问题, fix [#2675](https://github.com/NervJS/taro/issues/2675) ([8ef960a](https://github.com/NervJS/taro/commit/8ef960a))
+* **rn:** cli 添加 css-to-react-native 依赖 ([cd7be00](https://github.com/NervJS/taro/commit/cd7be00))
+* **rn:** getApp 在rn中报错 close [#2897](https://github.com/NervJS/taro/issues/2897) ([09cd796](https://github.com/NervJS/taro/commit/09cd796))
+* **rn:** react-native中使用hideLoading无法关闭loading  close [#2887](https://github.com/NervJS/taro/issues/2887) ([a7a7699](https://github.com/NervJS/taro/commit/a7a7699))
+* **rn:** 为 app.js 添加 componentDidShow 和 componentDidHide 方法 ([f9ec00b](https://github.com/NervJS/taro/commit/f9ec00b))
+* **taro:** 修复 api getMenuButtonBoundingClientRect，close [#2939](https://github.com/NervJS/taro/issues/2939) ([90540cd](https://github.com/NervJS/taro/commit/90540cd))
+* **taro-weapp/alipay/swan/tt/qq:** 更新 diff 逻辑 ([923579b](https://github.com/NervJS/taro/commit/923579b))
+* **taro-weapp/alipay/swan/tt/qq:** 更新 diff 逻辑 ([b0deb91](https://github.com/NervJS/taro/commit/b0deb91))
+* **webpack-runner:** 如果h5端的编译失败了,现在会exit(1)了, fix [#2682](https://github.com/NervJS/taro/issues/2682) ([badc630](https://github.com/NervJS/taro/commit/badc630))
+
+
+### Features
+
+* **cli:** 将h5端的生成文件放置到./h5目录 ([85cc143](https://github.com/NervJS/taro/commit/85cc143))
+* **components-rn:** ScrollView, 只拆分两个样式到 contentContainerStyle ([c827fbf](https://github.com/NervJS/taro/commit/c827fbf))
+* **h5:** 使用touchmove模拟scroll事件的触发 ([44b4e29](https://github.com/NervJS/taro/commit/44b4e29))
+* **rn:** fork css-to-react-native 包，方便修改 ([33cf18f](https://github.com/NervJS/taro/commit/33cf18f))
+* **rn:** 支持  PureComponent ([0a34498](https://github.com/NervJS/taro/commit/0a34498))
+* **taro:** SubPackage 增加 name 和 independent 属性 ([#2981](https://github.com/NervJS/taro/issues/2981)) ([6f57907](https://github.com/NervJS/taro/commit/6f57907))
+* **taro:** 加入 hooks 的 typings ([7db8111](https://github.com/NervJS/taro/commit/7db8111))
+* **transformer:** 事件现在可以传入任何函数 ([25ab86e](https://github.com/NervJS/taro/commit/25ab86e))
+* **webpack-runner:** 现在babel处理不再排除node_modules目录了 ([311ffa5](https://github.com/NervJS/taro/commit/311ffa5))
 
 
 
