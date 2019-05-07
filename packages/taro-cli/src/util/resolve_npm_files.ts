@@ -21,7 +21,8 @@ import {
   processTypeEnum,
   REG_TYPESCRIPT,
   BUILD_TYPES,
-  REG_STYLE
+  REG_STYLE,
+  REG_SCRIPTS
 } from './constants'
 
 import defaultUglifyConfig from '../config/uglify'
@@ -90,19 +91,21 @@ export function resolveNpmFilesPath ({
       files: []
     }
     resolvedCache[pkgName].files.push(res)
-    recursiveRequire({
-      filePath: res,
-      files: resolvedCache[pkgName].files,
-      isProduction,
-      npmConfig,
-      buildAdapter,
-      rootNpm,
-      npmOutputDir: npmOutputDir,
-      compileInclude,
-      env,
-      uglify,
-      babelConfig
-    })
+    if (REG_SCRIPTS.test(res)) {
+      recursiveRequire({
+        filePath: res,
+        files: resolvedCache[pkgName].files,
+        isProduction,
+        npmConfig,
+        buildAdapter,
+        rootNpm,
+        npmOutputDir: npmOutputDir,
+        compileInclude,
+        env,
+        uglify,
+        babelConfig
+      })
+    }
   }
   return resolvedCache[pkgName]
 }
