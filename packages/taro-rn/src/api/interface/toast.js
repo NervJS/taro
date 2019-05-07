@@ -112,15 +112,15 @@ function showToast (options) {
   try {
     // setTimeout fires incorrectly when using chrome debug #4470
     // https://github.com/facebook/react-native/issues/4470
-    let sibling = new RootSiblings(ToastView)
+    global.wxToastRootSiblings = new RootSiblings(ToastView)
     setTimeout(() => {
-      sibling.update(ToastView)
+      global.wxToastRootSiblings && global.wxToastRootSiblings.update(ToastView)
       success && success()
     }, 100)
     if (duration > 0) {
       setTimeout(() => {
         console.log('destroy')
-        sibling.destroy()
+        global.wxToastRootSiblings && global.wxToastRootSiblings.destroy()
       }, duration)
     }
     return successHandler(success, complete)(res)
@@ -152,7 +152,7 @@ function showLoading (options) {
 }
 
 function hideToast () {
-  global.wxToastRootSiblings && Toast.hide(global.wxToastRootSiblings)
+  global.wxToastRootSiblings && global.wxToastRootSiblings.destroy()
   global.wxToastRootSiblings = undefined
 }
 
