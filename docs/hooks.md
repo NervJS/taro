@@ -14,7 +14,19 @@ title: Hooks
 
 本篇文档只会介绍在 Taro 中可用的 Hooks API 和部分与 React 不一致的行为，其它内容大体的内容和 [Hooks Reference](https://zh-hans.reactjs.org/docs/hooks-reference.html) 相同。
 
+你还可以参考这两个使用 Hooks 的 Demo：
+
+* [V2EX](https://github.com/NervJS/taro-v2ex-hooks)，主要展示与服务器通信
+
+* [TodoMVC](https://github.com/NervJS/taro-todomvc-hooks)，主要展示组件间通信
+
 ## API
+
+在 Taro 中使用 Hooks API 很简单，只需要从 `@tarojs/taro` 中引入即可。
+
+```javascript
+import { useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo } from '@tarojs/taro'
+```
 
 ### `useState`
 
