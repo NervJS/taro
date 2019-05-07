@@ -214,6 +214,97 @@ class Transformer {
     }
   }
 
+  buildAnonyMousFunc = (jsxExpr: NodePath<t.JSXExpressionContainer>, attr: NodePath<t.JSXAttribute>, expr: t.Expression) => {
+    const exprPath = attr.get('value.expression')
+    const stemParent = jsxExpr.getStatementParent()
+    const counter = this.anonymousFuncCounter()
+    const anonymousFuncName = `${ANONYMOUS_FUNC}${counter}`
+    const isCatch = isContainStopPropagation(exprPath)
+    const classBody = this.classPath.node.body.body
+    const loopCallExpr = jsxExpr.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
+    let index: t.Identifier
+    if (loopCallExpr) {
+      index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
+      if (!t.isIdentifier(index)) {
+        index = t.identifier('__index' + counter)
+        safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
+      }
+      classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
+      const indexKey = stemParent.scope.generateUid('$indexKey')
+      // tslint:disable-next-line: no-inner-declarations
+      function findParentLoopCallExprIndices (callExpr: NodePath<t.CallExpression>) {
+        const indices: Set<t.Identifier> = new Set([])
+        // tslint:disable-next-line: no-conditional-assignment
+        while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
+          let index = safeGet(callExpr, 'node.arguments[0].params[1]')
+          if (!t.isIdentifier(index)) {
+            index = t.identifier('__index' + counter)
+            safeSet(callExpr, 'node.arguments[0].params[1]', index)
+          }
+          indices.add(index)
+        }
+        return indices
+      }
+      const indices = [...findParentLoopCallExprIndices(loopCallExpr)].reverse()
+      const indexKeyDecl = t.variableDeclaration('const', [t.variableDeclarator(
+        t.identifier(indexKey),
+        indices.length === 0
+          ? t.binaryExpression('+', t.stringLiteral(createRandomLetters(5)), index)
+          : t.templateLiteral(
+            [
+              t.templateElement({ raw: createRandomLetters(5) }),
+              ...indices.map(() => t.templateElement({ raw: '-' })),
+              t.templateElement({ raw: '' })
+            ],
+            [
+              ...indices.map(i => t.identifier(i.name)),
+              index
+            ]
+          )
+      )])
+      stemParent.insertBefore(indexKeyDecl)
+      const arrayFunc = t.memberExpression(
+        t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
+        t.identifier(indexKey),
+        true
+      )
+      classBody.push(
+        t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
+          isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
+          t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+        ]))
+      )
+      exprPath.replaceWith(t.callExpression(
+        t.memberExpression(
+          t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+          t.identifier('bind')
+        ),
+        [t.thisExpression(), t.identifier(indexKey)]
+      ))
+      stemParent.insertBefore(
+        t.expressionStatement(t.assignmentExpression(
+          '=',
+          arrayFunc,
+          expr
+        ))
+      )
+    } else {
+      classBody.push(
+        t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
+          isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement()
+        ]))
+      )
+      exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
+      stemParent.insertBefore(
+        t.expressionStatement(t.assignmentExpression(
+          '=',
+          t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+          expr
+        ))
+      )
+    }
+  }
+
   traverse () {
     const self = this
     let hasRender = false
@@ -530,97 +621,10 @@ class Transformer {
             ) {
               self.buildPropsAnonymousFunc(attr, expr as any, false)
             }
-          } else if (t.isArrowFunctionExpression(expr)) {
-            const exprPath = attr.get('value.expression')
-            const stemParent = path.getStatementParent()
-            const counter = self.anonymousFuncCounter()
-            const anonymousFuncName = `${ANONYMOUS_FUNC}${counter}`
-            const isCatch = isContainStopPropagation(exprPath)
-            const classBody = self.classPath.node.body.body
-            const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
-            let index: t.Identifier
-            if (loopCallExpr) {
-              index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
-              if (!t.isIdentifier(index)) {
-                index = t.identifier('__index' + counter)
-                safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
-              }
-              classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
-              const indexKey = stemParent.scope.generateUid('$indexKey')
-              // tslint:disable-next-line: no-inner-declarations
-              function findParentLoopCallExprIndices (callExpr: NodePath<t.CallExpression>) {
-                const indices: Set<t.Identifier> = new Set([])
-                // tslint:disable-next-line: no-conditional-assignment
-                while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
-                  let index = safeGet(callExpr, 'node.arguments[0].params[1]')
-                  if (!t.isIdentifier(index)) {
-                    index = t.identifier('__index' + counter)
-                    safeSet(callExpr, 'node.arguments[0].params[1]', index)
-                  }
-                  indices.add(index)
-                }
-                return indices
-              }
-              const indices = [...findParentLoopCallExprIndices(loopCallExpr)].reverse()
-              const indexKeyDecl = t.variableDeclaration('const', [t.variableDeclarator(
-                t.identifier(indexKey),
-                indices.length === 0
-                  ? t.binaryExpression('+', t.stringLiteral(createRandomLetters(5)), index)
-                  : t.templateLiteral(
-                    [
-                      t.templateElement({ raw: createRandomLetters(5) }),
-                      ...indices.map(() => t.templateElement({ raw: '-' })),
-                      t.templateElement({ raw: '' })
-                    ],
-                    [
-                      ...indices.map(i => t.identifier(i.name)),
-                      index
-                    ]
-                  )
-              )])
-              stemParent.insertBefore(indexKeyDecl)
-              const arrayFunc = t.memberExpression(
-                t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
-                t.identifier(indexKey),
-                true
-              )
-              classBody.push(
-                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
-                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
-                  t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
-                ]))
-              )
-              exprPath.replaceWith(t.callExpression(
-                t.memberExpression(
-                  t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
-                  t.identifier('bind')
-                ),
-                [t.thisExpression(), t.identifier(indexKey)]
-              ))
-              stemParent.insertBefore(
-                t.expressionStatement(t.assignmentExpression(
-                  '=',
-                  arrayFunc,
-                  expr
-                ))
-              )
-            } else {
-              classBody.push(
-                t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
-                  isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement()
-                ]))
-              )
-              exprPath.replaceWith(t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)))
-              stemParent.insertBefore(
-                t.expressionStatement(t.assignmentExpression(
-                  '=',
-                  t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
-                  expr
-                ))
-              )
-            }
+          } else if (!t.isLiteral(expr)) {
+            self.buildAnonyMousFunc(path, attr, expr)
           } else {
-            throw codeFrameError(path.node, '组件事件传参只能在使用匿名箭头函数，或使用类作用域下的确切引用(this.handleXX || this.props.handleXX)，或使用 bind。')
+            throw codeFrameError(path.node, '组件事件传参不能传入基本类型')
           }
         }
         if (!jsx) return
