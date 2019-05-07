@@ -462,6 +462,14 @@ declare namespace Taro {
      * 分包路径下的所有页面配置
      */
     pages: string[]
+    /**
+     * 分包别名，分包预下载时可以使用
+     */
+    name?: string
+    /**
+     * 分包是否是独立分包
+     */
+    independent?: boolean
   }
 
   interface Plugins {
