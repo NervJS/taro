@@ -310,6 +310,43 @@ class Transformer {
     }
   }
 
+  private jsxClosureFuncDecl = new Set<NodePath<t.Node>>()
+
+  renameJSXClassFunc = (propName: string, methodName: string, callPath: NodePath<t.CallExpression>, args: any[], isClosure = false) => {
+    const parentPath = callPath.parentPath
+    if (parentPath.isCallExpression()) {
+      return
+    }
+    const callee = !isClosure
+      ? t.memberExpression(
+        t.thisExpression(),
+        t.identifier(`_create${propName.slice(6)}Data`)
+      )
+      : t.identifier(propName)
+    const templateAttr = [
+      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(propName)),
+      t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
+        t.callExpression(
+          t.callExpression(callee, [t.binaryExpression(
+            '+',
+            methodName === 'render'
+              ? t.memberExpression(t.thisExpression(), t.identifier('$prefix'))
+              : t.identifier(CLASS_COMPONENT_UID),
+            t.stringLiteral(createRandomLetters(10))
+          )]),
+          args
+        )
+      ))
+    ]
+    this.jsxClosureFuncDecl.add(parentPath)
+    callPath.replaceWith(t.jSXElement(
+      t.jSXOpeningElement(t.jSXIdentifier('Template'), templateAttr),
+      t.jSXClosingElement(t.jSXIdentifier('Template')),
+      [],
+      false
+    ))
+  }
+
   traverse () {
     const self = this
     let hasRender = false
@@ -430,38 +467,19 @@ class Transformer {
               CallExpression: {
                 enter (callPath: NodePath<t.CallExpression>) {
                   const callee = callPath.get('callee')
-                  if (!callee.isMemberExpression()) {
-                    return
-                  }
                   const args = callPath.node.arguments
-                  const { object, property } = callee.node
-                  if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
-                    const name = property.name
-                    // @TODO 优化创建函数的机制，如果函数的 JSX 没有自定义组件或自定义组件里没有参数，不需要创建新函数
-                    const templateAttr = [
-                      t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
-                      t.jSXAttribute(t.jSXIdentifier('data'), t.jSXExpressionContainer(
-                        t.callExpression(
-                          t.callExpression(t.memberExpression(
-                            t.thisExpression(),
-                            t.identifier(`_create${name.slice(6)}Data`)
-                          ), [t.binaryExpression(
-                            '+',
-                            methodName === 'render'
-                              ? t.memberExpression(t.thisExpression(), t.identifier('$prefix'))
-                              : t.identifier(CLASS_COMPONENT_UID),
-                            t.stringLiteral(createRandomLetters(10))
-                          )]),
-                          args
-                        )
-                      ))
-                    ]
-                    callPath.replaceWith(t.jSXElement(
-                      t.jSXOpeningElement(t.jSXIdentifier('Template'), templateAttr),
-                      t.jSXClosingElement(t.jSXIdentifier('Template')),
-                      [],
-                      false
-                    ))
+                  if (callee.isMemberExpression()) {
+                    const { object, property } = callee.node
+                    if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
+                      const propName = property.name
+                      self.renameJSXClassFunc(propName, methodName, callPath, args)
+                    }
+                  }
+                  if (callee.isIdentifier()) {
+                    const nodeName = callee.node.name
+                    if (nodeName.startsWith('renderClosure')) {
+                      self.renameJSXClassFunc(nodeName, methodName, callPath, args, true)
+                    }
                   }
                 },
                 exit (callPath: NodePath<t.CallExpression>) {
@@ -970,6 +988,15 @@ class Transformer {
     }
   }
 
+  clearClosureMethods () {
+    this.classPath.node.body.body = this.classPath.node.body.body.filter(m => {
+      if (m && t.isClassMethod(m) && t.isIdentifier(m.key) && m.key.name.startsWith('_createClosure')) {
+        return false
+      }
+      return true
+    })
+  }
+
   compile () {
     this.traverse()
     this.setMethods()
@@ -979,6 +1006,7 @@ class Transformer {
     this.handleRefs()
     this.parseRender()
     this.setComponentPath()
+    this.clearClosureMethods()
     this.result.componentProperies = [...this.componentProperies]
   }
 }

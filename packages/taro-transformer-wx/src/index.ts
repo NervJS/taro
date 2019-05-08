@@ -38,7 +38,7 @@ import {
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet } from 'lodash'
+import { get as safeGet, cloneDeep } from 'lodash'
 import { isTestEnv } from './env'
 
 const template = require('babel-template')
@@ -94,6 +94,32 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
           }
           return true
         })
+      }
+    }
+  }
+}
+
+function handleClosureJSXFunc (jsx: NodePath<t.JSXElement>, mainClass: NodePath<t.ClassDeclaration>) {
+  // 在 ./functional.ts 会把 FunctionExpression 转化为 arrowFunctionExpr
+  // 所以我们这里只处理一种情况
+  const arrowFunc = jsx.findParent(p => p.isArrowFunctionExpression())
+  if (arrowFunc && arrowFunc.isArrowFunctionExpression()) {
+    const parentPath = arrowFunc.parentPath
+    if (parentPath.isVariableDeclarator()) {
+      const id = parentPath.node.id
+      if (t.isIdentifier(id) && id.name.startsWith('render')) {
+        const funcName = `renderClosure${id.name.slice(6, id.name.length)}`
+        mainClass.node.body.body.push(
+          t.classProperty(
+            t.identifier(funcName),
+            cloneDeep(arrowFunc.node)
+          )
+        )
+        parentPath.scope.rename(id.name, funcName)
+        arrowFunc.replaceWith(t.memberExpression(
+          t.thisExpression(),
+          t.identifier(funcName)
+        ))
       }
     }
   }
@@ -441,6 +467,7 @@ export default function transform (options: Options): TransformResult {
           ])
         }
       }
+      handleClosureJSXFunc(path, mainClass)
     },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier

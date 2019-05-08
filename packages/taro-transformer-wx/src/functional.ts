@@ -24,12 +24,14 @@ export const functionalComponent: () => {
             throw codeFrameError(id, '函数式组件只能使用普通标识符定义')
           }
           if (!initialIsCapital(id.name)) {
+            return
             throw codeFrameError(id, '组件命名规则请遵守帕斯卡命名法（Pascal Case）')
           }
           const hasClassDecl = arrowFuncExpr.findParent(p => p.isClassDeclaration())
           if (hasClassDecl) {
             // @TODO: 加上链接
-            throw codeFrameError(arrowFuncExpr.node, '在类中的函数式组件请写成类函数式组件：参考：')
+            return
+            // throw codeFrameError(arrowFuncExpr.node, '在类中的函数式组件请写成类函数式组件：参考：')
           }
           const { body } = arrowFuncExpr.node
           if (t.isBlockStatement(body)) {
@@ -47,6 +49,7 @@ export const functionalComponent: () => {
           const hasClassDecl = functionDecl.findParent(p => p.isClassDeclaration())
           if (hasClassDecl) {
             // @TODO: 加上链接
+            return
             throw codeFrameError(functionDecl.node, '在类中的函数式组件请写成类函数式组件：参考：')
           }
           const { id, body, params } = functionDecl.node

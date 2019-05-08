@@ -137,6 +137,7 @@ export class RenderParser {
   private isDefaultRender: boolean = false
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
+  private deferedHandleClosureJSXFunc: Function[] = []
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -1357,6 +1358,24 @@ export class RenderParser {
   }
 
   private visitors: Visitor = {
+    MemberExpression: (path) => {
+      const { object, property } = path.node
+      if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('renderClosure')) {
+        const parentPath = path.parentPath
+        if (parentPath.isVariableDeclarator()) {
+          const id = parentPath.node.id
+          if (t.isIdentifier(id) && id.name.startsWith('renderClosure')) {
+            this.deferedHandleClosureJSXFunc.push(() => {
+              const classMethod = this.methods.get(id.name)
+              if (classMethod && classMethod.isClassMethod()) {
+                path.replaceWith(t.arrowFunctionExpression(classMethod.node.params, classMethod.node.body))
+                // classMethod.node.body.body = []
+              }
+            })
+          }
+        }
+      }
+    },
     VariableDeclarator: (path) => {
       const init = path.get('init')
       const id = path.get('id')
@@ -1506,6 +1525,11 @@ export class RenderParser {
       this.setProperies()
     }
     this.setLoopRefFlag()
+    this.handleClosureComp()
+  }
+
+  private handleClosureComp () {
+    this.deferedHandleClosureJSXFunc.forEach(func => func())
   }
 
   private quickappVistor: Visitor = {
@@ -1870,8 +1894,8 @@ export class RenderParser {
             },
             MemberExpression (path) {
               const { object, property } = path.node
-              if (t.isThisExpression(object) && t.isIdentifier(property, { name: 'state' })) {
-                if (path.parentPath.isMemberExpression() && path.parentPath.parentPath.isMemberExpression()) {
+              if (t.isThisExpression(object) && t.isIdentifier(property)) {
+                if (property.name === 'state' && path.parentPath.isMemberExpression() && path.parentPath.parentPath.isMemberExpression()) {
                   // tslint:disable-next-line
                   console.warn(
                     codeFrameError(path.parentPath.parentPath.node,
