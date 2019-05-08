@@ -13,7 +13,7 @@ class Component extends React.Component {
 
   get $app () {
     if (!this._reactInternalFiber) return {}
-    return Taro._$app
+    return Taro._$app // eslint-disable-line
   }
 
   set $app (app) {
