@@ -4,7 +4,7 @@ import { View, Text, Swiper, SwiperItem, Image } from '../../dist'
 export default class EXSwiper extends Component {
   render () {
     return (
-      <View style={{ width: 300, height: 250 }}>
+      <View style={{ width: 300, height: 100 }}>
         <Swiper
           showsPagination={true}
           indicatorColor="white"

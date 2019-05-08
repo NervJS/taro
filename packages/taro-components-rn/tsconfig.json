@@ -13,9 +13,10 @@
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "jsx": "react",
-    "target": "es5",
+    "moduleResolution": "node",
+    "target": "es2015",
     "lib": [
-      "es5"
+      "es2015"
     ],
     "typeRoots": [
       "./node_modules/@types",
