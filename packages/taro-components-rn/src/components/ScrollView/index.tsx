@@ -109,8 +109,8 @@ class _ScrollView extends React.Component<ScrollViewProps> {
 
   _onContentSizeChange = (width: number, height: number): void => {
     this._scrollMetrics.contentLength = this._selectLength({ height, width })
-    this._maybeCallOnStartReached()
-    this._maybeCallOnEndReached()
+    // this._maybeCallOnStartReached()
+    // this._maybeCallOnEndReached()
   }
 
   _onScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>): void => {
@@ -126,8 +126,8 @@ class _ScrollView extends React.Component<ScrollViewProps> {
 
   _onLayout = (e: LayoutChangeEvent): void => {
     this._scrollMetrics.visibleLength = this._selectLength(e.nativeEvent.layout)
-    this._maybeCallOnStartReached()
-    this._maybeCallOnEndReached()
+    // this._maybeCallOnStartReached()
+    // this._maybeCallOnEndReached()
   }
 
   _onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>): void => {
