@@ -360,6 +360,7 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
           const transformResult: IWxTransformResult = wxTransformer({
             code: scriptContent,
             sourcePath: sourceFilePath,
+            sourceDir: getBuildData().sourceDir,
             outputPath: outputFilePath,
             isNormal: true,
             isTyped: false,

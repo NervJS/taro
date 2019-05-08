@@ -275,7 +275,8 @@ export default function transform (options: Options): TransformResult {
             code: superClass.code,
             isTyped: true,
             sourcePath: superClass.sourcePath,
-            outputPath: superClass.sourcePath
+            outputPath: superClass.sourcePath,
+            sourceDir: options.sourceDir
           }).componentProperies
         } catch (error) {
           //
@@ -648,7 +649,7 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')

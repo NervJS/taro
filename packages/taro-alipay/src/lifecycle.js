@@ -12,7 +12,6 @@ import PropTypes from 'prop-types'
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
-const privatePropKeyName = '_triggerObserer'
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
@@ -74,7 +73,6 @@ function doUpdate (component, prevProps, prevState) {
       Current.current = null
     }
   }
-  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -96,7 +94,7 @@ function doUpdate (component, prevProps, prevState) {
     })
     data = _data
   }
-  data[privatePropKeyName] = !privatePropKeyVal
+  data['$taroCompReady'] = true
   const dataDiff = diffObjToPath(data, component.$scope.data)
 
   // 每次 setData 都独立生成一个 callback 数组
@@ -106,15 +104,15 @@ function doUpdate (component, prevProps, prevState) {
     component._pendingCallbacks = []
   }
 
-  component.$scope.setData(dataDiff, function () {
+  const cb = function () {
     if (component.__mounted) {
       invokeEffects(component)
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
           if (ref.type !== 'component') return
 
-          const _childs = component.$scope._childs || {}
-          let target = _childs[ref.id] || null
+          const childs = component.$childs || {}
+          let target = childs[ref.id] || null
           const prevRef = ref.target
 
           if (target !== prevRef) {
@@ -152,5 +150,11 @@ function doUpdate (component, prevProps, prevState) {
       componentTrigger(component, 'componentDidMount')
       componentTrigger(component, 'componentDidShow')
     }
-  })
+  }
+
+  if (Object.keys(dataDiff).length === 0) {
+    cb()
+  } else {
+    component.$scope.setData(dataDiff, cb)
+  }
 }

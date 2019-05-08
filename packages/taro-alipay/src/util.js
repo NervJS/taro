@@ -1,4 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject'
+import { Current } from '@tarojs/taro'
 
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
@@ -250,8 +251,8 @@ export function getElementById (component, id, type) {
 
   let res
   if (type === 'component') {
-    const _childs = component._childs || {}
-    res = _childs[id.replace('#', '')] || null
+    const childs = component.$component.$childs || {}
+    res = childs[id.replace('#', '')] || null
   } else {
     const query = my.createSelectorQuery().in(component)
     res = query.select(id)
@@ -260,4 +261,23 @@ export function getElementById (component, id, type) {
   if (res) return res
 
   return null
+}
+
+let id = 0
+function genId () {
+  return String(id++)
+}
+
+const compIdsMapper = new Map()
+export function genCompid (key) {
+  if (!Current || !Current.current || !Current.current.$scope) return
+  const prevId = compIdsMapper.get(key)
+  const id = prevId || genId()
+  !prevId && compIdsMapper.set(key, id)
+  return id
+}
+
+let prefix = 0
+export function genCompPrefix () {
+  return String(prefix++)
 }

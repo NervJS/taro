@@ -9,6 +9,7 @@ export interface Options {
   isApp: boolean,
   outputPath: string,
   sourcePath: string,
+  sourceDir: string,
   code: string,
   isTyped: boolean,
   isNormal?: boolean,

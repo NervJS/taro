@@ -102,6 +102,7 @@ export async function buildSinglePage (page: string) {
       const aheadTransformResult: IWxTransformResult = wxTransformer({
         code: pageJsContent,
         sourcePath: pageJs,
+        sourceDir,
         outputPath: outputPageJSPath,
         isRoot: true,
         isTyped: REG_TYPESCRIPT.test(pageJs),
@@ -123,6 +124,7 @@ export async function buildSinglePage (page: string) {
     const transformResult: IWxTransformResult = wxTransformer({
       code: pageJsContent,
       sourcePath: pageJs,
+      sourceDir,
       outputPath: outputPageJSPath,
       isRoot: true,
       isTyped: REG_TYPESCRIPT.test(pageJs),

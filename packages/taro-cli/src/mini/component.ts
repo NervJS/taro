@@ -58,12 +58,14 @@ export function isFileToBeTaroComponent (
 ) {
   const {
     buildAdapter,
+    sourceDir,
     constantsReplaceList,
     jsxAttributeNameReplace
   } = getBuildData()
   const transformResult: IWxTransformResult = wxTransformer({
     code,
     sourcePath: sourcePath,
+    sourceDir,
     outputPath: outputPath,
     isNormal: true,
     isTyped: REG_TYPESCRIPT.test(sourcePath),
@@ -218,6 +220,7 @@ export async function buildSingleComponent (
     const transformResult: IWxTransformResult = wxTransformer({
       code: componentContent,
       sourcePath: component,
+      sourceDir,
       outputPath: outputComponentJSPath,
       isRoot: false,
       isTyped: REG_TYPESCRIPT.test(component),

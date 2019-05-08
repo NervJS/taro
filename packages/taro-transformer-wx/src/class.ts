@@ -1,5 +1,6 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
+import { extname, sep } from 'path'
 import {
   codeFrameError,
   hasComplexExpression,
@@ -45,8 +46,7 @@ function buildConstructor () {
 function processThisPropsFnMemberProperties (
   member: t.MemberExpression,
   path: NodePath<t.CallExpression>,
-  args: Array<t.Expression | t.SpreadElement>,
-  binded: boolean
+  args: Array<t.Expression | t.SpreadElement>
 ) {
   const propertyArray: string[] = []
   function traverseMember (member: t.MemberExpression) {
@@ -62,18 +62,7 @@ function processThisPropsFnMemberProperties (
         t.isIdentifier(object.property) &&
         object.property.name === 'props'
       ) {
-        if (Adapters.alipay === Adapter.type) {
-          if (binded) args.shift()
-          path.replaceWith(
-            t.callExpression(
-              t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
-              [
-                t.stringLiteral(propertyArray.reverse().join('.')),
-                t.arrayExpression(args)
-              ]
-            )
-          )
-        } else if (!isNewPropsSystem()) {
+        if (!isNewPropsSystem()) {
           path.replaceWith(
             t.callExpression(
               t.memberExpression(t.thisExpression(), t.identifier('__triggerPropsFn')),
@@ -126,6 +115,7 @@ class Transformer {
   private usedState = new Set<string>()
   private componentProperies: Set<string>
   private sourcePath: string
+  private sourceDir: string
   private refs: Ref[] = []
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
   private anonymousFuncCounter = incrementId()
@@ -133,10 +123,12 @@ class Transformer {
   constructor (
     path: NodePath<t.ClassDeclaration>,
     sourcePath: string,
-    componentProperies: string[]
+    componentProperies: string[],
+    sourceDir: string
   ) {
     this.classPath = path
     this.sourcePath = sourcePath
+    this.sourceDir = sourceDir
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.componentProperies = new Set(componentProperies)
     this.compile()
@@ -213,6 +205,18 @@ class Transformer {
         ))
       )
     }
+  }
+
+  setComponentPath () {
+    let componentPath = this.sourcePath.replace(this.sourceDir, '')
+    componentPath = componentPath.replace(extname(componentPath), '')
+    componentPath = componentPath.split(sep).join('/')
+    if (componentPath.startsWith('/')) {
+      componentPath = componentPath.slice(1)
+    }
+    const $$componentPath: any = t.classProperty(t.identifier('$$componentPath'), t.stringLiteral(componentPath))
+    $$componentPath.static = true
+    this.classPath.node.body.body.push($$componentPath)
   }
 
   buildAnonyMousFunc = (jsxExpr: NodePath<t.JSXExpressionContainer>, attr: NodePath<t.JSXAttribute>, expr: t.Expression) => {
@@ -388,7 +392,10 @@ class Transformer {
           }
         }
         if (Adapters.alipay === Adapter.type) {
-          attrs.push(t.jSXAttribute(t.jSXIdentifier('onTaroCollectChilds'), t.stringLiteral('onTaroCollectChilds')))
+          attrs.push(t.jSXAttribute(
+            t.jSXIdentifier('onTaroCollectChilds'),
+            t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier('$collectChilds')))
+          ))
         }
         for (const [index, attr] of attrs.entries()) {
           if (attr === refAttr) {
@@ -731,10 +738,10 @@ class Transformer {
           if (t.isIdentifier(property)) {
             if (property.name.startsWith('on')) {
               self.componentProperies.add(`${FN_PREFIX}${property.name}`)
-              processThisPropsFnMemberProperties(callee, path, node.arguments, false)
+              processThisPropsFnMemberProperties(callee, path, node.arguments)
             } else if (property.name === 'call' || property.name === 'apply') {
               self.componentProperies.add(`${FN_PREFIX}${property.name}`)
-              processThisPropsFnMemberProperties(callee.object, path, node.arguments, true)
+              processThisPropsFnMemberProperties(callee.object, path, node.arguments)
             }
           }
         }
@@ -971,6 +978,7 @@ class Transformer {
     this.findMoreProps()
     this.handleRefs()
     this.parseRender()
+    this.setComponentPath()
     this.result.componentProperies = [...this.componentProperies]
   }
 }
