@@ -36,12 +36,18 @@ class TaroProvider extends React.Component {
     }
   }
 
-  wxNavigateTo (params) {
-    if (typeof params !== 'object') {
-      console.warn('Taro.NavigateTo 参数必须为 object')
-      return
+  wxNavigateTo (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `navigateTo${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
     }
-    let {url, success, fail, complete} = params
+
+    const res = {errMsg: 'navigateTo:ok'}
+    let {url, success, fail, complete} = options
+
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
@@ -51,20 +57,23 @@ class TaroProvider extends React.Component {
     try {
       this.props.navigation.push(obj.url, obj.query)
     } catch (e) {
-      fail && fail(e)
-      complete && complete(e)
-      throw e
+      return errorHandler(fail, complete)({errMsg: e})
     }
-    success && success()
-    complete && complete()
+    return successHandler(success, complete)(res)
   }
 
-  wxRedirectTo (params) {
-    if (typeof params !== 'object') {
-      console.warn('Taro.RedirectTo 参数必须为 object')
-      return
+  wxRedirectTo (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `redirectTo${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
     }
-    let {url, success, fail, complete} = params
+
+    const res = {errMsg: 'redirectTo:ok'}
+    let {url, success, fail, complete} = options
+
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
@@ -74,20 +83,23 @@ class TaroProvider extends React.Component {
     try {
       this.props.navigation.replace(obj.url, obj.query)
     } catch (e) {
-      fail && fail(e)
-      complete && complete(e)
-      throw e
+      return errorHandler(fail, complete)({errMsg: e})
     }
-    success && success()
-    complete && complete()
+    return successHandler(success, complete)(res)
   }
 
-  wxSwitchTab (params) {
-    if (typeof params !== 'object') {
-      console.warn('Taro.SwitchTab 参数必须为 object')
-      return
+  wxSwitchTab (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `switchTab${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
     }
-    let {url, success, fail, complete} = params
+
+    const res = {errMsg: 'switchTab:ok'}
+    let {url, success, fail, complete} = options
+
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
@@ -97,21 +109,30 @@ class TaroProvider extends React.Component {
     try {
       this.props.navigation.navigate(obj.url, obj.query)
     } catch (e) {
-      fail && fail(e)
-      complete && complete(e)
-      throw e
+      return errorHandler(fail, complete)({errMsg: e})
     }
-    success && success()
-    complete && complete()
+    return successHandler(success, complete)(res)
   }
 
-  wxNavigateBack (params = {}) {
-    if (typeof params !== 'object') {
-      console.warn('Taro.NavigateBack 参数必须为 object')
-      return
+  wxNavigateBack (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `navigateBack${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
     }
-    let {delta = 1} = params
-    this.props.navigation.pop(delta)
+
+    const res = {errMsg: 'navigateBack:ok'}
+
+    let {delta = 1, success, fail, complete} = options
+
+    try {
+      this.props.navigation.pop(delta)
+    } catch (e) {
+      return errorHandler(fail, complete)({errMsg: e})
+    }
+    return successHandler(success, complete)(res)
   }
 
   wxGetCurrentPages () {
@@ -156,7 +177,7 @@ class TaroProvider extends React.Component {
       this.props.navigation.setParams({_tabBarVisible: true})
     } catch (e) {
       console.log(e)
-      errorHandler(fail, complete)(res)
+      return errorHandler(fail, complete)(res)
     }
 
     return successHandler(success, complete)(res)
@@ -195,7 +216,7 @@ class TaroProvider extends React.Component {
       this.props.navigation.setParams({_tabBarVisible: false})
     } catch (e) {
       console.log(e)
-      errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({errMsg: e})
     }
 
     return successHandler(success, complete)(res)
