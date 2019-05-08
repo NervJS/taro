@@ -12,7 +12,6 @@ import * as path from 'path'
 
 import CONFIG from '../config'
 import {
-  copyFiles,
   isAliasPath,
   isNpmPkg,
   mergeVisitors,
@@ -75,7 +74,6 @@ class Compiler {
   entryFileName: string
   pxTransformConfig
   pathAlias
-  copyConfig
 
   constructor (appPath) {
     const projectConfig = recursiveMerge({
@@ -95,7 +93,6 @@ class Compiler {
     const routerConfig = this.h5Config.router
 
     this.appPath = appPath
-    this.copyConfig = projectConfig.copy
     this.routerMode = routerConfig.mode
     this.customRoutes = routerConfig.customRoutes
     this.routerBasename = addLeadingSlash(stripTrailingSlash(routerConfig.basename || '/'))
@@ -193,6 +190,7 @@ class Compiler {
       h5Config.env = projectConfig.env
     }
     recursiveMerge(h5Config, {
+      copy: projectConfig.copy,
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
       entry: {
@@ -205,7 +203,7 @@ class Compiler {
       outputRoot: outputDir,
       plugins: projectConfig.plugins,
       port,
-      sourceRoot: sourceRoot
+      sourceRoot
     })
   
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
@@ -1180,7 +1178,6 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   process.env.TARO_ENV = BUILD_TYPES.H5
   const compiler = new Compiler(appPath)
   await compiler.clean()
-  copyFiles(appPath, compiler.copyConfig)
   await compiler.buildTemp()
   await compiler.buildDist(buildConfig)
   if (buildConfig.watch) {

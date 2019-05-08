@@ -2,6 +2,7 @@ import * as path from 'path';
 
 import { addTrailingSlash, appPath, emptyObj } from '../util';
 import {
+  getCopyWebpackPlugin,
   getCssoWebpackPlugin,
   getDefinePlugin,
   getDevtool,
@@ -20,6 +21,7 @@ export default function (config: Partial<BuildConfig>): any {
   const chain = getBaseChain()
   const {
     alias = emptyObj,
+    copy,
     entry = emptyObj,
     output = emptyObj,
     sourceRoot = '',
@@ -62,6 +64,10 @@ export default function (config: Partial<BuildConfig>): any {
       filename: 'css/[name].css',
       chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption])
+  }
+
+  if (copy) {
+    plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
 
   plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
