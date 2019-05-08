@@ -112,6 +112,8 @@ function showToast (options) {
   try {
     // setTimeout fires incorrectly when using chrome debug #4470
     // https://github.com/facebook/react-native/issues/4470
+    global.wxToastRootSiblings && global.wxToastRootSiblings.destroy()
+
     global.wxToastRootSiblings = new RootSiblings(ToastView)
     setTimeout(() => {
       global.wxToastRootSiblings && global.wxToastRootSiblings.update(ToastView)
