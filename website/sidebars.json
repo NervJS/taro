@@ -408,6 +408,7 @@
       "label": "背景音频",
       "type": "subcategory",
       "ids": [
+        "apis/multimedia/backgroundaudio/getBackgroundAudioManager",
         "apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState",
         "apis/multimedia/backgroundaudio/playBackgroundAudio",
         "apis/multimedia/backgroundaudio/pauseBackgroundAudio",
