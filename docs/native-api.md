@@ -102,7 +102,7 @@ Taro.request({ url })
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 | 头条小程序 | QQ 轻应用 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 | 头条小程序 | QQ 轻应用 |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.request | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | Taro.addInterceptor | ✔️ | ✔️ |  | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -158,7 +158,7 @@ Taro.downloadFile(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.uploadFile | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | Taro.downloadFile | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -319,7 +319,7 @@ SocketTask.onMessage(CALLBACK)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.connectSocket | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SocketTask | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -386,7 +386,7 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.chooseImage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | Taro.previewImage | ✔️ |  | ✔️ | ✔️ | ✔️ |
@@ -421,7 +421,7 @@ Taro.stopRecord()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.startRecord | ✔️ |  |  |  |  |
 | Taro.stopRecord | ✔️ |  |  |  |  |
@@ -442,7 +442,7 @@ const recorderManager = Taro.getRecorderManager()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.getRecorderManager | ✔️ |  |  |  |  |
 
@@ -498,7 +498,7 @@ Taro.startRecord(params)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.playVoice | ✔️ |  |  |  |  |
 | Taro.pauseVoice | ✔️ |  |  |  |  |
@@ -580,7 +580,7 @@ Taro.stopBackgroundAudio()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.getBackgroundAudioPlayerState | ✔️ |  |  |
 | Taro.playBackgroundAudio | ✔️ |  |  |
@@ -686,7 +686,7 @@ const innerAudioContext = Taro.createInnerAudioContext()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.createAudioContext | ✔️ |  |  |  |  |
 | Taro.createInnerAudioContext | ✔️ | ✔️ |  |  |  |

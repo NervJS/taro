@@ -268,7 +268,7 @@ async function buildForWeapp () {
   console.log()
   console.log(chalk.green('开始编译小程序端组件库！'))
   if (!fs.existsSync(entryFilePath)) {
-    console.log(chalk.red('入口文件不存在，请检查！'))
+    console.log(chalk.red('入口文件不存在，请检查！'))
     return
   }
   try {
