@@ -98,7 +98,8 @@ export namespace PostcssOption {
     generateScopedName: string
   }>
   export type url = TogglableOptions<{
-    limit: number
+    limit: number,
+    basePath?: string | string[]
   }>
 }
 

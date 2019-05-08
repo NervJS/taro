@@ -149,11 +149,14 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
     processors.push(pxtransform(postcssPxtransformConf))
   }
   if (cssUrlConf.enable) {
-    processors.push(cssUrlParse({
+    const cssUrlParseConf = {
       url: 'inline',
       maxSize,
       encodeType: 'base64'
-    }))
+    }
+    processors.push(cssUrlParse(cssUrlConf.config.basePath ? Object.assign(cssUrlParseConf, {
+      basePath: cssUrlConf.config.basePath
+    }) : cssUrlParseConf))
   }
 
   const defaultPostCSSPluginNames = ['autoprefixer', 'pxtransform', 'url', 'cssModules']
