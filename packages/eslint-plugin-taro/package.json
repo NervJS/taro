@@ -6,6 +6,7 @@
   "files": [
     "rules",
     "utils",
+    "constant",
     "index.js",
     "README.md"
   ],
