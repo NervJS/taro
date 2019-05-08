@@ -398,7 +398,7 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
   return fs.readJSONSync(pkgPath).version
 }
 
-export function traverseObjectNode (node, buildAdapter: string) {
+export function traverseObjectNode (node, buildAdapter: string, parentKey?: string) {
   if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
     const properties = node.value.properties
     const obj = {}
@@ -407,10 +407,10 @@ export function traverseObjectNode (node, buildAdapter: string) {
       if (CONFIG_MAP[buildAdapter][key] === false) {
         return
       }
-      if (CONFIG_MAP[buildAdapter][key]) {
+      if (parentKey !== 'usingComponents' && CONFIG_MAP[buildAdapter][key]) {
         key = CONFIG_MAP[buildAdapter][key]
       }
-      obj[key] = traverseObjectNode(p.value, buildAdapter)
+      obj[key] = traverseObjectNode(p.value, buildAdapter, key)
     })
     return obj
   }
@@ -422,10 +422,10 @@ export function traverseObjectNode (node, buildAdapter: string) {
       if (CONFIG_MAP[buildAdapter][key] === false) {
         return
       }
-      if (CONFIG_MAP[buildAdapter][key]) {
+      if (parentKey !== 'usingComponents' && CONFIG_MAP[buildAdapter][key]) {
         key = CONFIG_MAP[buildAdapter][key]
       }
-      obj[key] = traverseObjectNode(p.value, buildAdapter)
+      obj[key] = traverseObjectNode(p.value, buildAdapter, key)
     })
     return obj
   }
