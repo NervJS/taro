@@ -713,7 +713,7 @@ describe('闭包函数表达式', () => {
     }).toThrowError(/如果是在函数内声明闭包组件，则需要使用函数表达式的写法/)
   })
 
-  test('闭包使用函数声明2', () => {
+  test.skip('闭包使用函数声明2', () => {
     expect(() => {
       transform({
         ...baseOptions,
