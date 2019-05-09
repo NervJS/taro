@@ -880,6 +880,11 @@ export function parseAst (
               pxTransformConfig[DEVICE_RATIO_NAME] = projectConfig.deviceRatio
             }
             if (isQuickApp) {
+              if (!taroImportDefaultName) {
+                node.body.unshift(
+                  template(`import Taro from '${taroMiniAppFrameworkPath}'`, babylonConfig as any)() as any
+                )
+              }
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createApp(${exportVariableName})`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`App(require('${taroMiniAppFrameworkPath}').default.createApp(${exportVariableName}))`, babylonConfig as any)() as any)
@@ -891,6 +896,11 @@ export function parseAst (
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             } else if (isQuickApp) {
               const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/, '/').replace(path.extname(sourceFilePath), '')
+              if (!taroImportDefaultName) {
+                node.body.unshift(
+                  template(`import Taro from '${taroMiniAppFrameworkPath}'`, babylonConfig as any)() as any
+                )
+              }
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, '${pagePath}')`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Page(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
@@ -898,6 +908,11 @@ export function parseAst (
             break
           case PARSE_AST_TYPE.COMPONENT:
             if (isQuickApp) {
+              if (!taroImportDefaultName) {
+                node.body.unshift(
+                  template(`import Taro from '${taroMiniAppFrameworkPath}'`, babylonConfig as any)() as any
+                )
+              }
               node.body.push(template(`export default require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName})`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}))`, babylonConfig as any)() as any)
