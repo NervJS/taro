@@ -248,6 +248,21 @@ export default function transform (options: Options): TransformResult {
   let renderMethod!: NodePath<t.ClassMethod>
   let isImportTaro = false
   traverse(ast, {
+    Program: {
+      exit (path: NodePath<t.Program>) {
+        for (const stem of path.node.body) {
+          if (t.isImportDeclaration(stem)) {
+            if (stem.source.value === TARO_PACKAGE_NAME) {
+              const specs = stem.specifiers
+              if (specs.some(s => t.isImportDefaultSpecifier(s) && s.local.name === 'Taro')) {
+                continue
+              }
+              specs.unshift(t.importDefaultSpecifier(t.identifier('Taro')))
+            }
+          }
+        }
+      }
+    },
     JSXText (path) {
       if (Adapter.type !== Adapters.quickapp) {
         return
