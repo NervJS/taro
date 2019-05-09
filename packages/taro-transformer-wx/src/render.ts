@@ -1368,7 +1368,9 @@ export class RenderParser {
             this.deferedHandleClosureJSXFunc.push(() => {
               const classMethod = this.methods.get(id.name)
               if (classMethod && classMethod.isClassMethod()) {
-                path.replaceWith(t.arrowFunctionExpression(classMethod.node.params, classMethod.node.body))
+                path.replaceWith(t.arrowFunctionExpression([t.identifier(CLASS_COMPONENT_UID)], t.blockStatement([
+                  t.returnStatement(t.arrowFunctionExpression(classMethod.node.params, classMethod.node.body))
+                ])))
                 // classMethod.node.body.body = []
               }
             })

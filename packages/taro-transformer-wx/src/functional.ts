@@ -2,6 +2,7 @@ import { Visitor } from 'babel-traverse'
 import { codeFrameError, buildConstVariableDeclaration } from './utils'
 import * as t from 'babel-types'
 import { cloneDeep } from 'lodash'
+import generate from 'babel-generator'
 
 function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
@@ -25,13 +26,11 @@ export const functionalComponent: () => {
           }
           if (!initialIsCapital(id.name)) {
             return
-            throw codeFrameError(id, '组件命名规则请遵守帕斯卡命名法（Pascal Case）')
           }
           const hasClassDecl = arrowFuncExpr.findParent(p => p.isClassDeclaration())
           if (hasClassDecl) {
             // @TODO: 加上链接
             return
-            // throw codeFrameError(arrowFuncExpr.node, '在类中的函数式组件请写成类函数式组件：参考：')
           }
           const { body } = arrowFuncExpr.node
           if (t.isBlockStatement(body)) {
@@ -50,7 +49,6 @@ export const functionalComponent: () => {
           if (hasClassDecl) {
             // @TODO: 加上链接
             return
-            throw codeFrameError(functionDecl.node, '在类中的函数式组件请写成类函数式组件：参考：')
           }
           const { id, body, params } = functionDecl.node
           let arg: null | t.LVal = null
@@ -61,7 +59,10 @@ export const functionalComponent: () => {
           }
           const cloneBody = cloneDeep(body)
           if (!initialIsCapital(id.name)) {
-            throw codeFrameError(id, '组件命名规则请遵守帕斯卡命名法（Pascal Case）')
+            throw codeFrameError(id, `普通函数式组件命名规则请遵守帕斯卡命名法（Pascal Case), 如果是在函数内声明闭包组件，则需要使用函数表达式的写法。
+形如:
+const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
+            `)
           }
           if (arg) {
             if (t.isIdentifier(arg)) {
