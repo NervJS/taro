@@ -128,6 +128,7 @@ export const baseOptions = {
   isApp: false,
   sourcePath: __dirname,
   outputPath: __dirname,
+  sourcetDir: __dirname,
   code: '',
   isTyped: false
 }

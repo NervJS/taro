@@ -676,7 +676,7 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
