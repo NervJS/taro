@@ -52,7 +52,7 @@ class SomePage extends Taro.Component {
       <View>
         {this.renderHeader()}
         {...}
-        {this.renderHeader('footer')}
+        {this.renderFooter('footer')}
       </View>
     )
   }
