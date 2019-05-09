@@ -52,7 +52,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     hoverStayTime: 70
   }
 
-  $touchable: TouchableOpacity | null
+  $touchable = React.createRef<TouchableOpacity>()
 
   state: ButtonState = {
     valve: new Animated.Value(0),
@@ -89,7 +89,8 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
-    this.$touchable && this.$touchable.touchableHandlePress(evt)
+    const node = this.$touchable.current
+    node && node.touchableHandlePress(evt)
   }
 
   componentDidMount () {
@@ -146,7 +147,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
         onPress={this.onPress}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable}
       >
         <View
           style={[

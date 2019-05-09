@@ -29,7 +29,8 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
     color: '#04BE02'
   }
 
-  $touchable: Checkbox | Switch | null
+  // $touchable: Checkbox | Switch | null
+  $touchable = React.createRef<Checkbox | Switch>()
 
   state: SwitchState = {
     checked: !!this.props.checked
@@ -38,7 +39,8 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
   _simulateNativePress = (evt: GestureResponderEvent): void => {
     const { type } = this.props
     if (type === 'checkbox') {
-      this.$touchable && (this.$touchable as Checkbox)._simulateNativePress(evt)
+      const node = this.$touchable.current as Checkbox
+      node && node._simulateNativePress(evt)
     } else {
       // this.$touchable._onChange()
       this.setState({ checked: !this.state.checked })
@@ -67,7 +69,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
         <Checkbox
           onChange={this.onCheckboxToggle}
           checked={this.state.checked}
-          ref={(touchable) => { this.$touchable = touchable }}
+          ref={this.$touchable as React.RefObject<Checkbox>}
         />
       )
     }
@@ -78,7 +80,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
         onValueChange={this.onCheckedChange}
         onTintColor={color}
         style={style}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable as React.RefObject<Switch>}
       />
     )
   }

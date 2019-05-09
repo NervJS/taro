@@ -64,10 +64,7 @@ class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
     velocity: 0,
     visibleLength: 0,
   }
-  _scrollRef: ScrollView
-  _captureScrollRef = (ref: ScrollView) => {
-    this._scrollRef = ref
-  }
+  $scrollView = React.createRef<ScrollView>()
   _hasDataChangedSinceEndReached: boolean
   _sentEndForContentLength: number = 0
   _scrollEventThrottle: number = 50
@@ -177,7 +174,8 @@ class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
   }
 
   scrollToOffset = (x: number = 0, y: number = 0): void => {
-    this._scrollRef.scrollTo({ x, y, animated: !!this.props.scrollWithAnimation })
+    const node = this.$scrollView.current
+    node && node.scrollTo({ x, y, animated: !!this.props.scrollWithAnimation })
   }
 
   componentDidMount () {
@@ -229,7 +227,7 @@ class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
         onScroll={this._onScroll}
         onScrollEndDrag={this._onScrollEndDrag}
         onMomentumScrollEnd={this._onMomentumScrollEnd}
-        ref={this._captureScrollRef}
+        ref={this.$scrollView}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
         style={wrapperStyle}

@@ -32,14 +32,15 @@ class _Radio extends React.Component<RadioProps, RadioState> {
     } : null
   }
 
-  $touchable: TouchableWithoutFeedback | null
+  $touchable = React.createRef<TouchableWithoutFeedback>()
 
   state: RadioState = {
     checked: false
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
-    this.$touchable && this.$touchable.touchableHandlePress(evt)
+    const node = this.$touchable.current
+    node && node.touchableHandlePress(evt)
   }
 
   onPress = (): void => {
@@ -69,7 +70,7 @@ class _Radio extends React.Component<RadioProps, RadioState> {
     return (
       <TouchableWithoutFeedback
         onPress={this.onPress}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable}
       >
         <View style={[
           styles.wrapper,

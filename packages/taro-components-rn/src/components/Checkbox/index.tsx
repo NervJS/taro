@@ -33,14 +33,15 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } : null
   }
 
-  $touchable: TouchableWithoutFeedback | null
+  $touchable = React.createRef<TouchableWithoutFeedback>()
 
   state: CheckboxState = {
     checked: false
   }
 
   _simulateNativePress = (evt: GestureResponderEvent) => {
-    this.$touchable && this.$touchable.touchableHandlePress(evt)
+    const node = this.$touchable.current
+    node && node.touchableHandlePress(evt)
   }
 
   onPress = () => {
@@ -65,7 +66,7 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     return (
       <TouchableWithoutFeedback
         onPress={this.onPress}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable}
       >
         <View style={[styles.wrapper, style, this.state.checked && styles.wrapperChecked]}>
           <Icon
