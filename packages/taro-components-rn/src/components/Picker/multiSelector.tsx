@@ -61,6 +61,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
     range: [],
     value: [],
   }
+
   state = {
     cols: 3,
     pRange: [],

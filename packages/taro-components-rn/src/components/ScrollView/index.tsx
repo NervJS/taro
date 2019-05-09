@@ -23,7 +23,7 @@ import {
   ViewStyle
 } from 'react-native'
 import { omit, noop } from '../../utils'
-import { ScrollViewProps, ScrollMetrics } from './PropsType'
+import { ScrollViewProps, ScrollViewState, ScrollMetrics } from './PropsType'
 
 // const SCROLLVIEW_CONT_STYLE = [
 //   // Source code of ScrollView, ['alignItems','justifyContent']
@@ -32,18 +32,25 @@ import { ScrollViewProps, ScrollMetrics } from './PropsType'
 //   // Other
 // ]
 
-class _ScrollView extends React.Component<ScrollViewProps> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: ScrollViewProps) {
-    super(props)
-  }
-
+class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
   static defaultProps = {
     upperThreshold: 50,
     lowerThreshold: 50,
     scrollTop: 0,
     scrollLeft: 0,
     enableBackToTop: false,
+  }
+
+  static getDerivedStateFromProps (props: ScrollViewProps, state: ScrollViewState) {
+    return state.snapScrollTop !== props.scrollTop || state.snapScrollLeft !== props.scrollLeft ? {
+      snapScrollTop: props.scrollTop,
+      snapScrollLeft: props.scrollLeft
+    } : null
+  }
+
+  state: ScrollViewState = {
+    snapScrollTop: 0,
+    snapScrollLeft: 0
   }
 
   _scrollMetrics: ScrollMetrics = {
@@ -173,25 +180,21 @@ class _ScrollView extends React.Component<ScrollViewProps> {
     this._scrollRef.scrollTo({ x, y, animated: !!this.props.scrollWithAnimation })
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: ScrollViewProps) {
-    if (nextProps.scrollTop !== this.props.scrollTop || nextProps.scrollLeft !== this.props.scrollLeft) {
-      this.scrollToOffset(nextProps.scrollLeft, nextProps.scrollTop)
+  componentDidMount () {
+    if (this.state.snapScrollTop || this.state.snapScrollLeft) {
+      this._initialScrollIndexTimeout = setTimeout(() => {
+        this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
+      }, 0)
     }
   }
 
-  // componentWillReceiveProps (nextProps: Props) {
-  //   const { data, extraData, getItemCount, maxToRenderPerBatch } = nextProps
-  //   if (data !== this.props.data) {
-  //     this._hasDataChangedSinceEndReached = true
-  //   }
-  // }
+  getSnapshotBeforeUpdate (prevProps: ScrollViewProps, prevState: ScrollViewState) {
+    return prevState.snapScrollTop !== this.state.snapScrollTop || prevState.snapScrollLeft !== this.state.snapScrollLeft
+  }
 
-  componentDidMount () {
-    if (this.props.scrollTop || this.props.scrollLeft) {
-      this._initialScrollIndexTimeout = setTimeout(() => {
-        this.scrollToOffset(this.props.scrollLeft, this.props.scrollTop)
-      }, 0)
+  componentDidUpdate (prevProps: ScrollViewProps, prevState: ScrollViewState, snapshot: boolean) {
+    if (snapshot) {
+      this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
     }
   }
 

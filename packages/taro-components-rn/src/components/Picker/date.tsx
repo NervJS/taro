@@ -16,6 +16,7 @@ export default class DateSelector extends React.Component<DateProps, any> {
     value: new Date(),
     fields: 'day',
   }
+
   state: any = {
     pValue: null,
     value: 0,

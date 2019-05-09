@@ -28,16 +28,11 @@ import {
   Text,
   Animated,
   Easing,
-  StyleSheet,
 } from 'react-native'
 import styles from './styles'
 import { ProgressProps, ProgressState } from './PropsType'
 
 class _Progress extends React.Component<ProgressProps, ProgressState> {
-  state: ProgressState = {
-    valve: new Animated.Value(0)
-  }
-
   static defaultProps = {
     percent: 0,
     strokeWidth: 6,
@@ -46,9 +41,23 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     activeMode: 'backwards',
   }
 
-  animate = (nextPercent: number = 0, nowPercent: number = 0): void => {
+  static getDerivedStateFromProps (props: ProgressProps, state: ProgressState) {
+    return props.percent !== state.percent ? {
+      percent: props.percent,
+      prevPercent: state.percent
+    } : null
+  }
+
+  state: ProgressState = {
+    percent: 0,
+    prevPercent: 0,
+    valve: new Animated.Value(0)
+  }
+
+  animate = (): void => {
     const { active, activeMode } = this.props
-    const toValve = nextPercent / 100
+    const { percent, prevPercent } = this.state
+    const toValve = percent / 100
 
     if (!active || (activeMode !== 'backwards' && activeMode !== 'forwards')) {
       Animated.timing(this.state.valve, {
@@ -59,7 +68,7 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     }
 
     const sequence = []
-    const duration = (activeMode === 'forwards' ? Math.abs(nextPercent - nowPercent) : nextPercent) / 100 * 1000
+    const duration = (activeMode === 'forwards' ? Math.abs(percent - prevPercent) : percent) / 100 * 1000
 
     if (activeMode === 'backwards') {
       sequence.push(Animated.timing(this.state.valve, {
@@ -77,12 +86,17 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
   }
 
   componentDidMount () {
-    this.animate(this.props.percent)
+    this.animate()
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: ProgressProps) {
-    this.animate(nextProps.percent, this.props.percent)
+  getSnapshotBeforeUpdate (prevProps: ProgressProps, prevState: ProgressState) {
+    return prevState.percent !== this.state.percent
+  }
+
+  componentDidUpdate (prevProps: ProgressProps, prevState: ProgressState, snapshot: boolean) {
+    if (snapshot) {
+      this.animate()
+    }
   }
 
   render () {

@@ -1,4 +1,6 @@
 /**
+ * 半受控组件
+ *
  * ✔ value
  * ✔ disabled
  * ✔ checked
@@ -19,20 +21,21 @@ import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
 
 class _Radio extends React.Component<RadioProps, RadioState> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: RadioProps) {
-    super(props)
+  static defaultProps = {
+    value: '',
+    color: '#09BB07',
+  }
+
+  static getDerivedStateFromProps (props: RadioProps, state: RadioState) {
+    return props.checked !== state.checked ? {
+      checked: !!props.checked
+    } : null
   }
 
   $touchable: TouchableWithoutFeedback | null
 
   state: RadioState = {
-    checked: !!this.props.checked
-  }
-
-  static defaultProps = {
-    value: '',
-    color: '#09BB07',
+    checked: false
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
@@ -52,13 +55,6 @@ class _Radio extends React.Component<RadioProps, RadioState> {
     })
 
     this.setState({ checked: !this.state.checked })
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: RadioProps) {
-    if (nextProps.checked !== this.props.checked) {
-      this.setState({ checked: !!nextProps.checked })
-    }
   }
 
   render () {

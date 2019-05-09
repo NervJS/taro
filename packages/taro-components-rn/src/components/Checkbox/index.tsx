@@ -1,4 +1,6 @@
 /**
+ * 半受控组件
+ *
  * ✔ value
  * ✔ disabled
  * ✔ checked
@@ -20,20 +22,21 @@ import { noop } from '../../utils'
 import { CheckboxProps, CheckboxState } from './PropsType'
 
 class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: CheckboxProps) {
-    super(props)
+  static defaultProps = {
+    value: '',
+    color: '#09BB07',
+  }
+
+  static getDerivedStateFromProps (props: CheckboxProps, state: CheckboxState) {
+    return props.checked !== state.checked ? {
+      checked: !!props.checked
+    } : null
   }
 
   $touchable: TouchableWithoutFeedback | null
 
   state: CheckboxState = {
-    checked: !!this.props.checked
-  }
-
-  static defaultProps = {
-    value: '',
-    color: '#09BB07',
+    checked: false
   }
 
   _simulateNativePress = (evt: GestureResponderEvent) => {
@@ -51,13 +54,6 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     })
 
     this.setState({ checked: !this.state.checked })
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: CheckboxProps) {
-    if (this.state.checked !== nextProps.checked) {
-      this.setState({ checked: !!nextProps.checked })
-    }
   }
 
   render () {

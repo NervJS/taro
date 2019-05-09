@@ -55,9 +55,18 @@ const keyboardTypeMap: { [key: string]: string } = {
 // }
 
 class _Input extends React.Component<InputProps, InputState> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: InputProps) {
-    super(props)
+  static defaultProps = {
+    type: 'text',
+    maxlength: 140,
+    confirmType: 'done',
+    selectionStart: -1,
+    selectionEnd: -1,
+  }
+
+  static getDerivedStateFromProps (props: InputProps, state: InputState) {
+    return props.value !== state.value ? {
+      value: props.value
+    } : null
   }
 
   state: InputState = {
@@ -67,14 +76,6 @@ class _Input extends React.Component<InputProps, InputState> {
   }
   tmpValue?: string
   lineCount: number = 0
-
-  static defaultProps = {
-    type: 'text',
-    maxlength: 140,
-    confirmType: 'done',
-    selectionStart: -1,
-    selectionEnd: -1,
-  }
 
   onChangeText = (text: string): void => {
     const { onInput } = this.props
@@ -159,13 +160,6 @@ class _Input extends React.Component<InputProps, InputState> {
       this.lineCount += height > this.state.height ? 1 : -1
       _onLineChange({ detail: { height, lineCount: this.lineCount } })
       this.setState({ height })
-    }
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: InputProps) {
-    if (this.state.value !== nextProps.value) {
-      this.setState({ returnValue: nextProps.value })
     }
   }
 

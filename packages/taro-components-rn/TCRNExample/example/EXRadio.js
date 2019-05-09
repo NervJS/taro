@@ -2,14 +2,24 @@ import React, { Component } from 'react'
 import { View, Text, Label, Radio, RadioGroup } from '../../dist'
 
 export default class EXRadio extends Component {
+  state = {
+    checked: false
+  }
+
   onGroupChange = (event) => {
     console.log(event)
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({ checked: true })
+    }, 3000)
   }
 
   render () {
     return (
       <View>
-        <Radio />
+        <Radio checked={this.state.checked} />
         <RadioGroup
           style={{ flexDirection: 'row' }}
           onChange={this.onGroupChange}

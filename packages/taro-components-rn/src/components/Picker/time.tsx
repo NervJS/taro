@@ -16,6 +16,7 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
   static defaultProps = {
     value: new Date(),
   }
+
   state: any = {
     pValue: null,
     value: 0,

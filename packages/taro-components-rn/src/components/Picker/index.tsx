@@ -38,6 +38,7 @@ export default class _Picker extends React.Component<any> {
   static defaultProps = {
     mode: 'selector',
   }
+
   render () {
     const {
       mode,

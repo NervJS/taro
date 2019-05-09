@@ -34,12 +34,12 @@ const resizeModeMap: ResizeModeMap = {
 }
 
 class _Image extends React.Component<ImageProps, ImageState> {
-  hasLayout: boolean = false
-
   static defaultProps = {
     src: '',
     mode: Mode.ScaleToFill
   }
+
+  hasLayout: boolean = false
 
   state: ImageState = {
     ratio: 0,
@@ -71,6 +71,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
         layoutWidth
       })
     }
+    this.hasLayout = true
   }
 
   loadImg = (props: ImageProps) => {
@@ -94,18 +95,25 @@ class _Image extends React.Component<ImageProps, ImageState> {
     }
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: ImageProps) {
-    this.loadImg(nextProps)
-  }
-
-  componentWillMount () {
-    this.hasLayout = true
-  }
-
   componentDidMount () {
-    this.hasLayout = false
     this.loadImg(this.props)
+  }
+
+  shouldComponentUpdate (nextProps: ImageProps, nextState: ImageState) {
+    if (nextProps.src !== this.props.src) {
+      this.hasLayout = false
+    }
+    return true
+  }
+
+  getSnapshotBeforeUpdate (prevProps: ImageProps, prevState: ImageState) {
+    return prevProps.src !== this.props.src
+  }
+
+  componentDidUpdate (prevProps: ImageProps, prevState: ImageState, snapshot: boolean) {
+    if (snapshot) {
+      this.loadImg(this.props)
+    }
   }
 
   render () {

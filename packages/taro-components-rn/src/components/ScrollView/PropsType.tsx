@@ -32,6 +32,11 @@ export type EventOnScroll = {
   }
 }
 
+export interface ScrollViewState {
+  snapScrollTop: number;
+  snapScrollLeft: number;
+}
+
 export interface ScrollViewProps {
   children?: React.ReactNode;
   style?: StyleProp<ViewStyle>;

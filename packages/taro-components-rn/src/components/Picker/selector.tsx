@@ -21,6 +21,7 @@ export default class Selector extends React.Component<SelectorProps, any> {
     range: [],
     value: 0,
   }
+
   state: any = {
     pRange: [],
     range: [],

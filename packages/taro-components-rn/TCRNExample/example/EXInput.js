@@ -23,7 +23,7 @@ export default class EXTextinput extends Component {
   componentDidMount () {
     setTimeout(() => {
       this.setState({ inputValue: '123' })
-    }, 10000)
+    }, 3000)
   }
 
   render () {

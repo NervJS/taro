@@ -8,9 +8,6 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
   static defaultProps = {
     value: [],
   }
-  state = {
-    value: []
-  }
 
   static getDerivedStateFromProps (nextProps: RegionProps, lastState: any) {
     if (nextProps.value !== lastState.value) {
@@ -19,6 +16,10 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
       }
     }
     return null
+  }
+
+  state = {
+    value: []
   }
 
   onChange = (value: string[]) => {

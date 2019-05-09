@@ -45,18 +45,18 @@ import { noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
 class _Button extends React.Component<ButtonProps, ButtonState> {
-  $touchable: TouchableOpacity | null
-
-  state: ButtonState = {
-    valve: new Animated.Value(0),
-    isHover: false
-  }
-
   static defaultProps = {
     size: 'default',
     type: 'default',
     hoverStartTime: 20,
     hoverStayTime: 70
+  }
+
+  $touchable: TouchableOpacity | null
+
+  state: ButtonState = {
+    valve: new Animated.Value(0),
+    isHover: false
   }
 
   animate = (): void => {
@@ -101,13 +101,6 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       this.animate()
     }
   }
-
-  // eslint-disable-next-line camelcase
-  // UNSAFE_componentWillReceiveProps (nextProps: Props) {
-  //   if (!this.props.loading && nextProps.loading) {
-  //     this.animate()
-  //   }
-  // }
 
   render () {
     const {

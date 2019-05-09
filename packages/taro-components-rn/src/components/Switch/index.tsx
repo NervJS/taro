@@ -24,15 +24,15 @@ import { noop } from '../../utils'
 import { SwitchProps, SwitchState } from './PropsType'
 
 class _Switch extends React.Component<SwitchProps, SwitchState> {
+  static defaultProps = {
+    type: 'switch',
+    color: '#04BE02'
+  }
+
   $touchable: Checkbox | Switch | null
 
   state: SwitchState = {
     checked: !!this.props.checked
-  }
-
-  static defaultProps = {
-    type: 'switch',
-    color: '#04BE02'
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
