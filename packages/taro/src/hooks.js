@@ -69,15 +69,7 @@ function areDepsChanged (prevDeps, deps) {
   if (isNullOrUndef(prevDeps) || isNullOrUndef(deps)) {
     return true
   }
-  for (let i = 0; i < deps.length; i += 1) {
-    const val1 = deps[i]
-    const val2 = prevDeps[i]
-    if (is(val1, val2)) {
-      continue
-    }
-    return false
-  }
-  return true
+  return deps.some((d, i) => !is(d, prevDeps[i]))
 }
 
 export function invokeEffects (component, delay) {
