@@ -25,7 +25,7 @@
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-<a href="https://nervjs.github.io/taro-user-cases/"><img src="https://storage.360buyimg.com/taro-resource/user-cases.jpg" /></a>
+<a href="https://nervjs.github.io/taro-user-cases/"><img src="https://storage.jd.com/taro-resource/user-cases.jpg" /></a>
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
