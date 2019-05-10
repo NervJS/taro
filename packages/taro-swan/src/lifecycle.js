@@ -6,7 +6,7 @@ import {
   invokeEffects
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject } from './util'
+import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
 import PropTypes from 'prop-types'
 
 const isDEV = typeof process === 'undefined' ||
@@ -96,6 +96,7 @@ function doUpdate (component, prevProps, prevState) {
   }
   data['$taroCompReady'] = true
 
+  const dataDiff = diffObjToPath(data, component.$scope.data)
   const __mounted = component.__mounted
   // 每次 setData 都独立生成一个 callback 数组
   let cbs = []
@@ -141,9 +142,9 @@ function doUpdate (component, prevProps, prevState) {
       }
     }
   }
-  if (Object.keys(data).length === 0) {
+  if (Object.keys(dataDiff).length === 0) {
     cb()
   } else {
-    component.$scope.setData(data, cb)
+    component.$scope.setData(dataDiff, cb)
   }
 }
