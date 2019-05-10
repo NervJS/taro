@@ -1804,7 +1804,8 @@ export class RenderParser {
                   if (
                     name.startsWith(LOOP_STATE) ||
                     name.startsWith(LOOP_CALLEE) ||
-                    name.startsWith(COMPID)
+                    name.startsWith(COMPID) ||
+                    name.startsWith('_$indexKey')
                   ) {
                     stateToBeAssign.add(name)
                     dcl.id = t.identifier(name)
