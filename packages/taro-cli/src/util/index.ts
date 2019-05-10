@@ -53,7 +53,7 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: obj
 
   const prefixs = Object.keys(pathAlias)
   if (prefixs.includes(name)) {
-    return promoteRelativePath(path.relative(filePath, fs.realpathSync(pathAlias[name])))
+    return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
   }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
   name = name.replace(reg, function (m, $1, $2) {
