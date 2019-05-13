@@ -32,6 +32,7 @@ class Swiper extends Nerv.Component {
     this.$el = null
     this._id = INSTANCE_ID + 1
     INSTANCE_ID++
+    this._$current = 0
   }
 
   componentDidMount () {
@@ -48,6 +49,7 @@ class Swiper extends Nerv.Component {
       spaceBetween
     } = this.props
 
+    const that = this
     const opt = {
       // 指示器
       pagination: { el: `.taro-swiper-${this._id} .swiper-pagination` },
@@ -68,6 +70,7 @@ class Swiper extends Nerv.Component {
               }
             })
           } catch (err) {}
+          that._$current = this.realIndex
           onChange && onChange(e)
         },
         transitionEnd () {
@@ -104,7 +107,7 @@ class Swiper extends Nerv.Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.mySwiper) {
-      const nextCurrent = nextProps.current || 0
+      const nextCurrent = nextProps.current || that._$current || 0
       // 是否衔接滚动模式
       if (nextProps.circular) {
         this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
