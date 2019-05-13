@@ -1,0 +1,53 @@
+{
+  "name": "@tarojs/mini-runner",
+  "version": "1.3.0-beta.2",
+  "description": "Mini app runner for taro",
+  "main": "index.js",
+  "scripts": {
+    "build": "run-s clean prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist",
+    "lint": "tslint src/**/*.ts --fix",
+    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
+    "prepack": "npm run build",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "jest": "^24.8.0",
+    "npm-run-all": "^4.1.5",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.126",
+    "@types/webpack": "^4.4.31",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "chalk": "^2.4.2",
+    "lodash": "^4.17.11",
+    "ora": "^3.4.0",
+    "webpack": "^4.31.0",
+    "webpack-chain": "^6.0.0",
+    "webpack-format-messages": "^2.0.5"
+  }
+}
