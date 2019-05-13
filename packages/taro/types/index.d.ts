@@ -11796,11 +11796,11 @@ declare namespace Taro {
     }
     function init(OBJECT?: ICloudConfig): void
 
-    function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> | void
-    function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> | WXNS.IUploadFileTask
-    function downloadFile(param: ICloud.DownloadFileParam): Promise<ICloud.DownloadFileResult> | WXNS.IDownloadFileTask
-    function getTempFileURL(param: ICloud.GetTempFileURLParam): Promise<ICloud.GetTempFileURLResult> | void
-    function deleteFile(param: ICloud.DeleteFileParam): Promise<ICloud.DeleteFileResult> | void
+    function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> & void
+    function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> & WXNS.IUploadFileTask
+    function downloadFile(param: ICloud.DownloadFileParam): Promise<ICloud.DownloadFileResult> & WXNS.IDownloadFileTask
+    function getTempFileURL(param: ICloud.GetTempFileURLParam): Promise<ICloud.GetTempFileURLResult> & void
+    function deleteFile(param: ICloud.DeleteFileParam): Promise<ICloud.DeleteFileResult> & void
 
     function database(config?: ICloudConfig): DB.Database
   }
