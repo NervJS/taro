@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { View, Text, Picker } from '../../dist'
 
 export default class EXPicker extends Component {
-  pickerSelectorRange = [ 'Java', 'C++', 'PHP' ]
   state = {
     selectorValue: 1,
     selectorRange: [
