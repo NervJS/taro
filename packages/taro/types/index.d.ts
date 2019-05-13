@@ -11562,9 +11562,9 @@ declare namespace Taro {
 
         field(object: object): Query
 
-        get(options?: IGetDocumentOptions): Promise<IQueryResult> | void
+        get(options?: IGetDocumentOptions): Promise<IQueryResult> & void
 
-        count(options?: ICountDocumentOptions): Promise<ICountResult> | void
+        count(options?: ICountDocumentOptions): Promise<ICountResult> & void
       }
 
       export interface DatabaseCommand {
