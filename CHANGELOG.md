@@ -1,5 +1,36 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.1...v) (2019-05-07)
+# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.2...v) (2019-05-13)
+
+
+
+<a name="1.3.0-beta.2"></a>
+# [1.3.0-beta.2](https://github.com/NervJS/taro/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2019-05-13)
+
+
+### Bug Fixes
+
+* **cli:** postcss-url 增加 basePath 配置，close [#2334](https://github.com/NervJS/taro/issues/2334) ([37f6cf3](https://github.com/NervJS/taro/commit/37f6cf3))
+* **cli:** usingComponents 下的内容不通过 CONFIG_MAP 处理，close [#2817](https://github.com/NervJS/taro/issues/2817) ([529a80e](https://github.com/NervJS/taro/commit/529a80e))
+* **cli:** 修复 alias 路径替换的问题 ([b57ed0a](https://github.com/NervJS/taro/commit/b57ed0a))
+* **cli:** 修复 ui 库编译 bug ([4ddbeca](https://github.com/NervJS/taro/commit/4ddbeca))
+* **cli:** 创建项目时遗漏是否选择 typescript 的选项 ([ee7abc9](https://github.com/NervJS/taro/commit/ee7abc9))
+* **cli:** 快应用编译时若没有默认引入 Taro 则自动补充 ([81d8c5d](https://github.com/NervJS/taro/commit/81d8c5d))
+* **eslint:** 发布文件缺少 constant 文件夹 ([6eec837](https://github.com/NervJS/taro/commit/6eec837))
+* **rn:** RN编译时报错 invariant_1.default is not a function close [#2984](https://github.com/NervJS/taro/issues/2984) ([8a88948](https://github.com/NervJS/taro/commit/8a88948))
+* **rn:** toast 或 loading 不对称情况下防止泄漏 ([d9c52f9](https://github.com/NervJS/taro/commit/d9c52f9))
+* **rn:** 路由 API promise 化 ([dd5ee2b](https://github.com/NervJS/taro/commit/dd5ee2b))
+* **taro:** hooks deps 改变没有处理空数组的情况，[#2995](https://github.com/NervJS/taro/issues/2995) ([c96975d](https://github.com/NervJS/taro/commit/c96975d))
+* **taro-swan:** 百度小程序加上 diff ([d130369](https://github.com/NervJS/taro/commit/d130369))
+* **transformer:** 当 ast 没有 import Taro 时补一个 ([866aca1](https://github.com/NervJS/taro/commit/866aca1)), closes [#2995](https://github.com/NervJS/taro/issues/2995)
+* **transformer:** 循环中使用匿名函数编译错误, close [#2990](https://github.com/NervJS/taro/issues/2990) ([e29ebcc](https://github.com/NervJS/taro/commit/e29ebcc))
+
+
+### Features
+
+* **components-rn:** ScrollView, 只在 onScroll 时判断 onScrollToUpper 和 onScrollToLower ([7cd8bea](https://github.com/NervJS/taro/commit/7cd8bea))
+* **taro-alipay:** 支付宝小程序 props 系统改造 ([dfb6e30](https://github.com/NervJS/taro/commit/dfb6e30))
+* **transformer:** 支持闭包函数组件 ([a67f2f9](https://github.com/NervJS/taro/commit/a67f2f9))
+* **webpack-runner:** h5端使用copy-webpack-plugin实现copy功能 ([8e329bb](https://github.com/NervJS/taro/commit/8e329bb))
 
 
 
@@ -3468,7 +3499,7 @@
 
 * **cli:** rn 编译样式处理错误 ([ddb7a5d](https://github.com/NervJS/taro/commit/ddb7a5d))
 * **cli:** 包名有误 ([e31d66a](https://github.com/NervJS/taro/commit/e31d66a))
-* **eslint:** jsx-handler-name  对 this.state 报错 ([6f400e7](https://github.com/NervJS/taro/commit/6f400e7))
+* **eslint:** jsx-handler-name  对 this.state 报错 ([6f400e7](https://github.com/NervJS/taro/commit/6f400e7))
 * **eslint-plugin-taro:** 组件属性无法使用 this.state.* 形式赋值 ([827db83](https://github.com/NervJS/taro/commit/827db83)), closes [#145](https://github.com/NervJS/taro/issues/145)
 * **redux:** redux 更新前设置组件的 prevProps ([c0d91fb](https://github.com/NervJS/taro/commit/c0d91fb))
 * **tabbar:** 修复tabbar转h5后退隐藏问题 ([f39966b](https://github.com/NervJS/taro/commit/f39966b))
@@ -4076,7 +4107,7 @@
 * **eslint:** 新规则: no-ref ([b62dcc2](https://github.com/NervJS/taro/commit/b62dcc2))
 * **eslint:** 新规则：if-statement-in-map-loop ([995aa1d](https://github.com/NervJS/taro/commit/995aa1d))
 * **eslint:** 新规则：no-stateless-component ([cd05784](https://github.com/NervJS/taro/commit/cd05784))
-* **eslint:** 设置变量定义规则 ([7dee64d](https://github.com/NervJS/taro/commit/7dee64d))
+* **eslint:** 设置变量定义规则 ([7dee64d](https://github.com/NervJS/taro/commit/7dee64d))
 * **router:** 修复h5路由back功能 ([0e9e77c](https://github.com/NervJS/taro/commit/0e9e77c))
 * **taro:** 加入 Component 类型 ([afed5f3](https://github.com/NervJS/taro/commit/afed5f3))
 * **taro:** 加入 ENV 和 Events 类型 ([a87fc33](https://github.com/NervJS/taro/commit/a87fc33))
