@@ -107,7 +107,7 @@ class Swiper extends Nerv.Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.mySwiper) {
-      const nextCurrent = nextProps.current || that._$current || 0
+      const nextCurrent = nextProps.current || this._$current || 0
       // 是否衔接滚动模式
       if (nextProps.circular) {
         this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
