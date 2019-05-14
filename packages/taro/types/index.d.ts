@@ -392,6 +392,11 @@ declare namespace Taro {
      * default: false
      */
     disableScroll?: boolean
+    /**
+     * 禁止页面右滑手势返回
+     * default: false
+     */
+    disableSwipeBack?: boolean
   }
 
   interface WindowConfig extends CommonPageConfig {
