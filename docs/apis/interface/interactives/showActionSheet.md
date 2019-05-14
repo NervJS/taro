@@ -29,8 +29,8 @@ import Taro from '@tarojs/taro'
 Taro.showActionSheet({
   itemList: ['a', 'b', 'c']
 })
-  .then(res => console.log(res.errMsg, res.tapIndex))
-  .catch(err => console.log(res.errMsg))
+  .then(res => console.log(res.tapIndex))
+  .catch(err => console.log(err.errMsg))
 ```
 
 
