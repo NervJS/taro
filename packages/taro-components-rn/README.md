@@ -17,6 +17,7 @@ npm run dev
 # 在其它目录下：
 # react-native init TCRNExample --version 0.55.4
 # 把初始化的项目中的 android 和 ios 目录移到 TCRNExample 下面
+# （TCRNExample 下核心文件：example/, App.js, rn-cli.config.js）
 
 # 进入例子目录安装依赖
 cd TCRNExample

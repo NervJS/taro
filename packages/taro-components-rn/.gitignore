@@ -19,8 +19,5 @@ __snapshots__
 # tcr-testing
 tcr-testing.sh
 
-# 稳定版时释放
-package-lock.json
-
 TCRNExample/android/
 TCRNExample/ios/
