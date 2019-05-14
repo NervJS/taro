@@ -329,7 +329,10 @@ declare namespace Taro {
     displayName?: string
   }
 
-  interface PageConfig {
+  /**
+   * 微信小程序全局 Window 配置和页面配置的公共项目
+   */
+  interface CommonPageConfig {
     /**
      * 导航栏背景颜色，HexColor
      * default: #000000
@@ -349,7 +352,7 @@ declare namespace Taro {
      * default 默认样式
      * custom 自定义导航栏
      */
-    navigationStyle?: string
+    navigationStyle?: 'default' | 'custom'
     /**
      * 窗口的背景色， HexColor
      * default: #ffffff
@@ -361,6 +364,16 @@ declare namespace Taro {
      */
     backgroundTextStyle?: 'dark' | 'light'
     /**
+     * 顶部窗口的背景色，仅 iOS 支持
+     * default: #ffffff
+     */
+    backgroundColorTop?: string
+    /**
+     * 底部窗口的背景色，仅 iOS 支持
+     * default: #ffffff
+     */
+    backgroundColorBottom?: string
+    /**
      * 是否开启下拉刷新
      * default: false
      */
@@ -370,11 +383,25 @@ declare namespace Taro {
      * default: 50
      */
     onReachBottomDistance?: number
+  }
+
+  interface PageConfig extends CommonPageConfig {
     /**
-     * 设置为 true 则页面整体不能上下滚动；只在页面配置中有效，无法在 app.json 中设置该项
+     * 设置为 true 则页面整体不能上下滚动；
+     * 只在页面配置中有效，无法在 app.json 中设置该项
      * default: false
      */
     disableScroll?: boolean
+  }
+
+  interface WindowConfig extends CommonPageConfig {
+    /**
+     * 屏幕旋转设置
+     * 支持 auto / portrait / landscape
+     * default: portrait
+     * 详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html)
+     */
+    pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
 
   interface TarbarList {
@@ -585,7 +612,7 @@ declare namespace Taro {
     usingComponents?: {
       [key: string]: string
     }
-    window?: PageConfig
+    window?: WindowConfig
     cloud?: boolean
   }
 
