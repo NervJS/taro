@@ -445,8 +445,8 @@ class Compiler {
           if (tabBar) {
             if (!hasComponentWillMount) {
               node.body.push(t.classMethod(
-                'method', t.identifier('componentWillMount'), [ initTabbarApiNode ],
-                t.blockStatement([]), false, false))
+                'method', t.identifier('componentWillMount'), [],
+                t.blockStatement([initTabbarApiNode]), false, false))
             }
             if (!stateNode) {
               stateNode = t.classProperty(
