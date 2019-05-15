@@ -47,7 +47,7 @@ class Router extends Component<Props, State> {
     const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
       return originalPathname === mappedRoute
     })
-    if (foundRoute) {
+    if (foundRoute.length) {
       pathname = foundRoute[0][0]
     }
     const matchedRoute = this.props.routes.filter(({path, isIndex}) => {
