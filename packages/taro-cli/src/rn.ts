@@ -267,18 +267,18 @@ class Compiler {
       .on('add', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
         Util.printLog(processTypeEnum.CREATE, '添加文件', relativePath)
-        this.perfWrap(this.buildTemp)
+        this.perfWrap(this.buildTemp.bind(this))
       })
       .on('change', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
         Util.printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
         if (REG_SCRIPTS.test(filePath)) {
-          this.perfWrap(this.processFile, filePath)
+          this.perfWrap(this.processFile.bind(this), filePath)
         }
         if (REG_STYLE.test(filePath)) {
           _.forIn(depTree, (styleFiles, jsFilePath) => {
             if (styleFiles.indexOf(filePath) > -1) {
-              this.perfWrap(this.processFile, jsFilePath)
+              this.perfWrap(this.processFile.bind(this), jsFilePath)
             }
           })
         }
@@ -286,7 +286,7 @@ class Compiler {
       .on('unlink', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
         Util.printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
-        this.perfWrap(this.buildTemp)
+        this.perfWrap(this.buildTemp.bind(this))
       })
       .on('error', error => console.log(`Watcher error: ${error}`))
   }
