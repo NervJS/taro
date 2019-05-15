@@ -1,12 +1,11 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import { spawn, spawnSync, execSync, SpawnSyncOptions } from 'child_process'
+import { exec, spawn, spawnSync, execSync, SpawnSyncOptions } from 'child_process'
 import { performance } from 'perf_hooks'
 import * as chokidar from 'chokidar'
 import chalk from 'chalk'
 import * as ejs from 'ejs'
 import * as _ from 'lodash'
-import * as shelljs from 'shelljs'
 import * as klaw from 'klaw'
 
 import * as Util from './util'
@@ -215,9 +214,17 @@ class Compiler {
             } else {
               command = 'npm install'
             }
-            shelljs.exec(command, {silent: false})
+            exec(command, (err, stdout, stderr) => {
+              if (err) reject()
+              else {
+                console.log(stdout)
+                console.log(stderr)
+              }
+              resolve()
+            })
+          } else {
+            resolve()
           }
-          resolve()
         })
     })
   }

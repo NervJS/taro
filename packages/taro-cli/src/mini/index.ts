@@ -4,7 +4,7 @@ import * as path from 'path'
 import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as ora from 'ora'
-import * as shelljs from 'shelljs'
+import { exec } from 'child_process'
 import * as resolvePath from 'resolve'
 
 import {
@@ -168,18 +168,20 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
       command = 'NODE_ENV=development npm install'
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
-    const install = shelljs.exec(command, { silent: true })
-    if (install.code === 0) {
-      installSpinner.color = 'green'
-      installSpinner.succeed('安装成功')
-      console.log(`${install.stderr}${install.stdout}`)
-      isReady = true
-    } else {
-      installSpinner.color = 'red'
-      installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
-      console.log(`${install.stderr}${install.stdout}`)
-      isReady = false
-    }
+    const install = exec(command)
+    install.on('close', code => {
+      if (code === 0) {
+        installSpinner.color = 'green'
+        installSpinner.succeed('安装成功')
+        console.log(`${install.stderr.read()}${install.stdout.read()}`)
+        isReady = true
+      } else {
+        installSpinner.color = 'red'
+        installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
+        console.log(`${install.stderr.read()}${install.stdout.read()}`)
+        isReady = false
+      }
+    })
   } else {
     console.log(`${chalk.green('✔ ')} 快应用依赖已经安装好`)
     isReady = true
