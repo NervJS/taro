@@ -4,6 +4,7 @@ import * as path from 'path'
 import { IMiniAppBuildConfig } from '../util/types'
 import { BUILD_TYPES } from '../util/constants'
 import * as npmProcess from '../util/npm'
+import { getBabelConfig } from '../util'
 
 import {
   setBuildData,
@@ -27,14 +28,20 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
 }
 
 async function buildWithWebpack ({ appPath }: { appPath: string }) {
-  const { entryFilePath, outputDir, sourceDir } = getBuildData()
+  const { entryFilePath, outputDir, sourceDir, buildAdapter, projectConfig, isProduction } = getBuildData()
   console.log(entryFilePath, outputDir)
   const miniRunner = await npmProcess.getNpmPkg('@tarojs/mini-runner', appPath)
+  const babelConfig = getBabelConfig(projectConfig!.plugins!.babel)
   const miniRunnerOpts = {
     entry: {
       app: entryFilePath
     },
-    outputDir
+    outputDir,
+    buildAdapter,
+    plugins: {
+      babel: babelConfig
+    },
+    isWatch: !isProduction
   }
   miniRunner(miniRunnerOpts)
 }
