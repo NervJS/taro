@@ -18,6 +18,7 @@ import {
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
+import defaultManifestJSON from '../config/manifest.default.json'
 
 import {
   setBuildData,
@@ -121,7 +122,7 @@ function generateQuickAppManifest () {
   if (fs.existsSync(quickappJSONPath)) {
     quickappJSON = fs.readJSONSync(quickappJSONPath)
   } else {
-    quickappJSON = fs.readJSONSync('../config/manifest.default.json')
+    quickappJSON = defaultManifestJSON
   }
   quickappJSON.router = router
   quickappJSON.display = display
