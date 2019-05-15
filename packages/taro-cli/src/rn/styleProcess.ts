@@ -16,8 +16,9 @@ const DEVICE_RATIO = 'deviceRatio'
 
 /**
  * @description 读取 css/scss/less 文件，预处理后，返回 css string
- * @param {string}filePath
+ * @param {string} filePath
  * @param {object} pluginsConfig
+ * @param {string} appPath
  * @returns {*}
  */
 function loadStyle({filePath, pluginsConfig}, appPath) {
