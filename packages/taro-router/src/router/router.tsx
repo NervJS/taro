@@ -44,20 +44,20 @@ class Router extends Component<Props, State> {
     // 找出匹配的路由组件
     const originalPathname = location.path;
     let pathname = originalPathname
-    const foundRoute = this.customRoutes.find(([originalRoute, mappedRoute]) => {
+    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
       return originalPathname === mappedRoute
     })
     if (foundRoute) {
-      pathname = foundRoute[0]
+      pathname = foundRoute[0][0]
     }
-    const matchedRoute = this.props.routes.find(({path, isIndex}) => {
+    const matchedRoute = this.props.routes.filter(({path, isIndex}) => {
       if (isIndex && pathname === '/') return true;
       return pathname === path;
     })
 
-    invariant(matchedRoute, `Can not find proper registered route for '${pathname}'`)
+    invariant(matchedRoute[0], `Can not find proper registered route for '${pathname}'`)
 
-    return matchedRoute!
+    return matchedRoute[0]!
   }
 
   push (toLocation: Types.Location) {
