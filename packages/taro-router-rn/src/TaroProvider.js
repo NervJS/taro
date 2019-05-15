@@ -29,6 +29,7 @@ class TaroProvider extends React.Component {
     try {
       Taro.startPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.handlePullDownRefresh
       Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh
+      Taro.pageScrollTo = this.refreshProviderRef.current && this.refreshProviderRef.current.pageScrollTo
     } catch (e) {
       console.log('this.refreshProviderRef: ')
       console.log(this.refreshProviderRef)

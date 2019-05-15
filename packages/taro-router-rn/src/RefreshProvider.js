@@ -1,9 +1,11 @@
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
+import { errorHandler, shouleBeObject, successHandler } from './utils'
 
 class RefreshProvider extends React.Component {
   constructor (props) {
     super(props)
+    this._scrollView = React.createRef()
     this.state = {
       refreshing: false
     }
@@ -17,7 +19,8 @@ class RefreshProvider extends React.Component {
       return (
         <ScrollView
           style={{flex: 1}}
-          contentContainerStyle={{ minHeight: '100%' }}
+          ref={this._scrollView}
+          contentContainerStyle={{minHeight: '100%'}}
           scrollEventThrottle={5}
           alwaysBounceVertical={false}
           onScroll={this.onScroll}
@@ -34,6 +37,38 @@ class RefreshProvider extends React.Component {
         </ScrollView>
       )
     }
+  }
+
+  /**
+   * duration 参数无效
+   * @param options
+   * @returns {*}
+   */
+  pageScrollTo = (options = {}) => {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `pageScrollTo${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+
+    const res = {errMsg: 'navigateTo:ok'}
+    let {scrollTop, success, fail, complete} = options
+
+    if (typeof Number(scrollTop) !== 'number') {
+      const res = {errMsg: 'pageScrollTo params scrollTop is not number'}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+
+    try {
+      console.log(this._scrollView)
+      this._scrollView.current.scrollTo({x: 0, y: Number(scrollTop), animated: true})
+    } catch (e) {
+      return errorHandler(fail, complete)({errMsg: e})
+    }
+    return successHandler(success, complete)(res)
   }
 
   onScroll = (e) => {

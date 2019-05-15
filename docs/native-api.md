@@ -2747,7 +2747,7 @@ Taro.pageScrollTo(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.pageScrollTo | ✔️ | ✔️ |  |
+| Taro.pageScrollTo | ✔️ | ✔️ | ✔️ |
 
 ### 绘图
 
