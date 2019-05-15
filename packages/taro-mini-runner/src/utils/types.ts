@@ -1,4 +1,5 @@
 import * as webpack from 'webpack'
+import { BUILD_TYPES } from './constants'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -32,7 +33,8 @@ export interface IChain {
 
 export interface ITaroMiniConfig {
   entry: webpack.Entry
-  output: webpack.Output
+  output: webpack.Output,
+  buildAdapter: BUILD_TYPES
 }
 
 export interface ITaroPlugins {
