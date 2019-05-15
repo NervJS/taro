@@ -251,7 +251,9 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
         if (REG_STYLE.test(valueExtname)) {
           const stylePath = path.resolve(path.dirname(filePath), value)
           if (styleFiles.indexOf(stylePath) < 0) {
-            styleFiles.push(stylePath)
+            //样式条件文件编译 .rn.scss
+            const realStylePath = Util.resolveStylePath(stylePath)
+            styleFiles.push(realStylePath)
           }
         }
         if (value.indexOf('.') === 0) {
