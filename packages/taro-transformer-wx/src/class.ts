@@ -661,22 +661,26 @@ class Transformer {
         generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
       },
       Identifier (path) {
-        if (path.node.name !== 'children') {
-          return
-        }
-        const parentPath = path.parentPath
-        const slot = t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true)
-        if (parentPath.isMemberExpression() && parentPath.isReferenced()) {
-          const object = parentPath.get('object')
-          if (object.isIdentifier()) {
-            const objectName = object.node.name
-            if (isDerivedFromProps(path.scope, objectName)) {
+        const isStartWithRender = /^render[A-Z]/.test(path.node.name)
+        if (path.node.name === 'children' || isStartWithRender) {
+          const parentPath = path.parentPath
+          const slot = t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true)
+          if (isStartWithRender) {
+            slot.openingElement.attributes.push(t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(getSlotName(path.node.name))))
+            self.setMultipleSlots()
+          }
+          if (parentPath.isMemberExpression() && parentPath.isReferenced()) {
+            const object = parentPath.get('object')
+            if (object.isIdentifier()) {
+              const objectName = object.node.name
+              if (isDerivedFromProps(path.scope, objectName)) {
+                parentPath.replaceWith(slot)
+              }
+            }
+          } else if (path.isReferencedIdentifier()) {
+            if (isDerivedFromProps(path.scope, 'children')) {
               parentPath.replaceWith(slot)
             }
-          }
-        } else if (path.isReferencedIdentifier()) {
-          if (isDerivedFromProps(path.scope, 'children')) {
-            parentPath.replaceWith(slot)
           }
         }
       },
