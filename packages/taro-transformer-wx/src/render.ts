@@ -488,7 +488,14 @@ export class RenderParser {
                       this.referencedIdentifiers.add(ary)
                     }
                   }
-                  setJSXAttr(jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
+                  const block = buildBlockElement()
+                  const hasIfAttr = jsxElementPath.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                  const needWrapper = Adapters.swan === Adapter.type && hasIfAttr
+                  if (needWrapper) {
+                    block.children = [jsxElementPath.node]
+                    jsxElementPath.replaceWith(block)
+                  }
+                  setJSXAttr(needWrapper ? block : jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
                   this.loopCalleeId.add(findFirstIdentifierFromMemberExpression(callee))
                   const [func] = callExpr.node.arguments
                   if (
@@ -501,7 +508,7 @@ export class RenderParser {
                     if (t.isIdentifier(item)) {
                       if (Adapters.quickapp !== Adapter.type) {
                         setJSXAttr(
-                          jsxElementPath.node,
+                          needWrapper ? block : jsxElementPath.node,
                           Adapter.forItem,
                           t.stringLiteral(item.name)
                         )
@@ -513,7 +520,7 @@ export class RenderParser {
                       throw codeFrameError(item.loc, 'JSX map 循环参数暂时不支持使用 Object pattern 解构。')
                     } else {
                       setJSXAttr(
-                        jsxElementPath.node,
+                        needWrapper ? block : jsxElementPath.node,
                         Adapter.forItem,
                         t.stringLiteral('__item')
                       )
@@ -522,7 +529,7 @@ export class RenderParser {
                     if (t.isIdentifier(index)) {
                       if (Adapters.quickapp !== Adapter.type) {
                         setJSXAttr(
-                          jsxElementPath.node,
+                          needWrapper ? block : jsxElementPath.node,
                           Adapter.forIndex,
                           t.stringLiteral(index.name)
                         )
@@ -536,7 +543,7 @@ export class RenderParser {
                         const uid = this.renderScope.generateUid('anonIdx')
                         func.params[1] = t.identifier(uid)
                         setJSXAttr(
-                          jsxElementPath.node,
+                          needWrapper ? block : jsxElementPath.node,
                           Adapter.forIndex,
                           t.stringLiteral(this.renderScope.generateUid('anonIdx'))
                         )
