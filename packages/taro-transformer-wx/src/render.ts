@@ -138,6 +138,7 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
+  private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -1015,7 +1016,9 @@ export class RenderParser {
       const properties = this.getPropsFromAttrs(openingElement)
       const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
       this.propsSettingExpressions.add(idExpr)
-      this.propsSettingExpressions.add(() => t.expressionStatement(setAncestorCondition(jsxElementPath, propsSettingExpr)))
+      const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
+      this.ancestorConditions.add(expr)
+      this.propsSettingExpressions.add(() => t.expressionStatement(expr))
 
       // xml 中打上组件 ID
       setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
@@ -1757,6 +1760,7 @@ export class RenderParser {
               const properties = this.getPropsFromAttrs(element)
               const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName))
               const expr = setAncestorCondition(path, propsSettingExpr)
+              this.ancestorConditions.add(expr)
 
               body.splice(body.length - 1, 0, compidTempDecl, t.expressionStatement(expr))
 
@@ -1890,7 +1894,11 @@ export class RenderParser {
                       return
                     }
                   }
+                  if (this.ancestorConditions.has(parentCondition.node)) {
+                    return
+                  }
                 }
+                debugger
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
