@@ -974,7 +974,7 @@ export class RenderParser {
     return properties
   }
 
-  private prefixExpr = () => this.isDefaultRender ? t.memberExpression(t.thisExpression(), t.identifier('$prefix')) : t.identifier(CLASS_COMPONENT_UID)
+  private prefixExpr = () => this.isDefaultRender ? t.identifier('__prefix') : t.identifier(CLASS_COMPONENT_UID)
 
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
@@ -2306,6 +2306,7 @@ export class RenderParser {
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
       template(`const __isRunloopRef = arguments[2];`)(),
+      template(`const __prefix = this.$prefix`)(),
       this.usedThisProperties.size
         ? t.variableDeclaration(
           'const',

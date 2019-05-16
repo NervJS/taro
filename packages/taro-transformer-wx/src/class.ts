@@ -330,7 +330,7 @@ class Transformer {
           t.callExpression(callee, [t.binaryExpression(
             '+',
             methodName === 'render'
-              ? t.memberExpression(t.thisExpression(), t.identifier('$prefix'))
+              ? t.identifier('__prefix')
               : t.identifier(CLASS_COMPONENT_UID),
             t.stringLiteral(createRandomLetters(10))
           )]),
