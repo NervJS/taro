@@ -695,7 +695,7 @@ export default function transform (options: Options): TransformResult {
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
-  result.compressedTemplate = result.template
+  result.compressedTemplate = result.template.replace(lessThanSignReg, '<')
   result.template = prettyPrint(result.template, {
     max_char: 0,
     unformatted: isTestEnv ? [] : ['text']

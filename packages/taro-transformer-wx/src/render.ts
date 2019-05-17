@@ -1898,7 +1898,6 @@ export class RenderParser {
                     return
                   }
                 }
-                debugger
                 const replacement = t.memberExpression(
                   t.identifier(item.name),
                   path.node
