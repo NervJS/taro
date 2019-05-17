@@ -8795,7 +8795,22 @@ declare namespace Taro {
        * @since 1.9.90
        */
       timeout?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 获取用户信息接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Promised) => void
+    /**
+     * 获取用户信息接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: Promised) => void
+    /**
+     * 获取用户信息接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
