@@ -1,9 +1,9 @@
-import { Component } from '@tarojs/taro-h5';
-import Nerv from 'nervjs';
+import Taro from '@tarojs/taro-h5'
+import Nerv from 'nervjs'
 
-import createWrappedComponent from './createWrappedComponent';
-import { Location, RouteObj } from '../utils/types';
-import { tryToCall } from '../utils/index';
+import { tryToCall } from '../utils'
+import { Location, RouteObj } from '../utils/types'
+import createWrappedComponent from './createWrappedComponent'
 
 type RouteProps = RouteObj & {
   currentLocation: Location;
@@ -32,7 +32,7 @@ const getScroller = () => {
 }
 let scroller
 
-class Route extends Component<RouteProps, {}> {
+class Route extends Taro.Component<RouteProps, {}> {
   matched = false;
   wrappedComponent;
   componentRef;
