@@ -11,18 +11,35 @@ import {
   render,
   interceptors
 } from '@tarojs/taro'
-import Nerv from 'nervjs'
+import Nerv, {
+  createRef,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo
+} from 'nervjs'
 
 import { permanentlyNotSupport } from '../api/utils'
 
-const taro = {
+export const taro = {
   getEnv,
   ENV_TYPE,
   Events,
   eventCenter,
   render,
   internal_safe_set,
-  internal_safe_get
+  internal_safe_get,
+  createRef,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo
 }
 
 class Component extends Nerv.Component {
@@ -110,22 +127,3 @@ taro.canIUseWebp = canIUseWebp
 taro.interceptors = interceptors
 
 export default taro
-export {
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  interceptors,
-  /* eslint-disable-next-line camelcase */
-  internal_safe_set,
-  /* eslint-disable-next-line camelcase */
-  internal_safe_get,
-  Component,
-  PureComponent,
-  initPxTransform,
-  requirePlugin,
-  getApp,
-  pxTransform,
-  canIUseWebp
-}
