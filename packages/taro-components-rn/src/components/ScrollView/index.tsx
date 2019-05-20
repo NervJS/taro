@@ -1,4 +1,9 @@
 /**
+ * @see https://facebook.github.io/react-native/docs/scrollview.html
+ *
+ * 注意事项：
+ *   一般地，ScrollView 外面要套一个 View 并在这个 View 上设置高度，否则会出现 ScrollView 撑满外层出现不能滚动的假象
+ *
  * ✔ scrollX(scroll-x): Either-or
  * ✘ scrollY(scroll-y): Either-or
  * ✔ upperThreshold(upper-threshold)

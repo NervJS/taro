@@ -18,7 +18,8 @@ import {
   Image,
   StyleSheet,
   ImageSourcePropType,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  ImageResolvedAssetSource
 } from 'react-native'
 import { noop } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
@@ -55,10 +56,23 @@ class _Image extends React.Component<ImageProps, ImageState> {
 
   onLoad = () => {
     const { src, onLoad = noop } = this.props
-    const { width, height }: { width: number, height: number } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src) || {}
-    onLoad({
-      detail: { width, height }
-    })
+    if (typeof src === 'string') {
+      Image.getSize(src as string, (width: number, height: number) => {
+        onLoad({
+          detail: { width, height }
+        })
+      }, (err: any) => {
+        onLoad({
+          detail: { width: 0, height: 0 }
+        })
+      })
+    } else {
+      const iras: ImageResolvedAssetSource = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
+      const { width, height }: { width: number, height: number } = iras || { width: 0, height: 0 }
+      onLoad({
+        detail: { width, height }
+      })
+    }
   }
 
   onLayout = (event: LayoutChangeEvent) => {
