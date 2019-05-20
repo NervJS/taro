@@ -112,6 +112,7 @@ function analyzeImportUrl ({
         if (scriptFiles.indexOf(fPath) < 0) {
           scriptFiles.push(fPath)
         }
+        node.source.value = value.replace(valueExtname, '.js')
       } else if (REG_JSON.test(valueExtname)) {
         const vpath = path.resolve(sourceFilePath, '..', value)
         if (jsonFiles.indexOf(vpath) < 0) {
