@@ -52,8 +52,6 @@ import {
   stripTrailingSlash
 } from './helper'
 
-let pages: string[] = []
-
 class Compiler {
   projectConfig
   h5Config
@@ -74,6 +72,7 @@ class Compiler {
   entryFileName: string
   pxTransformConfig
   pathAlias
+  pages: string[] = []
 
   constructor (appPath) {
     const projectConfig = recursiveMerge({
@@ -123,6 +122,7 @@ class Compiler {
   copyFiles () {}
 
   classifyFiles (filename) {
+    const pages = this.pages
     const appPath = this.appPath
     const entryFilePath = this.entryFilePath
 
@@ -240,6 +240,7 @@ class Compiler {
   }
 
   processEntry (code, filePath) {
+    const pages = this.pages
     const routerMode = this.routerMode
     const routerBasename = this.routerBasename
     const customRoutes = this.customRoutes
@@ -1146,7 +1147,7 @@ class Compiler {
         const content = file.toString()
         let transformResult
         if (fileType === FILE_TYPE.ENTRY) {
-          pages = []
+          this.pages = []
           transformResult = this.processEntry(content, filePath)
         } else {
           transformResult = this.processOthers(content, filePath, fileType)
