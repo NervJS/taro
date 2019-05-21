@@ -203,25 +203,7 @@ class Compiler {
         .on('end', () => {
           this.initProjectFile()
           if (!fs.existsSync(path.join(this.tempPath, 'node_modules'))) {
-            console.log()
-            console.log(chalk.yellow('开始安装依赖~'))
-            process.chdir(this.tempPath)
-            let command
-            if (Util.shouldUseYarn()) {
-              command = 'yarn'
-            } else if (Util.shouldUseCnpm()) {
-              command = 'cnpm install'
-            } else {
-              command = 'npm install'
-            }
-            exec(command, (err, stdout, stderr) => {
-              if (err) reject()
-              else {
-                console.log(stdout)
-                console.log(stderr)
-              }
-              resolve()
-            })
+            return installDep(this.tempPath)
           } else {
             resolve()
           }
@@ -299,6 +281,30 @@ class Compiler {
   }
 }
 
+function installDep (path:string) {
+  return new Promise((resolve, reject) => {
+    console.log()
+    console.log(chalk.yellow('开始安装依赖~'))
+    process.chdir(path)
+    let command
+    if (Util.shouldUseYarn()) {
+      command = 'yarn'
+    } else if (Util.shouldUseCnpm()) {
+      command = 'cnpm install'
+    } else {
+      command = 'npm install'
+    }
+    exec(command, (err, stdout, stderr) => {
+      if (err) reject()
+      else {
+        console.log(stdout)
+        console.log(stderr)
+      }
+      resolve()
+    })
+  })
+}
+
 export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildConfig) {
@@ -324,7 +330,7 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
  * @description run packager server
  * copy from react-native/local-cli/runAndroid/runAndroid.js
  */
-function startServerInNewWindow ({port = 8081,tempPath}) {
+function startServerInNewWindow ({port = 8081, tempPath}) {
   // set up OS-specific filenames and commands
   const isWindows = /^win/.test(process.platform)
   const scriptFile = isWindows
