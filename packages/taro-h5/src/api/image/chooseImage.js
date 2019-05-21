@@ -9,7 +9,7 @@ export default function chooseImage (options) {
     return Promise.reject(res)
   }
 
-  const { count = 1, success, fail, complete } = options
+  const { count = 1, success, fail, complete, imageId = 'taroChooseImage' } = options
   const res = {
     errMsg: 'chooseImage:ok',
     tempFilePaths: [],
@@ -29,7 +29,7 @@ export default function chooseImage (options) {
     return Promise.reject(res)
   }
 
-  let taroChooseImageId = document.getElementById('taroChooseImage')
+  let taroChooseImageId = document.getElementById(imageId)
   if (!taroChooseImageId) {
     let obj = document.createElement('input')
     obj.setAttribute('type', 'file')
