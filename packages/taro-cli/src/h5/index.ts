@@ -130,13 +130,13 @@ class Compiler {
       path.relative(appPath, filename)
     )
     if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
-  
+
     let relSrcPath = path.relative('src', relPath)
     relSrcPath = path.format({
       dir: path.dirname(relSrcPath),
       base: path.basename(relSrcPath, path.extname(relSrcPath))
     })
-  
+
     const isPage = pages.some(page => {
       const relPage = path.normalize(
         path.relative(appPath, page)
@@ -144,7 +144,7 @@ class Compiler {
       if (path.relative(relPage, relSrcPath) === '') return true
       return false
     })
-  
+
     if (isPage) {
       return FILE_TYPE.PAGE
     } else {
@@ -205,7 +205,7 @@ class Compiler {
       port,
       sourceRoot
     })
-  
+
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
     webpackRunner(h5Config)
   }
@@ -257,7 +257,7 @@ class Compiler {
     let providorImportName
     let storeName
     let renderCallCode
-  
+
     let tabBar
     let tabbarPos
     let hasConstructor = false
@@ -269,19 +269,19 @@ class Compiler {
     let hasJSX = false
     let hasNerv = false
     let stateNode: t.ClassProperty
-  
+
     const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
     const additionalConstructorNode = toAst(`Taro._$app = this`)
     const callComponentDidShowNode = toAst(`this.componentDidShow()`)
     const callComponentDidHideNode = toAst(`this.componentDidHide()`)
     const initTabbarApiNode = toAst(`Taro.initTabBarApis(this, Taro)`)
-  
+
     ast = babel.transformFromAst(ast, '', {
       plugins: [
         [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
       ]
     }).ast
-  
+
     const ClassDeclarationOrExpression = {
       enter (astPath) {
         const node = astPath.node
@@ -321,7 +321,7 @@ class Compiler {
         }
       }
     }
-  
+
     /**
      * ProgramExit使用的visitor
      * 负责修改render函数的内容，在componentDidMount中增加componentDidShow调用，在componentWillUnmount中增加componentDidHide调用。
@@ -333,13 +333,13 @@ class Compiler {
           const key = node.key
           const keyName = toVar(key)
           let funcBody
-  
+
           const isRender = keyName === 'render'
           const isComponentWillMount = keyName === 'componentWillMount'
           const isComponentDidMount = keyName === 'componentDidMount'
           const isComponentWillUnmount = keyName === 'componentWillUnmount'
           const isConstructor = keyName === 'constructor'
-  
+
           if (isRender) {
             const routes = pages.map((v, k) => {
               const absPagename = addLeadingSlash(v)
@@ -352,48 +352,48 @@ class Compiler {
                 isIndex: k === 0
               })
             })
-  
+
             funcBody = `
               <Router
                 history={_taroHistory}
                 routes={[${routes.join(',')}]}
                 customRoutes={${JSON.stringify(customRoutes)}} />
               `
-  
+
             /* 插入Tabbar */
             if (tabBar) {
               const homePage = pages[0] || ''
               if (tabbarPos === 'top') {
                 funcBody = `
                   <${tabBarContainerComponentName}>
-  
+
                     <${tabBarComponentName}
                       conf={this.state.${tabBarConfigName}}
                       homePage="${homePage}"
                       tabbarPos={'top'} />
-  
+
                     <${tabBarPanelComponentName}>
                       ${funcBody}
                     </${tabBarPanelComponentName}>
-  
+
                   </${tabBarContainerComponentName}>`
               } else {
                 funcBody = `
                   <${tabBarContainerComponentName}>
-  
+
                     <${tabBarPanelComponentName}>
                       ${funcBody}
                     </${tabBarPanelComponentName}>
-  
+
                     <${tabBarComponentName}
                       conf={this.state.${tabBarConfigName}}
                       homePage="${homePage}"
                       router={${taroImportDefaultName}} />
-  
+
                   </${tabBarContainerComponentName}>`
               }
             }
-  
+
             /* 插入<Provider /> */
             if (providerComponentName && storeName) {
               // 使用redux 或 mobx
@@ -402,23 +402,23 @@ class Compiler {
                   ${funcBody}
                 </${providorImportName}>`
             }
-  
+
             /* 插入<Router /> */
             node.body = toAst(`{return (${funcBody});}`, { preserveComments: true })
           }
-  
+
           if (tabBar && isComponentWillMount) {
             node.body.body.push(initTabbarApiNode)
           }
-  
+
           if (hasConstructor && isConstructor) {
             node.body.body.push(additionalConstructorNode)
           }
-  
+
           if (hasComponentDidShow && isComponentDidMount) {
             node.body.body.push(callComponentDidShowNode)
           }
-  
+
           if (hasComponentDidHide && isComponentWillUnmount) {
             node.body.body.unshift(callComponentDidHideNode)
           }
@@ -465,7 +465,7 @@ class Compiler {
         }
       }
     }
-  
+
     /**
      * ClassProperty使用的visitor
      * 负责收集config中的pages，收集tabbar的position，替换icon。
@@ -540,7 +540,7 @@ class Compiler {
         }
       }
     }
-  
+
     traverse(ast, {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
@@ -549,7 +549,7 @@ class Compiler {
           const node = astPath.node
           const key = node.key
           const keyName = toVar(key)
-  
+
           if (keyName === 'state') {
             stateNode = node
           } else if (keyName === 'config') {
@@ -628,7 +628,7 @@ class Compiler {
           const callee = node.callee
           const calleeName = toVar(callee)
           const parentPath = astPath.parentPath
-  
+
           if (t.isMemberExpression(callee)) {
             const object = callee.object as t.Identifier
             const property = callee.property as t.Identifier
@@ -708,9 +708,9 @@ class Compiler {
             createHistoryNode,
             mountApisNode
           ]
-  
+
           astPath.traverse(programExitVisitor)
-  
+
           if (hasJSX && !hasNerv) {
             extraNodes.unshift(
               t.importDeclaration(
@@ -722,7 +722,7 @@ class Compiler {
           if (tabBar) {
             extraNodes.unshift(importComponentNode)
           }
-  
+
           lastImportNode.insertAfter(extraNodes)
           if (renderCallCode) {
             const renderCallNode = toAst(renderCallCode)
@@ -741,7 +741,7 @@ class Compiler {
       ast
     }
   }
-  
+
   processOthers (code, filePath, fileType) {
     const pathAlias = this.pathAlias
 
@@ -766,14 +766,15 @@ class Compiler {
     let componentDidHideNode: t.ClassMethod
     let importTaroComponentNode: t.ImportDeclaration
     let importNervNode: t.ImportDeclaration
+    let importTaroNode: t.ImportDeclaration
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
-  
+
     ast = babel.transformFromAst(ast, '', {
       plugins: [
         [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
       ]
     }).ast
-  
+
     const ClassDeclarationOrExpression = {
       enter (astPath) {
         const node = astPath.node
@@ -813,7 +814,7 @@ class Compiler {
         }
       }
     }
-  
+
     const getComponentId = (componentName: string, node: t.JSXOpeningElement) => {
       const idAttrName = MAP_FROM_COMPONENTNAME_TO_ID.get(componentName)
       return node.attributes.reduce((prev, attribute) => {
@@ -836,7 +837,7 @@ class Compiler {
         ])
       )
     }
-  
+
     const defaultVisitor = {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
@@ -859,6 +860,7 @@ class Compiler {
               node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
             }
           } else if (value === '@tarojs/taro') {
+            importTaroNode = node
             source.value = '@tarojs/taro-h5'
             specifiers.forEach(specifier => {
               if (t.isImportDefaultSpecifier(specifier)) {
@@ -889,10 +891,10 @@ class Compiler {
           const componentName = componentnameMap.get(toVar(node.name))
           const componentId = getComponentId(componentName, node)
           const componentRef = getComponentRef(node)
-  
+
           if (!componentId) return
           const refFunc = createRefFunc(componentId)
-  
+
           if (componentRef) {
             const expression = (componentRef.value as t.JSXExpressionContainer).expression;
             (refFunc.body as t.BlockStatement).body.unshift(
@@ -943,24 +945,33 @@ class Compiler {
       Program: {
         exit (astPath: NodePath<t.Program>) {
           const node = astPath.node
-          if (hasJSX && !importNervNode) {
-            importNervNode = t.importDeclaration(
-              [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
-              t.stringLiteral('nervjs')
-            )
-            const specifiers = importNervNode.specifiers
-            const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
-            if (!defaultSpecifier) {
-              specifiers.unshift(
-                t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+          if (hasJSX) {
+            if (!importNervNode) {
+              importNervNode = t.importDeclaration(
+                [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
+                t.stringLiteral('nervjs')
               )
+              const specifiers = importNervNode.specifiers
+              const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
+              if (!defaultSpecifier) {
+                specifiers.unshift(
+                  t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
+                )
+              }
+              node.body.unshift(importNervNode)
             }
-            node.body.unshift(importNervNode)
+            if (!importTaroNode) {
+              importTaroNode = t.importDeclaration(
+                [t.importDefaultSpecifier(t.identifier('Taro'))],
+                t.stringLiteral('@tarojs/taro-h5')
+              )
+              node.body.unshift(importTaroNode)
+            }
           }
         }
       }
     }
-  
+
     const pageVisitor = {
       ClassProperty: {
         enter (astPath: NodePath<t.ClassProperty>) {
@@ -1101,11 +1112,11 @@ class Compiler {
         }
       }
     }
-    
+
     const visitor = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
-  
+
     traverse(ast, visitor)
-  
+
     const generateCode = generate(ast, {
       jsescOption: {
         minimal: true
@@ -1116,7 +1127,7 @@ class Compiler {
       ast
     }
   }
-  
+
   processFiles (filePath) {
     const sourcePath = this.sourcePath
     const tempDir = this.tempDir
@@ -1127,7 +1138,7 @@ class Compiler {
     const distDirname = dirname.replace(sourcePath, tempDir)
     const isScriptFile = REG_SCRIPTS.test(extname)
     const distPath = this.getDist(filePath, isScriptFile)
-  
+
     try {
       if (isScriptFile) {
         // 脚本文件 处理一下
