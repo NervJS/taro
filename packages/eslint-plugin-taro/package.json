@@ -24,7 +24,7 @@
   ],
   "peerDependencies": {
     "babel-eslint": "^8.2.3",
-    "eslint": "^4.15.0"
+    "eslint": "^5.16.0"
   },
   "author": "O2Team",
   "license": "MIT",
