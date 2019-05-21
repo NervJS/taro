@@ -8,6 +8,10 @@ function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
 }
 
+export const Status = {
+  isSFC: false
+}
+
 export const functionalComponent: () => {
   visitor: Visitor
 } = () => {
@@ -91,6 +95,7 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
               throw codeFrameError(arg, '函数式组件只支持传入一个简单标识符或使用对象结构')
             }
           }
+          Status.isSFC = true
           const classDecl = t.classDeclaration(id, t.memberExpression(t.identifier('Taro'), t.identifier('Component')), t.classBody([
             t.classMethod('method', t.identifier('render'), [], cloneBody)
           ]), [])

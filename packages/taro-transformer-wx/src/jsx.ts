@@ -14,6 +14,7 @@ import {
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
+import { Status } from './functional'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -96,17 +97,20 @@ export function setJSXAttr (
 }
 
 export function generateJSXAttr (ast: t.Node) {
-  return decodeUnicode(
+  const code = decodeUnicode(
     generate(ast, {
       quotes: 'single',
       jsonCompatibleStrings: true
     })
     .code
   )
-  .replace(/(this\.props\.)|(this\.state\.)/g, '')
-  .replace(/(props\.)|(state\.)/g, '')
-  .replace(/this\./g, '')
   .replace(/</g, lessThanSignPlacehold)
+  if (Status.isSFC) {
+    return code
+  }
+  return code.replace(/(this\.props\.)|(this\.state\.)/g, '')
+    .replace(/(props\.)|(state\.)/g, '')
+    .replace(/this\./g, '')
 }
 
 export function isAllLiteral (...args) {
