@@ -15,32 +15,46 @@ export const functionalComponent: () => {
     visitor: {
       JSXElement (path) {
         const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
-        if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression() && arrowFuncExpr.parentPath.isVariableDeclarator()) {
-          const valDecl = arrowFuncExpr.parentPath.parentPath
-          if (!valDecl.isVariableDeclaration()) {
-            throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
-          }
-          const id = arrowFuncExpr.parentPath.node.id
-          if (!t.isIdentifier(id)) {
-            throw codeFrameError(id, '函数式组件只能使用普通标识符定义')
-          }
-          if (!initialIsCapital(id.name)) {
+        if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression()) {
+          if (arrowFuncExpr.parentPath.isVariableDeclarator()) {
+            const valDecl = arrowFuncExpr.parentPath.parentPath
+            if (!valDecl.isVariableDeclaration()) {
+              throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
+            }
+            const id = arrowFuncExpr.parentPath.node.id
+            if (!t.isIdentifier(id)) {
+              throw codeFrameError(id, '函数式组件只能使用普通标识符定义')
+            }
+            if (!initialIsCapital(id.name)) {
+              return
+            }
+            const hasClassDecl = arrowFuncExpr.findParent(p => p.isClassDeclaration())
+            if (hasClassDecl) {
+              // @TODO: 加上链接
+              return
+            }
+            const { body } = arrowFuncExpr.node
+            if (t.isBlockStatement(body)) {
+              valDecl.replaceWith(t.functionDeclaration(id, arrowFuncExpr.node.params, body))
+            } else {
+              valDecl.replaceWith(t.functionDeclaration(id, arrowFuncExpr.node.params, t.blockStatement([
+                t.returnStatement(body)
+              ])))
+            }
+            return
+          } else if (arrowFuncExpr.parentPath.isExportDefaultDeclaration()) {
+            const { body, params } = arrowFuncExpr.node
+            const func = t.functionDeclaration(
+              t.identifier('AnonymousSFC'),
+              params,
+              t.isBlockStatement(body) ? body : t.blockStatement([
+                t.returnStatement(body)
+              ])
+            )
+            arrowFuncExpr.parentPath.insertAfter(t.exportDefaultDeclaration(t.identifier('AnonymousSFC')))
+            arrowFuncExpr.parentPath.replaceWith(func)
             return
           }
-          const hasClassDecl = arrowFuncExpr.findParent(p => p.isClassDeclaration())
-          if (hasClassDecl) {
-            // @TODO: 加上链接
-            return
-          }
-          const { body } = arrowFuncExpr.node
-          if (t.isBlockStatement(body)) {
-            valDecl.replaceWith(t.functionDeclaration(id, arrowFuncExpr.node.params, body))
-          } else {
-            valDecl.replaceWith(t.functionDeclaration(id, arrowFuncExpr.node.params, t.blockStatement([
-              t.returnStatement(body)
-            ])))
-          }
-          return
         }
 
         const functionDecl = path.findParent(p => p.isFunctionDeclaration())
