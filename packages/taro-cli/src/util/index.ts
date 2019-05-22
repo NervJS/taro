@@ -379,7 +379,9 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
 export function recursiveFindNodeModules (filePath: string): string {
   const dirname = path.dirname(filePath)
   const nodeModules = path.join(dirname, 'node_modules')
-  if (fs.existsSync(nodeModules)) {
+  // 支持 monorepo 依赖提升
+  // 判断 taro 是否安装在该 node_modules 目录下
+  if (fs.existsSync(nodeModules + '/@tarojs/taro')) {
     return nodeModules
   }
   return recursiveFindNodeModules(dirname)
