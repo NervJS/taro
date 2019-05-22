@@ -115,8 +115,11 @@ const createCallbackManager = () => {
    * @param {{ callback: function, ctx: any } | function} opt
    */
   const remove = (opt) => {
-    const pos = callbacks.findIndex(callback => {
-      return callback === opt
+    let pos = -1
+    callbacks.forEach((callback, k) => {
+      if (callback === opt) {
+        pos = k
+      }
     })
     if (pos > -1) {
       callbacks.splice(pos, 1)

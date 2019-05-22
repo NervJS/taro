@@ -57,7 +57,7 @@ module.exports = {
     return {
       ClassDeclaration (node) {
         const id = node.id
-        if (isTaroComponent(context, node) && DEFAULT_Components_SET.has(id.name)) {
+        if (isTaroComponent(context, node) && id && DEFAULT_Components_SET.has(id.name)) {
           context.report({
             message: ERROR_MESSAGE,
             node: id

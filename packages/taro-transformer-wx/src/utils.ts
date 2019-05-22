@@ -644,7 +644,8 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
         }
       } else if (t.isJSXExpressionContainer(attr.value)) {
         const condition = cloneDeep(attr.value.expression)
-        expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, condition), expr)
+        const ifStem = logicalJSX.findParent(p => p.isIfStatement())
+        expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, ifStem && ifStem.isIfStatement() ? attr.value.expression : condition), expr)
       }
     }
   }
