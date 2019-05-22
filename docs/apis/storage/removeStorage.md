@@ -10,7 +10,7 @@ sidebar_label: removeStorage
 
 | 参数 | 类型 | 必填 | 说明 |
 | :-- | :-- | :-- | :-- |
-| keys | String | 是 | 本地缓存中的指定的 key |
+| key | String | 是 | 本地缓存中的指定的 key |
 | success | Function | 否 | 接口调用成功的回调函数 |
 | fail | Function | 否 | 接口调用失败的回调函数 |
 | complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
