@@ -23,7 +23,9 @@ import {
   MINI_APP_FILES,
   BUILD_TYPES,
   CONFIG_MAP,
-  REG_STYLE
+  REG_STYLE,
+  taroJsFramework,
+  NODE_MODULES
 } from './constants'
 import { ICopyArgOptions, ICopyOptions, TogglableOptions } from './types'
 import { callPluginSync } from './npm'
@@ -378,10 +380,10 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
 
 export function recursiveFindNodeModules (filePath: string): string {
   const dirname = path.dirname(filePath)
-  const nodeModules = path.join(dirname, 'node_modules')
+  const nodeModules = path.join(dirname, NODE_MODULES)
   // 支持 monorepo 依赖提升
   // 判断 taro 是否安装在该 node_modules 目录下
-  if (fs.existsSync(nodeModules + '/@tarojs/taro')) {
+  if (fs.existsSync(`${nodeModules}/${taroJsFramework}`)) {
     return nodeModules
   }
   return recursiveFindNodeModules(dirname)
