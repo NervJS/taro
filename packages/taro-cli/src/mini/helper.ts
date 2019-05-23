@@ -15,7 +15,8 @@ import {
   NODE_MODULES_REG,
   taroJsQuickAppComponents,
   PARSE_AST_TYPE,
-  NODE_MODULES
+  NODE_MODULES,
+  taroJsFramework
 } from '../util/constants'
 import {
   resolveScriptPath,
@@ -141,7 +142,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
       'process.env.TARO_ENV': adapter
     }),
-    nodeModulesPath: recursiveFindNodeModules(path.join(appPath, NODE_MODULES)),
+    nodeModulesPath: recursiveFindNodeModules(path.join(appPath, NODE_MODULES), taroJsFramework),
     npmOutputDir: getNpmOutputDir(outputDir, configDir, npmConfig),
     jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {}
   }

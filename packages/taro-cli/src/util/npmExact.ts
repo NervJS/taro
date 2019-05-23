@@ -47,7 +47,7 @@ export function getExactedNpmFilePath ({
   babelConfig
 }: IArgs) {
   try {
-    const nodeModulesPath = recursiveFindNodeModules(path.join(root, NODE_MODULES))
+    const nodeModulesPath = recursiveFindNodeModules(path.join(root, NODE_MODULES), npmName)
     const npmInfo = resolveNpmFilesPath({
       pkgName: npmName,
       isProduction,

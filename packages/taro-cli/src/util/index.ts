@@ -24,8 +24,7 @@ import {
   BUILD_TYPES,
   CONFIG_MAP,
   REG_STYLE,
-  taroJsFramework,
-  NODE_MODULES
+  NODE_MODULES,
 } from './constants'
 import { ICopyArgOptions, ICopyOptions, TogglableOptions } from './types'
 import { callPluginSync } from './npm'
@@ -377,16 +376,22 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
   }
 }
 /* eslint-enable */
-
-export function recursiveFindNodeModules (filePath: string): string {
+export function recursiveFindNodeModules (filePath: string, npmName?: string): string {
   const dirname = path.dirname(filePath)
+  // 路径中存在 node_modules 则直接取该路径
+  if (new RegExp(NODE_MODULES).test(dirname) && fs.existsSync(dirname)) {
+    return dirname.replace(/(\.+?)node_modules(\.+?)/, `$1${NODE_MODULES}`)
+  }
+
   const nodeModules = path.join(dirname, NODE_MODULES)
+
   // 支持 monorepo 依赖提升
   // 判断 taro 是否安装在该 node_modules 目录下
-  if (fs.existsSync(`${nodeModules}/${taroJsFramework}`)) {
+  const dirToCheck = path.dirname(npmName ? `${nodeModules}/${npmName}` : nodeModules)
+  if (fs.existsSync(dirToCheck)) {
     return nodeModules
   }
-  return recursiveFindNodeModules(dirname)
+  return recursiveFindNodeModules(dirname, npmName)
 }
 
 export const pascalCase: (str: string) => string
