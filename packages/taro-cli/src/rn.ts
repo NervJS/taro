@@ -15,6 +15,7 @@ import { parseJSCode as transformJSCode } from './rn/transformJS'
 import { PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES } from './util/constants'
 import { convertToJDReact } from './jdreact/convert_to_jdreact'
 import { IBuildConfig } from './util/types'
+import { Error } from 'tslint/lib/error'
 
 const pkgTmpl = `{
   "name":"<%= projectName %>",
@@ -61,12 +62,12 @@ class Compiler {
   entryBaseName: string
   pluginsConfig
   rnConfig
+  hasJDReactOutput: boolean
   // pxTransformConfig
   // pathAlias
 
   constructor (appPath) {
     this.appPath = appPath
-    this.tempPath = path.join(appPath, TEMP_DIR_NAME)
     this.projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
     const sourceDirName = this.projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceDir = path.join(appPath, sourceDirName)
@@ -75,6 +76,18 @@ class Compiler {
     this.entryBaseName = path.basename(this.entryFilePath, path.extname(this.entryFileName))
     this.pluginsConfig = this.projectConfig.plugins || {}
     this.rnConfig = this.projectConfig.rn || {}
+
+    // 直接输出编译后代码到指定目录
+    if (this.rnConfig.outPath) {
+      this.tempPath = path.resolve(this.appPath, this.rnConfig.outPath)
+      if (!fs.existsSync(this.tempPath)) {
+        throw new Error(`outPath ${this.tempPath} 不存在`)
+      }
+      this.hasJDReactOutput = true
+    } else {
+      this.tempPath = path.join(appPath, TEMP_DIR_NAME)
+      this.hasJDReactOutput = false
+    }
   }
 
   isEntryFile (filePath) {
@@ -146,11 +159,11 @@ class Compiler {
 
   AppRegistry.registerComponent(appName, () => App);`
 
-    fs.writeFileSync(path.join(TEMP_DIR_NAME, 'index.js'), indexJsStr)
+    fs.writeFileSync(path.join(this.tempPath, 'index.js'), indexJsStr)
     Util.printLog(processTypeEnum.GENERATE, 'index.js', path.join(this.tempPath, 'index.js'))
-    fs.writeFileSync(path.join(TEMP_DIR_NAME, 'app.json'), JSON.stringify(appJsonObject, null, 2))
+    fs.writeFileSync(path.join(this.tempPath, 'app.json'), JSON.stringify(appJsonObject, null, 2))
     Util.printLog(processTypeEnum.GENERATE, 'app.json', path.join(this.tempPath, 'app.json'))
-    fs.writeFileSync(path.join(TEMP_DIR_NAME, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
+    fs.writeFileSync(path.join(this.tempPath, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
     Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(this.tempPath, 'package.json'))
   }
 
@@ -159,7 +172,7 @@ class Compiler {
       return
     }
     const dirname = path.dirname(filePath)
-    const distDirname = dirname.replace(this.sourceDir, TEMP_DIR_NAME)
+    const distDirname = dirname.replace(this.sourceDir, this.tempPath)
     let distPath = path.format({dir: distDirname, base: path.basename(filePath)})
     const code = fs.readFileSync(filePath, 'utf-8')
     if (REG_STYLE.test(filePath)) {
@@ -176,14 +189,16 @@ class Compiler {
       const jsCode = transformResult.code
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
+      Util.printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
       // compileDepStyles
       const styleFiles = transformResult.styleFiles
       depTree[filePath] = styleFiles
       await this.compileDepStyles(filePath, styleFiles)
     } else {
       fs.ensureDirSync(distDirname)
-      fs.copySync(filePath, distPath)
       Util.printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+      fs.copySync(filePath, distPath)
+      Util.printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
     }
   }
 
@@ -192,7 +207,7 @@ class Compiler {
    * @returns {Promise}
    */
   buildTemp () {
-    fs.ensureDirSync(path.join(this.tempPath, 'bin'))
+    // fs.ensureDirSync(path.join(this.tempPath, 'bin'))
     return new Promise((resolve, reject) => {
       klaw(this.sourceDir)
         .on('data', file => {
@@ -200,10 +215,17 @@ class Compiler {
             this.processFile(file.path)
           }
         })
+        .on('error', (err, item) => {
+          console.log(err.message)
+          console.log(item.path)
+        })
         .on('end', () => {
-          this.initProjectFile()
-          if (!fs.existsSync(path.join(this.tempPath, 'node_modules'))) {
-            return installDep(this.tempPath)
+          if (!this.hasJDReactOutput) {
+            this.initProjectFile()
+            if (!fs.existsSync(path.join(this.tempPath, 'node_modules'))) {
+              return installDep(this.tempPath)
+            }
+            resolve()
           } else {
             resolve()
           }
@@ -238,6 +260,7 @@ class Compiler {
     await callback(args)
     const t1 = performance.now()
     Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
+    console.log()
   }
 
   watchFiles () {
@@ -281,7 +304,7 @@ class Compiler {
   }
 }
 
-function installDep (path:string) {
+function installDep (path: string) {
   return new Promise((resolve, reject) => {
     console.log()
     console.log(chalk.yellow('开始安装依赖~'))
@@ -308,19 +331,24 @@ function installDep (path:string) {
 export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildConfig) {
-  const tempPath = path.join(appPath, TEMP_DIR_NAME)
   const {watch} = buildConfig
   process.env.TARO_ENV = BUILD_TYPES.RN
-  fs.ensureDirSync(tempPath)
   const compiler = new Compiler(appPath)
+  fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()
-  await compiler.buildTemp()
+  try {
+    await compiler.buildTemp()
+  } catch (e) {
+    throw e
+  }
   const t1 = performance.now()
   Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 
   if (watch) {
     compiler.watchFiles()
-    startServerInNewWindow({tempPath})
+    if (!compiler.hasJDReactOutput) {
+      startServerInNewWindow({tempPath: compiler.tempPath})
+    }
   } else {
     compiler.buildBundle()
   }
