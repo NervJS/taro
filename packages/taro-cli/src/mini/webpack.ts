@@ -28,8 +28,15 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
 }
 
 async function buildWithWebpack ({ appPath }: { appPath: string }) {
-  const { entryFilePath, outputDir, sourceDir, buildAdapter, projectConfig, isProduction } = getBuildData()
-  console.log(entryFilePath, outputDir)
+  const {
+    entryFilePath,
+    outputDir,
+    sourceDir,
+    buildAdapter,
+    projectConfig,
+    isProduction,
+    constantsReplaceList
+  } = getBuildData()
   const miniRunner = await npmProcess.getNpmPkg('@tarojs/mini-runner', appPath)
   const babelConfig = getBabelConfig(projectConfig!.plugins!.babel)
   const miniRunnerOpts = {
@@ -41,7 +48,8 @@ async function buildWithWebpack ({ appPath }: { appPath: string }) {
     plugins: {
       babel: babelConfig
     },
-    isWatch: !isProduction
+    isWatch: !isProduction,
+    constantsReplaceList
   }
   miniRunner(miniRunnerOpts)
 }
