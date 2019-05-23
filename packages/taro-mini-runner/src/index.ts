@@ -25,12 +25,14 @@ export default function build (config: IBuildConfig) {
 					use: [{
             loader: path.resolve(__dirname, './loaders/fileParseLoader'),
             options: {
-              babel
+              babel,
+              constantsReplaceList: config.constantsReplaceList
             }
           }, {
             loader: path.resolve(__dirname, './loaders/wxTransformerLoader'),
             options: {
-              buildAdapter: config.buildAdapter
+              buildAdapter: config.buildAdapter,
+              fileTypeMap: MiniPlugin.getTaroFileTypeMap()
             }
           }]
 				}
@@ -38,7 +40,8 @@ export default function build (config: IBuildConfig) {
     },
     plugins: [
       new MiniPlugin({
-        buildAdapter: config.buildAdapter
+        buildAdapter: config.buildAdapter,
+        constantsReplaceList: config.constantsReplaceList
       })
     ]
   }
