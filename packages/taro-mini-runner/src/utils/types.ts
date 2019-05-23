@@ -70,5 +70,6 @@ export interface ITaroBaseConfig {
 }
 
 export interface IBuildConfig extends ITaroBaseConfig, ITaroMiniConfig {
-  isWatch: boolean
+  isWatch: boolean,
+  constantsReplaceList: IOption
 }
