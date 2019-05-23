@@ -17,6 +17,7 @@ sidebar_label: Button
 |  ✔ | X (支持 hoverStyle 属性，但框架未支持 hoverClass) | hoverClass | String  | button-hover | 指定按钮按下去的样式类。当 hover-class='none' 时，没有点击态效果  |
 |  ✔ |  ✔ | hoverStartTime    | Number  | 20    | 按住后多久出现点击态，单位毫秒   |
 |  ✔ |  ✔ | hoverStayTime | Number  | 70    | 手指松开后点击态保留时间，单位毫秒   |
+| X |  X | onGetUserInfo | Handler  |     | 微信小程序open-type='getUserInfo'时，用户点击该按钮，会返回获取到的用户信息，从返回参数的 detail 中获取到的值同 wx.getUserInfo   |
 
 >其他相关属性请看各小程序官方文档
 
