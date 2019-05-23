@@ -1,5 +1,35 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.3...v) (2019-05-17)
+# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.4...v) (2019-05-23)
+
+
+
+<a name="1.3.0-beta.4"></a>
+# [1.3.0-beta.4](https://github.com/NervJS/taro/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2019-05-23)
+
+
+### Bug Fixes
+
+* **cli:** H5 编译时若 jsx 文件没有引入 Taro 则引入 ([ed8fcfb](https://github.com/NervJS/taro/commit/ed8fcfb))
+* **cli:** 修复部分文件打包时不压缩的问题 ([4699d02](https://github.com/NervJS/taro/commit/4699d02))
+* **cli:** 小程序引用 ts 文件后缀未重写为 .js ([d8474ab](https://github.com/NervJS/taro/commit/d8474ab))
+* showToast API 参数 icon 为 none 时仍显示图片 ([7638047](https://github.com/NervJS/taro/commit/7638047))
+* **components-rn:** Clickable TouchableWithoutFeedback 导致的样式问题 ([4d12ad9](https://github.com/NervJS/taro/commit/4d12ad9))
+* **components-rn:** 修复 onLoad 取不到图片尺寸问题, fix [#3093](https://github.com/NervJS/taro/issues/3093) ([a867082](https://github.com/NervJS/taro/commit/a867082))
+* **eslint:** 类没有命名时报错，[#3092](https://github.com/NervJS/taro/issues/3092) ([d89e93a](https://github.com/NervJS/taro/commit/d89e93a))
+* **h5:** 为chooseImage新增imageId ([#3109](https://github.com/NervJS/taro/issues/3109)) ([e8cf6ae](https://github.com/NervJS/taro/commit/e8cf6ae))
+* **h5:** 为chooseImage新增imageId ([#3110](https://github.com/NervJS/taro/issues/3110)) ([7e1129d](https://github.com/NervJS/taro/commit/7e1129d))
+* **h5 components:** 去除findIndex的调用 ([964237e](https://github.com/NervJS/taro/commit/964237e))
+* **transformer:** 函数式组件去掉 props  前缀，close [#3117](https://github.com/NervJS/taro/issues/3117) ([15b33d1](https://github.com/NervJS/taro/commit/15b33d1))
+* **transformer:** 在 if 语句中生成 props.manger 语句错误 ([1caf405](https://github.com/NervJS/taro/commit/1caf405))
+
+
+### Features
+
+* **cli:** 可以通过cli获取项目的页面列表了 ([400bb7a](https://github.com/NervJS/taro/commit/400bb7a))
+* **components-rn:** Input & Textarea 开放 RN 参数, close [#3125](https://github.com/NervJS/taro/issues/3125) ([02d4e3b](https://github.com/NervJS/taro/commit/02d4e3b))
+* **eslint:** 增加 eslint 规则的描述说明, close [#3096](https://github.com/NervJS/taro/issues/3096) ([2d455e8](https://github.com/NervJS/taro/commit/2d455e8))
+* **rn:** rn 端输出编译后的代码到配置的目录 ([def3cab](https://github.com/NervJS/taro/commit/def3cab))
+* **transformer:** 支持直接 export 匿名函数式组件，close [#3092](https://github.com/NervJS/taro/issues/3092) ([c916a4f](https://github.com/NervJS/taro/commit/c916a4f))
 
 
 
