@@ -12,7 +12,8 @@ class View extends Nerv.Component {
       touch: false
     }
   }
-
+  timeoutEvent = 0;
+  startTime = 0;
   render () {
     const {
       hoverClass,
@@ -45,8 +46,22 @@ class View extends Nerv.Component {
         }, hoverStartTime)
       }
       onTouchStart && onTouchStart(e)
+      if (this.props.onLongPress) {
+        this.timeoutEvent = setTimeout(() => {
+          this.props.onLongPress()
+        }, 500)
+        this.startTime = (new Date()).getTime()
+      }
     }
+    const _onTouchMove = e => {
+      clearTimeout(this.timeoutEvent)
+    }
+
     const _onTouchEnd = e => {
+      const spanTime = (new Date().getTime()) - this.startTime
+      if (spanTime < 500) {
+        clearTimeout(this.timeoutEvent)
+      }
       if (hoverClass) {
         this.setState(() => ({
           touch: false
@@ -75,6 +90,7 @@ class View extends Nerv.Component {
         className={cls}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}
+        onTouchMove={_onTouchMove}
       >
         {this.props.children}
       </div>
