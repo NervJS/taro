@@ -250,7 +250,7 @@ export async function buildSingleComponent (
     if (!isQuickApp) {
       resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
       if (isProduction) {
-        uglifyJS(resCode, component, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
+        resCode = uglifyJS(resCode, component, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     } else {
       // 快应用编译，搜集创建组件 ux 文件

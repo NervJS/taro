@@ -36,7 +36,8 @@ import {
   isAliasPath,
   replaceAliasPath,
   traverseObjectNode,
-  isQuickAppPkg
+  isQuickAppPkg,
+  getBabelConfig
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -476,8 +477,8 @@ export function parseAst (
                 npmOutputDir,
                 compileInclude,
                 env: projectConfig.env || {},
-                uglify: projectConfig!.plugins!.uglify || {},
-                babelConfig: projectConfig!.plugins!.babel || {}
+                uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+                babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
               })
             } else {
               source.value = value
@@ -582,8 +583,8 @@ export function parseAst (
                   npmOutputDir,
                   compileInclude,
                   env: projectConfig.env || {},
-                  uglify: projectConfig!.plugins!.uglify || {},
-                  babelConfig: projectConfig!.plugins!.babel || {}
+                  uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+                  babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
                 })
               } else {
                 args[0].value = value
@@ -869,8 +870,8 @@ export function parseAst (
           npmOutputDir,
           compileInclude,
           env: projectConfig.env || {},
-          uglify: projectConfig!.plugins!.uglify || {},
-          babelConfig: projectConfig!.plugins!.babel || {}
+          uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
         }) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:
