@@ -36,6 +36,7 @@ export default class EXTextinput extends Component {
           onConfirm={this.onConfirm}
           onInput={this.onInput}
           value={this.state.inputValue}
+          placeholderTextColor="red"
         />
 
         <Textarea
@@ -45,6 +46,7 @@ export default class EXTextinput extends Component {
             height: 30
           }}
           autoHeight
+          placeholderTextColor="red"
         />
       </View>
     )
