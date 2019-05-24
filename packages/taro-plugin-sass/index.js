@@ -1,4 +1,4 @@
-const sass = require('dart-sass')
+const sass = require('node-sass')
 const Bundler = require('scss-bundle').Bundler
 
 module.exports = function compileSass (content, file, config) {
