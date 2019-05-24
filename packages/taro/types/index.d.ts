@@ -329,6 +329,31 @@ declare namespace Taro {
     displayName?: string
   }
 
+  // NOTE: only the Context object itself can get a displayName
+  // https://github.com/facebook/react-devtools/blob/e0b854e4c/backend/attachRendererFiber.js#L310-L325
+  // type Provider<T> = ProviderExoticComponent<ProviderProps<T>>;
+  // type Consumer<T> = ExoticComponent<ConsumerProps<T>>;
+  interface Context<T> {
+      Provider: ComponentClass<{ value: T }>;
+      // Consumer: Consumer<T>;
+      displayName?: string;
+  }
+  function createContext<T>(
+      defaultValue: T
+  ): Context<T>;
+
+  
+  // This will technically work if you give a Consumer<T> or Provider<T> but it's deprecated and warns
+  /**
+   * Accepts a context object (the value returned from `React.createContext`) and returns the current
+   * context value, as given by the nearest context provider for the given context.
+   *
+   * @version 16.8.0
+   * @see https://reactjs.org/docs/hooks-reference.html#usecontext
+   */
+  function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+
+
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
    */
