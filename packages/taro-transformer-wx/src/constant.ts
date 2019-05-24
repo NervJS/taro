@@ -7,7 +7,6 @@ export const DEFAULT_Component_SET = new Set<string>([
   'View',
   'ScrollView',
   'Swiper',
-  'MovableView',
   'CoverView',
   'CoverImage',
   'Icon',
