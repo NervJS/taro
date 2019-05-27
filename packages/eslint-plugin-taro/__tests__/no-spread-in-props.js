@@ -11,7 +11,7 @@ ruleTester.run('no-spread-in-props', rule, {
   invalid: testInvalid(ERROR_MESSAGE, [
     `<View {...this.props} />`,
     `<View {...props} />`,
-    `<Custom {...props} />`
+    `<Input {...props} />`
   ]),
   valid: testValid([
     `<View test />`

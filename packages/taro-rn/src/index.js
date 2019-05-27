@@ -11,7 +11,7 @@ import {
 } from '@tarojs/taro'
 
 import initNativeApi from './native-api'
-import Component from './component'
+import { Component, PureComponent } from './component'
 
 const Taro = {
   getEnv,
@@ -23,8 +23,11 @@ const Taro = {
   internal_safe_get,
   internal_safe_set,
   internal_dynamic_recursive,
-  Component
+  Component,
+  PureComponent
 }
+
+
 
 export {
   getEnv,
@@ -36,7 +39,8 @@ export {
   internal_safe_get,
   internal_safe_set,
   internal_dynamic_recursive,
-  Component
+  Component,
+  PureComponent
 }
 
 initNativeApi(Taro)

@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-interface IconProps extends StandardProps {
+export interface IconProps extends StandardProps {
 
   /**
    * icon的类型，有效类型：

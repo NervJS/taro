@@ -1,8 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface CanvasProps extends StandardProps {
-
+export interface CanvasProps extends StandardProps {
   /**
    * canvas 组件的唯一标识符
    */

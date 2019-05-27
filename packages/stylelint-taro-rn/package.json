@@ -1,0 +1,108 @@
+{
+  "name": "stylelint-taro-rn",
+  "description": "A collection of React Native specific rules for stylelint",
+  "version": "1.3.0-beta.5",
+  "main": "dist/index.js",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "files": [
+    "dist",
+    "src",
+    "CHANGELOG.md",
+    "README.md",
+    "!**/__tests__"
+  ],
+  "keywords": [
+    "css",
+    "csslint",
+    "lint",
+    "linter",
+    "stylelint",
+    "stylelint-plugin"
+  ],
+  "scripts": {
+    "precommit": "lint-staged",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "prebuild": "rimraf dist",
+    "build": "babel src --out-dir dist",
+    "lint": "eslint . --ignore-path .gitignore",
+    "prettify": "prettier --write src/**/*",
+    "prepublish": "npm run build",
+    "pretest": "npm run lint",
+    "release": "npmpub",
+    "jest": "jest",
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "author": "O2Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "./.coverage/",
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    },
+    "setupFiles": [
+      "./jest-setup.js"
+    ],
+    "testEnvironment": "node",
+    "roots": [
+      "src"
+    ],
+    "testRegex": ".*\\.test\\.js$|src/.*/__tests__/.*\\.js$"
+  },
+  "lint-staged": {
+    "**/*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-istanbul": "^5.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-jest": "23.2.0",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.9.0",
+    "eslint-config-stylelint": "^11.0.0",
+    "husky": "^1.1.4",
+    "jest": "23.4.1",
+    "jest-cli": "23.4.1",
+    "lint-staged": "^8.0.4",
+    "npmpub": "^4.1.0",
+    "prettier": "^1.15.2",
+    "rimraf": "^2.6.3",
+    "stylelint": "9.3.0"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "none"
+  },
+  "dependencies": {
+    "react-native-known-styling-properties": "^1.0.4"
+  }
+}

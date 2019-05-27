@@ -6,17 +6,15 @@ import network from './api/device/network'
 import clipboard from './api/device/clipboard'
 import phone from './api/device/phone'
 import vibrate from './api/device/vibrate'
-import accelerometer from './api/device/accelerometer'
-import deviceMotion from './api/device/deviceMotion'
+// import accelerometer from './api/device/accelerometer'
+// import deviceMotion from './api/device/deviceMotion'
 import others from './api/others'
-import media from './api/media'
-import file from './api/file'
+// import media from './api/media'
+// import file from './api/file'
 import webSocket from './api/webSocket'
-import geolocation from './api/geolocation'
-import toast from './api/WxToast'
-import showModal from './api/WxModal'
-import showActionSheet from './api/WxActionSheet'
-import previewImage from './api/WxPreviewImage'
+// import geolocation from './api/geolocation'
+import * as toast from './api/interface'
+import * as image from './api/image'
 import web from './api/web'
 
 function processApis (taro) {
@@ -36,10 +34,15 @@ function pxTransform (size) {
   return parseInt(size, 10) / (deviceRatio[designWidth] * 2)
 }
 
+function getApp (taro) {
+  return this._$app
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.getApp = getApp.bind(taro)
   Object.assign(
     taro,
     request,
@@ -50,16 +53,14 @@ export default function initNativeApi (taro) {
     phone,
     web,
     vibrate,
-    accelerometer,
-    deviceMotion,
-    media,
-    file,
+    // accelerometer,
+    // deviceMotion,
+    // media,
+    // file,
     webSocket,
-    geolocation,
+    // geolocation,
     toast,
-    showModal,
-    showActionSheet,
-    previewImage,
+    image,
     others
   )
 }

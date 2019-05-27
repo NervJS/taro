@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface SwitchProps extends StandardProps, FormItemProps {
+export interface SwitchProps extends StandardProps, FormItemProps {
 
   /**
    * 是否选中

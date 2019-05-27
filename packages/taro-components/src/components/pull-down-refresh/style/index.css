@@ -1,0 +1,21 @@
+.rmc-pull-to-refresh-content {
+  transform-origin: left top 0px;
+}
+.rmc-pull-to-refresh-content-wrapper {
+  overflow: hidden;
+}
+
+.rmc-pull-to-refresh-transition {
+  transition: transform 0.3s;
+}
+
+.rmc-pull-to-refresh-indicator {
+  color: grey;
+  text-align: center;
+  height: 25px;
+  line-height: 25px;
+}
+
+.rmc-pull-to-refresh-down .rmc-pull-to-refresh-indicator {
+  margin-top: -25px;
+}

@@ -8,7 +8,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * @since 1.7.0
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html}
  */
-interface LivePusherProps extends StandardProps {
+export interface LivePusherProps extends StandardProps {
 
   /**
    * 推流地址。目前仅支持 flv, rtmp 格式

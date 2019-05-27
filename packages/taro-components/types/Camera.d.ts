@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface CameraProps extends StandardProps {
+export interface CameraProps extends StandardProps {
 
   /**
    * 模式，有效值为normal, scanCode

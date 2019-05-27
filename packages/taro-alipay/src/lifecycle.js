@@ -1,6 +1,9 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet
+  internal_safe_set as safeSet,
+  commitAttachRef,
+  Current,
+  invokeEffects
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
@@ -9,7 +12,6 @@ import PropTypes from 'prop-types'
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
-const privatePropKeyName = '_triggerObserer'
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
@@ -60,9 +62,17 @@ function doUpdate (component, prevProps, prevState) {
   let data = state || {}
   if (component._createData) {
     // 返回null或undefined则保持不变
-    data = component._createData(state, props) || data
+    const isRunLoopRef = !component.__mounted
+    if (component.__isReady) {
+      Current.current = component
+      Current.index = 0
+      invokeEffects(component, true)
+    }
+    data = component._createData(state, props, isRunLoopRef) || data
+    if (component.__isReady) {
+      Current.current = null
+    }
   }
-  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -84,17 +94,48 @@ function doUpdate (component, prevProps, prevState) {
     })
     data = _data
   }
-  data[privatePropKeyName] = !privatePropKeyVal
+  data['$taroCompReady'] = true
+  const dataDiff = diffObjToPath(data, component.$scope.data)
+
   // 每次 setData 都独立生成一个 callback 数组
   let cbs = []
   if (component._pendingCallbacks && component._pendingCallbacks.length) {
     cbs = component._pendingCallbacks
     component._pendingCallbacks = []
   }
-  const dataDiff = diffObjToPath(data, component.$scope.data)
-  component.$scope.setData(dataDiff, function () {
-    if (component.__mounted && typeof component.componentDidUpdate === 'function') {
-      component.componentDidUpdate(prevProps, prevState)
+
+  const cb = function () {
+    if (component.__mounted) {
+      invokeEffects(component)
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        component['$$refs'].forEach(ref => {
+          if (ref.type !== 'component') return
+
+          const childs = component.$childs || {}
+          let target = childs[ref.id] || null
+          const prevRef = ref.target
+
+          if (target !== prevRef) {
+            commitAttachRef(ref, target, component, component.refs)
+            ref.target = target
+          }
+        })
+      }
+
+      if (component['$$hasLoopRef']) {
+        component._disableEffect = true
+        component._createData(component.state, component.props, true)
+        component._disableEffect = false
+      }
+
+      if (typeof component.componentDidUpdate === 'function') {
+        component.componentDidUpdate(prevProps, prevState)
+      }
+    }
+
+    // 解决初始化时 onLoad 最先触发，但拿不到子组件 ref 的问题
+    if (component.$componentType === 'PAGE' && component['$$hasLoopRef']) {
+      component._createData(component.state, component.props, true)
     }
 
     if (cbs.length) {
@@ -109,5 +150,11 @@ function doUpdate (component, prevProps, prevState) {
       componentTrigger(component, 'componentDidMount')
       componentTrigger(component, 'componentDidShow')
     }
-  })
+  }
+
+  if (Object.keys(dataDiff).length === 0) {
+    cb()
+  } else {
+    component.$scope.setData(dataDiff, cb)
+  }
 }

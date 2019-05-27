@@ -19,7 +19,7 @@ let App = (_temp = _class = class App extends Component {
   componentDidMount() {}
   componentDidShow() {}
   componentDidHide() {}
-  componentCatchError() {}
+  componentDidCatchError() {}
   render() {
     return <RootStack />;
   }
@@ -79,7 +79,7 @@ let App = (_temp = _class = class App extends Component {
 
   componentDidHide() {}
 
-  componentCatchError() {}
+  componentDidCatchError() {}
 
   render() {
     return <RootStack />;
@@ -161,7 +161,7 @@ let App = (_temp = _class = class App extends Component {
 
   componentDidHide() {}
 
-  componentCatchError() {}
+  componentDidCatchError() {}
 
   render() {
     return <Provider store={store}>
@@ -217,7 +217,7 @@ let App = (_temp = _class = class App extends Component {
 
   componentDidHide() {}
 
-  componentCatchError() {}
+  componentDidCatchError() {}
 
   render() {
     return <RootStack />;

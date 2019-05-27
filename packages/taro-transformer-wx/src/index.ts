@@ -4,7 +4,15 @@ import { prettyPrint } from 'html'
 import { transform as parse } from 'babel-core'
 import * as ts from 'typescript'
 import { Transformer } from './class'
-import { setting, findFirstIdentifierFromMemberExpression, isContainJSXElement, codeFrameError, isArrayMapCallExpression, getSuperClassCode } from './utils'
+import {
+  setting,
+  findFirstIdentifierFromMemberExpression,
+  isContainJSXElement,
+  codeFrameError,
+  isArrayMapCallExpression,
+  replaceJSXTextWithTextComponent,
+  getSuperClassCode
+} from './utils'
 import * as t from 'babel-types'
 import {
   DEFAULT_Component_SET,
@@ -19,11 +27,20 @@ import {
   setLoopOriginal,
   GEL_ELEMENT_BY_ID,
   lessThanSignPlacehold,
-  COMPONENTS_PACKAGE_NAME
+  COMPONENTS_PACKAGE_NAME,
+  quickappComponentName,
+  setFnPrefix,
+  setLoopCallee,
+  setLoopState,
+  PROPS_MANAGER,
+  GEN_COMP_ID,
+  GEN_LOOP_COMPID,
+  CONTEXT_PROVIDER
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet } from 'lodash'
+import { get as safeGet, cloneDeep } from 'lodash'
+import { isTestEnv } from './env'
 
 const template = require('babel-template')
 
@@ -78,6 +95,32 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
           }
           return true
         })
+      }
+    }
+  }
+}
+
+function handleClosureJSXFunc (jsx: NodePath<t.JSXElement>, mainClass: NodePath<t.ClassDeclaration>) {
+  // 在 ./functional.ts 会把 FunctionExpression 转化为 arrowFunctionExpr
+  // 所以我们这里只处理一种情况
+  const arrowFunc = jsx.findParent(p => p.isArrowFunctionExpression())
+  if (arrowFunc && arrowFunc.isArrowFunctionExpression()) {
+    const parentPath = arrowFunc.parentPath
+    if (parentPath.isVariableDeclarator()) {
+      const id = parentPath.node.id
+      if (t.isIdentifier(id) && id.name.startsWith('render')) {
+        const funcName = `renderClosure${id.name.slice(6, id.name.length)}`
+        mainClass.node.body.body.push(
+          t.classProperty(
+            t.identifier(funcName),
+            cloneDeep(arrowFunc.node)
+          )
+        )
+        parentPath.scope.rename(id.name, funcName)
+        arrowFunc.replaceWith(t.memberExpression(
+          t.thisExpression(),
+          t.identifier(funcName)
+        ))
       }
     }
   }
@@ -155,14 +198,22 @@ interface TransformResult extends Result {
 export default function transform (options: Options): TransformResult {
   if (options.adapter) {
     setAdapter(options.adapter)
+    if (Adapter.type === Adapters.quickapp) {
+      DEFAULT_Component_SET.clear()
+      DEFAULT_Component_SET.add('div')
+      DEFAULT_Component_SET.add('Text')
+      setFnPrefix('prv-fn-')
+    }
   }
-  if (Adapter.type === Adapters.swan) {
+  if (Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp) {
     setLoopOriginal('privateOriginal')
+    setLoopCallee('anonymousCallee_')
+    setLoopState('loopState')
   }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
-      jsx: ts.JsxEmit.Preserve,
+      jsx: options.sourcePath.endsWith('.tsx') ? ts.JsxEmit.Preserve : ts.JsxEmit.None,
       target: ts.ScriptTarget.ESNext,
       importHelpers: true,
       noEmitHelpers: true
@@ -177,6 +228,14 @@ export default function transform (options: Options): TransformResult {
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
   const ast = parse(code, buildBabelTransformOptions()).ast as t.File
   if (options.isNormal) {
+    if (options.isTyped) {
+      const mainClassNode = ast.program.body.find(v => {
+        return t.isClassDeclaration(v)
+      }) as t.ClassDeclaration | undefined
+      if (mainClassNode) {
+        resetTSClassProperty(mainClassNode.body.body)
+      }
+    }
     return { ast } as any
   }
   // transformFromAst(ast, code)
@@ -190,6 +249,32 @@ export default function transform (options: Options): TransformResult {
   let renderMethod!: NodePath<t.ClassMethod>
   let isImportTaro = false
   traverse(ast, {
+    Program: {
+      exit (path: NodePath<t.Program>) {
+        for (const stem of path.node.body) {
+          if (t.isImportDeclaration(stem)) {
+            if (stem.source.value === TARO_PACKAGE_NAME) {
+              const specs = stem.specifiers
+              if (specs.some(s => t.isImportDefaultSpecifier(s) && s.local.name === 'Taro')) {
+                continue
+              }
+              specs.unshift(t.importDefaultSpecifier(t.identifier('Taro')))
+            }
+          }
+        }
+      }
+    },
+    JSXText (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      const value = path.node.value
+      if (!value.trim()) {
+        return
+      }
+
+      replaceJSXTextWithTextComponent(path)
+    },
     TemplateLiteral (path) {
       const nodes: t.Expression[] = []
       const { quasis, expressions } = path.node
@@ -232,7 +317,8 @@ export default function transform (options: Options): TransformResult {
             code: superClass.code,
             isTyped: true,
             sourcePath: superClass.sourcePath,
-            outputPath: superClass.sourcePath
+            outputPath: superClass.sourcePath,
+            sourceDir: options.sourceDir
           }).componentProperies
         } catch (error) {
           //
@@ -331,6 +417,23 @@ export default function transform (options: Options): TransformResult {
     //   const expr = parentPath.get('value.expression')
 
     // },
+    JSXMemberExpression (path) {
+      const { property, object } = path.node
+      if (!t.isJSXIdentifier(property, { name: 'Provider' })) {
+        throw codeFrameError(property, '只能在使用 Context.Provider 的情况下才能使用 JSX 成员表达式')
+      }
+      if (!t.isJSXIdentifier(object)) {
+        return
+      }
+      const jsx = path.parentPath.parentPath
+      if (jsx.isJSXElement()) {
+        const componentName = `${object.name}${CONTEXT_PROVIDER}`
+        jsx.node.openingElement.name = t.jSXIdentifier(componentName)
+        if (jsx.node.closingElement) {
+          jsx.node.closingElement.name = t.jSXIdentifier(componentName)
+        }
+      }
+    },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
       if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
@@ -360,6 +463,7 @@ export default function transform (options: Options): TransformResult {
           if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
             throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
           }
+          // tslint:disable-next-line: strict-type-predicates
           const test = Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant, Case.test)
           return { block, test }
         }).reduceRight((ifStatement, item) => {
@@ -396,6 +500,7 @@ export default function transform (options: Options): TransformResult {
           ])
         }
       }
+      handleClosureJSXFunc(path, mainClass)
     },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
@@ -408,6 +513,9 @@ export default function transform (options: Options): TransformResult {
             throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 ${COMPONENTS_PACKAGE_NAME} 引入。`)
           }
         }
+      }
+      if (name === 'View' && Adapter.type === Adapters.quickapp) {
+        path.node.name = t.jSXIdentifier('div')
       }
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
@@ -440,6 +548,19 @@ export default function transform (options: Options): TransformResult {
     },
     JSXAttribute (path) {
       const { name, value } = path.node
+
+      if (options.jsxAttributeNameReplace) {
+        for (const r in options.jsxAttributeNameReplace) {
+          if (options.jsxAttributeNameReplace.hasOwnProperty(r)) {
+            const element = options.jsxAttributeNameReplace[r]
+            if (t.isJSXIdentifier(name, { name: r })) {
+              path.node.name = t.jSXIdentifier(element)
+            }
+          }
+        }
+      }
+
+      // tslint:disable-next-line: strict-type-predicates
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }
@@ -492,13 +613,28 @@ export default function transform (options: Options): TransformResult {
         importSources.add(source)
       }
       const names: string[] = []
+      if (source === COMPONENTS_PACKAGE_NAME && Adapters.quickapp === Adapter.type) {
+        path.node.specifiers.forEach((s) => {
+          if (t.isImportSpecifier(s)) {
+            const originalName = s.imported.name
+            if (quickappComponentName.has(originalName)) {
+              const importedName = `Taro${originalName}`
+              s.imported.name = importedName
+              s.local.name = importedName
+            }
+          }
+        })
+      }
       if (source === TARO_PACKAGE_NAME) {
         isImportTaro = true
         path.node.specifiers.push(
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID))
+          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+          t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
+          t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+          t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
       }
       if (
@@ -536,7 +672,11 @@ export default function transform (options: Options): TransformResult {
         t.importDefaultSpecifier(t.identifier('Taro')),
         t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
         t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE))
+        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
+        t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+        t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
+        t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+        t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
       ], t.stringLiteral('@tarojs/taro'))
     )
   }
@@ -569,14 +709,14 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
-  result.compressedTemplate = result.template
+  result.compressedTemplate = result.template.replace(lessThanSignReg, '<')
   result.template = prettyPrint(result.template, {
     max_char: 0,
-    unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
+    unformatted: isTestEnv ? [] : ['text']
   })
   result.template = result.template.replace(lessThanSignReg, '<')
   result.imageSrcs = Array.from(imageSource)

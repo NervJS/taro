@@ -13,8 +13,7 @@ class Component extends React.Component {
 
   get $app () {
     if (!this._reactInternalFiber) return {}
-    if (!this._$app) this._$app = getApp(this)
-    return this._$app
+    return Taro._$app // eslint-disable-line
   }
 
   set $app (app) {
@@ -22,20 +21,23 @@ class Component extends React.Component {
   }
 }
 
-/**
- * 往上遍历直到找到根节点
- * @param  {React Component} component 当前的组件实例
- * @return {React Component}           根节点实例
- */
-function getApp (component) {
-  if (component.constructor.name) {
-    return component
-  } else {
-    const vnode = component._reactInternalFiber
-    if (!vnode) return {}
-    if (vnode._debugOwner) return getApp(vnode._debugOwner.stateNode)
-    return component
+class PureComponent extends React.PureComponent {
+  constructor (props, context) {
+    super(props, context)
+    if (props.navigation) {
+      this.$router = {params: props.navigation.state.params || {}}
+    }
+  }
+
+  get $app () {
+    if (!this._reactInternalFiber) return {}
+    return Taro._$app // eslint-disable-line
+  }
+
+  set $app (app) {
+    console.warn('Please try not to set $app.')
   }
 }
 
-export default Component
+
+export { Component, PureComponent }

@@ -1,11 +1,14 @@
-import { Component } from '@tarojs/taro-h5'
-import { createElement } from 'nervjs'
-import { inject as originInject } from '@tarojs/mobx-common'
+import { createStoreInjector } from './inject'
+import { observer as originObserver, inject as originInject } from '@tarojs/mobx-common'
 
 export function inject () {
-  return originInject(...arguments, { Component, createElement })
+  return originInject(...arguments, createStoreInjector)
 }
 
-export { observer } from '@tarojs/mobx-common'
+export function observer (Component) {
+  return originObserver(Component, 'render')
+}
+
+export { onError } from '@tarojs/mobx-common'
 
 export { default as Provider } from './Provider'

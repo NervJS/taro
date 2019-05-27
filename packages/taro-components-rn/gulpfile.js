@@ -1,34 +1,22 @@
-const gulp = require('gulp')
-const flowRemoveTypes = require('gulp-flow-remove-types')
-const babel = require('gulp-babel')
+const { src, dest, parallel } = require('gulp')
 const ts = require('gulp-typescript')
+
 const tsProject = ts.createProject('tsconfig.json')
+const distPath = 'dist'
 
-gulp.task('scripts', function () {
-  gulp
-    .src(['src/**/*.js'])
-    .pipe(flowRemoveTypes({
-      pretty: true
-    }))
-    .pipe(babel({
-      presets: ['react-native']
-    }))
-    .pipe(gulp.dest('dist'))
-})
-
-gulp.task('typescripts', function () {
-  tsProject
+function typescripts () {
+  return tsProject
     .src()
     .pipe(tsProject())
-    .js.pipe(babel({
-      presets: ['react-native']
-    })).pipe(gulp.dest('dist'))
-})
+    .on('error', (err) => {
+      console.log(err)
+    })
+    .pipe(dest(distPath))
+}
 
-gulp.task('images', function () {
-  gulp
-    .src(['src/**/*.png'])
-    .pipe(gulp.dest('dist'))
-})
+function images () {
+  return src(['src/**/*.png'])
+    .pipe(dest(distPath))
+}
 
-gulp.task('default', ['scripts', 'typescripts', 'images'])
+exports.default = parallel(typescripts, images)

@@ -552,8 +552,24 @@ describe('State', () => {
             ...baseOptions,
             code: buildComponent(`
               const a = true
-              const b = ''
+              const b = 'b'
               return <Custom test={a && b} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: 'b'
+          })
+        })
+
+        test('逻辑表达式2', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = true
+              const b = ''
+              return <View test={a && b} />
             `)
           })
 
@@ -571,7 +587,7 @@ describe('State', () => {
               const a = true
               const b = ''
               const c = ''
-              return <Custom test={a ? b : c} />
+              return <View test={a ? b : c} />
             `)
           })
 
@@ -583,12 +599,44 @@ describe('State', () => {
           })
         })
 
-        test('作用域有值', () => {
+        test('条件表达式2', () => {
           const { ast } = transform({
             ...baseOptions,
             code: buildComponent(`
               const a = true
+              const b = 'b'
+              const c = 'c'
+              return <Custom test={a ? b : c} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: 'b'
+          })
+        })
+
+        test('作用域有值', () => {
+          const { ast, code } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = true
               return <Custom test={a} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: true
+          })
+        })
+
+        test('作用域有值2', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = true
+              return <View test={a} />
             `)
           })
 
@@ -608,6 +656,23 @@ describe('State', () => {
           })
 
           const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: true
+          })
+        })
+
+        test('作用域有值但没用到2', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = true
+              const b = ''
+              const c = ''
+              return <View test={a} />
+            `)
+          })
+
+          const instance = evalClass(ast)
           expect(removeShadowData(instance._createData())).toEqual({ a: true })
         })
       })
@@ -617,14 +682,29 @@ describe('State', () => {
           const { ast } = transform({
             ...baseOptions,
             code: buildComponent(`
-              const a = { a: '' }
-              return <Custom test={a.a} />
+              const a = { a: 'a' }
+              return <View test={a.a} />
             `)
           })
 
           const instance = evalClass(ast)
           expect(removeShadowData(instance._createData())).toEqual({
-            a: { a: '' }
+            a: { a: 'a' }
+          })
+        })
+
+        test('支持成员表达式 custom', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = { a: 'a' }
+              return <Custom test={a.a} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: 'a'
           })
         })
 
@@ -635,7 +715,7 @@ describe('State', () => {
               const a = { a: '' }
               const b = { b: '' }
               const c = { c: '' }
-              return <Custom test={a.a ? b.b : c.c} />
+              return <View test={a.a ? b.b : c.c} />
             `)
           })
 
@@ -647,13 +727,30 @@ describe('State', () => {
           })
         })
 
+        test('三元表达式支持成员表达式 custom', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = { a: 'a' }
+              const b = { b: 'b' }
+              const c = { c: 'a' }
+              return <Custom test={a.a ? b.b : c.c} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: 'b'
+          })
+        })
+
         test('逻辑表达式支持成员表达式', () => {
           const { ast } = transform({
             ...baseOptions,
             code: buildComponent(`
               const a = { a: '' }
               const b = { b: '' }
-              return <Custom test={a.a && b.b} />
+              return <View test={a.a && b.b} />
             `)
           })
 
@@ -664,6 +761,22 @@ describe('State', () => {
           })
         })
 
+        test('逻辑表达式支持成员表达式 custom', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = { a: '' }
+              const b = { b: '' }
+              return <Custom test={a.a && b.b} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: ''
+          })
+        })
+
         test('逻辑表达式支持成员表达式 2', () => {
           const { ast } = transform({
             ...baseOptions,
@@ -671,6 +784,22 @@ describe('State', () => {
               const a = { a: '' }
               const b = { b: '' }
               return <Custom test={a.a || b.b} />
+            `)
+          })
+
+          const instance = evalClass(ast)
+          expect(instance.testProps).toEqual({
+            test: ''
+          })
+        })
+
+        test('逻辑表达式支持成员表达式 2 custom', () => {
+          const { ast } = transform({
+            ...baseOptions,
+            code: buildComponent(`
+              const a = { a: '' }
+              const b = { b: '' }
+              return <view test={a.a || b.b} />
             `)
           })
 
@@ -722,7 +851,7 @@ describe('State', () => {
         })
 
         test('作用域有值', () => {
-          const { ast } = transform({
+          const { ast, code } = transform({
             ...baseOptions,
             code: buildComponent(`
               const a = true
@@ -731,7 +860,10 @@ describe('State', () => {
           })
 
           const instance = evalClass(ast)
-          expect(removeShadowData(instance._createData())).toEqual({ a: true })
+          expect(instance.testProps).toEqual({
+            test: true
+          })
+          expect(removeShadowData(instance._createData())).toEqual({ '$compied__8': undefined })
         })
 
         test('作用域有值但没用到', () => {

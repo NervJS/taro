@@ -4,12 +4,21 @@ import {
   Events,
   eventCenter,
   ENV_TYPE,
+  createRef,
   render,
   internal_safe_get,
   internal_safe_set,
   internal_inline_style,
   internal_get_original,
-  interceptors
+  interceptors,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -17,6 +26,8 @@ import PureComponent from './pure-component'
 import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
+import propsManager from './propsManager'
+import { handleLoopRef, genCompid } from './util'
 
 export const Taro = {
   Component,
@@ -26,6 +37,7 @@ export const Taro = {
   Events,
   eventCenter,
   getEnv,
+  createRef,
   render,
   ENV_TYPE,
   internal_safe_get,
@@ -33,7 +45,18 @@ export const Taro = {
   internal_inline_style,
   createComponent,
   internal_get_original,
-  interceptors
+  interceptors,
+  handleLoopRef,
+  propsManager,
+  genCompid,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle
 }
 
 export default Taro

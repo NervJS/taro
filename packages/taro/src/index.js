@@ -8,9 +8,29 @@ import { getOriginal as internal_get_original } from './internal/get-original'
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
 import render from './render'
+import { createRef, commitAttachRef, detachAllRef } from './ref'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
-import { noPromiseApis, onAndSyncApis, otherApis, initPxTransform } from './native-apis'
+import {
+  noPromiseApis,
+  onAndSyncApis,
+  otherApis,
+  initPxTransform
+} from './native-apis'
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  invokeEffects,
+  useContext
+} from './hooks'
+import { Current } from './current'
+import { createContext } from './create-context'
 
 const eventCenter = new Events()
 
@@ -29,8 +49,23 @@ export {
   onAndSyncApis,
   otherApis,
   initPxTransform,
+  createRef,
+  commitAttachRef,
+  detachAllRef,
   Link,
-  interceptors
+  interceptors,
+  Current,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  invokeEffects,
+  useContext,
+  createContext
 }
 
 export default {
@@ -48,6 +83,21 @@ export default {
   onAndSyncApis,
   otherApis,
   initPxTransform,
+  createRef,
+  commitAttachRef,
+  detachAllRef,
   Link,
-  interceptors
+  interceptors,
+  Current,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  invokeEffects,
+  useContext,
+  createContext
 }

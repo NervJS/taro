@@ -1,7 +1,7 @@
 import 'weui'
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import Swipers from 'swiper/dist/js/swiper.min.js'
+import Swipers from 'swiper'
 
 import 'swiper/dist/css/swiper.min.css'
 import './style/index.scss'
@@ -15,12 +15,24 @@ class SwiperItem extends Nerv.Component {
   }
 }
 
+const createEvent = type => {
+  let e
+  try {
+    e = new TouchEvent(type);
+  } catch (e) {
+    e = document.createEvent('Event');
+    e.initEvent(type, true, true);
+  }
+  return e
+}
+
 class Swiper extends Nerv.Component {
   constructor () {
     super(...arguments)
     this.$el = null
     this._id = INSTANCE_ID + 1
     INSTANCE_ID++
+    this._$current = 0
   }
 
   componentDidMount () {
@@ -37,6 +49,7 @@ class Swiper extends Nerv.Component {
       spaceBetween
     } = this.props
 
+    const that = this
     const opt = {
       // 指示器
       pagination: { el: `.taro-swiper-${this._id} .swiper-pagination` },
@@ -48,23 +61,28 @@ class Swiper extends Nerv.Component {
       observer: true,
       on: {
         slideChange () {
-          let e = new TouchEvent('touchend')
-          Object.defineProperty(e, 'detail', {
-            enumerable: true,
-            value: {
-              current: this.realIndex
-            }
-          })
+          let e = createEvent('touchend')
+          try {
+            Object.defineProperty(e, 'detail', {
+              enumerable: true,
+              value: {
+                current: this.realIndex
+              }
+            })
+          } catch (err) {}
+          that._$current = this.realIndex
           onChange && onChange(e)
         },
         transitionEnd () {
-          let e = new TouchEvent('touchend')
-          Object.defineProperty(e, 'detail', {
-            enumerable: true,
-            value: {
-              current: this.realIndex
-            }
-          })
+          let e = createEvent('touchend')
+          try {
+            Object.defineProperty(e, 'detail', {
+              enumerable: true,
+              value: {
+                current: this.realIndex
+              }
+            })
+          } catch (err) {}
           onAnimationfinish && onAnimationfinish(e)
         }
       }
@@ -89,7 +107,7 @@ class Swiper extends Nerv.Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.mySwiper) {
-      const nextCurrent = nextProps.current || 0
+      const nextCurrent = nextProps.current || this._$current || 0
       // 是否衔接滚动模式
       if (nextProps.circular) {
         this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
@@ -102,7 +120,7 @@ class Swiper extends Nerv.Component {
 
   componentWillUnmount () {
     this.$el = null
-    this.mySwiper.destroy()
+    if (this.mySwiper) this.mySwiper.destroy()
   }
 
   render () {

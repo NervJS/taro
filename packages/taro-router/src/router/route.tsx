@@ -1,9 +1,9 @@
-import { Component } from '@tarojs/taro-h5';
-import Nerv from 'nervjs';
+import Taro from '@tarojs/taro-h5'
+import Nerv from 'nervjs'
 
-import createWrappedComponent from './createWrappedComponent';
-import { Location, RouteObj } from '../utils/types';
-import { tryToCall } from '../utils/index';
+import { tryToCall } from '../utils'
+import { Location, RouteObj } from '../utils/types'
+import createWrappedComponent from './createWrappedComponent'
 
 type RouteProps = RouteObj & {
   currentLocation: Location;
@@ -32,7 +32,7 @@ const getScroller = () => {
 }
 let scroller
 
-class Route extends Component<RouteProps, {}> {
+class Route extends Taro.Component<RouteProps, {}> {
   matched = false;
   wrappedComponent;
   componentRef;
@@ -46,28 +46,33 @@ class Route extends Component<RouteProps, {}> {
   }
 
   computeMatch (currentLocation) {
-    const pathname = currentLocation.pathname;
+    const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
-    if (isIndex && pathname === '/') return true
+    if (isIndex && path === '/') return true
     return key === this.props.key
   }
 
-  getWrapRef = (ref) => {
-    this.containerRef = ref
+  getWrapRef = ref => {
+    if (ref) this.containerRef = ref
   }
 
-  getRef = (ref) => {
-    this.componentRef = ref
+  getRef = ref => {
+    if (ref) this.componentRef = ref
     this.props.collectComponent(ref, this.props.k)
   }
 
   updateComponent (props = this.props) {
     props.componentLoader()
       .then(({ default: component }) => {
-        let WrappedComponent = createWrappedComponent(component)
+        if (!component) {
+          throw Error(`Received a falsy component for route "${props.path}". Forget to export it?`)
+        }
+        const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
         this.forceUpdate()
+      }).catch((e) => {
+        console.error(e)
       })
   }
 
@@ -115,11 +120,17 @@ class Route extends Component<RouteProps, {}> {
 
   showPage () {
     const dom = this.containerRef
+    if (!dom) {
+      return console.error(`showPage:fail Received a falsy component for route "${this.props.path}". Forget to export it?`)
+    }
     dom.style.display = 'block'
   }
 
   hidePage () {
     const dom = this.containerRef
+    if (!dom) {
+      return console.error(`showPage:fail Received a falsy component for route "${this.props.path}". Forget to export it?`)
+    }
     dom.style.display = 'none'
   }
 
@@ -128,7 +139,10 @@ class Route extends Component<RouteProps, {}> {
 
     const WrappedComponent = this.wrappedComponent
     return (
-      <div className="taro_page" ref={this.getWrapRef}>
+      <div
+        className="taro_page"
+        ref={this.getWrapRef}
+        style={"min-height: 100%"}>
         <WrappedComponent ref={this.getRef} />
       </div>
     )

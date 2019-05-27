@@ -34,14 +34,14 @@ export interface StandardProps extends EventProps {
   ref?: string | ((node: any) => any)
 }
 
-interface FormItemProps {
+export interface FormItemProps {
   /**
    * 表单数据标识
    */
   name?: string,
 }
 
-interface EventProps {
+export interface EventProps {
   /**
    * 手指触摸动作开始
    */
@@ -108,19 +108,19 @@ export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => any
  * @deprecated 建议弃用，逐步使用CommonEventFunction替换
  */
 export type BaseEventFunction = BaseEventOrigFunction<any>
-                                              
+
 export type TouchEventFunction = (event: ITouchEvent) => any
 
 /**
  * @deprecated 建议弃用，逐步使用CommonEvent替换
  */
 export type BaseEvent = BaseEventOrig<any>
-    
+
 export type CommonEvent = BaseEventOrig<any>
 
-export type CommonEventFunction = BaseEventOrigFunction<any>
+export type CommonEventFunction<T = any> = BaseEventOrigFunction<T>
 
-interface BaseEventOrig<T> {
+export interface BaseEventOrig<T> {
   /**
    * 事件类型
    */
@@ -145,19 +145,19 @@ interface BaseEventOrig<T> {
    * 额外的信息
    */
   detail: T,
-  
+
   /**
   * 阻止元素发生默认的行为
   */
   preventDefault: () => void,
-  
+
   /**
   * 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行
   */
   stopPropagation: () => void
 }
 
-interface ITouchEvent extends BaseEventOrig<any> {
+export interface ITouchEvent extends BaseEventOrig<any> {
   /**
    * 触摸事件，当前停留在屏幕中的触摸点信息的数组
    */
@@ -169,13 +169,13 @@ interface ITouchEvent extends BaseEventOrig<any> {
   changedTouches: Array<CanvasTouch>
 }
 
-interface CanvasTouch {
+export interface CanvasTouch {
   identifier: number,
   x: number,
   y: number
 }
 
-interface ITouch extends Touch {
+export interface ITouch extends Touch {
   /**
    * 触摸点的标识符
    */
@@ -198,7 +198,7 @@ interface ITouch extends Touch {
   clientY: number
 }
 
-interface Target {
+export interface Target {
   /**
    * 事件源组件的id
    */
@@ -210,7 +210,9 @@ interface Target {
   /**
    * 事件源组件上由data-开头的自定义属性组成的集合
    */
-  dataset: object
+  dataset: {
+    [key: string]: any
+  }
 }
 
-interface currentTarget extends Target {}
+export interface currentTarget extends Target {}

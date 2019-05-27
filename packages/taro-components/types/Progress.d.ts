@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-interface ProgressProps extends StandardProps {
+export interface ProgressProps extends StandardProps {
 
   /**
    * 百分比0~100

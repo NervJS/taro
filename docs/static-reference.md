@@ -2,7 +2,7 @@
 title: 静态资源引用
 ---
 
-在 Taro 中可以像使用 [webpack](https://webpack.js.org/) 那样自由地引用静态资源，而且不需要安装任何 loader。
+在 Taro 中可以像使用 [Webpack](https://webpack.js.org/) 那样自由地引用静态资源，而且不需要安装任何 Loaders。
 
 ## 引用样式文件
 

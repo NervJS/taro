@@ -51,7 +51,7 @@ class App extends Component {
 
   componentDidHide () {}
 
-  componentCatchError () {}
+  componentDidCatchError () {}
 
   render () {
     return (
@@ -88,7 +88,7 @@ class App extends Component {
 
   componentDidHide () {}
 
-  componentCatchError () {}
+  componentDidCatchError () {}
 
   render () {
     return (
@@ -133,7 +133,7 @@ class App extends Component {
 
   componentDidHide () {}
 
-  componentCatchError () {}
+  componentDidCatchError () {}
 
   render () {
     return (

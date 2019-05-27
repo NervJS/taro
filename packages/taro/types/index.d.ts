@@ -1,18 +1,236 @@
-export = Taro;
-export as namespace Taro;
+import { JSX } from 'babel-types'
+export = Taro
+export as namespace Taro
 
 declare namespace Taro {
+     // React Hooks
+    // ----------------------------------------------------------------------
 
+    // based on the code in https://github.com/facebook/react/pull/13968
+
+    // Unlike the class component setState, the updates are not allowed to be partial
+    type SetStateAction<S> = S | ((prevState: S) => S)
+    // this technically does accept a second argument, but it's already under a deprecation warning
+    // and it's not even released so probably better to not define it.
+    type Dispatch<A> = (value: A) => void
+    // Unlike redux, the actions _can_ be anything
+    type Reducer<S, A> = (prevState: S, action: A) => S
+    // types used to try and prevent the compiler from reducing S
+    // to a supertype common with the second argument to useReducer()
+    type ReducerState<R extends Reducer<any, any>> = R extends Reducer<infer S, any> ? S : never
+    type ReducerAction<R extends Reducer<any, any>> = R extends Reducer<any, infer A> ? A : never
+    // The identity check is done with the SameValue algorithm (Object.is), which is stricter than ===
+    // TODO (TypeScript 3.0): ReadonlyArray<unknown>
+    type DependencyList = ReadonlyArray<any>
+
+    // NOTE: callbacks are _only_ allowed to return either void, or a destructor.
+    // The destructor is itself only allowed to return void.
+    type EffectCallback = () => (void | (() => void | undefined))
+
+    interface MutableRefObject<T> {
+        current: T
+    }
+
+    /**
+     * Returns a stateful value, and a function to update it.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usestate
+     */
+    function useState<S> (initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>]
+    // convenience overload when first argument is ommitted
+    /**
+     * Returns a stateful value, and a function to update it.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usestate
+     */
+    function useState<S = undefined> (): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
+    /**
+     * An alternative to `useState`.
+     *
+     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
+     * multiple sub-values. It also lets you optimize performance for components that trigger deep
+     * updates because you can pass `dispatch` down instead of callbacks.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+     */
+    // overload where "I" may be a subset of ReducerState<R>; used to provide autocompletion.
+    // If "I" matches ReducerState<R> exactly then the last overload will allow initializer to be ommitted.
+    // the last overload effectively behaves as if the identity function (x => x) is the initializer.
+    function useReducer<R extends Reducer<any, any>, I> (
+        reducer: R,
+        initializerArg: I & ReducerState<R>,
+        initializer: (arg: I & ReducerState<R>) => ReducerState<R>
+    ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
+    /**
+     * An alternative to `useState`.
+     *
+     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
+     * multiple sub-values. It also lets you optimize performance for components that trigger deep
+     * updates because you can pass `dispatch` down instead of callbacks.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+     */
+    // overload for free "I"; all goes as long as initializer converts it into "ReducerState<R>".
+    function useReducer<R extends Reducer<any, any>, I> (
+        reducer: R,
+        initializerArg: I,
+        initializer: (arg: I) => ReducerState<R>
+    ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
+    /**
+     * An alternative to `useState`.
+     *
+     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
+     * multiple sub-values. It also lets you optimize performance for components that trigger deep
+     * updates because you can pass `dispatch` down instead of callbacks.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+     */
+
+    // I'm not sure if I keep this 2-ary or if I make it (2,3)-ary; it's currently (2,3)-ary.
+    // The Flow types do have an overload for 3-ary invocation with undefined initializer.
+
+    // NOTE: without the ReducerState indirection, TypeScript would reduce S to be the most common
+    // supertype between the reducer's return type and the initialState (or the initializer's return type),
+    // which would prevent autocompletion from ever working.
+
+    // TODO: double-check if this weird overload logic is necessary. It is possible it's either a bug
+    // in older versions, or a regression in newer versions of the typescript completion service.
+    function useReducer<R extends Reducer<any, any>> (
+        reducer: R,
+        initialState: ReducerState<R>,
+        initializer?: undefined
+    ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
+    /**
+     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+     * (`initialValue`). The returned object will persist for the full lifetime of the component.
+     *
+     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+     * value around similar to how you’d use instance fields in classes.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useref
+     */
+    // TODO (TypeScript 3.0): <T extends unknown>
+    function useRef<T> (initialValue: T): MutableRefObject<T>
+
+    interface RefObject<T> {
+        readonly current: T | null
+    }
+
+    // convenience overload for refs given as a ref prop as they typically start with a null value
+    /**
+     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+     * (`initialValue`). The returned object will persist for the full lifetime of the component.
+     *
+     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+     * value around similar to how you’d use instance fields in classes.
+     *
+     * Usage note: if you need the result of useRef to be directly mutable, include `| null` in the type
+     * of the generic argument.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useref
+     */
+    // TODO (TypeScript 3.0): <T extends unknown>
+    function useRef<T> (initialValue: T | null): RefObject<T>
+    // convenience overload for potentially undefined initialValue / call with 0 arguments
+    // has a default to stop it from defaulting to {} instead
+    /**
+     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+     * (`initialValue`). The returned object will persist for the full lifetime of the component.
+     *
+     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+     * value around similar to how you’d use instance fields in classes.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useref
+     */
+    // TODO (TypeScript 3.0): <T extends unknown>
+    function useRef<T = undefined> (): MutableRefObject<T | undefined>
+    /**
+     * The signature is identical to `useEffect`, but it fires synchronously after all DOM mutations.
+     * Use this to read layout from the DOM and synchronously re-render. Updates scheduled inside
+     * `useLayoutEffect` will be flushed synchronously, before the browser has a chance to paint.
+     *
+     * Prefer the standard `useEffect` when possible to avoid blocking visual updates.
+     *
+     * If you’re migrating code from a class component, `useLayoutEffect` fires in the same phase as
+     * `componentDidMount` and `componentDidUpdate`.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#uselayouteffect
+     */
+    function useLayoutEffect (effect: EffectCallback, deps?: DependencyList): void
+    /**
+     * Accepts a function that contains imperative, possibly effectful code.
+     *
+     * @param effect Imperative function that can return a cleanup function
+     * @param deps If present, effect will only activate if the values in the list change.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useeffect
+     */
+    function useEffect (effect: EffectCallback, deps?: DependencyList): void
+    // NOTE: this does not accept strings, but this will have to be fixed by removing strings from type Ref<T>
+    /**
+     * `useImperativeHandle` customizes the instance value that is exposed to parent components when using
+     * `ref`. As always, imperative code using refs should be avoided in most cases.
+     *
+     * `useImperativeHandle` should be used with `React.forwardRef`.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+     */
+    type Ref<T> =
+      | string
+      | { bivarianceHack (instance: T | null): any }['bivarianceHack']
+    function useImperativeHandle<T, R extends T> (ref: Ref<T> | undefined, init: () => R, deps?: DependencyList): void
+    // I made 'inputs' required here and in useMemo as there's no point to memoizing without the memoization key
+    // useCallback(X) is identical to just using X, useMemo(() => Y) is identical to just using Y.
+    /**
+     * `useCallback` will return a memoized version of the callback that only changes if one of the `inputs`
+     * has changed.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usecallback
+     */
+    // TODO (TypeScript 3.0): <T extends (...args: never[]) => unknown>
+    function useCallback<T extends (...args: any[]) => any> (callback: T, deps: DependencyList): T
+    /**
+     * `useMemo` will only recompute the memoized value when one of the `deps` has changed.
+     *
+     * Usage note: if calling `useMemo` with a referentially stable function, also give it as the input in
+     * the second argument.
+     *
+     * ```ts
+     * function expensive () { ... }
+     *
+     * function Component () {
+     *   const expensiveResult = useMemo(expensive, [expensive])
+     *   return ...
+     * }
+     * ```
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usememo
+     */
+    // allow undefined, but don't make it optional as that is very likely a mistake
+    function useMemo<T> (factory: () => T, deps: DependencyList | undefined): T
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
      */
-    path: string,
+    path: string
 
     /**
      * 打开不存在页面的 query
      */
-    query: object,
+    query: object
 
     /**
      * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
@@ -31,11 +249,11 @@ declare namespace Taro {
     /**
      * 转发事件来源
      */
-    from?: string,
+    from?: string
     /**
      * 如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
      */
-    target?: object,
+    target?: object
     /**
      * 页面中包含<web-view>组件时，返回当前<web-view>的url
      */
@@ -46,12 +264,12 @@ declare namespace Taro {
     /**
      * 	转发标题，默认为当前小程序名称
      */
-    title?: string,
+    title?: string
 
     /**
      * 转发路径，必须是以 / 开头的完整路径，默认为当前页面 path
      */
-    path?: string,
+    path?: string
 
     /**
      * 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径
@@ -65,12 +283,12 @@ declare namespace Taro {
     /**
      * 被点击tabItem的序号，从0开始
      */
-    index: string,
+    index: string
 
     /**
      * 被点击tabItem的页面路径
      */
-    pagePath: string,
+    pagePath: string
 
     /**
      * 被点击tabItem的按钮文字
@@ -80,23 +298,23 @@ declare namespace Taro {
 
   // Components
   interface ComponentLifecycle<P, S> {
-    componentWillMount?(): void;
-    componentDidMount?(): void;
-    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void;
-    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean;
-    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
-    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void;
-    componentWillUnmount?(): void;
-    componentWillPreload?(params: {[propName: string]: any}): any;
-    componentDidShow?(): void;
-    componentDidHide?(): void;
-    componentDidCatchError?(err: string): void;
-    componentDidNotFound?(obj: PageNotFoundObject): void;
-    onPullDownRefresh?(): void;
-    onReachBottom?(): void;
-    onPageScroll?(obj: PageScrollObject): void;
-    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn;
-    onTabItemTap?(obj: TabItemTapObject): void;
+    componentWillMount?(): void
+    componentDidMount?(): void
+    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
+    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
+    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
+    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void
+    componentWillUnmount?(): void
+    componentWillPreload?(params: { [propName: string]: any }): any
+    componentDidShow?(): void
+    componentDidHide?(): void
+    componentDidCatchError?(err: string): void
+    componentDidNotFound?(obj: PageNotFoundObject): void
+    onPullDownRefresh?(): void
+    onReachBottom?(): void
+    onPageScroll?(obj: PageScrollObject): void
+    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
+    onTabItemTap?(obj: TabItemTapObject): void
     onResize?(): void
   }
 
@@ -104,96 +322,166 @@ declare namespace Taro {
     $scope?: any
   }
 
-  interface PageConfig {
+  interface ComponentClass<P = {}> {
+    new (...args: any[]): Component<P, {}>
+    propTypes?: any
+    defaultProps?: Partial<P>
+    displayName?: string
+  }
+
+  // NOTE: only the Context object itself can get a displayName
+  // https://github.com/facebook/react-devtools/blob/e0b854e4c/backend/attachRendererFiber.js#L310-L325
+  // type Provider<T> = ProviderExoticComponent<ProviderProps<T>>;
+  // type Consumer<T> = ExoticComponent<ConsumerProps<T>>;
+  interface Context<T> {
+      Provider: ComponentClass<{ value: T }>;
+      // Consumer: Consumer<T>;
+      displayName?: string;
+  }
+  function createContext<T>(
+      defaultValue: T
+  ): Context<T>;
+
+  
+  // This will technically work if you give a Consumer<T> or Provider<T> but it's deprecated and warns
+  /**
+   * Accepts a context object (the value returned from `React.createContext`) and returns the current
+   * context value, as given by the nearest context provider for the given context.
+   *
+   * @version 16.8.0
+   * @see https://reactjs.org/docs/hooks-reference.html#usecontext
+   */
+  function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+
+
+  /**
+   * 微信小程序全局 Window 配置和页面配置的公共项目
+   */
+  interface CommonPageConfig {
     /**
      * 导航栏背景颜色，HexColor
      * default: #000000
      */
-    navigationBarBackgroundColor?: string,
+    navigationBarBackgroundColor?: string
     /**
      * 导航栏标题颜色，仅支持 black/white
      * default: 'white'
      */
-    navigationBarTextStyle?: 'white' | 'black',
+    navigationBarTextStyle?: 'white' | 'black'
     /**
      * 导航栏标题文字内容
      */
-    navigationBarTitleText?: string,
+    navigationBarTitleText?: string
     /**
      * 导航栏样式，仅支持以下值：
      * default 默认样式
      * custom 自定义导航栏
      */
-    navigationStyle?: string,
+    navigationStyle?: 'default' | 'custom'
     /**
      * 窗口的背景色， HexColor
      * default: #ffffff
      */
-    backgroundColor?: string,
+    backgroundColor?: string
     /**
      * 下拉背景字体、loading 图的样式，仅支持 dark/light
      * default: 'dark'
      */
-    backgroundTextStyle?: 'dark' | 'light',
+    backgroundTextStyle?: 'dark' | 'light'
+    /**
+     * 顶部窗口的背景色，仅 iOS 支持
+     * default: #ffffff
+     */
+    backgroundColorTop?: string
+    /**
+     * 底部窗口的背景色，仅 iOS 支持
+     * default: #ffffff
+     */
+    backgroundColorBottom?: string
     /**
      * 是否开启下拉刷新
      * default: false
      */
-    enablePullDownRefresh?: boolean,
+    enablePullDownRefresh?: boolean
     /**
      * 页面上拉触底事件触发时距页面底部距离，单位为px
      * default: 50
      */
     onReachBottomDistance?: number
+  }
+
+  interface PageConfig extends CommonPageConfig {
     /**
-     * 设置为 true 则页面整体不能上下滚动；只在页面配置中有效，无法在 app.json 中设置该项
+     * 设置为 true 则页面整体不能上下滚动；
+     * 只在页面配置中有效，无法在 app.json 中设置该项
      * default: false
      */
     disableScroll?: boolean
+    /**
+     * 禁止页面右滑手势返回
+     * default: false
+     */
+    disableSwipeBack?: boolean
+  }
+
+  interface WindowConfig extends CommonPageConfig {
+    /**
+     * 屏幕旋转设置
+     * 支持 auto / portrait / landscape
+     * default: portrait
+     * 详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html)
+     */
+    pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
 
   interface TarbarList {
     /**
      * 页面路径，必须在 pages 中先定义
      */
-    pagePath: string,
+    pagePath: string
     /**
      * tab 上按钮文字
      */
-    text: string,
+    text: string
     /**
      * 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
      */
-    iconPath?: string,
+    iconPath?: string
     /**
      * 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
      */
-    selectedIconPath?: string,
+    selectedIconPath?: string
   }
 
   interface TabBar {
     /**
      * tab 上的文字默认颜色
      */
-    color?: string,
+    color?: string
     /**
      * tab 上的文字选中时的颜色
      */
-    selectedColor?: string,
+    selectedColor?: string
     /**
      * tab 的背景色
      */
-    backgroundColor?: string,
+    backgroundColor?: string
     /**
      * tabbar上边框的颜色， 仅支持 black/white
-     * default: black
+     * @default: black
      */
-    borderStyle?: 'black' | 'white',
+    borderStyle?: 'black' | 'white'
     /**
      * tabar 的位置，可选值 bottom、top
-     * default: 'bottom'
+     * @default: 'bottom'
      */
-    position?: 'bottom' | 'top',
+    position?: 'bottom' | 'top'
+    /**
+     * 自定义 tabBar，见[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html)
+     * @default false
+     * @since 2.1.0
+     */
+    custom?: boolean
 
     list: TarbarList[]
   }
@@ -226,11 +514,19 @@ declare namespace Taro {
      * 分包根路径
      * - 注意：不能放在主包pages目录下
      */
-    root: string,
+    root: string
     /**
      * 分包路径下的所有页面配置
      */
     pages: string[]
+    /**
+     * 分包别名，分包预下载时可以使用
+     */
+    name?: string
+    /**
+     * 分包是否是独立分包
+     */
+    independent?: boolean
   }
 
   interface Plugins {
@@ -268,8 +564,8 @@ declare namespace Taro {
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
-    pages?: string[],
-    tabBar?: TabBar,
+    pages?: string[]
+    tabBar?: TabBar
     /**
      * 各类网络请求的超时时间，单位均为毫秒。
      */
@@ -304,13 +600,13 @@ declare namespace Taro {
      * Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
-      */
+     */
     workers?: string
     /**
      * 申明需要后台运行的能力，类型为数组。目前支持以下项目：
      * @since 微信客户端 6.7.2 及以上版本支持
      */
-    requiredBackgroundModes?: ["audio"]
+    requiredBackgroundModes?: ['audio']
     /**
      * 使用到的插件
      * @since 1.9.6
@@ -345,8 +641,9 @@ declare namespace Taro {
   interface Config extends PageConfig, AppConfig {
     usingComponents?: {
       [key: string]: string
-    },
-    window?: PageConfig
+    }
+    window?: WindowConfig
+    cloud?: boolean
   }
 
   interface ComponentOptions {
@@ -354,11 +651,11 @@ declare namespace Taro {
   }
 
   class Component<P, S> {
-    constructor(props?: P, context?: any);
+    constructor(props?: P, context?: any)
 
-    config?: Config;
+    config?: Config
 
-    options?: ComponentOptions;
+    options?: ComponentOptions
 
     $componentType: 'PAGE' | 'COMPONENT'
 
@@ -367,65 +664,74 @@ declare namespace Taro {
       preload: any
     }
 
-    setState<K extends keyof S>(
-        state: ((prevState: Readonly<S>, props: P) => (Pick<S, K> | S)) | (Pick<S, K> | S),
-        callback?: () => any
-    ): void;
+    /**
+     * 使用 `this.$preload` 函数进行页面跳转传参
+     * @example this.$preload('key', 'val');
+     * @example this.$preload({
+                  x: 1,
+                  y: 2
+                });
+     * @see https://nervjs.github.io/taro/docs/best-practice.html
+     */
+    $preload(key: string, value: any): void
+    $preload(key: object): void
 
-    forceUpdate(callBack?: () => any): void;
+    setState<K extends keyof S>(state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S), callback?: () => any): void
 
-    render(): any;
+    forceUpdate(callBack?: () => any): void
 
-    props: Readonly<P> & Readonly<{ children?: any }>;
-    state: Readonly<S>;
-    context: any;
+    render(): any
+
+    props: Readonly<P> & Readonly<{ children?: any }>
+    state: Readonly<S>
+    context: any
     refs: {
-        [key: string]: any
-    };
+      [key: string]: any
+    }
   }
 
-  class PureComponent<P = {}, S = {}> extends Component<P, S> { }
+  class PureComponent<P = {}, S = {}> extends Component<P, S> {}
 
   // Events
   class Events {
     /**
      * 监听一个事件，接受参数
      */
-    on(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    on(eventName: string | symbol, listener: (...args: any[]) => void): this
 
     /**
      * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
      */
-    once(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    once(eventName: string | symbol, listener: (...args: any[]) => void): this
 
     /**
      * 取消监听一个事件
      */
-    off(eventName: string | symbol, listener?: (...args: any[]) => void): this;
+    off(eventName: string | symbol, listener?: (...args: any[]) => void): this
 
     /**
      * 取消监听的所有事件
      */
-    off(): this;
+    off(): this
 
     /**
      * 触发一个事件，传参
      */
-    trigger(eventName: string | symbol, ...args: any[]): boolean;
+    trigger(eventName: string | symbol, ...args: any[]): boolean
   }
 
   // eventCenter
 
   namespace eventCenter {
-    function on(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    function on(eventName: string | symbol, listener: (...args: any[]) => void): void
 
-    function once(eventName: string | symbol, listener: (...args: any[]) => void): void;
+    function once(eventName: string | symbol, listener: (...args: any[]) => void): void
 
-    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void;
+    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void
 
-    function off(): void;
+    function off(): void
 
-    function trigger(eventName: string | symbol, ...args: any[]): boolean;
+    function trigger(eventName: string | symbol, ...args: any[]): boolean
   }
 
   // ENV_TYPE
@@ -439,26 +745,27 @@ declare namespace Taro {
     TT = 'TT'
   }
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN;
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN
 
-  function render(component: Component | JSX.Element, element: Element | null): any;
+  function render(component: Component | JSX.Element, element: Element | null): any
 
-  function internal_safe_set (...arg: any[]): any;
-  function internal_safe_get (...arg: any[]): any;
+  function internal_safe_set(...arg: any[]): any
+  function internal_safe_get(...arg: any[]): any
 
-  type MessageType = 'info' | 'success' | 'error' | 'warning';
+  type MessageType = 'info' | 'success' | 'error' | 'warning'
 
   interface AtMessageOptions {
-    message: string,
-    type?: MessageType,
+    message: string
+    type?: MessageType
     duration?: number
   }
 
-  function atMessage (options: AtMessageOptions): void;
+  function atMessage(options: AtMessageOptions): void
 
   function pxTransform(size: number): string
+  function initPxTransform(config: { designWidth: number; deviceRatio: object })
 
-  interface RequestParams {
+  interface RequestParams extends request.Param<any> {
     [propName: string]: any
   }
 
@@ -472,12 +779,12 @@ declare namespace Taro {
   }
 
   namespace interceptors {
-    function logInterceptor (chain: Chain): Promise<any>
+    function logInterceptor(chain: Chain): Promise<any>
 
-    function timeoutInterceptor (chain: Chain): Promise<any>
+    function timeoutInterceptor(chain: Chain): Promise<any>
   }
 
-  function addInterceptor (interceptor: interceptor): any
+  function addInterceptor(interceptor: interceptor): any
 
   /**
    * 小程序引用插件 JS 接口
@@ -494,7 +801,7 @@ declare namespace Taro {
    */
 
   namespace request {
-    type Promised<T extends any | string | ArrayBuffer = any> = {
+    type Promised < T extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器返回的数据
        *
@@ -518,7 +825,7 @@ declare namespace Taro {
        */
       header: any
     }
-    type Param<P extends any | string | ArrayBuffer = any> = {
+    type Param < P extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器接口地址
        */
@@ -549,71 +856,71 @@ declare namespace Taro {
        * @default text
        * @since 1.7.0
        */
-      responseType?: string,
+      responseType?: string
       /**
        * 设置 H5 端是否使用jsonp方式获取数据
        *
        * @default false
        */
-      jsonp?: boolean,
+      jsonp?: boolean
       /**
        * 设置 H5 端 jsonp 请求 url 是否需要被缓存
        *
        * @default false
        */
-      jsonpCache?: boolean,
+      jsonpCache?: boolean
       /**
        * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
        *
        * @default same-origin
        */
-      mode?: 'no-cors' | 'cors' | 'same-origin',
+      mode?: 'no-cors' | 'cors' | 'same-origin'
       /**
        * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
        *
        * @default omit
        */
-      credentials?: 'include' | 'same-origin' | 'omit',
+      credentials?: 'include' | 'same-origin' | 'omit'
       /**
        * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
        *
        * @default default
        */
-      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached',
+      cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
       /**
        * 设置 H5 端请求响应超时时间
        *
        * @default 2000
        */
-      timeout?: number,
+      timeout?: number
       /**
        * 设置 H5 端请求重试次数
        *
        * @default 2
        */
-      retryTimes?: number,
+      retryTimes?: number
       /**
        * 设置 H5 端请求的兜底接口
        */
-      backup?: string | string[],
+      backup?: string | string[]
       /**
        * 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
        */
-      dataCheck?(): boolean,
+      dataCheck?(): boolean
       /**
        * 设置 H5 端请求是否使用缓存
        *
        * @default false
        */
-      useStore?: boolean,
+      useStore?: boolean
       /**
        * 设置 H5 端请求缓存校验的 key
        */
-      storeCheckKey?: string,
+      storeCheckKey?: string
       /**
        * 设置 H5 端请求缓存签名
        */
-      storeSign?: string,
+      storeSign?: string
       /**
        * 设置 H5 端请求校验函数，一般不需要设置
        */
@@ -700,17 +1007,7 @@ declare namespace Taro {
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
 
-  type arrayBuffer = Uint8Array |
-    Int8Array |
-    Uint8Array |
-    Uint8ClampedArray |
-    Int16Array |
-    Uint16Array |
-    Int32Array |
-    Uint32Array |
-    Float32Array |
-    Float64Array |
-    ArrayBuffer
+  type arrayBuffer = Uint8Array | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | ArrayBuffer
 
   /**
    * 将 ArrayBuffer 数据转成 Base64 字符串
@@ -991,7 +1288,7 @@ declare namespace Taro {
   function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
   namespace connectSocket {
-    type Promised = SocketTask;
+    type Promised = SocketTask
 
     type Param = {
       /**
@@ -1130,8 +1427,8 @@ declare namespace Taro {
   function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>
 
   namespace onSocketMessage {
-    type Param<T = any> = (res: ParamParam<T>) => any
-    type ParamParam<T extends any | string | ArrayBuffer = any> = {
+    type Param < T = any > = (res: ParamParam<T>) => any
+    type ParamParam < T extends any | string | ArrayBuffer = any > = {
       /**
        * 服务器返回的消息
        */
@@ -1292,8 +1589,8 @@ declare namespace Taro {
       }
     }
     namespace onMessage {
-      type Param<T = any> = (res: ParamParam<T>) => any
-      type ParamParam<T extends any | string | ArrayBuffer = any> = {
+      type Param < T = any > = (res: ParamParam<T>) => any
+      type ParamParam < T extends any | string | ArrayBuffer = any > = {
         /**
          * 服务器返回的消息
          */
@@ -1310,32 +1607,32 @@ declare namespace Taro {
     /**
      * websocket 当前的连接状态。
      */
-    readonly readyState: boolean;
+    readonly readyState: boolean
 
     /**
      * websocket 状态值：连接中。
      */
-    readonly CONNECTING: boolean;
+    readonly CONNECTING: boolean
 
     /**
      * websocket 状态值：已连接。
      */
-    readonly OPEN: boolean;
+    readonly OPEN: boolean
 
     /**
      * websocket 状态值：关闭中。
      */
-    readonly CLOSING: boolean;
+    readonly CLOSING: boolean
 
     /**
      * websocket 状态值：已关闭。
-    */
-    readonly CLOSED: boolean;
+     */
+    readonly CLOSED: boolean
 
     /**
      * 浏览器 websocket 实例。（h5 端独有）
      */
-    readonly ws: WebSocket;
+    readonly ws: WebSocket
 
     /**
      *
@@ -1407,6 +1704,14 @@ declare namespace Taro {
        */
       size: number
     }
+    type ParamPropTempFiles = ParamPropTempFilesItem[]
+    type ParamPropTempFilesItem = {
+      path: string
+      size: number
+    }
+    type ParamPropSuccess = (res: { tempFilePaths: string[]; tempFiles: ParamPropTempFiles }) => void
+    type ParamPropFail = (err: any) => void
+    type ParamPropComplete = () => any
     type Param = {
       /**
        * 最多可以选择的图片张数，默认9
@@ -1420,6 +1725,12 @@ declare namespace Taro {
        * album 从相册选图，camera 使用相机，默认二者都有
        */
       sourceType?: string[]
+      /**
+       * success 回调
+       */
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
   }
   /**
@@ -1783,7 +2094,7 @@ declare namespace Taro {
        *
        * @since 1.6.0
        */
-      duration?: number,
+      duration?: number
       /**
        * 接口调用成功的回调函数
        */
@@ -1887,11 +2198,11 @@ declare namespace Taro {
       /**
        * 是否与其他音频混播，设置为 true 之后，不会终止其他应用或微信内的音乐
        */
-      mixWithOther?: boolean,
+      mixWithOther?: boolean
       /**
        * （仅在 iOS 生效）是否遵循静音开关，设置为 false 之后，即使是在静音模式下，也能播放声音
        */
-      obeyMuteSwitch?: boolean,
+      obeyMuteSwitch?: boolean
       /**
        * 接口调用成功的回调函数
        */
@@ -2757,7 +3068,7 @@ declare namespace Taro {
     /**
      * 发送弹幕，danmu 包含两个属性 text, color。
      */
-    sendDanmu(danmu: { text: string, color: string }): void
+    sendDanmu(danmu: { text: string; color: string }): void
     /**
      * 设置倍速播放，支持的倍率有 0.5/0.8/1.0/1.25/1.5
      *
@@ -2769,7 +3080,7 @@ declare namespace Taro {
      *
      * @since 1.4.0
      */
-    requestFullScreen(param: {direction: 0 | 90 | -90}): void
+    requestFullScreen(param: { direction: 0 | 90 | -90 }): void
     /**
      * 退出全屏
      *
@@ -2856,7 +3167,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数
        */
-      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string; tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -2868,7 +3179,7 @@ declare namespace Taro {
       /**
        * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropTimeoutCallback = (res: { tempThumbPath: string, tempVideoPath: string }) => void
+      type ParamPropTimeoutCallback = (res: { tempThumbPath: string; tempVideoPath: string }) => void
     }
     namespace stopRecord {
       type Param = {
@@ -2888,7 +3199,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
        */
-      type ParamPropSuccess = (res: { tempThumbPath: string, tempVideoPath: string }) => any
+      type ParamPropSuccess = (res: { tempThumbPath: string; tempVideoPath: string }) => any
       /**
        * 接口调用失败的回调函数
        */
@@ -4112,7 +4423,7 @@ declare namespace Taro {
       /**
        * 接口调用成功的回调函数 ，res = { longitude: "经度", latitude: "纬度"}
        */
-      type ParamPropSuccess = (res: { longitude: number, latitude: number }) => void
+      type ParamPropSuccess = (res: { longitude: number; latitude: number }) => void
       /**
        * 接口调用失败的回调函数
        */
@@ -7020,6 +7331,66 @@ declare namespace Taro {
    */
   function setNavigationBarColor(OBJECT: setNavigationBarColor.Param): Promise<setNavigationBarColor.Promised>
 
+  namespace setBackgroundTextStyle {
+    type Param = {
+      /**
+       * 下拉背景字体、loading 图的样式。
+       */
+      textStyle: 'dark' | 'light'
+    }
+  }
+
+  /**
+   * @since 2.1.0
+   *
+   * 动态设置下拉背景字体、loading 图的样式
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.setBackgroundTextStyle({
+   *       textStyle: 'dark' // 下拉背景字体、loading 图的样式为dark
+   *     })
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setBackgroundTextStyle.html
+   */
+  function setBackgroundTextStyle(OBJECT: setBackgroundTextStyle.Param): Promise<any>
+
+  namespace setBackgroundColor {
+    type Param = {
+      /**
+       * 窗口的背景色，必须为十六进制颜色值
+       */
+      backgroundColor?: string
+      /**
+       * 顶部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持
+       */
+      backgroundColorTop?: string
+      /**
+       * 底部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持
+       */
+      backgroundColorBottom?: string
+    }
+  }
+
+  /**
+   * @since 2.1.0
+   *
+   * 动态设置窗口的背景色
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.setBackgroundColor({
+   *       backgroundColor: '#ffffff', // 窗口的背景色为白色
+   *       backgroundColorTop: '#ffffff', // 顶部窗口的背景色为白色
+   *       backgroundColorBottom: '#ffffff', // 底部窗口的背景色为白色
+   *     })
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setBackgroundColor.html
+   */
+  function setBackgroundColor(OBJECT: setBackgroundColor.Param): Promise<any>
+
   namespace setTabBarBadge {
     type Param = {
       /**
@@ -7207,13 +7578,64 @@ declare namespace Taro {
    */
   function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>
 
+  namespace getMenuButtonBoundingClientRect {
+    type Return = {
+      /**
+       * 宽度，单位：px
+       */
+      width: number
+      /**
+       * 高度，单位：px
+       */
+      height: number
+      /**
+       * 	上边界坐标，单位：px
+       */
+      top: number
+      /**
+       * 	右边界坐标，单位：px
+       */
+      right: number
+      /**
+       * 	下边界坐标，单位：px
+       */
+      bottom: number
+      /**
+       * 	左边界坐标，单位：px
+       */
+      left: number
+    }
+  }
+  /**
+   * @since 2.1.0
+   *
+   * 获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.getMenuButtonBoundingClientRect.html
+   */
+  function getMenuButtonBoundingClientRect(): getMenuButtonBoundingClientRect.Return
+
   namespace navigateTo {
     type Param = {
       /**
        * 需要跳转的应用内非 tabBar 的页面的路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
       url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 保留当前页面，跳转到应用内的某个页面，使用`Taro.navigateBack`可以返回到原页面。
@@ -7246,7 +7668,22 @@ declare namespace Taro {
        * 需要跳转的应用内非 tabBar 的页面的路径，路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'
        */
       url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
@@ -7268,7 +7705,22 @@ declare namespace Taro {
        * 需要跳转的应用内页面路径 , 路径后可以带参数。参数与路径之间使用`?`分隔，参数键与参数值用`=`相连，不同参数用`&`分隔；如 'path?key=value&key2=value2'，如果跳转的页面路径是 tabBar 页面则不能带参数
        */
       url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * @since 1.1.0
@@ -7303,7 +7755,22 @@ declare namespace Taro {
        * 需要跳转的 tabBar 页面的路径（需在 app.json 的 [tabBar](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#tabbar) 字段定义的页面），路径后不能带参数
        */
       url: string
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
@@ -7343,7 +7810,22 @@ declare namespace Taro {
        * @default 1
        */
       delta?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
   }
   /**
    * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
@@ -8025,31 +8507,31 @@ declare namespace Taro {
    *     ```
    */
   interface nodesRef {
-    boundingClientRect: (callback?: clientRectCallback) => nodesRef;
-    scrollOffset: (callback?: scrollCallback) => nodesRef;
-    fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef;
-    exec: (callback?: execCallback) => void;
+    boundingClientRect: (callback?: clientRectCallback) => nodesRef
+    scrollOffset: (callback?: scrollCallback) => nodesRef
+    fields: (fields: fieldsObject, callback?: fieldCallback) => nodesRef
+    exec: (callback?: execCallback) => void
   }
 
   interface baseElement {
-    id: string,
-    dataset: object,
+    id: string
+    dataset: object
   }
 
   interface rectElement {
-    left: number,
-    right: number,
-    top: number,
-    bottom: number,
+    left: number
+    right: number
+    top: number
+    bottom: number
   }
 
   interface sizeElement {
-    width: number,
-    height: number,
+    width: number
+    height: number
   }
 
   interface scrollElement {
-    scrollLeft: number,
+    scrollLeft: number
     scrollTop: number
   }
   interface clientRectElement extends baseElement, rectElement, sizeElement {}
@@ -8057,19 +8539,18 @@ declare namespace Taro {
   interface scrollOffsetElement extends baseElement, scrollElement {}
 
   interface fieldsObject {
-    id?:boolean,
-    dataset?:boolean,
-    rect?:boolean,
-    size?:boolean,
-    scrollOffset?:boolean,
-    properties?: string[],
-    computedStyle?:string[],
+    id?: boolean
+    dataset?: boolean
+    rect?: boolean
+    size?: boolean
+    scrollOffset?: boolean
+    properties?: string[]
+    computedStyle?: string[]
   }
 
   interface fieldElement extends baseElement, rectElement, sizeElement {
-    [key:string]: any
+    [key: string]: any
   }
-
 
   type execObject = clientRectElement & scrollOffsetElement & fieldElement
   type clientRectCallback = (rect: clientRectElement | clientRectElement[]) => void
@@ -8182,9 +8663,9 @@ declare namespace Taro {
        *
        * @since 1.9.90
        */
-      timeout?: number,
-      success?: ParamPropSuccess,
-      fail?: ParamPropFail,
+      timeout?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
       complete?: ParamPropComplete
     }
     /**
@@ -8334,7 +8815,7 @@ declare namespace Taro {
       /**
        * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
        */
-      gender: string
+      gender: 0 | 1 | 2
       /**
        * 用户所在城市
        */
@@ -8371,7 +8852,22 @@ declare namespace Taro {
        * @since 1.9.90
        */
       timeout?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 获取用户信息接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Promised) => void
+    /**
+     * 获取用户信息接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: Promised) => void
+    /**
+     * 获取用户信息接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
@@ -9557,1705 +10053,1304 @@ declare namespace Taro {
   function setEnableDebug(OBJECT: setEnableDebug.Param): Promise<setEnableDebug.Promised>
 
   namespace CanvasContext {
-    namespace draw {
-      type Param1 = () => any
-    }
+    namespace draw { type Param1 = () => any }
   }
-  class CanvasContext {
-    /**
-     *
-     * **定义：**
-     *
-     * 设置填充色。
-     *
-     * **Tip**: 如果没有设置 `fillStyle`，默认颜色为 `black`。
-     *
-     * **参数：**
-     *
-     *   参数    |  类型                                                                              |  定义
-     * ----------|------------------------------------------------------------------------------------|--------------------
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setFillStyle(color)
-     *     canvasContext.fillStyle = color // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(10, 10, 150, 75)
-     *     ctx.draw()
-     *     ```
-     */
-    setFillStyle(color: string): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置边框颜色。
-     *
-     * **Tip**: 如果没有设置 `fillStyle`，默认颜色为 `black`。
-     *
-     * **参数：**
-     *
-     *   参数    |  类型                                                                              |  定义
-     * ----------|------------------------------------------------------------------------------------|--------------------
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  Gradient Object
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setStrokeStyle(color)
-     *     canvasContext.strokeStyle = color // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.setStrokeStyle('red')
-     *     ctx.strokeRect(10, 10, 150, 75)
-     *     ctx.draw()
-     *     ```
-     */
-    setStrokeStyle(color: string): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置阴影样式。
-     *
-     * **Tip**: 如果没有设置，offsetX 默认值为0， offsetY 默认值为0， blur 默认值为0，color 默认值为 `black`。
-     *
-     * **参数：**
-     *
-     *   参数      |  类型                                                                              |  范围    |  定义
-     * ------------|------------------------------------------------------------------------------------|----------|--------------------
-     *   offsetX   |  Number                                                                            |          |阴影相对于形状在水平方向的偏移
-     *   offsetY   |  Number                                                                            |          |阴影相对于形状在竖直方向的偏移
-     *   blur      |  Number                                                                            |  0~100   |阴影的模糊级别，数值越大越模糊
-     *   color     |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |          |  阴影的颜色
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.setFillStyle('red')
-     *     ctx.setShadow(10, 50, 50, 'blue')
-     *     ctx.fillRect(10, 10, 150, 75)
-     *     ctx.draw()
-     *     ```
-     */
-    setShadow(offsetX: number, offsetY: number, blur: number, color: string): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 设置阴影的模糊级别
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.shadowBlur = value
-     *     ```
-     */
-    shadowBlur(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 设置阴影的颜色
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.shadowColor = value
-     *     ```
-     */
-    shadowColor(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 设置阴影相对于形状在水平方向的偏移
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.shadowOffsetX = value
-     *     ```
-     */
-    shadowOffsetX(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 设置阴影相对于形状在竖直方向的偏移
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.shadowOffsetY = value
-     *     ```
-     */
-    shadowOffsetY(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 创建一个线性的渐变颜色。
-     *
-     * **Tip**: 需要使用 `addColorStop()` 来指定渐变点，至少要两个。
-     *
-     * **参数：**
-     *
-     *   参数 |  类型     |  定义
-     * -------|-----------|-----------
-     *   x0   |  Number   |起点的x坐标
-     *   y0   |  Number   |起点的y坐标
-     *   x1   |  Number   |终点的x坐标
-     *   y1   |  Number   |终点的y坐标
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // Create linear gradient
-     *     const grd = ctx.createLinearGradient(0, 0, 200, 0)
-     *     grd.addColorStop(0, 'red')
-     *     grd.addColorStop(1, 'white')
-     *
-     *     // Fill with gradient
-     *     ctx.setFillStyle(grd)
-     *     ctx.fillRect(10, 10, 150, 80)
-     *     ctx.draw()
-     *     ```
-     */
-    createLinearGradient(x0: number, y0: number, x1: number, y1: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 创建一个圆形的渐变颜色。
-     *
-     * **Tip**: 起点在圆心，终点在圆环。
-     *
-     * **Tip**: 需要使用 `addColorStop()` 来指定渐变点，至少要两个。
-     *
-     * **参数：**
-     *
-     *   参数 |  类型     |  定义
-     * -------|-----------|-----------
-     *   x    |  Number   |圆心的x坐标
-     *   y    |  Number   |圆心的y坐标
-     *   r    |  Number   |  圆的半径
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // Create circular gradient
-     *     const grd = ctx.createCircularGradient(75, 50, 50)
-     *     grd.addColorStop(0, 'red')
-     *     grd.addColorStop(1, 'white')
-     *
-     *     // Fill with gradient
-     *     ctx.setFillStyle(grd)
-     *     ctx.fillRect(10, 10, 150, 80)
-     *     ctx.draw()
-     *     ```
-     */
-    createCircularGradient(x: number, y: number, r: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 创建一个颜色的渐变点。
-     *
-     * **Tip**: 小于最小 stop 的部分会按最小 stop 的 color 来渲染，大于最大 stop 的部分会按最大 stop 的 color 来渲染。
-     *
-     * **Tip**: 需要使用 `addColorStop()` 来指定渐变点，至少要两个。
-     *
-     * **参数：**
-     *
-     *   参数    |  类型                                                                              |  定义
-     * ----------|------------------------------------------------------------------------------------|--------------------
-     *   stop    |  Number(0-1)                                                                       |表示渐变点在起点和终点中的位置
-     *   color   |  [Color](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/color.html)   |  渐变点的颜色
-     *
-     * **示例代码：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // Create circular gradient
-     *     const grd = ctx.createLinearGradient(30, 10, 120, 10)
-     *     grd.addColorStop(0, 'red')
-     *     grd.addColorStop(0.16, 'orange')
-     *     grd.addColorStop(0.33, 'yellow')
-     *     grd.addColorStop(0.5, 'green')
-     *     grd.addColorStop(0.66, 'cyan')
-     *     grd.addColorStop(0.83, 'blue')
-     *     grd.addColorStop(1, 'purple')
-     *
-     *     // Fill with gradient
-     *     ctx.setFillStyle(grd)
-     *     ctx.fillRect(10, 10, 150, 80)
-     *     ctx.draw()
-     *     ```
-     */
-    addColorStop(stop: number, color: string): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置线条的宽度。
-     *
-     * **参数：**
-     *
-     *   参数        |  类型     |  说明
-     * --------------|-----------|-----------------
-     *   lineWidth   |  Number   |线条的宽度(单位是px)
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setLineWidth(lineWidth)
-     *     canvasContext.lineWidth = lineWidth // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.beginPath()
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(150, 10)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(5)
-     *     ctx.moveTo(10, 30)
-     *     ctx.lineTo(150, 30)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(10, 50)
-     *     ctx.lineTo(150, 50)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(15)
-     *     ctx.moveTo(10, 70)
-     *     ctx.lineTo(150, 70)
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setLineWidth(lineWidth: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置线条的端点样式。
-     *
-     * **参数：**
-     *
-     *   参数      |  类型     |  范围                      |  说明
-     * ------------|-----------|----------------------------|--------------
-     *   lineCap   |  String   |  'butt'、'round'、'square' |线条的结束端点样式
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setLineCap(lineCap)
-     *     canvasContext.lineCap = lineCap // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **示例代码：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.beginPath()
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(150, 10)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineCap('butt')
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(10, 30)
-     *     ctx.lineTo(150, 30)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineCap('round')
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(10, 50)
-     *     ctx.lineTo(150, 50)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineCap('square')
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(10, 70)
-     *     ctx.lineTo(150, 70)
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setLineCap(lineCap: string): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置线条的交点样式。
-     *
-     * **参数：**
-     *
-     *   参数       |  类型     |  范围                      |  说明
-     * -------------|-----------|----------------------------|--------------
-     *   lineJoin   |  String   |  'bevel'、'round'、'miter' |线条的结束交点样式
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setLineJoin(lineJoin)
-     *     canvasContext.lineJoin = lineJoin // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.beginPath()
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(100, 50)
-     *     ctx.lineTo(10, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineJoin('bevel')
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(50, 10)
-     *     ctx.lineTo(140, 50)
-     *     ctx.lineTo(50, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineJoin('round')
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(90, 10)
-     *     ctx.lineTo(180, 50)
-     *     ctx.lineTo(90, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineJoin('miter')
-     *     ctx.setLineWidth(10)
-     *     ctx.moveTo(130, 10)
-     *     ctx.lineTo(220, 50)
-     *     ctx.lineTo(130, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setLineJoin(lineJoin: string): void
-    /**
-     * > 基础库 1.6.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 设置线条的宽度。
-     *
-     * **参数：**
-     *
-     *   参数      |  类型     |  说明
-     * ------------|-----------|-------------------------------
-     *   pattern   |  Array    |一组描述交替绘制线段和间距（坐标空间单位）长度的数字
-     *   offset    |  Number   |  虚线偏移量
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setLineDash([10, 20], 5);
-     *
-     *     ctx.beginPath();
-     *     ctx.moveTo(0,100);
-     *     ctx.lineTo(400, 100);
-     *     ctx.stroke();
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setLineDash(pattern: any[], offset: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置最大斜接长度，斜接长度指的是在两条线交汇处内角和外角之间的距离。 当 `setLineJoin()` 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示
-     *
-     * **参数：**
-     *
-     *   参数         |  类型     |  说明
-     * ---------------|-----------|-----------
-     *   miterLimit   |  Number   |最大斜接长度
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setMiterLimit(miterLimit)
-     *     canvasContext.miterLimit = miterLimit // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(10)
-     *     ctx.setLineJoin('miter')
-     *     ctx.setMiterLimit(1)
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(100, 50)
-     *     ctx.lineTo(10, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(10)
-     *     ctx.setLineJoin('miter')
-     *     ctx.setMiterLimit(2)
-     *     ctx.moveTo(50, 10)
-     *     ctx.lineTo(140, 50)
-     *     ctx.lineTo(50, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(10)
-     *     ctx.setLineJoin('miter')
-     *     ctx.setMiterLimit(3)
-     *     ctx.moveTo(90, 10)
-     *     ctx.lineTo(180, 50)
-     *     ctx.lineTo(90, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.beginPath()
-     *     ctx.setLineWidth(10)
-     *     ctx.setLineJoin('miter')
-     *     ctx.setMiterLimit(4)
-     *     ctx.moveTo(130, 10)
-     *     ctx.lineTo(220, 50)
-     *     ctx.lineTo(130, 90)
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setMiterLimit(miterLimit: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 创建一个矩形。
-     *
-     * **Tip**: 用 `fill()` 或者 `stroke()` 方法将矩形真正的画到 canvas 中。
-     *
-     * **参数：**
-     *
-     *   参数     |  类型     |  说明
-     * -----------|-----------|----------------
-     *   x        |  Number   |矩形路径左上角的x坐标
-     *   y        |  Number   |矩形路径左上角的y坐标
-     *   width    |  Number   | 矩形路径的宽度
-     *   height   |  Number   | 矩形路径的高度
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.rect(10, 10, 150, 75)
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *     ctx.draw()
-     *     ```
-     */
-    rect(x: number, y: number, width: number, height: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 填充一个矩形。
-     *
-     * **Tip**: 用 `setFillStyle()` 设置矩形的填充色，如果没设置默认是黑色。
-     *
-     * **参数：**
-     *
-     *   参数     |  类型     |  说明
-     * -----------|-----------|----------------
-     *   x        |  Number   |矩形路径左上角的x坐标
-     *   y        |  Number   |矩形路径左上角的y坐标
-     *   width    |  Number   | 矩形路径的宽度
-     *   height   |  Number   | 矩形路径的高度
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(10, 10, 150, 75)
-     *     ctx.draw()
-     *     ```
-     */
-    fillRect(x: number, y: number, width: number, height: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 画一个矩形(非填充)。
-     *
-     * **Tip**: 用 `setFillStroke()` 设置矩形线条的颜色，如果没设置默认是黑色。
-     *
-     * **参数：**
-     *
-     *   参数     |  类型     |  范围 |  说明
-     * -----------|-----------|-------|----------------
-     *   x        |  Number   |       |矩形路径左上角的x坐标
-     *   y        |  Number   |       |矩形路径左上角的y坐标
-     *   width    |  Number   |       | 矩形路径的宽度
-     *   height   |  Number   |       | 矩形路径的高度
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.setStrokeStyle('red')
-     *     ctx.strokeRect(10, 10, 150, 75)
-     *     ctx.draw()
-     *     ```
-     */
-    strokeRect(x: number, y: number, width: number, height: number): void
-    /**
-     *
-     * **参数：**
-     *
-     *   参数     |  类型     |  说明
-     * -----------|-----------|----------------
-     *   x        |  Number   |矩形区域左上角的x坐标
-     *   y        |  Number   |矩形区域左上角的y坐标
-     *   width    |  Number   | 矩形区域的宽度
-     *   height   |  Number   | 矩形区域的高度
-     *
-     * **定义：**
-     *
-     *     ```html
-     *     <canvas canvas-id="myCanvas" style="border: 1px solid; background: #123456;"/>
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(0, 0, 150, 200)
-     *     ctx.setFillStyle('blue')
-     *     ctx.fillRect(150, 0, 150, 200)
-     *     ctx.clearRect(10, 10, 150, 75)
-     *     ctx.draw()
-     *     ```
-     */
-    clearRect(x: number, y: number, width: number, height: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 对当前路径中的内容进行填充。默认的填充色为黑色。
-     *
-     * **Tip**: 如果当前路径没有闭合，`fill()` 方法会将起点和终点进行连接，然后填充，详情见例一。
-     *
-     * **Tip**: `fill()` 填充的的路径是从 `beginPath()` 开始计算，但是不会将 `fillRect()` 包含进去，详情见例二。
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(100, 10)
-     *     ctx.lineTo(100, 100)
-     *     ctx.fill()
-     *     ctx.draw()
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     // begin path
-     *     ctx.rect(10, 10, 100, 30)
-     *     ctx.setFillStyle('yellow')
-     *     ctx.fill()
-     *
-     *     // begin another path
-     *     ctx.beginPath()
-     *     ctx.rect(10, 40, 100, 30)
-     *
-     *     // only fill this rect, not in current path
-     *     ctx.setFillStyle('blue')
-     *     ctx.fillRect(10, 70, 100, 30)
-     *
-     *     ctx.rect(10, 100, 100, 30)
-     *
-     *     // it will fill current path
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *     ctx.draw()
-     *     ```
-     */
-    fill(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 画出当前路径的边框。默认颜色色为黑色。
-     *
-     * **Tip**: `stroke()` 描绘的的路径是从 `beginPath()` 开始计算，但是不会将 `strokeRect()` 包含进去，详情见例二。
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(100, 10)
-     *     ctx.lineTo(100, 100)
-     *     ctx.stroke()
-     *     ctx.draw()
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     // begin path
-     *     ctx.rect(10, 10, 100, 30)
-     *     ctx.setStrokeStyle('yellow')
-     *     ctx.stroke()
-     *
-     *     // begin another path
-     *     ctx.beginPath()
-     *     ctx.rect(10, 40, 100, 30)
-     *
-     *     // only stoke this rect, not in current path
-     *     ctx.setStrokeStyle('blue')
-     *     ctx.strokeRect(10, 70, 100, 30)
-     *
-     *     ctx.rect(10, 100, 100, 30)
-     *
-     *     // it will stroke current path
-     *     ctx.setStrokeStyle('red')
-     *     ctx.stroke()
-     *     ctx.draw()
-     *     ```
-     */
-    stroke(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 开始创建一个路径，需要调用fill或者stroke才会使用路径进行填充或描边。
-     *
-     * **Tip**: 在最开始的时候相当于调用了一次 `beginPath()`。
-     *
-     * **Tip**: 同一个路径内的多次`setFillStyle()`、`setStrokeStyle()`、`setLineWidth()`等设置，以最后一次设置为准。
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     // begin path
-     *     ctx.rect(10, 10, 100, 30)
-     *     ctx.setFillStyle('yellow')
-     *     ctx.fill()
-     *
-     *     // begin another path
-     *     ctx.beginPath()
-     *     ctx.rect(10, 40, 100, 30)
-     *
-     *     // only fill this rect, not in current path
-     *     ctx.setFillStyle('blue')
-     *     ctx.fillRect(10, 70, 100, 30)
-     *
-     *     ctx.rect(10, 100, 100, 30)
-     *
-     *     // it will fill current path
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *     ctx.draw()
-     *     ```
-     */
-    beginPath(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 关闭一个路径
-     *
-     * **Tip**: 关闭路径会连接起点和终点。
-     *
-     * **Tip**: 如果关闭路径后没有调用 `fill()` 或者 `stroke()` 并开启了新的路径，那之前的路径将不会被渲染。
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(100, 10)
-     *     ctx.lineTo(100, 100)
-     *     ctx.closePath()
-     *     ctx.stroke()
-     *     ctx.draw()
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     // begin path
-     *     ctx.rect(10, 10, 100, 30)
-     *     ctx.closePath()
-     *
-     *     // begin another path
-     *     ctx.beginPath()
-     *     ctx.rect(10, 40, 100, 30)
-     *
-     *     // only fill this rect, not in current path
-     *     ctx.setFillStyle('blue')
-     *     ctx.fillRect(10, 70, 100, 30)
-     *
-     *     ctx.rect(10, 100, 100, 30)
-     *
-     *     // it will fill current path
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *     ctx.draw()
-     *     ```
-     */
-    closePath(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 把路径移动到画布中的指定点，不创建线条。
-     *
-     * **Tip**: 用 `stroke()` 方法来画线条
-     *
-     * **参数：**
-     *
-     *   参数 |  类型     |  说明
-     * -------|-----------|-------------
-     *   x    |  Number   |目标位置的x坐标
-     *   y    |  Number   |目标位置的y坐标
-     *
-     * **示例代码：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.moveTo(10, 10)
-     *     ctx.lineTo(100, 10)
-     *
-     *     ctx.moveTo(10, 50)
-     *     ctx.lineTo(100, 50)
-     *     ctx.stroke()
-     *     ctx.draw()
-     *     ```
-     */
-    moveTo(x: number, y: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * `lineTo` 方法增加一个新点，然后创建一条从上次指定点到目标点的线。
-     *
-     * **Tip**: 用 `stroke()` 方法来画线条
-     *
-     * **参数：**
-     *
-     *   参数 |  类型     |  说明
-     * -------|-----------|-------------
-     *   x    |  Number   |目标位置的x坐标
-     *   y    |  Number   |目标位置的y坐标
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.moveTo(10, 10)
-     *     ctx.rect(10, 10, 100, 50)
-     *     ctx.lineTo(110, 60)
-     *     ctx.stroke()
-     *     ctx.draw()
-     *     ```
-     */
-    lineTo(x: number, y: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 画一条弧线。
-     *
-     * **Tip**: 创建一个圆可以用 `arc()` 方法指定其实弧度为0，终止弧度为 `2 * Math.PI`。
-     *
-     * **Tip**: 用 `stroke()` 或者 `fill()` 方法来在 canvas 中画弧线。
-     *
-     * **参数：**
-     *
-     *   参数               |  类型      |  说明
-     * ---------------------|------------|---------------------------------------
-     *   x                  |  Number    |  圆的x坐标
-     *   y                  |  Number    |  圆的y坐标
-     *   r                  |  Number    |  圆的半径
-     *   sAngle             |  Number    |  起始弧度，单位弧度（在3点钟方向）
-     *   eAngle             |  Number    |  终止弧度
-     *   counterclockwise   |  Boolean   |可选。指定弧度的方向是逆时针还是顺时针。默认是false，即顺时针。
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // Draw coordinates
-     *     ctx.arc(100, 75, 50, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('#EEEEEE')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.moveTo(40, 75)
-     *     ctx.lineTo(160, 75)
-     *     ctx.moveTo(100, 15)
-     *     ctx.lineTo(100, 135)
-     *     ctx.setStrokeStyle('#AAAAAA')
-     *     ctx.stroke()
-     *
-     *     ctx.setFontSize(12)
-     *     ctx.setFillStyle('black')
-     *     ctx.fillText('0', 165, 78)
-     *     ctx.fillText('0.5*PI', 83, 145)
-     *     ctx.fillText('1*PI', 15, 78)
-     *     ctx.fillText('1.5*PI', 83, 10)
-     *
-     *     // Draw points
-     *     ctx.beginPath()
-     *     ctx.arc(100, 75, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('lightgreen')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.arc(100, 25, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('blue')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.arc(150, 75, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *
-     *     // Draw arc
-     *     ctx.beginPath()
-     *     ctx.arc(100, 75, 50, 0, 1.5 * Math.PI)
-     *     ctx.setStrokeStyle('#333333')
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    arc(x: number, y: number, r: number, sAngle: number, eAngle: number, counterclockwise: boolean): void
-    /**
-     *
-     * **定义：**
-     *
-     * 创建三次方贝塞尔曲线路径。
-     *
-     * **Tip**: 曲线的起始点为路径中前一个点。
-     *
-     * **参数：**
-     *
-     *   参数   |  类型     |  说明
-     * ---------|-----------|--------------------
-     *   cp1x   |  Number   |第一个贝塞尔控制点的 x 坐标
-     *   cp1y   |  Number   |第一个贝塞尔控制点的 y 坐标
-     *   cp2x   |  Number   |第二个贝塞尔控制点的 x 坐标
-     *   cp2y   |  Number   |第二个贝塞尔控制点的 y 坐标
-     *   x      |  Number   |  结束点的 x 坐标
-     *   y      |  Number   |  结束点的 y 坐标
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // Draw points
-     *     ctx.beginPath()
-     *     ctx.arc(20, 20, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.arc(200, 20, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('lightgreen')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.arc(20, 100, 2, 0, 2 * Math.PI)
-     *     ctx.arc(200, 100, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('blue')
-     *     ctx.fill()
-     *
-     *     ctx.setFillStyle('black')
-     *     ctx.setFontSize(12)
-     *
-     *     // Draw guides
-     *     ctx.beginPath()
-     *     ctx.moveTo(20, 20)
-     *     ctx.lineTo(20, 100)
-     *     ctx.lineTo(150, 75)
-     *
-     *     ctx.moveTo(200, 20)
-     *     ctx.lineTo(200, 100)
-     *     ctx.lineTo(70, 75)
-     *     ctx.setStrokeStyle('#AAAAAA')
-     *     ctx.stroke()
-     *
-     *     // Draw quadratic curve
-     *     ctx.beginPath()
-     *     ctx.moveTo(20, 20)
-     *     ctx.bezierCurveTo(20, 100, 200, 100, 200, 20)
-     *     ctx.setStrokeStyle('black')
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 创建二次贝塞尔曲线路径。
-     *
-     * **Tip**: 曲线的起始点为路径中前一个点。
-     *
-     * **参数：**
-     *
-     *   参数  |  类型     |  说明
-     * --------|-----------|---------------
-     *   cpx   |  Number   |贝塞尔控制点的x坐标
-     *   cpy   |  Number   |贝塞尔控制点的y坐标
-     *   x     |  Number   | 结束点的x坐标
-     *   y     |  Number   | 结束点的y坐标
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // Draw points
-     *     ctx.beginPath()
-     *     ctx.arc(20, 20, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('red')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.arc(200, 20, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('lightgreen')
-     *     ctx.fill()
-     *
-     *     ctx.beginPath()
-     *     ctx.arc(20, 100, 2, 0, 2 * Math.PI)
-     *     ctx.setFillStyle('blue')
-     *     ctx.fill()
-     *
-     *     ctx.setFillStyle('black')
-     *     ctx.setFontSize(12)
-     *
-     *     // Draw guides
-     *     ctx.beginPath()
-     *     ctx.moveTo(20, 20)
-     *     ctx.lineTo(20, 100)
-     *     ctx.lineTo(200, 20)
-     *     ctx.setStrokeStyle('#AAAAAA')
-     *     ctx.stroke()
-     *
-     *     // Draw quadratic curve
-     *     ctx.beginPath()
-     *     ctx.moveTo(20, 20)
-     *     ctx.quadraticCurveTo(20, 100, 200, 20)
-     *     ctx.setStrokeStyle('black')
-     *     ctx.stroke()
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 在调用`scale`方法后，之后创建的路径其横纵坐标会被缩放。多次调用`scale`，倍数会相乘。
-     *
-     * **参数：**
-     *
-     *   参数          |  类型     |  说明
-     * ----------------|-----------|--------------------------------------------
-     *   scaleWidth    |  Number   |横坐标缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%)
-     *   scaleHeight   |  Number   |纵坐标轴缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%)
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.strokeRect(10, 10, 25, 15)
-     *     ctx.scale(2, 2)
-     *     ctx.strokeRect(10, 10, 25, 15)
-     *     ctx.scale(2, 2)
-     *     ctx.strokeRect(10, 10, 25, 15)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    scale(scaleWidth: number, scaleHeight: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 以原点为中心，原点可以用 [translate](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/rotate.html#translate)方法修改。顺时针旋转当前坐标轴。多次调用`rotate`，旋转的角度会叠加。
-     *
-     * **参数：**
-     *
-     *   参数     |  类型     |  说明
-     * -----------|-----------|-----------------------------------------------------
-     *   rotate   |  Number   |旋转角度，以弧度计(degrees * Math.PI/180；degrees范围为0~360)
-     *
-     * ![](https://mp.weixin.qq.com/debug/wxadoc/dev/image/canvas/rotate.png)
-     *
-     * **参数：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.strokeRect(100, 10, 150, 100)
-     *     ctx.rotate(20 * Math.PI / 180)
-     *     ctx.strokeRect(100, 10, 150, 100)
-     *     ctx.rotate(20 * Math.PI / 180)
-     *     ctx.strokeRect(100, 10, 150, 100)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    rotate(rotate: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 对当前坐标系的原点(0, 0)进行变换，默认的坐标系原点为页面左上角。
-     *
-     * **参数：**
-     *
-     *   参数 |  类型     |  说明
-     * -------|-----------|------------
-     *   x    |  Number   |水平坐标平移量
-     *   y    |  Number   |竖直坐标平移量
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.strokeRect(10, 10, 150, 100)
-     *     ctx.translate(20, 20)
-     *     ctx.strokeRect(10, 10, 150, 100)
-     *     ctx.translate(20, 20)
-     *     ctx.strokeRect(10, 10, 150, 100)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    translate(x: number, y: number): void
-    /**
-     * > 基础库 1.6.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * clip() 方法从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，并在以后的任意时间对其进行恢复（通过 restore() 方法）。
-     *
-     * **例子：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.downloadFile({
-     *       url: 'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
-     *       success: function(res) {
-     *           ctx.save()
-     *           ctx.beginPath()
-     *           ctx.arc(50, 50, 25, 0, 2*Math.PI)
-     *           ctx.clip()
-     *           ctx.drawImage(res.tempFilePath, 25, 25)
-     *           ctx.restore()
-     *           ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    clip(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置字体的字号。
-     *
-     * **参数：**
-     *
-     *   参数       |  类型     |  说明
-     * -------------|-----------|----------
-     *   fontSize   |  Number   |字体的字号
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setFontSize(20)
-     *     ctx.fillText('20', 20, 20)
-     *     ctx.setFontSize(30)
-     *     ctx.fillText('30', 40, 40)
-     *     ctx.setFontSize(40)
-     *     ctx.fillText('40', 60, 60)
-     *     ctx.setFontSize(50)
-     *     ctx.fillText('50', 90, 90)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setFontSize(fontSize: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 在画布上绘制被填充的文本。
-     *
-     * **参数：**
-     *
-     *   参数       |  类型     |  说明
-     * -------------|-----------|------------------
-     *   text       |  String   |在画布上输出的文本
-     *   x          |  Number   |绘制文本的左上角x坐标位置
-     *   y          |  Number   |绘制文本的左上角y坐标位置
-     *   maxWidth   |  Number   |需要绘制的最大宽度，可选
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setFontSize(20)
-     *     ctx.fillText('Hello', 20, 20)
-     *     ctx.fillText('MINA', 100, 100)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    fillText(text: string, x: number, y: number, maxWidth: number): void
-    /**
-     * > 基础库 1.1.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 用于设置文字的对齐
-     *
-     * **参数：**
-     *
-     *   参数    |  类型     |  定义
-     * ----------|-----------|--------------------------------
-     *   align   |  String   |可选值 'left'、'center'、'right'
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setTextAlign(align)
-     *     canvasContext.textAlign = align // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **示例代码：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setStrokeStyle('red')
-     *     ctx.moveTo(150, 20)
-     *     ctx.lineTo(150, 170)
-     *     ctx.stroke()
-     *
-     *     ctx.setFontSize(15)
-     *     ctx.setTextAlign('left')
-     *     ctx.fillText('textAlign=left', 150, 60)
-     *
-     *     ctx.setTextAlign('center')
-     *     ctx.fillText('textAlign=center', 150, 80)
-     *
-     *     ctx.setTextAlign('right')
-     *     ctx.fillText('textAlign=right', 150, 100)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setTextAlign(align: string): void
-    /**
-     * > 基础库 1.4.0 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 用于设置文字的水平对齐
-     *
-     * **参数：**
-     *
-     *   参数           |  类型     |  定义
-     * -----------------|-----------|-----------------------------------------
-     *   textBaseline   |  String   |可选值 'top'、'bottom'、'middle'、'normal'
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setTextBaseline(textBaseline)
-     *     canvasContext.textBaseline = textBaseline // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **示例代码：**
-     *
-     *     ```js
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setStrokeStyle('red')
-     *     ctx.moveTo(5, 75)
-     *     ctx.lineTo(295, 75)
-     *     ctx.stroke()
-     *
-     *     ctx.setFontSize(20)
-     *
-     *     ctx.setTextBaseline('top')
-     *     ctx.fillText('top', 5, 75)
-     *
-     *     ctx.setTextBaseline('middle')
-     *     ctx.fillText('middle', 50, 75)
-     *
-     *     ctx.setTextBaseline('bottom')
-     *     ctx.fillText('bottom', 120, 75)
-     *
-     *     ctx.setTextBaseline('normal')
-     *     ctx.fillText('normal', 200, 75)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setTextBaseline(textBaseline: string): void
-    /**
-     *
-     * **定义：**
-     *
-     * 绘制图像到画布。
-     *
-     * **参数：**
-     *
-     *   参数            |  类型     |  说明
-     * ------------------|-----------|-------------------------------
-     *   imageResource   |  String   |  所要绘制的图片资源
-     *   dx              |  Number   |图像的左上角在目标canvas上 X 轴的位置
-     *   dy              |  Number   |图像的左上角在目标canvas上 Y 轴的位置
-     *   dWidth          |  Number   |在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放
-     *   dHeigt          |  Number   |在目标画布上绘制图像的高度，允许对绘制的图像进行缩放
-     *   sx              |  Number   |源图像的矩形选择框的左上角 X 坐标
-     *   sy              |  Number   |源图像的矩形选择框的左上角 Y 坐标
-     *   sWidth          |  Number   |  源图像的矩形选择框的高度
-     *   sHeight         |  Number   |  源图像的矩形选择框的高度
-     *
-     * **有三个版本的写法：**
-     *
-     * *   drawImage(dx, dy)
-     * *   drawImage(dx, dy, dWidth, dHeight)
-     * *   drawImage(sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) **从 1.9.0 起支持**
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     Taro.chooseImage({
-     *       success: function(res){
-     *         ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
-     *         ctx.draw()
-     *       }
-     *     })
-     *     ```
-     */
-    drawImage(
-      imageResource: string,
-      dx: number,
-      dy: number,
+  interface Color {}
+
+  interface CanvasContext {
+    /** 填充颜色。用法同 [CanvasContext.setFillStyle()]。
+     *
+     * 最低基础库： `1.9.90` */
+    fillStyle: string
+    /** 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。
+     *
+     * 最低基础库： `1.9.90` */
+    font: string
+    /** 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
+    globalAlpha: number
+    /** 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。
+     *
+     * 目前支持的操作有
+     * - 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
+     * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity
+     *
+     * 最低基础库： `1.9.90` */
+    globalCompositeOperation: string
+    /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。
+     *
+     * 最低基础库： `1.9.90` */
+    lineCap: number
+    /** 虚线偏移量，初始值为0
+     *
+     * 最低基础库： `1.9.90` */
+    lineDashOffset: number
+    /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。
+     *
+     * 最低基础库： `1.9.90` */
+    lineJoin: number
+    /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。
+     *
+     * 最低基础库： `1.9.90` */
+    lineWidth: number
+    /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。
+     *
+     * 最低基础库： `1.9.90` */
+    miterLimit: number
+    /** 阴影的模糊级别
+     *
+     * 最低基础库： `1.9.90` */
+    shadowBlur: number
+    /** 阴影的颜色
+     *
+     * 最低基础库： `1.9.90` */
+    shadowColor: number
+    /** 阴影相对于形状在水平方向的偏移
+     *
+     * 最低基础库： `1.9.90` */
+    shadowOffsetX: number
+    /** 阴影相对于形状在竖直方向的偏移
+     *
+     * 最低基础库： `1.9.90` */
+    shadowOffsetY: number
+    /** 边框颜色。用法同 [CanvasContext.setFillStyle()]。
+     *
+     * 最低基础库： `1.9.90` */
+    strokeStyle: string
+    /** [CanvasContext.arc(number x, number y, number r, number sAngle, number eAngle, boolean counterclockwise)](CanvasContext.arc.md)
+     *
+     * 创建一条弧线。
+     *
+     *   - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
+     *   - 用 `stroke` 或者 `fill` 方法来在 `canvas` 中画弧线。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // Draw coordinates
+     * ctx.arc(100, 75, 50, 0, 2 * Math.PI)
+     * ctx.setFillStyle('#EEEEEE')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.moveTo(40, 75)
+     * ctx.lineTo(160, 75)
+     * ctx.moveTo(100, 15)
+     * ctx.lineTo(100, 135)
+     * ctx.setStrokeStyle('#AAAAAA')
+     * ctx.stroke()
+     * ctx.setFontSize(12)
+     * ctx.setFillStyle('black')
+     * ctx.fillText('0', 165, 78)
+     * ctx.fillText('0.5*PI', 83, 145)
+     * ctx.fillText('1*PI', 15, 78)
+     * ctx.fillText('1.5*PI', 83, 10)
+     * // Draw points
+     * ctx.beginPath()
+     * ctx.arc(100, 75, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('lightgreen')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(100, 25, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('blue')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(150, 75, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * // Draw arc
+     * ctx.beginPath()
+     * ctx.arc(100, 75, 50, 0, 1.5 * Math.PI)
+     * ctx.setStrokeStyle('#333333')
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     *
+     * ![]
+     *
+     * 针对 arc(100, 75, 50, 0, 1.5 * Math.PI)的三个关键坐标如下：
+     *
+     * - 绿色: 圆心 (100, 75)
+     * - 红色: 起始弧度 (0)
+     * - 蓝色: 终止弧度 (1.5 * Math.PI) */
+    arc(
+      /** 圆心的 x 坐标 */
+      x: number,
+      /** 圆心的 y 坐标 */
+      y: number,
+      /** 圆的半径 */
+      r: number,
+      /** 起始弧度，单位弧度（在3点钟方向） */
+      sAngle: number,
+      /** 终止弧度 */
+      eAngle: number,
+      /** 弧度的方向是否是逆时针 */
+      counterclockwise?: boolean
     ): void
-    drawImage(
-      imageResource: string,
-      dx: number,
-      dy: number,
-      dWidth: number,
-      dHeight: number,
-    ): void
-    drawImage(
-      imageResource: string,
-      sx: number,
-      sy: number,
-      sWidth: number,
-      sHeight: number,
-      dx: number,
-      dy: number,
-      dWidth: number,
-      dHeight: number,
-    ): void
-    /**
-     *
-     * **定义：**
-     *
-     * 设置全局画笔透明度。
-     *
-     * **参数：**
-     *
-     *   参数    |  类型     |  范围  |  说明
-     * ----------|-----------|--------|---------------------------
-     *   alpha   |  Number   |  0~1   |透明度，0 表示完全透明，1 表示完全不透明
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.setGlobalAlpha(alpha)
-     *     canvasContext.globalAlpha = alpha // 基础库 1.9.90 起支持
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(10, 10, 150, 100)
-     *     ctx.setGlobalAlpha(0.2)
-     *     ctx.setFillStyle('blue')
-     *     ctx.fillRect(50, 50, 150, 100)
-     *     ctx.setFillStyle('yellow')
-     *     ctx.fillRect(100, 100, 150, 100)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    setGlobalAlpha(alpha: number): void
-    /**
-     *
-     * **定义：**
-     *
-     * 保存当前的绘图上下文。
-     */
-    save(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 恢复之前保存的绘图上下文。
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     // save the default fill style
-     *     ctx.save()
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(10, 10, 150, 100)
-     *
-     *     // restore to the previous saved state
-     *     ctx.restore()
-     *     ctx.fillRect(50, 50, 150, 100)
-     *
-     *     ctx.draw()
-     *     ```
-     */
-    restore(): void
-    /**
-     *
-     * **定义：**
-     *
-     * 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
-     *
-     * **Tip**: 绘图上下文需要由 `Taro.createCanvasContext(canvasId)` 来创建。
-     *
-     * **参数：**
-     *
-     *   参数       |  类型       |  说明                                                                                                                                       | 最低版本
-     * -------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|----------
-     *   reserve    |  Boolean    |非必填。本次绘制是否接着上一次绘制，即reserve参数为false，则在本次调用drawCanvas绘制之前native层应先清空画布再继续绘制；若reserver参数为true，则保留当前画布上的内容，本次调用drawCanvas绘制的内容覆盖在上面，默认 false|
-     *   callback   |  Function   |  绘制完成后回调                                                                                                                             |  1.7.0
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(10, 10, 150, 100)
-     *     ctx.draw()
-     *     ctx.fillRect(50, 50, 150, 100)
-     *     ctx.draw()
-     *     ```
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *
-     *     ctx.setFillStyle('red')
-     *     ctx.fillRect(10, 10, 150, 100)
-     *     ctx.draw()
-     *     ctx.fillRect(50, 50, 150, 100)
-     *     ctx.draw(true)
-     *     ```
-     */
-    draw(reserve?: boolean, callback?: CanvasContext.draw.Param1): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 测量文本尺寸信息，目前仅返回文本宽度。同步接口。
-     *
-     * **参数：**
-     *
-     *   参数   |  类型     |  说明
-     * ---------|-----------|-----------
-     *   text   |  String   |要测量的文本
-     *
-     * **返回：**
-     *
-     * 返回 TextMetrics 对象，结构如下：
-     *
-     *   参数    |  类型     |  说明
-     * ----------|-----------|----------
-     *   width   |  Number   |文本的宽度
-     *
-     * **例子：**
-     *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     ctx.font = 'italic bold 20px cursive'
-     *     const metrics = ctx.measureText('Hello World')
-     *     console.log(metrics.width)
-     *     ```
-     */
-    measureText(width: number): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
-     *
-     * 该属性是设置要在绘制新形状时应用的合成操作的类型。
-     *
-     * **参数：**
-     *
-     *   属性值 |  类型     |  说明
-     * ---------|-----------|---------------------
-     *   type   |  String   |标识要使用哪种合成或混合模式操作
-     *
-     * **type 支持的操作有：**
-     *
-     *   平台  |  操作
-     * --------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     *   安卓  |  xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
-     *   iOS   |  xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity
-     *
-     * **Bug**: 目前安卓版本只适用于 fill 填充块的合成，用于 stroke 线段的合成效果都是 source-over
-     *
-     * **语法：**
-     *
-     *     ```javascript
-     *     canvasContext.globalCompositeOperation = type
-     *     ```
-     */
-    globalCompositeOperation(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
-     *
-     * **定义：**
+    /** [CanvasContext.arcTo(number x1, number y1, number x2, number y2, number radius)](CanvasContext.arcTo.md)
      *
      * 根据控制点和半径绘制圆弧路径。
      *
-     * **参数：**
+     * 最低基础库： `1.9.90` */
+    arcTo(
+      /** 第一个控制点的 x 轴坐标 */
+      x1: number,
+      /** 第一个控制点的 y 轴坐标 */
+      y1: number,
+      /** 第二个控制点的 x 轴坐标 */
+      x2: number,
+      /** 第二个控制点的 y 轴坐标 */
+      y2: number,
+      /** 圆弧的半径 */
+      radius: number
+    ): void
+    /** [CanvasContext.beginPath()](CanvasContext.beginPath.md)
      *
-     *   属性值   |  类型     |  说明
-     * -----------|-----------|------------------
-     *   x1       |  Number   |第一个控制点的 x 轴坐标
-     *   y1       |  Number   |第一个控制点的 y 轴坐标
-     *   x2       |  Number   |第二个控制点的 x 轴坐标
-     *   y2       |  Number   |第二个控制点的 y 轴坐标
-     *   radius   |  Number   |  圆弧的半径
+     * 开始创建一个路径。需要调用 `fill` 或者 `stroke` 才会使用路径进行填充或描边
      *
-     * **语法：**
+     *   - 在最开始的时候相当于调用了一次 `beginPath`。
+     *   - 同一个路径内的多次 `setFillStyle`、`setStrokeStyle`、`setLineWidth`等设置，以最后一次设置为准。
      *
-     *     ```javascript
-     *     canvasContext.arcTo(x1, y1, x2, y2, radius)
-     *     ```
-     */
-    arcTo(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     * **示例代码**
      *
-     * **定义：**
      *
-     * 给定的 (x, y) 位置绘制文本描边的方法
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // begin path
+     * ctx.rect(10, 10, 100, 30)
+     * ctx.setFillStyle('yellow')
+     * ctx.fill()
+     * // begin another path
+     * ctx.beginPath()
+     * ctx.rect(10, 40, 100, 30)
+     * // only fill this rect, not in current path
+     * ctx.setFillStyle('blue')
+     * ctx.fillRect(10, 70, 100, 30)
+     * ctx.rect(10, 100, 100, 30)
+     * // it will fill current path
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.draw()
+     * ```
      *
-     * **参数：**
+     * ![] */
+    beginPath(): void
+    /** [CanvasContext.bezierCurveTo()](CanvasContext.bezierCurveTo.md)
      *
-     *   属性值     |  类型     |  说明
-     * -------------|-----------|-----------------
-     *   text       |  String   |  要绘制的文本
-     *   x          |  Number   |文本起始点的 x 轴坐标
-     *   y          |  Number   |文本起始点的 y 轴坐标
-     *   maxWidth   |  Number   |需要绘制的最大宽度，可选
+     * 创建三次方贝塞尔曲线路径。曲线的起始点为路径中前一个点。
      *
-     * **语法：**
+     * **示例代码**
      *
-     *     ```javascript
-     *     canvasContext.strokeText(text, x, y, maxWidth)
-     *     ```
-     */
-    strokeText(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
-     * **定义：**
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // Draw points
+     * ctx.beginPath()
+     * ctx.arc(20, 20, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(200, 20, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('lightgreen')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(20, 100, 2, 0, 2 * Math.PI)
+     * ctx.arc(200, 100, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('blue')
+     * ctx.fill()
+     * ctx.setFillStyle('black')
+     * ctx.setFontSize(12)
+     * // Draw guides
+     * ctx.beginPath()
+     * ctx.moveTo(20, 20)
+     * ctx.lineTo(20, 100)
+     * ctx.lineTo(150, 75)
+     * ctx.moveTo(200, 20)
+     * ctx.lineTo(200, 100)
+     * ctx.lineTo(70, 75)
+     * ctx.setStrokeStyle('#AAAAAA')
+     * ctx.stroke()
+     * // Draw quadratic curve
+     * ctx.beginPath()
+     * ctx.moveTo(20, 20)
+     * ctx.bezierCurveTo(20, 100, 200, 100, 200, 20)
+     * ctx.setStrokeStyle('black')
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
      *
-     * 设置虚线偏移量的属性
+     * ![]
      *
-     * **参数：**
+     * 针对 moveTo(20, 20) bezierCurveTo(20, 100, 200, 100, 200, 20) 的三个关键坐标如下：
      *
-     *   属性值  |  类型     |  说明
-     * ----------|-----------|---------------
-     *   value   |  Number   |偏移量，初始值为 0
+     * - 红色：起始点(20, 20)
+     * - 蓝色：两个控制点(20, 100) (200, 100)
+     * - 绿色：终止点(200, 20) */
+    bezierCurveTo(): void
+    /** [CanvasContext.clearRect(number x, number y, number width, number height)](CanvasContext.clearRect.md)
      *
-     * **语法：**
+     * 清除画布上在该矩形区域内的内容
      *
-     *     ```javascript
-     *     canvasContext.lineDashOffset = value
-     *     ```
-     */
-    lineDashOffset(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     * **示例代码**
      *
-     * **定义：**
+     *
+     * clearRect 并非画一个白色的矩形在地址区域，而是清空，为了有直观感受，对 canvas 加了一层背景色。
+     * ```html
+     * <canvas canvas-id="myCanvas" style="border: 1px solid; background: #123456;"/>
+     * ```
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(0, 0, 150, 200)
+     * ctx.setFillStyle('blue')
+     * ctx.fillRect(150, 0, 150, 200)
+     * ctx.clearRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     * ![] */
+    clearRect(
+      /** 矩形路径左上角的横坐标 */
+      x: number,
+      /** 矩形路径左上角的纵坐标 */
+      y: number,
+      /** 矩形路径的宽度 */
+      width: number,
+      /** 矩形路径的高度 */
+      height: number
+    ): void
+    /** [CanvasContext.clip()](CanvasContext.clip.md)
+     *
+     * 从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。可以在使用 `clip` 方法前通过使用 `save` 方法对当前画布区域进行保存，并在以后的任意时间通过`restore`方法对其进行恢复。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * wx.downloadFile({
+     * url: 'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
+     * success: function(res) {
+     * ctx.save()
+     * ctx.beginPath()
+     * ctx.arc(50, 50, 25, 0, 2*Math.PI)
+     * ctx.clip()
+     * ctx.drawImage(res.tempFilePath, 25, 25)
+     * ctx.restore()
+     * ctx.draw()
+     * }
+     * })
+     * ```
+     * ![]
+     *
+     * 最低基础库： `1.6.0` */
+    clip(): void
+    /** [CanvasContext.closePath()](CanvasContext.closePath.md)
+     *
+     * 关闭一个路径。会连接起点和终点。如果关闭路径后没有调用 `fill` 或者 `stroke` 并开启了新的路径，那之前的路径将不会被渲染。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 10)
+     * ctx.lineTo(100, 100)
+     * ctx.closePath()
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![]
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // begin path
+     * ctx.rect(10, 10, 100, 30)
+     * ctx.closePath()
+     * // begin another path
+     * ctx.beginPath()
+     * ctx.rect(10, 40, 100, 30)
+     * // only fill this rect, not in current path
+     * ctx.setFillStyle('blue')
+     * ctx.fillRect(10, 70, 100, 30)
+     * ctx.rect(10, 100, 100, 30)
+     * // it will fill current path
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.draw()
+     * ```
+     *
+     * ![] */
+    closePath(): void
+    /** [CanvasContext.createPattern(string image, string repetition)](CanvasContext.createPattern.md)
      *
      * 对指定的图像创建模式的方法，可在指定的方向上重复元图像
      *
-     * **参数：**
+     * 最低基础库： `1.9.90` */
+    createPattern(
+      /** 重复的图像源，仅支持包内路径和临时路径 */
+      image: string,
+      /** 如何重复图像 */
+      repetition: string
+    ): void
+    /** [CanvasContext.draw(boolean reserve, function callback)](CanvasContext.draw.md)
      *
-     *   属性值       |  类型     |  说明
-     * ---------------|-----------|---------------------------------------------------------
-     *   image        |  String   |  重复的图像源，仅支持包内路径和临时路径
-     *   repetition   |  String   |指定如何重复图像，有效值有: repeat, repeat-x, repeat-y, no-repeat
+     * 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
      *
-     * **语法：**
+     * **示例代码**
      *
-     *     ```javascript
-     *     canvasContext.createPattern(image, repetition)
-     *     ```
      *
-     * **例子：**
+     * 第二次 draw() reserve 为 true。所以保留了上一次的绘制结果，在上下文设置的 fillStyle 'red' 也变成了默认的 'black'。
      *
-     *     ```javascript
-     *     const ctx = Taro.createCanvasContext('myCanvas')
-     *     const pattern = ctx.createPattern('/path/to/image', 'repeat-x')
-     *     ctx.fillStyle = pattern
-     *     ctx.fillRect(0, 0, 300, 150)
-     *     ctx.draw()
-     *     ```
-     */
-    createPattern(): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 100)
+     * ctx.draw()
+     * ctx.fillRect(50, 50, 150, 100)
+     * ctx.draw(true)
+     * ```
+     * ![]
      *
-     * **定义：**
+     * **示例代码**
      *
-     * 设置当前字体样式的属性
      *
-     * **参数：**
+     * 第二次 draw() reserve 为 false。所以没有保留了上一次的绘制结果和在上下文设置的 fillStyle 'red'。
      *
-     *   属性值  |  类型     |  说明
-     * ----------|-----------|-----------------------------------------------------------------------
-     *   value   |  String   |符合 CSS font 语法的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 100)
+     * ctx.draw()
+     * ctx.fillRect(50, 50, 150, 100)
+     * ctx.draw()
+     * ```
+     * ![] */
+    draw(
+      /** 本次绘制是否接着上一次绘制。即 reserve 参数为 false，则在本次调用绘制之前 native 层会先清空画布再继续绘制；若 reserve 参数为 true，则保留当前画布上的内容，本次调用 drawCanvas 绘制的内容覆盖在上面，默认 false。 */
+      reserve?: boolean,
+      /** 绘制完成后执行的回调函数 */
+      callback?: Function
+    ): void
+    /** [CanvasContext.drawImage(string imageResource, number sx, number sy, number sWidth, number sHeight, number dx, number dy, number dWidth, number dHeight)](CanvasContext.drawImage.md)
      *
-     * **value 支持的属性有：**
+     * 绘制图像到画布
      *
-     *   属性     |  说明
-     * -----------|-------------------------------------
-     *   style    |字体样式。仅支持 italic, oblique, normal
-     *   weight   |  字体粗细。仅支持 normal, bold
-     *   size     |  字体大小
-     *   family   | 字体族名。注意确认各平台所支持的字体
+     * **示例代码**
      *
-     * **语法：**
      *
-     *     ```javascript
-     *     canvasContext.font = value
-     *     ```
-     */
-    font(style: any, weight: any, size: any, family: any): void
-    /**
-     * > 基础库 1.9.90 开始支持，低版本需做[兼容处理](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      *
-     * **定义：**
+     * 有三个版本的写法：
+     *
+     * - drawImage(imageResource, dx, dy)
+     * - drawImage(imageResource, dx, dy, dWidth, dHeight)
+     * - drawImage(imageResource, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) 从 1.9.0 起支持
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * wx.chooseImage({
+     * success: function(res){
+     * ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
+     * ctx.draw()
+     * }
+     * })
+     * ```
+     * ![] */
+    drawImage(
+      /** 所要绘制的图片资源 */
+      imageResource: string,
+      /** 源图像的矩形选择框的左上角 x 坐标 */
+      sx: number,
+      /** 源图像的矩形选择框的左上角 y 坐标 */
+      sy: number,
+      /** 源图像的矩形选择框的宽度 */
+      sWidth: number,
+      /** 源图像的矩形选择框的高度 */
+      sHeight: number,
+      /** 图像的左上角在目标 canvas 上 x 轴的位置 */
+      dx: number,
+      /** 图像的左上角在目标 canvas 上 y 轴的位置 */
+      dy: number,
+      /** 在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放 */
+      dWidth: number,
+      /** 在目标画布上绘制图像的高度，允许对绘制的图像进行缩放 */
+      dHeight: number
+    ): void
+    /** [CanvasContext.fill()](CanvasContext.fill.md)
+     *
+     * 对当前路径中的内容进行填充。默认的填充色为黑色。
+     *
+     * **示例代码**
+     *
+     *
+     *
+     * 如果当前路径没有闭合，fill() 方法会将起点和终点进行连接，然后填充。
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 10)
+     * ctx.lineTo(100, 100)
+     * ctx.fill()
+     * ctx.draw()
+     * ```
+     *
+     * fill() 填充的的路径是从 beginPath() 开始计算，但是不会将 fillRect() 包含进去。
+     *
+     * ![]
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // begin path
+     * ctx.rect(10, 10, 100, 30)
+     * ctx.setFillStyle('yellow')
+     * ctx.fill()
+     * // begin another path
+     * ctx.beginPath()
+     * ctx.rect(10, 40, 100, 30)
+     * // only fill this rect, not in current path
+     * ctx.setFillStyle('blue')
+     * ctx.fillRect(10, 70, 100, 30)
+     * ctx.rect(10, 100, 100, 30)
+     * // it will fill current path
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.draw()
+     * ```
+     *
+     * ![] */
+    fill(): void
+    /** [CanvasContext.fillRect(number x, number y, number width, number height)](CanvasContext.fillRect.md)
+     *
+     * 填充一个矩形。用 [`setFillStyle`] 设置矩形的填充色，如果没设置默认是黑色。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     * ![] */
+    fillRect(
+      /** 矩形路径左上角的横坐标 */
+      x: number,
+      /** 矩形路径左上角的纵坐标 */
+      y: number,
+      /** 矩形路径的宽度 */
+      width: number,
+      /** 矩形路径的高度 */
+      height: number
+    ): void
+    /** [CanvasContext.fillText(string text, number x, number y, number maxWidth)](CanvasContext.fillText.md)
+     *
+     * 在画布上绘制被填充的文本
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFontSize(20)
+     * ctx.fillText('Hello', 20, 20)
+     * ctx.fillText('MINA', 100, 100)
+     * ctx.draw()
+     * ```
+     * ![] */
+    fillText(
+      /** 在画布上输出的文本 */
+      text: string,
+      /** 绘制文本的左上角 x 坐标位置 */
+      x: number,
+      /** 绘制文本的左上角 y 坐标位置 */
+      y: number,
+      /** 需要绘制的最大宽度，可选 */
+      maxWidth?: number
+    ): void
+    /** [CanvasContext.lineTo(number x, number y)](CanvasContext.lineTo.md)
+     *
+     * 增加一个新点，然后创建一条从上次指定点到目标点的线。用 `stroke` 方法来画线条
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.rect(10, 10, 100, 50)
+     * ctx.lineTo(110, 60)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![] */
+    lineTo(
+      /** 目标位置的 x 坐标 */
+      x: number,
+      /** 目标位置的 y 坐标 */
+      y: number
+    ): void
+    /** [CanvasContext.moveTo(number x, number y)](CanvasContext.moveTo.md)
+     *
+     * 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 10)
+     * ctx.moveTo(10, 50)
+     * ctx.lineTo(100, 50)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![] */
+    moveTo(
+      /** 目标位置的 x 坐标 */
+      x: number,
+      /** 目标位置的 y 坐标 */
+      y: number
+    ): void
+    /** [CanvasContext.quadraticCurveTo(number cpx, number cpy, number x, number y)](CanvasContext.quadraticCurveTo.md)
+     *
+     * 创建二次贝塞尔曲线路径。曲线的起始点为路径中前一个点。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // Draw points
+     * ctx.beginPath()
+     * ctx.arc(20, 20, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(200, 20, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('lightgreen')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(20, 100, 2, 0, 2 * Math.PI)
+     * ctx.setFillStyle('blue')
+     * ctx.fill()
+     * ctx.setFillStyle('black')
+     * ctx.setFontSize(12)
+     * // Draw guides
+     * ctx.beginPath()
+     * ctx.moveTo(20, 20)
+     * ctx.lineTo(20, 100)
+     * ctx.lineTo(200, 20)
+     * ctx.setStrokeStyle('#AAAAAA')
+     * ctx.stroke()
+     * // Draw quadratic curve
+     * ctx.beginPath()
+     * ctx.moveTo(20, 20)
+     * ctx.quadraticCurveTo(20, 100, 200, 20)
+     * ctx.setStrokeStyle('black')
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     *
+     * ![]
+     *
+     * 针对 moveTo(20, 20) quadraticCurveTo(20, 100, 200, 20) 的三个关键坐标如下：
+     *
+     * - 红色：起始点(20, 20)
+     * - 蓝色：控制点(20, 100)
+     * - 绿色：终止点(200, 20) */
+    quadraticCurveTo(
+      /** 贝塞尔控制点的 x 坐标 */
+      cpx: number,
+      /** 贝塞尔控制点的 y 坐标 */
+      cpy: number,
+      /** 结束点的 x 坐标 */
+      x: number,
+      /** 结束点的 y 坐标 */
+      y: number
+    ): void
+    /** [CanvasContext.rect(number x, number y, number width, number height)](CanvasContext.rect.md)
+     *
+     * 创建一个矩形路径。需要用 [`fill`] 方法将矩形真正的画到 `canvas` 中
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.rect(10, 10, 150, 75)
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.draw()
+     * ```
+     * ![] */
+    rect(
+      /** 矩形路径左上角的横坐标 */
+      x: number,
+      /** 矩形路径左上角的纵坐标 */
+      y: number,
+      /** 矩形路径的宽度 */
+      width: number,
+      /** 矩形路径的高度 */
+      height: number
+    ): void
+    /** [CanvasContext.restore()](CanvasContext.restore.md)
+     *
+     * 恢复之前保存的绘图上下文。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // save the default fill style
+     * ctx.save()
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 100)
+     * // restore to the previous saved state
+     * ctx.restore()
+     * ctx.fillRect(50, 50, 150, 100)
+     * ctx.draw()
+     * ```
+     * ![] */
+    restore(): void
+    /** [CanvasContext.rotate(number rotate)](CanvasContext.rotate.md)
+     *
+     * 以原点为中心顺时针旋转当前坐标轴。多次调用旋转的角度会叠加。原点可以用 `translate` 方法修改。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.strokeRect(100, 10, 150, 100)
+     * ctx.rotate(20 * Math.PI / 180)
+     * ctx.strokeRect(100, 10, 150, 100)
+     * ctx.rotate(20 * Math.PI / 180)
+     * ctx.strokeRect(100, 10, 150, 100)
+     * ctx.draw()
+     * ```
+     * ![] */
+    rotate(
+      /** 旋转角度，以弧度计 degrees * Math.PI/180；degrees 范围为 0-360 */
+      rotate: number
+    ): void
+    /** [CanvasContext.save()](CanvasContext.save.md)
+     *
+     * 保存绘图上下文。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // save the default fill style
+     * ctx.save()
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 100)
+     * // restore to the previous saved state
+     * ctx.restore()
+     * ctx.fillRect(50, 50, 150, 100)
+     * ctx.draw()
+     * ```
+     * ![] */
+    save(): void
+    /** [CanvasContext.scale(number scaleWidth, number scaleHeight)](CanvasContext.scale.md)
+     *
+     * 在调用后，之后创建的路径其横纵坐标会被缩放。多次调用倍数会相乘。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.strokeRect(10, 10, 25, 15)
+     * ctx.scale(2, 2)
+     * ctx.strokeRect(10, 10, 25, 15)
+     * ctx.scale(2, 2)
+     * ctx.strokeRect(10, 10, 25, 15)
+     * ctx.draw()
+     * ```
+     * ![] */
+    scale(
+      /** 横坐标缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%) */
+      scaleWidth: number,
+      /** 纵坐标轴缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%) */
+      scaleHeight: number
+    ): void
+    /** [CanvasContext.setFillStyle([Color] color)](CanvasContext.setFillStyle.md)
+     *
+     * 设置填充色。
+     *
+     * **代码示例**
+     *
+     *
+     * ```js
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     * ![] */
+    setFillStyle(
+      /** [Color]
+       *
+       * 填充的颜色，默认颜色为 black。 */
+      color: Color
+    ): void
+    /** [CanvasContext.setFontSize(number fontSize)](CanvasContext.setFontSize.md)
+     *
+     * 设置字体的字号
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFontSize(20)
+     * ctx.fillText('20', 20, 20)
+     * ctx.setFontSize(30)
+     * ctx.fillText('30', 40, 40)
+     * ctx.setFontSize(40)
+     * ctx.fillText('40', 60, 60)
+     * ctx.setFontSize(50)
+     * ctx.fillText('50', 90, 90)
+     * ctx.draw()
+     * ```
+     * ![] */
+    setFontSize(
+      /** 字体的字号 */
+      fontSize: number
+    ): void
+    /** [CanvasContext.setGlobalAlpha(number alpha)](CanvasContext.setGlobalAlpha.md)
+     *
+     * 设置全局画笔透明度。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.fillRect(10, 10, 150, 100)
+     * ctx.setGlobalAlpha(0.2)
+     * ctx.setFillStyle('blue')
+     * ctx.fillRect(50, 50, 150, 100)
+     * ctx.setFillStyle('yellow')
+     * ctx.fillRect(100, 100, 150, 100)
+     * ctx.draw()
+     * ```
+     * ![] */
+    setGlobalAlpha(
+      /** 透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
+      alpha: number
+    ): void
+    /** [CanvasContext.setLineCap(string lineCap)](CanvasContext.setLineCap.md)
+     *
+     * 设置线条的端点样式
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.beginPath()
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(150, 10)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineCap('butt')
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(10, 30)
+     * ctx.lineTo(150, 30)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineCap('round')
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(10, 50)
+     * ctx.lineTo(150, 50)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineCap('square')
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(10, 70)
+     * ctx.lineTo(150, 70)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![] */
+    setLineCap(
+      /** 线条的结束端点样式 */
+      lineCap: string
+    ): void
+    /** [CanvasContext.setLineDash(Array.<number> pattern, number offset)](CanvasContext.setLineDash.md)
+     *
+     * 设置虚线样式。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setLineDash([10, 20], 5);
+     * ctx.beginPath();
+     * ctx.moveTo(0,100);
+     * ctx.lineTo(400, 100);
+     * ctx.stroke();
+     * ctx.draw()
+     * ```
+     * ![]
+     *
+     * 最低基础库： `1.6.0` */
+    setLineDash(
+      /** 一组描述交替绘制线段和间距（坐标空间单位）长度的数字 */
+      pattern: Array<number>,
+      /** 虚线偏移量 */
+      offset: number
+    ): void
+    /** [CanvasContext.setLineJoin(string lineJoin)](CanvasContext.setLineJoin.md)
+     *
+     * 设置线条的交点样式
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.beginPath()
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 50)
+     * ctx.lineTo(10, 90)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineJoin('bevel')
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(50, 10)
+     * ctx.lineTo(140, 50)
+     * ctx.lineTo(50, 90)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineJoin('round')
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(90, 10)
+     * ctx.lineTo(180, 50)
+     * ctx.lineTo(90, 90)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineJoin('miter')
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(130, 10)
+     * ctx.lineTo(220, 50)
+     * ctx.lineTo(130, 90)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![] */
+    setLineJoin(
+      /** 线条的结束交点样式 */
+      lineJoin: string
+    ): void
+    /** [CanvasContext.setLineWidth(number lineWidth)](CanvasContext.setLineWidth.md)
+     *
+     * 设置线条的宽度
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.beginPath()
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(150, 10)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineWidth(5)
+     * ctx.moveTo(10, 30)
+     * ctx.lineTo(150, 30)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineWidth(10)
+     * ctx.moveTo(10, 50)
+     * ctx.lineTo(150, 50)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineWidth(15)
+     * ctx.moveTo(10, 70)
+     * ctx.lineTo(150, 70)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     *
+     * ![] */
+    setLineWidth(
+      /** 线条的宽度，单位px */
+      lineWidth: number
+    ): void
+    /** [CanvasContext.setMiterLimit(number miterLimit)](CanvasContext.setMiterLimit.md)
+     *
+     * 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()] 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.beginPath()
+     * ctx.setLineWidth(10)
+     * ctx.setLineJoin('miter')
+     * ctx.setMiterLimit(1)
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 50)
+     * ctx.lineTo(10, 90)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineWidth(10)
+     * ctx.setLineJoin('miter')
+     * ctx.setMiterLimit(2)
+     * ctx.moveTo(50, 10)
+     * ctx.lineTo(140, 50)
+     * ctx.lineTo(50, 90)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineWidth(10)
+     * ctx.setLineJoin('miter')
+     * ctx.setMiterLimit(3)
+     * ctx.moveTo(90, 10)
+     * ctx.lineTo(180, 50)
+     * ctx.lineTo(90, 90)
+     * ctx.stroke()
+     * ctx.beginPath()
+     * ctx.setLineWidth(10)
+     * ctx.setLineJoin('miter')
+     * ctx.setMiterLimit(4)
+     * ctx.moveTo(130, 10)
+     * ctx.lineTo(220, 50)
+     * ctx.lineTo(130, 90)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![] */
+    setMiterLimit(
+      /** 最大斜接长度 */
+      miterLimit: number
+    ): void
+    /** [CanvasContext.setShadow(number offsetX, number offsetY, number blur, string color)](CanvasContext.setShadow.md)
+     *
+     * 设定阴影样式。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setFillStyle('red')
+     * ctx.setShadow(10, 50, 50, 'blue')
+     * ctx.fillRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     * ![] */
+    setShadow(
+      /** 阴影相对于形状在水平方向的偏移，默认值为 0。 */
+      offsetX: number,
+      /** 阴影相对于形状在竖直方向的偏移，默认值为 0。 */
+      offsetY: number,
+      /** 阴影的模糊级别，数值越大越模糊。范围 0- 100。，默认值为 0。 */
+      blur: number,
+      /** 阴影的颜色。默认值为 black。 */
+      color: string
+    ): void
+    /** [CanvasContext.setStrokeStyle([Color] color)](CanvasContext.setStrokeStyle.md)
+     *
+     * 设置描边颜色。
+     *
+     * **代码示例**
+     *
+     *
+     * ```js
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setStrokeStyle('red')
+     * ctx.strokeRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     * ![] */
+    setStrokeStyle(
+      /** [Color]
+       *
+       * 描边的颜色，默认颜色为 black。 */
+      color: Color
+    ): void
+    /** [CanvasContext.setTextAlign(string align)](CanvasContext.setTextAlign.md)
+     *
+     * 设置文字的对齐
+     *
+     * **示例代码**
+     *
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setStrokeStyle('red')
+     * ctx.moveTo(150, 20)
+     * ctx.lineTo(150, 170)
+     * ctx.stroke()
+     * ctx.setFontSize(15)
+     * ctx.setTextAlign('left')
+     * ctx.fillText('textAlign=left', 150, 60)
+     * ctx.setTextAlign('center')
+     * ctx.fillText('textAlign=center', 150, 80)
+     * ctx.setTextAlign('right')
+     * ctx.fillText('textAlign=right', 150, 100)
+     * ctx.draw()
+     * ```
+     *
+     * ![]
+     *
+     * 最低基础库： `1.1.0` */
+    setTextAlign(
+      /** 文字的对齐方式 */
+      align: string
+    ): void
+    /** [CanvasContext.setTextBaseline(string textBaseline)](CanvasContext.setTextBaseline.md)
+     *
+     * 设置文字的竖直对齐
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setStrokeStyle('red')
+     * ctx.moveTo(5, 75)
+     * ctx.lineTo(295, 75)
+     * ctx.stroke()
+     * ctx.setFontSize(20)
+     * ctx.setTextBaseline('top')
+     * ctx.fillText('top', 5, 75)
+     * ctx.setTextBaseline('middle')
+     * ctx.fillText('middle', 50, 75)
+     * ctx.setTextBaseline('bottom')
+     * ctx.fillText('bottom', 120, 75)
+     * ctx.setTextBaseline('normal')
+     * ctx.fillText('normal', 200, 75)
+     * ctx.draw()
+     * ```
+     * ![]
+     *
+     * 最低基础库： `1.4.0` */
+    setTextBaseline(
+      /** 文字的竖直对齐方式 */
+      textBaseline: string
+    ): void
+    /** [CanvasContext.setTransform(number scaleX, number scaleY, number skewX, number skewY, number translateX, number translateY)](CanvasContext.setTransform.md)
      *
      * 使用矩阵重新设置（覆盖）当前变换的方法
      *
-     * **参数：**
+     * 最低基础库： `1.9.90` */
+    setTransform(
+      /** 水平缩放 */
+      scaleX: number,
+      /** 垂直缩放 */
+      scaleY: number,
+      /** 水平倾斜 */
+      skewX: number,
+      /** 垂直倾斜 */
+      skewY: number,
+      /** 水平移动 */
+      translateX: number,
+      /** 垂直移动 */
+      translateY: number
+    ): void
+    /** [CanvasContext.stroke()](CanvasContext.stroke.md)
      *
-     *   属性值       |  类型     |  说明
-     * ---------------|-----------|---------
-     *   scaleX       |  Number   | 水平缩放
-     *   skewX        |  Number   | 水平倾斜
-     *   skewY        |  Number   | 垂直倾斜
-     *   scaleY       |  Number   | 垂直缩放
-     *   translateX   |  Number   | 水平移动
-     *   translateY   |  Number   | 垂直移动
+     * 画出当前路径的边框。默认颜色色为黑色。
      *
-     * **语法：**
+     * **示例代码**
      *
-     *     ```javascript
-     *     canvasContext.setTransform(scaleX, skewX, skewY, scaleY, translateX, translateY)
-     *     ```
-     */
-    setTransform(): void
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 10)
+     * ctx.lineTo(100, 100)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     * ![]
+     *
+     * stroke() 描绘的的路径是从 beginPath() 开始计算，但是不会将 strokeRect() 包含进去。
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // begin path
+     * ctx.rect(10, 10, 100, 30)
+     * ctx.setStrokeStyle('yellow')
+     * ctx.stroke()
+     * // begin another path
+     * ctx.beginPath()
+     * ctx.rect(10, 40, 100, 30)
+     * // only stoke this rect, not in current path
+     * ctx.setStrokeStyle('blue')
+     * ctx.strokeRect(10, 70, 100, 30)
+     * ctx.rect(10, 100, 100, 30)
+     * // it will stroke current path
+     * ctx.setStrokeStyle('red')
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     *
+     * ![] */
+    stroke(): void
+    /** [CanvasContext.strokeRect(number x, number y, number width, number height)](CanvasContext.strokeRect.md)
+     *
+     * 画一个矩形(非填充)。 用 [`setStrokeStyle`] 设置矩形线条的颜色，如果没设置默认是黑色。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.setStrokeStyle('red')
+     * ctx.strokeRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     * ![] */
+    strokeRect(
+      /** 矩形路径左上角的横坐标 */
+      x: number,
+      /** 矩形路径左上角的纵坐标 */
+      y: number,
+      /** 矩形路径的宽度 */
+      width: number,
+      /** 矩形路径的高度 */
+      height: number
+    ): void
+    /** [CanvasContext.strokeText(string text, number x, number y, number maxWidth)](CanvasContext.strokeText.md)
+     *
+     * 给定的 (x, y) 位置绘制文本描边的方法
+     *
+     * 最低基础库： `1.9.90` */
+    strokeText(
+      /** 要绘制的文本 */
+      text: string,
+      /** 文本起始点的 x 轴坐标 */
+      x: number,
+      /** 文本起始点的 y 轴坐标 */
+      y: number,
+      /** 需要绘制的最大宽度，可选 */
+      maxWidth?: number
+    ): void
+    /** [CanvasContext.transform(number scaleX, number scaleY, number skewX, number skewY, number translateX, number translateY)](CanvasContext.transform.md)
+     *
+     * 使用矩阵多次叠加当前变换的方法
+     *
+     * 最低基础库： `1.9.90` */
+    transform(
+      /** 水平缩放 */
+      scaleX: number,
+      /** 垂直缩放 */
+      scaleY: number,
+      /** 水平倾斜 */
+      skewX: number,
+      /** 垂直倾斜 */
+      skewY: number,
+      /** 水平移动 */
+      translateX: number,
+      /** 垂直移动 */
+      translateY: number
+    ): void
+    /** [CanvasContext.translate(number x, number y)](CanvasContext.translate.md)
+     *
+     * 对当前坐标系的原点 (0, 0) 进行变换。默认的坐标系原点为页面左上角。
+     *
+     * **示例代码**
+     *
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * ctx.strokeRect(10, 10, 150, 100)
+     * ctx.translate(20, 20)
+     * ctx.strokeRect(10, 10, 150, 100)
+     * ctx.translate(20, 20)
+     * ctx.strokeRect(10, 10, 150, 100)
+     * ctx.draw()
+     * ```
+     *
+     * ![] */
+    translate(
+      /** 水平坐标平移量 */
+      x: number,
+      /** 竖直坐标平移量 */
+      y: number
+    ): void
+    /** [Object CanvasContext.measureText(string text)](CanvasContext.measureText.md)
+     *
+     * 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
+     *
+     * 最低基础库： `1.9.90` */
+    measureText(
+      /** 要测量的文本 */
+      text: string
+    ): TextMetrics
+    /** [[CanvasGradient] CanvasContext.createCircularGradient(number x, number y, number r)](CanvasContext.createCircularGradient.md)
+     *
+     * 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()] 来指定渐变点，至少要两个。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // Create circular gradient
+     * const grd = ctx.createCircularGradient(75, 50, 50)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     * ![] */
+    createCircularGradient(
+      /** 圆心的 x 坐标 */
+      x: number,
+      /** 圆心的 y 坐标 */
+      y: number,
+      /** 圆的半径 */
+      r: number
+    ): CanvasGradient
+    /** [[CanvasGradient] CanvasContext.createLinearGradient(number x0, number y0, number x1, number y1)](CanvasContext.createLinearGradient.md)
+     *
+     * 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()] 来指定渐变点，至少要两个。
+     *
+     * **示例代码**
+     *
+     *
+     * ```javascript
+     * const ctx = wx.createCanvasContext('myCanvas')
+     * // Create linear gradient
+     * const grd = ctx.createLinearGradient(0, 0, 200, 0)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     * ![] */
+    createLinearGradient(
+      /** 起点的 x 坐标 */
+      x0: number,
+      /** 起点的 y 坐标 */
+      y0: number,
+      /** 终点的 x 坐标 */
+      x1: number,
+      /** 终点的 y 坐标 */
+      y1: number
+    ): CanvasGradient
   }
-
 
   interface Page {
     /**
@@ -11268,4 +11363,517 @@ declare namespace Taro {
 
   function getCurrentPages(): Page[]
   function getApp(): any
+
+  namespace cloud {
+    interface ICloudConfig {
+      env?: string | object
+      traceUser?: boolean
+    }
+    interface IAPIError {
+      errMsg: string
+    }
+
+    interface IAPIParam<T = any> {
+      config?: ICloudConfig
+      success?: (res: T) => void
+      fail?: (err: IAPIError) => void
+      complete?: (val: T | IAPIError) => void
+    }
+
+    interface IAPISuccessParam {
+      errMsg: string
+    }
+
+    class InternalSymbol {}
+    type AnyObject = {
+      [x: string]: any
+    }
+    type AnyFunction = (...args: any[]) => any
+    namespace ICloud {
+      interface ICloudAPIParam<T = any> extends IAPIParam<T> {
+        config?: ICloudConfig
+      }
+      // === API: callFunction ===
+      export type CallFunctionData = AnyObject
+
+      export interface CallFunctionResult extends IAPISuccessParam {
+        result: AnyObject | string | undefined
+      }
+
+      export interface CallFunctionParam extends ICloudAPIParam<CallFunctionResult> {
+        name: string
+        data?: CallFunctionData
+        slow?: boolean
+      }
+      // === end ===
+
+      // === API: uploadFile ===
+      export interface UploadFileResult extends IAPISuccessParam {
+        fileID: string
+        statusCode: number
+      }
+
+      export interface UploadFileParam extends ICloudAPIParam<UploadFileResult> {
+        cloudPath: string
+        filePath: string
+        header?: AnyObject
+      }
+      // === end ===
+
+      // === API: downloadFile ===
+      export interface DownloadFileResult extends IAPISuccessParam {
+        tempFilePath: string
+        statusCode: number
+      }
+
+      export interface DownloadFileParam extends ICloudAPIParam<DownloadFileResult> {
+        fileID: string
+        cloudPath?: string
+      }
+      // === end ===
+
+      // === API: getTempFileURL ===
+      export interface GetTempFileURLResult extends IAPISuccessParam {
+        fileList: GetTempFileURLResultItem[]
+      }
+
+      export interface GetTempFileURLResultItem {
+        fileID: string
+        tempFileURL: string
+        maxAge: number
+        status: number
+        errMsg: string
+      }
+
+      export interface GetTempFileURLParam extends ICloudAPIParam<GetTempFileURLResult> {
+        fileList: string[]
+      }
+      // === end ===
+
+      // === API: deleteFile ===
+      interface DeleteFileResult extends IAPISuccessParam {
+        fileList: DeleteFileResultItem[]
+      }
+
+      interface DeleteFileResultItem {
+        fileID: string
+        status: number
+        errMsg: string
+      }
+
+      interface DeleteFileParam extends ICloudAPIParam<DeleteFileResult> {
+        fileList: string[]
+      }
+      // === end ===
+    }
+
+    namespace WXNS {
+      interface AnyObject {
+        [key: string]: any
+      }
+
+      interface IAPIParam<T> {
+        success?: (res: T) => void
+        fail?: (err: IAPIError) => void
+        complete?: (val: T | IAPIError) => void
+      }
+
+      interface CommonAPIResult {
+        errMsg: string
+      }
+
+      interface IAPIError {
+        errMsg: string
+      }
+
+      interface IProgressUpdateEvent {
+        progress: number
+        totalBytesWritten: number
+        totalBytesExpectedToWrite: number
+      }
+
+      interface operateWXData {
+        (param: any): void
+      }
+
+      interface uploadFile {
+        /**
+         * upload file
+         * @param param
+         */
+        (param: IUploadFileParam): IUploadFileTask
+      }
+
+      interface IUploadFileParam extends IAPIParam<IUploadFileSuccessResult> {
+        url: string
+        filePath: string
+        name: string
+        header?: AnyObject
+      }
+
+      interface IUploadFileSuccessResult extends CommonAPIResult {
+        data: string
+        statusCode: number
+      }
+
+      interface IUploadFileTask {
+        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void
+        abort: AnyFunction
+      }
+
+      interface downloadFile {
+        /**
+         * download file
+         * @param param
+         */
+        (param: IDownloadFileParam): IDownloadFileTask
+      }
+
+      interface IDownloadFileParam extends IAPIParam<IDownloadFileSuccessResult> {
+        url: string
+        header?: AnyObject
+      }
+
+      interface IDownloadFileSuccessResult extends CommonAPIResult {
+        tempFilePath: string
+        statusCode: number
+      }
+
+      interface IDownloadFileTask {
+        onProgressUpdate: (fn: (event: IProgressUpdateEvent) => void) => void
+        abort: AnyFunction
+      }
+
+      interface request {
+        (param: IRequestParam): IRequestTask
+      }
+
+      interface IRequestParam extends IAPIParam<IRequestSuccessResult> {
+        url: string
+        data?: AnyObject | string | ArrayBuffer
+        header?: AnyObject
+        method?: string
+        dataType?: string
+        responseType?: string
+      }
+
+      interface IRequestSuccessResult {
+        data: AnyObject | string | ArrayBuffer
+        statusCode: number
+        header: AnyObject
+      }
+
+      interface IRequestTask {
+        abort: () => void
+      }
+
+      interface getFileInfo {
+        (param: IGetFileInfoParam): void
+      }
+
+      interface IGetFileInfoParam extends IAPIParam<IGetFileInfoSuccessResult> {
+        filePath: string
+        digestAlgorithm?: string
+      }
+
+      interface IGetFileInfoSuccessResult {
+        size: number
+        digest: string
+      }
+    }
+
+    // === Database ===
+    namespace DB {
+      /**
+       * The class of all exposed cloud database instances
+       */
+      export class Database {
+        public readonly config: ICloudConfig
+        public readonly command: DatabaseCommand
+        public readonly Geo: Geo
+        public readonly serverDate: () => ServerDate
+
+        private constructor()
+
+        collection(collectionName: string): CollectionReference
+      }
+
+      export class CollectionReference extends Query {
+        public readonly collectionName: string
+        public readonly database: Database
+
+        private constructor(name: string, database: Database)
+
+        doc(docId: string | number): DocumentReference
+
+        add(options: IAddDocumentOptions): Promise<IAddResult> | void
+      }
+
+      export class DocumentReference {
+        private constructor(docId: string | number, database: Database)
+
+        field(object: object): this
+
+        get(options?: IGetDocumentOptions): Promise<IQuerySingleResult> | void
+
+        set(options?: ISetSingleDocumentOptions): Promise<ISetResult> | void
+
+        update(options?: IUpdateSingleDocumentOptions): Promise<IUpdateResult> | void
+
+        remove(options?: IRemoveSingleDocumentOptions): Promise<IRemoveResult> | void
+      }
+
+      export class Query {
+        where(condition: IQueryCondition): Query
+
+        orderBy(fieldPath: string, order: string): Query
+
+        limit(max: number): Query
+
+        skip(offset: number): Query
+
+        field(object: object): Query
+
+        get(options?: IGetDocumentOptions): Promise<IQueryResult> & void
+
+        count(options?: ICountDocumentOptions): Promise<ICountResult> & void
+      }
+
+      export interface DatabaseCommand {
+        eq(val: any): DatabaseQueryCommand
+        neq(val: any): DatabaseQueryCommand
+        gt(val: any): DatabaseQueryCommand
+        gte(val: any): DatabaseQueryCommand
+        lt(val: any): DatabaseQueryCommand
+        lte(val: any): DatabaseQueryCommand
+        in(val: any[]): DatabaseQueryCommand
+        nin(val: any[]): DatabaseQueryCommand
+
+        and(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+        or(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+
+        set(val: any): DatabaseUpdateCommand
+        remove(): DatabaseUpdateCommand
+        inc(val: number): DatabaseUpdateCommand
+        mul(val: number): DatabaseUpdateCommand
+
+        push(...values: any[]): DatabaseUpdateCommand
+        pop(): DatabaseUpdateCommand
+        shift(): DatabaseUpdateCommand
+        unshift(...values: any[]): DatabaseUpdateCommand
+      }
+
+      export enum LOGIC_COMMANDS_LITERAL {
+        AND = 'and',
+        OR = 'or',
+        NOT = 'not',
+        NOR = 'nor'
+      }
+
+      export class DatabaseLogicCommand {
+        public fieldName: string | InternalSymbol
+        public operator: LOGIC_COMMANDS_LITERAL | string
+        public operands: any[]
+
+        _setFieldName(fieldName: string): DatabaseLogicCommand
+
+        and(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+        or(...expressions: (DatabaseLogicCommand | IQueryCondition)[]): DatabaseLogicCommand
+      }
+
+      export enum QUERY_COMMANDS_LITERAL {
+        EQ = 'eq',
+        NEQ = 'neq',
+        GT = 'gt',
+        GTE = 'gte',
+        LT = 'lt',
+        LTE = 'lte',
+        IN = 'in',
+        NIN = 'nin'
+      }
+
+      export class DatabaseQueryCommand extends DatabaseLogicCommand {
+        public operator: QUERY_COMMANDS_LITERAL | string
+
+        _setFieldName(fieldName: string): DatabaseQueryCommand
+
+        eq(val: any): DatabaseLogicCommand
+        neq(val: any): DatabaseLogicCommand
+        gt(val: any): DatabaseLogicCommand
+        gte(val: any): DatabaseLogicCommand
+        lt(val: any): DatabaseLogicCommand
+        lte(val: any): DatabaseLogicCommand
+        in(val: any[]): DatabaseLogicCommand
+        nin(val: any[]): DatabaseLogicCommand
+      }
+
+      export enum UPDATE_COMMANDS_LITERAL {
+        SET = 'set',
+        REMOVE = 'remove',
+        INC = 'inc',
+        MUL = 'mul',
+        PUSH = 'push',
+        POP = 'pop',
+        SHIFT = 'shift',
+        UNSHIFT = 'unshift'
+      }
+
+      export class DatabaseUpdateCommand {
+        public fieldName: string | InternalSymbol
+        public operator: UPDATE_COMMANDS_LITERAL
+        public operands: any[]
+
+        constructor(operator: UPDATE_COMMANDS_LITERAL, operands: any[], fieldName?: string | InternalSymbol)
+
+        _setFieldName(fieldName: string): DatabaseUpdateCommand
+      }
+
+      export class Batch {}
+
+      /**
+       * A contract that all API provider must adhere to
+       */
+      export class APIBaseContract<PROMISE_RETURN, CALLBACK_RETURN, PARAM extends IAPIParam, CONTEXT = any> {
+        getContext(param: PARAM): CONTEXT
+
+        /**
+         * In case of callback-style invocation, this function will be called
+         */
+        getCallbackReturn(param: PARAM, context: CONTEXT): CALLBACK_RETURN
+
+        getFinalParam<T extends PARAM>(param: PARAM, context: CONTEXT): T
+
+        run<T extends PARAM>(param: T): Promise<PROMISE_RETURN>
+      }
+
+      export interface GeoPointConstructor {
+        new (longitude: number, latitide: number): GeoPoint
+      }
+
+      export interface Geo {
+        Point: {
+          new (longitude: number, latitide: number): GeoPoint
+          (longitude: number, latitide: number): GeoPoint
+        }
+      }
+
+      export abstract class GeoPoint {
+        public longitude: number
+        public latitude: number
+
+        constructor(longitude: number, latitude: number)
+
+        toJSON(): object
+        toString(): string
+      }
+
+      export interface IServerDateOptions {
+        offset: number
+      }
+
+      export abstract class ServerDate {
+        public readonly options: IServerDateOptions
+        constructor(options?: IServerDateOptions)
+      }
+
+      export type DocumentId = string | number
+
+      export interface IDocumentData {
+        _id?: DocumentId
+        [key: string]: any
+      }
+
+      export interface IDBAPIParam extends IAPIParam {}
+
+      export interface IAddDocumentOptions extends IDBAPIParam {
+        data: IDocumentData
+      }
+
+      export interface IGetDocumentOptions extends IDBAPIParam {}
+
+      export interface ICountDocumentOptions extends IDBAPIParam {}
+
+      export interface IUpdateDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition
+      }
+
+      export interface IUpdateSingleDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition
+      }
+
+      export interface ISetDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition
+      }
+
+      export interface ISetSingleDocumentOptions extends IDBAPIParam {
+        data: IUpdateCondition
+      }
+
+      export interface IRemoveDocumentOptions extends IDBAPIParam {
+        query: IQueryCondition
+      }
+
+      export interface IRemoveSingleDocumentOptions extends IDBAPIParam {}
+
+      export interface IQueryCondition {
+        [key: string]: any
+      }
+
+      export type IStringQueryCondition = string
+
+      export interface IQueryResult extends IAPISuccessParam {
+        data: IDocumentData[]
+      }
+
+      export interface IQuerySingleResult extends IAPISuccessParam {
+        data: IDocumentData
+      }
+
+      export interface IUpdateCondition {
+        [key: string]: any
+      }
+
+      export type IStringUpdateCondition = string
+
+      export interface ISetCondition {}
+
+      export interface IAddResult extends IAPISuccessParam {
+        _id: DocumentId
+      }
+
+      export interface IUpdateResult extends IAPISuccessParam {
+        stats: {
+          updated: number
+          // created: number,
+        }
+      }
+
+      export interface ISetResult extends IAPISuccessParam {
+        _id: DocumentId
+        stats: {
+          updated: number
+          created: number
+        }
+      }
+
+      export interface IRemoveResult extends IAPISuccessParam {
+        stats: {
+          removed: number
+        }
+      }
+
+      export interface ICountResult extends IAPISuccessParam {
+        total: number
+      }
+    }
+    function init(OBJECT?: ICloudConfig): void
+
+    function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> & void
+    function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> & WXNS.IUploadFileTask
+    function downloadFile(param: ICloud.DownloadFileParam): Promise<ICloud.DownloadFileResult> & WXNS.IDownloadFileTask
+    function getTempFileURL(param: ICloud.GetTempFileURLParam): Promise<ICloud.GetTempFileURLResult> & void
+    function deleteFile(param: ICloud.DeleteFileParam): Promise<ICloud.DeleteFileResult> & void
+
+    function database(config?: ICloudConfig): DB.Database
+  }
 }

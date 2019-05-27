@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-interface SwiperProps extends StandardProps {
+export interface SwiperProps extends StandardProps {
 
   /**
    * 是否显示面板指示点
@@ -99,27 +99,61 @@ interface SwiperProps extends StandardProps {
    *
    * 默认值：`false`
    */
-  skipHiddenItemLayout?: boolean
+  skipHiddenItemLayout?: boolean,
 
+  /**
+   * 指定 swiper 切换缓动动画类型
+   *
+   * - `default`: 默认缓动函数
+   * - `linear`: 线性动画
+   * - `easeInCubic`: 缓入动画
+   * - `easeOutCubic`: 缓出动画
+   * - `easeInOutCubic`: 缓入缓出动画
+   *
+   * @default 'default'
+   * @since 2.6.5
+   */
+  easingFunction?: 'default' | 'linear' | 'easeInCubic' | 'easeOutCubic' | 'easeInOutCubic',
 
   /**
    * current 改变时会触发 change 事件
    *
    * `event.detail = {current: current, source: source}`
    */
-  onChange?: CommonEventFunction
+  onChange?: CommonEventFunction<{
+    /** 当前所在滑块的索引 */
+    current: number,
+    /**
+     * 导致变更的原因
+     *
+     * - `autoplay`: 自动播放
+     * - `touch`: 用户划动
+     * - `(空字符串)`: 其它原因
+     */
+    source: 'autoplay' | 'touch' | '',
+  }>,
+
+  /**
+   * swiper-item 的位置发生改变时会触发 transition 事件
+   *
+   * @since 2.4.3
+   */
+  onTransition?: CommonEventFunction<{
+    dx: number,
+    dy: number,
+  }>,
 
   /**
    * 动画结束时会触发 animationfinish 事件
    *
    * `event.detail = {current: current, source: source}`
    */
-  onAnimationFinish?: CommonEventFunction
+  onAnimationFinish?: SwiperProps['onChange'],
 }
 
 declare const Swiper: ComponentType<SwiperProps>
 
-interface SwiperItemProps extends StandardProps {
+export interface SwiperItemProps extends StandardProps {
 
   /**
    * 该 swiper-item 的标识符

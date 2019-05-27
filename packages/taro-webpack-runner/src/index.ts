@@ -1,19 +1,17 @@
+
 import chalk from 'chalk'
 import * as opn from 'opn'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
-import { deprecate } from 'util'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import * as webpackMerge from 'webpack-merge'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
-import dllConf from './config/dll.conf'
 import prodConf from './config/prod.conf'
 import { appPath, addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
-import { bindDevLogger, bindProdLogger, bindDllLogger, printBuildError } from './util/logHelper'
+import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 
 const customizeChain = (chain, customizeFunc: Function) => {
@@ -22,48 +20,24 @@ const customizeChain = (chain, customizeFunc: Function) => {
   }
 }
 
-const deprecatedCustomizeConfig = deprecate((baseConfig, customConfig) => {
-  if (customConfig instanceof Function) {
-    return customConfig(baseConfig, webpack)
-  } else if (customConfig instanceof Object) {
-    return webpackMerge({}, baseConfig, customConfig)
-  }
-}, chalk.yellow(`h5.webpack配置项即将停止支持，请尽快迁移到新配置项。新配置项文档：https://nervjs.github.io/taro/docs/config-detail.html#h5`))
-
-const buildDll = async (config: BuildConfig): Promise<any> => {
-  if (config.enableDll === false) return Promise.resolve()
-  return new Promise((resolve, reject) => {
-    const webpackChain = dllConf(config)
-
-    customizeChain(webpackChain, config.dllWebpackChain)
-    
-    const webpackConfig = webpackChain.toConfig()
-    const compiler = webpack(webpackConfig)
-    bindDllLogger(compiler)
-
-    compiler.run((err) => {
-      if (err) {
-        printBuildError(err)
-        return reject(err)
-      }
-      resolve()
-    })
-  })
+const warnConfigWebpack = () => {
+  console.log(chalk.yellow(`taro@1.2.18版本开始，h5.webpack配置项已经停止支持。作为代替，请使用配置项h5.webpackChain，文档：https://nervjs.github.io/taro/docs/config-detail.html#h5webpackchain`))
+}
+const warnConfigEnableDll = () => {
+  console.log(chalk.yellow(`taro@1.2.18版本开始，taro在h5端加强了代码体积控制，抽离dll的收益已经微乎其微，同时也容易导致一些问题（#1800等）。所以h5.enableDll配置项暂时移除。`))
 }
 
 const buildProd = (config: BuildConfig): Promise<void> => {
   return new Promise((resolve, reject) => {
     const webpackChain = prodConf(config)
-    let webpackConfig
 
     customizeChain(webpackChain, config.webpackChain)
 
     if (config.webpack) {
-      webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
-    } else {
-      webpackConfig = webpackChain.toConfig()
+      warnConfigWebpack()
     }
 
+    const webpackConfig = webpackChain.toConfig()
     const compiler = webpack(webpackConfig)
     bindProdLogger(compiler)
 
@@ -87,13 +61,11 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
     const outputPath = path.join(appPath, conf.outputRoot as string)
     const customDevServerOption = config.devServer || {}
     const webpackChain = devConf(config)
-    let webpackConfig
 
     customizeChain(webpackChain, config.webpackChain)
 
-    webpackConfig = webpackChain.toConfig()
     if (config.webpack) {
-      webpackConfig = deprecatedCustomizeConfig(webpackChain.toConfig(), config.webpack)
+      warnConfigWebpack()
     }
 
     const devServerOptions = recursiveMerge(
@@ -113,12 +85,14 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
       port: devServerOptions.port,
       pathname: routerMode === 'browser' ? routerBasename : '/'
     })
+
+    const webpackConfig = webpackChain.toConfig()
     WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
     const compiler = webpack(webpackConfig)
     bindDevLogger(devUrl, compiler)
     const server = new WebpackDevServer(compiler, devServerOptions)
 
-    server.listen(devServerOptions.port as number, devServerOptions.host as string, err => {
+    server.listen(devServerOptions.port as number, devServerOptions.disableHostCheck ? '0.0.0.0' : (devServerOptions.host as string), err => {
       if (err) {
         reject()
         return console.log(err)
@@ -135,9 +109,20 @@ const buildDev = async (config: BuildConfig): Promise<any> => {
 
 export default async (config: BuildConfig): Promise<void> => {
   if (config.isWatch) {
-    await buildDev(config)
+    try {
+      await buildDev(config)
+    } catch (e) {
+      console.error(e)
+    }
   } else {
-    await buildDll(config)
-    await buildProd(config)
+    if ('enableDll' in config) {
+      warnConfigEnableDll()
+    }
+    try {
+      await buildProd(config)
+    } catch (e) {
+      console.error(e)
+      process.exit(1);
+    }
   }
 }

@@ -1,0 +1,50 @@
+<template>
+  <text
+    class="{{className}}"
+    id="{{id}}"
+    style="{{style}}"
+    onclick="handleClick"
+  >
+    <slot></slot>
+  </text>
+</template>
+
+<script>
+  export default {
+    props: {
+      classname: {
+        type: String,
+        required: false,
+        default: 'taro_text'
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      style: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+    },
+
+    data: () => ({
+
+    }),
+
+    onInit () {
+
+    },
+
+    handleClick (e) {
+      this.$emit('click', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_text {
+
+  }
+</style>

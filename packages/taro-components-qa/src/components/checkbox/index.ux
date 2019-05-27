@@ -1,0 +1,33 @@
+<template>
+  <input type='checkbox' checked="{{ checked }}" class="{{ className }}" id="{{ id }}" onchange ="change"/>
+</template>
+
+<script>
+  export default {
+    props: {
+      checked: {
+        type: Boolean,
+        default: false,
+        required: false,
+      },
+      className: {
+        type: String,
+        required: false,
+      },
+      id: {
+          type: String,
+          required: false
+      },
+    },
+
+    data: () => ({
+    }),
+    change (e) {
+      this.$emit('handleChange', e)
+    }
+  }
+</script>
+
+<style>
+
+</style>

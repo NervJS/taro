@@ -1,6 +1,9 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet
+  internal_safe_set as safeSet,
+  commitAttachRef,
+  Current,
+  invokeEffects
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
@@ -9,7 +12,6 @@ import PropTypes from 'prop-types'
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
   process.env.NODE_ENV !== 'production'
-const privatePropKeyName = '_triggerObserer'
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
@@ -60,9 +62,17 @@ function doUpdate (component, prevProps, prevState) {
   let data = state || {}
   if (component._createData) {
     // 返回null或undefined则保持不变
-    data = component._createData(state, props) || data
+    const isRunLoopRef = !component.__mounted
+    if (component.__isReady) {
+      Current.current = component
+      Current.index = 0
+      invokeEffects(component, true)
+    }
+    data = component._createData(state, props, isRunLoopRef) || data
+    if (component.__isReady) {
+      Current.current = null
+    }
   }
-  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -84,8 +94,7 @@ function doUpdate (component, prevProps, prevState) {
     })
     data = _data
   }
-  // 改变这个私有的props用来触发(observer)子组件的更新
-  data[privatePropKeyName] = !privatePropKeyVal
+  data['$taroCompReady'] = true
   const dataDiff = diffObjToPath(data, component.$scope.data)
 
   // 每次 setData 都独立生成一个 callback 数组
@@ -95,24 +104,32 @@ function doUpdate (component, prevProps, prevState) {
     component._pendingCallbacks = []
   }
 
-  component.$scope.setData(dataDiff, function () {
+  const cb = function () {
     if (component.__mounted) {
+      invokeEffects(component)
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
           // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
           if (ref.type !== 'component') return
 
-          let target = component.$scope.selectComponent(`#${ref.id}`)
-          target = target ? (target.$component || target) : null
+          component.$scope.selectComponent(`#${ref.id}`, function (target) {
+            target = target ? (target.$component || target) : null
 
-          const prevRef = ref.target
-          if (target !== prevRef) {
-            if (ref.refName) component.refs[ref.refName] = target
-            typeof ref.fn === 'function' && ref.fn.call(component, target)
-            ref.target = target
-          }
+            const prevRef = ref.target
+            if (target !== prevRef) {
+              commitAttachRef(ref, target, component, component.refs)
+              ref.target = target
+            }
+          })
         })
       }
+
+      if (component['$$hasLoopRef']) {
+        component._disableEffect = true
+        component._createData(component.state, component.props, true)
+        component._disableEffect = false
+      }
+
       if (typeof component.componentDidUpdate === 'function') {
         component.componentDidUpdate(prevProps, prevState)
       }
@@ -128,5 +145,11 @@ function doUpdate (component, prevProps, prevState) {
       component.__mounted = true
       componentTrigger(component, 'componentDidMount')
     }
-  })
+  }
+
+  if (Object.keys(dataDiff).length === 0) {
+    cb()
+  } else {
+    component.$scope.setData(dataDiff, cb)
+  }
 }

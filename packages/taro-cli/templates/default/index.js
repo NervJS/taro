@@ -1,14 +1,13 @@
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
-const shelljs = require('shelljs')
+const { exec } = require('child_process')
 const ora = require('ora')
 
 module.exports = function (creater, params, helper, cb) {
-  const { projectName, description, template, typescript, date, src, css } = params
+  const { projectName, projectDir, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
-  const cwd = process.cwd()
-  const projectPath = path.join(cwd, projectName)
+  const projectPath = path.join(projectDir, projectName)
   const sourceDir = path.join(projectPath, src)
   const configDir = path.join(projectPath, configDirName)
   const version = helper.getPkgVersion()
@@ -26,10 +25,10 @@ module.exports = function (creater, params, helper, cb) {
   }
   const currentStyleExt = styleExtMap[css] || 'css'
 
-  fs.mkdirSync(projectPath)
-  fs.mkdirSync(sourceDir)
-  fs.mkdirSync(configDir)
-  fs.mkdirSync(path.join(sourceDir, 'pages'))
+  fs.ensureDirSync(projectPath)
+  fs.ensureDirSync(sourceDir)
+  fs.ensureDirSync(configDir)
+  fs.ensureDirSync(path.join(sourceDir, 'pages'))
 
   creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
@@ -129,15 +128,19 @@ module.exports = function (creater, params, helper, cb) {
     if (useYarnLock) console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/yarn.lock`)}`)
     console.log()
     const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
-    process.chdir(projectName)
-    const gitInit = shelljs.exec('git init', { silent: true })
-    if (gitInit.code === 0) {
-      gitInitSpinner.color = 'green'
-      gitInitSpinner.succeed(gitInit.stdout)
-    } else {
-      gitInitSpinner.color = 'red'
-      gitInitSpinner.fail(gitInit.stderr)
-    }
+    process.chdir(projectPath)
+    // git init
+    const gitInit = exec('git init')
+    gitInit.on('close', code => {
+      if (code === 0) {
+        gitInitSpinner.color = 'green'
+        gitInitSpinner.succeed(gitInit.stdout.read())
+      } else {
+        gitInitSpinner.color = 'red'
+        gitInitSpinner.fail(gitInit.stderr.read())
+      }
+    })
+
     // install
     let command
     if (shouldUseYarn) {

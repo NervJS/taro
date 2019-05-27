@@ -22,6 +22,11 @@ import './style/index.scss'
 // 4. timePicker 样式问题：不在指定时间范围时，选项样式置灰。缩窄两列间宽度。
 
 export default class Picker extends Nerv.Component {
+  /** @type {PickerProps} */
+  static defaultProps = {
+    mode: 'selector'
+  }
+
   constructor (props) {
     super(props)
 
@@ -43,6 +48,7 @@ export default class Picker extends Nerv.Component {
         range = []
         this.props.range = []
       }
+      if (range.length === this.index.length) this.index = []
       range.forEach((r, i) => {
         const v = value && value.length ? value[i] : undefined
         this.index.push(this.verifyValue(v, r) ? Math.floor(value[i]) : 0)
@@ -103,6 +109,7 @@ export default class Picker extends Nerv.Component {
         range = []
         this.props.range = []
       }
+      if (this.index.length >= 1) this.index = []
       this.index.push(this.verifyValue(value, range) ? Math.floor(value) : 0)
     }
   }

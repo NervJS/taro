@@ -1,17 +1,22 @@
 import { Adapters } from './adapter'
 import { eslintValidation } from './eslint'
 import { TransformOptions } from 'babel-core'
+import { functionalComponent, Status } from './functional'
+import { isTestEnv } from './env'
 
 export interface Options {
   isRoot?: boolean,
   isApp: boolean,
   outputPath: string,
   sourcePath: string,
+  sourceDir?: string,
   code: string,
   isTyped: boolean,
   isNormal?: boolean,
   env?: object,
-  adapter?: Adapters
+  adapter?: Adapters,
+  jsxAttributeNameReplace?: Object,
+  rootProps?: object
 }
 
 export const transformOptions: Options = {} as any
@@ -25,6 +30,7 @@ export const setTransformOptions = (options: Options) => {
 }
 
 export const buildBabelTransformOptions: () => TransformOptions = () => {
+  Status.isSFC = false
   return {
     parserOpts: {
       sourceType: 'module',
@@ -39,13 +45,18 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
         'asyncGenerators',
         'objectRestSpread',
         'decorators',
-        'dynamicImport'
+        'dynamicImport',
+        'doExpressions',
+        'exportExtensions'
       ] as any[]
     },
     plugins: [
+      require('babel-plugin-transform-do-expressions'),
+      require('babel-plugin-transform-export-extensions'),
       require('babel-plugin-transform-flow-strip-types'),
+      functionalComponent,
       [require('babel-plugin-transform-define').default, transformOptions.env]
     ].concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
-    .concat((process.env.NODE_ENV === 'test') ? [] : require('babel-plugin-remove-dead-code').default)
+    .concat((isTestEnv) ? [] : require('babel-plugin-remove-dead-code').default)
   }
 }

@@ -4,9 +4,9 @@ title: 组件化 & Props
 
 组件可以将 UI 切分成一些的独立的、可复用的部件，这样你就只需专注于构建每一个单独的部件。
 
-组件从概念上看就像是函数，它可以接收任意的输入值（称之为“props”），并返回一个需要在页面上展示的 Taro 元素。
+组件从概念上看就像是函数，它可以接收任意的输入值（称之为 `props`），并返回一个需要在页面上展示的 Taro 元素。
 
-你也可以使用 ES6 class 来定义一个组件:
+你也可以使用 ES6 Class 来定义一个组件:
 
 ```jsx
 class Welcome extends Component {
@@ -30,9 +30,9 @@ const element = <View />
 const element = <Welcome name="Wallace" />
 ```
 
-当 React 遇到的元素是用户自定义的组件，它会将 JSX 属性作为单个对象传递给该组件，这个对象称之为“props”。
+当 React 遇到的元素是用户自定义的组件，它会将 JSX 属性作为单个对象传递给该组件，这个对象称之为 `props`。
 
-例如,这段代码会在页面上渲染出”Hello, Wallace”:
+例如,这段代码会在页面上渲染出 `Hello, Wallace`:
 
 ```jsx
 // welcome.js
@@ -52,7 +52,7 @@ class App extends Component {
 
 ### Props 的只读性
 
-一个声明的组件决不能修改它自己的 `props`。来看这个`sum`函数：
+一个声明的组件决不能修改它自己的 `props`。来看这个 `sum` 函数：
 
 ```jsx
 function sum (a, b) {
@@ -74,11 +74,12 @@ Taro 和 React 一样，也有一个严格的规则：
 
 所有的 Taro 组件必须像纯函数那样使用它们的 props。
 
-当然，应用的界面是随时间动态变化的，我们将在下一节介绍一种称为`state`的新概念，State 可以在不违反上述规则的情况下，根据用户操作、网络响应、或者其他状态变化，使组件动态的响应并改变组件的输出。
+当然，应用的界面是随时间动态变化的，我们将在下一节介绍一种称为 `state` 的新概念，State 可以在不违反上述规则的情况下，根据用户操作、网络响应、或者其他状态变化，使组件动态的响应并改变组件的输出。
 
 ### 使用 PropTypes 检查类型
 
 随着应用日渐庞大，你可以通过类型检查捕获大量错误。要检查组件的属性，你需要配置特殊的 `propTypes` 属性：
+
 ```jsx
 import PropTypes from 'prop-types';
 
@@ -95,7 +96,5 @@ Greeting.propTypes = {
 };
 ```
 
-如上例，Taro 与 React 一样，也支持`PropTypes` 检查类型，*目前在小程序端还有些问题*，但在 H5 端可以使用，用法和在 React 里一样。
-更多可参照[React 的相关文档](https://reactjs.org.cn/doc/typechecking-with-proptypes.html)。
-
-
+如上例，Taro 与 React 一样，也支持 `PropTypes` 检查类型，*目前在小程序端还有些问题*，但在 H5 端可以使用，用法和在 React 里一样。
+更多可参照 [React 的相关文档](https://reactjs.org.cn/doc/typechecking-with-proptypes.html)。

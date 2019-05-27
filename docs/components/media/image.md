@@ -20,10 +20,10 @@ sidebar_label: Image
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
 | src     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| mode    | ✔ | ✔ | X (部分支持：scaleToFill, aspectFit, aspectFill, widthFix)  | ✔ | ✔ | ✔ |
+| mode    | ✔ | ✔ | 部分支持 scaleToFill, aspectFit, aspectFill, widthFix | ✔ | ✔ | ✔ |
 | onError | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | onLoad  | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| lazyLoad| ✔ |  |  | ✔ | ✔ | ✔ |
+| lazyLoad| ✔ |  | x | ✔ | ✔ | ✔ |
 
 > 注意
 

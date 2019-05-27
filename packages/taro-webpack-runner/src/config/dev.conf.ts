@@ -2,6 +2,7 @@ import * as path from 'path';
 
 import { addLeadingSlash, addTrailingSlash, appPath } from '../util';
 import {
+  getCopyWebpackPlugin,
   getDefinePlugin,
   getDevtool,
   getEntry,
@@ -21,6 +22,7 @@ export default function (config: Partial<BuildConfig>): any {
   const chain = getBaseChain()
   const {
     alias = emptyObj,
+    copy,
     entry = emptyObj,
     output = emptyObj,
     sourceRoot = '',
@@ -63,6 +65,10 @@ export default function (config: Partial<BuildConfig>): any {
     }, miniCssExtractPluginOption])
   }
 
+  if (copy) {
+    plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
+  }
+
   plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
     filename: 'index.html',
     template: path.join(appPath, sourceRoot, 'index.html')
@@ -83,7 +89,6 @@ export default function (config: Partial<BuildConfig>): any {
     }, output]),
     resolve: { alias },
     module: getModule({
-      mode,
       designWidth,
       deviceRatio,
       enableExtract,

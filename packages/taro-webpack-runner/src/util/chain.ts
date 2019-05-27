@@ -1,16 +1,18 @@
-import CssoWebpackPlugin from 'csso-webpack-plugin';
-import * as HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import { partial } from 'lodash';
-import { fromPairs, map, mapKeys, pipe, toPairs, keys, reduce } from 'lodash/fp';
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as path from 'path';
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-import * as webpack from 'webpack';
+import * as apis from '@tarojs/taro-h5/dist/taroApis'
+import * as CopyWebpackPlugin from 'copy-webpack-plugin'
+import CssoWebpackPlugin from 'csso-webpack-plugin'
+import * as sass from 'dart-sass'
+import * as HtmlWebpackPlugin from 'html-webpack-plugin'
+import { partial } from 'lodash'
+import { mapKeys, pipe } from 'lodash/fp'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import { join, resolve } from 'path'
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import * as webpack from 'webpack'
 
-import { appPath, recursiveMerge } from '.';
-import { getPostcssPlugins } from '../config/postcss.conf';
-import { Option, PostcssOption } from './types';
+import { appPath, recursiveMerge } from '.'
+import { getPostcssPlugins } from '../config/postcss.conf'
+import { CopyOptions, Option, PostcssOption } from './types'
 
 const defaultUglifyJsOption = {
   keep_fnames: true,
@@ -22,7 +24,6 @@ const defaultUglifyJsOption = {
   },
   warnings: false
 }
-
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
@@ -30,7 +31,6 @@ const defaultCSSCompressOption = {
   discardUnused: false,
   minifySelectors: false
 }
-
 const defaultBabelLoaderOption = {
   plugins: [
     require.resolve('babel-plugin-syntax-dynamic-import'),
@@ -39,10 +39,16 @@ const defaultBabelLoaderOption = {
       {
         pragma: 'Nerv.createElement'
       }
+    ],
+    [
+      require.resolve('babel-plugin-transform-taroapi'),
+      {
+        apis,
+        packageName: '@tarojs/taro-h5'
+      }
     ]
   ]
 }
-
 const defaultMediaUrlLoaderOption = {
   limit: 10240
 }
@@ -85,29 +91,6 @@ const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
 
-const getNamedDllContext = (outputRoot, dllDirectory, name) => {
-  return {
-    context: path.join(appPath, outputRoot, dllDirectory),
-    name
-  }
-}
-
-const processDllOption = ({ outputRoot, dllDirectory, dllFilename }) => {
-  const context = path.join(appPath, outputRoot, dllDirectory)
-  return {
-    path: path.join(context, '[name]-manifest.json'),
-    name: dllFilename,
-    context
-  }
-}
-
-const processDllReferenceOption = ({ context, name }) => {
-  return {
-    context,
-    manifest: require(path.join(context, `${name}-manifest.json`))
-  }
-}
-
 const processEnvOption = partial(mapKeys, key => `process.env.${key}`)
 
 const getStyleLoader = pipe(mergeOption, partial(getLoader, 'style-loader'))
@@ -140,21 +123,62 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
 const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
-const getDllPlugin = pipe(processDllOption, listify, partial(getPlugin, webpack.DllPlugin))
-const getDllReferencePlugin = pipe(getNamedDllContext, processDllReferenceOption, listify, partial(getPlugin, webpack.DllReferencePlugin))
-const getHtmlWebpackIncludeAssetsPlugin = pipe(listify, partial(getPlugin, HtmlWebpackIncludeAssetsPlugin))
+const getCopyWebpackPlugin = ({ copy, appPath }: {
+  copy: CopyOptions,
+  appPath: string
+}) => {
+  const args = [
+    copy.patterns.map(({ from, to }) => {
+      return {
+        from,
+        to: resolve(appPath, to),
+        context: appPath
+      }
+    }),
+    copy.options
+  ]
+  return partial(getPlugin, CopyWebpackPlugin)(args)
+}
 
 const getEntry = (customEntry = {}) => {
-  return Object.assign(
-    {
-      app: path.join('.temp', 'app.js')
-    },
-    customEntry
-  )
+  return {
+    app: join('.temp', 'app.js'),
+    ...customEntry
+  }
+}
+
+const sassReg = /\.(s[ac]ss)\b/
+const lessReg = /\.less\b/
+const stylReg = /\.styl\b/
+const styleReg = /\.(css|s[ac]ss|less|styl)\b/
+const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
+const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
+const jsxReg = /\.jsx?$/
+const mediaReg = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
+const fontReg = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
+const imageReg = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
+
+const isNodeModule = (filename: string) => /\bnode_modules\b/.test(filename)
+const taroModuleRegs = [
+  /@tarojs[/\\_]components/, /\btaro-components\b/
+]
+const isTaroModule = (filename: string) => taroModuleRegs.some(reg => reg.test(filename))
+const defaultEsnextModuleRegs = [
+  /@tarojs[/\\_]components/, /\btaro-components\b/,
+  /@tarojs[/\\_]taro-h5/, /\btaro-h5\b/,
+  /@tarojs[/\\_]router/, /\btaro-router\b/,
+  /@tarojs[/\\_]redux-h5/, /\btaro-redux-h5\b/,
+  /@tarojs[/\\_]mobx-h5/, /\btaro-mobx-h5\b/
+]
+
+const getEsnextModuleRules = esnextModules => {
+   return [
+    ...defaultEsnextModuleRegs,
+    ...esnextModules
+  ]
 }
 
 const getModule = ({
-  mode,
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -169,7 +193,7 @@ const getModule = ({
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
-  esnextModules = [] as string[],
+  esnextModules = [] as (string | RegExp)[],
 
   module,
   plugins
@@ -177,14 +201,17 @@ const getModule = ({
 
   const postcssOption: PostcssOption = module.postcss || {}
 
-  const styleLoader = getStyleLoader([{ sourceMap: enableSourceMap }, styleLoaderOption])
-  const topStyleLoader = getStyleLoader([{ sourceMap: enableSourceMap, insertAt: 'top' }, styleLoaderOption])
-
-  const extractCssLoader = getExtractCssLoader()
-
-  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
+  const defaultStyleLoaderOption = {
+    sourceMap: enableSourceMap
+    /**
+     * 移除singleton设置，会导致样式库优先级发生错误
+     * singleton: true
+     */
+  }
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
+
+  const { namingPattern, generateScopedName } = cssModuleOptions.config!
 
   const cssOptions = [
     {
@@ -195,48 +222,82 @@ const getModule = ({
     cssLoaderOption
   ]
   const cssOptionsWithModule = [
-    {
-      importLoaders: 1,
-      sourceMap: enableSourceMap,
-      modules: cssModuleOptions.config!.namingPattern === 'module' ? true : 'global',
-      localIdentName: cssModuleOptions.config!.generateScopedName
-    },
+    Object.assign(
+      {
+        importLoaders: 1,
+        sourceMap: enableSourceMap,
+        modules: namingPattern === 'module' ? true : 'global'
+      },
+      typeof generateScopedName === 'function'
+        ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+        : { localIdentName: generateScopedName }
+    ),
     cssLoaderOption
   ]
+  const additionalBabelOptions = {
+    ...plugins.babel,
+    sourceMap: enableSourceMap
+  }
+  const esnextModuleRules = getEsnextModuleRules(esnextModules)
+
+  /**
+   * isEsnextModule
+   *
+   * 使用正则匹配判断是否是es模块
+   * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
+   */
+  const isEsnextModule = (filename: string) => esnextModuleRules.some(pattern => {
+    if (pattern instanceof RegExp) {
+      return pattern.test(filename)
+    } else {
+      return filename.indexOf(pattern) > -1
+    }
+  })
+
+  const styleLoader = getStyleLoader([
+    defaultStyleLoaderOption,
+    styleLoaderOption
+  ])
+  const topStyleLoader = getStyleLoader([
+    defaultStyleLoaderOption,
+    { insertAt: 'top' },
+    styleLoaderOption
+  ])
+
+  const extractCssLoader = getExtractCssLoader()
+
+  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
+  
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
    *
    * https://github.com/webpack-contrib/css-loader/releases/tag/v1.0.0
    */
   const cssLoader = getCssLoader(cssOptions)
-  const cssLoaders = [{
+  const cssLoaders: {
+    include?;
+    use;
+  }[] = [{
     use: [cssLoader]
   }]
 
   if (cssModuleOptions.enable) {
     const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
-    let cssModuleConditionName
     let cssModuleCondition
 
     if (cssModuleOptions.config!.namingPattern === 'module') {
-      cssModuleConditionName = 'include'
-      cssModuleCondition = {
-        and: [
-          { include: /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/},
-          { exclude: /\bnode_modules\b/ }
-        ]
-      }
+      /* 不排除 node_modules 内的样式 */
+      cssModuleCondition = styleModuleReg
     } else {
-      cssModuleConditionName = 'include'
       cssModuleCondition = {
         and: [
-          { exclude: /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/ },
-          { exclude: /\bnode_modules\b/ }
+          { exclude: styleGlobalReg },
+          { exclude: [isNodeModule] }
         ]
       }
     }
     cssLoaders.unshift({
-      [cssModuleConditionName]: [cssModuleCondition],
+      include: [cssModuleCondition],
       use: [cssLoaderWithModule]
     })
   }
@@ -255,7 +316,10 @@ const getModule = ({
 
   const resolveUrlLoader = getResolveUrlLoader([])
 
-  const sassLoader = getSassLoader([{ sourceMap: true }, sassLoaderOption])
+  const sassLoader = getSassLoader([{
+    sourceMap: true,
+    implementation: sass
+  }, sassLoaderOption])
 
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
@@ -266,137 +330,93 @@ const getModule = ({
   } = {}
 
   rule.sass = {
-    test: /\.(s[ac]ss)\b/,
+    test: sassReg,
     enforce: 'pre',
     use: [resolveUrlLoader, sassLoader]
   }
   rule.less = {
-    test: /\.less\b/,
+    test: lessReg,
     enforce: 'pre',
     use: [lessLoader]
   }
   rule.styl = {
-    test: /\.styl\b/,
+    test: stylReg,
     enforce: 'pre',
     use: [stylusLoader]
   }
   rule.css = {
-    test: /\.(css|s[ac]ss|less|styl)\b/,
+    test: styleReg,
     oneOf: cssLoaders
   }
   rule.postcss = {
-    test: /\.(css|s[ac]ss|less|styl)\b/,
-    use: [postcssLoader]
+    test: styleReg,
+    use: [postcssLoader],
+    exclude: [filename => {
+      if (isTaroModule(filename)) {
+        return true
+      } else if (isEsnextModule(filename)) {
+        return false
+      } else {
+        return isNodeModule(filename)
+      }
+    }]
   }
   rule.taroStyle = {
-    test: /\.(css|s[ac]ss|less|styl)\b/,
+    test: styleReg,
     enforce: 'post',
-    use: [topStyleLoader]
+    use: [topStyleLoader],
+    include: [(filename: string) => isTaroModule(filename)]
   }
   rule.customStyle = {
-    test: /\.(css|s[ac]ss|less|styl)\b/,
+    test: styleReg,
     enforce: 'post',
-    use: [lastStyleLoader]
-  }
-
-  const additionalBabelOptions = {
-    ...plugins.babel,
-    sourceMap: enableSourceMap
+    use: [lastStyleLoader],
+    exclude: [(filename: string) => isTaroModule(filename)]
   }
   rule.jsx = {
+    test: jsxReg,
     use: {
-      babelLoader: {
-        options: additionalBabelOptions
-      }
+      babelLoader: getBabelLoader([defaultBabelLoaderOption, additionalBabelOptions])
     }
   }
   rule.media = {
+    test: mediaReg,
     use: {
-      urlLoader: {
-        options: {
-          name: `${staticDirectory}/media/[name].[ext]`,
-          ...mediaUrlLoaderOption
-        }
-      }
+      urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
+        name: `${staticDirectory}/media/[name].[ext]`,
+        ...mediaUrlLoaderOption
+      }])
     }
   }
   rule.font = {
+    test: fontReg,
     use: {
-      urlLoader: {
-        options: {
-          name: `${staticDirectory}/fonts/[name].[ext]`,
-          ...fontUrlLoaderOption
-        }
-      }
+      urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
+        name: `${staticDirectory}/fonts/[name].[ext]`,
+        ...fontUrlLoaderOption
+      }])
     }
   }
   rule.image = {
+    test: imageReg,
     use: {
-      urlLoader: {
-        options: {
-          name: `${staticDirectory}/images/[name].[ext]`,
-          ...imageUrlLoaderOption
-        }
-      }
+      urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
+        name: `${staticDirectory}/images/[name].[ext]`,
+        ...imageUrlLoaderOption
+      }])
     }
   }
-
-  const isNodemodule = filename => /\bnode_modules\b/.test(filename)
-  const taroModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
-  let esnextModuleRegs = [/@tarojs\/components/, /@tarojs_components/, /@tarojs\\components/, /taro-components/]
-  if (Array.isArray(esnextModules) && esnextModules.length) {
-    /* cnpm 安装的模块名前带下划线 `_` */
-    esnextModuleRegs = esnextModuleRegs.concat([...esnextModules.map(v => new RegExp(`node_modules[\\\\/]_?${v}`))])
-  }
-  /**
-   * isEsnextModule
-   *
-   * 使用正则匹配判断是否是es模块
-   * 规则参考：https://github.com/webpack/webpack/blob/master/lib/RuleSet.js#L413
-   */
-  const isEsnextModule = filename => esnextModuleRegs.some(reg => reg.test(filename))
-  const isTaroModule = filename => taroModuleRegs.some(reg => reg.test(filename))
-
-  /* 通过taro处理 */
-  rule.jsx.exclude = [filename => {
-    if (isEsnextModule(filename)) {
-      return false
-    } else {
-      return isNodemodule(filename)
-    }
-  }]
-  rule.postcss.exclude = [filename => {
-    if (isTaroModule(filename)) {
-      return true
-    } else if (isEsnextModule(filename)) {
-      return false
-    } else {
-      return isNodemodule(filename)
-    }
-  }]
-  rule.taroStyle.include = [filename => isTaroModule(filename)]
-  rule.customStyle.exclude = [filename => isTaroModule(filename)]
 
   return { rule }
 }
 
 const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
-  return Object.assign(
-    {
-      path: path.join(appPath, outputRoot),
-      filename: 'js/[name].js',
-      chunkFilename: `${chunkDirectory}/[name].js`,
-      publicPath
-    },
-    customOutput
-  )
-}
-
-const getDllOutput = ({ outputRoot, dllDirectory, dllFilename }) => {
   return {
-    path: path.join(appPath, outputRoot, dllDirectory),
-    filename: `${dllFilename}.dll.js`,
-    library: dllFilename
+    path: join(appPath, outputRoot),
+    filename: 'js/[name].js',
+    chunkFilename: `${chunkDirectory}/[name].js`,
+    publicPath,
+    ...customOutput
   }
 }
 
@@ -404,31 +424,10 @@ const getDevtool = enableSourceMap => {
   return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
 }
 
-const getDllReferencePlugins = ({ dllEntry, outputRoot, dllDirectory }) => {
-  return pipe(
-    toPairs,
-    map(([key]) => {
-      return [`dll${key}`, getDllReferencePlugin(outputRoot, dllDirectory, key)]
-    }),
-    fromPairs
-  )(dllEntry)
+export {
+  isNodeModule,
+  isTaroModule,
+  getEsnextModuleRules
 }
 
-const getLibFile = (outputRoot, dllDirectory) => {
-  return function (prev, libname) {
-    const manifest = require(path.join(appPath, outputRoot, dllDirectory, `${libname}-manifest.json`));
-    if (manifest) {
-      return [...prev, path.join(dllDirectory, `${manifest.name}.dll.js`)]
-    } else {
-      return prev
-    }
-  }
-}
-
-const getLibFiles = ({dllEntry, outputRoot, dllDirectory}: {
-  dllEntry: { [key: string]: string[] };
-  outputRoot: string;
-  dllDirectory: string;
-}) => reduce(getLibFile(outputRoot, dllDirectory), [])(keys(dllEntry))
-
-export { getStyleLoader, getCssLoader, getPostcssLoader, getResolveUrlLoader, getSassLoader, getLessLoader, getStylusLoader, getExtractCssLoader, getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getDllPlugin, getModule, getUglifyPlugin, getDevtool, getDllOutput, getDllReferencePlugins, getHtmlWebpackIncludeAssetsPlugin, getCssoWebpackPlugin, getBabelLoader, defaultBabelLoaderOption, getUrlLoader, defaultMediaUrlLoaderOption, defaultFontUrlLoaderOption, defaultImageUrlLoaderOption, getLibFiles }
+export { getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }

@@ -41,6 +41,7 @@ module.exports = {
                   'pragma': 'Nerv.createElement'
                 }
               ],
+              ['@babel/plugin-proposal-decorators', { 'legacy': true }],
               ['@babel/plugin-proposal-class-properties'],
               ['@babel/plugin-proposal-object-rest-spread']
             ]
@@ -63,6 +64,14 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 2000,
+          name: 'img/[name].[ext]'
+        }
       }
     ]
   }

@@ -1,0 +1,78 @@
+.taro_chooselocation {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  top: 100%;
+  background-color: #fff;
+  transition: ease top .3s;
+}
+
+.taro_chooselocation_bar {
+  display: flex;
+  flex: 0 95px;
+  height: 95px;
+  background-color: #ededed;
+  color: #090909;
+}
+
+.taro_chooselocation_back {
+  flex: 0 45px;
+  position: relative;
+  width: 33px;
+  height: 30px;
+  margin-top: 30px;
+}
+
+.taro_chooselocation_back::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  border: solid 15px;
+  border-top-color: transparent;
+  border-right-color: #090909;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
+.taro_chooselocation_back::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  top: 0;
+  left: 3px;
+  border: solid 15px;
+  border-top-color: transparent;
+  border-right-color: #ededed;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
+.taro_chooselocation_title {
+  flex: 1;
+  line-height: 95px;
+  padding-left: 30px;
+}
+
+.taro_chooselocation_submit {
+  width: 110px;
+  height: 60px;
+  color: #fff;
+  background-color: #08bf62;
+  border: none;
+  font-size: 28px;
+  line-height: 60px;
+  padding: 0;
+  margin: 18px 30px 0 0;
+}
+
+.taro_chooselocation_frame {
+  flex: 1;
+}

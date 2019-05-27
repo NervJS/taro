@@ -1,19 +1,5 @@
-import { shallowEqual } from '@tarojs/utils'
-
 import { getStore } from '../utils/store'
 import { mergeObjects, isObject } from '../utils'
-
-function isEqual (a, b) {
-  const typeA = typeof a
-  const typeB = typeof b
-  if (typeA !== typeB) {
-    return false
-  }
-  if (typeA === 'object') {
-    return shallowEqual(a, b)
-  }
-  return a === b
-}
 
 function wrapPropsWithDispatch (mapDispatchToProps, dispatch) {
   if (typeof mapDispatchToProps === 'function') {
@@ -49,7 +35,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       if (isObject(val) && isObject(initMapDispatch[key])) {
         val = mergeObjects(val, initMapDispatch[key])
       }
-      if (!isEqual(this.props[key], val)) {
+      if (this.props[key] !== val) {
         this.props[key] = val
         isChanged = true
       }
@@ -57,7 +43,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     if (isChanged) {
       this.prevProps = prevProps
       this._unsafeCallUpdate = true
-      this.forceUpdate(() => {
+      this.setState({}, () => {
         delete this._unsafeCallUpdate
       })
     }
@@ -72,8 +58,8 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
 
     let unSubscribe = null
     return class Connect extends Component {
-      constructor (props) {
-        super(Object.assign(...arguments, mergeObjects(mapStateToProps(store.getState(), props), initMapDispatch)))
+      constructor (props, isPage) {
+        super(Object.assign(...arguments, mergeObjects(mapStateToProps(store.getState(), props), initMapDispatch)), isPage)
         Object.keys(initMapDispatch).forEach(key => {
           this[`__event_${key}`] = initMapDispatch[key]
         })

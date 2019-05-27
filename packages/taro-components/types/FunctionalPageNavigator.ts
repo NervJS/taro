@@ -7,7 +7,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * @since 2.1.0
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/functional-page-navigator.html}
  */
-interface FunctionalPageNavigatorProps extends StandardProps {
+export interface FunctionalPageNavigatorProps extends StandardProps {
 
   /**
    * 跳转到的小程序版本，有效值 develop（开发版），trial（体验版），release（正式版）；线上版本必须设置为 release

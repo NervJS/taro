@@ -1,17 +1,9 @@
 #! /usr/bin/env node
 
 const program = require('commander')
-const { getPkgVersion, printPkgVersion } = require('../src/util')
+const { getPkgVersion, printPkgVersion } = require('../dist/util')
 
 printPkgVersion()
-
-const startTime = new Date('2019-1-1 00:00').getTime()
-const endTime = new Date('2019-1-2 00:00').getTime()
-const nowTime = Date.now()
-if (nowTime >= startTime && nowTime <= endTime) {
-  const yearTxt = String(require('fs-extra').readFileSync(require('path').resolve(__dirname, 'year.txt')))
-  console.log(require('chalk').rgb(255, 87, 34)(yearTxt))
-}
 
 program
   .version(getPkgVersion())
@@ -21,4 +13,5 @@ program
   .command('update', 'Update packages of taro')
   .command('convert', 'Convert weapp to taro')
   .command('info', 'Diagnostics Taro env info')
+  .command('doctor', 'Diagnose taro project')
   .parse(process.argv)

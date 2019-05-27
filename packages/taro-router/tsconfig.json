@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "jsx": "react",
     "jsxFactory": "Nerv.createElement",
@@ -18,9 +19,13 @@
     "sourceMap": false,
     "strictNullChecks": true,
     "target": "es2015",
-    "traceResolution": false
+    "traceResolution": false,
+    "types": ["jest"]
   },
   "include": [
     "./src"
+  ],
+  "excludee": [
+    "./src/__tests__/"
   ]
 }

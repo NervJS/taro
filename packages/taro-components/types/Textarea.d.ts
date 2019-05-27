@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface TextareaProps extends StandardProps, FormItemProps {
+export interface TextareaProps extends StandardProps, FormItemProps {
 
   /**
    * 输入框的内容
@@ -115,7 +115,12 @@ interface TextareaProps extends StandardProps, FormItemProps {
    *
    * height 为键盘高度
    */
-  onFocus?: CommonEventFunction,
+  onFocus?: CommonEventFunction<{
+    /** 输入值 */
+    value: string,
+    /** 键盘高度 */
+    height: number,
+  }>,
 
   /**
    * 输入框失去焦点时触发
@@ -123,30 +128,49 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * event.detail = {value, cursor}
    *
    */
-  onBlur?: CommonEventFunction,
+  onBlur?: CommonEventFunction<{
+    /** 输入值 */
+    value: string,
+    /** 光标位置 */
+    cursor: number,
+  }>,
 
   /**
    * 输入框行数变化时调用
    *
    * event.detail = {height: 0, heightRpx: 0, lineCount: 0}
    */
-  onChange?: CommonEventFunction,
+  onLineChange?: CommonEventFunction<{
+    height: number,
+    heightRpx: number,
+    lineCount: number,
+  }>,
 
   /**
    * 当键盘输入时，触发 input 事件
    *
-   * event.detail = {value, cursor}
+   * event.detail = {value, cursor, keyCode}
    *
    * **onInput 处理函数的返回值并不会反映到 textarea 上**
    */
-  onInput?: CommonEventFunction,
+  onInput?: CommonEventFunction<{
+    /** 输入值 */
+    value: string,
+    /** 光标位置 */
+    cursor: number,
+    /** 键值 */
+    keyCode: number,
+  }>,
 
   /**
    * 点击完成时， 触发 confirm 事件，
    *
    * event.detail = {value: value}
    */
-  onConfirm?: CommonEventFunction
+  onConfirm?: CommonEventFunction<{
+    /** 输入值 */
+    value: string,
+  }>
 }
 
 declare const Textarea: ComponentType<TextareaProps>

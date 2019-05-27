@@ -12,6 +12,10 @@ export function timeoutInterceptor (chain) {
         clearTimeout(timeout)
         resolve(res)
       })
+      .catch(err => {
+        timeout && clearTimeout(timeout)
+        reject(err)
+      })
   })
 }
 

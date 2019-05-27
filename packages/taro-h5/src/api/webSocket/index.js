@@ -92,7 +92,7 @@ function onSocketClose () {
   console.warn('Deprecated.Please use socketTask.onClose instead.')
 }
 
-export default {
+export {
   connectSocket,
   onSocketOpen,
   onSocketError,

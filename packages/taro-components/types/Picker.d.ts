@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface PickerStandardProps extends StandardProps, FormItemProps {
+export interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
    * 是否禁用
    *
@@ -18,7 +18,7 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
   onCancel?: CommonEventFunction
 }
 
-interface PickerSelectorProps extends PickerStandardProps {
+export interface PickerSelectorProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -37,7 +37,7 @@ interface PickerSelectorProps extends PickerStandardProps {
   value: number
 }
 
-interface PickerMultiSelectorProps extends PickerStandardProps {
+export interface PickerMultiSelectorProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -60,7 +60,7 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   onColumnChange?: CommonEventFunction
 }
 
-interface PickerTimeProps extends PickerStandardProps {
+export interface PickerTimeProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -79,7 +79,7 @@ interface PickerTimeProps extends PickerStandardProps {
   end?: string
 }
 
-interface PickerDateProps extends PickerStandardProps {
+export interface PickerDateProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */
@@ -104,7 +104,7 @@ interface PickerDateProps extends PickerStandardProps {
   fields?: 'year' | 'month' | 'day'
 }
 
-interface PickerRegionProps extends PickerStandardProps {
+export interface PickerRegionProps extends PickerStandardProps {
   /**
    * 从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器
    */

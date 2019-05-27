@@ -40,6 +40,11 @@ class ScrollView extends Nerv.Component {
   constructor () {
     super(...arguments)
   }
+
+  onTouchMove = e => {
+    e.stopPropagation()
+  }
+
   componentDidMount () {
     setTimeout(() => {
       const props = this.props
@@ -71,7 +76,7 @@ class ScrollView extends Nerv.Component {
     // Y 轴滚动
     if (
       nextProps.scrollY &&
-      typeof props.scrollTop === 'number' &&
+      typeof nextProps.scrollTop === 'number' &&
       nextProps.scrollTop !== this._scrollTop
     ) {
       if ('scrollWithAnimation' in nextProps) {
@@ -109,7 +114,7 @@ class ScrollView extends Nerv.Component {
       scrollX,
       scrollY
     } = this.props
-    let { upperThreshold = 0, lowerThreshold = 0 } = this.props
+    let { upperThreshold = 50, lowerThreshold = 50 } = this.props
     const cls = classNames(
       'taro-scroll',
       {
@@ -119,7 +124,7 @@ class ScrollView extends Nerv.Component {
       className
     )
     upperThreshold = parseInt(upperThreshold)
-    lowerThreshold = parseInt(upperThreshold)
+    lowerThreshold = parseInt(lowerThreshold)
     const uperAndLower = () => {
       const {
         offsetWidth,
@@ -170,10 +175,10 @@ class ScrollView extends Nerv.Component {
         ref={container => {
           this.container = container
         }}
-        {...omit(this.props, ['className'])}
+        {...omit(this.props, ['className', 'scrollTop', 'scrollLeft'])}
         className={cls}
         onScroll={_onScroll}
-      >
+        onTouchMove={this.onTouchMove}>
         {this.props.children}
       </div>
     )

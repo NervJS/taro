@@ -30,9 +30,9 @@ class Home extends Component {
 
 ### 必须声明 `Taro` 和组件
 
-在这段代码中，大写开头的 JSX 标签 `View` 表示它是一个 Taro 组件，尽管在整段代码中，变量 `View`  看起来并没有被调用，但也必须从 `@tarojs/components`  中引入声明。变量 `Taro` 也是一个必须引入声明的变量，因为我们在编译期和运行时会依赖这个变量做一些特殊处理。**当你引入了组件时，一定要使用，不要出现没有使用的变量。**
+在这段代码中，大写开头的 JSX 标签 `View` 表示它是一个 Taro 组件，尽管在整段代码中，变量 `View` 看起来并没有被调用，但也必须从 `@tarojs/components` 中引入声明。变量 `Taro` 也是一个必须引入声明的变量，因为我们在编译期和运行时会依赖这个变量做一些特殊处理。**当你引入了组件时，一定要使用，不要出现没有使用的变量。**
 
-> 当你只用支持微信小程序时，可以不用引入组件例如  `View` 这样的声明。但我们仍然强烈推荐你在顶部引入你将要使用的组件，这样编辑器/IDE 能更好地提前发现可能出现的问题，也为将来可能需要的多端转换留有余地。
+> 当你只用支持微信小程序时，可以不用引入组件例如 `View` 这样的声明。但我们仍然强烈推荐你在顶部引入你将要使用的组件，这样编辑器/IDE 能更好地提前发现可能出现的问题，也为将来可能需要的多端转换留有余地。
 
 ### 首字母大写与驼峰式命名
 
@@ -55,7 +55,7 @@ class App extends Component {
 }
 ```
 
-为了解决这个问题，我们将 `home_page ` 重命名为 `HomePage`，然后使用 `<HomePage />` 引用：
+为了解决这个问题，我们将 `home_page` 重命名为 `HomePage`，然后使用 `<HomePage />` 引用：
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
@@ -72,7 +72,6 @@ class App extends Component {
 ```
 
 > 和 React/Nerv 不一样的地方在于，Taro 不支持使用 `点表示法` 和[运行时指定类型](https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime)来引用组件，例如 `<MyComponents.DatePicker />` 这样的写法在 Taro 中是无法正确编译的。
-
 
 ## 属性
 
@@ -93,7 +92,6 @@ if 语句和 for 循环在 JavaScript 中不是表达式，因此它们不能直
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 
-
 class App extends Components {
   render () {
     let description
@@ -108,7 +106,6 @@ class App extends Components {
   }
 }
 ```
-
 
 ### 字符串常量
 
@@ -132,7 +129,7 @@ class App extends Components {
 
 > 和 React/Nerv 的不同：
 > React 可以使用 `...` 拓展操作符来传递属性，但在 Taro 中你不能这么做。例如：
-> ```
+> ```jsx
 > const props = {firstName: 'Plus', lastName: 'Second'}
 > return <Greeting {...props} />
 > ```
@@ -141,7 +138,7 @@ class App extends Components {
 
 ### 嵌套
 
-如果 JSX 标签是闭合式的，那么你需要在结尾处用 />, 就好像 XML/HTML 一样：
+如果 JSX 标签是闭合式的，那么你需要在结尾处用 `/>`, 就好像 XML/HTML 一样：
 
 ```jsx
 const element = <Image src={user.avatarUrl} />;
@@ -173,7 +170,7 @@ render () {
 
 ### 布尔值、Null 和 Undefined 被忽略
 
-false、null、undefined 和 true 都是有效的 children，但它们不会直接被渲染。下面的表达式是等价的：
+`false`、`null`、`undefined` 和 `true` 都是有效的 children，但它们不会直接被渲染。下面的表达式是等价的：
 
 ```jsx
 <View />
@@ -189,7 +186,7 @@ false、null、undefined 和 true 都是有效的 children，但它们不会直�
 <View>{true}</View>
 ```
 
-这在根据条件来确定是否渲染 元素时非常有用。以下的 JSX 只会在 showHeader 为 true 时渲染<Header />组件。
+这在根据条件来确定是否渲染 元素时非常有用。以下的 JSX 只会在 showHeader 为 true 时渲染 `<Header />` 组件。
 
 ```jsx
 <View>

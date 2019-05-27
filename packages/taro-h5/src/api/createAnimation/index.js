@@ -104,6 +104,13 @@ class Animation {
       }
     })
   }
+  transformUnit (...args) {
+    const ret = []
+    args.forEach(each => {
+      ret.push(isNaN(each) ? each : `${each}${this.unit}`)
+    })
+    return ret
+  }
   // 设置默认值
   setDefault (duration, delay, timingFunction, transformOrigin) {
     this.DEFAULT = { duration, delay, timingFunction, transformOrigin }
@@ -179,23 +186,30 @@ class Animation {
     return this
   }
   translate (x, y) {
-    this.transform.push(`translate(${x}${this.unit}, ${y}${this.unit})`)
+    [x, y] = this.transformUnit(x, y)
+    this.transform.push(`translate(${x}, ${y})`)
     return this
   }
   translate3d (x, y, z) {
-    this.transform.push(`translate3d(${x}${this.unit}, ${y}${this.unit}, ${z}${this.unit})`)
+    [x, y, z] = this.transformUnit(x, y, z)
+    this.transform.push(
+      `translate3d(${x}, ${y}, ${z})`
+    )
     return this
   }
   translateX (translate) {
-    this.transform.push(`translateX(${translate}${this.unit})`)
+    [translate] = this.transformUnit(translate)
+    this.transform.push(`translateX(${translate})`)
     return this
   }
   translateY (translate) {
-    this.transform.push(`translateY(${translate}${this.unit})`)
+    [translate] = this.transformUnit(translate)
+    this.transform.push(`translateY(${translate})`)
     return this
   }
   translateZ (translate) {
-    this.transform.push(`translateZ(${translate}${this.unit})`)
+    [translate] = this.transformUnit(translate)
+    this.transform.push(`translateZ(${translate})`)
     return this
   }
   opacity (value) {
@@ -207,27 +221,33 @@ class Animation {
     return this
   }
   width (value) {
-    this.rules.push(`width: ${value}${this.unit}`)
+    [value] = this.transformUnit(value)
+    this.rules.push(`width: ${value}`)
     return this
   }
   height (value) {
-    this.rules.push(`height: ${value}${this.unit}`)
+    [value] = this.transformUnit(value)
+    this.rules.push(`height: ${value}`)
     return this
   }
   top (value) {
-    this.rules.push(`top: ${value}${this.unit}`)
+    [value] = this.transformUnit(value)
+    this.rules.push(`top: ${value}`)
     return this
   }
   right (value) {
-    this.rules.push(`right: ${value}${this.unit}`)
+    [value] = this.transformUnit(value)
+    this.rules.push(`right: ${value}`)
     return this
   }
   bottom (value) {
-    this.rules.push(`bottom: ${value}${this.unit}`)
+    [value] = this.transformUnit(value)
+    this.rules.push(`bottom: ${value}`)
     return this
   }
   left (value) {
-    this.rules.push(`left: ${value}${this.unit}`)
+    [value] = this.transformUnit(value)
+    this.rules.push(`left: ${value}`)
     return this
   }
   // 关键帧载入
@@ -283,4 +303,4 @@ function createAnimation (...arg) {
   return new Animation(...arg)
 }
 
-export default createAnimation
+export { createAnimation }

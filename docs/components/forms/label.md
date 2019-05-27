@@ -15,7 +15,7 @@ sidebar_label: Label
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| for | ✔ | ✔ |  | ✔ | ✔ | ✔ |
+| for | ✔ | ✔ | x | ✔ | ✔ | ✔ |
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'

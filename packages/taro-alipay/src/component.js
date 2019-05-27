@@ -1,6 +1,6 @@
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
-import { getObjChainValue } from './util'
+import { getObjChainValue, genCompPrefix } from './util'
 import { cacheDataSet, cacheDataGet } from './data-cache'
 // #组件state对应小程序组件data
 // #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
@@ -9,6 +9,7 @@ import { cacheDataSet, cacheDataGet } from './data-cache'
 //          -> 触发子组件componentWillReciveProps，更新子组件props,componentShouldUpdate -> 子组件_createData -> 子组件setData
 
 const PRELOAD_DATA_KEY = 'preload'
+const COLLECT_CHILDS = 'onTaroCollectChilds'
 
 class BaseComponent {
   // _createData的时候生成，小程序中通过data.__createData访问
@@ -29,10 +30,18 @@ class BaseComponent {
     path: ''
   }
 
+  // hooks
+  _afterScheduleEffect = false
+  _disableEffect = false
+  hooks = []
+  effects = []
+  layoutEffects = []
+
   constructor (props = {}, isPage) {
     this.state = {}
-    this.props = {}
+    this.props = props
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
+    this.$prefix = genCompPrefix()
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
   }
   _constructor (props) {
@@ -40,6 +49,12 @@ class BaseComponent {
   }
   _init (scope) {
     this.$scope = scope
+    if (scope.$page &&
+      typeof this.props[COLLECT_CHILDS] === 'function' &&
+      typeof scope.props.id === 'string'
+    ) {
+      this.props[COLLECT_CHILDS](this, scope.props.id)
+    }
   }
   setState (state, callback) {
     if (state) {
@@ -88,6 +103,11 @@ class BaseComponent {
       preloadData[key] = value
     }
     cacheDataSet(PRELOAD_DATA_KEY, preloadData)
+  }
+
+  $collectChilds = (child, id) => {
+    if (!this.$childs) this.$childs = {}
+    this.$childs[id] = child
   }
 
   __triggerPropsFn (key, args) {

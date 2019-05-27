@@ -80,7 +80,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     const classDecl = t.classDeclaration(
       t.identifier(className),
       t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
-      t.classBody([render!, classProp]),
+      t.classBody([render, classProp]),
       []
     )
     path.remove()
@@ -180,7 +180,11 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)
-    jsx.remove()
+    try {
+      jsx.remove()
+    } catch (error) {
+     //
+    }
     return imports
   } else {
     const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type), true)

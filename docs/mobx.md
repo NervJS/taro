@@ -1,10 +1,10 @@
 ---
-title: 使用 Mobx
+title: 使用 MobX
 ---
 
 > 自 `1.2.0-beta.1` 开始支持
 
-[Mobx](https://mobx.js.org/) 为复杂项目中状态管理提供了一种简单高效的机制；Taro 提供了 `@tarojs/mobx` 来让开发人员在使用Mobx的过程中获得更加良好的开发体验。
+[MobX](https://mobx.js.org/) 为复杂项目中状态管理提供了一种简单高效的机制；Taro 提供了 `@tarojs/mobx` 来让开发人员在使用 MobX 的过程中获得更加良好的开发体验。
 
 > 下文中示例代码均在 [taro-mobx-sample](https://github.com/nanjingboy/taro-mobx-sample)
 
@@ -48,7 +48,7 @@ export default counterStore
 ```jsx
 // src/app.js
 import Taro, { Component } from '@tarojs/taro'
-import { Provider } from '@tarojs/mobx'
+import { Provider, onError } from '@tarojs/mobx'
 import Index from './pages/index'
 
 import counterStore from './store/counter'
@@ -58,6 +58,10 @@ import './app.scss'
 const store = {
   counterStore
 }
+
+onError(error => {
+  console.log('mobx global error listener:', error)
+})
 
 class App extends Component {
 
@@ -112,19 +116,32 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillRect')
+  componentWillMount () {
+    console.log('componentWillMount')
   }
 
-  componentDidMount () { }
+  /**
+   * 该方法将在 observable 对象更新时触发
+   */
+  componentWillReact () {
+    console.log('componentWillReact')
+  }
 
-  componentWillUnmount () { }
+  componentDidMount () {
+    console.log('componentDidMount')
+  }
 
-  componentDidShow () { }
+  componentWillUnmount () {
+    console.log('componentWillUnmount')
+  }
 
-  componentDidHide () { }
+  componentDidShow () {
+    console.log('componentDidShow')
+  }
+
+  componentDidHide () {
+    console.log('componentDidHide')
+  }
 
   increment = () => {
     const { counterStore } = this.props
@@ -158,10 +175,10 @@ export default Index
 
 ```
 
-上例中 `Provider`、`inject`、 `observer`的使用方式基本上与[mobx-react](https://github.com/mobxjs/mobx-react) 保持了一致，但也有以下几点需要注意：
+上例中 `Provider`、`inject`、 `observer`、`onError` 的使用方式基本上与 [mobx-react](https://github.com/mobxjs/mobx-react) 保持了一致，但也有以下几点需要注意：
 
-* `Provider`不支持嵌套，即全局只能存在一个`Provider`
-* 在 `mobx-react`中，可通过以下方式设置`store`：
+* `Provider` 不支持嵌套，即全局只能存在一个 `Provider`
+* 在 `mobx-react` 中，可通过以下方式设置 `store`：
 
   ```jsx
   <Provider store1={xxxx} store2={xxxx}>
@@ -169,7 +186,7 @@ export default Index
   </Provider>
   ```
 
-  而在`@tarojs/mobx`中，我们需要使用以下方式设置：
+  而在 `@tarojs/mobx` 中，我们需要使用以下方式设置：
 
   ```jsx
   const store = {
@@ -181,9 +198,9 @@ export default Index
   </Provider>
   ```
 
-* `inject`、 `observer` 不能在stateless组件上使用
+* `inject`、 `observer` 不能在 stateless 组件上使用
 * `observer` 不支持任何参数
-* 按照以下方式使用 `inject` 时，不能省略`observer`的显式调用：
+* 按照以下方式使用 `inject` 时，不能省略 `observer` 的显式调用：
 
   ```jsx
   @inject((stores, props) => ({
@@ -194,12 +211,12 @@ export default Index
 
 注意事项：
 
-* 在`Component`的`render`方法中，如果需要使用一个`observable` 对象（该例中为`counter`），您需要：
+* 在 `Component` 的 `render` 方法中，如果需要使用一个 `observable` 对象（该例中为 `counter`），您需要：
 
   ```js
   const { counterStore: { counter } } = this.props
   return (
-     <Text>{counter}</Text>
+    <Text>{counter}</Text>
   )
   ```
 
@@ -208,7 +225,7 @@ export default Index
   ```js
   const { counterStore } = this.props
   return (
-     <Text>{counterStore.counter}</Text>
+    <Text>{counterStore.counter}</Text>
   )
   ```
 
@@ -219,7 +236,7 @@ export default Index
   @observable counter = 0 // 正确
   ```
 
-* 自`1.2.0-beta.5`后，`propTypes`已从`taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn`中剥离，如需使用，请单独进行安装：
+* 自 `1.2.0-beta.5` 后，`propTypes` 已从 `taro-mobx`、`taro-mobx-h5`、`taro-mobx-rn` 中剥离，如需使用，请单独进行安装：
 
   ```bash
   $ yarn add @tarojs/mobx-prop-types
@@ -227,4 +244,6 @@ export default Index
   $ npm install --save @tarojs/mobx-prop-types
   ```
 
-  `propTypes` 使用与[mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 一致
+  `propTypes` 使用与 [mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 一致
+
+  > 注：自 `1.2.27-beta.0` 后，`@tarojs/mobx-prop-types` 已被移除，请使用 [mobx-react](https://github.com/mobxjs/mobx-react#proptypes) 替代。

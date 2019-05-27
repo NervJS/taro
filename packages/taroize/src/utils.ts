@@ -13,7 +13,7 @@ export function isAliasThis (p: NodePath<t.Node>, name: string) {
   return false
 }
 
-export function isValidVarName (str: string) {
+export function isValidVarName (str?: string) {
   if (typeof str !== 'string') {
     return false
   }
@@ -133,6 +133,10 @@ export function buildImportStatement (source: string, specifiers: string[] = [],
   )
 }
 
+export const setting = {
+  sourceCode: ''
+}
+
 export function codeFrameError (node, msg: string) {
   let errMsg = ''
   try {
@@ -145,16 +149,11 @@ export function codeFrameError (node, msg: string) {
   ${errMsg}`)
 }
 
-export const setting = {
-  sourceCode: ''
-}
-
 // tslint:disable-next-line
 export const DEFAULT_Component_SET = new Set<string>([
   'View',
   'ScrollView',
   'Swiper',
-  'MovableView',
   'CoverView',
   'CoverImage',
   'Icon',

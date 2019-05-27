@@ -7,7 +7,6 @@ export const DEFAULT_Component_SET = new Set<string>([
   'View',
   'ScrollView',
   'Swiper',
-  'MovableView',
   'CoverView',
   'CoverImage',
   'Icon',
@@ -46,8 +45,13 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Ad',
   'Block',
   'Import',
-  'OfficialAccount'
+  'OfficialAccount',
+  'Template'
 ])
+
+// tslint:disable-next-line:variable-name
+export const DEFAULT_Component_SET_COPY = new Set<string>([])
+DEFAULT_Component_SET.forEach((c) => DEFAULT_Component_SET_COPY.add(c))
 
 export const INTERNAL_SAFE_GET = 'internal_safe_get'
 
@@ -67,13 +71,29 @@ export const INTERNAL_GET_ORIGNAL = 'internal_get_original'
 
 export const GEL_ELEMENT_BY_ID = 'getElementById'
 
-export const LOOP_STATE = '$loopState'
+export const PROPS_MANAGER = 'propsManager'
+
+export const GEN_COMP_ID = 'genCompid'
+
+export const GEN_LOOP_COMPID = 'genLoopCompid'
+
+export const CLASS_COMPONENT_UID = '_$uid'
+
+export let LOOP_STATE = '$loopState'
+
+export const setLoopState = (s: string) => LOOP_STATE = s
+
+export const COMPID = '$compid'
 
 export let LOOP_ORIGINAL = '$original'
 
 export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 
-export const LOOP_CALLEE = '$anonymousCallee_'
+export let LOOP_CALLEE = '$anonymousCallee_'
+
+export let setLoopCallee = (s: string) => LOOP_CALLEE = s
+
+export const CONTEXT_PROVIDER = 'PrivateContextProvider'
 
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
@@ -107,6 +127,8 @@ export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
   'onLongTap'
 ])
 
+export const ANONYMOUS_FUNC = 'anonymousFunc'
+
 export const TRANSFORM_COMPONENT_PROPS = new Map<Adapters, { [key: string]: { [key: string]: string } }>()
 
 TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
@@ -116,3 +138,25 @@ TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
 })
 
 export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'
+
+export let FN_PREFIX = '__fn_'
+
+export const setFnPrefix = (s: string) => FN_PREFIX = s
+
+export const quickappComponentName = new Set([
+  'Swiper',
+  'Image',
+  'Progress',
+  // 'Text',
+  'Input',
+  'Label',
+  'Picker',
+  'Slider',
+  'Switch',
+  'Textarea',
+  'Video',
+  'Camera',
+  'Canvas',
+  'Map',
+  'Button'
+])

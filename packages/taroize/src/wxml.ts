@@ -5,7 +5,7 @@ import traverse, { NodePath, Visitor } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
-import { usedComponents, errors } from './global'
+import { usedComponents, errors, globals } from './global'
 import { reserveKeyWords } from './constant'
 import { parseExpression } from 'babylon'
 
@@ -155,8 +155,11 @@ export const createWxmlVistor = (
             if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
               return
             }
-            refIds.add(p.node.name)
-          }
+            if (isValidVarName(p.node.name)) {
+              refIds.add(p.node.name)
+            }
+          },
+          JSXAttribute: jsxAttrVisitor
         })
         const slotAttr = attrs.find(a => a.node.name.name === 'slot')
         if (slotAttr) {
@@ -208,6 +211,9 @@ export const createWxmlVistor = (
           wxses.push(getWXS(attrs.map(a => a.node), path, imports))
         }
         if (tagName === 'Template') {
+          // path.traverse({
+          //   JSXAttribute: jsxAttrVisitor
+          // })
           const template = parseTemplate(path, dirPath)
           if (template) {
             const { ast: classDecl, name } = template
@@ -522,11 +528,15 @@ function transformIf (
 function handleConditions (conditions: Condition[]) {
   if (conditions.length === 1) {
     const ct = conditions[0]
-    ct.path.replaceWith(
-      t.jSXExpressionContainer(
-        t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+    try {
+      ct.path.replaceWith(
+        t.jSXExpressionContainer(
+          t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+        )
       )
-    )
+    } catch (error) {
+      //
+    }
   }
   if (conditions.length > 1) {
     const lastLength = conditions.length - 1
@@ -585,9 +595,9 @@ function findWXIfProps (
   return matches
 }
 
-function parseNode (node: AllKindNode) {
+function parseNode (node: AllKindNode, tagName?: string) {
   if (node.type === NodeType.Text) {
-    return parseText(node)
+    return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
     const emptyStatement = t.jSXEmptyExpression()
     emptyStatement.innerComments = [{
@@ -610,12 +620,15 @@ function parseElement (element: Element): t.JSXElement {
     attributes = attributes.map(attr => {
       if (attr.key === 'data') {
         const value = attr.value || ''
-        // debugger
         const content = parseContent(value)
         if (content.type === 'expression') {
           isSpread = true
           const str = content.content
-          attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+          if (str.includes('...') && str.includes(',')) {
+            attr.value = `{{${str.slice(1, str.length - 1)}}}`
+          } else {
+            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+          }
         } else {
           attr.value = content.content
         }
@@ -632,7 +645,7 @@ function parseElement (element: Element): t.JSXElement {
   return t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    removEmptyTextAndComment(element.children).map(parseNode),
+    removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
 }
@@ -642,13 +655,17 @@ function removEmptyTextAndComment (nodes: AllKindNode[]) {
     return node.type === NodeType.Element
       || (node.type === NodeType.Text && node.content.trim().length !== 0)
       || node.type === NodeType.Comment
-  })
+  }).filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
-function parseText (node: Text) {
+function parseText (node: Text, tagName?: string) {
+  if (tagName === 'wxs') {
+    return t.jSXText(node.content)
+  }
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
-    return t.jSXText(content)
+    const text = content.replace(/([{}]+)/g,"{'$1'}")
+    return t.jSXText(text)
   }
   return t.jSXExpressionContainer(buildTemplate(content))
 }
@@ -720,6 +737,18 @@ function parseAttribute (attr: Attribute) {
         } else if (content.includes(':')) {
           const [ key, value ] = pureContent.split(':')
           expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), parseExpression(value))])
+        } else if (content.includes('...') && content.includes(',')) {
+          const objExpr = content.slice(1, content.length - 1).split(',')
+          const props: (t.SpreadProperty | t.ObjectProperty)[] = []
+          for (const str of objExpr) {
+            const s = str.trim()
+            if (s.includes('...')) {
+              props.push(t.spreadProperty(t.identifier(s.slice(3))))
+            } else {
+              props.push(t.objectProperty(t.identifier(s), t.identifier(s)))
+            }
+          }
+          expr = t.objectExpression(props)
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)
@@ -730,7 +759,7 @@ function parseAttribute (attr: Attribute) {
         console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
         expr = t.stringLiteral('__placeholder__')
       }
-      jsxValue = t.jSXExpressionContainer(expr!)
+      jsxValue = t.jSXExpressionContainer(expr)
     }
   }
 
@@ -739,6 +768,13 @@ function parseAttribute (attr: Attribute) {
     jsxValue = t.jSXExpressionContainer(
       t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))
     )
+  }
+
+  if (key.startsWith('catch') && value && value === 'true') {
+    jsxValue = t.jSXExpressionContainer(
+      t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
+    )
+    globals.hasCatchTrue = true
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }
@@ -753,13 +789,14 @@ function handleAttrKey (key: string) {
   } else if (key === 'class') {
     return 'className'
   } else if (/^(bind|catch)[a-z|:]/.test(key)) {
-    if (!isValidVarName(key)) {
-      throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
-    }
     if (specialEvents.has(key)) {
       return specialEvents.get(key)!
     } else {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
+      key = camelCase(key)
+      if (!isValidVarName(key)) {
+        throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
+      }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
     }
   }

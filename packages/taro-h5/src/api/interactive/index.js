@@ -2,6 +2,7 @@ import { errorHandler, getParameterError } from '../utils'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'
+import Taro from '../../taro'
 
 let status = 'default'
 
@@ -209,6 +210,11 @@ function showModal (options = {}) {
   return modal.show(options)
 }
 
+function hideModal () {
+  if (!modal.el) return
+  modal.hide()
+}
+
 function showActionSheet (options = {}) {
   init(document)
 
@@ -267,5 +273,11 @@ function showActionSheet (options = {}) {
   if (!actionSheet.el) return actionSheet.create(options)
   return actionSheet.show(options)
 }
+
+Taro.eventCenter.on('__taroRouterChange', () => {
+  hideToast()
+  hideLoading()
+  hideModal()
+})
 
 export { showToast, hideToast, showLoading, hideLoading, showModal, showActionSheet }

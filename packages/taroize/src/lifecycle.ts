@@ -12,7 +12,7 @@ export const enum Lifecycle {
   componentDidMoved = 'componentDidMoved',
   shouldComponentUpdate = 'shouldComponentUpdate',
   componentWillReceiveProps = 'componentWillReceiveProps',
-  componentCatchError = 'componentCatchError'
+  componentDidCatchError = 'componentDidCatchError'
 }
 
 export const PageLifecycle = new Map<string, string>()
@@ -22,5 +22,5 @@ PageLifecycle.set('onShow', Lifecycle.componentDidShow)
 PageLifecycle.set('onReady', Lifecycle.componentDidMount)
 PageLifecycle.set('onHide', Lifecycle.componentDidHide)
 PageLifecycle.set('onUnload', Lifecycle.componentWillUnmount)
-PageLifecycle.set('onError', Lifecycle.componentCatchError)
+PageLifecycle.set('onError', Lifecycle.componentDidCatchError)
 PageLifecycle.set('onLaunch', Lifecycle.componentWillMount)

@@ -77,11 +77,14 @@ const noPromiseApis = {
   createAnimation: true,
   createSelectorQuery: true,
   createCanvasContext: true,
-  createContext: true,
+  // createContext: true,
   drawCanvas: true,
   hideKeyboard: true,
   stopPullDownRefresh: true,
   createIntersectionObserver: true,
+
+  // 菜单
+  getMenuButtonBoundingClientRect: true,
 
   onWindowResize: true,
   offWindowResize: true,
@@ -92,7 +95,11 @@ const noPromiseApis = {
 
   getAccountInfoSync: true,
   getUpdateManager: true,
-  createWorker: true
+  createWorker: true,
+
+  // 广告
+  createRewardedVideoAd: true,
+  createInterstitialAd: true
 }
 const otherApis = {
   // 网络

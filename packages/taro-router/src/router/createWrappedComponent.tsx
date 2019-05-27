@@ -1,11 +1,10 @@
-import { tryToCall } from '../utils/index'
+import { tryToCall } from '../utils'
 import * as Types from '../utils/types'
-import { Component } from '@tarojs/taro-h5';
 
 const createWrappedComponent = (component: Types.PageComponent) => {
   class WrappedComponent extends component {
     config: { [key: string]: any };
-    wrappedInstance: Component<any, any>;
+    wrappedInstance: Taro.Component<any, any>;
 
     constructor (props, context) {
       super(props, context)

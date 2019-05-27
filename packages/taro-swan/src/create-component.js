@@ -1,38 +1,21 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-
-import { isEmptyObject, noop } from './util'
+import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
+import { isEmptyObject, isFunction } from './util'
 import { updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
+import propsManager from './propsManager'
 
-const privatePropValName = 'privateTriggerObserer'
 const anonymousFnNamePreffix = 'funPrivate'
-const componentFnReg = /^__fn_/
 const PRELOAD_DATA_KEY = 'preload'
 const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
 
-function bindProperties (weappComponentConf, ComponentClass) {
-  weappComponentConf.properties = ComponentClass.properties || {}
-  const defaultProps = ComponentClass.defaultProps || {}
-  for (const key in defaultProps) {
-    if (defaultProps.hasOwnProperty(key)) {
-      weappComponentConf.properties[key] = {
-        type: null,
-        value: defaultProps[key]
-      }
-    }
-  }
-  // 拦截props的更新，插入生命周期
-  // 调用小程序setData或会造成性能消耗
-  weappComponentConf.properties[privatePropValName] = {
-    type: Boolean,
-    value: false,
-    observer: function () {
-      if (!this.$component || !this.$component.__isReady) return
-      const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
-      this.$component.props = nextProps
-      this.$component._unsafeCallUpdate = true
-      updateComponent(this.$component)
-      this.$component._unsafeCallUpdate = false
+function bindProperties (weappComponentConf, ComponentClass, isPage) {
+  weappComponentConf.properties = {}
+  weappComponentConf.properties.compid = {
+    type: null,
+    value: null,
+    observer () {
+      initComponent.apply(this, [ComponentClass, isPage])
     }
   }
 }
@@ -156,28 +139,12 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-function filterProps (properties, defaultProps = {}, componentProps = {}, weappComponentData) {
-  let newProps = Object.assign({}, componentProps)
-  for (const propName in properties) {
-    if (propName === privatePropValName) {
-      continue
-    }
-    if (typeof componentProps[propName] === 'function') {
-      newProps[propName] = componentProps[propName]
-    } else if (propName in weappComponentData) {
-      newProps[propName] = weappComponentData[propName]
-    }
-    if (componentFnReg.test(propName)) {
-      if (weappComponentData[propName] === true) {
-        const fnName = propName.replace(componentFnReg, '')
-        newProps[fnName] = noop
-      }
-      delete newProps[propName]
-    }
-  }
+export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}) {
+  let newProps = Object.assign({}, curAllProps, propsFromPropsManager)
+
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined || newProps[propName] === null) {
+      if (newProps[propName] === undefined) {
         newProps[propName] = defaultProps[propName]
       }
     }
@@ -186,6 +153,11 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, weappC
 }
 
 export function componentTrigger (component, key, args) {
+  if (key === 'componentWillUnmount') {
+    const compid = component.$scope.data.compid
+    if (compid) propsManager.delete(compid)
+  }
+
   args = args || []
   component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillUnmount') {
@@ -197,6 +169,8 @@ export function componentTrigger (component, key, args) {
     }
     component._pendingStates = []
     component._pendingCallbacks = []
+    // refs
+    detachAllRef(component)
   }
   if (key === 'componentWillMount') {
     component._dirty = false
@@ -208,7 +182,7 @@ export function componentTrigger (component, key, args) {
 let hasPageInited = false
 
 function initComponent (ComponentClass, isPage) {
-  if (this.$component.__isReady) return
+  if (!this.$component || this.$component.__isReady) return
   // ready之后才可以setData,
   // ready之前，小程序组件初始化时仍然会触发observer，__isReady为否的时候放弃处理observer
   this.$component.__isReady = true
@@ -220,7 +194,14 @@ function initComponent (ComponentClass, isPage) {
   // 小程序组件ready，但是数据并没有ready，需要通过updateComponent来初始化数据，setData完成之后才是真正意义上的组件ready
   // 动态组件执行改造函数副本的时,在初始化数据前计算好props
   if (hasPageInited && !isPage) {
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this.data)
+    const compid = this.data.compid
+    if (compid) {
+      propsManager.observers[compid] = {
+        component: this.$component,
+        ComponentClass
+      }
+    }
+    const nextProps = filterProps(ComponentClass.defaultProps, propsManager.map[compid], this.$component.props)
     this.$component.props = nextProps
   }
   if (hasPageInited || isPage) {
@@ -229,13 +210,13 @@ function initComponent (ComponentClass, isPage) {
 }
 
 function createComponent (ComponentClass, isPage) {
-  let initData = {
-    _componentProps: 1
-  }
-  const componentProps = filterProps({}, ComponentClass.defaultProps)
+  let initData = {}
+  const componentProps = filterProps(ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
+    Current.current = componentInstance
+    Current.index = 0
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
     if (isPage) {
@@ -269,9 +250,6 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     ready () {
-      if (!isPage) {
-        initComponent.apply(this, [ComponentClass, isPage])
-      }
       const component = this.$component
       if (component['$$refs'] && component['$$refs'].length > 0) {
         let refs = {}
@@ -284,11 +262,7 @@ function createComponent (ComponentClass, isPage) {
           } else {
             target = query.select(`#${ref.id}`)
           }
-          if ('refName' in ref && ref['refName']) {
-            refs[ref.refName] = target
-          } else if ('fn' in ref && typeof ref['fn'] === 'function') {
-            ref['fn'].call(component, target)
-          }
+          commitAttachRef(ref, target, component, refs, true)
           ref.target = target
         })
         component.refs = Object.assign({}, component.refs || {}, refs)
@@ -299,7 +273,13 @@ function createComponent (ComponentClass, isPage) {
       }
     },
     detached () {
-      componentTrigger(this.$component, 'componentWillUnmount')
+      const component = this.$component
+      componentTrigger(component, 'componentWillUnmount')
+      component.hooks.forEach((hook) => {
+        if (isFunction(hook.cleanup)) {
+          hook.cleanup()
+        }
+      })
     }
   }
   if (isPage) {
@@ -322,8 +302,19 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
+  } else {
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes || {}
+
+    weappComponentConf.pageLifetimes['show'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+
+    weappComponentConf.pageLifetimes['hide'] = function () {
+      componentTrigger(this.$component, 'componentDidHide')
+    }
   }
-  bindProperties(weappComponentConf, ComponentClass)
+
+  bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)
   bindStaticFns(weappComponentConf, ComponentClass)
   bindStaticOptions(weappComponentConf, ComponentClass)

@@ -1,3 +1,9 @@
+import { Adapters, Adapter } from './adapter'
+import { quickappComponentName } from './constant'
+import { transformOptions } from './options'
+import { camelCase } from 'lodash'
+import { isTestEnv } from './env'
+
 const voidHtmlTags = new Set<string>([
   // 'image',
   'img',
@@ -5,7 +11,7 @@ const voidHtmlTags = new Set<string>([
   'import'
 ])
 
-if (process.env.NODE_ENV === 'test') {
+if (isTestEnv) {
   voidHtmlTags.add('image')
 }
 
@@ -42,7 +48,7 @@ function stringifyAttributes (input: object) {
 
 }
 
-export const createHTMLElement = (options: Options) => {
+export const createHTMLElement = (options: Options, isFirstEmit = false) => {
   options = Object.assign(
     {
       name: 'div',
@@ -51,6 +57,24 @@ export const createHTMLElement = (options: Options) => {
     },
     options
   )
+
+  if (Adapters.quickapp === Adapter.type) {
+    const name = options.name
+    const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
+    if (quickappComponentName.has(nameCapitalized)) {
+      options.name = `taro-${name}`
+    }
+    if (isFirstEmit && name === 'div' && transformOptions.isRoot) {
+      options.name = 'taro-page'
+      for (const key in options.attributes) {
+        if (options.attributes.hasOwnProperty(key)) {
+          const attr = options.attributes[key]
+          options.attributes[camelCase(key)] = attr
+          delete options.attributes[key]
+        }
+      }
+    }
+  }
 
   const isVoidTag = voidHtmlTags.has(options.name)
 

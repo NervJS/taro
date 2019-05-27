@@ -3,70 +3,206 @@ title: React Native 端开发流程
 ---
 
 > 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](https://nervjs.github.io/taro/docs/before-dev-remind.html)
+> 
+> 适配 RN 端可参考项目：[首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native） - By 趣店 FED](https://github.com/js-newbee/taro-yanxuan)
 
 ## 简介
-Taro RN 端的开发基于开源项目 [Expo](https://expo.io/)，类似于 [create-react-native-app](https://github.com/react-community/create-react-native-app)。
 
-### Expo 简介
-> Expo is a set of tools, libraries and services which let you build native iOS and Android apps by writing JavaScript.
+Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，目前是项目依赖中固定 React Native 版本为 `0.55.4`。
 
-Expo 是一组工具，库和服务，基于 React Native 可让您通过编写 JavaScript 来构建原生 iOS 和 Android 应用程序。
+整个 RN 端的架构如下：
 
-Expo 应用程序是包含 Expo SDK 的 React Native 应用程序。 SDK 是一个 native-and-JS 库，可以访问设备的系统功能（如相机，联系人，本地存储和其他硬件）。这意味着您不需要使用 Xcode 或 Android Studio，也不需要编写任何本机代码，而且它还使得您的 pure-JS 项目非常便于携带，因为它可以在任何包含 Expo SDK 的本机环境中运行，方便开发及调试。
+![image](http://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png)
 
-最后，你可以使用 Expo 托管应用，它可以为您提供推送通知，并且可以构建能部署到应用商店 ipa 包或者 apk 包。
+## 搭建 iOS 开发环境
 
-更多资料，可以查看 [Expo 官方文档](https://docs.expo.io/versions/latest/)。
+必须安装的依赖有：Node、Watchman 和 React Native 命令行工具以及 Xcode。
 
-> [Expo 版本清单](https://expo.io/--/api/v2/versions)，这里可以看到每个版本 Expo 对应的版本关系，这很重要。
+虽然你可以使用任何编辑器来开发应用（编写 js 代码），但你仍然必须安装 Xcode 来获得编译 iOS 应用所需的工具和环境。
 
-### 为什么选择 Expo？
-从某种程度上而言，目前为止 RN 只是给拥有 Mac 电脑的开发者提供了跨平台开发的能力， 因为现在还不能使用 Windows 创建 iOS 的 RN 应用。还有一个比较普遍的问题是，有一些 iOS 程序员不会配置 Android 的编译环境，而一些 Android 程序员又搞不懂 XCode。而且，Taro 的使用者基本都是前端工程师，面对 iOS 和 Android 原生的库或者文件可能会不知所措。
+### Node, Watchman
+我们推荐使用 [Homebrew](http://brew.sh/) 来安装 Node 和 Watchman。在命令行中执行下列命令安装：
 
-我们希望 Taro 的使用者，即使完全没有 RN 开发经验，也能够从配环境开始 5 分钟实现 Hello Wolrd 的编写，并且只需要专注于基于 Taro 实现功能，不用再去配置烦人的 iOS、Android 编译环境，还可以用 Windows 开发 iOS 版的 RN 应用。而恰好 Expo 可以完美实现。
+```sh
+brew install node
+brew install watchman
+```
 
-本质上，Expo 的移动客户端相当于一个壳，你只需关注 js 层面的开发即可。这点类似于 electron 或者小程序。
+如果你已经安装了 Node，请检查其版本是否在 v8.3 以上。安装完 Node 后建议设置 npm 镜像以加速后面的过程（或使用科学上网工具）。
 
-## 准备工作
+> 注意：不要使用 cnpm！cnpm 安装的模块路径比较奇怪，packager 不能正常识别！
 
-#### iOS 模拟器
+设置 npm 镜像：
+```
+npm config set registry https://registry.npm.taobao.org --global
+npm config set disturl https://npm.taobao.org/dist --global
+```
 
-通过 Apple App Store 安装 [Xcode](https://itunes.apple.com/app/xcode/id497799835)。这会需要一段时间，去小睡一下。接下来，打开 Xcode，转到 首选项（preferences） 并单击 Components 选项卡，从列表中安装一个模拟器。
+或者使用 [nrm](https://github.com/Pana/nrm)：
 
-首次启动模拟器可能需要手动在模拟器上安装 Expo 客户端，
+```sh
+$ nrm ls
 
-您可以按照以下步骤操作：
+* npm -----  https://registry.npmjs.org/
+  cnpm ----  http://r.cnpmjs.org/
+  taobao --  https://registry.npm.taobao.org/
+  nj ------  https://registry.nodejitsu.com/
+  skimdb -- https://skimdb.npmjs.com/registry
 
-- 下载最新的模拟器构建。
-- 提取存档的内容。你应该得到一个像 `Exponent-X.XX.X` 这样的目录。
-- 确保模拟器正在运行。
-- 在终端上，运行 `xcrun simctl install booted [提取目录的路径]`。
+```
 
-![image](https://user-images.githubusercontent.com/9441951/44649246-e6eb1000-aa15-11e8-849e-f4bc17eeccab.png)
+```sh
+$ nrm use cnpm  //switch registry to cnpm
 
-#### Android 模拟器
+    Registry has been set to: http://r.cnpmjs.org/
+```
 
-[下载 Genymotion](https://www.genymotion.com/fun-zone/)（免费版）并按照 [Genymotion 安装指南](https://docs.genymotion.com/Content/01_Get_Started/Installation.htm)。安装 Genymotion 后，创建一个虚拟设备，准备好后启动虚拟设备。
+[Watchman](https://facebook.github.io/watchman) 则是由 Facebook 提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager 可以快速捕捉文件的变化从而实现实时刷新）。
 
-如果遇到任何问题，请按照 Genymotion 指南进行操作。
+### Yarn、React Native 的命令行工具（react-native-cli）
+Yarn 是 Facebook 提供的替代 npm 的工具，可以加速 node 模块的下载。React Native 的命令行工具用于执行创建、初始化、更新项目、运行打包服务（packager）等任务。
 
-#### 移动客户端：Expo (适用于 iOS 和 Android)
+```sh
+npm install -g yarn react-native-cli
+```
 
-在模拟器或真机上安装 [Expo 客户端 v2.9.2](https://www.apkmonk.com/app/host.exp.exponent/)。
+安装完 yarn 后同理也要设置镜像源：
 
-expo 客户端就像是一个用 expo 建造的应用程序浏览器。当您在项目中启动时，**它会为您生成一个开发地址及对应的二维码，您可以在 iOS 或 Android 上使用 expo 客户端上访问它**，无论是使用真机上还是模拟器，原理和步骤都相同。
+```sh
+yarn config set registry https://registry.npm.taobao.org --global
+yarn config set disturl https://npm.taobao.org/dist --global
+```
 
-[Android Play Store 下载地址 ( 或者直接从各大应用商店搜索 )](https://play.google.com/store/apps/details?id=host.exp.exponent) 
+安装完 yarn 之后就可以用 yarn 代替 npm 了，例如用 yarn 代替 npm install 命令，用 yarn add 某第三方库名代替 npm install 某第三方库名。
 
- [iOS App Store 下载地址](https://itunes.com/apps/exponent)
+### Xcode
+React Native 目前需要 [Xcode](https://developer.apple.com/xcode/downloads/) 9.4 或更高版本。你可以通过 App Store 或是到 [Apple 开发者官网](https://developer.apple.com/xcode/downloads/) 上下载。这一步骤会同时安装 Xcode IDE、Xcode 的命令行工具和 iOS 模拟器。
 
-> **版本支持:** Android 4.4 及以上、 iOS 9.0 及以上
+Xcode 的命令行工具
 
-更多资料可以查看 [Expo 移动客户端文档](https://docs.expo.io/versions/v29.0.0/workflow/up-and-running)
+启动 Xcode，并在 `Xcode | Preferences | Locations` 菜单中检查一下是否装有某个版本的 `Command Line Tools`。Xcode 的命令行工具中包含一些必须的工具，比如 `git` 等。
 
-#### 看守者(Watchman)
+![image](https://reactnative.cn/docs/assets/GettingStartedXcodeCommandLineTools.png)
 
-如果一些 macOS 用户没有在他们的机器上安装它，会遇到问题，因此我们建议您安装 Watchman。 Watchman 在更改时观察文件和记录，然后触发相应的操作，并由 React Native 在内部使用。[下载并安装 Watchman](https://facebook.github.io/watchman/docs/install.html)。
+
+## 搭建 Android 开发环境
+
+### 安装依赖
+必须安装的依赖有：Node、Watchman 和 React Native 命令行工具以及 JDK 和 Android Studio。
+
+虽然你可以使用任何编辑器来开发应用（编写 js 代码），但你仍然必须安装 Android Studio 来获得编译 Android 应用所需的工具和环境。
+
+### Java Development Kit
+React Native 需要 Java Development Kit [JDK] 1.8（暂不支持 1.9 及更高版本）。你可以在命令行中输入
+
+> javac -version来查看你当前安装的 JDK 版本。如果版本不合要求，则可以到 官网上下载。
+
+### Android 开发环境
+如果你之前没有接触过 Android 的开发环境，那么请做好心理准备，这一过程相当繁琐。请 `万分仔细`地阅读下面的说明，严格对照文档进行配置操作。
+
+> 注：请注意！！！国内用户必须必须必须有稳定的翻墙工具，否则在下载、安装、配置过程中会不断遭遇链接超时或断开，无法进行开发工作。某些翻墙工具可能只提供浏览器的代理功能，或只针对特定网站代理等等，请自行研究配置或更换其他软件。总之如果报错中出现有网址，那么 99% 就是无法正常翻墙。
+
+> 如果是 socks5 代理 ，如下这样设置其实并没有什么卵用
+
+```
+#systemProp.socks.proxyHost=127.0.0.1
+#systemProp.socks.proxyPort=8016
+
+#systemProp.https.proxyHost=127.0.0.1
+#systemProp.https.proxyPort=8016
+
+#systemProp.https.proxyHost=socks5://127.0.0.1
+#systemProp.https.proxyPort=8016
+```
+
+> 正确设置方法应该是这样：
+org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=8016
+
+> 修改 $HOME/.gradle/gradle.properties 文件,加入上面那句，这样就可以全局开启 gradle 代理
+
+
+#### 1. 安装 Android Studio
+
+[首先下载和安装 Android Studio](https://developer.android.com/studio/index.html)，国内用户可能无法打开官方链接，请自行使用搜索引擎搜索可用的下载链接。安装界面中选择"Custom"选项，确保选中了以下几项：
+
+- Android SDK
+- Android SDK Platform
+- Performance (Intel ® HAXM) ([AMD 处理器看这里](https://android-developers.googleblog.com/2018/07/android-emulator-amd-processor-hyper-v.html))
+- Android Virtual Device
+
+然后点击"Next"来安装选中的组件。
+	
+> 如果选择框是灰的，你也可以先跳过，稍后再来安装这些组件。
+
+安装完成后，看到欢迎界面时，就可以进行下面的操作了。
+
+#### 2. 安装 Android SDK
+Android Studio 默认会安装最新版本的 Android SDK。目前编译 React Native 应用需要的是 `Android 6.0 (Marshmallow)` 版本的 SDK（注意 SDK 版本不等于终端系统版本，RN 目前支持 android 4.1 以上设备）。你可以在 Android Studio 的 SDK Manager 中选择安装各版本的 SDK。
+
+你可以在 Android Studio 的欢迎界面中找到 SDK Manager。点击 "Configure"，然后就能看到 "SDK Manager"。
+
+![image](https://reactnative.cn/docs/assets/GettingStartedAndroidStudioWelcomeMacOS.png)
+
+> SDK Manager 还可以在 Android Studio 的 "Preferences" 菜单中找到。具体路径是 `Appearance & Behavior → System Settings → Android SDK`。
+
+在 SDK Manager 中选择 "SDK Platforms"选项卡，然后在右下角勾选 "Show Package Details"。展开 `Android 6.0 (Marshmallow)` 选项，确保勾选了下面这些组件（重申你必须使用稳定的翻墙工具，否则可能都看不到这个界面）：
+
+- `Android SDK Platform 28`
+- `Intel x86 Atom_64 System Image`（官方模拟器镜像文件，使用非官方模拟器不需要安装此组件）
+
+然后点击"SDK Tools"选项卡，同样勾中右下角的"Show Package Details"。展开"Android SDK Build-Tools"选项，确保选中了 React Native 所必须的 `23.0.1` 版本。你可以同时安装多个其他版本，然后还要勾选最底部的 `Android Support Repository`。
+
+![image](https://reactnative.cn/docs/assets/GettingStartedAndroidSDKManagerSDKToolsMacOS.png)
+
+最后点击"Apply"来下载和安装这些组件。
+
+![image](https://reactnative.cn/docs/assets/GettingStartedAndroidSDKManagerInstallsMacOS.png)
+
+#### 3. 配置 ANDROID_HOME 环境变量
+React Native 需要通过环境变量来了解你的 Android SDK 装在什么路径，从而正常进行编译。
+
+具体的做法是把下面的命令加入到 `~/.bash_profile` 文件中：
+
+> ~表示用户目录，即/Users/你的用户名/，而小数点开头的文件在 Finder 中是隐藏的，并且这个文件有可能并不存在。可在终端下使用vi ~/.bash_profile命令创建或编辑。如不熟悉 vi 操作，请点击 [这里](http://www.eepw.com.cn/article/48018.htm) 学习。
+
+```sh
+# 如果你不是通过Android Studio安装的sdk，则其路径可能不同，请自行确定清楚。
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+> 如果你的命令行不是 bash，而是例如 zsh 等其他，请使用对应的配置文件。
+
+使用 `source $HOME/.bash_profile` 命令来使环境变量设置立即生效（否则重启后才生效）。可以使用 `echo $ANDROID_HOME` 检查此变量是否已正确设置。
+
+> 请确保你正常指定了 Android SDK 路径。你可以在 Android Studio 的 "Preferences" 菜单中查看 SDK 的真实路径，具体是`Appearance & Behavior → System Settings → Android SDK`。
+
+
+### 准备 Android 设备
+你需要准备一台 Android 设备来运行 React Native Android 应用。这里所指的设备既可以是真机，也可以是模拟器。Android 官方提供了名为 Android Virtual Device（简称 AVD）的模拟器。此外还有很多第三方提供的模拟器如 [Genymotion](https://www.genymotion.com/download)、BlueStack 等。一般来说官方模拟器免费、功能完整，但性能较差。第三方模拟器性能较好，但可能需要付费，或带有广告。
+
+#### 使用 Android 真机
+你也可以使用 Android 真机来代替模拟器进行开发，只需用 usb 数据线连接到电脑，然后遵照 [在设备上运行](https://reactnative.cn/docs/0.55/running-on-device) 这篇文档的说明操作即可。
+
+#### 使用 Android 模拟器
+你可以在 Android Studi 打开 "AVD Manager" 来查看可用的虚拟设备，它的图标看起来像下面这样：
+
+![image](https://reactnative.cn/docs/assets/GettingStartedAndroidStudioAVD.png)
+
+如果你刚刚才安装 Android Studio，那么可能需要先 [创建一个虚拟设备](https://developer.android.com/studio/run/managing-avds.html)。点击"Create Virtual Device..."，然后选择所需的设备类型并点击"Next"。
+
+![image](https://reactnative.cn/docs/assets/GettingStartedCreateAVDMacOS.png)
+
+选择 "x86 Images" 选项卡，这里可以看到你之前已安装过的镜像文件。必须先安装镜像文件才能创建对应的虚拟设备。
+
+![image](https://reactnative.cn/docs/assets/GettingStartedCreateAVDx86MacOS.png)
+
+> 如果你还没有安装 HAXM（Intel 虚拟硬件加速驱动），则先按 [这篇文档](https://software.intel.com/en-us/android/articles/installation-instructions-for-intel-hardware-accelerated-execution-manager-mac-os-x) 说明来进行安装。
+
+![image](https://reactnative.cn/docs/assets/GettingStartedAVDManagerMacOS.png)
+
+然后点击 "Next" 和 "Finish" 来完成虚拟设备的创建。
 
 ## 开发
 
@@ -75,6 +211,8 @@ expo 客户端就像是一个用 expo 建造的应用程序浏览器。当您在
 RN 编译预览模式:
 
 ```shell
+# yarn
+$ yarn dev:rn
 # npm script
 $ npm run dev:rn
 # 仅限全局安装
@@ -85,146 +223,397 @@ $ npx taro build --type rn --watch
 
 Taro 将会开始编译文件：
 
-```shell
-➜  TodoMVC git:(master) ✗ taro build --type rn --watch
-👽 Taro v1.0.0-beta.15
+```sh
+➜  taro-demo git:(master) ✗ taro build --type rn --watch
+👽 Taro v1.2.20
 
-开始编译项目 todo-list
-编译  JS        /Users/chengshuai/Taro/TodoMVC/src/app.js
-编译  SCSS      /Users/chengshuai/Taro/TodoMVC/src/app.scss
-编译  JS        /Users/chengshuai/Taro/TodoMVC/src/actions/index.js
-....
-生成  app.json  /Users/chengshuai/Taro/TodoMVC/.temp/app.json
-生成  package.json  /Users/chengshuai/Taro/TodoMVC/.temp/package.json
-拷贝  crna-entry.js  /Users/chengshuai/Taro/TodoMVC/.temp/bin/crna-entry.js
-编译  编译完成，花费 780 ms
-17:12:59: Starting packager...
+开始编译项目 taro-demo
+编译  JS        /Users/chengshuai/Taro/taro-demo/src/app.js
+编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/app.scss
+拷贝  HTML      /Users/chengshuai/Taro/taro-demo/src/index.html
+生成  生成文件  /Users/chengshuai/Taro/taro-demo/.rn_temp/app_styles.js
+编译  JS        /Users/chengshuai/Taro/taro-demo/src/pages/index/index.js
+编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/pages/index/index.scss
+生成  index.js  /Users/chengshuai/Taro/taro-demo/.rn_temp/index.js
+生成  app.json  /Users/chengshuai/Taro/taro-demo/.rn_temp/app.json
+生成  package.json  /Users/chengshuai/Taro/taro-demo/.rn_temp/package.json
+编译  编译完成，花费2504 ms
+生成  生成文件  /Users/chengshuai/Taro/taro-demo/.rn_temp/pages/index/index_styles.js
 
 初始化完毕，监听文件修改中...
-```
-
-生成的应用文件在根目录的 `.rn_temp`目录下，常见的工程目录结构如下：
 
 ```
-./.rn_temp
-├── components
-│   ├── Footer
-│   ├── TodoItem
-│   └── TodoTextInput
+
+编译后的代码及应用文件在根目录的 `.rn_temp` 目录下，常见的工程目录结构如下：
+
+```shell
+.rn_temp
+├── app.js
+├── app.json
+├── app_styles.js
+├── index.html
+├── index.js
+├── package-lock.json
+├── package.json
 ├── pages
 │   └── index
+│       ├── component.js
 │       ├── index.js
-│       └── index.scss
-├── node_modules
-├── app.js
-├── app_styles.js
-├── app.json
+│       └── index_styles.js
+├── tmp
+│   ├── assets
+│   ├── index.bundle
+│   └── index.bundle.meta
+└── yarn.lock
+```
+其中关键文件及目录如下：
+
+- app.json React Native 应用的配置，从 `config.rn.appJson` 中获取
+- tmp:实时编译的 jsbundle 临时文件
+
+如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 [Metro](https://github.com/facebook/metro) Bundler 负责打包 jsbundle：
+
+![image](https://user-images.githubusercontent.com/9441951/54654650-d1484f80-4af9-11e9-87df-96252b9af0e4.png)
+
+这时，在浏览器输入 http://127.0.0.1:8081，可以看到如下页面：
+![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
+
+输入 http://127.0.0.1:8081/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
+
+![image](https://user-images.githubusercontent.com/9441951/55865039-37336e80-5bb0-11e9-8aca-c121be4542f6.png)
+
+构建完成后，浏览器会显示构建后的 js 代码。
+
+> Note：进入下一步之前浏览器能正常访问访问 jsbundle
+
+
+### 启动应用
+如果上一步的编译和 Metro Bundler 服务启动没问题，接下来就可以启动应用了。
+
+开发者可以自行整合 React Native (0.55.4) 到原生应用，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
+
+首先将应用代码 clone 下来：
+
+```
+git clone git@github.com:NervJS/taro-native-shell.git
+```
+然后 `cd taro-native-shell`，使用 yarn 或者 npm install 安装依赖。
+
+工程目录如下：
+
+```sh
+➜  taro-native-shell git:(master) ✗ tree -L 1
+.
+├── LICENSE
 ├── README.md
+├── android // Android 工程目录
+├── ios // iOS 工程目录
+├── node_modules
 ├── package.json
 └── yarn.lock
 ```
 
-> **Note:** If you are on MacOS and XDE gets stuck on "Waiting for packager and tunnel to start", you may need to [install watchman on your machine](https://facebook.github.io/watchman/docs/install.html#build-install). The easiest way to do this is with [Homebrew](http://brew.sh/), `brew install watchman`.
 
-### 启动
-如果编译过程没有报错，`Packager Started` 后，你将会看到以下内容：
+### iOS
+#### 使用 React Native 命令启动
 
-![image](https://user-images.githubusercontent.com/9441951/45069323-89824d80-b0fe-11e8-86ae-2bbe532087de.png)
-
-接下来，你可以直接在终端输入对应的字母，来进行对应的操作：
-
-- a : 打开安卓设备或安卓模拟器
-- i  : 打开 iOS 模拟器
-- s : 发送 app URL 到手机号或 email 地址
-- q : 显示二维码
-- r : 重启 packager
-- R : 重启 packager 并清空缓存
-- d : 开启 development 模式
-
-如果你使用真机，你只需要使用 Expo 应用扫描这个二维码就可以打开你编写的 RN 应用了。并且只要在 Expo 中打开过一次，就会在 App 中保留一个入口。
-
-本质上，Expo 相当于一个壳，你只需关注 js 层面的开发即可。这点类似于 electron 或者小程序。
-
-如果你在终端按下 `i`· ，Taro 将会自动启动 iOS 模拟器，启动 expo 客户端（如果已成功安装），然后加载应用。
-
-![image](https://user-images.githubusercontent.com/497214/28835171-300a12b6-76ed-11e7-81b2-623639c3b8f6.png)
-
-终端将会显示日志：
-
-```shell
-17:43:54: Starting iOS...
-
- › Press a to open Android device or emulator, or i to open iOS emulator.
- › Press s to send the app URL to your phone number or email address
- › Press q to display QR code.
- › Press r to restart packager, or R to restart packager and clear cache.
- › Press d to toggle development mode. (current mode: development)
-
-17:44:05: Finished building JavaScript bundle in 492ms
+```sh
+$ react-native run-ios
 ```
 
-反之，如果你在终端按下`a`，可能会出现如下错误：
+iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
 
-![image](https://user-images.githubusercontent.com/9441951/49937712-9b9c3500-ff12-11e8-91f4-f48251973ce1.png)
+```sh
+ BUNDLE  [ios, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), done.
+```
 
-这个时候你需要手动启动安卓模拟器，然后再次按下 `a`。
+#### 使用 Xcode 启动
+iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run 按钮就行。
 
-如果 expo 客户端自动安装失败（由于众所周知的原因，这个概率还挺大），终端可能会报以下错误：
+![image](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/Art/XC_O_SchemeMenuWithCallouts_2x.png)
 
-![image](https://user-images.githubusercontent.com/9441951/49936425-eae06680-ff0e-11e8-9597-8035101c2ba0.png)
+这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taro-demo"，需要和 `.rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
 
-你需要下载 [expo 客户端 v2.9.2](https://www.apkmonk.com/app/host.exp.exponent/)，拖拽进模拟器安装（或使用 `adb install XXX.apk`）的命令安装，然后再次按下 `a`，你就能看到应用的界面了。
+```objc
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  NSURL *jsCodeLocation;
+
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                                      moduleName:@"taro-demo"
+                                               initialProperties:nil
+                                                   launchOptions:launchOptions];
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  UIViewController *rootViewController = [UIViewController new];
+  rootViewController.view = rootView;
+  self.window.rootViewController = rootViewController;
+  [self.window makeKeyAndVisible];
+  return YES;
+}
+
+@end
+```
+
+app.json 字段的配置默认取自于 package.json 的 name 字段，除非你在 rn -> appJson 里面有配置。
+
+更多资料，可以查看 Xcode 文档：[Building Your App](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/BuildingYourApp.html)
+
+### Android 
+在 taro-native-shell/android 目录下，你就可以看到 React Native 的工程代码。
+
+#### 使用 React Native 命令启动
+
+```sh
+$ react-native run-android
+```
+
+iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
+
+```sh
+ BUNDLE  [android, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), done.
+```
 
 
-### 开发者菜单
+#### 在真实设备上运行
 
-一旦 app 在 expo 中成功打开，你可以通过摇一摇设备来唤起开发者菜单， 如果你是用模拟器，你可以按 `⌘+d` （iOS） 或 `ctrl+m` （Android）。
+按照以下步骤设置您的设备：
 
-![image](https://docs.expo.io/static/images/developer-menu.png)
+1. 使用一根 USB 电缆将您的设备连接到您的开发机器。如果您是在 Windows 上开发，可能需要为您的设备 [安装相应的 USB 驱动程序](https://developer.android.com/studio/run/oem-usb.html?hl=zh-cn)。
+2. 按照以下步骤操作，在 Developer options 中启用 USB debugging。
+首先，您必须启用开发者选项：
 
-更多资料可以查看[Expo 文档——up-and-running](https://docs.expo.io/versions/v29.0.0/workflow/up-and-running)。
+	1. 打开 Settings 应用。
+	2. （仅在 Android 8.0 或更高版本上）选择 System。
+	3. 滚动到底部，然后选择 About phone。
+	4. 滚动到底部，点按 Build number 7 次。
+	5. 返回上一屏幕，在底部附近可找到 Developer options。
+打开 Developer options，然后向下滚动以找到并启用 USB debugging。
+
+按照以下步骤操作，在您的设备上运行应用：
+
+1. 在 Android Studio 中，点击 Project 窗口中的 app 模块，然后选择 Run > Run（或点击工具栏中的 Run  ）。
+
+![image](https://sdtimes.com/wp-content/uploads/2016/04/0408.sdt-androidstudio.png)
+
+2. 在 Select Deployment Target 窗口中，选择您的设备，然后点击 OK。
+
+![image](https://developer.android.com/training/basics/firstapp/images/run-device_2x.png?hl=zh-cn)
+
+Android Studio 会在您连接的设备上安装并启动应用。
+
+### 在模拟器上运行
+按照以下步骤操作，在模拟器上运行应用：
+
+1. 在 Android Studio 中，点击 Project 窗口中的 app 模块，然后选择 Run > Run（或点击工具栏中的 Run  ）。
+2. 在 Select Deployment Target 窗口中，点击 Create New Virtual Device。
+
+![image](https://developer.android.com/training/basics/firstapp/images/run-avd_2x.png?hl=zh-cn)
+
+3. 在 Select Hardware 屏幕中，选择电话设备（如 Pixel），然后点击 Next。
+4. 在 System Image 屏幕中，选择具有最高 API 级别的版本。如果您未安装该版本，将显示一个 Download 链接，因此，请点击该链接并完成下载。
+5. 点击 Next。
+6. 在 Android Virtual Device (AVD) 屏幕上，保留所有设置不变，然后点击 Finish。
+7. 返回到 Select Deployment Target 对话框中，选择您刚刚创建的设备，然后点击 OK。
+
+Android Studio 会在模拟器上安装并启动应用。
+
+#### Module Name
+
+同样，Android 这边默认的 jsBundle moduleName 也是 “taroDemo”，位于 `MainActivity.java` 的文件里面：
+
+```java
+package com.tarodemo;
+
+import com.facebook.react.ReactActivity;
+
+public class MainActivity extends ReactActivity {
+
+    /**
+     * Returns the name of the main component registered from JavaScript.
+     * This is used to schedule rendering of the component.
+     */
+    @Override
+    protected String getMainComponentName() {
+        return "taroDemo";
+    }
+}
+
+```
+
+你可以根据实际情况自行修改。
 
 ## 调试
 
-### 简介
+更多资料可以查看 [React Native 调试](https://reactnative.cn/docs/debugging.html)。
 
-调试方面强烈推荐使用 [React Native Debugger ](https://github.com/jhen0409/react-native-debugger)，一个基于 React Native 官方调试方式、包含 React Inspector / Redux DevTools 独立应用：
+### 开发者菜单
+
+React Native 在 iOS 模拟器上支持一些快捷键操作，具体会在下文中描述。要使用快捷键请务必确保模拟器的 Hardware 菜单中，Keyboard 选项下的"Connect Hardware Keyboard"处于开启状态，否则按键是没有响应的。
+
+你可以通过摇晃设备或是选择 iOS 模拟器的 "Hardware" 菜单中的 "Shake Gesture" 选项来打开开发菜单。另外，如果是在 iOS 模拟器中运行，还可以按下 `Command⌘ + D` 快捷键，Android 模拟器对应的则是 `Command⌘ + M`（windows 上可能是 F1 或者 F2），或是直接在命令行中运行 `adb shell input keyevent 82` 来发送菜单键命令。
+
+![image](https://reactnative.cn/docs/assets/DeveloperMenu.png)
+
+> 在发布（production）版本中开发者菜单将无法使用。
+
+### 刷新 JavaScript
+传统的原生应用开发中，每一次修改都需要重新编译，但在 RN 中你只需要刷新一下 JavaScript 代码，就能立刻看到变化。具体的操作就是在开发菜单中点击 "Reload" 选项。也可以在 iOS 模拟器中按下 `Command⌘ + R `，Android 模拟器上对应的则是 `按两下R`。
+
+#### 自动刷新
+选择开发菜单中的 "Enable Live Reload" 可以开启自动刷新，这样可以节省你开发中的时间。
+
+更神奇的是，你还可以保持应用的当前运行状态，修改后的 JavaScript 文件会自动注入进来（就好比行驶中的汽车不用停下就能更换新的轮胎）。要实现这一特性只需开启开发菜单中的 [Hot Reloading](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html) 选项。
+
+> 某些情况下 hot reload 并不能顺利实施。如果碰到任何界面刷新上的问题，请尝试手动完全刷新。
+
+但有些时候你必须要重新编译应用才能使修改生效：
+
+- 增加了新的资源(比如给 iOS 的Images.xcassets或是 Andorid 的res/drawable文件夹添加了图片)
+- 更改了任何的原生代码（objective-c/swift/java）
+
+### 应用内的错误与警告提示（红屏和黄屏）
+红屏或黄屏提示都只会在开发版本中显示，正式的离线包中是不会显示的。
+
+### 红屏错误
+应用内的报错会以全屏红色显示在应用中（调试模式下），我们称为红屏（red box）报错。你可以使用console.error()来手动触发红屏错误。
+
+### 黄屏警告
+应用内的警告会以全屏黄色显示在应用中（调试模式下），我们称为黄屏（yellow box）报错。点击警告可以查看详情或是忽略掉。和红屏报警类似，你可以使用 `console.warn()` 来手动触发黄屏警告。在默认情况下，开发模式中启用了黄屏警告。可以通过以下代码关闭：
+
+```js
+console.disableYellowBox = true;
+console.warn('YellowBox is disabled.');
+```
+
+你也可以通过代码屏蔽指定的警告，像下面这样调用 ignoreWarnings 方法，参数为一个数组：
+
+```
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: ...']);
+```
+
+在 CI/Xcode 中，黄屏警告还可以通过设置 `IS_TESTING` 环境变量来控制启用与否。
+
+> 红屏错误和黄屏警告在发布版（release/production）中都是自动禁用的。
+
+### Chrome 开发者工具
+在开发者菜单中选择 "Debug JS Remotely" 选项，即可以开始在 Chrome 中调试 JavaScript 代码。点击这个选项的同时会自动打开调试页面 http://localhost:8081/debugger-ui.(如果地址栏打开的是 ip 地址，则请自行改为 localhost)
+
+在 Chrome 的菜单中选择 `Tools → Developer Tools` 可以打开开发者工具，也可以通过键盘快捷键来打开（Mac 上是 `Command⌘ + Option⌥ + I`，Windows 上是 `Ctrl + Shift + I或是 F12`）。打开有 [异常时暂停（Pause On Caught Exceptions）](http://stackoverflow.com/questions/2233339/javascript-is-there-a-way-to-get-chrome-to-break-on-all-errors/17324511#17324511) 选项，能够获得更好的开发体验。
+
+> 注意：Chrome 中并不能直接看到 App 的用户界面，而只能提供 console 的输出，以及在 sources 项中断点调试 js 脚本。一些老的教程和文章会提到 React 的 Chrome 插件，这一插件目前并不支持 React Native，而且调试本身并不需要这个插件。不过你可以安装独立（非插件）版本的 React Developer Tools 来辅助查看界面布局，下文会讲述具体安装方法。
+
+> 注意：使用 Chrome 调试目前无法观测到 React Native 中的网络请求，你可以使用功能更强大的第三方的 [react-native-debugger](https://github.com/jhen0409/react-native-debugger)来进行观测。
+
+### 使用自定义的 JavaScript 调试器来调试
+如果想用其他的 JavaScript 调试器来代替 Chrome，可以设置一个名为 `REACT_DEBUGGER` 的环境变量，其值为启动自定义调试器的命令。调试的流程依然是从开发者菜单中的 "Debug JS Remotely" 选项开始。
+
+被指定的调试器需要知道项目所在的目录（可以一次传递多个目录参数，以空格隔开）。例如，如果你设定了 `REACT_DEBUGGER="node /某个路径/launchDebugger.js --port 2345 --type ReactNative"`，那么启动调试器的命令就应该是 `node /某个路径/launchDebugger.js --port 2345 --type ReactNative /某个路径/你的RN项目目录`。
+
+> 以这种方式执行的调试器最好是一个短进程（short-lived processes），同时最好也不要有超过 200k 的文字输出。
+
+### 使用 Chrome 开发者工具来在设备上调试
+> If you're using Create React Native App, this is configured for you already.
+
+对于 iOS 真机来说，需要打开 RCTWebSocketExecutor.m 文件，然后将其中的 "localhost" 改为你的电脑的 IP 地址，最后启用开发者菜单中的 "Debug JS Remotely" 选项。
+
+对于 Android 5.0+设备（包括模拟器）来说，将设备通过 USB 连接到电脑上后，可以使用adb命令行工具来设定从设备到电脑的端口转发：
+
+```sh
+adb reverse tcp:8081 tcp:8081
+```
+
+如果设备 Android 版本在 5.0 以下，则可以在开发者菜单中选择"Dev Settings - Debug server host for device"，然后在其中填入电脑的”IP 地址:端口“。
+
+如果在 Chrome 调试时遇到一些问题，那有可能是某些 Chrome 的插件引起的。试着禁用所有的插件，然后逐个启用，以确定是否某个插件影响到了调试。
+
+### 使用 React Developer Tools 调试
+You can use [the standalone version of React Developer Tools](https://github.com/facebook/react-devtools/tree/master/packages/react-devtools) to debug the React component hierarchy. To use it, install the react-devtools package globally:
+
+```sh
+npm install -g react-devtools
+```
+
+> 译注：react-devtools 依赖于 electron，而 electron 需要到国外服务器下载二进制包，所以国内用户这一步很可能会卡住。此时请在环境变量中添加 electron 专用的国内镜像源：ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"，然后再尝试安装 react-devtools。
+
+安装完成后在命令行中执行 `react-devtools` 即可启动此工具：
+
+```sh
+react-devtools
+```
+
+![image](https://reactnative.cn/docs/assets/ReactDevTools.png)
+
+It should connect to your simulator within a few seconds.
+
+> Note: if you prefer to avoid global installations, you can add react-devtools as a project dependency. Add the react-devtools package to your project using npm install --save-dev react-devtools, then add "react-devtools": "react-devtools" to the scripts section in your package.json, and then run npm run react-devtools from your project folder to open the DevTools.
+
+#### Integration with React Native Inspector
+Open the in-app developer menu and choose "Show Inspector". It will bring up an overlay that lets you tap on any UI element and see information about it:
+
+![image](https://reactnative.cn/docs/assets/Inspector.gif)
+
+However, when `react-devtools` is running, Inspector will enter a special collapsed mode, and instead use the DevTools as primary UI. In this mode, clicking on something in the simulator will bring up the relevant components in the DevTools:
+
+![image](https://reactnative.cn/docs/assets/ReactDevToolsInspector.gif)
+
+You can choose "Hide Inspector" in the same menu to exit this mode.
+
+#### Inspecting Component Instances
+
+When debugging JavaScript in Chrome, you can inspect the props and state of the React components in the browser console.
+
+First, follow the instructions for debugging in Chrome to open the Chrome console.
+
+Make sure that the dropdown in the top left corner of the Chrome console says `debuggerWorker.js`. This step is essential.
+
+Then select a React component in React DevTools. There is a search box at the top that helps you find one by name. As soon as you select it, it will be available as `$r` in the Chrome console, letting you inspect its props, state, and instance properties.
+
+![image](https://reactnative.cn/docs/assets/ReactDevToolsDollarR.gif)
+
+### 使用 React Native Debugger 调试
+
+[React Native Debugger ](https://github.com/jhen0409/react-native-debugger)，一个基于 React Native 官方调试方式、包含 React Inspector / Redux DevTools 独立应用：
 
 - 基于官方的 [Remote Debugger](https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools) 且提供了更为丰富的功能
 - 包含 [`react-devtools-core`](https://github.com/facebook/react-devtools/tree/master/packages/react-devtools-core) 的 [React Inspector](https://github.com/jhen0409/react-native-debugger/blob/master/docs/react-devtools-integration.md)
-- 包含 Redux DevTools, 且与 [`redux-devtools-extension`](https://github.com/zalmoxisus/redux-devtools-extension) 保持 [API](https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md) 一致
+- 包含 Redux DevTools，且与 [`redux-devtools-extension`](https://github.com/zalmoxisus/redux-devtools-extension) 保持 [API](https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md) 一致
 
 ![image](https://user-images.githubusercontent.com/3001525/29451479-6621bf1a-83c8-11e7-8ebb-b4e98b1af91c.png)
 
-可以查看文章 [React Native Debugger + Expo = AWESOME](https://medium.com/@jimgbest/react-native-debugger-expo-awesome-d7a00da51460)，了解更多。
+#### 安装
 
-### 安装
+不同平台及版本的安装包，请点击[这里](https://github.com/jhen0409/react-native-debugger/releases)。
 
-不同平台及版本的安装包，请点击 [这里](https://github.com/jhen0409/react-native-debugger/releases) 。
+**macOS** 平台可以使用 [Homebrew Cask](https://caskroom.github.io/) 安装：
 
-**macOS**平台可以使用 [Homebrew Cask](https://caskroom.github.io/) 安装：
-
-```shell
+```sh
 $ brew update && brew cask install react-native-debugger
 ```
 
-### 启动
+#### 启动
 
 在启动 React Native Debugger 之前，请先确认以下内容：
 
 - 所有的 React Native 的 debugger 客户端已关闭，特别是 `http://localhost:<port>/debugger-ui`
-- React Native Debugger 会尝试连接 debugger 代理， expo 默认使用 `19001` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command+T`, Linux/Windows: `Ctrl+T`) 开定义端口
+- React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 `8081` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
 - 保证 [developer menu](https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu)  的  `Debug JS Remotely` 处于开启状态
 
 你可以启动应用之后再修改端口，也可以直接通过命令行启动应用时指定端口：
 
-```shell
-open "rndebugger://set-debugger-loc?host=localhost&port=19001"
+```sh
+$ open "rndebugger://set-debugger-loc?host=localhost&port=8081"
 ```
 
->  如果启动之后调试窗口空白，请确认调试端口正确。
+> 如果启动之后调试窗口空白，请确认调试端口正确。
 
-### 使用 Redux DevTools Extension API
+#### 使用 Redux DevTools Extension API 
 
 Use the same API as [`redux-devtools-extension`](https://github.com/zalmoxisus/redux-devtools-extension#1-with-redux) is very simple:
 
@@ -237,7 +626,7 @@ const store = createStore(
 
 See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md) section for more information.
 
-### 更多资料
+#### 更多资料
 
 - [快速开始](https://github.com/jhen0409/react-native-debugger/blob/master/docs/getting-started.md)
 - [Debugger 整合](https://github.com/jhen0409/react-native-debugger/blob/master/docs/debugger-integration.md)
@@ -249,181 +638,65 @@ See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debu
 - [Troubleshooting](https://github.com/jhen0409/react-native-debugger/blob/master/docs/troubleshooting.md)
 - [Contributing](https://github.com/jhen0409/react-native-debugger/blob/master/docs/contributing.md)
 
-## 构建独立应用程序
+## 使用原生模块
+有一些平台性的差异是 Taro 无法抹平的，比如支付、登录等，这时候就需要自己写跨端代码，RN 端这边可能还需要修改原生代码。
 
-> 下面的文档是使用 Expo 的线上服务来帮助你构建独立应用程序，使用这种方式可以避免在本机上配置应用构建环境。当然，你也可以使用自己的电脑构建应用，文档请参考：[Building Standalone Apps on Your CI](https://docs.expo.io/versions/v31.0.0/distribution/turtle-cli)
+例如登录的功能：
 
-如何愉快地打包发布，可能你还在头疼安卓的签名、难缠的 gradle 和各种配置，还在头疼 iOS 打包发布时在 Xcode 来回折腾，为什么不能脱离这些原生开发才需要的步骤呢，ReactNative 本身就是为了统一安卓和 iOS，如今到打包这一步却要区别对待，颇为不妥，expo 就是个很好的解决方案，它提供壳子，我们只需要关心我们自己的代码，然后放进壳里即可。
+![image](https://user-images.githubusercontent.com/9441951/56015544-ff513600-5d2b-11e9-92a6-ad01d21b2b8f.png)
+
+React Native 参考文档:[原生模块](https://reactnative.cn/docs/0.55/native-modules-ios/)
+
+## 集成到现有原生 app
+Taro  编译后的项目实际上就是一个 native React Native 项目，所以集成到现有原生 app 的流程和 React Native 也是一样的。
+
+如果你正准备从头开始制作一个新的应用，那么 React Native 会是个非常好的选择。但如果你只想给现有的原生应用中添加一两个视图或是业务流程，React Native 也同样不在话下。只需简单几步，你就可以给原有应用加上新的基于 React Native 的特性、画面和视图等。
+
+React Native 参考文档：[集成到现有原生应用](https://reactnative.cn/docs/0.55/integration-with-existing-apps/)
+
+## 构建独立 app
 
 接下来的步骤将会帮助你为 iOS 和 Android 创建 Expo 应用程序的独立二进制文件，并将其提交到 Apple App Store 和 Google Play Store。
 
-构建iOS独立应用程序需要Apple Developer帐户，但构建Android独立应用程序不需要Google Play Developer帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。
+构建 iOS 独立应用程序需要 Apple Developer 帐户，但构建 Android 独立应用程序不需要 Google Play Developer 帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。
 
 在打包发布步骤之前，我们先对开发者的源代码进行预处理，将 Taro 代码转成 React Native 代码：
 
 ``` bash
 taro build --type rn
 ```
-然后 .rn_temp 目录 （如果你没有修改）下会生成转换后的 React Native 代码。
 
-### 安装Expo CLI
-Expo CLI 是开发和构建 Expo 应用程序的工具，运行 `npm install -g expo-cli` 即可安装。
+然后 `.rn_temp` 目录（如果你没有修改）下会生成转换后的 React Native 代码。
 
-如果您之前没有创建过 Expo 帐户，则会在运行 build 命令时要求您创建一个。
+### 配置 app.json
 
-### 配置app.json
 在 config 目录配置，如：
 
 ```json
 rn: {
-    appJson: {
-	   "expo": {
-	    "name": "Your App Name",
-	    "icon": "./path/to/your/app-icon.png",
-	    "version": "1.0.0",
-	    "slug": "your-app-slug",
-	    "sdkVersion": "XX.0.0",
-	    "ios": {
-	      "bundleIdentifier": "com.yourcompany.yourappname"
-	    },
-	    "android": {
-	      "package": "com.yourcompany.yourappname"
-	    }
-	   }
-	 }
+  appJson: {
+      "name": "Your App Name",
   }
+}
 ```
 
 Taro 会读取 appJson 字段的内容且自动覆盖到 .rn_temp/app.json。
 
-- iOS bundleIdentifier 和 Android package 字段使用反向 DNS 表示法，但不必与域相关。替换 "com.yourcompany.yourappname" 为您的应用程序有意义的任何内容。
-- 你可能并不感到惊讶 name，icon 并且 version 是必需的。
-- slug是您的应用程序的 JavaScript 发布到的网址名称。例如：expo.io/@community/native-component-list，community 我的用户名在哪里，native-component-list 是 slug。
+### 构建 app
+待完善
 
-### 开始构建
-运行 `expo build:android`或 `expo build:ios`。如果你还没有为此项目运行的打包程序，exp 则会为你启动一个打包程序。
+#### iOS
 
-#### Android 应用构建
-第一次构建项目时，系统会询问您是否要上传密钥库。如果你不知道密钥库是什么，你可以让 expo 生成一个，或者你也可以上传自己的。
+参考文档：[在设备上运行](https://reactnative.cn/docs/0.55/running-on-device/)
 
-```shell
-➜  .rn_temp git:(master) ✗ expo build:android
-[19:23:07] Making sure project is set up correctly...
-[19:23:11] Your project looks good!
-[19:23:13] Checking if current build exists...
-
-[19:23:14] No currently active or previous builds for this project.
-
-? Would you like to upload a keystore or have us generate one for you?
-If you don't know what this means, let us handle it! :)
-
-  1) Let Expo handle the process!
-  2) I want to upload my own keystore!
-  Answer:
-```
-
-
-如果您选择让 Expo 为您生成密钥库，我们强烈建议您稍后运行 `expo fetch:android:keystore` 并将密钥库备份到安全位置。将应用程序提交到 Google Play 商店后，该应用的所有未来更新都必须使用相同的密钥库进行签名才能被 Google 接受。如果您出于任何原因，将来删除项目或清除凭据，如果您尚未备份密钥库，则无法向应用程序提交任何更新。
-
-
-
-您可能还想添加其他选项 app.json。我们只涵盖了所需要的内容。例如，有些人喜欢配置自己的内部版本号，链接方案等。我们强烈建议你阅读[使用 app.json配置](https://docs.expo.io/versions/latest/workflow/configuration.html) 完整规范。
-
-#### iOS 应用构建
-您可以选择让 exp 客户为你创建必要的凭据，同时仍然有机会提供您自己的覆盖。你的 Apple ID 和密码在本地使用，从未保存在 Expo 的服务器上。
-
-```shell
-[exp] Making sure project is set up correctly...
-[exp] Your project looks good!
-[exp] Checking if current build exists...
-
-[exp] No currently active or previous builds for this project.
-? How would you like to upload your credentials?
- (Use arrow keys)
-❯ Expo handles all credentials, you can still provide overrides
-  I will provide all the credentials and files needed, Expo does no validation
-```
-
-expo 会问你是否希望其处理你的分发证书或使用你自己的分发证书。这个与 Android 密钥库类似，如果你不知道分发证书是什么，那就让 expo 为你处理。如果你确实需要上传自己的证书，我们建议您遵循这篇 [关于制作p12文件的优秀指南](https://calvium.com/how-to-make-a-p12-file/)。
-
-> 注意：本指南建议将 p12 的密码留空，但需要使用 p12 密码将自己的证书上传到 Expo 的服务中。请在出现提示时输入密码。
-
-### 等待构建完成
-在构建过程中，你可能会看到一下的日志：
-
-```shell
-[19:44:31] No currently active or previous builds for this project.
-[19:44:33] Unable to find an existing Expo CLI instance for this directory, starting a new one...
-[19:44:36] Starting Metro Bundler on port 19001.
-[19:44:36] Metro Bundler ready.
-[19:44:46] Tunnel ready.
-[19:44:46] Publishing to channel 'default'...
-[19:44:48] Building iOS bundle
-[19:45:00] Building Android bundle
-Building JavaScript bundle [===========================================] 100%[19:45:00] Finished building JavaScript bundle in 11492ms.
-[19:45:11] Finished building JavaScript bundle in 10893ms.
-[19:45:11] Analyzing assets
-[19:45:20] Finished building JavaScript bundle in 9205ms.
-[19:45:29] Uploading assets
-Building JavaScript bundle [===========================================] 100%[19:45:29] Finished building JavaScript bundle in 8816ms.
-[19:45:30] No assets changed, skipped.
-[19:45:30] Processing asset bundle patterns:
-[19:45:30] - /Users/chengshuai/Taro/taro-demo/.rn_temp/**/*
-[19:45:30] Uploading JavaScript bundles
-[19:45:44] Published
-[19:45:44] Your URL is
-
-https://exp.host/@pinescheng/tarodemo
-
-[19:45:46] Building...
-[19:45:47] Build started, it may take a few minutes to complete.
-[19:45:47] You can check the queue length at
- https://expo.io/turtle-status
-
-[19:45:47] You can monitor the build at
-
- https://expo.io/builds/78bd39e8-9c5c-4301-90e9-5546d2d2871b
-
-|[19:45:47] Waiting for build to complete. You can press Ctrl+C to exit.
-[19:56:57] Successfully built standalone app: https://expo.io/artifacts/3e4f6d43-7a3a-4383-964b-8355593b742d
-```
-
-当 expo 开始构建您的应用程序。您可以查看您在 [Turtle](https://expo.io/turtle-status) 状态站点上等待的时间。expo 将打印您可以访问的网址（例如expo.io/builds/some-unique-id）以查看你的构建日志。或者，你可以通过运行 `expo build:status` 来检查它。完成后，您将看到 .apk（Android）或.ipa（iOS）文件的网址。这是就是你的应用，你可以将链接复制并粘贴到浏览器中下载文件。
-
-详细的打包教程可以查阅 expo 文档：[Building Standalone Apps](https://docs.expo.io/versions/latest/distribution/building-standalone-apps)。
-
-### 在您的设备或模拟器上进行测试
-- 您可以将其拖放.apk到Android模拟器中。这是测试构建成功的最简单方法。但这并不是最令人满意的。
-- 要在 Android 设备上运行它，请确保您有一起安装 Android 平台的工具 adb，然后只需运行 `adb install app-filename.apk` 与您的设备上启用了 USB 调试和插入的设备。
-- 要在 iOS 模拟器上运行它，首先通过运行使用模拟器标志构建您的 expo 项目 `expo build:ios -t simulator`，然后在运行时下载完成时给出的链接的 `tarball expo build:status`。通过运行解压缩 tar.gz 的 `tar -xvzf your-app.tar.gz`。然后你就可以通过启动 iPhone 模拟器实例，然后运行运行 `xcrun simctl install booted <app path>` 和 `xcrun simctl launch booted <app identifier>`。
+#### Android
+参考文档：[打包APK](https://reactnative.cn/docs/0.55/signed-apk-android/)
 
 ## 发布
-
-### 发布到 expo
-
-expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versions/latest/guides/publishing.html)（发布到 expo 不需要先经过打包），通过 expo 客户端打开发布后的应用 CDN 链接来访问。
-
-![通过 expo 打开一个 app](http://storage.360buyimg.com/temporary/180906-fetch-app-production.png)
-
-发布后的应用有个专属的地址，比如应用 [Expo APIs](https://expo.io/@community/native-component-list)，通过 expo 客户端扫描页面中的二维码进行访问（二维码是个持久化地址 persistent URL）。
-
-### 发布到应用商店
-
-如果你需要正式发布你的独立版应用，可以把打包所得的 ipa 和 apk 发布到 Apple Store 和应用市场，详细参阅 [Distributing Your App](https://docs.expo.io/versions/latest/distribution/index.html)，后续的更新可以通过发布到 expo 更新 CDN 的资源来实现。
+待完善
 
 ## 更新
-### 自动更新
-默认情况下，Expo会在您的应用启动时自动检查更新，并尝试获取最新发布的版本。如果有新的捆绑包，Expo将在启动体验之前尝试下载它。如果没有可用的网络连接，或者在30秒内没有完成下载，Expo将回退到加载应用程序的缓存版本，并继续尝试在后台获取更新（此时它将保存到下一个应用程序加载的缓存）。
-
-在大多数情况下，当您想要更新应用程序时，只需从 Expo CLI 再次发布。您的用户将在下次打开应用程序时下载新的 JS。为确保您的用户能够无缝下载 JS 更新，您可能希望启用 [后台 JS 下载](https://docs.expo.io/versions/v31.0.0/guides/offline-support.html)。但是，有几个原因可能导致您需要重建并重新提交本机二进制文件：
-
-- 如果要更改应用程序名称或图标等本机元数据
-- 如果您升级到较新 sdkVersion 的应用程序（需要新的本机代码）
-
-要跟踪这一点，您还可以更新二进制文件的 [versionCode](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html#versioncode) 和 [buildNumber](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html#buildnumber)。浏览 [app.json 文档](https://docs.expo.io/versions/v31.0.0/workflow/configuration.html) 以了解您可以更改的所有属性是一个好主意，例如图标，深层链接 URL 方案，手机/平板电脑支持等等。
-
-### 禁用更新
-通过在app.json中设置，updates.enabled可以false在独立应用程序中完全禁用OTA JavaScript更新。这将忽略从Expo服务器获取应用程序包的所有代码路径。在这种情况下，您的应用的所有更新都需要通过iOS App Store和/或Google Play商店进行路由。
+待完善
 
 ## 常见错误
 
@@ -437,34 +710,38 @@ expo 的发布教程可以查阅文档：[Publishing](https://docs.expo.io/versi
 
 ### Metro Bundler error: Expected path […] to be relative to one of the project roots
 
-不支持 `npm link`，可以使用[nicojs/node-install-local](https://github.com/nicojs/node-install-local) 替代。
+不支持 `npm link`，可以使用 [nicojs/node-install-local](https://github.com/nicojs/node-install-local) 替代。
 
 ### Image component does not resolve images with filenames that include '@' symbol
+
 ![image](https://user-images.githubusercontent.com/22125059/44312799-373dee80-a3d4-11e8-8367-9cf44e851739.PNG)
 
 React Native 不支持路径中带 @ 符号，具体可以查看 [#14980](https://github.com/facebook/react-native/issues/14980)。
 
 ### The development server returned response error code 500
+
 ![image](https://user-images.githubusercontent.com/25324938/41452372-42c1e766-708f-11e8-96ce-323eaa1eb03f.jpeg)
-多半是依赖的问题，进入 `.rn_temp/`目录，然后删除 npm 依赖，在重新安装就可以了。
+多半是依赖的问题，进入 `.rn_temp/` 目录，然后删除 npm 依赖，在重新安装就可以了。
 也可以试一下以下命令：
 
 ```shell
-watchman watch-del-all 
-rm -rf node_modules && npm install 
+watchman watch-del-all
+rm -rf node_modules && npm install
 rm -fr $TMPDIR/react-*
 ```
 
 具体可以参考 [#1282](https://github.com/expo/expo/issues/1282)
 
-### Expo client app 加载阻塞： "Building JavaScript bundle... 100%" 
+### app 加载阻塞： "Building JavaScript bundle... 100%"
+
 ![image](https://user-images.githubusercontent.com/9441951/47762170-7bb00980-dcf6-11e8-95ab-41152076c3de.png)
 
-可能的原因很多，可以参考这个issue：[react-community/create-react-native-app#392](https://github.com/react-community/create-react-native-app/issues/392)
+可能的原因很多，可以参考这个 issue：[react-community/create-react-native-app#392](https://github.com/react-community/create-react-native-app/issues/392)
 
 ## 参考
 
--  [expo 官方文档](https://docs.expo.io/versions/latest/)
+- [React Native 中文网](https://reactnative.cn/)
+- [Android 开发文档](https://developer.android.com/guide?hl=zh-cn)
+- [Android Studio 用户指南](https://developer.android.com/studio/intro?hl=zh-cn)
+- [Apple Developer Documentation](https://developer.apple.com/documentation/)
 - [React Native Debugger ](https://github.com/jhen0409/react-native-debugger)
-- [Building Standalone Apps](https://docs.expo.io/versions/latest/distribution/building-standalone-apps)
-- [Publishing on Expo](https://blog.expo.io/publishing-on-exponent-790493660d24)

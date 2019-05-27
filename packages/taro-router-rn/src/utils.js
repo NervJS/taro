@@ -19,3 +19,101 @@ export function getNavigationOptions (config = {}) {
   })
   return navigationOptions
 }
+
+// import { findDOMNode } from 'nervjs'
+
+export function shouleBeObject (target) {
+  if (target && typeof target === 'object') return {res: true}
+  return {
+    res: false,
+    msg: getParameterError({
+      correct: 'Object',
+      wrong: target
+    })
+  }
+}
+
+export function getParameterError ({name = '', para, correct, wrong}) {
+  const parameter = para ? `parameter.${para}` : 'parameter'
+  const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
+  return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
+}
+
+export function upperCaseFirstLetter (string) {
+  if (typeof string !== 'string') return string
+  string = string.replace(/^./, match => match.toUpperCase())
+  return string
+}
+
+export function isFunction (obj) {
+  return typeof obj === 'function'
+}
+
+export function successHandler (success, complete) {
+  return function (res) {
+    isFunction(success) && success(res)
+    isFunction(complete) && complete(res)
+    return Promise.resolve(res)
+  }
+}
+
+export function errorHandler (fail, complete) {
+  return function (res) {
+    isFunction(fail) && fail(res)
+    isFunction(complete) && complete(res)
+    return Promise.reject(res)
+  }
+}
+
+export function serializeParams (params) {
+  if (!params) {
+    return ''
+  }
+  return Object.keys(params)
+    .map(key => (`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)).join('&')
+}
+
+export function temporarilyNotSupport (apiName) {
+  return () => console.error(`暂时不支持 API ${apiName}`)
+}
+
+export function permanentlyNotSupport (apiName) {
+  return () => console.error(`不支持 API ${apiName}`)
+}
+
+const VALID_COLOR_REG = /^#\d{6}$/
+
+export const isValidColor = (color) => {
+  return VALID_COLOR_REG.test(color)
+}
+
+export const createCallbackManager = () => {
+  const callbacks = []
+
+  const add = (opt) => {
+    callbacks.push(opt)
+  }
+
+  const remove = (opt) => {
+    const pos = callbacks.findIndex(({callback}) => {
+      return callback === opt.callback
+    })
+    if (pos > -1) {
+      callbacks.splice(pos, 1)
+    }
+  }
+
+  const count = () => callbacks.length
+  const trigger = (...args) => {
+    callbacks.forEach(({callback, ctx}) => {
+      callback.call(ctx, ...args)
+    })
+  }
+
+  return {
+    add,
+    remove,
+    count,
+    trigger
+  }
+}

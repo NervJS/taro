@@ -7,7 +7,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * @since 1.7.0
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html}
  */
-interface LivePlayerProps extends StandardProps {
+export interface LivePlayerProps extends StandardProps {
 
   /**
    * 音视频地址。目前仅支持 flv, rtmp 格式

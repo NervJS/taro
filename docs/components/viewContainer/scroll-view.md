@@ -25,18 +25,18 @@ sidebar_label: ScrollView
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| scrollX     | ✔ | ✔ |  X (二选一)| ✔ | ✔ | ✔ |       
-| scrollY            | ✔ | ✔ |  X (二选一)| ✔ | ✔ | ✔ |
-| upperThreshold     | ✔ | ✔ |  ✔ | ✔ | ✔ | ✔ |
-| lowerThreshold     | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollTop          | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollLeft         | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| scrollIntoView     | ✔ |  |  | ✔ | ✔ | ✔ |
-| scrollWithAnimation| ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| enableBackToTop    | ✔ |  |  ✔|  | ✔ |  |
-| onScrollToUpper    | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| onScrollToLower    | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| onScroll  | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
+| scrollX     | ✔ | ✔ | 二选一 | ✔ | ✔ | ✔ |       
+| scrollY            | ✔ | ✔ | 二选一 | ✔ | ✔ | ✔ |
+| upperThreshold     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| lowerThreshold     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| scrollTop          | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| scrollLeft         | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| scrollIntoView     | ✔ | ✔ | x | ✔ | ✔ | ✔ |
+| scrollWithAnimation| ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| enableBackToTop    | ✔ |  | ✔ |  | ✔ |  |
+| onScrollToUpper    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| onScrollToLower    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| onScroll  | ✔ | ✔ |  ✔ | ✔ | ✔ | ✔ |
 
 使用竖向滚动时，需要给 `<scroll-view/>` 一个固定高度，通过 WXSS 设置 height。
 
@@ -49,23 +49,50 @@ export default class PageView extends Component {
   constructor() {
     super(...arguments)
   }
+  
+  onScrollToUpper(e){
+    console.log(e.detail)
+  }
+  
+  onScroll(e){
+    console.log(e.detail)
+  }
 
   render() {
+    const scrollStyle = {
+      height: '150px'
+    }
+    const scrollTop = 0
+    const Threshold = 20
+    const vStyleA = {
+      height: '150px',
+      'background-color': rgb(26, 173, 25)
+    }
+    const vStyleB = {
+       height: '150px',
+      'background-color': rgb(39,130,215)
+    }
+    const vStyleC = {
+      height: '150px',
+      'background-color': rgb(241,241,241),
+      color: '#333'
+    }
     return (
-          <ScrollView
-            className='scrollview'
-            scrollY
-            scrollWithAnimation
-            scrollTop='0'
-            style='height: 150px;'
-            lowerThreshold='20'
-            upperThreshold='20'
-            onScrolltoupper={this.onScrolltoupper}
-            onScroll={this.onScroll}>
-            <View style='height:150px;background-color:rgb(26,173,25);'>A</View>
-            <View style='height:150px;background-color:rgb(39,130,215);'>B</View>
-            <View style='height:150px;background-color:rgb(241,241,241);color: #333;'>C</View>
-          </ScrollView>
+      <ScrollView
+        className='scrollview'
+        scrollY
+        scrollWithAnimation
+        scrollTop={scrollTop}
+        style={scrollStyle}
+        lowerThreshold={Threshold}
+        upperThreshold={Threshold}
+        onScrollToUpper={this.onScrollToUpper}
+        onScroll={this.onScroll}
+      >
+        <View style={vStyleA}>A</View>
+        <View style={vStyleB}>B</View>
+        <View style={vStyleC}>C</View>
+      </ScrollView>
     )
   }
 }

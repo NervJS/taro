@@ -1,6 +1,9 @@
 coverage/
 regions.js
 regions.object.js
+regionsFormatter.js
+setupTests.js
+gulpfile.js
 dist/
-example/
-App.js
+backupcode/
+TCRNExample/

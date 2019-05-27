@@ -1,22 +1,25 @@
 import {
   internal_safe_get as safeGet,
-  internal_safe_set as safeSet
+  internal_safe_set as safeSet,
+  commitAttachRef,
+  Current,
+  invokeEffects
 } from '@tarojs/taro'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
+import { enqueueRender } from './render-queue'
 
-const isDEV = typeof process === 'undefined' ||
-  !process.env ||
-  process.env.NODE_ENV !== 'production'
+// const isDEV = typeof process === 'undefined' ||
+//   !process.env ||
+//   process.env.NODE_ENV !== 'production'
 
-const privatePropKeyName = '_triggerObserer'
 export function updateComponent (component) {
-  const { props, __propTypes } = component
-  if (isDEV && __propTypes) {
-    const componentName = component.constructor.name || component.constructor.toString().match(/^function\s*([^\s(]+)/)[1]
-    PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
-  }
+  const { props } = component
+  // if (isDEV && __propTypes) {
+  //   const componentName = component.constructor.name || component.constructor.toString().match(/^function\s*([^\s(]+)/)[1]
+  //   PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
+  // }
   const prevProps = component.prevProps || props
   component.props = prevProps
   if (component.__mounted && component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
@@ -57,15 +60,40 @@ export function updateComponent (component) {
   component.prevState = component.state
 }
 
+function injectContextType (component) {
+  const ctxType = component.constructor.contextType
+  if (ctxType) {
+    const context = ctxType.context
+    const emiter = context.emiter
+    if (emiter === null) {
+      component.context = context._defaultValue
+      return
+    }
+    if (!component._hasContext) {
+      component._hasContext = true
+      emiter.on(_ => enqueueRender(component))
+    }
+    component.context = emiter.value
+  }
+}
+
 function doUpdate (component, prevProps, prevState) {
   const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
     // 返回null或undefined则保持不变
     const runLoopRef = !component.__mounted
+    if (component.__isReady) {
+      injectContextType(component)
+      Current.current = component
+      Current.index = 0
+      invokeEffects(component, true)
+    }
     data = component._createData(state, props, runLoopRef) || data
+    if (component.__isReady) {
+      Current.current = null
+    }
   }
-  let privatePropKeyVal = component.$scope.data[privatePropKeyName] || false
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -87,8 +115,8 @@ function doUpdate (component, prevProps, prevState) {
     })
     data = _data
   }
-  // 改变这个私有的props用来触发(observer)子组件的更新
-  data[privatePropKeyName] = !privatePropKeyVal
+  data['$taroCompReady'] = true
+
   const dataDiff = diffObjToPath(data, component.$scope.data)
   const __mounted = component.__mounted
 
@@ -99,8 +127,9 @@ function doUpdate (component, prevProps, prevState) {
     component._pendingCallbacks = []
   }
 
-  component.$scope.setData(dataDiff, function () {
+  const cb = function () {
     if (__mounted) {
+      invokeEffects(component)
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
           // 只有 component 类型能做判断。因为 querySelector 每次调用都一定返回 nodeRefs，无法得知 dom 类型的挂载状态。
@@ -111,15 +140,16 @@ function doUpdate (component, prevProps, prevState) {
 
           const prevRef = ref.target
           if (target !== prevRef) {
-            if (ref.refName) component.refs[ref.refName] = target
-            typeof ref.fn === 'function' && ref.fn.call(component, target)
+            commitAttachRef(ref, target, component, component.refs)
             ref.target = target
           }
         })
       }
 
       if (component['$$hasLoopRef']) {
+        component._disableEffect = true
         component._createData(component.state, component.props, true)
+        component._disableEffect = false
       }
 
       if (typeof component.componentDidUpdate === 'function') {
@@ -133,5 +163,10 @@ function doUpdate (component, prevProps, prevState) {
         typeof cbs[i] === 'function' && cbs[i].call(component)
       }
     }
-  })
+  }
+  if (Object.keys(dataDiff).length === 0) {
+    cb()
+  } else {
+    component.$scope.setData(dataDiff, cb)
+  }
 }

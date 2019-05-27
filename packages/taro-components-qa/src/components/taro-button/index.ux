@@ -1,0 +1,110 @@
+<template>
+  <div
+    class="{{btnClass}}"
+    disabled="{{disabled}}"
+    style="{{btnStyle}}"
+  >
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+  // import LOADING_IMG from './img.js'
+  
+  export default {
+    props: {
+      classname: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      style: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      size: {
+        type: String,
+        required: false,
+        default: 'default'
+      },
+      plain: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      loading: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      type: {
+        type: String,
+        required: false,
+        default: 'default'
+      }
+    },
+
+    data: () => ({
+      btnStyle: {},
+      btnClass: '',
+      // loadingImg: LOADING_IMG,
+    }),
+
+    onInit () {
+      this.btnClass = `taro-button taro-button_default`
+      this.btnClass = this.plain ? 
+        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.classname}` 
+        : 
+        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.classname}`
+      this.btnStyle = Object.assign({}, this.style, this.btnStyle)
+
+    },
+  }
+</script>
+
+<style>
+  .taro-button {
+    width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 46px;
+    border-radius: 5px;
+    border: 1px solid #000;
+  }
+  /* .taro-button::after {
+      content: " ";
+      width: 200%;
+      height: 200%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      transform: scale(0.5);
+      transform-origin: 0 0;
+      box-sizing: border-box;
+      border-radius: 10px;
+  } */
+  .taro-button text {
+    color: #000;
+  }
+  .taro-button_default {
+      background-color: #F8F8F8;
+  }
+  .taro-button_default text{
+    color: #000000;
+  }
+</style>

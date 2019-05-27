@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-interface Text {
+export interface Text {
 
   /**
    * 文本节点
@@ -16,9 +16,9 @@ interface Text {
   text: string;
 }
 
-interface HTMLElement {
+export interface HTMLElement {
 
-  /** 
+  /**
    * 元素节点，默认为元素节点
    */
   type?: 'node';
@@ -42,7 +42,7 @@ interface HTMLElement {
 
 type Nodes = Array<Text | HTMLElement> | string
 
-interface RichTextProps extends StandardProps {
+export interface RichTextProps extends StandardProps {
   nodes: Nodes
 }
 

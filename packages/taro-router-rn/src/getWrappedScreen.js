@@ -4,6 +4,8 @@ import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
 
+import { YellowBox } from 'react-native'
+
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
  * @param Screen 页面的组件，有可能是 react-redux 里面的 connect 包裹后的 Screen
@@ -16,19 +18,22 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     constructor (props, context) {
       super(props, context)
       this.screenRef = React.createRef()
+      // issue https://github.com/react-navigation/react-navigation/issues/3956
+      YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader'])
     }
 
     static navigationOptions = ({navigation}) => {
       const navigationOptions = getNavigationOptions(Screen.config)
       const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
       const rest = (navigationOptions.navigationStyle || globalNavigationOptions.navigationStyle) === 'custom' ? {header: null} : {}
+      const headerTintColor = navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor
       return {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
-          <Text style={{fontSize: 17, fontWeight: '600'}}>{title}</Text>
+          <Text style={{flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center', color: headerTintColor}}>{title}</Text>
         </View>,
-        headerTintColor: navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor,
+        headerTintColor,
         headerStyle: {
           backgroundColor: navigation.getParam('backgroundColor') || navigationOptions.backgroundColor || globalNavigationOptions.backgroundColor
         }

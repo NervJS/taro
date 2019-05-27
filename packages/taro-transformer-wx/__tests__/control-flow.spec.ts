@@ -3,6 +3,308 @@ import { buildComponent, baseOptions, evalClass, prettyPrint } from './utils'
 
 describe('if statement', () => {
   describe('if 嵌套', () => {
+    describe('else', () => {
+      test('else 中有 if', () => {
+        const { template, ast,code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const item = this.props.item
+          let $button = null
+          if (cutTime < 1) {
+            $button = <View className='right end'>已结束</View>
+          } else {
+            if (item === 1) {
+              $button = <View>去开团</View>
+            }
+          }
+          return (
+            <View className="page">
+              {$button}
+            </View>
+          );
+          `)
+        })
+
+        expect(prettyPrint(template)).toMatch(prettyPrint(`
+        <block>
+        <view class=\"page\">
+            <block>
+                <block wx:if=\"{{cutTime < 1}}\">
+                    <view class=\"right end\">已结束</view>
+                </block>
+                <block wx:else>
+                    <block wx:if=\"{{item === 1}}\">
+                        <view>去开团</view>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </block>
+        `))
+      })
+
+      test('else 中有 if else', () => {
+        const { template, ast,code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const item = this.props.item
+          let $button = null
+          if (cutTime < 1) {
+            $button = <View className='right end'>已结束</View>
+          } else {
+            if (item === 1) {
+              $button = <View>去开团</View>
+            } else {
+              $button = <View>已抢完</View>
+            }
+          }
+          return (
+            <View className="page">
+              {$button}
+            </View>
+          );
+          `)
+        })
+
+        expect(prettyPrint(template)).toMatch(prettyPrint(`
+        <block>
+        <view class=\"page\">
+            <block>
+                <block wx:if=\"{{cutTime < 1}}\">
+                    <view class=\"right end\">已结束</view>
+                </block>
+                <block wx:else>
+                    <block wx:if=\"{{item === 1}}\">
+                        <view>去开团</view>
+                    </block>
+                    <block wx:else>
+                        <view>已抢完</view>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </block>
+        `))
+      })
+
+      test('else 中有 if else, 里层 else 还有 if else', () => {
+        const { template, ast,code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const item = this.props.item
+          let $button = null
+          if (cutTime < 1) {
+            $button = <View className='right end'>已结束</View>
+          } else {
+            if (item === 1) {
+              $button = <View>去开团</View>
+            } else {
+              if (item === 2) {
+                $button = <View>去购买</View>
+              } else {
+                $button = <View>已抢完</View>
+              }
+            }
+          }
+          return (
+            <View className="page">
+              {$button}
+            </View>
+          );
+          `)
+        })
+
+        expect(prettyPrint(template)).toMatch(prettyPrint(`
+        <block>
+        <view class=\"page\">
+            <block>
+                <block wx:if=\"{{cutTime < 1}}\">
+                    <view class=\"right end\">已结束</view>
+                </block>
+                <block wx:else>
+                    <block wx:if=\"{{item === 1}}\">
+                        <view>去开团</view>
+                    </block>
+                    <block wx:else>
+                        <block wx:if=\"{{item === 2}}\">
+                            <view>去购买</view>
+                        </block>
+                        <block wx:else>
+                            <view>已抢完</view>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </block>
+        `))
+      })
+
+      test('else 中有 if else, 里层 else 还有 if else-if', () => {
+        const { template, ast,code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const item = this.props.item
+          let $button = null
+          if (cutTime < 1) {
+            $button = <View className='right end'>已结束</View>
+          } else {
+            if (item === 1) {
+              $button = <View>去开团</View>
+            } else {
+              if (item === 2) {
+                $button = <View>去购买</View>
+              } else if (item === 3) {
+                $button = <View>已抢完</View>
+              }
+            }
+          }
+          return (
+            <View className="page">
+              {$button}
+            </View>
+          );
+          `)
+        })
+
+        expect(prettyPrint(template)).toMatch(prettyPrint(`
+        <block>
+        <view class=\"page\">
+            <block>
+                <block wx:if=\"{{cutTime < 1}}\">
+                    <view class=\"right end\">已结束</view>
+                </block>
+                <block wx:else>
+                    <block wx:if=\"{{item === 1}}\">
+                        <view>去开团</view>
+                    </block>
+                    <block wx:else>
+                        <block wx:if=\"{{item === 2}}\">
+                            <view>去购买</view>
+                        </block>
+                        <block wx:elif=\"{{item === 3}}\">
+                            <view>已抢完</view>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </block>
+        `))
+      })
+
+      test('else-if 和 else 混用', () => {
+        const { template, ast,code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const item = this.props.item
+          let $button = null
+          if (cutTime < 1) {
+            $button = <View className='right end'>已结束</View>
+          } else if (item === 1) {
+            if (item === 2) {
+              $button = <View>去开团</View>
+            } else {
+              if (item === 4) {
+                $button = <View>去购买</View>
+              } else if (item === 5) {
+                $button = <View>已抢完</View>
+              }
+            }
+          }
+          return (
+            <View className="page">
+              {$button}
+            </View>
+          );
+          `)
+        })
+
+        expect(prettyPrint(template)).toMatch(prettyPrint(`
+        <block>
+        <view class=\"page\">
+            <block>
+                <block wx:if=\"{{cutTime < 1}}\">
+                    <view class=\"right end\">已结束</view>
+                </block>
+                <block wx:elif=\"{{item === 1}}\">
+                    <block wx:if=\"{{item === 2}}\">
+                        <view>去开团</view>
+                    </block>
+                    <block wx:else>
+                        <block wx:if=\"{{item === 4}}\">
+                            <view>去购买</view>
+                        </block>
+                        <block wx:elif=\"{{item === 5}}\">
+                            <view>已抢完</view>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </block>
+        `))
+      })
+
+      test.skip('全是 else-if', () => {
+        const { template, ast,code } = transform({
+          ...baseOptions,
+          isRoot: true,
+          code: buildComponent(`
+          const item = this.props.item
+          let $button = null
+          if (cutTime < 1) {
+            $button = <View className='right end'>已结束</View>
+          } else if (item === 1) {
+            if (item === 2) {
+              $button = <View>去开团</View>
+            } else {
+              if (item === 4) {
+                $button = <View>去购买</View>
+              } else if (item === 5) {
+                $button = <View>已抢完</View>
+              }
+            }
+          }
+          return (
+            <View className="page">
+              {$button}
+            </View>
+          );
+          `)
+        })
+
+        expect(prettyPrint(template)).toMatch(prettyPrint(`
+        <block>
+        <view class=\"page\">
+            <block>
+                <block wx:if=\"{{cutTime < 1}}\">
+                    <view class=\"right end\">已结束</view>
+                </block>
+                <block wx:elif=\"{{item === 1}}\">
+                    <block wx:if=\"{{item === 2}}\">
+                        <view>去开团</view>
+                    </block>
+                    <block wx:else>
+                        <block wx:if=\"{{item === 4}}\">
+                            <view>去购买</view>
+                        </block>
+                        <block wx:elif=\"{{item === 5}}\">
+                            <view>已抢完</view>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </block>
+        `))
+      })
+    })
     test('两级嵌套，嵌套在第一个 if 中', () => {
       const { template, ast,code } = transform({
         ...baseOptions,
@@ -12,10 +314,10 @@ describe('if statement', () => {
           let dom = null
           if (a) {
             if (c) {
-              dom = <A />
+              dom = <AA />
             }
           } else if (b) {
-            dom = <B />
+            dom = <BB />
           } else {
             dom = <C />
           }
@@ -30,14 +332,14 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{c}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                      <aa></aa>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
-                  <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                  <bb></bb>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -53,10 +355,10 @@ describe('if statement', () => {
           const { a, b, c, d, e, f, g } = this.props
           let dom = null
           if (a) {
-              dom = <A />
+              dom = <AA />
           } else if (b) {
             if (c) {
-              dom = <B />
+              dom = <BB />
             }
           } else {
             dom = <C />
@@ -71,15 +373,15 @@ describe('if statement', () => {
       <view>
           <block>
               <block wx:if=\"{{a}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                  <aa></aa>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                      <bb></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -96,11 +398,11 @@ describe('if statement', () => {
           let dom = null
           if (a) {
             if (d) {
-              dom = <A />
+              dom = <AA />
             }
           } else if (b) {
             if (c) {
-              dom = <B />
+              dom = <BB />
             }
           } else {
             dom = <C />
@@ -116,16 +418,16 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{d}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                      <aa></aa>
                   </block>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                      <bb></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -142,13 +444,13 @@ describe('if statement', () => {
           let dom = null
           if (a) {
             if (d) {
-              dom = <A />
+              dom = <AA />
             } else if (e) {
               dom = <D />
             }
           } else if (b) {
             if (c) {
-              dom = <B />
+              dom = <BB />
             }
           } else {
             dom = <C />
@@ -164,19 +466,19 @@ describe('if statement', () => {
           <block>
               <block wx:if=\"{{a}}\">
                   <block wx:if=\"{{d}}\">
-                      <a __triggerObserer=\"{{ _triggerObserer }}\"></a>
+                      <aa></aa>
                   </block>
                   <block wx:elif=\"{{e}}\">
-                        <d __triggerObserer=\"{{ _triggerObserer }}\"></d>
-                    </block>
+                      <d></d>
+                  </block>
               </block>
               <block wx:elif=\"{{b}}\">
                   <block wx:if=\"{{c}}\">
-                    <b __triggerObserer=\"{{ _triggerObserer }}\"></b>
+                      <bb></bb>
                   </block>
               </block>
               <block wx:else>
-                  <c __triggerObserer=\"{{ _triggerObserer }}\"></c>
+                  <c></c>
               </block>
           </block>
       </view>
@@ -205,15 +507,15 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$original === 0}}\">
-                      <image/>
-                  </block>
-                  <video wx:else></video>
+      <container>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$original === 0}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <video wx:else></video>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -239,18 +541,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$original === 0}}\">
-                      <image/>
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <video wx:else></video>
+      <container>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$original === 0}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test></test>
+              </block>
+              <video wx:else></video>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -274,18 +576,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$original === 0}}\">
-                      <image/>
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$original === 0}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -309,18 +611,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$loopState__temp2}}\">
-                      <image/>
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$loopState__temp2}}\">
+                  <image/>
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -344,18 +646,18 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$loopState__temp2}}\">
-                    <image src=\"{{item.$loopState__temp4}}\" />
-                  </block>
-                  <block wx:elif=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$loopState__temp2}}\">
+                  <image src=\"{{item.$loopState__temp4}}\" />
               </block>
-          </container>
-      </block>
+              <block wx:elif=\"{{item.$original === 1}}\">
+                  <test></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
 
@@ -380,20 +682,58 @@ describe('if statement', () => {
 
       expect(template).toMatch(prettyPrint(`
       <block>
-          <container __triggerObserer=\"{{ _triggerObserer }}\">
-              <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
-                  <block wx:if=\"{{item.$loopState__temp2}}\">
-                    <image src=\"{{item.$loopState__temp4}}\" />
-                  </block>
-                  <block wx:if=\"{{item.$original === 1}}\">
-                      <test __triggerObserer=\"{{ _triggerObserer }}\"></test>
-                  </block>
-                  <block wx:else></block>
+      <container>
+          <block wx:for=\"{{loopArray0}}\" wx:for-item=\"item\">
+              <block wx:if=\"{{item.$loopState__temp2}}\">
+                  <image src=\"{{item.$loopState__temp4}}\" />
               </block>
-          </container>
-      </block>
+              <block wx:if=\"{{item.$original === 1}}\">
+                  <test></test>
+              </block>
+              <block wx:else></block>
+          </block>
+      </container>
+  </block>
       `))
     })
+  })
+
+  test('多个 if else', () => {
+    const { template, ast,code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      let content = null
+      const current = this.state.current
+      if (current === 0) {
+          content = <Home />
+      } else if (current === 1) {
+          content = <Goods />
+      } else if (current === 2) {
+          content = <Order />
+      }
+
+      return <View>{content}</View>
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+    <view>
+        <block>
+            <block wx:if=\"{{current === 0}}\">
+                <home></home>
+            </block>
+            <block wx:elif=\"{{current === 1}}\">
+                <goods></goods>
+            </block>
+            <block wx:elif=\"{{current === 2}}\">
+                <order></order>
+            </block>
+        </block>
+    </view>
+</block>
+    `))
   })
   test('简单情况', () => {
     const { template, ast,code } = transform({
@@ -878,7 +1218,7 @@ describe('inline 表达式', () => {
       <block>
           <view>
               <block wx:if=\"{{!text}}\">
-                <btn __triggerObserer=\"{{ _triggerObserer }}\"></btn>
+                <btn></btn>
               </block>
           </view>
       </block>

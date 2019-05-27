@@ -5,27 +5,42 @@ const program = require('commander')
 const chalk = require('chalk')
 const _ = require('lodash')
 
-const build = require('../src/build')
-const { PROJECT_CONFIG } = require('../src/util')
-const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
+const build = require('../dist/build').default
+const { PROJECT_CONFIG, BUILD_TYPES } = require('../dist/util/constants')
+const appPath = process.cwd()
+const projectConfPath = path.join(appPath, PROJECT_CONFIG)
 
 program
-  .option('--type [typeName]', 'Build type, weapp/h5/rn/swan/alipay/tt')
+  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq')
   .option('--watch', 'Watch mode')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
+  .option('--plugin [typeName]', 'Build Taro plugin project, weapp')
+  .option('--port [port]', 'Specified port')
+  .option('--release', 'Release quickapp')
   .parse(process.argv)
 
-const args = program.args
-const { type, watch, ui } = program
-let { env } =  program
+const { type, watch, ui, port, release } = program
+let { env, plugin } = program
 
 env = process.env.NODE_ENV || env
 
 if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
-  build(args, {
+  build(appPath, {
     type: 'ui',
+    watch
+  })
+  return
+}
+
+if (plugin) {
+  if (typeof plugin === 'boolean') {
+    plugin = BUILD_TYPES.WEAPP
+  }
+  build(appPath, {
+    type: BUILD_TYPES.PLUGIN,
+    platform: plugin,
     watch
   })
   return
@@ -46,10 +61,14 @@ if (env) {
   }
 }
 
+process.env.TARO_ENV = type
+
 const projectConf = require(projectConfPath)(_.merge)
 console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 
-build(args, {
+build(appPath, {
   type,
-  watch
+  watch,
+  port: typeof port === 'string' ? port: undefined,
+  release: !!release
 })

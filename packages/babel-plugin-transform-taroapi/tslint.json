@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "tslint-config-standard",
+    "tslint-config-prettier"
+  ],
+  "defaultSeverity": "error",
+  "rules": {
+    "ban-types": false,
+    "forin": false,
+    "interface-name": false,
+    "member-access": false,
+    "no-bitwise": false,
+    "no-conditional-assignment": false,
+    "no-console": false,
+    "no-empty": false,
+    "no-object-literal-type-assertion": false,
+    "no-string-literal": false,
+    "no-var-keyword": true,
+    "object-literal-key-quotes": [ false, "as-needed" ],
+    "object-literal-sort-keys": false,
+    "one-variable-per-declaration": false,
+    "ordered-imports": false,
+    "prefer-for-of": false,
+    "quotemark": [ true, "single", "avoid-escape", "jsx-double" ],
+    "semicolon": [ false, "never" ],
+    "space-before-function-paren": false,
+    "trailing-comma": [ true, { "multiline": "never", "singleline": "never" } ],
+    "variable-name": [ true, "allow-leading-underscore", "ban-keywords" ],
+    "prefer-const": true
+  }
+}

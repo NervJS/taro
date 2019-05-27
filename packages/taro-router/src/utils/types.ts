@@ -20,7 +20,7 @@ export interface RouteObj {
   path: Path;
   componentLoader: ComponentLoader;
   isIndex: boolean;
-  isRedirect: boolean;
+  isRedirect?: boolean;
   key?: string;
 }
 

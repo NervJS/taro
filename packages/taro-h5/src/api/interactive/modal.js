@@ -1,81 +1,79 @@
 import { inlineStyle } from '../utils'
 
-export default class Modal {
-  constructor () {
-    const noop = function () {}
+const noop = function () {}
 
-    this.options = {
-      title: '',
-      content: '',
-      showCancel: true,
-      cancelText: '取消',
-      cancelColor: '#000000',
-      confirmText: '确定',
-      confirmColor: '#3CC51F',
-      success: noop,
-      fail: noop,
-      complete: noop
-    }
+export default class Modal {
+  options = {
+    title: '',
+    content: '',
+    showCancel: true,
+    cancelText: '取消',
+    cancelColor: '#000000',
+    confirmText: '确定',
+    confirmColor: '#3CC51F',
+    success: noop,
+    fail: noop,
+    complete: noop
   }
 
-  getstyle (name) {
-    return {
-      maskStyle: {
-        'position': 'fixed',
-        'z-index': '1000',
-        'top': '0',
-        'right': '0',
-        'left': '0',
-        'bottom': '0',
-        'background': 'rgba(0,0,0,0.6)'
-      },
-      modalStyle: {
-        'z-index': '4999',
-        'position': 'fixed',
-        'top': '50%',
-        'left': '50%',
-        'transform': 'translate(-50%, -50%)',
-        'width': '80%',
-        'max-width': '300px',
-        'border-radius': '3px',
-        'text-align': 'center',
-        'line-height': '1.6',
-        'overflow': 'hidden',
-        'background': '#FFFFFF'
-      },
-      titleStyle: {
-        'padding': '20px 24px 9px',
-        'font-size': '18px'
-      },
-      textStyle: {
-        'padding': '0 24px 12px',
-        'min-height': '40px',
-        'font-size': '15px',
-        'line-height': '1.3',
-        'color': '#808080'
-      },
-      footStyle: {
-        'position': 'relative',
-        'line-height': '48px',
-        'font-size': '18px',
-        'display': 'flex'
-      },
-      btnStyle: {
-        'position': 'relative',
-        '-webkit-box-flex': '1',
-        '-webkit-flex': '1',
-        'flex': '1'
-      }
+  style = {
+    maskStyle: {
+      'position': 'fixed',
+      'z-index': '1000',
+      'top': '0',
+      'right': '0',
+      'left': '0',
+      'bottom': '0',
+      'background': 'rgba(0,0,0,0.6)'
+    },
+    modalStyle: {
+      'z-index': '4999',
+      'position': 'fixed',
+      'top': '50%',
+      'left': '50%',
+      'transform': 'translate(-50%, -50%)',
+      'width': '80%',
+      'max-width': '300px',
+      'border-radius': '3px',
+      'text-align': 'center',
+      'line-height': '1.6',
+      'overflow': 'hidden',
+      'background': '#FFFFFF'
+    },
+    titleStyle: {
+      'padding': '20px 24px 9px',
+      'font-size': '18px'
+    },
+    textStyle: {
+      'padding': '0 24px 12px',
+      'min-height': '40px',
+      'font-size': '15px',
+      'line-height': '1.3',
+      'color': '#808080'
+    },
+    footStyle: {
+      'position': 'relative',
+      'line-height': '48px',
+      'font-size': '18px',
+      'display': 'flex'
+    },
+    btnStyle: {
+      'position': 'relative',
+      '-webkit-box-flex': '1',
+      '-webkit-flex': '1',
+      'flex': '1'
     }
   }
 
   create (options = {}) {
     // style
-    const { maskStyle, modalStyle, titleStyle, textStyle, footStyle, btnStyle } = this.getstyle()
+    const { maskStyle, modalStyle, titleStyle, textStyle, footStyle, btnStyle } = this.style
 
     // configuration
-    Object.assign(this.options, options)
-    const config = this.options
+    const config = {
+      ...this.options,
+      ...options
+    }
 
     // wrapper
     this.el = document.createElement('div')
@@ -92,16 +90,20 @@ export default class Modal {
     modal.setAttribute('style', inlineStyle(modalStyle))
 
     // title
-    const titleCSS = config.title ? titleStyle : Object.assign({}, titleStyle, { display: 'none' })
+    const titleCSS = config.title ? titleStyle : {
+      ...titleStyle,
+      display: 'none'
+    }
     this.title = document.createElement('div')
     this.title.setAttribute('style', inlineStyle(titleCSS))
     this.title.textContent = config.title
 
     // text
-    const textCSS = config.title ? textStyle : Object.assign({}, textStyle, {
+    const textCSS = config.title ? textStyle : {
+      ...textStyle,
       padding: '40px 20px 26px',
       color: '#353535'
-    })
+    }
     this.text = document.createElement('div')
     this.text.setAttribute('style', inlineStyle(textCSS))
     this.text.textContent = config.content
@@ -112,10 +114,11 @@ export default class Modal {
     foot.setAttribute('style', inlineStyle(footStyle))
 
     // cancel button
-    const cancelCSS = Object.assign({}, btnStyle, {
+    const cancelCSS = {
+      ...btnStyle,
       color: config.cancelColor,
       display: config.showCancel ? 'block' : 'none'
-    })
+    }
     this.cancel = document.createElement('div')
     this.cancel.className = 'taro-model__btn'
     this.cancel.setAttribute('style', inlineStyle(cancelCSS))
@@ -169,20 +172,27 @@ export default class Modal {
   }
 
   show (options = {}) {
-    const config = this.options
+    const config = {
+      ...this.options,
+      ...options
+    }
+
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
 
     // title & text
-    const { textStyle } = this.getstyle()
+    const { textStyle } = this.style
 
-    if (config.title !== options.title) {
-      this.title.textContent = options.title
-      if (!options.title) {
+    if (config.title) {
+      this.title.textContent = config.title
+      if (!config.title) {
         // block => none
         this.title.style.display = 'none'
-        const textCSS = Object.assign({}, textStyle, {
+        const textCSS = {
+          ...textStyle,
           padding: '40px 20px 26px',
           color: '#353535'
-        })
+        }
         this.text.setAttribute('style', inlineStyle(textCSS))
       } else if (!config.title) {
         // none => block
@@ -191,24 +201,22 @@ export default class Modal {
       }
     }
 
-    if (config.content !== options.content) this.text.textContent = options.content
+    if (config.content) this.text.textContent = config.content
 
     // showCancel
-    if (config.showCancel !== options.showCancel) this.cancel.style.display = options.showCancel ? 'block' : 'none'
+    if (config.showCancel) this.cancel.style.display = config.showCancel ? 'block' : 'none'
 
     // cancelText
-    if (config.cancelText !== options.cancelText) this.cancel.textContent = options.cancelText
+    if (config.cancelText) this.cancel.textContent = config.cancelText
 
     // cancelColor
-    if (config.cancelColor !== options.cancelColor) this.cancel.style.color = options.cancelColor
+    if (config.cancelColor) this.cancel.style.color = config.cancelColor
 
     // confirmText
-    if (config.confirmText !== options.confirmText) this.confirm.textContent = options.confirmText
+    if (config.confirmText) this.confirm.textContent = config.confirmText
 
     // confirmColor
-    if (config.confirmColor !== options.confirmColor) this.confirm.style.color = options.confirmColor
-
-    Object.assign(config, options)
+    if (config.confirmColor) this.confirm.style.color = config.confirmColor
 
     // cbs
     this.cancel.onclick = () => {
@@ -234,9 +242,12 @@ export default class Modal {
   }
 
   hide () {
-    setTimeout(() => {
+    if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
+    if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
+    this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
-      setTimeout(() => { this.el.style.display = 'none' }, 200)
+      this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)
   }
 }

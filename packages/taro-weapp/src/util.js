@@ -1,4 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject'
+import { Current } from '@tarojs/taro'
 
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
@@ -10,6 +11,14 @@ export function isEmptyObject (obj) {
     }
   }
   return true
+}
+
+export function isUndefined (o) {
+  return o === undefined
+}
+
+export function isNullOrUndef (o) {
+  return isUndefined(o) || o === null
 }
 
 /**
@@ -124,7 +133,7 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             // 对象
             let shouldDiffObject = true
             Object.keys(fromItem).some(key => {
-              if (typeof toItem[key] === 'undefined') {
+              if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
@@ -181,7 +190,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
             // 对象
             let shouldDiffObject = true
             Object.keys(fromItem).some(key => {
-              if (typeof toItem[key] === 'undefined') {
+              if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
@@ -251,4 +260,23 @@ export function getElementById (component, id, type) {
   if (res) return res
 
   return null
+}
+
+let id = 0
+function genId () {
+  return String(id++)
+}
+
+const compIdsMapper = new Map()
+export function genCompid (key) {
+  if (!Current || !Current.current || !Current.current.$scope) return
+  const prevId = compIdsMapper.get(key)
+  const id = prevId || genId()
+  !prevId && compIdsMapper.set(key, id)
+  return id
+}
+
+let prefix = 0
+export function genCompPrefix () {
+  return String(prefix++)
 }
