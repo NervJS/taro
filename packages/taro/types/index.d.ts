@@ -639,6 +639,8 @@ declare namespace Taro {
       preload: any
     }
 
+    $preloadData: any
+
     /**
      * 使用 `this.$preload` 函数进行页面跳转传参
      * @example this.$preload('key', 'val');
