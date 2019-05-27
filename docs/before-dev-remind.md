@@ -44,6 +44,42 @@ div span { background-color: DodgerBlue; }
 
 RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向。
 
+### 样式的条件编译
+
+> 1.3+ 版本支持
+
+#### 样式文件条件编译
+假设目录中同时存在以下文件：
+
+```
+- index.scss
+- index.rn.scss
+```
+
+当在 JS 文件中引用样式文件：`import './index.scss'` 时，RN 平台会找到并引入 `index.rn.scss`，其他平台会引入：`index.scss`，方便大家书写跨端样式，更好地兼容 RN。
+
+#### 样式代码的条件编译
+为了方便大家书写样式跨端的样式代码，添加了样式条件编译的特性。
+
+指定平台保留：
+
+```scss
+/*  #ifdef  %PLATFORM%  */
+样式代码
+/*  #endif  */
+```
+
+指定平台剔除：
+
+```scss
+/*  #ifndef  %PLATFORM%  */
+样式代码
+/*  #endif  */
+```
+
+多个平台之间可以使用空格隔开。
+
+
 ### 常见问题
 #### 样式和 CSS 一致吗？
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式：[React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
