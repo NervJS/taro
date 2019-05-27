@@ -34,7 +34,7 @@ export default function chooseImage (options) {
     let obj = document.createElement('input')
     obj.setAttribute('type', 'file')
     obj.setAttribute('id', imageId)
-    obj.setAttribute('multiple', 'multiple')
+    obj.setAttribute('multiple', options.multiple)
     obj.setAttribute('accept', 'image/*')
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
