@@ -172,8 +172,10 @@ export function componentTrigger (component, key, args) {
   }
 
   if (key === 'componentWillUnmount') {
-    const compid = component.$scope.props.compid
-    if (compid) propsManager.delete(compid)
+    if (component.$scope.props) {
+      const compid = component.$scope.props.compid
+      if (compid) propsManager.delete(compid)
+    }
   }
 
   component[key] && typeof component[key] === 'function' && component[key](...args)
