@@ -1,7 +1,7 @@
 import { Adapters } from './adapter'
 import { eslintValidation } from './eslint'
 import { TransformOptions } from 'babel-core'
-import { functionalComponent } from './functional'
+import { functionalComponent, Status } from './functional'
 import { isTestEnv } from './env'
 
 export interface Options {
@@ -30,6 +30,7 @@ export const setTransformOptions = (options: Options) => {
 }
 
 export const buildBabelTransformOptions: () => TransformOptions = () => {
+  Status.isSFC = false
   return {
     parserOpts: {
       sourceType: 'module',

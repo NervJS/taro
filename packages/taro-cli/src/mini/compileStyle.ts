@@ -16,7 +16,8 @@ import {
 import {
   isNpmPkg,
   processStyleImports,
-  promoteRelativePath
+  promoteRelativePath,
+  getBabelConfig
 } from '../util'
 import { CSS_EXT, FILE_PROCESSOR_MAP, DEVICE_RATIO_NAME, BUILD_TYPES } from '../util/constants'
 import { IMiniAppConfig } from '../util/types'
@@ -222,8 +223,8 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           npmOutputDir,
           compileInclude,
           env: projectConfig.env || {},
-          uglify: projectConfig!.plugins!.uglify || {},
-          babelConfig: projectConfig!.plugins!.babel || {}
+          uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
         })
         const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
         return str.replace(stylePath, importRelativePath)

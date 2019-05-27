@@ -36,7 +36,8 @@ import {
   isAliasPath,
   replaceAliasPath,
   traverseObjectNode,
-  isQuickAppPkg
+  isQuickAppPkg,
+  getBabelConfig
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -112,6 +113,7 @@ function analyzeImportUrl ({
         if (scriptFiles.indexOf(fPath) < 0) {
           scriptFiles.push(fPath)
         }
+        node.source.value = value.replace(valueExtname, '.js')
       } else if (REG_JSON.test(valueExtname)) {
         const vpath = path.resolve(sourceFilePath, '..', value)
         if (jsonFiles.indexOf(vpath) < 0) {
@@ -475,8 +477,8 @@ export function parseAst (
                 npmOutputDir,
                 compileInclude,
                 env: projectConfig.env || {},
-                uglify: projectConfig!.plugins!.uglify || {},
-                babelConfig: projectConfig!.plugins!.babel || {}
+                uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+                babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
               })
             } else {
               source.value = value
@@ -581,8 +583,8 @@ export function parseAst (
                   npmOutputDir,
                   compileInclude,
                   env: projectConfig.env || {},
-                  uglify: projectConfig!.plugins!.uglify || {},
-                  babelConfig: projectConfig!.plugins!.babel || {}
+                  uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+                  babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
                 })
               } else {
                 args[0].value = value
@@ -868,8 +870,8 @@ export function parseAst (
           npmOutputDir,
           compileInclude,
           env: projectConfig.env || {},
-          uglify: projectConfig!.plugins!.uglify || {},
-          babelConfig: projectConfig!.plugins!.babel || {}
+          uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
         }) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:

@@ -93,6 +93,8 @@ export let LOOP_CALLEE = '$anonymousCallee_'
 
 export let setLoopCallee = (s: string) => LOOP_CALLEE = s
 
+export const CONTEXT_PROVIDER = 'PrivateContextProvider'
+
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
 SPECIAL_COMPONENT_PROPS.set(

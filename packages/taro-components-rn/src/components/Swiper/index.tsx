@@ -1,4 +1,7 @@
 /**
+ * 注意事项：
+ *   Swiper 不能加 `flex: 1`
+ *
  * ✔ indicatorDots(indicator-dots)
  * ✔ indicatorColor(indicator-color)
  * ✔ indicatorActiveColor(indicator-active-color)

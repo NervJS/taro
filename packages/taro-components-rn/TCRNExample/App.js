@@ -6,7 +6,8 @@ import {
   ScrollView,
   View,
   Text,
-  Button
+  Button,
+  Image
 } from '../dist'
 // import EXAudio from './example/EXAudio'
 import EXButton from './example/EXButton'
@@ -250,6 +251,15 @@ export default class App extends Component {
                 </Button>
               </View>
             </View>
+
+            <Image
+              onClick={() => { console.log('click on Image') }}
+              src={'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'}
+              style={{
+                width: 250,
+                height: 50
+              }}
+            />
           </View>
 
           <Text>- THE END -</Text>

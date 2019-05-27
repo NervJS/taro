@@ -329,7 +329,35 @@ declare namespace Taro {
     displayName?: string
   }
 
-  interface PageConfig {
+  // NOTE: only the Context object itself can get a displayName
+  // https://github.com/facebook/react-devtools/blob/e0b854e4c/backend/attachRendererFiber.js#L310-L325
+  // type Provider<T> = ProviderExoticComponent<ProviderProps<T>>;
+  // type Consumer<T> = ExoticComponent<ConsumerProps<T>>;
+  interface Context<T> {
+      Provider: ComponentClass<{ value: T }>;
+      // Consumer: Consumer<T>;
+      displayName?: string;
+  }
+  function createContext<T>(
+      defaultValue: T
+  ): Context<T>;
+
+  
+  // This will technically work if you give a Consumer<T> or Provider<T> but it's deprecated and warns
+  /**
+   * Accepts a context object (the value returned from `React.createContext`) and returns the current
+   * context value, as given by the nearest context provider for the given context.
+   *
+   * @version 16.8.0
+   * @see https://reactjs.org/docs/hooks-reference.html#usecontext
+   */
+  function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+
+
+  /**
+   * 微信小程序全局 Window 配置和页面配置的公共项目
+   */
+  interface CommonPageConfig {
     /**
      * 导航栏背景颜色，HexColor
      * default: #000000
@@ -349,7 +377,7 @@ declare namespace Taro {
      * default 默认样式
      * custom 自定义导航栏
      */
-    navigationStyle?: string
+    navigationStyle?: 'default' | 'custom'
     /**
      * 窗口的背景色， HexColor
      * default: #ffffff
@@ -361,6 +389,16 @@ declare namespace Taro {
      */
     backgroundTextStyle?: 'dark' | 'light'
     /**
+     * 顶部窗口的背景色，仅 iOS 支持
+     * default: #ffffff
+     */
+    backgroundColorTop?: string
+    /**
+     * 底部窗口的背景色，仅 iOS 支持
+     * default: #ffffff
+     */
+    backgroundColorBottom?: string
+    /**
      * 是否开启下拉刷新
      * default: false
      */
@@ -370,11 +408,30 @@ declare namespace Taro {
      * default: 50
      */
     onReachBottomDistance?: number
+  }
+
+  interface PageConfig extends CommonPageConfig {
     /**
-     * 设置为 true 则页面整体不能上下滚动；只在页面配置中有效，无法在 app.json 中设置该项
+     * 设置为 true 则页面整体不能上下滚动；
+     * 只在页面配置中有效，无法在 app.json 中设置该项
      * default: false
      */
     disableScroll?: boolean
+    /**
+     * 禁止页面右滑手势返回
+     * default: false
+     */
+    disableSwipeBack?: boolean
+  }
+
+  interface WindowConfig extends CommonPageConfig {
+    /**
+     * 屏幕旋转设置
+     * 支持 auto / portrait / landscape
+     * default: portrait
+     * 详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html)
+     */
+    pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
 
   interface TarbarList {
@@ -585,7 +642,7 @@ declare namespace Taro {
     usingComponents?: {
       [key: string]: string
     }
-    window?: PageConfig
+    window?: WindowConfig
     cloud?: boolean
   }
 
@@ -8758,7 +8815,7 @@ declare namespace Taro {
       /**
        * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
        */
-      gender: string
+      gender: 0 | 1 | 2
       /**
        * 用户所在城市
        */
@@ -8795,7 +8852,22 @@ declare namespace Taro {
        * @since 1.9.90
        */
       timeout?: number
+      success?: ParamPropSuccess
+      fail?: ParamPropFail
+      complete?: ParamPropComplete
     }
+    /**
+     * 获取用户信息接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: Promised) => void
+    /**
+     * 获取用户信息接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: Promised) => void
+    /**
+     * 获取用户信息接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = (err: Promised) => void
   }
   /**
    * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
@@ -11562,9 +11634,9 @@ declare namespace Taro {
 
         field(object: object): Query
 
-        get(options?: IGetDocumentOptions): Promise<IQueryResult> | void
+        get(options?: IGetDocumentOptions): Promise<IQueryResult> & void
 
-        count(options?: ICountDocumentOptions): Promise<ICountResult> | void
+        count(options?: ICountDocumentOptions): Promise<ICountResult> & void
       }
 
       export interface DatabaseCommand {
@@ -11796,11 +11868,11 @@ declare namespace Taro {
     }
     function init(OBJECT?: ICloudConfig): void
 
-    function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> | void
-    function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> | WXNS.IUploadFileTask
-    function downloadFile(param: ICloud.DownloadFileParam): Promise<ICloud.DownloadFileResult> | WXNS.IDownloadFileTask
-    function getTempFileURL(param: ICloud.GetTempFileURLParam): Promise<ICloud.GetTempFileURLResult> | void
-    function deleteFile(param: ICloud.DeleteFileParam): Promise<ICloud.DeleteFileResult> | void
+    function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> & void
+    function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> & WXNS.IUploadFileTask
+    function downloadFile(param: ICloud.DownloadFileParam): Promise<ICloud.DownloadFileResult> & WXNS.IDownloadFileTask
+    function getTempFileURL(param: ICloud.GetTempFileURLParam): Promise<ICloud.GetTempFileURLResult> & void
+    function deleteFile(param: ICloud.DeleteFileParam): Promise<ICloud.DeleteFileResult> & void
 
     function database(config?: ICloudConfig): DB.Database
   }

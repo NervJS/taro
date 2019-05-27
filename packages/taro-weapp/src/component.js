@@ -22,6 +22,7 @@ class BaseComponent {
   // 会在componentDidMount后置为true
   __mounted = false
   nextProps = {}
+  context = {}
   _dirty = true
   _disable = true
   _isForceUpdate = false

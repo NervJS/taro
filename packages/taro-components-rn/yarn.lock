@@ -606,9 +606,9 @@
     "@types/react" "*"
 
 "@types/react-native@^0.57.8":
-  version "0.57.43"
-  resolved "http://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.57.43.tgz#a4d3fa7be905a8e28b7682220335dacefffd816f"
-  integrity sha1-pNP6e+kFqOKLdoIiAzXazv/9gW8=
+  version "0.57.55"
+  resolved "https://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.57.55.tgz#3e6e474e9c1d86b20064c6c65c5ccdf86333f0c9"
+  integrity sha1-Pm5HTpwdhrIAZMbGXFzN+GMz8Mk=
   dependencies:
     "@types/prop-types" "*"
     "@types/react" "*"
@@ -3267,7 +3267,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.14, fbjs@^0.8.9:
+fbjs@^0.8.14, fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.17"
   resolved "http://registry.npm.taobao.org/fbjs/download/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -6763,15 +6763,15 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
-react@^16.4.1:
-  version "16.8.6"
-  resolved "http://registry.npm.taobao.org/react/download/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
-  integrity sha1-rWw6lhT9Ok6e9REX9U2IjaAfK74=
+react@16.3.1:
+  version "16.3.1"
+  resolved "https://registry.npm.taobao.org/react/download/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
+  integrity sha1-Si2kM9RxJRxptgM62jDi7RICz9g=
   dependencies:
+    fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.13.6"
+    prop-types "^15.6.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

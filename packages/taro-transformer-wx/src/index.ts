@@ -34,7 +34,8 @@ import {
   setLoopState,
   PROPS_MANAGER,
   GEN_COMP_ID,
-  GEN_LOOP_COMPID
+  GEN_LOOP_COMPID,
+  CONTEXT_PROVIDER
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -416,6 +417,23 @@ export default function transform (options: Options): TransformResult {
     //   const expr = parentPath.get('value.expression')
 
     // },
+    JSXMemberExpression (path) {
+      const { property, object } = path.node
+      if (!t.isJSXIdentifier(property, { name: 'Provider' })) {
+        throw codeFrameError(property, '只能在使用 Context.Provider 的情况下才能使用 JSX 成员表达式')
+      }
+      if (!t.isJSXIdentifier(object)) {
+        return
+      }
+      const jsx = path.parentPath.parentPath
+      if (jsx.isJSXElement()) {
+        const componentName = `${object.name}${CONTEXT_PROVIDER}`
+        jsx.node.openingElement.name = t.jSXIdentifier(componentName)
+        if (jsx.node.closingElement) {
+          jsx.node.closingElement.name = t.jSXIdentifier(componentName)
+        }
+      }
+    },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
       if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
@@ -695,7 +713,7 @@ export default function transform (options: Options): TransformResult {
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
-  result.compressedTemplate = result.template
+  result.compressedTemplate = result.template.replace(lessThanSignReg, '<')
   result.template = prettyPrint(result.template, {
     max_char: 0,
     unformatted: isTestEnv ? [] : ['text']

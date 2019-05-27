@@ -564,15 +564,15 @@ export default class Index extends Component {
 | navigationBarBackgroundColor | ✔️ | ✔️|✔️|✔️|✔️|✔️|
 | navigationBarTextStyle | ✔️ | ✔️|✔️|  ✘ |✔️|✔️|
 | navigationBarTitleText | ✔️ | ✔️|✔️| ✔️ |✔️|✔️|
-| navigationStyle | ✔️（微信客户端 6.6.0） | ✔️（百度 App 版本 11.1.0）|✔️|  ✘ | ✘| ✘|
-| backgroundColor | ✔️ | ✔️|✔️| ✘ |✘|✘|
-| backgroundTextStyle | ✔️ | ✔️|✔️| ✘ |✘|✘|
+| navigationStyle | ✔️（微信客户端 6.6.0） | ✔️（百度 App 版本 11.1.0）|✔️|  ✘ | ✘| ✔️|
+| backgroundColor | ✔️ | ✔️|✔️| ✘ |✘|✔️|
+| backgroundTextStyle | ✔️ | ✔️|✔️| ✘ |✘|✔️|
 | backgroundColorTop |✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
 | backgroundColorBottom | ✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
 | enablePullDownRefresh | ✔️ | ✔️|✔️| ✔️ |✘|✘|
 | onReachBottomDistance | ✔️ | ✔️|✔️| ✘ |✘|✘|
 |pageOrientation | ✔️2.4.0 (auto) / 2.5.0 (landscape) | ✘|✘| ✘ |✘|✘|
-| disableScroll | ✔️ | ✘|✘| ✘ |✘|✘|
+| disableScroll | ✔️ | ✘|✘| ✘ |✘|✔️|
 | disableSwipeBack | ✔️ | ✘|✘| ✘ |✘|✘|
 | usingComponents | ✔️ | ✔️|✔️| ✔️ |✘|✘|
 

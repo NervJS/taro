@@ -200,8 +200,15 @@ export function resolveScriptPath (p: string): string {
 
 export function resolveStylePath (p: string): string {
   const realPath = p
+  const removeExtPath = p.replace(path.extname(p), '')
+  const taroEnv = process.env.TARO_ENV
   for (let i = 0; i < CSS_EXT.length; i++) {
     const item = CSS_EXT[i]
+    if (taroEnv) {
+      if (fs.existsSync(`${removeExtPath}.${taroEnv}${item}`)) {
+        return `${removeExtPath}.${taroEnv}${item}`
+      }
+    }
     if (fs.existsSync(`${p}${item}`)) {
       return `${p}${item}`
     }

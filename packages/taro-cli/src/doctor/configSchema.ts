@@ -39,8 +39,15 @@ const schema = Joi.object().keys({
     'compile': Joi.object().keys({
       'exclude': Joi.array().items(Joi.string())
     }),
-    'module': Joi.object() // 第三方配置
+    'module': Joi.object(), // 第三方配置
+    'jsxAttributeNameReplace': Joi.object().pattern(
+      Joi.string(), Joi.string()
+    )
   }),
+
+  'alias': Joi.object().pattern(
+    Joi.string(), Joi.string()
+  ),
 
   'h5': Joi.object().keys({
     'devServer': Joi.object(), // 第三方配置
@@ -90,7 +97,7 @@ const schema = Joi.object().keys({
         Joi.object().keys({
           'enable': Joi.bool(),
           'config': Joi.object() // 第三方配置
-        }),
+        })
       )
     })
   })

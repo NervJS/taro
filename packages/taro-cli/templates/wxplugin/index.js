@@ -1,14 +1,13 @@
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
-const shelljs = require('shelljs')
+const { exec } = require('child_process')
 const ora = require('ora')
 
 module.exports = function (creater, params, helper, cb) {
-  const { projectName, description, template, typescript, date, src, css } = params
+  const { projectName, projectDir, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
-  const cwd = process.cwd()
-  const projectPath = path.join(cwd, projectName)
+  const projectPath = path.join(projectDir, projectName)
   const sourceDir = path.join(projectPath, src)
   const configDir = path.join(projectPath, configDirName)
   const version = helper.getPkgVersion()
@@ -190,15 +189,17 @@ module.exports = function (creater, params, helper, cb) {
     if (useYarnLock) console.log(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/yarn.lock`)}`)
     console.log()
     const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
-    process.chdir(projectName)
-    const gitInit = shelljs.exec('git init', { silent: true })
-    if (gitInit.code === 0) {
-      gitInitSpinner.color = 'green'
-      gitInitSpinner.succeed(gitInit.stdout)
-    } else {
-      gitInitSpinner.color = 'red'
-      gitInitSpinner.fail(gitInit.stderr)
-    }
+    process.chdir(projectPath)
+    const gitInit = exec('git init')
+    gitInit.on('close', code => {
+      if (code === 0) {
+        gitInitSpinner.color = 'green'
+        gitInitSpinner.succeed(gitInit.stdout.read())
+      } else {
+        gitInitSpinner.color = 'red'
+        gitInitSpinner.fail(gitInit.stderr.read())
+      }
+    })
     // install
     let command
     if (shouldUseYarn) {
@@ -209,16 +210,17 @@ module.exports = function (creater, params, helper, cb) {
       command = 'npm install'
     }
     const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
-    const install = shelljs.exec(command, { silent: true })
-    if (install.code === 0) {
-      installSpinner.color = 'green'
-      installSpinner.succeed('安装成功')
-      console.log(`${install.stderr}${install.stdout}`)
-    } else {
-      installSpinner.color = 'red'
-      installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
-      console.log(`${install.stderr}${install.stdout}`)
-    }
+    const install = exec(command)
+    install.on('close', code => {
+      if (code === 0) {
+        installSpinner.color = 'green'
+        installSpinner.succeed('安装成功')
+      } else {
+        installSpinner.color = 'red'
+        installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
+        console.log(`${install.stderr.read()}${install.stdout.read()}`)
+      }
+    })
     console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
     console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
     if (typeof cb === 'function') {

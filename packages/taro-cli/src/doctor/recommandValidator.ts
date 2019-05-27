@@ -5,31 +5,32 @@ import chalk from 'chalk'
 
 import { IErrorLine } from './interface'
 
-const PROJECT_PACKAGE_PATH = path.join(process.cwd(), 'package.json')
-const PROJECT_FOLDER_FILES = fs.readdirSync('./')
 const TEST_FRAMEWORKS = ['jest', 'mocha', 'ava', 'tape', 'jesmine', 'karma']
 const LINTERS = ['eslint', 'jslint', 'tslint', 'jshint']
 const README = ['readme', 'readme.md', 'readme.markdown']
 const GITIGNORE = ['.gitignore']
 const EDITORCONFIG = ['.editorconfig']
 
-if (!fs.existsSync(PROJECT_PACKAGE_PATH)) {
-  console.log(chalk.red(`找不到${PROJECT_PACKAGE_PATH}，请确定当前目录是Taro项目根目录!`))
-  process.exit(1)
-}
-const projectPackage = require(PROJECT_PACKAGE_PATH)
-const devDependencies = _.keysIn(_.get('devDependencies', projectPackage))
 
-const inDevDependencies = dependencies => (_.intersectionBy(_.toLower, devDependencies, dependencies)).length > 0
-const hasRecommandTestFrameworks = inDevDependencies(TEST_FRAMEWORKS)
-const hasRecommandLinters = inDevDependencies(LINTERS)
+export default async function ({ appPath }) {
+  const PROJECT_PACKAGE_PATH = path.join(appPath, 'package.json')
+  const PROJECT_FOLDER_FILES = fs.readdirSync('./')
+  if (!fs.existsSync(PROJECT_PACKAGE_PATH)) {
+    console.log(chalk.red(`找不到${PROJECT_PACKAGE_PATH}，请确定当前目录是Taro项目根目录!`))
+    process.exit(1)
+  }
+  const projectPackage = require(PROJECT_PACKAGE_PATH)
+  const devDependencies = _.keysIn(_.get('devDependencies', projectPackage))
 
-const inProjectFolder = filenames => (_.intersectionBy(_.toLower, PROJECT_FOLDER_FILES, filenames)).length > 0
-const hasReadme = inProjectFolder(README)
-const hasGitignore = inProjectFolder(GITIGNORE)
-const hasEditorconfig = inProjectFolder(EDITORCONFIG)
+  const inDevDependencies = dependencies => (_.intersectionBy(_.toLower, devDependencies, dependencies)).length > 0
+  const hasRecommandTestFrameworks = inDevDependencies(TEST_FRAMEWORKS)
+  const hasRecommandLinters = inDevDependencies(LINTERS)
 
-export default async function () {
+  const inProjectFolder = filenames => (_.intersectionBy(_.toLower, PROJECT_FOLDER_FILES, filenames)).length > 0
+  const hasReadme = inProjectFolder(README)
+  const hasGitignore = inProjectFolder(GITIGNORE)
+  const hasEditorconfig = inProjectFolder(EDITORCONFIG)
+
   const errorLines: IErrorLine[] = []
 
   if (!hasRecommandTestFrameworks) {

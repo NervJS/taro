@@ -15,6 +15,7 @@ import CONFIG from './config'
 
 interface IProjectConf {
   projectName: string,
+  projectDir: string,
   template: 'default' | 'mobx' | 'redux',
   description?: string,
   typescript?: boolean,
@@ -37,6 +38,7 @@ export default class Project extends Creator {
 
     this.conf = Object.assign({
       projectName: '',
+      projectDir: process.cwd(),
       template: '',
       description: ''
     }, options)

@@ -16,8 +16,9 @@ const DEVICE_RATIO = 'deviceRatio'
 
 /**
  * @description 读取 css/scss/less 文件，预处理后，返回 css string
- * @param {string}filePath
+ * @param {string} filePath
  * @param {object} pluginsConfig
+ * @param {string} appPath
  * @returns {*}
  */
 function loadStyle({filePath, pluginsConfig}, appPath) {
@@ -110,7 +111,7 @@ function writeStyleFile({css, tempFilePath}) {
   const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${css})`
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
-  Util.printLog(processTypeEnum.GENERATE, '生成文件', tempFilePath)
+  Util.printLog(processTypeEnum.GENERATE, '生成样式文件', tempFilePath)
 }
 
 export {

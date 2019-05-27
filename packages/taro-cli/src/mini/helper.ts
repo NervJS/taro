@@ -105,7 +105,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
   const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-  const outputDirName = `${projectConfig.outputRoot || CONFIG.OUTPUT_DIR}/${adapter}`
+  const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
   const sourceDir = path.join(appPath, sourceDirName)
   const outputDir = path.join(appPath, outputDirName)
   const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))

@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
 import { View, Image } from '../../dist'
-
-const temp = StyleSheet.create({
-  img: {
-    width: 240,
-    height: 500
-  }
-})
 
 export default class EXImage extends Component {
   constructor () {
@@ -23,6 +15,12 @@ export default class EXImage extends Component {
         src: 'https://static.360buyimg.com/mtd/pc/fresh_v3/1.0.0/gb/images/mod_header_logo@2x.png'
       })
     }, 3000)
+
+    setTimeout(() => {
+      this.setState({
+        src: require('./jdlogo.png')
+      })
+    }, 6000)
   }
 
   render () {
@@ -42,6 +40,9 @@ export default class EXImage extends Component {
           }}
           hoverStyle={{
             backgroundColor: 'red'
+          }}
+          onLoad={(event) => {
+            console.log(event)
           }}
         />
       </View>

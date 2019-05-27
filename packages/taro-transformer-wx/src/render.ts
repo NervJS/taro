@@ -138,6 +138,7 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
+  private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
   private methods: ClassMethodsMap
@@ -488,7 +489,14 @@ export class RenderParser {
                       this.referencedIdentifiers.add(ary)
                     }
                   }
-                  setJSXAttr(jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
+                  const block = buildBlockElement()
+                  const hasIfAttr = jsxElementPath.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                  const needWrapper = Adapters.swan === Adapter.type && hasIfAttr
+                  if (needWrapper) {
+                    block.children = [jsxElementPath.node]
+                    jsxElementPath.replaceWith(block)
+                  }
+                  setJSXAttr(needWrapper ? block : jsxElementPath.node, Adapter.for, t.jSXExpressionContainer(ary))
                   this.loopCalleeId.add(findFirstIdentifierFromMemberExpression(callee))
                   const [func] = callExpr.node.arguments
                   if (
@@ -501,7 +509,7 @@ export class RenderParser {
                     if (t.isIdentifier(item)) {
                       if (Adapters.quickapp !== Adapter.type) {
                         setJSXAttr(
-                          jsxElementPath.node,
+                          needWrapper ? block : jsxElementPath.node,
                           Adapter.forItem,
                           t.stringLiteral(item.name)
                         )
@@ -513,7 +521,7 @@ export class RenderParser {
                       throw codeFrameError(item.loc, 'JSX map 循环参数暂时不支持使用 Object pattern 解构。')
                     } else {
                       setJSXAttr(
-                        jsxElementPath.node,
+                        needWrapper ? block : jsxElementPath.node,
                         Adapter.forItem,
                         t.stringLiteral('__item')
                       )
@@ -522,7 +530,7 @@ export class RenderParser {
                     if (t.isIdentifier(index)) {
                       if (Adapters.quickapp !== Adapter.type) {
                         setJSXAttr(
-                          jsxElementPath.node,
+                          needWrapper ? block : jsxElementPath.node,
                           Adapter.forIndex,
                           t.stringLiteral(index.name)
                         )
@@ -536,7 +544,7 @@ export class RenderParser {
                         const uid = this.renderScope.generateUid('anonIdx')
                         func.params[1] = t.identifier(uid)
                         setJSXAttr(
-                          jsxElementPath.node,
+                          needWrapper ? block : jsxElementPath.node,
                           Adapter.forIndex,
                           t.stringLiteral(this.renderScope.generateUid('anonIdx'))
                         )
@@ -974,7 +982,7 @@ export class RenderParser {
     return properties
   }
 
-  private prefixExpr = () => this.isDefaultRender ? t.memberExpression(t.thisExpression(), t.identifier('$prefix')) : t.identifier(CLASS_COMPONENT_UID)
+  private prefixExpr = () => this.isDefaultRender ? t.identifier('__prefix') : t.identifier(CLASS_COMPONENT_UID)
 
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
@@ -1008,7 +1016,9 @@ export class RenderParser {
       const properties = this.getPropsFromAttrs(openingElement)
       const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
       this.propsSettingExpressions.add(idExpr)
-      this.propsSettingExpressions.add(() => t.expressionStatement(setAncestorCondition(jsxElementPath, propsSettingExpr)))
+      const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
+      this.ancestorConditions.add(expr)
+      this.propsSettingExpressions.add(() => t.expressionStatement(expr))
 
       // xml 中打上组件 ID
       setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
@@ -1750,6 +1760,7 @@ export class RenderParser {
               const properties = this.getPropsFromAttrs(element)
               const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName))
               const expr = setAncestorCondition(path, propsSettingExpr)
+              this.ancestorConditions.add(expr)
 
               body.splice(body.length - 1, 0, compidTempDecl, t.expressionStatement(expr))
 
@@ -1882,6 +1893,9 @@ export class RenderParser {
                     if (t.isIdentifier(init) && init.name.startsWith(LOOP_STATE)) {
                       return
                     }
+                  }
+                  if (this.ancestorConditions.has(parentCondition.node)) {
+                    return
                   }
                 }
                 const replacement = t.memberExpression(
@@ -2306,6 +2320,7 @@ export class RenderParser {
       template(`this.__state = arguments[0] || this.state || {};`)(),
       template(`this.__props = arguments[1] || this.props || {};`)(),
       template(`const __isRunloopRef = arguments[2];`)(),
+      template(`const __prefix = this.$prefix`)(),
       this.usedThisProperties.size
         ? t.variableDeclaration(
           'const',

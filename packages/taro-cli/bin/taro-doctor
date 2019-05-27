@@ -8,6 +8,7 @@ const chalk = require('chalk')
 const fs = require('fs-extra')
 const { PROJECT_CONFIG } = require('../dist/util/constants')
 const PROJECT_CONF_PATH = path.join(process.cwd(), PROJECT_CONFIG)
+const appPath = process.cwd()
 
 if (!fs.existsSync(PROJECT_CONF_PATH)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
@@ -57,7 +58,12 @@ program
 
 async function diagnose () {
   const spinner = ora('正在诊断项目...').start()
-  const reportsP = _.map(validator => validator(), validators)
+  const projectConfig = require(PROJECT_CONF_PATH)(_.merge)
+  const reportsP = _.map(validator => validator({
+    appPath,
+    projectConfig,
+    configPath: PROJECT_CONF_PATH
+  }), validators)
   const reports = await Promise.all(reportsP)
   spinner.succeed('诊断完成')
   printReport(reports)

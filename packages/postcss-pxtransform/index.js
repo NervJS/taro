@@ -98,6 +98,50 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       })
     }
 
+    /*  #ifdef  %PLATFORM%  */
+    // 平台特有样式
+    /*  #endif  */
+    css.walkComments(comment => {
+      const wordList = comment.text.split(' ')
+      // 指定平台保留
+      if (wordList.indexOf('#ifdef') > -1) {
+        // 非指定平台
+        if (wordList.indexOf(options.platform) === -1) {
+          let next = comment.next()
+          while (next) {
+            if (next.type === 'comment' && next.text.trim() === '#endif') {
+              break
+            }
+            const temp = next.next()
+            next.remove()
+            next = temp
+          }
+        }
+      }
+    })
+
+    /*  #ifndef  %PLATFORM%  */
+    // 平台特有样式
+    /*  #endif  */
+    css.walkComments(comment => {
+      const wordList = comment.text.split(' ')
+      // 指定平台剔除
+      if (wordList.indexOf('#ifndef') > -1) {
+        // 指定平台
+        if (wordList.indexOf(options.platform) > -1) {
+          let next = comment.next()
+          while (next) {
+            if (next.type === 'comment' && next.text.trim() === '#endif') {
+              break
+            }
+            const temp = next.next()
+            next.remove()
+            next = temp
+          }
+        }
+      }
+    })
+
     css.walkDecls(function (decl, i) {
       // This should be the fastest test and will remove most declarations
       if (decl.value.indexOf('px') === -1) return

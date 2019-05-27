@@ -28,7 +28,7 @@ sidebar_label: Form
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 Form 组件
-import { View, Form } from '@tarojs/components'
+import { View, Form, Switch } from '@tarojs/components'
 
 class App extends Component {
 

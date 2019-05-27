@@ -1,4 +1,4 @@
-import { isFunction, isUndefined, isArray, isNullOrUndef, defer } from './util'
+import { isFunction, isUndefined, isArray, isNullOrUndef, defer, objectIs } from './util'
 import { Current } from './current'
 
 function getHooks (index) {
@@ -54,22 +54,11 @@ export function useReducer (
   return hook.state
 }
 
-// Object.is polyfill
-// https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-function is (x, y) {
-  if (x === y) { // Steps 1-5, 7-10
-    // Steps 6.b-6.e: +0 != -0
-    return x !== 0 || 1 / x === 1 / y
-  }
-  // eslint-disable-next-line no-self-compare
-  return x !== x && y !== y
-}
-
 function areDepsChanged (prevDeps, deps) {
   if (isNullOrUndef(prevDeps) || isNullOrUndef(deps)) {
     return true
   }
-  return deps.some((d, i) => !is(d, prevDeps[i]))
+  return deps.some((d, i) => !objectIs(d, prevDeps[i]))
 }
 
 export function invokeEffects (component, delay) {
@@ -173,4 +162,23 @@ export function useImperativeHandle (ref, init, deps) {
       }
     }
   }, isArray(deps) ? deps.concat([ref]) : undefined)
+}
+
+export function useContext ({ context }) {
+  const emiter = context.emiter
+  if (emiter === null) {
+    return context._defaultValue
+  }
+  const hook = getHooks(Current.index++)
+  if (isUndefined(hook.context)) {
+    hook.context = true
+    hook.component = Current.current
+    emiter.on(_ => {
+      if (hook.component) {
+        hook.component._disable = false
+        hook.component.setState({})
+      }
+    })
+  }
+  return emiter.value
 }

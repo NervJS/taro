@@ -14,7 +14,7 @@
 import * as React from 'react'
 import {
   View,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   GestureResponderEvent
 } from 'react-native'
 import { omit, noop } from '../../utils'
@@ -74,7 +74,6 @@ export default function clickableSimplified (WrappedComponent: React.ComponentTy
     }
 
     onPress = (evt: GestureResponderEvent) => {
-      console.log('onPress')
       const { onClick = noop } = this.props
       onClick(getWxAppEvent(evt))
     }
@@ -97,6 +96,7 @@ export default function clickableSimplified (WrappedComponent: React.ComponentTy
     }
 
     render () {
+      console.log(WrappedComponent.displayName)
       const {
         style,
         hoverStyle,
@@ -115,32 +115,33 @@ export default function clickableSimplified (WrappedComponent: React.ComponentTy
       }
 
       return (
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           delayPressIn={hoverStartTime}
           delayPressOut={hoverStayTime}
           onPress={this.onPress}
           onLongPress={this.onLongPress}
           onPressIn={this.onPressIn}
           onPressOut={this.onPressOut}
-          activeOpacity={1}
         >
-          <WrappedComponent
-            {...omit(this.props, [
-              'style',
-              'hoverStyle',
-              'hoverStartTime',
-              'hoverStayTime',
-              'onClick',
-              'onLongPress',
-              'onTouchstart',
-              'onTouchend'
-            ])}
-            style={[
-              style,
-              this.state.isHover && hoverStyle
-            ]}
-          />
-        </TouchableOpacity>
+          <View>
+            <WrappedComponent
+              {...omit(this.props, [
+                'style',
+                'hoverStyle',
+                'hoverStartTime',
+                'hoverStayTime',
+                'onClick',
+                'onLongPress',
+                'onTouchstart',
+                'onTouchend'
+              ])}
+              style={[
+                style,
+                this.state.isHover && hoverStyle
+              ]}
+            />
+          </View>
+        </TouchableWithoutFeedback>
       )
     }
   }

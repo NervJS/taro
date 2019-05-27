@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "1.3.0-beta.1",
+  "version": "1.3.0-beta.5",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "utility-types": "^3.4.1"
   },
   "peerDependencies": {
-    "react": "^16.4.1",
+    "react": "16.3.1",
     "react-native": "0.55.4"
   },
   "devDependencies": {
@@ -67,7 +67,7 @@
     "jest-environment-node": "^23.2.0",
     "jest-react-native": "^18.0.0",
     "pre-commit": "^1.2.2",
-    "react": "^16.4.1",
+    "react": "16.3.1",
     "react-native": "0.55.4",
     "react-native-mock-render": "^0.0.25",
     "react-test-renderer": "^16.2.0",

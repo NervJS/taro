@@ -31,7 +31,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
-          <Text style={{flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center'}}>{title}</Text>
+          <Text style={{flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center', color: headerTintColor}}>{title}</Text>
         </View>,
         headerTintColor,
         headerStyle: {

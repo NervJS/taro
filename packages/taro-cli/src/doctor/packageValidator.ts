@@ -9,9 +9,11 @@ const isCliVersionNotMatch = _.compose(_.negate(_.equals(pkgVersion)), _.get('in
 const isPkgInstalled = _.get('isInstalled')
 const isPkgNotInstalled = _.negate(isPkgInstalled)
 
-async function checkPkgs () {
+async function checkPkgs ({ appPath }) {
   let errorLines: any[] = []
-  const pkgs = await npmCheck()
+  const pkgs = await npmCheck({
+    cwd: appPath
+  })
     .then(_.invoke('all'))
     .then(_.get('packages'))
   const taroPkgs = _.filter(isTaroPkg, pkgs)

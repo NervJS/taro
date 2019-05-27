@@ -9,7 +9,7 @@ export default function chooseImage (options) {
     return Promise.reject(res)
   }
 
-  const { count = 1, success, fail, complete } = options
+  const { count = 1, success, fail, complete, imageId = 'taroChooseImage' } = options
   const res = {
     errMsg: 'chooseImage:ok',
     tempFilePaths: [],
@@ -29,16 +29,16 @@ export default function chooseImage (options) {
     return Promise.reject(res)
   }
 
-  let taroChooseImageId = document.getElementById('taroChooseImage')
+  let taroChooseImageId = document.getElementById(imageId)
   if (!taroChooseImageId) {
     let obj = document.createElement('input')
     obj.setAttribute('type', 'file')
-    obj.setAttribute('id', 'taroChooseImage')
+    obj.setAttribute('id', imageId)
     obj.setAttribute('multiple', 'multiple')
     obj.setAttribute('accept', 'image/*')
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
-    taroChooseImageId = document.getElementById('taroChooseImage')
+    taroChooseImageId = document.getElementById(imageId)
   }
   let taroChooseImageCallback
   const taroChooseImagePromise = new Promise(resolve => {
