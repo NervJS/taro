@@ -49,6 +49,14 @@ export default class PageView extends Component {
   constructor() {
     super(...arguments)
   }
+  
+  onScrollToUpper(e){
+    console.log(e.detail)
+  }
+  
+  onScroll(e){
+    console.log(e.detail)
+  }
 
   render() {
     const scrollStyle = {
@@ -70,20 +78,21 @@ export default class PageView extends Component {
       color: '#333'
     }
     return (
-          <ScrollView
-            className='scrollview'
-            scrollY
-            scrollWithAnimation
-            scrollTop={scrollTop}
-            style={scrollStyle}
-            lowerThreshold={Threshold}
-            upperThreshold={Threshold}
-            onScrolltoupper={this.onScrolltoupper}
-            onScroll={this.onScroll}>
-            <View style={vStyleA}>A</View>
-            <View style={vStyleB}>B</View>
-            <View style={vStyleC}>C</View>
-          </ScrollView>
+      <ScrollView
+        className='scrollview'
+        scrollY
+        scrollWithAnimation
+        scrollTop={scrollTop}
+        style={scrollStyle}
+        lowerThreshold={Threshold}
+        upperThreshold={Threshold}
+        onScrollToUpper={this.onScrollToUpper}
+        onScroll={this.onScroll}
+      >
+        <View style={vStyleA}>A</View>
+        <View style={vStyleB}>B</View>
+        <View style={vStyleC}>C</View>
+      </ScrollView>
     )
   }
 }
