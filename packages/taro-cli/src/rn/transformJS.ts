@@ -4,12 +4,11 @@ import traverse, { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import * as _ from 'lodash'
 import generate from 'babel-generator'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as Util from '../util'
 import babylonConfig from '../config/babylon'
-import { convertSourceStringToAstExpression as toAst } from '../util/astConvert'
+import { convertSourceStringToAstExpression as toAst, convertAstExpressionToVariable as toVar } from '../util/astConvert'
 import { REG_STYLE, REG_TYPESCRIPT, BUILD_TYPES, REG_SCRIPTS } from '../util/constants'
-import { convertAstExpressionToVariable as toVar } from '../util/astConvert'
 
 const template = require('babel-template')
 
@@ -137,7 +136,6 @@ function getJSAst (code, filePath) {
   return wxTransformer({
     code,
     sourcePath: filePath,
-    isNormal: true,
     isTyped: REG_TYPESCRIPT.test(filePath),
     adapter: 'rn'
   }).ast

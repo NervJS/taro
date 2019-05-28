@@ -5,7 +5,6 @@ import * as glob from 'glob'
 
 import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { compileDepStyles } from '../mini/compileStyle'
 import { printLog } from '../util'
 import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist } from './common'
 import { IBuildData } from './ui.types'
@@ -38,11 +37,7 @@ export async function buildForWeapp (buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(entryFilePath)
     })
-    const {styleFiles, components} = parseEntryAst(transformResult.ast, entryFilePath)
-    if (styleFiles.length) {
-      const outputStylePath = path.join(outputDir, 'css', 'index.css')
-      await compileDepStyles(outputStylePath, styleFiles)
-    }
+    const { components } = parseEntryAst(transformResult.ast, entryFilePath)
     const relativePath = path.relative(appPath, entryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))

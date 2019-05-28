@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as resolvePath from 'resolve'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as babel from 'babel-core'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
@@ -435,8 +435,6 @@ async function recursiveRequire ({
       const transformResult = wxTransformer({
         code: fileContent,
         sourcePath: filePath,
-        outputPath: outputNpmPath,
-        isNormal: true,
         adapter: buildAdapter,
         isTyped: REG_TYPESCRIPT.test(filePath),
         env: constantsReplaceList
