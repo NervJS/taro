@@ -22,6 +22,7 @@ const plugin = function (babel: {
         ast.node.specifiers.forEach(node => {
           if (t.isImportDefaultSpecifier(node)) {
             taroName = node.local.name
+            needDefault = true
           } else if (t.isImportSpecifier(node)) {
             const propertyName = node.imported.name
             if (apis.has(propertyName)) { // 记录api名字
@@ -60,16 +61,19 @@ const plugin = function (babel: {
 
         // 同一api使用多次, 读取变量名
         if (apis.has(propertyName)) {
-          let identifier: Types.Identifier
-          if (invokedApis.has(propertyName)) {
-            identifier = t.identifier(invokedApis.get(propertyName)!)
-          } else {
-            const newPropertyName = ast.scope.generateUid(propertyName)
-            invokedApis.set(propertyName, newPropertyName)
-            /* 未绑定作用域 */
-            identifier = t.identifier(newPropertyName)
+          const isAssigning = ast.findParent(parentPath => parentPath.isAssignmentExpression())
+          if (!isAssigning) {
+            let identifier: Types.Identifier
+            if (invokedApis.has(propertyName)) {
+              identifier = t.identifier(invokedApis.get(propertyName)!)
+            } else {
+              const newPropertyName = ast.scope.generateUid(propertyName)
+              invokedApis.set(propertyName, newPropertyName)
+              /* 未绑定作用域 */
+              identifier = t.identifier(newPropertyName)
+            }
+            ast.replaceWith(identifier)
           }
-          ast.replaceWith(identifier)
         } else {
           needDefault = true
         }

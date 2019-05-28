@@ -15,7 +15,7 @@ Taro.noop();"
 
 exports[`should not go wrong when using an api twice 1`] = `
 "
-import { createAnimation as _createAnimation } from '@tarojs/taro-h5';
+import Taro, { createAnimation as _createAnimation } from '@tarojs/taro-h5';
 const animation = _createAnimation({
   duration: dura * 1000,
   timingFunction: 'linear'
@@ -33,6 +33,15 @@ import Taro, { createAnimation as _createAnimation } from \\"@tarojs/taro-h5\\";
 Taro.Component;
 _createAnimation();
 Taro.initPxTransform();"
+`;
+
+exports[`should preserve default imports 1`] = `
+"
+import Taro, { request as _request } from '@tarojs/taro-h5';
+console.log(Taro);
+_request();
+Taro.request = '';
+Taro['request'] = '';"
 `;
 
 exports[`should work! 1`] = `

@@ -124,3 +124,15 @@ it('should not go wrong when using an api twice', function () {
     expect(result.code).toMatchSnapshot();
   }).not.toThrowError()
 })
+
+it('should preserve default imports', function () {
+  const code = `
+    import Taro from '@tarojs/taro-h5'
+    console.log(Taro)
+    Taro.request()
+    Taro.request = ''
+    Taro['request'] = ''
+  `
+  const result = babel.transform(code, { plugins: [pluginOptions] })
+  expect(result.code).toMatchSnapshot();
+})
