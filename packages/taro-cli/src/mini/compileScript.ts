@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 
 import {
   printLog,
@@ -83,9 +83,6 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           const transformResult = wxTransformer({
             code,
             sourcePath: item,
-            sourceDir,
-            outputPath: outputItem,
-            isNormal: true,
             isTyped: REG_TYPESCRIPT.test(item),
             adapter: buildAdapter,
             env: constantsReplaceList,

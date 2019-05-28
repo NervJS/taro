@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import { Config as IConfig } from '@tarojs/taro'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as _ from 'lodash'
 import traverse from 'babel-traverse'
 
@@ -55,12 +55,10 @@ export function getComponentsNamedMap () {
 
 export function isFileToBeTaroComponent (
   code: string,
-  sourcePath: string,
-  outputPath: string
+  sourcePath: string
 ) {
   const {
     buildAdapter,
-    sourceDir,
     constantsReplaceList,
     jsxAttributeNameReplace,
     alias
@@ -68,9 +66,6 @@ export function isFileToBeTaroComponent (
   const transformResult: IWxTransformResult = wxTransformer({
     code,
     sourcePath: sourcePath,
-    sourceDir,
-    outputPath: outputPath,
-    isNormal: true,
     isTyped: REG_TYPESCRIPT.test(sourcePath),
     adapter: buildAdapter,
     env: constantsReplaceList,
