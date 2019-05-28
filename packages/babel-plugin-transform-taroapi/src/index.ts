@@ -61,8 +61,10 @@ const plugin = function (babel: {
 
         // 同一api使用多次, 读取变量名
         if (apis.has(propertyName)) {
-          const isAssigning = ast.findParent(parentPath => parentPath.isAssignmentExpression())
-          if (!isAssigning) {
+          const parentNode = ast.parent
+          const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
+
+          if (!isAssignment) {
             let identifier: Types.Identifier
             if (invokedApis.has(propertyName)) {
               identifier = t.identifier(invokedApis.get(propertyName)!)

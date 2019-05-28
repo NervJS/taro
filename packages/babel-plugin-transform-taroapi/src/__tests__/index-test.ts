@@ -129,6 +129,22 @@ it('should preserve default imports', function () {
   const code = `
     import Taro from '@tarojs/taro-h5'
     console.log(Taro)
+  `
+  const result = babel.transform(code, { plugins: [pluginOptions] })
+  expect(result.code).toMatchSnapshot();
+})
+
+
+it('should preserve assignments in lefthands', function () {
+  const code = `
+    import Taro from '@tarojs/taro-h5'
+    let animation 
+    animation = Taro.createAnimation({
+      transformOrigin: "50% 50%",
+      duration: 1000,
+      timingFunction: "ease",
+      delay: 0
+    });
     Taro.request()
     Taro.request = ''
     Taro['request'] = ''
