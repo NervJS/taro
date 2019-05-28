@@ -116,7 +116,7 @@ describe('基本功能', () => {
     expect(code.includes(INTERNAL_SAFE_GET)).toBeTruthy()
   })
 
-  test('isApp 为 true 时只返回 ast', () => {
+  test.skip('isApp 为 true 时只返回 ast', () => {
     const { code, ast, template } = transform({
       ...baseOptions,
       isApp: true,
