@@ -20,8 +20,7 @@ import { StyleSheet, Dimensions } from 'react-native'
 
 // 一般app 只有竖屏模式，所以可以只获取一次 width
 const deviceWidthDp = Dimensions.get('window').width
-// UI 默认给图是 750
-const uiWidthPx = 750
+const uiWidthPx = 375
 
 function scalePx2dp (uiElementPx) {
   return uiElementPx * deviceWidthDp / uiWidthPx
