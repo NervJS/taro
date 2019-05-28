@@ -1,2 +1,3 @@
 var transform = require('./lib/src').default
-module.exports = module.exports.default = transform
+module.exports = transform
+module.exports.default = transform
