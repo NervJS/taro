@@ -1,13 +1,11 @@
 import * as t from 'babel-types'
-import { IComponentObj } from '../mini/interface'
 import traverse from 'babel-traverse'
 import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
 import * as path from 'path'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT } from '../util/constants'
+import { processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPT, REG_JSON, REG_FONT, REG_IMAGE, REG_MEDIA } from '../util/constants'
 import generate from 'babel-generator'
 import * as fs from 'fs-extra'
-import { parseAst } from '../mini/astProcess'
 import { IBuildData } from './ui.types'
 
 const processedScriptFiles: Set<string> = new Set()
@@ -18,6 +16,85 @@ export const H5_OUTPUT_NAME = 'h5'
 export const RN_OUTPUT_NAME = 'rn'
 export const TEMP_DIR = '.temp'
 export const RN_TEMP_DIR = 'rn_temp'
+
+interface IComponentObj {
+  name?: string,
+  path: string | null,
+  type?: string
+}
+
+interface IParseAstReturn {
+  styleFiles: string[],
+  scriptFiles: string[],
+  jsonFiles: string[],
+  mediaFiles: string[]
+}
+
+function parseAst (
+  ast: t.File,
+  sourceFilePath: string
+): IParseAstReturn {
+  const styleFiles: string[] = []
+  const scriptFiles: string[] = []
+  const jsonFiles: string[] = []
+  const mediaFiles: string[] = []
+
+  traverse(ast, {
+    Program: {
+      exit (astPath) {
+        astPath.traverse({
+          ImportDeclaration (astPath) {
+            const node = astPath.node
+            const source = node.source
+            const value = source.value
+            const valueExtname = path.extname(value)
+            if (value.indexOf('.') === 0) {
+              let importPath = path.resolve(path.dirname(sourceFilePath), value)
+              importPath = resolveScriptPath(importPath)
+              if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
+                const vpath = path.resolve(sourceFilePath, '..', value)
+                let fPath = value
+                if (fs.existsSync(vpath) && vpath !== sourceFilePath) {
+                  fPath = vpath
+                }
+                if (scriptFiles.indexOf(fPath) < 0) {
+                  scriptFiles.push(fPath)
+                }
+              } else if (REG_JSON.test(valueExtname)) {
+                const vpath = path.resolve(sourceFilePath, '..', value)
+                if (fs.existsSync(vpath) && jsonFiles.indexOf(vpath) < 0) {
+                  jsonFiles.push(vpath)
+                }
+              } else if (REG_FONT.test(valueExtname) || REG_IMAGE.test(valueExtname) || REG_MEDIA.test(valueExtname)) {
+                const vpath = path.resolve(sourceFilePath, '..', value)
+                if (fs.existsSync(vpath) && mediaFiles.indexOf(vpath) < 0) {
+                  mediaFiles.push(vpath)
+                }
+              } else if (REG_STYLE.test(valueExtname)) {
+                const vpath = path.resolve(path.dirname(sourceFilePath), value)
+                if (fs.existsSync(vpath) && styleFiles.indexOf(vpath) < 0) {
+                  styleFiles.push(vpath)
+                }
+              } else {
+                const vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+                if (fs.existsSync(vpath) && scriptFiles.indexOf(vpath) < 0) {
+                  scriptFiles.push(vpath)
+                }
+              }
+            }
+          }
+        })
+      }
+    }
+  })
+
+  return {
+    styleFiles,
+    scriptFiles,
+    jsonFiles,
+    mediaFiles
+  }
+}
 
 export function parseEntryAst (ast: t.File, relativeFile: string) {
   const styleFiles: string[] = []
@@ -144,7 +221,7 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         scriptFiles,
         jsonFiles,
         mediaFiles
-      } = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], file, file, true)
+      } = parseAst(transformResult.ast, file)
 
       const resFiles = styleFiles.concat(scriptFiles,jsonFiles, mediaFiles)
 

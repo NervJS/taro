@@ -1,5 +1,5 @@
 import { PageConfig } from '@tarojs/taro'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as babel from 'babel-core'
 import traverse, { NodePath, TraverseOptions } from 'babel-traverse'
 import * as t from 'babel-types'
@@ -294,7 +294,6 @@ class Compiler {
     let ast = wxTransformer({
       code,
       sourcePath: filePath,
-      isNormal: true,
       isTyped: REG_TYPESCRIPT.test(filePath),
       adapter: 'h5'
     }).ast
