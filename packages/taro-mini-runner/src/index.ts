@@ -10,23 +10,30 @@ export default function build (config: IBuildConfig) {
   const { babel } = compilePlugins
   const webpackConfig = {
     mode: config.isWatch ? 'development' : 'production',
+    devtool: "inline-source-map",
     entry: config.entry,
     output: {
       filename: '[name].js',
       publicPath: '/',
 			path: config.outputDir,
     },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
     module: {
       rules: [
         {
 					test: /\.(tsx?|jsx?)$/,
-					include: /src/,
 					exclude: /node_modules/,
 					use: [{
             loader: path.resolve(__dirname, './loaders/fileParseLoader'),
             options: {
               babel,
-              constantsReplaceList: config.constantsReplaceList
+              designWidth: config.designWidth,
+              deviceRatio: config.deviceRatio,
+              buildAdapter: config.buildAdapter,
+              constantsReplaceList: config.constantsReplaceList,
+              fileTypeMap: MiniPlugin.getTaroFileTypeMap()
             }
           }, {
             loader: path.resolve(__dirname, './loaders/wxTransformerLoader'),
