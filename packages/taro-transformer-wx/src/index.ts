@@ -220,6 +220,13 @@ export default function transform (options: Options): TransformResult {
     setIsTaroReady('priTaroCompReady')
     setCompId('priCompid')
   }
+  const defaultResult: TransformResult = {
+    ast: {} as any,
+    code: '',
+    imageSrcs: '',
+    compressedTemplate: '',
+    components: []
+  }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
@@ -247,7 +254,12 @@ export default function transform (options: Options): TransformResult {
         resetTSClassProperty(mainClassNode.body.body)
       }
     }
-    return { ast } as any
+    const code = generate(ast).code
+    return {
+      ...defaultResult,
+      ast,
+      code
+    }
   }
   // transformFromAst(ast, code)
   let result
@@ -780,7 +792,12 @@ export default function transform (options: Options): TransformResult {
   }
 
   if (!mainClass) {
-    throw new Error('未找到 Taro.Component 的类定义')
+    const code = generate(ast).code
+    return {
+      ...defaultResult,
+      ast,
+      code
+    }
   }
 
   if (Adapter.type === Adapters.alipay) {
@@ -837,7 +854,12 @@ export default function transform (options: Options): TransformResult {
     renderMethod.replaceWith(
       t.classMethod('method', t.identifier('_createData'), [], t.blockStatement([]))
     )
-    return { ast } as TransformResult
+    const code = generate(ast).code
+    return {
+      ...defaultResult,
+      ast,
+      code
+    }
   }
   result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!, classMethods).result
   result.code = generate(ast).code
