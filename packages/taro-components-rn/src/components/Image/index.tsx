@@ -139,7 +139,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
 
     const flattenStyle = StyleSheet.flatten(style) || {}
 
-    // The parameter passed to require must be a string literal
+    // The parameter passed to require mpxTransformust be a string literal
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'

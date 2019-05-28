@@ -5,6 +5,22 @@ describe("misc", () => {
     expect(transform(``)).toEqual({});
   });
 
+  it("transforms flex", () => {
+    expect(
+      transform(`
+      .test {
+        flex: 1;
+      }
+    `),
+    ).toEqual({
+      test: {
+        flexBasis: 0,
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+    });
+  });
+
   it("transforms numbers", () => {
     expect(
       transform(`
@@ -41,7 +57,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { top: 0 },
+      test: { top: "scalePx2dp(0)" },
     });
   });
 
@@ -65,7 +81,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { marginTop: 0.5 },
+      test: { marginTop: "scalePx2dp(0.5)" },
     });
     expect(
       transform(`
@@ -74,7 +90,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { marginTop: 100.5 },
+      test: { marginTop: "scalePx2dp(100.5)" },
     });
     expect(
       transform(`
@@ -83,7 +99,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { marginTop: -0.5 },
+      test: { marginTop: "scalePx2dp(-0.5)" },
     });
     expect(
       transform(`
@@ -92,7 +108,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { marginTop: -100.5 },
+      test: { marginTop: "scalePx2dp(-100.5)" },
     });
     expect(
       transform(`
@@ -101,7 +117,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { marginTop: 0.5 },
+      test: { marginTop: "scalePx2dp(0.5)" },
     });
     expect(
       transform(`
@@ -110,7 +126,7 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { marginTop: -0.5 },
+      test: { marginTop: "scalePx2dp(-0.5)" },
     });
   });
 
@@ -118,12 +134,38 @@ describe("misc", () => {
     expect(
       transform(`
       .test {
-        top: 1PX;
+        top: 1Px;
+        margin: 10Px 30px;
       }
     `),
     ).toEqual({
       test: {
+        marginBottom: 10,
+        marginLeft: "scalePx2dp(30)",
+        marginRight: "scalePx2dp(30)",
+        marginTop: 10,
         top: 1,
+      },
+    });
+  });
+
+  it("allows PX or PX values scalePx2dp", () => {
+    expect(
+      transform(`
+      .test {
+        top: 10Px;
+        left:10px;
+        margin: 10Px 30px;
+      }
+    `),
+    ).toEqual({
+      test: {
+        left: "scalePx2dp(10)",
+        marginBottom: 10,
+        marginLeft: "scalePx2dp(30)",
+        marginRight: "scalePx2dp(30)",
+        marginTop: 10,
+        top: 10,
       },
     });
   });
@@ -137,7 +179,7 @@ describe("misc", () => {
     `),
     ).toEqual({
       test: {
-        borderRadius: 1.5,
+        borderRadius: "scalePx2dp(1.5)",
       },
     });
   });
@@ -151,7 +193,7 @@ describe("misc", () => {
     `),
     ).toEqual({
       test: {
-        borderRadius: -1.5,
+        borderRadius: "scalePx2dp(-1.5)",
       },
     });
   });
@@ -196,9 +238,9 @@ describe("misc", () => {
     `),
     ).toEqual({
       test: {
-        marginTop: 10,
+        marginTop: "scalePx2dp(10)",
         marginRight: 0,
-        marginBottom: 10,
+        marginBottom: "scalePx2dp(10)",
         marginLeft: 0,
       },
     });
@@ -226,7 +268,12 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { shadowOffset: { width: 10, height: 5 } },
+      test: {
+        shadowOffset: {
+          height: "scalePx2dp(5)",
+          width: "scalePx2dp(10)",
+        },
+      },
     });
   });
 
@@ -238,7 +285,12 @@ describe("misc", () => {
       }
     `),
     ).toEqual({
-      test: { textShadowOffset: { width: 10, height: 5 } },
+      test: {
+        textShadowOffset: {
+          height: "scalePx2dp(5)",
+          width: "scalePx2dp(10)",
+        },
+      },
     });
   });
 
@@ -262,25 +314,28 @@ describe("misc", () => {
   `),
     ).toEqual({
       description: {
-        marginBottom: 20,
-        fontSize: 18,
+        fontSize: "scalePx2dp(18)",
+        marginBottom: "scalePx2dp(20)",
         textAlign: "center",
         color: "#656656",
         shadowColor: "#fff",
-        shadowOffset: { height: 20, width: 10 },
-        shadowRadius: 30,
+        shadowOffset: {
+          height: "scalePx2dp(20)",
+          width: "scalePx2dp(10)",
+        },
+        shadowRadius: "scalePx2dp(30)",
         shadowOpacity: 1,
       },
       container: {
-        paddingBottom: 30,
-        paddingLeft: 30,
-        paddingRight: 30,
-        paddingTop: 30,
-        marginTop: 65,
+        paddingBottom: "scalePx2dp(30)",
+        paddingLeft: "scalePx2dp(30)",
+        paddingRight: "scalePx2dp(30)",
+        paddingTop: "scalePx2dp(30)",
+        marginTop: "scalePx2dp(65)",
         alignItems: "center",
         borderColor: "#f00",
         borderStyle: "dashed",
-        borderWidth: 2,
+        borderWidth: "scalePx2dp(2)",
       },
     });
   });
@@ -311,15 +366,15 @@ describe("misc", () => {
     ).toEqual({
       test: {
         backgroundColor: "#f00",
-        paddingBottom: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 10,
-        fontSize: 20,
-        marginBottom: 5,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 5,
+        fontSize: "scalePx2dp(20)",
+        marginBottom: "scalePx2dp(5)",
+        marginLeft: "scalePx2dp(5)",
+        marginRight: "scalePx2dp(5)",
+        marginTop: "scalePx2dp(5)",
+        paddingBottom: "scalePx2dp(10)",
+        paddingLeft: "scalePx2dp(10)",
+        paddingRight: "scalePx2dp(10)",
+        paddingTop: "scalePx2dp(10)",
       },
     });
   });
