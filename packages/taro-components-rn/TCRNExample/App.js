@@ -142,7 +142,7 @@ export default class App extends Component {
             <EXRadio />
           </View>
 
-          <View style={styles.section}>
+          <View style={[styles.section, { backgroundColor: 'green' }]}>
             <View style={styles.sectionTit}>
               <Text style={styles.sectionTitTxt}>RichText</Text>
             </View>

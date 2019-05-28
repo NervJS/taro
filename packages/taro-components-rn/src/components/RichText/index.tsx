@@ -64,6 +64,16 @@ class _RichText extends React.Component<RichTextProps> {
         <WebView
           source={{ html }}
           scalesPageToFit={false}
+          injectedJavaScript={`
+            document.documentElement.style.padding = 0;
+            document.documentElement.style.margin = 0;
+            document.body.style.padding = 0;
+            document.body.style.margin = 0;
+            true;
+          `}
+          style={{
+            backgroundColor: 'transparent'
+          }}
         />
       </View>
     )
