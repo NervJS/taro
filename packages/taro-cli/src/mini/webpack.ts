@@ -49,7 +49,8 @@ async function buildWithWebpack ({ appPath }: { appPath: string }) {
       babel: babelConfig
     },
     isWatch: !isProduction,
-    constantsReplaceList
+    designWidth: projectConfig.designWidth,
+    deviceRatio: projectConfig.deviceRatio
   }
   miniRunner(miniRunnerOpts)
 }

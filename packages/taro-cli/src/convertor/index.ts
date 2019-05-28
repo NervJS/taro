@@ -7,7 +7,7 @@ import * as prettier from 'prettier'
 import traverse, { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import * as taroize from '@tarojs/taroize'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 
@@ -407,8 +407,6 @@ export default class Convertor {
         const transformResult = wxTransformer({
           code,
           sourcePath: file,
-          outputPath: outputFilePath,
-          isNormal: true,
           isTyped: REG_TYPESCRIPT.test(file)
         })
         const { ast, scriptFiles } = this.parseAst({

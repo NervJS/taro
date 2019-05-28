@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import { Config as IConfig } from '@tarojs/taro'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as _ from 'lodash'
 
 import {
@@ -105,8 +105,6 @@ export async function buildSinglePage (page: string) {
       const aheadTransformResult: IWxTransformResult = wxTransformer({
         code: pageJsContent,
         sourcePath: pageJs,
-        sourceDir,
-        outputPath: outputPageJSPath,
         isRoot: true,
         isTyped: REG_TYPESCRIPT.test(pageJs),
         adapter: buildAdapter,

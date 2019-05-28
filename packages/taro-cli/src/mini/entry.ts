@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import { AppConfig } from '@tarojs/taro'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 
 import {
   REG_SCRIPTS,
@@ -104,8 +104,6 @@ export async function buildEntry (): Promise<AppConfig> {
     const transformResult: IWxTransformResult = wxTransformer({
       code: entryFileCode,
       sourcePath: entryFilePath,
-      sourceDir,
-      outputPath: outputEntryFilePath,
       isApp: true,
       isTyped: REG_TYPESCRIPT.test(entryFilePath),
       adapter: buildAdapter,

@@ -3,7 +3,7 @@ import * as path from 'path'
 
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import getHashName from '../util/hash'
 
 import {
@@ -375,9 +375,6 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
           const transformResult: IWxTransformResult = wxTransformer({
             code: scriptContent,
             sourcePath: sourceFilePath,
-            sourceDir: getBuildData().sourceDir,
-            outputPath: outputFilePath,
-            isNormal: true,
             isTyped: false,
             adapter: BUILD_TYPES.QUICKAPP
           })
