@@ -126,7 +126,7 @@ function validateStyle({styleObject, filePath}) {
 }
 
 function writeStyleFile({css, tempFilePath}) {
-  const fileContent = getWrapedCSS(css.replace(/"(scalePx2dp\(.*？\))"/g, '$1'))
+  const fileContent = getWrapedCSS(css.replace(/"(scalePx2dp\(.*?\))"/g, '$1'))
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
   Util.printLog(processTypeEnum.GENERATE, '生成样式文件', tempFilePath)
