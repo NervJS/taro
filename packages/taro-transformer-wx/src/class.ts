@@ -669,7 +669,7 @@ class Transformer {
             slot.openingElement.attributes.push(t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(getSlotName(path.node.name))))
             self.setMultipleSlots()
           }
-          if (parentPath.isMemberExpression() && parentPath.isReferenced()) {
+          if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {
             const object = parentPath.get('object')
             if (object.isIdentifier()) {
               const objectName = object.node.name
