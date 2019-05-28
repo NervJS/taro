@@ -31,6 +31,7 @@
     "packages/taro-qq",
     "packages/taro-jd",
     "packages/taro-webpack-runner",
+    "packages/taro-mini-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
