@@ -36,7 +36,6 @@ const formatTime = function (date?) {
   return `${year}-${zeroPad(month, 2)}-${zeroPad(day, 2)} ${zeroPad(hour, 2)}:${zeroPad(minute, 2)}`
 }
 
-const appPath = process.cwd()
 const emptyObj = {}
 const emptyTogglableObj = {
   enable: false,
@@ -63,7 +62,6 @@ const addLeadingSlash = (url: string) => url.charAt(0) === '/' ? url : '/' + url
 const addTrailingSlash = (url: string) => url.charAt(url.length - 1) === '/' ? url : url + '/'
 
 export {
-  appPath,
   emptyObj,
   emptyTogglableObj,
   isEmptyObject,

@@ -1,9 +1,9 @@
 import * as path from 'path'
 import * as Chain from 'webpack-chain'
 
-import { getRootPath, appPath } from '../util'
+import { getRootPath } from '../util'
 
-export default () => {
+export default (appPath: string) => {
   const chain = new Chain()
   chain.merge({
     resolve: {

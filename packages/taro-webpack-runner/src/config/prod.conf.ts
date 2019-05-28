@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { addTrailingSlash, appPath, emptyObj } from '../util';
+import { addTrailingSlash, emptyObj } from '../util';
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -17,8 +17,8 @@ import {
 import { BuildConfig } from '../util/types';
 import getBaseChain from './base.conf';
 
-export default function (config: Partial<BuildConfig>): any {
-  const chain = getBaseChain()
+export default function (appPath: string, config: Partial<BuildConfig>): any {
+  const chain = getBaseChain(appPath)
   const {
     alias = emptyObj,
     copy,
@@ -103,13 +103,13 @@ export default function (config: Partial<BuildConfig>): any {
     mode,
     devtool: getDevtool(enableSourceMap),
     entry: getEntry(entry),
-    output: getOutput([{
+    output: getOutput(appPath, [{
       outputRoot,
       publicPath: addTrailingSlash(publicPath),
       chunkDirectory
     }, output]),
     resolve: { alias },
-    module: getModule({
+    module: getModule(appPath, {
       designWidth,
       deviceRatio,
       enableExtract,

@@ -29,7 +29,7 @@ describe('Regs', () => {
   })
 
   it('should get a correct webpackConfig.module object', () => {
-    const { rule } = getModule({
+    const { rule } = getModule('', {
       staticDirectory: '',
       designWidth: 750,
       deviceRatio: '',

@@ -207,7 +207,7 @@ class Compiler {
     })
 
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
-    webpackRunner(h5Config)
+    webpackRunner(this.appPath, h5Config)
   }
 
   watchFiles () {

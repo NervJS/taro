@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as constparse from 'postcss-plugin-constparse';
 import * as pxtransform from 'postcss-pxtransform';
 import { sync as resolveSync } from 'resolve';
-import { isNpmPackage, appPath, recursiveMerge } from '../util';
+import { isNpmPackage, recursiveMerge } from '../util';
 
 import { PostcssOption } from '../util/types';
 
@@ -41,7 +41,7 @@ const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules']
 
 const plugins = [] as any[]
 
-export const getPostcssPlugins = function ({
+export const getPostcssPlugins = function (appPath: string, {
   designWidth,
   deviceRatio,
   postcssOption = {} as PostcssOption
