@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 import * as webpack from 'webpack'
 import * as SingleEntryPlugin from 'webpack/lib/SingleEntryPlugin'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
@@ -13,7 +13,7 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig } from '@tarojs/taro'
 
-import { REG_TYPESCRIPT, BUILD_TYPES } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE } from '../utils/constants'
 import { traverseObjectNode, resolveScriptPath } from '../utils'
 
 interface IMiniPluginOptions {
@@ -21,17 +21,19 @@ interface IMiniPluginOptions {
   buildAdapter: BUILD_TYPES
 }
 
+interface ITaroFileInfo {
+  [key: string]: {
+    type: PARSE_AST_TYPE,
+    config: IConfig,
+    wxml?: string
+  }
+}
+
 interface IComponent { name: string, path: string }
 
 const PLUGIN_NAME = 'MiniPlugin'
 
-const taroFileTypeMap = {}
-
-export enum TARO_FILE_TYPE {
-  APP = 'APP',
-  PAGE = 'PAGE',
-  COMPONENT = 'COMPONENT'
-}
+const taroFileTypeMap: ITaroFileInfo = {}
 
 export const createTarget = function createTarget(name) {
 	const target = compiler => {
@@ -91,6 +93,13 @@ export default class MiniPlugin {
 				await this.run(compiler)
 			})
     )
+
+    compiler.hooks.emit.tapAsync(
+      PLUGIN_NAME,
+      this.tryAsync(async compilation => {
+        await this.generateMiniFiles(compilation)
+      })
+    )
   }
 
   getAppEntry (compiler) {
@@ -109,7 +118,6 @@ export default class MiniPlugin {
     }
     const appEntryPath = getEntryPath(entry)
     this.sourceDir = path.dirname(appEntryPath)
-    taroFileTypeMap[appEntryPath] = TARO_FILE_TYPE.APP
     return appEntryPath
   }
 
@@ -189,10 +197,14 @@ export default class MiniPlugin {
     if (!appPages || appPages.length === 0) {
       throw new Error('缺少页面')
     }
+    taroFileTypeMap[this.appEntry] = {
+      type: PARSE_AST_TYPE.ENTRY,
+      config: configObj,
+      wxml: transformResult.template
+    }
     this.pages = new Set([
       ...appPages.map(item => {
         const pagePath = resolveScriptPath(path.join(this.sourceDir, item))
-        taroFileTypeMap[pagePath] = TARO_FILE_TYPE.PAGE
         return { name: item, path: pagePath }
       })
     ])
@@ -209,13 +221,17 @@ export default class MiniPlugin {
         isRoot,
         adapter: buildAdapter
       })
-
+      const { configObj } = this.parseAst(transformResult.ast, buildAdapter)
+      taroFileTypeMap[file.path] = {
+        type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
+        config: configObj,
+        wxml: transformResult.template
+      }
       let depComponents = transformResult.components
       if (depComponents && depComponents.length) {
         depComponents.forEach(item => {
           const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
           if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
-            taroFileTypeMap[componentPath] = TARO_FILE_TYPE.COMPONENT
             const componentName = componentPath.replace(this.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
             const componentObj = { name: componentName, path: componentPath }
             this.components.add(componentObj)
@@ -237,6 +253,27 @@ export default class MiniPlugin {
         const dep = SingleEntryPlugin.createDependency(item.path, item.name)
         compilation.addEntry(this.sourceDir, dep, item.name, callback)
       })
+    })
+  }
+
+  generateMiniFiles (compilation: webpack.compilation.Compilation) {
+    Object.keys(taroFileTypeMap).forEach(item => {
+      const relativePath = item.replace(this.sourceDir, '')
+      const extname = path.extname(item)
+      const wxmlPath = relativePath.replace(extname, '.wxml')
+      const jsonPath = relativePath.replace(extname, '.json')
+      const itemInfo = taroFileTypeMap[item]
+      if (itemInfo.type !== PARSE_AST_TYPE.ENTRY) {
+        compilation.assets[wxmlPath] = {
+          size: () => itemInfo.wxml!.length,
+          source: () => itemInfo.wxml
+        }
+      }
+      const jsonStr = JSON.stringify(itemInfo.config)
+      compilation.assets[jsonPath] = {
+        size: () => jsonStr.length,
+        source: () => jsonStr
+      }
     })
   }
 
