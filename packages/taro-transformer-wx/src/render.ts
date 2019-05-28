@@ -138,6 +138,7 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
+  private ifStemRenamers = new Set<string>()
   private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
@@ -618,6 +619,7 @@ export class RenderParser {
             )
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
+            this.ifStemRenamers.add(id.name)
             blockStatement.scope.rename(id.name, newId.name)
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
@@ -2288,6 +2290,25 @@ export class RenderParser {
         ]))
       )
     }
+    this.renderPath.traverse({
+      CallExpression: (path) => {
+        const { callee } = path.node
+        if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
+          const objExpr = path.node.arguments[0]
+          if (t.isObjectExpression(objExpr)) {
+            objExpr.properties = objExpr.properties.map(p => {
+              if (t.isObjectMethod(p) || t.isSpreadProperty(p)) {
+                return p
+              }
+              if (t.isIdentifier(p.value) && this.ifStemRenamers.has(p.value.name)) {
+                p.value = t.identifier('_$' + p.value.name)
+              }
+              return p
+            })
+          }
+        }
+      }
+    })
   }
 
   getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`
