@@ -5,6 +5,17 @@ import * as t from 'babel-types'
 
 import { CONFIG_MAP, JS_EXT, TS_EXT } from './constants'
 
+export function isNpmPkg (name: string): boolean {
+  if (/^(\.|\/)/.test(name)) {
+    return false
+  }
+  return true
+}
+
+export function isQuickAppPkg (name: string): boolean {
+  return /@system\./.test(name)
+}
+
 export function traverseObjectNode (node, buildAdapter: string, parentKey?: string) {
   if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
     const properties = node.value.properties
