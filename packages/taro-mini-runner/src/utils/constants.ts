@@ -1,3 +1,5 @@
+import * as os from 'os'
+
 export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
@@ -83,4 +85,25 @@ export const CONFIG_MAP = {
     iconPath: 'iconPath',
     selectedIconPath: 'selectedIconPath'
   }
+}
+
+
+export const taroJsComponents = '@tarojs/components'
+export const taroJsQuickAppComponents = '@tarojs/components-qa'
+export const taroJsFramework = '@tarojs/taro'
+export const taroJsRedux = '@tarojs/redux'
+
+export const DEVICE_RATIO_NAME = 'deviceRatio'
+export const isWindows = os.platform() === 'win32'
+
+export const QUICKAPP_SPECIAL_COMPONENTS = new Set<string>([
+  'View',
+  'Text'
+])
+
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL'
 }

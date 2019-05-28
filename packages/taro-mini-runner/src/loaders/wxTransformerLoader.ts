@@ -1,8 +1,7 @@
 import { getOptions } from 'loader-utils'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 
-import { REG_TYPESCRIPT } from '../utils/constants'
-import { TARO_FILE_TYPE } from '../plugins/miniPlugin'
+import { REG_TYPESCRIPT, PARSE_AST_TYPE } from '../utils/constants'
 
 export default function wxTransformerLoader (source) {
   const { buildAdapter, fileTypeMap } = getOptions(this)
@@ -13,10 +12,13 @@ export default function wxTransformerLoader (source) {
     isTyped: REG_TYPESCRIPT.test(filePath),
     adapter: buildAdapter
   }
-  if (fileTypeMap[filePath] === TARO_FILE_TYPE.APP) {
-    wxTransformerParams.isApp = true
-  } else if (fileTypeMap[filePath] === TARO_FILE_TYPE.PAGE) {
-    wxTransformerParams.isRoot = true
+  if (fileTypeMap[filePath]) {
+    const fileType = fileTypeMap[filePath].type
+    if (fileType === PARSE_AST_TYPE.ENTRY) {
+      wxTransformerParams.isApp = true
+    } else if (fileType === PARSE_AST_TYPE.PAGE) {
+      wxTransformerParams.isRoot = true
+    }
   }
   const transformResult = wxTransformer(wxTransformerParams)
   this.callback(null, transformResult.code, transformResult.ast)
