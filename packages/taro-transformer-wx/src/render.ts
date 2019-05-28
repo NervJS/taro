@@ -1999,7 +1999,16 @@ export class RenderParser {
                 returnBody.unshift(
                   t.variableDeclaration('let', [t.variableDeclarator(t.identifier(stateName))])
                 )
-                consequent.node.body.push(assignment)
+                if (callee.findParent(p => p === consequent)) {
+                  consequent.node.body.push(assignment)
+                } else {
+                  const alternate = ifStem.get('alternate')
+                  if (alternate.isBlockStatement()) {
+                    alternate.node.body.push(assignment)
+                  } else {
+                    consequent.node.body.push(assignment)
+                  }
+                }
               }
             } else {
               const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
