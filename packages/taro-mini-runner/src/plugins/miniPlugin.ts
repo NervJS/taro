@@ -8,6 +8,7 @@ import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/JsonpTemplatePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
+import * as VirtualModulePlugin from 'virtual-module-webpack-plugin'
 import { defaults } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
@@ -25,7 +26,8 @@ interface ITaroFileInfo {
   [key: string]: {
     type: PARSE_AST_TYPE,
     config: IConfig,
-    wxml?: string
+    wxml?: string,
+    code?: string
   }
 }
 
@@ -200,7 +202,8 @@ export default class MiniPlugin {
     taroFileTypeMap[this.appEntry] = {
       type: PARSE_AST_TYPE.ENTRY,
       config: configObj,
-      wxml: transformResult.template
+      wxml: transformResult.template,
+      code: transformResult.code
     }
     this.pages = new Set([
       ...appPages.map(item => {
@@ -225,7 +228,8 @@ export default class MiniPlugin {
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
         config: configObj,
-        wxml: transformResult.template
+        wxml: transformResult.template,
+        code: transformResult.code
       }
       let depComponents = transformResult.components
       if (depComponents && depComponents.length) {
@@ -277,11 +281,23 @@ export default class MiniPlugin {
     })
   }
 
+  transferFileContent (compiler: webpack.Compiler) {
+    Object.keys(taroFileTypeMap).forEach(item => {
+      const relativePath = item.replace(compiler.context, '')
+      const itemInfo = taroFileTypeMap[item]
+      new VirtualModulePlugin({
+        moduleName: relativePath,
+        contents: itemInfo.code
+      }).apply(compiler)
+    })
+  }
+
   run (compiler: webpack.Compiler) {
     this.appEntry = this.getAppEntry(compiler)
     this.getPages()
     this.getComponents(this.pages, true)
     this.addEntries(compiler)
+    this.transferFileContent(compiler)
   }
 
   static getTaroFileTypeMap () {
