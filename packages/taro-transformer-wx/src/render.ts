@@ -1744,17 +1744,25 @@ export class RenderParser {
 
               // createData 函数里加入 compid 相关逻辑
               const variableName = `$compid__${genCompid()}`
+              const tpmlExprs: t.Expression[] = []
+              for (let index = 0; index < loopIndices.length; index++) {
+                const element = loopIndices[index]
+                tpmlExprs.push(t.identifier(element))
+                if (loopIndices[index + 1]) {
+                  tpmlExprs.push(t.stringLiteral('-'))
+                }
+              }
               const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
                 t.identifier(GEN_COMP_ID),
                 [t.templateLiteral(
                   [
                     t.templateElement({ raw: '' }),
                     t.templateElement({ raw: createRandomLetters(10) }),
-                    ...loopIndices.map(() => t.templateElement({ raw: '' }))
+                    ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
                   ],
                   [
                     this.prefixExpr(),
-                    ...loopIndices.map(i => t.identifier(i))
+                    ...tpmlExprs
                   ]
                 )]
               ))

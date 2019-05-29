@@ -210,7 +210,8 @@ function wxCloud (taro) {
     'downloadFile',
     'getTempFileURL',
     'deleteFile',
-    'callFunction'
+    'callFunction',
+    'CloudID'
   ]
   apiList.forEach(v => {
     wxcloud[v] = wxC[v]

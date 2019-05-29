@@ -131,7 +131,6 @@ class Input extends Nerv.Component {
     } else {
       this.isOnComposition = true
     }
-    this.onInput(e)
   }
 
   render () {
