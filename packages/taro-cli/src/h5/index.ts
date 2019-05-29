@@ -294,6 +294,7 @@ class Compiler {
     let ast = wxTransformer({
       code,
       sourcePath: filePath,
+      isNormal: true,
       isTyped: REG_TYPESCRIPT.test(filePath),
       adapter: 'h5'
     }).ast
