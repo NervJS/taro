@@ -42,7 +42,27 @@ export default function build (config: IBuildConfig) {
               fileTypeMap: MiniPlugin.getTaroFileTypeMap()
             }
           }]
-				}
+        },
+        {
+          test: /\.(scss|wxss|acss|)$/,
+					include: /src/,
+					use: [
+						{
+              loader: require.resolve('file-loader'),
+              options: {
+                useRelativePath: true,
+                name: `[path][name].wxss`,
+                context: config.sourceDir
+              }
+            },
+						{
+							loader: require.resolve('sass-loader'),
+							options: {
+
+							},
+						},
+					],
+        }
       ]
     },
     plugins: [
