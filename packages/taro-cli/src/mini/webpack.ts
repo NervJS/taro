@@ -43,12 +43,14 @@ async function buildWithWebpack ({ appPath }: { appPath: string }) {
     entry: {
       app: entryFilePath
     },
+    sourceDir,
     outputDir,
     buildAdapter,
     plugins: {
       babel: babelConfig
     },
     isWatch: !isProduction,
+    constantsReplaceList,
     designWidth: projectConfig.designWidth,
     deviceRatio: projectConfig.deviceRatio
   }
