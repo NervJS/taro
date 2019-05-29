@@ -11366,6 +11366,44 @@ declare namespace Taro {
   function getCurrentPages(): Page[]
   function getApp(): any
 
+  namespace getLaunchOptionsSync {
+    interface Return {
+      /**
+       * 启动小程序的路径
+       */
+      path: string
+      /**
+       * 启动小程序的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html)
+       */
+      scene: number
+      /**
+       * 启动小程序的 query 参数
+       */
+      query: { [k: string]: any }
+      /**
+       * shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
+       */
+      shareTicket: string
+      /**
+       * 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}。
+       */
+      referrerInfo: { appId: string, extraData: { [k: string]: any} }
+    }
+  }
+
+  /**
+   * @since 2.1.2
+   * 
+   * 获取小程序启动时的参数。与 `App.onLaunch` 的回调参数一致。
+   * 
+   * **注意**
+   * 部分版本在无 `referrerInfo` 的时候会返回 undefined，
+   * 建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
+   */
+  function getLaunchOptionsSync(): getLaunchOptionsSync.Return
+
   namespace cloud {
     interface ICloudConfig {
       env?: string | object
