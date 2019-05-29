@@ -50,7 +50,7 @@ class View extends Nerv.Component {
       if (this.props.onLongPress) {
         this.timeoutEvent = setTimeout(() => {
           this.props.onLongPress()
-        }, 500)
+        }, 350)
         this.startTime = (new Date()).getTime()
       }
     }
