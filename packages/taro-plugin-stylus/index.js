@@ -13,7 +13,7 @@ module.exports = function compileStylus (content, file, config) {
       content = fs.readFileSync(file).toString()
     }
     const opath = path.parse(file)
-    config.paths = [opath.dir]
+    config.paths = [opath.dir].concat(config.paths || [])
     config.filename = opath.base
     const instance = stylus(content, { filename: file })
     for (const k in config) {
