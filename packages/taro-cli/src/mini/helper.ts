@@ -375,6 +375,7 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
           const transformResult: IWxTransformResult = wxTransformer({
             code: scriptContent,
             sourcePath: sourceFilePath,
+            isNormal: true,
             isTyped: false,
             adapter: BUILD_TYPES.QUICKAPP
           })

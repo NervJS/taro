@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as npmProcess from '../util/npm'
 import { printLog, resolveScriptPath } from '../util'
 import * as fs from 'fs-extra'
-import * as wxTransformer from '@tarojs/transformer-wx'
+import wxTransformer from '@tarojs/transformer-wx'
 
 import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 import { IBuildData, IH5BuildConfig } from './ui.types'
@@ -56,7 +56,6 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
     const transformResult = wxTransformer({
       code,
       sourcePath: tempEntryFilePath,
-      outputPath: outputEntryFilePath,
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
