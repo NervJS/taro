@@ -57,7 +57,6 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
     const transformResult = wxTransformer({
       code,
       sourcePath: tempEntryFilePath,
-      outputPath: outputEntryFilePath,
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
