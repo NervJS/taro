@@ -85,6 +85,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
             sourcePath: item,
             isTyped: REG_TYPESCRIPT.test(item),
             adapter: buildAdapter,
+            isNormal: true,
             env: constantsReplaceList,
             jsxAttributeNameReplace
           })
@@ -142,7 +143,6 @@ export async function compileScriptFile (
 ): Promise<string> {
   const {
     appPath,
-    sourceDir,
     constantsReplaceList,
     jsxAttributeNameReplace,
     projectConfig
@@ -159,8 +159,6 @@ export async function compileScriptFile (
   const transformResult: IWxTransformResult = wxTransformer({
     code,
     sourcePath: sourceFilePath,
-    sourceDir,
-    outputPath: outputFilePath,
     isNormal: true,
     isTyped: false,
     adapter,
