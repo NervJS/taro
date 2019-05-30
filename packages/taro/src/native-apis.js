@@ -28,6 +28,7 @@ const onAndSyncApis = {
   getExtConfigSync: true,
   getLogManager: true,
   onMemoryWarning: true,
+  reportMonitor: true,
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
   // 文件
