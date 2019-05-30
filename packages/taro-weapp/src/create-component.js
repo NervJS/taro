@@ -1,7 +1,7 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
 import { isEmptyObject, isFunction } from './util'
-import { updateComponent } from './lifecycle'
+import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
 
@@ -220,6 +220,7 @@ export function componentTrigger (component, key, args) {
     if (compid) propsManager.delete(compid)
   }
 
+  // eslint-disable-next-line no-useless-call
   component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
   if (key === 'componentWillMount') {
     component._dirty = false
@@ -261,7 +262,7 @@ function initComponent (ComponentClass, isPage) {
   } else {
     this.$component.$router.path = getCurrentPageUrl()
   }
-  updateComponent(this.$component)
+  mountComponent(this.$component)
 }
 
 function createComponent (ComponentClass, isPage) {
@@ -362,6 +363,7 @@ function createComponent (ComponentClass, isPage) {
         weappComponentConf.methods[fn] = function () {
           const component = this.$component
           if (component[fn] && typeof component[fn] === 'function') {
+            // eslint-disable-next-line no-useless-call
             return component[fn].call(component, ...arguments)
           }
         }

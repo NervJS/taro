@@ -7,12 +7,37 @@ import {
 } from '@tarojs/taro'
 // import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
+import { shakeFnFromObject, isEmptyObject, diffObjToPath, isFunction, isUndefined } from './util'
 import { enqueueRender } from './render-queue'
 
 // const isDEV = typeof process === 'undefined' ||
 //   !process.env ||
 //   process.env.NODE_ENV !== 'production'
+
+function hasNewLifecycle (component) {
+  return isFunction(component.constructor.getDerivedStateFromProps)
+}
+
+function callGetDerivedStateFromProps (component, props, state) {
+  const { getDerivedStateFromProps } = component.constructor
+  let newState
+  if (isFunction(getDerivedStateFromProps)) {
+    const partialState = getDerivedStateFromProps(props, state)
+    if (!isUndefined(partialState)) {
+      newState = Object.assign({}, state, partialState)
+    }
+  }
+  return newState
+}
+
+function callGetSnapshotBeforeUpdate (component, props, state) {
+  const { getSnapshotBeforeUpdate } = component
+  let snapshot
+  if (isFunction(getSnapshotBeforeUpdate)) {
+    snapshot = getSnapshotBeforeUpdate.call(component, props, state)
+  }
+  return snapshot
+}
 
 export function updateComponent (component) {
   const { props } = component
@@ -22,18 +47,20 @@ export function updateComponent (component) {
   // }
   const prevProps = component.prevProps || props
   component.props = prevProps
-  if (component.__mounted && component._unsafeCallUpdate === true && component.componentWillReceiveProps) {
+  if (component.__mounted && component._unsafeCallUpdate === true && !hasNewLifecycle(component) && component.componentWillReceiveProps) {
     component._disable = true
     component.componentWillReceiveProps(props)
     component._disable = false
   }
-  // 在willMount前执行构造函数的副本
-  if (!component.__componentWillMountTriggered) {
-    component._constructor && component._constructor(props)
-  }
   let state = component.getState()
 
   const prevState = component.prevState || state
+
+  const stateFromProps = callGetDerivedStateFromProps(component, props, state)
+
+  if (!isUndefined(stateFromProps)) {
+    state = stateFromProps
+  }
 
   let skip = false
   if (component.__mounted) {
@@ -41,21 +68,47 @@ export function updateComponent (component) {
       !component._isForceUpdate &&
       component.shouldComponentUpdate(props, state) === false) {
       skip = true
-    } else if (typeof component.componentWillUpdate === 'function') {
+    } else if (!hasNewLifecycle(component) && isFunction(component.componentWillUpdate)) {
       component.componentWillUpdate(props, state)
     }
+  }
+
+  if (!isUndefined(stateFromProps)) {
+    component.state = stateFromProps
   }
   component.props = props
   component.state = state
   component._dirty = false
   component._isForceUpdate = false
-  if (!component.__componentWillMountTriggered) {
-    component.__componentWillMountTriggered = true
-    componentTrigger(component, 'componentWillMount')
-  }
   if (!skip) {
     doUpdate(component, prevProps, prevState)
   }
+  component.prevProps = component.props
+  component.prevState = component.state
+}
+
+export function mountComponent (component) {
+  const { props, state } = component
+  // 在willMount前执行构造函数的副本
+  if (!component.__componentWillMountTriggered) {
+    component._constructor && component._constructor(props)
+  }
+
+  const newState = callGetDerivedStateFromProps(component, props, state)
+
+  if (!isUndefined(newState)) {
+    component.state = newState
+  }
+
+  component._dirty = false
+  component._isForceUpdate = false
+  if (!component.__componentWillMountTriggered) {
+    component.__componentWillMountTriggered = true
+    if (!hasNewLifecycle(component)) {
+      componentTrigger(component, 'componentWillMount')
+    }
+  }
+  doUpdate(component, props, component.state)
   component.prevProps = component.props
   component.prevState = component.state
 }
@@ -151,9 +204,9 @@ function doUpdate (component, prevProps, prevState) {
         component._createData(component.state, component.props, true)
         component._disableEffect = false
       }
-
-      if (typeof component.componentDidUpdate === 'function') {
-        component.componentDidUpdate(prevProps, prevState)
+      const snapshot = callGetSnapshotBeforeUpdate(component, prevProps, prevState)
+      if (isFunction(component.componentDidUpdate)) {
+        component.componentDidUpdate(prevProps, prevState, snapshot)
       }
     }
 
