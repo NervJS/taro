@@ -7,7 +7,15 @@
 
 const React = require('react');
 class Footer extends React.Component {
-
+  componentDidMount() {
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script")
+      hm.src = "https://hm.baidu.com/hm.js?ecddb5104158a28f667cf0f3f347a7c9"
+      var s = document.getElementsByTagName("script")[0]
+      s.parentNode.insertBefore(hm, s)
+    })()
+  }
   render() {
     const currentYear = new Date().getFullYear();
 
