@@ -142,7 +142,7 @@ export default class App extends Component {
             <EXRadio />
           </View>
 
-          <View style={styles.section}>
+          <View style={[styles.section, { backgroundColor: 'green' }]}>
             <View style={styles.sectionTit}>
               <Text style={styles.sectionTitTxt}>RichText</Text>
             </View>
@@ -260,6 +260,12 @@ export default class App extends Component {
                 height: 50
               }}
             />
+
+            <View style={{ flexDirection: 'row', width: '100%', height: 50 }}>
+              <View style={{ flex: 1, backgroundColor: 'red' }} />
+              <View style={{ flex: 1, backgroundColor: 'green' }} />
+              <View style={{ flex: 1, backgroundColor: 'yellow' }} onClick={() => {}} />
+            </View>
           </View>
 
           <Text>- THE END -</Text>

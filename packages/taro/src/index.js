@@ -26,9 +26,11 @@ import {
   useCallback,
   useMemo,
   useImperativeHandle,
-  invokeEffects
+  invokeEffects,
+  useContext
 } from './hooks'
 import { Current } from './current'
+import { createContext } from './create-context'
 
 const eventCenter = new Events()
 
@@ -61,7 +63,9 @@ export {
   useCallback,
   useMemo,
   useImperativeHandle,
-  invokeEffects
+  invokeEffects,
+  useContext,
+  createContext
 }
 
 export default {
@@ -93,5 +97,7 @@ export default {
   useCallback,
   useMemo,
   useImperativeHandle,
-  invokeEffects
+  invokeEffects,
+  useContext,
+  createContext
 }

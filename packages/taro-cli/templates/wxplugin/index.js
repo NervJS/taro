@@ -215,7 +215,6 @@ module.exports = function (creater, params, helper, cb) {
       if (code === 0) {
         installSpinner.color = 'green'
         installSpinner.succeed('安装成功')
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
       } else {
         installSpinner.color = 'red'
         installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))

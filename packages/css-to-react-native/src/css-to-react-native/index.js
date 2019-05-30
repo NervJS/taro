@@ -15,7 +15,14 @@ export const transformRawValue = input => {
   const value = input.trim();
 
   const numberMatch = value.match(numberOrLengthRe);
-  if (numberMatch !== null) return Number(numberMatch[1]);
+  if (numberMatch !== null) {
+    const num = Number(numberMatch[1]);
+    if (/px/.test(value)) {
+      return `scalePx2dp(${num})`;
+    } else {
+      return num;
+    }
+  }
 
   const boolMatch = input.match(boolRe);
   if (boolMatch !== null) return boolMatch[0].toLowerCase() === "true";
@@ -30,7 +37,8 @@ export const transformRawValue = input => {
 };
 
 const baseTransformShorthandValue = (propName, inputValue) => {
-  const ast = parse(inputValue.trim().replace(/PX|Px|pX$/g, ""));
+  // const ast = parse(inputValue.trim().replace(/PX|Px|pX$/g, ""));
+  const ast = parse(inputValue);
   const tokenStream = new TokenStream(ast.nodes);
   return transforms[propName](tokenStream);
 };
@@ -55,7 +63,6 @@ export const getStylesForProperty = (propName, inputValue, allowShorthand) => {
   const propValue = isRawValue
     ? transformRawValue(inputValue)
     : transformShorthandValue(propName, inputValue.trim());
-
   return propValue && propValue.$merge
     ? propValue.$merge
     : { [propName]: propValue };

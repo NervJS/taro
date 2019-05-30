@@ -329,6 +329,31 @@ declare namespace Taro {
     displayName?: string
   }
 
+  // NOTE: only the Context object itself can get a displayName
+  // https://github.com/facebook/react-devtools/blob/e0b854e4c/backend/attachRendererFiber.js#L310-L325
+  // type Provider<T> = ProviderExoticComponent<ProviderProps<T>>;
+  // type Consumer<T> = ExoticComponent<ConsumerProps<T>>;
+  interface Context<T> {
+      Provider: ComponentClass<{ value: T }>;
+      // Consumer: Consumer<T>;
+      displayName?: string;
+  }
+  function createContext<T>(
+      defaultValue: T
+  ): Context<T>;
+
+
+  // This will technically work if you give a Consumer<T> or Provider<T> but it's deprecated and warns
+  /**
+   * Accepts a context object (the value returned from `React.createContext`) and returns the current
+   * context value, as given by the nearest context provider for the given context.
+   *
+   * @version 16.8.0
+   * @see https://reactjs.org/docs/hooks-reference.html#usecontext
+   */
+  function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+
+
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
    */
@@ -638,6 +663,8 @@ declare namespace Taro {
       params: any
       preload: any
     }
+
+    $preloadData: any
 
     /**
      * 使用 `this.$preload` 函数进行页面跳转传参
@@ -9834,6 +9861,20 @@ declare namespace Taro {
   function checkIsSoterEnrolledInDevice(OBJECT: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
 
   /**
+   * @since 2.0.1
+   *
+   * 自定义业务数据监控上报接口。
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.reportMonitor('1', 1)
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/report/wx.reportMonitor.html
+   */
+  function reportMonitor(monitorId: string, count: number): void
+
+  /**
    * 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
    *
    * **示例代码：**
@@ -11338,6 +11379,44 @@ declare namespace Taro {
 
   function getCurrentPages(): Page[]
   function getApp(): any
+
+  namespace getLaunchOptionsSync {
+    interface Return {
+      /**
+       * 启动小程序的路径
+       */
+      path: string
+      /**
+       * 启动小程序的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html)
+       */
+      scene: number
+      /**
+       * 启动小程序的 query 参数
+       */
+      query: { [k: string]: any }
+      /**
+       * shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
+       */
+      shareTicket: string
+      /**
+       * 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}。
+       */
+      referrerInfo: { appId: string, extraData: { [k: string]: any} }
+    }
+  }
+
+  /**
+   * @since 2.1.2
+   *
+   * 获取小程序启动时的参数。与 `App.onLaunch` 的回调参数一致。
+   *
+   * **注意**
+   * 部分版本在无 `referrerInfo` 的时候会返回 undefined，
+   * 建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
+   */
+  function getLaunchOptionsSync(): getLaunchOptionsSync.Return
 
   namespace cloud {
     interface ICloudConfig {

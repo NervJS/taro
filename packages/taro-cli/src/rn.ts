@@ -15,7 +15,7 @@ import { parseJSCode as transformJSCode } from './rn/transformJS'
 import { PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES } from './util/constants'
 import { convertToJDReact } from './jdreact/convert_to_jdreact'
 import { IBuildConfig } from './util/types'
-import { Error } from 'tslint/lib/error'
+// import { Error } from 'tslint/lib/error'
 
 const pkgTmpl = `{
   "name":"<%= projectName %>",

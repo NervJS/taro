@@ -22,7 +22,10 @@ import {
   REG_TYPESCRIPT,
   BUILD_TYPES,
   REG_STYLE,
-  REG_SCRIPTS
+  REG_FONT,
+  REG_IMAGE,
+  REG_MEDIA,
+  REG_JSON
 } from './constants'
 
 import defaultUglifyConfig from '../config/uglify'
@@ -91,21 +94,19 @@ export function resolveNpmFilesPath ({
       files: []
     }
     resolvedCache[pkgName].files.push(res)
-    if (REG_SCRIPTS.test(res)) {
-      recursiveRequire({
-        filePath: res,
-        files: resolvedCache[pkgName].files,
-        isProduction,
-        npmConfig,
-        buildAdapter,
-        rootNpm,
-        npmOutputDir: npmOutputDir,
-        compileInclude,
-        env,
-        uglify,
-        babelConfig
-      })
-    }
+    recursiveRequire({
+      filePath: res,
+      files: resolvedCache[pkgName].files,
+      isProduction,
+      npmConfig,
+      buildAdapter,
+      rootNpm,
+      npmOutputDir: npmOutputDir,
+      compileInclude,
+      env,
+      uglify,
+      babelConfig
+    })
   }
   return resolvedCache[pkgName]
 }
@@ -269,6 +270,14 @@ async function recursiveRequire ({
     outputNpmPath = outputNpmPath.replace(/@/g, '_')
   }
   if (REG_STYLE.test(path.basename(filePath))) {
+    return
+  }
+  if (REG_FONT.test(filePath) || REG_IMAGE.test(filePath) || REG_MEDIA.test(filePath) || REG_JSON.test(filePath)) {
+    fs.ensureDirSync(path.dirname(outputNpmPath))
+    fs.writeFileSync(outputNpmPath, fileContent)
+    let modifyOutput = outputNpmPath.replace(path.dirname(rootNpm) + path.sep, '')
+    modifyOutput = modifyOutput.split(path.sep).join('/')
+    printLog(processTypeEnum.COPY, 'NPM文件', modifyOutput)
     return
   }
   fileContent = npmCodeHack(filePath, fileContent, buildAdapter)

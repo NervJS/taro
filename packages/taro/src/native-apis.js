@@ -28,6 +28,7 @@ const onAndSyncApis = {
   getExtConfigSync: true,
   getLogManager: true,
   onMemoryWarning: true,
+  reportMonitor: true,
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
   // 文件
@@ -77,7 +78,7 @@ const noPromiseApis = {
   createAnimation: true,
   createSelectorQuery: true,
   createCanvasContext: true,
-  createContext: true,
+  // createContext: true,
   drawCanvas: true,
   hideKeyboard: true,
   stopPullDownRefresh: true,

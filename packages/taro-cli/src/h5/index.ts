@@ -86,7 +86,7 @@ class Compiler {
     this.projectConfig = projectConfig
     const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceRoot = sourceDir
-    const outputDir = `${projectConfig.outputRoot || CONFIG.OUTPUT_DIR}/h5`
+    const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
     this.outputDir = outputDir
     this.h5Config = projectConfig.h5
     const routerConfig = this.h5Config.router
@@ -207,7 +207,7 @@ class Compiler {
     })
 
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
-    webpackRunner(h5Config)
+    webpackRunner(this.appPath, h5Config)
   }
 
   watchFiles () {

@@ -138,6 +138,7 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
+  private ifStemRenamers = new Set<string>()
   private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
@@ -618,6 +619,7 @@ export class RenderParser {
             )
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
+            this.ifStemRenamers.add(id.name)
             blockStatement.scope.rename(id.name, newId.name)
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
@@ -1742,17 +1744,25 @@ export class RenderParser {
 
               // createData 函数里加入 compid 相关逻辑
               const variableName = `$compid__${genCompid()}`
+              const tpmlExprs: t.Expression[] = []
+              for (let index = 0; index < loopIndices.length; index++) {
+                const element = loopIndices[index]
+                tpmlExprs.push(t.identifier(element))
+                if (loopIndices[index + 1]) {
+                  tpmlExprs.push(t.stringLiteral('-'))
+                }
+              }
               const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
                 t.identifier(GEN_COMP_ID),
                 [t.templateLiteral(
                   [
                     t.templateElement({ raw: '' }),
                     t.templateElement({ raw: createRandomLetters(10) }),
-                    ...loopIndices.map(() => t.templateElement({ raw: '' }))
+                    ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
                   ],
                   [
                     this.prefixExpr(),
-                    ...loopIndices.map(i => t.identifier(i))
+                    ...tpmlExprs
                   ]
                 )]
               ))
@@ -1997,7 +2007,16 @@ export class RenderParser {
                 returnBody.unshift(
                   t.variableDeclaration('let', [t.variableDeclarator(t.identifier(stateName))])
                 )
-                consequent.node.body.push(assignment)
+                if (callee.findParent(p => p === consequent)) {
+                  consequent.node.body.push(assignment)
+                } else {
+                  const alternate = ifStem.get('alternate')
+                  if (alternate.isBlockStatement()) {
+                    alternate.node.body.push(assignment)
+                  } else {
+                    consequent.node.body.push(assignment)
+                  }
+                }
               }
             } else {
               const decl = buildConstVariableDeclaration(stateName, setParentCondition(component, callee.node, true))
@@ -2288,6 +2307,25 @@ export class RenderParser {
         ]))
       )
     }
+    this.renderPath.traverse({
+      CallExpression: (path) => {
+        const { callee } = path.node
+        if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
+          const objExpr = path.node.arguments[0]
+          if (t.isObjectExpression(objExpr)) {
+            objExpr.properties = objExpr.properties.map(p => {
+              if (t.isObjectMethod(p) || t.isSpreadProperty(p)) {
+                return p
+              }
+              if (t.isIdentifier(p.value) && this.ifStemRenamers.has(p.value.name)) {
+                p.value = t.identifier('_$' + p.value.name)
+              }
+              return p
+            })
+          }
+        }
+      }
+    })
   }
 
   getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`

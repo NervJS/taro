@@ -1,5 +1,5 @@
 {
-  "name": "taro",
+  "name": "@tarojs/taro",
   "private": true,
   "description": "Nerv-multi多端开发解决方案",
   "main": "index.js",

@@ -7,7 +7,6 @@ export const DEFAULT_Component_SET = new Set<string>([
   'View',
   'ScrollView',
   'Swiper',
-  'MovableView',
   'CoverView',
   'CoverImage',
   'Icon',
@@ -93,6 +92,8 @@ export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 export let LOOP_CALLEE = '$anonymousCallee_'
 
 export let setLoopCallee = (s: string) => LOOP_CALLEE = s
+
+export const CONTEXT_PROVIDER = 'PrivateContextProvider'
 
 export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 

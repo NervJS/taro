@@ -14,6 +14,23 @@ import * as stylelintConfig from '../config/rn-stylelint.json'
 
 const DEVICE_RATIO = 'deviceRatio'
 
+function getWrapedCSS (css) {
+  return (`
+import { StyleSheet, Dimensions } from 'react-native'
+
+// 一般app 只有竖屏模式，所以可以只获取一次 width
+const deviceWidthDp = Dimensions.get('window').width
+const uiWidthPx = 375
+
+function scalePx2dp (uiElementPx) {
+  return uiElementPx * deviceWidthDp / uiWidthPx
+}
+
+export default StyleSheet.create(${css})
+`)
+}
+
+
 /**
  * @description 读取 css/scss/less 文件，预处理后，返回 css string
  * @param {string} filePath
@@ -108,7 +125,7 @@ function validateStyle({styleObject, filePath}) {
 }
 
 function writeStyleFile({css, tempFilePath}) {
-  const fileContent = `import { StyleSheet } from 'react-native'\n\nexport default StyleSheet.create(${css})`
+  const fileContent = getWrapedCSS(css.replace(/"(scalePx2dp\(.*?\))"/g, '$1'))
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
   Util.printLog(processTypeEnum.GENERATE, '生成样式文件', tempFilePath)
