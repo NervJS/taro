@@ -73,7 +73,6 @@ export default function clickableSimplified (WrappedComponent: React.ComponentTy
     }
 
     onPress = (evt: GestureResponderEvent) => {
-      console.log('onPress')
       const { onClick = noop } = this.props
       onClick(getWxAppEvent(evt))
     }
