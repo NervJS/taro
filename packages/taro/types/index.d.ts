@@ -342,7 +342,7 @@ declare namespace Taro {
       defaultValue: T
   ): Context<T>;
 
-  
+
   // This will technically work if you give a Consumer<T> or Provider<T> but it's deprecated and warns
   /**
    * Accepts a context object (the value returned from `React.createContext`) and returns the current
@@ -663,7 +663,7 @@ declare namespace Taro {
       params: any
       preload: any
     }
-    
+
     $preloadData: any
 
     /**
@@ -9861,6 +9861,20 @@ declare namespace Taro {
   function checkIsSoterEnrolledInDevice(OBJECT: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
 
   /**
+   * @since 2.0.1
+   *
+   * 自定义业务数据监控上报接口。
+   *
+   * **示例代码：**
+   *
+   *     ```javascript
+   *     Taro.reportMonitor('1', 1)
+   *     ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/report/wx.reportMonitor.html
+   */
+  function reportMonitor(monitorId: string, count: number): void
+
+  /**
    * 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
    *
    * **示例代码：**
@@ -11393,13 +11407,13 @@ declare namespace Taro {
 
   /**
    * @since 2.1.2
-   * 
+   *
    * 获取小程序启动时的参数。与 `App.onLaunch` 的回调参数一致。
-   * 
+   *
    * **注意**
    * 部分版本在无 `referrerInfo` 的时候会返回 undefined，
    * 建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
-   * 
+   *
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
    */
   function getLaunchOptionsSync(): getLaunchOptionsSync.Return
