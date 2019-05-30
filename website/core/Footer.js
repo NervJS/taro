@@ -5,25 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require('react')
 class Footer extends React.Component {
-  componentDidMount() {
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script")
-      hm.src = "https://hm.baidu.com/hm.js?ecddb5104158a28f667cf0f3f347a7c9"
-      var s = document.getElementsByTagName("script")[0]
-      s.parentNode.insertBefore(hm, s)
-    })()
-  }
-  render() {
-    const currentYear = new Date().getFullYear();
-
+  render () {
     return (
       <footer className='footer' id='footer'>
         <div className='footer-container'>
           <div className='footer-logo-container'>
-            <div className='footer-logo'></div>
+            <div className='footer-logo' />
           </div>
           <div className='footer-link-container'>
             <div className='footer-link'>
@@ -45,8 +34,8 @@ class Footer extends React.Component {
           </div>
         </div>
       </footer>
-    );
+    )
   }
 }
 
-module.exports = Footer;
+module.exports = Footer
