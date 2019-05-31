@@ -30,7 +30,7 @@
     "invariant": "2.2.4",
     "lodash": "4.17.11",
     "resolve-pathname": "2.2.0",
-    "rollup-plugin-alias": "1.4.0",
+    "rollup-plugin-alias": "1.5.1",
     "value-equal": "0.4.0",
     "warning": "4.0.2"
   },
