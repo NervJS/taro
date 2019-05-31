@@ -52,7 +52,6 @@ const isCopyingFiles: Map<string, boolean> = new Map<string, boolean>()
 const dependencyTree: Map<string, IDependency> = new Map<string, IDependency>()
 const hasBeenBuiltComponents: Set<string> = new Set<string>()
 const componentExportsMap = new Map<string, IComponentObj[]>()
-const componentsBuildResult = new Map<string, IBuildResult>()
 const depComponents = new Map<string, IComponentObj[]>()
 
 export interface IBuildData {
@@ -195,10 +194,6 @@ export function getComponentExportsMapItem (key: string): IComponentObj[] | void
 
 export function getComponentExportsMap (): Map<string, IComponentObj[]> {
   return componentExportsMap
-}
-
-export function getComponentsBuildResult (): Map<string, IBuildResult> {
-  return componentsBuildResult
 }
 
 export function getDepComponents (): Map<string, IComponentObj[]> {
