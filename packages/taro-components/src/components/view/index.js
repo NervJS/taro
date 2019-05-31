@@ -20,6 +20,7 @@ class View extends Nerv.Component {
       hoverClass,
       onTouchStart,
       onTouchEnd,
+      onTouchMove,
       className,
       hoverStartTime = 50,
       hoverStayTime = 400,
@@ -56,6 +57,7 @@ class View extends Nerv.Component {
     }
     const _onTouchMove = e => {
       clearTimeout(this.timeoutEvent)
+      onTouchMove && onTouchMove(e)
     }
 
     const _onTouchEnd = e => {
@@ -83,6 +85,7 @@ class View extends Nerv.Component {
           'hoverClass',
           'onTouchStart',
           'onTouchEnd',
+          'onTouchMove',
           'className',
           'hoverStartTime',
           'hoverStayTime'
