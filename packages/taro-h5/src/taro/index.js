@@ -12,19 +12,41 @@ import {
   interceptors
 } from '@tarojs/taro'
 import Nerv, {
+  Children,
+  createElement,
+  cloneElement,
+  nextTick,
+  options,
+  findDOMNode,
+  isValidElement,
+  unmountComponentAtNode,
+  createPortal,
+  /* eslint-disable-next-line camelcase */
+  unstable_renderSubtreeIntoContainer,
+  hydrate,
+  createFactory,
+  /* eslint-disable-next-line camelcase */
+  unstable_batchedUpdates,
+  version,
+  PropTypes,
   createRef,
+  forwardRef,
+  memo,
+  createContext,
   useEffect,
   useLayoutEffect,
   useReducer,
   useState,
   useRef,
   useCallback,
-  useMemo
+  useMemo,
+  useImperativeHandle,
+  useContext
 } from 'nervjs'
 
 import { permanentlyNotSupport } from '../api/utils'
 
-export const taro = {
+const taro = {
   getEnv,
   ENV_TYPE,
   Events,
@@ -32,14 +54,36 @@ export const taro = {
   render,
   internal_safe_set,
   internal_safe_get,
+  Children,
+  createElement,
+  cloneElement,
+  nextTick,
+  options,
+  findDOMNode,
+  isValidElement,
+  unmountComponentAtNode,
+  createPortal,
+  /* eslint-disable-next-line camelcase */
+  unstable_renderSubtreeIntoContainer,
+  hydrate,
+  createFactory,
+  /* eslint-disable-next-line camelcase */
+  unstable_batchedUpdates,
+  version,
+  PropTypes,
   createRef,
+  forwardRef,
+  memo,
+  createContext,
   useEffect,
   useLayoutEffect,
   useReducer,
   useState,
   useRef,
   useCallback,
-  useMemo
+  useMemo,
+  useImperativeHandle,
+  useContext
 }
 
 class Component extends Nerv.Component {
@@ -110,7 +154,11 @@ const getRouter = function () {
 }
 const pxTransform = function (size) {
   const { designWidth } = taro.config
-  return Math.ceil((parseInt(size, 10) / 40 * 640 / designWidth) * 10000) / 10000 + 'rem'
+  return (
+    Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) /
+      10000 +
+    'rem'
+  )
 }
 const canIUseWebp = function () {
   const canvas = document.createElement('canvas')
