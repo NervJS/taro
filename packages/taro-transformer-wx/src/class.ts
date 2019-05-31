@@ -574,6 +574,13 @@ class Transformer {
       },
       JSXExpressionContainer (path) {
         const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+        if (!attr) {
+          const expr = path.get('expression')
+          if (expr.isBooleanLiteral() || expr.isNullLiteral()) {
+            path.remove()
+            return
+          }
+        }
         const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
         let renderMethod: NodePath<t.ClassMethod>
         self.renderJSX.forEach(method => {
