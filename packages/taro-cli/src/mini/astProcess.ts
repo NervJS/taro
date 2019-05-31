@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as babel from 'babel-core'
 import * as t from 'babel-types'
 import generate from 'babel-generator'
-import traverse from 'babel-traverse'
+import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
 
@@ -260,6 +260,8 @@ export function parseAst (
   let hasComponentDidShow
   let hasComponentWillMount
   let hasEnablePageScroll
+  let needSetConfigFromHooks = false
+  let configFromHooks
   if (isQuickApp) {
     cannotRemoves.push(taroJsComponents)
   }
@@ -375,6 +377,20 @@ export function parseAst (
           } else {
             componentClassName = node.id.name
           }
+        }
+      }
+    },
+
+    AssignmentExpression (astPath) {
+      const node = astPath.node
+      const left = node.left
+      if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
+        if (left.object.name === componentClassName
+            && t.isIdentifier(left.property)
+            && left.property.name === 'config') {
+          needSetConfigFromHooks = true
+          configFromHooks = node.right
+          configObj = traverseObjectNode(node.right, buildAdapter)
         }
       }
     },
@@ -731,6 +747,15 @@ export function parseAst (
                 t.blockStatement([convertSourceStringToAstExpression(
                   `Taro.eventCenter.off('TaroEvent:setNavigationBar')`
               )]), false, false))
+            }
+            if (needSetConfigFromHooks) {
+              const classPath = astPath.findParent((p: NodePath<t.Node>) => p.isClassExpression() || p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+              classPath.node.body.body.unshift(
+                t.classProperty(
+                  t.identifier('config'),
+                  configFromHooks as t.ObjectExpression
+                )
+              )
             }
           },
           ClassMethod (astPath) {
