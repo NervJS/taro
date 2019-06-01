@@ -262,8 +262,8 @@ export default class App extends Component {
             />
 
             <View style={{ flexDirection: 'row', width: '100%', height: 50 }}>
-              <View style={{ flex: 1, backgroundColor: 'red' }} />
-              <View style={{ flex: 1, backgroundColor: 'green' }} />
+              <View style={{ flex: 1, backgroundColor: 'red' }} onClick={() => {}} />
+              <View style={{ flex: 1, backgroundColor: 'green' }} onClick={() => {}} />
               <View style={{ flex: 1, backgroundColor: 'yellow' }} onClick={() => {}} />
             </View>
           </View>

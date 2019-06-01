@@ -150,21 +150,22 @@ module.exports = function (creater, params, helper, cb) {
     } else {
       command = 'npm install'
     }
-    const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...\n`).start()
-    const install = shelljs.exec(command, { silent: true })
-    if (install.code === 0) {
-      installSpinner.color = 'green'
-      installSpinner.succeed('安装成功')
-      console.log(`${install.stderr}${install.stdout}`)
-    } else {
-      installSpinner.color = 'red'
-      installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
-      console.log(`${install.stderr}${install.stdout}`)
-    }
-    console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`), '\n')
-    console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`), '\n')
-    if (typeof cb === 'function') {
-      cb()
-    }
+    const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        installSpinner.color = 'red'
+        installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
+        console.log(error)
+      } else {
+        installSpinner.color = 'green'
+        installSpinner.succeed('安装成功')
+        console.log(`${stderr}${stdout}`)
+      }
+      console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
+      console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
+      if (typeof cb === 'function') {
+        cb()
+      }
+    })
   })
 }

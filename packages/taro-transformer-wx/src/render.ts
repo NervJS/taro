@@ -1648,7 +1648,7 @@ export class RenderParser {
       }
       const blockStatementPath = component.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
       const body = blockStatementPath.node.body
-      let loopRefComponent: t.JSXElement
+      let loopRefComponent: t.JSXElement | null = null
       this.loopRefs.forEach((ref, jsx) => {
         if (ref.component.findParent(p => p === component)) {
           loopRefComponent = jsx
@@ -1662,7 +1662,7 @@ export class RenderParser {
       }
       if (this.loopRefs.has(component.node) || loopRefComponent!) {
         hasLoopRef = true
-        const ref = this.loopRefs.get(component.node)! || this.loopRefs.get(loopRefComponent)
+        const ref = this.loopRefs.get(component.node)! || this.loopRefs.get(loopRefComponent!)
         if (indexId === null || !t.isIdentifier(indexId)) {
           throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
         }
