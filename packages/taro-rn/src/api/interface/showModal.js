@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
 import Dialog from '../Dialog'
