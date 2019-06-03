@@ -209,7 +209,7 @@ declare namespace Taro {
      *
    ```ts
    function expensive () { ... }
-  
+
    function Component () {
      const expensiveResult = useMemo(expensive, [expensive])
      return ...
@@ -421,7 +421,7 @@ declare namespace Taro {
      * 禁止页面右滑手势返回
      * default: false
      * @since 微信客户端 7.0.0
-     * 
+     *
      * **注意** 自微信客户端 7.0.5 开始，页面配置中的 disableSwipeBack 属性将不再生效，
      * 详情见[右滑手势返回能力调整](https://developers.weixin.qq.com/community/develop/doc/000868190489286620a8b27f156c01)公告
      */
@@ -8622,6 +8622,52 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext-api.html#wxgetextconfigsync
    */
   function getExtConfigSync(): getExtConfigSync.Return
+
+  namespace getLogManager {
+    type Param = {
+      /**
+       * @since 2.3.2
+       *
+       * 取值为0/1，取值为0表示是否会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志，取值为1则不会。默认值是 0
+       */
+      level?: number
+    }
+    type Return = {
+      /**
+       * 写 debug 日志
+       */
+      debug(...args: any[]): void
+      /**
+       * 写 info 日志
+       */
+      info(...args: any[]): void
+      /**
+       * 写 log 日志
+       */
+      log(...args: any[]): void
+      /**
+       * 写 warn 日志
+       */
+      warn(...args: any[]): void
+    }
+  }
+  /**
+   * @since 2.1.0
+   *
+   * 获取日志管理器对象。
+   *
+   * **示例代码：**
+   *
+   ```javascript
+   const logger = Taro.getLogManager({level: 1})
+   logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
+   logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+   logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
+   logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+   ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.html
+   */
+  function getLogManager(OBJECT?: getLogManager.Param): getLogManager.Return
 
   namespace login {
     type Promised = {
