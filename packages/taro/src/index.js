@@ -31,6 +31,7 @@ import {
 } from './hooks'
 import { Current } from './current'
 import { createContext } from './create-context'
+import { memo } from './memo'
 
 const eventCenter = new Events()
 
@@ -65,7 +66,8 @@ export {
   useImperativeHandle,
   invokeEffects,
   useContext,
-  createContext
+  createContext,
+  memo
 }
 
 export default {
@@ -99,5 +101,6 @@ export default {
   useImperativeHandle,
   invokeEffects,
   useContext,
-  createContext
+  createContext,
+  memo
 }
