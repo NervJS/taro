@@ -73,9 +73,6 @@ export function updateComponent (component) {
     }
   }
 
-  if (!isUndefined(stateFromProps)) {
-    component.state = stateFromProps
-  }
   component.props = props
   component.state = state
   component._dirty = false
@@ -88,19 +85,20 @@ export function updateComponent (component) {
 }
 
 export function mountComponent (component) {
-  const { props, state } = component
+  const { props } = component
   // 在willMount前执行构造函数的副本
   if (!component.__componentWillMountTriggered) {
     component._constructor && component._constructor(props)
   }
 
-  const newState = callGetDerivedStateFromProps(component, props, state)
+  const newState = callGetDerivedStateFromProps(component, props, component.state)
 
   if (!isUndefined(newState)) {
     component.state = newState
   }
 
   component._dirty = false
+  component._disable = false
   component._isForceUpdate = false
   if (!component.__componentWillMountTriggered) {
     component.__componentWillMountTriggered = true
@@ -147,6 +145,7 @@ function doUpdate (component, prevProps, prevState) {
       Current.current = null
     }
   }
+  const snapshot = callGetSnapshotBeforeUpdate(component, prevProps, prevState)
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -204,7 +203,6 @@ function doUpdate (component, prevProps, prevState) {
         component._createData(component.state, component.props, true)
         component._disableEffect = false
       }
-      const snapshot = callGetSnapshotBeforeUpdate(component, prevProps, prevState)
       if (isFunction(component.componentDidUpdate)) {
         component.componentDidUpdate(prevProps, prevState, snapshot)
       }
