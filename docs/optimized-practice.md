@@ -101,6 +101,8 @@ shouldComponentUpdate (nextProps, nextState) {
 
 ### Taro.memo
 
+> 自 v1.3.0 可用
+
 `Taro.memo` 是一个高阶组件，它和 `PureComponent` 非常相似。但它适用于函数式组件，而非 Class 组件。
 
 如果你的函数组件在给定相同 props 的情况下渲染相同的结果，那么你可以通过将其包装在 Taro.memo 中调用，以此通过记忆组件渲染结果的方式来提高组件的性能表现。这意味着在这种情况下，Taro 将跳过渲染组件的操作并直接复用最近一次渲染的结果。
