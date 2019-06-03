@@ -24,7 +24,7 @@
     "taro"
   ],
   "peerDependencies": {
-    "nervjs": "^1.2.17"
+    "nervjs": "^1.4.0"
   },
   "author": "O2Team",
   "license": "MIT"
