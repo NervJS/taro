@@ -8,6 +8,7 @@ import {
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath } from './util'
 import PropTypes from 'prop-types'
+import { enqueueRender } from './render-queue'
 
 const isDEV = typeof process === 'undefined' ||
   !process.env ||
@@ -57,6 +58,23 @@ export function updateComponent (component) {
   component.prevState = component.state
 }
 
+function injectContextType (component) {
+  const ctxType = component.constructor.contextType
+  if (ctxType) {
+    const context = ctxType.context
+    const emiter = context.emiter
+    if (emiter === null) {
+      component.context = context._defaultValue
+      return
+    }
+    if (!component._hasContext) {
+      component._hasContext = true
+      emiter.on(_ => enqueueRender(component))
+    }
+    component.context = emiter.value
+  }
+}
+
 function doUpdate (component, prevProps, prevState) {
   const { state, props = {} } = component
   let data = state || {}
@@ -64,6 +82,7 @@ function doUpdate (component, prevProps, prevState) {
     // 返回null或undefined则保持不变
     const isRunLoopRef = !component.__mounted
     if (component.__isReady) {
+      injectContextType(component)
       Current.current = component
       Current.index = 0
       invokeEffects(component, true)
