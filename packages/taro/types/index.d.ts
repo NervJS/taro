@@ -296,14 +296,43 @@ declare namespace Taro {
     text: string
   }
 
+  type GetDerivedStateFromProps<P, S> =
+  /**
+   * Returns an update to a component's state based on its new props and old state.
+   *
+   * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
+   */
+  (nextProps: Readonly<P>, prevState: S) => Partial<S> | null;
+
+  interface StaticLifecycle<P, S> {
+    getDerivedStateFromProps?: GetDerivedStateFromProps<P, S>;
+  }
+
+  interface NewLifecycle<P, S, SS> {
+    /**
+     * Runs before React applies the result of `render` to the document, and
+     * returns an object to be given to componentDidUpdate. Useful for saving
+     * things such as scroll position before `render` causes changes to it.
+     *
+     * Note: the presence of getSnapshotBeforeUpdate prevents any of the deprecated
+     * lifecycle events from running.
+     */
+    getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null;
+    /**
+     * Called immediately after updating occurs. Not called for the initial render.
+     *
+     * The snapshot is only present if getSnapshotBeforeUpdate is present and returns non-null.
+     */
+    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void;
+}
+
   // Components
-  interface ComponentLifecycle<P, S> {
+  interface ComponentLifecycle<P, S, SS = any> extends NewLifecycle<P, S, SS> {
     componentWillMount?(): void
     componentDidMount?(): void
     componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
-    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void
     componentWillUnmount?(): void
     componentWillPreload?(params: { [propName: string]: any }): any
     componentDidShow?(): void
@@ -318,11 +347,11 @@ declare namespace Taro {
     onResize?(): void
   }
 
-  interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
+  interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
   }
 
-  interface ComponentClass<P = {}> {
+  interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
     new (...args: any[]): Component<P, {}>
     propTypes?: any
     defaultProps?: Partial<P>
