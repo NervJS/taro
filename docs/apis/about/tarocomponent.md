@@ -80,13 +80,15 @@ class Welcome extends Component {
 constructor(props)
 ```
 
-React 组件的构造函数将会在装配之前被调用。当为一个 `Taro.Component` 子类定义构造函数时，你应该在任何其他的表达式之前调用 `super(props)`。否则，this.props 在构造函数中将是未定义，并可能引发异常。
+Taro 组件的构造函数将会在装配之前被调用。当为一个 `Taro.Component` 子类定义构造函数时，你应该在任何其他的表达式之前调用 `super(props)`。否则，this.props 在构造函数中将是未定义，并可能引发异常。
 
 构造函数是初始化状态的合适位置。若你不初始化状态且不绑定方法，那你也不需要为你的 Taro 组件定义一个构造函数。
 
 > 在 Taro 中，即便你不写 constructor()，编译到微信小程序时也会自动给你加上，因为 Taro 运行时框架需要在 constructor() 中多做一些事情。
 
 可以基于属性来初始化状态。这样有效地“分离（forks）”属性并根据初始属性设置状态。
+
+### 
 
 ### componentWillMount()
 

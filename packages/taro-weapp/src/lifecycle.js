@@ -15,7 +15,8 @@ import { enqueueRender } from './render-queue'
 //   process.env.NODE_ENV !== 'production'
 
 function hasNewLifecycle (component) {
-  return isFunction(component.constructor.getDerivedStateFromProps)
+  const { getDerivedStateFromProps, getSnapshotBeforeUpdate } = component.constructor
+  return isFunction(getDerivedStateFromProps) || isFunction(getSnapshotBeforeUpdate)
 }
 
 function callGetDerivedStateFromProps (component, props, state) {
@@ -145,7 +146,6 @@ function doUpdate (component, prevProps, prevState) {
       Current.current = null
     }
   }
-  const snapshot = callGetSnapshotBeforeUpdate(component, prevProps, prevState)
 
   data = Object.assign({}, props, data)
   if (component.$usedState && component.$usedState.length) {
@@ -171,6 +171,10 @@ function doUpdate (component, prevProps, prevState) {
 
   const dataDiff = diffObjToPath(data, component.$scope.data)
   const __mounted = component.__mounted
+  let snapshot
+  if (__mounted) {
+    snapshot = callGetSnapshotBeforeUpdate(component, prevProps, prevState)
+  }
 
   // 每次 setData 都独立生成一个 callback 数组
   let cbs = []
