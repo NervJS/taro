@@ -19,7 +19,7 @@ const createEvent = type => {
   let e
   try {
     e = new TouchEvent(type);
-  } catch (e) {
+  } catch (err) {
     e = document.createEvent('Event');
     e.initEvent(type, true, true);
   }
