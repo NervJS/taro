@@ -88,7 +88,87 @@ Taro 组件的构造函数将会在装配之前被调用。当为一个 `Taro.Co
 
 可以基于属性来初始化状态。这样有效地“分离（forks）”属性并根据初始属性设置状态。
 
-### 
+### `static getDerivedStateFromProps()`
+
+> 自 v1.3.0 起可用
+
+```jsx
+static getDerivedStateFromProps(props, state)
+```
+
+`getDerivedStateFromProps` 会在调用 render 方法之前调用，并且在初始挂载及后续更新时都会被调用。它应返回一个对象来更新 state，如果返回 null 则不更新任何内容。
+
+此方法无权访问组件实例（this）。如果你需要，可以通过提取组件 props 的纯函数及 class 之外的状态，在 `getDerivedStateFromProps()` 和其他 class 方法之间重用代码。
+
+和 `componentWillReceiveProps` 不同，`getDerivedStateFromProps` 会在每次 `render` 前触发此方法，而 `componentWillReceiveProps` 会在父组件重新渲染时调用。
+
+```jsx
+export default class ButtonSelectable extends Component {
+  static propTypes = {
+    selected: PropTypes.bool,
+    onClick: PropTypes.func
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSelected: props.selected
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.selected !== state.isSelected) {
+      return {
+        isSelected: props.selected
+      };
+    }
+
+    return null;
+  }
+
+  handleClick = event => {
+    this.setState({
+      isSelected: !this.state.isSelected
+    });
+  };
+
+  render() {
+    return (
+      <Button
+        className={`B-selectable ${
+          this.state.isSelected ? "button-selectable-selected" : ""
+        }`}
+        onClick={this.handleClick}
+      >
+        {this.state.isSelected ? "Selected!" : "Not selected..."}
+      </Button>
+    );
+  }
+}
+
+```
+
+> 请注意：
+> getDerivedStateFromProps() 如果存在，`componentWillReceiveProps`、`componentWillMount` 和 `componentWillUpdate` 将不会调用。
+> 当你需要在以上老生命周期 setState 时，我们更推荐你使用 getDerivedStateFromProps 方法，因为它能减少一次更新开销。
+
+### getSnapshotBeforeUpdate()
+
+> 自 v1.3.0 起可用
+
+```jsx
+getSnapshotBeforeUpdate(prevProps, prevState)
+```
+
+`getSnapshotBeforeUpdate()` 在最近一次渲染输出（提交到 DOM 节点）之前调用。它使得组件能在发生更改之前从 DOM 中捕获一些信息（例如，滚动位置）。此生命周期的任何返回值将作为参数传递给 `componentDidUpdate()`。
+
+应返回 snapshot 的值（或 null）。
+
+> 请注意：
+> getSnapshotBeforeUpdate() 如果存在，`componentWillReceiveProps`、`componentWillMount` 和 `componentWillUpdate` 将不会调用。
+> 当你需要在以上老生命周期 setState 时，我们更推荐你使用 `getSnapshotBeforeUpdate` 方法，因为它能减少一次更新开销。
+
 
 ### componentWillMount()
 

@@ -15,7 +15,7 @@ import { enqueueRender } from './render-queue'
 //   process.env.NODE_ENV !== 'production'
 
 function hasNewLifecycle (component) {
-  const { getDerivedStateFromProps, getSnapshotBeforeUpdate } = component.constructor
+  const { constructor: { getDerivedStateFromProps }, getSnapshotBeforeUpdate } = component
   return isFunction(getDerivedStateFromProps) || isFunction(getSnapshotBeforeUpdate)
 }
 
