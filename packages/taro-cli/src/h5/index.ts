@@ -768,6 +768,8 @@ class Compiler {
     let importTaroComponentNode: t.ImportDeclaration
     let importNervNode: t.ImportDeclaration
     let importTaroNode: t.ImportDeclaration
+    let renderClassMethodNode: t.ClassMethod
+
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
 
     ast = babel.transformFromAst(ast, '', {
@@ -1002,6 +1004,7 @@ class Compiler {
             hasOnPullDownRefresh = true
           } else if (keyName === 'render') {
             renderReturnStatementPaths.length = 0
+            renderClassMethodNode = node
             astPath.traverse({
               ReturnStatement: {
                 exit (returnAstPath: NodePath<t.ReturnStatement>) {
@@ -1097,7 +1100,11 @@ class Compiler {
                 )
               )
             }
-            renderReturnStatementPaths.forEach(returnAstPath => {
+            const returnStatement = renderReturnStatementPaths.filter(renderReturnStatementPath => {
+              const funcParentPath: NodePath = renderReturnStatementPath.getFunctionParent()
+              return funcParentPath.node === renderClassMethodNode
+            })
+            returnStatement.forEach(returnAstPath => {
               const statement = returnAstPath.node
               const varName = returnAstPath.scope.generateUid()
               const returnValue = statement.argument
