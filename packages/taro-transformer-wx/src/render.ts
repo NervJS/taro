@@ -130,7 +130,8 @@ export class RenderParser {
   private incrementCalleeId = isTestEnv ? incrementId() : incrementCalleeId
   private loopArrayId = isTestEnv ? incrementId() : incrementLoopArrayId
   private classComputedState = new Set<string>()
-  private propsSettingExpressions = new Set<t.ExpressionStatement | t.VariableDeclaration | Function>()
+  private propsSettingExpressions = new Map<t.BlockStatement, () => t.ExpressionStatement>()
+  private genCompidExprs = new Set<t.VariableDeclaration>()
   private loopCallees = new Set<t.Node>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
   private hasNoReturnLoopStem = false
@@ -1017,10 +1018,20 @@ export class RenderParser {
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
       const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
-      this.propsSettingExpressions.add(idExpr)
+      this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
       this.ancestorConditions.add(expr)
-      this.propsSettingExpressions.add(() => t.expressionStatement(expr))
+      const ifStatement = jsxElementPath.findParent(p => p.isIfStatement())
+      const blockStatement = jsxElementPath.findParent(p => p.isBlockStatement()) as NodePath<t.BlockStatement>
+      let blockStem = this.renderPath.node.body
+      if (ifStatement && blockStatement) {
+        const consequent = ifStatement.get('consequent')
+        const alternate = ifStatement.get('alternate')
+        if (blockStatement === consequent || blockStatement === alternate) {
+          blockStem = blockStatement.node
+        }
+      }
+      this.propsSettingExpressions.set(blockStem, () => t.expressionStatement(expr))
 
       // xml 中打上组件 ID
       setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
@@ -2250,13 +2261,13 @@ export class RenderParser {
         })
       )
     )
-    const propsStatement: t.ExpressionStatement | t.VariableDeclaration[] = [...this.propsSettingExpressions].map(expr => {
-      if (typeof expr === 'function') return expr()
-      return expr
+    this.propsSettingExpressions.forEach((expr, stem) => {
+      stem.body.push(expr())
     })
+    this.renderPath.node.body.body.unshift(...Array.from(this.genCompidExprs))
     if (this.isDefaultRender) {
       this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
-        ...propsStatement,
+        // ...propsStatement,
         buildAssignState(pendingState),
         t.returnStatement(
           t.memberExpression(t.thisExpression(), t.identifier('state'))
@@ -2264,35 +2275,8 @@ export class RenderParser {
       )
     } else {
       const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.thisExpression(), t.identifier(s))))
-      // if (this.renderArg) {
-      //   if (t.isIdentifier(this.renderArg)) {
-      //     const renderArgName = this.renderArg.name
-      //     const shadowArgName = this.renderPath.scope.generateUid(renderArgName)
-      //     const renderBody = this.renderPath.get('body')
-      //     renderBody.traverse({
-      //       Scope ({ scope }) {
-      //         scope.rename(renderArgName, shadowArgName)
-      //       }
-      //     })
-      //     this.renderPath.node.body.body.unshift(
-      //       t.expressionStatement(t.assignmentExpression('=', t.identifier(renderArgName), t.objectExpression([
-      //         t.objectProperty(
-      //           t.identifier(shadowArgName),
-      //           t.identifier(shadowArgName)
-      //         )
-      //       ])))
-      //     )
-      //     usedState.push(t.objectProperty(
-      //       t.identifier(shadowArgName),
-      //       t.identifier(shadowArgName)
-      //     ))
-      //   } else {
-      //     // TODO
-      //     // usedState.push()
-      //   }
-      // }
       this.renderPath.node.body.body.push(
-        ...propsStatement,
+        // ...propsStatement,
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
       )
 
