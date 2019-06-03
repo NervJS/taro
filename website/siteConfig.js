@@ -91,7 +91,10 @@ const siteConfig = {
   usePrism: true,
 
   // Add custom scripts here that would be placed in <script> tags
-  scripts: ['https://buttons.github.io/buttons.js', 'https://jdc.jd.com/demo/talenttest/js/url.js'],
+  scripts: ['https://buttons.github.io/buttons.js', 'https://jdc.jd.com/demo/talenttest/js/url.js', {
+    src: 'https://storage.jd.com/taro-resource/tongji.js',
+    async: true
+  }],
 
   /* On page navigation for the current documentation page */
   onPageNav: 'separate',

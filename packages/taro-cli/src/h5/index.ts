@@ -1076,6 +1076,13 @@ class Compiler {
         exit (astPath: NodePath<t.Program>) {
           if (hasOnPullDownRefresh) {
             // 增加PullDownRefresh组件
+            if (!importTaroComponentNode) {
+              importTaroComponentNode = t.importDeclaration(
+                [],
+                t.stringLiteral('@tarojs/components')
+              )
+              astPath.node.body.unshift(importTaroComponentNode)
+            }
             const specifiers = importTaroComponentNode.specifiers
             const pos = importTaroComponentNode.specifiers.findIndex(specifier => {
               if (!t.isImportSpecifier(specifier)) return false

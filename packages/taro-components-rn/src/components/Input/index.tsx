@@ -164,7 +164,7 @@ class _Input extends React.Component<InputProps, InputState> {
   }
 
   render () {
-    const {
+    let {
       style,
       value,
       type,
@@ -190,6 +190,8 @@ class _Input extends React.Component<InputProps, InputState> {
         return { start: cursor, end: cursor }
       }
     })()
+
+    value = type === 'number' && value ? (value + '') : value
 
     return (
       <TextInput

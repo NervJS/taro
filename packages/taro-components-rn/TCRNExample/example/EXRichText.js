@@ -16,17 +16,15 @@ export default class EXRichText extends Component {
 
   render () {
     return (
-      <View>
-        <RichText
-          nodes={this.richTextNodes}
-          style={{
-            width: 300,
-            height: 100,
-            borderColor: 'black',
-            borderWidth: 1
-          }}
-        />
-      </View>
+      <RichText
+        nodes={this.richTextNodes}
+        style={{
+          width: 300,
+          height: 100,
+          borderColor: 'orange',
+          borderWidth: 1
+        }}
+      />
     )
   }
 }

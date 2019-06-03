@@ -31,8 +31,8 @@
     "@tarojs/taro-swan": "<%= version %>",
     "@tarojs/taro-tt": "<%= version %>",
     "@tarojs/taro-weapp": "<%= version %>",
-    "nervjs": "^1.4.0-beta.3",
-    "nerv-devtools": "^1.4.0-beta.3",
+    "nervjs": "^1.4.0",
+    "nerv-devtools": "^1.4.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"

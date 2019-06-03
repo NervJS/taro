@@ -20,6 +20,11 @@
 
 掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
+## 社区共享
+
+[Taro 交流社区——让每一次交流都被沉淀](http://taro-club.jd.com/)
+
+[Taro 物料市场——让每一个轮子产生价值](http://taro-ext.jd.com/)
 
 ## 使用案例
 

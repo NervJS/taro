@@ -177,6 +177,9 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     throw new Error(`${type} 标签的 src 属性值必须是一个字符串`)
   }
   const srcValue = value.node.value
+  if (srcValue.startsWith('/')) {
+    throw new Error(`import/include 的 src 请填入相对路径再进行转换：src="${srcValue}"`)
+  }
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)

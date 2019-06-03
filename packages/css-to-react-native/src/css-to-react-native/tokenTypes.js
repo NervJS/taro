@@ -33,7 +33,7 @@ const identRe = /(^-?[_a-z][_a-z0-9-]*$)/i;
 // Note if these are wrong, you'll need to change index.js too
 const numberRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)$/;
 // Note lengthRe is sneaky: you can omit units for 0
-const lengthRe = /^(0$|(?:[+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)(?=px$))/;
+const lengthRe = /^(0$|(?:[+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)((?=px$)|(?=Px$)|(?=PX$)|(?=pX$)))/;
 const unsupportedUnitRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?(ch|em|ex|rem|vh|vw|vmin|vmax|cm|mm|in|pc|pt))$/;
 const angleRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?(?:deg|rad))$/;
 const percentRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?%)$/;
@@ -50,8 +50,11 @@ export const regExpToken = (regExp, transform = String) => node => {
   if (match === null) return null;
 
   const value = transform(match[1]);
-
-  return value;
+  if (/px/.test(node.value)) {
+    return `scalePx2dp(${value})`;
+  } else {
+    return value;
+  }
 };
 
 export const tokens = {

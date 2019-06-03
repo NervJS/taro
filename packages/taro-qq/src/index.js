@@ -18,7 +18,10 @@ import {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext,
+  createContext,
+  memo
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -50,7 +53,11 @@ export const Taro = {
   interceptors,
   genCompid,
   // eslint-disable-next-line object-property-newline
-  useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo, useImperativeHandle
+  useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo,
+  useImperativeHandle,
+  useContext,
+  createContext,
+  memo
 }
 
 export default Taro

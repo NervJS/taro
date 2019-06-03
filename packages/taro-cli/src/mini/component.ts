@@ -34,7 +34,6 @@ import {
   getComponentExportsMap,
   getRealComponentsPathList,
   copyFilesFromSrcToOutput,
-  getComponentsBuildResult,
   getDependencyTree,
   buildUsingComponents,
   getDepComponents,
@@ -46,6 +45,7 @@ import { transfromNativeComponents, processNativeWxml } from './native'
 
 const notTaroComponents = new Set<string>()
 const componentsNamedMap = new Map<string, { name?: string, type?: string }>()
+const componentsBuildResult = new Map<string, IBuildResult>()
 
 export function getComponentsNamedMap () {
   return componentsNamedMap
@@ -129,10 +129,7 @@ export async function buildSingleComponent (
   componentObj: IComponentObj,
   buildConfig: IComponentBuildConfig = {}
 ): Promise<IBuildResult> {
-  const componentsBuildResult = getComponentsBuildResult()
-  if (isComponentHasBeenBuilt(componentObj.path as string) && componentsBuildResult.get(componentObj.path as string)) {
-    return componentsBuildResult.get(componentObj.path as string) as IBuildResult
-  }
+
   const {
     appPath,
     buildAdapter,
@@ -184,9 +181,7 @@ export async function buildSingleComponent (
   const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.TEMPL)
   const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.STYLE)
   const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.CONFIG)
-  if (!isComponentHasBeenBuilt(component)) {
-    setHasBeenBuiltComponents(component)
-  }
+
   try {
     const isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
     const componentExportsMap = getComponentExportsMap()
@@ -217,6 +212,15 @@ export async function buildSingleComponent (
       }
       return await buildSingleComponent(realComponentObj, buildConfig)
     }
+    if (isComponentHasBeenBuilt(componentObj.path as string) && componentsBuildResult.get(componentObj.path as string)) {
+      return componentsBuildResult.get(componentObj.path as string) as IBuildResult
+    }
+    const buildResult = {
+      js: outputComponentJSPath,
+      wxss: outputComponentWXSSPath,
+      wxml: outputComponentWXMLPath
+    }
+    componentsBuildResult.set(component, buildResult)
     const transformResult: IWxTransformResult = wxTransformer({
       code: componentContent,
       sourcePath: component,
@@ -234,6 +238,9 @@ export async function buildSingleComponent (
     const res = parseAst(PARSE_AST_TYPE.COMPONENT, transformResult.ast, componentDepComponents, component, outputComponentJSPath, buildConfig.npmSkip)
     let resCode = res.code
     fs.ensureDirSync(path.dirname(outputComponentJSPath))
+    if (!isComponentHasBeenBuilt(component)) {
+      setHasBeenBuiltComponents(component)
+    }
     // 解析原生组件
     const { usingComponents = {} }: IConfig = res.configObj
     if (usingComponents && !isEmptyObject(usingComponents)) {
@@ -348,12 +355,7 @@ export async function buildSingleComponent (
     fileDep['media'] = res.mediaFiles
     dependencyTree.set(component, fileDep)
     depComponents.set(component, componentDepComponents)
-    const buildResult = {
-      js: outputComponentJSPath,
-      wxss: outputComponentWXSSPath,
-      wxml: outputComponentWXMLPath
-    }
-    componentsBuildResult.set(component, buildResult)
+
     return buildResult
   } catch (err) {
     printLog(processTypeEnum.ERROR, '组件编译', `组件${componentShowPath}编译失败！`)
