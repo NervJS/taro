@@ -1,7 +1,7 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
 import { isEmptyObject, isFunction } from './util'
-import { updateComponent } from './lifecycle'
+import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
 
@@ -216,7 +216,7 @@ function initComponent (isPage) {
     hasPageInited = true
   }
   if (hasPageInited || isPage) {
-    updateComponent(this.$component)
+    mountComponent(this.$component)
   }
 }
 
