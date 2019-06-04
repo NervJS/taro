@@ -4,6 +4,7 @@ import * as fs from 'fs-extra'
 import * as t from 'babel-types'
 
 import { CONFIG_MAP, JS_EXT, TS_EXT } from './constants'
+import { IOption, IComponentObj } from './types'
 
 export function isNpmPkg (name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
@@ -56,6 +57,50 @@ export function traverseObjectNode (node, buildAdapter: string, parentKey?: stri
   return node.value
 }
 
+export function isAliasPath (name: string, pathAlias: object = {}): boolean {
+  const prefixs = Object.keys(pathAlias)
+  if (prefixs.length === 0) {
+    return false
+  }
+  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
+}
+
+export function replaceAliasPath (filePath: string, name: string, pathAlias: object = {}) {
+  // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
+  // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
+  // 源代码文件，导致文件被意外修改
+  filePath = fs.realpathSync(filePath)
+
+  const prefixs = Object.keys(pathAlias)
+  if (prefixs.includes(name)) {
+    return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
+  }
+  const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
+  name = name.replace(reg, function (m, $1, $2) {
+    return promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
+  })
+  return name
+}
+
+export function promoteRelativePath (fPath: string): string {
+  const fPathArr = fPath.split(path.sep)
+  let dotCount = 0
+  fPathArr.forEach(item => {
+    if (item.indexOf('..') >= 0) {
+      dotCount++
+    }
+  })
+  if (dotCount === 1) {
+    fPathArr.splice(0, 1, '.')
+    return fPathArr.join('/')
+  }
+  if (dotCount > 1) {
+    fPathArr.splice(0, 1)
+    return fPathArr.join('/')
+  }
+  return fPath.replace(/\\/g, '/')
+}
+
 export function resolveScriptPath (p: string): string {
   const realPath = p
   const taroEnv = process.env.TARO_ENV
@@ -81,4 +126,31 @@ export function resolveScriptPath (p: string): string {
     }
   }
   return realPath
+}
+
+export function buildUsingComponents (
+  filePath: string,
+  pathAlias: IOption,
+  components: IComponentObj[],
+  isComponent?: boolean
+): IOption {
+  const usingComponents = Object.create(null)
+  for (const component of components) {
+    let componentPath = component.path
+    if (isAliasPath(componentPath as string, pathAlias)) {
+      componentPath = replaceAliasPath(filePath, componentPath as string, pathAlias)
+    }
+    componentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+    if (fs.existsSync(componentPath)) {
+      componentPath = promoteRelativePath(path.relative(filePath, componentPath))
+    } else {
+      componentPath = component.path
+    }
+    if (component.name) {
+      usingComponents[component.name] = (componentPath as string).replace(path.extname(componentPath as string), '')
+    }
+  }
+  return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
+    usingComponents
+  } : {})
 }
