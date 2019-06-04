@@ -9,13 +9,13 @@ import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import * as VirtualModulePlugin from 'virtual-module-webpack-plugin'
-import { defaults } from 'lodash'
+import { merge, defaults } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig } from '@tarojs/taro'
 
 import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE } from '../utils/constants'
-import { traverseObjectNode, resolveScriptPath } from '../utils'
+import { traverseObjectNode, resolveScriptPath, buildUsingComponents } from '../utils'
 
 import TaroTemplatePlugin from './TaroTemplatePlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
@@ -234,7 +234,7 @@ export default class MiniPlugin {
       const { configObj } = this.parseAst(transformResult.ast, buildAdapter)
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
-        config: configObj,
+        config: merge({}, buildUsingComponents(file.path, {}, transformResult.components),configObj),
         wxml: transformResult.template,
         code: transformResult.code
       }
