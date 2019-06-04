@@ -5,14 +5,14 @@ import {
   Current,
   invokeEffects
 } from '@tarojs/taro'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject, diffObjToPath, isFunction, isUndefined } from './util'
+import { shakeFnFromObject, isEmptyObject, diffObjToPath, isFunction, isUndefined, isArray } from './util'
 import { enqueueRender } from './render-queue'
 
-// const isDEV = typeof process === 'undefined' ||
-//   !process.env ||
-//   process.env.NODE_ENV !== 'production'
+const isDEV = typeof process === 'undefined' ||
+  !process.env ||
+  process.env.NODE_ENV !== 'production'
 
 function hasNewLifecycle (component) {
   const { constructor: { getDerivedStateFromProps }, getSnapshotBeforeUpdate } = component
@@ -26,6 +26,8 @@ function callGetDerivedStateFromProps (component, props, state) {
     const partialState = getDerivedStateFromProps(props, state)
     if (!isUndefined(partialState)) {
       newState = Object.assign({}, state, partialState)
+    } else {
+      console.warn('getDerivedStateFromProps 没有返回任何内容，这个生命周期必须返回 null 或一个新对象。')
     }
   }
   return newState
@@ -41,11 +43,15 @@ function callGetSnapshotBeforeUpdate (component, props, state) {
 }
 
 export function updateComponent (component) {
-  const { props } = component
-  // if (isDEV && __propTypes) {
-  //   const componentName = component.constructor.name || component.constructor.toString().match(/^function\s*([^\s(]+)/)[1]
-  //   PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
-  // }
+  const { props, __propTypes } = component
+  if (isDEV && __propTypes) {
+    let componentName = component.constructor.name
+    if (isUndefined(componentName)) {
+      const names = component.constructor.toString().match(/^function\s*([^\s(]+)/)
+      componentName = isArray(names) ? names[0] : 'Component'
+    }
+    PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
+  }
   const prevProps = component.prevProps || props
   component.props = prevProps
   if (component.__mounted && component._unsafeCallUpdate === true && !hasNewLifecycle(component) && component.componentWillReceiveProps) {
