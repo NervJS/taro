@@ -8,6 +8,12 @@ export interface IOption {
   [key: string]: any
 }
 
+export interface IComponentObj {
+  name?: string,
+  path: string | null,
+  type?: string
+}
+
 type TogglableOptions<T = IOption> = {
   enable?: boolean
   config?: T
