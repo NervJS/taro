@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "<%= description %>",
+  "templateInfo": {
+    "name": "<%= template %>",
+    "typescript": <%= typescript %>,
+    "css": "<%= css %>"
+  },
   "main": "index.js",
   "scripts": {
     "build:weapp": "taro build --type weapp",

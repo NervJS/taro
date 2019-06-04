@@ -30,7 +30,7 @@ import {
   IMINI_APP_FILE_TYPE
 } from '../util/constants'
 import { generateMinimalEscapeCode } from '../util/astConvert'
-import Creator from '../creator'
+import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
 import { IPrettierConfig } from '../util/types'
 import { analyzeImportUrl } from './helper'

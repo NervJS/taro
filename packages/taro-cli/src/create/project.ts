@@ -10,8 +10,8 @@ import {
   shouldUseYarn,
   shouldUseCnpm,
   getPkgVersion
-} from './util'
-import CONFIG from './config'
+} from '../util'
+import CONFIG from '../config'
 
 interface IProjectConf {
   projectName: string,
@@ -38,7 +38,7 @@ export default class Project extends Creator {
 
     this.conf = Object.assign({
       projectName: '',
-      projectDir: process.cwd(),
+      projectDir: '',
       template: '',
       description: ''
     }, options)
@@ -182,8 +182,8 @@ export default class Project extends Creator {
   write (cb?: () => void) {
     const { template } = this.conf
     this.conf.src = CONFIG.SOURCE_DIR
-    const templateCreate = require(path.join(this.templatePath(), template, 'index.js'))
-    templateCreate(this, this.conf, {
+    const { createApp } = require(path.join(this.templatePath(), template, 'index.js'))
+    createApp(this, this.conf, {
       shouldUseYarn,
       shouldUseCnpm,
       getPkgVersion

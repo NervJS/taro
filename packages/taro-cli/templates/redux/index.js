@@ -4,7 +4,51 @@ const chalk = require('chalk')
 const { exec } = require('child_process')
 const ora = require('ora')
 
-module.exports = function (creater, params, helper, cb) {
+const styleExtMap = {
+  sass: 'scss',
+  less: 'less',
+  stylus: 'styl',
+  none: 'css'
+}
+
+exports.createPage = function (creater, params, cb) {
+  const { page, projectDir, src, template, typescript, css } = params
+  let pageCSSName
+  const sourceDir = path.join(projectDir, src)
+  const currentStyleExt = styleExtMap[css] || 'css'
+  switch (css) {
+    case 'sass':
+      pageCSSName = `${page}.scss`
+      break
+    case 'less':
+      pageCSSName = `${page}.less`
+      break
+    case 'stylus':
+      pageCSSName = `${page}.styl`
+      break
+    default:
+      pageCSSName = `${page}.css`
+      break
+  }
+  creater.template(template, 'scss', path.join(sourceDir, 'pages', page, pageCSSName))
+  if (typescript) {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.tsx`), {
+      css: currentStyleExt,
+      typescript: true
+    })
+  } else {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.js`), {
+      css: currentStyleExt
+    })
+  }
+  creater.fs.commit(() => {
+    if (typeof cb === 'function') {
+      cb()
+    }
+  })
+}
+
+exports.createApp = function (creater, params, helper, cb) {
   const { projectName, projectDir, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const projectPath = path.join(projectDir, projectName)
@@ -21,13 +65,9 @@ module.exports = function (creater, params, helper, cb) {
   const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
   let appCSSName
   let pageCSSName
-  const styleExtMap = {
-    sass: 'scss',
-    less: 'less',
-    stylus: 'styl',
-    none: 'css'
-  }
+
   const currentStyleExt = styleExtMap[css] || 'css'
+  params.page = 'index'
 
   fs.ensureDirSync(projectPath)
   fs.ensureDirSync(sourceDir)
@@ -43,7 +83,8 @@ module.exports = function (creater, params, helper, cb) {
     projectName,
     version,
     css,
-    typescript
+    typescript,
+    template
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
@@ -86,7 +127,6 @@ module.exports = function (creater, params, helper, cb) {
       break
   }
   creater.template(template, 'scss', path.join(sourceDir, appCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
   creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
@@ -94,25 +134,26 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
-      css: currentStyleExt,
-      typescript: true
-    })
     creater.template(template, path.join('actions', 'counterjs'), path.join(sourceDir, 'actions', 'counter.ts'))
     creater.template(template, path.join('constants', 'counterjs'), path.join(sourceDir, 'constants', 'counter.ts'))
     creater.template(template, path.join('reducers', 'counterjs'), path.join(sourceDir, 'reducers', 'counter.ts'))
     creater.template(template, path.join('reducers', 'indexjs'), path.join(sourceDir, 'reducers', 'index.ts'))
     creater.template(template, path.join('store', 'indexjs'), path.join(sourceDir, 'store', 'index.ts'))
   } else {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
-      css: currentStyleExt
-    })
     creater.template(template, path.join('actions', 'counterjs'), path.join(sourceDir, 'actions', 'counter.js'))
     creater.template(template, path.join('constants', 'counterjs'), path.join(sourceDir, 'constants', 'counter.js'))
     creater.template(template, path.join('reducers', 'counterjs'), path.join(sourceDir, 'reducers', 'counter.js'))
     creater.template(template, path.join('reducers', 'indexjs'), path.join(sourceDir, 'reducers', 'index.js'))
     creater.template(template, path.join('store', 'indexjs'), path.join(sourceDir, 'store', 'index.js'))
   }
+  exports.createPage(creater, {
+    page: 'index',
+    projectDir: projectPath,
+    src,
+    template,
+    typescript,
+    css
+  })
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
   creater.fs.commit(() => {
