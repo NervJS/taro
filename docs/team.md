@@ -27,7 +27,7 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 
 共同参与 Taro 的研发和推广，监督 Taro 的发展流程，推动 Taro 在各领域真实业务场景中的落地和实践，促进 Taro 在业界的广泛应用。
 
-<p><a href="//github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
+<p>
   <a href="//cdc.tencent.com" target="_blank" style='display: inline-block;margin: 0 10px 10px 0;'> <img src="//taro.aotu.io/static/images/cdc.png" style="height: 100px;"></a>
   <a href="//cloud.tencent.com" target="_blank" style='display: inline-block;margin: 0 10px 10px 0;'><img src="//taro.aotu.io/static/images/tencent.png" style="height: 100px;"></a>
   <a href="//www.quickapp.cn/" target="_blank" style='display: inline-block;margin: 0 10px 10px 0;'><img src="//taro.aotu.io/static/images/quick.png" style="height: 100px;"></a>
