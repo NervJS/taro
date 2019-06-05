@@ -4,9 +4,17 @@ import * as webpack from 'webpack'
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger } from './utils/logHelper'
 import MiniPlugin, { Targets } from './plugins/MiniPlugin'
-import { MINI_APP_FILES } from './utils/constants'
+import { MINI_APP_FILES, BUILD_TYPES } from './utils/constants'
 
 const extensions = ['.ts', '.tsx', '.js', '.jsx']
+
+const globalObjectMap = {
+  [BUILD_TYPES.WEAPP]: 'wx',
+  [BUILD_TYPES.ALIPAY]: 'my',
+  [BUILD_TYPES.SWAN]: 'swan',
+  [BUILD_TYPES.QQ]: 'qq',
+  [BUILD_TYPES.TT]: 'tt'
+}
 
 export default function build (config: IBuildConfig) {
   const compilePlugins = config.plugins
@@ -18,7 +26,8 @@ export default function build (config: IBuildConfig) {
     output: {
       filename: '[name].js',
       publicPath: '/',
-			path: config.outputDir,
+      path: config.outputDir,
+      globalObject: globalObjectMap[config.buildAdapter]
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx']
