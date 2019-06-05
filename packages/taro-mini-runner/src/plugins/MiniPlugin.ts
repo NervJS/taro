@@ -14,7 +14,7 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig } from '@tarojs/taro'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
 import { traverseObjectNode, resolveScriptPath, buildUsingComponents } from '../utils'
 
 import TaroTemplatePlugin from './TaroTemplatePlugin'
@@ -23,14 +23,14 @@ import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 interface IMiniPluginOptions {
   appEntry?: string,
   buildAdapter: BUILD_TYPES,
-  commonChunks?: string[]
+  commonChunks: string[]
 }
 
 export interface ITaroFileInfo {
   [key: string]: {
     type: PARSE_AST_TYPE,
     config: IConfig,
-    wxml?: string,
+    template?: string,
     code?: string
   }
 }
@@ -41,19 +41,14 @@ const PLUGIN_NAME = 'MiniPlugin'
 
 const taroFileTypeMap: ITaroFileInfo = {}
 
-export const createTarget = function createTarget(name) {
-	const target = (compiler: webpack.compiler.Compiler) => {
+export const createTarget = function createTarget (name) {
+  return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
     new TaroTemplatePlugin().apply(compiler)
     new FunctionModulePlugin(options.output).apply(compiler)
     new NodeSourcePlugin(options.node).apply(compiler)
     new LoaderTargetPlugin('web').apply(compiler)
-	}
-
- 	const creater = new Function(
-		`var t = arguments[0]; return function ${name}(c) { return t(c); }`
-	);
-	return creater(target)
+  }
 }
 
 export const Targets = {
@@ -209,7 +204,7 @@ export default class MiniPlugin {
     taroFileTypeMap[this.appEntry] = {
       type: PARSE_AST_TYPE.ENTRY,
       config: configObj,
-      wxml: transformResult.template,
+      template: transformResult.template,
       code: transformResult.code
     }
     this.pages = new Set([
@@ -235,7 +230,7 @@ export default class MiniPlugin {
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
         config: merge({}, buildUsingComponents(file.path, {}, transformResult.components),configObj),
-        wxml: transformResult.template,
+        template: transformResult.template,
         code: transformResult.code
       }
       let depComponents = transformResult.components
@@ -268,16 +263,17 @@ export default class MiniPlugin {
   }
 
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
+    const { buildAdapter } = this.options
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = item.replace(this.sourceDir, '')
       const extname = path.extname(item)
-      const wxmlPath = relativePath.replace(extname, '.wxml')
-      const jsonPath = relativePath.replace(extname, '.json')
+      const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL)
+      const jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG)
       const itemInfo = taroFileTypeMap[item]
       if (itemInfo.type !== PARSE_AST_TYPE.ENTRY) {
-        compilation.assets[wxmlPath] = {
-          size: () => itemInfo.wxml!.length,
-          source: () => itemInfo.wxml
+        compilation.assets[templatePath] = {
+          size: () => itemInfo.template!.length,
+          source: () => itemInfo.template
         }
       }
       const jsonStr = JSON.stringify(itemInfo.config)
