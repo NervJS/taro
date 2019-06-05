@@ -606,9 +606,9 @@
     "@types/react" "*"
 
 "@types/react-native@^0.57.8":
-  version "0.57.55"
-  resolved "https://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.57.55.tgz#3e6e474e9c1d86b20064c6c65c5ccdf86333f0c9"
-  integrity sha1-Pm5HTpwdhrIAZMbGXFzN+GMz8Mk=
+  version "0.57.60"
+  resolved "https://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.57.60.tgz#61e97a84e2f64ed971e7d238bb30cec188898235"
+  integrity sha1-Yel6hOL2Ttlx59I4uzDOwYiJgjU=
   dependencies:
     "@types/prop-types" "*"
     "@types/react" "*"
