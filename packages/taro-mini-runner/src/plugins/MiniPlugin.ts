@@ -6,6 +6,7 @@ import wxTransformer from '@tarojs/transformer-wx'
 import * as webpack from 'webpack'
 import * as SingleEntryPlugin from 'webpack/lib/SingleEntryPlugin'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
+import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import * as VirtualModulePlugin from 'virtual-module-webpack-plugin'
@@ -17,7 +18,6 @@ import { Config as IConfig } from '@tarojs/taro'
 import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
 import { traverseObjectNode, resolveScriptPath, buildUsingComponents } from '../utils'
 
-import TaroTemplatePlugin from './TaroTemplatePlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 
 interface IMiniPluginOptions {
@@ -44,7 +44,7 @@ const taroFileTypeMap: ITaroFileInfo = {}
 export const createTarget = function createTarget (name) {
   return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
-    new TaroTemplatePlugin().apply(compiler)
+    new JsonpTemplatePlugin().apply(compiler)
     new FunctionModulePlugin(options.output).apply(compiler)
     new NodeSourcePlugin(options.node).apply(compiler)
     new LoaderTargetPlugin('web').apply(compiler)
