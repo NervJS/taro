@@ -227,9 +227,10 @@ export default class MiniPlugin {
         adapter: buildAdapter
       })
       const { configObj } = this.parseAst(transformResult.ast, buildAdapter)
+      const isComponentConfig = isRoot ? {} : { component: true }
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
-        config: merge({}, buildUsingComponents(file.path, {}, transformResult.components),configObj),
+        config: merge({}, isComponentConfig, buildUsingComponents(file.path, {}, transformResult.components),configObj),
         template: transformResult.template,
         code: transformResult.code
       }
