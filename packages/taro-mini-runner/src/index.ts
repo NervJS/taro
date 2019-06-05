@@ -3,7 +3,10 @@ import * as webpack from 'webpack'
 
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger } from './utils/logHelper'
-import MiniPlugin from './plugins/miniPlugin'
+import MiniPlugin, { Targets } from './plugins/MiniPlugin'
+import { MINI_APP_FILES } from './utils/constants'
+
+const extensions = ['.ts', '.tsx', '.js', '.jsx']
 
 export default function build (config: IBuildConfig) {
   const compilePlugins = config.plugins
@@ -44,14 +47,14 @@ export default function build (config: IBuildConfig) {
           }]
         },
         {
-          test: /\.(scss|wxss|acss|)$/,
+          test: /\.(scss|wxss|acss|ttss|acss|)$/,
 					include: /src/,
 					use: [
 						{
               loader: require.resolve('file-loader'),
               options: {
                 useRelativePath: true,
-                name: `[path][name].wxss`,
+                name: `[path][name]${MINI_APP_FILES[config.buildAdapter].STYLE}`,
                 context: config.sourceDir
               }
             },
