@@ -59,6 +59,7 @@ import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 import { isTestEnv } from './env'
+import { Status } from './functional'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -121,7 +122,7 @@ export class RenderParser {
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
   private loopComponentNames = new Map<NodePath<t.CallExpression>, string>()
   private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
-  private reserveStateWords = new Set(['state', 'props'])
+  private reserveStateWords = new Set(Status.isSFC ? [] : ['state', 'props'])
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
