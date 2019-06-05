@@ -258,7 +258,20 @@ function createComponent (ComponentClass, isPage) {
           const data = cacheDataGet(PRELOAD_DATA_KEY, true)
           this.$component.$router.preload = data
         }
-        Object.assign(this.$component.$router.params, options)
+
+        // merge App router params
+        const app = getApp()
+        if (
+          app.$router &&
+          app.$router.params &&
+          app.$router.params.query &&
+          Object.keys(app.$router.params.query).length &&
+          getCurrentPages().length === 1
+        ) {
+          Object.assign(this.$component.$router.params, options, app.$router.params.query)
+        } else {
+          Object.assign(this.$component.$router.params, options)
+        }
         this.$component.$router.path = getCurrentPageUrl()
 
         // preload
