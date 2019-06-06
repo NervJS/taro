@@ -117,11 +117,10 @@ function validateStyle ({styleObject, filePath}) {
     try {
       StyleSheetValidation.validateStyle(name, styleObject)
     } catch (err) {
+      // 先忽略掉 scalePx2dp 的报错
+      if (/Invalid prop `.*` of type `string` supplied to `.*`, expected `number`[^]*/g.test(err.message)) return
       Util.printLog(processTypeEnum.WARNING, '样式不支持', filePath)
-      // 先忽略掉 fontSize 的报错
-      if (err.message.indexOf(`"fontSize": "scalePx2dp`) === -1) {
-        console.log(chalk.red(err.message))
-      }
+      console.log(chalk.red(err.message))
     }
   }
 }
