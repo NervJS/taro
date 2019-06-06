@@ -45,6 +45,22 @@ export const incrementId = () => {
 export const noop = function () {}
 
 export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
+  const obj = getSuperClassPath(path)
+  if (obj) {
+    const { sourceValue, resolvePath } = obj
+    try {
+      const code = fs.readFileSync(resolvePath + (transformOptions.isTyped ? '.tsx' : '.js'), 'utf8')
+      return {
+        code,
+        sourcePath: sourceValue
+      }
+    } catch (error) {
+      return
+    }
+  }
+}
+
+export function getSuperClassPath (path: NodePath<t.ClassDeclaration>) {
   const superClass = path.node.superClass
   if (t.isIdentifier(superClass)) {
     const binding = path.scope.getBinding(superClass.name)
@@ -55,15 +71,9 @@ export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
         if (source.value === TARO_PACKAGE_NAME) {
           return
         }
-        try {
-          const p = pathResolver(source.value, transformOptions.sourcePath) + (transformOptions.isTyped ? '.tsx' : '.js')
-          const code = fs.readFileSync(p, 'utf8')
-          return {
-            code,
-            sourcePath: source.value
-          }
-        } catch (error) {
-          return
+        return {
+          sourceValue: source.value,
+          resolvePath: pathResolver(source.value, transformOptions.sourcePath)
         }
       }
     }
