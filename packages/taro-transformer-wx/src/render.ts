@@ -131,7 +131,7 @@ export class RenderParser {
   private incrementCalleeId = isTestEnv ? incrementId() : incrementCalleeId
   private loopArrayId = isTestEnv ? incrementId() : incrementLoopArrayId
   private classComputedState = new Set<string>()
-  private propsSettingExpressions = new Map<t.BlockStatement, () => t.ExpressionStatement>()
+  private propsSettingExpressions = new Map<t.BlockStatement, (() => t.ExpressionStatement)[]>()
   private genCompidExprs = new Set<t.VariableDeclaration>()
   private loopCallees = new Set<t.Node>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
@@ -1032,7 +1032,9 @@ export class RenderParser {
           blockStem = blockStatement.node
         }
       }
-      this.propsSettingExpressions.set(blockStem, () => t.expressionStatement(expr))
+      const funcs = this.propsSettingExpressions.get(blockStem)
+      const func = () => t.expressionStatement(expr)
+      this.propsSettingExpressions.set(blockStem, funcs ? [...funcs, func] : [func])
 
       // xml 中打上组件 ID
       setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
@@ -2262,8 +2264,8 @@ export class RenderParser {
         })
       )
     )
-    this.propsSettingExpressions.forEach((expr, stem) => {
-      stem.body.push(expr())
+    this.propsSettingExpressions.forEach((exprs, stem) => {
+      stem.body.push(...exprs.map(e => e()))
     })
     this.renderPath.node.body.body.unshift(...Array.from(this.genCompidExprs))
     if (this.isDefaultRender) {
