@@ -238,7 +238,7 @@ export function generateAnonymousState (
           if (isArrowFunctionInJSX) {
             return
           }
-          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE)) {
+          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$')) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
               if (refId.name === variableName && !variableName.startsWith('_$')) {
