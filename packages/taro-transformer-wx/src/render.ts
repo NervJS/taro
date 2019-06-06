@@ -2070,6 +2070,9 @@ export class RenderParser {
       }
       this.finalReturnElement.openingElement.attributes.push(...attrs)
     }
+    if (!this.finalReturnElement) {
+      throw codeFrameError(this.renderPath.node, '没有找到返回的 JSX 元素，你是不是忘记 return 了？')
+    }
     this.outputTemplate = parseJSXElement(this.finalReturnElement, true)
     if (!this.isDefaultRender) {
       this.outputTemplate = `<template name="${this.renderMethodName}">${this.outputTemplate}</template>`
