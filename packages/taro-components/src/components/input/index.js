@@ -115,6 +115,7 @@ class Input extends Nerv.Component {
 
   onKeyDown (e) {
     const { onConfirm } = this.props
+    this.onInputExcuted = false
     if (e.keyCode === 13 && onConfirm) {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
