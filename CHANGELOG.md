@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.7...v) (2019-06-09)
+# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.8...v) (2019-06-09)
+
+
+
+<a name="1.3.0-beta.8"></a>
+# [1.3.0-beta.8](https://github.com/NervJS/taro/compare/v1.3.0-beta.7...v1.3.0-beta.8) (2019-06-09)
+
+
+### Bug Fixes
+
+* **components:** 修复 h5 Input onChange/onInput 再输入过程中只会触发一次的问题 ([970980c](https://github.com/NervJS/taro/commit/970980c))
 
 
 
