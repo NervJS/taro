@@ -48,7 +48,7 @@ export default function chooseImage (options) {
   TaroMouseEvents.initEvent('click', true, true)
   taroChooseImageId.dispatchEvent(TaroMouseEvents)
   taroChooseImageId.onchange = function (e) {
-    let arr = Array.from(e.target.files)
+    let arr = [...e.target.files]
     arr && arr.forEach(item => {
       let blob = new Blob([item])
       let url = URL.createObjectURL(blob)
