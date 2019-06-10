@@ -4,7 +4,6 @@ import { exec, spawn, spawnSync, execSync, SpawnSyncOptions } from 'child_proces
 import { performance } from 'perf_hooks'
 import * as chokidar from 'chokidar'
 import chalk from 'chalk'
-import * as ejs from 'ejs'
 import * as _ from 'lodash'
 import * as klaw from 'klaw'
 
@@ -17,21 +16,6 @@ import { convertToJDReact } from './jdreact/convert_to_jdreact'
 import { IBuildConfig } from './util/types'
 // import { Error } from 'tslint/lib/error'
 
-const pkgTmpl = `{
-  "name":"<%= projectName %>",
-  "dependencies": {
-    "@tarojs/components-rn": "^<%= version %>",
-    "@tarojs/taro-rn": "^<%= version %>",
-    "@tarojs/taro-router-rn": "^<%= version %>",
-    "@tarojs/taro-redux-rn": "^<%= version %>",
-    "react": "16.3.1",
-    "react-native": "0.55.4",
-    "redux": "^4.0.0",
-    "tslib": "^1.8.0"
-  }
-}
-`
-
 let isBuildingStyles = {}
 let styleDenpendencyTree = {}
 
@@ -39,7 +23,7 @@ const depTree: {
   [key: string]: string[]
 } = {}
 
-const TEMP_DIR_NAME = '.rn_temp'
+const TEMP_DIR_NAME = 'rn_temp'
 const BUNDLE_DIR_NAME = 'bundle'
 
 class Compiler {
@@ -139,32 +123,21 @@ class Compiler {
   initProjectFile () {
     // generator app.json
     const appJsonObject = Object.assign({
-      name: _.camelCase(require(path.join(process.cwd(), 'package.json')).name)
+      name: _.camelCase(require(path.join(this.appPath, 'package.json')).name)
     }, this.rnConfig.appJson)
-    // generator .${tempPath}/package.json TODO JSON.parse 这种写法可能会有隐患
-    const pkgTempObj = JSON.parse(
-      ejs.render(pkgTmpl, {
-          projectName: _.camelCase(this.projectConfig.projectName),
-          version: Util.getPkgVersion()
-        }
-      ).replace(/(\r\n|\n|\r|\s+)/gm, '')
-    )
-    const dependencies = require(path.join(process.cwd(), 'package.json')).dependencies
-    pkgTempObj.dependencies = Object.assign({}, pkgTempObj.dependencies, dependencies)
 
     const indexJsStr = `
-  import {AppRegistry} from 'react-native';
-  import App from './${this.entryBaseName}';
-  import {name as appName} from './app.json';
-
-  AppRegistry.registerComponent(appName, () => App);`
+    import {AppRegistry} from 'react-native';
+    import App from './${this.entryBaseName}';
+    import {name as appName} from './app.json';
+  
+    AppRegistry.registerComponent(appName, () => App);`
 
     fs.writeFileSync(path.join(this.tempPath, 'index.js'), indexJsStr)
     Util.printLog(processTypeEnum.GENERATE, 'index.js', path.join(this.tempPath, 'index.js'))
     fs.writeFileSync(path.join(this.tempPath, 'app.json'), JSON.stringify(appJsonObject, null, 2))
     Util.printLog(processTypeEnum.GENERATE, 'app.json', path.join(this.tempPath, 'app.json'))
-    fs.writeFileSync(path.join(this.tempPath, 'package.json'), JSON.stringify(pkgTempObj, null, 2))
-    Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(this.tempPath, 'package.json'))
+    return Promise.resolve()
   }
 
   async processFile (filePath) {
@@ -207,7 +180,6 @@ class Compiler {
    * @returns {Promise}
    */
   buildTemp () {
-    // fs.ensureDirSync(path.join(this.tempPath, 'bin'))
     return new Promise((resolve, reject) => {
       klaw(this.sourceDir)
         .on('data', file => {
@@ -221,11 +193,8 @@ class Compiler {
         })
         .on('end', () => {
           if (!this.hasJDReactOutput) {
-            this.initProjectFile()
-            if (!fs.existsSync(path.join(this.tempPath, 'node_modules'))) {
-              return installDep(this.tempPath)
-            }
-            resolve()
+              this.initProjectFile()
+              resolve()
           } else {
             resolve()
           }
@@ -249,7 +218,7 @@ class Compiler {
     // 默认打包到 bundle 文件夹
     fs.ensureDirSync(BUNDLE_DIR_NAME)
     execSync(
-      `node node_modules/react-native/local-cli/cli.js bundle --entry-file ./index.js --bundle-output ./${BUNDLE_DIR_NAME}/index.bundle --assets-dest ./${BUNDLE_DIR_NAME}`,
+      `node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./${TEMP_DIR_NAME}/index.js --bundle-output ./${BUNDLE_DIR_NAME}/index.bundle --assets-dest ./${BUNDLE_DIR_NAME}`,
       {stdio: 'inherit'})
   }
 
@@ -304,6 +273,41 @@ class Compiler {
   }
 }
 
+function hasRNDep (appPath) {
+  const pkgJson = require(path.join(appPath, 'package.json'))
+  return Boolean(pkgJson.dependencies['react-native'])
+}
+
+function  updatePkgJson (appPath) {
+  const version = Util.getPkgVersion()
+  const RNDep = `{
+    "@tarojs/components-rn": "^${version}",
+    "@tarojs/taro-rn": "^${version}",
+    "@tarojs/taro-router-rn": "^${version}",
+    "@tarojs/taro-redux-rn": "^${version}",
+    "react": "16.3.1",
+    "react-native": "0.55.4",
+    "redux": "^4.0.0",
+    "tslib": "^1.8.0"
+  }
+  `
+  return new Promise((resolve, reject) => {
+    const pkgJson = require(path.join(appPath, 'package.json'))
+    // 未安装 RN 依赖,则更新 pkgjson,并重新安装依赖
+    if (!this.hasRNDep()) {
+      pkgJson.dependencies = Object.assign({}, pkgJson.dependencies, JSON.parse(RNDep.replace(/(\r\n|\n|\r|\s+)/gm, '')))
+      fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(pkgJson, null, 2))
+      Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
+      installDep(this.appPath).then(() => {
+        resolve()
+      })
+    } else {
+      resolve()
+    }
+  })
+}
+
+
 function installDep (path: string) {
   return new Promise((resolve, reject) => {
     console.log()
@@ -336,6 +340,10 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   const compiler = new Compiler(appPath)
   fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()
+
+  if(!hasRNDep(appPath)){
+    await updatePkgJson(appPath)
+  }
   try {
     await compiler.buildTemp()
   } catch (e) {
@@ -347,7 +355,7 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   if (watch) {
     compiler.watchFiles()
     if (!compiler.hasJDReactOutput) {
-      startServerInNewWindow({tempPath: compiler.tempPath})
+      startServerInNewWindow({appPath})
     }
   } else {
     compiler.buildBundle()
@@ -358,7 +366,7 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
  * @description run packager server
  * copy from react-native/local-cli/runAndroid/runAndroid.js
  */
-function startServerInNewWindow ({port = 8081, tempPath}) {
+function startServerInNewWindow ({port = 8081, appPath}) {
   // set up OS-specific filenames and commands
   const isWindows = /^win/.test(process.platform)
   const scriptFile = isWindows
@@ -370,14 +378,14 @@ function startServerInNewWindow ({port = 8081, tempPath}) {
     : `export RCT_METRO_PORT=${port}`
 
   // set up the launchpackager.(command|bat) file
-  const scriptsDir = path.resolve(tempPath, './node_modules', 'react-native', 'scripts')
+  const scriptsDir = path.resolve(appPath, './node_modules', 'react-native', 'scripts')
   const launchPackagerScript = path.resolve(scriptsDir, scriptFile)
   const procConfig: SpawnSyncOptions = {cwd: scriptsDir}
   const terminal = process.env.REACT_TERMINAL
 
   // set up the .packager.(env|bat) file to ensure the packager starts on the right port
   const packagerEnvFile = path.join(
-    tempPath,
+    appPath,
     'node_modules',
     'react-native',
     'scripts',
