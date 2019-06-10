@@ -25,7 +25,10 @@ module.exports = function compileSass (content, file, config) {
         reject(e)
       }
     }
-    const opts = Object.assign(config, {
+    if (config.data) {
+      bundledContent += config.data
+    }
+    const opts = Object.assign({}, config, {
       file,
       data: bundledContent ? bundledContent + content : content
     })
