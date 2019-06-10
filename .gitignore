@@ -4,6 +4,7 @@ node_modules
 .DS_Store
 lerna-debug.log
 yarn-error.log
+yarn.lock
 _book
 .idea
 .vscode
@@ -11,3 +12,4 @@ temp
 website/build
 website/package.json
 packages/**/package-lock.json
+

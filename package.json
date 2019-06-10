@@ -7,7 +7,7 @@
     "lint": "eslint packages/*/src/**/*.js --fix",
     "docs": "cd website && docusaurus-build",
     "docs:serve": "cd website && docusaurus-start",
-    "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json",
+    "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json packages/*/yarn.lock",
     "bootstrap:ci": "lerna bootstrap --npm-client=yarn",
     "bootstrap:lerna": "lerna bootstrap -- --ignore-engines",
     "bootstrap": "npm-run-all clear-all bootstrap:lerna",
