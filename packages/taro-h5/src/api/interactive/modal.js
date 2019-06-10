@@ -185,38 +185,36 @@ export default class Modal {
 
     if (config.title) {
       this.title.textContent = config.title
-      if (!config.title) {
-        // block => none
-        this.title.style.display = 'none'
-        const textCSS = {
-          ...textStyle,
-          padding: '40px 20px 26px',
-          color: '#353535'
-        }
-        this.text.setAttribute('style', inlineStyle(textCSS))
-      } else if (!config.title) {
-        // none => block
-        this.title.style.display = 'block'
-        this.text.setAttribute('style', inlineStyle(textStyle))
+      // none => block
+      this.title.style.display = 'block'
+      this.text.setAttribute('style', inlineStyle(textStyle))
+    } else {
+      // block => none
+      this.title.style.display = 'none'
+      const textCSS = {
+        ...textStyle,
+        padding: '40px 20px 26px',
+        color: '#353535'
       }
+      this.text.setAttribute('style', inlineStyle(textCSS))
     }
 
-    if (config.content) this.text.textContent = config.content
+    this.text.textContent = config.content || ''
 
     // showCancel
-    if (config.showCancel) this.cancel.style.display = config.showCancel ? 'block' : 'none'
+    this.cancel.style.display = config.showCancel ? 'block' : 'none'
 
     // cancelText
-    if (config.cancelText) this.cancel.textContent = config.cancelText
+    this.cancel.textContent = config.cancelText || ''
 
     // cancelColor
-    if (config.cancelColor) this.cancel.style.color = config.cancelColor
+    this.cancel.style.color = config.cancelColor || undefined
 
     // confirmText
-    if (config.confirmText) this.confirm.textContent = config.confirmText
+    this.confirm.textContent = config.confirmText || ''
 
     // confirmColor
-    if (config.confirmColor) this.confirm.style.color = config.confirmColor
+    this.confirm.style.color = config.confirmColor || undefined
 
     // cbs
     this.cancel.onclick = () => {

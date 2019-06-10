@@ -157,28 +157,19 @@ export default class Toast {
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
 
     // title
-    if (config.title) this.title.textContent = config.title
+    this.title.textContent = config.title || ''
 
     // mask
-    if (config.mask) this.mask.style.display = config.mask ? 'block' : 'none'
+    this.mask.style.display = config.mask ? 'block' : 'none'
 
     // image
     const { toastStyle, successStyle, loadingStyle, imageStyle } = this.style
     if (config.image) {
-      if (config.image) {
-        this.icon.setAttribute('style', inlineStyle({
-          ...imageStyle,
-          'background-image': `url(${config.image})`
-        }))
-        this.icon.textContent = ''
-      } else {
-        const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
-        this.icon.setAttribute('style', inlineStyle({
-          ...iconStyle,
-          ...(config.icon === 'none' ? { 'display': 'none' } : {})
-        }))
-        this.icon.textContent = config.icon === 'loading' ? '' : ''
-      }
+      this.icon.setAttribute('style', inlineStyle({
+        ...imageStyle,
+        'background-image': `url(${config.image})`
+      }))
+      this.icon.textContent = ''
     } else {
       if (!config.image && config.icon) {
         const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
