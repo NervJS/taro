@@ -90,6 +90,13 @@ function processApis (taro) {
   const preloadPrivateKey = '__preload_'
   const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
+    if (!(key in wx)) {
+      taro[key] = () => {
+        console.warn(`微信小程序暂不支持 ${key}`)
+      }
+      return
+    }
+
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         options = options || {}

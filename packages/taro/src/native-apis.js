@@ -270,6 +270,7 @@ const otherApis = {
   logoClassify: true,
   animalClassify: true,
   plantClassify: true,
+  setPageInfo: true,
 
   // 用户信息
   getSwanId: true,
