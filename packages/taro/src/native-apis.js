@@ -77,6 +77,7 @@ const noPromiseApis = {
   hideNavigationBarLoading: true,
   createAnimation: true,
   createSelectorQuery: true,
+  createOffscreenCanvas: true,
   createCanvasContext: true,
   // createContext: true,
   drawCanvas: true,

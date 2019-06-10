@@ -4916,11 +4916,11 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 获取屏幕亮度。
-   * 
+   *
    * **Bug & Tip：**
    *
    * 1. `tip`: `getScreenBrightness` 接口若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
-   * 
+   *
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html
    */
   function getScreenBrightness(OBJECT?: getScreenBrightness.Param): Promise<getScreenBrightness.Promised>
@@ -4947,7 +4947,7 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `tip`：`vibrateShort` 接口仅在 iPhone7/iPhone7Plus 及 Android 机型生效
-   * 
+   *
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/vibrate/wx.vibrateShort.html
    */
   function vibrateShort(OBJECT?: vibrateShort.Param): Promise<any>
@@ -8087,6 +8087,13 @@ declare namespace Taro {
   function pageScrollTo(OBJECT: pageScrollTo.Param): void
 
   /**
+   * @since 微信小程序 2.7.0
+   *
+   * 创建离屏 canvas 实例
+   */
+  function createOffscreenCanvas(): OffscreenCanvas
+
+  /**
    *
    * **定义：**
    *
@@ -10127,6 +10134,15 @@ declare namespace Taro {
    */
   function setEnableDebug(OBJECT: setEnableDebug.Param): Promise<setEnableDebug.Promised>
 
+  interface OffscreenCanvas {
+    /**
+     *
+     * @param contextType
+     *
+     * 该方法返回 OffscreenCanvas 的绘图上下文
+     */
+    getContext(contextType: string): any
+  }
   namespace CanvasContext {
     namespace draw { type Param1 = () => any }
   }
