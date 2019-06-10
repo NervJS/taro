@@ -99,4 +99,23 @@ class LoginStatus extends Component {
 
 在 JSX 条件渲染的模式和 JavaScript 差不多，你可以根据团队的习惯选择更易读的方式。但当条件变得过于复杂，可能就是提取元素抽象成组件的好时机了。
 
+### 枚举条件渲染
 
+有时渲染的条件非常多，不管是 `if-else` 还是 `switch-case` 来做条件渲染都会显得太麻烦。这时我们可以使用「表驱动法」：枚举渲染。
+
+```jsx
+function Loading (props) {
+  const { loadingText, LOADING_STATUS, loadingStatus, onRetry } = props
+  return (
+    <View className='loading-status'>
+      {
+        {
+          'loading': loadingText,
+          'fail': <View onClick={onRetry}> 加载失败, 点击重试 </View>,
+          'no-more': '没有更多了'
+        }[loadingStatus] /** loadingStatus 是 `loading`、`fail`、`no-more`  其中一种状态 **/
+      }
+    </View>
+  )
+}
+```
