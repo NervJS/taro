@@ -7,7 +7,7 @@ class Component extends React.Component {
   constructor (props, context) {
     super(props, context)
     if (props.navigation) {
-      this.$router = {params: props.navigation.state.params || {}, path: props.navigation.routeName ? ('/' + props.navigation.routeName) : null}
+      this.$router = {params: props.navigation.state.params || {}, path: props.navigation.state.routeName ? ('/' + props.navigation.state.routeName) : null}
     }
   }
 
@@ -25,7 +25,7 @@ class PureComponent extends React.PureComponent {
   constructor (props, context) {
     super(props, context)
     if (props.navigation) {
-      this.$router = {params: props.navigation.state.params || {}, path: props.navigation.routeName ? ('/' + props.navigation.routeName) : null}
+      this.$router = {params: props.navigation.state.params || {}, path: props.navigation.state.routeName ? ('/' + props.navigation.state.routeName) : null}
     }
   }
 
