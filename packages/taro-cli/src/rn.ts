@@ -193,8 +193,8 @@ class Compiler {
         })
         .on('end', () => {
           if (!this.hasJDReactOutput) {
-              this.initProjectFile()
-              resolve()
+            this.initProjectFile()
+            resolve()
           } else {
             resolve()
           }
@@ -278,7 +278,7 @@ function hasRNDep (appPath) {
   return Boolean(pkgJson.dependencies['react-native'])
 }
 
-function  updatePkgJson (appPath) {
+function updatePkgJson (appPath) {
   const version = Util.getPkgVersion()
   const RNDep = `{
     "@tarojs/components-rn": "^${version}",
@@ -294,11 +294,11 @@ function  updatePkgJson (appPath) {
   return new Promise((resolve, reject) => {
     const pkgJson = require(path.join(appPath, 'package.json'))
     // 未安装 RN 依赖,则更新 pkgjson,并重新安装依赖
-    if (!this.hasRNDep()) {
+    if (!hasRNDep(appPath)) {
       pkgJson.dependencies = Object.assign({}, pkgJson.dependencies, JSON.parse(RNDep.replace(/(\r\n|\n|\r|\s+)/gm, '')))
       fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(pkgJson, null, 2))
       Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
-      installDep(this.appPath).then(() => {
+      installDep(appPath).then(() => {
         resolve()
       })
     } else {
@@ -306,7 +306,6 @@ function  updatePkgJson (appPath) {
     }
   })
 }
-
 
 function installDep (path: string) {
   return new Promise((resolve, reject) => {
@@ -341,7 +340,7 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()
 
-  if(!hasRNDep(appPath)){
+  if (!hasRNDep(appPath)) {
     await updatePkgJson(appPath)
   }
   try {
