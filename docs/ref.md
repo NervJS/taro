@@ -69,3 +69,38 @@ class Cat extends Component {
   }
 }
 ```
+
+### 通过 `createRef` 创建 ref
+
+> 自 v1.3.0-beta.0 起 支持
+
+Refs 还是使用 `Taro.createRef()` 创建的，并通过 ref 属性附加到 Taro 元素。在构造组件时，通常将 Refs 分配给实例属性，以便可以在整个组件中引用它们。
+
+当 ref 被传递给 `render` 中的元素时，对该节点的引用可以在 ref 的 `current` 属性中被访问。
+
+
+```jsx
+class MyComponent extends Component {
+
+  this.cat = Taro.createRef()
+
+  roar () {
+    // 会打印 `miao, miao, miao~`
+    this.cat.current.miao()
+  }
+
+  render () {
+    return <Cat ref={this.cat} />
+  }
+}
+
+class Cat extends Component {
+  miao () {
+    console.log('miao, miao, miao~')
+  }
+
+  render () {
+    return <View />
+  }
+}
+```
