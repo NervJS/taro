@@ -1,5 +1,28 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.0-beta.8...v) (2019-06-09)
+# [](https://github.com/NervJS/taro/compare/v1.3.0...v) (2019-06-11)
+
+
+
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/NervJS/taro/compare/v1.3.0-beta.8...v1.3.0) (2019-06-11)
+
+
+### Bug Fixes
+
+* **cli:** rn cli path resolve error ([c409856](https://github.com/NervJS/taro/commit/c409856))
+* **cli:** 修复 taro convert 报错问题 ([d9b3d0c](https://github.com/NervJS/taro/commit/d9b3d0c))
+* **h5:** 修复showLoading显示上一个showToast内容的问题, fix [#3367](https://github.com/NervJS/taro/issues/3367) ([897c2eb](https://github.com/NervJS/taro/commit/897c2eb))
+* **mobx:** close [#3218](https://github.com/NervJS/taro/issues/3218) ([c2e08c4](https://github.com/NervJS/taro/commit/c2e08c4))
+* **taro:** 添加百度 setPageInfo api, close [#3206](https://github.com/NervJS/taro/issues/3206) ([2ef11ff](https://github.com/NervJS/taro/commit/2ef11ff))
+* **taro-h5:** 去掉 es6 方法调用 ([3282707](https://github.com/NervJS/taro/commit/3282707))
+
+
+### Features
+
+* **plugin-sass:** 支持通过设置 plugin.sass.data 配置来设置全局 sass 变量，close [#3314](https://github.com/NervJS/taro/issues/3314) ([4bf27b2](https://github.com/NervJS/taro/commit/4bf27b2))
+* **rn:** 去掉 .rn_temp 下面的 node_modules ([38a55fa](https://github.com/NervJS/taro/commit/38a55fa))
+* **taro:** 补充 Taro.createOffscreenCanvas API，close [#3281](https://github.com/NervJS/taro/issues/3281) ([cb8b4ee](https://github.com/NervJS/taro/commit/cb8b4ee))
+* **transformer:** 支持 Editor 组件, close [#3373](https://github.com/NervJS/taro/issues/3373) ([104b021](https://github.com/NervJS/taro/commit/104b021))
 
 
 
