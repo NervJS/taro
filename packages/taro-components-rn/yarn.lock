@@ -7,10 +7,10 @@
   resolved "http://registry.npm.taobao.org/@ant-design/icons-react-native/download/@ant-design/icons-react-native-1.0.2.tgz#28648eacb808a1fae0ad59d691bbb472a6ffc26e"
   integrity sha1-KGSOrLgIofrgrVnWkbu0cqb/wm4=
 
-"@ant-design/react-native@^3.1.4":
-  version "3.1.5"
-  resolved "http://registry.npm.taobao.org/@ant-design/react-native/download/@ant-design/react-native-3.1.5.tgz#2b19d28b2dfef42be9007833ce0a864243987daf"
-  integrity sha1-KxnSiy3+9CvpAHgzzgqGQkOYfa8=
+"@ant-design/react-native@^3.1.8":
+  version "3.1.8"
+  resolved "https://registry.npm.taobao.org/@ant-design/react-native/download/@ant-design/react-native-3.1.8.tgz#a1584abffe231218313e9d81f483562b54206723"
+  integrity sha1-oVhKv/4jEhgxPp2B9INWK1QgZyM=
   dependencies:
     "@ant-design/icons-react-native" "^1.0.2"
     "@bang88/react-native-drawer-layout" "^2.0.3"

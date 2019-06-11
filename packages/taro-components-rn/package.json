@@ -28,7 +28,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@ant-design/react-native": "^3.1.4",
+    "@ant-design/react-native": "^3.1.8",
     "@nart/react-native-swiper": "^1.5.13",
     "prop-types": "^15.6.2",
     "react-dom": "^16.4.0",
