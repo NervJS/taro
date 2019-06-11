@@ -28,7 +28,6 @@
 
 - [x] RN 端接入京东 JDReact SDK 调研
 - [x] Taro 转 JDReact CLI 改造
-- [ ] 产出 Demo，在内部业务使用（3月底）
+- [x] 产出 Demo，在内部业务使用（5月底）
 - [ ] 组件/API 对齐
-- [ ] 开放（4月中）
 
