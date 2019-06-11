@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+
+const Page = require('../dist/create/page').default
+program
+  .option('--name [name]', '名称')
+  .option('--description [description]', '介绍')
+  .parse(process.argv)
+
+const args = program.args
+const { name, description } = program
+
+const type = args[0] || 'page'
+const resultName = args[1] || name
+if (type === 'page') {
+  const page = new Page({
+    name: resultName,
+    projectDir: process.cwd(),
+    description
+  })
+
+  page.create()
+}
+

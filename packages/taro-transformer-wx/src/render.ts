@@ -59,6 +59,7 @@ import { transformOptions, buildBabelTransformOptions } from './options'
 import generate from 'babel-generator'
 import { LoopRef } from './interface'
 import { isTestEnv } from './env'
+import { Status } from './functional'
 const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
@@ -121,7 +122,7 @@ export class RenderParser {
   private loopComponents = new Map<NodePath<t.CallExpression>, NodePath<t.JSXElement>>()
   private loopComponentNames = new Map<NodePath<t.CallExpression>, string>()
   private loopRefIdentifiers = new Map<string, NodePath<t.CallExpression>>()
-  private reserveStateWords = new Set(['state', 'props'])
+  private reserveStateWords = new Set(Status.isSFC ? [] : ['state', 'props'])
   private topLevelIfStatement = new Set<NodePath<t.IfStatement>>()
   private usedEvents = new Set<string>()
   private customComponentNames: Set<string>
@@ -130,7 +131,7 @@ export class RenderParser {
   private incrementCalleeId = isTestEnv ? incrementId() : incrementCalleeId
   private loopArrayId = isTestEnv ? incrementId() : incrementLoopArrayId
   private classComputedState = new Set<string>()
-  private propsSettingExpressions = new Map<t.BlockStatement, () => t.ExpressionStatement>()
+  private propsSettingExpressions = new Map<t.BlockStatement, (() => t.ExpressionStatement)[]>()
   private genCompidExprs = new Set<t.VariableDeclaration>()
   private loopCallees = new Set<t.Node>()
   private loopIfStemComponentMap = new Map<NodePath<t.CallExpression>, t.JSXElement>()
@@ -1031,7 +1032,9 @@ export class RenderParser {
           blockStem = blockStatement.node
         }
       }
-      this.propsSettingExpressions.set(blockStem, () => t.expressionStatement(expr))
+      const funcs = this.propsSettingExpressions.get(blockStem)
+      const func = () => t.expressionStatement(expr)
+      this.propsSettingExpressions.set(blockStem, funcs ? [...funcs, func] : [func])
 
       // xml 中打上组件 ID
       setJSXAttr(jsxElementPath.node, 'compid', t.jSXExpressionContainer(variableName))
@@ -2067,6 +2070,9 @@ export class RenderParser {
       }
       this.finalReturnElement.openingElement.attributes.push(...attrs)
     }
+    if (!this.finalReturnElement) {
+      throw codeFrameError(this.renderPath.node, '没有找到返回的 JSX 元素，你是不是忘记 return 了？')
+    }
     this.outputTemplate = parseJSXElement(this.finalReturnElement, true)
     if (!this.isDefaultRender) {
       this.outputTemplate = `<template name="${this.renderMethodName}">${this.outputTemplate}</template>`
@@ -2261,8 +2267,8 @@ export class RenderParser {
         })
       )
     )
-    this.propsSettingExpressions.forEach((expr, stem) => {
-      stem.body.push(expr())
+    this.propsSettingExpressions.forEach((exprs, stem) => {
+      stem.body.push(...exprs.map(e => e()))
     })
     this.renderPath.node.body.body.unshift(...Array.from(this.genCompidExprs))
     if (this.isDefaultRender) {

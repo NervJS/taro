@@ -14,7 +14,8 @@ import {
   incrementId,
   isContainStopPropagation,
   isDerivedFromProps,
-  findFirstIdentifierFromMemberExpression
+  findFirstIdentifierFromMemberExpression,
+  getSuperClassPath
 } from './utils'
 import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT_Component_SET_COPY, FN_PREFIX, CLASS_COMPONENT_UID, CONTEXT_PROVIDER } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
@@ -119,6 +120,7 @@ class Transformer {
   private refs: Ref[] = []
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
   private anonymousFuncCounter = incrementId()
+  private importJSXs = new Set<String>()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -472,6 +474,13 @@ class Transformer {
                     const { object, property } = callee.node
                     if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
                       const propName = property.name
+                      if (!self.methods.has(propName)) {
+                        const o = getSuperClassPath(self.classPath)
+                        if (o) {
+                          const p = o.resolvePath.endsWith('.js') ? o.resolvePath.slice(0, o.resolvePath.length - 3) : o.resolvePath
+                          self.importJSXs.add(`<import src="${p + '.wxml'}"/>`)
+                        }
+                      }
                       self.renameJSXClassFunc(propName, methodName, callPath, args)
                     }
                   }
@@ -1002,6 +1011,11 @@ class Transformer {
   }
 
   parseRender () {
+    if (this.importJSXs.size) {
+      this.importJSXs.forEach(s => {
+        this.result.template += s + '\n'
+      })
+    }
     if (this.renderJSX.size) {
       this.renderJSX.forEach((method, methodName) => {
         this.result.template = this.result.template

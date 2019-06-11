@@ -60,7 +60,7 @@ export function chooseVideo (options) {
   TaroMouseEvents.initEvent('click', true, true)
   taroChooseVideo.dispatchEvent(TaroMouseEvents)
   taroChooseVideo.onchange = function (e) {
-    let arr = Array.from(e.target.files)
+    let arr = [...e.target.files]
     arr && arr.forEach(item => {
       let blob = new Blob([item])
       let url = URL.createObjectURL(blob)

@@ -5,7 +5,7 @@ import * as editor from 'mem-fs-editor'
 
 import {
   getRootPath
-} from './util'
+} from '../util'
 
 interface IFile {
   contents: Buffer | NodeJS.ReadableStream | null,

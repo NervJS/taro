@@ -30,7 +30,7 @@ import {
   IMINI_APP_FILE_TYPE
 } from '../util/constants'
 import { generateMinimalEscapeCode } from '../util/astConvert'
-import Creator from '../creator'
+import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
 import { IPrettierConfig } from '../util/types'
 import { analyzeImportUrl } from './helper'
@@ -465,7 +465,7 @@ export default class Convertor {
 
   generateTabBarIcon (tabBar: TabBar) {
     const { list = [] } = tabBar
-    const icons = new Set()
+    const icons = new Set<string>()
     if (Array.isArray(list) && list.length) {
       list.forEach(item => {
         if (typeof item.iconPath === 'string') icons.add(item.iconPath)
@@ -493,7 +493,7 @@ export default class Convertor {
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
 
       try {
-        const depComponents = new Set()
+        const depComponents = new Set<IComponent>()
         if (!fs.existsSync(pageJSPath)) {
           throw new Error(`页面 ${page} 没有 JS 文件！`)
         }
@@ -573,7 +573,7 @@ export default class Convertor {
 
       try {
         const param: ITaroizeOptions = {}
-        const depComponents = new Set()
+        const depComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
           throw new Error(`组件 ${component} 没有 JS 文件！`)
         }
@@ -684,7 +684,8 @@ export default class Convertor {
       projectName,
       version,
       css: 'sass',
-      typescript: false
+      typescript: false,
+      template: templateName
     })
     creator.template(templateName, path.join('config', 'index'), path.join(configDir, 'index.js'), {
       date,

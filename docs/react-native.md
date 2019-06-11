@@ -373,7 +373,7 @@ app.json 字段的配置默认取自于 package.json 的 name 字段，除非你
 $ react-native run-android
 ```
 
-iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
+Android 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
 
 ```sh
  BUNDLE  [android, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), done.

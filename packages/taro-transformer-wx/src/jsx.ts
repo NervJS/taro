@@ -241,7 +241,11 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
                 value = code
               }
             } else {
+              const isTemplateData = isJSXMetHod && name === 'data'
               value = isBindEvent || isAlipayOrQuickappEvent ? code : `{{${isJSXMetHod && name === 'data' ? '...' : ''}${code}}}`
+              if (isTemplateData && Adapters.swan === Adapter.type) {
+                value = `{${value}}`
+              }
             }
           }
           if (Adapter.type === Adapters.swan && name === Adapter.for) {

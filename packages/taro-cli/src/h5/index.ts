@@ -768,6 +768,8 @@ class Compiler {
     let importTaroComponentNode: t.ImportDeclaration
     let importNervNode: t.ImportDeclaration
     let importTaroNode: t.ImportDeclaration
+    let renderClassMethodNode: t.ClassMethod
+
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
 
     ast = babel.transformFromAst(ast, '', {
@@ -1002,6 +1004,7 @@ class Compiler {
             hasOnPullDownRefresh = true
           } else if (keyName === 'render') {
             renderReturnStatementPaths.length = 0
+            renderClassMethodNode = node
             astPath.traverse({
               ReturnStatement: {
                 exit (returnAstPath: NodePath<t.ReturnStatement>) {
@@ -1097,7 +1100,11 @@ class Compiler {
                 )
               )
             }
-            renderReturnStatementPaths.forEach(returnAstPath => {
+            const returnStatement = renderReturnStatementPaths.filter(renderReturnStatementPath => {
+              const funcParentPath: NodePath = renderReturnStatementPath.getFunctionParent()
+              return funcParentPath.node === renderClassMethodNode
+            })
+            returnStatement.forEach(returnAstPath => {
               const statement = returnAstPath.node
               const varName = returnAstPath.scope.generateUid()
               const returnValue = statement.argument
@@ -1137,13 +1144,13 @@ class Compiler {
   }
 
   processFiles (filePath) {
-    const sourcePath = this.sourcePath
+    const sourceRoot = this.sourceRoot
     const tempDir = this.tempDir
 
     const file = fs.readFileSync(filePath)
     const dirname = path.dirname(filePath)
     const extname = path.extname(filePath)
-    const distDirname = dirname.replace(sourcePath, tempDir)
+    const distDirname = dirname.replace(sourceRoot, tempDir)
     const isScriptFile = REG_SCRIPTS.test(extname)
     const distPath = this.getDist(filePath, isScriptFile)
 
@@ -1173,11 +1180,11 @@ class Compiler {
   }
 
   getDist (filename, isScriptFile) {
-    const sourcePath = this.sourcePath
+    const sourceRoot = this.sourceRoot
     const tempDir = this.tempDir
 
     const dirname = path.dirname(filename)
-    const distDirname = dirname.replace(sourcePath, tempDir)
+    const distDirname = dirname.replace(sourceRoot, tempDir)
     return isScriptFile
       ? path.format({
         dir: distDirname,

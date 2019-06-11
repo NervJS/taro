@@ -90,6 +90,13 @@ function processApis (taro) {
   const preloadPrivateKey = '__preload_'
   const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
+    if (!(key in wx)) {
+      taro[key] = () => {
+        console.warn(`微信小程序暂不支持 ${key}`)
+      }
+      return
+    }
+
     if (!onAndSyncApis[key] && !noPromiseApis[key]) {
       taro[key] = (options, ...args) => {
         options = options || {}
@@ -112,8 +119,10 @@ function processApis (taro) {
             if (component.componentWillPreload) {
               const cacheKey = getUniqueKey()
               const MarkIndex = obj.url.indexOf('?')
-              const params = queryToJson(obj.url.substring(MarkIndex + 1, obj.url.length))
-              obj.url += (MarkIndex > -1 ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
+              const hasMark = MarkIndex > -1
+              const urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : ''
+              const params = queryToJson(urlQueryStr)
+              obj.url += (hasMark ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
               cacheDataSet(cacheKey, component.componentWillPreload(params))
               cacheDataSet(preloadInitedComponent, component)
             }
@@ -123,9 +132,11 @@ function processApis (taro) {
         if (useDataCacheApis[key]) {
           const url = obj['url'] = obj['url'] || ''
           const MarkIndex = url.indexOf('?')
-          const params = queryToJson(url.substring(MarkIndex + 1, url.length))
+          const hasMark = MarkIndex > -1
+          const urlQueryStr = hasMark ? url.substring(MarkIndex + 1, url.length) : ''
+          const params = queryToJson(urlQueryStr)
           const cacheKey = getUniqueKey()
-          obj.url += (MarkIndex > -1 ? '&' : '?') + `${routerParamsPrivateKey}=${cacheKey}`
+          obj.url += (hasMark ? '&' : '?') + `${routerParamsPrivateKey}=${cacheKey}`
           cacheDataSet(cacheKey, params)
         }
 

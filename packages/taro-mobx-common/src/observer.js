@@ -44,19 +44,19 @@ export function observer (Component, renderMedthod) {
 
   const target = ObserverComponent.prototype
   const originRender = target[renderMedthod]
-  target[renderMedthod] = function () {
+  target[renderMedthod] = function (...args) {
     let result
     let exception
     if (this._reaction && this._reaction instanceof Reaction) {
       this._reaction.track(() => {
         try {
-          result = _allowStateChanges(false, originRender.bind(this))
+          result = _allowStateChanges(false, () => originRender.call(this, null, null, args[2]))
         } catch (e) {
           exception = e
         }
       })
     } else {
-      result = originRender.call(this)
+      result = originRender.call(this, null, null, args[2])
     }
     if (exception) {
       errorsReporter.emit(exception)

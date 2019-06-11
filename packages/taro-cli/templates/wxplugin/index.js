@@ -4,7 +4,51 @@ const chalk = require('chalk')
 const { exec } = require('child_process')
 const ora = require('ora')
 
-module.exports = function (creater, params, helper, cb) {
+const styleExtMap = {
+  sass: 'scss',
+  less: 'less',
+  stylus: 'styl',
+  none: 'css'
+}
+
+exports.createPage = function (creater, params, cb) {
+  const { page, projectDir, src, template, typescript, css } = params
+  let pageCSSName
+  const sourceDir = path.join(projectDir, src)
+  const currentStyleExt = styleExtMap[css] || 'css'
+  switch (css) {
+    case 'sass':
+      pageCSSName = `${page}.scss`
+      break
+    case 'less':
+      pageCSSName = `${page}.less`
+      break
+    case 'stylus':
+      pageCSSName = `${page}.styl`
+      break
+    default:
+      pageCSSName = `${page}.css`
+      break
+  }
+  creater.template(template, 'scss', path.join(sourceDir, 'pages', page, pageCSSName))
+  if (typescript) {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.tsx`), {
+      css: currentStyleExt,
+      typescript: true
+    })
+  } else {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.js`), {
+      css: currentStyleExt
+    })
+  }
+  creater.fs.commit(() => {
+    if (typeof cb === 'function') {
+      cb()
+    }
+  })
+}
+
+exports.createApp = function (creater, params, helper, cb) {
   const { projectName, projectDir, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const projectPath = path.join(projectDir, projectName)
@@ -20,13 +64,9 @@ module.exports = function (creater, params, helper, cb) {
   let avatarCSSName
   let listCSSName
   let listItemCSSName
-  const styleExtMap = {
-    sass: 'scss',
-    less: 'less',
-    stylus: 'styl',
-    none: 'css'
-  }
+
   const currentStyleExt = styleExtMap[css] || 'css'
+  params.page = 'index'
 
   fs.mkdirSync(projectPath)
   fs.mkdirSync(sourceDir)
@@ -38,7 +78,8 @@ module.exports = function (creater, params, helper, cb) {
     projectName,
     version,
     css,
-    typescript
+    typescript,
+    template
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
@@ -92,7 +133,6 @@ module.exports = function (creater, params, helper, cb) {
       break
   }
   creater.template(template, 'scss', path.join(sourceDir, appCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
   creater.template(template, 'scss', path.join(sourceDir, 'plugin', 'components', 'avatar', avatarCSSName))
   creater.template(template, 'scss', path.join(sourceDir, 'plugin', 'components', 'listItem', listItemCSSName))
   creater.template(template, 'scss', path.join(sourceDir, 'plugin', 'pages', 'list', listCSSName))
@@ -103,10 +143,6 @@ module.exports = function (creater, params, helper, cb) {
   creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
-      css: currentStyleExt,
-      typescript: true
-    })
     creater.template(template, 'avatarjs', path.join(sourceDir, 'plugin', 'components', 'avatar', 'avatar.tsx'), {
       css: currentStyleExt,
       typescript: true
@@ -124,9 +160,6 @@ module.exports = function (creater, params, helper, cb) {
       typescript: true
     })
   } else {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
-      css: currentStyleExt
-    })
     creater.template(template, 'avatarjs', path.join(sourceDir, 'plugin', 'components', 'avatar', 'avatar.js'), {
       css: currentStyleExt
     })
@@ -139,6 +172,14 @@ module.exports = function (creater, params, helper, cb) {
     creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.js'))
     creater.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'))
   }
+  exports.createPage(creater, {
+    page: 'index',
+    projectDir: projectPath,
+    src,
+    template,
+    typescript,
+    css
+  })
   creater.template(template, 'jpeg', path.join(sourceDir, 'plugin', 'doc', 'example.jpeg'))
   creater.template(template, 'plugindoc', path.join(sourceDir, 'plugin', 'doc', 'README.md'))
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))

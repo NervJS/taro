@@ -77,6 +77,7 @@ const noPromiseApis = {
   hideNavigationBarLoading: true,
   createAnimation: true,
   createSelectorQuery: true,
+  createOffscreenCanvas: true,
   createCanvasContext: true,
   // createContext: true,
   drawCanvas: true,
@@ -270,6 +271,7 @@ const otherApis = {
   logoClassify: true,
   animalClassify: true,
   plantClassify: true,
+  setPageInfo: true,
 
   // 用户信息
   getSwanId: true,

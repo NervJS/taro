@@ -211,6 +211,7 @@ class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
       style,
       scrollX,
       enableBackToTop,
+      contentContainerStyle,
     } = this.props
 
     const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
@@ -218,10 +219,10 @@ class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
       'alignItems',
       'justifyContent'
     ])
-    const contentContainerStyle: ViewStyle & { [key: string]: any } = {}
+    const _contentContainerStyle: ViewStyle & { [key: string]: any } = {}
     if (flattenStyle) {
-      flattenStyle.alignItems && (contentContainerStyle.alignItems = flattenStyle.alignItems)
-      flattenStyle.justifyContent && (contentContainerStyle.justifyContent = flattenStyle.justifyContent)
+      flattenStyle.alignItems && (_contentContainerStyle.alignItems = flattenStyle.alignItems)
+      flattenStyle.justifyContent && (_contentContainerStyle.justifyContent = flattenStyle.justifyContent)
     }
 
     return (
@@ -232,11 +233,37 @@ class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
         onScroll={this._onScroll}
         onScrollEndDrag={this._onScrollEndDrag}
         onMomentumScrollEnd={this._onMomentumScrollEnd}
-        ref={this.$scrollView}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
         style={wrapperStyle}
-        contentContainerStyle={contentContainerStyle}
+        contentContainerStyle={[_contentContainerStyle, contentContainerStyle]}
+        {...omit(this.props, [
+          // props
+          'style',
+          'scrollX',
+          'upperThreshold',
+          'lowerThreshold',
+          'scrollTop',
+          'scrollLeft',
+          'scrollWithAnimation',
+          'enableBackToTop',
+          'onScrollToUpper',
+          'onScrollToLower',
+          'onScroll',
+          'contentContainerStyle',
+          // SProps
+          'horizontal',
+          'onContentSizeChange',
+          'onLayout',
+          'onScroll',
+          'onScrollEndDrag',
+          'onMomentumScrollEnd',
+          'scrollEventThrottle',
+          'scrollsToTop',
+          'style',
+          'contentContainerStyle'
+        ])}
+        ref={this.$scrollView}
       >
         {children}
       </ScrollView>

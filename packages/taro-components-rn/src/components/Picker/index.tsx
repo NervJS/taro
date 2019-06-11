@@ -24,6 +24,8 @@
  * Region:
  *   ✔ customItem
  *   ✔ disabled
+ *
+ * @hint Picker 里面嵌套的子组件要支持绑定 onPress 事件才能弹出选择框
  */
 
 import * as React from 'react'
