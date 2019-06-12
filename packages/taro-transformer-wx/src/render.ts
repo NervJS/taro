@@ -1410,6 +1410,23 @@ export class RenderParser {
           }
         }
       }
+
+      if (t.isThisExpression(object) && t.isIdentifier(property)) {
+        const s = new Set(['state', 'props'])
+        if (s.has(property.name) && path.parentPath.isMemberExpression()) {
+          const p = path.parentPath.node.property
+          let id = { name: 'example' }
+          if (t.isIdentifier(p)) {
+            id = p
+          } else if (t.isMemberExpression(p)) {
+            id = findFirstIdentifierFromMemberExpression(p)
+          }
+          // tslint:disable-next-line: no-console
+          console.warn(codeFrameError(path.parentPath.node,
+            `\n 在形如以 render 开头的 ${this.renderMethodName}() 类函数中，请先把 this.${property.name} 解构出来才进行使用。\n 例如： const { ${id.name} } = this.${property.name}`).message
+          )
+        }
+      }
     },
     VariableDeclarator: (path) => {
       const init = path.get('init')
@@ -1527,6 +1544,12 @@ export class RenderParser {
       throw codeFrameError(error.loc, 'render 函数顶级作用域暂时只支持一个 return')
     }
 
+    if (t.isIdentifier(this.renderPath.node.key)) {
+      this.renderMethodName = this.renderPath.node.key.name
+    } else {
+      throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
+    }
+
     renderBody.traverse(this.loopComponentVisitor)
     if (this.hasNoReturnLoopStem) {
       renderBody.traverse({
@@ -1543,10 +1566,7 @@ export class RenderParser {
     }
 
     if (t.isIdentifier(this.renderPath.node.key)) {
-      this.renderMethodName = this.renderPath.node.key.name
       this.renderPath.node.key.name = this.getCreateJSXMethodName(this.renderMethodName)
-    } else {
-      throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
     }
 
     this.setOutputTemplate()
