@@ -308,7 +308,9 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types'
+  '@tarojs/mobx-prop-types',
+  'nervjs',
+  'nerv-devtools'
 ]
 
 export enum PARSE_AST_TYPE {

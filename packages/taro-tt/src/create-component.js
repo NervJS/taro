@@ -77,7 +77,7 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventType = event.type.toLocaleLowerCase()
+    const eventType = event.type ? event.type.toLocaleLowerCase() : null
 
     if (event.detail && event.detail.__detail) Object.assign(dataset, event.detail.__detail)
 
