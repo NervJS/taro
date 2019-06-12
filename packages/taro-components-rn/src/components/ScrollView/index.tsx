@@ -3,6 +3,7 @@
  *
  * 注意事项：
  *   一般地，ScrollView 外面要套一个 View 并在这个 View 上设置高度，否则会出现 ScrollView 撑满外层出现不能滚动的假象
+ *   hack: scrollTop 在设置过一次后经过滚动再次设置时失效，因为 state 没变，所以这时可以通过设置一个比 0 小的值
  *
  * ✔ scrollX(scroll-x): Either-or
  * ✘ scrollY(scroll-y): Either-or

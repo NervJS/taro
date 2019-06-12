@@ -519,14 +519,6 @@
   resolved "http://registry.npm.taobao.org/@bang88/react-native-ultimate-listview/download/@bang88/react-native-ultimate-listview-3.3.0.tgz#b09199105b942aee4ae05729e4bd229353217ab6"
   integrity sha1-sJGZEFuUKu5K4Fcp5L0ik1MherY=
 
-"@nart/react-native-swiper@^1.5.13":
-  version "1.5.13"
-  resolved "http://registry.npm.taobao.org/@nart/react-native-swiper/download/@nart/react-native-swiper-1.5.13.tgz#293ac58edcb57afb37221a1f69dcfaf1251306de"
-  integrity sha1-KTrFjty1evs3Ihofadz68SUTBt4=
-  dependencies:
-    prop-types "^15.5.10"
-    react-native-vertical-view-pager "^0.1.1"
-
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2":
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/@sinonjs/commons/download/@sinonjs/commons-1.4.0.tgz#7b3ec2d96af481d7a0321252e7b1c94724ec5a78"
@@ -6654,10 +6646,12 @@ react-native-swipeout@^2.3.6:
     prop-types "^15.5.10"
     react-tween-state "^0.1.5"
 
-react-native-vertical-view-pager@^0.1.1:
-  version "0.1.1"
-  resolved "http://registry.npm.taobao.org/react-native-vertical-view-pager/download/react-native-vertical-view-pager-0.1.1.tgz#c9ad2f3eb936219ff21cabd6d5842468a5ddbee3"
-  integrity sha1-ya0vPrk2IZ/yHKvW1YQkaKXdvuM=
+react-native-swiper@^1.5.14:
+  version "1.5.14"
+  resolved "https://registry.npm.taobao.org/react-native-swiper/download/react-native-swiper-1.5.14.tgz#1c6f949ca377186300f972bb0f30d24062c899aa"
+  integrity sha1-HG+UnKN3GGMA+XK7DzDSQGLImao=
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native@0.55.4:
   version "0.55.4"

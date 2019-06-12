@@ -9,10 +9,10 @@ export default class EXSwiper extends Component {
           showsPagination={true}
           indicatorColor="white"
           indicatorActiveColor="purple"
-          autoplay={false}
+          autoplay={true}
           current={1}
           interval={6000}
-          circular={false}
+          circular={true}
           vertical={false}
           onChange={() => null}
           onAnimationFinish={() => null}

@@ -52,7 +52,7 @@ import {
   StyleSheet,
   ViewStyle
 } from 'react-native'
-import Swiper from '@nart/react-native-swiper/src'
+import Swiper from 'react-native-swiper'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
 
