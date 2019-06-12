@@ -140,7 +140,7 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
-  private ifStemRenamers = new Set<string>()
+  private ifStemRenamers = new Map<Scope, Map<string, string>>()
   private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
@@ -621,7 +621,14 @@ export class RenderParser {
             )
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-            this.ifStemRenamers.add(id.name)
+            const renamers = this.ifStemRenamers.get(blockStatement.scope)
+            if (renamers) {
+              renamers.set(id.name, newId.name)
+            } else {
+              const m = new Map()
+              m.set(id.name, newId.name)
+              this.ifStemRenamers.set(blockStatement.scope, m)
+            }
             blockStatement.scope.rename(id.name, newId.name)
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
@@ -2307,8 +2314,9 @@ export class RenderParser {
               if (t.isObjectMethod(p) || t.isSpreadProperty(p)) {
                 return p
               }
-              if (t.isIdentifier(p.value) && this.ifStemRenamers.has(p.value.name)) {
-                p.value = t.identifier('_$' + p.value.name)
+              const renamers = this.ifStemRenamers.get(path.scope)
+              if (t.isIdentifier(p.value) && renamers && renamers.has(p.value.name)) {
+                p.value = t.identifier(renamers.get(p.value.name)!)
               }
               return p
             })
