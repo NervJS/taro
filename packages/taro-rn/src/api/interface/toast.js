@@ -155,7 +155,7 @@ function showToast (options) {
     return successHandler(success, complete)(res)
   } catch (e) {
     res.errMsg = `showToast:fail invalid ${e}`
-    return errorHandler(success, complete)(res)
+    return errorHandler(fail, complete)(res)
   }
 }
 

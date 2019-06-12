@@ -91,6 +91,8 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
                   t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props')))
                 ])
               )
+            } else if (t.isAssignmentPattern(arg)) {
+              throw codeFrameError(arg, '给函数式组件的第一个参数设置默认参数是没有意义的，因为 props 永远都有值（不传 props 的时候是个空对象），所以默认参数永远都不会执行。')
             } else {
               throw codeFrameError(arg, '函数式组件只支持传入一个简单标识符或使用对象结构')
             }

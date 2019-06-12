@@ -139,7 +139,7 @@ class TaroProvider extends React.Component {
   wxGetCurrentPages () {
     let parentState = this.props.navigation.dangerouslyGetParent().state
     if (parentState && parentState.routes) {
-      return parentState.routes.map(item => item.routeName)
+      return parentState.routes.map(item => { return {route: item.routeName} })
     } else {
       return []
     }

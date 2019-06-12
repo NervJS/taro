@@ -1,7 +1,7 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
 import { isEmptyObject, isFunction } from './util'
-import { updateComponent } from './lifecycle'
+import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
 
@@ -216,7 +216,7 @@ function initComponent (isPage) {
     hasPageInited = true
   }
   if (hasPageInited || isPage) {
-    updateComponent(this.$component)
+    mountComponent(this.$component)
   }
 }
 
@@ -258,7 +258,20 @@ function createComponent (ComponentClass, isPage) {
           const data = cacheDataGet(PRELOAD_DATA_KEY, true)
           this.$component.$router.preload = data
         }
-        Object.assign(this.$component.$router.params, options)
+
+        // merge App router params
+        const app = getApp()
+        if (
+          app.$router &&
+          app.$router.params &&
+          app.$router.params.query &&
+          Object.keys(app.$router.params.query).length &&
+          getCurrentPages().length === 1
+        ) {
+          Object.assign(this.$component.$router.params, options, app.$router.params.query)
+        } else {
+          Object.assign(this.$component.$router.params, options)
+        }
         this.$component.$router.path = getCurrentPageUrl()
 
         // preload

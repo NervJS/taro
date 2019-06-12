@@ -107,6 +107,9 @@ class Popper extends Component {
 }
 ```
 
+> 注意：
+> 使用通过 `usingComponents` 的第三方组件不支持匿名函数
+
 ### 柯里化
 
 > 自 v1.3.0-beta.1 开始支持
@@ -135,6 +138,9 @@ class Title extends Component{
   }
  }
 ```
+
+> 注意：
+> 使用通过 `usingComponents` 的第三方组件不支持匿名函数
 
 ### 函数式组件
 

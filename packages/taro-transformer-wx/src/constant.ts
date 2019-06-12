@@ -46,7 +46,8 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Block',
   'Import',
   'OfficialAccount',
-  'Template'
+  'Template',
+  'Editor'
 ])
 
 // tslint:disable-next-line:variable-name

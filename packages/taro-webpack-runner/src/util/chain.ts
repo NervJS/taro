@@ -32,6 +32,7 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultBabelLoaderOption = {
+  babelrc: false,
   plugins: [
     require.resolve('babel-plugin-syntax-dynamic-import'),
     [

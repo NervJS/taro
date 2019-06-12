@@ -22,7 +22,7 @@ class RefreshProvider extends React.Component {
           ref={this._scrollView}
           contentContainerStyle={{minHeight: '100%'}}
           scrollEventThrottle={5}
-          alwaysBounceVertical={false}
+          alwaysBounceVertical
           onScroll={this.onScroll}
           refreshControl={
             enablePullDownRefresh

@@ -209,7 +209,7 @@ declare namespace Taro {
      *
    ```ts
    function expensive () { ... }
-  
+
    function Component () {
      const expensiveResult = useMemo(expensive, [expensive])
      return ...
@@ -296,14 +296,43 @@ declare namespace Taro {
     text: string
   }
 
+  type GetDerivedStateFromProps<P, S> =
+  /**
+   * Returns an update to a component's state based on its new props and old state.
+   *
+   * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
+   */
+  (nextProps: Readonly<P>, prevState: S) => Partial<S> | null;
+
+  interface StaticLifecycle<P, S> {
+    getDerivedStateFromProps?: GetDerivedStateFromProps<P, S>;
+  }
+
+  interface NewLifecycle<P, S, SS> {
+    /**
+     * Runs before React applies the result of `render` to the document, and
+     * returns an object to be given to componentDidUpdate. Useful for saving
+     * things such as scroll position before `render` causes changes to it.
+     *
+     * Note: the presence of getSnapshotBeforeUpdate prevents any of the deprecated
+     * lifecycle events from running.
+     */
+    getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null;
+    /**
+     * Called immediately after updating occurs. Not called for the initial render.
+     *
+     * The snapshot is only present if getSnapshotBeforeUpdate is present and returns non-null.
+     */
+    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void;
+}
+
   // Components
-  interface ComponentLifecycle<P, S> {
+  interface ComponentLifecycle<P, S, SS = any> extends NewLifecycle<P, S, SS> {
     componentWillMount?(): void
     componentDidMount?(): void
     componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
-    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, prevContext: any): void
     componentWillUnmount?(): void
     componentWillPreload?(params: { [propName: string]: any }): any
     componentDidShow?(): void
@@ -318,11 +347,11 @@ declare namespace Taro {
     onResize?(): void
   }
 
-  interface Component<P = {}, S = {}> extends ComponentLifecycle<P, S> {
+  interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
   }
 
-  interface ComponentClass<P = {}> {
+  interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
     new (...args: any[]): Component<P, {}>
     propTypes?: any
     defaultProps?: Partial<P>
@@ -421,7 +450,7 @@ declare namespace Taro {
      * 禁止页面右滑手势返回
      * default: false
      * @since 微信客户端 7.0.0
-     * 
+     *
      * **注意** 自微信客户端 7.0.5 开始，页面配置中的 disableSwipeBack 属性将不再生效，
      * 详情见[右滑手势返回能力调整](https://developers.weixin.qq.com/community/develop/doc/000868190489286620a8b27f156c01)公告
      */
@@ -1108,9 +1137,11 @@ declare namespace Taro {
     type ParamPropComplete = () => any
   }
   /**
-   * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data` 。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
+   * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data` 。
+   * **使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)**。
    *
-   * 如页面通过 [Taro.chooseImage](https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject) 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。
+   * 如页面通过 [Taro.chooseImage](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html)
+   * 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。
    *
    * **返回值：**
    *
@@ -1162,7 +1193,7 @@ declare namespace Taro {
    })
          uploadTask.abort() // 取消上传任务
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxuploadfileobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
    */
   function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
 
@@ -1238,7 +1269,8 @@ declare namespace Taro {
     }
   }
   /**
-   * 下载文件资源到本地，客户端直接发起一个 HTTP GET 请求，返回文件的本地临时路径。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
+   * 下载文件资源到本地，客户端直接发起一个 HTTP GET 请求，返回文件的本地临时路径。
+   * **使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)**。
    *
    * **返回值：**
    *
@@ -1284,7 +1316,7 @@ declare namespace Taro {
    })
          downloadTask.abort() // 取消下载任务
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-file.html#wxdownloadfileobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
    */
   function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
 
@@ -1313,9 +1345,10 @@ declare namespace Taro {
     }
   }
   /**
-   * 创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 连接。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/api-network.html)**。
+   * 创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 连接。
+   * **使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)**。
    *
-   * **基础库 1.7.0 之前，一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。基础库版本 1.7.0 及以后，支持存在多个 WebSokcet 连接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](https://developers.weixin.qq.com/miniprogram/dev/api/socket-task.html)。**
+   * **基础库 1.7.0 之前，一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。基础库版本 1.7.0 及以后，支持存在多个 WebSokcet 连接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/SocketTask.html)。**
    *
    * **示例代码：**
    *
@@ -1333,7 +1366,7 @@ declare namespace Taro {
      method:"GET"
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html
    */
   function connectSocket(OBJECT: connectSocket.Param): Promise<connectSocket.Promised>
 
@@ -1361,7 +1394,7 @@ declare namespace Taro {
      console.log('WebSocket连接已打开！')
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketopencallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketOpen.html
    */
   function onSocketOpen(callback?: onSocketOpen.Param): void
 
@@ -1381,7 +1414,7 @@ declare namespace Taro {
      console.log('WebSocket连接打开失败，请检查！')
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketerrorcallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketError.html
    */
   function onSocketError(CALLBACK: any): void
 
@@ -1394,7 +1427,7 @@ declare namespace Taro {
     }
   }
   /**
-   * 通过 WebSocket 连接发送数据，需要先 [Taro.connectSocket](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxconnectsocketobject)，并在 [Taro.onSocketOpen](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketopencallback) 回调之后才能发送。
+   * 通过 WebSocket 连接发送数据，需要先 [Taro.connectSocket](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html) 回调之后才能发送。
    *
    * **示例代码：**
    *
@@ -1421,7 +1454,7 @@ declare namespace Taro {
      }
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxsendsocketmessageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.sendSocketMessage.html
    */
   function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>
 
@@ -1447,7 +1480,7 @@ declare namespace Taro {
      console.log('收到服务器内容：' + res.data)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketmessagecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketMessage.html
    */
   function onSocketMessage<T = any>(CALLBACK?: onSocketMessage.Param<T>): void
 
@@ -1469,7 +1502,7 @@ declare namespace Taro {
   }
   /**
    * 关闭 WebSocket 连接。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxclosesocketobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.closeSocket.html
    */
   function closeSocket(OBJECT?: closeSocket.Param): Promise<any>
 
@@ -1480,7 +1513,7 @@ declare namespace Taro {
    *
    * @since 1.7.0
    *
-   * 返回一个 [SocketTask](https://developers.weixin.qq.com/miniprogram/dev/api/socket-task.html)。
+   * 返回一个 [SocketTask](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html)。
    *
    * **Bug & Tip：**
    *
@@ -1502,7 +1535,7 @@ declare namespace Taro {
      console.log('WebSocket 已关闭！')
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html#wxonsocketclosecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketClose.html
    */
   function onSocketClose(CALLBACK?: (res: any) => any): void
 
@@ -1597,7 +1630,7 @@ declare namespace Taro {
   /**
    * @since 1.7.0
    *
-   * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network-socket.html) 接口创建返回。
+   * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html) 接口创建返回。
    */
   class SocketTask {
     /**
@@ -1745,7 +1778,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxchooseimageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
    */
   function chooseImage(OBJECT?: chooseImage.Param): Promise<chooseImage.Promised>
 
@@ -1772,7 +1805,7 @@ declare namespace Taro {
      urls: [] // 需要预览的图片http链接列表
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxpreviewimageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
    */
   function previewImage(OBJECT: previewImage.Param): Promise<any>
 
@@ -1848,7 +1881,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxgetimageinfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html
    */
   function getImageInfo(OBJECT: getImageInfo.Param): Promise<getImageInfo.Promised>
 
@@ -1869,7 +1902,7 @@ declare namespace Taro {
   /**
    * @since 1.2.0
    *
-   * 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.writePhotosAlbum
+   * 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
    *
    * **示例代码：**
    *
@@ -1879,7 +1912,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-picture.html#wxsaveimagetophotosalbumobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
    */
   function saveImageToPhotosAlbum(OBJECT: saveImageToPhotosAlbum.Param): Promise<saveImageToPhotosAlbum.Promised>
 
@@ -1893,12 +1926,12 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html) 接口**
    *
    * 开始录音。当主动调用`Taro.stopRecord`，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.record
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstartrecordobject
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.record
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.startRecord.html
    */
   function startRecord(OBJECT?: startRecord.Param): Promise<startRecord.Promised>
 
@@ -1921,7 +1954,7 @@ declare namespace Taro {
      Taro.stopRecord()
    }, 10000)
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-record.html#wxstoprecord
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.stopRecord.html
    */
   function stopRecord(): void
 
@@ -1972,7 +2005,7 @@ declare namespace Taro {
    }
          recorderManager.start(options)
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/getRecorderManager.html#wxgetrecordermanager
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html
    */
   function getRecorderManager(): RecorderManager
 
@@ -2114,7 +2147,7 @@ declare namespace Taro {
     type ParamPropComplete = () => any
   }
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    *
    * 开始播放语音，同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
    *
@@ -2132,12 +2165,12 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxplayvoiceobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html
    */
   function playVoice(OBJECT: playVoice.Param): Promise<any>
 
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
    *
    * **示例代码：**
@@ -2156,12 +2189,12 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxpausevoice
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.pauseVoice.html
    */
   function pauseVoice(): void
 
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    * 结束播放语音。
    *
    * **示例代码：**
@@ -2179,7 +2212,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-voice.html#wxstopvoice
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html
    */
   function stopVoice(): void
 
@@ -2224,7 +2257,7 @@ declare namespace Taro {
    *
    * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
    *
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html
    */
   function setInnerAudioOption(OBJECT: setInnerAudioOption.Param): Promise<any>
 
@@ -2295,7 +2328,7 @@ declare namespace Taro {
    * @since 2.1.0
    * 获取当前支持的音频输入源。
    *
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setInnerAudioOption.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html
    */
   function getAvailableAudioSources(OBJECT: getAvailableAudioSources.Param): Promise<any>
 
@@ -2325,7 +2358,7 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html) 接口**
+   * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 接口**
    *
    * 获取后台音乐播放状态。
    *
@@ -2342,7 +2375,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxgetbackgroundaudioplayerstateobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioPlayerState.html
    */
   function getBackgroundAudioPlayerState(OBJECT?: getBackgroundAudioPlayerState.Param): Promise<getBackgroundAudioPlayerState.Promised>
 
@@ -2374,7 +2407,7 @@ declare namespace Taro {
        coverImgUrl: ''
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxplaybackgroundaudioobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html
    */
   function playBackgroundAudio(OBJECT: playBackgroundAudio.Param): Promise<any>
 
@@ -2388,7 +2421,7 @@ declare namespace Taro {
    ```javascript
    Taro.pauseBackgroundAudio()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxpausebackgroundaudio
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.pauseBackgroundAudio.html
    */
   function pauseBackgroundAudio(): void
 
@@ -2410,7 +2443,7 @@ declare namespace Taro {
        position: 30
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxseekbackgroundaudioobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.seekBackgroundAudio.html
    */
   function seekBackgroundAudio(OBJECT: seekBackgroundAudio.Param): Promise<any>
 
@@ -2424,19 +2457,19 @@ declare namespace Taro {
    ```javascript
    Taro.stopBackgroundAudio()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxstopbackgroundaudio
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.stopBackgroundAudio.html
    */
   function stopBackgroundAudio(): void
 
   /**
    * 监听音乐播放。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudioplaycallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPlay.html
    */
   function onBackgroundAudioPlay(CALLBACK: any): void
 
   /**
    * 监听音乐暂停。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudiopausecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPause.html
    */
   function onBackgroundAudioPause(CALLBACK: any): void
 
@@ -2446,7 +2479,7 @@ declare namespace Taro {
    * **bug & tip：**
    *
    * 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-background-audio.html#wxonbackgroundaudiostopcallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioStop.html
    */
   function onBackgroundAudioStop(CALLBACK: any): void
 
@@ -2475,7 +2508,7 @@ declare namespace Taro {
    backgroundAudioManager.coverImgUrl = 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000'
    backgroundAudioManager.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46' // 设置了 src 之后会自动播放
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/getBackgroundAudioManager.html#wxgetbackgroundaudiomanager
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html
    */
   function getBackgroundAudioManager(): BackgroundAudioManager
 
@@ -2596,7 +2629,7 @@ declare namespace Taro {
     onWaiting(callback?: () => void): void
   }
   /**
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html) 接口**
+   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    *
    * 创建并返回 audio 上下文 `audioContext` 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<audio/>` 组件
    *
@@ -2643,7 +2676,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-audio.html#wxcreateaudiocontextaudioid-this
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createAudioContext.html
    */
   function createAudioContext(audioId: string, instance?: any): AudioContext
 
@@ -2694,7 +2727,7 @@ declare namespace Taro {
        console.log(res.errCode)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/createInnerAudioContext.html#wxcreateinneraudiocontext
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html
    */
   function createInnerAudioContext(): InnerAudioContext
 
@@ -2941,7 +2974,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxchoosevideoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
    */
   function chooseVideo(OBJECT?: chooseVideo.Param): Promise<chooseVideo.Promised>
 
@@ -2962,7 +2995,7 @@ declare namespace Taro {
   /**
    * @since 1.2.0
    *
-   * 保存视频到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.writePhotosAlbum
+   * 保存视频到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
    *
    * **Bug & Tip：**
    *
@@ -2978,7 +3011,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media-video.html#wxsavevideotophotosalbumobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html
    */
   function saveVideoToPhotosAlbum(OBJECT: saveVideoToPhotosAlbum.Param): Promise<saveVideoToPhotosAlbum.Promised>
 
@@ -3029,7 +3062,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-video.html#wxcreatevideocontextvideoid-this
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.createVideoContext.html
    */
   function createVideoContext(videoId: any, instance?: any): VideoContext
 
@@ -3095,7 +3128,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    * [在开发者工具中预览效果](wechatide://minicode/VBZ3Jim26zYu)
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-camera.html#wxcreatecameracontextthis
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
    */
   function createCameraContext(instance?: any): CameraContext
 
@@ -3219,7 +3252,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    * [在开发者工具中预览效果](wechatide://minicode/UzWEzmm763Y4)
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-live-player.html#wxcreateliveplayercontextdomid-this
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePlayerContext.html
    */
   function createLivePlayerContext(domId: any, instance?: any): LivePlayerContext
 
@@ -3467,7 +3500,7 @@ declare namespace Taro {
    * **示例代码：**
    *
    * [在开发者工具中预览效果](wechatide://minicode/KvWD9mmA62Yk)
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-live-pusher.html#wxcreatelivepushercontext
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePusherContext.html
    */
   function createLivePusherContext(): LivePusherContext
 
@@ -3705,7 +3738,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxsavefileobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html
    */
   function saveFile(OBJECT: saveFile.Param): Promise<saveFile.Promised>
 
@@ -3752,7 +3785,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxgetsavedfilelistobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileList.html
    */
   function getSavedFileList(OBJECT?: getSavedFileList.Param): Promise<getSavedFileList.Promised>
 
@@ -3779,7 +3812,7 @@ declare namespace Taro {
     }
   }
   /**
-   * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html) 接口。
+   * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
    *
    * **示例代码：**
    *
@@ -3792,7 +3825,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxgetsavedfileinfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileInfo.html
    */
   function getSavedFileInfo(OBJECT: getSavedFileInfo.Param): Promise<getSavedFileInfo.Promised>
 
@@ -3823,7 +3856,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxremovesavedfileobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html
    */
   function removeSavedFile(OBJECT: removeSavedFile.Param): Promise<any>
 
@@ -3860,7 +3893,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file.html#wxopendocumentobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html
    */
   function openDocument(OBJECT: openDocument.Param): Promise<any>
 
@@ -3905,7 +3938,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/getFileInfo.html#wxgetfileinfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html
    */
   function getFileInfo(OBJECT: getFileInfo.Param): Promise<getFileInfo.Promised>
 
@@ -3932,7 +3965,7 @@ declare namespace Taro {
      data:"value"
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstorageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html
    */
   function setStorage(OBJECT: setStorage.Param): Promise<any>
 
@@ -3947,7 +3980,7 @@ declare namespace Taro {
    } catch (e) {
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxsetstoragesynckeydata
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorageSync.html
    */
   function setStorageSync(key: string, data: any | string): void
 
@@ -3978,7 +4011,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
    */
   function getStorage(OBJECT: getStorage.Param): Promise<getStorage.Promised>
 
@@ -3997,7 +4030,7 @@ declare namespace Taro {
      // Do something when catch error
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstoragesynckey
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html
    */
   function getStorageSync(key: string): any | undefined
 
@@ -4032,7 +4065,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html
    */
   function getStorageInfo(OBJECT?: getStorageInfo.Param): Promise<getStorageInfo.Promised>
 
@@ -4067,7 +4100,7 @@ declare namespace Taro {
      // Do something when catch error
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxgetstorageinfosync
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfoSync.html
    */
   function getStorageInfoSync(): getStorageInfoSync.Return
 
@@ -4092,7 +4125,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestorageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorage.html
    */
   function removeStorage(OBJECT: removeStorage.Param): Promise<any>
 
@@ -4108,7 +4141,7 @@ declare namespace Taro {
      // Do something when catch error
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxremovestoragesynckey
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html
    */
   function removeStorageSync(key: string): void
 
@@ -4120,7 +4153,7 @@ declare namespace Taro {
    ```javascript
    Taro.clearStorage()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstorage
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorage.html
    */
   function clearStorage(): void
 
@@ -4140,7 +4173,7 @@ declare namespace Taro {
      // Do something when catch error
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data.html#wxclearstoragesync
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorageSync.html
    */
   function clearStorageSync(): void
 
@@ -4234,7 +4267,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxgetlocationobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html
    */
   function getLocation(OBJECT?: getLocation.Param): Promise<getLocation.Promised>
 
@@ -4262,8 +4295,8 @@ declare namespace Taro {
   /**
    * 打开地图选择位置。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.userLocation
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxchooselocationobject
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userLocation
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.chooseLocation.html
    */
   function chooseLocation(OBJECT?: chooseLocation.Param): Promise<chooseLocation.Promised>
 
@@ -4294,7 +4327,7 @@ declare namespace Taro {
   /**
    * ​使用微信内置地图查看位置。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.userLocation
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userLocation
    *
    * **Bug & Tip：**
    *
@@ -4316,7 +4349,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html
    */
   function openLocation(OBJECT: openLocation.Param): Promise<any>
 
@@ -4386,7 +4419,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-map.html#wxcreatemapcontextmapid-this
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html
    */
   function createMapContext(mapId: any, instance?: any): MapContext
 
@@ -4530,7 +4563,7 @@ declare namespace Taro {
   }
   class MapContext {
     /**
-     * 获取当前地图中心的经纬度，返回的是 gcj02 坐标系，可以用于 [`Taro.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location.html#wxopenlocationobject)
+     * 获取当前地图中心的经纬度，返回的是 gcj02 坐标系，可以用于 [`Taro.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
      */
     getCenterLocation(OBJECT: MapContext.getCenterLocation.Param): any
     /**
@@ -4653,7 +4686,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/systeminfo.html#wxgetsysteminfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html
    */
   function getSystemInfo(OBJECT?: getSystemInfo.Param): Promise<getSystemInfo.Promised>
 
@@ -4748,7 +4781,7 @@ declare namespace Taro {
      // Do something when catch error
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/systeminfo.html#wxgetsysteminfosync
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html
    */
   function getSystemInfoSync(): getSystemInfoSync.Return
 
@@ -4782,7 +4815,7 @@ declare namespace Taro {
    Taro.canIUse('text.selectable')
    Taro.canIUse('button.open-type.contact')
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-caniuse.html#wxcaniusestring
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.canIUse.html
    */
   function canIUse(String: any): boolean
 
@@ -4809,7 +4842,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxgetnetworktypeobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html
    */
   function getNetworkType(OBJECT?: getNetworkType.Param): Promise<getNetworkType.Promised>
 
@@ -4850,7 +4883,7 @@ declare namespace Taro {
      console.log(res.networkType)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxonnetworkstatuschangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html
    */
   function onNetworkStatusChange(CALLBACK: onNetworkStatusChange.Param): void
 
@@ -4866,7 +4899,7 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 设置屏幕亮度。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxsetscreenbrightnessobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setScreenBrightness.html
    */
   function setScreenBrightness(OBJECT: setScreenBrightness.Param): Promise<any>
 
@@ -4883,7 +4916,12 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 获取屏幕亮度。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxgetscreenbrightnessobject
+   *
+   * **Bug & Tip：**
+   *
+   * 1. `tip`: `getScreenBrightness` 接口若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html
    */
   function getScreenBrightness(OBJECT?: getScreenBrightness.Param): Promise<getScreenBrightness.Promised>
 
@@ -4894,7 +4932,7 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 使手机发生较长时间的振动（400ms）
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxvibratelongobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/vibrate/wx.vibrateLong.html
    */
   function vibrateLong(OBJECT?: vibrateLong.Param): Promise<any>
 
@@ -4909,8 +4947,8 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `tip`：`vibrateShort` 接口仅在 iPhone7/iPhone7Plus 及 Android 机型生效
-   * 2.  `tip`: `getScreenBrightness` 接口若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device.html#wxvibrateshortobject
+   *
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/vibrate/wx.vibrateShort.html
    */
   function vibrateShort(OBJECT?: vibrateShort.Param): Promise<any>
 
@@ -4943,7 +4981,7 @@ declare namespace Taro {
      console.log(res.z)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxonaccelerometerchangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.onAccelerometerChange.html
    */
   function onAccelerometerChange(CALLBACK: onAccelerometerChange.Param): void
 
@@ -4960,7 +4998,7 @@ declare namespace Taro {
    ```javascript
    Taro.startAccelerometer()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstartaccelerometerobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html
    */
   function startAccelerometer(OBJECT?: startAccelerometer.Param): Promise<any>
 
@@ -4977,7 +5015,7 @@ declare namespace Taro {
    ```javascript
    Taro.stopAccelerometer()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/accelerometer.html#wxstopaccelerometerobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.stopAccelerometer.html
    */
   function stopAccelerometer(OBJECT?: stopAccelerometer.Param): Promise<any>
 
@@ -5000,7 +5038,7 @@ declare namespace Taro {
      console.log(res.direction)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxoncompasschangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.onCompassChange.html
    */
   function onCompassChange(CALLBACK: onCompassChange.Param): void
 
@@ -5017,7 +5055,7 @@ declare namespace Taro {
    ```javascript
    Taro.startCompass()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstartcompassobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.startCompass.html
    */
   function startCompass(OBJECT?: startCompass.Param): Promise<any>
 
@@ -5034,7 +5072,7 @@ declare namespace Taro {
    ```javascript
    Taro.stopCompass()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/compass.html#wxstopcompassobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.stopCompass.html
    */
   function stopCompass(OBJECT?: stopCompass.Param): Promise<any>
 
@@ -5055,7 +5093,7 @@ declare namespace Taro {
      phoneNumber: '1340000' //仅为示例，并非真实的电话号码
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/phonecall.html#wxmakephonecallobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/phone/wx.makePhoneCall.html
    */
   function makePhoneCall(OBJECT: makePhoneCall.Param): Promise<any>
 
@@ -5113,7 +5151,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/scancode.html#wxscancodeobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html
    */
   function scanCode(OBJECT?: scanCode.Param): Promise<scanCode.Promised>
 
@@ -5144,7 +5182,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/clipboard.html#wxsetclipboarddataobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html
    */
   function setClipboardData(OBJECT: setClipboardData.Param): Promise<any>
 
@@ -5171,7 +5209,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/clipboard.html#wxgetclipboarddataobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
    */
   function getClipboardData(OBJECT?: getClipboardData.Param): Promise<getClipboardData.Promised>
 
@@ -5198,7 +5236,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxopenbluetoothadapterobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.openBluetoothAdapter.html
    */
   function openBluetoothAdapter(OBJECT?: openBluetoothAdapter.Param): Promise<any>
 
@@ -5219,7 +5257,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxclosebluetoothadapterobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.closeBluetoothAdapter.html
    */
   function closeBluetoothAdapter(OBJECT?: closeBluetoothAdapter.Param): Promise<any>
 
@@ -5254,7 +5292,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbluetoothadapterstateobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getBluetoothAdapterState.html
    */
   function getBluetoothAdapterState(OBJECT?: getBluetoothAdapterState.Param): Promise<getBluetoothAdapterState.Promised>
 
@@ -5283,7 +5321,7 @@ declare namespace Taro {
      console.log(`adapterState changed, now is`, res)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbluetoothadapterstatechangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBluetoothAdapterStateChange.html
    */
   function onBluetoothAdapterStateChange(CALLBACK: onBluetoothAdapterStateChange.Param): void
 
@@ -5325,7 +5363,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxstartbluetoothdevicesdiscoveryobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.startBluetoothDevicesDiscovery.html
    */
   function startBluetoothDevicesDiscovery(OBJECT?: startBluetoothDevicesDiscovery.Param): Promise<startBluetoothDevicesDiscovery.Promised>
 
@@ -5352,7 +5390,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxstopbluetoothdevicesdiscoveryobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.stopBluetoothDevicesDiscovery.html
    */
   function stopBluetoothDevicesDiscovery(OBJECT?: stopBluetoothDevicesDiscovery.Param): Promise<stopBluetoothDevicesDiscovery.Promised>
 
@@ -5437,7 +5475,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbluetoothdevicesobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getBluetoothDevices.html
    */
   function getBluetoothDevices(OBJECT?: getBluetoothDevices.Param): Promise<getBluetoothDevices.Promised>
 
@@ -5514,7 +5552,7 @@ declare namespace Taro {
      console.log(ab2hex(devices[0].advertisData))
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbluetoothdevicefoundcallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBluetoothDeviceFound.html
    */
   function onBluetoothDeviceFound(CALLBACK: onBluetoothDeviceFound.Param): void
 
@@ -5568,7 +5606,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetconnectedbluetoothdevicesobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getConnectedBluetoothDevices.html
    */
   function getConnectedBluetoothDevices(OBJECT: getConnectedBluetoothDevices.Param): Promise<getConnectedBluetoothDevices.Promised>
 
@@ -5610,7 +5648,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxcreatebleconnectionobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.createBLEConnection.html
    */
   function createBLEConnection(OBJECT: createBLEConnection.Param): Promise<createBLEConnection.Promised>
 
@@ -5643,7 +5681,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxclosebleconnectionobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.closeBLEConnection.html
    */
   function closeBLEConnection(OBJECT: closeBLEConnection.Param): Promise<closeBLEConnection.Promised>
 
@@ -5673,7 +5711,7 @@ declare namespace Taro {
      console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonbleconnectionstatechangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLEConnectionStateChange.html
    */
   function onBLEConnectionStateChange(CALLBACK: onBLEConnectionStateChange.Param): void
 
@@ -5729,7 +5767,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbledeviceservicesobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceServices.html
    */
   function getBLEDeviceServices(OBJECT: getBLEDeviceServices.Param): Promise<getBLEDeviceServices.Promised>
 
@@ -5813,7 +5851,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxgetbledevicecharacteristicsobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceCharacteristics.html
    */
   function getBLEDeviceCharacteristics(OBJECT: getBLEDeviceCharacteristics.Param): Promise<getBLEDeviceCharacteristics.Promised>
 
@@ -5872,7 +5910,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxreadblecharacteristicvalueobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.readBLECharacteristicValue.html
    */
   function readBLECharacteristicValue(OBJECT: readBLECharacteristicValue.Param): Promise<readBLECharacteristicValue.Promised>
 
@@ -5937,7 +5975,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxwriteblecharacteristicvalueobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.writeBLECharacteristicValue.html
    */
   function writeBLECharacteristicValue(OBJECT: writeBLECharacteristicValue.Param): Promise<writeBLECharacteristicValue.Promised>
 
@@ -5995,7 +6033,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxnotifyblecharacteristicvaluechangeobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.notifyBLECharacteristicValueChange.html
    */
   function notifyBLECharacteristicValueChange(OBJECT: notifyBLECharacteristicValueChange.Param): Promise<notifyBLECharacteristicValueChange.Promised>
 
@@ -6043,7 +6081,7 @@ declare namespace Taro {
      console.log(ab2hext(res.value))
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/bluetooth.html#wxonblecharacteristicvaluechangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLECharacteristicValueChange.html
    */
   function onBLECharacteristicValueChange(CALLBACK: onBLECharacteristicValueChange.Param): void
 
@@ -6074,7 +6112,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxstartbeacondiscoveryobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
    */
   function startBeaconDiscovery(OBJECT: startBeaconDiscovery.Param): Promise<startBeaconDiscovery.Promised>
 
@@ -6091,7 +6129,7 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 停止搜索附近的`iBeacon`设备
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxstopbeacondiscoveryobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
    */
   function stopBeaconDiscovery(OBJECT?: stopBeaconDiscovery.Param): Promise<stopBeaconDiscovery.Promised>
 
@@ -6142,7 +6180,7 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 获取所有已搜索到的`iBeacon`设备
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxgetbeaconsobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
    */
   function getBeacons(OBJECT?: getBeacons.Param): Promise<getBeacons.Promised>
 
@@ -6189,7 +6227,7 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 监听 `iBeacon` 设备的更新事件
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxonbeaconupdatecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html
    */
   function onBeaconUpdate(CALLBACK: onBeaconUpdate.Param): void
 
@@ -6210,7 +6248,7 @@ declare namespace Taro {
    * @since 1.2.0
    *
    * 监听 `iBeacon` 服务的状态变化
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/iBeacon.html#wxonbeaconservicechangecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html
    */
   function onBeaconServiceChange(CALLBACK: onBeaconServiceChange.Param): void
 
@@ -6241,7 +6279,7 @@ declare namespace Taro {
        keepScreenOn: true
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/setKeepScreenOn.html#wxsetkeepscreenonobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setKeepScreenOn.html
    */
   function setKeepScreenOn(OBJECT: setKeepScreenOn.Param): Promise<setKeepScreenOn.Promised>
 
@@ -6257,7 +6295,7 @@ declare namespace Taro {
        console.log('用户截屏了')
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/onUserCaptureScreen.html#wxonusercapturescreencallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.onUserCaptureScreen.html
    */
   function onUserCaptureScreen(CALLBACK: any): void
 
@@ -6405,7 +6443,7 @@ declare namespace Taro {
    *   success   |  ok               |  添加成功
    *   fail      |  fail cancel      |  用户取消操作
    *   fail      |  fail ${detail}   |调用失败，detail 加上详细信息
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/phone-contact.html#wxaddphonecontactobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
    */
   function addPhoneContact(OBJECT: addPhoneContact.Param): Promise<any>
 
@@ -6436,7 +6474,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxgethcestateobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
    */
   function getHCEState(OBJECT?: getHCEState.Param): Promise<getHCEState.Promised>
 
@@ -6473,7 +6511,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxstarthceobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.startHCE.html
    */
   function startHCE(OBJECT: startHCE.Param): Promise<startHCE.Promised>
 
@@ -6504,7 +6542,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxstophceobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.stopHCE.html
    */
   function stopHCE(OBJECT?: stopHCE.Param): Promise<stopHCE.Promised>
 
@@ -6532,7 +6570,7 @@ declare namespace Taro {
    *
    * *   1：消息为HCE Apdu Command类型，小程序需对此指令进行处理，并调用 `sendHCEMessage` 接口返回处理指令；
    * *   2：消息为设备离场事件
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxonhcemessagecallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html
    */
   function onHCEMessage(CALLBACK: onHCEMessage.Param): void
 
@@ -6590,7 +6628,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/nfc.html#wxsendhcemessageobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
    */
   function sendHCEMessage(OBJECT: sendHCEMessage.Param): Promise<sendHCEMessage.Promised>
 
@@ -6611,7 +6649,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxstartwifiobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.startWifi.html
    */
   function startWifi(OBJECT?: startWifi.Param): Promise<any>
 
@@ -6632,7 +6670,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxstopwifiobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.stopWifi.html
    */
   function stopWifi(OBJECT?: stopWifi.Param): Promise<any>
 
@@ -6668,7 +6706,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxconnectwifiobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html
    */
   function connectWifi(OBJECT: connectWifi.Param): Promise<any>
 
@@ -6679,7 +6717,7 @@ declare namespace Taro {
    * @since 1.6.0
    *
    * 请求获取 Wi-Fi 列表，在 `onGetWifiList` 注册的回调中返回 wifiList 数据。iOS 将跳转到系统的 Wi-Fi 界面，Android 不会跳转。 **iOS 11.0 及 iOS 11.1 两个版本因系统问题，该方法失效。但在 iOS 11.2 中已修复。**
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetwifilistobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getWifiList.html
    */
   function getWifiList(OBJECT?: getWifiList.Param): Promise<any>
 
@@ -6718,7 +6756,7 @@ declare namespace Taro {
    * @since 1.6.0
    *
    * 监听在获取到 Wi-Fi 列表数据时的事件，在回调中将返回 wifiList。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxongetwifilistcallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onGetWifiList.html
    */
   function onGetWifiList(CALLBACK: onGetWifiList.Param): void
 
@@ -6779,7 +6817,7 @@ declare namespace Taro {
    })
    Taro.getWifiList()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxsetwifilistobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html
    */
   function setWifiList(OBJECT: setWifiList.Param): Promise<any>
 
@@ -6817,7 +6855,7 @@ declare namespace Taro {
    * @since 1.6.0
    *
    * 监听连接上 Wi-Fi 的事件。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxonwificonnectedcallback
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onWifiConnected.html
    */
   function onWifiConnected(CALLBACK: onWifiConnected.Param): void
 
@@ -6875,7 +6913,7 @@ declare namespace Taro {
    *   12009   |  system config err       | 系统运营商配置拒绝连接 Wi-Fi
    *   12010   |  system internal error   |系统其他错误，需要在errmsg打印具体的错误原因
    *   12011   |  weapp in background     |  应用在后台无法配置 Wi-Fi
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wifi.html#wxgetconnectedwifiobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getConnectedWifi.html
    */
   function getConnectedWifi(OBJECT?: getConnectedWifi.Param): Promise<getConnectedWifi.Promised>
 
@@ -6949,7 +6987,7 @@ declare namespace Taro {
      duration: 2000
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowtoastobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html
    */
   function showToast(OBJECT: showToast.Param): Promise<any>
 
@@ -6992,14 +7030,14 @@ declare namespace Taro {
   /**
    * @since 1.1.0
    *
-   * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading) 才能关闭提示框
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowloadingobject
+   * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideLoading.html) 才能关闭提示框
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html
    */
   function showLoading(OBJECT?: showLoading.Param): Promise<any>
 
   /**
    * 隐藏消息提示框
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhidetoast
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideToast.html
    */
   function hideToast(): void
 
@@ -7018,7 +7056,7 @@ declare namespace Taro {
      Taro.hideLoading()
    },2000)
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxhideloading
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideLoading.html
    */
   function hideLoading(): void
 
@@ -7108,7 +7146,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html
    */
   function showModal(OBJECT: showModal.Param): Promise<showModal.Promised>
 
@@ -7177,7 +7215,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowactionsheetobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showActionSheet.html
    */
   function showActionSheet(OBJECT: showActionSheet.Param): Promise<showActionSheet.Promised>
 
@@ -7201,7 +7239,7 @@ declare namespace Taro {
      text: 'hello, world!'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsettopbartextobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/sticky/wx.setTopBarText.html
    */
   function setTopBarText(OBJECT: setTopBarText.Param): Promise<any>
 
@@ -7223,19 +7261,19 @@ declare namespace Taro {
      title: '当前页面'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxsetnavigationbartitleobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarTitle.html
    */
   function setNavigationBarTitle(OBJECT: setNavigationBarTitle.Param): Promise<any>
 
   /**
    * 在当前页面显示导航条加载动画。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxshownavigationbarloading
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.showNavigationBarLoading.html
    */
   function showNavigationBarLoading(): void
 
   /**
    * 隐藏导航条加载动画。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui.html#wxhidenavigationbarloading
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideNavigationBarLoading.html
    */
   function hideNavigationBarLoading(): void
 
@@ -7307,7 +7345,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/setNavigationBarColor.html#wxsetnavigationbarcolorobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html
    */
   function setNavigationBarColor(OBJECT: setNavigationBarColor.Param): Promise<setNavigationBarColor.Promised>
 
@@ -7332,7 +7370,7 @@ declare namespace Taro {
      textStyle: 'dark' // 下拉背景字体、loading 图的样式为dark
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setBackgroundTextStyle.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundTextStyle.html
    */
   function setBackgroundTextStyle(OBJECT: setBackgroundTextStyle.Param): Promise<any>
 
@@ -7367,7 +7405,7 @@ declare namespace Taro {
      backgroundColorBottom: '#ffffff', // 底部窗口的背景色为白色
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.setBackgroundColor.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html
    */
   function setBackgroundColor(OBJECT: setBackgroundColor.Param): Promise<any>
 
@@ -7396,7 +7434,7 @@ declare namespace Taro {
      text: '1'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarbadgeobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarBadge.html
    */
   function setTabBarBadge(OBJECT: setTabBarBadge.Param): Promise<any>
 
@@ -7412,7 +7450,7 @@ declare namespace Taro {
    * @since 1.9.0
    *
    * 移除 tabBar 某一项右上角的文本
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxremovetabbarbadgeobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
    */
   function removeTabBarBadge(OBJECT: removeTabBarBadge.Param): Promise<any>
 
@@ -7428,7 +7466,7 @@ declare namespace Taro {
    * @since 1.9.0
    *
    * 显示 tabBar 某一项的右上角的红点
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarreddotobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
    */
   function showTabBarRedDot(OBJECT: showTabBarRedDot.Param): Promise<any>
 
@@ -7444,7 +7482,7 @@ declare namespace Taro {
    * @since 1.9.0
    *
    * 隐藏 tabBar 某一项的右上角的红点
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarreddotobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
    */
   function hideTabBarRedDot(OBJECT: hideTabBarRedDot.Param): Promise<any>
 
@@ -7483,7 +7521,7 @@ declare namespace Taro {
        borderStyle: 'white'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbarstyleobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarStyle.html
    */
   function setTabBarStyle(OBJECT?: setTabBarStyle.Param): Promise<any>
 
@@ -7522,7 +7560,7 @@ declare namespace Taro {
        selectedIconPath: '/path/to/selectedIconPath'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxsettabbaritemobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html
    */
   function setTabBarItem(OBJECT: setTabBarItem.Param): Promise<any>
 
@@ -7538,7 +7576,7 @@ declare namespace Taro {
    * @since 1.9.0
    *
    * 显示 tabBar
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxshowtabbarobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
    */
   function showTabBar(OBJECT?: showTabBar.Param): Promise<any>
 
@@ -7554,7 +7592,7 @@ declare namespace Taro {
    * @since 1.9.0
    *
    * 隐藏 tabBar
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-tabbar.html#wxhidetabbarobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
    */
   function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>
 
@@ -7590,7 +7628,7 @@ declare namespace Taro {
    * @since 2.1.0
    *
    * 获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.getMenuButtonBoundingClientRect.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/menu/wx.getMenuButtonBoundingClientRect.html
    */
   function getMenuButtonBoundingClientRect(): getMenuButtonBoundingClientRect.Return
 
@@ -7638,7 +7676,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatetoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html
    */
   function navigateTo(OBJECT: navigateTo.Param): Promise<any>
 
@@ -7675,7 +7713,7 @@ declare namespace Taro {
      url: 'test?id=1'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxredirecttoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.redirectTo.html
    */
   function redirectTo(OBJECT: redirectTo.Param): Promise<any>
 
@@ -7725,7 +7763,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxrelaunchobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
    */
   function reLaunch(OBJECT: reLaunch.Param): Promise<any>
 
@@ -7778,7 +7816,7 @@ declare namespace Taro {
      url: '/index'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxswitchtabobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.switchTab.html
    */
   function switchTab(OBJECT: switchTab.Param): Promise<any>
 
@@ -7808,7 +7846,7 @@ declare namespace Taro {
     type ParamPropComplete = () => any
   }
   /**
-   * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html#getCurrentPages()) 获取当前的页面栈，决定需要返回几层。
+   * 关闭当前页面，返回上一页面或多级页面。可通过 [`getCurrentPages()`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html) 获取当前的页面栈，决定需要返回几层。
    *
    * **Tip：**
    *
@@ -7831,7 +7869,7 @@ declare namespace Taro {
      delta: 2
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-navigate.html#wxnavigatebackobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html
    */
   function navigateBack(OBJECT?: navigateBack.Param): Promise<any>
 
@@ -7876,7 +7914,7 @@ declare namespace Taro {
     }
   }
   /**
-   * 创建一个动画实例[animation](https://developers.weixin.qq.com/miniprogram/dev/api/api-animation.html#animation)。调用实例的方法来描述动画。最后通过动画实例的`export`方法导出动画数据传递给组件的`animation`属性。
+   * 创建一个动画实例[animation](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.html)。调用实例的方法来描述动画。最后通过动画实例的`export`方法导出动画数据传递给组件的`animation`属性。
    *
    * **注意: `export` 方法每次调用后会清掉之前的动画操作**
    *
@@ -7890,7 +7928,7 @@ declare namespace Taro {
      delay: 0
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-animation.html#wxcreateanimationobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html
    */
   function createAnimation(OBJECT: createAnimation.Param): Animation
 
@@ -8044,9 +8082,16 @@ declare namespace Taro {
      duration: 300
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/scroll.html#wxpagescrolltoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html
    */
   function pageScrollTo(OBJECT: pageScrollTo.Param): void
+
+  /**
+   * @since 微信小程序 2.7.0
+   *
+   * 创建离屏 canvas 实例
+   */
+  function createOffscreenCanvas(): OffscreenCanvas
 
   /**
    *
@@ -8055,7 +8100,7 @@ declare namespace Taro {
    * 创建 canvas 绘图上下文（指定 canvasId）。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<canvas/>` 组件
    *
    * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/create-canvas-context.html#wxcreatecanvascontextcanvasid-this
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
    */
   function createCanvasContext(canvasId: string, componentInstance: any): CanvasContext
 
@@ -8162,7 +8207,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/temp-file.html#wxcanvastotempfilepathobject-this
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
    */
   function canvasToTempFilePath(OBJECT: canvasToTempFilePath.Param0, instance?: any): void
 
@@ -8230,7 +8275,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/get-image-data.html#wxcanvasgetimagedataobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
    */
   function canvasGetImageData(OBJECT: canvasGetImageData.Param): Promise<canvasGetImageData.Promised>
 
@@ -8280,7 +8325,7 @@ declare namespace Taro {
      success(res) {}
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/put-image-data.html#wxcanvasputimagedataobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
    */
   function canvasPutImageData(OBJECT: canvasPutImageData.Param): Promise<any>
 
@@ -8303,7 +8348,7 @@ declare namespace Taro {
    ```javascript
    Taro.startPullDownRefresh()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/pulldown.html#wxstartpulldownrefreshobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.startPullDownRefresh.html
    */
   function startPullDownRefresh(OBJECT?: startPullDownRefresh.Param): Promise<startPullDownRefresh.Promised>
 
@@ -8319,7 +8364,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.stopPullDownRefresh.html
    */
   function stopPullDownRefresh(): void
 
@@ -8331,7 +8376,7 @@ declare namespace Taro {
    ```javascript
    Taro.hideKeyboard()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui-other.html
+   * @see https://developers.weixin.qq.com/minigame/dev/api/ui/keyboard/wx.hideKeyboard.html
    */
   function hideKeyboard(): void
 
@@ -8592,7 +8637,7 @@ declare namespace Taro {
      })
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext-api.html#wxgetextconfigobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfig.html
    */
   function getExtConfig(OBJECT?: getExtConfig.Param): Promise<getExtConfig.Promised>
 
@@ -8619,9 +8664,55 @@ declare namespace Taro {
    let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
    console.log(extConfig)
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext-api.html#wxgetextconfigsync
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfigSync.html
    */
   function getExtConfigSync(): getExtConfigSync.Return
+
+  namespace getLogManager {
+    type Param = {
+      /**
+       * @since 2.3.2
+       *
+       * 取值为0/1，取值为0表示是否会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志，取值为1则不会。默认值是 0
+       */
+      level?: number
+    }
+    type Return = {
+      /**
+       * 写 debug 日志
+       */
+      debug(...args: any[]): void
+      /**
+       * 写 info 日志
+       */
+      info(...args: any[]): void
+      /**
+       * 写 log 日志
+       */
+      log(...args: any[]): void
+      /**
+       * 写 warn 日志
+       */
+      warn(...args: any[]): void
+    }
+  }
+  /**
+   * @since 2.1.0
+   *
+   * 获取日志管理器对象。
+   *
+   * **示例代码：**
+   *
+   ```javascript
+   const logger = Taro.getLogManager({level: 1})
+   logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
+   logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+   logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
+   logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+   ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html
+   */
+  function getLogManager(OBJECT?: getLogManager.Param): getLogManager.Return
 
   namespace login {
     type Promised = {
@@ -8685,7 +8776,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html
    */
   function login(OBJECT?: login.Param): Promise<login.Promised>
 
@@ -8709,7 +8800,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#wxchecksessionobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.checkSession.html
    */
   function checkSession(OBJECT?: checkSession.Param): Promise<any>
 
@@ -8722,7 +8813,7 @@ declare namespace Taro {
     }
     type Param = {
       /**
-       * 需要获取权限的scope，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html#scope-列表)
+       * 需要获取权限的scope，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html#scope-列表)
        */
       scope: string
     }
@@ -8750,7 +8841,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/authorize.html#wxauthorizeobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/authorize/wx.authorize.html
    */
   function authorize(OBJECT: authorize.Param): Promise<authorize.Promised>
 
@@ -8765,17 +8856,21 @@ declare namespace Taro {
        */
       rawData: string
       /**
-       * 使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，参考文档 [signature](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html)。
+       * 使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，参考文档 [signature](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)。
        */
       signature: string
       /**
-       * 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        */
       encryptedData: string
       /**
-       * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        */
       iv: string
+      /**
+       * 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud)
+       */
+      cloudID: string
     }
     /**
      * 用户信息对象，不包含 openid 等敏感信息
@@ -8847,9 +8942,9 @@ declare namespace Taro {
     type ParamPropComplete = (err: Promised) => void
   }
   /**
-   * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
+   * 获取用户信息，withCredentials 为 true 时需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html) 接口。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.userInfo
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userInfo
    *
    * **示例代码：**
    *
@@ -8886,7 +8981,7 @@ declare namespace Taro {
        }
    }
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open.html#wxgetuserinfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
    */
   function getUserInfo(OBJECT?: getUserInfo.Param): Promise<getUserInfo.Promised>
 
@@ -9007,14 +9102,14 @@ declare namespace Taro {
       }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html#wxrequestpaymentobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html
    */
   function requestPayment(OBJECT: requestPayment.Param): Promise<any>
 
   namespace showShareMenu {
     type Param = {
       /**
-       * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/api/share.html#获取更多转发信息)
+       * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
        */
       withShareTicket?: boolean
     }
@@ -9031,7 +9126,7 @@ declare namespace Taro {
      withShareTicket: true
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxshowsharemenuobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html
    */
   function showShareMenu(OBJECT?: showShareMenu.Param): Promise<any>
 
@@ -9048,14 +9143,14 @@ declare namespace Taro {
    ```javascript
    Taro.hideShareMenu()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxhidesharemenuobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.hideShareMenu.html
    */
   function hideShareMenu(OBJECT?: hideShareMenu.Param): Promise<any>
 
   namespace updateShareMenu {
     type Param = {
       /**
-       * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/api/share.html#获取更多转发信息)
+       * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
        */
       withShareTicket?: boolean
     }
@@ -9074,7 +9169,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxupdatesharemenuobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html
    */
   function updateShareMenu(OBJECT?: updateShareMenu.Param): Promise<any>
 
@@ -9085,7 +9180,7 @@ declare namespace Taro {
        */
       errMsg: string
       /**
-       * 包括敏感数据在内的完整转发信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * 包括敏感数据在内的完整转发信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        *
        * **encryptedData 解密后为一个 JSON 结构，包含字段如下：**
        *
@@ -9097,9 +9192,13 @@ declare namespace Taro {
        */
       encryptedData: string
       /**
-       * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        */
       iv: string
+      /**
+       * 敏感数据对应的云 ID，开通云开发的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud)
+       */
+      cloudID: string
     }
     type Param = {
       /**
@@ -9118,7 +9217,7 @@ declare namespace Taro {
    * @since 1.1.0
    *
    * 获取转发详细信息
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share.html#wxgetshareinfoobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
    */
   function getShareInfo(OBJECT: getShareInfo.Param): Promise<getShareInfo.Promised>
 
@@ -9168,7 +9267,7 @@ declare namespace Taro {
    *
    * 调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.address
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.address
    *
    * **示例代码：**
    *
@@ -9186,24 +9285,24 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/address.html#wxchooseaddressobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html
    */
   function chooseAddress(OBJECT?: chooseAddress.Param): Promise<chooseAddress.Promised>
 
   namespace addCard {
     type Promised = {
       /**
-       * 卡券添加结果列表，列表内对象说明请详见[返回对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#返回对象说明)
+       * 卡券添加结果列表，列表内对象说明请详见[返回对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)
        */
       cardList: PromisedPropCardList
     }
     /**
-     * 卡券添加结果列表，列表内对象说明请详见[返回对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#返回对象说明)
+     * 卡券添加结果列表，列表内对象说明请详见[返回对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)
      */
     type PromisedPropCardList = PromisedPropCardListItem[]
     type PromisedPropCardListItem = {
       /**
-       * 加密 code，为用户领取到卡券的code加密后的字符串，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025239)
+       * 加密 code，为用户领取到卡券的code加密后的字符串，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1499332673_Unm7V)
        */
       code: string
       /**
@@ -9221,12 +9320,12 @@ declare namespace Taro {
     }
     type Param = {
       /**
-       * 需要添加的卡券列表，列表内对象说明请参见[请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#请求对象说明)
+       * 需要添加的卡券列表，列表内对象说明请参见[请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)
        */
       cardList: ParamPropCardList
     }
     /**
-     * 需要添加的卡券列表，列表内对象说明请参见[请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#请求对象说明)
+     * 需要添加的卡券列表，列表内对象说明请参见[请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)
      */
     type ParamPropCardList = ParamPropCardListItem[]
     type ParamPropCardListItem = {
@@ -9285,19 +9384,19 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/card.html#wxaddcardobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html
    */
   function addCard(OBJECT: addCard.Param): Promise<addCard.Promised>
 
   namespace openCard {
     type Param = {
       /**
-       * 需要打开的卡券列表，列表内参数详见[openCard 请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#opencard-请求对象说明)
+       * 需要打开的卡券列表，列表内参数详见[openCard 请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html)
        */
       cardList: ParamPropCardList
     }
     /**
-     * 需要打开的卡券列表，列表内参数详见[openCard 请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/card.html#opencard-请求对象说明)
+     * 需要打开的卡券列表，列表内参数详见[openCard 请求对象说明](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html)
      */
     type ParamPropCardList = ParamPropCardListItem[]
     type ParamPropCardListItem = {
@@ -9306,7 +9405,7 @@ declare namespace Taro {
        */
       cardId: string
       /**
-       * 由 addCard 的返回对象中的加密 code 通过解密后得到，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025239)
+       * 由 addCard 的返回对象中的加密 code 通过解密后得到，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1499332673_Unm7V)
        */
       code: string
     }
@@ -9338,14 +9437,14 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/card.html#wxopencardobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html
    */
   function openCard(OBJECT: openCard.Param): Promise<any>
 
   namespace openSetting {
     type Promised = {
       /**
-       * 用户授权结果，其中 key 为 scope 值，value 为 Bool 值，表示用户是否允许授权，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html#scope-列表)
+       * 用户授权结果，其中 key 为 scope 值，value 为 Bool 值，表示用户是否允许授权，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)
        */
       authSetting: any
     }
@@ -9370,14 +9469,14 @@ declare namespace Taro {
            }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/setting.html#wxopensettingobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.openSetting.html
    */
   function openSetting(OBJECT?: openSetting.Param): Promise<openSetting.Promised>
 
   namespace getSetting {
     type Promised = {
       /**
-       * 用户授权结果，其中 key 为 scope 值，value 为 Bool 值，表示用户是否允许授权，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html#scope-列表)
+       * 用户授权结果，其中 key 为 scope 值，value 为 Bool 值，表示用户是否允许授权，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)
        */
       authSetting: any
     }
@@ -9402,7 +9501,7 @@ declare namespace Taro {
            }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/setting.html#wxgetsettingobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html
    */
   function getSetting(OBJECT?: getSetting.Param): Promise<getSetting.Promised>
 
@@ -9413,11 +9512,11 @@ declare namespace Taro {
        */
       errMsg: string
       /**
-       * 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        *
        * **encryptedData：**
        *
-       * encryptedData 解密后为以下 json 结构，详见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * encryptedData 解密后为以下 json 结构，详见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        *
        *   属性                       |  类型          |  说明
        * -----------------------------|----------------|-------------------
@@ -9427,9 +9526,13 @@ declare namespace Taro {
        */
       encryptedData: string
       /**
-       * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/api/signature.html#加密数据解密算法)
+       * 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)
        */
       iv: string
+      /**
+       * 敏感数据对应的云 ID，开通云开发的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud)
+       */
+      cloudID: string
     }
     type Param = {
       /**
@@ -9443,9 +9546,9 @@ declare namespace Taro {
   /**
    * @since 1.2.0
    *
-   * 获取用户过去三十天微信运动步数，需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html#wxloginobject) 接口。
+   * 获取用户过去三十天微信运动步数，需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html) 接口。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.werun
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.werun
    *
    * **示例代码：**
    *
@@ -9456,7 +9559,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/we-run.html#wxgetwerundataobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.getWeRunData.html
    */
   function getWeRunData(OBJECT?: getWeRunData.Param): Promise<getWeRunData.Promised>
 
@@ -9514,7 +9617,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigateToMiniProgram.html#wxnavigatetominiprogramobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html
    */
   function navigateToMiniProgram(OBJECT: navigateToMiniProgram.Param): Promise<navigateToMiniProgram.Promised>
 
@@ -9551,7 +9654,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigateBackMiniProgram.html#wxnavigatebackminiprogramobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateBackMiniProgram.html
    */
   function navigateBackMiniProgram(OBJECT?: navigateBackMiniProgram.Param): Promise<navigateBackMiniProgram.Promised>
 
@@ -9577,7 +9680,7 @@ declare namespace Taro {
    *
    * 选择用户的发票抬头。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.invoice
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.invoice
    *
    * **示例代码：**
    *
@@ -9587,7 +9690,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wx.chooseInvoice.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoice.html
    */
   function chooseInvoice(OBJECT?: chooseInvoice.Param): Promise<chooseInvoice.Promised>
 
@@ -9633,7 +9736,7 @@ declare namespace Taro {
    *
    * 选择用户的发票抬头。
    *
-   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) scope.invoiceTitle
+   * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.invoiceTitle
    *
    * **示例代码：**
    *
@@ -9643,7 +9746,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/chooseInvoiceTitle.html#wxchooseinvoicetitleobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoiceTitle.html
    */
   function chooseInvoiceTitle(OBJECT?: chooseInvoiceTitle.Param): Promise<chooseInvoiceTitle.Promised>
 
@@ -9684,7 +9787,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/checkIsSupportSoterAuthentication.html#wxcheckissupportsoterauthenticationobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSupportSoterAuthentication.html
    */
   function checkIsSupportSoterAuthentication(OBJECT?: checkIsSupportSoterAuthentication.Param): Promise<checkIsSupportSoterAuthentication.Promised>
 
@@ -9782,7 +9885,7 @@ declare namespace Taro {
      }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/startSoterAuthentication.html#wxstartsoterauthenticationobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.startSoterAuthentication.html
    */
   function startSoterAuthentication(OBJECT: startSoterAuthentication.Param): Promise<startSoterAuthentication.Promised>
 
@@ -9827,7 +9930,7 @@ declare namespace Taro {
        }
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/checkIsSoterEnrolledInDevice.html#wxcheckissoterenrolledindeviceobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSoterEnrolledInDevice.html
    */
   function checkIsSoterEnrolledInDevice(OBJECT: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
 
@@ -9856,7 +9959,7 @@ declare namespace Taro {
      color: 'red'
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/analysis-report.html#wxreportanalyticseventname-data
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/data-analysis/wx.reportAnalytics.html
    */
   function reportAnalytics(eventName: string, data: any): void
 
@@ -9865,7 +9968,7 @@ declare namespace Taro {
    *
    * 获取**全局唯一**的版本更新管理器，用于管理小程序更新。
    *
-   * 关于小程序的更新机制，可以查看 [运行机制](https://developers.weixin.qq.com/miniprogram/dev/framework/operating-mechanism.html) 文档。
+   * 关于小程序的更新机制，可以查看 [运行机制](https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/operating-mechanism.html) 文档。
    *
    * **示例代码：**
    *
@@ -9891,7 +9994,7 @@ declare namespace Taro {
      // 新的版本下载失败
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/getUpdateManager.html#wxgetupdatemanager
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/wx.getUpdateManager.html
    */
   function getUpdateManager(): UpdateManager
 
@@ -9959,7 +10062,7 @@ declare namespace Taro {
    })
          worker.terminate()
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/createWorker.html#wxcreateworkerscriptpath
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/wx.createWorker.html
    */
   function createWorker(scriptPath: any): Worker
 
@@ -10027,10 +10130,19 @@ declare namespace Taro {
        enableDebug: false
    })
    ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/setEnableDebug.html#wxsetenabledebugobject
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.setEnableDebug.html
    */
   function setEnableDebug(OBJECT: setEnableDebug.Param): Promise<setEnableDebug.Promised>
 
+  interface OffscreenCanvas {
+    /**
+     *
+     * @param contextType
+     *
+     * 该方法返回 OffscreenCanvas 的绘图上下文
+     */
+    getContext(contextType: string): any
+  }
   namespace CanvasContext {
     namespace draw { type Param1 = () => any }
   }

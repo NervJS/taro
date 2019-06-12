@@ -20,7 +20,8 @@ import {
   useMemo,
   useImperativeHandle,
   useContext,
-  createContext
+  createContext,
+  memo
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -60,7 +61,8 @@ export const Taro = {
   useMemo,
   useImperativeHandle,
   useContext,
-  createContext
+  createContext,
+  memo
 }
 
 export default Taro

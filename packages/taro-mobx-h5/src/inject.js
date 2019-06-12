@@ -7,22 +7,32 @@ export function createStoreInjector (grabStoresFn, injectNames, sourceComponent)
     static isMobxInjector = true
     static config = sourceComponent.config || {}
     static displayName = generateDisplayName(sourceComponent, injectNames)
+    __observeInstance
 
     render () {
-      return createElement(sourceComponent, mapStoreToProps(grabStoresFn, this.props))
+      const originProps = mapStoreToProps(grabStoresFn, this.props)
+      return createElement(sourceComponent, {
+        ...originProps,
+        ref: ref => {
+          originProps.ref && originProps.ref(ref)
+          if (ref) {
+            this.__observeInstance = ref
+          }
+        }
+      })
     }
 
     componentDidShow () {
       const { componentDidShow } = sourceComponent.prototype
       if (typeof componentDidShow === 'function') {
-        componentDidShow()
+        componentDidShow.call(this.__observeInstance)
       }
     }
 
     componentDidHide () {
       const { componentDidHide } = sourceComponent.prototype
       if (typeof componentDidHide === 'function') {
-        componentDidHide()
+        componentDidHide.call(this.__observeInstance)
       }
     }
   }

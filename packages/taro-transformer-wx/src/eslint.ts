@@ -18,8 +18,14 @@ const cli = new CLIEngine({
       jsx: true,
       legacyDecorators: true
     }
+  },
+  settings: {
+    react: {
+      pragma: 'Taro',
+      version: 'detect'
+    }
   }
-})
+} as any)
 
 export const eslintValidation: () => {
   visitor: Visitor

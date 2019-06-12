@@ -231,23 +231,23 @@ Taro 将会开始编译文件：
 编译  JS        /Users/chengshuai/Taro/taro-demo/src/app.js
 编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/app.scss
 拷贝  HTML      /Users/chengshuai/Taro/taro-demo/src/index.html
-生成  生成文件  /Users/chengshuai/Taro/taro-demo/.rn_temp/app_styles.js
+生成  生成文件  /Users/chengshuai/Taro/taro-demo/rn_temp/app_styles.js
 编译  JS        /Users/chengshuai/Taro/taro-demo/src/pages/index/index.js
 编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/pages/index/index.scss
-生成  index.js  /Users/chengshuai/Taro/taro-demo/.rn_temp/index.js
-生成  app.json  /Users/chengshuai/Taro/taro-demo/.rn_temp/app.json
-生成  package.json  /Users/chengshuai/Taro/taro-demo/.rn_temp/package.json
+生成  index.js  /Users/chengshuai/Taro/taro-demo/rn_temp/index.js
+生成  app.json  /Users/chengshuai/Taro/taro-demo/rn_temp/app.json
+生成  package.json  /Users/chengshuai/Taro/taro-demo/rn_temp/package.json
 编译  编译完成，花费2504 ms
-生成  生成文件  /Users/chengshuai/Taro/taro-demo/.rn_temp/pages/index/index_styles.js
+生成  生成文件  /Users/chengshuai/Taro/taro-demo/rn_temp/pages/index/index_styles.js
 
 初始化完毕，监听文件修改中...
 
 ```
 
-编译后的代码及应用文件在根目录的 `.rn_temp` 目录下，常见的工程目录结构如下：
+编译后的代码及应用文件在根目录的 `rn_temp` 目录下，常见的工程目录结构如下：
 
 ```shell
-.rn_temp
+rn_temp
 ├── app.js
 ├── app.json
 ├── app_styles.js
@@ -260,7 +260,7 @@ Taro 将会开始编译文件：
 │       ├── component.js
 │       ├── index.js
 │       └── index_styles.js
-├── tmp
+├── bundle
 │   ├── assets
 │   ├── index.bundle
 │   └── index.bundle.meta
@@ -269,26 +269,26 @@ Taro 将会开始编译文件：
 其中关键文件及目录如下：
 
 - app.json React Native 应用的配置，从 `config.rn.appJson` 中获取
-- tmp:实时编译的 jsbundle 临时文件
+- bundle:实时编译的 jsbundle 临时文件
 
 如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 [Metro](https://github.com/facebook/metro) Bundler 负责打包 jsbundle：
 
-![image](https://user-images.githubusercontent.com/9441951/54654650-d1484f80-4af9-11e9-87df-96252b9af0e4.png)
+![image](https://user-images.githubusercontent.com/9441951/59322399-85780180-8d08-11e9-9ea7-b3e4b23c077c.png)
 
 这时，在浏览器输入 http://127.0.0.1:8081，可以看到如下页面：
 ![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
 
-输入 http://127.0.0.1:8081/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
+输入 http://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
 
 ![image](https://user-images.githubusercontent.com/9441951/55865039-37336e80-5bb0-11e9-8aca-c121be4542f6.png)
 
 构建完成后，浏览器会显示构建后的 js 代码。
 
-> Note：进入下一步之前浏览器能正常访问访问 jsbundle
+> Note：进入下一步之前请确保 Metro Bundler Server 正常启动，即浏览器能正常访问访问 jsbundle。
 
 
 ### 启动应用
-如果上一步的编译和 Metro Bundler 服务启动没问题，接下来就可以启动应用了。
+如果上一步的编译和 Metro Bundler Server 启动没问题，接下来就可以启动应用了。
 
 开发者可以自行整合 React Native (0.55.4) 到原生应用，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
 
@@ -321,7 +321,7 @@ git clone git@github.com:NervJS/taro-native-shell.git
 $ react-native run-ios
 ```
 
-iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
+iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印以下内容：
 
 ```sh
  BUNDLE  [ios, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), done.
@@ -332,7 +332,7 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
 
 ![image](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/Art/XC_O_SchemeMenuWithCallouts_2x.png)
 
-这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taro-demo"，需要和 `.rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
+这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taro-demo"，需要和 `rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
 
 ```objc
 @implementation AppDelegate
@@ -341,7 +341,7 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"rn_temp/index" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"taro-demo"
@@ -373,7 +373,7 @@ app.json 字段的配置默认取自于 package.json 的 name 字段，除非你
 $ react-native run-android
 ```
 
-iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
+Android 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：
 
 ```sh
  BUNDLE  [android, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), done.
