@@ -83,7 +83,7 @@ export function getSuperClassPath (path: NodePath<t.ClassDeclaration>) {
 export function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
   let matched = false
   if (path) {
-    path.traverse({
+    const visitor = {
       Identifier (p) {
         if (
           p.node.name === 'stopPropagation' &&
@@ -92,7 +92,15 @@ export function isContainStopPropagation (path: NodePath<t.Node> | null | undefi
           matched = true
         }
       }
-    })
+    }
+    if (path.isIdentifier()) {
+      const binding = path.scope.getBinding(path.node.name)
+      if (binding) {
+        binding.path.traverse(visitor)
+      }
+    } else {
+      path.traverse(visitor)
+    }
   }
   return matched
 }
