@@ -429,6 +429,8 @@ export class RenderParser {
     }
   }
 
+  private returnedifStemJSX = new Set<Scope>()
+
   private loopComponentVisitor: Visitor = {
     VariableDeclarator: (path) => {
       const id = path.get('id')
@@ -451,6 +453,13 @@ export class RenderParser {
           if (this.isIfStemInLoop(jsxElementPath)) {
             this.handleJSXInIfStatement(jsxElementPath, options)
             this.removeJSXStatement()
+          }
+          if (options.parentPath.isReturnStatement() && this.returnedifStemJSX.has(options.parentPath.scope)) {
+            const block = buildBlockElement()
+            setJSXAttr(block, Adapter.else)
+            block.children = [jsxElementPath.node]
+            jsxElementPath.replaceWith(block)
+            this.returnedifStemJSX.delete(options.parentPath.scope)
           }
         })
       },
@@ -714,6 +723,15 @@ export class RenderParser {
                     arrowFunc.body.body.push(t.returnStatement(buildBlockElement()))
                     this.hasNoReturnLoopStem = true
                   }
+                }
+                let scope
+                try {
+                  scope = loopCallExpr.get('arguments')[0].get('body').scope
+                } catch (error) {
+                  //
+                }
+                if (scope) {
+                  this.returnedifStemJSX.add(scope)
                 }
               } else {
                 if (this.topLevelIfStatement.size > 0) {
