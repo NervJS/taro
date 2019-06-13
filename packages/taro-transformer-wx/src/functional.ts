@@ -68,8 +68,13 @@ export const functionalComponent: () => {
             // @TODO: 加上链接
             return
           }
-          const { id, body, params } = functionDecl.node
+          let { id, body, params } = functionDecl.node
           let arg: null | t.LVal = null
+          // tslint:disable-next-line: strict-type-predicates
+          if (id === null) {
+            functionDecl.node.id = t.identifier('YourShouldGiveTheComponentAName')
+            id = functionDecl.node.id
+          }
           if (params.length > 1) {
             throw codeFrameError(id, '函数式组件的参数最多只能传入一个')
           } else if (params.length === 1) {
