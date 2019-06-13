@@ -1,7 +1,7 @@
 import { Linking } from 'react-native'
 
 export async function openUrl (opts = {}) {
-  const { url, success, fail, complete } = opts
+  const { url, success, fail, complete }:any = opts
   const res = { errMsg: 'openUrl:ok' }
 
   const isSupport = await Linking.canOpenURL(url)

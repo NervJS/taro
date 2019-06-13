@@ -1,0 +1,23 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "target": "es2015",
+    "lib": ["es2015"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
+  }
+}

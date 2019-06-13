@@ -1,8 +1,8 @@
 import React from 'react'
-import queryString from 'query-string'
 import RefreshProvider from './RefreshProvider'
-import Taro from '../../taro-rn/src'
 import { errorHandler, successHandler, shouleBeObject, getParameterError } from './utils'
+
+const queryString = require('query-string')
 
 class TaroProvider extends React.Component {
   constructor (props, context) {

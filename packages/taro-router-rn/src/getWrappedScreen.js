@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, YellowBox } from 'react-native'
 import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
-
-import { YellowBox } from 'react-native'
 
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
