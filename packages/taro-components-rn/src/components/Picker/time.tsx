@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DatePicker as AntDatePicker } from '@ant-design/react-native'
+import AntDatePicker from '@ant-design/react-native/lib/date-picker'
 import { noop } from '../../utils'
 import { TimeProps } from './PropsType'
 

@@ -34,3 +34,7 @@ react-native run-ios
 - ✔ Support
 - ✘ Not support
 - \- Would not support
+
+## 未来可能的升级
+
+目前 react-native 版本为 0.55.4

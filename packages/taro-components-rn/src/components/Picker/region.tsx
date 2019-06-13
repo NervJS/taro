@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Picker as AntPicker } from '@ant-design/react-native'
+import AntPicker from '@ant-design/react-native/lib/picker'
 import regionData from './regions.formatted'
 import { noop } from '../../utils'
 import { RegionProps } from './PropsType'
