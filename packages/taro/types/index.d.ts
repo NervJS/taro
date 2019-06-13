@@ -122,6 +122,8 @@ declare namespace Taro {
         readonly current: T | null
     }
 
+    function createRef<T>(): RefObject<T>;
+
     // convenience overload for refs given as a ref prop as they typically start with a null value
     /**
      * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
