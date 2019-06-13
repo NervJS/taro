@@ -1,9 +1,9 @@
-// import { Permissions } from 'expo'
-//
-// export async function askAsyncPermissions (PermissionsType) {
-//   const { status } = await Permissions.askAsync(PermissionsType)
-//   return status
-// }
+import { Permissions } from 'react-native-unimodules'
+
+export async function askAsyncPermissions (PermissionsType) {
+  const { status } = await Permissions.askAsync(PermissionsType)
+  return status
+}
 
 function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
