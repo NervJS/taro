@@ -9,6 +9,8 @@ assignees: ''
 
 > Feature Request 请提到 [FeatHub](https://feathub.com/NervJS/taro)
 
+> Taro 使用上的问题请提到 [Taro 社区——让每一次交流被沉淀](https://taro-club.jd.com/)
+
 如果是提交 bug，请搜索文档和 issue，确认以下事项：
 
 * 该问题没有在其他 issue 和文档讨论到，不属于重复内容
