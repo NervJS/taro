@@ -36,7 +36,6 @@ export default function build (config: IBuildConfig) {
       rules: [
         {
 					test: /\.(tsx?|jsx?)$/,
-					exclude: /node_modules/,
 					use: [{
             loader: path.resolve(__dirname, './loaders/fileParseLoader'),
             options: {
