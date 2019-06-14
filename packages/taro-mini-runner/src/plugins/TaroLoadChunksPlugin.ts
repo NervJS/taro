@@ -19,7 +19,6 @@ export default class TaroLoadChunksPlugin {
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
-    this.taroFileTypeMap = options.taroFileTypeMap
   }
 
   apply (compiler: webpack.Compiler) {
@@ -29,10 +28,7 @@ export default class TaroLoadChunksPlugin {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name))
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
-        if (chunk.entryModule
-          && chunk.entryModule
-          && this.taroFileTypeMap[chunk.entryModule.resource]
-          && this.taroFileTypeMap[chunk.entryModule.resource].type === PARSE_AST_TYPE.ENTRY) {
+        if (chunk.entryModule && chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
           const source = new ConcatSource()
           commonChunks.reverse().forEach(chunkItem => {
             source.add(`require(${JSON.stringify(urlToRequest(chunkItem.name))});\n`)
