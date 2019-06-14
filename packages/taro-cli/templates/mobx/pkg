@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "<%= description %>",
+  "templateInfo": {
+    "name": "<%= template %>",
+    "typescript": <%= typescript %>,
+    "css": "<%= css %>"
+  },
   "main": "index.js",
   "scripts": {
     "build:weapp": "taro build --type weapp",
@@ -34,8 +39,8 @@
     "@tarojs/mobx-h5": "<%= version %>",
     "@tarojs/mobx-rn": "<%= version %>",
     "mobx": "4.8.0",
-    "nervjs": "^1.3.9",
-    "nerv-devtools": "^1.3.9"
+    "nervjs": "^1.4.0",
+    "nerv-devtools": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "16.3.14",
@@ -51,11 +56,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-eslint": "^8.2.3",
-    "eslint": "^4.19.1",
+    "eslint": "^5.16.0",
     "eslint-config-taro": "<%= version %>",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
-    "stylelint": "^10.0.0",
+    "stylelint": "9.3.0",
     "stylelint-config-taro-rn": "<%= version %>",
     "stylelint-taro-rn": "<%= version %>",
     "eslint-plugin-taro": "<%= version %>"<% if (typescript) {%>,

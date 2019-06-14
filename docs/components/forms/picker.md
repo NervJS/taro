@@ -47,11 +47,11 @@ sidebar_label: Picker
 | H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
 | :-: | :-: | :- | :- | :- | :- |
 | ✔ | ✔ | value      | String      |   | 表示选中的时间，格式为'hh:mm'       |
-| ✔ | X (IOS 支持) | start      | String      |   | 表示有效时间范围的开始，字符串格式为'hh:mm'               |
-| ✔ | X (IOS 支持) | end        | String      |   | 表示有效时间范围的结束，字符串格式为'hh:mm'               |
+| ✔ | ✔ | start      | String      |   | 表示有效时间范围的开始，字符串格式为'hh:mm'               |
+| ✔ | ✔ | end        | String      |   | 表示有效时间范围的结束，字符串格式为'hh:mm'               |
 | ✔ | ✔ | onChange | EventHandle |   | value 改变时触发 change 事件，event.detail = value: value |
 | ✔ | ✔ | onCancel | EventHandle |   | 取消选择或点遮罩层收起 picker 时触发                      |
-| ✔ | X (IOS 支持) | disabled   | Boolean     | false  | 是否禁用                                                  |
+| ✔ | ✔ | disabled   | Boolean     | false  | 是否禁用                                                  |
 
 ##### 日期选择器：mode = date
 
@@ -62,7 +62,7 @@ sidebar_label: Picker
 | ✔ | ✔ | value      | String      | new Date() | 表示选中的日期，格式为'YYYY-MM-DD'                        |
 | ✔ | ✔ | start      | String      | 1970-01-01 | 表示有效日期范围的开始，字符串格式为'YYYY-MM-DD'          |
 | ✔ | ✔ | end        | String      | 2999-01-01 | 表示有效日期范围的结束，字符串格式为'YYYY-MM-DD'          |
-| ✔ |  | fields     | String      | day        | 有效值 year,month,day，表示选择器的粒度                   |
+| ✔ | x | fields     | String      | day        | 有效值 year,month,day，表示选择器的粒度                   |
 | ✔ | ✔ | onChange | EventHandle |            | value 改变时触发 change 事件，event.detail = value: value |
 | ✔ | ✔ | onCancel | EventHandle |            | 取消选择或点遮罩层收起 picker 时触发                      |
 | ✔ | ✔ | disabled   | Boolean     | false      | 是否禁用                                                  |

@@ -4,15 +4,15 @@ import { View, Text, Swiper, SwiperItem, Image } from '../../dist'
 export default class EXSwiper extends Component {
   render () {
     return (
-      <View style={{ width: 300, height: 250 }}>
+      <View style={{ width: 300, height: 100 }}>
         <Swiper
           showsPagination={true}
           indicatorColor="white"
           indicatorActiveColor="purple"
-          autoplay={false}
+          autoplay={true}
           current={1}
           interval={6000}
-          circular={false}
+          circular={true}
           vertical={false}
           onChange={() => null}
           onAnimationFinish={() => null}

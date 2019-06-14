@@ -104,6 +104,7 @@ export async function buildEntry (): Promise<AppConfig> {
     const transformResult: IWxTransformResult = wxTransformer({
       code: entryFileCode,
       sourcePath: entryFilePath,
+      sourceDir,
       outputPath: outputEntryFilePath,
       isApp: true,
       isTyped: REG_TYPESCRIPT.test(entryFilePath),

@@ -32,12 +32,12 @@ sidebar_label: Swiper
 |indicatorActiveColor    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 |autoplay                | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 |interval                | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-|duration                | ✔ | ✔ |    | ✔ | ✔ | ✔ |
+|duration                | ✔ | ✔ | x | ✔ | ✔ | ✔ |
 |current                 | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 |onChange                | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 |circular                | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-|skipHiddenItemLayout    | ✔ |    |   | ✔ |  |  |
-|displayMultipleItems    | ✔ |    |   | ✔ |  | ✔ |
+|skipHiddenItemLayout    | ✔ |    | x | ✔ |  |  |
+|displayMultipleItems    | ✔ |    | x | ✔ |  | ✔ |
 |vertical                | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 |onAnimationfinish       | ✔ | ✔ | ✔ | ✔ |  |  |
 

@@ -20,24 +20,27 @@ import {
   GestureResponderEvent
 } from 'react-native'
 import Checkbox from '../Checkbox'
+import { noop } from '../../utils'
 import { SwitchProps, SwitchState } from './PropsType'
 
 class _Switch extends React.Component<SwitchProps, SwitchState> {
-  $touchable: Checkbox | Switch | null
-
-  state: SwitchState = {
-    checked: !!this.props.checked
-  }
-
   static defaultProps = {
     type: 'switch',
     color: '#04BE02'
   }
 
+  // $touchable: Checkbox | Switch | null
+  $touchable = React.createRef<Checkbox | Switch>()
+
+  state: SwitchState = {
+    checked: !!this.props.checked
+  }
+
   _simulateNativePress = (evt: GestureResponderEvent): void => {
     const { type } = this.props
     if (type === 'checkbox') {
-      this.$touchable && (this.$touchable as Checkbox)._simulateNativePress(evt)
+      const node = this.$touchable.current as Checkbox
+      node && node._simulateNativePress(evt)
     } else {
       // this.$touchable._onChange()
       this.setState({ checked: !this.state.checked })
@@ -45,8 +48,8 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
   }
 
   onCheckedChange = (isChecked: boolean): void => {
-    const { onChange } = this.props
-    onChange && onChange({ detail: { value: isChecked } })
+    const { onChange = noop } = this.props
+    onChange({ detail: { value: isChecked } })
     this.setState({ checked: isChecked })
   }
 
@@ -66,7 +69,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
         <Checkbox
           onChange={this.onCheckboxToggle}
           checked={this.state.checked}
-          ref={(touchable) => { this.$touchable = touchable }}
+          ref={this.$touchable as React.RefObject<Checkbox>}
         />
       )
     }
@@ -77,7 +80,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
         onValueChange={this.onCheckedChange}
         onTintColor={color}
         style={style}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable as React.RefObject<Switch>}
       />
     )
   }

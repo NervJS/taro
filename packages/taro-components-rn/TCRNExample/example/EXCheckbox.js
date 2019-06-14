@@ -20,7 +20,7 @@ export default class EXCheckbox extends Component {
   componentDidMount () {
     setTimeout(() => {
       this.setState({ isCheckboxChecked: true })
-    }, 20000)
+    }, 3000)
   }
 
   render () {

@@ -98,7 +98,8 @@ export namespace PostcssOption {
     generateScopedName: string
   }>
   export type url = TogglableOptions<{
-    limit: number
+    limit: number,
+    basePath?: string | string[]
   }>
 }
 
@@ -323,7 +324,6 @@ export interface IManifestConfig extends ITaroManifestConfig {
   display?: IDisplayConfig
 }
 
-
 export interface IProjectConfig {
   projectName?: string,
   date?: string,
@@ -338,6 +338,9 @@ export interface IProjectConfig {
     babel?: IBabelOptions,
     csso?: TogglableOptions,
     uglify?: TogglableOptions
+  },
+  ui?: {
+    extraWatchFiles?: any[]
   },
   env?: IOption,
   alias?: IOption,

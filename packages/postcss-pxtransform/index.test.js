@@ -558,3 +558,63 @@ describe('platform 为 h5，文件头部带注释的不转换', () => {
     expect(processed).toBe(rules)
   })
 })
+
+describe('platform 为 h5，指定 h5 平台保留', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    var rules = '/*  #ifdef  h5  */ h1 {margin: 0 0 20Px;font-size: 40Px;line-height: 1.2;}/*  #endif  */'
+    var options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    var processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe(rules)
+  })
+})
+
+describe('platform 为 h5，指定平台 rn 平台保留', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    var rules = '/*  #ifdef  rn  */ h1 {margin: 0 0 20px;font-size: 40Px;line-height: 1.2;}/*  #endif  */ .test{}'
+    var options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    var processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe('/*  #ifdef  rn  *//*  #endif  */ .test{}')
+  })
+})
+
+describe('platform 为 rn，指定平台 h5 rn 平台保留', () => {
+  it('{platform: \'rn\', designWidth: 640} ', () => {
+    var rules = '/*  #ifdef  h5 rn  */ h1 {margin: 0 0 20Px;font-size: 40Px;line-height: 1.2;}/*  #endif  */ .test{}'
+    var options = {
+      platform: 'rn',
+      designWidth: 640
+    }
+    var processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe(rules)
+  })
+})
+
+describe('platform 为 h5，指定平台 rn 平台剔除', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    var rules = '/*  #ifndef  rn  */ h1 {margin: 0 0 20Px;font-size: 40Px;line-height: 1.2;}/*  #endif  */ .test{}'
+    var options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    var processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe(rules)
+  })
+})
+
+describe('platform 为 h5，指定平台 h5 平台剔除', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    var rules = '/*  #ifndef  h5  */ h1 {margin: 0 0 20px;font-size: 40Px;line-height: 1.2;}/*  #endif  */ .test{}'
+    var options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    var processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe('/*  #ifndef  h5  *//*  #endif  */ .test{}')
+  })
+})

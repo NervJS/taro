@@ -13,6 +13,10 @@ export function isEmptyObject (obj) {
   return true
 }
 
+export function isUndefined (o) {
+  return o === undefined
+}
+
 /**
  * JSON 克隆
  * @param {Object | Json} jsonObj json对象
@@ -125,7 +129,7 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             // 对象
             let shouldDiffObject = true
             Object.keys(fromItem).some(key => {
-              if (typeof toItem[key] === 'undefined') {
+              if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
@@ -182,7 +186,7 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
             // 对象
             let shouldDiffObject = true
             Object.keys(fromItem).some(key => {
-              if (typeof toItem[key] === 'undefined') {
+              if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }

@@ -13,9 +13,9 @@
  *   ✔ disabled
  *   ✔ onColumnChange
  * Time:
- *   ✔ start: IOS
- *   ✔ end: IOS
- *   ✔ disabled: IOS
+ *   ✔ start
+ *   ✔ end
+ *   ✔ disabled
  * Date:
  *   ✔ start
  *   ✔ end
@@ -24,6 +24,8 @@
  * Region:
  *   ✔ customItem
  *   ✔ disabled
+ *
+ * @hint Picker 里面嵌套的子组件要支持绑定 onPress 事件才能弹出选择框
  */
 
 import * as React from 'react'
@@ -38,6 +40,7 @@ export default class _Picker extends React.Component<any> {
   static defaultProps = {
     mode: 'selector',
   }
+
   render () {
     const {
       mode,

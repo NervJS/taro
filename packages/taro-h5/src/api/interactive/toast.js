@@ -1,91 +1,89 @@
 import { inlineStyle } from '../utils'
 
-export default class Toast {
-  constructor () {
-    const noop = function () {}
+const noop = function () {}
 
-    this.options = {
-      title: '',
-      icon: 'none',
-      image: '',
-      duration: 1500,
-      mask: false,
-      success: noop,
-      fail: noop,
-      complete: noop
-    }
+export default class Toast {
+  options = {
+    title: '',
+    icon: 'none',
+    image: '',
+    duration: 1500,
+    mask: false,
+    success: noop,
+    fail: noop,
+    complete: noop
   }
 
-  getstyle (name) {
-    return {
-      maskStyle: {
-        'position': 'fixed',
-        'z-index': '1000',
-        'top': '0',
-        'right': '0',
-        'left': '0',
-        'bottom': '0'
-      },
-      toastStyle: {
-        'z-index': '5000',
-        'box-sizing': 'border-box',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'justify-content': 'center',
-        '-webkit-justify-content': 'center',
-        'position': 'fixed',
-        'top': '50%',
-        'left': '50%',
-        'min-width': '120px',
-        'max-width': '200px',
-        'min-height': '120px',
-        'padding': '15px',
-        'transform': 'translate(-50%, -50%)',
-        'border-radius': '5px',
-        'text-align': 'center',
-        'line-height': '1.6',
-        'color': '#FFFFFF',
-        'background': 'rgba(17, 17, 17, 0.7)'
-      },
-      successStyle: {
-        'margin': '0',
-        'vertical-align': 'middle',
-        'font-family': 'taro',
-        '-webkit-font-smoothing': 'antialiased',
-        'color': '#FFFFFF',
-        'font-size': '55px',
-        'line-height': '1'
-      },
-      loadingStyle: {
-        'margin': '6px auto',
-        'width': '38px',
-        'height': '38px',
-        '-webkit-animation': 'taroLoading 1s steps(12, end) infinite',
-        'animation': 'taroLoading 1s steps(12, end) infinite',
-        'background': 'transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4=) no-repeat',
-        'background-size': '100%'
-      },
-      imageStyle: {
-        'margin': '6px auto',
-        'width': '40px',
-        'height': '40px',
-        'background': 'transparent no-repeat',
-        'background-size': '100%'
-      },
-      textStyle: {
-        'margin': '0',
-        'font-size': '16px'
-      }
+  style = {
+    maskStyle: {
+      'position': 'fixed',
+      'z-index': '1000',
+      'top': '0',
+      'right': '0',
+      'left': '0',
+      'bottom': '0'
+    },
+    toastStyle: {
+      'z-index': '5000',
+      'box-sizing': 'border-box',
+      'display': 'flex',
+      'flex-direction': 'column',
+      'justify-content': 'center',
+      '-webkit-justify-content': 'center',
+      'position': 'fixed',
+      'top': '50%',
+      'left': '50%',
+      'min-width': '120px',
+      'max-width': '200px',
+      'min-height': '120px',
+      'padding': '15px',
+      'transform': 'translate(-50%, -50%)',
+      'border-radius': '5px',
+      'text-align': 'center',
+      'line-height': '1.6',
+      'color': '#FFFFFF',
+      'background': 'rgba(17, 17, 17, 0.7)'
+    },
+    successStyle: {
+      'margin': '0',
+      'vertical-align': 'middle',
+      'font-family': 'taro',
+      '-webkit-font-smoothing': 'antialiased',
+      'color': '#FFFFFF',
+      'font-size': '55px',
+      'line-height': '1'
+    },
+    loadingStyle: {
+      'margin': '6px auto',
+      'width': '38px',
+      'height': '38px',
+      '-webkit-animation': 'taroLoading 1s steps(12, end) infinite',
+      'animation': 'taroLoading 1s steps(12, end) infinite',
+      'background': 'transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4=) no-repeat',
+      'background-size': '100%'
+    },
+    imageStyle: {
+      'margin': '6px auto',
+      'width': '40px',
+      'height': '40px',
+      'background': 'transparent no-repeat',
+      'background-size': '100%'
+    },
+    textStyle: {
+      'margin': '0',
+      'font-size': '16px'
     }
   }
 
   create (options = {}) {
     // style
-    const { maskStyle, toastStyle, successStyle, loadingStyle, imageStyle, textStyle } = this.getstyle()
+    const { maskStyle, toastStyle, successStyle, loadingStyle, imageStyle, textStyle } = this.style
 
     // configuration
-    Object.assign(this.options, options)
-    const config = this.options
+    const config = {
+      ...this.options,
+      ...options
+    }
 
     // wrapper
     this.el = document.createElement('div')
@@ -101,25 +99,28 @@ export default class Toast {
     // icon
     this.icon = document.createElement('p')
     if (config.image) {
-      this.icon.setAttribute('style', inlineStyle(Object.assign({}, imageStyle, {
+      this.icon.setAttribute('style', inlineStyle({
+        ...imageStyle,
         'background-image': `url(${config.image})`
-      })))
+      }))
     } else {
       const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
-      if (config.icon === 'none') Object.assign(iconStyle, { 'display': 'none' })
-      this.icon.setAttribute('style', inlineStyle(iconStyle))
+      this.icon.setAttribute('style', inlineStyle({
+        ...iconStyle,
+        ...(config.icon === 'none' ? { 'display': 'none' } : {})
+      }))
       if (config.icon !== 'loading') this.icon.textContent = ''
     }
 
     // toast
     this.toast = document.createElement('div')
-    if (config.icon === 'none') {
-      Object.assign(toastStyle, {
+    this.toast.setAttribute('style', inlineStyle({
+      ...toastStyle,
+      ...(config.icon === 'none' ? {
         'min-height': '0',
         'padding': '10px 15px'
-      })
-    }
-    this.toast.setAttribute('style', inlineStyle(toastStyle))
+      } : {})
+    }))
 
     // title
     this.title = document.createElement('p')
@@ -147,50 +148,47 @@ export default class Toast {
   }
 
   show (options = {}) {
-    const config = this.options
+    const config = {
+      ...this.options,
+      ...options
+    }
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
 
     // title
-    if (config.title !== options.title) this.title.textContent = options.title
+    this.title.textContent = config.title || ''
 
     // mask
-    if (config.mask !== options.mask) this.mask.style.display = options.mask ? 'block' : 'none'
+    this.mask.style.display = config.mask ? 'block' : 'none'
 
     // image
-    const { toastStyle, successStyle, loadingStyle, imageStyle } = this.getstyle()
-    if (config.image !== options.image) {
-      if (options.image) {
-        this.icon.setAttribute('style', inlineStyle(Object.assign({}, imageStyle, {
-          'background-image': `url(${options.image})`
-        })))
-        this.icon.textContent = ''
-      } else {
-        const iconStyle = options.icon === 'loading' ? loadingStyle : successStyle
-        if (options.icon === 'none') Object.assign(iconStyle, { 'display': 'none' })
-        this.icon.setAttribute('style', inlineStyle(iconStyle))
-        this.icon.textContent = options.icon === 'loading' ? '' : ''
-      }
+    const { toastStyle, successStyle, loadingStyle, imageStyle } = this.style
+    if (config.image) {
+      this.icon.setAttribute('style', inlineStyle({
+        ...imageStyle,
+        'background-image': `url(${config.image})`
+      }))
+      this.icon.textContent = ''
     } else {
-      if (!options.image && config.icon !== options.icon) {
-        const iconStyle = options.icon === 'loading' ? loadingStyle : successStyle
-        if (options.icon === 'none') Object.assign(iconStyle, { 'display': 'none' })
-        this.icon.setAttribute('style', inlineStyle(iconStyle))
-        this.icon.textContent = options.icon === 'loading' ? '' : ''
+      if (!config.image && config.icon) {
+        const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
+        this.icon.setAttribute('style', inlineStyle({
+          ...iconStyle,
+          ...(config.icon === 'none' ? { 'display': 'none' } : {})
+        }))
+        this.icon.textContent = config.icon === 'loading' ? '' : ''
       }
     }
 
     // toast
-    if (options.icon === 'none') {
-      Object.assign(toastStyle, {
+    this.toast.setAttribute('style', inlineStyle({
+      ...toastStyle,
+      ...(config.icon === 'none' ? {
         'min-height': '0',
         'padding': '10px 15px'
-      })
-    }
-    this.toast.setAttribute('style', inlineStyle(toastStyle))
-
-    Object.assign(config, options)
+      } : {})
+    }))
 
     // show
     this.el.style.display = 'block'

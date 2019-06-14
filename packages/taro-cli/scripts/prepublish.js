@@ -3,7 +3,7 @@ const shelljs = require('shelljs')
 
 const { version } = require('../package.json')
 const { shouldUseYarn } = require('../dist/util')
-const Project = require('../dist/project').default
+const Project = require('../dist/create/project').default
 
 class GenerateLockfile extends Project {
   constructor () {

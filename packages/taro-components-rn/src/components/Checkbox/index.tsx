@@ -1,4 +1,6 @@
 /**
+ * 半受控组件
+ *
  * ✔ value
  * ✔ disabled
  * ✔ checked
@@ -20,24 +22,26 @@ import { noop } from '../../utils'
 import { CheckboxProps, CheckboxState } from './PropsType'
 
 class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: CheckboxProps) {
-    super(props)
-  }
-
-  $touchable: TouchableWithoutFeedback | null
-
-  state: CheckboxState = {
-    checked: !!this.props.checked
-  }
-
   static defaultProps = {
     value: '',
     color: '#09BB07',
   }
 
+  static getDerivedStateFromProps (props: CheckboxProps, state: CheckboxState) {
+    return props.checked !== state.checked ? {
+      checked: !!props.checked
+    } : null
+  }
+
+  $touchable = React.createRef<TouchableWithoutFeedback>()
+
+  state: CheckboxState = {
+    checked: false
+  }
+
   _simulateNativePress = (evt: GestureResponderEvent) => {
-    this.$touchable && this.$touchable.touchableHandlePress(evt)
+    const node = this.$touchable.current
+    node && node.touchableHandlePress(evt)
   }
 
   onPress = () => {
@@ -53,13 +57,6 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.setState({ checked: !this.state.checked })
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: CheckboxProps) {
-    if (this.state.checked !== nextProps.checked) {
-      this.setState({ checked: !!nextProps.checked })
-    }
-  }
-
   render () {
     const {
       style,
@@ -69,7 +66,7 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     return (
       <TouchableWithoutFeedback
         onPress={this.onPress}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable}
       >
         <View style={[styles.wrapper, style, this.state.checked && styles.wrapperChecked]}>
           <Icon

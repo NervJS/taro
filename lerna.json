@@ -28,6 +28,7 @@
     "packages/taro-alipay",
     "packages/taro-tt",
     "packages/taro-quickapp",
+    "packages/taro-qq",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
@@ -44,13 +45,14 @@
     "packages/taro-with-weapp",
     "packages/taroize",
     "packages/stylelint-taro-rn",
-    "packages/stylelint-config-taro-rn"
+    "packages/stylelint-config-taro-rn",
+    "packages/css-to-react-native"
   ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.3.0-beta.0",
+  "version": "1.3.0",
   "npmClient": "npm"
 }

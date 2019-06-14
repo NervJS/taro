@@ -34,11 +34,13 @@ import {
   setLoopState,
   PROPS_MANAGER,
   GEN_COMP_ID,
-  GEN_LOOP_COMPID
+  GEN_LOOP_COMPID,
+  CONTEXT_PROVIDER
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet } from 'lodash'
+import { get as safeGet, cloneDeep } from 'lodash'
+import { isTestEnv } from './env'
 
 const template = require('babel-template')
 
@@ -93,6 +95,32 @@ function resetTSClassProperty (body: (t.ClassMethod | t.ClassProperty)[]) {
           }
           return true
         })
+      }
+    }
+  }
+}
+
+function handleClosureJSXFunc (jsx: NodePath<t.JSXElement>, mainClass: NodePath<t.ClassDeclaration>) {
+  // 在 ./functional.ts 会把 FunctionExpression 转化为 arrowFunctionExpr
+  // 所以我们这里只处理一种情况
+  const arrowFunc = jsx.findParent(p => p.isArrowFunctionExpression())
+  if (arrowFunc && arrowFunc.isArrowFunctionExpression()) {
+    const parentPath = arrowFunc.parentPath
+    if (parentPath.isVariableDeclarator()) {
+      const id = parentPath.node.id
+      if (t.isIdentifier(id) && id.name.startsWith('render')) {
+        const funcName = `renderClosure${id.name.slice(6, id.name.length)}`
+        mainClass.node.body.body.push(
+          t.classProperty(
+            t.identifier(funcName),
+            cloneDeep(arrowFunc.node)
+          )
+        )
+        parentPath.scope.rename(id.name, funcName)
+        arrowFunc.replaceWith(t.memberExpression(
+          t.thisExpression(),
+          t.identifier(funcName)
+        ))
       }
     }
   }
@@ -221,6 +249,21 @@ export default function transform (options: Options): TransformResult {
   let renderMethod!: NodePath<t.ClassMethod>
   let isImportTaro = false
   traverse(ast, {
+    Program: {
+      exit (path: NodePath<t.Program>) {
+        for (const stem of path.node.body) {
+          if (t.isImportDeclaration(stem)) {
+            if (stem.source.value === TARO_PACKAGE_NAME) {
+              const specs = stem.specifiers
+              if (specs.some(s => t.isImportDefaultSpecifier(s) && s.local.name === 'Taro')) {
+                continue
+              }
+              specs.unshift(t.importDefaultSpecifier(t.identifier('Taro')))
+            }
+          }
+        }
+      }
+    },
     JSXText (path) {
       if (Adapter.type !== Adapters.quickapp) {
         return
@@ -274,7 +317,8 @@ export default function transform (options: Options): TransformResult {
             code: superClass.code,
             isTyped: true,
             sourcePath: superClass.sourcePath,
-            outputPath: superClass.sourcePath
+            outputPath: superClass.sourcePath,
+            sourceDir: options.sourceDir
           }).componentProperies
         } catch (error) {
           //
@@ -373,6 +417,23 @@ export default function transform (options: Options): TransformResult {
     //   const expr = parentPath.get('value.expression')
 
     // },
+    JSXMemberExpression (path) {
+      const { property, object } = path.node
+      if (!t.isJSXIdentifier(property, { name: 'Provider' })) {
+        throw codeFrameError(property, '只能在使用 Context.Provider 的情况下才能使用 JSX 成员表达式')
+      }
+      if (!t.isJSXIdentifier(object)) {
+        return
+      }
+      const jsx = path.parentPath.parentPath
+      if (jsx.isJSXElement()) {
+        const componentName = `${object.name}${CONTEXT_PROVIDER}`
+        jsx.node.openingElement.name = t.jSXIdentifier(componentName)
+        if (jsx.node.closingElement) {
+          jsx.node.closingElement.name = t.jSXIdentifier(componentName)
+        }
+      }
+    },
     JSXElement (path) {
       const assignment = path.findParent(p => p.isAssignmentExpression())
       if (assignment && assignment.isAssignmentExpression() && !options.isTyped) {
@@ -439,6 +500,7 @@ export default function transform (options: Options): TransformResult {
           ])
         }
       }
+      handleClosureJSXFunc(path, mainClass)
     },
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
@@ -582,7 +644,8 @@ export default function transform (options: Options): TransformResult {
           if (s.local.name === 'Provider') {
             specs.splice(index, 1)
             specs.push(
-              t.importSpecifier(t.identifier('setStore'), t.identifier('setStore'))
+              t.importSpecifier(t.identifier('setStore'), t.identifier('setStore')),
+              t.importSpecifier(t.identifier('ReduxContext'), t.identifier('ReduxContext'))
             )
           }
         })
@@ -629,14 +692,27 @@ export default function transform (options: Options): TransformResult {
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {
-      ast.program.body.forEach((node, index, body) => {
+      ast.program.body.every((node, index, body) => {
         if (node === statementPath.node) {
+          const settingReduxProvider = t.expressionStatement(
+            t.callExpression(t.memberExpression(t.identifier('ReduxContext'), t.identifier('Provider')), [
+              t.objectExpression([
+                t.objectProperty(t.identifier('store'), t.identifier(storeName))
+              ])
+            ])
+          )
+          const ifStem = t.ifStatement(t.memberExpression(t.identifier('ReduxContext'), t.identifier('Provider')), t.blockStatement([
+            settingReduxProvider,
+            settingReduxProvider // 第一次调用初始化，第二次赋值
+          ]))
           body.splice(index + 1, 0, t.expressionStatement(
             t.callExpression(t.identifier('setStore'), [
               t.identifier(storeName)
             ])
-          ))
+          ), ifStem)
+          return false
         }
+        return true
       })
     }
   }
@@ -647,14 +723,14 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
-  result.compressedTemplate = result.template
+  result.compressedTemplate = result.template.replace(lessThanSignReg, '<')
   result.template = prettyPrint(result.template, {
     max_char: 0,
-    unformatted: process.env.NODE_ENV === 'test' ? [] : ['text']
+    unformatted: isTestEnv ? [] : ['text']
   })
   result.template = result.template.replace(lessThanSignReg, '<')
   result.imageSrcs = Array.from(imageSource)

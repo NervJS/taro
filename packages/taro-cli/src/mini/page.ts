@@ -102,6 +102,7 @@ export async function buildSinglePage (page: string) {
       const aheadTransformResult: IWxTransformResult = wxTransformer({
         code: pageJsContent,
         sourcePath: pageJs,
+        sourceDir,
         outputPath: outputPageJSPath,
         isRoot: true,
         isTyped: REG_TYPESCRIPT.test(pageJs),
@@ -123,6 +124,7 @@ export async function buildSinglePage (page: string) {
     const transformResult: IWxTransformResult = wxTransformer({
       code: pageJsContent,
       sourcePath: pageJs,
+      sourceDir,
       outputPath: outputPageJSPath,
       isRoot: true,
       isTyped: REG_TYPESCRIPT.test(pageJs),
@@ -154,7 +156,7 @@ export async function buildSinglePage (page: string) {
     if (!isQuickApp) {
       resCode = await compileScriptFile(resCode, pageJs, outputPageJSPath, buildAdapter)
       if (isProduction) {
-        uglifyJS(resCode, pageJs, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
+        resCode = uglifyJS(resCode, pageJs, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     } else {
       // 快应用编译，搜集创建页面 ux 文件

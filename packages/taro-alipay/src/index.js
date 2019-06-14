@@ -18,7 +18,10 @@ import {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext,
+  createContext,
+  memo
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -26,7 +29,8 @@ import PureComponent from './pure-component'
 import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
-import { getElementById } from './util'
+import propsManager from './propsManager'
+import { getElementById, genCompid } from './util'
 
 export const Taro = {
   Component,
@@ -46,6 +50,8 @@ export const Taro = {
   internal_get_original,
   interceptors,
   getElementById,
+  propsManager,
+  genCompid,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -53,7 +59,10 @@ export const Taro = {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext,
+  createContext,
+  memo
 }
 
 export default Taro

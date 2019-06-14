@@ -277,7 +277,10 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/cli',
   '@tarojs/components',
   '@tarojs/components-rn',
+  '@tarojs/components-qa',
   '@tarojs/taro-h5',
+  '@tarojs/taro-tt',
+  '@tarojs/taro-quickapp',
   '@tarojs/taro-swan',
   '@tarojs/taro-alipay',
   '@tarojs/plugin-babel',
@@ -305,7 +308,9 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types'
+  '@tarojs/mobx-prop-types',
+  'nervjs',
+  'nerv-devtools'
 ]
 
 export enum PARSE_AST_TYPE {

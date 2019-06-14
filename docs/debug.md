@@ -31,7 +31,7 @@ taro-init(1) does not exist, try --help
 
 ## 小程序
 
-### 没有任何报错，但显示的结果不如预期
+### 没有任何报错，但显示的结果不如预期
 
 #### 被 diff 逻辑过滤
 
@@ -188,6 +188,20 @@ Input 组件可以通过在回调中 return 需要改变的值来更新视图。
 ![inputdoc](https://user-images.githubusercontent.com/11807297/55405139-fcb44b00-558b-11e9-845f-afbc73863b48.png)
 
 其它组件需要立即 `setState({ value: e.detail.value })` 以立即更新同步 data.value 值，然后再 setState 真正需要表单改变的值。详见 [#1981](https://github.com/NervJS/taro/issues/1981)、[#2257](https://github.com/NervJS/taro/issues/2257)
+
+### API 问题
+
+#### API 调用结果不符合预期
+
+Taro 小程序端的 API 只是对小程序原生 API 简单地进行了 promise 化，并没有做什么额外操作。因此开发者在遇到这种情况时可以试试直接使用小程序 API，如微信小程序中直接使用 `wx.xxx`。如果有同样的报错，证明是小程序方面的问题。否则则可能是 Taro 的问题，可以给我们提相关 issue。
+
+#### API 调用报错
+
+假设开发者在调用某个 API `Taro.xxx`，出现类似以下报错：
+
+![image](https://user-images.githubusercontent.com/11807297/59170450-45324b00-8b71-11e9-8e25-1169b425040c.png)
+
+证明 Taro 还没兼容此 API，比如一些小程序平台最新更新的 API。这时可以给我们提 issue 要求添加，或者修改此文件 [native-apis.js](https://github.com/NervJS/taro/blob/master/packages/taro/src/native-apis.js) 后，给我们提 PR。
 
 ## H5
 

@@ -109,6 +109,7 @@ const _printWhenDone = ({
     if (stats.hasErrors()) {
       printFailed()
       errors.forEach(e => console.log(e + '\n'));
+      verbose && process.exit(1)      
       return;
     }
   

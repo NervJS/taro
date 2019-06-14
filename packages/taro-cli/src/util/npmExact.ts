@@ -2,11 +2,12 @@ import * as path from 'path'
 
 import { resolveNpmFilesPath } from './resolve_npm_files'
 import { INpmConfig, TogglableOptions } from './types'
-import { BUILD_TYPES, REG_STYLE, NODE_MODULES } from './constants'
+import { BUILD_TYPES, REG_STYLE, NODE_MODULES, REG_FONT, REG_MEDIA, REG_IMAGE } from './constants'
 import { promoteRelativePath, recursiveFindNodeModules } from './index'
 
 interface IArgs {
   npmName: string,
+  sourceFilePath: string,
   filePath: string,
   isProduction: boolean,
   npmConfig: INpmConfig,
@@ -33,6 +34,7 @@ export function getNpmOutputDir (outputDir: string, configDir: string, npmConfig
 
 export function getExactedNpmFilePath ({
   npmName,
+  sourceFilePath,
   filePath,
   isProduction,
   npmConfig,
@@ -61,8 +63,12 @@ export function getExactedNpmFilePath ({
     })
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath
-    if (REG_STYLE.test(npmInfoMainPath)) {
+    if (REG_STYLE.test(npmInfoMainPath)
+      || REG_FONT.test(npmInfoMainPath)
+      || REG_MEDIA.test(npmInfoMainPath)
+      || REG_IMAGE.test(npmInfoMainPath)) {
       outputNpmPath = npmInfoMainPath
+      filePath = sourceFilePath
     } else {
       outputNpmPath = npmInfoMainPath.replace(nodeModulesPath, npmOutputDir)
     }

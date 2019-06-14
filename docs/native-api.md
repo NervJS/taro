@@ -102,7 +102,7 @@ Taro.request({ url })
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 | 头条小程序 | QQ 轻应用 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 | 头条小程序 | QQ 轻应用 |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.request | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | Taro.addInterceptor | ✔️ | ✔️ |  | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -112,6 +112,18 @@ Taro.request({ url })
 #### Taro.uploadFile(OBJECT)
 
 使用方式同 [`wx.uploadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.uploadFile.html)，支持 `Promise` 化使用。
+
+**参数说明**
+属性 | 类型 | 默认值 | 必填 | 说明
+ :-: | :-: | :-: | :-: | :-: 
+url | string | | 是 | 开发者服务器地址
+filePath | string | | 是 | 要上传文件资源的路径
+name | string | | 是 | 文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容
+header | Object | | 否 | HTTP 请求 Header，Header 中不能设置 Referer
+formData | Object | | 否 | HTTP 请求中其他额外的 form data
+success | function | | 否 | 接口调用成功的回调函数
+fail | function | | 否 | 接口调用失败的回调函数
+complete | function | | 否 | 接口调用结束的回调函数（调用成功、失败都会执行）
 
 **示例代码：**
 
@@ -125,6 +137,17 @@ const uploadTask = Taro.uploadFile(params).then(...)
 
 使用方式同 [`wx.downloadFile`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.downloadFile.html)，支持 `Promise` 化使用。
 
+**参数说明**
+属性 | 类型 | 默认值 | 必填 | 说明
+ :-: | :-: | :-: | :-: | :-: 
+ url | string | 下载资源的 url
+ header] | Object | HTTP 请求的 Header，Header 中不能设置 Referer
+ filePath] | string | *指定文件下载后存储的路径
+ success] | function | 接口调用成功的回调函数
+ fail] | function | 接口调用失败的回调函数
+ complete] | function | 接口调用结束的回调函数（调用成功、失败都会执行）
+
+
 **示例代码：**
 
 ```jsx
@@ -135,10 +158,10 @@ Taro.downloadFile(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| Taro.uploadFile | ✔️ |  | ✔️ | ✔️ | ✔️ |
-| Taro.downloadFile | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.uploadFile | ✔️ | ✔️ | ️ | ✔️ | ✔️ |
+| Taro.downloadFile | ✔️ | ✔️ | ️ | ✔️ | ✔️ |
 
 ### WebSocket
 
@@ -296,7 +319,7 @@ SocketTask.onMessage(CALLBACK)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.connectSocket | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SocketTask | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -363,7 +386,7 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.chooseImage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | Taro.previewImage | ✔️ |  | ✔️ | ✔️ | ✔️ |
@@ -398,7 +421,7 @@ Taro.stopRecord()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.startRecord | ✔️ |  |  |  |  |
 | Taro.stopRecord | ✔️ |  |  |  |  |
@@ -419,7 +442,7 @@ const recorderManager = Taro.getRecorderManager()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.getRecorderManager | ✔️ |  |  |  |  |
 
@@ -475,7 +498,7 @@ Taro.startRecord(params)
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.playVoice | ✔️ |  |  |  |  |
 | Taro.pauseVoice | ✔️ |  |  |  |  |
@@ -557,7 +580,7 @@ Taro.stopBackgroundAudio()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.getBackgroundAudioPlayerState | ✔️ |  |  |
 | Taro.playBackgroundAudio | ✔️ |  |  |
@@ -606,6 +629,53 @@ const audioCtx = Taro.createAudioContext('myAudio')
 
 使用方式同 [`wx.createInnerAudioContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createInnerAudioContext.html)。
 
+##### 参数
+
+**InnerAudioContext**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | <code>string</code> |  | 音频资源的地址，用于直接播放。2.2.3 开始支持云文件ID |
+| [startTime] | <code>number</code> | <code>0</code> | 开始播放的位置（单位：s），默认为 0 |
+| [autoplay] | <code>boolean</code> | <code>false</code> | 是否自动开始播放，默认为 false |
+| [loop] | <code>boolean</code> | <code>false</code> | 是否循环播放，默认为 false |
+| [obeyMuteSwitch] | <code>boolean</code> | <code>true</code> | 是否遵循系统静音开关，默认为 true。当此参数为 false 时，即使用户打开了静音开关，也能继续发出声音。从 2.3.0 版本开始此参数不生效，使用 wx.setInnerAudioOption 接口统一设置。 |
+| [volume] | <code>number</code> | <code>1</code> | 音量。范围 0~1。默认为 1 |
+| duration | <code>number</code> |  | 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回（只读） |
+| currentTime | <code>number</code> |  | 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位（只读） |
+| paused | <code>boolean</code> |  | 当前是是否暂停或停止状态（只读） |
+| buffered | <code>number</code> |  | 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲（只读） |
+| play() | <code>function</code> |  | 播放 |
+| pause() | <code>function</code> |  | 暂停。暂停后的音频再播放会从暂停处开始播放 |
+| stop() | <code>function</code> |  | 停止。停止后的音频再播放会从头开始播放。 |
+| seek(position: number) | <code>function</code> |  |  跳转到指定位置 |
+| destroy() | <code>function</code> |  | 销毁当前实例 |
+| offCanplay(CALLBACK: function) | <code>function</code> |  | 取消监听音频进入可以播放状态的事件 |
+| offEnded(CALLBACK: function) | <code>function</code> |  | 取消监听音频自然播放至结束的事件 |
+| offError(CALLBACK: function) | <code>function</code> |  | 取消监听音频播放错误事件 |
+| offPause(CALLBACK: function) | <code>function</code> |  | 取消监听音频暂停事件 |
+| offPlay(CALLBACK: function) | <code>function</code> |  | 取消监听音频播放事件 |
+| offSeeked(CALLBACK: function) | <code>function</code> |  | 取消监听音频完成跳转操作的事件 |
+| offSeeking(CALLBACK: function) | <code>function</code> |  | 取消监听音频进行跳转操作的事件 |
+| offStop(CALLBACK: function) | <code>function</code> |  | 取消监听音频停止事件 |
+| offTimeUpdate(CALLBACK: function) | <code>function</code> |  | 取消监听音频播放进度更新事件 |
+| offWaiting(CALLBACK: function) | <code>function</code> |  | 取消监听音频加载中事件 |
+| onCanplay(CALLBACK: function) | <code>function</code> |  | 监听音频进入可以播放状态的事件。但不保证后面可以流畅播放 |
+| onEnded(CALLBACK: function) | <code>function</code> |  | 监听音频自然播放至结束的事件 |
+| onError(CALLBACK: function) | <code>function</code> |  | 监听音频播放错误事件 |
+| onPause(CALLBACK: function) | <code>function</code> |  | 监听音频暂停事件 |
+| onPlay(CALLBACK: function) | <code>function</code> |  | 监听音频播放事件 |
+| onSeeked(CALLBACK: function) | <code>function</code> |  | 监听音频完成跳转操作的事件 |
+| onSeeking(CALLBACK: function) | <code>function</code> |  | 监听音频进行跳转操作的事件 |
+| onStop(CALLBACK: function) | <code>function</code> |  | 监听音频停止事件 |
+| onTimeUpdate(CALLBACK: function) | <code>function</code> |  | 监听音频播放进度更新事件 |
+| onWaiting(CALLBACK: function) | <code>function</code> |  | 监听音频加载中事件。当音频因为数据不足，需要停下来加载时会触发 |
+
+
+**position: 跳转的位置（单位 s）**
+
+**CALLBACK: 回调函数**
+
 **示例代码：**
 
 ```jsx
@@ -616,10 +686,10 @@ const innerAudioContext = Taro.createInnerAudioContext()
 
 > API 支持度
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
+| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| Taro.createAudioContext | ✔️ |  |  |
-| Taro.createInnerAudioContext | ✔️ |  |  |
+| Taro.createAudioContext | ✔️ |  |  |  |  |
+| Taro.createInnerAudioContext | ✔️ | ✔️ |  |  |  |
 
 ### 视频
 
@@ -1269,6 +1339,21 @@ Taro.onNetworkStatusChange(res => {
 
 使用方式同 [`wx.onAccelerometerChange`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onAccelerometerChange.html)。
 
+##### 参数
+
+| Param | Type | Description |
+| --- | --- | --- |
+| CALLBACK | <code>function</code> | 加速度数据事件的回调函数 |
+
+**CALLBACK参数**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| object | <code>object</code> | 参数 |
+| object.x | <code>number</code> | X 轴 |
+| object.y | <code>number</code> | Y 轴 |
+| object.z | <code>number</code> | Z 轴 |
+
 **示例代码：**
 
 ```jsx
@@ -1285,6 +1370,18 @@ Taro.onAccelerometerChange(res => {
 
 使用方式同 [`wx.startAccelerometer`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startAccelerometer.html)。
 
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [object] | <code>Object</code> |  | 参数 |
+| [object.interval] | <code>&#x27;game&#x27;</code> 或 <code>&#x27;ui&#x27;</code> 或 <code>&#x27;normal&#x27;</code> | <code>normal</code> | 监听加速度数据回调函数的执行频率 game 适用于更新游戏的回调频率，在 20ms/次 左右 ui 适用于更新 UI 的回调频率，在 60ms/次 左右 normal 普通的回调频率，在 200ms/次 左右 |
+| [object.success] | <code>function</code> |  | 接口调用成功的回调函数 |
+| [object.fail] | <code>function</code> |  | 接口调用失败的回调函数 |
+| [object.complete] | <code>function</code> |  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -1296,6 +1393,17 @@ Taro.startAccelerometer({ interval: 'game' })
 #### Taro.stopAccelerometer(OBJECT)
 
 使用方式同 [`wx.stopAccelerometer`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopAccelerometer.html)。
+
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [object] | <code>Object</code> | 参数 |
+| [object.success] | <code>function</code> | 接口调用成功的回调函数 |
+| [object.fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [object.complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -1319,6 +1427,30 @@ Taro.stopAccelerometer()
 
 使用方式同 [`wx.onCompassChange`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.onCompassChange.html)。
 
+##### 参数
+
+| Param | Type | Description |
+| --- | --- | --- |
+| CALLBACK | <code>function</code> | 罗盘数据变化事件的回调函数 |
+
+**CALLBACK参数**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| direction | <code>number</code> | 面对的方向度数 |
+| [accuracy] | <code>Accuracy</code> | 精度 |
+
+由于平台差异，accuracy 在 iOS/Android 的值不同。
+ * **iOS**：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。
+ * **Android**：accuracy 是一个 string 类型的枚举值。
+ * **high**：高精度
+ * **medium**：中等精度
+ * **low**：低精度
+ * **no-contact**：不可信，传感器失去连接
+ * **unreliable**：不可信，原因未知
+ * **unknow ${value}**：未知的精度枚举值，即该 Android 系统此时返回的表示精度的 value 不是一个标准的精度枚举值
+未知的精度枚举值，即该 Android 系统此时返回的表示精度的 value 不是一个标准的精度枚举值 示指向南，依此类推。
+
 **示例代码：**
 
 ```jsx
@@ -1333,6 +1465,17 @@ Taro.onCompassChange(res => {
 
 使用方式同 [`wx.startCompass`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.startCompass.html)。
 
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | 参数 |
+| [object.success] | <code>function</code> | 接口调用成功的回调函数 |
+| [object.fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [object.complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -1344,6 +1487,17 @@ Taro.startCompass()
 #### Taro.stopCompass(OBJECT)
 
 使用方式同 [`wx.stopCompass`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopCompass.html)。
+
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | 参数 |
+| [object.success] | <code>function</code> | 接口调用成功的回调函数 |
+| [object.fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [object.complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -1357,9 +1511,9 @@ Taro.stopCompass()
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.onCompassChange | ✔️ |  |  |
-| Taro.startCompass | ✔️ |  |  |
-| Taro.stopCompass | ✔️ |  |  |
+| Taro.onCompassChange | ✔️ | ✔️ |  |
+| Taro.startCompass | ✔️ | ✔️ |  |
+| Taro.stopCompass | ✔️ | ✔️ |  |
 
 ### 拨打电话
 
@@ -1431,8 +1585,8 @@ Taro.getClipboardData(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.setClipboardData | ✔️ |  | ✔️ |
-| Taro.getClipboardData | ✔️ |  | ✔️ |
+| Taro.setClipboardData | ✔️ | ✔️ | ✔️ |
+| Taro.getClipboardData | ✔️ | ✔️ | ✔️ |
 
 ### 蓝牙
 
@@ -1816,6 +1970,15 @@ Taro.onUserCaptureScreen(() => {
 
 使用方式同 [`wx.vibrateLong`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.vibrateLong.html)，支持 `Promise` 化使用。
 
+##### 参数
+
+**OBJECT**
+| Name | Type | Description |
+| --- | --- | --- |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -1827,6 +1990,15 @@ Taro.vibrateLong(params).then(...)
 #### Taro.vibrateShort(OBJECT)
 
 使用方式同 [`wx.vibrateShort`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.vibrateShort.html)，支持 `Promise` 化使用。
+
+##### 参数
+
+**OBJECT**
+| Name | Type | Description |
+| --- | --- | --- |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -1840,8 +2012,8 @@ Taro.vibrateShort(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.vibrateLong | ✔️ |  | ✔️ |
-| Taro.vibrateShort | ✔️ |  | ✔️ |
+| Taro.vibrateLong | ✔️ | ✔️ | ✔️ |
+| Taro.vibrateShort | ✔️ | ✔️ | ✔️ |
 
 ### 手机联系人
 
@@ -2227,6 +2399,18 @@ Taro.setNavigationBarColor(params).then(...)
 
 使用方式同 [`wx.setTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTabBarBadge.html)，支持 `Promise` 化使用。
 
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | tabBar 的哪一项，从左边算起 |
+| text | <code>string</code> | 显示的文本，超过 4 个字符则显示成 ... |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -2238,6 +2422,17 @@ Taro.setTabBarBadge(params).then(...)
 #### Taro.removeTabBarBadge(OBJECT)
 
 使用方式同 [`wx.removeTabBarBadge`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.removeTabBarBadge.html)，支持 `Promise` 化使用。
+
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | tabBar 的哪一项，从左边算起 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -2251,6 +2446,17 @@ Taro.removeTabBarBadge(params).then(...)
 
 使用方式同 [`wx.showTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.showTabBarRedDot.html)，支持 `Promise` 化使用。
 
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | tabBar 的哪一项，从左边算起 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -2262,6 +2468,17 @@ Taro.showTabBarRedDot(params).then(...)
 #### Taro.hideTabBarRedDot(OBJECT)
 
 使用方式同 [`wx.hideTabBarRedDot`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.hideTabBarRedDot.html)，支持 `Promise` 化使用。
+
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | tabBar 的哪一项，从左边算起 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -2275,6 +2492,20 @@ Taro.hideTabBarRedDot(params).then(...)
 
 使用方式同 [`wx.setTabBarStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTabBarStyle.html)，支持 `Promise` 化使用。
 
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>string</code> | tab 上的文字默认颜色，HexColor |
+| selectedColor | <code>string</code> | tab 上的文字选中时的颜色，HexColor |
+| backgroundColor | <code>string</code> | tab 的背景色，HexColor |
+| borderStyle | <code>&#x27;black&#x27;</code> 或 <code>&#x27;white&#x27;</code> | tabBar上边框的颜色， 仅支持 black/white |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -2286,6 +2517,20 @@ Taro.setTabBarStyle(params).then(...)
 #### Taro.setTabBarItem(OBJECT)
 
 使用方式同 [`wx.setTabBarItem`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setTabBarItem.html)，支持 `Promise` 化使用。
+
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | tabBar 的哪一项，从左边算起 |
+| [text] | <code>string</code> | tab 上的按钮文字 |
+| [iconPath] | <code>string</code> | 图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片 |
+| [selectedIconPath] | <code>string</code> | 选中时的图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -2299,6 +2544,17 @@ Taro.setTabBarItem(params).then(...)
 
 使用方式同 [`wx.showTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.showTabBar.html)，支持 `Promise` 化使用。
 
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [animation] | <code>boolean</code> | <code>false</code> | 是否需要动画效果 |
+| [success] | <code>function</code> |  | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> |  | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> |  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 **示例代码：**
 
 ```jsx
@@ -2310,6 +2566,17 @@ Taro.showTabBar(params).then(...)
 #### Taro.hideTabBar(OBJECT)
 
 使用方式同 [`wx.hideTabBar`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.hideTabBar.html)，支持 `Promise` 化使用。
+
+##### 参数
+
+**OBJECT**
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [animation] | <code>boolean</code> | <code>false</code> | 是否需要动画效果 |
+| [success] | <code>function</code> |  | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> |  | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> |  | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 **示例代码：**
 
@@ -2323,14 +2590,14 @@ Taro.hideTabBar(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.setTabBarBadge | ✔️ |  |  |
-| Taro.removeTabBarBadge | ✔️ |  |  |
-| Taro.showTabBarRedDot | ✔️ |  |  |
-| Taro.hideTabBarRedDot | ✔️ |  |  |
-| Taro.setTabBarStyle | ✔️ |  |  |
-| Taro.setTabBarItem | ✔️ |  |  |
-| Taro.showTabBar | ✔️ |  |  |
-| Taro.hideTabBar | ✔️ |  |  |
+| Taro.setTabBarBadge | ✔️ | ✔️ |  |
+| Taro.removeTabBarBadge | ✔️ | ✔️ |  |
+| Taro.showTabBarRedDot | ✔️ | ✔️ |  |
+| Taro.hideTabBarRedDot | ✔️ | ✔️ |  |
+| Taro.setTabBarStyle | ✔️ | ✔️ |  |
+| Taro.setTabBarItem | ✔️ | ✔️ |  |
+| Taro.showTabBar | ✔️ | ✔️ |  |
+| Taro.hideTabBar | ✔️ | ✔️ |  |
 
 ### 设置置顶信息
 
@@ -2480,13 +2747,82 @@ Taro.pageScrollTo(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.pageScrollTo | ✔️ |  |  |
+| Taro.pageScrollTo | ✔️ | ✔️ | ✔️ |
 
 ### 绘图
 
 #### Taro.createCanvasContext(canvasId, this.$scope)
 
 使用方式同 [`wx.createCanvasContext`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.createCanvasContext.html)。
+
+##### 参数
+
+| Param | Type | Description |
+| --- | --- | --- |
+| canvasId | <code>string</code> | 要获取上下文的 `<canvas>` 组件 canvas-id 属性 |
+| componentInstance | <code>object</code> | 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 `<canvas>` ，如果省略则不在任何自定义组件内查找 |
+
+#### Taro.canvasGetImageData(object, this.$scope)
+
+使用方式同 [`wx.canvasGetImageData`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.canvasGetImageData.html)。
+
+##### 参数
+
+**object**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| canvasId | <code>String</code> | 画布标识，传入 `<canvas>` 组件的 canvas-id 属性。 |
+| x | <code>Number</code> | 将要被提取的图像数据矩形区域的左上角横坐标 |
+| y | <code>Number</code> | 将要被提取的图像数据矩形区域的左上角纵坐标 |
+| width | <code>Number</code> | 将要被提取的图像数据矩形区域的宽度 |
+| height | <code>Number</code> | 将要被提取的图像数据矩形区域的高度 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+#### Taro.canvasPutImageData(object, this.$scope)
+
+使用方式同 [`wx.canvasPutImageData`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.canvasPutImageData.html)。
+
+##### 参数
+
+**object**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| canvasId | <code>String</code> | 是 画布标识，传入 `<canvas>` 组件的 canvas-id 属性。 |
+| data | <code>Uint8ClampedArray</code> | 是 图像像素点数据，一维数组，每四项表示一个像素点的 rgba |
+| x | <code>Number</code> | 是 源图像数据在目标画布中的位置偏移量（x 轴方向的偏移量） |
+| y | <code>Number</code> | 是 源图像数据在目标画布中的位置偏移量（y 轴方向的偏移量） |
+| width | <code>Number</code> | 是 源图像数据矩形区域的宽度 |
+| height | <code>Number</code> | 是 源图像数据矩形区域的高度 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
+#### Taro.canvasToTempFilePath(object, this.$scope)
+
+使用方式同 [`wx.canvasToTempFilePath`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.canvasToTempFilePath.html)。
+
+#### 参数
+
+**object**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| [x] | <code>Number</code> | 指定的画布区域的左上角横坐标，默认值 0 |
+| [y] | <code>Number</code> | 指定的画布区域的左上角纵坐标，默认值 0 |
+| [width] | <code>Number</code> | 指定的画布区域的宽度，默认值 canvas宽度-x |
+| [height] | <code>Number</code> | 指定的画布区域的高度，默认值 canvas宽度-y |
+| [destWidth] | <code>Number</code> | 输出的图片的宽度，默认值 width*屏幕像素密度 |
+| [destHeight] | <code>Number</code> | 输出的图片的高度，默认值 height*屏幕像素密度 |
+| canvasId | <code>String</code> | 画布标识，传入 `<canvas>` 组件的 canvas-id |
+| [fileType] | <code>String</code> | 目标文件的类型，默认值 png |
+| quality | <code>Number</code> | 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 |
+| [success] | <code>function</code> | 接口调用成功的回调函数 |
+| [fail] | <code>function</code> | 接口调用失败的回调函数 |
+| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 #### Taro.createContext(不推荐使用)
 

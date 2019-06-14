@@ -1,8 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
-import Toast from 'react-native-root-toast'
 import RootSiblings from 'react-native-root-siblings'
-import success from './success.png'
+import successPng from './success.png'
 import { errorHandler, shouleBeObject, successHandler } from '../utils'
 
 const styles = StyleSheet.create({
@@ -17,6 +16,15 @@ const styles = StyleSheet.create({
     height: 55
   },
   toastContent: {
+    color: '#FFFFFF',
+    textAlign: 'center'
+  },
+  textToastContent: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    lineHeight: 20,
     color: '#FFFFFF',
     textAlign: 'center'
   },
@@ -39,6 +47,14 @@ const styles = StyleSheet.create({
   grayBlock: {
     width: 120,
     height: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(20,20,20,0.8)',
+    borderRadius: 8,
+    flexDirection: 'column'
+  },
+  textGrayBlock: {
+    width: 180,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(20,20,20,0.8)',
@@ -79,10 +95,6 @@ class WXLoading extends React.Component {
   }
 }
 
-const iconList = ['success', 'loading', 'none']
-const sourceMap = {success, none: ''}
-let wx
-
 function showToast (options) {
   const isObject = shouleBeObject(options)
   if (!isObject.res) {
@@ -93,40 +105,57 @@ function showToast (options) {
 
   const res = {errMsg: 'showToast:ok'}
   let {title = '', icon = 'success', image, duration = 1500, mask, success, fail, complete} = options || {} // eslint-disable-line
-  let source
+
+  let ToastView
+
   if (image) {
-    source = image
-  } else if (iconList.indexOf(icon) > -1) {
-    source = sourceMap[icon]
-  }
-  const ToastView = !image && icon === 'loading' ? <WXLoading />
-    : <View style={styles.container}>
+    ToastView = <View style={styles.container}>
       <View style={styles.grayBlock}>
         <View style={styles.toastView}>
-          <Image source={source} style={styles.toastIcon} />
+          <Image source={image} style={styles.toastIcon} />
           <Text style={styles.toastContent}>{title || ''}</Text>
         </View>
       </View>
     </View>
+  } else if (icon === 'loading') {
+    ToastView = <WXLoading />
+  } else if (icon === 'none') {
+    ToastView = <View style={styles.container}>
+      <View style={styles.textGrayBlock}>
+        <Text style={styles.textToastContent}>{title || ''}</Text>
+      </View>
+    </View>
+  } else {
+    ToastView = <View style={styles.container}>
+      <View style={styles.grayBlock}>
+        <View style={styles.toastView}>
+          <Image source={successPng} style={styles.toastIcon} />
+          <Text style={styles.toastContent}>{title || ''}</Text>
+        </View>
+      </View>
+    </View>
+  }
 
   try {
     // setTimeout fires incorrectly when using chrome debug #4470
     // https://github.com/facebook/react-native/issues/4470
-    let sibling = new RootSiblings(ToastView)
+    global.wxToastRootSiblings && global.wxToastRootSiblings.destroy()
+
+    global.wxToastRootSiblings = new RootSiblings(ToastView)
     setTimeout(() => {
-      sibling.update(ToastView)
+      global.wxToastRootSiblings && global.wxToastRootSiblings.update(ToastView)
       success && success()
     }, 100)
     if (duration > 0) {
       setTimeout(() => {
         console.log('destroy')
-        sibling.destroy()
+        global.wxToastRootSiblings && global.wxToastRootSiblings.destroy()
       }, duration)
     }
     return successHandler(success, complete)(res)
   } catch (e) {
     res.errMsg = `showToast:fail invalid ${e}`
-    return errorHandler(success, complete)(res)
+    return errorHandler(fail, complete)(res)
   }
 }
 
@@ -152,7 +181,7 @@ function showLoading (options) {
 }
 
 function hideToast () {
-  global.wxToastRootSiblings && Toast.hide(global.wxToastRootSiblings)
+  global.wxToastRootSiblings && global.wxToastRootSiblings.destroy()
   global.wxToastRootSiblings = undefined
 }
 

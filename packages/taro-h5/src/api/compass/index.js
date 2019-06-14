@@ -10,7 +10,7 @@ const callbackManager = createCallbackManager()
  * @param {function} [object.fail] 接口调用失败的回调函数
  * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
  */
-const stopCompass = ({ success, fail, complete }) => {
+const stopCompass = ({ success, fail, complete } = {}) => {
   try {
     window.removeEventListener('deviceorientation', compassListener, true)
     return successHandler(success, complete)({
@@ -69,6 +69,9 @@ const startCompass = ({ success, fail, complete } = {}) => {
  * @typedef CompassParam 回调参数
  * @property {number} direction 面对的方向度数
  * @property {Accuracy} [accuracy] 精度
+ */
+
+/**
  * @typedef {'high'|'medium'|'low'|'no-contact'|'unreliable'|'unknow'|number} Accuracy
  * 由于平台差异，accuracy 在 iOS/Android 的值不同。
  * iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。

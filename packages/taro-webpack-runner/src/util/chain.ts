@@ -1,17 +1,18 @@
 import * as apis from '@tarojs/taro-h5/dist/taroApis'
+import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
+import * as sass from 'dart-sass'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as path from 'path'
+import { join, resolve } from 'path'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
-import * as sass from 'dart-sass'
 
-import { appPath, recursiveMerge } from '.'
+import { recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
-import { Option, PostcssOption } from './types'
+import { CopyOptions, Option, PostcssOption } from './types'
 
 const defaultUglifyJsOption = {
   keep_fnames: true,
@@ -31,6 +32,7 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultBabelLoaderOption = {
+  babelrc: false,
   plugins: [
     require.resolve('babel-plugin-syntax-dynamic-import'),
     [
@@ -122,10 +124,26 @@ const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
 const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
+const getCopyWebpackPlugin = ({ copy, appPath }: {
+  copy: CopyOptions,
+  appPath: string
+}) => {
+  const args = [
+    copy.patterns.map(({ from, to }) => {
+      return {
+        from,
+        to: resolve(appPath, to),
+        context: appPath
+      }
+    }),
+    copy.options
+  ]
+  return partial(getPlugin, CopyWebpackPlugin)(args)
+}
 
 const getEntry = (customEntry = {}) => {
   return {
-    app: path.join('.temp', 'app.js'),
+    app: join('.temp', 'app.js'),
     ...customEntry
   }
 }
@@ -161,7 +179,7 @@ const getEsnextModuleRules = esnextModules => {
   ]
 }
 
-const getModule = ({
+const getModule = (appPath: string, {
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -289,7 +307,7 @@ const getModule = ({
     { sourceMap: enableSourceMap },
     {
       ident: 'postcss',
-      plugins: getPostcssPlugins({
+      plugins: getPostcssPlugins(appPath, {
         designWidth,
         deviceRatio,
         postcssOption
@@ -360,14 +378,7 @@ const getModule = ({
     test: jsxReg,
     use: {
       babelLoader: getBabelLoader([defaultBabelLoaderOption, additionalBabelOptions])
-    },
-    exclude: [(filename: string) => {
-      if (isEsnextModule(filename)) {
-        return false
-      } else {
-        return isNodeModule(filename)
-      }
-    }]
+    }
   }
   rule.media = {
     test: mediaReg,
@@ -400,9 +411,9 @@ const getModule = ({
   return { rule }
 }
 
-const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
+const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
   return {
-    path: path.join(appPath, outputRoot),
+    path: join(appPath, outputRoot),
     filename: 'js/[name].js',
     chunkFilename: `${chunkDirectory}/[name].js`,
     publicPath,
@@ -420,4 +431,4 @@ export {
   getEsnextModuleRules
 }
 
-export { getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin }
+export { getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }

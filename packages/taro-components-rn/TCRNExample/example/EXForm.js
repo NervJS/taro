@@ -72,9 +72,7 @@ export default class EXForm extends Component {
             rangeKey="name"
             name="iampickermultiselector"
           >
-            <View>
-              <Text>Picker&lt;multiSelector&gt;</Text>
-            </View>
+            <Text>Picker&lt;multiSelector&gt;</Text>
           </Picker>
           <Button formType="submit">提交</Button>
         </Form>

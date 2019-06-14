@@ -210,7 +210,9 @@ export interface Target {
   /**
    * 事件源组件上由data-开头的自定义属性组成的集合
    */
-  dataset: object
+  dataset: {
+    [key: string]: any
+  }
 }
 
 export interface currentTarget extends Target {}

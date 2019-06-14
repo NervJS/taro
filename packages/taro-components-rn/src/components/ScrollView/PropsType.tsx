@@ -32,6 +32,11 @@ export type EventOnScroll = {
   }
 }
 
+export interface ScrollViewState {
+  snapScrollTop: number;
+  snapScrollLeft: number;
+}
+
 export interface ScrollViewProps {
   children?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
@@ -45,4 +50,6 @@ export interface ScrollViewProps {
   onScrollToUpper?: (evt: EventOnScrollToUpper) => void;
   onScrollToLower?: (evt: EventOnScrollToLower) => void;
   onScroll?: (evt: EventOnScroll) => void;
+  // RN 属性
+  contentContainerStyle?: StyleProp<ViewStyle>;
 }

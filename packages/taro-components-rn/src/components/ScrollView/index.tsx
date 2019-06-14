@@ -1,4 +1,10 @@
 /**
+ * @see https://facebook.github.io/react-native/docs/scrollview.html
+ *
+ * 注意事项：
+ *   一般地，ScrollView 外面要套一个 View 并在这个 View 上设置高度，否则会出现 ScrollView 撑满外层出现不能滚动的假象
+ *   hack: scrollTop 在设置过一次后经过滚动再次设置时失效，因为 state 没变，所以这时可以通过设置一个比 0 小的值
+ *
  * ✔ scrollX(scroll-x): Either-or
  * ✘ scrollY(scroll-y): Either-or
  * ✔ upperThreshold(upper-threshold)
@@ -18,23 +24,39 @@ import {
   ScrollView,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  StyleSheet,
+  ViewStyle
 } from 'react-native'
-import { dismemberStyle, omit, noop } from '../../utils'
-import { ScrollViewProps, ScrollMetrics } from './PropsType'
+import { omit, noop } from '../../utils'
+import { ScrollViewProps, ScrollViewState, ScrollMetrics } from './PropsType'
 
-class _ScrollView extends React.Component<ScrollViewProps> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: ScrollViewProps) {
-    super(props)
-  }
+// const SCROLLVIEW_CONT_STYLE = [
+//   // Source code of ScrollView, ['alignItems','justifyContent']
+//   'alignItems',
+//   'justifyContent',
+//   // Other
+// ]
 
+class _ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
   static defaultProps = {
     upperThreshold: 50,
     lowerThreshold: 50,
     scrollTop: 0,
     scrollLeft: 0,
     enableBackToTop: false,
+  }
+
+  static getDerivedStateFromProps (props: ScrollViewProps, state: ScrollViewState) {
+    return state.snapScrollTop !== props.scrollTop || state.snapScrollLeft !== props.scrollLeft ? {
+      snapScrollTop: props.scrollTop,
+      snapScrollLeft: props.scrollLeft
+    } : null
+  }
+
+  state: ScrollViewState = {
+    snapScrollTop: 0,
+    snapScrollLeft: 0
   }
 
   _scrollMetrics: ScrollMetrics = {
@@ -48,10 +70,7 @@ class _ScrollView extends React.Component<ScrollViewProps> {
     velocity: 0,
     visibleLength: 0,
   }
-  _scrollRef: ScrollView
-  _captureScrollRef = (ref: ScrollView) => {
-    this._scrollRef = ref
-  }
+  $scrollView = React.createRef<ScrollView>()
   _hasDataChangedSinceEndReached: boolean
   _sentEndForContentLength: number = 0
   _scrollEventThrottle: number = 50
@@ -100,8 +119,8 @@ class _ScrollView extends React.Component<ScrollViewProps> {
 
   _onContentSizeChange = (width: number, height: number): void => {
     this._scrollMetrics.contentLength = this._selectLength({ height, width })
-    this._maybeCallOnStartReached()
-    this._maybeCallOnEndReached()
+    // this._maybeCallOnStartReached()
+    // this._maybeCallOnEndReached()
   }
 
   _onScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>): void => {
@@ -117,8 +136,8 @@ class _ScrollView extends React.Component<ScrollViewProps> {
 
   _onLayout = (e: LayoutChangeEvent): void => {
     this._scrollMetrics.visibleLength = this._selectLength(e.nativeEvent.layout)
-    this._maybeCallOnStartReached()
-    this._maybeCallOnEndReached()
+    // this._maybeCallOnStartReached()
+    // this._maybeCallOnEndReached()
   }
 
   _onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>): void => {
@@ -161,28 +180,25 @@ class _ScrollView extends React.Component<ScrollViewProps> {
   }
 
   scrollToOffset = (x: number = 0, y: number = 0): void => {
-    this._scrollRef.scrollTo({ x, y, animated: !!this.props.scrollWithAnimation })
+    const node = this.$scrollView.current
+    node && node.scrollTo({ x, y, animated: !!this.props.scrollWithAnimation })
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: ScrollViewProps) {
-    if (nextProps.scrollTop !== this.props.scrollTop || nextProps.scrollLeft !== this.props.scrollLeft) {
-      this.scrollToOffset(nextProps.scrollLeft, nextProps.scrollTop)
+  componentDidMount () {
+    if (this.state.snapScrollTop || this.state.snapScrollLeft) {
+      this._initialScrollIndexTimeout = setTimeout(() => {
+        this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
+      }, 0)
     }
   }
 
-  // componentWillReceiveProps (nextProps: Props) {
-  //   const { data, extraData, getItemCount, maxToRenderPerBatch } = nextProps
-  //   if (data !== this.props.data) {
-  //     this._hasDataChangedSinceEndReached = true
-  //   }
-  // }
+  getSnapshotBeforeUpdate (prevProps: ScrollViewProps, prevState: ScrollViewState) {
+    return prevState.snapScrollTop !== this.state.snapScrollTop || prevState.snapScrollLeft !== this.state.snapScrollLeft
+  }
 
-  componentDidMount () {
-    if (this.props.scrollTop || this.props.scrollLeft) {
-      this._initialScrollIndexTimeout = setTimeout(() => {
-        this.scrollToOffset(this.props.scrollLeft, this.props.scrollTop)
-      }, 0)
+  componentDidUpdate (prevProps: ScrollViewProps, prevState: ScrollViewState, snapshot: boolean) {
+    if (snapshot) {
+      this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
     }
   }
 
@@ -196,11 +212,19 @@ class _ScrollView extends React.Component<ScrollViewProps> {
       style,
       scrollX,
       enableBackToTop,
+      contentContainerStyle,
     } = this.props
 
-    const dismember: { wrapperStyle: any, innerStyle: any } = dismemberStyle(style)
-    const wrapperStyle: any = Object.assign(dismember.wrapperStyle, { height: dismember.innerStyle.height })
-    const innerStyle: any = omit(dismember.innerStyle, [ 'height' ])
+    const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
+    const wrapperStyle: ViewStyle = omit(flattenStyle, [
+      'alignItems',
+      'justifyContent'
+    ])
+    const _contentContainerStyle: ViewStyle & { [key: string]: any } = {}
+    if (flattenStyle) {
+      flattenStyle.alignItems && (_contentContainerStyle.alignItems = flattenStyle.alignItems)
+      flattenStyle.justifyContent && (_contentContainerStyle.justifyContent = flattenStyle.justifyContent)
+    }
 
     return (
       <ScrollView
@@ -210,11 +234,37 @@ class _ScrollView extends React.Component<ScrollViewProps> {
         onScroll={this._onScroll}
         onScrollEndDrag={this._onScrollEndDrag}
         onMomentumScrollEnd={this._onMomentumScrollEnd}
-        ref={this._captureScrollRef}
         scrollEventThrottle={this._scrollEventThrottle}
         scrollsToTop={!!enableBackToTop}
-        style={[{ flexGrow: 0 }, wrapperStyle]}
-        contentContainerStyle={innerStyle}
+        style={wrapperStyle}
+        contentContainerStyle={[_contentContainerStyle, contentContainerStyle]}
+        {...omit(this.props, [
+          // props
+          'style',
+          'scrollX',
+          'upperThreshold',
+          'lowerThreshold',
+          'scrollTop',
+          'scrollLeft',
+          'scrollWithAnimation',
+          'enableBackToTop',
+          'onScrollToUpper',
+          'onScrollToLower',
+          'onScroll',
+          'contentContainerStyle',
+          // SProps
+          'horizontal',
+          'onContentSizeChange',
+          'onLayout',
+          'onScroll',
+          'onScrollEndDrag',
+          'onMomentumScrollEnd',
+          'scrollEventThrottle',
+          'scrollsToTop',
+          'style',
+          'contentContainerStyle'
+        ])}
+        ref={this.$scrollView}
       >
         {children}
       </ScrollView>

@@ -14,7 +14,7 @@
   dependencies:
     "@babel/highlight" "^7.0.0"
 
-"@babel/core@>=7.1.0", "@babel/core@^7.0.0-beta":
+"@babel/core@^7.0.0-beta":
   version "7.4.3"
   resolved "https://registry.npmjs.org/@babel/core/-/core-7.4.3.tgz#198d6d3af4567be3989550d97e068de94503074f"
   dependencies:
@@ -520,13 +520,13 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/taro@^1.2.2":
-  version "1.2.26"
-  resolved "https://registry.npmjs.org/@tarojs/taro/-/taro-1.2.26.tgz#486c9acce62751e2e3110421a06c0e1bb7174034"
+"@tarojs/taro@1.3.0-beta.3":
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.0-beta.3.tgz#945e601f0854f0994d27614fa1a5ad2c2da93fbd"
 
-"@tarojs/taroize@1.2.13":
-  version "1.2.13"
-  resolved "https://registry.npmjs.org/@tarojs/taroize/-/taroize-1.2.13.tgz#8f63dab0a7e9dc0f8ca5ef687573559a90532a8b"
+"@tarojs/taroize@1.3.0-beta.3":
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/@tarojs/taroize/download/@tarojs/taroize-1.3.0-beta.3.tgz#9a7dcba266f8df9ce997e9328286ef5b57df644f"
   dependencies:
     "@babel/code-frame" "^7.0.0"
     babel-core "^6.26.3"
@@ -539,9 +539,9 @@
     lodash "^4.17.5"
     typescript "^3.0.1"
 
-"@tarojs/transformer-wx@1.2.13":
-  version "1.2.13"
-  resolved "https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-1.2.13.tgz#a0d7f1754acd7d296f182db4c2fbc456bde277da"
+"@tarojs/transformer-wx@1.3.0-beta.3":
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/@tarojs/transformer-wx/download/@tarojs/transformer-wx-1.3.0-beta.3.tgz#4ccc1197455982769cd30bb78051bb62e648779b"
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     babel-core "^6.26.3"
@@ -555,12 +555,15 @@
     babel-plugin-syntax-dynamic-import "^6.18.0"
     babel-plugin-transform-class-properties "^6.24.1"
     babel-plugin-transform-define "^1.3.0"
+    babel-plugin-transform-do-expressions "^6.22.0"
     babel-plugin-transform-es2015-template-literals "^6.22.0"
+    babel-plugin-transform-export-extensions "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-traverse "^6.26.0"
     babel-types "^6.26.0"
     eslint "^4.15.0"
-    eslint-plugin-taro "1.2.13"
+    eslint-plugin-react "7.10.0"
+    eslint-plugin-taro "1.3.0-beta.3"
     html "^1.0.0"
     lodash "^4.17.5"
     prettier "^1.14.2"
@@ -639,7 +642,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/glob@*", "@types/glob@^7.1.1":
+"@types/glob@*":
   version "7.1.1"
   resolved "https://registry.npmjs.org/@types/glob/-/glob-7.1.1.tgz#aa59a1c6e3fbc421e07ccd31a944c30eba521575"
   dependencies:
@@ -693,25 +696,6 @@
   version "2.3.5"
   resolved "https://registry.npmjs.org/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
 
-"@types/unist@*", "@types/unist@^2.0.0":
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
-
-"@types/vfile-message@*":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@types/vfile-message/-/vfile-message-1.0.1.tgz#e1e9895cc6b36c462d4244e64e6d0b6eaf65355a"
-  dependencies:
-    "@types/node" "*"
-    "@types/unist" "*"
-
-"@types/vfile@^3.0.0":
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/@types/vfile/-/vfile-3.0.2.tgz#19c18cd232df11ce6fa6ad80259bc86c366b09b9"
-  dependencies:
-    "@types/node" "*"
-    "@types/unist" "*"
-    "@types/vfile-message" "*"
-
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -764,6 +748,10 @@ ajv-keywords@^2.1.0:
   version "2.1.1"
   resolved "https://registry.npmjs.org/ajv-keywords/-/ajv-keywords-2.1.1.tgz#617997fc5f60576894c435f940d819e135b80762"
 
+ajv-keywords@^3.0.0:
+  version "3.4.0"
+  resolved "https://registry.npm.taobao.org/ajv-keywords/download/ajv-keywords-3.4.0.tgz#4b831e7b531415a7cc518cd404e73f6193c6349d"
+
 ajv@^5.2.3, ajv@^5.3.0:
   version "5.5.2"
   resolved "https://registry.npmjs.org/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
@@ -773,7 +761,7 @@ ajv@^5.2.3, ajv@^5.3.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.5.5, ajv@^6.9.1:
+ajv@^6.0.1, ajv@^6.5.5:
   version "6.10.0"
   resolved "https://registry.npmjs.org/ajv/-/ajv-6.10.0.tgz#90d0d54439da587cd7e843bfb7045f50bd22bdf1"
   dependencies:
@@ -827,10 +815,6 @@ ansi-regex@^2.0.0:
 ansi-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/ansi-regex/-/ansi-regex-3.0.0.tgz#ed0317c322064f79466c02966bddb605ab37d998"
-
-ansi-regex@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.0.tgz#8b9f8f08cf1acb843756a839ca8c7e3168c51997"
 
 ansi-styles@^2.2.1:
   version "2.2.1"
@@ -954,7 +938,7 @@ array-slice@^0.2.3:
   version "0.2.3"
   resolved "https://registry.npmjs.org/array-slice/-/array-slice-0.2.3.tgz#dd3cfb80ed7973a75117cdac69b0b99ec86186f5"
 
-array-union@^1.0.1, array-union@^1.0.2:
+array-union@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/array-union/-/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
   dependencies:
@@ -1024,7 +1008,7 @@ atob@^2.1.1:
   version "2.1.2"
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
 
-autoprefixer@^8.4.1:
+autoprefixer@^8.0.0, autoprefixer@^8.4.1:
   version "8.6.5"
   resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-8.6.5.tgz#343f3d193ed568b3208e00117a1b96eb691d4ee9"
   dependencies:
@@ -1034,17 +1018,6 @@ autoprefixer@^8.4.1:
     num2fraction "^1.2.2"
     postcss "^6.0.23"
     postcss-value-parser "^3.2.3"
-
-autoprefixer@^9.0.0:
-  version "9.5.1"
-  resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-9.5.1.tgz#243b1267b67e7e947f28919d786b50d3bb0fb357"
-  dependencies:
-    browserslist "^4.5.4"
-    caniuse-lite "^1.0.30000957"
-    normalize-range "^0.1.2"
-    num2fraction "^1.2.2"
-    postcss "^7.0.14"
-    postcss-value-parser "^3.3.1"
 
 aws-sign2@~0.7.0:
   version "0.7.0"
@@ -1687,9 +1660,9 @@ babel-plugin-transform-function-bind@^6.22.0:
     babel-plugin-syntax-function-bind "^6.8.0"
     babel-runtime "^6.22.0"
 
-babel-plugin-transform-jsx-to-stylesheet@1.2.27-beta.0:
-  version "1.2.27-beta.0"
-  resolved "https://registry.npmjs.org/babel-plugin-transform-jsx-to-stylesheet/-/babel-plugin-transform-jsx-to-stylesheet-1.2.27-beta.0.tgz#2d8a050b963b00dea39111857df7f6cd7e125164"
+babel-plugin-transform-jsx-to-stylesheet@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/babel-plugin-transform-jsx-to-stylesheet/download/babel-plugin-transform-jsx-to-stylesheet-1.3.0-beta.3.tgz#2b4639f53f5b0ae7a4514878179eee61f9559b51"
 
 babel-plugin-transform-object-assign@^6.5.0:
   version "6.22.0"
@@ -2127,14 +2100,6 @@ browserslist@^3.2.6, browserslist@^3.2.8:
     caniuse-lite "^1.0.30000844"
     electron-to-chromium "^1.3.47"
 
-browserslist@^4.5.4:
-  version "4.5.5"
-  resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.5.5.tgz#fe1a352330d2490d5735574c149a85bc18ef9b82"
-  dependencies:
-    caniuse-lite "^1.0.30000960"
-    electron-to-chromium "^1.3.124"
-    node-releases "^1.1.14"
-
 bser@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/bser/-/bser-2.0.0.tgz#9ac78d3ed5d915804fd87acb158bc797147a1719"
@@ -2274,7 +2239,7 @@ camelize@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
 
-caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000864, caniuse-lite@^1.0.30000957, caniuse-lite@^1.0.30000960:
+caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000864:
   version "1.0.30000962"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000962.tgz#6c10c3ab304b89bea905e66adf98c0905088ee44"
 
@@ -2742,13 +2707,13 @@ debug@2.6.9, debug@^2.1.1, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.
   dependencies:
     ms "2.0.0"
 
-debug@^3.1.0:
+debug@^3.0.0, debug@^3.1.0:
   version "3.2.6"
   resolved "https://registry.npmjs.org/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   dependencies:
     ms "^2.1.1"
 
-debug@^4.0.0, debug@^4.1.0:
+debug@^4.1.0:
   version "4.1.1"
   resolved "https://registry.npmjs.org/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
@@ -2882,7 +2847,14 @@ diff@^3.2.0:
   version "3.5.0"
   resolved "https://registry.npmjs.org/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
 
-dir-glob@^2.0.0, dir-glob@^2.2.2:
+dir-glob@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/dir-glob/download/dir-glob-2.0.0.tgz#0b205d2b6aef98238ca286598a8204d29d0a0034"
+  dependencies:
+    arrify "^1.0.1"
+    path-type "^3.0.0"
+
+dir-glob@^2.0.0:
   version "2.2.2"
   resolved "https://registry.npmjs.org/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
   dependencies:
@@ -2976,13 +2948,9 @@ ejs@^2.5.9, ejs@^2.6.1:
   version "2.6.1"
   resolved "https://registry.npmjs.org/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
 
-electron-to-chromium@^1.3.124, electron-to-chromium@^1.3.47:
+electron-to-chromium@^1.3.47:
   version "1.3.125"
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.125.tgz#dbde0e95e64ebe322db0eca764d951f885a5aff2"
-
-emoji-regex@^7.0.1:
-  version "7.0.3"
-  resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
 
 emojis-list@^2.0.0:
   version "2.1.0"
@@ -3079,11 +3047,11 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-taro@^1.1.4:
-  version "1.2.26"
-  resolved "https://registry.npmjs.org/eslint-config-taro/-/eslint-config-taro-1.2.26.tgz#b75100c656d2ee9d5c38c3c5a9e0d54f9c8b3cfb"
+eslint-config-taro@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/eslint-config-taro/download/eslint-config-taro-1.3.0-beta.3.tgz#55416f9ae5146d5e050ed17a0334f9e080c78e0d"
   dependencies:
-    eslint-plugin-taro "1.2.26"
+    eslint-plugin-taro "1.3.0-beta.3"
 
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
@@ -3125,6 +3093,15 @@ eslint-plugin-react-native@^3.2.1:
   dependencies:
     eslint-plugin-react-native-globals "^0.1.1"
 
+eslint-plugin-react@7.10.0:
+  version "7.10.0"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.10.0.tgz#af5c1fef31c4704db02098f9be18202993828b50"
+  dependencies:
+    doctrine "^2.1.0"
+    has "^1.0.3"
+    jsx-ast-utils "^2.0.1"
+    prop-types "^15.6.2"
+
 eslint-plugin-react@^7.4.0:
   version "7.12.4"
   resolved "https://registry.npmjs.org/eslint-plugin-react/-/eslint-plugin-react-7.12.4.tgz#b1ecf26479d61aee650da612e425c53a99f48c8c"
@@ -3137,15 +3114,9 @@ eslint-plugin-react@^7.4.0:
     prop-types "^15.6.2"
     resolve "^1.9.0"
 
-eslint-plugin-taro@1.2.13:
-  version "1.2.13"
-  resolved "https://registry.npmjs.org/eslint-plugin-taro/-/eslint-plugin-taro-1.2.13.tgz#e6a90a50fa0f3fef495e36e9135fab6db8bcc785"
-  dependencies:
-    has "^1.0.1"
-
-eslint-plugin-taro@1.2.26, eslint-plugin-taro@^1.1.4:
-  version "1.2.26"
-  resolved "https://registry.npmjs.org/eslint-plugin-taro/-/eslint-plugin-taro-1.2.26.tgz#19bcbe9838ee744dc33925d4d9b9690c8606c0d5"
+eslint-plugin-taro@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-taro/download/eslint-plugin-taro-1.3.0-beta.3.tgz#2c87b551425a8970ff455a6b7ed216e2efb727b1"
   dependencies:
     has "^1.0.1"
 
@@ -3437,9 +3408,9 @@ fast-deep-equal@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
 
-fast-glob@^2.2.6:
+fast-glob@^2.0.2:
   version "2.2.6"
-  resolved "https://registry.npmjs.org/fast-glob/-/fast-glob-2.2.6.tgz#a5d5b697ec8deda468d85a74035290a025a95295"
+  resolved "https://registry.npm.taobao.org/fast-glob/download/fast-glob-2.2.6.tgz#a5d5b697ec8deda468d85a74035290a025a95295"
   dependencies:
     "@mrmlnc/readdir-enhanced" "^2.2.1"
     "@nodelib/fs.stat" "^1.1.2"
@@ -3536,12 +3507,6 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
-file-entry-cache@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/file-entry-cache/-/file-entry-cache-4.0.0.tgz#633567d15364aefe0b299e1e217735e8f3a9f6e8"
-  dependencies:
-    flat-cache "^2.0.1"
-
 filename-regex@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/filename-regex/-/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
@@ -3625,18 +3590,6 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     rimraf "~2.6.2"
     write "^0.2.1"
-
-flat-cache@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
-  dependencies:
-    flatted "^2.0.0"
-    rimraf "2.6.3"
-    write "1.0.3"
-
-flatted@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/flatted/-/flatted-2.0.0.tgz#55122b6536ea496b4b44893ee2608141d10d9916"
 
 flush-write-stream@^1.0.2:
   version "1.1.1"
@@ -3865,12 +3818,6 @@ global-modules@^1.0.0:
     is-windows "^1.0.1"
     resolve-dir "^1.0.0"
 
-global-modules@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/global-modules/-/global-modules-2.0.0.tgz#997605ad2345f27f51539bea26574421215c7780"
-  dependencies:
-    global-prefix "^3.0.0"
-
 global-prefix@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/global-prefix/-/global-prefix-1.0.2.tgz#dbf743c6c14992593c655568cb66ed32c0122ebe"
@@ -3880,14 +3827,6 @@ global-prefix@^1.0.1:
     ini "^1.3.4"
     is-windows "^1.0.1"
     which "^1.2.14"
-
-global-prefix@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/global-prefix/-/global-prefix-3.0.0.tgz#fc85f73064df69f50421f47f883fe5b913ba9b97"
-  dependencies:
-    ini "^1.3.5"
-    kind-of "^6.0.2"
-    which "^1.3.1"
 
 global@^4.3.0:
   version "4.3.2"
@@ -3926,18 +3865,17 @@ globby@^7.1.1:
     pify "^3.0.0"
     slash "^1.0.0"
 
-globby@^9.0.0:
-  version "9.2.0"
-  resolved "https://registry.npmjs.org/globby/-/globby-9.2.0.tgz#fd029a706c703d29bdd170f4b6db3a3f7a7cb63d"
+globby@^8.0.0:
+  version "8.0.2"
+  resolved "https://registry.npm.taobao.org/globby/download/globby-8.0.2.tgz#5697619ccd95c5275dbb2d6faa42087c1a941d8d"
   dependencies:
-    "@types/glob" "^7.1.1"
-    array-union "^1.0.2"
-    dir-glob "^2.2.2"
-    fast-glob "^2.2.6"
-    glob "^7.1.3"
-    ignore "^4.0.3"
-    pify "^4.0.1"
-    slash "^2.0.0"
+    array-union "^1.0.1"
+    dir-glob "2.0.0"
+    fast-glob "^2.0.2"
+    glob "^7.1.2"
+    ignore "^3.3.5"
+    pify "^3.0.0"
+    slash "^1.0.0"
 
 globjoin@^0.1.4:
   version "0.1.4"
@@ -4130,9 +4068,9 @@ html@^1.0.0:
   dependencies:
     concat-stream "^1.4.7"
 
-htmlparser2@^3.10.0:
+htmlparser2@^3.9.2:
   version "3.10.1"
-  resolved "https://registry.npmjs.org/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
+  resolved "https://registry.npm.taobao.org/htmlparser2/download/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
   dependencies:
     domelementtype "^1.3.1"
     domhandler "^2.3.0"
@@ -4187,14 +4125,6 @@ ignore-walk@^3.0.1:
 ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.10"
   resolved "https://registry.npmjs.org/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
-
-ignore@^4.0.3:
-  version "4.0.6"
-  resolved "https://registry.npmjs.org/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
-
-ignore@^5.0.4:
-  version "5.1.1"
-  resolved "https://registry.npmjs.org/ignore/-/ignore-5.1.1.tgz#2fc6b8f518aff48fef65a7f348ed85632448e4a5"
 
 image-size@^0.6.0:
   version "0.6.3"
@@ -4251,7 +4181,7 @@ inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
-ini@^1.3.4, ini@^1.3.5, ini@~1.3.0:
+ini@^1.3.4, ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.npmjs.org/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
 
@@ -4375,13 +4305,9 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.1.5:
+is-buffer@^1.1.4, is-buffer@^1.1.5:
   version "1.1.6"
   resolved "https://registry.npmjs.org/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
-
-is-buffer@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/is-buffer/-/is-buffer-2.0.3.tgz#4ecf3fcf749cbd1e472689e109ac66261a25e725"
 
 is-callable@^1.1.4:
   version "1.1.4"
@@ -5304,9 +5230,9 @@ kleur@^2.0.1:
   version "2.0.2"
   resolved "https://registry.npmjs.org/kleur/-/kleur-2.0.2.tgz#b704f4944d95e255d038f0cb05fb8a602c55a300"
 
-known-css-properties@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/known-css-properties/-/known-css-properties-0.11.0.tgz#0da784f115ea77c76b81536d7052e90ee6c86a8a"
+known-css-properties@^0.6.0:
+  version "0.6.1"
+  resolved "https://registry.npm.taobao.org/known-css-properties/download/known-css-properties-0.6.1.tgz#31b5123ad03d8d1a3f36bd4155459c981173478b"
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -6010,12 +5936,6 @@ node-pre-gyp@^0.12.0:
     semver "^5.3.0"
     tar "^4"
 
-node-releases@^1.1.14:
-  version "1.1.16"
-  resolved "https://registry.npmjs.org/node-releases/-/node-releases-1.1.16.tgz#efcb6615b0e8dc454bfb03bc025aad406ea6dddf"
-  dependencies:
-    semver "^5.3.0"
-
 nopt@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/nopt/-/nopt-4.0.1.tgz#d0d4685afd5415193c8c7505602d0d17cd64474d"
@@ -6538,7 +6458,7 @@ pify@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
 
-pify@^4.0.0, pify@^4.0.1:
+pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
 
@@ -6615,29 +6535,23 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
-postcss-html@^0.36.0:
-  version "0.36.0"
-  resolved "https://registry.npmjs.org/postcss-html/-/postcss-html-0.36.0.tgz#b40913f94eaacc2453fd30a1327ad6ee1f88b204"
+postcss-html@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.npm.taobao.org/postcss-html/download/postcss-html-0.28.0.tgz#3dd0f5b5d7f886b8181bf844396d43a7898162cb"
   dependencies:
-    htmlparser2 "^3.10.0"
+    htmlparser2 "^3.9.2"
 
-postcss-jsx@^0.36.0:
-  version "0.36.0"
-  resolved "https://registry.npmjs.org/postcss-jsx/-/postcss-jsx-0.36.0.tgz#b7685ed3d070a175ef0aa48f83d9015bd772c82d"
+postcss-less@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/postcss-less/download/postcss-less-2.0.0.tgz#5d190b8e057ca446d60fe2e2587ad791c9029fb8"
   dependencies:
-    "@babel/core" ">=7.1.0"
+    postcss "^5.2.16"
 
-postcss-less@^3.1.0:
-  version "3.1.4"
-  resolved "https://registry.npmjs.org/postcss-less/-/postcss-less-3.1.4.tgz#369f58642b5928ef898ffbc1a6e93c958304c5ad"
+postcss-markdown@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.npm.taobao.org/postcss-markdown/download/postcss-markdown-0.28.0.tgz#99d1c4e74967af9e9c98acb2e2b66df4b3c6ed86"
   dependencies:
-    postcss "^7.0.14"
-
-postcss-markdown@^0.36.0:
-  version "0.36.0"
-  resolved "https://registry.npmjs.org/postcss-markdown/-/postcss-markdown-0.36.0.tgz#7f22849ae0e3db18820b7b0d5e7833f13a447560"
-  dependencies:
-    remark "^10.0.1"
+    remark "^9.0.0"
     unist-util-find-all-after "^1.0.2"
 
 postcss-media-query-parser@^0.2.3:
@@ -6686,14 +6600,23 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@1.2.27-beta.0:
-  version "1.2.27-beta.0"
-  resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-1.2.27-beta.0.tgz#28a33cc1c2748f5484000643b48b064617a5787e"
+postcss-pxtransform@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/postcss-pxtransform/download/postcss-pxtransform-1.3.0-beta.3.tgz#97e851f8ca2e963efa6c31b72af9cf5ec44c341b"
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
 
-postcss-reporter@^6.0.0, postcss-reporter@^6.0.1:
+postcss-reporter@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/postcss-reporter/download/postcss-reporter-5.0.0.tgz#a14177fd1342829d291653f2786efd67110332c3"
+  dependencies:
+    chalk "^2.0.1"
+    lodash "^4.17.4"
+    log-symbols "^2.0.0"
+    postcss "^6.0.8"
+
+postcss-reporter@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/postcss-reporter/-/postcss-reporter-6.0.1.tgz#7c055120060a97c8837b4e48215661aafb74245f"
   dependencies:
@@ -6706,24 +6629,24 @@ postcss-resolve-nested-selector@^0.1.1:
   version "0.1.1"
   resolved "https://registry.npmjs.org/postcss-resolve-nested-selector/-/postcss-resolve-nested-selector-0.1.1.tgz#29ccbc7c37dedfac304e9fff0bf1596b3f6a0e4e"
 
-postcss-safe-parser@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/postcss-safe-parser/-/postcss-safe-parser-4.0.1.tgz#8756d9e4c36fdce2c72b091bbc8ca176ab1fcdea"
+postcss-safe-parser@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npm.taobao.org/postcss-safe-parser/download/postcss-safe-parser-3.0.1.tgz#b753eff6c7c0aea5e8375fbe4cde8bf9063ff142"
   dependencies:
-    postcss "^7.0.0"
+    postcss "^6.0.6"
 
-postcss-sass@^0.3.5:
+postcss-sass@^0.3.0:
   version "0.3.5"
-  resolved "https://registry.npmjs.org/postcss-sass/-/postcss-sass-0.3.5.tgz#6d3e39f101a53d2efa091f953493116d32beb68c"
+  resolved "https://registry.npm.taobao.org/postcss-sass/download/postcss-sass-0.3.5.tgz#6d3e39f101a53d2efa091f953493116d32beb68c"
   dependencies:
     gonzales-pe "^4.2.3"
     postcss "^7.0.1"
 
-postcss-scss@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/postcss-scss/-/postcss-scss-2.0.0.tgz#248b0a28af77ea7b32b1011aba0f738bda27dea1"
+postcss-scss@^1.0.2:
+  version "1.0.6"
+  resolved "https://registry.npm.taobao.org/postcss-scss/download/postcss-scss-1.0.6.tgz#ab903f3bb20161bc177896462293a53d4bff5f7a"
   dependencies:
-    postcss "^7.0.0"
+    postcss "^6.0.23"
 
 postcss-selector-parser@^3.1.0:
   version "3.1.1"
@@ -6733,9 +6656,9 @@ postcss-selector-parser@^3.1.0:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-syntax@^0.36.2:
-  version "0.36.2"
-  resolved "https://registry.npmjs.org/postcss-syntax/-/postcss-syntax-0.36.2.tgz#f08578c7d95834574e5593a82dfbfa8afae3b51c"
+postcss-syntax@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.npm.taobao.org/postcss-syntax/download/postcss-syntax-0.28.0.tgz#e17572a7dcf5388f0c9b68232d2dad48fa7f0b12"
 
 postcss-taro-unit-transform@1.2.15:
   version "1.2.15"
@@ -6753,11 +6676,11 @@ postcss-url@^7.3.2:
     postcss "^6.0.1"
     xxhashjs "^0.2.1"
 
-postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0, postcss-value-parser@^3.3.1:
+postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.1"
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
 
-postcss@7.x.x, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.13, postcss@^7.0.14, postcss@^7.0.2, postcss@^7.0.7:
+postcss@7.x.x, postcss@^7.0.1, postcss@^7.0.7:
   version "7.0.14"
   resolved "https://registry.npmjs.org/postcss/-/postcss-7.0.14.tgz#4527ed6b1ca0d82c53ce5ec1a2041c2346bbd6e5"
   dependencies:
@@ -6765,7 +6688,7 @@ postcss@7.x.x, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.13, postcss@^7.0.14,
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^5.2.10:
+postcss@^5.2.10, postcss@^5.2.16:
   version "5.2.18"
   resolved "https://registry.npmjs.org/postcss/-/postcss-5.2.18.tgz#badfa1497d46244f6390f58b319830d9107853c5"
   dependencies:
@@ -6774,7 +6697,7 @@ postcss@^5.2.10:
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.1, postcss@^6.0.16, postcss@^6.0.2, postcss@^6.0.21, postcss@^6.0.22, postcss@^6.0.23:
+postcss@^6.0.1, postcss@^6.0.14, postcss@^6.0.16, postcss@^6.0.2, postcss@^6.0.21, postcss@^6.0.22, postcss@^6.0.23, postcss@^6.0.6, postcss@^6.0.8:
   version "6.0.23"
   resolved "https://registry.npmjs.org/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   dependencies:
@@ -7215,9 +7138,9 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-remark-parse@^6.0.0:
-  version "6.0.3"
-  resolved "https://registry.npmjs.org/remark-parse/-/remark-parse-6.0.3.tgz#c99131052809da482108413f87b0ee7f52180a3a"
+remark-parse@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/remark-parse/download/remark-parse-5.0.0.tgz#4c077f9e499044d1d5c13f80d7a98cf7b9285d95"
   dependencies:
     collapse-white-space "^1.0.2"
     is-alphabetical "^1.0.0"
@@ -7235,9 +7158,9 @@ remark-parse@^6.0.0:
     vfile-location "^2.0.0"
     xtend "^4.0.1"
 
-remark-stringify@^6.0.0:
-  version "6.0.4"
-  resolved "https://registry.npmjs.org/remark-stringify/-/remark-stringify-6.0.4.tgz#16ac229d4d1593249018663c7bddf28aafc4e088"
+remark-stringify@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/remark-stringify/download/remark-stringify-5.0.0.tgz#336d3a4d4a6a3390d933eeba62e8de4bd280afba"
   dependencies:
     ccount "^1.0.0"
     is-alphanumeric "^1.0.0"
@@ -7254,13 +7177,13 @@ remark-stringify@^6.0.0:
     unherit "^1.0.4"
     xtend "^4.0.1"
 
-remark@^10.0.1:
-  version "10.0.1"
-  resolved "https://registry.npmjs.org/remark/-/remark-10.0.1.tgz#3058076dc41781bf505d8978c291485fe47667df"
+remark@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.npm.taobao.org/remark/download/remark-9.0.0.tgz#c5cfa8ec535c73a67c4b0f12bfdbd3a67d8b2f60"
   dependencies:
-    remark-parse "^6.0.0"
-    remark-stringify "^6.0.0"
-    unified "^7.0.0"
+    remark-parse "^5.0.0"
+    remark-stringify "^5.0.0"
+    unified "^6.0.0"
 
 remove-bom-buffer@^3.0.0:
   version "3.0.0"
@@ -7434,7 +7357,7 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.npmjs.org/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
 
-rimraf@2.6.3, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@~2.6.2:
+rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@~2.6.2:
   version "2.6.3"
   resolved "https://registry.npmjs.org/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   dependencies:
@@ -7643,22 +7566,10 @@ slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
-slash@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
-
 slice-ansi@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/slice-ansi/-/slice-ansi-1.0.0.tgz#044f1a49d8842ff307aad6b505ed178bd950134d"
   dependencies:
-    is-fullwidth-code-point "^2.0.0"
-
-slice-ansi@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/slice-ansi/-/slice-ansi-2.1.0.tgz#cacd7693461a637a5788d92a7dd4fba068e81636"
-  dependencies:
-    ansi-styles "^3.2.0"
-    astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
 slide@^1.1.5:
@@ -7755,9 +7666,9 @@ spdx-license-ids@^3.0.0:
   version "3.0.4"
   resolved "https://registry.npmjs.org/spdx-license-ids/-/spdx-license-ids-3.0.4.tgz#75ecd1a88de8c184ef015eafb51b5b48bfd11bb1"
 
-specificity@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/specificity/-/specificity-0.4.1.tgz#aab5e645012db08ba182e151165738d00887b019"
+specificity@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.npm.taobao.org/specificity/download/specificity-0.3.2.tgz#99e6511eceef0f8d9b57924937aac2cb13d13c42"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
@@ -7858,14 +7769,6 @@ string-width@^1.0.1:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
 
-string-width@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/string-width/-/string-width-3.1.0.tgz#22767be21b62af1081574306f69ac51b62203961"
-  dependencies:
-    emoji-regex "^7.0.1"
-    is-fullwidth-code-point "^2.0.0"
-    strip-ansi "^5.1.0"
-
 string.prototype.padend@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/string.prototype.padend/-/string.prototype.padend-3.0.0.tgz#f3aaef7c1719f170c5eab1c32bf780d96e21f2f0"
@@ -7907,12 +7810,6 @@ strip-ansi@^4.0.0:
   dependencies:
     ansi-regex "^3.0.0"
 
-strip-ansi@^5.1.0:
-  version "5.2.0"
-  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz#8c9a536feb6afc962bdfa5b104a5091c1ad9c0ae"
-  dependencies:
-    ansi-regex "^4.1.0"
-
 strip-bom-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/strip-bom-stream/-/strip-bom-stream-2.0.0.tgz#f87db5ef2613f6968aa545abfe1ec728b6a829ca"
@@ -7952,73 +7849,69 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
-stylelint-config-taro-rn@1.2.27-beta.0:
-  version "1.2.27-beta.0"
-  resolved "https://registry.npmjs.org/stylelint-config-taro-rn/-/stylelint-config-taro-rn-1.2.27-beta.0.tgz#0f1fa3957d61f4162f46e69b0880385ed9cd2bbd"
+stylelint-config-taro-rn@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/stylelint-config-taro-rn/download/stylelint-config-taro-rn-1.3.0-beta.3.tgz#79e628428d9cbfdc519fdace092060ae2779d0ac"
 
-stylelint-taro-rn@1.2.27-beta.0:
-  version "1.2.27-beta.0"
-  resolved "https://registry.npmjs.org/stylelint-taro-rn/-/stylelint-taro-rn-1.2.27-beta.0.tgz#03f2d0f63265bbb15e6b8bdd0703ceda5d6d040d"
+stylelint-taro-rn@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/stylelint-taro-rn/download/stylelint-taro-rn-1.3.0-beta.3.tgz#9379693015b00728d7f4b2598e7822cc20678399"
   dependencies:
     react-native-known-styling-properties "^1.0.4"
 
-stylelint@^9.10.1:
-  version "9.10.1"
-  resolved "https://registry.npmjs.org/stylelint/-/stylelint-9.10.1.tgz#5f0ee3701461dff1d68284e1386efe8f0677a75d"
+stylelint@9.3.0:
+  version "9.3.0"
+  resolved "https://registry.npm.taobao.org/stylelint/download/stylelint-9.3.0.tgz#fe176e4e421ac10eac1a6b6d9f28e908eb58c5db"
   dependencies:
-    autoprefixer "^9.0.0"
+    autoprefixer "^8.0.0"
     balanced-match "^1.0.0"
     chalk "^2.4.1"
     cosmiconfig "^5.0.0"
-    debug "^4.0.0"
+    debug "^3.0.0"
     execall "^1.0.0"
-    file-entry-cache "^4.0.0"
+    file-entry-cache "^2.0.0"
     get-stdin "^6.0.0"
-    global-modules "^2.0.0"
-    globby "^9.0.0"
+    globby "^8.0.0"
     globjoin "^0.1.4"
     html-tags "^2.0.0"
-    ignore "^5.0.4"
+    ignore "^3.3.3"
     import-lazy "^3.1.0"
     imurmurhash "^0.1.4"
-    known-css-properties "^0.11.0"
-    leven "^2.1.0"
+    known-css-properties "^0.6.0"
     lodash "^4.17.4"
     log-symbols "^2.0.0"
     mathml-tag-names "^2.0.1"
     meow "^5.0.0"
-    micromatch "^3.1.10"
+    micromatch "^2.3.11"
     normalize-selector "^0.2.0"
-    pify "^4.0.0"
-    postcss "^7.0.13"
-    postcss-html "^0.36.0"
-    postcss-jsx "^0.36.0"
-    postcss-less "^3.1.0"
-    postcss-markdown "^0.36.0"
+    pify "^3.0.0"
+    postcss "^6.0.16"
+    postcss-html "^0.28.0"
+    postcss-less "^2.0.0"
+    postcss-markdown "^0.28.0"
     postcss-media-query-parser "^0.2.3"
-    postcss-reporter "^6.0.0"
+    postcss-reporter "^5.0.0"
     postcss-resolve-nested-selector "^0.1.1"
-    postcss-safe-parser "^4.0.0"
-    postcss-sass "^0.3.5"
-    postcss-scss "^2.0.0"
+    postcss-safe-parser "^3.0.1"
+    postcss-sass "^0.3.0"
+    postcss-scss "^1.0.2"
     postcss-selector-parser "^3.1.0"
-    postcss-syntax "^0.36.2"
+    postcss-syntax "^0.28.0"
     postcss-value-parser "^3.3.0"
     resolve-from "^4.0.0"
     signal-exit "^3.0.2"
-    slash "^2.0.0"
-    specificity "^0.4.1"
-    string-width "^3.0.0"
+    specificity "^0.3.1"
+    string-width "^2.1.0"
     style-search "^0.1.0"
-    sugarss "^2.0.0"
+    sugarss "^1.0.0"
     svg-tags "^1.0.0"
-    table "^5.0.0"
+    table "^4.0.1"
 
-sugarss@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/sugarss/-/sugarss-2.0.0.tgz#ddd76e0124b297d40bf3cca31c8b22ecb43bc61d"
+sugarss@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/sugarss/download/sugarss-1.0.1.tgz#be826d9003e0f247735f92365dc3fd7f1bae9e44"
   dependencies:
-    postcss "^7.0.2"
+    postcss "^6.0.14"
 
 supports-color@^2.0.0:
   version "2.0.0"
@@ -8065,14 +7958,16 @@ table@4.0.2:
     slice-ansi "1.0.0"
     string-width "^2.1.1"
 
-table@^5.0.0:
-  version "5.2.3"
-  resolved "https://registry.npmjs.org/table/-/table-5.2.3.tgz#cde0cc6eb06751c009efab27e8c820ca5b67b7f2"
+table@^4.0.1:
+  version "4.0.3"
+  resolved "https://registry.npm.taobao.org/table/download/table-4.0.3.tgz#00b5e2b602f1794b9acaf9ca908a76386a7813bc"
   dependencies:
-    ajv "^6.9.1"
-    lodash "^4.17.11"
-    slice-ansi "^2.1.0"
-    string-width "^3.0.0"
+    ajv "^6.0.1"
+    ajv-keywords "^3.0.0"
+    chalk "^2.1.0"
+    lodash "^4.17.4"
+    slice-ansi "1.0.0"
+    string-width "^2.1.1"
 
 tar@^4:
   version "4.4.8"
@@ -8085,6 +7980,16 @@ tar@^4:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
+
+taro-css-to-react-native@1.3.0-beta.3:
+  version "1.3.0-beta.3"
+  resolved "https://registry.npm.taobao.org/taro-css-to-react-native/download/taro-css-to-react-native-1.3.0-beta.3.tgz#fbf97bc317bf228548ef3f3ae5d0490302f91151"
+  dependencies:
+    camelize "^1.0.0"
+    css "^2.2.4"
+    css-color-keywords "^1.0.0"
+    css-mediaquery "^0.1.2"
+    postcss-value-parser "^3.3.0"
 
 temp@0.8.3:
   version "0.8.3"
@@ -8375,17 +8280,15 @@ unherit@^1.0.4:
     inherits "^2.0.1"
     xtend "^4.0.1"
 
-unified@^7.0.0:
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/unified/-/unified-7.1.0.tgz#5032f1c1ee3364bd09da12e27fdd4a7553c7be13"
+unified@^6.0.0:
+  version "6.2.0"
+  resolved "https://registry.npm.taobao.org/unified/download/unified-6.2.0.tgz#7fbd630f719126d67d40c644b7e3f617035f6dba"
   dependencies:
-    "@types/unist" "^2.0.0"
-    "@types/vfile" "^3.0.0"
     bail "^1.0.0"
     extend "^3.0.0"
     is-plain-obj "^1.1.0"
     trough "^1.0.0"
-    vfile "^3.0.0"
+    vfile "^2.0.0"
     x-is-string "^0.1.0"
 
 union-value@^1.0.0:
@@ -8570,11 +8473,11 @@ vfile-message@^1.0.0:
   dependencies:
     unist-util-stringify-position "^1.1.1"
 
-vfile@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/vfile/-/vfile-3.0.1.tgz#47331d2abe3282424f4a4bb6acd20a44c4121803"
+vfile@^2.0.0:
+  version "2.3.0"
+  resolved "https://registry.npm.taobao.org/vfile/download/vfile-2.3.0.tgz#e62d8e72b20e83c324bc6c67278ee272488bf84a"
   dependencies:
-    is-buffer "^2.0.0"
+    is-buffer "^1.1.4"
     replace-ext "1.0.0"
     unist-util-stringify-position "^1.0.0"
     vfile-message "^1.0.0"
@@ -8721,7 +8624,7 @@ which-pm@^1.0.1:
     load-yaml-file "^0.1.0"
     path-exists "^3.0.0"
 
-which@^1.2.12, which@^1.2.14, which@^1.2.8, which@^1.2.9, which@^1.3.0, which@^1.3.1:
+which@^1.2.12, which@^1.2.14, which@^1.2.8, which@^1.2.9, which@^1.3.0:
   version "1.3.1"
   resolved "https://registry.npmjs.org/which/-/which-1.3.1.tgz#a45043d54f5805316da8d62f9f50918d3da70b0a"
   dependencies:
@@ -8779,12 +8682,6 @@ write-file-atomic@^2.0.0, write-file-atomic@^2.1.0:
     graceful-fs "^4.1.11"
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
-
-write@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/write/-/write-1.0.3.tgz#0800e14523b923a387e415123c865616aae0f5c3"
-  dependencies:
-    mkdirp "^0.5.1"
 
 write@^0.2.1:
   version "0.2.1"

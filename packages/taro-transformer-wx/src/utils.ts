@@ -45,6 +45,22 @@ export const incrementId = () => {
 export const noop = function () {}
 
 export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
+  const obj = getSuperClassPath(path)
+  if (obj) {
+    const { sourceValue, resolvePath } = obj
+    try {
+      const code = fs.readFileSync(resolvePath + (transformOptions.isTyped ? '.tsx' : '.js'), 'utf8')
+      return {
+        code,
+        sourcePath: sourceValue
+      }
+    } catch (error) {
+      return
+    }
+  }
+}
+
+export function getSuperClassPath (path: NodePath<t.ClassDeclaration>) {
   const superClass = path.node.superClass
   if (t.isIdentifier(superClass)) {
     const binding = path.scope.getBinding(superClass.name)
@@ -55,15 +71,9 @@ export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
         if (source.value === TARO_PACKAGE_NAME) {
           return
         }
-        try {
-          const p = pathResolver(source.value, transformOptions.sourcePath) + (transformOptions.isTyped ? '.tsx' : '.js')
-          const code = fs.readFileSync(p, 'utf8')
-          return {
-            code,
-            sourcePath: source.value
-          }
-        } catch (error) {
-          return
+        return {
+          sourceValue: source.value,
+          resolvePath: pathResolver(source.value, transformOptions.sourcePath)
         }
       }
     }
@@ -73,7 +83,7 @@ export function getSuperClassCode (path: NodePath<t.ClassDeclaration>) {
 export function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
   let matched = false
   if (path) {
-    path.traverse({
+    const visitor = {
       Identifier (p) {
         if (
           p.node.name === 'stopPropagation' &&
@@ -82,7 +92,15 @@ export function isContainStopPropagation (path: NodePath<t.Node> | null | undefi
           matched = true
         }
       }
-    })
+    }
+    if (path.isIdentifier()) {
+      const binding = path.scope.getBinding(path.node.name)
+      if (binding) {
+        binding.path.traverse(visitor)
+      }
+    } else {
+      path.traverse(visitor)
+    }
   }
   return matched
 }
@@ -146,7 +164,7 @@ export function findMethodName (expression: t.Expression): string {
   ) {
     methodName = expression.callee.object.property.name
   } else {
-    throw codeFrameError(expression.loc, '当 props 为事件时(props name 以 `on` 开头)，只能传入一个 this 作用域下的函数。')
+    throw codeFrameError(expression.loc, '当 props 为事件时(props name 以 `on` 开头)，只能传入一个 this 作用域下的函数。')
   }
   return methodName
 }
@@ -228,7 +246,7 @@ export function generateAnonymousState (
           if (isArrowFunctionInJSX) {
             return
           }
-          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE)) {
+          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$')) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
               if (refId.name === variableName && !variableName.startsWith('_$')) {
@@ -644,7 +662,11 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
         }
       } else if (t.isJSXExpressionContainer(attr.value)) {
         const condition = cloneDeep(attr.value.expression)
-        expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, condition), expr)
+        if (t.isJSXIdentifier(condition, { name: '$taroCompReady' })) {
+          return expr
+        }
+        const ifStem = logicalJSX.findParent(p => p.isIfStatement())
+        expr = t.logicalExpression('&&', setAncestorCondition(logicalJSX, ifStem && ifStem.isIfStatement() ? attr.value.expression : condition), expr)
       }
     }
   }

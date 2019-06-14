@@ -34,10 +34,15 @@ function pxTransform (size) {
   return parseInt(size, 10) / (deviceRatio[designWidth] * 2)
 }
 
+function getApp (taro) {
+  return this._$app
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.getApp = getApp.bind(taro)
   Object.assign(
     taro,
     request,

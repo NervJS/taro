@@ -6,9 +6,9 @@ title: 安装及使用
 
 Taro 项目基于 node，请确保已具备较新的 node 环境（>=8.0.0），推荐使用 node 版本管理工具 [nvm](https://github.com/creationix/nvm) 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。
 
-安装 Taro 开发工具 `@tarojs/cli`
+### cli 工具安装
 
-使用 npm 或者 yarn 全局安装，或者直接使用[npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
+首先，你需要使用 npm 或者 yarn 全局安装`@tarojs/cli`，或者直接使用[npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b):
 
 ```bash
 # 使用 npm 安装 CLI
@@ -17,6 +17,14 @@ $ npm install -g @tarojs/cli
 $ yarn global add @tarojs/cli
 # OR 安装了 cnpm，使用 cnpm 安装 CLI
 $ cnpm install -g @tarojs/cli
+```
+
+### 注意事项
+
+值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。
+
+```bash
+$ npm install -g mirror-config-china
 ```
 
 ## 使用
@@ -47,6 +55,15 @@ $ npm install
 ```
 
 进入项目目录开始开发，目前已经支持 微信/百度/支付宝/字节跳动小程序、H5 以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致
+
+
+### 注意事项
+
+值得一提再提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。
+
+```bash
+$ npm install -g mirror-config-china
+```
 
 ### 微信小程序
 

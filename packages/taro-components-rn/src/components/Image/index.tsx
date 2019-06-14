@@ -4,7 +4,7 @@
  * ✘ lazy-load
  * ✔ onError(binderror)
  * ✔ onLoad(bindload)
- * ✔ onClick
+ * ✘ onClick
  * ✔ DEFAULT_SIZE
  *
  * @warn Pass require(LOCAL IMAGE) to SRC, otherwise a string-type parameter.
@@ -18,10 +18,11 @@ import {
   Image,
   StyleSheet,
   ImageSourcePropType,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  ImageResolvedAssetSource
 } from 'react-native'
 import { noop } from '../../utils'
-import ClickableSimplified from '../ClickableSimplified'
+// import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, Mode, ResizeModeMap, ResizeMode } from './PropsType'
 
 const resizeModeMap: ResizeModeMap = {
@@ -34,12 +35,12 @@ const resizeModeMap: ResizeModeMap = {
 }
 
 class _Image extends React.Component<ImageProps, ImageState> {
-  hasLayout: boolean = false
-
   static defaultProps = {
     src: '',
     mode: Mode.ScaleToFill
   }
+
+  hasLayout: boolean = false
 
   state: ImageState = {
     ratio: 0,
@@ -55,10 +56,23 @@ class _Image extends React.Component<ImageProps, ImageState> {
 
   onLoad = () => {
     const { src, onLoad = noop } = this.props
-    const { width, height } = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
-    onLoad({
-      detail: { width, height }
-    })
+    if (typeof src === 'string') {
+      Image.getSize(src as string, (width: number, height: number) => {
+        onLoad({
+          detail: { width, height }
+        })
+      }, (err: any) => {
+        onLoad({
+          detail: { width: 0, height: 0 }
+        })
+      })
+    } else {
+      const iras: ImageResolvedAssetSource = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
+      const { width, height }: { width: number, height: number } = iras || { width: 0, height: 0 }
+      onLoad({
+        detail: { width, height }
+      })
+    }
   }
 
   onLayout = (event: LayoutChangeEvent) => {
@@ -71,6 +85,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
         layoutWidth
       })
     }
+    this.hasLayout = true
   }
 
   loadImg = (props: ImageProps) => {
@@ -94,18 +109,25 @@ class _Image extends React.Component<ImageProps, ImageState> {
     }
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: ImageProps) {
-    this.loadImg(nextProps)
-  }
-
-  componentWillMount () {
-    this.hasLayout = true
-  }
-
   componentDidMount () {
-    this.hasLayout = false
     this.loadImg(this.props)
+  }
+
+  shouldComponentUpdate (nextProps: ImageProps, nextState: ImageState) {
+    if (nextProps.src !== this.props.src) {
+      this.hasLayout = false
+    }
+    return true
+  }
+
+  getSnapshotBeforeUpdate (prevProps: ImageProps, prevState: ImageState) {
+    return prevProps.src !== this.props.src
+  }
+
+  componentDidUpdate (prevProps: ImageProps, prevState: ImageState, snapshot: boolean) {
+    if (snapshot) {
+      this.loadImg(this.props)
+    }
   }
 
   render () {
@@ -117,7 +139,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
 
     const flattenStyle = StyleSheet.flatten(style) || {}
 
-    // The parameter passed to require must be a string literal
+    // The parameter passed to require mpxTransformust be a string literal
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
@@ -159,5 +181,6 @@ class _Image extends React.Component<ImageProps, ImageState> {
   }
 }
 
-export { _Image }
-export default ClickableSimplified(_Image)
+// export { _Image }
+// export default ClickableSimplified(_Image)
+export default _Image

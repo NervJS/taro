@@ -18,7 +18,10 @@ import {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext,
+  createContext,
+  memo
 } from '@tarojs/taro'
 
 import Component from './component'
@@ -56,7 +59,10 @@ export const Taro = {
   useRef,
   useCallback,
   useMemo,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext,
+  createContext,
+  memo
 }
 
 export default Taro

@@ -512,7 +512,9 @@ describe('if statement', () => {
               <block wx:if=\"{{item.$original === 0}}\">
                   <image/>
               </block>
-              <video wx:else></video>
+              <block wx:else>
+                  <video></video>
+              </block>
           </block>
       </container>
   </block>
@@ -549,7 +551,9 @@ describe('if statement', () => {
               <block wx:elif=\"{{item.$original === 1}}\">
                   <test></test>
               </block>
-              <video wx:else></video>
+              <block wx:else>
+                  <video></video>
+              </block>
           </block>
       </container>
   </block>

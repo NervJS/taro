@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { View, Text, Picker } from '../../dist'
 
 export default class EXPicker extends Component {
-  pickerSelectorRange = [ 'Java', 'C++', 'PHP' ]
   state = {
     selectorValue: 1,
     selectorRange: [
@@ -10,6 +9,8 @@ export default class EXPicker extends Component {
       { id: 1, name: 'C++' },
       { id: 2, name: 'PHP' },
     ],
+    selectorValue2: 1,
+    selectorRange2: ['北京', '上海', '天津', '重庆'],
     multiSelectorValue: [0, 1],
     multiSelectorRange: [
       [
@@ -43,6 +44,19 @@ export default class EXPicker extends Component {
           // disabled
         >
           <Text>Picker:selector - VALUE:{this.state.selectorValue}</Text>
+        </Picker>
+
+        <Picker
+          range={this.state.selectorRange2}
+          value={this.state.selectorValue2}
+          onChange={(event) => {
+            this.setState({ selectorValue2: event.detail.value })
+            console.log('onChange', event)
+          }}
+          onCancel={() => console.log('onCancel')}
+          // disabled
+        >
+          <Text>Picker:selector2 - VALUE:{this.state.selectorValue2}</Text>
         </Picker>
 
         <Picker

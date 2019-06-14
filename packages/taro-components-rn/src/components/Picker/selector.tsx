@@ -4,7 +4,8 @@
  */
 
 import * as React from 'react'
-import { Picker as AntPicker } from '@ant-design/react-native'
+import AntPicker from '@ant-design/react-native/lib/picker'
+import { noop } from '../../utils'
 import { SelectorProps } from './PropsType'
 
 function convertToObj (item?: any, rangeKey: string = ''): any {
@@ -20,6 +21,7 @@ export default class Selector extends React.Component<SelectorProps, any> {
     range: [],
     value: 0,
   }
+
   state: any = {
     pRange: [],
     range: [],
@@ -44,9 +46,9 @@ export default class Selector extends React.Component<SelectorProps, any> {
   }
 
   onChange = () => {
-    const { onChange } = this.props
+    const { onChange = noop } = this.props
     const { value } = this.state
-    onChange && onChange({ detail: { value } })
+    onChange({ detail: { value } })
   }
 
   onPickerChange = (value: any[]) => {
@@ -62,8 +64,8 @@ export default class Selector extends React.Component<SelectorProps, any> {
   }
 
   onDismiss = () => {
-    const { onCancel } = this.props
-    onCancel && onCancel()
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render () {

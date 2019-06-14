@@ -5,14 +5,16 @@ import { View, Label, Text, Button } from '../../dist'
 export default class EXButton extends Component {
   render () {
     return (
-      <View>
+      <View style={styles.wrapper}>
         <Button onClick={() => { alert('Hey, you click me!') }} style={styles.button}>default</Button>
         <Button size="mini" style={styles.button}>default mini</Button>
         <Button
           plain
           style={styles.button}
           hoverStyle={{ backgroundColor: 'red' }}
-        >default plain</Button>
+        >
+          default plain
+        </Button>
         <Button style={styles.button}><View><Text>wrap View</Text></View></Button>
         <Button style={styles.button}><Text>wrap Text</Text></Button>
         <Button loading style={styles.button}>default loading</Button>
@@ -30,26 +32,42 @@ export default class EXButton extends Component {
         <Button type="warn" disabled style={styles.button}>warn disabled</Button>
         <Button type="warn" plain disabled style={styles.button}>warn plain disabled</Button>
 
-        <Label style={{ flexDirection: 'row' }}>
-          <Button onClick={() => { alert('Hey, you click me!') }} style={styles.button}>with label</Button>
-          <Text>点我点我</Text>
+        <Label style={styles.label}>
+          <Button onClick={() => { alert('Hey, you click me!') }} style={[styles.button, styles.labelButton]}>with label</Button>
+          <Text>标签</Text>
         </Label>
 
         <Label>
-          <View style={{ flexDirection: 'row' }}>
-            <Button onClick={() => { alert('Hey, you click me!') }} style={styles.button}>with label</Button>
-            <Text>点我点我</Text>
+          <View style={styles.label}>
+            <Button onClick={() => { alert('Hey, you click me!') }} style={[styles.button, styles.labelButton]}>with label</Button>
+            <Text>标签</Text>
           </View>
         </Label>
-
-        <Label><Text>点我点我</Text></Label>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
+  },
   button: {
-    marginBottom: 5
+    margin: 5
+  },
+  label: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 5,
+    paddingRight: 5,
+    borderWidth: 1,
+    borderColor: '#ccc'
+  },
+  labelButton: {
+    margin: 0,
+    marginRight: 5
   }
 })

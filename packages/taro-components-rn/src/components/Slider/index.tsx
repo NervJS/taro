@@ -1,4 +1,6 @@
 /**
+ * 半受控组件
+ *
  * ✔ min
  * ✔ max
  * ✔ step
@@ -26,11 +28,6 @@ import styles from './styles'
 import { SliderProps, SliderState } from './PropsType'
 
 class _Slider extends React.Component<SliderProps, SliderState> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: SliderProps) {
-    super(props)
-  }
-
   static defaultProps = {
     min: 0,
     max: 100,
@@ -41,8 +38,14 @@ class _Slider extends React.Component<SliderProps, SliderState> {
     blockColor: '#fff',
   }
 
+  static getDerivedStateFromProps (props: SliderProps, state: SliderState) {
+    return props.value !== state.currentValue ? {
+      currentValue: props.value
+    } : null
+  }
+
   state: SliderState = {
-    currentValue: this.props.value
+    currentValue: 0
   }
 
   onSlidingComplete = (value: number) => {

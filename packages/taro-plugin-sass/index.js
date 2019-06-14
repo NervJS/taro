@@ -1,4 +1,4 @@
-const sass = require('dart-sass')
+const sass = require('node-sass')
 const Bundler = require('scss-bundle').Bundler
 
 module.exports = function compileSass (content, file, config) {
@@ -25,7 +25,10 @@ module.exports = function compileSass (content, file, config) {
         reject(e)
       }
     }
-    const opts = Object.assign(config, {
+    if (config.data) {
+      bundledContent += config.data
+    }
+    const opts = Object.assign({}, config, {
       file,
       data: bundledContent ? bundledContent + content : content
     })

@@ -19,7 +19,7 @@ sidebar_label: Text
 | :-: | :-: | :-: | :- | :- | :- | :- |
 | selectable | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
 | space | ✔ |  |  | ✔ |  | ✔ |
-| decode | ✔ |  | ✔ |  |  | ✔ |
+| decode | ✔ |  |  |  |  | ✔ |
 
 
 ###### 示例：

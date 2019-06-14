@@ -20,12 +20,17 @@
 
 掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
+## 社区共享
+
+[Taro 交流社区——让每一次交流都被沉淀](http://taro-club.jd.com/)
+
+[Taro 物料市场——让每一个轮子产生价值](http://taro-ext.jd.com/)
 
 ## 使用案例
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
 
-[![案例](https://storage.360buyimg.com/taro-resource/user-cases.jpg?v5)](https://nervjs.github.io/taro-user-cases/)
+<a href="https://nervjs.github.io/taro-user-cases/"><img src="https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg" /></a>
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 

@@ -41,7 +41,7 @@ const siteConfig = {
   headerLinks: [
     { doc: 'README', label: '文档' },
     { doc: 'components-desc', label: '组件库' },
-    { doc: 'api-desc', label: 'API' },
+    { doc: 'apis/about/desc', label: 'API' },
     { href: 'https://github.com/NervJS/taro', label: 'GitHub' },
     { search: true }
   ],
@@ -91,7 +91,10 @@ const siteConfig = {
   usePrism: true,
 
   // Add custom scripts here that would be placed in <script> tags
-  scripts: ['https://buttons.github.io/buttons.js', 'https://jdc.jd.com/demo/talenttest/js/url.js'],
+  scripts: ['https://buttons.github.io/buttons.js', 'https://jdc.jd.com/demo/talenttest/js/url.js', {
+    src: 'https://storage.jd.com/taro-resource/tongji.js',
+    async: true
+  }],
 
   /* On page navigation for the current documentation page */
   onPageNav: 'separate',
@@ -100,7 +103,8 @@ const siteConfig = {
   ogImage: 'img/logo-taro.png',
   twitterImage: 'img/logo-taro.png',
 
-  scrollToTop: true
+  scrollToTop: true,
+  docsSideNavCollapsible: true
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...

@@ -1,6 +1,12 @@
 import transform from '../src'
 import { buildComponent, baseOptions, evalClass, prettyPrint } from './utils'
 
+type headerArray = {}[]
+
+const a: {}[] = []
+
+a.push([])
+
 describe('类函数式组件', () => {
   describe('不传参', () => {
     test('简单情况', () => {
@@ -559,5 +565,193 @@ describe('函数式组件', () => {
         })
       }).toThrowError(/函数式组件的参数最多只能传入一个/)
     })
+  })
+})
+
+describe('闭包函数表达式', () => {
+  test('basic', () => {
+    const { template, ast,code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: `const Test = (a) => {
+        const renderTest = () => {
+          return <View />
+        }
+
+        return (
+          <View className='page-body'>
+            {renderTest()}
+          </View>
+        )
+      }`
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view class=\"page-body\">
+            <template is=\"renderClosureTest\" data=\"{{...anonymousState__temp}}\"></template>
+        </view>
+    </block>
+    <template name=\"renderClosureTest\">
+        <block>
+            <view></view>
+        </block>
+    </template>
+    `))
+  })
+
+  test('basic2', () => {
+    const { template, ast,code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: `function Test() {
+        const renderTest = () => {
+          return <View />
+        }
+
+        return (
+          <View className='page-body'>
+            {renderTest()}
+          </View>
+        )
+      }`
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view class=\"page-body\">
+            <template is=\"renderClosureTest\" data=\"{{...anonymousState__temp}}\"></template>
+        </view>
+    </block>
+    <template name=\"renderClosureTest\">
+        <block>
+            <view></view>
+        </block>
+    </template>
+    `))
+  })
+
+  test('basic3', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      const renderTest = () => {
+        return <View />
+      }
+
+      return (
+        <View className='page-body'>
+          {renderTest()}
+        </View>
+      )
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view class=\"page-body\">
+            <template is=\"renderClosureTest\" data=\"{{...anonymousState__temp}}\"></template>
+        </view>
+    </block>
+    <template name=\"renderClosureTest\">
+        <block>
+            <view></view>
+        </block>
+    </template>
+    `))
+  })
+
+  test('可以接受多个参数', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      const renderTest = (a, b) => {
+        return <View a={a} b={b} />
+      }
+
+      return (
+        <View className='page-body'>
+          {renderTest()}
+        </View>
+      )
+      `)
+    })
+
+    expect(template).toMatch(prettyPrint(`
+    <block>
+        <view class=\"page-body\">
+            <template is=\"renderClosureTest\" data=\"{{...anonymousState__temp}}\"></template>
+        </view>
+    </block>
+    <template name=\"renderClosureTest\">
+        <block>
+            <view a="{{a}}" b="{{b}}"></view>
+        </block>
+    </template>
+    `))
+  })
+
+  test('闭包使用函数声明', () => {
+    expect(() => {
+      transform({
+        ...baseOptions,
+        isRoot: true,
+        code: `function Test() {
+          function renderTest() {
+            return <View />
+          }
+
+          return (
+            <View className='page-body'>
+              {renderTest()}
+            </View>
+          )
+        }`
+      })
+    }).toThrowError(/如果是在函数内声明闭包组件，则需要使用函数表达式的写法/)
+  })
+
+  test('闭包使用函数声明2', () => {
+    expect(() => {
+      transform({
+        ...baseOptions,
+        isRoot: true,
+        code: `
+        function Test() {
+          function renderTest() {
+            return <View />
+          }
+
+          return (
+            <View className='page-body'>
+              {renderTest()}
+            </View>
+          )
+        }
+        `
+      })
+    }).toThrowError(/如果是在函数内声明闭包组件，则需要使用函数表达式的写法/)
+  })
+
+  test.skip('闭包使用函数声明3', () => {
+    expect(() => {
+      transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+        function renderTest () {
+          return <View />
+        }
+
+        return (
+          <View className='page-body'>
+            {renderTest()}
+          </View>
+        )
+        `)
+      })
+    }).toThrowError(/如果是在函数内声明闭包组件，则需要使用函数表达式的写法/)
   })
 })

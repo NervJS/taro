@@ -1,4 +1,6 @@
 /**
+ * 半受控组件
+ *
  * ✔ value
  * ✔ disabled
  * ✔ checked
@@ -15,49 +17,45 @@ import {
 } from 'react-native'
 import Icon from '../Icon'
 import styles from './styles'
+import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
 
 class _Radio extends React.Component<RadioProps, RadioState> {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props: RadioProps) {
-    super(props)
-  }
-
-  $touchable: TouchableWithoutFeedback | null
-
-  state: RadioState = {
-    checked: !!this.props.checked
-  }
-
   static defaultProps = {
     value: '',
     color: '#09BB07',
   }
 
+  static getDerivedStateFromProps (props: RadioProps, state: RadioState) {
+    return props.checked !== state.checked ? {
+      checked: !!props.checked
+    } : null
+  }
+
+  $touchable = React.createRef<TouchableWithoutFeedback>()
+
+  state: RadioState = {
+    checked: false
+  }
+
   _simulateNativePress = (evt: GestureResponderEvent): void => {
-    this.$touchable && this.$touchable.touchableHandlePress(evt)
+    const node = this.$touchable.current
+    node && node.touchableHandlePress(evt)
   }
 
   onPress = (): void => {
-    const { disabled, onChange, value } = this.props
+    const { disabled, onChange = noop, value } = this.props
 
     if (disabled) return
 
     if (this.state.checked) return
 
-    onChange && onChange({
+    onChange({
       value,
       checked: !this.state.checked
     })
 
     this.setState({ checked: !this.state.checked })
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps (nextProps: RadioProps) {
-    if (nextProps.checked !== this.props.checked) {
-      this.setState({ checked: !!nextProps.checked })
-    }
   }
 
   render () {
@@ -72,7 +70,7 @@ class _Radio extends React.Component<RadioProps, RadioState> {
     return (
       <TouchableWithoutFeedback
         onPress={this.onPress}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable}
       >
         <View style={[
           styles.wrapper,

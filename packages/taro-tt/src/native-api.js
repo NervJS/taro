@@ -113,8 +113,10 @@ function processApis (taro) {
             if (component.componentWillPreload) {
               const cacheKey = getUniqueKey()
               const MarkIndex = obj.url.indexOf('?')
-              const params = queryToJson(obj.url.substring(MarkIndex + 1, obj.url.length))
-              obj.url += (MarkIndex > -1 ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
+              const hasMark = MarkIndex > -1
+              const urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : ''
+              const params = queryToJson(urlQueryStr)
+              obj.url += (hasMark ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
               cacheDataSet(cacheKey, component.componentWillPreload(params))
               cacheDataSet(preloadInitedComponent, component)
             }

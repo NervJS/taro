@@ -196,6 +196,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@babel/parser@^7.0.0":
+  version "7.4.4"
+  resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.4.4.tgz#5977129431b8fe33471730d255ce8654ae1250b6"
+
 "@babel/parser@^7.1.2", "@babel/parser@^7.1.6":
   version "7.1.6"
   resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.1.6.tgz#16e97aca1ec1062324a01c5a6a7d0df8dd189854"
@@ -1199,14 +1203,16 @@ babel-core@^6.25.0, babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.7"
 
-babel-eslint@^7.2.3:
-  version "7.2.3"
-  resolved "https://registry.npmjs.org/babel-eslint/-/babel-eslint-7.2.3.tgz#b2fe2d80126470f5c19442dc757253a897710827"
+babel-eslint@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.npmjs.org/babel-eslint/-/babel-eslint-10.0.1.tgz#919681dc099614cd7d31d45c8908695092a1faed"
   dependencies:
-    babel-code-frame "^6.22.0"
-    babel-traverse "^6.23.1"
-    babel-types "^6.23.0"
-    babylon "^6.17.0"
+    "@babel/code-frame" "^7.0.0"
+    "@babel/parser" "^7.0.0"
+    "@babel/traverse" "^7.0.0"
+    "@babel/types" "^7.0.0"
+    eslint-scope "3.7.1"
+    eslint-visitor-keys "^1.0.0"
 
 babel-generator@^6.26.0:
   version "6.26.1"
@@ -1750,7 +1756,7 @@ babel-template@^6.24.1, babel-template@^6.26.0:
     babylon "^6.18.0"
     lodash "^4.17.4"
 
-babel-traverse@^6.23.1, babel-traverse@^6.24.1, babel-traverse@^6.26.0:
+babel-traverse@^6.24.1, babel-traverse@^6.26.0:
   version "6.26.0"
   resolved "https://registry.npmjs.org/babel-traverse/-/babel-traverse-6.26.0.tgz#46a9cbd7edcc62c8e5c064e2d2d8d0f4035766ee"
   dependencies:
@@ -1764,7 +1770,7 @@ babel-traverse@^6.23.1, babel-traverse@^6.24.1, babel-traverse@^6.26.0:
     invariant "^2.2.2"
     lodash "^4.17.4"
 
-babel-types@^6.19.0, babel-types@^6.23.0, babel-types@^6.24.1, babel-types@^6.26.0:
+babel-types@^6.19.0, babel-types@^6.24.1, babel-types@^6.26.0:
   version "6.26.0"
   resolved "https://registry.npmjs.org/babel-types/-/babel-types-6.26.0.tgz#a3b073f94ab49eb6fa55cd65227a334380632497"
   dependencies:
@@ -1773,7 +1779,7 @@ babel-types@^6.19.0, babel-types@^6.23.0, babel-types@^6.24.1, babel-types@^6.26
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
 
-babylon@^6.17.0, babylon@^6.17.3, babylon@^6.17.4, babylon@^6.18.0:
+babylon@^6.17.3, babylon@^6.17.4, babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.npmjs.org/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
 
@@ -4101,6 +4107,13 @@ eslint-plugin-react@^7.4.0:
 eslint-plugin-standard@^3.0.1:
   version "3.1.0"
   resolved "https://registry.npmjs.org/eslint-plugin-standard/-/eslint-plugin-standard-3.1.0.tgz#2a9e21259ba4c47c02d53b2d0c9135d4b1022d47"
+
+eslint-scope@3.7.1:
+  version "3.7.1"
+  resolved "https://registry.npmjs.org/eslint-scope/-/eslint-scope-3.7.1.tgz#3d63c3edfda02e06e01a452ad88caacc7cdcb6e8"
+  dependencies:
+    esrecurse "^4.1.0"
+    estraverse "^4.1.1"
 
 eslint-scope@^3.7.1:
   version "3.7.3"

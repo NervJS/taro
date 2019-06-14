@@ -1,4 +1,5 @@
 const path = require('path')
+const apis = require('@tarojs/taro-h5/dist/taroApis')
 
 module.exports = {
   entry: './src/index.js',
@@ -43,7 +44,11 @@ module.exports = {
               ],
               ['@babel/plugin-proposal-decorators', { 'legacy': true }],
               ['@babel/plugin-proposal-class-properties'],
-              ['@babel/plugin-proposal-object-rest-spread']
+              ['@babel/plugin-proposal-object-rest-spread'],
+              ['babel-plugin-transform-taroapi', {
+                apis,
+                packageName: '@tarojs/taro-h5'
+              }]
             ]
           }
         }]/*, 'eslint-loader' */

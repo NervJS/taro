@@ -14,6 +14,7 @@ import {
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
+import { Status } from './functional'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -48,9 +49,11 @@ export function findJSXAttrByName (attrs: t.JSXAttribute[], name: string) {
 }
 
 export function buildRefTemplate (name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
+  const isSwan = Adapter.type === Adapters.swan
+  const dataString = isSwan ? `{{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}}` : `{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`
   const attrs = [
     t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
-    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(`{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`))
+    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(dataString))
   ]
   if (key) {
     attrs.push(key)
@@ -96,17 +99,20 @@ export function setJSXAttr (
 }
 
 export function generateJSXAttr (ast: t.Node) {
-  return decodeUnicode(
+  const code = decodeUnicode(
     generate(ast, {
       quotes: 'single',
       jsonCompatibleStrings: true
     })
     .code
   )
-  .replace(/(this\.props\.)|(this\.state\.)/g, '')
-  .replace(/(props\.)|(state\.)/g, '')
-  .replace(/this\./g, '')
   .replace(/</g, lessThanSignPlacehold)
+  if (Status.isSFC) {
+    return code
+  }
+  return code.replace(/(this\.props\.)|(this\.state\.)/g, '')
+    .replace(/(props\.)|(state\.)/g, '')
+    .replace(/this\./g, '')
 }
 
 export function isAllLiteral (...args) {
@@ -126,9 +132,6 @@ function parseJSXChildren (
   children: (t.JSXElement | t.JSXText | t.JSXExpressionContainer)[]
 ): string {
   return children
-    .filter(child => {
-      return !(t.isJSXText(child) && child.value.trim() === '')
-    })
     .reduce((str, child) => {
       if (t.isJSXText(child)) {
         const strings: string[] = []
@@ -235,7 +238,11 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
                 value = code
               }
             } else {
+              const isTemplateData = isJSXMetHod && name === 'data'
               value = isBindEvent || isAlipayOrQuickappEvent ? code : `{{${isJSXMetHod && name === 'data' ? '...' : ''}${code}}}`
+              if (isTemplateData && Adapters.swan === Adapter.type) {
+                value = `{${value}}`
+              }
             }
           }
           if (Adapter.type === Adapters.swan && name === Adapter.for) {

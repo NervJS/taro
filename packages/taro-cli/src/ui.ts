@@ -24,26 +24,69 @@ import {
   PROJECT_CONFIG,
   BUILD_TYPES,
   REG_STYLE,
-  REG_TYPESCRIPT
+  REG_TYPESCRIPT,
+  PARSE_AST_TYPE
 } from './util/constants'
 import { IComponentObj } from './mini/interface'
+import { parseAst } from './mini/astProcess'
+import { compileDepStyles } from './mini/compileStyle'
+import { IBuildConfig, IProjectConfig, IH5Config } from './util/types'
+import { setBuildData as setMiniBuildData } from './mini/helper'
 
-const appPath = process.cwd()
-const configDir = path.join(appPath, PROJECT_CONFIG)
-const projectConfig = require(configDir)(_.merge)
-const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-let outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
-const sourceDir = path.join(appPath, sourceDirName)
-const entryFilePath = resolveScriptPath(path.join(sourceDir, 'index'))
-const entryFileName = path.basename(entryFilePath)
-const tempDir = '.temp'
-const tempPath = path.join(appPath, tempDir)
+interface IBuildData {
+  appPath: string,
+  projectConfig: IProjectConfig,
+  sourceDirName: string,
+  outputDirName: string,
+  sourceDir: string,
+  entryFilePath: string,
+  entryFileName: string,
+  tempPath: string
+}
 
 const weappOutputName = 'weapp'
 const h5OutputName = 'h5'
+const tempDir = '.temp'
+
+let buildData: IBuildData
+
+function setBuildData (appPath) {
+  const configDir = path.join(appPath, PROJECT_CONFIG)
+  const projectConfig = require(configDir)(_.merge)
+  const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+  const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
+  const sourceDir = path.join(appPath, sourceDirName)
+  const entryFilePath = resolveScriptPath(path.join(sourceDir, 'index'))
+  const entryFileName = path.basename(entryFilePath)
+  const tempPath = path.join(appPath, tempDir)
+
+  buildData = {
+    appPath,
+    projectConfig,
+    sourceDirName,
+    outputDirName,
+    sourceDir,
+    entryFilePath,
+    entryFileName,
+    tempPath
+  }
+}
+
+interface IH5BuildConfig extends IH5Config {
+  env?: object,
+  defineConstants?: object,
+  plugins?: object,
+  designWidth?: number,
+  deviceRatio?: object,
+  sourceRoot?: string,
+  outputRoot?: string,
+  isWatch?: boolean
+}
 
 async function buildH5Script () {
-  const h5Config = projectConfig.h5 || {}
+  const { appPath, projectConfig, entryFileName, sourceDirName, tempPath } = buildData
+  let { outputDirName } = buildData
+  const h5Config: IH5BuildConfig = Object.assign({}, projectConfig.h5)
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   outputDirName = `${outputDirName}/${h5OutputName}`
   h5Config.env = projectConfig.env
@@ -60,11 +103,12 @@ async function buildH5Script () {
   }, h5Config.entry)
   h5Config.isWatch = false
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', appPath)
-  webpackRunner(h5Config)
+  webpackRunner(appPath, h5Config)
 }
 
 async function buildH5Lib () {
   try {
+    const { appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, h5OutputName)
     const tempEntryFilePath = resolveScriptPath(path.join(tempPath, 'index'))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
@@ -102,6 +146,7 @@ function copyFileToDist (filePath: string, sourceDir: string, outputDir: string)
   if (!filePath && !path.isAbsolute(filePath)) {
     return
   }
+  const { appPath } = buildData
   const dirname = path.dirname(filePath)
   const distDirname = dirname.replace(sourceDir, outputDir)
   const relativePath = path.relative(appPath, filePath)
@@ -203,7 +248,6 @@ function parseEntryAst (ast: t.File, relativeFile: string) {
 }
 
 function analyzeFiles (files: string[], sourceDir: string, outputDir: string) {
-  const { parseAst } = require('./weapp')
   files.forEach(file => {
     if (fs.existsSync(file)) {
       const code = fs.readFileSync(file).toString()
@@ -219,7 +263,7 @@ function analyzeFiles (files: string[], sourceDir: string, outputDir: string) {
         scriptFiles,
         jsonFiles,
         mediaFiles
-      } = parseAst('NORMAL', transformResult.ast, [], file, file, true)
+      } = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], file, file, true)
       const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
       if (resFiles.length) {
         resFiles.forEach(item => {
@@ -265,14 +309,14 @@ function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir) {
 }
 
 async function buildForWeapp () {
+  const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData
   console.log()
   console.log(chalk.green('开始编译小程序端组件库！'))
   if (!fs.existsSync(entryFilePath)) {
-    console.log(chalk.red('入口文件不存在，请检查！'))
+    console.log(chalk.red('入口文件不存在，请检查！'))
     return
   }
   try {
-    const { compileDepStyles } = require('./weapp')
     const outputDir = path.join(appPath, outputDirName, weappOutputName)
     const outputEntryFilePath = path.join(outputDir, entryFileName)
     const code = fs.readFileSync(entryFilePath).toString()
@@ -286,7 +330,7 @@ async function buildForWeapp () {
     const { styleFiles, components } = parseEntryAst(transformResult.ast, entryFilePath)
     if (styleFiles.length) {
       const outputStylePath = path.join(outputDir, 'css', 'index.css')
-      await compileDepStyles(outputStylePath, styleFiles, false)
+      await compileDepStyles(outputStylePath, styleFiles)
     }
     const relativePath = path.relative(appPath, entryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
@@ -307,10 +351,11 @@ async function buildForWeapp () {
 }
 
 async function buildForH5 () {
-  const { buildTemp } = require('./h5')
+  const { appPath } = buildData
+  const compiler = new Compiler(appPath)
   console.log()
   console.log(chalk.green('开始编译 H5 端组件库！'))
-  await buildTemp()
+  await compiler.buildTemp()
   if (process.env.TARO_BUILD_TYPE === 'script') {
     await buildH5Script()
   } else {
@@ -319,6 +364,7 @@ async function buildForH5 () {
 }
 
 function buildEntry () {
+  const { appPath, outputDirName } = buildData
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
     module.exports = require('./${h5OutputName}/index')
     module.exports.default = module.exports
@@ -331,16 +377,20 @@ function buildEntry () {
 }
 
 function watchFiles () {
+  const { sourceDir, projectConfig, appPath, outputDirName, tempPath } = buildData
   console.log('\n', chalk.gray('监听文件修改中...'), '\n')
 
   const watchList = [sourceDir]
 
-  const uiConfig = projectConfig.ui || {}
-  const { extraWatchFiles = [] } = uiConfig
-  extraWatchFiles.forEach(item => {
-    watchList.push(path.join(appPath, item.path))
-    if (typeof item.handler === 'function') item.callback = item.handler({ buildH5Script })
-  })
+  const uiConfig = projectConfig.ui
+  let extraWatchFiles
+  if (uiConfig) {
+    extraWatchFiles = uiConfig.extraWatchFiles
+    extraWatchFiles.forEach(item => {
+      watchList.push(path.join(appPath, item.path))
+      if (typeof item.handler === 'function') item.callback = item.handler({ buildH5Script })
+    })
+  }
 
   const watcher = chokidar.watch(watchList, {
     ignored: /(^|[/\\])\../,
@@ -360,6 +410,7 @@ function watchFiles () {
   }
 
   function syncH5File (filePath, compiler) {
+    const { sourceDir, appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, h5OutputName)
     const fileTempPath = filePath.replace(sourceDir, tempPath)
     compiler.processFiles(filePath)
@@ -384,7 +435,7 @@ function watchFiles () {
     printLog(type, tips, relativePath)
 
     let processed = false
-    extraWatchFiles.forEach(item => {
+    extraWatchFiles && extraWatchFiles.forEach(item => {
       if (filePath.indexOf(item.path.substr(2)) < 0) return
       if (typeof item.callback === 'function') {
         item.callback()
@@ -422,7 +473,9 @@ function watchFiles () {
     })
 }
 
-export async function build ({ watch }) {
+export async function build (appPath, { watch }: IBuildConfig) {
+  setBuildData(appPath)
+  setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   buildEntry()
   await buildForWeapp()
   await buildForH5()

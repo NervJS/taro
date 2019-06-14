@@ -2,6 +2,7 @@ import Nerv, { unmountComponentAtNode } from 'nervjs'
 import Previewer from './react-wx-images-viewer/index'
 
 /**
+ * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  * @param {Object} object
  * @param {Array.<string>} object.urls 需要预览的图片链接列表。2.2.3 起支持云文件ID。
  * @param {string} [object.current=object.urls[0]]  urls的第一张 当前显示图片的链接

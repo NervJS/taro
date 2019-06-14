@@ -78,6 +78,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           const transformResult = wxTransformer({
             code,
             sourcePath: item,
+            sourceDir,
             outputPath: outputItem,
             isNormal: true,
             isTyped: REG_TYPESCRIPT.test(item),
@@ -94,7 +95,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           }
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction && needUseBabel) {
-            uglifyJS(resCode, item, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
+            resCode = uglifyJS(resCode, item, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
           }
           if (NODE_MODULES_REG.test(item)) {
             resCode = npmCodeHack(outputItem, resCode, buildAdapter)
@@ -139,6 +140,7 @@ export async function compileScriptFile (
 ): Promise<string> {
   const {
     appPath,
+    sourceDir,
     constantsReplaceList,
     jsxAttributeNameReplace,
     projectConfig
@@ -155,6 +157,7 @@ export async function compileScriptFile (
   const transformResult: IWxTransformResult = wxTransformer({
     code,
     sourcePath: sourceFilePath,
+    sourceDir,
     outputPath: outputFilePath,
     isNormal: true,
     isTyped: false,

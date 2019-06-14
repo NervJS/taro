@@ -1,6 +1,8 @@
 import { StyleProp, ViewStyle, Animated } from 'react-native'
 
 export interface ProgressState {
+  percent: number;
+  prevPercent: number;
   valve: Animated.Value;
 }
 

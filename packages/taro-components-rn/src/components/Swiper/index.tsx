@@ -1,4 +1,7 @@
 /**
+ * 注意事项：
+ *   Swiper 不能加 `flex: 1`
+ *
  * ✔ indicatorDots(indicator-dots)
  * ✔ indicatorColor(indicator-color)
  * ✔ indicatorActiveColor(indicator-active-color)
@@ -46,14 +49,10 @@
 
 import * as React from 'react'
 import {
-  // Text,
-  // View,
   StyleSheet,
-  StyleProp,
   ViewStyle
 } from 'react-native'
-import Swiper from '@nart/react-native-swiper'
-// import styles from './styles'
+import Swiper from 'react-native-swiper'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
 

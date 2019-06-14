@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, YellowBox } from 'react-native'
 import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
-
-import { YellowBox } from 'react-native'
 
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
@@ -31,7 +29,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
-          <Text style={{flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center'}}>{title}</Text>
+          <Text style={{flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center', color: headerTintColor}}>{title}</Text>
         </View>,
         headerTintColor,
         headerStyle: {

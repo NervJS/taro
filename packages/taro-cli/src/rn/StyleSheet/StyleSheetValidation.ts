@@ -12,7 +12,7 @@ import ImageStylePropTypes from './ImageStylePropTypes'
 import TextStylePropTypes from './TextStylePropTypes'
 import ViewStylePropTypes from './ViewStylePropTypes'
 
-import invariant from 'fbjs/lib/invariant'
+import * as invariant from 'fbjs/lib/invariant'
 
 // Hardcoded because this is a legit case but we don't want to load it from
 // a private API. We might likely want to unify style sheet creation with how it

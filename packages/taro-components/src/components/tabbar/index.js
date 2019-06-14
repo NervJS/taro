@@ -74,10 +74,13 @@ class Tabbar extends Nerv.Component {
   }
 
   getSelectedIndex = url => {
-    const foundIndex = this.state.list.findIndex(({ pagePath }) => {
+    let foundIndex = -1
+    this.state.list.forEach(({ pagePath }, idx) => {
       const patha = splitUrl(url).path
       const pathb = splitUrl(pagePath).path
-      return patha === pathb
+      if (patha === pathb) {
+        foundIndex = idx
+      }
     })
     return foundIndex
   }

@@ -26,18 +26,18 @@ sidebar_label: Audio
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| src          | ✔ | ✔ | ✔ | ✔ |  |  |
-| controls     | ✔ | ✔ |  | ✔ |  |  |
-| autoplay     | ✔ | ✔ |  |  | |  |
-| poster       | ✔ |  | ✔ | ✔ | |  |
-| initialTime  | ✔ |  |  |  |  |  |
-| loop         | ✔ | ✔ | ✔ | ✔ |  |  |
-| muted        | ✔ | ✔ |  |  |  |  |
-| onPlay       | ✔ | ✔ | ✔ | ✔ |  |  |
-| onPause      | ✔ | ✔ | ✔ | ✔ |  |  |
-| onEnded      | ✔ | ✔ | ✔ | ✔ |  |  |
-| onTimeUpdate | ✔ | ✔ | ✔ | ✔ |  |  |
-| onError      | ✔ | ✔ | ✔ | ✔ |  |  |
+| src          | ✔ | ✔ | x | ✔ |  |  |
+| controls     | ✔ | ✔ | x | ✔ |  |  |
+| autoplay     | ✔ | ✔ | x |  | |  |
+| poster       | ✔ |  | x | ✔ | |  |
+| initialTime  | ✔ |  | x |  |  |  |
+| loop         | ✔ | ✔ | x | ✔ |  |  |
+| muted        | ✔ | ✔ | x |  |  |  |
+| onPlay       | ✔ | ✔ | x | ✔ |  |  |
+| onPause      | ✔ | ✔ | x | ✔ |  |  |
+| onEnded      | ✔ | ✔ | x | ✔ |  |  |
+| onTimeUpdate | ✔ | ✔ | x | ✔ |  |  |
+| onError      | ✔ | ✔ | x | ✔ |  |  |
 
 ###### 示例：
 ```jsx

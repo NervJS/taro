@@ -1,11 +1,11 @@
-import Taro, { Component } from '@tarojs/taro-h5';
-import Nerv from 'nervjs';
-import invariant from 'invariant';
-import toPairs from 'lodash/toPairs';
-import assign from 'lodash/assign';
+import Taro from '@tarojs/taro-h5'
+import invariant from 'invariant'
+import assign from 'lodash/assign'
+import toPairs from 'lodash/toPairs'
+import Nerv from 'nervjs'
 
-import Route from './route';
-import * as Types from '../utils/types';
+import * as Types from '../utils/types'
+import Route from './route'
 
 interface Props {
   history: Types.History;
@@ -22,7 +22,7 @@ interface State {
 type OriginalRoute = string;
 type MappedRoute = string;
 
-class Router extends Component<Props, State> {
+class Router extends Taro.Component<Props, State> {
   unlisten: () => void;
   lastLocation: Types.Location;
   currentPages: any[] = [];
@@ -44,20 +44,20 @@ class Router extends Component<Props, State> {
     // 找出匹配的路由组件
     const originalPathname = location.path;
     let pathname = originalPathname
-    const foundRoute = this.customRoutes.find(([originalRoute, mappedRoute]) => {
+    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
       return originalPathname === mappedRoute
     })
-    if (foundRoute) {
-      pathname = foundRoute[0]
+    if (foundRoute.length) {
+      pathname = foundRoute[0][0]
     }
-    const matchedRoute = this.props.routes.find(({path, isIndex}) => {
+    const matchedRoute = this.props.routes.filter(({path, isIndex}) => {
       if (isIndex && pathname === '/') return true;
       return pathname === path;
     })
 
-    invariant(matchedRoute, `Can not find proper registered route for '${pathname}'`)
+    invariant(matchedRoute[0], `Can not find proper registered route for '${pathname}'`)
 
-    return matchedRoute!
+    return matchedRoute[0]!
   }
 
   push (toLocation: Types.Location) {

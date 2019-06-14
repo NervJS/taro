@@ -11,8 +11,9 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "downlevelIteration": true,
     "jsx": "react",
+    "moduleResolution": "node",
     "target": "es2015",
     "lib": [
       "es2015"

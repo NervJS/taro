@@ -16,7 +16,8 @@ import {
 import {
   isNpmPkg,
   processStyleImports,
-  promoteRelativePath
+  promoteRelativePath,
+  getBabelConfig
 } from '../util'
 import { CSS_EXT, FILE_PROCESSOR_MAP, DEVICE_RATIO_NAME, BUILD_TYPES } from '../util/constants'
 import { IMiniAppConfig } from '../util/types'
@@ -149,11 +150,14 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
     processors.push(pxtransform(postcssPxtransformConf))
   }
   if (cssUrlConf.enable) {
-    processors.push(cssUrlParse({
+    const cssUrlParseConf = {
       url: 'inline',
       maxSize,
       encodeType: 'base64'
-    }))
+    }
+    processors.push(cssUrlParse(cssUrlConf.config.basePath ? Object.assign(cssUrlParseConf, {
+      basePath: cssUrlConf.config.basePath
+    }) : cssUrlParseConf))
   }
 
   const defaultPostCSSPluginNames = ['autoprefixer', 'pxtransform', 'url', 'cssModules']
@@ -219,8 +223,8 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           npmOutputDir,
           compileInclude,
           env: projectConfig.env || {},
-          uglify: projectConfig!.plugins!.uglify || {},
-          babelConfig: projectConfig!.plugins!.babel || {}
+          uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
         })
         const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
         return str.replace(stylePath, importRelativePath)
@@ -236,7 +240,9 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
         })).catch(err => {
           if (err) {
             console.log(err)
-            process.exit(0)
+            if (isProduction) {
+              process.exit(0)
+            }
           }
         })
     }

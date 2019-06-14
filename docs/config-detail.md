@@ -64,20 +64,20 @@ csso: {
 
 ### plugins.sass
 用来配置 `sass` 工具，设置打包过程中的 SCSS 代码编译。  
-具体配置可以参考[dart-sass](https://www.npmjs.com/package/dart-sass)  
-v1.2.23改为用[dart-sass](https://www.npmjs.com/package/dart-sass)作编译工具  
-v1.2.23前使用[node-sass](https://www.npmjs.com/package/node-sass)作编译工具  
-当需要全局注入scss文件时，可以添加两个额外参数：`resource` 、 `projectDirectory` (v1.2.25开始支持)，具体配置方式如下：
+具体配置可以参考[dart-sass](https://www.npmjs.com/package/node-sass)  
+当需要全局注入scss文件时，可以添加三个额外参数：`resource` 、 `projectDirectory` (v1.2.25开始支持)、`data`（v1.3.0开始支持），具体配置方式如下：
 ```jsx
 sass: {
     resource: path.resolve(__dirname, '..', 'src/styles/variable.scss'),
     // OR 
     // resource:  ['path/to/global.variable.scss', 'path/to/global.mixin.scss']
-    projectDirectory: path.resolve(__dirname, '..')
+    projectDirectory: path.resolve(__dirname, '..'),
+    data: '$nav-height: 48px;',
   }
 ```
-resource: 如果要引入多个文件，支持数组形式传入。  
-projectDirectory: 项目根目录的绝对地址(若为小程序云开发模板，则应该是client目录)。
+* resource: 如果要引入多个文件，支持数组形式传入
+* projectDirectory: 项目根目录的绝对地址(若为小程序云开发模板，则应该是client目录)
+* data: 全局 scss 变量，若 data 与 resource 中设置了同样的变量，则 data 的优先级高于 resource
 
 ## env
 

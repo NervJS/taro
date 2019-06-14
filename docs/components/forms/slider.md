@@ -28,16 +28,16 @@ sidebar_label: Slider
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| min            | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
+| min            | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | max            | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | step           | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | disabled       | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | value          | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| color          | ✔ |  |  | |  | ✔ |
-| selectedColor  | ✔ |  |  |  |  | ✔ |
+| color          | ✔ |  | x | |  | ✔ |
+| selectedColor  | ✔ |  | x |  |  | ✔ |
 | activeColor    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| backgroundColor| ✔ | ✔ |✔  | ✔ | ✔ | ✔ |
-| blockSize      | ✔ | ✔ |  | ✔ | ✔ | ✔ |
+| backgroundColor| ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| blockSize      | ✔ | ✔ | x | ✔ | ✔ | ✔ |
 | blockColor     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | showValue      | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | onChange       | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |

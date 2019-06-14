@@ -8,7 +8,7 @@ title: 性能优化实践
 
 ### 预加载
 
-在**微信小程序**和**字节跳动小程序**中，从调用 `Taro.navigateTo`、`Taro.redirectTo` 或 `Taro.switchTab` 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
+在**微信小程序**、**支付宝小程序**、**字节跳动小程序**和**QQ轻应用**中，从调用 `Taro.navigateTo`、`Taro.redirectTo` 或 `Taro.switchTab` 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
 
 Taro 提供了 `componentWillPreload` 钩子，它接收页面跳转的参数作为参数。可以把需要预加载的内容通过 `return` 返回，然后在页面触发 componentWillMount 后即可通过 `this.$preloadData` 获取到预加载的内容。
 
@@ -98,6 +98,33 @@ shouldComponentUpdate (nextProps, nextState) {
 ### Taro.PureComponent
 
 在大多数情况下，开发者可以让组件继承于 `Taro.PureComponent` 类，而无需手动实现 `shouldComponentUpdate`。`Taro.PureComponent` 里实现了 `shouldComponentUpdate`，它会把新旧 props 和新旧 state 分别做一次浅对比，以避免不必要的渲染。
+
+### Taro.memo
+
+> 自 v1.3.0 可用
+
+`Taro.memo` 是一个高阶组件，它和 `PureComponent` 非常相似。但它适用于函数式组件，而非 Class 组件。
+
+如果你的函数组件在给定相同 props 的情况下渲染相同的结果，那么你可以通过将其包装在 Taro.memo 中调用，以此通过记忆组件渲染结果的方式来提高组件的性能表现。这意味着在这种情况下，Taro 将跳过渲染组件的操作并直接复用最近一次渲染的结果。
+
+默认情况下其只会对复杂对象做浅层对比（和 `PureComponent` 行为一致），如果你想要控制对比过程，那么请将自定义的比较函数通过第二个参数传入来实现。
+
+```jsx
+function MyComponent(props) {
+  /* 使用 props 渲染 */
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  如果把 nextProps 传入 render 方法的返回结果与
+  将 prevProps 传入 render 方法的返回结果一致则返回 true，
+  否则返回 false
+  */
+}
+export default Taro.memo(MyComponent, areEqual);
+```
+
+> 注意
+> 与 class 组件中 `shouldComponentUpdate()` 方法不同的是，如果 props 相等，`areEqual` 会返回 `true`；如果 props 不相等，则返回 `false`。这与 `shouldComponentUpdate` 方法的返回值相反。
 
 ## Taro 框架层面优化
 

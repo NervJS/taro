@@ -28,6 +28,7 @@ const onAndSyncApis = {
   getExtConfigSync: true,
   getLogManager: true,
   onMemoryWarning: true,
+  reportMonitor: true,
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
   // 文件
@@ -76,12 +77,16 @@ const noPromiseApis = {
   hideNavigationBarLoading: true,
   createAnimation: true,
   createSelectorQuery: true,
+  createOffscreenCanvas: true,
   createCanvasContext: true,
-  createContext: true,
+  // createContext: true,
   drawCanvas: true,
   hideKeyboard: true,
   stopPullDownRefresh: true,
   createIntersectionObserver: true,
+
+  // 菜单
+  getMenuButtonBoundingClientRect: true,
 
   onWindowResize: true,
   offWindowResize: true,
@@ -217,8 +222,6 @@ const otherApis = {
   setBackgroundColor: true,
   setBackgroundTextStyle: true,
 
-  getMenuButtonBoundingClientRect: true,
-
   // 第三方平台
   getExtConfig: true,
 
@@ -268,6 +271,7 @@ const otherApis = {
   logoClassify: true,
   animalClassify: true,
   plantClassify: true,
+  setPageInfo: true,
 
   // 用户信息
   getSwanId: true,

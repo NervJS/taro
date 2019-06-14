@@ -45,13 +45,6 @@ import { noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
 class _Button extends React.Component<ButtonProps, ButtonState> {
-  $touchable: TouchableOpacity | null
-
-  state: ButtonState = {
-    valve: new Animated.Value(0),
-    isHover: false
-  }
-
   static defaultProps = {
     size: 'default',
     type: 'default',
@@ -59,7 +52,14 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     hoverStayTime: 70
   }
 
-  animate = () => {
+  $touchable = React.createRef<TouchableOpacity>()
+
+  state: ButtonState = {
+    valve: new Animated.Value(0),
+    isHover: false
+  }
+
+  animate = (): void => {
     if (!this.props.loading) return
 
     Animated.sequence([
@@ -75,21 +75,22 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     ]).start(() => { this.animate() })
   }
 
-  onPress = () => {
+  onPress = (): void => {
     const { disabled, onClick = noop } = this.props
     !disabled && onClick()
   }
 
-  onPressIn = () => {
+  onPressIn = (): void => {
     this.setState({ isHover: true })
   }
 
-  onPressOut = () => {
+  onPressOut = (): void => {
     this.setState({ isHover: false })
   }
 
-  _simulateNativePress = (evt: GestureResponderEvent) => {
-    this.$touchable && this.$touchable.touchableHandlePress(evt)
+  _simulateNativePress = (evt: GestureResponderEvent): void => {
+    const node = this.$touchable.current
+    node && node.touchableHandlePress(evt)
   }
 
   componentDidMount () {
@@ -101,13 +102,6 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       this.animate()
     }
   }
-
-  // eslint-disable-next-line camelcase
-  // UNSAFE_componentWillReceiveProps (nextProps: Props) {
-  //   if (!this.props.loading && nextProps.loading) {
-  //     this.animate()
-  //   }
-  // }
 
   render () {
     const {
@@ -153,7 +147,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
         onPress={this.onPress}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
-        ref={(touchable) => { this.$touchable = touchable }}
+        ref={this.$touchable}
       >
         <View
           style={[

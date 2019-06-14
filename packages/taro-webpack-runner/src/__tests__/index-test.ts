@@ -29,7 +29,7 @@ describe('Regs', () => {
   })
 
   it('should get a correct webpackConfig.module object', () => {
-    const { rule } = getModule({
+    const { rule } = getModule('', {
       staticDirectory: '',
       designWidth: 750,
       deviceRatio: '',
@@ -93,8 +93,7 @@ describe('Regs', () => {
       test: /\.jsx?$/,
       use: {
         babelLoader: expect.anything()
-      },
-      exclude: expect.anything()
+      }
     })
     expect(rule.media).toMatchObject({
       test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

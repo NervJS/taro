@@ -9,9 +9,9 @@ sidebar_label: Form
 
 | H5 | ReactNative | 属性值 | 类型 | 说明 |
 | :-: | :-: | :-: |:-: | :-: |
-|  |  | reportSubmit | Boolean | 是否返回 formId 用于发送模板消息 |
+|  | x | reportSubmit | Boolean | 是否返回 formId 用于发送模板消息 |
 | ✔ | ✔ | onSubmit | EventHandle | 携带 form 中的数据触发 submit 事件，event.detail = {value : {'name': 'value'}} |
-| ✔ |  | onReset | EventHandle | 表单重置时会触发 reset 事件 |
+| ✔ | x | onReset | EventHandle | 表单重置时会触发 reset 事件 |
 
 >其他相关属性请看各小程序官方文档
 
@@ -28,7 +28,7 @@ sidebar_label: Form
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 Form 组件
-import { View, Form } from '@tarojs/components'
+import { View, Form, Switch } from '@tarojs/components'
 
 class App extends Component {
 

@@ -53,7 +53,7 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: obj
 
   const prefixs = Object.keys(pathAlias)
   if (prefixs.includes(name)) {
-    return promoteRelativePath(path.relative(filePath, fs.realpathSync(pathAlias[name])))
+    return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
   }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
   name = name.replace(reg, function (m, $1, $2) {
@@ -200,8 +200,15 @@ export function resolveScriptPath (p: string): string {
 
 export function resolveStylePath (p: string): string {
   const realPath = p
+  const removeExtPath = p.replace(path.extname(p), '')
+  const taroEnv = process.env.TARO_ENV
   for (let i = 0; i < CSS_EXT.length; i++) {
     const item = CSS_EXT[i]
+    if (taroEnv) {
+      if (fs.existsSync(`${removeExtPath}.${taroEnv}${item}`)) {
+        return `${removeExtPath}.${taroEnv}${item}`
+      }
+    }
     if (fs.existsSync(`${p}${item}`)) {
       return `${p}${item}`
     }
@@ -398,7 +405,7 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
   return fs.readJSONSync(pkgPath).version
 }
 
-export function traverseObjectNode (node, buildAdapter: string) {
+export function traverseObjectNode (node, buildAdapter: string, parentKey?: string) {
   if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
     const properties = node.value.properties
     const obj = {}
@@ -407,10 +414,10 @@ export function traverseObjectNode (node, buildAdapter: string) {
       if (CONFIG_MAP[buildAdapter][key] === false) {
         return
       }
-      if (CONFIG_MAP[buildAdapter][key]) {
+      if (parentKey !== 'usingComponents' && CONFIG_MAP[buildAdapter][key]) {
         key = CONFIG_MAP[buildAdapter][key]
       }
-      obj[key] = traverseObjectNode(p.value, buildAdapter)
+      obj[key] = traverseObjectNode(p.value, buildAdapter, key)
     })
     return obj
   }
@@ -422,10 +429,10 @@ export function traverseObjectNode (node, buildAdapter: string) {
       if (CONFIG_MAP[buildAdapter][key] === false) {
         return
       }
-      if (CONFIG_MAP[buildAdapter][key]) {
+      if (parentKey !== 'usingComponents' && CONFIG_MAP[buildAdapter][key]) {
         key = CONFIG_MAP[buildAdapter][key]
       }
-      obj[key] = traverseObjectNode(p.value, buildAdapter)
+      obj[key] = traverseObjectNode(p.value, buildAdapter, key)
     })
     return obj
   }

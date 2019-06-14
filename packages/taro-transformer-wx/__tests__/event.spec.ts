@@ -10,7 +10,7 @@ import {
 } from './utils'
 
 describe('event', () => {
-  test('普通绑定', () => {
+  test('普通绑定', () => {
     const { template, ast } = transform({
       ...baseOptions,
       code: buildComponent(
@@ -30,7 +30,7 @@ describe('event', () => {
     expect(template).toMatch(`bindtap="handleClick"`)
   })
 
-  test('bind 绑定', () => {
+  test('bind 绑定', () => {
     const { template, ast, code } = transform({
       ...baseOptions,
       code: buildComponent(
@@ -53,7 +53,7 @@ describe('event', () => {
     expect(template).toMatch(`data-e-tap-so="this"`)
   })
 
-  test('bind 绑定支持写数字', () => {
+  test('bind 绑定支持写数字', () => {
     const { template, ast, code } = transform({
       ...baseOptions,
       code: buildComponent(
@@ -74,7 +74,7 @@ describe('event', () => {
     expect(template).toMatch(`data-e-tap-a-a="{{666}}`)
   })
 
-  test('bind 绑定支持写数字 2', () => {
+  test('bind 绑定支持写数字 2', () => {
     const { template, ast, code } = transform({
       ...baseOptions,
       code: buildComponent(
@@ -96,7 +96,7 @@ describe('event', () => {
     expect(template).toMatch(`data-e-tap-a-b="{{777}}`)
   })
 
-  test('bind 绑定支持写字面量对象', () => {
+  test('bind 绑定支持写字面量对象', () => {
     const { template, ast, code } = transform({
       ...baseOptions,
       code: buildComponent(

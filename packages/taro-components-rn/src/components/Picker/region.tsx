@@ -1,14 +1,12 @@
 import * as React from 'react'
-import { Picker as AntPicker } from '@ant-design/react-native'
+import AntPicker from '@ant-design/react-native/lib/picker'
 import regionData from './regions.formatted'
+import { noop } from '../../utils'
 import { RegionProps } from './PropsType'
 
 export default class RegionSelector extends React.Component<RegionProps, any> {
   static defaultProps = {
     value: [],
-  }
-  state = {
-    value: []
   }
 
   static getDerivedStateFromProps (nextProps: RegionProps, lastState: any) {
@@ -20,8 +18,12 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
     return null
   }
 
+  state = {
+    value: []
+  }
+
   onChange = (value: string[]) => {
-    const { onChange } = this.props
+    const { onChange = noop } = this.props
     // 通过 value 查找 code
     let tmp: any[] = regionData
     const code = value.map((item) => {
@@ -33,7 +35,7 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
         }
       }
     })
-    onChange && onChange({ detail: { value, code } })
+    onChange({ detail: { value, code } })
   }
 
   onPickerChange = (value: any[]) => {
@@ -41,8 +43,8 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
   }
 
   onDismiss = () => {
-    const { onCancel } = this.props
-    onCancel && onCancel()
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render () {
