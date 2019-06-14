@@ -6,7 +6,7 @@ export default class EXSwiper extends Component {
     return (
       <View style={{ width: 300, height: 100 }}>
         <Swiper
-          showsPagination={true}
+          indicatorDots={true}
           indicatorColor="white"
           indicatorActiveColor="purple"
           autoplay={true}

@@ -23,7 +23,7 @@
  *
  * @example
  * <Swiper
- *   showsPagination={true}
+ *   indicatorDots={true}
  *   indicatorColor="white"
  *   indicatorActiveColor="purple"
  *   autoplay={false}

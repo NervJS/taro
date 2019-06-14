@@ -3,8 +3,6 @@ import {
   ViewStyle,
   ScrollViewProps,
   ViewPagerAndroidProps,
-  NativeSyntheticEvent,
-  NativeScrollEvent
 } from 'react-native';
 
 export interface ReactNativeSwiperProps extends
