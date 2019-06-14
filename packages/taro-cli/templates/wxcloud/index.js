@@ -38,11 +38,13 @@ exports.createPage = function (creater, params, cb) {
   if (typescript) {
     creater.template(template, path.join(clientDirName, 'pagejs'), path.join(sourceDir, 'pages', page, `${page}.tsx`), {
       css: currentStyleExt,
-      typescript: true
+      typescript: true,
+      pageName: page
     })
   } else {
     creater.template(template, path.join(clientDirName, 'pagejs'), path.join(sourceDir, 'pages', page, `${page}.js`), {
-      css: currentStyleExt
+      css: currentStyleExt,
+      pageName: page
     })
   }
   creater.fs.commit(() => {
