@@ -9,6 +9,9 @@ export const REG_SCRIPT: RegExp = /\.(js|jsx)(\?.*)?$/
 export const REG_TYPESCRIPT: RegExp = /\.(tsx|ts)(\?.*)?$/
 export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/i
 
+export const NODE_MODULES = 'node_modules'
+export const NODE_MODULES_REG = /(.*)node_modules/
+
 export const enum BUILD_TYPES {
   WEAPP = 'weapp',
   SWAN ='swan',
