@@ -327,7 +327,7 @@ class ScrollView extends Nerv.Component {
     return (
       <div>
         <div className="scroll-header-view" style={headerStyle}>
-          <span className='scroll-header-text'>{this.state.headerText}</span>
+          <span className='taro-text scroll-header-text'>{this.state.headerText}</span>
         </div>
         <div ref={container => {
             this.container = container
@@ -356,7 +356,7 @@ class ScrollView extends Nerv.Component {
           style={
             footerStyle
           } >
-          <span className='headerText' > {
+          <span className='taro-text scroll-header-text' > {
             this.state.footerText
           } < /span>
         </div>
