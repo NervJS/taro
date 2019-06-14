@@ -449,8 +449,7 @@ export default function fileParseLoader (source, ast) {
     constantsReplaceList,
     buildAdapter,
     designWidth,
-    deviceRatio,
-    fileTypeMap
+    deviceRatio
   } = getOptions(this)
   const filePath = this.resourcePath
   const newAst = transformFromAst(ast, '', {
@@ -459,9 +458,8 @@ export default function fileParseLoader (source, ast) {
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
   }).ast as t.File
-  const fileTypeInfo = fileTypeMap[filePath] || { type: PARSE_AST_TYPE.NORMAL, config: { } }
-  const configObj = fileTypeInfo.config
-  const result = processAst(newAst, buildAdapter, fileTypeInfo.type, designWidth, deviceRatio, filePath, this.context)
+  const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
+  const result = processAst(newAst, buildAdapter, miniType, designWidth, deviceRatio, filePath, this.context)
   const code = generate(result).code
   const res = transform(code, babelConfig)
   return res.code

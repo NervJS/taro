@@ -1,9 +1,10 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 
+import * as resolvePath from 'resolve'
 import * as t from 'babel-types'
 
-import { CONFIG_MAP, JS_EXT, TS_EXT } from './constants'
+import { CONFIG_MAP, JS_EXT, TS_EXT, NODE_MODULES_REG } from './constants'
 import { IOption, IComponentObj } from './types'
 
 export function isNpmPkg (name: string): boolean {
@@ -130,6 +131,7 @@ export function resolveScriptPath (p: string): string {
 
 export function buildUsingComponents (
   filePath: string,
+  sourceDir: string,
   pathAlias: IOption,
   components: IComponentObj[],
   isComponent?: boolean
@@ -142,6 +144,9 @@ export function buildUsingComponents (
     }
     componentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
     if (fs.existsSync(componentPath)) {
+      if (/node_modules/.test(componentPath)) {
+        componentPath = componentPath.replace(NODE_MODULES_REG, path.join(sourceDir, 'npm'))
+      }
       componentPath = promoteRelativePath(path.relative(filePath, componentPath))
     } else {
       componentPath = component.path
@@ -153,4 +158,18 @@ export function buildUsingComponents (
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
     usingComponents
   } : {})
+}
+const npmCached = {}
+export function resolveNpmSync (pkgName: string, root): string | null {
+  try {
+    if (!npmCached[pkgName]) {
+      return resolvePath.sync(pkgName, { basedir: root })
+    }
+    return npmCached[pkgName]
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      throw new Error(`包 ${pkgName} 未安装`)
+    }
+    return null
+  }
 }
