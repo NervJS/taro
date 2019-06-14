@@ -1,6 +1,16 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import {
+  StyleProp,
+  ViewStyle,
+  ScrollViewProps,
+  ViewPagerAndroidProps,
+  NativeSyntheticEvent,
+  NativeScrollEvent
+} from 'react-native';
 
-export interface ReactNativeSwiperProps {
+export interface ReactNativeSwiperProps extends
+  Pick<ScrollViewProps, Exclude<keyof ScrollViewProps, 'keyboardDismissMode'>>,
+  Pick<ViewPagerAndroidProps, Exclude<keyof ViewPagerAndroidProps, 'keyboardDismissMode'>>
+{
   children: any;
 
   // Basic
@@ -79,30 +89,19 @@ export interface ReactNativeSwiperProps {
   // When lifting up - you could pause forever before * lifting
   onResponderRelease?: any;
 
-  // If true, the scroll view stops on multiples of the scroll view's size when scrolling. This can be used for
-  // horizontal pagination.
-  pagingEnabled?: boolean;
-  // Set to true if you want to show horizontal scroll bar.
-  showsHorizontalScrollIndicator?: boolean
-  // Set to true if you want to show vertical scroll bar.
-  showsVerticalScrollIndicator?: boolean
-  // If true, the scroll view bounces when it reaches the end of the content if the content is larger then the
-  // scroll view along the axis of the scroll direction. If false, it disables all bouncing even if the
-  // alwaysBounce* props are true.
-  bounces?: boolean
-  // If true, the scroll view scrolls to top when the status bar is tapped.
-  scrollsToTop?: boolean
-  // If true, offscreen child views (whose overflow value is hidden) are removed from their native backing
-  // superview when offscreen. This canimprove scrolling performance on long lists.
-  removeClippedSubviews?: boolean
-  // Set to true if you need adjust content insets automation.
-  automaticallyAdjustContentInsets?: boolean
-  // Enables/Disables swiping
-  scrollEnabled?: boolean
-
   containerStyle?: StyleProp<ViewStyle>;
   scrollViewStyle?: StyleProp<ViewStyle>;
   disableNextButton?: boolean;
+
+  // ...ScrollViewProps
+  // pagingEnabled?: boolean;
+  // showsHorizontalScrollIndicator?: boolean;
+  // showsVerticalScrollIndicator?: boolean;
+  // bounces?: boolean;
+  // scrollsToTop?: boolean;
+  // removeClippedSubviews?: boolean;
+  // automaticallyAdjustContentInsets?: boolean;
+  // scrollEnabled?: boolean;
 }
 
 export interface ReactNativeSwiperState {

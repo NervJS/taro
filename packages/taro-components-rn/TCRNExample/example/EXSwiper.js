@@ -14,7 +14,7 @@ export default class EXSwiper extends Component {
           interval={6000}
           circular={true}
           vertical={false}
-          onChange={() => null}
+          onChange={() => { console.log('Swiper: onChange') }}
           onAnimationFinish={() => null}
           style={{
             backgroundColor: 'black'
