@@ -15,3 +15,28 @@
     overflow-y: scroll;
   }
 }
+.scroll-header-view {
+  width: 100%;
+  top: 0px;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+  font-size: 30px;
+  position: absolute;
+}
+.scroll-footer-view {
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  position: absolute;
+}
+.scroll-header-text {
+  margin-left: 20px;
+  color: #999999
+}
