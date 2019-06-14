@@ -172,7 +172,7 @@ class ScrollView extends Nerv.Component {
       onScroll && onScroll(e)
     }
     const _onTouchMove = e => {
-      onTouchMove ? onTouchMove(e) : this.onTouchMove
+      onTouchMove ? onTouchMove(e) : this.onTouchMove(e)
     }
     return (
       <div
