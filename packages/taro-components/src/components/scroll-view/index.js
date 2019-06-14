@@ -4,19 +4,19 @@ import omit from 'omit.js'
 import classNames from 'classnames'
 import './style/index.scss'
 
-function easeOutScroll (from, to, callback) {
+function easeOutScroll(from, to, callback) {
   if (from === to || typeof from !== 'number') {
     return
   }
   let change = to - from
   const dur = 500
   const sTime = +new Date()
-  function linear (t, b, c, d) {
+  function linear(t, b, c, d) {
     return c * t / d + b
   }
   const isLarger = to >= from
 
-  function step () {
+  function step() {
     from = linear(+new Date() - sTime, from, change, dur)
     if ((isLarger && from >= to) || (!isLarger && to >= from)) {
       callback(to)
@@ -27,7 +27,7 @@ function easeOutScroll (from, to, callback) {
   }
   step()
 }
-function throttle (fn, delay) {
+function throttle(fn, delay) {
   let timer = null
   return function () {
     clearTimeout(timer)
@@ -37,15 +37,15 @@ function throttle (fn, delay) {
   }
 }
 class ScrollView extends Nerv.Component {
-  constructor () {
+  constructor() {
     super(...arguments)
   }
 
   onTouchMove = e => {
-    e.stopPropagation()
+    e.stopPropagation();
   }
 
-  componentDidMount () {
+  componentDidMount() {
     setTimeout(() => {
       const props = this.props
       if (props.scrollY && typeof props.scrollTop === 'number') {
@@ -71,7 +71,7 @@ class ScrollView extends Nerv.Component {
     }, 10)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const props = this.props
     // Y 轴滚动
     if (
@@ -105,12 +105,13 @@ class ScrollView extends Nerv.Component {
     }
   }
 
-  render () {
+  render() {
     const {
       className,
       onScroll,
       onScrollToUpper,
       onScrollToLower,
+      onTouchMove,
       scrollX,
       scrollY
     } = this.props
@@ -170,15 +171,22 @@ class ScrollView extends Nerv.Component {
       uperAndLowerThrottle()
       onScroll && onScroll(e)
     }
+    const _onTouchMove = e => {
+      onTouchMove ? onTouchMove(e) : this.onTouchMove
+    }
     return (
       <div
         ref={container => {
           this.container = container
         }}
-        {...omit(this.props, ['className', 'scrollTop', 'scrollLeft'])}
+        {
+        ...omit(this.props, ['className', 'scrollTop', 'scrollLeft'])
+        }
         className={cls}
         onScroll={_onScroll}
-        onTouchMove={this.onTouchMove}>
+        onTouchMove={
+          _onTouchMove
+        } >
         {this.props.children}
       </div>
     )
