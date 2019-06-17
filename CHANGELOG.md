@@ -1,5 +1,28 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.1...v) (2019-06-16)
+# [](https://github.com/NervJS/taro/compare/v1.3.2...v) (2019-06-17)
+
+
+
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/NervJS/taro/compare/v1.3.1...v1.3.2) (2019-06-17)
+
+
+### Bug Fixes
+
+* **components-rn:** Clickable android, 绑定 onClick 的组件让 ScrollView 无法滑动了 ([16cf886](https://github.com/NervJS/taro/commit/16cf886))
+* **components-rn:** react-native-swiper 修复并更新相关代码样式 ([7494c41](https://github.com/NervJS/taro/commit/7494c41))
+* **transformer:** mobx 不需要 import ReduxContext, close [#3453](https://github.com/NervJS/taro/issues/3453) ([8d99a2b](https://github.com/NervJS/taro/commit/8d99a2b))
+* **transformer:** 使用 spread props 导致报错，close [#3439](https://github.com/NervJS/taro/issues/3439) ([bf85def](https://github.com/NervJS/taro/commit/bf85def))
+* **transformer:** 使用异步订阅 redux 更新 ([1ab6123](https://github.com/NervJS/taro/commit/1ab6123)), closes [#3456](https://github.com/NervJS/taro/issues/3456)
+* **transformer:** 误报解构警告，close [#3450](https://github.com/NervJS/taro/issues/3450) ([f38e13b](https://github.com/NervJS/taro/commit/f38e13b))
+
+
+### Features
+
+* **components:** 组件  Image 新增 lazyLoad 属性 ([6d03f64](https://github.com/NervJS/taro/commit/6d03f64))
+* **components-rn:** Swiper, 可以直接从样式传入 width, height 和 margin*,之前需要套 View, margin* 作用在内层导致样式有误 ([3646ec8](https://github.com/NervJS/taro/commit/3646ec8))
+* **components-rn:** 将 react-native-swiper 内嵌到项目中 ([91a27e0](https://github.com/NervJS/taro/commit/91a27e0))
+* **taro:** 新增 defineProperties polyfill ([6666f40](https://github.com/NervJS/taro/commit/6666f40))
 
 
 
