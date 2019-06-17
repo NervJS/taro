@@ -5,6 +5,7 @@ import { IMiniAppBuildConfig } from '../util/types'
 import { BUILD_TYPES } from '../util/constants'
 import * as npmProcess from '../util/npm'
 import { getBabelConfig } from '../util'
+import Builder from '../build'
 
 import {
   setBuildData,
@@ -12,9 +13,8 @@ import {
   getBuildData
 } from './helper'
 
-export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
+export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig, builder: Builder) {
   const buildData = setBuildData(appPath, adapter)
-  const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
@@ -23,11 +23,10 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
 
   await buildWithWebpack({
     appPath
-  })
-
+  }, builder)
 }
 
-async function buildWithWebpack ({ appPath }: { appPath: string }) {
+async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
   const {
     entryFilePath,
     outputDir,
@@ -54,5 +53,5 @@ async function buildWithWebpack ({ appPath }: { appPath: string }) {
     designWidth: projectConfig.designWidth,
     deviceRatio: projectConfig.deviceRatio
   }
-  miniRunner(miniRunnerOpts)
+  miniRunner(miniRunnerOpts, builder)
 }
