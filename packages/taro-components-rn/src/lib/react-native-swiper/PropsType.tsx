@@ -2,13 +2,9 @@ import {
   StyleProp,
   ViewStyle,
   ScrollViewProps,
-  ViewPagerAndroidProps,
 } from 'react-native';
 
-export interface ReactNativeSwiperProps extends
-  Pick<ScrollViewProps, Exclude<keyof ScrollViewProps, 'keyboardDismissMode'>>,
-  Pick<ViewPagerAndroidProps, Exclude<keyof ViewPagerAndroidProps, 'keyboardDismissMode'>>
-{
+export interface ReactNativeSwiperProps extends ScrollViewProps {
   children: any;
 
   // Basic

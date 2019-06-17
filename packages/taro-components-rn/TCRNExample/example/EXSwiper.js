@@ -20,7 +20,10 @@ export default class EXSwiper extends Component {
             backgroundColor: 'black'
           }}
         >
-          <SwiperItem onClick={() => { alert('click item') }} style={{ backgroundColor: 'red' }}>
+          <SwiperItem
+            onClick={() => { console.log('click item') }}
+            style={{ backgroundColor: 'red' }}
+          >
             <Text>Hello Swiper</Text>
           </SwiperItem>
           <SwiperItem style={{ backgroundColor: 'green' }}>

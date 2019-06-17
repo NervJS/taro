@@ -14,13 +14,11 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  ViewPagerAndroid,
-  Platform,
   ActivityIndicator,
   LayoutChangeEvent,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  ViewPagerAndroidOnPageSelectedEventData
+  Platform,
 } from 'react-native'
 import { ReactNativeSwiperProps, ReactNativeSwiperState } from './PropsType'
 import { noop } from '../../utils'
@@ -104,7 +102,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       y: 0
     }
   }
-  $scrollView: any = React.createRef<ScrollView|ViewPagerAndroid>()
+  $scrollView: any = React.createRef<ScrollView>()
 
   getSnapshotBeforeUpdate (prevProps: ReactNativeSwiperProps, prevState: ReactNativeSwiperState) {
     this.internals.isScrolling = false
@@ -120,8 +118,8 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     }
     // If the index has changed, we notify the parent via the onIndexChanged callback
     if (snapshot.ifIndexChange) {
-      const { index, onIndexChanged = noop } = this.props
-      onIndexChanged(index as number)
+      const { onIndexChanged = noop } = this.props
+      onIndexChanged(this.state.index)
     }
   }
 
@@ -170,7 +168,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     // related to https://github.com/leecade/react-native-swiper/issues/570
     // contentOffset is not working in react 0.48.x so we need to use scrollTo
     // to emulate offset.
-    if (Platform.OS === 'ios' && this.initialRender && total > 1) {
+    if (this.initialRender && total > 1) {
       const node = this.$scrollView.current
       node && (node as ScrollView).scrollTo({ ...offsetWouldBeSet, animated: false })
       this.initialRender = false
@@ -180,11 +178,12 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
   }
 
   loopJump = () => {
-    if (!this.state.loopJump) return
-    const i = this.state.index + (this.props.loop ? 1 : 0)
-    const node = this.$scrollView.current
-    if (node) {
-      this.loopJumpTimer = setTimeout(() => (node as ViewPagerAndroid).setPageWithoutAnimation && (node as ViewPagerAndroid).setPageWithoutAnimation(i), 50)
+    // Android doesn't support contentOffset, So...
+    if (Platform.OS === 'android' && this.props.loop) {
+      const { index, total } = this.state
+      if (index !== 0 && index !== total - 1) return
+      const node = this.$scrollView.current
+      node && node.scrollTo(this.internals.offset)
     }
   }
 
@@ -225,7 +224,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
   /**
    * Scroll end handle
    */
-  onScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>|Partial<NativeSyntheticEvent<ViewPagerAndroidOnPageSelectedEventData>>) => {
+  onScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { onMomentumScrollEnd = noop } = this.props
     const { dir, width, height } = this.state
 
@@ -234,15 +233,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
 
     let contentOffset
     // making our events coming from android compatible to updateIndex logic
-    if (!(e as NativeSyntheticEvent<NativeScrollEvent>).nativeEvent.contentOffset) {
-      if (dir === 'x') {
-        contentOffset = { x: (e as NativeSyntheticEvent<ViewPagerAndroidOnPageSelectedEventData>).nativeEvent.position * width }
-      } else {
-        contentOffset = { y: (e as NativeSyntheticEvent<ViewPagerAndroidOnPageSelectedEventData>).nativeEvent.position * height }
-      }
-    } else {
-      contentOffset = (e as NativeSyntheticEvent<NativeScrollEvent>).nativeEvent.contentOffset
-    }
+    contentOffset = (e as NativeSyntheticEvent<NativeScrollEvent>).nativeEvent.contentOffset
 
     this.updateIndex(contentOffset, dir, () => {
       this.autoplay()
@@ -349,21 +340,12 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     if (dir === 'y') y = diff * height
 
     const node = this.$scrollView.current
-    if (Platform.OS !== 'ios') {
-      node && (node as ViewPagerAndroid)[animated ? 'setPage' : 'setPageWithoutAnimation'](diff)
-    } else {
-      node && (node as ScrollView).scrollTo({ x, y, animated })
-    }
+    node && (node as ScrollView).scrollTo({ x, y, animated })
 
     // update scroll state
     this.internals.isScrolling = true
 
     this.setState({ autoplayEnd: false })
-
-    // trigger onScrollEnd manually in android
-    if (!animated || Platform.OS !== 'ios') {
-      setImmediate(() => this.onScrollEnd({ nativeEvent: { position: diff } }))
-    }
   }
 
   scrollViewPropOverrides = () => {
@@ -509,34 +491,20 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
   }
 
   renderScrollView = (pages: any) => {
-    if (Platform.OS === 'ios') {
-      return (
-        <ScrollView
-          {...this.props}
-          {...this.scrollViewPropOverrides()}
-          contentContainerStyle={[styles.wrapperIOS, this.props.style]}
-          contentOffset={this.state.offset}
-          onScrollBeginDrag={this.onScrollBegin}
-          onMomentumScrollEnd={this.onScrollEnd}
-          onScrollEndDrag={this.onScrollEndDrag}
-          style={this.props.scrollViewStyle}
-          ref={this.$scrollView}
-        >
-          {pages}
-        </ScrollView>
-       )
-    }
     return (
-      <ViewPagerAndroid
-        ref={this.$scrollView}
+      <ScrollView
         {...this.props}
-        initialPage={this.props.loop ? this.state.index + 1 : this.state.index}
-        onPageScrollStateChanged={this.onPageScrollStateChanged}
-        onPageSelected={this.onScrollEnd}
-        key={pages.length}
-        style={[styles.wrapperAndroid, this.props.style]}>
+        {...this.scrollViewPropOverrides()}
+        contentContainerStyle={[styles.wrapperIOS, this.props.style]}
+        contentOffset={this.state.offset}
+        onScrollBeginDrag={this.onScrollBegin}
+        onMomentumScrollEnd={this.onScrollEnd}
+        onScrollEndDrag={this.onScrollEndDrag}
+        style={this.props.scrollViewStyle}
+        ref={this.$scrollView}
+      >
         {pages}
-      </ViewPagerAndroid>
+      </ScrollView>
     )
   }
 
@@ -584,11 +552,11 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
         pagesKeys.push('0')
       }
 
-      pages = pagesKeys.map((page: string, i: number) => {
+      pages = pagesKeys.map((pageIdx: string, i: number) => {
         if (loadMinimal) {
           if (i >= (index + loopVal - (loadMinimalSize as number)) &&
             i <= (index + loopVal + (loadMinimalSize as number))) {
-            return <View style={pageStyle} key={i}>{children[parseInt(page)]}</View>
+            return <View style={pageStyle} key={i}>{children[parseInt(pageIdx)]}</View>
           } else {
             return (
               <View style={pageStyleLoading} key={i}>
@@ -597,7 +565,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
             )
           }
         } else {
-          return <View style={pageStyle} key={i}>{children[parseInt(page)]}</View>
+          return <View style={pageStyle} key={i}>{children[parseInt(pageIdx)]}</View>
         }
       })
     } else {
