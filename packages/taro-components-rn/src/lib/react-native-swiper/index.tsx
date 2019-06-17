@@ -136,7 +136,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
    * include internals with state
    */
   fullState () {
-    return Object.assign({}, this.state, this.internals)
+    return { ...this.state, ...this.internals }
   }
 
   onLayout = (event: LayoutChangeEvent) => {
@@ -226,7 +226,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
    */
   onScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { onMomentumScrollEnd = noop } = this.props
-    const { dir, width, height } = this.state
+    const { dir } = this.state
 
     // update scroll state
     this.internals.isScrolling = false
@@ -296,10 +296,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       }
     }
 
-    const stateWouldBeSet: any = {
-      index,
-      loopJump
-    }
+    const stateWouldBeSet: any = { index, loopJump }
 
     this.internals.offset = offset
 
@@ -312,9 +309,9 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       // after render.
       if (offset[dir] === this.internals.offset[dir]) {
         stateWouldBeSet.offset = { x: 0, y: 0 }
-        stateWouldBeSet.offset[dir] = (offset[dir] || 0)+ 1
+        stateWouldBeSet.offset[dir] = (offset[dir] || 0) + 1
         this.setState(stateWouldBeSet, () => {
-          this.setState({ offset: offset }, cb)
+          this.setState({ offset }, cb)
         })
       } else {
         stateWouldBeSet.offset = offset
@@ -361,10 +358,11 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
 
     for (let prop in this.props) {
       // if(~scrollResponders.indexOf(prop)
-      if (typeof this.props[prop as keyof ReactNativeSwiperProps] === 'function' &&
-        prop !== 'onMomentumScrollEnd' &&
-        prop !== 'renderPagination' &&
-        prop !== 'onScrollBeginDrag'
+      if (
+        typeof this.props[prop as keyof ReactNativeSwiperProps] === 'function'
+        && prop !== 'onMomentumScrollEnd'
+        && prop !== 'renderPagination'
+        && prop !== 'onScrollBeginDrag'
       ) {
         const originResponder = this.props[prop as keyof ReactNativeSwiperProps] || noop
         overrides[prop] = (e: any) => originResponder(e, this.fullState(), this)
@@ -382,36 +380,40 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     if (this.state.total <= 1) return null
 
     const dots = []
-    const ActiveDot = this.props.activeDot || <View style={[{
-      backgroundColor: this.props.activeDotColor || '#007aff',
-      width: 8,
-      height: 8,
-      borderRadius: 4,
-      marginLeft: 3,
-      marginRight: 3,
-      marginTop: 3,
-      marginBottom: 3
-    }, this.props.activeDotStyle]} />
+    const ActiveDot = this.props.activeDot || (
+      <View
+        style={[{
+          backgroundColor: this.props.activeDotColor || '#007aff',
+          width: 8,
+          height: 8,
+          borderRadius: 4,
+          marginLeft: 3,
+          marginRight: 3,
+          marginTop: 3,
+          marginBottom: 3
+        }, this.props.activeDotStyle]}
+      />
+    )
 
     const Dot = this.props.dot || (
       <View
         style={[{
-        backgroundColor: this.props.dotColor || 'rgba(0,0,0,.2)',
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        marginLeft: 3,
-        marginRight: 3,
-        marginTop: 3,
-        marginBottom: 3
-      }, this.props.dotStyle ]}
+          backgroundColor: this.props.dotColor || 'rgba(0,0,0,.2)',
+          width: 8,
+          height: 8,
+          borderRadius: 4,
+          marginLeft: 3,
+          marginRight: 3,
+          marginTop: 3,
+          marginBottom: 3
+        }, this.props.dotStyle ]}
       />
     )
 
     for (let i = 0; i < this.state.total; i++) {
       dots.push(i === this.state.index
-        ? React.cloneElement(ActiveDot, {key: i})
-        : React.cloneElement(Dot, {key: i})
+        ? React.cloneElement(ActiveDot, { key: i })
+        : React.cloneElement(Dot, { key: i })
       )
     }
 
@@ -422,21 +424,10 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     )
   }
 
-  renderTitle = () => {
-    const child: any = this.props.children[this.state.index]
-    const title = child && child.props && child.props.title
-    return title
-      ? (<View style={styles.title}>
-        {(this.props.children[this.state.index] as any).props.title}
-      </View>)
-      : null
-  }
-
   renderNextButton = () => {
     let button: any = null
 
-    if (this.props.loop ||
-      this.state.index !== this.state.total - 1) {
+    if (this.props.loop || this.state.index !== this.state.total - 1) {
       button = this.props.nextButton || <Text style={styles.buttonText}>›</Text>
     }
 
@@ -470,24 +461,17 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
 
   renderButtons = () => {
     return (
-      <View pointerEvents='box-none' style={[styles.buttonWrapper, {
-        width: this.state.width,
-        height: this.state.height
-      }, this.props.buttonWrapperStyle]}>
+      <View
+        pointerEvents='box-none'
+        style={[styles.buttonWrapper, {
+          width: this.state.width,
+          height: this.state.height
+        }, this.props.buttonWrapperStyle]}
+      >
         {this.renderPrevButton()}
         {this.renderNextButton()}
       </View>
     )
-  }
-
-  onPageScrollStateChanged = (state: 'Idle' | 'Dragging' | 'Settling') => {
-    switch (state) {
-      case 'Dragging':
-        return this.onScrollBegin()
-      case 'Idle':
-      case 'Settling':
-        this.props.onTouchEnd && this.props.onTouchEnd()
-    }
   }
 
   renderScrollView = (pages: any) => {
@@ -517,7 +501,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       total,
       width,
       height
-    } = this.state;
+    } = this.state
     const {
       children,
       containerStyle,
@@ -528,13 +512,13 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       renderPagination,
       showsButtons,
       showsPagination,
-    } = this.props;
+    } = this.props
     // let dir = state.dir
     // let key = 0
     const loopVal = loop ? 1 : 0
     let pages: Element[] | Element = []
 
-    const pageStyle = [{width: width, height: height}, styles.slide]
+    const pageStyle = [{ width, height }, styles.slide]
     const pageStyleLoading: any = {
       width,
       height,
@@ -578,10 +562,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
         style={[styles.container, containerStyle]}
       >
         {this.renderScrollView(pages)}
-        {showsPagination && (renderPagination
-          ? renderPagination(index, total, this)
-          : this.renderPagination())}
-        {this.renderTitle()}
+        {showsPagination && (renderPagination ? renderPagination(index, total, this) : this.renderPagination())}
         {showsButtons && this.renderButtons()}
       </View>
     )

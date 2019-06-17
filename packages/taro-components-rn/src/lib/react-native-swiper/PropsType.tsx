@@ -7,6 +7,18 @@ import {
 export interface ReactNativeSwiperProps extends ScrollViewProps {
   children: any;
 
+  containerStyle?: StyleProp<ViewStyle>;
+  scrollViewStyle?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
+  // Custom styles will merge with the default styles.
+  paginationStyle?: ViewStyle;
+  // Allow custom the active-dot element.
+  dotStyle?: StyleProp<ViewStyle>;
+  // Allow custom the active-dot element.
+  activeDotStyle?: StyleProp<ViewStyle>;
+  // Set to true make control buttons visible.
+  buttonWrapperStyle?: any;
+
   // Basic
   // If true, the scroll view's children are arranged horizontally in a row instead of vertically in a column.
   horizontal?: boolean;
@@ -22,12 +34,9 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   onIndexChanged?: (index: number) => void;
 
   // Custom basic style & content
-  // Set to true enable auto play mode.
   width?: number;
   // If no specify default fullscreen mode by flex: 1.
   height?: number;
-  // See default style in source.
-  style?: StyleProp<ViewStyle>;
   // Only load current index slide , loadMinimalSize slides before and after.
   loadMinimal?: boolean;
   // see loadMinimal
@@ -38,8 +47,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   // Pagination
   // Set to true make pagination visible.
   showsPagination?: boolean;
-  // Custom styles will merge with the default styles.
-  paginationStyle?: ViewStyle;
   // Complete control how to render pagination with three params (index, total, context) ref to this.state.index / this.state.total / this, For example: show numbers instead of dots.
   renderPagination?: (index: number, total: number, swiper: any) => JSX.Element;
   // Allow custom the dot element.
@@ -47,13 +54,9 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   // Allow custom the active-dot element.
   activeDot?: any;
   // Allow custom the active-dot element.
-  dotStyle?: StyleProp<ViewStyle>;
-  // Allow custom the active-dot element.
   dotColor?: string;
   // Allow custom the active-dot element.
   activeDotColor?: string;
-  // Allow custom the active-dot element.
-  activeDotStyle?: StyleProp<ViewStyle>;
 
   // Autoplay
   // Delay between auto play transitions (in second).
@@ -62,8 +65,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   autoplayDirection?: boolean;
 
   // Control buttons
-  // Set to true make control buttons visible.
-  buttonWrapperStyle?: any;
   // Allow custom the next button.
   nextButton?: JSX.Element;
   // Allow custom the prev button.
@@ -83,8 +84,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   // When lifting up - you could pause forever before * lifting
   onResponderRelease?: any;
 
-  containerStyle?: StyleProp<ViewStyle>;
-  scrollViewStyle?: StyleProp<ViewStyle>;
   disableNextButton?: boolean;
 
   // ...ScrollViewProps

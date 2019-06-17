@@ -51,18 +51,6 @@ export default StyleSheet.create({
     backgroundColor: 'transparent'
   },
 
-  title: {
-    height: 30,
-    justifyContent: 'center',
-    position: 'absolute',
-    paddingLeft: 10,
-    bottom: -30,
-    left: 0,
-    flexWrap: 'nowrap',
-    width: 250,
-    backgroundColor: 'transparent'
-  },
-
   buttonWrapper: {
     backgroundColor: 'transparent',
     flexDirection: 'row',
