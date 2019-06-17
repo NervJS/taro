@@ -644,9 +644,13 @@ export default function transform (options: Options): TransformResult {
           if (s.local.name === 'Provider') {
             specs.splice(index, 1)
             specs.push(
-              t.importSpecifier(t.identifier('setStore'), t.identifier('setStore')),
-              t.importSpecifier(t.identifier('ReduxContext'), t.identifier('ReduxContext'))
+              t.importSpecifier(t.identifier('setStore'), t.identifier('setStore'))
             )
+            if (source === REDUX_PACKAGE_NAME) {
+              specs.push(
+                t.importSpecifier(t.identifier('ReduxContext'), t.identifier('ReduxContext'))
+              )
+            }
           }
         })
       }
@@ -709,7 +713,7 @@ export default function transform (options: Options): TransformResult {
             t.callExpression(t.identifier('setStore'), [
               t.identifier(storeName)
             ])
-          ), ifStem)
+          ), mainClass.scope.getBinding('ReduxContext') ? ifStem : t.emptyStatement())
           return false
         }
         return true
