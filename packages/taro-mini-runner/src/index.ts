@@ -21,7 +21,7 @@ export default function build (config: IBuildConfig) {
   const { babel } = compilePlugins
   const webpackConfig = {
     mode: config.isWatch ? 'development' : 'production',
-    devtool: "inline-source-map",
+    devtool: false,
     entry: config.entry,
     output: {
       filename: '[name].js',
@@ -30,7 +30,19 @@ export default function build (config: IBuildConfig) {
       globalObject: globalObjectMap[config.buildAdapter]
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx']
+      extensions
+    },
+    target: Targets[config.buildAdapter],
+    optimization: {
+      runtimeChunk: {
+        name: 'runtime'
+      },
+      splitChunks: {
+        chunks: 'all',
+        maxInitialRequests: Infinity,
+        minSize: 0,
+        name: 'vendors'
+      }
     },
     module: {
       rules: [
