@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 
 import wxTransformer from '@tarojs/transformer-wx'
 import * as webpack from 'webpack'
-import * as SingleEntryPlugin from 'webpack/lib/SingleEntryPlugin'
+import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
@@ -22,7 +22,6 @@ import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency
 
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
-import ResolverPlugin from './ResolverPlugin'
 
 interface IMiniPluginOptions {
   appEntry?: string,
@@ -143,7 +142,7 @@ export default class MiniPlugin {
 
   apply (compiler: webpack.Compiler) {
     this.context = compiler.context
-
+    this.appEntry = this.getAppEntry(compiler)
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
@@ -152,15 +151,8 @@ export default class MiniPlugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
+      compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency, normalModuleFactory)
-      // compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (modules) => {
-      //   console.log(modules)
-      //   // modules.forEach(mod => {
-      //   //   console.log(mod.name)
-      //   //   console.log(mod._source.source())
-      //   // })
-      //   // callback()
-      // })
     })
 
     compiler.hooks.emit.tapAsync(
@@ -169,26 +161,6 @@ export default class MiniPlugin {
         await this.generateMiniFiles(compilation)
       })
     )
-
-    // compiler.resolverFactory.hooks.resolver.for('normal').tap(PLUGIN_NAME, resolver => {
-    //   console.log('sdsdsdsdsd')
-    //   new ResolverPlugin('resolve', 'parsedResolve').apply(resolver)
-    // })
-    // compiler.hooks.normalModuleFactory.tap(PLUGIN_NAME, nmf => {
-    //   nmf.hooks.afterResolve.tapAsync(PLUGIN_NAME, (result, callback) => {
-    //     // console.log(result)
-    //     if (result.resource.indexOf('node_modules') >= 0) {
-    //       const issuerArr = result.resource.split(path.sep)
-    //       const lastNodeModulesIndex = issuerArr.lastIndexOf('node_modules')
-    //       const pkgName = result.resourceResolveData.descriptionFileData.name
-    //       issuerArr.splice(lastNodeModulesIndex + 1, pkgName.split('/').length, pkgName.replace(/\//g, path.sep))
-    //       const newIssuer = issuerArr.join(path.sep)
-    //       result.userRequest = newIssuer
-    //       result.resource = newIssuer
-    //     }
-    //     return callback(null, result)
-    //   })
-    // })
 
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
@@ -214,6 +186,7 @@ export default class MiniPlugin {
     }
     const appEntryPath = getEntryPath(entry)
     this.sourceDir = path.dirname(appEntryPath)
+    compiler.options.entry = {}
     return appEntryPath
   }
 
@@ -493,7 +466,6 @@ export default class MiniPlugin {
   }
 
   run (compiler: webpack.Compiler) {
-    this.appEntry = this.getAppEntry(compiler)
     this.getPages()
     this.getComponents(this.pages, true)
     this.addEntries(compiler)

@@ -43,14 +43,12 @@ export default function build (config: IBuildConfig) {
               designWidth: config.designWidth,
               deviceRatio: config.deviceRatio,
               buildAdapter: config.buildAdapter,
-              constantsReplaceList: config.constantsReplaceList,
-              fileTypeMap: MiniPlugin.getTaroFileTypeMap()
+              constantsReplaceList: config.constantsReplaceList
             }
           }, {
             loader: path.resolve(__dirname, './loaders/wxTransformerLoader'),
             options: {
-              buildAdapter: config.buildAdapter,
-              fileTypeMap: MiniPlugin.getTaroFileTypeMap()
+              buildAdapter: config.buildAdapter
             }
           }]
         },
