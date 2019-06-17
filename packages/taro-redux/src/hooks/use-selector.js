@@ -1,4 +1,4 @@
-import { useReducer, useRef, useMemo, useLayoutEffect } from '@tarojs/taro'
+import { useReducer, useRef, useMemo, useEffect } from '@tarojs/taro'
 import { useReduxContext } from './use-redux-context'
 import Subscription from '../utils/subscription'
 import invariant from '../utils/invariant'
@@ -68,13 +68,13 @@ export function useSelector (selector, equalityFn = refEquality) {
     throw new Error(errorMessage)
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     latestSelector.current = selector
     latestSelectedState.current = selectedState
     latestSubscriptionCallbackError.current = undefined
   })
 
-  useLayoutEffect(
+  useEffect(
     () => {
       function checkForUpdates () {
         try {

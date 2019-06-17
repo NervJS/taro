@@ -222,6 +222,7 @@ export default function transform (options: Options): TransformResult {
   options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
   setTransformOptions(options)
   setting.sourceCode = code
+  let hasReduxBinding = false
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
   // 原因大概是 babylon.parse 没有生成 File 实例导致 scope 和 path 原型上都没有 `file`
@@ -647,6 +648,7 @@ export default function transform (options: Options): TransformResult {
               t.importSpecifier(t.identifier('setStore'), t.identifier('setStore'))
             )
             if (source === REDUX_PACKAGE_NAME) {
+              hasReduxBinding = true
               specs.push(
                 t.importSpecifier(t.identifier('ReduxContext'), t.identifier('ReduxContext'))
               )
@@ -713,7 +715,7 @@ export default function transform (options: Options): TransformResult {
             t.callExpression(t.identifier('setStore'), [
               t.identifier(storeName)
             ])
-          ), mainClass.scope.getBinding('ReduxContext') ? ifStem : t.emptyStatement())
+          ), hasReduxBinding ? ifStem : t.emptyStatement())
           return false
         }
         return true
