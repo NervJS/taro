@@ -662,3 +662,27 @@ export function uglifyJS (resCode: string, filePath: string, root: string, uglif
   }
   return resCode
 }
+
+export const getAllFilesInFloder = async (
+  floder: string,
+  filter: string[] = []
+): Promise<string[]> => {
+  let files: string[] = []
+  const list = await ((fs.readdir(floder, {
+    withFileTypes: true
+  } as any) as any) as Promise<fs.Dirent[]>)
+
+  await Promise.all(
+    list.map(async item => {
+      const itemPath = path.join(floder, item.name)
+      if (item.isDirectory()) {
+        const _files = await getAllFilesInFloder(itemPath, filter)
+        files = [...files, ..._files]
+      } else if (item.isFile()) {
+        if (!filter.find(rule => rule === item.name)) files.push(itemPath)
+      }
+    })
+  )
+
+  return files
+}

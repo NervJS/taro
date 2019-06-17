@@ -3,20 +3,17 @@ import * as fs from 'fs-extra'
 import chalk from 'chalk'
 import * as inquirer from 'inquirer'
 import * as semver from 'semver'
-
+import { createApp } from './init'
+import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
-
-import {
-  shouldUseYarn,
-  shouldUseCnpm,
-  getPkgVersion
-} from '../util'
 import CONFIG from '../config'
 
-interface IProjectConf {
+export interface IProjectConf {
   projectName: string,
   projectDir: string,
-  template: 'default' | 'mobx' | 'redux',
+  templateSource: 'default' | 'git' | 'market',
+  gitAddress?: string,
+  template: string,
   description?: string,
   typescript?: boolean,
   css: 'none' | 'sass' | 'stylus' | 'less',
@@ -134,59 +131,66 @@ export default class Project extends Creator {
       })
     }
 
-    const templateChoices = [{
-      name: '默认模板',
-      value: 'default'
-    }, {
-      name: 'Redux 模板',
-      value: 'redux'
-    }, {
-      name: 'Mobx 模板',
-      value: 'mobx'
-    }, {
-      name: '云开发模板',
-      value: 'wxcloud'
-    }, {
-      name: '微信小程序插件模板',
-      value: 'wxplugin'
-    }]
-
     if (typeof conf.template !== 'string') {
       prompts.push({
         type: 'list',
-        name: 'template',
-        message: '请选择模板',
-        choices: templateChoices
-      })
-    } else {
-      let isTemplateExist = false
-      templateChoices.forEach(item => {
-        if (item.value === conf.template) {
-          isTemplateExist = true
+        name: 'templateSource',
+        message: '请选择模板来源',
+        choices: [{
+          name: '默认模板',
+          value: 'default'
+        }, {
+          name: 'git',
+          value: 'git'
         }
+        /* , {
+          name: '模板市场',
+          value: 'market'
+        } */
+        ]
       })
-      if (!isTemplateExist) {
-        console.log(chalk.red('你选择的模板不存在!'))
-        console.log(chalk.red('目前提供了以下模板以供使用:'))
-        console.log()
-        templateChoices.forEach(item => {
-          console.log(chalk.green(`- ${item.name}`))
-        })
-        process.exit(1)
-      }
+
+      prompts.push({
+        type: 'input',
+        name: 'gitAddress',
+        message: '请输入 git 地址',
+        validate (input) {
+          if (!input) return 'git 地址不能为空！'
+          return true
+        },
+        when: answers => answers.templateSource === 'git'
+      }, {
+        type: 'input',
+        name: 'template',
+        message: '请输入模板名',
+        validate (input) {
+          if (!input) return '模板名不能为空！'
+          return true
+        },
+        when: answers => answers.templateSource === 'git'
+      })
+
+      /* prompts.push({
+        type: 'input',
+        name: 'template',
+        message: '请输入模板 ID',
+        validate (input) {
+          if (!input) return '模板 ID 不能为空！'
+          return true
+        },
+        when: answers => answers.templateSource === 'market'
+      }) */
     }
 
     return inquirer.prompt(prompts)
   }
 
   write (cb?: () => void) {
-    const { template } = this.conf
     this.conf.src = CONFIG.SOURCE_DIR
-    const { createApp } = require(path.join(this.templatePath(), template, 'index.js'))
-    createApp(this, this.conf, {
-      shouldUseYarn,
-      shouldUseCnpm,
-      getPkgVersion
-    }, cb)
+    fetchTemplate(this, () => {
+      createApp(this, this.conf, cb)
+        .catch(err => console.log(err))
+    })
+      .catch(err => console.log(err))
   }
 }
