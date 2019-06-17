@@ -200,8 +200,7 @@ export interface TransformResult extends Result {
     name: string,
     path: string,
     type: string
-  }[],
-  componentProperies: string[]
+  }[]
 }
 
 export interface TransformOptions extends Options {
@@ -371,9 +370,8 @@ export default function transform (options: TransformOptions): TransformResult {
             code: superClass.code,
             isTyped: true,
             sourcePath: superClass.sourcePath,
-            outputPath: superClass.sourcePath,
             sourceDir: options.sourceDir
-          }).componentProperies
+          }).componentProperies!
         } catch (error) {
           //
         }
