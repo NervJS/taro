@@ -49,23 +49,5 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent'
-  },
-
-  buttonWrapper: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-
-  buttonText: {
-    fontSize: 50,
-    color: '#007aff'
   }
 })

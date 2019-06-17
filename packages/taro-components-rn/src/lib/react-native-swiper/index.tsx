@@ -9,11 +9,9 @@
 
 import React, { Component } from 'react'
 import {
-  Text,
   View,
   ScrollView,
   Dimensions,
-  TouchableOpacity,
   ActivityIndicator,
   LayoutChangeEvent,
   NativeSyntheticEvent,
@@ -424,56 +422,6 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     )
   }
 
-  renderNextButton = () => {
-    let button: any = null
-
-    if (this.props.loop || this.state.index !== this.state.total - 1) {
-      button = this.props.nextButton || <Text style={styles.buttonText}>›</Text>
-    }
-
-    return (
-      <TouchableOpacity
-        onPress={() => button !== null && this.scrollBy(1)}
-        disabled={!!this.props.disableNextButton}
-      >
-        <View>
-          {button}
-        </View>
-      </TouchableOpacity>
-    )
-  }
-
-  renderPrevButton = () => {
-    let button: any = null
-
-    if (this.props.loop || this.state.index !== 0) {
-      button = this.props.prevButton || <Text style={styles.buttonText}>‹</Text>
-    }
-
-    return (
-      <TouchableOpacity onPress={() => button !== null && this.scrollBy(-1)}>
-        <View>
-          {button}
-        </View>
-      </TouchableOpacity>
-    )
-  }
-
-  renderButtons = () => {
-    return (
-      <View
-        pointerEvents='box-none'
-        style={[styles.buttonWrapper, {
-          width: this.state.width,
-          height: this.state.height
-        }, this.props.buttonWrapperStyle]}
-      >
-        {this.renderPrevButton()}
-        {this.renderNextButton()}
-      </View>
-    )
-  }
-
   renderScrollView = (pages: any) => {
     return (
       <ScrollView
@@ -510,7 +458,6 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       loadMinimalSize,
       loadMinimalLoader,
       renderPagination,
-      showsButtons,
       showsPagination,
     } = this.props
     // let dir = state.dir
@@ -563,7 +510,6 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       >
         {this.renderScrollView(pages)}
         {showsPagination && (renderPagination ? renderPagination(index, total, this) : this.renderPagination())}
-        {showsButtons && this.renderButtons()}
       </View>
     )
   }

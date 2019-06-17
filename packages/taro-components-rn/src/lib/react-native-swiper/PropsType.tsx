@@ -16,8 +16,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   dotStyle?: StyleProp<ViewStyle>;
   // Allow custom the active-dot element.
   activeDotStyle?: StyleProp<ViewStyle>;
-  // Set to true make control buttons visible.
-  buttonWrapperStyle?: any;
 
   // Basic
   // If true, the scroll view's children are arranged horizontally in a row instead of vertically in a column.
@@ -26,8 +24,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   loop?: boolean;
   // Set to false to disable continuous loop mode.
   autoplay?: boolean;
-  // Set to true make control buttons visible.
-  showsButtons?: boolean;
   // Index number of initial slide.
   index?: number;
   // Called with the new index when the user swiped
@@ -64,12 +60,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   // Cycle direction control.
   autoplayDirection?: boolean;
 
-  // Control buttons
-  // Allow custom the next button.
-  nextButton?: JSX.Element;
-  // Allow custom the prev button.
-  prevButton?: JSX.Element;
-
   // Supported ScrollResponder
   // When animation begins after letting up
   onScrollBeginDrag?: any;
@@ -83,8 +73,6 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
   onTouchEnd?: any;
   // When lifting up - you could pause forever before * lifting
   onResponderRelease?: any;
-
-  disableNextButton?: boolean;
 
   // ...ScrollViewProps
   // pagingEnabled?: boolean;
