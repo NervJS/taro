@@ -1429,7 +1429,7 @@ export class RenderParser {
         }
       }
 
-      if (t.isThisExpression(object) && t.isIdentifier(property)) {
+      if (t.isThisExpression(object) && t.isIdentifier(property) && /^render[A-Z]/.test(this.renderMethodName)) {
         const s = new Set(['state', 'props'])
         if (s.has(property.name) && path.parentPath.isMemberExpression()) {
           const p = path.parentPath.node.property
