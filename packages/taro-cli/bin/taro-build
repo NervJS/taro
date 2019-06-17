@@ -5,7 +5,7 @@ const program = require('commander')
 const chalk = require('chalk')
 const _ = require('lodash')
 
-const build = require('../dist/build').default
+const Builder = require('../dist/build').default
 const { PROJECT_CONFIG, BUILD_TYPES } = require('../dist/util/constants')
 const appPath = process.cwd()
 const projectConfPath = path.join(appPath, PROJECT_CONFIG)
@@ -37,10 +37,11 @@ if (env) {
     process.env.NODE_ENV = 'production'
   }
 }
+const builder = new Builder(appPath)
 
 if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
-  build(appPath, {
+  builder.build({
     type: 'ui',
     watch,
     uiIndex
@@ -52,7 +53,7 @@ if (plugin) {
   if (typeof plugin === 'boolean') {
     plugin = BUILD_TYPES.WEAPP
   }
-  build(appPath, {
+  builder.build({
     type: BUILD_TYPES.PLUGIN,
     platform: plugin,
     watch
@@ -76,7 +77,7 @@ if (typeof page === 'string') {
   console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
 }
 
-build(appPath, {
+builder.build({
   type,
   watch,
   port: typeof port === 'string' ? port: undefined,
