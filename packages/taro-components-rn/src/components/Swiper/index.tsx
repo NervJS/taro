@@ -92,13 +92,21 @@ class _Swiper extends React.Component<SwiperProps> {
       vertical,
     } = this.props
 
-    let styleHeight: number | undefined
+    // 从样式中取出部分常用样式
     let formattedStyle: ViewStyle | undefined
+    const containerStyle: { [key: string]: any } = {}
     if (style) {
       const flattenStyle: ViewStyle = StyleSheet.flatten(style)
       if (flattenStyle) {
-        styleHeight = flattenStyle.height as number
-        delete flattenStyle.height
+        for (let key in flattenStyle) {
+          if (/width|height|margin.*/.test(key)) {
+            containerStyle[key] = flattenStyle[key as keyof ViewStyle]
+            delete flattenStyle[key as keyof ViewStyle]
+          }
+        }
+        if (containerStyle.width || containerStyle.height) {
+          containerStyle.flex = 0
+        }
         formattedStyle = flattenStyle
       }
     }
@@ -115,7 +123,7 @@ class _Swiper extends React.Component<SwiperProps> {
         horizontal={!vertical}
         onIndexChanged={this.onIndexChanged}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
-        height={styleHeight}
+        containerStyle={containerStyle}
         style={formattedStyle || style}
       >
         {children}

@@ -4,7 +4,7 @@ import { View, Text, Swiper, SwiperItem, Image } from '../../dist'
 export default class EXSwiper extends Component {
   render () {
     return (
-      <View style={{ width: 300, height: 100 }}>
+      <View style={{ width: 300, height: 250, backgroundColor: 'pink' }}>
         <Swiper
           indicatorDots={true}
           indicatorColor="white"
@@ -17,6 +17,9 @@ export default class EXSwiper extends Component {
           onChange={() => { console.log('Swiper: onChange') }}
           onAnimationFinish={() => null}
           style={{
+            marginTop: 30,
+            width: 280,
+            height: 200,
             backgroundColor: 'black'
           }}
         >

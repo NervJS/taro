@@ -427,7 +427,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       <ScrollView
         {...this.props}
         {...this.scrollViewPropOverrides()}
-        contentContainerStyle={[styles.wrapperIOS, this.props.style]}
+        contentContainerStyle={[styles.wrapper, this.props.style]}
         contentOffset={this.state.offset}
         onScrollBeginDrag={this.onScrollBegin}
         onMomentumScrollEnd={this.onScrollEnd}

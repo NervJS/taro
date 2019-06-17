@@ -9,6 +9,7 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
 
   containerStyle?: StyleProp<ViewStyle>;
   scrollViewStyle?: StyleProp<ViewStyle>;
+  // -> ScrollView.contentContainerStyle
   style?: StyleProp<ViewStyle>;
   // Custom styles will merge with the default styles.
   paginationStyle?: ViewStyle;

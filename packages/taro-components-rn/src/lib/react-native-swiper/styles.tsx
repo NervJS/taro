@@ -14,13 +14,8 @@ export default StyleSheet.create({
     flex: 1
   },
 
-  wrapperIOS: {
+  wrapper: {
     backgroundColor: 'transparent',
-  },
-
-  wrapperAndroid: {
-    backgroundColor: 'transparent',
-    flex: 1
   },
 
   slide: {
