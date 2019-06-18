@@ -12,7 +12,7 @@ import others from './api/others'
 import media from './api/media'
 // import file from './api/file'
 import webSocket from './api/webSocket'
-// import geolocation from './api/geolocation'
+import location from './api/location'
 import * as toast from './api/interface'
 import * as image from './api/image'
 import web from './api/web'
@@ -58,7 +58,7 @@ export default function initNativeApi (taro) {
     media,
     // file,
     webSocket,
-    // geolocation,
+    location,
     toast,
     image,
     others

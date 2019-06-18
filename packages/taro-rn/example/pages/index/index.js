@@ -3,7 +3,7 @@ import Taro, { Component } from '@tarojs/taro-rn'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '../../../dist/api/media'
 import * as toast from '../../../dist/api/interface'
-import { getLocation } from '../../../dist/api/geolocation'
+import { getLocation } from '../../../dist/api/location'
 
 console.log('toast', toast)
 
