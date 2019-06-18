@@ -9,7 +9,7 @@ import vibrate from './api/device/vibrate'
 // import accelerometer from './api/device/accelerometer'
 // import deviceMotion from './api/device/deviceMotion'
 import others from './api/others'
-// import media from './api/media'
+import media from './api/media'
 // import file from './api/file'
 import webSocket from './api/webSocket'
 // import geolocation from './api/geolocation'
@@ -55,7 +55,7 @@ export default function initNativeApi (taro) {
     vibrate,
     // accelerometer,
     // deviceMotion,
-    // media,
+    media,
     // file,
     webSocket,
     // geolocation,

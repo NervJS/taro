@@ -3365,6 +3365,10 @@ expo-file-system@~5.0.0:
   dependencies:
     uuid-js "^0.7.5"
 
+expo-image-picker@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npm.taobao.org/expo-image-picker/download/expo-image-picker-5.0.2.tgz#975ef46bc614d471f01e6de0b2db42e55aab4a56"
+
 expo-location@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/expo-location/download/expo-location-5.0.1.tgz#697adb49b42018db9e32aa05b7623e0d71250eb9"
