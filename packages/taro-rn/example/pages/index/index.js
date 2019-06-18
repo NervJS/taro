@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Button } from 'react-native'
 import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '../../../dist/api/media'
 import * as toast from '../../../dist/api/interface'
 import { getLocation } from '../../../dist/api/location'
+import { startAccelerometer, stopAccelerometer, onAccelerometerChange } from '../../../dist/api/accelerometer'
 
 console.log('toast', toast)
 
@@ -67,6 +68,25 @@ export default class Index extends Component {
     getLocation().then(res => console.log(res))
   }
 
+  startAccelerometer () {
+    console.log('startAccelerometer')
+    startAccelerometer().then(res => console.log(res))
+  }
+
+  stopAccelerometer () {
+    console.log('stopAccelerometer')
+    stopAccelerometer().then(res => console.log(res))
+  }
+
+  onAccelerometerChange () {
+    console.log('onAccelerometerChange')
+    onAccelerometerChange((res) => {
+      console.log(res.x)
+      console.log(res.y)
+      console.log(res.z)
+    })
+  }
+
   render () {
     return (
       <View style={{paddingTop: 20}}>
@@ -89,6 +109,16 @@ export default class Index extends Component {
         <Text style={styles.index}>位置</Text>
         <View style={{flexDirection: 'row'}}>
           <Button onPress={this.handleGetLocation.bind(this)} title='getLocation' color='#19AD1A' />
+        </View>
+        <Text style={styles.index}>加速度计</Text>
+        <View>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={this.startAccelerometer.bind(this)} title='startAccelerometer' color='#19AD1A' />
+            <Button onPress={this.stopAccelerometer.bind(this)} title='stopAccelerometer' color='#19AD1A' />
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={this.onAccelerometerChange.bind(this)} title='onAccelerometerChange' color='#19AD1A' />
+          </View>
         </View>
       </View>
     )

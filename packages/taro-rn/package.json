@@ -31,6 +31,7 @@
     "base64-js": "^1.3.0",
     "expo-image-picker": "^5.0.2",
     "expo-location": "^5.0.1",
+    "expo-sensors": "^5.0.1",
     "react-native-image-crop-picker": "^0.23.1",
     "react-native-image-zoom-viewer": "^2.2.13",
     "react-native-root-siblings": "^3.1.0",

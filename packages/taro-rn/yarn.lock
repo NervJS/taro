@@ -3379,6 +3379,12 @@ expo-permissions@~5.0.0:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/expo-permissions/download/expo-permissions-5.0.1.tgz#cc6af49a37ea3ab73e780a8a19f22b7662379941"
 
+expo-sensors@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.npm.taobao.org/expo-sensors/download/expo-sensors-5.0.1.tgz#67dd446f1318712c90d714807f195c263e18552b"
+  dependencies:
+    invariant "^2.2.4"
+
 extend-shallow@^1.1.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/extend-shallow/-/extend-shallow-1.1.4.tgz#19d6bf94dfc09d76ba711f39b872d21ff4dd9071"
