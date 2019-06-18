@@ -139,15 +139,13 @@ function doUpdate (component, prevProps, prevState) {
   const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
-    // 返回null或undefined则保持不变
-    const runLoopRef = !component.__mounted
     if (component.__isReady) {
       injectContextType(component)
       Current.current = component
       Current.index = 0
       invokeEffects(component, true)
     }
-    data = component._createData(state, props, runLoopRef) || data
+    data = component._createData(state, props) || data
     if (component.__isReady) {
       Current.current = null
     }
