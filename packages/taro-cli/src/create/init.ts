@@ -4,6 +4,7 @@ import * as chalk from 'chalk'
 import { exec } from 'child_process'
 import * as ora from 'ora'
 import { IProjectConf } from './project'
+import { IPageConf } from './page'
 import Creator from './creator'
 import * as helper from '../util'
 
@@ -23,6 +24,125 @@ const doNotCopyFiles = [
   TEMPLATE_CREATOR
 ]
 
+function createFiles (
+  creater: Creator,
+  files: string[],
+  handler,
+  options: (IProjectConf | IPageConf) & {
+    templatePath: string,
+    projectPath: string,
+    pageName: string,
+    version?: string
+  }
+): string[] {
+  const {
+    description,
+    projectName,
+    version,
+    css,
+    date,
+    typescript,
+    template,
+    templatePath,
+    projectPath,
+    pageName
+  } = options
+  const logs: string[] = []
+  // 模板库模板，直接创建，不需要改后缀
+  const globalChangeExt = Boolean(handler)
+  const currentStyleExt = styleExtMap[css] || 'css'
+
+  files.forEach(file => {
+    const fileRePath = file.replace(templatePath, '')
+    let externalConfig: any = null
+
+    // 跑自定义逻辑，确定是否创建此文件
+    if (handler && typeof handler[fileRePath] === 'function') {
+      externalConfig = handler[fileRePath](options)
+      if (!externalConfig) return
+    }
+
+    let changeExt = globalChangeExt
+    if (externalConfig && typeof externalConfig === 'object') {
+      if (externalConfig.changeExt === false) {
+        changeExt = false
+      }
+    }
+
+    // 合并自定义 config
+    const config = Object.assign({}, {
+      description,
+      projectName,
+      version,
+      css,
+      cssExt: currentStyleExt,
+      date,
+      typescript,
+      template,
+      pageName
+    }, externalConfig)
+
+    let destRePath = fileRePath
+
+    // createPage 创建页面模式
+    if (config.setPageName) {
+      destRePath = config.setPageName
+    }
+
+    // 处理 .js 和 .css 的后缀
+    if (
+      typescript &&
+      changeExt &&
+      !destRePath.startsWith(`/${CONFIG_DIR_NAME}`) &&
+      (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx')
+    ) {
+      destRePath = destRePath.replace('.js', '.ts')
+    }
+    if (changeExt && path.extname(destRePath).includes('.css')) {
+      destRePath = destRePath.replace('.css', `.${currentStyleExt}`)
+    }
+
+    // 创建
+    creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${path.join(projectName, destRePath)}`)}`)
+  })
+  return logs
+}
+
+export async function createPage (
+  creater: Creator,
+  params: IPageConf,
+  cb
+) {
+  const {
+    projectDir,
+    template,
+    pageName
+  } = params
+  // path
+  const templatePath = creater.templatePath(template)
+
+  // 引入模板编写者的自定义逻辑
+  const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
+  const handler = fs.existsSync(handlerPath) ? require(handlerPath).pageHandler : null
+  const files = handler ? Object.keys(handler) : []
+
+  const logs = createFiles(creater, files, handler, {
+    ...params,
+    templatePath,
+    projectPath: projectDir,
+    pageName
+  })
+
+  creater.fs.commit(() => {
+    // logs
+    console.log()
+    logs.forEach(log => console.log(log))
+    console.log()
+    typeof cb === 'function' && cb()
+  })
+}
+
 export async function createApp (
   creater: Creator,
   params: IProjectConf,
@@ -31,13 +151,9 @@ export async function createApp (
   const {
     projectName,
     projectDir,
-    description,
-    template,
-    typescript,
-    date,
-    css
+    template
   } = params
-  const logs = []
+  const logs: string[] = []
   // path
   const templatePath = creater.templatePath(template)
   const projectPath = path.join(projectDir, projectName)
@@ -58,70 +174,23 @@ export async function createApp (
     logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/yarn.lock`)}`)
   }
 
-  const currentStyleExt = styleExtMap[css] || 'css'
-
   // 遍历出模板中所有文件
   const files = await helper.getAllFilesInFloder(templatePath, doNotCopyFiles)
 
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
-  let handler = {}
-  let globalChangeExt = true
-  if (fs.existsSync(handlerPath)) {
-    handler = require(handlerPath).handler
-  } else {
-    // 模板库模板，直接创建，不需要改后缀
-    globalChangeExt = false
-  }
+  const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
 
   // 为所有文件进行创建
-  files.forEach(file => {
-    const fileRePath = file.replace(templatePath, '')
-    let externalConfig: any = null
-
-    // 跑自定义逻辑，确定是否创建此文件
-    if (typeof handler[fileRePath] === 'function') {
-      externalConfig = handler[fileRePath](params)
-      if (!externalConfig) return
-    }
-
-    let changeExt = globalChangeExt
-    if (externalConfig && typeof externalConfig === 'object') {
-      if (externalConfig.changeExt === false) {
-        changeExt = false
-      }
-    }
-
-    // 合并自定义 config
-    const config = Object.assign({}, {
-      description,
-      projectName,
+  logs.push(
+    ...createFiles(creater, files, handler, {
+      ...params,
       version,
-      css,
-      cssExt: currentStyleExt,
-      date,
-      typescript,
-      template
-    }, externalConfig)
-
-    // 处理 .js 和 .css 的后缀
-    let destRePath = fileRePath
-    if (
-      typescript &&
-      changeExt &&
-      !destRePath.startsWith(`/${CONFIG_DIR_NAME}`) &&
-      (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx')
-    ) {
-      destRePath = destRePath.replace('.js', '.ts')
-    }
-    if (changeExt && path.extname(destRePath).includes('.css')) {
-      destRePath = destRePath.replace('.css', `.${currentStyleExt}`)
-    }
-
-    // 创建
-    creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${path.join(projectName, destRePath)}`)}`)
-  })
+      templatePath,
+      projectPath,
+      pageName: 'index'
+    })
+  )
 
   // fs commit
   creater.fs.commit(() => {
