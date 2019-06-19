@@ -37,16 +37,35 @@ export interface IChain {
   [key: string]: any
 }
 
-export interface ITaroMiniConfig {
-  entry: webpack.Entry
-  output: webpack.Output,
-  buildAdapter: BUILD_TYPES
+export interface ICopyOptions {
+  patterns: {
+    from: string
+    to: string
+    ignore: string[]
+  }[]
+  options: {
+    ignore: string[]
+  }
 }
 
-export interface ITaroPlugins {
-  babel: IOption
-  csso?: TogglableOptions
-  uglify?: TogglableOptions
+export interface ITaroMiniConfig {
+  webpackChain: (chain: any, webpack: any) => void
+  alias: IOption
+  entry: webpack.Entry
+  output: webpack.Output
+  enableSourceMap: boolean
+
+  cssLoaderOption: IOption
+  styleLoaderOption: IOption
+  sassLoaderOption: IOption
+  lessLoaderOption: IOption
+  stylusLoaderOption: IOption
+  mediaUrlLoaderOption: IOption
+  fontUrlLoaderOption: IOption
+  imageUrlLoaderOption: IOption
+  esnextModules: string[]
+
+  postcss?: IPostcssOption
 }
 
 export interface ICopyOptions {
@@ -61,9 +80,7 @@ export interface ICopyOptions {
 }
 
 export interface ITaroBaseConfig {
-  outputDir: string
-  staticDirectory: string
-  chunkDirectory: string
+  outputRoot: string
   copy: ICopyOptions
 
   designWidth: number
@@ -72,10 +89,14 @@ export interface ITaroBaseConfig {
   defineConstants?: IOption
   env?: IOption
 
-  plugins: ITaroPlugins
+  babel: IOption
+  csso?: TogglableOptions
+  uglify?: TogglableOptions,
+  sass?: IOption
 }
 
 export interface IBuildConfig extends ITaroBaseConfig, ITaroMiniConfig {
   isWatch: boolean,
-  constantsReplaceList: IOption
+  port?: number,
+  buildAdapter: BUILD_TYPES
 }
