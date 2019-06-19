@@ -3,9 +3,12 @@ import * as fs from 'fs-extra'
 
 import * as resolvePath from 'resolve'
 import * as t from 'babel-types'
+import { mergeWith } from 'lodash'
 
 import { CONFIG_MAP, JS_EXT, TS_EXT, NODE_MODULES_REG } from './constants'
 import { IOption, IComponentObj } from './types'
+
+export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
 
 export function isNpmPkg (name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
@@ -172,4 +175,18 @@ export function resolveNpmSync (pkgName: string, root): string | null {
     }
     return null
   }
+}
+
+export function recursiveMerge (src, ...args) {
+  return mergeWith(src, ...args, (value, srcValue) => {
+    const typeValue = typeof value
+    const typeSrcValue = typeof srcValue
+    if (typeValue !== typeSrcValue) return
+    if (Array.isArray(value) && Array.isArray(srcValue)) {
+      return value.concat(srcValue)
+    }
+    if (typeValue === 'object') {
+      return recursiveMerge(value, srcValue)
+    }
+  })
 }
