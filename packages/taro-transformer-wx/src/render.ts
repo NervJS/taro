@@ -989,6 +989,7 @@ export class RenderParser {
         if (t.isJSXIdentifier(name)
           && name.name !== 'key'
           && name.name !== 'id'
+          && !(name.name === 'extraProps' && Adapter.type === Adapters.weapp)
           && name.name !== Adapter.for
           && name.name !== Adapter.forItem
           && name.name !== Adapter.forIndex
@@ -1642,7 +1643,9 @@ export class RenderParser {
 
   isEmptyProps = (attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[]) => attrs.filter(a => {
     if (t.isJSXSpreadAttribute(a)) return true
-    return ![Adapter.for, Adapter.forIndex, Adapter.forItem, 'id'].includes(a.name.name as string)
+    const list = [Adapter.for, Adapter.forIndex, Adapter.forItem, 'id']
+    Adapter.type === Adapters.weapp && list.push('extraProps')
+    return !list.includes(a.name.name as string)
   }).length === 0
 
   findParentIndices (callee: NodePath<t.CallExpression>, indexId: t.Identifier) {

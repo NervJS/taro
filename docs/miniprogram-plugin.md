@@ -90,6 +90,26 @@ export default class Index extends Component {
 }
 ```
 
+### Taro v1.3+ 组件插件接受外部 props 的问题
+
+[#3176](https://github.com/NervJS/taro/issues/3176)
+
+Taro v1.3 对 props 系统进行了改造，使得不能兼容原生组件通过 properties 传入的属性。
+
+目前可以通过把所有需要传入组件插件的 props，通过借助 `extraProps` 属性来解决。
+
+```js
+// 常规 props 传递
+<Plugin title={this.state.name} desc={this.state.desc} />
+
+// 在使用插件组件时需要改造成以下形式：
+const extraProps = {
+  name: this.state.name,
+  desc: this.state.desc
+}
+<Plugin extraProps={extraProps} />
+```
+
 ### 使用接口插件
 
 plugin.json 的 **main** 字段加入接口插件路径：
