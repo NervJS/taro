@@ -176,13 +176,11 @@ export default class MiniPlugin {
     }
     const { entry } = compiler.options
     function getEntryPath (entry) {
-      if (Array.isArray(entry)) {
-        return entry.map(item => getEntryPath[item]).find(item => item)
+      const app = entry['app']
+      if (Array.isArray(app)) {
+        return app[0]
       }
-      if (typeof entry === 'object') {
-        return entry['app']
-      }
-      return entry
+      return app
     }
     const appEntryPath = getEntryPath(entry)
     this.sourceDir = path.dirname(appEntryPath)
