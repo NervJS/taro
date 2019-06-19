@@ -7,7 +7,15 @@ export const TS_EXT: string[] = ['.ts', '.tsx']
 
 export const REG_SCRIPT: RegExp = /\.(js|jsx)(\?.*)?$/
 export const REG_TYPESCRIPT: RegExp = /\.(tsx|ts)(\?.*)?$/
-export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/i
+export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/
+export const REG_SASS: RegExp = /\.(s[ac]ss)$/
+export const REG_LESS: RegExp = /\.less$/
+export const REG_STYLUS: RegExp = /\.styl$/
+export const REG_STYLE: RegExp = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
+export const REG_MEDIA: RegExp = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
+export const REG_IMAGE: RegExp = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
+export const REG_FONT: RegExp = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
+export const REG_JSON: RegExp = /\.json(\?.*)?$/
 
 export const NODE_MODULES = 'node_modules'
 export const NODE_MODULES_REG = /(.*)node_modules/
