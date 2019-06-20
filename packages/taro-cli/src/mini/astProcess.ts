@@ -97,10 +97,9 @@ function analyzeImportUrl ({
     sourceDir,
     outputDir,
     npmConfig,
-    projectConfig,
-    buildAdapter
+    projectConfig
   } = getBuildData()
-  const publicPath = projectConfig[buildAdapter].publicPath;
+  const publicPath = (projectConfig.weapp || ({} as any)).publicPath;
   if (value.indexOf('.') === 0) {
     let importPath = path.resolve(path.dirname(sourceFilePath), value)
     importPath = resolveScriptPath(importPath)
