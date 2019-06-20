@@ -10,7 +10,7 @@ import * as accelerometer from './api/accelerometer'
 import deviceMotion from './api/device/deviceMotion'
 import others from './api/others'
 import media from './api/media'
-// import file from './api/file'
+import file from './api/file'
 import webSocket from './api/webSocket'
 import location from './api/location'
 import * as toast from './api/interface'
@@ -56,7 +56,7 @@ export default function initNativeApi (taro) {
     accelerometer,
     deviceMotion,
     media,
-    // file,
+    file,
     webSocket,
     location,
     toast,

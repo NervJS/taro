@@ -5,6 +5,7 @@ import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '
 import * as toast from '../../../dist/api/interface'
 import { getLocation } from '../../../dist/api/location'
 import { startAccelerometer, stopAccelerometer, onAccelerometerChange } from '../../../dist/api/accelerometer'
+import { downloadFile } from '../../../dist/api/file'
 import { onDeviceMotionChange, startDeviceMotionListening, stopDeviceMotionListening } from '../../../dist/api/device/deviceMotion'
 
 console.log('toast', toast)
@@ -107,6 +108,19 @@ export default class Index extends Component {
     })
   }
 
+  downloadFile () {
+    console.log('downloadFile')
+    downloadFile({
+      url: 'https://nervjs.github.io/taro/img/logo-taro.png',
+      success (res) {
+        console.log('success')
+      },
+      fail (res) {
+        console.log('fail')
+      }
+    }).then(res => console.log(res)).catch(e => console.log(e))
+  }
+
   render () {
     return (
       <View style={{paddingTop: 20}}>
@@ -129,6 +143,12 @@ export default class Index extends Component {
         <Text style={styles.index}>位置</Text>
         <View style={{flexDirection: 'row'}}>
           <Button onPress={this.handleGetLocation.bind(this)} title='getLocation' color='#19AD1A' />
+        </View>
+        <Text style={styles.index}>文件</Text>
+        <View>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={this.downloadFile.bind(this)} title='downloadFile' color='#19AD1A' />
+          </View>
         </View>
         <Text style={styles.index}>加速度计</Text>
         <View>

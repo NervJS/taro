@@ -3359,7 +3359,7 @@ expo-constants@~5.0.0:
   dependencies:
     ua-parser-js "^0.7.19"
 
-expo-file-system@~5.0.0:
+expo-file-system@^5.0.1, expo-file-system@~5.0.0:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/expo-file-system/download/expo-file-system-5.0.1.tgz#c26054e512c3bb2e256325b48e603957a24e6210"
   dependencies:
