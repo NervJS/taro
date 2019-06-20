@@ -2,7 +2,7 @@
 
 const program = require('commander')
 
-const Project = require('../dist/project').default
+const Project = require('../dist/create/project').default
 
 program
   .option('--name [name]', '项目名称')
@@ -31,6 +31,7 @@ const projectName = args[0] || name
 
 const project = new Project({
   projectName,
+  projectDir: process.cwd(),
   template,
   description,
   typescript,

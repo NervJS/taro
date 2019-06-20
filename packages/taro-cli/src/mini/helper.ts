@@ -53,7 +53,6 @@ const isCopyingFiles: Map<string, boolean> = new Map<string, boolean>()
 const dependencyTree: Map<string, IDependency> = new Map<string, IDependency>()
 const hasBeenBuiltComponents: Set<string> = new Set<string>()
 const componentExportsMap = new Map<string, IComponentObj[]>()
-const componentsBuildResult = new Map<string, IBuildResult>()
 const depComponents = new Map<string, IComponentObj[]>()
 
 export interface IBuildData {
@@ -106,7 +105,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
   const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
-  const outputDirName = `${projectConfig.outputRoot || CONFIG.OUTPUT_DIR}/${adapter}`
+  const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
   const sourceDir = path.join(appPath, sourceDirName)
   const outputDir = path.join(appPath, outputDirName)
   const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
@@ -196,10 +195,6 @@ export function getComponentExportsMapItem (key: string): IComponentObj[] | void
 
 export function getComponentExportsMap (): Map<string, IComponentObj[]> {
   return componentExportsMap
-}
-
-export function getComponentsBuildResult (): Map<string, IBuildResult> {
-  return componentsBuildResult
 }
 
 export function getDepComponents (): Map<string, IComponentObj[]> {

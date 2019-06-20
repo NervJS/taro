@@ -9,6 +9,8 @@ assignees: ''
 
 > Feature Request 请提到 [FeatHub](https://feathub.com/NervJS/taro)
 
+> Taro 使用上的问题请提到 [Taro 社区——让每一次交流被沉淀](https://taro-club.jd.com/)
+
 如果是提交 bug，请搜索文档和 issue，确认以下事项：
 
 * 该问题没有在其他 issue 和文档讨论到，不属于重复内容
@@ -33,12 +35,15 @@ assignees: ''
 3. Scroll down to '....'
 4. See error
 
-[或者可以直接贴源代码，能贴文字就不要截图]
+[代码只贴截图，不贴文字会被视为无效issue]
+[代码只贴截图，不贴文字会被视为无效issue]
+[代码只贴截图，不贴文字会被视为无效issue]
 
 ```js
 
-
 // 这里可以贴代码
+// 点击链接查看如何插入代码：
+// https://coding.net/help/doc/project/markdown.html#i-5
 
 // ```js
 // 代码放这里（前后的 "```" 有助 Mardown 整理代码格式和加入代码高亮）
@@ -46,6 +51,7 @@ assignees: ''
 
 // 提供完整可复现的代码和整理好代码格式，有助于我们快速定位问题，节省你我时间。
 // 代码提供不全或代码格式混乱的 issues 【有可能被忽略】，烦请各位注意。
+
 ```
 
 **期望行为**

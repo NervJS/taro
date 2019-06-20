@@ -79,7 +79,7 @@ class Tabbar extends Nerv.Component {
       const patha = splitUrl(url).path
       const pathb = splitUrl(pagePath).path
       if (patha === pathb) {
-        idx = foundIndex
+        foundIndex = idx
       }
     })
     return foundIndex

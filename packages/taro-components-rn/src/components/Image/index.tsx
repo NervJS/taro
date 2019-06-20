@@ -4,7 +4,7 @@
  * ✘ lazy-load
  * ✔ onError(binderror)
  * ✔ onLoad(bindload)
- * ✔ onClick
+ * ✘ onClick
  * ✔ DEFAULT_SIZE
  *
  * @warn Pass require(LOCAL IMAGE) to SRC, otherwise a string-type parameter.
@@ -22,7 +22,7 @@ import {
   ImageResolvedAssetSource
 } from 'react-native'
 import { noop } from '../../utils'
-import ClickableSimplified from '../ClickableSimplified'
+// import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, Mode, ResizeModeMap, ResizeMode } from './PropsType'
 
 const resizeModeMap: ResizeModeMap = {
@@ -139,7 +139,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
 
     const flattenStyle = StyleSheet.flatten(style) || {}
 
-    // The parameter passed to require must be a string literal
+    // The parameter passed to require mpxTransformust be a string literal
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
@@ -181,5 +181,6 @@ class _Image extends React.Component<ImageProps, ImageState> {
   }
 }
 
-export { _Image }
-export default ClickableSimplified(_Image)
+// export { _Image }
+// export default ClickableSimplified(_Image)
+export default _Image

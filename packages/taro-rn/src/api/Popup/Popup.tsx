@@ -15,7 +15,18 @@ const styles = StyleSheet.create({
   }
 })
 
-class Popup extends Component {
+class Popup extends Component<any, any>  {
+  static propTypes = {
+    visible: PropTypes.bool,
+    onShow: PropTypes.func,
+    onClose: PropTypes.func,
+    style: ViewPropTypes.style,
+    maskStyle: ViewPropTypes.style,
+    children: PropTypes.node
+  }
+  height
+  popup
+
   constructor (props) {
     super(props)
     this.state = { visible: false, translateY: new Animated.Value(height) }
@@ -31,7 +42,7 @@ class Popup extends Component {
       Animated.timing(this.state.translateY, {
         toValue: this.height,
         duration: 300,
-        easing: Easing.easeInOut
+        easing: (Easing as any).easeInOut
       }).start(() => this.setState({ visible: false }))
     }
   }
@@ -43,7 +54,7 @@ class Popup extends Component {
       Animated.timing(this.state.translateY, {
         toValue: 0,
         duration: 300,
-        easing: Easing.easeInOut
+        easing: (Easing as any).easeInOut
       }).start()
     })
   }
@@ -60,7 +71,7 @@ class Popup extends Component {
     return (
       <Modal
         visible={this.state.visible}
-        transparent={!false}
+        transparent
         onShow={onShow}
         onRequestClose={onClose}
       >
@@ -79,15 +90,6 @@ class Popup extends Component {
       </Modal>
     )
   }
-}
-
-Popup.propTypes = {
-  visible: PropTypes.bool,
-  onShow: PropTypes.func,
-  onClose: PropTypes.func,
-  style: ViewPropTypes.style,
-  maskStyle: ViewPropTypes.style,
-  children: PropTypes.node
 }
 
 export default Popup

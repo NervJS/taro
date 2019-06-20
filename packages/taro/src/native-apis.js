@@ -28,6 +28,7 @@ const onAndSyncApis = {
   getExtConfigSync: true,
   getLogManager: true,
   onMemoryWarning: true,
+  reportMonitor: true,
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
   // 文件
@@ -76,8 +77,9 @@ const noPromiseApis = {
   hideNavigationBarLoading: true,
   createAnimation: true,
   createSelectorQuery: true,
+  createOffscreenCanvas: true,
   createCanvasContext: true,
-  createContext: true,
+  // createContext: true,
   drawCanvas: true,
   hideKeyboard: true,
   stopPullDownRefresh: true,
@@ -269,6 +271,7 @@ const otherApis = {
   logoClassify: true,
   animalClassify: true,
   plantClassify: true,
+  setPageInfo: true,
 
   // 用户信息
   getSwanId: true,

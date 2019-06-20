@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as babel from 'babel-core'
 import * as t from 'babel-types'
 import generate from 'babel-generator'
-import traverse from 'babel-traverse'
+import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
 import getHashName from '../util/hash';
@@ -37,7 +37,8 @@ import {
   isAliasPath,
   replaceAliasPath,
   traverseObjectNode,
-  isQuickAppPkg
+  isQuickAppPkg,
+  getBabelConfig
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -266,6 +267,8 @@ export function parseAst (
   let hasComponentDidShow
   let hasComponentWillMount
   let hasEnablePageScroll
+  let needSetConfigFromHooks = false
+  let configFromHooks
   if (isQuickApp) {
     cannotRemoves.push(taroJsComponents)
   }
@@ -385,6 +388,20 @@ export function parseAst (
       }
     },
 
+    AssignmentExpression (astPath) {
+      const node = astPath.node
+      const left = node.left
+      if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
+        if (left.object.name === componentClassName
+            && t.isIdentifier(left.property)
+            && left.property.name === 'config') {
+          needSetConfigFromHooks = true
+          configFromHooks = node.right
+          configObj = traverseObjectNode(node.right, buildAdapter)
+        }
+      }
+    },
+
     ClassMethod (astPath) {
       const keyName = (astPath.get('key').node as t.Identifier).name
       if (keyName === 'componentWillMount') {
@@ -483,8 +500,8 @@ export function parseAst (
                 npmOutputDir,
                 compileInclude,
                 env: projectConfig.env || {},
-                uglify: projectConfig!.plugins!.uglify || {},
-                babelConfig: projectConfig!.plugins!.babel || {}
+                uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+                babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
               })
             } else {
               source.value = value
@@ -589,8 +606,8 @@ export function parseAst (
                   npmOutputDir,
                   compileInclude,
                   env: projectConfig.env || {},
-                  uglify: projectConfig!.plugins!.uglify || {},
-                  babelConfig: projectConfig!.plugins!.babel || {}
+                  uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+                  babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
                 })
               } else {
                 args[0].value = value
@@ -738,6 +755,15 @@ export function parseAst (
                   `Taro.eventCenter.off('TaroEvent:setNavigationBar')`
               )]), false, false))
             }
+            if (needSetConfigFromHooks) {
+              const classPath = astPath.findParent((p: NodePath<t.Node>) => p.isClassExpression() || p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+              classPath.node.body.body.unshift(
+                t.classProperty(
+                  t.identifier('config'),
+                  configFromHooks as t.ObjectExpression
+                )
+              )
+            }
           },
           ClassMethod (astPath) {
             if (isQuickApp) {
@@ -880,8 +906,8 @@ export function parseAst (
           npmOutputDir,
           compileInclude,
           env: projectConfig.env || {},
-          uglify: projectConfig!.plugins!.uglify || {},
-          babelConfig: projectConfig!.plugins!.babel || {}
+          uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
         }) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:

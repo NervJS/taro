@@ -2,10 +2,11 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as memFs from 'mem-fs'
 import * as editor from 'mem-fs-editor'
+import * as _ from 'lodash'
 
 import {
   getRootPath
-} from './util'
+} from '../util'
 
 interface IFile {
   contents: Buffer | NodeJS.ReadableStream | null,
@@ -103,7 +104,7 @@ export default class Creator {
     this.fs.copyTpl(
       this.templatePath(template, source),
       this.destinationPath(dest),
-      Object.assign({}, this, data),
+      Object.assign({ _ }, this, data),
       options
     )
     return this

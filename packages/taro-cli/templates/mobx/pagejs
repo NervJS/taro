@@ -7,7 +7,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 
-import './index.<%= css %>'
+import './<%= pageName %>.<%= css %>'
 
 <%if (locals.typescript) {-%>
 type PageStateProps = {
@@ -19,14 +19,14 @@ type PageStateProps = {
   }
 }
 
-interface Index {
+interface <%= _.capitalize(pageName) %> {
   props: PageStateProps;
 }
 <%}-%>
 
 @inject('counterStore')
 @observer
-class Index extends Component {
+class <%= _.capitalize(pageName) %> extends Component {
 
 <%if (locals.typescript) {-%>
   /**
@@ -73,7 +73,7 @@ class Index extends Component {
   render () {
     const { counterStore: { counter } } = this.props
     return (
-      <View className='index'>
+      <View className='<%= pageName %>'>
         <Button onClick={this.increment}>+</Button>
         <Button onClick={this.decrement}>-</Button>
         <Button onClick={this.incrementAsync}>Add Async</Button>
@@ -83,4 +83,4 @@ class Index extends Component {
   }
 }
 
-export default Index <%if (locals.typescript) {%> as ComponentType<%}%>
+export default <%= _.capitalize(pageName) %> <%if (locals.typescript) {%> as ComponentType<%}%>

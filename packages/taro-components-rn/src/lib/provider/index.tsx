@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Provider as AntProvider } from '@ant-design/react-native'
+import AntProvider from '@ant-design/react-native/lib/provider'
 
 export default class Provider extends React.Component<any> {
-  render() {
+  render () {
     return (
       <AntProvider>
         {this.props.children}

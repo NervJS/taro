@@ -4,23 +4,29 @@ import { View, Text, Swiper, SwiperItem, Image } from '../../dist'
 export default class EXSwiper extends Component {
   render () {
     return (
-      <View style={{ width: 300, height: 100 }}>
+      <View style={{ width: 300, height: 250, backgroundColor: 'pink' }}>
         <Swiper
-          showsPagination={true}
+          indicatorDots={true}
           indicatorColor="white"
           indicatorActiveColor="purple"
-          autoplay={false}
+          autoplay={true}
           current={1}
           interval={6000}
-          circular={false}
+          circular={true}
           vertical={false}
-          onChange={() => null}
+          onChange={() => { console.log('Swiper: onChange') }}
           onAnimationFinish={() => null}
           style={{
+            marginTop: 30,
+            width: 280,
+            height: 200,
             backgroundColor: 'black'
           }}
         >
-          <SwiperItem onClick={() => { alert('click item') }} style={{ backgroundColor: 'red' }}>
+          <SwiperItem
+            onClick={() => { console.log('click item') }}
+            style={{ backgroundColor: 'red' }}
+          >
             <Text>Hello Swiper</Text>
           </SwiperItem>
           <SwiperItem style={{ backgroundColor: 'green' }}>

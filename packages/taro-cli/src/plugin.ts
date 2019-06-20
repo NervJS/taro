@@ -46,7 +46,6 @@ const PLUGIN_MOCK_JSON = 'plugin-mock.json'
 let isCopyingFiles = {}
 
 export async function build (appPath: string, { watch, platform }: IBuildConfig) {
-  setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   switch (platform) {
     case BUILD_TYPES.WEAPP:
       buildWxPlugin(appPath, { watch })
@@ -319,6 +318,8 @@ async function buildWxPlugin (appPath, { watch }) {
   const pluginPath = path.join(appPath, PLUGIN_ROOT)
   const docDir = path.join(pluginDir, DOC_ROOT)
   const docPath = path.join(appPath, DOC_ROOT)
+
+  setIsProduction(process.env.NODE_ENV === 'production' || !watch)
 
   fs.existsSync(pluginPath) && Util.emptyDirectory(pluginPath)
   fs.existsSync(docPath) && Util.emptyDirectory(docPath)

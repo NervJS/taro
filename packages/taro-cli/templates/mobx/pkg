@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "<%= description %>",
+  "templateInfo": {
+    "name": "<%= template %>",
+    "typescript": <%= typescript %>,
+    "css": "<%= css %>"
+  },
   "main": "index.js",
   "scripts": {
     "build:weapp": "taro build --type weapp",
@@ -34,8 +39,8 @@
     "@tarojs/mobx-h5": "<%= version %>",
     "@tarojs/mobx-rn": "<%= version %>",
     "mobx": "4.8.0",
-    "nervjs": "^1.4.0-beta.3",
-    "nerv-devtools": "^1.4.0-beta.3"
+    "nervjs": "^1.4.0",
+    "nerv-devtools": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "16.3.14",

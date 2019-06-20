@@ -22,15 +22,18 @@ const _Textarea: React.SFC<TextareaProps> = (props) => {
 
   return (
     <Input
+      _multiline={true}
+      _autoHeight={autoHeight}
+      _onLineChange={onLineChange}
       {...omit(props, [
         'type',
         'password',
         'confirmType',
         'confirmHold',
+        // props
+        'autoHeight',
+        'onLineChange'
       ])}
-      _multiline={true}
-      _autoHeight={autoHeight}
-      _onLineChange={onLineChange}
     />
   )
 }

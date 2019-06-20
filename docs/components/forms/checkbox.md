@@ -15,7 +15,7 @@ sidebar_label: Checkbox
 
 >其他相关属性请看各小程序官方文档
 
-[微信小程序 CheckboxGroup](https://developers.weixin.qq.com/miniprogram/dev/component/button.html)。
+[微信小程序 CheckboxGroup](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)。
 
 [百度小程序 CheckboxGroup](https://smartprogram.baidu.com/docs/develop/component/formlist/#checkbox)。
 

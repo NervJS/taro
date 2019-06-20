@@ -340,3 +340,53 @@ function TextInputWithFocusButton() {
 >
 > 如果你正在将代码从 class 组件迁移到使用 Hook 的函数组件，则需要注意 `useLayoutEffect` 与 `componentDidMount`、`componentDidUpdate` 的调用阶段是一样的。但是，我们推荐你**一开始先用 `useEffect`**，只有当它出问题的时再尝试使用 `useLayoutEffect`。
 
+
+### `useContext`
+
+```jsx
+const value = useContext(MyContext)
+```
+
+接收一个 context (`Taro.createContext` 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中最先渲染的 `<MyContext.Provider value={value}>` 的 `value`决定。
+
+当组件上层最近的 <MyContext.Provider> 更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context `value` 值。
+
+别忘记 `useContext` 的参数必须是 context 对象本身：
+
+正确： `useContext(MyContext)`
+错误： `useContext(MyContext.Consumer)`
+错误： `useContext(MyContext.Provider)`
+调用了 `useContext` 的组件总会在 context 值变化时重新渲染。
+
+> 如果你在接触 Hook 前已经对 context API 比较熟悉，那应该可以理解，`useContext(MyContext)` 相当于 class 组件中的 `static contextType = MyContext` 或者 <MyContext.Consumer>。
+> `useContext(MyContext)` 只是让你能够读取 context 的值以及订阅 context 的变化。你仍然需要在上层组件树中使用 <MyContext.Provider> 来为下层组件提供 context。
+
+## 页面及组件中相关属性设置
+
+在 Taro 中，你可以为页面及组件设置一些属性来达到一些特殊的目的，例如 `config` 设置配置等等，在前面章节你已经学会如何在类中进行相关设置，同样的，使用 Hooks 时你也可以进行相关设置来达到和使用类一样的效果。
+
+不同于使用类的写法，使用 Hooks 时，你需要将 `config` 或 `options` 等配置直接挂载在 Hooks 函数上，即可以达到想要的效果，例如
+
+为页面设置 `config`
+
+```jsx
+export default function Index () {
+  return <View></View>
+}
+
+Index.config = {
+  navigationBarTitleText: '首页'
+}
+```
+
+为组件设置 `options`
+
+```jsx
+export default function Com () {
+  return <View></View>
+}
+
+Com.options = {
+  addGlobalClass: true
+}
+```

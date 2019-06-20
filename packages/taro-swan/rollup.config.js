@@ -7,7 +7,7 @@ const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.js'),
-  external: ['nervjs'],
+  external: ['nervjs', '@tarojs/taro'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),

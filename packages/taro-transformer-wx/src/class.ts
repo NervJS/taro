@@ -14,9 +14,10 @@ import {
   incrementId,
   isContainStopPropagation,
   isDerivedFromProps,
-  findFirstIdentifierFromMemberExpression
+  findFirstIdentifierFromMemberExpression,
+  getSuperClassPath
 } from './utils'
-import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT_Component_SET_COPY, FN_PREFIX, CLASS_COMPONENT_UID } from './constant'
+import { DEFAULT_Component_SET, COMPONENTS_PACKAGE_NAME, ANONYMOUS_FUNC, DEFAULT_Component_SET_COPY, FN_PREFIX, CLASS_COMPONENT_UID, CONTEXT_PROVIDER } from './constant'
 import { kebabCase, uniqueId, get as safeGet, set as safeSet } from 'lodash'
 import { RenderParser } from './render'
 import { findJSXAttrByName } from './jsx'
@@ -119,6 +120,7 @@ class Transformer {
   private refs: Ref[] = []
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
   private anonymousFuncCounter = incrementId()
+  private importJSXs = new Set<String>()
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -472,6 +474,13 @@ class Transformer {
                     const { object, property } = callee.node
                     if (t.isThisExpression(object) && t.isIdentifier(property) && property.name.startsWith('render')) {
                       const propName = property.name
+                      if (!self.methods.has(propName)) {
+                        const o = getSuperClassPath(self.classPath)
+                        if (o) {
+                          const p = o.resolvePath.endsWith('.js') ? o.resolvePath.slice(0, o.resolvePath.length - 3) : o.resolvePath
+                          self.importJSXs.add(`<import src="${p + '.wxml'}"/>`)
+                        }
+                      }
                       self.renameJSXClassFunc(propName, methodName, callPath, args)
                     }
                   }
@@ -574,6 +583,13 @@ class Transformer {
       },
       JSXExpressionContainer (path) {
         const attr = path.findParent(p => p.isJSXAttribute()) as NodePath<t.JSXAttribute>
+        if (!attr) {
+          const expr = path.get('expression')
+          if (expr.isBooleanLiteral() || expr.isNullLiteral()) {
+            path.remove()
+            return
+          }
+        }
         const isFunctionProp = attr && typeof attr.node.name.name === 'string' && attr.node.name.name.startsWith('on')
         let renderMethod: NodePath<t.ClassMethod>
         self.renderJSX.forEach(method => {
@@ -669,7 +685,7 @@ class Transformer {
             slot.openingElement.attributes.push(t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(getSlotName(path.node.name))))
             self.setMultipleSlots()
           }
-          if (parentPath.isMemberExpression() && parentPath.isReferenced()) {
+          if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {
             const object = parentPath.get('object')
             if (object.isIdentifier()) {
               const objectName = object.node.name
@@ -688,23 +704,46 @@ class Transformer {
         const id = path.node.openingElement.name
         if (
           t.isJSXIdentifier(id) &&
-          !DEFAULT_Component_SET.has(id.name) &&
-          self.moduleNames.indexOf(id.name) !== -1
+          !DEFAULT_Component_SET.has(id.name)
         ) {
-          const name = id.name
-          const binding = self.classPath.scope.getBinding(name)
-          if (binding && t.isImportDeclaration(binding.path.parent)) {
-            const sourcePath = binding.path.parent.source.value
-            if (binding.path.isImportDefaultSpecifier()) {
-              self.customComponents.set(name, {
-                sourcePath,
-                type: 'default'
-              })
-            } else {
-              self.customComponents.set(name, {
-                sourcePath,
-                type: 'pattern'
-              })
+          if (self.moduleNames.indexOf(id.name) !== -1) {
+            const name = id.name
+            const binding = self.classPath.scope.getBinding(name)
+            if (binding && t.isImportDeclaration(binding.path.parent)) {
+              const sourcePath = binding.path.parent.source.value
+              if (binding.path.isImportDefaultSpecifier()) {
+                self.customComponents.set(name, {
+                  sourcePath,
+                  type: 'default'
+                })
+              } else {
+                self.customComponents.set(name, {
+                  sourcePath,
+                  type: 'pattern'
+                })
+              }
+            }
+          }
+
+          if (id.name.endsWith(CONTEXT_PROVIDER)) {
+            const valueAttr = path.node.openingElement.attributes.find(a => a.name.name === 'value')
+            const contextName = id.name.slice(0, id.name.length - CONTEXT_PROVIDER.length)
+            if (valueAttr) {
+              if (t.isJSXElement(valueAttr.value)) {
+                throw codeFrameError(valueAttr.value, 'Provider 的 value 只能传入一个字符串或普通表达式，不能传入 JSX')
+              } else {
+                const value = t.isStringLiteral(valueAttr.value) ? valueAttr.value : valueAttr.value.expression
+                const expr = t.expressionStatement(t.callExpression(
+                  t.memberExpression(t.identifier(contextName), t.identifier('Provider')),
+                  [value]
+                ))
+                path.getStatementParent().insertBefore(expr)
+                path.replaceWith(t.jSXElement(
+                  t.jSXOpeningElement(t.jSXIdentifier('Block'), []),
+                  t.jSXClosingElement(t.jSXIdentifier('Block')),
+                  path.node.children
+                ))
+              }
             }
           }
         }
@@ -972,6 +1011,11 @@ class Transformer {
   }
 
   parseRender () {
+    if (this.importJSXs.size) {
+      this.importJSXs.forEach(s => {
+        this.result.template += s + '\n'
+      })
+    }
     if (this.renderJSX.size) {
       this.renderJSX.forEach((method, methodName) => {
         this.result.template = this.result.template

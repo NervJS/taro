@@ -103,7 +103,7 @@ async function buildH5Script () {
   }, h5Config.entry)
   h5Config.isWatch = false
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', appPath)
-  webpackRunner(h5Config)
+  webpackRunner(appPath, h5Config)
 }
 
 async function buildH5Lib () {

@@ -34,6 +34,7 @@ class Input extends Nerv.Component {
 
     // input hook
     this.isOnComposition = false
+    this.onInputExcuted = false
   }
 
   componentDidMount () {
@@ -59,9 +60,10 @@ class Input extends Nerv.Component {
       onInput = '',
       onChange = ''
     } = this.props
-    if (!this.isOnComposition) {
+    if (!this.isOnComposition && !this.onInputExcuted) {
       let value = e.target.value
       const inputType = getTrueType(type, confirmType, password)
+      this.onInputExcuted = true
       /* 修复 number 类型 maxLength 无效 */
       if (inputType === 'number' && value && maxLength <= value.length) {
         value = value.substring(0, maxLength)
@@ -73,7 +75,7 @@ class Input extends Nerv.Component {
         value: { value }
       })
       // 修复 IOS 光标跳转问题
-      if (!['number', 'file'].indexOf(inputType) >= 0) {
+      if (!(['number', 'file'].indexOf(inputType) >= 0)) {
         const pos = e.target.selectionEnd
         setTimeout(
           () => {
@@ -90,6 +92,7 @@ class Input extends Nerv.Component {
 
   onFocus (e) {
     const { onFocus } = this.props
+    this.onInputExcuted = false
     Object.defineProperty(e, 'detail', {
       enumerable: true,
       value: {
@@ -112,6 +115,7 @@ class Input extends Nerv.Component {
 
   onKeyDown (e) {
     const { onConfirm } = this.props
+    this.onInputExcuted = false
     if (e.keyCode === 13 && onConfirm) {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
@@ -128,10 +132,10 @@ class Input extends Nerv.Component {
 
     if (e.type === 'compositionend') {
       this.isOnComposition = false
+      this.onInput(e)
     } else {
       this.isOnComposition = true
     }
-    this.onInput(e)
   }
 
   render () {

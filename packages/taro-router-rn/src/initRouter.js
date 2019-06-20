@@ -1,8 +1,9 @@
 import React from 'react'
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import getWrappedScreen from './getWrappedScreen'
 import { Image } from 'react-native'
 import { getNavigationOptions } from './utils'
+
+const {createStackNavigator, createBottomTabNavigator} = require('react-navigation')
 
 function getTabBarVisible (navigation) {
   let routeState = navigation.state.routes[navigation.state.index]

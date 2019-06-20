@@ -1,7 +1,7 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
 import { isEmptyObject, isFunction } from './util'
-import { updateComponent } from './lifecycle'
+import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
 
@@ -77,7 +77,7 @@ function processEvent (eventHandlerName, obj) {
     // 解析从dataset中传过来的参数
     const dataset = event.currentTarget.dataset || {}
     const bindArgs = {}
-    const eventType = event.type.toLocaleLowerCase()
+    const eventType = event.type ? event.type.toLocaleLowerCase() : null
 
     if (event.detail && event.detail.__detail) Object.assign(dataset, event.detail.__detail)
 
@@ -216,7 +216,7 @@ function initComponent (ComponentClass, isPage) {
     this.$component.props = nextProps
   }
   if (hasPageInited || isPage) {
-    updateComponent(this.$component)
+    mountComponent(this.$component)
   }
 }
 

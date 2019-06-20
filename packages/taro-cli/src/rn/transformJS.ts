@@ -257,16 +257,17 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
           }
         }
         if (value.indexOf('.') === 0) {
-          const pathArr = value.split('/')
-          if (pathArr.indexOf('pages') >= 0) {
-            astPath.remove()
-          } else if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
-            const absolutePath = path.resolve(filePath, '..', value)
-            const dirname = path.dirname(absolutePath)
-            const extname = path.extname(absolutePath)
-            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
-            const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-            node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
+          // const pathArr = value.split('/')
+          // if (pathArr.indexOf('pages') >= 0) {
+          //   astPath.remove()
+          // } else
+           if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
+             const absolutePath = path.resolve(filePath, '..', value)
+             const dirname = path.dirname(absolutePath)
+             const extname = path.extname(absolutePath)
+             const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+             const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
+             node.source = t.stringLiteral(Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
         }
         return

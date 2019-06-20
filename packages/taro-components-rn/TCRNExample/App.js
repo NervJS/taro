@@ -6,7 +6,8 @@ import {
   ScrollView,
   View,
   Text,
-  Button
+  Button,
+  Image
 } from '../dist'
 // import EXAudio from './example/EXAudio'
 import EXButton from './example/EXButton'
@@ -44,6 +45,12 @@ export default class App extends Component {
     console.log('view touchend')
   }
 
+  componentDidMount () {
+    // setTimeout(() => {
+    //   this.setState({ scrollTop: 1800 })
+    // }, 0)
+  }
+
   render () {
     return (
       <Provider>
@@ -64,6 +71,7 @@ export default class App extends Component {
           onScroll={(e) => {
             console.log('onScroll', e)
           }}
+          bounces={false}
         >
           <Text>Welcome to React Native!</Text>
 
@@ -141,7 +149,7 @@ export default class App extends Component {
             <EXRadio />
           </View>
 
-          <View style={styles.section}>
+          <View style={[styles.section, { backgroundColor: 'green' }]}>
             <View style={styles.sectionTit}>
               <Text style={styles.sectionTitTxt}>RichText</Text>
             </View>
@@ -249,6 +257,21 @@ export default class App extends Component {
                   default
                 </Button>
               </View>
+            </View>
+
+            <Image
+              onClick={() => { console.log('click on Image') }}
+              src={'https://storage.360buyimg.com/mtd/home/jdlogo1529462435227.png'}
+              style={{
+                width: 250,
+                height: 50
+              }}
+            />
+
+            <View style={{ flexDirection: 'row', width: '100%', height: 50 }}>
+              <View style={{ flex: 1, backgroundColor: 'red' }} onClick={() => {}} />
+              <View style={{ flex: 1, backgroundColor: 'green' }} onClick={() => {}} />
+              <View style={{ flex: 1, backgroundColor: 'yellow' }} onClick={() => {}} />
             </View>
           </View>
 

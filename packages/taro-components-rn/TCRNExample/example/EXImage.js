@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
 import { View, Image } from '../../dist'
-
-const temp = StyleSheet.create({
-  img: {
-    width: 240,
-    height: 500
-  }
-})
 
 export default class EXImage extends Component {
   constructor () {

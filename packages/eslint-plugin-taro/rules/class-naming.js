@@ -4,7 +4,6 @@ const DEFAULT_Components_SET = new Set([
   'View',
   'ScrollView',
   'Swiper',
-  'MovableView',
   'CoverView',
   'CoverImage',
   'Icon',

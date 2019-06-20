@@ -5,17 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require('react')
 class Footer extends React.Component {
-
-  render() {
-    const currentYear = new Date().getFullYear();
-
+  render () {
     return (
       <footer className='footer' id='footer'>
         <div className='footer-container'>
           <div className='footer-logo-container'>
-            <div className='footer-logo'></div>
+            <div className='footer-logo' />
           </div>
           <div className='footer-link-container'>
             <div className='footer-link'>
@@ -37,8 +34,8 @@ class Footer extends React.Component {
           </div>
         </div>
       </footer>
-    );
+    )
   }
 }
 
-module.exports = Footer;
+module.exports = Footer

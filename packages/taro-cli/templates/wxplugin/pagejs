@@ -4,11 +4,11 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import Taro, { Component } from '@tarojs/taro'
 <%}-%>
 import { View, Text, Navigator } from '@tarojs/components'
-import './index.<%= css %>'
+import './<%= pageName %>.<%= css %>'
 
 const myPluginInterface = Taro.requirePlugin('myPlugin')
 
-export default class Index extends Component {
+export default class <%= _.capitalize(pageName) %> extends Component {
 
   <%if (locals.typescript) {-%>
   /**
@@ -42,7 +42,7 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
+      <View className='<%= pageName %>'>
         <Text>Hello world!</Text>
         <Avatar />
         <Navigator url='plugin://myPlugin/list'>

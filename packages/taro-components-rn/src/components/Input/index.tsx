@@ -33,7 +33,7 @@ import {
   TextInputContentSizeChangeEventData,
   KeyboardTypeOptions
 } from 'react-native'
-import { noop } from '../../utils'
+import { noop, omit } from '../../utils'
 import { InputProps, InputState  } from './PropsType'
 
 const keyboardTypeMap: { [key: string]: string } = {
@@ -164,7 +164,7 @@ class _Input extends React.Component<InputProps, InputState> {
   }
 
   render () {
-    const {
+    let {
       style,
       value,
       type,
@@ -191,6 +191,8 @@ class _Input extends React.Component<InputProps, InputState> {
       }
     })()
 
+    value = type === 'number' && value ? (value + '') : value
+
     return (
       <TextInput
         defaultValue={value}
@@ -214,6 +216,29 @@ class _Input extends React.Component<InputProps, InputState> {
         onContentSizeChange={this.onContentSizeChange}
         underlineColorAndroid="rgba(0,0,0,0)"
         style={[style, _multiline && { height: Math.max(35, this.state.height) }]}
+        {...omit(this.props, [
+          'style',
+          'value',
+          'type',
+          'password',
+          'placeholder',
+          'disabled',
+          'maxlength',
+          'focus',
+          'confirmType',
+          'confirmHold',
+          'cursor',
+          'selectionStart',
+          'selectionEnd',
+          'onInput',
+          'onFocus',
+          'onBlur',
+          'onKeyDown',
+          'onConfirm',
+          '_multiline',
+          '_autoHeight',
+          '_onLineChange'
+        ])}
       />
     )
   }

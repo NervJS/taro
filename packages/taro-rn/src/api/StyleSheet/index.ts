@@ -1,9 +1,11 @@
 import { StyleSheet, Platform } from 'react-native'
 
-export function create (styles) {
-  const platformStyles = {}
+export function create (styles: any): any {
+  const platformStyles: any = {}
   Object.keys(styles).forEach((name) => {
-    const { ios, android } = { ...styles[name] }
+    const copyStyles = { ...styles[name] }
+    const ios = copyStyles.ios
+    const android = copyStyles.android
     /* eslint-disable no-param-reassign */
     delete styles[name].ios
     delete styles[name].android

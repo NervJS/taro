@@ -11,7 +11,7 @@ import { IBuildConfig } from './util/types'
 export default function build (appPath, buildConfig: IBuildConfig) {
   const { type, watch, platform, port, release } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
-  const outputPath = path.join(appPath, `${configDir.outputRoot || CONFIG.OUTPUT_DIR}/${type}`)
+  const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
     fs.ensureDirSync(outputPath)
   } else if (type !== BUILD_TYPES.H5 && (type !== BUILD_TYPES.QUICKAPP || !watch)) {

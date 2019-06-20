@@ -10,7 +10,7 @@ import { join, resolve } from 'path'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 
-import { appPath, recursiveMerge } from '.'
+import { recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
 import { CopyOptions, Option, PostcssOption } from './types'
 
@@ -32,6 +32,7 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultBabelLoaderOption = {
+  babelrc: false,
   plugins: [
     require.resolve('babel-plugin-syntax-dynamic-import'),
     [
@@ -178,7 +179,7 @@ const getEsnextModuleRules = esnextModules => {
   ]
 }
 
-const getModule = ({
+const getModule = (appPath: string, {
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -306,7 +307,7 @@ const getModule = ({
     { sourceMap: enableSourceMap },
     {
       ident: 'postcss',
-      plugins: getPostcssPlugins({
+      plugins: getPostcssPlugins(appPath, {
         designWidth,
         deviceRatio,
         postcssOption
@@ -410,7 +411,7 @@ const getModule = ({
   return { rule }
 }
 
-const getOutput = ([{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
+const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
   return {
     path: join(appPath, outputRoot),
     filename: 'js/[name].js',

@@ -5,6 +5,7 @@ const alias = require('rollup-plugin-alias')
 const cwd = __dirname
 
 const baseConfig = {
+  external: ['@tarojs/taro'],
   input: join(cwd, 'src/index.js'),
   output: [
     {

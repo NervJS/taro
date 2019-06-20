@@ -4,7 +4,53 @@ const chalk = require('chalk')
 const { exec } = require('child_process')
 const ora = require('ora')
 
-module.exports = function (creater, params, helper, cb) {
+const styleExtMap = {
+  sass: 'scss',
+  less: 'less',
+  stylus: 'styl',
+  none: 'css'
+}
+
+exports.createPage = function (creater, params, cb) {
+  const { page, projectDir, src, template, typescript, css } = params
+  let pageCSSName
+  const sourceDir = path.join(projectDir, src)
+  const currentStyleExt = styleExtMap[css] || 'css'
+  switch (css) {
+    case 'sass':
+      pageCSSName = `${page}.scss`
+      break
+    case 'less':
+      pageCSSName = `${page}.less`
+      break
+    case 'stylus':
+      pageCSSName = `${page}.styl`
+      break
+    default:
+      pageCSSName = `${page}.css`
+      break
+  }
+  creater.template(template, 'scss', path.join(sourceDir, 'pages', page, pageCSSName))
+  if (typescript) {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.tsx`), {
+      css: currentStyleExt,
+      typescript: true,
+      pageName: page
+    })
+  } else {
+    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.js`), {
+      css: currentStyleExt,
+      pageName: page
+    })
+  }
+  creater.fs.commit(() => {
+    if (typeof cb === 'function') {
+      cb()
+    }
+  })
+}
+
+exports.createApp = function (creater, params, helper, cb) {
   const { projectName, projectDir, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const projectPath = path.join(projectDir, projectName)
@@ -17,14 +63,9 @@ module.exports = function (creater, params, helper, cb) {
   const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
   let appCSSName
   let pageCSSName
-  const styleExtMap = {
-    sass: 'scss',
-    less: 'less',
-    stylus: 'styl',
-    none: 'css'
-  }
-  const currentStyleExt = styleExtMap[css] || 'css'
 
+  const currentStyleExt = styleExtMap[css] || 'css'
+  params.page = 'index'
   fs.ensureDirSync(projectPath)
   fs.ensureDirSync(sourceDir)
   fs.ensureDirSync(configDir)
@@ -35,7 +76,8 @@ module.exports = function (creater, params, helper, cb) {
     projectName,
     version,
     css,
-    typescript
+    typescript,
+    template
   })
   creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
@@ -78,23 +120,20 @@ module.exports = function (creater, params, helper, cb) {
       break
   }
   creater.template(template, 'scss', path.join(sourceDir, appCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', 'index', pageCSSName))
   creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
   })
+  exports.createPage(creater, {
+    page: 'index',
+    projectDir: projectPath,
+    src,
+    template,
+    typescript,
+    css
+  })
   creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
-  if (typescript) {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.tsx'), {
-      css: currentStyleExt,
-      typescript: true
-    })
-  } else {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', 'index', 'index.js'), {
-      css: currentStyleExt
-    })
-  }
   if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
   creater.fs.commit(() => {
@@ -151,20 +190,18 @@ module.exports = function (creater, params, helper, cb) {
       command = 'npm install'
     }
     const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
-
-    const install = exec(command)
-    install.on('close', code => {
-      if (code === 0) {
-        installSpinner.color = 'green'
-        installSpinner.succeed('安装成功')
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
-      } else {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
         installSpinner.color = 'red'
         installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
+        console.log(error)
+      } else {
+        installSpinner.color = 'green'
+        installSpinner.succeed('安装成功')
+        console.log(`${stderr}${stdout}`)
       }
-      console.log(chalk.green(`创建项目 ${chalk.green.bold(projectDir)} 成功！`))
-      console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectDir)} 开始工作吧！😝`))
+      console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
+      console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
       if (typeof cb === 'function') {
         cb()
       }

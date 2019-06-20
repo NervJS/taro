@@ -95,7 +95,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
           }
           fs.ensureDirSync(path.dirname(outputItem))
           if (isProduction && needUseBabel) {
-            uglifyJS(resCode, item, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
+            resCode = uglifyJS(resCode, item, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
           }
           if (NODE_MODULES_REG.test(item)) {
             resCode = npmCodeHack(outputItem, resCode, buildAdapter)

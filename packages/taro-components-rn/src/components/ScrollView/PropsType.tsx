@@ -50,4 +50,6 @@ export interface ScrollViewProps {
   onScrollToUpper?: (evt: EventOnScrollToUpper) => void;
   onScrollToLower?: (evt: EventOnScrollToLower) => void;
   onScroll?: (evt: EventOnScroll) => void;
+  // RN 属性
+  contentContainerStyle?: StyleProp<ViewStyle>;
 }
