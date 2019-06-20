@@ -5,6 +5,7 @@ import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '
 import * as toast from '../../../dist/api/interface'
 import { getLocation } from '../../../dist/api/location'
 import { startAccelerometer, stopAccelerometer, onAccelerometerChange } from '../../../dist/api/accelerometer'
+import { onDeviceMotionChange, startDeviceMotionListening, stopDeviceMotionListening } from '../../../dist/api/device/deviceMotion'
 
 console.log('toast', toast)
 
@@ -87,6 +88,25 @@ export default class Index extends Component {
     })
   }
 
+  startDeviceMotionListening () {
+    console.log('startDeviceMotionListening')
+    startDeviceMotionListening().then(res => console.log(res))
+  }
+
+  stopDeviceMotionListening () {
+    console.log('startDeviceMotionListening')
+    stopDeviceMotionListening().then(res => console.log(res))
+  }
+
+  onDeviceMotionChange () {
+    console.log('startDeviceMotionListening')
+    onDeviceMotionChange((res) => {
+      console.log(res.x)
+      console.log(res.y)
+      console.log(res.z)
+    })
+  }
+
   render () {
     return (
       <View style={{paddingTop: 20}}>
@@ -118,6 +138,18 @@ export default class Index extends Component {
           </View>
           <View style={{flexDirection: 'row'}}>
             <Button onPress={this.onAccelerometerChange.bind(this)} title='onAccelerometerChange' color='#19AD1A' />
+          </View>
+        </View>
+        <Text style={styles.index}>设备方向</Text>
+        <View>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={this.startDeviceMotionListening.bind(this)} title='startDeviceMotionListening' color='#19AD1A' />
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={this.stopDeviceMotionListening.bind(this)} title='stopDeviceMotionListening' color='#19AD1A' />
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={this.onDeviceMotionChange.bind(this)} title='onDeviceMotionChange' color='#19AD1A' />
           </View>
         </View>
       </View>
