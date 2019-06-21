@@ -288,7 +288,7 @@ async function recursiveRequire ({
   let isNpmInCompileExclude = false;
   for (const item of npmExclude) {
     isNpmInCompileExclude = filePath.indexOf(item) !== -1;
-    if (!isNpmInCompileExclude) {
+    if (isNpmInCompileExclude) {
       break
     }
   }
