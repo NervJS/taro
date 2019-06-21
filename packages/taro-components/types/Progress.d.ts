@@ -56,6 +56,14 @@ export interface ProgressProps extends StandardProps {
    * 默认值：`backwards`
    */
   activeMode?: 'backwards' | 'forwards'
+
+
+  /**
+   * 圆角大小
+   * 
+   * 默认值：0
+   */
+  borderRadius?: number
 }
 
 declare const Progress: ComponentType<ProgressProps>
