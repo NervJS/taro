@@ -441,6 +441,7 @@ export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = link.request.bind(link)
   taro.addInterceptor = link.addInterceptor.bind(link)
+  taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)
