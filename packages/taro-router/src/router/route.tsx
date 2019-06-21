@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro-h5'
-import Nerv from 'nervjs'
+import Nerv, { nextTick } from 'nervjs'
 
 import { tryToCall } from '../utils'
 import { Location, RouteObj } from '../utils/types'
@@ -98,19 +98,21 @@ class Route extends Taro.Component<RouteProps, {}> {
 
     this.matched = nextMatched
 
-    if (nextMatched) {
-      this.showPage()
-      if (!isRedirect) {
+    nextTick(() => {
+      if (nextMatched) {
+        this.showPage()
+        if (!isRedirect) {
+          scroller = scroller || getScroller()
+          scroller.set(this.scrollPos)
+          tryToCall(this.componentRef.componentDidShow, this.componentRef)
+        }
+      } else {
         scroller = scroller || getScroller()
-        scroller.set(this.scrollPos)
-        tryToCall(this.componentRef.componentDidShow, this.componentRef)
+        this.scrollPos = scroller.get()
+        this.hidePage()
+        tryToCall(this.componentRef.componentDidHide, this.componentRef)
       }
-    } else {
-      scroller = scroller || getScroller()
-      this.scrollPos = scroller.get()
-      this.hidePage()
-      tryToCall(this.componentRef.componentDidHide, this.componentRef)
-    }
+    })
   }
 
   shouldComponentUpdate () {
@@ -129,7 +131,7 @@ class Route extends Taro.Component<RouteProps, {}> {
   hidePage () {
     const dom = this.containerRef
     if (!dom) {
-      return console.error(`showPage:fail Received a falsy component for route "${this.props.path}". Forget to export it?`)
+      return console.error(`hidePage:fail Received a falsy component for route "${this.props.path}". Forget to export it?`)
     }
     dom.style.display = 'none'
   }
