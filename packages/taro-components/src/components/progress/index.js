@@ -16,7 +16,8 @@ function parseType (props) {
     strokeWidth,
     activeColor,
     backgroundColor,
-    active
+    active,
+    borderRadius
   } = props
 
   // 抛出错误信息
@@ -33,6 +34,8 @@ function parseType (props) {
   if (backgroundColor) {
     isString(backgroundColor) ? '' : throwErrorMsg('backgroundColor')
   }
+
+  if (borderRadius) isString(borderRadius) ? '' : throwErrorMsg('borderRadius')
 }
 
 const Progress = (props) => {
@@ -44,7 +47,8 @@ const Progress = (props) => {
     activeColor,
     backgroundColor,
     active,
-    percent
+    percent,
+    borderRadius
   } = props
   let pgPercent = percent > 100 ? 100 : percent < 0 ? 0 : percent
   const cls = classNames('weui-progress', className)
@@ -52,7 +56,8 @@ const Progress = (props) => {
     width: pgPercent + '%',
     backgroundColor: activeColor,
     WebkitTransition: active ? `width 1s ease-in-out` : 'none',
-    transition: active ? `width 1s ease-in-out` : 'none'
+    transition: active ? `width 1s ease-in-out` : 'none',
+    borderRadius: borderRadius ? `${borderRadius}px` : 0
   }
   let pgHeight = {
     height: strokeWidth + 'px',
