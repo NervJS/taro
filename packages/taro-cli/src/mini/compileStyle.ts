@@ -221,7 +221,6 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
   const pluginsConfig = projectConfig.plugins || {}
   const weappConf = projectConfig.weapp || {} as IMiniAppConfig
   const useCompileConf = Object.assign({}, weappConf.compile)
-  const compileInclude = useCompileConf.include || []
   isBuildingStyles.set(outputFilePath, true)
   return Promise.all(styleFiles.map(async p => {
     const filePath = path.join(p)
@@ -240,7 +239,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           root: appPath,
           rootNpm: nodeModulesPath,
           npmOutputDir,
-          compileInclude,
+          compileConfig: useCompileConf,
           env: projectConfig.env || {},
           uglify: projectConfig!.plugins!.uglify || {  enable: true  },
           babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}

@@ -70,7 +70,7 @@ export interface IBuildData {
   appConfig: Config,
   pageConfigs: Map<string, Config>,
   alias: IOption,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   isProduction: boolean,
   buildAdapter: BUILD_TYPES,
   outputFilesTypes: IMINI_APP_FILE_TYPE,
@@ -118,7 +118,6 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     dir: null
   }, weappConf.npm)
   const useCompileConf = Object.assign({}, weappConf.compile)
-  const compileInclude = useCompileConf.include || []
   BuildData = {
     appPath,
     configDir,
@@ -135,7 +134,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     isProduction: false,
     appConfig: {},
     pageConfigs: new Map<string, Config>(),
-    compileInclude,
+    compileConfig: useCompileConf,
     buildAdapter: adapter,
     outputFilesTypes: MINI_APP_FILES[adapter],
     constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
@@ -296,7 +295,7 @@ export function initCopyFiles () {
 }
 
 export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
-  const { nodeModulesPath, npmOutputDir, outputDirName, sourceDir, outputDir, appPath, projectConfig, buildAdapter } = BuildData
+  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig, buildAdapter } = BuildData
   const adapterConfig = projectConfig[buildAdapter];
   files.forEach(file => {
     let outputFilePath
@@ -305,7 +304,7 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
     } else {
       if (adapterConfig.publicPath) {
         const hashName = getHashName(file);
-        const staticPath = path.join(appPath, outputDirName.replace(`/${buildAdapter}`, ''), adapterConfig.staticDirectory, projectConfig.projectName || '');
+        const staticPath = path.join(appPath, adapterConfig.staticDirectory, projectConfig.projectName || '');
         outputFilePath = `${staticPath}/${hashName}`;
       } else {
         outputFilePath = file.replace(sourceDir, outputDir);

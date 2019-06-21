@@ -70,7 +70,7 @@ export function resolveNpmFilesPath ({
   root,
   rootNpm,
   npmOutputDir,
-  compileInclude = [],
+  compileConfig = {},
   env,
   uglify,
   babelConfig
@@ -82,7 +82,7 @@ export function resolveNpmFilesPath ({
   root: string,
   rootNpm: string,
   npmOutputDir: string,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
   babelConfig: object
@@ -102,7 +102,7 @@ export function resolveNpmFilesPath ({
       buildAdapter,
       rootNpm,
       npmOutputDir: npmOutputDir,
-      compileInclude,
+      compileConfig,
       env,
       uglify,
       babelConfig
@@ -120,7 +120,7 @@ function parseAst ({
   rootNpm,
   npmOutputDir,
   buildAdapter,
-  compileInclude = [],
+  compileConfig = [],
   env,
   uglify,
   babelConfig
@@ -133,12 +133,13 @@ function parseAst ({
   rootNpm: string,
   npmOutputDir: string,
   buildAdapter: BUILD_TYPES,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
   babelConfig: object
 }) {
   const excludeRequire: string[] = []
+
   traverse(ast, {
     IfStatement (astPath) {
       astPath.traverse({
@@ -188,7 +189,7 @@ function parseAst ({
                       root: path.dirname(recursiveFindNodeModules(filePath)),
                       rootNpm,
                       npmOutputDir,
-                      compileInclude,
+                      compileConfig,
                       env,
                       uglify,
                       babelConfig
@@ -221,7 +222,7 @@ function parseAst ({
                       buildAdapter,
                       rootNpm,
                       npmOutputDir,
-                      compileInclude,
+                      compileConfig,
                       env,
                       uglify,
                       babelConfig
@@ -236,6 +237,7 @@ function parseAst ({
       }
     }
   })
+
   return generate(ast).code
 }
 
@@ -247,7 +249,7 @@ async function recursiveRequire ({
   buildAdapter,
   npmOutputDir,
   rootNpm,
-  compileInclude = [],
+  compileConfig = {},
   env,
   uglify,
   babelConfig
@@ -259,7 +261,7 @@ async function recursiveRequire ({
   buildAdapter: BUILD_TYPES,
   rootNpm: string,
   npmOutputDir: string,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
   babelConfig: object
@@ -281,42 +283,55 @@ async function recursiveRequire ({
     return
   }
   fileContent = npmCodeHack(filePath, fileContent, buildAdapter)
-  try {
-    const constantsReplaceList = Object.assign({
-      'process.env.TARO_ENV': buildAdapter
-    }, generateEnvList(env || {}))
-    const transformResult = wxTransformer({
-      code: fileContent,
-      sourcePath: filePath,
-      outputPath: outputNpmPath,
-      isNormal: true,
-      adapter: buildAdapter,
-      isTyped: REG_TYPESCRIPT.test(filePath),
-      env: constantsReplaceList
-    })
-    const ast = babel.transformFromAst(transformResult.ast, '', {
-      plugins: [
-        [require('babel-plugin-transform-define').default, constantsReplaceList]
-      ]
-    }).ast as t.File
-    fileContent = parseAst({
-      ast,
-      filePath,
-      files,
-      isProduction,
-      npmConfig,
-      rootNpm,
-      buildAdapter,
-      compileInclude,
-      npmOutputDir,
-      env,
-      uglify,
-      babelConfig
-    })
-  } catch (err) {
-    console.log(err)
+
+  const npmExclude = (compileConfig.exclude || []).filter(item => /(?:\/|^)node_modules(\/|$)/.test(item));
+  let isNpmInCompileExclude = false;
+  for (const item of npmExclude) {
+    isNpmInCompileExclude = filePath.indexOf(item) !== -1;
+    if (!isNpmInCompileExclude) {
+      break
+    }
   }
+  if (!isNpmInCompileExclude) {
+    try {
+      const constantsReplaceList = Object.assign({
+        'process.env.TARO_ENV': buildAdapter
+      }, generateEnvList(env || {}))
+      const transformResult = wxTransformer({
+        code: fileContent,
+        sourcePath: filePath,
+        outputPath: outputNpmPath,
+        isNormal: true,
+        adapter: buildAdapter,
+        isTyped: REG_TYPESCRIPT.test(filePath),
+        env: constantsReplaceList
+      })
+      const ast = babel.transformFromAst(transformResult.ast, '', {
+        plugins: [
+          [require('babel-plugin-transform-define').default, constantsReplaceList]
+        ]
+      }).ast as t.File
+      fileContent = parseAst({
+        ast,
+        filePath,
+        files,
+        isProduction,
+        npmConfig,
+        rootNpm,
+        buildAdapter,
+        compileConfig,
+        npmOutputDir,
+        env,
+        uglify,
+        babelConfig
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   if (!copyedFiles[outputNpmPath]) {
+    const compileInclude = compileConfig.include;
     if (compileInclude && compileInclude.length) {
       const filePathArr = filePath.split(path.sep)
       const nodeModulesIndex = filePathArr.indexOf('node_modules')

@@ -249,10 +249,10 @@ export function parseAst (
     isProduction,
     npmConfig,
     alias: pathAlias,
-    compileInclude,
+    compileConfig,
     projectConfig
   } = getBuildData()
-  const publicPath = projectConfig[buildAdapter].publicPath;
+  const publicPath = (projectConfig.weapp || {} as any).publicPath;
   const notExistNpmList = getNotExistNpmList()
   const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let configObj: IConfig = {}
@@ -498,7 +498,7 @@ export function parseAst (
                 buildAdapter,
                 root: appPath,
                 npmOutputDir,
-                compileInclude,
+                compileConfig,
                 env: projectConfig.env || {},
                 uglify: projectConfig!.plugins!.uglify || {  enable: true  },
                 babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
@@ -604,7 +604,7 @@ export function parseAst (
                   buildAdapter,
                   root: appPath,
                   npmOutputDir,
-                  compileInclude,
+                  compileConfig,
                   env: projectConfig.env || {},
                   uglify: projectConfig!.plugins!.uglify || {  enable: true  },
                   babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
@@ -904,7 +904,7 @@ export function parseAst (
           buildAdapter,
           root: appPath,
           npmOutputDir,
-          compileInclude,
+          compileConfig,
           env: projectConfig.env || {},
           uglify: projectConfig!.plugins!.uglify || {  enable: true  },
           babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
