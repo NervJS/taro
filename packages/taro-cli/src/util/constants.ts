@@ -53,7 +53,7 @@ export const processTypeMap: IProcessTypeMap = {
   },
   [processTypeEnum.WARNING]: {
     name: '警告',
-    color: 'yellow'
+    color: 'yellowBright'
   },
   [processTypeEnum.UNLINK]: {
     name: '删除',
