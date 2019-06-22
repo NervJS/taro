@@ -47,7 +47,7 @@ export default class App extends Component {
 
   componentDidMount () {
     // setTimeout(() => {
-    //   this.setState({ scrollTop: 1800 })
+    //   this.setState({ scrollTop: 2200 })
     // }, 0)
   }
 

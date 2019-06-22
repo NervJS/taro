@@ -22,7 +22,7 @@ import {
   Platform,
   InteractionManager,
 } from 'react-native'
-import { ReactNativeSwiperProps, ReactNativeSwiperState, Offset, ScrollEventSim } from './PropsType'
+import { ReactNativeSwiperProps, ReactNativeSwiperState, Offset } from './PropsType'
 import { noop } from '../../utils'
 import styles from './styles'
 
@@ -49,7 +49,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     autoplayDirection: true,
     index: 0,
 
-    showsHorizontalScrollIndicator: false,
+    showsHorizontalScrollIndicator: true,
     showsVerticalScrollIndicator: false,
     bounces: false,
     scrollsToTop: false,
@@ -92,68 +92,63 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     total: 0,
     pIndex: 0,
     index: 0,
-    dir: 'x',
+    dir: 'x'
   }
-
+  initialRender: boolean = true
   autoplayTimer: any
   loopJumpTimer: any
-  autoScrolling: boolean = false
   scrolling: boolean = false
-  scrollAnimated: boolean = false
   realtimeOffset: Partial<Offset> = { x: 0, y: 0 }
-  onAndroidScrollEndTimer: any
-
   $scrollView: any = React.createRef<ScrollView>()
+
+  onContentSizeChange = (contentWidth: number, contentHeight: number): void => {
+    console.log('1123 onContentSizeChange=----')
+    const { loop } = this.props
+    const { index, width, height, dir } = this.state
+    const offset: Offset = getOffset(dir, index + (loop ? 1 : 0), width, height)
+    InteractionManager.runAfterInteractions(() => {
+      const node = this.$scrollView.current
+      node && node.scrollTo({ ...offset, animated: isAndroid }, false)
+    })
+  }
+
+  getSnapshotBeforeUpdate (prevProps: ReactNativeSwiperProps, prevState: ReactNativeSwiperState) {
+    this.scrolling = false
+    return {
+      propsChanged: prevProps !== this.props,
+      shouldClearAutoPlay: !this.props.autoplay && this.autoplayTimer,
+      ifIndexChange: prevState.index !== this.state.index,
+    }
+  }
+
+  componentDidUpdate (prevProps: ReactNativeSwiperProps, prevState: ReactNativeSwiperState, snapshot: any) {
+    if (snapshot.shouldClearAutoPlay) {
+      clearTimeout(this.autoplayTimer as number)
+    }
+    // If the index has changed, we notify the parent via the onIndexChanged callback
+    if (snapshot.ifIndexChange) {
+      const { onIndexChanged = noop } = this.props
+      onIndexChanged(this.state.index)
+    }
+    if (!snapshot.propsChanged && prevState.offset !== this.state.offset) {
+      const node = this.$scrollView.current
+      // workaround-1: android scrollTo not work after offset changed. (In real device)
+      node && node.scrollTo({
+        ...this.state.offset,
+        animated: isAndroid || this.isAutoScroll,
+        duration: this.isAutoScroll ? 500 : 1
+      })
+      this.isAutoScroll = false
+    }
+  }
 
   componentDidMount () {
     this.autoplay()
   }
 
-  componentDidUpdate (prevProps: ReactNativeSwiperProps, prevState: ReactNativeSwiperState) {
-    const shouldClearAutoPlay = !this.props.autoplay && this.autoplayTimer
-    const indexChanged = prevState.index !== this.state.index
-    this.scrolling = false
-    shouldClearAutoPlay && clearTimeout(this.autoplayTimer as number)
-    // If the index has changed, we notify the parent via the onIndexChanged callback
-    if (indexChanged) {
-      const { onIndexChanged = noop } = this.props
-      onIndexChanged(this.state.index)
-    }
-    const { dir } = this.state
-    if (prevState.offset !== this.state.offset && prevState.offset[dir] !== this.state.offset[dir]) {
-      const node = this.$scrollView.current
-      // workaround-1: android scrollTo not work after offset changed. (In real device)
-      // Android scrollTo didn't trigger onMomentumScrollEnd.
-      node && node.scrollTo({
-        ...this.state.offset,
-        animated: isAndroid || this.scrollAnimated,
-        duration: this.scrollAnimated ? 500 : 1
-      })
-    }
-  }
-
   componentWillUnmount () {
     this.autoplayTimer && clearTimeout(this.autoplayTimer)
     this.loopJumpTimer && clearTimeout(this.loopJumpTimer)
-    this.onAndroidScrollEndTimer && clearTimeout(this.onAndroidScrollEndTimer)
-  }
-
-  /**
-   * Reset index and autoplay if contentSizeChange.
-   */
-  onContentSizeChange = (contentWidth: number, contentHeight: number): void => {
-    const { loop } = this.props
-    const { width, total, height, dir } = this.state
-    const offset: Offset = getOffset(dir, loop && total > 1 ? 1 : 0, width, height)
-    this.realtimeOffset = offset
-    this.setState({ index: 0, offset }, () => {
-      this.autoplay()
-      // workaround-2: In android,
-      if (isAndroid) {
-        const node = this.$scrollView.current
-        node && node.scrollTo(offset)
-      }
-    })
   }
 
   fullState () {
@@ -169,9 +164,9 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
       width,
       height,
     } = this.state
-    const { width: layoutWidth, height: layoutHeight } = event.nativeEvent.layout
-    // const layoutWidth = Math.round(event.nativeEvent.layout.width)
-    // const layoutHeight = Math.round(event.nativeEvent.layout.height)
+    // const { width: layoutWidth, height: layoutHeight } = event.nativeEvent.layout
+    const layoutWidth = Math.round(event.nativeEvent.layout.width)
+    const layoutHeight = Math.round(event.nativeEvent.layout.height)
     let offsetWouldBeSet: Partial<Offset> = this.realtimeOffset = {}
     const stateWouldBeSet: any = { width: layoutWidth, height: layoutHeight }
 
@@ -190,12 +185,16 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     this.setState(stateWouldBeSet)
   }
 
+  autoScrollOffset?: Offset
+
   /**
    * Scroll by index
    */
+  isAutoScroll: boolean = false
   scrollBy = (step: number, animated: boolean = true) => {
     const { loop } = this.props
     const { dir, width, height, index, total } = this.state
+    console.log('scrollBy', this.scrolling, total)
     if (this.scrolling || total < 2) return
     const actualIndex  = (loop ? 1 : 0) + index
     const newActualIndex = actualIndex + step
@@ -203,15 +202,16 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     let y = 0
     dir === 'x' ? (x = newActualIndex * width) : (y = newActualIndex * height)
 
+    // const node = this.$scrollView.current
+    // node && node.scrollTo({ x, y, animated, duration: 500 })
+    this.isAutoScroll = true
+    this.setState({ offset: { x, y } })
+    this.autoScrollOffset = { x, y }
+
+    // update scroll state
     this.scrolling = true
-    this.autoScrolling = true
-    this.scrollAnimated = animated
-    this.setState({
-      offset: { x, y },
-      autoplayEnd: false
-    }, () => {
-      this.scrollAnimated = false
-    })
+
+    this.setState({ autoplayEnd: false })
   }
 
   /**
@@ -238,41 +238,36 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     }, (autoplayTimeout as number) * 1000)
   }
 
+  onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (isAndroid && this.autoScrollOffset) {
+      const contentOffset = e.nativeEvent.contentOffset
+      const { dir, width, height } = this.state
+      if (Math.abs(contentOffset[dir] - this.autoScrollOffset[dir]) <= 1) {
+        this.onScrollEnd(e)
+      }
+    }
+  }
+
+
   /**
    * Scroll begin handle
    */
-  onScrollBegin = (e?: ScrollEventSim) => {
+  onScrollBegin = (e?: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { onScrollBeginDrag = noop } = this.props
+    // update scroll state
     this.scrolling = true
     onScrollBeginDrag(e, this.fullState(), this)
   }
 
   /**
-   * workaround-3: Android didn't trigger onMomentumScrollEnd after scrollTo().
-   */
-  onScroll = (e: ScrollEventSim) => {
-    if (isAndroid && this.autoScrolling) {
-      const contentOffset = e.nativeEvent.contentOffset
-      const { dir, offset } = this.state
-      if (Math.abs(Math.round(contentOffset[dir]) - Math.round(offset[dir])) < 2) {
-        this.onAndroidScrollEndTimer && clearTimeout(this.onAndroidScrollEndTimer)
-        // Protect nativeEvent object.
-        const tmpEvent: ScrollEventSim = { nativeEvent: { contentOffset: { x: contentOffset.x, y: contentOffset.y } } }
-        this.onAndroidScrollEndTimer = setTimeout(() => {
-          this.onScrollEnd(tmpEvent)
-        }, 50)
-      }
-    }
-  }
-
-  /**
    * Scroll end handle
    */
-  onScrollEnd = (e: ScrollEventSim) => {
+  onScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    console.log('onScrollEnd---')
     const { onMomentumScrollEnd = noop } = this.props
 
+    // update scroll state
     this.scrolling = false
-    this.autoScrolling = false
 
     // making our events coming from android compatible to updateIndex logic
     const contentOffset = e.nativeEvent.contentOffset
@@ -288,7 +283,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
   /*
    * Drag end handle
    */
-  onScrollEndDrag = (e: ScrollEventSim) => {
+  onScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { horizontal, children } = this.props
     const { index } = this.state
     const { contentOffset } = e.nativeEvent
@@ -315,7 +310,7 @@ export default class extends Component<ReactNativeSwiperProps, ReactNativeSwiper
     let loopJump = false
 
     // Do nothing if offset no change.
-    if (!diff) return
+    if (!this.initialRender && !diff) return
 
     // Note: if touch very very quickly and continuous,
     // the variation of `index` more than 1.

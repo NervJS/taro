@@ -38,3 +38,5 @@ react-native run-ios
 ## 未来可能的升级
 
 目前 react-native 版本为 0.55.4
+
+- 0.58.x ScrollView 支持 snapToOffsets，Swiper 关注

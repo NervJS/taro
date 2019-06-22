@@ -20,6 +20,7 @@ export default StyleSheet.create({
 
   slide: {
     backgroundColor: 'transparent',
+    overflow: 'hidden'
   },
 
   pagination_x: {

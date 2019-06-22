@@ -89,14 +89,25 @@ export interface ReactNativeSwiperProps extends ScrollViewProps {
 export interface ReactNativeSwiperState {
   width: number;
   height: number;
-  offset: Partial<{
-    x: number;
-    y: number;
-  }>,
+  offset: Offset,
   autoplayEnd?: boolean;
   loopJump?: boolean;
   total: number;
   index: number;
   dir: 'x' | 'y';
   pIndex: number;
+}
+
+export type Offset = {
+  x: number;
+  y: number;
+}
+
+export type ScrollEventSim = {
+  nativeEvent: {
+    contentOffset: {
+      x: number;
+      y: number;
+    }
+  }
 }
