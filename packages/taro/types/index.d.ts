@@ -104,6 +104,10 @@ declare namespace Taro {
     $scope?: any
   }
 
+  interface FunctionComponent<P = {}> {
+    (props: Readonly<P>): JSX.Element
+  }
+
   interface PageConfig {
     /**
      * 导航栏背景颜色，HexColor
@@ -385,6 +389,11 @@ declare namespace Taro {
   }
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> { }
+
+  function memo(
+    FunctionComponent: FunctionComponent,
+    compare?: (oldProps: any, newProps: any) => Boolean
+  ): FunctionComponent
 
   // Events
   class Events {
