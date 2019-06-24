@@ -1,5 +1,26 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.2...v) (2019-06-17)
+# [](https://github.com/NervJS/taro/compare/v1.3.3...v) (2019-06-24)
+
+
+
+<a name="1.3.3"></a>
+## [1.3.3](https://github.com/NervJS/taro/compare/v1.3.2...v1.3.3) (2019-06-24)
+
+
+### Bug Fixes
+
+* **alipay:** 修复在支付宝分包中状态管理工具不可用的问题，fix [#3445](https://github.com/NervJS/taro/issues/3445) ([a6f4c0a](https://github.com/NervJS/taro/commit/a6f4c0a))
+* **cli:** 修复快应用编译报错，快应用依赖安装问题 ([15bed06](https://github.com/NervJS/taro/commit/15bed06))
+* **cli:** 引入json包含null的问题，close [#3505](https://github.com/NervJS/taro/issues/3505) ([849999d](https://github.com/NervJS/taro/commit/849999d))
+* **router:** 修复偶尔页面隐藏失败的情况 ([b9f708a](https://github.com/NervJS/taro/commit/b9f708a))
+* **taro:** 增加 Taro.getAccountInfoSync 类型定义 ([#3433](https://github.com/NervJS/taro/issues/3433)) ([2f33f56](https://github.com/NervJS/taro/commit/2f33f56))
+* **taro-weapp:** 微信小程序能通过 extraProps 接收外部 props ([506ca02](https://github.com/NervJS/taro/commit/506ca02))
+* **taro-weapp/tt/swan/qq/alipay:** 拦截器添加 cleanInterceptors 方法 ([22edff9](https://github.com/NervJS/taro/commit/22edff9))
+
+
+### Features
+
+* **taro-components:** add borderRadius for Progress Component ([4484546](https://github.com/NervJS/taro/commit/4484546))
 
 
 
@@ -34,6 +55,7 @@
 
 * **cli:** 修正页面创建时页面命名等问题 ([247b0c0](https://github.com/NervJS/taro/commit/247b0c0))
 * **mobx-h5:** 修复inject组件的componentDidShow内获取不到组件this的问题, fix [#3333](https://github.com/NervJS/taro/issues/3333) ([322f258](https://github.com/NervJS/taro/commit/322f258))
+* 优化h5 下 ScrollView 标签，提供 onTouchMove 方法 ([44b730a](https://github.com/NervJS/taro/commit/44b730a))
 * **rn:** [RN]Taro.getCurrentPages方法不存在 close [#3224](https://github.com/NervJS/taro/issues/3224) ([a9b8fa7](https://github.com/NervJS/taro/commit/a9b8fa7))
 * **taro-tt:** 修复头条小程序事件不带 type 参数的问题，fix [#3382](https://github.com/NervJS/taro/issues/3382) ([1977062](https://github.com/NervJS/taro/commit/1977062))
 * **transformer:** &nbsp; 在第一个直接时会被无视, close [#3406](https://github.com/NervJS/taro/issues/3406) ([4d14dd7](https://github.com/NervJS/taro/commit/4d14dd7))
