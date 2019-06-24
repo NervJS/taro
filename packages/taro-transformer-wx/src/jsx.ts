@@ -82,6 +82,9 @@ export function setJSXAttr (
   value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement,
   path?: NodePath<t.JSXElement>
 ) {
+  if ((name === Adapter.forIndex || name === Adapter.forItem) && Adapter.type === Adapters.quickapp) {
+    return
+  }
   const element = jsx.openingElement
   if (!t.isJSXIdentifier(element.name)) {
     return

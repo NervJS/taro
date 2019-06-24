@@ -573,7 +573,7 @@ export class RenderParser {
                         } else {
                           forExpr = `(${indexName}, ${itemName}) in ${code}`
                         }
-                        setJSXAttr(jsxElementPath.node, Adapter.for, t.stringLiteral(forExpr))
+                        setJSXAttr(jsxElementPath.node, Adapter.for, t.stringLiteral(`{{${forExpr}}}`))
                       }
                       // if (itemName && !indexName) {
                       //   const forExpr = gene
@@ -1718,9 +1718,13 @@ export class RenderParser {
       })
       const [ func ] = callee.node.arguments
       let indexId: t.Identifier | null = null
+      let itemId: t.Identifier | null = null
       if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {
         const params = func.params as t.Identifier[]
-        indexId = params[1]
+        if (Array.isArray(params)) {
+          indexId = params[1]
+          itemId = params[0]
+        }
       }
       if (this.loopRefs.has(component.node) || loopRefComponent!) {
         hasLoopRef = true
@@ -2052,7 +2056,21 @@ export class RenderParser {
             // setJSXAttr(returned, Adapter.for, t.identifier(stateName))
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
-            setJSXAttr(component.node, Adapter.for, t.jSXExpressionContainer(t.identifier(stateName)))
+            if (Adapters.quickapp === Adapter.type) {
+              let itemName = indexId!.name
+              let indexName = indexId!.name
+              if (itemName || indexName) {
+                let forExpr: string
+                if (itemName && !indexName) {
+                  forExpr = `${itemName} in ${stateName}`
+                } else {
+                  forExpr = `(${indexName}, ${itemName}) in ${stateName}`
+                }
+                setJSXAttr(component.node, Adapter.for, t.stringLiteral(`{{${forExpr}}}`))
+              }
+            } else {
+              setJSXAttr(component.node, Adapter.for, t.jSXExpressionContainer(t.identifier(stateName)))
+            }
             const returnBody = this.renderPath.node.body.body
             const ifStem = callee.findParent(p => p.isIfStatement())
             // @TEST
