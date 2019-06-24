@@ -234,6 +234,26 @@ if (process.env.NODE_ENV === 'development') {
 
 `this.$componentType` 可能取值分别为 `PAGE` 和 `COMPONENT`，开发者可以根据此变量的取值分别采取不同逻辑。
 
+### 原生小程序组件传递 props 给 Taro 组件
+
+**Taro v1.3+** 对 props 系统进行了改造，使得不能兼容原生组件通过 properties 传入的属性。
+
+目前可以通过把所有需要传入 Taro 组件的 props，通过借助 `extraProps` 属性来解决。
+
+```js
+// 小程序组件常规 props 传递
+<Plugin title="{{name}}" desc="{{desc}}" />
+
+// 原生小程序组件调用 Taro 组件时需要改造成以下形式：
+this.setData({
+  extraProps: {
+    name,
+    desc
+  }
+})
+<Plugin extraProps="{{extraProps}}" />
+```
+
 ## 全局变量
 
 在 Taro 中推荐使用 `Redux` 来进行全局变量的管理，但是对于一些小型的应用， `Redux` 就可能显得比较重了，这时候如果想使用全局变量，推荐如下使用。
