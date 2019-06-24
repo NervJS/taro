@@ -1971,7 +1971,7 @@ export class RenderParser {
                       return
                     }
                   }
-                  if (this.ancestorConditions.has(parentCondition.node)) {
+                  if (path.findParent(p => this.ancestorConditions.has(p.node))) {
                     return
                   }
                 }
