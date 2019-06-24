@@ -353,6 +353,10 @@ declare namespace Taro {
     $scope?: any
   }
 
+  interface FunctionComponent<P = {}> {
+    (props: Readonly<P>): JSX.Element
+  }
+
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
     new (...args: any[]): Component<P, {}>
     propTypes?: any
@@ -728,6 +732,11 @@ declare namespace Taro {
   }
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> {}
+
+  function memo(
+    FunctionComponent: FunctionComponent,
+    areEqual?: (oldProps: any, newProps: any) => Boolean
+  ): FunctionComponent
 
   // Events
   class Events {
