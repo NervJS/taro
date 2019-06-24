@@ -733,10 +733,10 @@ declare namespace Taro {
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> {}
 
-  function memo(
-    FunctionComponent: FunctionComponent,
-    areEqual?: (oldProps: any, newProps: any) => Boolean
-  ): FunctionComponent
+  function memo<P = {}>(
+    FunctionComponent: FunctionComponent<P>,
+    compare?: (oldProps: any, newProps: any) => Boolean
+  ): FunctionComponent<P>
 
   // Events
   class Events {
