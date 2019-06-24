@@ -769,8 +769,8 @@ export class RenderParser {
       }
       if (t.isIdentifier(parentNode.left)) {
         const assignmentName = parentNode.left.name
-        const renderScope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
-        const bindingNode = renderScope.getOwnBinding(assignmentName).path.node
+        const renderScope: Scope = isIfStemInLoop ? jsxElementPath.findParent(p => isArrayMapCallExpression(p)).get('arguments')[0].get('body').scope : this.renderScope
+        const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node
         // tslint:disable-next-line
         const parallelIfStems = this.findParallelIfStem(ifStatement)
         const parentIfStatement = ifStatement.findParent(p =>
@@ -897,6 +897,7 @@ export class RenderParser {
             // setTemplate(name, path, templates)
             assignmentName && this.templates.set(assignmentName, block)
             if (isIfStemInLoop) {
+              this.replaceIdWithTemplate()(renderScope.path)
               this.returnedPaths.push(parentPath)
             }
           }
@@ -2058,7 +2059,7 @@ export class RenderParser {
             // this.referencedIdentifiers.add(t.identifier(stateName))
             if (Adapters.quickapp === Adapter.type) {
               let itemName = indexId!.name
-              let indexName = indexId!.name
+              let indexName = itemId!.name
               if (itemName || indexName) {
                 let forExpr: string
                 if (itemName && !indexName) {
