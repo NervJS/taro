@@ -996,6 +996,7 @@ export class RenderParser {
           && name.name !== Adapter.forIndex
           && name.name.indexOf('render') !== 0
           && !t.isJSXElement(value)
+          && !name.name.includes('-')
         ) {
           // tslint:disable-next-line: strict-type-predicates
           const v: t.StringLiteral | t.Expression | t.BooleanLiteral = value === null
