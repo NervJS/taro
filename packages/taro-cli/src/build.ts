@@ -48,7 +48,7 @@ export default class Builder {
   }
 
   emptyFirst ({ watch, type }) {
-    const outputPath = path.join(this.appPath, `${this.config.outputRoot || CONFIG.OUTPUT_DIR}}`)
+    const outputPath = path.join(this.appPath, `${this.config.outputRoot || CONFIG.OUTPUT_DIR}`)
     if (!fs.existsSync(outputPath)) {
       fs.ensureDirSync(outputPath)
     } else if (type !== BUILD_TYPES.H5 && (type !== BUILD_TYPES.QUICKAPP || !watch)) {
