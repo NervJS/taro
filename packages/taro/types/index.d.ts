@@ -735,7 +735,7 @@ declare namespace Taro {
 
   function memo<P = {}>(
     FunctionComponent: FunctionComponent<P>,
-    compare?: (oldProps: any, newProps: any) => Boolean
+    compare?: (oldProps: P, newProps: P) => Boolean
   ): FunctionComponent<P>
 
   // Events
