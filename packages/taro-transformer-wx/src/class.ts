@@ -459,7 +459,7 @@ class Transformer {
                 const arg = returnPath.node.argument
                 const ifStem = returnPath.findParent(p => p.isIfStatement())
                 // tslint:disable-next-line: strict-type-predicates
-                if (ifStem && ifStem.isIfStatement() && arg === null) {
+                if (ifStem && classMethodPath.node.body.body.some(s => s === ifStem.node) && ifStem.isIfStatement() && arg === null) {
                   const consequent = ifStem.get('consequent')
                   if (consequent.isBlockStatement() && consequent.node.body.includes(returnPath.node)) {
                     returnPath.get('argument').replaceWith(t.nullLiteral())
