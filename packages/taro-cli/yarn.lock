@@ -520,13 +520,15 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/taro@1.3.0-beta.3":
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.0-beta.3.tgz#945e601f0854f0994d27614fa1a5ad2c2da93fbd"
+"@tarojs/taro@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.3.tgz#255857896301ce6d7b2d0221a2d4dbd3c1b98086"
+  integrity sha512-R9jxuziJqR0m01muQYLIHftoDzqhOb1cTXBLOCVX3Y3UXYgkU/IjT03yqqgZ8BkFc4HWbNw5rYo9C5I6g3DdZQ==
 
-"@tarojs/taroize@1.3.0-beta.3":
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/@tarojs/taroize/download/@tarojs/taroize-1.3.0-beta.3.tgz#9a7dcba266f8df9ce997e9328286ef5b57df644f"
+"@tarojs/taroize@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/taroize/-/taroize-1.3.3.tgz#a3a7eef0607843c1a2128ca9d2259fb620f5542c"
+  integrity sha512-MAOBSE3YjiequN/FWaRUlo7qzFu6mbEBUQhaVhm/q0g+iSsMTi8u+gKg2w8Xy/977Ig4UF9VZUv2EAcJszzoMQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     babel-core "^6.26.3"
@@ -539,9 +541,10 @@
     lodash "^4.17.5"
     typescript "^3.0.1"
 
-"@tarojs/transformer-wx@1.3.0-beta.3":
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/@tarojs/transformer-wx/download/@tarojs/transformer-wx-1.3.0-beta.3.tgz#4ccc1197455982769cd30bb78051bb62e648779b"
+"@tarojs/transformer-wx@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/transformer-wx/-/transformer-wx-1.3.3.tgz#d7e7b849c874acae9d27d8323d8051d9329543c4"
+  integrity sha512-HVqXPpCryR8uW3l39AVAwluD08wthpP9cHG9r/mxsjc7vjSyJ//sagTnxB//1/4JkkHNzn2v67lSQoxGWlXLQw==
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     babel-core "^6.26.3"
@@ -563,7 +566,7 @@
     babel-types "^6.26.0"
     eslint "^4.15.0"
     eslint-plugin-react "7.10.0"
-    eslint-plugin-taro "1.3.0-beta.3"
+    eslint-plugin-taro "1.3.3"
     html "^1.0.0"
     lodash "^4.17.5"
     prettier "^1.14.2"
@@ -1660,9 +1663,10 @@ babel-plugin-transform-function-bind@^6.22.0:
     babel-plugin-syntax-function-bind "^6.8.0"
     babel-runtime "^6.22.0"
 
-babel-plugin-transform-jsx-to-stylesheet@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/babel-plugin-transform-jsx-to-stylesheet/download/babel-plugin-transform-jsx-to-stylesheet-1.3.0-beta.3.tgz#2b4639f53f5b0ae7a4514878179eee61f9559b51"
+babel-plugin-transform-jsx-to-stylesheet@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-to-stylesheet/-/babel-plugin-transform-jsx-to-stylesheet-1.3.3.tgz#53bb9d07f5c0e304e332eb474f2241990fb09bd6"
+  integrity sha512-012em0IJe92T4iUpiIiTWn3C9rypKwdbmz/dr0GpVQT0XxzrtQlfGYKtqvetHvh9MZ5CAtS/5qOgbnM4Z4uClQ==
 
 babel-plugin-transform-object-assign@^6.5.0:
   version "6.22.0"
@@ -3047,11 +3051,12 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-taro@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/eslint-config-taro/download/eslint-config-taro-1.3.0-beta.3.tgz#55416f9ae5146d5e050ed17a0334f9e080c78e0d"
+eslint-config-taro@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-taro/-/eslint-config-taro-1.3.3.tgz#8c1bd4db6a26d5dbcd6f5095d2e8df30f808ad96"
+  integrity sha512-p/Jz7Coiw/0rAhpPTNX8vhtyWcjhkZVATE8T52UY9vPmOJkX0cKRxSq8l6ouwf8d2S+Ec/O9X+aujS5ns3+k+Q==
   dependencies:
-    eslint-plugin-taro "1.3.0-beta.3"
+    eslint-plugin-taro "1.3.3"
 
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
@@ -3068,8 +3073,9 @@ eslint-module-utils@^2.4.0:
     pkg-dir "^2.0.0"
 
 eslint-plugin-import@^2.8.0:
-  version "2.17.2"
-  resolved "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.17.2.tgz#d227d5c6dc67eca71eb590d2bb62fb38d86e9fcb"
+  version "2.17.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.17.3.tgz#00548b4434c18faebaba04b24ae6198f280de189"
+  integrity sha512-qeVf/UwXFJbeyLbxuY8RgqDyEKCkqV7YC+E5S5uOjAp4tOc8zj01JP3ucoBM8JcEqd1qRasJSg6LLlisirfy0Q==
   dependencies:
     array-includes "^3.0.3"
     contains-path "^0.1.0"
@@ -3081,7 +3087,7 @@ eslint-plugin-import@^2.8.0:
     lodash "^4.17.11"
     minimatch "^3.0.4"
     read-pkg-up "^2.0.0"
-    resolve "^1.10.0"
+    resolve "^1.11.0"
 
 eslint-plugin-react-native-globals@^0.1.1:
   version "0.1.2"
@@ -3114,9 +3120,10 @@ eslint-plugin-react@^7.4.0:
     prop-types "^15.6.2"
     resolve "^1.9.0"
 
-eslint-plugin-taro@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-taro/download/eslint-plugin-taro-1.3.0-beta.3.tgz#2c87b551425a8970ff455a6b7ed216e2efb727b1"
+eslint-plugin-taro@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-1.3.3.tgz#584c481235a3bcf3a290b5233bfdf30c99cb4692"
+  integrity sha512-iuyE9a+m90vtGL/vA7TYO57pdBpM/0MjvayQVaqLRvkhsKwFiIviV7Rl6IThKdnIbE5oV/7BKAFSN59xKduaSw==
   dependencies:
     has "^1.0.1"
 
@@ -6600,9 +6607,10 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/postcss-pxtransform/download/postcss-pxtransform-1.3.0-beta.3.tgz#97e851f8ca2e963efa6c31b72af9cf5ec44c341b"
+postcss-pxtransform@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-1.3.3.tgz#68e30c89b3d8fbb4838bbfb5e7f9a34094cefb6a"
+  integrity sha512-qfWtPbgu8XjzHBzyRfwOUqHV8wSSbD1p7U6YiDnQkQqeAIC056A567pIflr0HK8z9bD1TlGfqLY5a/BxBUxuJg==
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
@@ -7327,9 +7335,10 @@ resolve@1.1.7:
   version "1.1.7"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@^1.1.6, resolve@^1.10.0, resolve@^1.3.2, resolve@^1.5.0, resolve@^1.6.0, resolve@^1.9.0:
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/resolve/-/resolve-1.10.0.tgz#3bdaaeaf45cc07f375656dfd2e54ed0810b101ba"
+resolve@^1.1.6, resolve@^1.10.0, resolve@^1.11.0, resolve@^1.3.2, resolve@^1.5.0, resolve@^1.6.0, resolve@^1.9.0:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.11.1.tgz#ea10d8110376982fef578df8fc30b9ac30a07a3e"
+  integrity sha512-vIpgF6wfuJOZI7KKKSP+HmiKggadPQAdsp5HiC1mvqnfp0gF1vdwgBWZIdrVft9pgqoMFQN+R7BSWZiBxx+BBw==
   dependencies:
     path-parse "^1.0.6"
 
@@ -7849,13 +7858,15 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
-stylelint-config-taro-rn@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/stylelint-config-taro-rn/download/stylelint-config-taro-rn-1.3.0-beta.3.tgz#79e628428d9cbfdc519fdace092060ae2779d0ac"
+stylelint-config-taro-rn@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/stylelint-config-taro-rn/-/stylelint-config-taro-rn-1.3.3.tgz#065d2303cb4d0933bac0a807e5794e08f62d0a8d"
+  integrity sha512-7+nNRz1zLfBIJQ8feTQjQ0pmzpyB22ntmXWReGhPQw3e0VMW0CtkSk+VfvyQswI3l9azmc6FWUtqed6W9oMmog==
 
-stylelint-taro-rn@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/stylelint-taro-rn/download/stylelint-taro-rn-1.3.0-beta.3.tgz#9379693015b00728d7f4b2598e7822cc20678399"
+stylelint-taro-rn@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/stylelint-taro-rn/-/stylelint-taro-rn-1.3.3.tgz#453348ed21f130fa6b67873e3b4354076f938bad"
+  integrity sha512-OYbmUtV0PIwNYjKm+tgB6bVL5fpHSWeZHGLV3kEP/3liErF+23Yo0JCry+GA2E7CG1iRCLL2asz8LSyQ+WV2DA==
   dependencies:
     react-native-known-styling-properties "^1.0.4"
 
@@ -7981,9 +7992,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-taro-css-to-react-native@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/taro-css-to-react-native/download/taro-css-to-react-native-1.3.0-beta.3.tgz#fbf97bc317bf228548ef3f3ae5d0490302f91151"
+taro-css-to-react-native@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/taro-css-to-react-native/-/taro-css-to-react-native-1.3.3.tgz#030f46089607f93882058d738c14a87bdf7e4ee9"
+  integrity sha512-Xm1oPDeHA8CZbcFe69RPyHl7HioCeevtMlm+QWj6buZFUuijGQzDADZ5xd/Ws5qNQ+VfrLl1Blu5M7nO31fLvA==
   dependencies:
     camelize "^1.0.0"
     css "^2.2.4"
@@ -8238,6 +8250,11 @@ type-fest@^0.3.0:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typescript@3.4.5:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
+  integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
 
 typescript@^3.0.1, typescript@^3.2.2:
   version "3.4.4"
