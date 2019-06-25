@@ -251,7 +251,7 @@ Selector 函数大致相当于 `connect` 函数的 `mapStateToProps` 参数。Se
 
 ```jsx
 import Taro, { Components } from '@tarojs/taro'
-import { useSelector } from 'taro-redux'
+import { useSelector } from '@tarojs/redux'
 
 export const CounterComponent = () => {
   const counter = useSelector(state => state.counter)
@@ -272,8 +272,8 @@ export const TodoListItem = props => {
 #### 进阶使用
 
  你还可以访问 [react-redux 文档](https://react-redux.js.org/api/hooks#using-memoizing-selectors) 了解如何使用 `reselect` 缓存 selector。
- 
- 
+
+
 ### `useDispatch`
 
 ```javascript
@@ -286,7 +286,7 @@ const dispatch = useDispatch()
 
 ```jsx
 import Taro, { Components } from '@tarojs/taro'
-import { useDispatch } from 'taro-redux'
+import { useDispatch } from '@tarojs/redux'
 
 export const CounterComponent = ({ value }) => {
   const dispatch = useDispatch()
@@ -343,7 +343,7 @@ const store = useStore()
 
 ```jsx
 import Taro, { Components } from '@tarojs/taro'
-import { useStore } from 'taro-redux'
+import { useStore } from '@tarojs/redux'
 
 export const CounterComponent = ({ value }) => {
   const store = useStore()
