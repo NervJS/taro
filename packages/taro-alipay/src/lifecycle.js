@@ -139,15 +139,13 @@ function doUpdate (component, prevProps, prevState) {
   const { state, props = {} } = component
   let data = state || {}
   if (component._createData) {
-    // 返回null或undefined则保持不变
-    const isRunLoopRef = !component.__mounted
     if (component.__isReady) {
       injectContextType(component)
       Current.current = component
       Current.index = 0
       invokeEffects(component, true)
     }
-    data = component._createData(state, props, isRunLoopRef) || data
+    data = component._createData(state, props) || data
     if (component.__isReady) {
       Current.current = null
     }
@@ -206,19 +204,23 @@ function doUpdate (component, prevProps, prevState) {
       }
 
       if (component['$$hasLoopRef']) {
+        Current.current = component
         component._disableEffect = true
         component._createData(component.state, component.props, true)
         component._disableEffect = false
+        Current.current = null
       }
 
       if (typeof component.componentDidUpdate === 'function') {
         component.componentDidUpdate(prevProps, prevState, snapshot)
       }
-    }
-
-    // 解决初始化时 onLoad 最先触发，但拿不到子组件 ref 的问题
-    if (component.$componentType === 'PAGE' && component['$$hasLoopRef']) {
+    } else if (component.$componentType === 'PAGE' && component['$$hasLoopRef']) {
+      // 解决初始化时 onLoad 最先触发，但拿不到子组件 ref 的问题
+      Current.current = component
+      component._disableEffect = true
       component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
     }
 
     if (cbs.length) {
