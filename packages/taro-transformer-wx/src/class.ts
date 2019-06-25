@@ -25,6 +25,7 @@ import { Adapters, Adapter, isNewPropsSystem } from './adapter'
 import { LoopRef } from './interface'
 import generate from 'babel-generator'
 import { isTestEnv } from './env'
+import { Status } from './functional'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -648,7 +649,8 @@ class Transformer {
           if (
             t.isCallExpression(expr) &&
             t.isMemberExpression(expr.callee) &&
-            t.isIdentifier(expr.callee.property, { name: 'bind' })
+            t.isIdentifier(expr.callee.property, { name: 'bind' }) &&
+            !Status.isSFC
           ) {
             if (
               (!isNewPropsSystem()) ||
