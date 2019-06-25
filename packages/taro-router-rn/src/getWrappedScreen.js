@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, YellowBox } from 'react-native'
 import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
-
-import { YellowBox } from 'react-native'
 
 /**
  * @description 包裹页面 Screen 组件，处理生命周期，注入方法
@@ -118,16 +116,21 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       }
     }
 
-    componentDidMount () {
+    navigationMethodInit () {
+      Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
+      Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
+      Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
+      Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+    }
+
+    componentWillMount () {
+      this.navigationMethodInit()
       // didFocus
       this.didFocusSubscription = this.props.navigation.addListener(
         'didFocus',
         payload => {
           // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
-          Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
-          Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
-          Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
-          Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+          this.navigationMethodInit()
           // 页面聚焦时，调用 componentDidShow
           this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
         }

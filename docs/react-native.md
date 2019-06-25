@@ -290,7 +290,7 @@ rn_temp
 ### 启动应用
 如果上一步的编译和 Metro Bundler Server 启动没问题，接下来就可以启动应用了。
 
-开发者可以自行整合 React Native (0.55.4) 到原生应用，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
+开发者可以自行[整合 React Native (0.55.4) 到原生应用](https://reactnative.cn/docs/0.55/integration-with-existing-apps/)，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
 
 首先将应用代码 clone 下来：
 

@@ -45,6 +45,12 @@ export default class App extends Component {
     console.log('view touchend')
   }
 
+  componentDidMount () {
+    // setTimeout(() => {
+    //   this.setState({ scrollTop: 2200 })
+    // }, 0)
+  }
+
   render () {
     return (
       <Provider>

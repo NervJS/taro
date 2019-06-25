@@ -1,6 +1,7 @@
+import React from 'react'
 import { Modal } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
-import ImageViewer from 'react-native-image-zoom-viewer'
+const ImageViewer = require('react-native-image-zoom-viewer')
 
 function previewImage (obj) {
   let {
@@ -9,7 +10,7 @@ function previewImage (obj) {
     success,
     fail,
     complete
-  } = obj || {}
+  }:any = obj || {}
   let index = urls.indexOf(current)
   let sibling
 

@@ -161,7 +161,7 @@ const Index = ({
   ) : (
     <Modal
       visible={visible}
-      transparent={!false}
+      transparent
       animationType='fade'
       onShow={onShow}
       onRequestClose={onClose}

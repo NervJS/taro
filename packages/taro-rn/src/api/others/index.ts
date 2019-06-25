@@ -1,11 +1,11 @@
-import { fromByteArray, toByteArray } from 'base64-js'
+let base64js = require('base64-js')
 
 export function arrayBufferToBase64 (arrayBuffer) {
-  return fromByteArray(arrayBuffer)
+  return base64js.fromByteArray(arrayBuffer)
 }
 
 export function base64ToArrayBuffer (base64) {
-  return toByteArray(base64)
+  return base64js.toByteArray(base64)
 }
 
 export default {

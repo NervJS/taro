@@ -1,8 +1,8 @@
 import React from 'react'
-import queryString from 'query-string'
 import RefreshProvider from './RefreshProvider'
-import Taro from '../../taro-rn/src'
 import { errorHandler, successHandler, shouleBeObject, getParameterError } from './utils'
+
+const queryString = require('query-string')
 
 class TaroProvider extends React.Component {
   constructor (props, context) {
@@ -10,22 +10,31 @@ class TaroProvider extends React.Component {
     this.refreshProviderRef = React.createRef()
   }
 
-  componentDidMount () {
+  navigationMethodInit () {
     let {Taro} = this.props
+    Taro.navigateTo = this.wxNavigateTo.bind(this)
+    Taro.redirectTo = this.wxRedirectTo.bind(this)
+    Taro.navigateBack = this.wxNavigateBack.bind(this)
+    Taro.switchTab = this.wxSwitchTab.bind(this)
+    Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
+    Taro.showTabBar = this.showTabBar.bind(this)
+    Taro.hideTabBar = this.hideTabBar.bind(this)
+  }
+
+  componentWillMount () {
+    this.navigationMethodInit()
     // didFocus
     this.didFocusSubscription = this.props.navigation.addListener(
       'didFocus',
       payload => {
         // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
-        Taro.navigateTo = this.wxNavigateTo.bind(this)
-        Taro.redirectTo = this.wxRedirectTo.bind(this)
-        Taro.navigateBack = this.wxNavigateBack.bind(this)
-        Taro.switchTab = this.wxSwitchTab.bind(this)
-        Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
-        Taro.showTabBar = this.showTabBar.bind(this)
-        Taro.hideTabBar = this.hideTabBar.bind(this)
+        this.navigationMethodInit()
       }
     )
+  }
+
+  componentDidMount () {
+    let {Taro} = this.props
     try {
       Taro.startPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.handlePullDownRefresh
       Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh

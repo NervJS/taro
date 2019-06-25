@@ -258,7 +258,7 @@ function createComponent (ComponentClass, isPage) {
           const query = swan.createSelectorQuery().in(this)
           if (ref.type === 'component') {
             target = this.selectComponent(`#${ref.id}`)
-            target = target.$component || target
+            target = (target && target.$component) || target
           } else {
             target = query.select(`#${ref.id}`)
           }
@@ -266,6 +266,13 @@ function createComponent (ComponentClass, isPage) {
           ref.target = target
         })
         component.refs = Object.assign({}, component.refs || {}, refs)
+      }
+      if (component['$$hasLoopRef']) {
+        Current.current = component
+        component._disableEffect = true
+        component._createData(component.state, component.props, true)
+        component._disableEffect = false
+        Current.current = null
       }
       if (!component.__mounted) {
         component.__mounted = true

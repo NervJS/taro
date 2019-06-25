@@ -218,7 +218,7 @@ class Compiler {
     // 默认打包到 bundle 文件夹
     fs.ensureDirSync(BUNDLE_DIR_NAME)
     execSync(
-      `node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./${TEMP_DIR_NAME}/index.js --bundle-output ./${BUNDLE_DIR_NAME}/index.bundle --assets-dest ./${BUNDLE_DIR_NAME}`,
+      `node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./${TEMP_DIR_NAME}/index.js --bundle-output ./${BUNDLE_DIR_NAME}/index.bundle --assets-dest ./${BUNDLE_DIR_NAME} --dev false`,
       {stdio: 'inherit'})
   }
 

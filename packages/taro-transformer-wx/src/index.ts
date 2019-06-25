@@ -222,6 +222,7 @@ export default function transform (options: Options): TransformResult {
   options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
   setTransformOptions(options)
   setting.sourceCode = code
+  let hasReduxBinding = false
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
   // 原因大概是 babylon.parse 没有生成 File 实例导致 scope 和 path 原型上都没有 `file`
@@ -646,6 +647,12 @@ export default function transform (options: Options): TransformResult {
             specs.push(
               t.importSpecifier(t.identifier('setStore'), t.identifier('setStore'))
             )
+            if (source === REDUX_PACKAGE_NAME) {
+              hasReduxBinding = true
+              specs.push(
+                t.importSpecifier(t.identifier('ReduxContext'), t.identifier('ReduxContext'))
+              )
+            }
           }
         })
       }
@@ -691,14 +698,27 @@ export default function transform (options: Options): TransformResult {
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {
-      ast.program.body.forEach((node, index, body) => {
+      ast.program.body.every((node, index, body) => {
         if (node === statementPath.node) {
+          const settingReduxProvider = t.expressionStatement(
+            t.callExpression(t.memberExpression(t.identifier('ReduxContext'), t.identifier('Provider')), [
+              t.objectExpression([
+                t.objectProperty(t.identifier('store'), t.identifier(storeName))
+              ])
+            ])
+          )
+          const ifStem = t.ifStatement(t.memberExpression(t.identifier('ReduxContext'), t.identifier('Provider')), t.blockStatement([
+            settingReduxProvider,
+            settingReduxProvider // 第一次调用初始化，第二次赋值
+          ]))
           body.splice(index + 1, 0, t.expressionStatement(
             t.callExpression(t.identifier('setStore'), [
               t.identifier(storeName)
             ])
-          ))
+          ), hasReduxBinding ? ifStem : t.emptyStatement())
+          return false
         }
+        return true
       })
     }
   }

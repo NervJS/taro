@@ -300,6 +300,13 @@ function createComponent (ComponentClass, isPage) {
             })
             .catch(err => console.error(err))
         }
+        if (component['$$hasLoopRef']) {
+          Current.current = component
+          component._disableEffect = true
+          component._createData(component.state, component.props, true)
+          component._disableEffect = false
+          Current.current = null
+        }
       }, 0)
     },
     detached () {

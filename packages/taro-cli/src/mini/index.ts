@@ -4,7 +4,7 @@ import * as path from 'path'
 import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as ora from 'ora'
-import { exec } from 'child_process'
+import { execSync } from 'child_process'
 import * as resolvePath from 'resolve'
 
 import {
@@ -18,7 +18,7 @@ import {
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
-import defaultManifestJSON from '../config/manifest.default.json'
+import * as defaultManifestJSON from '../config/manifest.default.json'
 
 import {
   setBuildData,
@@ -122,6 +122,7 @@ function generateQuickAppManifest () {
   if (fs.existsSync(quickappJSONPath)) {
     quickappJSON = fs.readJSONSync(quickappJSONPath)
   } else {
+    printLog(processTypeEnum.WARNING, '缺少配置', `检测到项目目录下未添加 ${chalk.bold('project.quickapp.json')} 文件，将使用默认配置，参考文档 https://nervjs.github.io/taro/docs/project-config.html`)
     quickappJSON = defaultManifestJSON
   }
   quickappJSON.router = router
@@ -151,9 +152,8 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
   } else {
     console.log(`${chalk.green('✔ ')} 快应用容器已经准备好`)
   }
-
-  console.log()
   process.chdir(originalOutputDir)
+  console.log()
   if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
     needInstall = false
   } else {
@@ -169,20 +169,18 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
       command = 'NODE_ENV=development npm install'
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
-    const install = exec(command)
-    install.on('close', code => {
-      if (code === 0) {
-        installSpinner.color = 'green'
-        installSpinner.succeed('安装成功')
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
-        isReady = true
-      } else {
-        installSpinner.color = 'red'
-        installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
-        isReady = false
-      }
-    })
+    try {
+      const stdout = execSync(command)
+      installSpinner.color = 'green'
+      installSpinner.succeed('安装成功')
+      console.log(`${stdout}`)
+      isReady = true
+    } catch (error) {
+      installSpinner.color = 'red'
+      installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
+      console.log(`${error}`)
+      isReady = false
+    }
   } else {
     console.log(`${chalk.green('✔ ')} 快应用依赖已经安装好`)
     isReady = true

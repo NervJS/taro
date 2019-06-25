@@ -4,13 +4,13 @@
 
 "@ant-design/icons-react-native@^1.0.2":
   version "1.0.2"
-  resolved "http://registry.npm.taobao.org/@ant-design/icons-react-native/download/@ant-design/icons-react-native-1.0.2.tgz#28648eacb808a1fae0ad59d691bbb472a6ffc26e"
+  resolved "https://registry.npm.taobao.org/@ant-design/icons-react-native/download/@ant-design/icons-react-native-1.0.2.tgz#28648eacb808a1fae0ad59d691bbb472a6ffc26e"
   integrity sha1-KGSOrLgIofrgrVnWkbu0cqb/wm4=
 
-"@ant-design/react-native@^3.1.8":
-  version "3.1.8"
-  resolved "https://registry.npm.taobao.org/@ant-design/react-native/download/@ant-design/react-native-3.1.8.tgz#a1584abffe231218313e9d81f483562b54206723"
-  integrity sha1-oVhKv/4jEhgxPp2B9INWK1QgZyM=
+"@ant-design/react-native@^3.1.9":
+  version "3.1.9"
+  resolved "https://registry.npm.taobao.org/@ant-design/react-native/download/@ant-design/react-native-3.1.9.tgz#472788ecc927c7b76a3ed5d3955405065c4fbca8"
+  integrity sha1-RyeI7Mknx7dqPtXTlVQFBlxPvKg=
   dependencies:
     "@ant-design/icons-react-native" "^1.0.2"
     "@bang88/react-native-drawer-layout" "^2.0.3"
@@ -511,21 +511,13 @@
 
 "@bang88/react-native-drawer-layout@^2.0.3":
   version "2.0.3"
-  resolved "http://registry.npm.taobao.org/@bang88/react-native-drawer-layout/download/@bang88/react-native-drawer-layout-2.0.3.tgz#a93abd5a9c6d1fc4c0924a9f21c2cd7d1deea88d"
+  resolved "https://registry.npm.taobao.org/@bang88/react-native-drawer-layout/download/@bang88/react-native-drawer-layout-2.0.3.tgz#a93abd5a9c6d1fc4c0924a9f21c2cd7d1deea88d"
   integrity sha1-qTq9WpxtH8TAkkqfIcLNfR3uqI0=
 
 "@bang88/react-native-ultimate-listview@^3.3.0":
   version "3.3.0"
-  resolved "http://registry.npm.taobao.org/@bang88/react-native-ultimate-listview/download/@bang88/react-native-ultimate-listview-3.3.0.tgz#b09199105b942aee4ae05729e4bd229353217ab6"
+  resolved "https://registry.npm.taobao.org/@bang88/react-native-ultimate-listview/download/@bang88/react-native-ultimate-listview-3.3.0.tgz#b09199105b942aee4ae05729e4bd229353217ab6"
   integrity sha1-sJGZEFuUKu5K4Fcp5L0ik1MherY=
-
-"@nart/react-native-swiper@^1.5.13":
-  version "1.5.13"
-  resolved "http://registry.npm.taobao.org/@nart/react-native-swiper/download/@nart/react-native-swiper-1.5.13.tgz#293ac58edcb57afb37221a1f69dcfaf1251306de"
-  integrity sha1-KTrFjty1evs3Ihofadz68SUTBt4=
-  dependencies:
-    prop-types "^15.5.10"
-    react-native-vertical-view-pager "^0.1.1"
 
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2":
   version "1.4.0"
@@ -593,10 +585,15 @@
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-11.13.4.tgz#f83ec3c3e05b174b7241fadeb6688267fe5b22ca"
   integrity sha1-+D7Dw+BbF0tyQfretmiCZ/5bIso=
 
-"@types/prop-types@*", "@types/prop-types@^15.5.5":
+"@types/prop-types@*":
   version "15.7.0"
   resolved "http://registry.npm.taobao.org/@types/prop-types/download/@types/prop-types-15.7.0.tgz#4c48fed958d6dcf9487195a0ef6456d5f6e0163a"
   integrity sha1-TEj+2VjW3PlIcZWg72RW1fbgFjo=
+
+"@types/prop-types@^15.5.5":
+  version "15.7.1"
+  resolved "https://registry.npm.taobao.org/@types/prop-types/download/@types/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
+  integrity sha1-8aEee6uww8rWgQC+OB0eBkxo8fY=
 
 "@types/react-dom@^16.8.4":
   version "16.8.4"
@@ -2441,7 +2438,7 @@ deep-is@~0.1.3:
 
 deepmerge@^3.0.0:
   version "3.2.0"
-  resolved "http://registry.npm.taobao.org/deepmerge/download/deepmerge-3.2.0.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Fdeepmerge%2Fdownload%2Fdeepmerge-3.2.0.tgz#58ef463a57c08d376547f8869fdc5bcee957f44e"
+  resolved "https://registry.npm.taobao.org/deepmerge/download/deepmerge-3.2.0.tgz#58ef463a57c08d376547f8869fdc5bcee957f44e"
   integrity sha1-WO9GOlfAjTdlR/iGn9xbzulX9E4=
 
 default-compare@^1.0.0:
@@ -3853,7 +3850,7 @@ has@^1.0.1, has@^1.0.3:
 
 hoist-non-react-statics@^2.3.1:
   version "2.5.5"
-  resolved "http://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+  resolved "https://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha1-xZA89AnA39kI84jmGdhrnBF0y0c=
 
 home-or-tmp@^2.0.0:
@@ -5113,7 +5110,7 @@ locate-path@^3.0.0:
 
 lodash.debounce@^4.0.8:
   version "4.0.8"
-  resolved "http://registry.npm.taobao.org/lodash.debounce/download/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  resolved "https://registry.npm.taobao.org/lodash.debounce/download/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
 lodash.escape@^4.0.1:
@@ -6608,7 +6605,7 @@ react-native-animatable@^1.3.0:
 
 react-native-collapsible@^1.4.0:
   version "1.4.0"
-  resolved "http://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.4.0.tgz#ec03cac361178319b77bb9993b73677356dd89d2"
+  resolved "https://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.4.0.tgz#ec03cac361178319b77bb9993b73677356dd89d2"
   integrity sha1-7APKw2EXgxm3e7mZO3Nnc1bdidI=
   dependencies:
     prop-types "^15.6.2"
@@ -6631,7 +6628,7 @@ react-native-mock-render@^0.0.25:
 
 react-native-modal-popover@^0.0.12:
   version "0.0.12"
-  resolved "http://registry.npm.taobao.org/react-native-modal-popover/download/react-native-modal-popover-0.0.12.tgz#5c0b5e9e0323490c3c5867821fc94b6582bfa3dc"
+  resolved "https://registry.npm.taobao.org/react-native-modal-popover/download/react-native-modal-popover-0.0.12.tgz#5c0b5e9e0323490c3c5867821fc94b6582bfa3dc"
   integrity sha1-XAtengMjSQw8WGeCH8lLZYK/o9w=
   dependencies:
     "@types/prop-types" "^15.5.5"
@@ -6640,7 +6637,7 @@ react-native-modal-popover@^0.0.12:
 
 react-native-safe-area-view@^0.11.0:
   version "0.11.0"
-  resolved "http://registry.npm.taobao.org/react-native-safe-area-view/download/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
+  resolved "https://registry.npm.taobao.org/react-native-safe-area-view/download/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
   integrity sha1-Tz3aQ8K6zjeWXnxq71/IPU8Z0XQ=
   dependencies:
     hoist-non-react-statics "^2.3.1"
@@ -6654,10 +6651,12 @@ react-native-swipeout@^2.3.6:
     prop-types "^15.5.10"
     react-tween-state "^0.1.5"
 
-react-native-vertical-view-pager@^0.1.1:
-  version "0.1.1"
-  resolved "http://registry.npm.taobao.org/react-native-vertical-view-pager/download/react-native-vertical-view-pager-0.1.1.tgz#c9ad2f3eb936219ff21cabd6d5842468a5ddbee3"
-  integrity sha1-ya0vPrk2IZ/yHKvW1YQkaKXdvuM=
+react-native-swiper@^1.5.14:
+  version "1.5.14"
+  resolved "https://registry.npm.taobao.org/react-native-swiper/download/react-native-swiper-1.5.14.tgz#1c6f949ca377186300f972bb0f30d24062c899aa"
+  integrity sha1-HG+UnKN3GGMA+XK7DzDSQGLImao=
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native@0.55.4:
   version "0.55.4"

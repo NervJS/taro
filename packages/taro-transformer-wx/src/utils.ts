@@ -83,7 +83,7 @@ export function getSuperClassPath (path: NodePath<t.ClassDeclaration>) {
 export function isContainStopPropagation (path: NodePath<t.Node> | null | undefined) {
   let matched = false
   if (path) {
-    path.traverse({
+    const visitor = {
       Identifier (p) {
         if (
           p.node.name === 'stopPropagation' &&
@@ -92,7 +92,15 @@ export function isContainStopPropagation (path: NodePath<t.Node> | null | undefi
           matched = true
         }
       }
-    })
+    }
+    if (path.isIdentifier()) {
+      const binding = path.scope.getBinding(path.node.name)
+      if (binding) {
+        binding.path.traverse(visitor)
+      }
+    } else {
+      path.traverse(visitor)
+    }
   }
   return matched
 }
@@ -169,7 +177,7 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
       Adapter.if,
       Adapter.else
     ])
-    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
+    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => t.isJSXIdentifier(a.name) && ifAttrSet.has(a.name.name))) as NodePath<t.JSXElement>
     if (logicalJSX) {
       const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
       if (attr) {
@@ -238,7 +246,7 @@ export function generateAnonymousState (
           if (isArrowFunctionInJSX) {
             return
           }
-          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$')) {
+          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$') && init != null) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
               if (refId.name === variableName && !variableName.startsWith('_$')) {

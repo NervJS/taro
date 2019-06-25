@@ -122,6 +122,8 @@ declare namespace Taro {
         readonly current: T | null
     }
 
+    function createRef<T>(): RefObject<T>;
+
     // convenience overload for refs given as a ref prop as they typically start with a null value
     /**
      * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
@@ -349,6 +351,10 @@ declare namespace Taro {
 
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
+  }
+
+  interface FunctionComponent<P = {}> {
+    (props: Readonly<P>): JSX.Element
   }
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
@@ -726,6 +732,11 @@ declare namespace Taro {
   }
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> {}
+
+  function memo<P = {}>(
+    FunctionComponent: FunctionComponent<P>,
+    compare?: (oldProps: P, newProps: P) => Boolean
+  ): FunctionComponent<P>
 
   // Events
   class Events {
@@ -9962,6 +9973,50 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/data-analysis/wx.reportAnalytics.html
    */
   function reportAnalytics(eventName: string, data: any): void
+
+  /**
+   * @since 2.2.2
+   *
+   * 获取当前帐号信息
+   *
+   * **示例代码：**
+   *
+   ```javascript
+   const accountInfo = wx.getAccountInfoSync();
+   console.log(accountInfo.miniProgram.appId) // 小程序 appId
+   console.log(accountInfo.plugin.appId) // 插件 appId
+   console.log(accountInfo.plugin.version) // 插件版本号， 'a.b.c' 这样的形式
+   ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html
+   */
+  function getAccountInfoSync(): getAccountInfoSync.Return
+
+  namespace getAccountInfoSync {
+    interface Return {
+      /**
+       * 小程序帐号信息
+       */
+      miniProgram: {
+        /**
+         * 小程序 appId
+         */
+        appId: string
+      }
+      /**
+       * 插件帐号信息（仅在插件中调用时包含这一项）
+       */
+      plugin?: {
+        /**
+         * 插件 appId
+         */
+        appId: string
+        /**
+         * 插件版本号
+         */
+        version: string
+      }
+    }
+  }
 
   /**
    * @since 1.9.90
