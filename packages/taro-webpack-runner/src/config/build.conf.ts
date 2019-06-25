@@ -1,4 +1,4 @@
-import { BuildConfig, TaroBaseConfig } from '../util/types';
+import { BuildConfig } from '../util/types';
 
 export default ({
   sourceRoot = 'src',
@@ -7,7 +7,7 @@ export default ({
   staticDirectory = 'static',
   chunkDirectory = 'chunk',
   designWidth = 750
-}: BuildConfig): Partial<TaroBaseConfig> => {
+}: BuildConfig): Partial<BuildConfig> => {
   return {
     sourceRoot,
     outputRoot,
