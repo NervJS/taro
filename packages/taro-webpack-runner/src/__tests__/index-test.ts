@@ -46,12 +46,8 @@ describe('Regs', () => {
       mediaUrlLoaderOption: {},
       esnextModules: [],
 
-      module: {
-        postcss: {}
-      },
-      plugins: {
-        babel: {}
-      }
+      postcss: {},
+      babel: {}
     })
     expect(rule.sass).toMatchObject({
       test: /\.(s[ac]ss)\b/,

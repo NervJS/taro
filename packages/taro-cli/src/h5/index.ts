@@ -1,4 +1,5 @@
 import { PageConfig } from '@tarojs/taro'
+import { IProjectConfig, IH5Config, IH5RouterConfig, IDeviceRatio } from '@tarojs/taro/types/compile'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as babel from 'babel-core'
 import traverse, { NodePath, TraverseOptions } from 'babel-traverse'
@@ -30,7 +31,7 @@ import {
 } from '../util/astConvert'
 import { BUILD_TYPES, processTypeEnum, PROJECT_CONFIG, REG_SCRIPTS, REG_TYPESCRIPT } from '../util/constants'
 import * as npmProcess from '../util/npm'
-import { IBuildConfig, IDeviceRatio, IH5Config, IH5RouterConfig, IOption, IProjectConfig } from '../util/types'
+import { IBuildOptions, IOption } from '../util/types'
 import {
   APIS_NEED_TO_APPEND_THIS,
   deviceRatioConfigName,
@@ -188,7 +189,7 @@ class Compiler {
     return Promise.all(readPromises)
   }
 
-  async buildDist ({ watch, port }: IBuildConfig) {
+  async buildDist ({ watch, port }: IBuildOptions) {
     const isMultiRouterMode = get(this.h5Config, 'router.mode') === 'multi'
     const entryFileName = this.entryFileName
     const projectConfig = this.projectConfig
@@ -232,6 +233,10 @@ class Compiler {
       },
       isWatch: !!watch,
       outputRoot: outputDir,
+      babel: projectConfig.babel,
+      csso: projectConfig.csso,
+      uglify: projectConfig.uglify,
+      sass: projectConfig.sass,
       plugins: projectConfig.plugins,
       port,
       sourceRoot
@@ -1450,7 +1455,7 @@ class Compiler {
 
 export { Compiler }
 
-export async function build (appPath: string, buildConfig: IBuildConfig) {
+export async function build (appPath: string, buildConfig: IBuildOptions) {
   process.env.TARO_ENV = BUILD_TYPES.H5
   const compiler = new Compiler(appPath)
   await compiler.clean()
