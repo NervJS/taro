@@ -35,7 +35,7 @@ import {
 import { buildDepComponents, buildSingleComponent, getComponentsNamedMap } from './mini/component'
 import { compileDepScripts, initCompileScripts } from './mini/compileScript'
 import { compileDepStyles, initCompileStyles } from './mini/compileStyle'
-import { IBuildConfig } from './util/types'
+import { IBuildOptions } from './util/types'
 
 const PLUGIN_ROOT = 'plugin/'
 const DOC_ROOT = 'doc/'
@@ -45,7 +45,7 @@ const PLUGIN_MOCK_JSON = 'plugin-mock.json'
 
 let isCopyingFiles = {}
 
-export async function build (appPath: string, { watch, platform }: IBuildConfig) {
+export async function build (appPath: string, { watch, platform }: IBuildOptions) {
   switch (platform) {
     case BUILD_TYPES.WEAPP:
       buildWxPlugin(appPath, { watch })
