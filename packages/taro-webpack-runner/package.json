@@ -33,6 +33,7 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/plugin-sass": "1.3.32",
+    "@tarojs/taro": "1.3.32",
     "@tarojs/taro-h5": "1.3.32",
     "autoprefixer": "8.6.4",
     "babel-core": "6.26.0",

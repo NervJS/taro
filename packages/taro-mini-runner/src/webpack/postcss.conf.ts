@@ -3,9 +3,9 @@ import * as path from 'path'
 import * as autoprefixer from 'autoprefixer'
 import * as pxtransform from 'postcss-pxtransform'
 import { sync as resolveSync } from 'resolve'
+import { IPostcssOption } from '@tarojs/taro/types/compile'
 
 import { isNpmPkg, recursiveMerge } from '../utils'
-import { IPostcssOption } from '../utils/types'
 import browserList from '../config/browser_list'
 
 const defaultAutoprefixerOption = {
@@ -24,7 +24,7 @@ const defaultPxtransformOption: {
   }
 }
 
-const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules']
+const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url']
 
 const plugins = [] as any[]
 
