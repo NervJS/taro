@@ -1,7 +1,8 @@
 import * as path from 'path'
+import { TogglableOptions } from '@tarojs/taro/types/compile'
 
 import { resolveNpmFilesPath } from './resolve_npm_files'
-import { INpmConfig, TogglableOptions, ITaroManifestConfig } from './types'
+import { INpmConfig, ITaroManifestConfig } from './types'
 import { BUILD_TYPES, REG_STYLE, NODE_MODULES, REG_FONT, REG_MEDIA, REG_IMAGE } from './constants'
 import { promoteRelativePath, recursiveFindNodeModules, generateAlipayPath } from './index'
 

@@ -48,11 +48,14 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     csso: projectConfig.csso,
     sass: projectConfig.csso,
     uglify: projectConfig.uglify,
+    plugins: projectConfig.plugins,
+    projectName: projectConfig.projectName,
     isWatch: !isProduction,
     env: projectConfig.env,
     defineConstants: projectConfig.defineConstants,
     designWidth: projectConfig.designWidth,
-    deviceRatio: projectConfig.deviceRatio
+    deviceRatio: projectConfig.deviceRatio,
+    ...projectConfig.mini
   }
   miniRunner(appPath, miniRunnerOpts, builder)
 }

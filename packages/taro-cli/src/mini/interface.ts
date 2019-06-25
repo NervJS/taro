@@ -1,4 +1,4 @@
-import { IWxTransformResult } from '../util/types'
+import { TransformResult } from '@tarojs/transformer-wx'
 
 export interface IComponentObj {
   name?: string,
@@ -8,7 +8,7 @@ export interface IComponentObj {
 
 export interface IIsFileToBeTaroComponentReturn {
   isTaroComponent: boolean,
-  transformResult: IWxTransformResult
+  transformResult: TransformResult
 }
 
 export interface IBuildResult {

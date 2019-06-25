@@ -3,9 +3,10 @@ import * as fs from 'fs-extra'
 import { SyncHook, Hook } from 'tapable'
 import * as _ from 'lodash'
 import chalk from 'chalk'
+import { IProjectConfig, ICommonPlugin } from '@tarojs/taro/types/compile'
 
 import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
-import { IBuildOptions, IProjectConfig, ICommonPlugin } from './util/types'
+import { IBuildOptions } from './util/types'
 import { emptyDirectory } from './util'
 import CONFIG from './config'
 
@@ -38,8 +39,7 @@ export default class Builder {
   }
 
   applyPlugins () {
-    const commonConfig = Object.assign({}, { plugins: [] }, this.config.common)
-    const plugins = commonConfig.plugins
+    const plugins = this.config.plugins || []
     if (plugins.length) {
       plugins.forEach((plugin: ICommonPlugin) => {
         plugin.apply(this)

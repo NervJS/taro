@@ -2,6 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import { AppConfig } from '@tarojs/taro'
+import { TogglableOptions } from '@tarojs/taro/types/compile'
 import wxTransformer from '@tarojs/transformer-wx'
 
 import {
@@ -21,7 +22,6 @@ import {
   generateQuickAppUx,
   uglifyJS
 } from '../util'
-import { IWxTransformResult, TogglableOptions } from '../util/types'
 
 import { getBuildData, copyFilesFromSrcToOutput, getDependencyTree } from './helper'
 import { compileDepScripts, compileScriptFile } from './compileScript'
@@ -94,14 +94,14 @@ export async function buildEntry (): Promise<AppConfig> {
     isProduction,
     jsxAttributeNameReplace
   } = getBuildData()
-  const weappConf = projectConfig.weapp || { appOutput: true}
+  const weappConf = projectConfig.mini || { appOutput: true}
   const appOutput = typeof weappConf.appOutput === 'boolean' ? weappConf.appOutput : true
   const entryFileCode = fs.readFileSync(entryFilePath).toString()
   const outputEntryFilePath = path.join(outputDir, entryFileName)
 
   printLog(processTypeEnum.COMPILE, '入口文件', `${sourceDirName}/${entryFileName}`)
   try {
-    const transformResult: IWxTransformResult = wxTransformer({
+    const transformResult = wxTransformer({
       code: entryFileCode,
       sourcePath: entryFilePath,
       isApp: true,
@@ -116,7 +116,7 @@ export async function buildEntry (): Promise<AppConfig> {
     if (buildAdapter !== BUILD_TYPES.QUICKAPP) {
       resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
       if (isProduction) {
-        resCode = uglifyJS(resCode, entryFilePath, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
+        resCode = uglifyJS(resCode, entryFilePath, appPath, projectConfig!.uglify as TogglableOptions)
       }
     }
     // 处理res.configObj 中的tabBar配置

@@ -50,12 +50,10 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     miniCssExtractPluginOption = emptyObj,
     esnextModules = [],
 
-    module = {
-      postcss: emptyObj
-    },
-    plugins = {
-      babel: {}
-    }
+    postcss,
+    babel,
+    csso,
+    uglify
   } = config
 
   const isMultiRouterMode = get(router, 'mode') === 'multi'
@@ -90,25 +88,25 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
-  const isCssoEnabled = (plugins.csso && plugins.csso.enable === false)
+  const isCssoEnabled = (csso && csso.enable === false)
     ? false
     : true
 
   if (isCssoEnabled) {
-    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([plugins.csso ? plugins.csso.config : {}])
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([csso ? csso.config : {}])
   }
 
   const mode = 'production'
 
   const minimizer: any[] = []
-  const isUglifyEnabled = (plugins.uglify && plugins.uglify.enable === false)
+  const isUglifyEnabled = (uglify && uglify.enable === false)
     ? false
     : true
 
   if (isUglifyEnabled) {
     minimizer.push(getUglifyPlugin([
       enableSourceMap,
-      plugins.uglify ? plugins.uglify.config : {}
+      uglify ? uglify.config : {}
     ]))
   }
 
@@ -127,7 +125,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       deviceRatio,
       enableExtract,
       enableSourceMap,
-  
+
       styleLoaderOption,
       cssLoaderOption,
       lessLoaderOption,
@@ -137,9 +135,9 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
       esnextModules,
-  
-      module,
-      plugins,
+
+      postcss,
+      babel,
       staticDirectory
     }),
     plugin,
