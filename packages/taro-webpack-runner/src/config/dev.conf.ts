@@ -52,10 +52,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     miniCssExtractPluginOption = emptyObj,
     esnextModules = [],
 
-    module = {
-      postcss: emptyObj
-    },
-    plugins
+    postcss = emptyObj,
+    babel
   } = config
 
   const plugin = {} as any
@@ -118,8 +116,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       mediaUrlLoaderOption,
       esnextModules,
 
-      module,
-      plugins,
+      postcss,
+      babel,
       staticDirectory
     }),
     plugin,
