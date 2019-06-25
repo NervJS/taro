@@ -1,11 +1,11 @@
-import * as autoprefixer from 'autoprefixer';
-import * as path from 'path';
-import * as constparse from 'postcss-plugin-constparse';
-import * as pxtransform from 'postcss-pxtransform';
-import { sync as resolveSync } from 'resolve';
-import { isNpmPackage, recursiveMerge } from '../util';
+import * as autoprefixer from 'autoprefixer'
+import * as path from 'path'
+import * as constparse from 'postcss-plugin-constparse'
+import * as pxtransform from 'postcss-pxtransform'
+import { sync as resolveSync } from 'resolve'
+import { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
-import { PostcssOption, TogglableOptions } from '../util/types'
+import { isNpmPackage, recursiveMerge } from '../util'
 
 const defaultAutoprefixerOption = {
   enable: true,
@@ -44,7 +44,7 @@ const plugins = [] as any[]
 export const getPostcssPlugins = function (appPath: string, {
   designWidth,
   deviceRatio,
-  postcssOption = {} as PostcssOption
+  postcssOption = {} as IPostcssOption
 }) {
 
   if (designWidth) {

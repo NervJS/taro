@@ -7,11 +7,12 @@ import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
+import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
-import { PostcssOption, IOption, ICopyOptions, IPostcssOption } from '../utils/types'
+import { IOption } from '../utils/types'
 import { recursiveMerge, isNodeModule } from '../utils'
 import { REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, BUILD_TYPES, REG_SCRIPTS, MINI_APP_FILES } from '../utils/constants'
 
