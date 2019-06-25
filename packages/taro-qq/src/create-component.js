@@ -213,6 +213,13 @@ export function componentTrigger (component, key, args) {
       })
       component.refs = Object.assign({}, component.refs || {}, refs)
     }
+    if (component['$$hasLoopRef']) {
+      Current.current = component
+      component._disableEffect = true
+      component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
+    }
   }
 
   if (key === 'componentWillUnmount') {
