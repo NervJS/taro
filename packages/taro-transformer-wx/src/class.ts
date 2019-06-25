@@ -270,32 +270,45 @@ class Transformer {
             ]
           )
       )])
-      stemParent.insertBefore(indexKeyDecl)
-      const arrayFunc = t.memberExpression(
-        t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
-        t.identifier(indexKey),
-        true
-      )
-      classBody.push(
-        t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
-          isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
-          t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
-        ]))
-      )
-      exprPath.replaceWith(t.callExpression(
-        t.memberExpression(
-          t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
-          t.identifier('bind')
-        ),
-        [t.thisExpression(), t.identifier(indexKey)]
-      ))
-      stemParent.insertBefore(
-        t.expressionStatement(t.assignmentExpression(
-          '=',
-          arrayFunc,
-          expr
+
+      const func = loopCallExpr.node.arguments[0]
+      if (t.isArrowFunctionExpression(func)) {
+        if (!t.isBlockStatement(func.body)) {
+          func.body = t.blockStatement([
+            indexKeyDecl,
+            t.returnStatement(func.body)
+          ])
+        } else {
+          func.body.body.push(indexKeyDecl)
+        }
+        const arrayFunc = t.memberExpression(
+          t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
+          t.identifier(indexKey),
+          true
+        )
+        classBody.push(
+          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
+            isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
+            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+          ]))
+        )
+        exprPath.replaceWith(t.callExpression(
+          t.memberExpression(
+            t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName)),
+            t.identifier('bind')
+          ),
+          [t.thisExpression(), t.identifier(indexKey)]
         ))
-      )
+        func.body.body.push(
+          t.expressionStatement(t.assignmentExpression(
+            '=',
+            arrayFunc,
+            expr
+          ))
+        )
+      } else {
+        throw codeFrameError(func, '返回 JSX 的循环语句必须使用箭头函数')
+      }
     } else {
       classBody.push(
         t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier('e')], t.blockStatement([
