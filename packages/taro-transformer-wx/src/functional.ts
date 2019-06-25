@@ -91,11 +91,27 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
             if (t.isIdentifier(arg)) {
               cloneBody.body.unshift(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
             } else if (t.isObjectPattern(arg)) {
+              let hasChildren = false
+              for (const [index, p] of arg.properties.entries()) {
+                if (t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'children' })) {
+                  hasChildren = true
+                  arg.properties.splice(index, 1)
+                }
+              }
               cloneBody.body.unshift(
                 t.variableDeclaration('const', [
                   t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props')))
                 ])
               )
+              if (hasChildren) {
+                cloneBody.body.unshift(
+                  t.variableDeclaration('const', [
+                    t.variableDeclarator(t.objectPattern([
+                      t.objectProperty(t.identifier('children'), t.identifier('children')) as any
+                    ]), t.memberExpression(t.thisExpression(), t.identifier('props')))
+                  ])
+                )
+              }
             } else if (t.isAssignmentPattern(arg)) {
               throw codeFrameError(arg, '给函数式组件的第一个参数设置默认参数是没有意义的，因为 props 永远都有值（不传 props 的时候是个空对象），所以默认参数永远都不会执行。')
             } else {
