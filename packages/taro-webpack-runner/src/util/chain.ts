@@ -10,29 +10,28 @@ import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { join, resolve } from 'path'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
+import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
 
 import { recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
-import { BuildConfig, CopyOptions, Option, PostcssOption } from './types'
+import { Option, BuildConfig } from './types'
 
-const makeConfig = async (config: BuildConfig) => {
-  const plugins = config.plugins || {}
-  const sassLoaderOption = config.sassLoaderOption || {}
-  const sass = plugins.sass || {}
-
+const getSassLoaderOption = async ({ sass, sassLoaderOption }: BuildConfig) => {
   let bundledContent = ''
-  // when plugins.sass only configured resource property
+  if (!sass) {
+    return sassLoaderOption
+  }
   if (sass.resource && !sass.projectDirectory) {
     const { resource } = sass
     try {
       if (typeof resource === 'string') {
         const res = await Bundler(resource)
         bundledContent += res.bundledContent
-      }
-      if (Array.isArray(resource)) {
-        for (const url of resource) {
-          const res = await Bundler(url)
-          bundledContent += res.bundledContent
+        if (Array.isArray(resource)) {
+          for (const url of resource) {
+            const res = await Bundler(url)
+            bundledContent += res.bundledContent
+          }
         }
       }
     } catch (e) {
@@ -63,12 +62,16 @@ const makeConfig = async (config: BuildConfig) => {
     bundledContent += sass.data
   }
   return {
-    ...config,
-    plugins,
-    sassLoaderOption: {
-      ...sassLoaderOption,
-      data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
-    }
+    ...sassLoaderOption,
+    data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
+  }
+}
+
+const makeConfig = async (buildConfig: BuildConfig) => {
+  const sassLoaderOption = await getSassLoaderOption(buildConfig)
+  return {
+    ...buildConfig,
+    sassLoaderOption
   }
 }
 
@@ -183,7 +186,7 @@ const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
 }
 const getCopyWebpackPlugin = ({ copy, appPath }: {
-  copy: CopyOptions,
+  copy: ICopyOptions,
   appPath: string
 }) => {
   const args = [
@@ -247,11 +250,10 @@ const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  module,
-  plugins
+  postcss,
+  babel
 }) => {
-
-  const postcssOption: PostcssOption = module.postcss || {}
+  const postcssOption: IPostcssOption = postcss || {}
 
   const defaultStyleLoaderOption = {
     sourceMap: enableSourceMap
@@ -287,7 +289,7 @@ const getModule = (appPath: string, {
     cssLoaderOption
   ]
   const additionalBabelOptions = {
-    ...plugins.babel,
+    ...babel,
     sourceMap: enableSourceMap
   }
   const esnextModuleRules = getEsnextModuleRules(esnextModules)

@@ -3,6 +3,7 @@ import * as path from 'path'
 
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
+import { IProjectConfig } from '@tarojs/taro/types/compile'
 import wxTransformer from '@tarojs/transformer-wx'
 import getHashName from '../util/hash'
 
@@ -37,10 +38,8 @@ import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
 import { resolveNpmSync } from '../util/npm'
 
 import {
-  IProjectConfig,
   IOption,
   INpmConfig,
-  IWxTransformResult,
   ITaroManifestConfig
 } from '../util/types'
 import CONFIG from '../config'
@@ -90,7 +89,7 @@ export interface IBuildData {
 let BuildData: IBuildData
 
 export const shouldTransformAgain = function () {
-  const babelConfig = getBabelConfig(BuildData.projectConfig!.plugins!.babel)
+  const babelConfig = getBabelConfig(BuildData.projectConfig!.babel)
   const pluginsStr = JSON.stringify(babelConfig.plugins)
   if (/transform-runtime/.test(pluginsStr)) {
     return true
@@ -372,7 +371,7 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
         const match = SCRIPT_CONTENT_REG.exec(fileContent)
         if (match) {
           const scriptContent = match[1]
-          const transformResult: IWxTransformResult = wxTransformer({
+          const transformResult = wxTransformer({
             code: scriptContent,
             sourcePath: sourceFilePath,
             isNormal: true,
