@@ -11,7 +11,8 @@ import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
 import * as findWorkspaceRoot from 'find-yarn-workspace-root'
-import * as chokidar from 'chokidar';
+import * as chokidar from 'chokidar'
+import { ICopyArgOptions, ICopyOptions, TogglableOptions } from '@tarojs/taro/types/compile'
 
 import defaultBabelConfig from '../config/babel'
 import defaultUglifyConfig from '../config/uglify'
@@ -30,7 +31,6 @@ import {
   UX_EXT,
   NODE_MODULES
 } from './constants'
-import { ICopyArgOptions, ICopyOptions, TogglableOptions } from './types'
 import { callPluginSync } from './npm'
 
 const execSync = child_process.execSync
@@ -585,7 +585,7 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
             }
           }
           copyFileSync(from, to, copyOptions)
-	        if (pattern.watch){
+	        if (pattern.watch) {
 		        const watcher = chokidar.watch(from,{
 			        persistent: true,
 			        ignoreInitial: true
