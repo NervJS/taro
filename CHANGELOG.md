@@ -1,5 +1,26 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.3...v) (2019-06-24)
+# [](https://github.com/NervJS/taro/compare/v1.3.4...v) (2019-06-25)
+
+
+
+<a name="1.3.4"></a>
+## [1.3.4](https://github.com/NervJS/taro/compare/v1.3.3...v1.3.4) (2019-06-25)
+
+
+### Bug Fixes
+
+* **transformer:** 在 hooks 会把 return 替换，close [#3469](https://github.com/NervJS/taro/issues/3469) ([beb21f0](https://github.com/NervJS/taro/commit/beb21f0))
+* **transformer:** 嵌套循环判断使用上级变量编译错误，close [#3462](https://github.com/NervJS/taro/issues/3462) ([6b525c2](https://github.com/NervJS/taro/commit/6b525c2))
+* **transformer:** 自定义组件支持外部类，close [#3080](https://github.com/NervJS/taro/issues/3080) ([96573c1](https://github.com/NervJS/taro/commit/96573c1))
+* **weapp:** 修复 extraProps 判断 bug。 ([3288436](https://github.com/NervJS/taro/commit/3288436))
+* **weapp:** 修复 mobx 下 extraProps 判断 bug。close [#3513](https://github.com/NervJS/taro/issues/3513) ([3deb1a7](https://github.com/NervJS/taro/commit/3deb1a7))
+
+
+### Features
+
+* **components-rn:** ScrollView, 支持 FlatList 来代替 ScrollView ([6714e24](https://github.com/NervJS/taro/commit/6714e24))
+* **transformer:**  支持在快应用循环中使用匿名函数，[#3495](https://github.com/NervJS/taro/issues/3495) ([0a66dbd](https://github.com/NervJS/taro/commit/0a66dbd))
+* **transformer:** 循环中可以直接 return JSX 引用，close [#3504](https://github.com/NervJS/taro/issues/3504) ([38a38ce](https://github.com/NervJS/taro/commit/38a38ce))
 
 
 
