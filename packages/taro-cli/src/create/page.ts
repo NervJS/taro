@@ -1,7 +1,6 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import chalk from 'chalk'
-import CONFIG from '../config'
 import Creator from './creator'
 import { createPage } from './init'
 

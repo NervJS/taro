@@ -9,12 +9,13 @@ program
   .option('--description [description]', '项目介绍')
   .option('--typescript', '使用TypeScript')
   .option('--no-typescript', '不使用TypeScript')
-  .option('--template [template]', '项目模板(default/redux/mobx/wxcloud/wxplugin)')
+  .option('--template-source [templateSource]', '项目模板源')
+  .option('--template [template]', '项目模板')
   .option('--css [css]', 'CSS预处理器(sass/less/stylus/none)')
   .parse(process.argv)
 
 const args = program.args
-const { template, description, name, css } = program
+const { template, templateSource, description, name, css } = program
 let typescript
 
 /**
@@ -32,6 +33,7 @@ const projectName = args[0] || name
 const project = new Project({
   projectName,
   projectDir: process.cwd(),
+  templateSource,
   template,
   description,
   typescript,

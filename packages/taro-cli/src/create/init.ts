@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 import { exec } from 'child_process'
 import * as ora from 'ora'
 import { IProjectConf } from './project'
