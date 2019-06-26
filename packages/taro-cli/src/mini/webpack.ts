@@ -32,7 +32,9 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     buildAdapter,
     projectConfig,
     isProduction,
-    alias
+    alias,
+    sourceDirName,
+    outputDirName
   } = getBuildData()
   const miniRunner = await npmProcess.getNpmPkg('@tarojs/mini-runner', appPath)
   const babelConfig = getBabelConfig(projectConfig.babel)
@@ -42,7 +44,8 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     },
     alias,
     copy: projectConfig.copy,
-    outputRoot: projectConfig.outputRoot,
+    sourceRoot: sourceDirName,
+    outputRoot: outputDirName,
     buildAdapter,
     babel: babelConfig,
     csso: projectConfig.csso,
