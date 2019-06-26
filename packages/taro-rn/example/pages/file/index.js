@@ -16,6 +16,10 @@ function handleDownloadFile () {
   }).then(res => console.log(res)).catch(e => console.log(e))
 }
 
+function handleUploadFile () {
+  console.log('handleUploadFile')
+}
+
 export function File () {
   return (
     <View>
@@ -23,6 +27,7 @@ export function File () {
       <View>
         <View style={{flexDirection: 'row'}}>
           <Button onPress={handleDownloadFile} title='downloadFile' color='#19AD1A' />
+          <Button onPress={handleUploadFile} title='uploadFile' color='#19AD1A' />
         </View>
       </View>
     </View>

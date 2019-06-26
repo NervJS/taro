@@ -117,8 +117,8 @@ export default class Home extends Component {
           {Object.keys(tabMap).map((key, index) => {
             const tabStyle = this.state.tabKey === key ? [styles.left_tab, styles.left_tab_selected] : styles.left_tab
             return (
-              <TouchableOpacity onPress={this.onPressButton.bind(this, key)}>
-                <Text style={tabStyle} key={key}>{tabMap[key].name}</Text>
+              <TouchableOpacity key={key} onPress={this.onPressButton.bind(this, key)}>
+                <Text style={tabStyle}>{tabMap[key].name}</Text>
               </TouchableOpacity>
             )
           })}
