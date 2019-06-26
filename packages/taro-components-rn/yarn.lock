@@ -519,6 +519,11 @@
   resolved "https://registry.npm.taobao.org/@bang88/react-native-ultimate-listview/download/@bang88/react-native-ultimate-listview-3.3.0.tgz#b09199105b942aee4ae05729e4bd229353217ab6"
   integrity sha1-sJGZEFuUKu5K4Fcp5L0ik1MherY=
 
+"@manjiz/react-native-swiper@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npm.taobao.org/@manjiz/react-native-swiper/download/@manjiz/react-native-swiper-0.0.3.tgz#bcc03e573121751d50579050ef38461e21f33233"
+  integrity sha1-vMA+VzEhdR1QV5BQ7zhGHiHzMjM=
+
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2":
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/@sinonjs/commons/download/@sinonjs/commons-1.4.0.tgz#7b3ec2d96af481d7a0321252e7b1c94724ec5a78"

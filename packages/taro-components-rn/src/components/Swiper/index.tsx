@@ -53,7 +53,7 @@ import {
   ViewStyle
 } from 'react-native'
 // import Swiper from 'react-native-swiper'
-import Swiper from '../../lib/react-native-swiper'
+import Swiper from '@manjiz/react-native-swiper'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
 
