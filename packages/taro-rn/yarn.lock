@@ -3353,6 +3353,12 @@ expo-asset@~5.0.0:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-av@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npm.taobao.org/expo-av/download/expo-av-5.0.2.tgz#8f308fc14d7be8b3bc79d6f8dc6c270da07f94d4"
+  dependencies:
+    lodash "^4.17.11"
+
 expo-constants@~5.0.0:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/expo-constants/download/expo-constants-5.0.1.tgz#597263397f269d7fe37d9cd6b30e305c16635a00"
@@ -5815,6 +5821,10 @@ nth-check@~1.0.1:
   resolved "http://registry.m.jd.com/nth-check/download/nth-check-1.0.2.tgz#b2bd295c37e3dd58a3bf0700376663ba4d9cf05c"
   dependencies:
     boolbase "~1.0.0"
+
+nullthrows@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/nullthrows/download/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
 
 number-is-nan@^1.0.0:
   version "1.0.1"

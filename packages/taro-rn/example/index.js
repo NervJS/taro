@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native'
-import App from './app'
+import App from './pages/home'
 
 AppRegistry.registerComponent('taro-rn', () => App)
