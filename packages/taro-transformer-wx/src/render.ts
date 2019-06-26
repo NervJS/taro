@@ -502,7 +502,7 @@ export class RenderParser {
                     }
                   }
                   const block = buildBlockElement()
-                  const hasIfAttr = jsxElementPath.node.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                  const hasIfAttr = jsxElementPath.node.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.if)
                   const needWrapper = Adapters.swan === Adapter.type && hasIfAttr
                   if (needWrapper) {
                     block.children = [jsxElementPath.node]
@@ -872,7 +872,7 @@ export class RenderParser {
                 newJSXIfAttr(jsxElementPath.node, test, jsxElementPath)
               }
             }
-            const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+            const ifAttr = block.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.if)
             if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test })) {
               const newBlock = buildBlockElement()
               newBlock.children = [block, jsxElementPath.node]
@@ -883,7 +883,7 @@ export class RenderParser {
               let hasNest = false
               this.handleNestedIfStatement(block, jsxElementPath.node, parentIfStatement.node.test, hasNest, isElse || !!ifStatement.findParent(p => p.node === parentIfStatement.node.alternate))
               if (!hasNest && parentIfStatement.get('alternate') !== ifStatement) {
-                const ifAttr = block.openingElement.attributes.find(a => a.name.name === Adapter.if)
+                const ifAttr = block.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.if)
                 if (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: parentIfStatement.node.test })) {
                   const newBlock = buildBlockElement()
                   block.children.push(jsxElementPath.node)
@@ -922,8 +922,8 @@ export class RenderParser {
       if (!t.isJSXElement(child)) {
         continue
       }
-      const ifAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.if)
-      const ifElseAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.elseif)
+      const ifAttr = child.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.if)
+      const ifElseAttr = child.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.elseif)
       if (
         (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test }))
         ||
@@ -946,8 +946,8 @@ export class RenderParser {
       if (!t.isJSXElement(child)) {
         continue
       }
-      const ifAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.if)
-      const ifElseAttr = child.openingElement.attributes.find(a => a.name.name === Adapter.elseif)
+      const ifAttr = child.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.if)
+      const ifElseAttr = child.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === Adapter.elseif)
       if (
         (ifAttr && t.isJSXExpressionContainer(ifAttr.value, { expression: test }))
         ||
