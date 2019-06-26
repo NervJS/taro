@@ -15,9 +15,9 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig } from '@tarojs/taro'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
-import { traverseObjectNode, resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync } from '../utils'
+import { traverseObjectNode, resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
@@ -140,7 +140,7 @@ export default class MiniPlugin {
 		}
 	}
 
-  apply (compiler: webpack.Compiler) {
+  apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
     compiler.hooks.run.tapAsync(
@@ -251,7 +251,7 @@ export default class MiniPlugin {
   getNpmComponentRealPath (code: string, component: IComponentObj, adapter: BUILD_TYPES): string | null {
     let componentRealPath: string | null = null
     let importExportName
-    const { isTaroComponent, transformResult } = isFileToBeTaroComponent(code, component.path, adapter)
+    const { isTaroComponent, transformResult } = isFileToBeTaroComponent(code, component.path as string, adapter)
     if (isTaroComponent) {
       return component.path
     }
@@ -265,7 +265,7 @@ export default class MiniPlugin {
           specifiers.forEach(specifier => {
             const exported = specifier.exported
             if (kebabCase(exported.name) === component.name) {
-              componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path), source.value))
+              componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path as string), source.value))
             }
           })
         } else {
@@ -290,7 +290,7 @@ export default class MiniPlugin {
         if (astPath.get('callee').isIdentifier({ name: 'require' })) {
           const arg = astPath.get('arguments')[0]
           if (t.isStringLiteral(arg.node)) {
-            componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path), arg.node.value))
+            componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path as string), arg.node.value))
           }
         }
       },
@@ -306,7 +306,7 @@ export default class MiniPlugin {
                 specifiers.forEach(specifier => {
                   const local = specifier.local
                   if (local.name === importExportName) {
-                    componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path), source.value))
+                    componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path as string), source.value))
                   }
                 })
               }
@@ -337,6 +337,29 @@ export default class MiniPlugin {
     })
   }
 
+  generateTabBarFiles (compiler, appConfig) {
+    const tabBar = appConfig.tabBar
+    const { buildAdapter } = this.options
+    if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
+      const {
+        list: listConfig,
+        iconPath: pathConfig,
+        selectedIconPath: selectedPathConfig
+      } = CONFIG_MAP[buildAdapter]
+
+      const list = tabBar[listConfig] || []
+      let tabBarIcons: string[] = []
+      list.forEach(item => {
+        item[pathConfig] && tabBarIcons.push(item[pathConfig])
+        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
+      })
+      tabBarIcons.map(item => {
+        const itemPath = path.resolve(this.sourceDir, item)
+        this.addEntry(compiler, itemPath, item, PARSE_AST_TYPE.STATIC)
+      })
+    }
+  }
+
   getSubPackages (appConfig) {
     const subPackages = appConfig.subPackages || appConfig['subpackages']
     if (subPackages && subPackages.length) {
@@ -364,7 +387,7 @@ export default class MiniPlugin {
     }
   }
 
-  getPages () {
+  getPages (compiler) {
     const { buildAdapter } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
@@ -381,6 +404,7 @@ export default class MiniPlugin {
       throw new Error('缺少页面')
     }
     this.getSubPackages(configObj)
+    this.generateTabBarFiles(compiler, configObj)
     taroFileTypeMap[this.appEntry] = {
       type: PARSE_AST_TYPE.ENTRY,
       config: configObj,
@@ -492,7 +516,7 @@ export default class MiniPlugin {
   }
 
   run (compiler: webpack.Compiler) {
-    this.getPages()
+    this.getPages(compiler)
     this.getComponents(this.pages, true)
     this.addEntries(compiler)
     this.transferFileContent(compiler)
