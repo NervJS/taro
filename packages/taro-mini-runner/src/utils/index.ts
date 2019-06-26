@@ -21,6 +21,18 @@ export function isQuickAppPkg (name: string): boolean {
   return /@system\./.test(name)
 }
 
+export function isEmptyObject (obj: any): boolean {
+  if (obj == null) {
+    return true
+  }
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      return false
+    }
+  }
+  return true
+}
+
 export function traverseObjectNode (node, buildAdapter: string, parentKey?: string) {
   if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
     const properties = node.value.properties
