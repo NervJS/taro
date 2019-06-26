@@ -232,8 +232,9 @@ class Compiler {
       .on('unlink', filePath => {
         const relativePath = path.relative(appPath, filePath)
         const extname = path.extname(relativePath)
+        const distDirname = this.getTempDir(filePath)
         const isScriptFile = REG_SCRIPTS.test(extname)
-        const dist = this.getDist(filePath, isScriptFile)
+        const dist = this.getDist(distDirname, filePath, isScriptFile)
         printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
         fs.unlinkSync(dist)
       })
@@ -1142,16 +1143,23 @@ class Compiler {
     }
   }
 
-  processFiles (filePath) {
-    const sourceRoot = this.sourceRoot
+  getTempDir (filePath) {
+    const appPath = this.appPath
+    const sourcePath = this.sourcePath
     const tempDir = this.tempDir
 
-    const file = fs.readFileSync(filePath)
     const dirname = path.dirname(filePath)
+    const relPath = path.relative(sourcePath, dirname)
+
+    return path.resolve(appPath, tempDir, relPath)
+  }
+
+  processFiles (filePath) {
+    const file = fs.readFileSync(filePath)
     const extname = path.extname(filePath)
-    const distDirname = dirname.replace(sourceRoot, tempDir)
+    const distDirname = this.getTempDir(filePath)
     const isScriptFile = REG_SCRIPTS.test(extname)
-    const distPath = this.getDist(filePath, isScriptFile)
+    const distPath = this.getDist(distDirname, filePath, isScriptFile)
 
     try {
       if (isScriptFile) {
@@ -1178,12 +1186,7 @@ class Compiler {
     }
   }
 
-  getDist (filename, isScriptFile) {
-    const sourceRoot = this.sourceRoot
-    const tempDir = this.tempDir
-
-    const dirname = path.dirname(filename)
-    const distDirname = dirname.replace(sourceRoot, tempDir)
+  getDist (distDirname, filename, isScriptFile) {
     return isScriptFile
       ? path.format({
         dir: distDirname,
