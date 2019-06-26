@@ -133,6 +133,8 @@ export const getMiniPlugin = (args) => {
 }
 
 export const getModule = (appPath: string, {
+  sourceDir,
+
   designWidth,
   deviceRatio,
   buildAdapter,
@@ -228,7 +230,8 @@ export const getModule = (appPath: string, {
 
   const fileLoader = getFileLoader([{
     useRelativePath: true,
-    name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`
+    name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`,
+    context: sourceDir
   }])
 
   const fileParseLoader = getFileParseLoader([{

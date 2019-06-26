@@ -28,6 +28,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     entry = emptyObj,
     output = emptyObj,
     outputRoot = 'dist',
+    sourceRoot = 'src',
 
     designWidth = 750,
     deviceRatio,
@@ -52,6 +53,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   const plugin: any = {}
   const minimizer: any[] = []
+  const sourceDir = path.join(appPath, sourceRoot)
 
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
@@ -108,6 +110,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       ]
     },
     module: getModule(appPath, {
+      sourceDir,
+
       buildAdapter,
       constantsReplaceList,
       designWidth,
