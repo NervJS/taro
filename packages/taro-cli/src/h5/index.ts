@@ -267,7 +267,6 @@ class Compiler {
     let hasComponentDidShow = false
     let hasComponentDidHide = false
     let hasComponentWillUnmount = false
-    let hasJSX = false
     let hasNerv = false
     let stateNode: t.ClassProperty
 
@@ -542,6 +541,7 @@ class Compiler {
       }
     }
 
+    // require('fs').writeFileSync('./ast.json', JSON.stringify(ast, null, 2))
     traverse(ast, {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
@@ -669,11 +669,6 @@ class Compiler {
           }
         }
       },
-      JSXElement: {
-        enter (astPath: NodePath<t.JSXElement>) {
-          hasJSX = true
-        }
-      },
       JSXOpeningElement: {
         enter (astPath: NodePath<t.JSXOpeningElement>) {
           const node = astPath.node
@@ -709,10 +704,10 @@ class Compiler {
             createHistoryNode,
             mountApisNode
           ]
-
           astPath.traverse(programExitVisitor)
 
-          if (hasJSX && !hasNerv) {
+          /* Taro.render(<App />) 会被移除，导致hasJSX判断错误 */
+          if (!hasNerv) {
             extraNodes.unshift(
               t.importDeclaration(
                 [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
@@ -887,9 +882,13 @@ class Compiler {
           }
         }
       },
+      JSXElement: {
+        exit (astPath: NodePath<t.JSXElement>) {
+          hasJSX = true
+        }
+      },
       JSXOpeningElement: {
         exit (astPath: NodePath<t.JSXOpeningElement>) {
-          hasJSX = true
           const node = astPath.node
           const componentName = componentnameMap.get(toVar(node.name))
           const componentId = getComponentId(componentName, node)
