@@ -171,6 +171,9 @@ function processAst (
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
+      if (type === PARSE_AST_TYPE.NORMAL) {
+        return
+      }
       if (isNpmPkg(value) && !isQuickAppPkg(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
@@ -180,8 +183,8 @@ function processAst (
                 taroSelfComponents.add(_.kebabCase(name))
               }
             })
+            taroSelfComponents.add('taro-page')
           }
-          taroSelfComponents.add('taro-page')
           astPath.remove()
         } else {
           const specifiers = node.specifiers
@@ -222,6 +225,9 @@ function processAst (
         const args = node.arguments as t.StringLiteral[]
         let value = args[0].value
         const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
+        if (type === PARSE_AST_TYPE.NORMAL) {
+          return
+        }
         if (isNpmPkg(value) && !isQuickAppPkg(value)) {
           if (value === taroJsComponents) {
             if (isQuickApp) {
