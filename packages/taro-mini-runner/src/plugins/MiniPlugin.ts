@@ -337,6 +337,33 @@ export default class MiniPlugin {
     })
   }
 
+  getSubPackages (appConfig) {
+    const subPackages = appConfig.subPackages || appConfig['subpackages']
+    if (subPackages && subPackages.length) {
+      subPackages.forEach(item => {
+        if (item.pages && item.pages.length) {
+          const root = item.root
+          item.pages.forEach(page => {
+            let pageItem = `${root}/${page}`
+            pageItem = pageItem.replace(/\/{2,}/g, '/')
+            let hasPageIn = false
+            this.pages.forEach(({ name }) => {
+              if (name === pageItem) {
+                hasPageIn = true
+              }
+            })
+            if (!hasPageIn) {
+              this.pages.add({
+                name: pageItem,
+                path: resolveScriptPath(path.join(this.sourceDir, pageItem))
+              })
+            }
+          })
+        }
+      })
+    }
+  }
+
   getPages () {
     const { buildAdapter } = this.options
     const appEntry = this.appEntry
@@ -353,6 +380,7 @@ export default class MiniPlugin {
     if (!appPages || appPages.length === 0) {
       throw new Error('缺少页面')
     }
+    this.getSubPackages(configObj)
     taroFileTypeMap[this.appEntry] = {
       type: PARSE_AST_TYPE.ENTRY,
       config: configObj,
