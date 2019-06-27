@@ -123,8 +123,11 @@ export function isAllLiteral (...args) {
   return args.every(p => t.isLiteral(p))
 }
 
-export function buildBlockElement (attrs: t.JSXAttribute[] = []) {
-  const blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
+export function buildBlockElement (attrs: t.JSXAttribute[] = [], isView = false) {
+  let blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
+  if (isView) {
+    blockName = 'View'
+  }
   return t.jSXElement(
     t.jSXOpeningElement(t.jSXIdentifier(blockName), attrs),
     t.jSXClosingElement(t.jSXIdentifier(blockName)),

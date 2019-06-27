@@ -10,13 +10,13 @@ export function injectRenderPropsListener (attrPath: NodePath<t.JSXAttribute>, a
   const randomLetters = createRandomLetters(5)
   const renderClosureFuncName = attrName + randomLetters
   const jsxDecl = buildConstVariableDeclaration(renderClosureFuncName, attrExpr)
-  const block = buildBlockElement()
+  const block = buildBlockElement([], true)
   const renderPropsArgs = t.memberExpression(t.thisExpression(), t.identifier(renderClosureFuncName))
   renderPropsMap.set(componentName + '_' + attrName, renderClosureFuncName)
   block.children = [
     t.jSXExpressionContainer(t.callExpression(t.identifier(renderClosureFuncName), [renderPropsArgs]))
   ]
-  const listener = buildListener(renderPropsArgs)
+  const listener = buildListener(renderClosureFuncName, renderPropsArgs)
   const stemParent = attrPath.getStatementParent()
   stemParent.insertBefore(listener)
   stemParent.insertBefore(jsxDecl)
@@ -42,19 +42,19 @@ export function injectRenderPropsEmiter (callExpr: NodePath<t.CallExpression>, a
   stemParent.insertBefore(t.expressionStatement(emiter))
 }
 
-function buildListener (renderPropsArgs: t.MemberExpression) {
+function buildListener (renderClosureFuncName: string, renderPropsArgs: t.MemberExpression) {
   return t.expressionStatement(
     t.callExpression(
       t.memberExpression(
         buildEventCenterMemberExpr(),
-        t.identifier('only')
+        t.identifier('on')
       ),
-      [t.arrowFunctionExpression([t.identifier('e')], t.blockStatement([
+      [t.stringLiteral(renderClosureFuncName), t.arrowFunctionExpression([t.identifier('e')], t.blockStatement([
         t.ifStatement(
-          t.callExpression(
-            t.memberExpression(t.identifier('Taro'), t.identifier('shaowEqual')),
+          t.unaryExpression('!', t.callExpression(
+            t.memberExpression(t.identifier('Taro'), t.identifier('shallowEqual')),
             [t.identifier('e'), renderPropsArgs]
-          ),
+          )),
           t.blockStatement([
             t.expressionStatement(t.assignmentExpression('=', renderPropsArgs, t.identifier('e'))),
             t.expressionStatement(t.callExpression(

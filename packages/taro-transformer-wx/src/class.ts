@@ -708,8 +708,8 @@ class Transformer {
           }
           if (parentPath.isCallExpression() && parentPath.parentPath.isJSXExpressionContainer()) {
             if (isDerivedFromProps(path.scope, path.node.name)) {
-              parentPath.replaceWith(slot)
               injectRenderPropsEmiter(parentPath, path.node.name)
+              parentPath.replaceWith(slot)
             }
           }
           if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {
@@ -796,10 +796,10 @@ class Transformer {
             } else if (/^render[A-Z]/.test(name)) {
               const slotName = getSlotName(name)
               if (parentPath.parentPath.isCallExpression()) {
+                injectRenderPropsEmiter(parentPath.parentPath, name)
                 parentPath.parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
                   t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
                 ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
-                injectRenderPropsEmiter(parentPath.parentPath, name)
               } else {
                 parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
                   t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
