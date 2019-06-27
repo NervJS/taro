@@ -210,6 +210,7 @@ class Video extends Component {
   }
 
   onLoadedMetadata = e => {
+    if (this.props.poster) return
     this.setState({
       duration: this.videoRef.duration
     })

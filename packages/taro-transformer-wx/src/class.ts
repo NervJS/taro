@@ -741,7 +741,7 @@ class Transformer {
           }
 
           if (id.name.endsWith(CONTEXT_PROVIDER)) {
-            const valueAttr = path.node.openingElement.attributes.find(a => a.name.name === 'value')
+            const valueAttr = path.node.openingElement.attributes.find(a => t.isJSXIdentifier(a.name) && a.name.name === 'value')
             const contextName = id.name.slice(0, id.name.length - CONTEXT_PROVIDER.length)
             if (valueAttr) {
               if (t.isJSXElement(valueAttr.value)) {

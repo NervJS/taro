@@ -232,8 +232,9 @@ class Compiler {
       .on('unlink', filePath => {
         const relativePath = path.relative(appPath, filePath)
         const extname = path.extname(relativePath)
+        const distDirname = this.getTempDir(filePath)
         const isScriptFile = REG_SCRIPTS.test(extname)
-        const dist = this.getDist(filePath, isScriptFile)
+        const dist = this.getDist(distDirname, filePath, isScriptFile)
         printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
         fs.unlinkSync(dist)
       })
@@ -267,7 +268,6 @@ class Compiler {
     let hasComponentDidShow = false
     let hasComponentDidHide = false
     let hasComponentWillUnmount = false
-    let hasJSX = false
     let hasNerv = false
     let stateNode: t.ClassProperty
 
@@ -542,6 +542,7 @@ class Compiler {
       }
     }
 
+    // require('fs').writeFileSync('./ast.json', JSON.stringify(ast, null, 2))
     traverse(ast, {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
@@ -669,11 +670,6 @@ class Compiler {
           }
         }
       },
-      JSXElement: {
-        enter (astPath: NodePath<t.JSXElement>) {
-          hasJSX = true
-        }
-      },
       JSXOpeningElement: {
         enter (astPath: NodePath<t.JSXOpeningElement>) {
           const node = astPath.node
@@ -709,10 +705,10 @@ class Compiler {
             createHistoryNode,
             mountApisNode
           ]
-
           astPath.traverse(programExitVisitor)
 
-          if (hasJSX && !hasNerv) {
+          /* Taro.render(<App />) 会被移除，导致hasJSX判断错误 */
+          if (!hasNerv) {
             extraNodes.unshift(
               t.importDeclaration(
                 [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
@@ -887,9 +883,13 @@ class Compiler {
           }
         }
       },
+      JSXElement: {
+        exit (astPath: NodePath<t.JSXElement>) {
+          hasJSX = true
+        }
+      },
       JSXOpeningElement: {
         exit (astPath: NodePath<t.JSXOpeningElement>) {
-          hasJSX = true
           const node = astPath.node
           const componentName = componentnameMap.get(toVar(node.name))
           const componentId = getComponentId(componentName, node)
@@ -1143,16 +1143,23 @@ class Compiler {
     }
   }
 
-  processFiles (filePath) {
-    const sourceRoot = this.sourceRoot
+  getTempDir (filePath) {
+    const appPath = this.appPath
+    const sourcePath = this.sourcePath
     const tempDir = this.tempDir
 
-    const file = fs.readFileSync(filePath)
     const dirname = path.dirname(filePath)
+    const relPath = path.relative(sourcePath, dirname)
+
+    return path.resolve(appPath, tempDir, relPath)
+  }
+
+  processFiles (filePath) {
+    const file = fs.readFileSync(filePath)
     const extname = path.extname(filePath)
-    const distDirname = dirname.replace(sourceRoot, tempDir)
+    const distDirname = this.getTempDir(filePath)
     const isScriptFile = REG_SCRIPTS.test(extname)
-    const distPath = this.getDist(filePath, isScriptFile)
+    const distPath = this.getDist(distDirname, filePath, isScriptFile)
 
     try {
       if (isScriptFile) {
@@ -1179,12 +1186,7 @@ class Compiler {
     }
   }
 
-  getDist (filename, isScriptFile) {
-    const sourceRoot = this.sourceRoot
-    const tempDir = this.tempDir
-
-    const dirname = path.dirname(filename)
-    const distDirname = dirname.replace(sourceRoot, tempDir)
+  getDist (distDirname, filename, isScriptFile) {
     return isScriptFile
       ? path.format({
         dir: distDirname,
