@@ -173,7 +173,7 @@ class Compiler {
     })
   }
 
-  async buildDist ({ watch, port }: IBuildConfig) {
+  async buildDist({ watch, port, buildVersion }: IBuildConfig) {
     const entryFileName = this.entryFileName
     const projectConfig = this.projectConfig
     const h5Config = this.h5Config
@@ -205,6 +205,9 @@ class Compiler {
       port,
       sourceRoot
     })
+    if (watch == undefined && buildVersion) {
+      h5Config.outputRoot = buildVersion;
+    }
 
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
     webpackRunner(this.appPath, h5Config)

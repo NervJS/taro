@@ -8,8 +8,8 @@ import CONFIG from './config'
 import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
 import { IBuildConfig } from './util/types'
 
-export default function build (appPath, buildConfig: IBuildConfig) {
-  const { type, watch, platform, port, release } = buildConfig
+export default function build(appPath, buildConfig: IBuildConfig) {
+  const { type, watch, platform, port, release, buildVersion } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
@@ -19,7 +19,7 @@ export default function build (appPath, buildConfig: IBuildConfig) {
   }
   switch (type) {
     case BUILD_TYPES.H5:
-      buildForH5(appPath, { watch, port })
+      buildForH5(appPath, { watch, port,buildVersion })
       break
     case BUILD_TYPES.WEAPP:
       buildForWeapp(appPath, { watch })

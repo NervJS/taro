@@ -49,7 +49,8 @@ export interface IBuildConfig {
   watch?: boolean,
   platform?: string,
   port?: number,
-  release?: boolean
+  release?: boolean,
+  buildVersion?: string
 }
 
 export interface IMiniAppBuildConfig {

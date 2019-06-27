@@ -18,9 +18,10 @@ program
   .option('--plugin [typeName]', 'Build Taro plugin project, weapp')
   .option('--port [port]', 'Specified port')
   .option('--release', 'Release quickapp')
+  .option('--buildVersion [buildVersionName]', 'Build version, 1.0.0/2.0.0-bate.1')
   .parse(process.argv)
 
-const { type, watch, ui, port, release } = program
+const { type, watch, ui, port, release, buildVersion } = program
 let { env, plugin } = program
 
 env = process.env.NODE_ENV || env
@@ -70,5 +71,6 @@ build(appPath, {
   type,
   watch,
   port: typeof port === 'string' ? port: undefined,
-  release: !!release
+  release: !!release,
+  buildVersion: typeof buildVersion === 'string' ? buildVersion : undefined
 })
