@@ -10,7 +10,7 @@ function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
 }
 
-const NumberWords = ['z', 'a','b','c','d','e', 'f','g','h','i','j']
+const NumberWords = ['z', 'b','c','d','e', 'f','g','h','i','j','k']
 
 function buildTemplateName (name: string) {
   if (/wx/i.test(name)) {
