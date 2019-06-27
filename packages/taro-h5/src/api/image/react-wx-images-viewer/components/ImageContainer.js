@@ -319,7 +319,7 @@ class ImageContainer extends PureComponent {
 
   handleTouchEnd = (event) => {
     // console.info('handleTouchEnd', event.touches.length)
-    // event.preventDefault()
+    event.preventDefault()
 
     if (this.isTwoFingerMode) { // 双指操作结束
       const touchLen = event.touches.length
