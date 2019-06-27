@@ -3,6 +3,8 @@ import { codeFrameError, buildConstVariableDeclaration } from './utils'
 import * as t from 'babel-types'
 import { cloneDeep } from 'lodash'
 import generate from 'babel-generator'
+import { DEFAULT_Component_SET } from './constant'
+import { injectRenderPropsListener } from './render-props'
 
 function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
@@ -123,6 +125,22 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
             t.classMethod('method', t.identifier('render'), [], cloneBody)
           ]), [])
           functionDecl.replaceWith(classDecl)
+        }
+      },
+      JSXAttribute (path) {
+        const { name, value } = path.node
+        const jsxElementPath = path.parentPath.parentPath
+        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
+          const componentName = (jsxElementPath.node.openingElement as any).name.name
+          if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
+            if (!t.isJSXExpressionContainer(value)) {
+              throw codeFrameError(value, '以 render 开头的 props 只能传入包含一个 JSX 元素的 JSX 表达式。')
+            }
+            const expression = value.expression
+            if (t.isArrowFunctionExpression(expression)) {
+              injectRenderPropsListener(path, name.name, expression, componentName)
+            }
+          }
         }
       }
     }

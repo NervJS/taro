@@ -108,7 +108,7 @@ function handleClosureJSXFunc (jsx: NodePath<t.JSXElement>, mainClass: NodePath<
     const parentPath = arrowFunc.parentPath
     if (parentPath.isVariableDeclarator()) {
       const id = parentPath.node.id
-      if (t.isIdentifier(id) && id.name.startsWith('render')) {
+      if (t.isIdentifier(id) && /^render[A-Z]/.test(id.name)) {
         const funcName = `renderClosure${id.name.slice(6, id.name.length)}`
         mainClass.node.body.body.push(
           t.classProperty(

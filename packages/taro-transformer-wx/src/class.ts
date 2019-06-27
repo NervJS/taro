@@ -26,6 +26,7 @@ import { LoopRef } from './interface'
 import generate from 'babel-generator'
 import { isTestEnv } from './env'
 import { Status } from './functional'
+import { injectRenderPropsEmiter } from './render-props'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -640,6 +641,10 @@ class Transformer {
             calleeExpr.get('object').isMemberExpression() &&
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
+          const calleeName = calleeExpr.isIdentifier() && calleeExpr.node.name
+          if (typeof calleeName === 'string' && isDerivedFromProps(calleeExpr.scope, calleeName)) {
+            return
+          }
           generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
         } else {
           if (parentPath.isJSXAttribute()) {
@@ -675,7 +680,7 @@ class Transformer {
             if (
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
-            ) {
+              ) {
               self.buildPropsAnonymousFunc(attr, expr as any, false)
             }
           } else if (!t.isLiteral(expr)) {
@@ -689,6 +694,7 @@ class Transformer {
         if (!t.isJSXIdentifier(jsxName)) return
         if (expression.isJSXElement()) return
         if (DEFAULT_Component_SET.has(jsxName.name) || expression.isIdentifier() || expression.isMemberExpression() || expression.isLiteral() || expression.isLogicalExpression() || expression.isConditionalExpression() || key.name.startsWith('on') || expression.isCallExpression()) return
+        if (isContainJSXElement(path)) return
         generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
       },
       Identifier (path) {
@@ -699,6 +705,12 @@ class Transformer {
           if (isStartWithRender) {
             slot.openingElement.attributes.push(t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(getSlotName(path.node.name))))
             self.setMultipleSlots()
+          }
+          if (parentPath.isCallExpression() && parentPath.parentPath.isJSXExpressionContainer()) {
+            if (isDerivedFromProps(path.scope, path.node.name)) {
+              parentPath.replaceWith(slot)
+              injectRenderPropsEmiter(parentPath, path.node.name)
+            }
           }
           if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {
             const object = parentPath.get('object')
@@ -783,9 +795,16 @@ class Transformer {
               parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true))
             } else if (/^render[A-Z]/.test(name)) {
               const slotName = getSlotName(name)
-              parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
-                t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
-              ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
+              if (parentPath.parentPath.isCallExpression()) {
+                parentPath.parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
+                  t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
+                ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
+                injectRenderPropsEmiter(parentPath.parentPath, name)
+              } else {
+                parentPath.replaceWith(t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [
+                  t.jSXAttribute(t.jSXIdentifier('name'), t.stringLiteral(slotName))
+                ], true), t.jSXClosingElement(t.jSXIdentifier('slot')), []))
+              }
               this.setMultipleSlots()
             } else {
               self.componentProperies.add(siblingProp.node.name)

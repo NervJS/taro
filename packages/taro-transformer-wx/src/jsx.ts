@@ -86,7 +86,8 @@ export function setJSXAttr (
     return
   }
   const element = jsx.openingElement
-  if (!t.isJSXIdentifier(element.name)) {
+  // tslint:disable-next-line: strict-type-predicates
+  if (element == null || !t.isJSXIdentifier(element.name)) {
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {

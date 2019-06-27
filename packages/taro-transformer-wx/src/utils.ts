@@ -246,6 +246,7 @@ export function generateAnonymousState (
           if (isArrowFunctionInJSX) {
             return
           }
+          // tslint:disable-next-line: strict-type-predicates
           if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$') && init != null) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
