@@ -12,6 +12,8 @@
     "types"
   ],
   "sideEffects": [
+    "*.scss",
+    "*.css",
     "./src/taro/index.js"
   ],
   "scripts": {
