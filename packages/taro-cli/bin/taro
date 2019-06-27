@@ -9,6 +9,7 @@ program
   .version(getPkgVersion())
   .usage('<command> [options]')
   .command('init [projectName]', 'Init a project with default templete')
+  .command('config <cmd>', 'Taro config')
   .command('create [type]', 'Create page or component for project')
   .command('build', 'Build a project with options')
   .command('update', 'Update packages of taro')
