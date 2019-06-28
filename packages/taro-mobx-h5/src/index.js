@@ -1,6 +1,7 @@
 import { useState } from '@tarojs/taro-h5'
 
 import {
+  PropTypes,
   onError,
   observer,
   isUsingStaticRendering,
@@ -21,6 +22,7 @@ function useAsObservableSource (current) {
 }
 
 export default {
+  PropTypes,
   onError,
   observer,
   inject,
@@ -32,6 +34,7 @@ export default {
 }
 
 export {
+  PropTypes,
   onError,
   observer,
   inject,

@@ -1,6 +1,7 @@
 import { useState } from '@tarojs/taro'
 
 import {
+  PropTypes,
   onError,
   getStore,
   setStore,
@@ -24,6 +25,7 @@ function useAsObservableSource (current) {
 }
 
 export default {
+  PropTypes,
   onError,
   getStore,
   setStore,
@@ -37,6 +39,7 @@ export default {
 }
 
 export {
+  PropTypes,
   onError,
   getStore,
   setStore,
