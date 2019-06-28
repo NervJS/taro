@@ -44,6 +44,8 @@ import Nerv, {
   useContext
 } from 'nervjs'
 
+import * as api from '../api/index'
+
 import { permanentlyNotSupport } from '../api/utils'
 
 const taro = {
@@ -83,7 +85,8 @@ const taro = {
   useCallback,
   useMemo,
   useImperativeHandle,
-  useContext
+  useContext,
+  ...api
 }
 
 class Component extends Nerv.Component {
