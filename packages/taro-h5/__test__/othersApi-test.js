@@ -1,5 +1,6 @@
 /* eslint-disable */
 import * as Taro from '../src/api'
+
 describe('others', () => {
   test('should covert arraybuffer to base64', () => {
     const arrayBuffer = new Uint8Array([11, 22, 33])
@@ -13,5 +14,14 @@ describe('others', () => {
     expect(arrayBuffer[0]).toBe(11)
     expect(arrayBuffer[1]).toBe(22)
     expect(arrayBuffer[2]).toBe(33)
+  })
+})
+
+describe('export api', () => {
+  it('export', () => {
+    expect(Taro).to.have.key('setClipBoardData')
+  })
+  it('export default', () => {
+    expect(Taro.default).to.have.key('setClipBoardData')
   })
 })
