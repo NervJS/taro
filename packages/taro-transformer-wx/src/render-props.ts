@@ -6,6 +6,8 @@ import { get as safeGet } from 'lodash'
 
 const renderPropsMap = new Map<string, string>()
 
+const RENDER_PROPS_EVENTS = '$$renderPropsEvents'
+
 export function injectRenderPropsListener (attrPath: NodePath<t.JSXAttribute>, attrName: string, attrExpr: t.ArrowFunctionExpression, componentName: string) {
   const randomLetters = createRandomLetters(5)
   const renderClosureFuncName = attrName + randomLetters
@@ -21,6 +23,30 @@ export function injectRenderPropsListener (attrPath: NodePath<t.JSXAttribute>, a
   stemParent.insertBefore(listener)
   stemParent.insertBefore(jsxDecl)
   attrPath.get('value').replaceWith(t.jSXExpressionContainer(block))
+  setRenderPropsEvents(attrPath, renderClosureFuncName)
+}
+
+function setRenderPropsEvents (attrPath: NodePath<t.JSXAttribute>, renderClosureFuncName: string) {
+  const classDecl = attrPath.findParent(p => p.isClassDeclaration())
+  if (classDecl && classDecl.isClassDeclaration()) {
+    let hasEvent = false
+    for (const s of classDecl.node.body.body) {
+      if (t.isClassProperty(s) && s.key.name === RENDER_PROPS_EVENTS && t.isArrayExpression(s.value)) {
+        hasEvent = true
+        if (s.value.elements.some(e => t.isStringLiteral(e) && e.value === renderClosureFuncName)) {
+          break
+        }
+        s.value.elements.push(t.stringLiteral(renderClosureFuncName))
+      }
+    }
+
+    if (!hasEvent) {
+      classDecl.node.body.body.push(t.classProperty(
+        t.identifier(RENDER_PROPS_EVENTS),
+        t.arrayExpression([t.stringLiteral(renderClosureFuncName)])
+      ))
+    }
+  }
 }
 
 export function injectRenderPropsEmiter (callExpr: NodePath<t.CallExpression>, attrName: string) {

@@ -1,6 +1,6 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
-import { isEmptyObject, isFunction } from './util'
+import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
+import { isEmptyObject, isFunction, isArray } from './util'
 import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
@@ -286,6 +286,11 @@ function createComponent (ComponentClass, isPage) {
 
       onUnload () {
         componentTrigger(this.$component, 'componentWillUnmount')
+        const component = this.$component
+        const events = component.$$renderPropsEvents
+        if (isArray(events)) {
+          events.forEach(e => eventCenter.off(e))
+        }
       },
 
       onShow () {
