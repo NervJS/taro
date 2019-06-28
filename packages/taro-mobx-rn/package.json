@@ -19,6 +19,6 @@
   ],
   "dependencies": {
     "@tarojs/mobx-common": "1.3.5",
-    "@tarojs/taro-rn": "1.1.7"
+    "@tarojs/taro-rn": "1.3.5"
   }
 }

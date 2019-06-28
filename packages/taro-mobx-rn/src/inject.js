@@ -1,31 +1,45 @@
 import { createElement } from 'react'
 import { Component } from '@tarojs/taro-rn'
-import { mapStoreToProps, generateDisplayName } from '@tarojs/mobx-common'
+import { mapStoreToProps, getInjectName, inject as originInject } from '@tarojs/mobx-common'
 
-export function createStoreInjector (grabStoresFn, injectNames, sourceComponent) {
+function createStoreInjector (grabStoresFn, injectNames, sourceComponent) {
   class Injector extends Component {
     static isMobxInjector = true
     static config = sourceComponent.config || {}
-    static displayName = generateDisplayName(sourceComponent, injectNames)
+    static displayName = getInjectName(sourceComponent, injectNames)
+    __observeInstance
 
     render () {
-      return createElement(sourceComponent, mapStoreToProps(grabStoresFn, this.props))
+      const originProps = mapStoreToProps(grabStoresFn, this.props)
+      return createElement(sourceComponent, {
+        ...originProps,
+        ref: ref => {
+          originProps.ref && originProps.ref(ref)
+          if (ref) {
+            this.__observeInstance = ref
+          }
+        }
+      })
     }
 
     componentDidShow () {
       const { componentDidShow } = sourceComponent.prototype
       if (typeof componentDidShow === 'function') {
-        componentDidShow()
+        componentDidShow.call(this.__observeInstance)
       }
     }
 
     componentDidHide () {
       const { componentDidHide } = sourceComponent.prototype
       if (typeof componentDidHide === 'function') {
-        componentDidHide()
+        componentDidHide.call(this.__observeInstance)
       }
     }
   }
 
   return Injector
+}
+
+export function inject () {
+  return originInject(...arguments, createStoreInjector)
 }
