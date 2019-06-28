@@ -8,7 +8,7 @@ import {
   isUsingStaticRendering,
   useStaticRendering,
   useLocalStore as originUseLocalStore,
-  useAsObservableSource as originUseAsObservableSource,
+  useAsObservableSource as originUseAsObservableSource
 } from '@tarojs/mobx-common'
 
 import { inject } from './inject'

@@ -32,7 +32,7 @@ export function observer (component) {
     originComponentWillUnmount && originComponentWillUnmount.call(this)
   }
 
-  const renderMethod = isMiniPlatform() ?  '_createData' : 'render'
+  const renderMethod = isMiniPlatform() ? '_createData' : 'render'
   const originRender = target[renderMethod]
   target[renderMethod] = function (...args) {
     let result

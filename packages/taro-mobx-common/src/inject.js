@@ -17,7 +17,7 @@ function grabStoresByName (storeNames) {
   }
 }
 
-export function getInjectName(component, injectNames) {
+export function getInjectName (component, injectNames) {
   const componentName = component.displayName || component.name || 'Component'
   if (injectNames) {
     return `inject-with-${injectNames}(${componentName})`

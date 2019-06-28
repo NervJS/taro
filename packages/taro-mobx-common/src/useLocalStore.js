@@ -10,7 +10,7 @@ export function useLocalStore (initializer, current, useState) {
       runInAction(() => {
         Object.keys(local).forEach(key => {
           const value = local[key]
-          if (typeof value === "function") {
+          if (typeof value === 'function') {
             local[key] = wrapInTransaction(value, local)
           }
         })
