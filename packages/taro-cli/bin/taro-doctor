@@ -16,6 +16,11 @@ if (!fs.existsSync(PROJECT_CONF_PATH)) {
 }
 
 const { validators } = require('../dist/doctor').default
+const abilityXMLValidator = require('../dist/doctor/abilityXMLValidator').default
+const QUICKAPP_CONF_PATH = path.join(appPath, 'project.quickapp.json')
+if (fs.existsSync(QUICKAPP_CONF_PATH)) {
+  validators.push(abilityXMLValidator)
+}
 
 const NOTE_ALL_RIGHT = chalk.green('[✓] ')
 const NOTE_VALID = chalk.yellow('[!] ')
