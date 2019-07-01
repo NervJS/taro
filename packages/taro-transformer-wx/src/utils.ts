@@ -36,6 +36,17 @@ export function isDerivedFromProps (scope: Scope, bindingName: string) {
   return false
 }
 
+export function isDerivedFromThis (scope: Scope, bindingName: string) {
+  const binding = scope.getBinding(bindingName)
+  if (binding && binding.path.isVariableDeclarator()) {
+    const init = binding.path.get('init')
+    if (init.isThisExpression()) {
+      return true
+    }
+  }
+  return false
+}
+
 export const incrementId = () => {
   let id = 0
   return () => id++

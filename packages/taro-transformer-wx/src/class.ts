@@ -464,7 +464,8 @@ class Transformer {
           self.methods.set(methodName, classMethodPath)
           if (methodName.startsWith('render')) {
             if (!isContainJSXElement(classMethodPath)) {
-              throw codeFrameError(classMethodPath.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。')
+              throw codeFrameError(classMethodPath.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。\n' +
+              '以 VSCode 为例：右键点击选择方法名，点击 rename symbol（重命名符号），输入新方法名。')
             }
             hasRender = true
             self.renderJSX.set(methodName, classMethodPath)
