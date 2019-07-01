@@ -28,6 +28,7 @@
       "context",
       "hooks",
       "children",
+      "render-props",
       "ref",
       "envs",
       "relations",
