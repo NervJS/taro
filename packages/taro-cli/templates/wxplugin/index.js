@@ -11,7 +11,7 @@ const styleExtMap = {
   none: 'css'
 }
 
-exports.createPage = function (creater, params, cb) {
+exports.createPage = function (creator, params, cb) {
   const { page, projectDir, src, template, typescript, css } = params
   let pageCSSName
   const sourceDir = path.join(projectDir, src)
@@ -30,27 +30,27 @@ exports.createPage = function (creater, params, cb) {
       pageCSSName = `${page}.css`
       break
   }
-  creater.template(template, 'scss', path.join(sourceDir, 'pages', page, pageCSSName))
+  creator.template(template, 'scss', path.join(sourceDir, 'pages', page, pageCSSName))
   if (typescript) {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.tsx`), {
+    creator.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.tsx`), {
       css: currentStyleExt,
       typescript: true,
       pageName: page
     })
   } else {
-    creater.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.js`), {
+    creator.template(template, 'pagejs', path.join(sourceDir, 'pages', page, `${page}.js`), {
       css: currentStyleExt,
       pageName: page
     })
   }
-  creater.fs.commit(() => {
+  creator.fs.commit(() => {
     if (typeof cb === 'function') {
       cb()
     }
   })
 }
 
-exports.createApp = function (creater, params, helper, cb) {
+exports.createApp = function (creator, params, helper, cb) {
   const { projectName, projectDir, description, template, typescript, date, src, css } = params
   const configDirName = 'config'
   const projectPath = path.join(projectDir, projectName)
@@ -60,7 +60,7 @@ exports.createApp = function (creater, params, helper, cb) {
   const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
   const shouldUseYarn = helper.shouldUseYarn()
   const useNpmrc = shouldUseYarn === false
-  const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
+  const useYarnLock = shouldUseYarn && fs.existsSync(creator.templatePath(template, yarnLockfilePath))
   let appCSSName
   let pageCSSName
   let avatarCSSName
@@ -75,7 +75,7 @@ exports.createApp = function (creater, params, helper, cb) {
   fs.mkdirSync(configDir)
   fs.mkdirSync(path.join(sourceDir, 'pages'))
 
-  creater.template(template, 'pkg', path.join(projectPath, 'package.json'), {
+  creator.template(template, 'pkg', path.join(projectPath, 'package.json'), {
     description,
     projectName,
     version,
@@ -83,24 +83,24 @@ exports.createApp = function (creater, params, helper, cb) {
     typescript,
     template
   })
-  creater.template(template, 'project', path.join(projectPath, 'project.config.json'), {
+  creator.template(template, 'project', path.join(projectPath, 'project.config.json'), {
     description,
     projectName
   })
-  creater.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
-  creater.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
-  creater.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'), {
+  creator.template(template, 'gitignore', path.join(projectPath, '.gitignore'))
+  creator.template(template, 'editorconfig', path.join(projectPath, '.editorconfig'))
+  creator.template(template, 'eslintrc', path.join(projectPath, '.eslintrc'), {
     typescript
   })
   if (typescript) {
-    creater.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
+    creator.template(template, 'appjs', path.join(sourceDir, 'app.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
-    creater.template(template, 'globaldts', path.join(projectPath, 'global.d.ts'))
+    creator.template(template, 'tsconfigjson', path.join(projectPath, 'tsconfig.json'))
+    creator.template(template, 'globaldts', path.join(projectPath, 'global.d.ts'))
   } else {
-    creater.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
+    creator.template(template, 'appjs', path.join(sourceDir, 'app.js'), {
       css: currentStyleExt
     })
   }
@@ -134,47 +134,47 @@ exports.createApp = function (creater, params, helper, cb) {
       listItemCSSName = 'listItem.css'
       break
   }
-  creater.template(template, 'scss', path.join(sourceDir, appCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'plugin', 'components', 'avatar', avatarCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'plugin', 'components', 'listItem', listItemCSSName))
-  creater.template(template, 'scss', path.join(sourceDir, 'plugin', 'pages', 'list', listCSSName))
-  creater.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
+  creator.template(template, 'scss', path.join(sourceDir, appCSSName))
+  creator.template(template, 'scss', path.join(sourceDir, 'plugin', 'components', 'avatar', avatarCSSName))
+  creator.template(template, 'scss', path.join(sourceDir, 'plugin', 'components', 'listItem', listItemCSSName))
+  creator.template(template, 'scss', path.join(sourceDir, 'plugin', 'pages', 'list', listCSSName))
+  creator.template(template, path.join(configDirName, 'index'), path.join(configDir, 'index.js'), {
     date,
     projectName
   })
-  creater.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
-  creater.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
+  creator.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
+  creator.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
   if (typescript) {
-    creater.template(template, 'avatarjs', path.join(sourceDir, 'plugin', 'components', 'avatar', 'avatar.tsx'), {
+    creator.template(template, 'avatarjs', path.join(sourceDir, 'plugin', 'components', 'avatar', 'avatar.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, 'listItemjs', path.join(sourceDir, 'plugin', 'components', 'listItem', 'listItem.tsx'), {
+    creator.template(template, 'listItemjs', path.join(sourceDir, 'plugin', 'components', 'listItem', 'listItem.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, 'listjs', path.join(sourceDir, 'plugin', 'pages', 'list', 'list.tsx'), {
+    creator.template(template, 'listjs', path.join(sourceDir, 'plugin', 'pages', 'list', 'list.tsx'), {
       css: currentStyleExt,
       typescript: true
     })
-    creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.tsx'))
-    creater.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'), {
+    creator.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.tsx'))
+    creator.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'), {
       typescript: true
     })
   } else {
-    creater.template(template, 'avatarjs', path.join(sourceDir, 'plugin', 'components', 'avatar', 'avatar.js'), {
+    creator.template(template, 'avatarjs', path.join(sourceDir, 'plugin', 'components', 'avatar', 'avatar.js'), {
       css: currentStyleExt
     })
-    creater.template(template, 'listItemjs', path.join(sourceDir, 'plugin', 'components', 'listItem', 'listItem.js'), {
+    creator.template(template, 'listItemjs', path.join(sourceDir, 'plugin', 'components', 'listItem', 'listItem.js'), {
       css: currentStyleExt
     })
-    creater.template(template, 'listjs', path.join(sourceDir, 'plugin', 'pages', 'list', 'list.js'), {
+    creator.template(template, 'listjs', path.join(sourceDir, 'plugin', 'pages', 'list', 'list.js'), {
       css: currentStyleExt
     })
-    creater.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.js'))
-    creater.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'))
+    creator.template(template, 'pluginjs', path.join(sourceDir, 'plugin', 'index.js'))
+    creator.template(template, 'pluginjson', path.join(sourceDir, 'plugin', 'plugin.json'))
   }
-  exports.createPage(creater, {
+  exports.createPage(creator, {
     page: 'index',
     projectDir: projectPath,
     src,
@@ -182,11 +182,11 @@ exports.createApp = function (creater, params, helper, cb) {
     typescript,
     css
   })
-  creater.template(template, 'jpeg', path.join(sourceDir, 'plugin', 'doc', 'example.jpeg'))
-  creater.template(template, 'plugindoc', path.join(sourceDir, 'plugin', 'doc', 'README.md'))
-  if (useNpmrc) creater.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
-  if (useYarnLock) creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
-  creater.fs.commit(() => {
+  creator.template(template, 'jpeg', path.join(sourceDir, 'plugin', 'doc', 'example.jpeg'))
+  creator.template(template, 'plugindoc', path.join(sourceDir, 'plugin', 'doc', 'README.md'))
+  if (useNpmrc) creator.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
+  if (useYarnLock) creator.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
+  creator.fs.commit(() => {
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建配置目录: ${projectName}/${configDirName}`)}`)
