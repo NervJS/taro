@@ -700,6 +700,10 @@ class Transformer {
       },
       Identifier (path) {
         const isStartWithRender = /^render[A-Z]/.test(path.node.name)
+        const isInJSXExprContainer = !!path.findParent(p => p.isJSXExpressionContainer())
+        if (!isInJSXExprContainer) {
+          return
+        }
         if (path.node.name === 'children' || isStartWithRender) {
           const parentPath = path.parentPath
           const slot = t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true)
