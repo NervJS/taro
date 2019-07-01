@@ -49,8 +49,11 @@ class Route extends Taro.Component<RouteProps, {}> {
     const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
-    if (isIndex && path === '/') return true
-    return key === this.props.key
+    if (key !== undefined) {
+      return key === this.props.key
+    } else {
+      return isIndex && path === '/'
+    }
   }
 
   getWrapRef = ref => {
@@ -76,13 +79,10 @@ class Route extends Taro.Component<RouteProps, {}> {
       })
   }
 
-  componentWillMount () {
-    this.updateComponent()
-  }
-
   componentDidMount () {
     scroller = scroller || getScroller()
     scroller.set(0)
+    this.updateComponent()
   }
 
   componentWillReceiveProps (nProps, nContext) {

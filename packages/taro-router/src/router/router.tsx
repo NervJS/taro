@@ -105,7 +105,7 @@ class Router extends Taro.Component<Props, State> {
     this.currentPages[k] = comp
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { history, customRoutes } = this.props
 
     this.mountApis()
