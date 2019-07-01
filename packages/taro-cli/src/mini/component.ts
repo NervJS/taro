@@ -266,7 +266,10 @@ export async function buildSingleComponent (
         delete item.type
         return item
       }))
-      const styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
+      let styleRelativePath
+      if (res.styleFiles.length) {
+        styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
+      }
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,

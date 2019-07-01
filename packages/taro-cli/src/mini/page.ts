@@ -166,7 +166,10 @@ export async function buildSinglePage (page: string) {
         return item
       }))
       // 生成页面 ux 文件
-      const styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
+      let styleRelativePath
+      if (res.styleFiles.length) {
+        styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
+      }
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
