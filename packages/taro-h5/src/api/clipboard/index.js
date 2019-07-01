@@ -1,6 +1,6 @@
 /**
  * 剪贴板部分的api参考了Chameleon项目的实现：
- * 
+ *
  * setClipboardData: https://github.com/chameleon-team/chameleon-api/tree/master/src/interfaces/setClipBoardData
  * getClipboardData: https://github.com/chameleon-team/chameleon-api/tree/master/src/interfaces/getClipBoardData
  */
@@ -40,7 +40,7 @@ document.addEventListener('copy', () => {
  * @param {{ data: string, success: SuccessCallback, fail: FailCallback, complete: CompleteCallback }} object 参数
  * @returns {Promise<{ errMsg: string, data: string }>}
  */
-export const setClipBoardData = ({ data, success, fail, complete }) => {
+export const setClipboardData = ({ data, success, fail, complete }) => {
   return new Promise((resolve, reject) => {
     setStorage({
       key: CLIPBOARD_STORAGE_NAME,
@@ -62,7 +62,7 @@ export const setClipBoardData = ({ data, success, fail, complete }) => {
         }
       }
       const res = {
-        errMsg: 'setClipBoardData:ok',
+        errMsg: 'setClipboardData:ok',
         data
       }
       success && success(res)
@@ -70,7 +70,7 @@ export const setClipBoardData = ({ data, success, fail, complete }) => {
       resolve(res)
     }).catch(e => {
       const res = {
-        errMsg: `setClipBoardData:fail ${e.message}`
+        errMsg: `setClipboardData:fail ${e.message}`
       }
       fail && fail(res)
       complete && complete()
@@ -84,7 +84,7 @@ export const setClipBoardData = ({ data, success, fail, complete }) => {
  * @param {{ success: SuccessCallback, fail: FailCallback, complete: CompleteCallback  }} object 参数
  * @returns {Promise<{ errMsg: string, data: string }>}
  */
-export const getClipBoardData = ({ success, fail, complete } = {}) => {
+export const getClipboardData = ({ success, fail, complete } = {}) => {
   return new Promise((resolve, reject) => {
     getStorage({
       key: CLIPBOARD_STORAGE_NAME
