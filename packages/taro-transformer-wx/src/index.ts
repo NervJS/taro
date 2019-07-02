@@ -614,10 +614,10 @@ export default function transform (options: Options): TransformResult {
         const props = path.node.value.properties
         for (const prop of props) {
           if (t.isObjectProperty(prop)) {
-            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value) && !prop.key.value.startsWith('on')) {
               prop.key = t.stringLiteral(snakeCase(prop.key.value))
             }
-            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name)) {
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name) && !prop.key.name.startsWith('on')) {
               prop.key = t.identifier(snakeCase(prop.key.name))
             }
           }
@@ -633,10 +633,10 @@ export default function transform (options: Options): TransformResult {
         const props = right.properties
         for (const prop of props) {
           if (t.isObjectProperty(prop)) {
-            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value) && !prop.key.value.startsWith('on')) {
               prop.key = t.stringLiteral(snakeCase(prop.key.value))
             }
-            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name)) {
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name) && !prop.key.name.startsWith('on')) {
               prop.key = t.identifier(snakeCase(prop.key.name))
             }
           }

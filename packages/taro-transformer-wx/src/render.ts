@@ -358,7 +358,7 @@ export class RenderParser {
     }
     const properties: t.ObjectProperty[] = []
     this.componentProperies.forEach((propName) => {
-      const p = Adapters.quickapp === Adapters.quickapp && this.upperCaseComponentProps.has(propName) ? snakeCase(propName): propName
+      const p = Adapters.quickapp === Adapters.quickapp && this.upperCaseComponentProps.has(propName) && !propName.startsWith('prv-fn') ? snakeCase(propName) : propName
       properties.push(
         t.objectProperty(t.stringLiteral(p), t.objectExpression([
           t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),
@@ -2279,7 +2279,7 @@ export class RenderParser {
     })
 
     if (Adapter.type === Adapters.quickapp) {
-      componentProperies = new Set(Array.from(componentProperies).map(p => this.upperCaseComponentProps.has(p) ? p.toLowerCase() : p))
+      componentProperies = new Set(Array.from(componentProperies).map(p => this.upperCaseComponentProps.has(p) && !p.startsWith('on') && !p.startsWith('prv-fn') ? snakeCase(p) : p))
     }
 
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
@@ -2299,7 +2299,9 @@ export class RenderParser {
     .filter(Boolean)
 
     if (Adapter.type === Adapters.quickapp) {
-      usedState = usedState.filter(i => !this.upperCaseComponentProps.has(i))
+      usedState = usedState
+        .filter(i => !new Set([...this.upperCaseComponentProps].map(i => i.toLowerCase())).has(i))
+        .filter(i => !this.upperCaseComponentProps.has(i))
     }
 
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>

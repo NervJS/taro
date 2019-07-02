@@ -1,7 +1,7 @@
 import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { kebabCase } from 'lodash'
+import { kebabCase, snakeCase } from 'lodash'
 import {
   DEFAULT_Component_SET,
   SPECIAL_COMPONENT_PROPS,
@@ -16,7 +16,6 @@ import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { Status } from './functional'
-import { snakeCase } from 'lodash'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
