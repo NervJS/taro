@@ -32,7 +32,7 @@ import {
   createRandomLetters,
   isDerivedFromProps
 } from './utils'
-import { difference, get as safeGet, cloneDeep, uniq } from 'lodash'
+import { difference, get as safeGet, cloneDeep, uniq, snakeCase } from 'lodash'
 import {
   setJSXAttr,
   buildBlockElement,
@@ -358,7 +358,7 @@ export class RenderParser {
     }
     const properties: t.ObjectProperty[] = []
     this.componentProperies.forEach((propName) => {
-      const p = Adapters.quickapp === Adapters.quickapp && this.upperCaseComponentProps.has(propName) ? propName.toLowerCase() : propName
+      const p = Adapters.quickapp === Adapters.quickapp && this.upperCaseComponentProps.has(propName) ? snakeCase(propName): propName
       properties.push(
         t.objectProperty(t.stringLiteral(p), t.objectExpression([
           t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),

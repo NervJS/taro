@@ -39,7 +39,7 @@ import {
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet, cloneDeep } from 'lodash'
+import { get as safeGet, cloneDeep, snakeCase } from 'lodash'
 import { isTestEnv } from './env'
 
 const template = require('babel-template')
@@ -615,10 +615,10 @@ export default function transform (options: Options): TransformResult {
         for (const prop of props) {
           if (t.isObjectProperty(prop)) {
             if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value)) {
-              prop.key = t.stringLiteral(prop.key.value.toLowerCase())
+              prop.key = t.stringLiteral(snakeCase(prop.key.value))
             }
             if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name)) {
-              prop.key = t.identifier(prop.key.name.toLowerCase())
+              prop.key = t.identifier(snakeCase(prop.key.name))
             }
           }
         }
@@ -634,10 +634,10 @@ export default function transform (options: Options): TransformResult {
         for (const prop of props) {
           if (t.isObjectProperty(prop)) {
             if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value)) {
-              prop.key = t.stringLiteral(prop.key.value.toLowerCase())
+              prop.key = t.stringLiteral(snakeCase(prop.key.value))
             }
             if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name)) {
-              prop.key = t.identifier(prop.key.name.toLowerCase())
+              prop.key = t.identifier(snakeCase(prop.key.name))
             }
           }
         }

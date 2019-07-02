@@ -16,6 +16,7 @@ import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { Status } from './functional'
+import { snakeCase } from 'lodash'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -214,7 +215,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         }
       }
       if (Adapters.quickapp === Adapter.type && !DEFAULT_Component_SET_COPY.has(componentName) && typeof name === 'string' && !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
-        name = name.toLowerCase()
+        name = snakeCase(name)
       }
       let value: string | boolean = true
       let attrValue = attr.value
