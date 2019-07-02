@@ -6,7 +6,7 @@ title: 项目配置
 
 * 微信小程序，[project.config.json](https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html?search-key=%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE)
 * 百度智能小程序，[project.swan.json](https://smartprogram.baidu.com/docs/develop/devtools/projectconfig/)
-* 头条小程序，project.tt.json，文档暂无，大部分字段与微信小程序一致
+* 头条小程序，project.config.json，文档暂无，大部分字段与微信小程序一致
 * 支付宝小程序，暂无发现
 * 快应用，[manifest.json](https://doc.quickapp.cn/framework/manifest.html)
 
