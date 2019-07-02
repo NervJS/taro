@@ -1546,13 +1546,13 @@ export class RenderParser {
         }
 
         if (isDerivedFromProps(this.renderScope, path.node.name)) {
-          this.renderScope.rename(path.node.name, path.node.name.toLowerCase())
-          path.replaceWith(t.identifier(path.node.name.toLowerCase()))
+          this.renderScope.rename(path.node.name, snakeCase(path.node.name))
+          path.replaceWith(t.identifier(snakeCase(path.node.name)))
         }
 
         const sibling = path.getSibling('object')
         if (sibling && sibling.isMemberExpression() && sibling.get('object').isThisExpression() && sibling.get('property').isIdentifier({ name: 'props' })) {
-          path.replaceWith(t.identifier(path.node.name.toLowerCase()))
+          path.replaceWith(t.identifier(snakeCase(path.node.name)))
         }
       }
     })
