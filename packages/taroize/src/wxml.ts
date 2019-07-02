@@ -770,7 +770,7 @@ function parseAttribute (attr: Attribute) {
     )
   }
 
-  if (key.startsWith('catch') && value && value === 'true') {
+  if (key.startsWith('catch') && value && (value === 'true' || value.trim() === '')) {
     jsxValue = t.jSXExpressionContainer(
       t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
     )
