@@ -5,7 +5,6 @@ import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as ora from 'ora'
 import { execSync } from 'child_process'
-import * as resolvePath from 'resolve'
 
 import {
   printLog,
@@ -190,11 +189,9 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
 
 async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number, release?: boolean) {
   const originalOutputDir = buildData.originalOutputDir
-  const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
-  const hapToolkitLib = path.join(path.dirname(hapToolkitPath), 'lib')
-  const compile = require(path.join(hapToolkitLib, 'commands/compile'))
+  const { compile } = require(require.resolve('hap-toolkit/lib/commands/compile', { paths: [originalOutputDir] }))
   if (isWatch) {
-    const launchServer = require(path.join(hapToolkitLib, 'server'))
+    const { launchServer } = require(require.resolve('@hap-toolkit/server', { paths: [originalOutputDir] }))
     launchServer({
       port: port || 12306,
       watch: isWatch,
