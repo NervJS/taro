@@ -1,6 +1,7 @@
 import { isEmptyObject, queryToJson } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
+import camelCase from 'lodash/camelCase'
 
 const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
@@ -34,6 +35,16 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
       }
     }
   }
+  Object.keys(newProps).forEach(propName => {
+    const camelizePropName = camelCase(propName)
+    if (camelizePropName !== propName) {
+      Object.defineProperty(newProps, camelizePropName, {
+        get () {
+          return newProps[propName]
+        }
+      })
+    }
+  })
   return newProps
 }
 
