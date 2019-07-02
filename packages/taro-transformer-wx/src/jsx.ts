@@ -9,7 +9,8 @@ import {
   THIRD_PARTY_COMPONENTS,
   TRANSFORM_COMPONENT_PROPS,
   lessThanSignPlacehold,
-  FN_PREFIX
+  FN_PREFIX,
+  DEFAULT_Component_SET_COPY
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
@@ -211,6 +212,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (typeof name === 'string' && /(^on[A-Z_])|(^catch[A-Z_])/.test(name) && Adapter.type === Adapters.quickapp) {
           name = name.toLowerCase()
         }
+      }
+      if (Adapters.quickapp === Adapter.type && !DEFAULT_Component_SET_COPY.has(componentName) && typeof name === 'string' && !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+        name = name.toLowerCase()
       }
       let value: string | boolean = true
       let attrValue = attr.value

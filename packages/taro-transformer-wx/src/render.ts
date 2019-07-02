@@ -29,7 +29,8 @@ import {
   findParentLoops,
   setAncestorCondition,
   replaceJSXTextWithTextComponent,
-  createRandomLetters
+  createRandomLetters,
+  isDerivedFromProps
 } from './utils'
 import { difference, get as safeGet, cloneDeep, uniq } from 'lodash'
 import {
@@ -151,6 +152,7 @@ export class RenderParser {
   private usedState: Set<string>
   private componentProperies: Set<string>
   private loopRefs: Map<t.JSXElement, LoopRef>
+  private upperCaseComponentProps: Set<string>
 
   private finalReturnElement!: t.JSXElement
 
@@ -356,8 +358,9 @@ export class RenderParser {
     }
     const properties: t.ObjectProperty[] = []
     this.componentProperies.forEach((propName) => {
+      const p = Adapters.quickapp === Adapters.quickapp && this.upperCaseComponentProps.has(propName) ? propName.toLowerCase() : propName
       properties.push(
-        t.objectProperty(t.stringLiteral(propName), t.objectExpression([
+        t.objectProperty(t.stringLiteral(p), t.objectExpression([
           t.objectProperty(t.stringLiteral('type'), t.nullLiteral()),
           t.objectProperty(t.stringLiteral('value'), t.nullLiteral())
         ]))
@@ -1531,6 +1534,30 @@ export class RenderParser {
     JSXExpressionContainer: this.replaceIdWithTemplate(true)
   }
 
+  handleQuickappProps () {
+    if (Adapter.type !== Adapters.quickapp) {
+      return
+    }
+
+    this.renderPath.traverse({
+      Identifier: (path) => {
+        if (!this.upperCaseComponentProps.has(path.node.name)) {
+          return
+        }
+
+        if (isDerivedFromProps(this.renderScope, path.node.name)) {
+          this.renderScope.rename(path.node.name, path.node.name.toLowerCase())
+          path.replaceWith(t.identifier(path.node.name.toLowerCase()))
+        }
+
+        const sibling = path.getSibling('object')
+        if (sibling && sibling.isMemberExpression() && sibling.get('object').isThisExpression() && sibling.get('property').isIdentifier({ name: 'props' })) {
+          path.replaceWith(t.identifier(path.node.name.toLowerCase()))
+        }
+      }
+    })
+  }
+
   /**
    *
    * @param renderPath
@@ -1559,6 +1586,7 @@ export class RenderParser {
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
     this.isDefaultRender = methodName === 'render'
+    this.upperCaseComponentProps = new Set(Array.from(this.componentProperies).filter(p => /[A-Z]/.test(p) && !p.startsWith('on')))
 
     const [, error] = renderPath.node.body.body.filter(s => t.isReturnStatement(s))
     if (error) {
@@ -1570,6 +1598,8 @@ export class RenderParser {
     } else {
       throw codeFrameError(this.renderPath.node, '类函数对象必须指明函数名')
     }
+
+    this.handleQuickappProps()
 
     renderBody.traverse(this.loopComponentVisitor)
     if (this.hasNoReturnLoopStem) {
@@ -2236,7 +2266,7 @@ export class RenderParser {
       }
     }
 
-    const componentProperies = cloneDeep(this.componentProperies)
+    let componentProperies = cloneDeep(this.componentProperies)
 
     componentProperies.forEach(s => {
       if (s.startsWith(FN_PREFIX)) {
@@ -2248,8 +2278,12 @@ export class RenderParser {
       }
     })
 
+    if (Adapter.type === Adapters.quickapp) {
+      componentProperies = new Set(Array.from(componentProperies).map(p => this.upperCaseComponentProps.has(p) ? p.toLowerCase() : p))
+    }
+
     Array.from(this.reserveStateWords).forEach(this.setReserveWord)
-    const usedState = Array.from(
+    let usedState = Array.from(
       new Set(
         Array.from(this.referencedIdentifiers)
           .map(i => i.name)
@@ -2271,6 +2305,7 @@ export class RenderParser {
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
         .filter(i => isVarName(i))
+        .filter(i => !this.upperCaseComponentProps.has(i))
         .filter(i => !this.loopRefIdentifiers.has(i))
         .concat(Array.from(this.customComponentNames))
       )]

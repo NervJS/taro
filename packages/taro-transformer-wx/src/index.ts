@@ -606,6 +606,43 @@ export default function transform (options: Options): TransformResult {
         // @TODO: bind 的处理待定
       }
     },
+    ClassProperty (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      if (path.node.key.name === 'defaultProps' && t.isObjectExpression(path.node.value)) {
+        const props = path.node.value.properties
+        for (const prop of props) {
+          if (t.isObjectProperty(prop)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value)) {
+              prop.key = t.stringLiteral(prop.key.value.toLowerCase())
+            }
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name)) {
+              prop.key = t.identifier(prop.key.name.toLowerCase())
+            }
+          }
+        }
+      }
+    },
+    AssignmentExpression (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      const { left, right } = path.node
+      if (t.isMemberExpression(left) && t.isIdentifier(left.property, { name: 'defaultProps' }) && t.isObjectExpression(right)) {
+        const props = right.properties
+        for (const prop of props) {
+          if (t.isObjectProperty(prop)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value)) {
+              prop.key = t.stringLiteral(prop.key.value.toLowerCase())
+            }
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name)) {
+              prop.key = t.identifier(prop.key.name.toLowerCase())
+            }
+          }
+        }
+      }
+    },
     ImportDeclaration (path) {
       const source = path.node.source.value
       if (importSources.has(source)) {
