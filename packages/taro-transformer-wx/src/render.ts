@@ -2298,6 +2298,10 @@ export class RenderParser {
     .filter(i => !this.templates.has(i))
     .filter(Boolean)
 
+    if (Adapter.type === Adapters.quickapp) {
+      usedState = usedState.filter(i => !this.upperCaseComponentProps.has(i))
+    }
+
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
     classPath.node.body.body.unshift(t.classProperty(t.identifier('$usedState'), t.arrayExpression(
       [...new Set(
@@ -2305,7 +2309,6 @@ export class RenderParser {
         .filter(s => !this.loopScopes.has(s.split('.')[0]))
         .filter(i => i !== MAP_CALL_ITERATOR && !this.reserveStateWords.has(i))
         .filter(i => isVarName(i))
-        .filter(i => !this.upperCaseComponentProps.has(i))
         .filter(i => !this.loopRefIdentifiers.has(i))
         .concat(Array.from(this.customComponentNames))
       )]
