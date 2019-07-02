@@ -1,0 +1,101 @@
+{
+  "name": "@tarojs/taro",
+  "private": true,
+  "description": "Nerv-multi多端开发解决方案",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint packages/*/src/**/*.js --fix",
+    "docs": "cd website && docusaurus-build",
+    "docs:serve": "cd website && docusaurus-start",
+    "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json",
+    "bootstrap:ci": "lerna bootstrap --npm-client=yarn",
+    "bootstrap:lerna": "lerna bootstrap -- --ignore-engines",
+    "bootstrap": "npm-run-all clear-all bootstrap:lerna",
+    "build": "lerna run build",
+    "build:docs": "node ./build/docs.js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
+    "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
+    "release": "npm-run-all build release:lerna && npm run changelog",
+    "test": "lerna run --scope eslint-plugin-taro  --scope @tarojs/transformer-wx test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [
+    "nerv",
+    "taro"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.44",
+    "@babel/plugin-transform-react-jsx": "^7.0.0-beta.41",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/preset-react": "^7.0.0",
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-preset-es2015": "^6.24.1",
+    "conventional-changelog-cli": "^2.0.1",
+    "css-loader": "^0.28.10",
+    "docusaurus": "^1.9.0",
+    "eslint": "^4.18.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-jsx": "^4.0.2",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jest": "^22.0.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "gh-pages": "^1.1.0",
+    "html-webpack-plugin": "^3.0.6",
+    "husky": "^1.2.0",
+    "jest-dom": "^1.3.1",
+    "lerna": "^2.10.0",
+    "lint-staged": "^8.1.0",
+    "nerv-markdown-loader": "0.0.1",
+    "node-sass": "^4.7.2",
+    "npm-run-all": "^4.1.2",
+    "ora": "^2.1.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.57.1",
+    "rollup-plugin-alias": "^1.4.0",
+    "rollup-plugin-babel": "^4.0.0-beta.2",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-postcss": "^1.6.1",
+    "sass-loader": "^6.0.7",
+    "shelljs": "^0.8.1",
+    "style-loader": "^0.20.3",
+    "typescript": "^3.0.1",
+    "webpack": "^3.11.0",
+    "webpack-cli": "^1.0.12",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
