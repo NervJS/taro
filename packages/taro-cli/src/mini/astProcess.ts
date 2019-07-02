@@ -445,7 +445,9 @@ export function parseAst (
               }
             })
           }
-          taroSelfComponents.add('taro-page')
+          if (type === PARSE_AST_TYPE.PAGE) {
+            taroSelfComponents.add('taro-page')
+          }
           astPath.remove()
         } else {
           let isDepComponent = false
