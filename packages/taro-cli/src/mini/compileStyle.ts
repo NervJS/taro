@@ -256,13 +256,15 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
     await Promise.all(resList.map(res => processStyleWithPostCSS(res)))
       .then(cssList => {
         let resContent = cssList.map(res => res).join('\n')
+        // 非生产模式下用户 csso 配置不存在则默认 csso 为禁用
+        let cssoPuginConfig = pluginsConfig.csso || { enable: false }
         if (isProduction) {
-          const cssoPuginConfig = pluginsConfig.csso || { enable: true }
-          if (cssoPuginConfig.enable) {
-            const cssoConfig = cssoPuginConfig.config || {}
-            const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig, appPath)
-            resContent = cssoResult.css
-          }
+          cssoPuginConfig = pluginsConfig.csso || { enable: true }
+        }
+        if (cssoPuginConfig.enable) {
+          const cssoConfig = cssoPuginConfig.config || {}
+          const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig, appPath)
+          resContent = cssoResult.css
         }
         fs.ensureDirSync(path.dirname(outputFilePath))
         fs.writeFileSync(outputFilePath, resContent)
