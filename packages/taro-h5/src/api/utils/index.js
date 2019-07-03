@@ -60,7 +60,11 @@ function serializeParams (params) {
     return ''
   }
   return Object.keys(params)
-    .map(key => (`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)).join('&')
+    .map(key => (
+      `${encodeURIComponent(key)}=${typeof (params[key]) ==="object" ? 
+        encodeURIComponent(JSON.stringify(params[key])): 
+        encodeURIComponent(params[key])}`))
+    .join('&')
 }
 
 function temporarilyNotSupport (apiName) {
