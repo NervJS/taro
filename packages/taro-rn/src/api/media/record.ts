@@ -1,5 +1,7 @@
 import { Audio } from 'expo-av'
 
+console.log(Audio)
+
 class RecorderManager {
   private static instance: Audio.Recording
   private onStartCallback
@@ -14,15 +16,15 @@ class RecorderManager {
   private static RecordingOptions = {
     android: {
       extension: '.m4a',
-      outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
-      audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+      // outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+      // audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
       sampleRate: 8000,
       numberOfChannels: 2,
       bitRate: 48000
     },
     ios: {
       extension: '.caf',
-      audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
+      // audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
       sampleRate: 8000,
       numberOfChannels: 2,
       bitRate: 48000,
@@ -34,7 +36,7 @@ class RecorderManager {
 
   static getInstance () {
     if (!RecorderManager.instance) {
-      RecorderManager.instance = new Audio.Recording()
+      // RecorderManager.instance = new Audio.Recording()
     }
     return RecorderManager.instance
   }

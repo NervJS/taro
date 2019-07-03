@@ -2,9 +2,9 @@ import React from 'react'
 import { View, Text, Button } from 'react-native'
 import { styles } from '../styles'
 import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '../../../dist/api/media'
-// import { getRecorderManager } from '../../../dist/api/media/record'
+import { getRecorderManager } from '../../../dist/api/media/record'
 
-// const recordInstance = getRecorderManager()
+const recordInstance = getRecorderManager()
 
 function handleChooseImage (type) {
   console.log('chooseImage')
