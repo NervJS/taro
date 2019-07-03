@@ -288,9 +288,9 @@ class Transformer {
           true
         )
         classBody.push(
-          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
+          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.restElement(t.identifier('e'))], t.blockStatement([
             isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
-            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.spreadElement(t.identifier('e'))])))
           ]))
         )
         exprPath.replaceWith(t.callExpression(
