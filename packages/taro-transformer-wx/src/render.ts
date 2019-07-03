@@ -333,6 +333,10 @@ export class RenderParser {
       } else if (t.isJSXElement(alternate) && t.isCallExpression(consequent) && !isArrayMapCallExpression(parentPath.get('consequent'))) {
         const id = generateAnonymousState(this.renderScope, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
         parentPath.get('consequent').replaceWith(id)
+      } else if (t.isJSXElement(alternate) && isArrayMapCallExpression(parentPath.get('consequent'))) {
+        //
+      } else if (t.isJSXElement(consequent) && isArrayMapCallExpression(parentPath.get('alternate'))) {
+        //
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
