@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as autoprefixer from 'autoprefixer'
 import * as postcss from 'postcss'
 import * as pxtransform from 'postcss-pxtransform'
-import getHashName from '../util/hash';
+import getHashName from '../util/hash'
 import browserList from '../config/browser_list'
 import {
   resolveNpmPkgMainPath,
@@ -106,7 +106,8 @@ export function processStyleUseCssModule (styleObj: IStyleObj): any {
 
 async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
   const { appPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
-  const weappConf = Object.assign({}, projectConfig[buildAdapter])
+  const weappConf = Object.assign({}, projectConfig.weapp)
+  const publicPath = weappConf.publicPath
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customCssModulesConf = Object.assign({
@@ -125,7 +126,7 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
       limit: 10240
     } as any,
     ...customPostcssConf.url
-  };
+  }
   const customAutoprefixerConf = Object.assign({
     enable: true,
     config: {
@@ -151,31 +152,30 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
     processors.push(pxtransform(postcssPxtransformConf))
   }
   if (customUrlConf.enable) {
-    let inlineOpts = {};
-    const url = customUrlConf.config.url || 'inline';
-    if (url === 'inline' && !weappConf.publicPath) {
+    let inlineOpts = {}
+    const url = customUrlConf.config.url || 'inline'
+    if (url === 'inline' && !publicPath) {
       inlineOpts = {
         encodeType: 'base64',
         maxSize,
         url
-      };
+      }
     }
 
-    if (weappConf.publicPath && typeof url !== 'function') {
+    if (publicPath && typeof url !== 'function') {
       customUrlConf.config.url = (assets) => {
         if (/\./.test(assets.url)) {
-          const publicPath = weappConf.publicPath;
-          const hashName = getHashName(assets.absolutePath);
-          assets.url = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+          const hashName = getHashName(assets.absolutePath)
+          assets.url = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
         }
-        return assets.url;
+        return assets.url
       }
     }
 
     const cssUrlParseConf = {
       ...inlineOpts,
       ...customUrlConf.config
-    };
+    }
     processors.push(cssUrlParse(cssUrlParseConf))
   }
 

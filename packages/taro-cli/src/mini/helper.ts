@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import getHashName from '../util/hash';
+import getHashName from '../util/hash'
 
 import {
   BUILD_TYPES,
@@ -295,19 +295,19 @@ export function initCopyFiles () {
 }
 
 export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
-  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig, buildAdapter } = BuildData
-  const adapterConfig = projectConfig[buildAdapter];
+  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig } = BuildData
+  const adapterConfig = Object.assign({}, projectConfig.weapp)
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
       outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
-      if (adapterConfig.publicPath) {
-        const hashName = getHashName(file);
-        const staticPath = path.join(appPath, adapterConfig.staticDirectory, projectConfig.projectName || '');
-        outputFilePath = `${staticPath}/${hashName}`;
+      if (adapterConfig.publicPath && adapterConfig.staticDirectory) {
+        const hashName = getHashName(file)
+        const staticPath = path.join(appPath, adapterConfig.staticDirectory, projectConfig.projectName || '')
+        outputFilePath = `${staticPath}/${hashName}`
       } else {
-        outputFilePath = file.replace(sourceDir, outputDir);
+        outputFilePath = file.replace(sourceDir, outputDir)
       }
     }
     if (isCopyingFiles.get(outputFilePath)) {

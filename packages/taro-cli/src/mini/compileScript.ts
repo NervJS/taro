@@ -60,7 +60,7 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
       }
       const weappConf = Object.assign({}, projectConfig.weapp)
       const useCompileConf = Object.assign({}, weappConf.compile)
-      const compileExclude = (useCompileConf.exclude || []).filter(item => !/(?:\/|^)node_modules(\/|$)/.test(item));
+      const compileExclude = (useCompileConf.exclude || []).filter(item => !/(?:\/|^)node_modules(\/|$)/.test(item))
       let isInCompileExclude = false
       compileExclude.forEach(excludeItem => {
         if (item.indexOf(path.join(appPath, excludeItem)) >= 0) {

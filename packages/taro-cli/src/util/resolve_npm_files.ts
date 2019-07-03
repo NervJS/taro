@@ -284,10 +284,10 @@ async function recursiveRequire ({
   }
   fileContent = npmCodeHack(filePath, fileContent, buildAdapter)
 
-  const npmExclude = (compileConfig.exclude || []).filter(item => /(?:\/|^)node_modules(\/|$)/.test(item));
-  let isNpmInCompileExclude = false;
+  const npmExclude = (compileConfig.exclude || []).filter(item => /(?:\/|^)node_modules(\/|$)/.test(item))
+  let isNpmInCompileExclude = false
   for (const item of npmExclude) {
-    isNpmInCompileExclude = filePath.indexOf(item) !== -1;
+    isNpmInCompileExclude = filePath.indexOf(item) !== -1
     if (isNpmInCompileExclude) {
       break
     }
@@ -331,7 +331,7 @@ async function recursiveRequire ({
   }
 
   if (!copyedFiles[outputNpmPath]) {
-    const compileInclude = compileConfig.include;
+    const compileInclude = compileConfig.include
     if (compileInclude && compileInclude.length) {
       const filePathArr = filePath.split(path.sep)
       const nodeModulesIndex = filePathArr.indexOf('node_modules')

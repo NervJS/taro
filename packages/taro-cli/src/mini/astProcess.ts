@@ -7,7 +7,7 @@ import generate from 'babel-generator'
 import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
-import getHashName from '../util/hash';
+import getHashName from '../util/hash'
 
 const template = require('babel-template')
 
@@ -100,7 +100,7 @@ function analyzeImportUrl ({
     npmConfig,
     projectConfig
   } = getBuildData()
-  const publicPath = (projectConfig.weapp || ({} as any)).publicPath;
+  const publicPath = (projectConfig.weapp || ({} as any)).publicPath
   if (value.indexOf('.') === 0) {
     let importPath = path.resolve(path.dirname(sourceFilePath), value)
     importPath = resolveScriptPath(importPath)
@@ -163,8 +163,8 @@ function analyzeImportUrl ({
         } else {
           showPath = vpath.replace(sourceDir, '')
           if (publicPath) {
-            const hashName = getHashName(vpath);
-            showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+            const hashName = getHashName(vpath)
+            showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
           }
         }
         if (defaultSpecifier) {
@@ -252,7 +252,7 @@ export function parseAst (
     compileConfig,
     projectConfig
   } = getBuildData()
-  const publicPath = (projectConfig.weapp || {} as any).publicPath;
+  const publicPath = (projectConfig.weapp || {} as any).publicPath
   const notExistNpmList = getNotExistNpmList()
   const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let configObj: IConfig = {}
@@ -440,7 +440,7 @@ export function parseAst (
       // alias 替换
       if (isAliasPath(value, pathAlias)) {
         value = replaceAliasPath(sourceFilePath, value, pathAlias)
-        source.value = value;
+        source.value = value
       }
       if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
         if (value === taroJsComponents) {
@@ -850,8 +850,8 @@ export function parseAst (
                     } else {
                       showPath = vpath.replace(sourceDir, '')
                       if (publicPath) {
-                        const hashName = getHashName(vpath);
-                        showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+                        const hashName = getHashName(vpath)
+                        showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
                       }
                     }
                     astPath.replaceWith(t.stringLiteral(showPath.replace(/\\/g, '/')))
