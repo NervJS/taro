@@ -52,6 +52,7 @@
     "chokidar": "^2.0.3",
     "commander": "^2.19.0",
     "cross-spawn": "^6.0.5",
+    "crypto": "^1.0.1",
     "css-to-react-native-transform": "^1.4.0",
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
@@ -98,6 +99,7 @@
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2",
+    "xxhashjs": "^0.2.2",
     "yauzl": "2.10.0"
   },
   "devDependencies": {

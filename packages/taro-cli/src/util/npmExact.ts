@@ -14,7 +14,7 @@ interface IArgs {
   buildAdapter: BUILD_TYPES,
   root: string,
   npmOutputDir: string,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
   babelConfig: object
@@ -41,7 +41,7 @@ export function getExactedNpmFilePath ({
   buildAdapter,
   root,
   npmOutputDir,
-  compileInclude,
+  compileConfig,
   env,
   uglify,
   babelConfig
@@ -56,7 +56,7 @@ export function getExactedNpmFilePath ({
       root,
       rootNpm: nodeModulesPath,
       npmOutputDir,
-      compileInclude,
+      compileConfig,
       env,
       uglify,
       babelConfig

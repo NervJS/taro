@@ -2622,6 +2622,11 @@ crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
 
+crypto@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/crypto/download/crypto-1.0.1.tgz#2af1b7cad8175d24c8a1b0778255794a21803037"
+  integrity sha1-KvG3ytgXXSTIobB3glV5SiGAMDc=
+
 css-color-keywords@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"
@@ -8757,7 +8762,7 @@ xtend@^4.0.1, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
-xxhashjs@^0.2.1:
+xxhashjs@^0.2.1, xxhashjs@^0.2.2:
   version "0.2.2"
   resolved "https://registry.npmjs.org/xxhashjs/-/xxhashjs-0.2.2.tgz#8a6251567621a1c46a5ae204da0249c7f8caa9d8"
   dependencies:

@@ -7,6 +7,7 @@ import generate from 'babel-generator'
 import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
+import getHashName from '../util/hash';
 
 const template = require('babel-template')
 
@@ -96,8 +97,10 @@ function analyzeImportUrl ({
     npmOutputDir,
     sourceDir,
     outputDir,
-    npmConfig
+    npmConfig,
+    projectConfig
   } = getBuildData()
+  const publicPath = (projectConfig.weapp || ({} as any)).publicPath;
   if (value.indexOf('.') === 0) {
     let importPath = path.resolve(path.dirname(sourceFilePath), value)
     importPath = resolveScriptPath(importPath)
@@ -159,8 +162,11 @@ function analyzeImportUrl ({
           showPath = vpath.replace(nodeModulesPath, `/${npmConfig.name}`)
         } else {
           showPath = vpath.replace(sourceDir, '')
+          if (publicPath) {
+            const hashName = getHashName(vpath);
+            showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+          }
         }
-
         if (defaultSpecifier) {
           astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), t.stringLiteral(showPath.replace(/\\/g, '/')))]))
         } else {
@@ -243,9 +249,10 @@ export function parseAst (
     isProduction,
     npmConfig,
     alias: pathAlias,
-    compileInclude,
+    compileConfig,
     projectConfig
   } = getBuildData()
+  const publicPath = (projectConfig.weapp || {} as any).publicPath;
   const notExistNpmList = getNotExistNpmList()
   const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let configObj: IConfig = {}
@@ -433,7 +440,7 @@ export function parseAst (
       // alias 替换
       if (isAliasPath(value, pathAlias)) {
         value = replaceAliasPath(sourceFilePath, value, pathAlias)
-        source.value = value
+        source.value = value;
       }
       if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
         if (value === taroJsComponents) {
@@ -493,7 +500,7 @@ export function parseAst (
                 buildAdapter,
                 root: appPath,
                 npmOutputDir,
-                compileInclude,
+                compileConfig,
                 env: projectConfig.env || {},
                 uglify: projectConfig!.plugins!.uglify || {  enable: true  },
                 babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
@@ -599,7 +606,7 @@ export function parseAst (
                   buildAdapter,
                   root: appPath,
                   npmOutputDir,
-                  compileInclude,
+                  compileConfig,
                   env: projectConfig.env || {},
                   uglify: projectConfig!.plugins!.uglify || {  enable: true  },
                   babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
@@ -842,6 +849,10 @@ export function parseAst (
                       showPath = vpath.replace(nodeModulesPath, `/${npmConfig.name}`)
                     } else {
                       showPath = vpath.replace(sourceDir, '')
+                      if (publicPath) {
+                        const hashName = getHashName(vpath);
+                        showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+                      }
                     }
                     astPath.replaceWith(t.stringLiteral(showPath.replace(/\\/g, '/')))
                   } else {
@@ -895,7 +906,7 @@ export function parseAst (
           buildAdapter,
           root: appPath,
           npmOutputDir,
-          compileInclude,
+          compileConfig,
           env: projectConfig.env || {},
           uglify: projectConfig!.plugins!.uglify || {  enable: true  },
           babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}

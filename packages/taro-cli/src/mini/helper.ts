@@ -4,6 +4,7 @@ import * as path from 'path'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
+import getHashName from '../util/hash';
 
 import {
   BUILD_TYPES,
@@ -69,7 +70,7 @@ export interface IBuildData {
   appConfig: Config,
   pageConfigs: Map<string, Config>,
   alias: IOption,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   isProduction: boolean,
   buildAdapter: BUILD_TYPES,
   outputFilesTypes: IMINI_APP_FILE_TYPE,
@@ -117,7 +118,6 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     dir: null
   }, weappConf.npm)
   const useCompileConf = Object.assign({}, weappConf.compile)
-  const compileInclude = useCompileConf.include || []
   BuildData = {
     appPath,
     configDir,
@@ -134,7 +134,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     isProduction: false,
     appConfig: {},
     pageConfigs: new Map<string, Config>(),
-    compileInclude,
+    compileConfig: useCompileConf,
     buildAdapter: adapter,
     outputFilesTypes: MINI_APP_FILES[adapter],
     constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
@@ -295,13 +295,20 @@ export function initCopyFiles () {
 }
 
 export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
-  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath } = BuildData
+  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig, buildAdapter } = BuildData
+  const adapterConfig = projectConfig[buildAdapter];
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
       outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
-      outputFilePath = file.replace(sourceDir, outputDir)
+      if (adapterConfig.publicPath) {
+        const hashName = getHashName(file);
+        const staticPath = path.join(appPath, adapterConfig.staticDirectory, projectConfig.projectName || '');
+        outputFilePath = `${staticPath}/${hashName}`;
+      } else {
+        outputFilePath = file.replace(sourceDir, outputDir);
+      }
     }
     if (isCopyingFiles.get(outputFilePath)) {
       return
