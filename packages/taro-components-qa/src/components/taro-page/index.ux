@@ -23,7 +23,7 @@
     </block>
     <div class="taro-tabbar" if="{{showTabBar}}" style="background-color:{{tabBarData.backgroundColor ? tabBarData.backgroundColor : '#ffffff'}}">
       <div class="taro-tabbar_item" for="(index, item) in tabBarData.list" @click="onSelected(item, index)">
-        <image if="{{ item.selectedIconPath || item.iconPath }}" src="{{ item.selected ? item.selectedIconPath : item.iconPath }}" />
+        <image src="{{ item.selected ? item.selectedIconPath : item.iconPath }}" />
         <text style="color:{{ item.selected ? tabBarData.selectedColor: tabBarData.color }};font-size: 20px;">
           {{item.text}}
         </text>
