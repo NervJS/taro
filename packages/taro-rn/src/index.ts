@@ -24,8 +24,6 @@ import {
   useContext
 } from 'react'
 
-import { permanentlyNotSupport } from '../api/utils'
-
 const Taro = {
   getEnv,
   ENV_TYPE,
