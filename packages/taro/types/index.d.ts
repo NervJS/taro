@@ -699,8 +699,10 @@ declare namespace Taro {
     $componentType: 'PAGE' | 'COMPONENT'
 
     $router: {
-      params: any
-      preload: any
+      params: {
+        [key: string]: string
+      }
+      path: string
     }
 
     $preloadData: any
