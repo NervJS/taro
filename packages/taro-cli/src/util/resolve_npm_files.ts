@@ -14,7 +14,7 @@ import {
   printLog,
   recursiveFindNodeModules,
   generateEnvList,
-  isQuickAppPkg
+  isQuickappPkg
 } from './index'
 
 import {
@@ -31,7 +31,7 @@ import {
 import defaultUglifyConfig from '../config/uglify'
 
 import * as npmProcess from './npm'
-import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions } from './types'
+import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions, ITaroManifestConfig } from './types'
 
 const excludeNpmPkgs = ['ReactPropTypes']
 
@@ -73,7 +73,8 @@ export function resolveNpmFilesPath ({
   compileConfig = {},
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: {
   pkgName: string,
   isProduction: boolean,
@@ -85,7 +86,8 @@ export function resolveNpmFilesPath ({
   compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }) {
   if (!resolvedCache[pkgName]) {
     const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
@@ -105,7 +107,8 @@ export function resolveNpmFilesPath ({
       compileConfig,
       env,
       uglify,
-      babelConfig
+      babelConfig,
+      quickappManifest
     })
   }
   return resolvedCache[pkgName]
@@ -123,7 +126,8 @@ function parseAst ({
   compileConfig = [],
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: {
   ast: t.File,
   filePath: string,
@@ -136,7 +140,8 @@ function parseAst ({
   compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }) {
   const excludeRequire: string[] = []
 
@@ -176,7 +181,8 @@ function parseAst ({
               const args = node.arguments as Array<t.StringLiteral>
               let requirePath = args[0].value
               if (excludeRequire.indexOf(requirePath) < 0) {
-                if (isQuickAppPkg(requirePath)) {
+                const quickappPkgs = quickappManifest ? quickappManifest.features : []
+                if (isQuickappPkg(requirePath, quickappPkgs)) {
                   return
                 }
                 if (isNpmPkg(requirePath)) {
@@ -192,7 +198,8 @@ function parseAst ({
                       compileConfig,
                       env,
                       uglify,
-                      babelConfig
+                      babelConfig,
+                      quickappManifest
                     })
                     let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
                     relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
@@ -225,7 +232,8 @@ function parseAst ({
                       compileConfig,
                       env,
                       uglify,
-                      babelConfig
+                      babelConfig,
+                      quickappManifest
                     })
                   }
                   args[0].value = requirePath
@@ -252,7 +260,8 @@ async function recursiveRequire ({
   compileConfig = {},
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: {
   filePath: string,
   files: string[],
@@ -264,7 +273,8 @@ async function recursiveRequire ({
   compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
@@ -323,7 +333,8 @@ async function recursiveRequire ({
         npmOutputDir,
         env,
         uglify,
-        babelConfig
+        babelConfig,
+        quickappManifest
       })
     } catch (err) {
       console.log(err)

@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import { resolveNpmFilesPath } from './resolve_npm_files'
-import { INpmConfig, TogglableOptions } from './types'
+import { INpmConfig, TogglableOptions, ITaroManifestConfig } from './types'
 import { BUILD_TYPES, REG_STYLE, NODE_MODULES, REG_FONT, REG_MEDIA, REG_IMAGE } from './constants'
 import { promoteRelativePath, recursiveFindNodeModules } from './index'
 
@@ -17,7 +17,8 @@ interface IArgs {
   compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }
 
 const notExistNpmList: Set<string> = new Set()
@@ -44,7 +45,8 @@ export function getExactedNpmFilePath ({
   compileConfig,
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: IArgs) {
   try {
     const nodeModulesPath = recursiveFindNodeModules(path.join(root, NODE_MODULES))
@@ -59,7 +61,8 @@ export function getExactedNpmFilePath ({
       compileConfig,
       env,
       uglify,
-      babelConfig
+      babelConfig,
+      quickappManifest
     })
     const npmInfoMainPath = npmInfo.main
     let outputNpmPath

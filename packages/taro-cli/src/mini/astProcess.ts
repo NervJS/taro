@@ -37,7 +37,7 @@ import {
   isAliasPath,
   replaceAliasPath,
   traverseObjectNode,
-  isQuickAppPkg,
+  isQuickappPkg,
   getBabelConfig
 } from '../util'
 import {
@@ -250,7 +250,8 @@ export function parseAst (
     npmConfig,
     alias: pathAlias,
     compileConfig,
-    projectConfig
+    projectConfig,
+    quickappManifest
   } = getBuildData()
   const publicPath = (projectConfig.weapp || {} as any).publicPath
   const notExistNpmList = getNotExistNpmList()
@@ -442,7 +443,8 @@ export function parseAst (
         value = replaceAliasPath(sourceFilePath, value, pathAlias)
         source.value = value
       }
-      if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
+      const quickappPkgs = quickappManifest ? quickappManifest.features : []
+      if (isNpmPkg(value) && !isQuickappPkg(value, quickappPkgs) && !notExistNpmList.has(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
             specifiers.forEach(specifier => {
@@ -503,7 +505,8 @@ export function parseAst (
                 compileConfig,
                 env: projectConfig.env || {},
                 uglify: projectConfig!.plugins!.uglify || {  enable: true  },
-                babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
+                babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
+                quickappManifest
               })
             } else {
               source.value = value
@@ -544,7 +547,8 @@ export function parseAst (
           value = replaceAliasPath(sourceFilePath, value, pathAlias)
           args[0].value = value
         }
-        if (isNpmPkg(value) && !isQuickAppPkg(value) && !notExistNpmList.has(value)) {
+        const quickappPkgs = quickappManifest ? quickappManifest.features : []
+        if (isNpmPkg(value) && !isQuickappPkg(value, quickappPkgs) && !notExistNpmList.has(value)) {
           if (value === taroJsComponents) {
             if (isQuickApp) {
               if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
@@ -609,7 +613,8 @@ export function parseAst (
                   compileConfig,
                   env: projectConfig.env || {},
                   uglify: projectConfig!.plugins!.uglify || {  enable: true  },
-                  babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
+                  babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
+                  quickappManifest
                 })
               } else {
                 args[0].value = value
@@ -909,7 +914,8 @@ export function parseAst (
           compileConfig,
           env: projectConfig.env || {},
           uglify: projectConfig!.plugins!.uglify || {  enable: true  },
-          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
+          quickappManifest
         }) : taroMiniAppFramework
         switch (type) {
           case PARSE_AST_TYPE.ENTRY:

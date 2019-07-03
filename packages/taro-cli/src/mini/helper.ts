@@ -37,7 +37,8 @@ import {
   IProjectConfig,
   IOption,
   INpmConfig,
-  IWxTransformResult
+  IWxTransformResult,
+  ITaroManifestConfig
 } from '../util/types'
 import CONFIG from '../config'
 
@@ -79,7 +80,8 @@ export interface IBuildData {
   npmOutputDir: string,
   jsxAttributeNameReplace?: {
     [key: string]: any
-  }
+  },
+  quickappManifest?: ITaroManifestConfig
 }
 
 let BuildData: IBuildData
@@ -99,6 +101,10 @@ export function setAppConfig (appConfig: Config) {
 
 export function setIsProduction (isProduction: boolean) {
   BuildData.isProduction = isProduction
+}
+
+export function setQuickappManifest (quickappManifest: ITaroManifestConfig) {
+  BuildData.quickappManifest = quickappManifest
 }
 
 export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData {

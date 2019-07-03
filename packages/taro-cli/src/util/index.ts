@@ -495,8 +495,17 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
   }
 }
 
-export function isQuickAppPkg (name: string): boolean {
-  return /@system\./.test(name)
+export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean {
+  if (!quickappPkgs.length) {
+    return /@system\./.test(name)
+  }
+  let isQuickappPkg = false
+  quickappPkgs.forEach(item => {
+    if (item.name === name.replace(/^@/, '')) {
+      isQuickappPkg = true
+    }
+  })
+  return isQuickappPkg
 }
 
 export function generateQuickAppUx ({

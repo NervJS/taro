@@ -217,7 +217,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
   if (isBuildingStyles.get(outputFilePath)) {
     return Promise.resolve({})
   }
-  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter, quickappManifest } = getBuildData()
   const pluginsConfig = projectConfig.plugins || {}
   const weappConf = projectConfig.weapp || {} as IMiniAppConfig
   const useCompileConf = Object.assign({}, weappConf.compile)
@@ -242,7 +242,8 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           compileConfig: useCompileConf,
           env: projectConfig.env || {},
           uglify: projectConfig!.plugins!.uglify || {  enable: true  },
-          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
+          quickappManifest
         })
         const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
         return str.replace(stylePath, importRelativePath)
