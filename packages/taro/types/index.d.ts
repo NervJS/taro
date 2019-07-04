@@ -703,6 +703,9 @@ declare namespace Taro {
         [key: string]: string
       }
       path: string
+      preload: {
+        [key: string]: string
+      }
     }
 
     $preloadData: any
