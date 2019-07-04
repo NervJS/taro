@@ -280,7 +280,10 @@ class Transformer {
             t.returnStatement(func.body)
           ])
         } else {
-          func.body.body.push(indexKeyDecl)
+          // func.body.body.push(indexKeyDecl)
+          // 只有 path 的方法才能触发 traverse
+          const body = loopCallExpr.get('arguments')[0].get('body.body')
+          body[body.length - 1].insertBefore(indexKeyDecl)
         }
         const arrayFunc = t.memberExpression(
           t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
