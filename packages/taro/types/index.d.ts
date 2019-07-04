@@ -699,10 +699,35 @@ declare namespace Taro {
     $componentType: 'PAGE' | 'COMPONENT'
 
     $router: {
+      /**
+       * 在跳转成功的目标页的生命周期方法里通过 this.$router.params 获取到传入的参数
+       * @example
+       * componentWillMount () {
+       *   console.log(this.$router.params)
+       * }
+       * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
+       */
       params: {
         [key: string]: string
       }
+      /**
+       * 当前页面路由的路径
+       * 
+       * **注意** 在 [#1814](https://github.com/NervJS/taro/issues/1814) 中提到了 this.$router.path 有时无法访问
+       * 解决方案请参考 [Debug 指南：生命周期/路由/setState 出错](https://nervjs.github.io/taro/docs/debug.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E8%B7%AF%E7%94%B1-setstate-%E5%87%BA%E9%94%99)一节
+       * 
+       * @example
+       * path: "/pages/index/index"
+       */
       path: string
+      /**
+       * 可以于 this.$router.preload 中访问到 this.$preload 传入的参数
+       * @example
+       * componentWillMount () {
+       *   console.log('preload: ', this.$router.preload)
+       * }
+       * @see 参考[性能优化实践：在小程序中，可以使用 this.$preload 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
+       */
       preload: {
         [key: string]: string
       }
