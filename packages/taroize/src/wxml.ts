@@ -7,7 +7,7 @@ import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors, globals } from './global'
 import { reserveKeyWords } from './constant'
-import { parseExpression, parse as parseFile } from 'babylon'
+import { parse as parseFile } from 'babylon'
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
