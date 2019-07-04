@@ -13,7 +13,8 @@ import {
   taroJsComponents,
   taroJsRedux,
   QUICKAPP_SPECIAL_COMPONENTS,
-  PARSE_AST_TYPE
+  PARSE_AST_TYPE,
+  NODE_MODULES_REG
 } from '../utils/constants'
 import {
   isNpmPkg,
@@ -171,7 +172,7 @@ function processAst (
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
-      if (type === PARSE_AST_TYPE.NORMAL) {
+      if (NODE_MODULES_REG.test(sourceFilePath) && sourceFilePath.indexOf(taroMiniAppFramework) >= 0) {
         return
       }
       if (isNpmPkg(value) && !isQuickAppPkg(value)) {
@@ -225,7 +226,7 @@ function processAst (
         const args = node.arguments as t.StringLiteral[]
         let value = args[0].value
         const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
-        if (type === PARSE_AST_TYPE.NORMAL) {
+        if (NODE_MODULES_REG.test(sourceFilePath) && sourceFilePath.indexOf(taroMiniAppFramework) >= 0) {
           return
         }
         if (isNpmPkg(value) && !isQuickAppPkg(value)) {
