@@ -701,6 +701,7 @@ declare namespace Taro {
     $router: {
       params: any
       preload: any
+      path: any
     }
 
     $preloadData: any
