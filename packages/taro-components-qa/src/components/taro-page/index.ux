@@ -126,6 +126,12 @@
           if (addLeadingSlash(item.pagePath) === addLeadingSlash(this.pagepath)) {
             item.selected = true
           }
+          if (item.selectedIconPath) {
+            item.selectedIconPath = addLeadingSlash(item.selectedIconPath.replace(/^[\.]?/, ''))
+          }
+          if (item.iconPath) {
+            item.iconPath = addLeadingSlash(item.iconPath.replace(/^[\.]?/, ''))
+          }
         })
         this.tabBarData = tabBarData
       }

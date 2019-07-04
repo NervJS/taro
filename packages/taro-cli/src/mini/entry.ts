@@ -121,6 +121,25 @@ export async function buildEntry (): Promise<AppConfig> {
         resCode = uglifyJS(resCode, entryFilePath, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
     }
+    // 处理res.configObj 中的tabBar配置
+    const tabBar = res.configObj.tabBar
+    if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
+      const {
+        list: listConfig,
+        iconPath: pathConfig,
+        selectedIconPath: selectedPathConfig
+      } = CONFIG_MAP[buildAdapter]
+      const list = tabBar[listConfig] || []
+      let tabBarIcons: string[] = []
+      list.forEach(item => {
+        item[pathConfig] && tabBarIcons.push(item[pathConfig])
+        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
+      })
+      tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
+      if (tabBarIcons && tabBarIcons.length) {
+        res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
+      }
+    }
     if (buildAdapter === BUILD_TYPES.QUICKAPP) {
       // 生成 快应用 ux 文件
       const styleRelativePath = promoteRelativePath(path.relative(outputEntryFilePath, path.join(outputDir, `app${outputFilesTypes.STYLE}`)))
@@ -136,25 +155,6 @@ export async function buildEntry (): Promise<AppConfig> {
       }
       if (res.configObj.tabBar && res.configObj.tabBar.custom) {
         await buildCustomTabbar()
-      }
-      // 处理res.configObj 中的tabBar配置
-      const tabBar = res.configObj.tabBar
-      if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
-        const {
-          list: listConfig,
-          iconPath: pathConfig,
-          selectedIconPath: selectedPathConfig
-        } = CONFIG_MAP[buildAdapter]
-        const list = tabBar[listConfig] || []
-        let tabBarIcons: string[] = []
-        list.forEach(item => {
-          item[pathConfig] && tabBarIcons.push(item[pathConfig])
-          item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
-        })
-        tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
-        if (tabBarIcons && tabBarIcons.length) {
-          res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
-        }
       }
       if (appOutput) {
         fs.writeFileSync(path.join(outputDir, 'app.json'), JSON.stringify(res.configObj, null, 2))
