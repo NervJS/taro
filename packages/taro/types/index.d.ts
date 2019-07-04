@@ -713,16 +713,6 @@ declare namespace Taro {
         [key: string]: string
       }
       /**
-       * 当前页面路由的路径
-       * 
-       * **注意** 在 [#1814](https://github.com/NervJS/taro/issues/1814) 中提到了 this.$router.path 有时无法访问
-       * 解决方案请参考 [Debug 指南：生命周期/路由/setState 出错](https://nervjs.github.io/taro/docs/debug.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E8%B7%AF%E7%94%B1-setstate-%E5%87%BA%E9%94%99)一节
-       * 
-       * @example
-       * path: "/pages/index/index"
-       */
-      path: string
-      /**
        * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
        * 
        * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
