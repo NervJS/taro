@@ -44,6 +44,12 @@ function handleSaveImageToPhotosAlbum () {
 }
 
 function handleRecordStart () {
+  console.log(recordInstance)
+  recordInstance.onError((res) => console.log(res))
+  recordInstance.onStart((res) => console.log(res))
+  recordInstance.onStop((res) => console.log(res))
+  recordInstance.onPause((res) => console.log(res))
+  recordInstance.onResume((res) => console.log(res))
   recordInstance.start()
 }
 
