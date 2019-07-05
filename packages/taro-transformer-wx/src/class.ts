@@ -274,6 +274,7 @@ class Transformer {
 
       const func = loopCallExpr.node.arguments[0]
       if (t.isArrowFunctionExpression(func)) {
+        const body = loopCallExpr.get('arguments')[0].get('body.body')
         if (!t.isBlockStatement(func.body)) {
           func.body = t.blockStatement([
             indexKeyDecl,
@@ -282,7 +283,6 @@ class Transformer {
         } else {
           // func.body.body.push(indexKeyDecl)
           // 只有 path 的方法才能触发 traverse
-          const body = loopCallExpr.get('arguments')[0].get('body.body')
           body[body.length - 1].insertBefore(indexKeyDecl)
         }
         const arrayFunc = t.memberExpression(
@@ -303,7 +303,7 @@ class Transformer {
           ),
           [t.thisExpression(), t.identifier(indexKey)]
         ))
-        func.body.body.push(
+        body[body.length - 1].insertBefore(
           t.expressionStatement(t.assignmentExpression(
             '=',
             arrayFunc,
