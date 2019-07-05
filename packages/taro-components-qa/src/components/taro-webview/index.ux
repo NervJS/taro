@@ -1,0 +1,57 @@
+<template>
+    <web
+      class="{{className}}"
+      style="{{style}}"
+      onclick="handleClick"
+      trustedurl="{{trustedurl}}"
+      allowthirdpartycookies="{{allowthirdpartycookies}}"
+    >
+    </web>
+  </template>
+  
+  <script>
+    export default {
+      props: {
+        classname: {
+          type: String,
+          required: false,
+        },
+        src: {
+          type: String,
+          required: false,
+          default: ''
+        },
+        style: {
+          type: Object,
+          required: false,
+          default: {}
+        },
+        trustedurl: {
+          type: Array,
+          required: false,
+          default: {}
+        },
+        allowthirdpartycookies: {
+          type: Boolean,
+          required: false,
+          default: {}
+        }
+      },
+  
+      data: () => ({
+  
+      }),
+  
+      onInit () {
+  
+      },
+  
+      handleClick (e) {
+        this.$emit('click', e)
+      }
+    }
+  </script>
+  
+  <style>
+  </style>
+  
