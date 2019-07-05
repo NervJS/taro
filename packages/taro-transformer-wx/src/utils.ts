@@ -32,6 +32,9 @@ export function isDerivedFromProps (scope: Scope, bindingName: string) {
         return true
       }
     }
+    if (init.isIdentifier()) {
+      return isDerivedFromProps(scope, init.node.name)
+    }
   }
   return false
 }

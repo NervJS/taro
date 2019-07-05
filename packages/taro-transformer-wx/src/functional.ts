@@ -21,10 +21,16 @@ export const functionalComponent: () => {
     visitor: {
       JSXElement (path) {
         const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
+        const funcExpr = path.findParent(p => p.isFunctionExpression())
+        if (funcExpr && funcExpr.isFunctionExpression() && funcExpr.parentPath.isVariableDeclarator()) {
+          const { params, body, async } = funcExpr.node
+          funcExpr.replaceWith(t.arrowFunctionExpression(params, body, async))
+          return
+        }
         if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression()) {
           if (arrowFuncExpr.parentPath.isVariableDeclarator()) {
             const valDecl = arrowFuncExpr.parentPath.parentPath
-            if (!valDecl.isVariableDeclaration()) {
+            if (!valDecl.isVariableDeclaration() && !valDecl.isFunctionDeclaration()) {
               throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
             }
             const id = arrowFuncExpr.parentPath.node.id
