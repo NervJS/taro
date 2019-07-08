@@ -59,7 +59,8 @@ export async function buildSinglePage (page: string) {
     jsxAttributeNameReplace,
     pageConfigs,
     appConfig,
-    projectConfig
+    projectConfig,
+    alias
   } = getBuildData()
   const pagePath = path.join(sourceDir, `${page}`)
   const pageJs = resolveScriptPath(pagePath)
@@ -107,7 +108,8 @@ export async function buildSinglePage (page: string) {
         isRoot: true,
         isTyped: REG_TYPESCRIPT.test(pageJs),
         adapter: buildAdapter,
-        env: constantsReplaceList
+        env: constantsReplaceList,
+        alias
       })
       const res = parseAst(PARSE_AST_TYPE.PAGE, aheadTransformResult.ast, [], pageJs, outputPageJSPath)
       if (res.configObj.enablePullDownRefresh || (appConfig.window && appConfig.window.enablePullDownRefresh)) {
@@ -131,7 +133,8 @@ export async function buildSinglePage (page: string) {
       adapter: buildAdapter,
       env: constantsReplaceList,
       rootProps,
-      jsxAttributeNameReplace
+      jsxAttributeNameReplace,
+      alias
     })
     const pageDepComponents = transformResult.components
     const pageWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template

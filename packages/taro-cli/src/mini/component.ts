@@ -60,7 +60,8 @@ export function isFileToBeTaroComponent (
     buildAdapter,
     sourceDir,
     constantsReplaceList,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    alias
   } = getBuildData()
   const transformResult: IWxTransformResult = wxTransformer({
     code,
@@ -71,7 +72,8 @@ export function isFileToBeTaroComponent (
     isTyped: REG_TYPESCRIPT.test(sourcePath),
     adapter: buildAdapter,
     env: constantsReplaceList,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    alias
   })
   const { ast }: IWxTransformResult = transformResult
   let isTaroComponent = false
@@ -143,7 +145,8 @@ export async function buildSingleComponent (
     outputFilesTypes,
     isProduction,
     jsxAttributeNameReplace,
-    projectConfig
+    projectConfig,
+    alias
   } = getBuildData()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
 
@@ -231,7 +234,8 @@ export async function buildSingleComponent (
       isNormal: false,
       adapter: buildAdapter,
       env: constantsReplaceList,
-      jsxAttributeNameReplace
+      jsxAttributeNameReplace,
+      alias
     })
     const componentWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
     const componentDepComponents = transformResult.components
