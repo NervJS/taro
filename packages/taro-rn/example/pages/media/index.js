@@ -3,8 +3,11 @@ import { View, Text, Button } from 'react-native'
 import { styles } from '../styles'
 import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '../../../dist/api/media'
 import { getRecorderManager } from '../../../dist/api/media/record'
+import { createInnerAudioContext } from '../../../dist/api/media/audio'
 
 const recordInstance = getRecorderManager()
+
+const innerAudioContext = createInnerAudioContext()
 
 function handleChooseImage (type) {
   console.log('chooseImage')
@@ -44,7 +47,7 @@ function handleSaveImageToPhotosAlbum () {
 }
 
 function handleRecordStart () {
-  console.log(recordInstance)
+  console.log('handleRecordStart')
   recordInstance.onError((res) => console.log(res))
   recordInstance.onStart((res) => console.log(res))
   recordInstance.onStop((res) => console.log(res))
@@ -63,6 +66,45 @@ function handleRecordResume () {
 
 function handleRecordStop () {
   recordInstance.stop()
+}
+
+function handleAudioStart () {
+  console.log('handleAudioStart')
+  // innerAudioContext.autoplay = true
+  // innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+  innerAudioContext.src = 'http://sc1.111ttt.cn/2018/1/03/13/396131232171.mp3'
+  innerAudioContext.onPlay(() => {
+    console.log('开始播放')
+  })
+  innerAudioContext.onError((res) => {
+    console.log(res.errMsg)
+    console.log(res.errCode)
+  })
+  innerAudioContext.play()
+}
+
+function handleAudioPause () {
+  console.log('handleAudioPause')
+  innerAudioContext.pause()
+}
+
+function handleAudioResume () {
+  console.log('handleAudioResume')
+}
+
+function handleAudioStop () {
+  console.log('handleAudioStop')
+  innerAudioContext.stop()
+}
+
+function handleAudioSeek () {
+  console.log('handleAudioSeek')
+  innerAudioContext.seek(100)
+}
+
+function handleAudioDestory () {
+  console.log('handleAudioDestory')
+  innerAudioContext.destroy()
 }
 
 export function Media () {
@@ -90,6 +132,15 @@ export function Media () {
         <Button onPress={handleRecordPause} title='暂停' color='#19AD1A' />
         <Button onPress={handleRecordResume} title='继续' color='#19AD1A' />
         <Button onPress={handleRecordStop} title='停止' color='#19AD1A' />
+      </View>
+      <Text style={styles.index}>音频</Text>
+      <View style={{flexDirection: 'row'}}>
+        <Button onPress={handleAudioStart} title='播放' color='#19AD1A' />
+        <Button onPress={handleAudioPause} title='暂停' color='#19AD1A' />
+        <Button onPress={handleAudioResume} title='恢复' color='#19AD1A' />
+        <Button onPress={handleAudioStop} title='停止' color='#19AD1A' />
+        <Button onPress={handleAudioSeek} title='跳转' color='#19AD1A' />
+        <Button onPress={handleAudioDestory} title='销毁' color='#19AD1A' />
       </View>
     </View>
   )

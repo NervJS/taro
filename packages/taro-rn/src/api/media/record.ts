@@ -76,7 +76,20 @@ class RecorderManager {
       ios: Object.assign({}, RecorderManager.RecordingOptions.ios, {sampleRate, numberOfChannels, bitRate: encodeBitRate})
     }
     try {
-      await RecorderManager.recordInstance.prepareToRecordAsync(options as any)
+      const res = RecorderManager.recordInstance.getStatusAsync()
+      console.log('res', res)
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: false,
+        shouldDuckAndroid: true,
+        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+        playThroughEarpieceAndroid: true
+      } as any)
+      await RecorderManager.recordInstance.prepareToRecordAsync(options)
+      const res2 = RecorderManager.recordInstance.getStatusAsync()
+      console.log('res2', res2)
       await RecorderManager.recordInstance.startAsync()
     } catch (error) {
       this.onErrorCallback({errMsg: error.message})
@@ -101,7 +114,7 @@ class RecorderManager {
    */
   async resume () {
     try {
-      await RecorderManager.recordInstance.pauseAsync()
+      await RecorderManager.recordInstance.startAsync()
       this.onResumeCallback && this.onResumeCallback()
     } catch (error) {
       this.onErrorCallback({errMsg: error.message})
@@ -173,7 +186,7 @@ class RecorderManager {
   }
 
   /**
-   * TODO
+   * @todo
    * 监听已录制完指定帧大小的文件事件。如果设置了 frameSize，则会回调此事件。
    * @param callback
    */
@@ -182,7 +195,7 @@ class RecorderManager {
   }
 
   /**
-   * TODO
+   * @todo
    * 监听录音因为受到系统占用而被中断开始事件。以下场景会触发此事件：微信语音聊天、微信视频聊天。此事件触发后，录音会被暂停。pause 事件在此事件后触发
    * @param callback
    */
@@ -191,6 +204,7 @@ class RecorderManager {
   }
 
   /**
+   * @todo
    * 监听录音中断结束事件。在收到 interruptionBegin 事件之后，小程序内所有录音会暂停，收到此事件之后才可再次录音成功。
    * @param callback
    */
