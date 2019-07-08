@@ -133,11 +133,6 @@ exports.createApp = function (creator, params, helper, cb) {
   })
   creator.template(template, path.join(configDirName, 'dev'), path.join(configDir, 'dev.js'))
   creator.template(template, path.join(configDirName, 'prod'), path.join(configDir, 'prod.js'))
-  if (typescript) {
-    creator.template(template, path.join('store', 'counterjs'), path.join(sourceDir, 'store', 'counter.ts'))
-  } else {
-    creator.template(template, path.join('store', 'counterjs'), path.join(sourceDir, 'store', 'counter.js'))
-  }
   if (useNpmrc) creator.template(template, 'npmrc', path.join(projectPath, '.npmrc'))
   if (useYarnLock) creator.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
   creator.fs.commit(() => {
@@ -146,13 +141,10 @@ exports.createApp = function (creator, params, helper, cb) {
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建配置目录: ${projectName}/${configDirName}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建源码目录: ${projectName}/${src}`)}`)
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面目录: ${projectName}/${src}/pages`)}`)
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建 store 目录: ${projectName}/${src}/store`)}`)
     if (typescript) {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.tsx`)}`)
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建 store TS 文件: ${projectName}/${src}/store/counter.ts`)}`)
     } else {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 JS 文件: ${projectName}/${src}/pages/index/index.js`)}`)
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建 store JS 文件: ${projectName}/${src}/store/counter.js`)}`)
     }
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${currentStyleExt.toLocaleUpperCase()} 文件: ${projectName}/${src}/pages/index/${pageCSSName}`)}`)
     if (typescript) {

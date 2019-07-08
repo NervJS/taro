@@ -1,14 +1,46 @@
-import { createStoreInjector } from './inject'
-import { observer as originObserver, inject as originInject } from '@tarojs/mobx-common'
+import { useState } from '@tarojs/taro-h5'
 
-export function inject () {
-  return originInject(...arguments, createStoreInjector)
+import {
+  PropTypes,
+  onError,
+  observer,
+  isUsingStaticRendering,
+  useStaticRendering,
+  useLocalStore as originUseLocalStore,
+  useAsObservableSource as originUseAsObservableSource
+} from '@tarojs/mobx-common'
+
+import Provider from './Provider'
+import { inject } from './inject'
+
+function useLocalStore (initializer, current) {
+  return originUseLocalStore(initializer, current, useState)
 }
 
-export function observer (Component) {
-  return originObserver(Component, 'render')
+function useAsObservableSource (current) {
+  return originUseAsObservableSource(current, useState)
 }
 
-export { onError } from '@tarojs/mobx-common'
+export default {
+  PropTypes,
+  onError,
+  observer,
+  inject,
+  Provider,
+  useLocalStore,
+  useAsObservableSource,
+  isUsingStaticRendering,
+  useStaticRendering
+}
 
-export { default as Provider } from './Provider'
+export {
+  PropTypes,
+  onError,
+  observer,
+  inject,
+  Provider,
+  useLocalStore,
+  useAsObservableSource,
+  isUsingStaticRendering,
+  useStaticRendering
+}

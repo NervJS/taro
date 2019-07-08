@@ -9,7 +9,7 @@ export default {
     format: 'cjs',
     file: 'dist/index.js'
   }],
-  external: ['@tarojs/mobx-common'],
+  external: ['@tarojs/taro', '@tarojs/mobx-common'],
   plugins: [
     babel({
       presets: [
