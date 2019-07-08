@@ -898,6 +898,17 @@ declare namespace Taro {
        */
       header: any
     }
+    /**
+     * 网络请求任务对象
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.html
+     */
+    interface requestTask<T> extends Promise<request.Promised<T>> {
+      /**
+       * 中断请求任务
+       * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
+       */
+      abort(): void
+    }
     type Param < P extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器接口地址
@@ -1028,10 +1039,10 @@ declare namespace Taro {
    * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
    *
    * **返回值：**
+   * 
+   * @returns {request.requestTask} 返回一个 `requestTask` 对象，通过 `requestTask`，可中断请求任务。
    *
    * @since 1.4.0
-   *
-   * 返回一个 `requestTask` 对象，通过 `requestTask`，可中断请求任务。
    *
    * **Bug & Tip：**
    *
@@ -1040,44 +1051,54 @@ declare namespace Taro {
    * 3.  `bug`: 开发者工具 `0.10.102800` 版本，`header` 的 `content-type` 设置异常；
    *
    * **示例代码：**
+   * 
+   * @example
+   * // 回调函数(Callback)用法：
+   * const requestTask = Taro.request({
+   *   url: 'test.php', //仅为示例，并非真实的接口地址
+   *   data: {
+   *     x: '' ,
+   *     y: ''
+   *   },
+   *   header: {
+   *     'content-type': 'application/json' // 默认值
+   *   },
+   *   success: function(res) {
+   *     console.log(res.data)
+   *   }
+   * })
+   * requestTask.abort()
+   * 
+   * // Promise 用法：
+   * const requestTask = Taro.request({
+   *   url: 'test.php', //仅为示例，并非真实的接口地址
+   *   data: {
+   *     x: '' ,
+   *     y: ''
+   *   },
+   *   header: {
+   *     'content-type': 'application/json' // 默认值
+   *   },
+   *   success: function(res) {
+   *     console.log(res.data)
+   *   }
+   * })
+   * requestTask.then(res => {
+   *   console.log(res.data)
+   * })
+   * requestTask.abort()
+   * 
+   * // async/await 用法：
+   * const requestTask = Taro.request(params)
+   * const res = await requestTask
+   * requestTask.abort()
+   * 
+   * // 不需要 abort 的 async/await 用法：
+   * const res = await Taro.request(params)
    *
-   ```javascript
-   Taro.request({
-     url: 'test.php', //仅为示例，并非真实的接口地址
-     data: {
-        x: '' ,
-        y: ''
-     },
-     header: {
-         'content-type': 'application/json' // 默认值
-     },
-     success: function(res) {
-       console.log(res.data)
-     }
-   })
-   ```
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   const requestTask = Taro.request({
-     url: 'test.php', //仅为示例，并非真实的接口地址
-     data: {
-        x: '' ,
-        y: ''
-     },
-     header: {
-         'content-type': 'application/json'
-     },
-     success: function(res) {
-       console.log(res.data)
-     }
-   })
-         requestTask.abort() // 取消请求任务
-   ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
-  function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
+  function request<T = any, U = any>(OBJECT: request.Param<U>): request.requestTask<T>
 
   type arrayBuffer = Uint8Array | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | ArrayBuffer
 
