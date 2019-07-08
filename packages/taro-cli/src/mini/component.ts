@@ -254,6 +254,9 @@ export async function buildSingleComponent (
       })
       transfromNativeComponents(outputComponentJSONPath.replace(buildConfig.outputDir || buildOutputDir, sourceDirPath), res.configObj)
     }
+    let realComponentsPathList: IComponentObj[] = []
+    realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
+
     if (!isQuickApp) {
       resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
       if (isProduction) {
@@ -262,9 +265,11 @@ export async function buildSingleComponent (
     } else {
       // 快应用编译，搜集创建组件 ux 文件
       const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
-      const importCustomComponents = new Set(componentDepComponents.map(item => {
-        delete item.type
-        return item
+      const importCustomComponents = new Set(realComponentsPathList.map(item => {
+        return {
+          path: path.relative(path.dirname(component), item.path as string).replace(path.extname(item.path as string), ''),
+          name: item.name as string
+        }
       }))
       let styleRelativePath
       if (res.styleFiles.length) {
@@ -288,9 +293,7 @@ export async function buildSingleComponent (
       media: []
     }
     // 编译依赖的组件文件
-    let realComponentsPathList: IComponentObj[] = []
-    if (componentDepComponents.length) {
-      realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
+    if (realComponentsPathList.length) {
       res.scriptFiles = res.scriptFiles.map(item => {
         for (let i = 0; i < realComponentsPathList.length; i++) {
           const componentObj = realComponentsPathList[i]
