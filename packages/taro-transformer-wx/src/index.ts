@@ -515,9 +515,15 @@ export default function transform (options: Options): TransformResult {
           }
         }
       }
-      if (name === 'View' && Adapter.type === Adapters.quickapp) {
-        path.node.name = t.jSXIdentifier('div')
+      if (Adapter.type === Adapters.quickapp) {
+        if (name === 'View') {
+          path.node.name = t.jSXIdentifier('div')
+        }
+        if (name === 'Block') {
+          path.node.name = t.jSXIdentifier('block')
+        }
       }
+
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
         const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
