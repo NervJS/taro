@@ -662,7 +662,7 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
     Adapter.if,
     Adapter.else
   ])
-  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => t.isIdentifier(a.name) && ifAttrSet.has(a.name.name))) as NodePath<t.JSXElement>
+  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => t.isJSXIdentifier(a.name) && ifAttrSet.has(a.name.name))) as NodePath<t.JSXElement>
   if (logicalJSX) {
     const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
     if (attr) {
