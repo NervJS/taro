@@ -172,7 +172,7 @@ class App extends Component {
 
 ### 组件 `state` 与 `props` 里字段重名的问题
 
-不要在 `state` 与 `props` 上用同名的字段，因为这些被字段在微信小程序中都会挂在 `data` 上。
+不要在 `state` 与 `props` 上用同名的字段，因为这些字段在微信小程序中都会挂在 `data` 上。
 
 ### 小程序中页面生命周期 `componentWillMount` 不一致问题
 
