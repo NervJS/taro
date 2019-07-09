@@ -92,7 +92,7 @@ class RecorderManager {
       console.log('res2', res2)
       await RecorderManager.recordInstance.startAsync()
     } catch (error) {
-      this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
     }
   }
 
@@ -104,7 +104,7 @@ class RecorderManager {
       await RecorderManager.recordInstance.pauseAsync()
       this.onPauseCallback && this.onPauseCallback()
     } catch (error) {
-      this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
     }
   }
 
@@ -117,7 +117,7 @@ class RecorderManager {
       await RecorderManager.recordInstance.startAsync()
       this.onResumeCallback && this.onResumeCallback()
     } catch (error) {
-      this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
     }
   }
 
@@ -130,7 +130,7 @@ class RecorderManager {
       await RecorderManager.recordInstance.stopAndUnloadAsync()
       this.onStopCallback && this.onStopCallback()
     } catch (error) {
-      this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
     }
   }
 

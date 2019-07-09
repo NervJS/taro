@@ -6,16 +6,21 @@ import { askAsyncPermissions, isUrl } from '../utils'
  * InnerAudioContext 实例，可通过 wx.createInnerAudioContext 接口获取实例。
  */
 class InnerAudioContext {
-  public src: string
-  public startTime: number
-  public autoplay: boolean
-  public loop: boolean
-  public obeyMuteSwitch: boolean
-  public volume: number
+  private _src: string // TODO asset path
+  private _startTime: number
+  private _autoplay: boolean = false
+  private _loop: boolean = false
+  private _obeyMuteSwitch: boolean = true // TODO
+  private _volume: number = 1
+  /** @member 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回（只读）*/
   public duration: number
+  /** @member 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位（只读 */
   public currentTime: number
+  /** @member 当前是是否暂停或停止状态（只读）*/
   public paused: boolean
-  public buffered: number
+  /** @member 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲（只读）*/
+  public buffered: number //
+  // private
   private soundObject: Audio.Sound
   private offCanplayCallback
   private offEndedCallback
@@ -40,6 +45,80 @@ class InnerAudioContext {
 
   constructor () {
     this.soundObject = new Audio.Sound()
+    this.soundObject.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate)
+  }
+
+  _onPlaybackStatusUpdate = playbackStatus => {
+    this.duration = playbackStatus.durationMillis / 1000
+    this.currentTime = playbackStatus.positionMillis / 1000
+    this.buffered = playbackStatus.playableDurationMillis / 1000
+    this.paused = !playbackStatus.isPlaying
+    // 监听音频播放进度更新事件
+    this.onTimeUpdateCallback && this.onTimeUpdateCallback(playbackStatus)
+    if (!playbackStatus.isLoaded) {
+      // Update your UI for the unloaded state
+      console.log('isLoaded')
+      if (playbackStatus.error) {
+        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`)
+      }
+    } else {
+      // Update your UI for the loaded state
+
+      if (playbackStatus.isPlaying) {
+        // Update your UI for the playing state
+        console.log('isPlaying')
+      } else {
+        // paused state
+        console.log('paused')
+      }
+
+      if (playbackStatus.isBuffering) {
+        this.onWaitingCallback && this.onWaitingCallback()
+      }
+
+      if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+        this.onEndedCallback && this.onEndedCallback()
+      }
+    }
+  }
+
+  set src (value) {
+    this._src = value
+    if (this._autoplay) {
+      this._firstPlay()
+    }
+  }
+
+  set autoplay (value) {
+    this._autoplay = value
+  }
+
+  set startTime (value) {
+    this._startTime = value
+  }
+
+  set volume (value) {
+    this._volume = value
+  }
+
+  set loop (value: boolean) {
+    this._loop = value
+  }
+
+  set obeyMuteSwitch (value: boolean) {
+    this._obeyMuteSwitch = value
+  }
+
+  private async _firstPlay () {
+    if (!this._src) return {errMsg: `src is undefined`}
+    const source = isUrl(this._src) ? {uri: this._src} : this._src
+    await this.soundObject.loadAsync(source as any, {}, true)
+    this.onCanplayCallback && this.onCanplayCallback()
+    await this.soundObject.playAsync()
+    if (this._startTime) {
+      await this.soundObject.playFromPositionAsync(this._startTime * 1000)
+    }
+    this.onPlayCallback && this.onPlayCallback()
   }
 
   /**
@@ -53,15 +132,22 @@ class InnerAudioContext {
       return Promise.reject(res)
     }
 
+    const soundStatus = await this.soundObject.getStatusAsync()
     try {
-      if (!this.src) return {errMsg: `src is undefined`}
-      // const source = isUrl(this.src) ? this.src : require(this.src)
-      const source = this.src
-      // await this.soundObject.loadAsync(source, {}, false)
-      await this.soundObject.loadAsync(source as any, {}, false)
-      await this.soundObject.playAsync()
+      if (soundStatus.isLoaded === false && soundStatus.isPlaying === undefined) {
+        // First load
+        await this._firstPlay()
+
+      } else {
+        await this.soundObject.playAsync()
+      }
+      // TODO
+      // await this.soundObject.setIsMutedAsync(this._obeyMuteSwitch)
+      await this.soundObject.setVolumeAsync(this._volume)
+      await this.soundObject.setIsLoopingAsync(this._loop)
+      this.onPlayCallback && this.onPlayCallback()
     } catch (error) {
-      this.onError(error)
+      this.onError && this.onError(error)
     }
   }
 
@@ -71,8 +157,9 @@ class InnerAudioContext {
   async pause () {
     try {
       await this.soundObject.pauseAsync()
+      this.onPauseCallback && this.onPauseCallback()
     } catch (error) {
-      this.onError(error)
+      this.onError && this.onError(error)
     }
   }
 
@@ -82,8 +169,9 @@ class InnerAudioContext {
   async stop () {
     try {
       await this.soundObject.stopAsync()
+      this.onStopCallback && this.onStopCallback()
     } catch (error) {
-      this.onError(error)
+      this.onError && this.onError(error)
     }
   }
 
@@ -94,9 +182,11 @@ class InnerAudioContext {
   async seek (position: number) {
     const millis = position * 1000
     try {
+      this.onSeekingCallback && this.onSeekingCallback()
       await this.soundObject.setPositionAsync(millis)
+      this.onSeekedCallback && this.onSeekedCallback()
     } catch (error) {
-      this.onError(error)
+      this.onError && this.onError(error)
     }
   }
 
@@ -106,6 +196,7 @@ class InnerAudioContext {
    */
   destroy () {
     console.log('destroy')
+    this.stop()
     // this.soundObject = undefined
   }
 
