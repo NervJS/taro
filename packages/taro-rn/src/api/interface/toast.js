@@ -118,7 +118,7 @@ function showToast (options) {
       </View>
     </View>
   } else if (icon === 'loading') {
-    ToastView = <WXLoading />
+    ToastView = <WXLoading title={title} />
   } else if (icon === 'none') {
     ToastView = <View style={styles.container}>
       <View style={styles.textGrayBlock}>
