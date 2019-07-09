@@ -4,6 +4,8 @@ import { styles } from '../styles'
 import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '../../../dist/api/media'
 import { getRecorderManager } from '../../../dist/api/media/record'
 import { createInnerAudioContext } from '../../../dist/api/media/audio'
+import { createVideoContext } from '../../../dist/api/media/video'
+import { Video } from 'expo-av'
 
 const recordInstance = getRecorderManager()
 
@@ -99,6 +101,12 @@ export class Media extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
+    this.videoRef = React.createRef()
+  }
+
+  componentDidMount () {
+    console.log(this.videoRef)
+    global._taroVideoMap['demo'] = this.videoRef.current
   }
 
   handleAudioStart1 () {
@@ -176,6 +184,19 @@ export class Media extends React.Component {
           <Button onPress={handleAudioSeek} title='跳转' color='#19AD1A' />
           <Button onPress={handleAudioDestory} title='销毁' color='#19AD1A' />
         </View>
+        <Text style={styles.index}>视频</Text>
+        <Video
+          ref={this.videoRef}
+          source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+          rate={1}
+          volume={1.0}
+          isMuted={false}
+          resizeMode='cover'
+          useNativeControls
+          shouldPlay
+          isLooping
+          style={{width: 300, height: 300}}
+        />
       </View>
     )
   }

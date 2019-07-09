@@ -1,5 +1,7 @@
 import { Video } from 'expo-av'
 
+global._taroVideoMap = {}
+
 interface FullScreenObject {
   direction?: number
 }
@@ -20,12 +22,17 @@ class VideoContext {
   /**
    * 退出全屏
    */
-  exitFullScreen () {
-
+  async exitFullScreen () {
+    try {
+      await this.videoRef.dismissFullscreenPlayer()
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   /**
    * 隐藏状态栏，仅在iOS全屏下有效
+   * @todo
    */
   hideStatusBar () {
 
@@ -57,8 +64,12 @@ class VideoContext {
    * 设置倍速播放
    * {number} @param rate - 倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速
    */
-  playbackRate (rate: number) {
-
+  async playbackRate (rate: number) {
+    try {
+      await this.videoRef.setRateAsync(rate)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   /**
@@ -66,20 +77,30 @@ class VideoContext {
    * @package {object} [object]
    * @package {number} [object.direction] - 设置全屏时视频的方向，不指定则根据宽高比自动判断。
    */
-  requestFullScreen (object: FullScreenObject) {
-
+  async requestFullScreen (object: FullScreenObject) {
+    try {
+      await this.videoRef.presentFullscreenPlayer()
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   /**
    * 跳转到指定位置
    * @param {number} position - 跳转到的位置，单位 s
    */
-  seek (position: number) {
-
+  async seek (position: number) {
+    const millis = position * 1000
+    try {
+      await this.videoRef.setPositionAsync(millis)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   /**
    * 发送弹幕 ❌
+   * @ todo
    * @deprecated 暂未实现
    * @param {DanmuData} data 弹幕内容
    * @param {string} data.text 弹幕文字
@@ -89,6 +110,10 @@ class VideoContext {
 
   }
 
+  /**
+   * 显示状态栏，仅在iOS全屏下有效
+   * @todo
+   */
   showStatusBar () {
 
   }
@@ -103,7 +128,6 @@ class VideoContext {
       console.log(e)
     }
   }
-
 }
 
 /**
@@ -112,5 +136,10 @@ class VideoContext {
  * {object} @param t - 在自定义组件下，当前组件实例的this，以操作组件内 video 组件
  */
 export function createVideoContext (id: string, t: object) {
-
+  const ref = global._taroVideoMap[id]
+  if (ref) {
+    return new VideoContext(ref)
+  } else {
+    return undefined
+  }
 }
