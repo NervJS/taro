@@ -2,6 +2,7 @@
     <web
       class="{{className}}"
       style="{{style}}"
+      src="{{src}}"
       onclick="handleClick"
       trustedurl="{{trustedurl}}"
       allowthirdpartycookies="{{allowthirdpartycookies}}"
