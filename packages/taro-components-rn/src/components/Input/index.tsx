@@ -78,11 +78,12 @@ class _Input extends React.Component<InputProps, InputState> {
   lineCount: number = 0
 
   onChangeText = (text: string): void => {
-    const { onInput } = this.props
+    const { onInput, onChange } = this.props
     const { returnValue } = this.state
+    const onEvent = onInput || onChange
     this.tmpValue = text || ''
-    if (onInput) {
-      const result = onInput({
+    if (onEvent) {
+      const result = onEvent({
         target: { value: text },
         detail: { value: text }
       })

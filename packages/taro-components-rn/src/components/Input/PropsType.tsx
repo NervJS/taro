@@ -33,6 +33,7 @@ export interface InputProps {
   selectionStart: number;
   selectionEnd: number;
   onInput?: (evt: Event) => void;
+  onChange?: (evt: Event) => void;
   onFocus?: (evt: Event) => void;
   onBlur?: (evt: Event) => void;
   onKeyDown?: (evt: Partial<Event> & { which?: number }) => void;
