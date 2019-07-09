@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 import { mergeWith, isPlainObject, camelCase, flatMap } from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
@@ -496,15 +496,16 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
 }
 
 export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean {
-  if (!quickappPkgs.length) {
-    return /@system\./.test(name)
-  }
-  let isQuickappPkg = false
+  const isQuickappPkg = /^@[a-zA-Z]{1,}\.[a-zA-Z]{1,}/.test(name)
+  let hasSetInManifest = false
   quickappPkgs.forEach(item => {
     if (item.name === name.replace(/^@/, '')) {
-      isQuickappPkg = true
+      hasSetInManifest = true
     }
   })
+  if (isQuickappPkg && !hasSetInManifest) {
+    printLog(processTypeEnum.ERROR, '快应用', `需要在 ${chalk.bold('project.quickapp.json')} 文件的 ${chalk.bold('features')} 配置中添加 ${chalk.bold(name)}`)
+  }
   return isQuickappPkg
 }
 
