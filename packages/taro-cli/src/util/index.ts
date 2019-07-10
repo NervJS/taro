@@ -672,3 +672,60 @@ export function uglifyJS (resCode: string, filePath: string, root: string, uglif
   }
   return resCode
 }
+
+export const getAllFilesInFloder = async (
+  floder: string,
+  filter: string[] = []
+): Promise<string[]> => {
+  let files: string[] = []
+  const list = await ((fs.readdir(floder, {
+    withFileTypes: true
+  } as any) as any) as Promise<fs.Dirent[]>)
+
+  await Promise.all(
+    list.map(async item => {
+      const itemPath = path.join(floder, item.name)
+      if (item.isDirectory()) {
+        const _files = await getAllFilesInFloder(itemPath, filter)
+        files = [...files, ..._files]
+      } else if (item.isFile()) {
+        if (!filter.find(rule => rule === item.name)) files.push(itemPath)
+      }
+    })
+  )
+
+  return files
+}
+
+export function getUserHomeDir (): string {
+  function homedir(): string {
+    const env = process.env
+    const home = env.HOME
+    const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
+
+    if (process.platform === 'win32') {
+      return env.USERPROFILE || '' + env.HOMEDRIVE + env.HOMEPATH || home || ''
+    }
+
+    if (process.platform === 'darwin') {
+      return home || (user ? '/Users/' + user : '')
+    }
+
+    if (process.platform === 'linux') {
+      return home || (process.getuid() === 0 ? '/root' : (user ? '/home/' + user : ''))
+    }
+
+    return home || ''
+  }
+  return typeof (os.homedir as (() => string) | undefined) === 'function' ? os.homedir() : homedir()
+}
+
+export type TemplateSourceType = 'git' | 'url'
+
+export function getTemplateSourceType (url: string): TemplateSourceType {
+  if (/^git@/.test(url) || /^(https|http):\/\/git/.test(url)) {
+    return 'git'
+  } else {
+    return 'url'
+  }
+}
