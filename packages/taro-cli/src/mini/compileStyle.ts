@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as autoprefixer from 'autoprefixer'
 import * as postcss from 'postcss'
 import * as pxtransform from 'postcss-pxtransform'
-
+import getHashName from '../util/hash'
 import browserList from '../config/browser_list'
 import {
   resolveNpmPkgMainPath,
@@ -107,6 +107,7 @@ export function processStyleUseCssModule (styleObj: IStyleObj): any {
 async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
   const { appPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
   const weappConf = Object.assign({}, projectConfig.weapp)
+  const publicPath = weappConf.publicPath
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customCssModulesConf = Object.assign({
@@ -119,12 +120,13 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
     enable: true,
     config: {}
   }, customPostcssConf.pxtransform || {})
-  const customUrlConf = Object.assign({
+  const customUrlConf = {
     enable: true,
     config: {
       limit: 10240
-    }
-  }, customPostcssConf.url || {})
+    } as any,
+    ...customPostcssConf.url
+  }
   const customAutoprefixerConf = Object.assign({
     enable: true,
     config: {
@@ -139,8 +141,8 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
   if (projectConfig.hasOwnProperty(DEVICE_RATIO_NAME)) {
     postcssPxtransformOption[DEVICE_RATIO_NAME] = projectConfig.deviceRatio
   }
-  const cssUrlConf = Object.assign({ limit: 10240 }, customUrlConf)
-  const maxSize = Math.round((customUrlConf.config.limit || cssUrlConf.limit) / 1024)
+
+  const maxSize = (customUrlConf.config.limit || 1024) / 1024
   const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
   const processors: any[] = []
   if (customAutoprefixerConf.enable) {
@@ -149,15 +151,32 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
   if (customPxtransformConf.enable && buildAdapter !== BUILD_TYPES.QUICKAPP) {
     processors.push(pxtransform(postcssPxtransformConf))
   }
-  if (cssUrlConf.enable) {
-    const cssUrlParseConf = {
-      url: 'inline',
-      maxSize,
-      encodeType: 'base64'
+  if (customUrlConf.enable) {
+    let inlineOpts = {}
+    const url = customUrlConf.config.url || 'inline'
+    if (url === 'inline' && !publicPath) {
+      inlineOpts = {
+        encodeType: 'base64',
+        maxSize,
+        url
+      }
     }
-    processors.push(cssUrlParse(cssUrlConf.config.basePath ? Object.assign(cssUrlParseConf, {
-      basePath: cssUrlConf.config.basePath
-    }) : cssUrlParseConf))
+
+    if (publicPath && typeof url !== 'function') {
+      customUrlConf.config.url = (assets) => {
+        if (/\./.test(assets.url)) {
+          const hashName = getHashName(assets.absolutePath)
+          assets.url = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
+        }
+        return assets.url
+      }
+    }
+
+    const cssUrlParseConf = {
+      ...inlineOpts,
+      ...customUrlConf.config
+    }
+    processors.push(cssUrlParse(cssUrlParseConf))
   }
 
   const defaultPostCSSPluginNames = ['autoprefixer', 'pxtransform', 'url', 'cssModules']
@@ -198,11 +217,10 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
   if (isBuildingStyles.get(outputFilePath)) {
     return Promise.resolve({})
   }
-  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter, quickappManifest } = getBuildData()
   const pluginsConfig = projectConfig.plugins || {}
   const weappConf = projectConfig.weapp || {} as IMiniAppConfig
   const useCompileConf = Object.assign({}, weappConf.compile)
-  const compileInclude = useCompileConf.include || []
   isBuildingStyles.set(outputFilePath, true)
   return Promise.all(styleFiles.map(async p => {
     const filePath = path.join(p)
@@ -221,10 +239,11 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           root: appPath,
           rootNpm: nodeModulesPath,
           npmOutputDir,
-          compileInclude,
+          compileConfig: useCompileConf,
           env: projectConfig.env || {},
           uglify: projectConfig!.plugins!.uglify || {  enable: true  },
-          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {}
+          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
+          quickappManifest
         })
         const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
         return str.replace(stylePath, importRelativePath)
@@ -256,13 +275,15 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
     await Promise.all(resList.map(res => processStyleWithPostCSS(res)))
       .then(cssList => {
         let resContent = cssList.map(res => res).join('\n')
+        // 非生产模式下用户 csso 配置不存在则默认 csso 为禁用
+        let cssoPuginConfig = pluginsConfig.csso || { enable: false }
         if (isProduction) {
-          const cssoPuginConfig = pluginsConfig.csso || { enable: true }
-          if (cssoPuginConfig.enable) {
-            const cssoConfig = cssoPuginConfig.config || {}
-            const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig, appPath)
-            resContent = cssoResult.css
-          }
+          cssoPuginConfig = pluginsConfig.csso || { enable: true }
+        }
+        if (cssoPuginConfig.enable) {
+          const cssoConfig = cssoPuginConfig.config || {}
+          const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig, appPath)
+          resContent = cssoResult.css
         }
         fs.ensureDirSync(path.dirname(outputFilePath))
         fs.writeFileSync(outputFilePath, resContent)

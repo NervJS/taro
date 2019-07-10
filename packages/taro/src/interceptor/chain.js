@@ -12,7 +12,10 @@ export default class Chain {
     }
     const nextInterceptor = this._getNextInterceptor()
     const nextChain = this._getNextChain()
-    return nextInterceptor(nextChain).catch(err => Promise.reject(err))
+    const p = nextInterceptor(nextChain)
+    const res = p.catch(err => Promise.reject(err))
+    if (typeof p.abort === 'function') res.abort = p.abort
+    return res
   }
 
   _getNextInterceptor () {

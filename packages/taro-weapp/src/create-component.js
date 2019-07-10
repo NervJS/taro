@@ -1,8 +1,9 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
-import { isEmptyObject, isFunction } from './util'
-import { mountComponent } from './lifecycle'
+import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
+import { isEmptyObject, isFunction, isArray } from './util'
+import { mountComponent, updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
+import nextTick from './next-tick'
 import propsManager from './propsManager'
 
 const anonymousFnNamePreffix = 'funPrivate'
@@ -38,6 +39,22 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
     value: null,
     observer () {
       initComponent.apply(this, [ComponentClass, isPage])
+    }
+  }
+  weappComponentConf.properties.extraProps = {
+    type: null,
+    value: null,
+    observer () {
+      // update Component
+      if (!this.$component || !this.$component.__isReady) return
+
+      const nextProps = filterProps(ComponentClass.defaultProps, {}, this.$component.props, this.data.extraProps)
+      this.$component.props = nextProps
+      nextTick(() => {
+        this.$component._unsafeCallUpdate = true
+        updateComponent(this.$component)
+        this.$component._unsafeCallUpdate = false
+      })
     }
   }
 }
@@ -172,7 +189,7 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}) {
+export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}, extraProps) {
   let newProps = Object.assign({}, curAllProps, propsFromPropsManager)
 
   if (!isEmptyObject(defaultProps)) {
@@ -182,6 +199,11 @@ export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curA
       }
     }
   }
+
+  if (extraProps) {
+    newProps = Object.assign({}, newProps, extraProps)
+  }
+
   return newProps
 }
 
@@ -212,6 +234,13 @@ export function componentTrigger (component, key, args) {
         ref.target = target
       })
       component.refs = Object.assign({}, component.refs || {}, refs)
+    }
+    if (component['$$hasLoopRef']) {
+      Current.current = component
+      component._disableEffect = true
+      component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
     }
   }
 
@@ -257,7 +286,7 @@ function initComponent (ComponentClass, isPage) {
         ComponentClass
       }
     }
-    const nextProps = filterProps(ComponentClass.defaultProps, propsManager.map[compid], this.$component.props)
+    const nextProps = filterProps(ComponentClass.defaultProps, propsManager.map[compid], this.$component.props, this.data.extraProps)
     this.$component.props = nextProps
   } else {
     this.$component.$router.path = getCurrentPageUrl()
@@ -339,6 +368,10 @@ function createComponent (ComponentClass, isPage) {
           hook.cleanup()
         }
       })
+      const events = component.$$renderPropsEvents
+      if (isArray(events)) {
+        events.forEach(e => eventCenter.off(e))
+      }
     }
   }
   if (isPage) {

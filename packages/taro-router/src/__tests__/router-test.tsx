@@ -21,7 +21,7 @@ beforeEach(() => {
     firstPagePath: '/pages/index/index',
     customRoutes: {
       '/pages/index/index': '/index',
-      '/pages/about/about': '/about'
+      '/pages/about/index': '/about'
     }
   })
   mountApis(mockHistory)
@@ -83,7 +83,7 @@ describe('router component', () => {
     await wait(100)
     expect(window.getComputedStyle(dom.childNodes[0]).display).toEqual('block')
     Taro.navigateTo({
-      url: '/pages/about/about'
+      url: '/pages/about/index'
     })
     await wait(100)
     expect(getComputedStyle(dom.childNodes[0]).display).toEqual('none')
@@ -133,7 +133,7 @@ describe('router component', () => {
     await wait(100)
     expect(routerParams).toMatchObject({})
     Taro.navigateTo({
-      url: '/pages/about/about'
+      url: '/pages/about/index'
     })
     await wait(100)
     expect(routerParams).toMatchObject({})

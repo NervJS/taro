@@ -7,20 +7,11 @@ import generate from 'better-babel-generator'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
-import { findLastIndex, merge } from 'lodash'
+import { findLastIndex, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
 import CONFIG from '../config'
-import {
-  isAliasPath,
-  isNpmPkg,
-  mergeVisitors,
-  printLog,
-  promoteRelativePath,
-  recursiveMerge,
-  replaceAliasPath,
-  resolveScriptPath
-} from '../util'
+import { isNpmPkg, mergeVisitors, printLog, promoteRelativePath, recursiveMerge, resolveScriptPath } from '../util'
 import {
   convertAstExpressionToVariable as toVar,
   convertObjectToAstExpression as objToAst,
@@ -71,7 +62,6 @@ class Compiler {
   entryFilePath: string
   entryFileName: string
   pxTransformConfig
-  pathAlias
   pages: string[] = []
 
   constructor (appPath) {
@@ -101,7 +91,6 @@ class Compiler {
     this.tempPath = path.join(appPath, this.tempDir)
     this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, CONFIG.ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
-    this.pathAlias = projectConfig.alias || {}
     this.pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
     if (projectConfig.hasOwnProperty(deviceRatioConfigName)) {
       this.pxTransformConfig.deviceRatio = projectConfig.deviceRatio
@@ -179,6 +168,7 @@ class Compiler {
     const h5Config = this.h5Config
     const outputDir = this.outputDir
     const sourceRoot = this.sourceRoot
+    const sourcePath = this.sourcePath
     const tempPath = this.tempPath
 
     const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
@@ -189,7 +179,19 @@ class Compiler {
     if (projectConfig.env) {
       h5Config.env = projectConfig.env
     }
+
+    const convertAlias = (filePath: string) => {
+      const isAbsolute = path.isAbsolute(filePath)
+      if (!isAbsolute) return filePath
+
+      const relPath = path.relative(sourcePath, filePath)
+      return relPath.startsWith('..')
+        ? filePath
+        : path.resolve(this.tempPath, relPath)
+    }
+
     recursiveMerge(h5Config, {
+      alias: mapValues(projectConfig.alias, convertAlias),
       copy: projectConfig.copy,
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
@@ -232,8 +234,9 @@ class Compiler {
       .on('unlink', filePath => {
         const relativePath = path.relative(appPath, filePath)
         const extname = path.extname(relativePath)
+        const distDirname = this.getTempDir(filePath)
         const isScriptFile = REG_SCRIPTS.test(extname)
-        const dist = this.getDist(filePath, isScriptFile)
+        const dist = this.getDist(distDirname, filePath, isScriptFile)
         printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
         fs.unlinkSync(dist)
       })
@@ -244,7 +247,6 @@ class Compiler {
     const routerMode = this.routerMode
     const routerBasename = this.routerBasename
     const customRoutes = this.customRoutes
-    const pathAlias = this.pathAlias
     const pxTransformConfig = this.pxTransformConfig
 
     let ast = wxTransformer({
@@ -267,7 +269,6 @@ class Compiler {
     let hasComponentDidShow = false
     let hasComponentDidHide = false
     let hasComponentWillUnmount = false
-    let hasJSX = false
     let hasNerv = false
     let stateNode: t.ClassProperty
 
@@ -542,6 +543,7 @@ class Compiler {
       }
     }
 
+    // require('fs').writeFileSync('./ast.json', JSON.stringify(ast, null, 2))
     traverse(ast, {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
@@ -564,10 +566,7 @@ class Compiler {
           const node = astPath.node
           const source = node.source
           const specifiers = node.specifiers
-          let value = source.value
-          if (isAliasPath(value, pathAlias)) {
-            source.value = value = replaceAliasPath(filePath, value, pathAlias)
-          }
+          const value = source.value
           if (!isNpmPkg(value)) {
             if (value.indexOf('.') === 0) {
               const pathArr = value.split('/')
@@ -669,11 +668,6 @@ class Compiler {
           }
         }
       },
-      JSXElement: {
-        enter (astPath: NodePath<t.JSXElement>) {
-          hasJSX = true
-        }
-      },
       JSXOpeningElement: {
         enter (astPath: NodePath<t.JSXOpeningElement>) {
           const node = astPath.node
@@ -709,10 +703,10 @@ class Compiler {
             createHistoryNode,
             mountApisNode
           ]
-
           astPath.traverse(programExitVisitor)
 
-          if (hasJSX && !hasNerv) {
+          /* Taro.render(<App />) 会被移除，导致hasJSX判断错误 */
+          if (!hasNerv) {
             extraNodes.unshift(
               t.importDeclaration(
                 [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
@@ -744,8 +738,6 @@ class Compiler {
   }
 
   processOthers (code, filePath, fileType) {
-    const pathAlias = this.pathAlias
-
     const componentnameMap = new Map()
     const taroapiMap = new Map()
     const isPage = fileType === FILE_TYPE.PAGE
@@ -848,11 +840,8 @@ class Compiler {
         enter (astPath: NodePath<t.ImportDeclaration>) {
           const node = astPath.node
           const source = node.source
-          let value = source.value
+          const value = source.value
           const specifiers = node.specifiers
-          if (isAliasPath(value, pathAlias)) {
-            source.value = value = replaceAliasPath(filePath, value, pathAlias)
-          }
           if (!isNpmPkg(value)) {
             if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
               const absolutePath = path.resolve(filePath, '..', value)
@@ -887,9 +876,13 @@ class Compiler {
           }
         }
       },
+      JSXElement: {
+        exit (astPath: NodePath<t.JSXElement>) {
+          hasJSX = true
+        }
+      },
       JSXOpeningElement: {
         exit (astPath: NodePath<t.JSXOpeningElement>) {
-          hasJSX = true
           const node = astPath.node
           const componentName = componentnameMap.get(toVar(node.name))
           const componentId = getComponentId(componentName, node)
@@ -1143,16 +1136,23 @@ class Compiler {
     }
   }
 
-  processFiles (filePath) {
-    const sourceRoot = this.sourceRoot
+  getTempDir (filePath) {
+    const appPath = this.appPath
+    const sourcePath = this.sourcePath
     const tempDir = this.tempDir
 
-    const file = fs.readFileSync(filePath)
     const dirname = path.dirname(filePath)
+    const relPath = path.relative(sourcePath, dirname)
+
+    return path.resolve(appPath, tempDir, relPath)
+  }
+
+  processFiles (filePath) {
+    const file = fs.readFileSync(filePath)
     const extname = path.extname(filePath)
-    const distDirname = dirname.replace(sourceRoot, tempDir)
+    const distDirname = this.getTempDir(filePath)
     const isScriptFile = REG_SCRIPTS.test(extname)
-    const distPath = this.getDist(filePath, isScriptFile)
+    const distPath = this.getDist(distDirname, filePath, isScriptFile)
 
     try {
       if (isScriptFile) {
@@ -1179,12 +1179,7 @@ class Compiler {
     }
   }
 
-  getDist (filename, isScriptFile) {
-    const sourceRoot = this.sourceRoot
-    const tempDir = this.tempDir
-
-    const dirname = path.dirname(filename)
-    const distDirname = dirname.replace(sourceRoot, tempDir)
+  getDist (distDirname, filename, isScriptFile) {
     return isScriptFile
       ? path.format({
         dir: distDirname,

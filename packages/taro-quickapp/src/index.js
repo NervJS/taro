@@ -10,6 +10,7 @@ import {
   internal_inline_style,
   internal_get_original
 } from '@tarojs/taro'
+import { shallowEqual } from '@tarojs/utils'
 
 import Component from './component'
 import PureComponent from './pure-component'
@@ -31,7 +32,8 @@ export const Taro = {
   internal_safe_set,
   internal_inline_style,
   createComponent,
-  internal_get_original
+  internal_get_original,
+  shallowEqual
 }
 
 export default Taro

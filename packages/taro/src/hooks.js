@@ -102,7 +102,7 @@ function invokeScheduleEffects (component) {
 
 function useEffectImpl (effect, deps, delay) {
   const hook = getHooks(Current.index++)
-  if (Current.current._disableHooks || !Current.current.__isReady) {
+  if (Current.current._disableEffect || !Current.current.__isReady) {
     return
   }
   if (areDepsChanged(hook.deps, deps)) {

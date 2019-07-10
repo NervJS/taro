@@ -57,11 +57,15 @@ function qappNavigate (options = {}, method = 'push') {
 }
 
 function getUrlParams (url = '') {
-  let params = {}
-  url && url.replace(/(\w+)=(\w+)/ig, function (a, b, c) {
-    params[b] = unescape(c)
+  const params = {}
+  url = url.replace(/#.*$/, '')
+  const queryArray = url.split(/[?&]/).slice(1)
+  queryArray.forEach(item => {
+    const match = item.match(/([^=]+)=([^=]+)/)
+    if (match != null) {
+      params[match[1]] = decodeURIComponent(match[2])
+    }
   })
-
   return params
 }
 

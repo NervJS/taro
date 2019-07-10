@@ -4,8 +4,7 @@ import * as path from 'path'
 import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as ora from 'ora'
-import { exec } from 'child_process'
-import * as resolvePath from 'resolve'
+import { execSync } from 'child_process'
 
 import {
   printLog,
@@ -18,14 +17,15 @@ import {
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
-import defaultManifestJSON from '../config/manifest.default.json'
+import * as defaultManifestJSON from '../config/manifest.default.json'
 
 import {
   setBuildData,
   getBuildData,
   setIsProduction,
   setAppConfig,
-  IBuildData
+  IBuildData,
+  setQuickappManifest
 } from './helper'
 import { buildEntry } from './entry'
 import { buildPages } from './page'
@@ -88,8 +88,22 @@ async function buildFrameworkInfo () {
   }
 }
 
-function generateQuickAppManifest () {
-  const { appConfig, pageConfigs, appPath, outputDir, projectConfig } = getBuildData()
+function readQuickAppManifest () {
+  const { appPath } = getBuildData()
+  // 读取 project.quickapp.json
+  const quickappJSONPath = path.join(appPath, 'project.quickapp.json')
+  let quickappJSON
+  if (fs.existsSync(quickappJSONPath)) {
+    quickappJSON = fs.readJSONSync(quickappJSONPath)
+  } else {
+    printLog(processTypeEnum.WARNING, '缺少配置', `检测到项目目录下未添加 ${chalk.bold('project.quickapp.json')} 文件，将使用默认配置，参考文档 https://nervjs.github.io/taro/docs/project-config.html`)
+    quickappJSON = defaultManifestJSON
+  }
+  return quickappJSON
+}
+
+function generateQuickAppManifest (quickappJSON: any) {
+  const { appConfig, pageConfigs, outputDir, projectConfig } = getBuildData()
   // 生成 router
   const pages = (appConfig.pages as string[]).concat()
   const routerPages = {}
@@ -116,14 +130,6 @@ function generateQuickAppManifest () {
       display.pages[path.dirname(page)] = item
     }
   })
-  // 读取 project.quickapp.json
-  const quickappJSONPath = path.join(appPath, 'project.quickapp.json')
-  let quickappJSON
-  if (fs.existsSync(quickappJSONPath)) {
-    quickappJSON = fs.readJSONSync(quickappJSONPath)
-  } else {
-    quickappJSON = defaultManifestJSON
-  }
   quickappJSON.router = router
   quickappJSON.display = display
   quickappJSON.config = Object.assign({}, quickappJSON.config, {
@@ -151,9 +157,8 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
   } else {
     console.log(`${chalk.green('✔ ')} 快应用容器已经准备好`)
   }
-
-  console.log()
   process.chdir(originalOutputDir)
+  console.log()
   if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
     needInstall = false
   } else {
@@ -169,20 +174,18 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
       command = 'NODE_ENV=development npm install'
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
-    const install = exec(command)
-    install.on('close', code => {
-      if (code === 0) {
-        installSpinner.color = 'green'
-        installSpinner.succeed('安装成功')
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
-        isReady = true
-      } else {
-        installSpinner.color = 'red'
-        installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
-        console.log(`${install.stderr.read()}${install.stdout.read()}`)
-        isReady = false
-      }
-    })
+    try {
+      const stdout = execSync(command)
+      installSpinner.color = 'green'
+      installSpinner.succeed('安装成功')
+      console.log(`${stdout}`)
+      isReady = true
+    } catch (error) {
+      installSpinner.color = 'red'
+      installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
+      console.log(`${error}`)
+      isReady = false
+    }
   } else {
     console.log(`${chalk.green('✔ ')} 快应用依赖已经安装好`)
     isReady = true
@@ -192,11 +195,9 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
 
 async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number, release?: boolean) {
   const originalOutputDir = buildData.originalOutputDir
-  const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
-  const hapToolkitLib = path.join(path.dirname(hapToolkitPath), 'lib')
-  const compile = require(path.join(hapToolkitLib, 'commands/compile'))
+  const { compile } = require(require.resolve('hap-toolkit/lib/commands/compile', { paths: [originalOutputDir] }))
   if (isWatch) {
-    const launchServer = require(path.join(hapToolkitLib, 'server'))
+    const { launchServer } = require(require.resolve('@hap-toolkit/server', { paths: [originalOutputDir] }))
     launchServer({
       port: port || 12306,
       watch: isWatch,
@@ -216,6 +217,7 @@ async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port
 export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
   const buildData = setBuildData(appPath, adapter)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
+  let quickappJSON
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
@@ -224,6 +226,9 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
   if (!isQuickApp) {
     buildProjectConfig()
     await buildFrameworkInfo()
+  } else {
+    quickappJSON = readQuickAppManifest()
+    setQuickappManifest(quickappJSON)
   }
   copyFiles(appPath, buildData.projectConfig.copy)
   const appConfig = await buildEntry()
@@ -233,7 +238,7 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
     watchFiles()
   }
   if (isQuickApp) {
-    generateQuickAppManifest()
+    generateQuickAppManifest(quickappJSON)
     const isReady = await prepareQuickAppEnvironment(buildData)
     if (!isReady) {
       console.log()

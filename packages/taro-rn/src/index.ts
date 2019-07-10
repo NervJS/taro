@@ -12,6 +12,18 @@ import {
 import initNativeApi from './native-api'
 import { Component, PureComponent } from './component'
 
+import {
+  createContext,
+  useState,
+  useEffect,
+  useReducer,
+  useCallback,
+  useMemo,
+  useRef,
+  useLayoutEffect,
+  useContext
+} from 'react'
+
 const Taro = {
   getEnv,
   ENV_TYPE,
@@ -22,7 +34,16 @@ const Taro = {
   internal_safe_get,
   internal_safe_set,
   Component,
-  PureComponent
+  PureComponent,
+  createContext,
+  useState,
+  useEffect,
+  useReducer,
+  useCallback,
+  useMemo,
+  useRef,
+  useLayoutEffect,
+  useContext
 }
 
 export {
@@ -35,7 +56,16 @@ export {
   internal_safe_get,
   internal_safe_set,
   Component,
-  PureComponent
+  PureComponent,
+  createContext,
+  useState,
+  useEffect,
+  useReducer,
+  useCallback,
+  useMemo,
+  useRef,
+  useLayoutEffect,
+  useContext
 }
 
 initNativeApi(Taro)

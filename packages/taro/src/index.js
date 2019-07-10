@@ -33,7 +33,15 @@ import { Current } from './current'
 import { createContext } from './create-context'
 import { memo } from './memo'
 
-const eventCenter = new Events()
+let eventCenter
+if (process.env.TARO_ENV === 'alipay') {
+  if (!my.taroEventCenter) {
+    my.taroEventCenter = new Events()
+  }
+  eventCenter = my.taroEventCenter
+} else {
+  eventCenter = new Events()
+}
 
 export {
   Component,

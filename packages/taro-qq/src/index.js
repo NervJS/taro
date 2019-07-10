@@ -23,6 +23,7 @@ import {
   createContext,
   memo
 } from '@tarojs/taro'
+import { shallowEqual } from '@tarojs/utils'
 
 import Component from './component'
 import PureComponent from './pure-component'
@@ -57,7 +58,8 @@ export const Taro = {
   useImperativeHandle,
   useContext,
   createContext,
-  memo
+  memo,
+  shallowEqual
 }
 
 export default Taro

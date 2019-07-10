@@ -25,6 +25,16 @@ let { env, plugin } = program
 
 env = process.env.NODE_ENV || env
 
+if (env) {
+  process.env.NODE_ENV = env
+} else {
+  if (watch) {
+    process.env.NODE_ENV = 'development'
+  } else {
+    process.env.NODE_ENV = 'production'
+  }
+}
+
 if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
   build(appPath, {
@@ -49,16 +59,6 @@ if (plugin) {
 if (!fs.existsSync(projectConfPath)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
   process.exit(1)
-}
-
-if (env) {
-  process.env.NODE_ENV = env
-} else {
-  if (watch) {
-    process.env.NODE_ENV = 'development'
-  } else {
-    process.env.NODE_ENV = 'production'
-  }
 }
 
 process.env.TARO_ENV = type

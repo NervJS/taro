@@ -1,6 +1,7 @@
 import { isEmptyObject, queryToJson } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
+import camelCase from 'lodash/camelCase'
 
 const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
@@ -34,6 +35,16 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
       }
     }
   }
+  Object.keys(newProps).forEach(propName => {
+    const camelizePropName = camelCase(propName)
+    if (camelizePropName !== propName) {
+      Object.defineProperty(newProps, camelizePropName, {
+        get () {
+          return newProps[propName]
+        }
+      })
+    }
+  })
   return newProps
 }
 
@@ -77,11 +88,11 @@ function processEvent (eventHandlerName, obj) {
     const dataset = {}
     const currentTarget = event.currentTarget
     const vm = currentTarget._vm || (currentTarget._target ? currentTarget._target._vm : null)
-    if (vm) {
-      const tempalateAttr = vm._externalBinding.template.attr
-      Object.keys(tempalateAttr).forEach(key => {
+    const attr = vm ? vm._externalBinding.template.attr : currentTarget._attr
+    if (attr) {
+      Object.keys(attr).forEach(key => {
         if (/^data/.test(key)) {
-          const item = tempalateAttr[key]
+          const item = attr[key]
           dataset[key.replace(/^data/, '')] = typeof item === 'function' ? item() : item
         }
       })
@@ -199,6 +210,9 @@ function bindProperties (componentConf, ComponentClass) {
 }
 
 function getPageUrlParams (url) {
+  if (!url) {
+    return {}
+  }
   const queryStr = url.replace(/^.*\?&?/, '')
   const params = queryToJson(queryStr)
   return params

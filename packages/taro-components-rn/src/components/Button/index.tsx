@@ -30,7 +30,7 @@
 
 import * as React from 'react'
 import {
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   Text,
   View,
   Image,
@@ -52,7 +52,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     hoverStayTime: 70
   }
 
-  $touchable = React.createRef<TouchableOpacity>()
+  $touchable = React.createRef<TouchableWithoutFeedback>()
 
   state: ButtonState = {
     valve: new Animated.Value(0),
@@ -139,9 +139,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     })
 
     return (
-      <TouchableOpacity
-        // activeOpacity={disabled ? 1 : 0.6}
-        activeOpacity={1}
+      <TouchableWithoutFeedback
         delayPressIn={hoverStartTime}
         delayPressOut={hoverStayTime}
         onPress={this.onPress}
@@ -179,7 +177,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
             {children}
           </Text> : children}
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     )
   }
 }

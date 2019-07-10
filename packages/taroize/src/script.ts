@@ -316,7 +316,9 @@ function parsePage (
         }
         if (prop.isObjectMethod()) {
           const body = prop.get('body')
-          return t.classMethod('method', t.identifier(lifecycle), params, body.node)
+          const cm = t.classMethod('method', t.identifier(lifecycle), params, body.node)
+          cm.async = isAsync
+          return cm
         }
         const node = value.node
         const method = t.isFunctionExpression(node) || t.isArrowFunctionExpression(node)

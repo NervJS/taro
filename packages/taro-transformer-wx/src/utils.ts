@@ -32,6 +32,20 @@ export function isDerivedFromProps (scope: Scope, bindingName: string) {
         return true
       }
     }
+    if (init.isIdentifier()) {
+      return isDerivedFromProps(scope, init.node.name)
+    }
+  }
+  return false
+}
+
+export function isDerivedFromThis (scope: Scope, bindingName: string) {
+  const binding = scope.getBinding(bindingName)
+  if (binding && binding.path.isVariableDeclarator()) {
+    const init = binding.path.get('init')
+    if (init.isThisExpression()) {
+      return true
+    }
   }
   return false
 }
@@ -177,7 +191,7 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
       Adapter.if,
       Adapter.else
     ])
-    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
+    const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => t.isJSXIdentifier(a.name) && ifAttrSet.has(a.name.name))) as NodePath<t.JSXElement>
     if (logicalJSX) {
       const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
       if (attr) {
@@ -246,7 +260,8 @@ export function generateAnonymousState (
           if (isArrowFunctionInJSX) {
             return
           }
-          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$')) {
+          // tslint:disable-next-line: strict-type-predicates
+          if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$') && init != null) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
               if (refId.name === variableName && !variableName.startsWith('_$')) {
@@ -647,7 +662,7 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
     Adapter.if,
     Adapter.else
   ])
-  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
+  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => t.isJSXIdentifier(a.name) && ifAttrSet.has(a.name.name))) as NodePath<t.JSXElement>
   if (logicalJSX) {
     const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
     if (attr) {

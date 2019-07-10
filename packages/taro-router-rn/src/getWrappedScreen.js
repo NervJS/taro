@@ -116,16 +116,21 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       }
     }
 
-    componentDidMount () {
+    navigationMethodInit () {
+      Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
+      Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
+      Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
+      Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+    }
+
+    componentWillMount () {
+      this.navigationMethodInit()
       // didFocus
       this.didFocusSubscription = this.props.navigation.addListener(
         'didFocus',
         payload => {
           // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
-          Taro.setNavigationBarTitle = this.setNavigationBarTitle.bind(this)
-          Taro.setNavigationBarColor = this.setNavigationBarColor.bind(this)
-          Taro.showNavigationBarLoading = this.showNavigationBarLoading.bind(this)
-          Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
+          this.navigationMethodInit()
           // 页面聚焦时，调用 componentDidShow
           this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
         }
@@ -148,6 +153,11 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       this.willBlurSubscription && this.willBlurSubscription.remove()
     }
 
+    onPullDownRefresh () {
+      this.getScreenInstance().onPullDownRefresh &&
+        this.getScreenInstance().onPullDownRefresh()
+    }
+
     render () {
       const {globalEnablePullDownRefresh = false} = globalNavigationOptions
       const {enablePullDownRefresh, disableScroll} = getNavigationOptions(Screen.config)
@@ -160,7 +170,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
           Taro={Taro}
           enablePullDownRefresh={isScreenEnablePullDownRefresh}
           disableScroll={disableScroll}
-          onPullDownRefresh={screenInstance.onPullDownRefresh && screenInstance.onPullDownRefresh.bind(screenInstance)}
+          onPullDownRefresh={this.onPullDownRefresh.bind(this)}
           onReachBottom={screenInstance.onReachBottom}
           onScroll={screenInstance.onScroll}
           {...this.props}

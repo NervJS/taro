@@ -10,7 +10,20 @@
     { "name": "system.shortcut" },
     { "name": "system.fetch" },
     { "name": "system.storage" },
-    { "name": "system.barcode" }
+    { "name": "system.barcode" },
+    { "name": "system.vibrator" },
+    { "name": "system.clipboard" },
+    { "name": "system.sensor" },
+    { "name": "system.geolocation" },
+    { "name": "system.share" },
+    { "name": "system.notification" },
+    { "name": "system.device" },
+    { "name": "system.webview" },
+    { "name": "system.request" },
+    { "name": "system.audio" },
+    { "name": "system.record" },
+    { "name": "system.contact" },
+    { "name": "system.sms" }
   ],
   "permissions": [
     { "origin": "*" }

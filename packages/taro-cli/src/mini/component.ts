@@ -60,7 +60,8 @@ export function isFileToBeTaroComponent (
     buildAdapter,
     sourceDir,
     constantsReplaceList,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    alias
   } = getBuildData()
   const transformResult: IWxTransformResult = wxTransformer({
     code,
@@ -71,7 +72,8 @@ export function isFileToBeTaroComponent (
     isTyped: REG_TYPESCRIPT.test(sourcePath),
     adapter: buildAdapter,
     env: constantsReplaceList,
-    jsxAttributeNameReplace
+    jsxAttributeNameReplace,
+    alias
   })
   const { ast }: IWxTransformResult = transformResult
   let isTaroComponent = false
@@ -143,7 +145,8 @@ export async function buildSingleComponent (
     outputFilesTypes,
     isProduction,
     jsxAttributeNameReplace,
-    projectConfig
+    projectConfig,
+    alias
   } = getBuildData()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
 
@@ -231,7 +234,8 @@ export async function buildSingleComponent (
       isNormal: false,
       adapter: buildAdapter,
       env: constantsReplaceList,
-      jsxAttributeNameReplace
+      jsxAttributeNameReplace,
+      alias
     })
     const componentWXMLContent = isProduction ? transformResult.compressedTemplate : transformResult.template
     const componentDepComponents = transformResult.components
@@ -254,6 +258,9 @@ export async function buildSingleComponent (
       })
       transfromNativeComponents(outputComponentJSONPath.replace(buildConfig.outputDir || buildOutputDir, sourceDirPath), res.configObj)
     }
+    let realComponentsPathList: IComponentObj[] = []
+    realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
+
     if (!isQuickApp) {
       resCode = await compileScriptFile(resCode, component, outputComponentJSPath, buildAdapter)
       if (isProduction) {
@@ -262,11 +269,16 @@ export async function buildSingleComponent (
     } else {
       // 快应用编译，搜集创建组件 ux 文件
       const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
-      const importCustomComponents = new Set(componentDepComponents.map(item => {
-        delete item.type
-        return item
+      const importCustomComponents = new Set(realComponentsPathList.map(item => {
+        return {
+          path: path.relative(path.dirname(component), item.path as string).replace(path.extname(item.path as string), ''),
+          name: item.name as string
+        }
       }))
-      const styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
+      let styleRelativePath
+      if (res.styleFiles.length) {
+        styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
+      }
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
@@ -285,9 +297,7 @@ export async function buildSingleComponent (
       media: []
     }
     // 编译依赖的组件文件
-    let realComponentsPathList: IComponentObj[] = []
-    if (componentDepComponents.length) {
-      realComponentsPathList = getRealComponentsPathList(component, componentDepComponents)
+    if (realComponentsPathList.length) {
       res.scriptFiles = res.scriptFiles.map(item => {
         for (let i = 0; i < realComponentsPathList.length; i++) {
           const componentObj = realComponentsPathList[i]

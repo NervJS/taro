@@ -6,7 +6,8 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|react-native-swiper|react-native-vertical-view-pager|react-native-animatable|react-native-collapsible|@bang88/react-native-ultimate-listview|react-native-modal-popover|react-native-modal-popover|react-native-safe-area-view)/)'
+    'node_modules/(?!(react-native|react-native-swiper|react-native-vertical-view-pager|react-native-animatable|react-native-collapsible|@bang88/react-native-ultimate-listview|react-native-modal-popover|react-native-modal-popover|react-native-safe-area-view)/)',
+    'node_modules/(?!(@manjiz/react-native-swiper)/)'
   ],
   testMatch: [
     '**/__tests__/**/*.ts?(x)',

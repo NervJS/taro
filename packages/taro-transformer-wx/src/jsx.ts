@@ -1,7 +1,7 @@
 import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { kebabCase } from 'lodash'
+import { kebabCase, snakeCase } from 'lodash'
 import {
   DEFAULT_Component_SET,
   SPECIAL_COMPONENT_PROPS,
@@ -9,7 +9,8 @@ import {
   THIRD_PARTY_COMPONENTS,
   TRANSFORM_COMPONENT_PROPS,
   lessThanSignPlacehold,
-  FN_PREFIX
+  FN_PREFIX,
+  DEFAULT_Component_SET_COPY
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
@@ -82,8 +83,12 @@ export function setJSXAttr (
   value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement,
   path?: NodePath<t.JSXElement>
 ) {
+  if ((name === Adapter.forIndex || name === Adapter.forItem) && Adapter.type === Adapters.quickapp) {
+    return
+  }
   const element = jsx.openingElement
-  if (!t.isJSXIdentifier(element.name)) {
+  // tslint:disable-next-line: strict-type-predicates
+  if (element == null || !t.isJSXIdentifier(element.name)) {
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
@@ -119,8 +124,11 @@ export function isAllLiteral (...args) {
   return args.every(p => t.isLiteral(p))
 }
 
-export function buildBlockElement (attrs: t.JSXAttribute[] = []) {
-  const blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
+export function buildBlockElement (attrs: t.JSXAttribute[] = [], isView = false) {
+  let blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
+  if (isView) {
+    blockName = 'View'
+  }
   return t.jSXElement(
     t.jSXOpeningElement(t.jSXIdentifier(blockName), attrs),
     t.jSXClosingElement(t.jSXIdentifier(blockName)),
@@ -204,6 +212,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (typeof name === 'string' && /(^on[A-Z_])|(^catch[A-Z_])/.test(name) && Adapter.type === Adapters.quickapp) {
           name = name.toLowerCase()
         }
+      }
+      if (Adapters.quickapp === Adapter.type && !DEFAULT_Component_SET_COPY.has(componentName) && typeof name === 'string' && !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+        name = snakeCase(name)
       }
       let value: string | boolean = true
       let attrValue = attr.value

@@ -3,6 +3,8 @@ import { codeFrameError, buildConstVariableDeclaration } from './utils'
 import * as t from 'babel-types'
 import { cloneDeep } from 'lodash'
 import generate from 'babel-generator'
+import { DEFAULT_Component_SET } from './constant'
+import { injectRenderPropsListener } from './render-props'
 
 function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
@@ -19,10 +21,16 @@ export const functionalComponent: () => {
     visitor: {
       JSXElement (path) {
         const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
+        const funcExpr = path.findParent(p => p.isFunctionExpression())
+        if (funcExpr && funcExpr.isFunctionExpression() && funcExpr.parentPath.isVariableDeclarator()) {
+          const { params, body, async } = funcExpr.node
+          funcExpr.replaceWith(t.arrowFunctionExpression(params, body, async))
+          return
+        }
         if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression()) {
           if (arrowFuncExpr.parentPath.isVariableDeclarator()) {
             const valDecl = arrowFuncExpr.parentPath.parentPath
-            if (!valDecl.isVariableDeclaration()) {
+            if (!valDecl.isVariableDeclaration() && !valDecl.isFunctionDeclaration()) {
               throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
             }
             const id = arrowFuncExpr.parentPath.node.id
@@ -91,11 +99,27 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
             if (t.isIdentifier(arg)) {
               cloneBody.body.unshift(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
             } else if (t.isObjectPattern(arg)) {
+              let hasChildren = false
+              for (const [index, p] of arg.properties.entries()) {
+                if (t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'children' })) {
+                  hasChildren = true
+                  arg.properties.splice(index, 1)
+                }
+              }
               cloneBody.body.unshift(
                 t.variableDeclaration('const', [
                   t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props')))
                 ])
               )
+              if (hasChildren) {
+                cloneBody.body.unshift(
+                  t.variableDeclaration('const', [
+                    t.variableDeclarator(t.objectPattern([
+                      t.objectProperty(t.identifier('children'), t.identifier('children')) as any
+                    ]), t.memberExpression(t.thisExpression(), t.identifier('props')))
+                  ])
+                )
+              }
             } else if (t.isAssignmentPattern(arg)) {
               throw codeFrameError(arg, '给函数式组件的第一个参数设置默认参数是没有意义的，因为 props 永远都有值（不传 props 的时候是个空对象），所以默认参数永远都不会执行。')
             } else {
@@ -107,6 +131,22 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
             t.classMethod('method', t.identifier('render'), [], cloneBody)
           ]), [])
           functionDecl.replaceWith(classDecl)
+        }
+      },
+      JSXAttribute (path) {
+        const { name, value } = path.node
+        const jsxElementPath = path.parentPath.parentPath
+        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
+          const componentName = (jsxElementPath.node.openingElement as any).name.name
+          if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
+            if (!t.isJSXExpressionContainer(value)) {
+              throw codeFrameError(value, '以 render 开头的 props 只能传入包含一个 JSX 元素的 JSX 表达式。')
+            }
+            const expression = value.expression
+            if (t.isArrowFunctionExpression(expression)) {
+              injectRenderPropsListener(path, name.name, expression, componentName)
+            }
+          }
         }
       }
     }

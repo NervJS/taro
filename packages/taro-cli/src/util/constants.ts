@@ -53,7 +53,7 @@ export const processTypeMap: IProcessTypeMap = {
   },
   [processTypeEnum.WARNING]: {
     name: '警告',
-    color: 'yellow'
+    color: 'yellowBright'
   },
   [processTypeEnum.UNLINK]: {
     name: '删除',
@@ -234,11 +234,11 @@ export const CONFIG_MAP = {
     navigationBarBackgroundColor: 'titleBarBackgroundColor',
     navigationBarTextStyle: 'titleBarTextColor',
     pageOrientation: 'orientation',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath',
     backgroundTextStyle: false,
-    list: false,
-    text: false,
-    iconPath: false,
-    selectedIconPath: false,
     onReachBottomDistance: false,
     backgroundColorBottom: false,
     backgroundColorTop: false,
@@ -308,7 +308,6 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types',
   'nervjs',
   'nerv-devtools'
 ]
