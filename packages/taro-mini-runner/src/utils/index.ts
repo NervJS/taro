@@ -159,7 +159,7 @@ export function buildUsingComponents (
     }
     componentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
     if (fs.existsSync(componentPath)) {
-      if (/node_modules/.test(componentPath)) {
+      if (NODE_MODULES_REG.test(componentPath) && !NODE_MODULES_REG.test(filePath)) {
         componentPath = componentPath.replace(NODE_MODULES_REG, path.join(sourceDir, 'npm'))
       }
       componentPath = promoteRelativePath(path.relative(filePath, componentPath))
