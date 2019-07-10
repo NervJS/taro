@@ -1,5 +1,32 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.6...v) (2019-07-08)
+# [](https://github.com/NervJS/taro/compare/v1.3.7...v) (2019-07-10)
+
+
+
+<a name="1.3.7"></a>
+## [1.3.7](https://github.com/NervJS/taro/compare/v1.3.6...v1.3.7) (2019-07-10)
+
+
+### Bug Fixes
+
+* **cli:** h5端支持alias到src下的目录了, fix [#2866](https://github.com/NervJS/taro/issues/2866) ([3e4e89c](https://github.com/NervJS/taro/commit/3e4e89c))
+* **components:** 修复快应用 WebView 问题。 close [#3451](https://github.com/NervJS/taro/issues/3451), [#3724](https://github.com/NervJS/taro/issues/3724) ([397b017](https://github.com/NervJS/taro/commit/397b017))
+* **taro:** 为 Taro.request 类型定义添加 abort 方法，完善注释 [#3654](https://github.com/NervJS/taro/issues/3654) ([#3715](https://github.com/NervJS/taro/issues/3715)) ([b007a49](https://github.com/NervJS/taro/commit/b007a49))
+* **taro-alipay:** 修复支付宝分包问题。close [#3445](https://github.com/NervJS/taro/issues/3445) ([d904a79](https://github.com/NervJS/taro/commit/d904a79))
+* **taro-alipay:** 修复支付宝分包问题。close [#3703](https://github.com/NervJS/taro/issues/3703) ([2b8f024](https://github.com/NervJS/taro/commit/2b8f024))
+* **taro-quickapp:** 快应用获取页面参数时增加容错 ([12c9998](https://github.com/NervJS/taro/commit/12c9998))
+* **taro-rn:** 修复showLoading没有使用title属性 ([8d0b1df](https://github.com/NervJS/taro/commit/8d0b1df))
+* **taro-router-rn:** 修复RN端触发不了下拉刷新事件 ([dbfabf2](https://github.com/NervJS/taro/commit/dbfabf2))
+* **taro-utils:** 优化 Object.is 判断 ([49bef9e](https://github.com/NervJS/taro/commit/49bef9e))
+* **transformer:** opt.isNormal 不需要走自定义 babel 插件 ([0945248](https://github.com/NervJS/taro/commit/0945248)), closes [#3731](https://github.com/NervJS/taro/issues/3731)
+* **transformer:** 修复 0945248e2faf2a2d0f7fcf5f0e52473c85c5d073 重复添加插件 ([2b8180b](https://github.com/NervJS/taro/commit/2b8180b))
+
+
+### Features
+
+* **cli:** transformer 增加参数 alias ([2890b8c](https://github.com/NervJS/taro/commit/2890b8c))
+* **cli:** 优化对快应用系统包的判断与提醒 ([c9ae6b1](https://github.com/NervJS/taro/commit/c9ae6b1))
+* **cli:** 支持对 npm 包中文件进行转换 ([49a97e9](https://github.com/NervJS/taro/commit/49a97e9))
 
 
 
