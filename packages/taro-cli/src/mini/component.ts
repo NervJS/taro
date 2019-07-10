@@ -79,8 +79,8 @@ export function isFileToBeTaroComponent (
   let isTaroComponent = false
 
   traverse(ast, {
-    JSXElement (astPath) {
-      isTaroComponent = !!astPath.findParent(p => (p.isReturnStatement() || p.isArrowFunctionExpression()))
+    JSXElement () {
+      isTaroComponent = true
     }
   })
 
