@@ -22,7 +22,8 @@ export interface IProjectConf {
   typescript?: boolean,
   css: 'none' | 'sass' | 'stylus' | 'less',
   date?: string,
-  src?: string
+  src?: string,
+  sourceRoot?: string
 }
 
 interface AskMethods {
@@ -34,7 +35,7 @@ export default class Project extends Creator {
   public conf: IProjectConf
 
   constructor (options: IProjectConf) {
-    super()
+    super(options.sourceRoot)
     const unSupportedVer = semver.lt(process.version, 'v7.6.0')
     if (unSupportedVer) {
       throw new Error('Node.js 版本过低，推荐升级 Node.js 至 v8.0.0+')
