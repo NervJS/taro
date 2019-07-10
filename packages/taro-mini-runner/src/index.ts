@@ -11,7 +11,7 @@ const customizeChain = (chain, customizeFunc: Function) => {
 }
 
 export default function build (appPath: string, config: IBuildConfig, mainBuilder) {
-  const mode = 'development'
+  const mode = config.isWatch ? 'development' : 'production'
   return new Promise((resolve, reject) => {
     const webpackChain = buildConf(appPath, mode, config)
 
