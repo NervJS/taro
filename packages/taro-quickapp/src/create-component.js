@@ -210,6 +210,9 @@ function bindProperties (componentConf, ComponentClass) {
 }
 
 function getPageUrlParams (url) {
+  if (!url) {
+    return {}
+  }
   const queryStr = url.replace(/^.*\?&?/, '')
   const params = queryToJson(queryStr)
   return params
