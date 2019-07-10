@@ -14,7 +14,7 @@ import {
   mergeOption,
   getMiniPlugin
 } from './chain'
-import { BUILD_TYPES } from '../utils/constants'
+import { BUILD_TYPES, PARSE_AST_TYPE } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
@@ -139,7 +139,14 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        name: 'vendors'
+        name: 'vendors',
+        cacheGroups: {
+          vendors: {
+            test (module) {
+              return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
+            }
+          }
+        }
       }
     }
   })
