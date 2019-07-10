@@ -36,8 +36,6 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
     require('babel-plugin-transform-do-expressions'),
     require('babel-plugin-transform-export-extensions'),
     require('babel-plugin-transform-flow-strip-types'),
-    buildVistor(),
-    functionalComponent,
     [require('babel-plugin-transform-define').default, transformOptions.env]
   ]
   if (!transformOptions.isNormal) {
@@ -62,7 +60,8 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
         'exportExtensions'
       ] as any[]
     },
-    plugins: plugins.concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
-    .concat((isTestEnv) ? [] : require('babel-plugin-remove-dead-code').default)
+    plugins: plugins
+      .concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
+      .concat((isTestEnv) ? [] : require('babel-plugin-remove-dead-code').default)
   }
 }
