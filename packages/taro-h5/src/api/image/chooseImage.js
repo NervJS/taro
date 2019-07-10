@@ -71,6 +71,7 @@ const chooseImage = function (options) {
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)
     taroChooseImageCallback(res)
+    e.target.value = ''
   }
   return taroChooseImagePromise
 }
