@@ -1,6 +1,6 @@
 <template>
-    <list 
-        @scroll="onScroll" 
+    <list
+        @scroll="onScroll"
         @scrollbottom="onScrollToLower"
         @scrolltop="onScrollToUpper"
         class="{{classname}}"
@@ -37,7 +37,7 @@
           default: false
         }
       },
-  
+
       onInit () {
         if (scrolly) {
             this.flexDirection = 'column'
@@ -45,26 +45,25 @@
             this.flexDirection = 'row'
         }
       },
-      
+
       onScroll () {
         this.$emit('scroll', e)
       },
 
       onScrollToLower() {
         this.$emit('scrollToLower', e)
-      }
+      },
 
       onScrollToUpper () {
         this.$emit('scrollToLower', e)
-      }
+      },
 
       handleClick (e) {
         this.$emit('click', e)
       }
     }
   </script>
-  
+
   <style>
 
   </style>
-  

@@ -28,7 +28,7 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
     const Screen = v[1]
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, navigationOptions)
   })
-  return createStackNavigator(RouteConfigs)
+  return createStackNavigator(RouteConfigs, {headerLayoutPreset: 'center'})
 }
 
 function getRootStackPageList ({pageList, tabBar, currentTabPath}) {

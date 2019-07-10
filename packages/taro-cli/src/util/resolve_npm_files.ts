@@ -158,7 +158,7 @@ function analyzeImportUrl ({
       if (excludeNpmPkgs.indexOf(requirePath) < 0) {
         const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
         if (requirePath === taroJsFramework
-            && (!NODE_MODULES_REG.test(filePath) || filePath.indexOf(taroMiniAppFramework) < 0)) {
+            && (!NODE_MODULES_REG.test(filePath) || filePath.replace(/\\/g, '/').indexOf(taroMiniAppFramework) < 0)) {
           requirePath = taroMiniAppFramework
         }
         const res = resolveNpmFilesPath({

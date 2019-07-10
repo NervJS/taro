@@ -79,32 +79,8 @@ export function isFileToBeTaroComponent (
   let isTaroComponent = false
 
   traverse(ast, {
-    ClassDeclaration (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            astPath.traverse({
-              JSXElement () {
-                isTaroComponent = true
-              }
-            })
-          }
-        }
-      })
-    },
-
-    ClassExpression (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            astPath.traverse({
-              JSXElement () {
-                isTaroComponent = true
-              }
-            })
-          }
-        }
-      })
+    JSXElement () {
+      isTaroComponent = true
     }
   })
 
