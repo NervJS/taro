@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "query-string": "^6.1.0",
-    "react-navigation": "^2.7.0"
+    "react-navigation": "^2.9.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.5",
