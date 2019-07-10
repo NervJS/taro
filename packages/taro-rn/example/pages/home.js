@@ -5,6 +5,7 @@ import { Device } from './device'
 import { Media } from './media'
 import { File } from './file'
 import { Location } from './location'
+import { Interface } from './interface'
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
     color: '#1E8FEE'
   },
   right: {
+    flex: 1,
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 10
@@ -44,7 +46,7 @@ const tabMap = {
   },
   interface: {
     name: '界面',
-    component: ''
+    component: <Interface />
   },
   network: {
     name: '网络',
