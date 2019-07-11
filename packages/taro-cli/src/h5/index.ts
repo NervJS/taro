@@ -151,7 +151,8 @@ class Compiler {
       klaw(sourcePath)
         .on('data', file => {
           const relativePath = path.relative(appPath, file.path)
-          if (!file.stats.isDirectory()) {
+          // 处理文件/软连接，排除隐藏文件夹内的内容
+          if (!file.stats.isDirectory() && !/\/\./.test(relativePath)) {
             printLog(processTypeEnum.CREATE, '发现文件', relativePath)
             this.processFiles(file.path)
           }
