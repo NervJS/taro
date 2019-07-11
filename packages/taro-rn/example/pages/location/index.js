@@ -4,8 +4,8 @@ import { styles } from '../styles'
 import { getLocation } from '../../../dist/api/location'
 
 function handleGetLocation () {
-  console.log('getImageInfo')
-  getLocation().then(res => console.log(res))
+  console.log('getLocation')
+  getLocation().then(res => console.log(res)).catch(e => console.log(e))
 }
 
 export function Location () {
