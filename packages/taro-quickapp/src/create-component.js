@@ -88,7 +88,7 @@ function processEvent (eventHandlerName, obj) {
     const dataset = {}
     const currentTarget = event.currentTarget
     const vm = currentTarget._vm || (currentTarget._target ? currentTarget._target._vm : null)
-    const attr = vm ? vm._externalBinding.template.attr : currentTarget._attr
+    const attr = vm ? vm._externalBinding.template.attr : (currentTarget._attr || currentTarget.attr)
     if (attr) {
       Object.keys(attr).forEach(key => {
         if (/^data/.test(key)) {
@@ -330,6 +330,6 @@ export default function createComponent (ComponentClass, isPage) {
   }
   bindStaticFns(componentConf, ComponentClass)
   bindProperties(componentConf, ComponentClass)
-  ComponentClass['$$events'] && bindEvents(componentConf, ComponentClass['$$events'])
+  ComponentClass['taroPrivateEvents'] && bindEvents(componentConf, ComponentClass['taroPrivateEvents'])
   return componentConf
 }
