@@ -1,5 +1,7 @@
 import router from '@system.router'
 
+import appGlobal from '../../global'
+
 export function navigateTo (options = {}) {
   return qappNavigate(options)
 }
@@ -39,6 +41,8 @@ function qappNavigate (options = {}, method = 'push') {
       return
     }
     params = getUrlParams(url)
+    appGlobal.taroRouterParamsCache = appGlobal.taroRouterParamsCache || {}
+    appGlobal.taroRouterParamsCache[url.substr(0, url.indexOf('?'))] = params
     try {
       router[method]({
         uri: url.substr(0, url.lastIndexOf('/')),

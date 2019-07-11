@@ -1,7 +1,9 @@
+import camelCase from 'lodash/camelCase'
+
 import { isEmptyObject, queryToJson } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
-import camelCase from 'lodash/camelCase'
+import appGlobal from './global'
 
 const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
@@ -210,11 +212,12 @@ function bindProperties (componentConf, ComponentClass) {
 }
 
 function getPageUrlParams (url) {
-  if (!url) {
-    return {}
+  const taroRouterParamsCache = appGlobal.taroRouterParamsCache
+  let params = {}
+  if (taroRouterParamsCache) {
+    params = taroRouterParamsCache[url] || {}
+    delete taroRouterParamsCache[url]
   }
-  const queryStr = url.replace(/^.*\?&?/, '')
-  const params = queryToJson(queryStr)
   return params
 }
 
@@ -280,7 +283,7 @@ export default function createComponent (ComponentClass, isPage) {
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
-      Object.assign(this.$component.$router.params, getPageUrlParams(this.$page.uri))
+      Object.assign(this.$component.$router.params, getPageUrlParams(isPage))
       this.$app.pageInstaceMap = this.$app.pageInstaceMap || {}
       this.$app.pageInstaceMap[isPage] = this.$component
       if (isPage) {
@@ -330,6 +333,6 @@ export default function createComponent (ComponentClass, isPage) {
   }
   bindStaticFns(componentConf, ComponentClass)
   bindProperties(componentConf, ComponentClass)
-  ComponentClass['taroPrivateEvents'] && bindEvents(componentConf, ComponentClass['taroPrivateEvents'])
+  ComponentClass['privateTaroEvent'] && bindEvents(componentConf, ComponentClass['privateTaroEvent'])
   return componentConf
 }
