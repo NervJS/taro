@@ -160,8 +160,8 @@ Taro.downloadFile(params).then(...)
 
 | API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| Taro.uploadFile | ✔️ | ✔️ | ️ | ✔️ | ✔️ |
-| Taro.downloadFile | ✔️ | ✔️ | ️ | ✔️ | ✔️ |
+| Taro.uploadFile | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Taro.downloadFile | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### WebSocket
 
@@ -391,7 +391,7 @@ Taro.saveImageToPhotosAlbum(params).then(...)
 | Taro.chooseImage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | Taro.previewImage | ✔️ |  | ✔️ | ✔️ | ✔️ |
 | Taro.getImageInfo | ✔️ |  | ✔️ | ✔️ | ✔️ |
-| Taro.saveImageToPhotosAlbum | ✔️ |  | ✔️ | ✔️ | ✔️ |
+| Taro.saveImageToPhotosAlbum | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### 录音
 
@@ -444,7 +444,7 @@ const recorderManager = Taro.getRecorderManager()
 
 | API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| Taro.getRecorderManager | ✔️ |  |  |  |  |
+| Taro.getRecorderManager | ✔️ |  | ✔️ |  |  |
 
 ### 音频播放控制
 
@@ -689,7 +689,7 @@ const innerAudioContext = Taro.createInnerAudioContext()
 | API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.createAudioContext | ✔️ |  |  |  |  |
-| Taro.createInnerAudioContext | ✔️ | ✔️ |  |  |  |
+| Taro.createInnerAudioContext | ✔️ | ✔️ | ✔️ |  |  |
 
 ### 视频
 
@@ -724,7 +724,7 @@ Taro.saveVideoToPhotosAlbum(params).then(...)
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
 | Taro.chooseVideo | ✔️ |  | ✔️ |
-| Taro.saveVideoToPhotosAlbum | ✔️ |  | ✔️ |
+| Taro.saveVideoToPhotosAlbum | ✔️ | ✔️ | ✔️ |
 
 ### 视频组件控制
 
@@ -744,7 +744,7 @@ const videoContext = Taro.createVideoContext('myVideo')
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.createVideoContext | ✔️ |  |  |
+| Taro.createVideoContext | ✔️ |  | ✔️ |
 
 ### 相机组件控制
 
@@ -1417,9 +1417,9 @@ Taro.stopAccelerometer()
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.onAccelerometerChange | ✔️ |  |  |
-| Taro.startAccelerometer | ✔️ |  |  |
-| Taro.stopAccelerometer | ✔️ |  |  |
+| Taro.onAccelerometerChange | ✔️ |  | ✔️  |
+| Taro.startAccelerometer | ✔️ |  | ✔️  |
+| Taro.stopAccelerometer | ✔️ |  | ✔️  |
 
 ### 罗盘
 

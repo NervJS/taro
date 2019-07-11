@@ -275,6 +275,8 @@ rn_temp
 
 ![image](https://user-images.githubusercontent.com/9441951/59322399-85780180-8d08-11e9-9ea7-b3e4b23c077c.png)
 
+> 注意：少数电脑上，可能不会 `自动打开一个终端`，这时你可以在项目根目录下运行：`react-native start` 手动启动。
+
 这时，在浏览器输入 http://127.0.0.1:8081，可以看到如下页面：
 ![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
 

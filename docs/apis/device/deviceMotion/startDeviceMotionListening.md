@@ -20,5 +20,5 @@ sidebar_label: startDeviceMotionListening
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.startDeviceMotionListening | ✔️ | ✔️ |  |
+| Taro.startDeviceMotionListening | ✔️ | ✔️ | ✔️ |
 

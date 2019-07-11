@@ -26,4 +26,4 @@ sidebar_label: onDeviceMotionChange
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.onDeviceMotionChange | ✔️ | ✔️ |  |
+| Taro.onDeviceMotionChange | ✔️ | ✔️ |  ✔️ |
