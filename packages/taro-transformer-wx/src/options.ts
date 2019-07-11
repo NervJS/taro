@@ -35,7 +35,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
     [require('babel-plugin-transform-define').default, transformOptions.env]
   ]
   if (!transformOptions.isNormal) {
-    plugins.push(buildVistor(), functionalComponent)
+    plugins.push(buildVistor())
   }
   return {
     parserOpts: {
@@ -57,6 +57,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
       ] as any[]
     },
     plugins: plugins
+      .concat(functionalComponent)
       .concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
       .concat((isTestEnv) ? [] : require('babel-plugin-remove-dead-code').default)
   }
