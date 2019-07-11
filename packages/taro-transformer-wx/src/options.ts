@@ -20,14 +20,10 @@ export interface Options {
   rootProps?: object
 }
 
-export const transformOptions: Options = {} as any
+export let transformOptions: Options = {} as Options
 
 export const setTransformOptions = (options: Options) => {
-  for (const key in options) {
-    if (options.hasOwnProperty(key)) {
-      transformOptions[key] = options[key]
-    }
-  }
+  transformOptions = { ...options }
 }
 
 export const buildBabelTransformOptions: () => TransformOptions = () => {
