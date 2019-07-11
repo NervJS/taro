@@ -11,7 +11,7 @@
   "scripts": {
     "server": "node node_modules/react-native/local-cli/cli.js start",
     "build": "rm -rf ./dist && gulp",
-    "dev": "npm run build:static && tsc --watch",
+    "dev": "tsc --watch",
     "prepack": "npm run build",
     "test": "jest",
     "test:dev": "jest --watch",
@@ -29,11 +29,18 @@
   "dependencies": {
     "@tarojs/taro": "1.3.8",
     "base64-js": "^1.3.0",
+    "expo-av": "^5.0.2",
+    "expo-file-system": "^5.0.1",
+    "expo-image-picker": "^5.0.2",
+    "expo-location": "^5.0.1",
+    "expo-sensors": "^5.0.1",
+    "nullthrows": "^1.1.1",
     "react-native-image-crop-picker": "^0.23.1",
     "react-native-image-zoom-viewer": "^2.2.13",
     "react-native-root-siblings": "^3.1.0",
     "react-native-root-toast": "^3.0.1",
-    "react-native-stylekit": "^1.0.0"
+    "react-native-stylekit": "^1.0.0",
+    "react-native-unimodules": "^0.4.1"
   },
   "devDependencies": {
     "@babel/core": "7.1.5",

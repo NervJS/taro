@@ -6,13 +6,13 @@ import network from './api/device/network'
 import clipboard from './api/device/clipboard'
 import phone from './api/device/phone'
 import vibrate from './api/device/vibrate'
-// import accelerometer from './api/device/accelerometer'
-// import deviceMotion from './api/device/deviceMotion'
+import * as accelerometer from './api/accelerometer'
+import deviceMotion from './api/device/deviceMotion'
 import others from './api/others'
-// import media from './api/media'
-// import file from './api/file'
+import media from './api/media'
+import file from './api/file'
 import webSocket from './api/webSocket'
-// import geolocation from './api/geolocation'
+import location from './api/location'
 import * as toast from './api/interface'
 import * as image from './api/image'
 import web from './api/web'
@@ -53,12 +53,12 @@ export default function initNativeApi (taro) {
     phone,
     web,
     vibrate,
-    // accelerometer,
-    // deviceMotion,
-    // media,
-    // file,
+    accelerometer,
+    deviceMotion,
+    media,
+    file,
     webSocket,
-    // geolocation,
+    location,
     toast,
     image,
     others
