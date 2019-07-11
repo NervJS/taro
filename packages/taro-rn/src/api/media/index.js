@@ -81,10 +81,7 @@ export function saveVideoToPhotosAlbum (opts = {}) {
   return saveMedia(opts, 'video', 'saveVideoToPhotosAlbum')
 }
 
-export default {
-  chooseImage,
-  chooseVideo,
-  getImageInfo,
-  saveImageToPhotosAlbum,
-  saveVideoToPhotosAlbum
-}
+export {getRecorderManager} from './record'
+export {createVideoContext} from './video'
+export {createInnerAudioContext} from './audio'
+export {createMapContext} from './map'

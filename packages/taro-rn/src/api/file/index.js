@@ -126,8 +126,3 @@ export {
   downloadFile,
   uploadFile
 }
-
-export default {
-  downloadFile,
-  uploadFile
-}
