@@ -2243,13 +2243,13 @@ export class RenderParser {
 
   setCustomEvent () {
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    const eventPropName = '$$events'
+    const eventPropName = Adapter.type === Adapters.quickapp ? 'privateTaroEvent' : '$$events'
     const body = classPath.node.body.body.find(b => t.isClassProperty(b) && b.key.name === eventPropName) as t.ClassProperty
     const usedEvents = Array.from(this.usedEvents).map(s => t.stringLiteral(s))
     if (body && t.isArrayExpression(body.value)) {
       body.value = t.arrayExpression(uniq(body.value.elements.concat(usedEvents)))
     } else {
-      let classProp = t.classProperty(t.identifier('$$events'), t.arrayExpression(usedEvents)) as any // babel 6 typing 没有 static
+      let classProp = t.classProperty(t.identifier(eventPropName), t.arrayExpression(usedEvents)) as any // babel 6 typing 没有 static
       classProp.static = true
       classPath.node.body.body.unshift(classProp)
     }
