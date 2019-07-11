@@ -215,7 +215,7 @@ async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port
 }
 
 export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
-  const buildData = setBuildData(appPath, adapter)
+  const buildData = envHasBeenSet ? getBuildData() : setBuildData(appPath, adapter)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   let quickappJSON
   process.env.TARO_ENV = adapter
