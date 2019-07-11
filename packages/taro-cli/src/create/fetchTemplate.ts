@@ -1,12 +1,12 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import { exec } from 'child_process'
 import chalk from 'chalk'
 import * as ora from 'ora'
-import axios from 'axios'
 import * as AdmZip from 'adm-zip'
+import * as download from 'download-git-repo'
+import * as request from 'request'
 import Project from './project'
-import { TemplateSourceType } from '../util'
+import { TemplateSourceType, readDirWithFileTypes } from '../util'
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'
 
@@ -24,9 +24,8 @@ export default function fetchTemplate (creater: Project, type: TemplateSourceTyp
     const spinner = ora(`正在从 ${templateSource} 拉取远程模板...`).start()
 
     if (type === 'git') {
-      // git clone
-      name = path.basename(templateSource, '.git')
-      exec(`git clone ${templateSource} ${path.join(tempPath, name)}`, async error => {
+      name = path.basename(templateSource)
+      download(templateSource, path.join(tempPath, name), async error => {
         if (error) {
           spinner.color = 'red'
           spinner.fail(chalk.red('拉取远程模板仓库失败！'))
@@ -38,37 +37,33 @@ export default function fetchTemplate (creater: Project, type: TemplateSourceTyp
         resolve()
       })
     } else if (type === 'url') {
-      axios.get(templateSource, {
-        responseType: 'stream'
-      })
-        .then(response => {
-          const zipPath = path.join(tempPath, 'temp.zip')
-          const ws = fs.createWriteStream(zipPath)
-          response.data.pipe(ws)
-          ws.on('close', () => {
-            // unzip
-            const zip = new AdmZip(zipPath)
-            zip.extractAllTo(tempPath, true)
-            const files = fs.readdirSync(tempPath, { withFileTypes: true })
-              .filter((file: fs.Dirent) => !file.name.startsWith('.') && file.isDirectory())
-            if (files.length !== 1) {
-              spinner.color = 'red'
-              spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
-              return resolve()
-            }
+      const zipPath = path.join(tempPath, 'temp.zip')
+      request
+        .get(templateSource)
+        .on('close', () => {
+          // unzip
+          const zip = new AdmZip(zipPath)
+          zip.extractAllTo(tempPath, true)
+          const files = readDirWithFileTypes(tempPath)
+            .filter(file => file.isDirectory)
+          if (files.length !== 1) {
+            spinner.color = 'red'
+            spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
+            return resolve()
+          }
 
-            name = files[0].name
-            spinner.color = 'green'
-            spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
-            resolve()
-          })
+          name = files[0].name
+          spinner.color = 'green'
+          spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
+          resolve()
         })
-        .catch(async err => {
+        .on('error', async err => {
           spinner.color = 'red'
           spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${err}`))
           await fs.remove(tempPath)
           return resolve()
         })
+        .pipe(fs.createWriteStream(zipPath))
     }
   })
     .then(async () => {
@@ -81,9 +76,9 @@ export default function fetchTemplate (creater: Project, type: TemplateSourceTyp
 
       if (isTemplateGroup) {
         // 模板组
-        const files: string[] = fs.readdirSync(templateFloder, { withFileTypes: true })
-          .filter((file: fs.Dirent) => !file.name.startsWith('.') && file.isDirectory())
-          .map((file: fs.Dirent) => file.name)
+        const files = readDirWithFileTypes(templateFloder)
+          .filter(file => file.isDirectory)
+          .map(file => file.name)
         await Promise.all(files.map(file => {
           const src = path.join(templateFloder, file)
           const dest = path.join(templateRootPath, file)

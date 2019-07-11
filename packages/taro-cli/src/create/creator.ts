@@ -65,7 +65,6 @@ export default class Creator {
     if (!fs.existsSync(this._rootPath)) {
       fs.ensureDirSync(this._rootPath)
     }
-    console.log('this._rootPath: ', this._rootPath)
     return this._rootPath
   }
 

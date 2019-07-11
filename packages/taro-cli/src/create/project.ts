@@ -11,7 +11,7 @@ import { getUserHomeDir, getTemplateSourceType } from '../util'
 
 const TARO_CONFIG_FLODER = '.taro'
 const TARO_BASE_CONFIG = 'index.json'
-const DEFAULT_TEMPLATE_SRC = 'git@github.com:NervJS/taro-project-templates.git'
+const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates'
 
 export interface IProjectConf {
   projectName: string,
