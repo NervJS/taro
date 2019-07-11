@@ -55,7 +55,7 @@
       },
 
       onScrollToUpper () {
-        this.$emit('scrollToLower', e)
+        this.$emit('scrollToUpper', e)
       },
 
       handleClick (e) {
