@@ -941,7 +941,7 @@ export function parseAst (
             if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             } else if (isQuickApp) {
-              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/, '/').replace(path.extname(sourceFilePath), '')
+              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/g, '/').replace(path.extname(sourceFilePath), '')
               if (!taroImportDefaultName) {
                 node.body.unshift(
                   template(`import Taro from '${taroMiniAppFrameworkPath}'`, babylonConfig as any)() as any
