@@ -2093,8 +2093,8 @@ export class RenderParser {
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
             if (Adapters.quickapp === Adapter.type) {
-              let itemName = indexId!.name
-              let indexName = itemId!.name
+              let itemName = itemId!.name
+              let indexName = indexId!.name
               if (itemName || indexName) {
                 let forExpr: string
                 if (itemName && !indexName) {
