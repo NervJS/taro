@@ -1153,9 +1153,9 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/yargs" "^12.0.9"
 
-"@tarojs/taro@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.0.tgz#fdd29762251891302b18893c6defd505d9ae9570"
+"@tarojs/taro@1.3.8":
+  version "1.3.8"
+  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.8.tgz#53c10f3dccb4de7fee05e107ab5b48b7496a7513"
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -3358,6 +3358,10 @@ expo-av@^5.0.2:
   resolved "https://registry.npm.taobao.org/expo-av/download/expo-av-5.0.2.tgz#8f308fc14d7be8b3bc79d6f8dc6c270da07f94d4"
   dependencies:
     lodash "^4.17.11"
+
+expo-brightness@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.npm.taobao.org/expo-brightness/download/expo-brightness-5.0.1.tgz#90e0445a34c7ef92c4511211c888bbc50eae0441"
 
 expo-constants@~5.0.0:
   version "5.0.1"

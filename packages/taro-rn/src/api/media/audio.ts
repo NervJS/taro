@@ -134,7 +134,7 @@ class InnerAudioContext {
 
     const soundStatus = await this.soundObject.getStatusAsync()
     try {
-      if (soundStatus.isLoaded === false && soundStatus.isPlaying === undefined) {
+      if (soundStatus.isLoaded === false && (soundStatus as any).isPlaying === undefined) {
         // First load
         await this._firstPlay()
 
