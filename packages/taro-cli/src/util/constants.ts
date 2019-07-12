@@ -309,7 +309,9 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
   'nervjs',
-  'nerv-devtools'
+  'nerv-devtools',
+  'stylelint-config-taro-rn',
+  'stylelint-taro-rn'
 ]
 
 export enum PARSE_AST_TYPE {
