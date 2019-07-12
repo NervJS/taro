@@ -107,16 +107,26 @@ function generateQuickAppManifest (quickappJSON: any) {
   // 生成 router
   const pages = (appConfig.pages as string[]).concat()
   const routerPages = {}
+  const customPageConfig = quickappJSON.customPageConfig || {}
+
   pages.forEach(element => {
-    routerPages[path.dirname(element)] = {
-      component: path.basename(element),
-      filter: {
-        view: {
-          uri: 'https?://.*'
-        }
+    const customConfig = customPageConfig[element]
+    const pageConf: any = {
+      component: path.basename(element)
+    }
+    if (customConfig) {
+      const filter = customConfig.filter
+      const launchMode = customConfig.launchMode
+      if (filter) {
+        pageConf.filter = filter
+      }
+      if (launchMode) {
+        pageConf.launchMode = launchMode
       }
     }
+    routerPages[path.dirname(element)] = pageConf
   })
+  delete quickappJSON.customPageConfig
   const routerEntry = pages.shift()
   const router = {
     entry: path.dirname(routerEntry as string),
