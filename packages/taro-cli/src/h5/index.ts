@@ -7,11 +7,20 @@ import generate from 'better-babel-generator'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
-import { findLastIndex, mapValues, merge } from 'lodash'
+import { findLastIndex, merge } from 'lodash'
 import * as path from 'path'
 
 import CONFIG from '../config'
-import { isNpmPkg, mergeVisitors, printLog, promoteRelativePath, recursiveMerge, resolveScriptPath } from '../util'
+import {
+  isAliasPath,
+  isNpmPkg,
+  mergeVisitors,
+  printLog,
+  promoteRelativePath,
+  recursiveMerge,
+  replaceAliasPath,
+  resolveScriptPath
+} from '../util'
 import {
   convertAstExpressionToVariable as toVar,
   convertObjectToAstExpression as objToAst,
@@ -62,6 +71,7 @@ class Compiler {
   entryFilePath: string
   entryFileName: string
   pxTransformConfig
+  pathAlias
   pages: string[] = []
 
   constructor (appPath) {
@@ -91,6 +101,7 @@ class Compiler {
     this.tempPath = path.join(appPath, this.tempDir)
     this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, CONFIG.ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
+    this.pathAlias = projectConfig.alias || {}
     this.pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
     if (projectConfig.hasOwnProperty(deviceRatioConfigName)) {
       this.pxTransformConfig.deviceRatio = projectConfig.deviceRatio
@@ -168,7 +179,6 @@ class Compiler {
     const h5Config = this.h5Config
     const outputDir = this.outputDir
     const sourceRoot = this.sourceRoot
-    const sourcePath = this.sourcePath
     const tempPath = this.tempPath
 
     const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
@@ -179,19 +189,7 @@ class Compiler {
     if (projectConfig.env) {
       h5Config.env = projectConfig.env
     }
-
-    const convertAlias = (filePath: string) => {
-      const isAbsolute = path.isAbsolute(filePath)
-      if (!isAbsolute) return filePath
-
-      const relPath = path.relative(sourcePath, filePath)
-      return relPath.startsWith('..')
-        ? filePath
-        : path.resolve(this.tempPath, relPath)
-    }
-
     recursiveMerge(h5Config, {
-      alias: mapValues(projectConfig.alias, convertAlias),
       copy: projectConfig.copy,
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
@@ -247,6 +245,7 @@ class Compiler {
     const routerMode = this.routerMode
     const routerBasename = this.routerBasename
     const customRoutes = this.customRoutes
+    const pathAlias = this.pathAlias
     const pxTransformConfig = this.pxTransformConfig
 
     let ast = wxTransformer({
@@ -562,11 +561,15 @@ class Compiler {
         }
       },
       ImportDeclaration: {
-        enter (astPath: NodePath<t.ImportDeclaration>) {
+        enter: (astPath: NodePath<t.ImportDeclaration>) => {
           const node = astPath.node
           const source = node.source
           const specifiers = node.specifiers
-          const value = source.value
+          let value = source.value
+          if (isAliasPath(value, pathAlias)) {
+            value = this.transformToTempDir(replaceAliasPath(filePath, value, pathAlias))
+            source.value = value
+          }
           if (!isNpmPkg(value)) {
             if (value.indexOf('.') === 0) {
               const pathArr = value.split('/')
@@ -581,9 +584,7 @@ class Compiler {
                 node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
               }
             }
-            return
-          }
-          if (value === '@tarojs/taro') {
+          } else if (value === '@tarojs/taro') {
             source.value = '@tarojs/taro-h5'
             const specifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
             if (specifier) {
@@ -738,6 +739,8 @@ class Compiler {
   }
 
   processOthers (code, filePath, fileType) {
+    const pathAlias = this.pathAlias
+
     const componentnameMap = new Map()
     const taroapiMap = new Map()
     const isPage = fileType === FILE_TYPE.PAGE
@@ -837,11 +840,15 @@ class Compiler {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
       ImportDeclaration: {
-        enter (astPath: NodePath<t.ImportDeclaration>) {
+        enter: (astPath: NodePath<t.ImportDeclaration>) => {
           const node = astPath.node
           const source = node.source
-          const value = source.value
+          let value = source.value
           const specifiers = node.specifiers
+          if (isAliasPath(value, pathAlias)) {
+            value = this.transformToTempDir(replaceAliasPath(filePath, value, pathAlias))
+            source.value = value
+          }
           if (!isNpmPkg(value)) {
             if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
               const absolutePath = path.resolve(filePath, '..', value)
@@ -1145,6 +1152,17 @@ class Compiler {
     const relPath = path.relative(sourcePath, dirname)
 
     return path.resolve(appPath, tempDir, relPath)
+  }
+
+  transformToTempDir (filePath: string) {
+    const sourcePath = this.sourcePath
+    const isAbsolute = path.isAbsolute(filePath)
+    if (!isAbsolute) return filePath
+
+    const relPath = path.relative(sourcePath, filePath)
+    return relPath.startsWith('..')
+      ? filePath
+      : path.resolve(this.tempPath, relPath)
   }
 
   processFiles (filePath) {
