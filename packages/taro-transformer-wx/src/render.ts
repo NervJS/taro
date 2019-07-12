@@ -478,7 +478,7 @@ export class RenderParser {
           if (t.isReturnStatement(parentNode)) {
             if (!isFinalReturn) {
               const callExpr = parentPath.findParent(p => p.isCallExpression())
-              if (callExpr.isCallExpression()) {
+              if (callExpr && callExpr.isCallExpression()) {
                 const callee = callExpr.node.callee
                 if (this.loopComponents.has(callExpr)) {
                   return
