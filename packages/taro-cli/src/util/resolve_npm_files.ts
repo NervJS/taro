@@ -35,7 +35,7 @@ import defaultUglifyConfig from '../config/uglify'
 import * as npmProcess from './npm'
 import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions, ITaroManifestConfig } from './types'
 
-const excludeNpmPkgs = ['ReactPropTypes']
+const excludeNpmPkgs = ['ReactPropTypes', 'crypto']
 
 const resolvedCache: IResolvedCache = {}
 const copyedFiles = {}
