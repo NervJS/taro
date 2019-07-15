@@ -103,6 +103,10 @@ export function setJSXAttr (
   }
 }
 
+export function buildTrueJSXAttrValue () {
+  return t.jSXExpressionContainer(t.booleanLiteral(true))
+}
+
 export function generateJSXAttr (ast: t.Node) {
   const code = decodeUnicode(
     generate(ast, {

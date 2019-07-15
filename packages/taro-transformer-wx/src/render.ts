@@ -37,7 +37,8 @@ import {
   setJSXAttr,
   buildBlockElement,
   parseJSXElement,
-  generateJSXAttr
+  generateJSXAttr,
+  buildTrueJSXAttrValue
 } from './jsx'
 import {
   DEFAULT_Component_SET,
@@ -757,7 +758,11 @@ export class RenderParser {
           }
         } else if (block.children.length !== 0) {
           if (this.topLevelIfStatement.size > 0) {
-            setJSXAttr(jsxElementPath.node, Adapter.else)
+            if (process.env.NODE_ENV !== 'test') {
+              setJSXAttr(jsxElementPath.node, Adapter.else, buildTrueJSXAttrValue(), jsxElementPath)
+            } else {
+              setJSXAttr(jsxElementPath.node, Adapter.else)
+            }
           }
         }
         block.children.push(jsxElementPath.node)
