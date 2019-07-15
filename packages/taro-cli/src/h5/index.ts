@@ -131,7 +131,7 @@ class Compiler {
     )
     if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
 
-    let relSrcPath = path.relative('src', relPath)
+    let relSrcPath = path.relative(this.sourceRoot, relPath)
     relSrcPath = path.format({
       dir: path.dirname(relSrcPath),
       base: path.basename(relSrcPath, path.extname(relSrcPath))
