@@ -2392,7 +2392,7 @@ export class RenderParser {
         )
       )
     } else {
-      const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.thisExpression(), t.identifier(s))))
+      const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('state')), t.identifier(s))))
       this.renderPath.node.body.body.push(
         // ...propsStatement,
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))
