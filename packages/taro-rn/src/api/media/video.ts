@@ -1,6 +1,8 @@
 import { Video } from 'expo-av'
 
-global._taroVideoMap = {}
+const globalAny:any = global;
+
+globalAny._taroVideoMap = {}
 
 interface FullScreenObject {
   direction?: number
@@ -136,7 +138,7 @@ class VideoContext {
  * {object} @param t - 在自定义组件下，当前组件实例的this，以操作组件内 video 组件
  */
 export function createVideoContext (id: string, t: object) {
-  const ref = global._taroVideoMap[id]
+  const ref = globalAny._taroVideoMap[id]
   if (ref) {
     return new VideoContext(ref)
   } else {

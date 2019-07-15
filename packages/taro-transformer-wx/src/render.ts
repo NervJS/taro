@@ -478,7 +478,7 @@ export class RenderParser {
           if (t.isReturnStatement(parentNode)) {
             if (!isFinalReturn) {
               const callExpr = parentPath.findParent(p => p.isCallExpression())
-              if (callExpr.isCallExpression()) {
+              if (callExpr && callExpr.isCallExpression()) {
                 const callee = callExpr.node.callee
                 if (this.loopComponents.has(callExpr)) {
                   return
@@ -2093,8 +2093,8 @@ export class RenderParser {
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
             if (Adapters.quickapp === Adapter.type) {
-              let itemName = indexId!.name
-              let indexName = itemId!.name
+              let itemName = itemId!.name
+              let indexName = indexId!.name
               if (itemName || indexName) {
                 let forExpr: string
                 if (itemName && !indexName) {

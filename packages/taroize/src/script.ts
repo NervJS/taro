@@ -321,10 +321,12 @@ function parsePage (
           return cm
         }
         const node = value.node
-        const method = t.isFunctionExpression(node) || t.isArrowFunctionExpression(node)
-          ? t.classProperty(t.identifier(lifecycle), t.arrowFunctionExpression(params, node.body, isAsync))
-          : t.classProperty(t.identifier(lifecycle), node)
-        return method
+        if (t.isFunctionExpression(node) || t.isArrowFunctionExpression(node)) {
+          const method = t.classMethod('method', t.identifier(lifecycle), params, t.isBlockStatement(node.body) ? node.body : t.blockStatement([t.returnStatement(node.body)]))
+          method.async = isAsync
+          return method
+        }
+        return t.classProperty(t.identifier(lifecycle), node)
       }
       let hasArguments = false
       prop.traverse({

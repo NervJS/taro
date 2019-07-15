@@ -1,6 +1,6 @@
 import camelCase from 'lodash/camelCase'
 
-import { isEmptyObject, queryToJson } from './util'
+import { isEmptyObject, queryToJson, addLeadingSlash } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
 import appGlobal from './global'
@@ -214,7 +214,8 @@ function bindProperties (componentConf, ComponentClass) {
 function getPageUrlParams (url) {
   const taroRouterParamsCache = appGlobal.taroRouterParamsCache
   let params = {}
-  if (taroRouterParamsCache) {
+  if (taroRouterParamsCache && url) {
+    url = addLeadingSlash(url)
     params = taroRouterParamsCache[url] || {}
     delete taroRouterParamsCache[url]
   }

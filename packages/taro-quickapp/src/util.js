@@ -1,5 +1,9 @@
 import isPlainObject from 'lodash/isPlainObject'
 
+export function addLeadingSlash (str) {
+  return str[0] === '/' ? str : `/${str}`
+}
+
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
     return false
