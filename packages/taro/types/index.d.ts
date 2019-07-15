@@ -1692,30 +1692,41 @@ declare namespace Taro {
    * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html) 接口创建返回。
    */
   class SocketTask {
+
+    /**
+     * websocket 当前的连接 ID。
+     */
+    readonly socketTaskId: number
+
     /**
      * websocket 当前的连接状态。
      */
-    readonly readyState: boolean
+    readonly readyState: number
+
+    /**
+     * websocket 接口调用结果。
+     */
+    readonly errMsg: string
 
     /**
      * websocket 状态值：连接中。
      */
-    readonly CONNECTING: boolean
+    readonly CONNECTING: number
 
     /**
      * websocket 状态值：已连接。
      */
-    readonly OPEN: boolean
+    readonly OPEN: number
 
     /**
      * websocket 状态值：关闭中。
      */
-    readonly CLOSING: boolean
+    readonly CLOSING: number
 
     /**
      * websocket 状态值：已关闭。
      */
-    readonly CLOSED: boolean
+    readonly CLOSED: number
 
     /**
      * 浏览器 websocket 实例。（h5 端独有）
