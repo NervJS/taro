@@ -280,6 +280,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/components-qa',
   '@tarojs/taro-h5',
   '@tarojs/taro-tt',
+  "@tarojs/taro-qq",
   '@tarojs/taro-quickapp',
   '@tarojs/taro-swan',
   '@tarojs/taro-alipay',
