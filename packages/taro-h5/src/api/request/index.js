@@ -80,7 +80,7 @@ function _request (options) {
         return response.arrayBuffer()
       }
       if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-        return response.json()
+        return response.status === 204 ? null : response.json()
       }
       if (options.responseType === 'text') {
         return response.text()
