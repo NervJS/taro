@@ -3,6 +3,7 @@ import { View, Text, Button } from 'react-native'
 import { styles } from '../styles'
 import { onAccelerometerChange, startAccelerometer, stopAccelerometer } from '../../../dist/api/accelerometer'
 import { onDeviceMotionChange, startDeviceMotionListening, stopDeviceMotionListening } from '../../../dist/api/device/deviceMotion'
+import { setScreenBrightness, getScreenBrightness, setKeepScreenOn } from '../../../dist/api/device/screen'
 
 function handleStartAccelerometer () {
   console.log('startAccelerometer')
@@ -42,6 +43,21 @@ function handleOnDeviceMotionChange () {
   })
 }
 
+function handleSetScreenBrightness () {
+  console.log('setScreenBrightness')
+  setScreenBrightness({value: 1}).then(res => console.log(res)).catch(res => console.log(res))
+}
+
+function handleGetScreenBrightness () {
+  console.log('getScreenBrightness')
+  getScreenBrightness().then(res => console.log(res)).catch(res => console.log(res))
+}
+
+function handleSetKeepScreenOn () {
+  console.log('setKeepScreenOn')
+  setKeepScreenOn({keepScreenOn: true}).then(res => console.log(res)).catch(res => console.log(res))
+}
+
 export function Device () {
   return (
     <View>
@@ -66,6 +82,16 @@ export function Device () {
         <View style={{flexDirection: 'row'}}>
           <Button onPress={handleOnDeviceMotionChange} title='onDeviceMotionChange' color='#19AD1A' />
         </View>
+      </View>
+      <Text style={styles.index}>屏幕</Text>
+      <View style={{flexDirection: 'row'}}>
+        <Button onPress={handleSetScreenBrightness} title='setScreenBrightness' color='#19AD1A' />
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <Button onPress={handleGetScreenBrightness} title='getScreenBrightness' color='#19AD1A' />
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <Button onPress={handleSetKeepScreenOn} title='setKeepScreenOn' color='#19AD1A' />
       </View>
     </View>
   )
