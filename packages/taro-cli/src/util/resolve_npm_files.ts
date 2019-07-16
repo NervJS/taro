@@ -27,7 +27,10 @@ import {
   REG_MEDIA,
   REG_JSON,
   taroJsFramework,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  taroJsRedux,
+  taroJsMobxCommon,
+  taroJsMobx
 } from './constants'
 
 import defaultUglifyConfig from '../config/uglify'
@@ -39,6 +42,7 @@ const excludeNpmPkgs = ['ReactPropTypes']
 
 const resolvedCache: IResolvedCache = {}
 const copyedFiles = {}
+const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
 
 export function resolveNpmPkgMainPath (
   pkgName: string,
@@ -157,8 +161,9 @@ function analyzeImportUrl ({
     if (isNpmPkg(requirePath)) {
       if (excludeNpmPkgs.indexOf(requirePath) < 0) {
         const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
+        excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
         if (requirePath === taroJsFramework
-            && (!NODE_MODULES_REG.test(filePath) || filePath.replace(/\\/g, '/').indexOf(taroMiniAppFramework) < 0)) {
+            && (!NODE_MODULES_REG.test(filePath) || !Array.from(excludeReplaceTaroFrameworkPkgs).some(item => filePath.replace(/\\/g, '/').indexOf(item) >= 0))) {
           requirePath = taroMiniAppFramework
         }
         const res = resolveNpmFilesPath({
