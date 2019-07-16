@@ -352,9 +352,14 @@ declare namespace Taro {
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
   }
+                                                                       
+  interface ComponentOptions {
+    addGlobalClass?: boolean
+  }
 
   interface FunctionComponent<P = {}> {
     (props: Readonly<P>): JSX.Element
+    options?: ComponentOptions                                                                      
   }
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
