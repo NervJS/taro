@@ -142,7 +142,6 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
-  private ifStemRenamers = new Map<Scope, Map<string, string>>()
   private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
@@ -640,14 +639,6 @@ export class RenderParser {
             path.skip()
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-            const renamers = this.ifStemRenamers.get(blockStatement.scope)
-            if (renamers) {
-              renamers.set(id.name, newId.name)
-            } else {
-              const m = new Map()
-              m.set(id.name, newId.name)
-              this.ifStemRenamers.set(blockStatement.scope, m)
-            }
             blockStatement.scope.rename(id.name, newId.name)
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
@@ -2420,26 +2411,6 @@ export class RenderParser {
         ]))
       )
     }
-    this.renderPath.traverse({
-      CallExpression: (path) => {
-        const { callee } = path.node
-        if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
-          const objExpr = path.node.arguments[0]
-          if (t.isObjectExpression(objExpr)) {
-            objExpr.properties = objExpr.properties.map(p => {
-              if (t.isObjectMethod(p) || t.isSpreadProperty(p)) {
-                return p
-              }
-              const renamers = this.ifStemRenamers.get(path.scope)
-              if (t.isIdentifier(p.value) && renamers && renamers.has(p.value.name)) {
-                p.value = t.identifier(renamers.get(p.value.name)!)
-              }
-              return p
-            })
-          }
-        }
-      }
-    })
   }
 
   getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`
