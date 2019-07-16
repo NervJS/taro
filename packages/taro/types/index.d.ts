@@ -11640,7 +11640,7 @@ declare namespace Taro {
       export type CallFunctionData = AnyObject
 
       export interface CallFunctionResult extends IAPISuccessParam {
-        result: AnyObject | string | undefined
+        result: any
       }
 
       export interface CallFunctionParam extends ICloudAPIParam<CallFunctionResult> {
