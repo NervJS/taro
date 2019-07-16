@@ -274,13 +274,16 @@ class Transformer {
 
       const func = loopCallExpr.node.arguments[0]
       if (t.isArrowFunctionExpression(func)) {
+        const body = loopCallExpr.get('arguments')[0].get('body.body')
         if (!t.isBlockStatement(func.body)) {
           func.body = t.blockStatement([
             indexKeyDecl,
             t.returnStatement(func.body)
           ])
         } else {
-          func.body.body.push(indexKeyDecl)
+          // func.body.body.push(indexKeyDecl)
+          // 只有 path 的方法才能触发 traverse
+          body[body.length - 1].insertBefore(indexKeyDecl)
         }
         const arrayFunc = t.memberExpression(
           t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
@@ -288,9 +291,9 @@ class Transformer {
           true
         )
         classBody.push(
-          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
+          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.restElement(t.identifier('e'))], t.blockStatement([
             isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
-            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.spreadElement(t.identifier('e'))])))
           ]))
         )
         exprPath.replaceWith(t.callExpression(
@@ -300,7 +303,7 @@ class Transformer {
           ),
           [t.thisExpression(), t.identifier(indexKey)]
         ))
-        func.body.body.push(
+        body[body.length - 1].insertBefore(
           t.expressionStatement(t.assignmentExpression(
             '=',
             arrayFunc,

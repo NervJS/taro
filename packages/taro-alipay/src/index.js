@@ -33,6 +33,8 @@ import initNativeApi from './native-api'
 import propsManager from './propsManager'
 import { getElementById, genCompid } from './util'
 
+if (!my.propsManager) my.propsManager = propsManager
+
 export const Taro = {
   Component,
   PureComponent,
@@ -51,7 +53,6 @@ export const Taro = {
   internal_get_original,
   interceptors,
   getElementById,
-  propsManager,
   genCompid,
   useEffect,
   useLayoutEffect,

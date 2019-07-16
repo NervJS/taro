@@ -520,13 +520,13 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/taro@1.3.0-beta.3":
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.0-beta.3.tgz#945e601f0854f0994d27614fa1a5ad2c2da93fbd"
+"@tarojs/taro@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.0.tgz#fdd29762251891302b18893c6defd505d9ae9570"
 
-"@tarojs/taroize@1.3.0-beta.3":
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/@tarojs/taroize/download/@tarojs/taroize-1.3.0-beta.3.tgz#9a7dcba266f8df9ce997e9328286ef5b57df644f"
+"@tarojs/taroize@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/@tarojs/taroize/download/@tarojs/taroize-1.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaroize%2Fdownload%2F%40tarojs%2Ftaroize-1.3.0.tgz#979fcd610537f728da061fc10fb3f9ecf86e3a24"
   dependencies:
     "@babel/code-frame" "^7.0.0"
     babel-core "^6.26.3"
@@ -539,9 +539,9 @@
     lodash "^4.17.5"
     typescript "^3.0.1"
 
-"@tarojs/transformer-wx@1.3.0-beta.3":
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/@tarojs/transformer-wx/download/@tarojs/transformer-wx-1.3.0-beta.3.tgz#4ccc1197455982769cd30bb78051bb62e648779b"
+"@tarojs/transformer-wx@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/@tarojs/transformer-wx/download/@tarojs/transformer-wx-1.3.0.tgz#df51ae674e5c17d770d99cdb55285f841d607b04"
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     babel-core "^6.26.3"
@@ -563,7 +563,7 @@
     babel-types "^6.26.0"
     eslint "^4.15.0"
     eslint-plugin-react "7.10.0"
-    eslint-plugin-taro "1.3.0-beta.3"
+    eslint-plugin-taro "1.3.0"
     html "^1.0.0"
     lodash "^4.17.5"
     prettier "^1.14.2"
@@ -1660,9 +1660,9 @@ babel-plugin-transform-function-bind@^6.22.0:
     babel-plugin-syntax-function-bind "^6.8.0"
     babel-runtime "^6.22.0"
 
-babel-plugin-transform-jsx-to-stylesheet@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/babel-plugin-transform-jsx-to-stylesheet/download/babel-plugin-transform-jsx-to-stylesheet-1.3.0-beta.3.tgz#2b4639f53f5b0ae7a4514878179eee61f9559b51"
+babel-plugin-transform-jsx-to-stylesheet@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/babel-plugin-transform-jsx-to-stylesheet/download/babel-plugin-transform-jsx-to-stylesheet-1.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-plugin-transform-jsx-to-stylesheet%2Fdownload%2Fbabel-plugin-transform-jsx-to-stylesheet-1.3.0.tgz#9cc7bc747a72da097ea6e4d7369d4e056415fa99"
 
 babel-plugin-transform-object-assign@^6.5.0:
   version "6.22.0"
@@ -3052,11 +3052,11 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-taro@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/eslint-config-taro/download/eslint-config-taro-1.3.0-beta.3.tgz#55416f9ae5146d5e050ed17a0334f9e080c78e0d"
+eslint-config-taro@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/eslint-config-taro/download/eslint-config-taro-1.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-taro%2Fdownload%2Feslint-config-taro-1.3.0.tgz#b04c52cdaca7d997e99a0a021a3c881498eb77f8"
   dependencies:
-    eslint-plugin-taro "1.3.0-beta.3"
+    eslint-plugin-taro "1.3.0"
 
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
@@ -3119,9 +3119,9 @@ eslint-plugin-react@^7.4.0:
     prop-types "^15.6.2"
     resolve "^1.9.0"
 
-eslint-plugin-taro@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-taro/download/eslint-plugin-taro-1.3.0-beta.3.tgz#2c87b551425a8970ff455a6b7ed216e2efb727b1"
+eslint-plugin-taro@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-taro/download/eslint-plugin-taro-1.3.0.tgz#a464fb2953549036d6c002ee3e35ecd9c228dfe4"
   dependencies:
     has "^1.0.1"
 
@@ -6605,9 +6605,9 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/postcss-pxtransform/download/postcss-pxtransform-1.3.0-beta.3.tgz#97e851f8ca2e963efa6c31b72af9cf5ec44c341b"
+postcss-pxtransform@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/postcss-pxtransform/download/postcss-pxtransform-1.3.0.tgz#5c70a29ceb38d978287704a310abadd12c5a1bd4"
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
@@ -7854,13 +7854,13 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
-stylelint-config-taro-rn@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/stylelint-config-taro-rn/download/stylelint-config-taro-rn-1.3.0-beta.3.tgz#79e628428d9cbfdc519fdace092060ae2779d0ac"
+stylelint-config-taro-rn@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/stylelint-config-taro-rn/download/stylelint-config-taro-rn-1.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstylelint-config-taro-rn%2Fdownload%2Fstylelint-config-taro-rn-1.3.0.tgz#553a8fd106547f7a0d3846d4999ddaac04b6f1cd"
 
-stylelint-taro-rn@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/stylelint-taro-rn/download/stylelint-taro-rn-1.3.0-beta.3.tgz#9379693015b00728d7f4b2598e7822cc20678399"
+stylelint-taro-rn@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/stylelint-taro-rn/download/stylelint-taro-rn-1.3.0.tgz#4ff77e0e82564d45fd9ad30ab68ad247eca3831e"
   dependencies:
     react-native-known-styling-properties "^1.0.4"
 
@@ -7986,9 +7986,9 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-taro-css-to-react-native@1.3.0-beta.3:
-  version "1.3.0-beta.3"
-  resolved "https://registry.npm.taobao.org/taro-css-to-react-native/download/taro-css-to-react-native-1.3.0-beta.3.tgz#fbf97bc317bf228548ef3f3ae5d0490302f91151"
+taro-css-to-react-native@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/taro-css-to-react-native/download/taro-css-to-react-native-1.3.0.tgz#ceec8da8d627fd654cff2088fbd5e9da68207894"
   dependencies:
     camelize "^1.0.0"
     css "^2.2.4"
@@ -8243,6 +8243,10 @@ type-fest@^0.3.0:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typescript@3.4.5:
+  version "3.4.5"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.4.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
 
 typescript@^3.0.1, typescript@^3.2.2:
   version "3.4.4"

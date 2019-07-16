@@ -49,10 +49,10 @@ export default class Creator {
   protected _rootPath: string
   private _destinationRoot: string
 
-  constructor () {
+  constructor (sourceRoot?: string) {
     const store = memFs.create()
     this.fs = editor.create(store)
-    this.sourceRoot(path.join(getRootPath()))
+    this.sourceRoot(sourceRoot || path.join(getRootPath()))
     this.init()
   }
 

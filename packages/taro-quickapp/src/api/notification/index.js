@@ -1,6 +1,6 @@
 import notification from '@system.notification'
 
-export function showSotification (opts = {}) {
+export function showNotification (opts = {}) {
   const { contentTitle, contentText, clickAction } = opts
   if (clickAction) {
     const uri = clickAction.uri
@@ -14,5 +14,5 @@ export function showSotification (opts = {}) {
 }
 
 export default {
-  showSotification
+  showNotification
 }

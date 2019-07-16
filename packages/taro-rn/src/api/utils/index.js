@@ -1,9 +1,9 @@
-// import { Permissions } from 'expo'
-//
-// export async function askAsyncPermissions (PermissionsType) {
-//   const { status } = await Permissions.askAsync(PermissionsType)
-//   return status
-// }
+import { Permissions } from 'react-native-unimodules'
+
+export async function askAsyncPermissions (PermissionsType) {
+  const {status} = await Permissions.askAsync(PermissionsType)
+  return status
+}
 
 function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
@@ -46,4 +46,44 @@ export function errorHandler (fail, complete) {
     isFunction(complete) && complete(res)
     return Promise.reject(res)
   }
+}
+
+/**
+ * RegExps.
+ * A URL must match #1 and then at least one of #2/#3.
+ * Use two levels of REs to avoid REDOS.
+ */
+
+const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/
+
+const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/
+const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/
+
+/**
+ * Loosely validate a URL `string`.
+ *
+ * @param {String} string
+ * @return {Boolean}
+ */
+export function isUrl (string) {
+  if (typeof string !== 'string') {
+    return false
+  }
+
+  let match = string.match(protocolAndDomainRE)
+  if (!match) {
+    return false
+  }
+
+  let everythingAfterProtocol = match[1]
+  if (!everythingAfterProtocol) {
+    return false
+  }
+
+  if (localhostDomainRE.test(everythingAfterProtocol) ||
+    nonLocalhostDomainRE.test(everythingAfterProtocol)) {
+    return true
+  }
+
+  return false
 }

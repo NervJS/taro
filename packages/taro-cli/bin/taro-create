@@ -15,11 +15,10 @@ const type = args[0] || 'page'
 const resultName = args[1] || name
 if (type === 'page') {
   const page = new Page({
-    name: resultName,
+    pageName: resultName,
     projectDir: process.cwd(),
     description
   })
 
   page.create()
 }
-

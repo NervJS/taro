@@ -37,7 +37,8 @@ import {
   setJSXAttr,
   buildBlockElement,
   parseJSXElement,
-  generateJSXAttr
+  generateJSXAttr,
+  buildTrueJSXAttrValue
 } from './jsx'
 import {
   DEFAULT_Component_SET,
@@ -333,6 +334,10 @@ export class RenderParser {
       } else if (t.isJSXElement(alternate) && t.isCallExpression(consequent) && !isArrayMapCallExpression(parentPath.get('consequent'))) {
         const id = generateAnonymousState(this.renderScope, parentPath.get('consequent') as any, this.referencedIdentifiers, true)
         parentPath.get('consequent').replaceWith(id)
+      } else if (t.isJSXElement(alternate) && isArrayMapCallExpression(parentPath.get('consequent'))) {
+        //
+      } else if (t.isJSXElement(consequent) && isArrayMapCallExpression(parentPath.get('alternate'))) {
+        //
       } else {
         block.children = [t.jSXExpressionContainer(consequent)]
         newJSXIfAttr(block, test)
@@ -474,7 +479,7 @@ export class RenderParser {
           if (t.isReturnStatement(parentNode)) {
             if (!isFinalReturn) {
               const callExpr = parentPath.findParent(p => p.isCallExpression())
-              if (callExpr.isCallExpression()) {
+              if (callExpr && callExpr.isCallExpression()) {
                 const callee = callExpr.node.callee
                 if (this.loopComponents.has(callExpr)) {
                   return
@@ -753,7 +758,11 @@ export class RenderParser {
           }
         } else if (block.children.length !== 0) {
           if (this.topLevelIfStatement.size > 0) {
-            setJSXAttr(jsxElementPath.node, Adapter.else)
+            if (process.env.NODE_ENV !== 'test') {
+              setJSXAttr(jsxElementPath.node, Adapter.else, buildTrueJSXAttrValue(), jsxElementPath)
+            } else {
+              setJSXAttr(jsxElementPath.node, Adapter.else)
+            }
           }
         }
         block.children.push(jsxElementPath.node)
@@ -2089,8 +2098,8 @@ export class RenderParser {
             this.addRefIdentifier(callee, t.identifier(stateName))
             // this.referencedIdentifiers.add(t.identifier(stateName))
             if (Adapters.quickapp === Adapter.type) {
-              let itemName = indexId!.name
-              let indexName = itemId!.name
+              let itemName = itemId!.name
+              let indexName = indexId!.name
               if (itemName || indexName) {
                 let forExpr: string
                 if (itemName && !indexName) {
@@ -2239,13 +2248,13 @@ export class RenderParser {
 
   setCustomEvent () {
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    const eventPropName = '$$events'
+    const eventPropName = Adapter.type === Adapters.quickapp ? 'privateTaroEvent' : '$$events'
     const body = classPath.node.body.body.find(b => t.isClassProperty(b) && b.key.name === eventPropName) as t.ClassProperty
     const usedEvents = Array.from(this.usedEvents).map(s => t.stringLiteral(s))
     if (body && t.isArrayExpression(body.value)) {
       body.value = t.arrayExpression(uniq(body.value.elements.concat(usedEvents)))
     } else {
-      let classProp = t.classProperty(t.identifier('$$events'), t.arrayExpression(usedEvents)) as any // babel 6 typing 没有 static
+      let classProp = t.classProperty(t.identifier(eventPropName), t.arrayExpression(usedEvents)) as any // babel 6 typing 没有 static
       classProp.static = true
       classPath.node.body.body.unshift(classProp)
     }
@@ -2388,7 +2397,7 @@ export class RenderParser {
         )
       )
     } else {
-      const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.thisExpression(), t.identifier(s))))
+      const usedState = Array.from(this.usedThisState).map(s => t.objectProperty(t.identifier(s), t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('state')), t.identifier(s))))
       this.renderPath.node.body.body.push(
         // ...propsStatement,
         t.returnStatement(t.objectExpression(pendingState.properties.concat(usedState)))

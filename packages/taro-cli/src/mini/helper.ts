@@ -239,7 +239,7 @@ export function getRealComponentsPathList (
 ): IComponentObj[] {
   const { appPath, isProduction, buildAdapter, projectConfig, npmConfig } = BuildData
   const pathAlias = projectConfig.alias || {}
-  return components.map(component => {
+  return components.length ? components.map(component => {
     let componentPath = component.path
     if (isAliasPath(componentPath as string, pathAlias)) {
       componentPath = replaceAliasPath(filePath, componentPath as string, pathAlias)
@@ -262,7 +262,7 @@ export function getRealComponentsPathList (
       name: component.name,
       type: component.type
     }
-  })
+  }) : []
 }
 
 export function isFileToBePage (filePath: string): boolean {

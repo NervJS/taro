@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 import { mergeWith, isPlainObject, camelCase, flatMap } from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
@@ -496,15 +496,16 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
 }
 
 export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean {
-  if (!quickappPkgs.length) {
-    return /@system\./.test(name)
-  }
-  let isQuickappPkg = false
+  const isQuickappPkg = /^@[a-zA-Z]{1,}\.[a-zA-Z]{1,}/.test(name)
+  let hasSetInManifest = false
   quickappPkgs.forEach(item => {
     if (item.name === name.replace(/^@/, '')) {
-      isQuickappPkg = true
+      hasSetInManifest = true
     }
   })
+  if (isQuickappPkg && !hasSetInManifest) {
+    printLog(processTypeEnum.ERROR, '快应用', `需要在 ${chalk.bold('project.quickapp.json')} 文件的 ${chalk.bold('features')} 配置中添加 ${chalk.bold(name)}`)
+  }
   return isQuickappPkg
 }
 
@@ -670,4 +671,79 @@ export function uglifyJS (resCode: string, filePath: string, root: string, uglif
     return uglifyResult.code
   }
   return resCode
+}
+
+export const getAllFilesInFloder = async (
+  floder: string,
+  filter: string[] = []
+): Promise<string[]> => {
+  let files: string[] = []
+  const list = readDirWithFileTypes(floder)
+
+  await Promise.all(
+    list.map(async item => {
+      const itemPath = path.join(floder, item.name)
+      if (item.isDirectory) {
+        const _files = await getAllFilesInFloder(itemPath, filter)
+        files = [...files, ..._files]
+      } else if (item.isFile) {
+        if (!filter.find(rule => rule === item.name)) files.push(itemPath)
+      }
+    })
+  )
+
+  return files
+}
+
+export function getUserHomeDir (): string {
+  function homedir(): string {
+    const env = process.env
+    const home = env.HOME
+    const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
+
+    if (process.platform === 'win32') {
+      return env.USERPROFILE || '' + env.HOMEDRIVE + env.HOMEPATH || home || ''
+    }
+
+    if (process.platform === 'darwin') {
+      return home || (user ? '/Users/' + user : '')
+    }
+
+    if (process.platform === 'linux') {
+      return home || (process.getuid() === 0 ? '/root' : (user ? '/home/' + user : ''))
+    }
+
+    return home || ''
+  }
+  return typeof (os.homedir as (() => string) | undefined) === 'function' ? os.homedir() : homedir()
+}
+
+export type TemplateSourceType = 'git' | 'url'
+
+export function getTemplateSourceType (url: string): TemplateSourceType {
+  if (/^github:/.test(url) || /^gitlab:/.test(url)) {
+    return 'git'
+  } else {
+    return 'url'
+  }
+}
+
+interface FileStat {
+  name: string
+  isDirectory: boolean
+  isFile: boolean
+}
+
+export function readDirWithFileTypes (floder: string): FileStat[] {
+  const list = fs.readdirSync(floder)
+    .filter(name => !name.startsWith('.'))
+  const res = list.map(name => {
+    const stat =fs.statSync(path.join(floder, name))
+    return {
+      name,
+      isDirectory: stat.isDirectory(),
+      isFile: stat.isFile()
+    }
+  })
+  return res
 }

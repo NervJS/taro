@@ -234,6 +234,10 @@ export const CONFIG_MAP = {
     navigationBarBackgroundColor: 'titleBarBackgroundColor',
     navigationBarTextStyle: 'titleBarTextColor',
     pageOrientation: 'orientation',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath',
     backgroundTextStyle: false,
     onReachBottomDistance: false,
     backgroundColorBottom: false,
@@ -276,6 +280,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/components-qa',
   '@tarojs/taro-h5',
   '@tarojs/taro-tt',
+  '@tarojs/taro-qq',
   '@tarojs/taro-quickapp',
   '@tarojs/taro-swan',
   '@tarojs/taro-alipay',
@@ -304,9 +309,10 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/mobx-h5',
   '@tarojs/mobx-rn',
   '@tarojs/mobx-common',
-  '@tarojs/mobx-prop-types',
   'nervjs',
-  'nerv-devtools'
+  'nerv-devtools',
+  'stylelint-config-taro-rn',
+  'stylelint-taro-rn'
 ]
 
 export enum PARSE_AST_TYPE {
@@ -320,6 +326,8 @@ export const taroJsComponents = '@tarojs/components'
 export const taroJsQuickAppComponents = '@tarojs/components-qa'
 export const taroJsFramework = '@tarojs/taro'
 export const taroJsRedux = '@tarojs/redux'
+export const taroJsMobx = '@tarojs/mobx'
+export const taroJsMobxCommon = '@tarojs/mobx-common'
 
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'

@@ -3,7 +3,7 @@ import Taro from '../index.js'
 
 Taro.initNativeApi(Taro)
 
-describe('geolocation', () => {
+describe('location', () => {
   describe('getLocation', () => {
     test('不支持定位时返回执行fail', () => {
       global.navigator = {}
