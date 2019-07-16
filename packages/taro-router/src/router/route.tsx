@@ -98,21 +98,24 @@ class Route extends Taro.Component<RouteProps, {}> {
 
     this.matched = nextMatched
 
-    nextTick(() => {
-      if (nextMatched) {
-        this.showPage()
-        if (!isRedirect) {
+    
+    if (nextMatched) {
+      if (!isRedirect) {
+        nextTick(() => {
+          this.showPage()
           scroller = scroller || getScroller()
           scroller.set(this.scrollPos)
-          tryToCall(this.componentRef.componentDidShow, this.componentRef)
-        }
-      } else {
-        scroller = scroller || getScroller()
-        this.scrollPos = scroller.get()
+        })
+        tryToCall(this.componentRef.componentDidShow, this.componentRef)
+      }
+    } else {
+      scroller = scroller || getScroller()
+      this.scrollPos = scroller.get()
+      nextTick(() => {
         this.hidePage()
         tryToCall(this.componentRef.componentDidHide, this.componentRef)
-      }
-    })
+      })
+    }
   }
 
   shouldComponentUpdate () {
