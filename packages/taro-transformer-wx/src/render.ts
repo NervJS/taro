@@ -636,6 +636,8 @@ export class RenderParser {
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
             )
+          } else if (id.name.startsWith('$props__')) {
+            path.skip()
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
             const renamers = this.ifStemRenamers.get(blockStatement.scope)
@@ -983,10 +985,10 @@ export class RenderParser {
 
   isEmptyBlock = ((block: t.JSXElement) => block.children.length === 0 && block.openingElement.attributes.length === 0)
 
-  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty>, id: t.StringLiteral | t.Identifier): t.Expression {
+  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty> | t.Identifier, id: t.StringLiteral | t.Identifier): t.Expression {
     return t.callExpression(
       t.memberExpression(t.identifier(PROPS_MANAGER), t.identifier('set')),
-      [t.objectExpression(properties), id]
+      [Array.isArray(properties) ? t.objectExpression(properties) : properties, id]
     )
   }
 
@@ -1044,7 +1046,8 @@ export class RenderParser {
       if (this.isEmptyProps(openingElement.attributes)) {
         return
       }
-      const name = `$compid__${genCompid()}`
+      const compId = genCompid()
+      const name = `$compid__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
       const idExpr = buildConstVariableDeclaration(name,
@@ -1058,7 +1061,10 @@ export class RenderParser {
       )
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
-      const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
+      const propsId = `$props__${compId}`
+      const collectedProps = buildConstVariableDeclaration(propsId, t.objectExpression(properties))
+      jsxElementPath.getStatementParent().insertBefore(collectedProps)
+      const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName)
       this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
       this.ancestorConditions.add(expr)
