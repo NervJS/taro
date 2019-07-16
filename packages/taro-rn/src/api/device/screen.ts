@@ -3,8 +3,6 @@ import * as Brightness from 'expo-brightness'
 import { Permissions } from 'react-native-unimodules'
 import { errorHandler, shouleBeObject, successHandler } from '../utils'
 
-console.log(Brightness)
-
 /**
  * 设置屏幕亮度
  * @param opts
