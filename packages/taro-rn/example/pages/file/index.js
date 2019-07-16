@@ -1,9 +1,8 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
 import { styles } from '../styles'
-import { downloadFile } from '../../../dist/api/file'
+import { downloadFile, saveFile, removeSavedFile, getSavedFileInfo, getFileInfo, getSavedFileList } from '../../../dist/api/file'
 import { chooseImage } from '../../../dist/api/media'
-import { saveFile, removeSavedFile, getSavedFileInfo, getFileInfo, getSavedFileList } from '../../../dist/api/file/file'
 import * as FileSystem from 'expo-file-system'
 
 function handleDownloadFile () {

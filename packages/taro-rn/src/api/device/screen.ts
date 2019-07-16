@@ -1,5 +1,5 @@
 import * as Brightness from 'expo-brightness'
-// import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
 import { Permissions } from 'react-native-unimodules'
 import { errorHandler, shouleBeObject, successHandler } from '../utils'
 
