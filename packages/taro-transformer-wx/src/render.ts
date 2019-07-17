@@ -2187,7 +2187,7 @@ export class RenderParser {
   }
 
   removeJSXStatement () {
-    this.jsxDeclarations.forEach(d => d && !d.removed && d.remove())
+    this.jsxDeclarations.forEach(d => d && !d.removed && isContainJSXElement(d) && d.remove())
     this.returnedPaths.forEach((p: NodePath<t.ReturnStatement>) => {
       if (p.removed) {
         return
