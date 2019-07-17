@@ -122,6 +122,8 @@ function downloadFile (opts = {}) {
   return p
 }
 
+export * from './file-system'
+
 export {
   downloadFile,
   uploadFile

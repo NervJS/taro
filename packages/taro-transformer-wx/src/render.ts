@@ -142,7 +142,6 @@ export class RenderParser {
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName: string = ''
   private deferedHandleClosureJSXFunc: Function[] = []
-  private ifStemRenamers = new Map<Scope, Map<string, string>>()
   private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
@@ -636,16 +635,10 @@ export class RenderParser {
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init })
             )
+          } else if (id.name.startsWith('$props__')) {
+            path.skip()
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
-            const renamers = this.ifStemRenamers.get(blockStatement.scope)
-            if (renamers) {
-              renamers.set(id.name, newId.name)
-            } else {
-              const m = new Map()
-              m.set(id.name, newId.name)
-              this.ifStemRenamers.set(blockStatement.scope, m)
-            }
             blockStatement.scope.rename(id.name, newId.name)
             path.parentPath.replaceWith(
               template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') })
@@ -983,10 +976,10 @@ export class RenderParser {
 
   isEmptyBlock = ((block: t.JSXElement) => block.children.length === 0 && block.openingElement.attributes.length === 0)
 
-  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty>, id: t.StringLiteral | t.Identifier): t.Expression {
+  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty> | t.Identifier, id: t.StringLiteral | t.Identifier): t.Expression {
     return t.callExpression(
       t.memberExpression(t.identifier(PROPS_MANAGER), t.identifier('set')),
-      [t.objectExpression(properties), id]
+      [Array.isArray(properties) ? t.objectExpression(properties) : properties, id]
     )
   }
 
@@ -1044,7 +1037,8 @@ export class RenderParser {
       if (this.isEmptyProps(openingElement.attributes)) {
         return
       }
-      const name = `$compid__${genCompid()}`
+      const compId = genCompid()
+      const name = `$compid__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
       const idExpr = buildConstVariableDeclaration(name,
@@ -1058,7 +1052,10 @@ export class RenderParser {
       )
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
-      const propsSettingExpr = this.genPropsSettingExpression(properties, variableName)
+      const propsId = `$props__${compId}`
+      const collectedProps = buildConstVariableDeclaration(propsId, t.objectExpression(properties))
+      jsxElementPath.getStatementParent().insertBefore(collectedProps)
+      const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName)
       this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
       this.ancestorConditions.add(expr)
@@ -2414,26 +2411,6 @@ export class RenderParser {
         ]))
       )
     }
-    this.renderPath.traverse({
-      CallExpression: (path) => {
-        const { callee } = path.node
-        if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
-          const objExpr = path.node.arguments[0]
-          if (t.isObjectExpression(objExpr)) {
-            objExpr.properties = objExpr.properties.map(p => {
-              if (t.isObjectMethod(p) || t.isSpreadProperty(p)) {
-                return p
-              }
-              const renamers = this.ifStemRenamers.get(path.scope)
-              if (t.isIdentifier(p.value) && renamers && renamers.has(p.value.name)) {
-                p.value = t.identifier(renamers.get(p.value.name)!)
-              }
-              return p
-            })
-          }
-        }
-      }
-    })
   }
 
   getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`

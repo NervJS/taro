@@ -844,11 +844,11 @@ Taro.openDocument(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.saveFile | ✔️ |  |  |
-| Taro.getFileInfo | ✔️ |  |  |
-| Taro.getSavedFileList | ✔️ |  |  |
-| Taro.getSavedFileInfo | ✔️ |  |  |
-| Taro.removeSavedFile | ✔️ |  |  |
+| Taro.saveFile | ✔️ |  |  ✔️  |
+| Taro.getFileInfo | ✔️ |  |  ✔️  |
+| Taro.getSavedFileList | ✔️ |  | ✔️   |
+| Taro.getSavedFileInfo | ✔️ |  |  ✔️  |
+| Taro.removeSavedFile | ✔️ |  |  ✔️  |
 | Taro.openDocument | ✔️ |  |  |
 
 ## 数据缓存
@@ -1938,8 +1938,8 @@ Taro.setKeepScreenOn(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.setScreenBrightness | ✔️ |  |  |
-| Taro.getScreenBrightness | ✔️ |  |  |
+| Taro.setScreenBrightness | ✔️ |  | ✔️ |
+| Taro.getScreenBrightness | ✔️ |  | ✔️ |
 | Taro.setKeepScreenOn | ✔️ |  |  |
 
 ### 用户截屏事件
