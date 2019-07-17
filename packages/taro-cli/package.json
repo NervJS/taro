@@ -13,6 +13,16 @@
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
     "prepack": "npm run build"
   },
+  "files": [
+    "bin",
+    "__tests__",
+    "scripts",
+    "src",
+    "dist",
+    "templates",
+    "index.js",
+    "global.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
