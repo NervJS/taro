@@ -276,6 +276,7 @@ export function parseAst (
   const taroSelfComponents = new Set<string>()
   ast = babel.transformFromAst(ast, '', {
     plugins: [
+      [require('babel-plugin-preval')],
       [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }],
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
