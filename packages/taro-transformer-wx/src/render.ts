@@ -1116,10 +1116,13 @@ export class RenderParser {
           const componentName = JSXElement.openingElement.name
           if (
             isNewPropsSystem() &&
-            t.isJSXIdentifier(componentName) &&
-            !DEFAULT_Component_SET.has(componentName.name)
+            t.isJSXIdentifier(componentName)
           ) {
-            return
+            if (THIRD_PARTY_COMPONENTS.has(componentName.name)) {
+              //
+            } else if (!DEFAULT_Component_SET.has(componentName.name)) {
+              return
+            }
           }
 
           // const JSXAttribute = path.findParent(p => p.isJSXAttribute())
