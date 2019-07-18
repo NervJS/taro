@@ -167,7 +167,7 @@ params: object
 | template | string | 模板名称 |
 | templatePath | string | 模板路径 |
 | projectPath | string | 目标路径 |
-| period | 'createApp'\|'createPage' | `taro init` 创建项目或 `taro create` 创建页面 |
+| period | 'createApp' or 'createPage' | `taro init` 创建项目或 `taro create` 创建页面 |
 
 return: boolean/object
 
