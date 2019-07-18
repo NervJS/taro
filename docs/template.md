@@ -177,7 +177,15 @@ return: boolean/object
 | :------  | :------- |
 |   true   |  创建文件 |
 |   false  | 不创建文件 |
-|  object  | 创建文件，返回的 object 的字段会被合并到全局模板参数中。`object.setPageName` 字段将改变当前文件的路径或文件名 |
+|  object  | 创建文件，返回的 object 的字段会被合并到全局模板参数中。|
+
+若返回值为 object，其中某些属性有特殊作用：
+
+|       属性      |    类型   |          说明          |
+| :-------------- | :------ | :-------------------- |
+|   setPageName   | string  | 将替换当前文件的输出路径 |
+|    changeExt    | boolean | 是否自动替换文件后缀 |
+
 
 ##### 例子
 
