@@ -14,7 +14,7 @@ title: 项目模板
 
 ## 模板源
 
-模板源为 CLI 配置项的 **templateSource** 字段，可以使用 `taro config` 命令对其进行操作。
+模板源为 CLI 配置项的 **templateSource** 字段，可以使用 [taro config](https://nervjs.github.io/taro/docs/GETTING-STARTED.html#cli-%E9%85%8D%E7%BD%AE) 命令对其进行操作。
 
 ### 默认模版源
 
@@ -49,7 +49,7 @@ title: 项目模板
 
 ##### zip 包
 
-zip 包解压出单文件夹，文件夹内包含 package.json。
+zip 包解压出单文件夹，文件夹根目录包含 package.json。
 
 模板名为 zip 包解压出的文件夹名。
 
@@ -110,9 +110,9 @@ module.exports = {
 
 #### 模板语言
 
-请使用 [ejs](https://ejs.co/) 作为模板语言，CLI 会为各模板全局模板参数。
+请使用 [ejs](https://ejs.co/) 作为模板语言，各模板文件都将接收到全局模板参数。
 
-默认全局模板参数，模板中可直接使用的变量：
+##### 默认全局模板参数（模板中可直接使用的变量）
 
 |     变量     |   类型   |   说明   |
 | :---------  | :------- | :------- |
@@ -120,7 +120,7 @@ module.exports = {
 | description | string | 项目描述 |
 | version | string | Taro CLI 版本 |
 | date | string | 模板创建时间戳 |
-| css | 'none'\|'sass'\|'stylus'\|'less' | 样式预处理工具 |
+| css | 'none' or 'sass' or 'stylus' or 'less' | 样式预处理工具 |
 | cssExt | string | 样式文件后缀 |
 | typescript | boolean | 是否使用 TS |
 | pageName | string | `taro create` 时传入的页面名称，默认 'index' |
@@ -161,7 +161,7 @@ params: object
 | description | string | 项目描述 |
 | version | string | Taro CLI 版本 |
 | date | string | 模板创建时间戳 |
-| css | 'none'\|'sass'\|'stylus'\|'less' | 样式预处理工具 |
+| css | 'none' or 'sass' or 'stylus' or 'less' | 样式预处理工具 |
 | typescript | boolean | 是否使用 TS |
 | pageName | string | 页面名称 |
 | template | string | 模板名称 |
