@@ -26,7 +26,8 @@ export function getInjectName (component, injectNames) {
 }
 
 export function mapStoreToProps (grabStoresFn, props) {
-  return Object.assign({}, grabStoresFn(getStore() || {}, props || {}) || {})
+  const newProps = { ...props }
+  return Object.assign(newProps, grabStoresFn(getStore() || {}, newProps) || {})
 }
 
 export function inject (/* fn(stores, nextProps) or ...storeNames, createStoreInjector */) {
