@@ -110,7 +110,7 @@ class Transformer {
   private renderJSX: Map<string, NodePath<t.ClassMethod>> = new Map()
   private refIdMap: Map<NodePath<t.ClassMethod>, Set<t.Identifier>> = new Map()
   private initState: Set<string> = new Set()
-  private customComponents: Map<string, { sourcePath: string, type: string }> = new Map()
+  private customComponents: Map<string, { sourcePath: string, type: string, imported?: string }> = new Map()
   private anonymousMethod: Map<string, string> = new Map()
   private moduleNames: string[]
   private classPath: NodePath<t.ClassDeclaration>
@@ -746,16 +746,26 @@ class Transformer {
             const binding = self.classPath.scope.getBinding(name)
             if (binding && t.isImportDeclaration(binding.path.parent)) {
               const sourcePath = binding.path.parent.source.value
+              const specs = binding.path.parent.specifiers.filter(s => t.isImportSpecifier(s)) as Array<t.ImportSpecifier>
               if (binding.path.isImportDefaultSpecifier()) {
                 self.customComponents.set(name, {
                   sourcePath,
                   type: 'default'
                 })
               } else {
-                self.customComponents.set(name, {
-                  sourcePath,
-                  type: 'pattern'
-                })
+                const spec = specs.find(s => s.local.name === name && s.imported.name !== name)
+                if (spec) {
+                  self.customComponents.set(name, {
+                    sourcePath,
+                    type: 'pattern',
+                    imported: spec.imported.name
+                  })
+                } else {
+                  self.customComponents.set(name, {
+                    sourcePath,
+                    type: 'pattern'
+                  })
+                }
               }
             }
           }
@@ -928,7 +938,7 @@ class Transformer {
       components.push(name)
       this.result.components.push({
         path: pathResolver(component.sourcePath, this.sourcePath),
-        name: kebabCase(name),
+        name: component.imported ? kebabCase(name) + '|' + kebabCase(component.imported) : kebabCase(name),
         type: component.type
       })
     })
