@@ -90,12 +90,12 @@ function createFiles (
     if (config.setPageName) {
       destRePath = config.setPageName
     }
-
+    destRePath = destRePath.replace(/^\//, '')
     // 处理 .js 和 .css 的后缀
     if (
       typescript &&
       changeExt &&
-      !destRePath.startsWith(`/${CONFIG_DIR_NAME}`) &&
+      !destRePath.startsWith(`${CONFIG_DIR_NAME}`) &&
       (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx')
     ) {
       destRePath = destRePath.replace('.js', '.ts')
