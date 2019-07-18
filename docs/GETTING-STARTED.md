@@ -248,3 +248,24 @@ $ taro info
       eslint-config-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
       eslint-plugin-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
 ```
+
+## CLI 配置
+
+> 自 `1.3.9` 开始支持
+
+`1.3.9` 开始 Taro 会在用户根目录下创建 .taro 文件夹，其中 .taro/index.json 用于存放 CLI 相关配置。
+
+开发者可以使用 `taro config` 命令对配置项进行一系列操作：
+
+```bash
+# 查看用法
+$ taro config --help
+# 设置配置项<key>的值为<value>
+$ taro config set <key> <value>
+# 读取配置项<key>
+$ taro config get <key>
+# 删除配置项<key>
+$ taro config delete <key>
+# 打印所有配置项
+$ taro config list [--json] 
+```

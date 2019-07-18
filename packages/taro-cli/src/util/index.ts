@@ -736,7 +736,6 @@ interface FileStat {
 
 export function readDirWithFileTypes (floder: string): FileStat[] {
   const list = fs.readdirSync(floder)
-    .filter(name => !name.startsWith('.'))
   const res = list.map(name => {
     const stat =fs.statSync(path.join(floder, name))
     return {

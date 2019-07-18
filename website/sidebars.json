@@ -51,6 +51,7 @@
       "mini-third-party",
       "hybrid",
       "css-modules",
+      "template",
       "CONTRIBUTING"
     ]
   },
