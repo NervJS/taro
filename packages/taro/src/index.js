@@ -27,7 +27,8 @@ import {
   useMemo,
   useImperativeHandle,
   invokeEffects,
-  useContext
+  useContext,
+  forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
 import { createContext } from './create-context'
@@ -54,6 +55,7 @@ export {
   internal_safe_set,
   internal_inline_style,
   internal_get_original,
+  internal_force_update,
   noPromiseApis,
   onAndSyncApis,
   otherApis,
@@ -89,6 +91,7 @@ export default {
   internal_safe_set,
   internal_inline_style,
   internal_get_original,
+  internal_force_update,
   noPromiseApis,
   onAndSyncApis,
   otherApis,

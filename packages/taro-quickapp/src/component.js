@@ -1,5 +1,6 @@
 import {
-  internal_safe_get as safeGet
+  internal_safe_get as safeGet,
+  internal_force_update as forceUpdateCallback
 } from '@tarojs/taro'
 
 import { enqueueRender } from './render-queue'
@@ -43,7 +44,7 @@ export default class BaseComponent {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
-      enqueueRender(this)
+      enqueueRender(this, forceUpdateCallback === callback)
     }
   }
 
