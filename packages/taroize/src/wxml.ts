@@ -724,7 +724,7 @@ function parseAttribute (attr: Attribute) {
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
-      jsxValue = t.stringLiteral(content)
+      jsxValue = t.stringLiteral(content.replace(/\"/g, `'`))
     } else {
       let expr: t.Expression
       try {
