@@ -148,6 +148,50 @@ $ taro build --type tt
 $ npx taro build --type tt --watch
 $ npx taro build --type tt
 ```
+### QQ 小程序
+
+选择 QQ 小程序模式，需要自行下载并打开[QQ 小程序开发者工具](https://q.qq.com/wiki/#_4-%E7%BC%96%E7%A0%81%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F)，然后在项目编译完后选择项目根目录下 `dist` 目录进行预览。
+
+QQ 小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
+
+```bash
+# yarn
+$ yarn dev:qq
+$ yarn build:qq
+# npm script
+$ npm run dev:qq
+$ npm run build:qq
+# 仅限全局安装
+$ taro build --type qq --watch
+$ taro build --type qq
+# npx 用户也可以使用
+$ npx taro build --type qq --watch
+$ npx taro build --type qq
+```
+### 快应用
+
+选择快应用模式，需要自行下载并打开[快应用开发者工具](https://www.quickapp.cn/docCenter/IDEPublicity)，然后在项目编译完后，在开发者工具中选择「打开文件夹」选择项目根目录下 `dist` 目录，点击左边的预览图标（那个眼睛图标）进行预览。
+
+快应用编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
+
+```bash
+# yarn
+$ yarn dev:quickapp
+$ yarn build:quickapp
+# npm script
+$ npm run dev:quickapp
+$ npm run build:quickapp
+# 仅限全局安装
+$ taro build --type quickapp --watch
+$ taro build --type quickapp
+# npx 用户也可以使用
+$ npx taro build --type quickapp --watch
+$ npx taro build --type quickapp
+```
+[快应用开发者工具如何使用？点击了解](https://doc.quickapp.cn/tutorial/ide/overview.html)
+
+[快应用端开发流程](https://taro-docs.jd.com/taro/docs/quick-app.html)
+
 
 ### H5
 
@@ -248,6 +292,14 @@ $ taro info
       eslint-config-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
       eslint-plugin-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
 ```
+
+## Taro Doctor
+
+Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、结构，以及代码的规范是否存在问题，并尝试给出解决方案。
+
+但和真正的医生不一样，Taro Doctor 不需要排队挂号，也不用花钱。你只需要在终端运行命令：`taro doctor`，就像图里一样：
+
+![Taro Doctor 诊断结果图](https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png)
 
 ## CLI 配置
 
