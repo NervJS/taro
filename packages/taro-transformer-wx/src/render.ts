@@ -1021,6 +1021,8 @@ export class RenderParser {
 
   private prefixExpr = () => this.isDefaultRender ? t.identifier('__prefix') : t.identifier(CLASS_COMPONENT_UID)
 
+  private propsDecls = new Map<string, NodePath<t.VariableDeclaration>>()
+
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
     if (openingElement.attributes.find(attr => {
@@ -1054,7 +1056,8 @@ export class RenderParser {
       const properties = this.getPropsFromAttrs(openingElement)
       const propsId = `$props__${compId}`
       const collectedProps = buildConstVariableDeclaration(propsId, t.objectExpression(properties))
-      jsxElementPath.getStatementParent().insertBefore(collectedProps)
+      const result = jsxElementPath.getStatementParent().insertBefore(collectedProps)
+      this.propsDecls.set(propsId, result[0])
       const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName)
       this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
@@ -2414,6 +2417,21 @@ export class RenderParser {
         ]))
       )
     }
+    this.renderPath.traverse({
+      Identifier: (path) => {
+        if (this.propsDecls.has(path.node.name) && path.parentPath.isCallExpression()) {
+          const { callee } = path.parentPath.node
+          if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
+            const decl = this.propsDecls.get(path.node.name)
+            if (decl) {
+              path.replaceWith(decl.node.declarations[0].init)
+              this.propsDecls.delete(path.node.name)
+              !decl.removed && decl.remove()
+            }
+          }
+        }
+      }
+    })
   }
 
   getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`
