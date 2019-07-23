@@ -15,7 +15,7 @@ const users = [
     // You will need to prepend the image path with your baseUrl
     // if it is not '/', like: '/test-site/img/docusaurus.svg'.
     image: 'img/logo-taro.png',
-    infoLink: 'https://taro.aotu.io',
+    infoLink: 'https://taro.jd.com',
     pinned: true
   }
 ]
@@ -23,8 +23,8 @@ const users = [
 const siteConfig = {
   editUrl: 'https://github.com/nervjs/taro/edit/master/docs/',
   title: 'Taro' /* title for your website */,
-  tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝小程序、H5、React Native 等平台的应用。',
-  url: 'https://taro.aotu.io' /* your website url */,
+  tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
+  url: 'https://taro.jd.com' /* your website url */,
   baseUrl: '/taro/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
@@ -43,6 +43,10 @@ const siteConfig = {
     { doc: 'components-desc', label: '组件库' },
     { doc: 'apis/about/desc', label: 'API' },
     { href: 'https://github.com/NervJS/taro', label: 'GitHub' },
+    { doc: '', label: '|' },
+    { href: 'https://taro-ui.jd.com', label: 'Taro-UI' },
+    { href: 'https://taro-ext.jd.com', label: '物料市场' },
+    { href: 'https://taro-ext.jd.com', label: '论坛' },
     { search: true }
   ],
 
