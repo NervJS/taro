@@ -36,15 +36,9 @@ function handleShowLoading () {
 }
 
 function handleShowActionSheet () {
-  showActionSheet({
-    itemList: ['A', 'B', 'C'],
-    success (res) {
-      console.log(res.tapIndex)
-    },
-    fail (res) {
-      console.log(res.errMsg)
-    }
-  })
+  showActionSheet({itemList: ['A', 'B', 'C']})
+    .then(res => console.log(res))
+    .catch(e => console.log(e))
 }
 
 export function Interface () {
