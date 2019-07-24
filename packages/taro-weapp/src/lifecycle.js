@@ -160,7 +160,7 @@ function doUpdate (component, prevProps, prevState) {
         return
       }
       if (typeof val === 'object') {
-        if (isEmptyObject(val)) return safeSet(_data, key, val)
+        if (isEmptyObject(val)) return safeSet(_data, key, {})
 
         val = shakeFnFromObject(val)
         // 避免筛选完 Fn 后产生了空对象还去渲染
