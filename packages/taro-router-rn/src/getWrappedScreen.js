@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, YellowBox } from 'react-native'
+import { View, Text, YellowBox, AppState } from 'react-native'
 import LoadingView from './LoadingView'
 import TaroProvider from './TaroProvider'
 import { getNavigationOptions } from './utils'
@@ -18,6 +18,9 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       this.screenRef = React.createRef()
       // issue https://github.com/react-navigation/react-navigation/issues/3956
       YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader'])
+      this.state = {
+        appState: AppState.currentState
+      }
     }
 
     static navigationOptions = ({navigation}) => {
@@ -123,6 +126,18 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       Taro.hideNavigationBarLoading = this.hideNavigationBarLoading.bind(this)
     }
 
+    _handleAppStateChange (nextAppState) {
+      if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+        // console.log('foreground!')
+        this.getScreenInstance().componentDidShow && this.getScreenInstance().componentDidShow()
+      }
+      if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+        // console.log('background!')
+        this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
+      }
+      this.setState({appState: nextAppState})
+    }
+
     componentWillMount () {
       this.navigationMethodInit()
       // didFocus
@@ -147,15 +162,21 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       this.screenRef.current && this.setState({}) // TODO 不然 current 为null ??
     }
 
+    componentDidMount () {
+      AppState.addEventListener('change', this._handleAppStateChange.bind(this))
+    }
+
     componentWillUnmount () {
       // Remove the listener when you are done
       this.didFocusSubscription && this.didFocusSubscription.remove()
       this.willBlurSubscription && this.willBlurSubscription.remove()
+      // AppState
+      AppState.removeEventListener('change', this._handleAppStateChange.bind(this))
     }
 
     onPullDownRefresh () {
       this.getScreenInstance().onPullDownRefresh &&
-        this.getScreenInstance().onPullDownRefresh()
+      this.getScreenInstance().onPullDownRefresh()
     }
 
     render () {
