@@ -221,7 +221,8 @@ export class RenderParser {
       }
       const children = properties.map(p => p.node).map((p, index) => {
         const block = buildBlockElement()
-        const tester = t.binaryExpression('===', p.key, rval.node as any)
+        const leftExpression = t.isStringLiteral(p.key) ? p.key : t.stringLiteral(p.key.name)
+        const tester = t.binaryExpression('===', leftExpression, rval.node as any)
         block.children = [t.jSXExpressionContainer(p.value)]
         if (index === 0) {
           newJSXIfAttr(block, tester)
