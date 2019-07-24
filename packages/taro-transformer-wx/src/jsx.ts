@@ -112,10 +112,9 @@ export function generateJSXAttr (ast: t.Node) {
     generate(ast, {
       quotes: 'single',
       jsonCompatibleStrings: true
-    })
-    .code
+    }).code
   )
-  .replace(/</g, lessThanSignPlacehold)
+    .replace(/</g, lessThanSignPlacehold)
   if (Status.isSFC) {
     return code
   }
@@ -230,9 +229,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
           let code = decodeUnicode(generate(attrValue.expression, {
-              quotes: 'single',
-              concise: true
-            }).code)
+            quotes: 'single',
+            concise: true
+          }).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
@@ -276,15 +275,13 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (componentTransfromProps && componentTransfromProps[componentName]) {
           const transfromProps = componentTransfromProps[componentName]
           Object.keys(transfromProps).forEach(oriName => {
-            if (transfromProps.hasOwnProperty(name as string)) {
-              name = transfromProps[oriName]
-            }
+            name = transfromProps[oriName]
           })
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value
         } else if (
-          componentSpecialProps && componentSpecialProps.has(name) ||
+          (componentSpecialProps && componentSpecialProps.has(name)) ||
           name.startsWith(FN_PREFIX) ||
           isAlipayOrQuickappEvent
         ) {

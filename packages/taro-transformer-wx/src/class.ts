@@ -89,7 +89,7 @@ interface Result {
     name: string,
     path: string,
     type: string
-  }[],
+  }[]
   componentProperies: string[]
 }
 

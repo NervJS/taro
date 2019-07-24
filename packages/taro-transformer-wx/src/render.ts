@@ -2422,12 +2422,10 @@ export class RenderParser {
         if (this.propsDecls.has(path.node.name) && path.parentPath.isCallExpression()) {
           const { callee } = path.parentPath.node
           if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
-            const decl = this.propsDecls.get(path.node.name)
-            if (decl) {
-              path.replaceWith(decl.node.declarations[0].init)
-              this.propsDecls.delete(path.node.name)
-              !decl.removed && decl.remove()
-            }
+            const decl = this.propsDecls.get(path.node.name)!
+            path.replaceWith(decl.node.declarations[0].init)
+            this.propsDecls.delete(path.node.name)
+            !decl.removed && decl.remove()
           }
         }
       }
