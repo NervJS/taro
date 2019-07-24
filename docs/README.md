@@ -91,6 +91,19 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 
 [Taro 物料市场——让每一个轮子产生价值](https://taro-ext.jd.com/) 如果您想找一些现成的物料，例如：模版、组件、SDK、UI，可以移步[物料市场](https://taro-ext.jd.com/)查找，也欢迎您发布物料与其他开发者共享。
 
+## Taro UI
+
+一款基于 `Taro` 框架开发的多端 UI 组件库
+
+#### Taro UI 特性
+
+- 基于 `Taro` 开发 UI 组件
+- 一套组件可以在 `微信小程序`，`支付宝小程序`，`百度小程序`，`H5` 多端适配运行（`ReactNative` 端暂不支持）
+- 提供友好的 API，可灵活的使用组件
+
+[Taro UI 官网](https://taro-ui.jd.com)
+
+
 ## 学习资源
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)

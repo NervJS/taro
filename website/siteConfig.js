@@ -46,7 +46,7 @@ const siteConfig = {
     { doc: '', label: '|' },
     { href: 'https://taro-ui.jd.com', label: 'Taro-UI' },
     { href: 'https://taro-ext.jd.com', label: '物料市场' },
-    { href: 'https://taro-ext.jd.com', label: '论坛' },
+    { href: 'https://taro-club.jd.com', label: '论坛' },
     { search: true }
   ],
 
