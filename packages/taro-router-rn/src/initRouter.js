@@ -1,13 +1,17 @@
 import React from 'react'
 import getWrappedScreen from './getWrappedScreen'
-import { Image } from 'react-native'
 import { getNavigationOptions } from './utils'
+import { TabBarIcon } from './TabBarIcon'
 
 const {createStackNavigator, createBottomTabNavigator} = require('react-navigation')
 
-function getTabBarVisible (navigation) {
+function getRouteParam (navigation, name) {
   let routeState = navigation.state.routes[navigation.state.index]
-  const tabBarVisible = routeState.params && routeState.params._tabBarVisible
+  return routeState.params && routeState.params[name]
+}
+
+function getTabBarVisibleFlag (navigation) {
+  const tabBarVisible = getRouteParam(navigation, '_tabBarVisible')
   if (typeof tabBarVisible === 'boolean') {
     return tabBarVisible
   } else {
@@ -58,19 +62,27 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
   const RouteConfigs = getTabRouteConfig({pageList, Taro, tabBar, navigationOptions})
   // TODO tabBar.position
   return createBottomTabNavigator(RouteConfigs, {
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({navigation}) => ({ // 这里得到的是 tab 的 navigation
       tabBarIcon: ({focused, tintColor}) => {
         const {routeName} = navigation.state
+        const _tabBarIconConfig = global._tabBarIconConfig || {}
         const iconConfig = tabBar.list.find(item => item.pagePath === routeName)
+        const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
+        const isRedDotShow = _tabBarIconConfig[tabBarIndex] && _tabBarIconConfig[tabBarIndex].isRedDotShow
+        const isBadgeShow = _tabBarIconConfig[tabBarIndex] && _tabBarIconConfig[tabBarIndex].isBadgeShow
+        const badgeText = _tabBarIconConfig[tabBarIndex] && _tabBarIconConfig[tabBarIndex].badgeText
         return (
-          <Image
-            style={{width: 30, height: 30}}
-            source={focused ? iconConfig.selectedIconPath : iconConfig.iconPath}
+          <TabBarIcon
+            focused={focused}
+            iconConfig={iconConfig}
+            isRedDotShow={isRedDotShow}
+            badgeText={badgeText}
+            isBadgeShow={isBadgeShow}
           />
         )
       },
       tabBarLabel: tabBar.list.find(item => item.pagePath === navigation.state.routeName).text,
-      tabBarVisible: getTabBarVisible(navigation)
+      tabBarVisible: getTabBarVisibleFlag(navigation)
     }),
     tabBarOptions: {
       backBehavior: 'none',

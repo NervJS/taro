@@ -19,6 +19,10 @@ class TaroProvider extends React.Component {
     Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
     Taro.showTabBar = this.showTabBar.bind(this)
     Taro.hideTabBar = this.hideTabBar.bind(this)
+    Taro.showTabBarRedDot = this.showTabBarRedDot.bind(this)
+    Taro.hideTabBarRedDot = this.hideTabBarRedDot.bind(this)
+    Taro.setTabBarBadge = this.setTabBarBadge.bind(this)
+    Taro.removeTabBarBadge = this.removeTabBarBadge.bind(this)
   }
 
   componentWillMount () {
@@ -154,6 +158,198 @@ class TaroProvider extends React.Component {
     }
   }
 
+  /**
+   * @todo
+   * @description 动态设置 tabBar 的整体样式
+   * @param options
+   * @param {string} options.color - tab 上的文字默认颜色，HexColor
+   * @param {string} options.selectedColor - tab 上的文字选中时的颜色，HexColor
+   * @param {string} options.backgroundColor - tab 的背景色，HexColor
+   * @param {string} options.borderStyle - tabBar上边框的颜色， 仅支持 black/white
+   */
+  setTabBarStyle (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `setTabBarStyle${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+    console.log('not finished')
+  }
+
+  /**
+   * @todo
+   * @description 动态设置 tabBar 某一项的内容，2.7.0 起图片支持临时文件和网络文件
+   * @param options
+   * @param {number} options.index - tabBar 的哪一项，从左边算起
+   * @param {string} [options.text]- tab 上的按钮文字
+   * @param {string} [options.iconPath]- 图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效
+   * @param {string} [options.selectedIconPath]- 选中时的图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
+   * @returns {*}
+   */
+  setTabBarItem (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `setTabBarItem${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+    console.log('not finished')
+  }
+
+  /**
+   * @description 为 tabBar 某一项的右上角添加文本
+   * @param options
+   * @param {number} options.index tabBar 的哪一项，从左边算起
+   * @param {string} options.string 显示的文本，超过 4 个字符则显示成 ...
+   * @returns {*}
+   */
+  setTabBarBadge (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `setTabBarBadge${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+    const {
+      index,
+      text,
+      success,
+      fail,
+      complete
+    } = options
+
+    const res = {errMsg: 'setTabBarBadge:ok'}
+
+    try {
+      const _tabBarIconConfig = global._tabBarIconConfig || {}
+      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isBadgeShow: true, badgeText: text})
+      // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
+      global._tabBarIconConfig = _tabBarIconConfig
+      this.props.navigation.setParams({_tabBarIconConfig})
+    } catch (e) {
+      console.log(e)
+      return errorHandler(fail, complete)(res)
+    }
+    return successHandler(success, complete)(res)
+  }
+
+  /**
+   * @description 移除 tabBar 某一项右上角的文本
+   * @param options
+   * @param {number} options.index tabBar 的哪一项，从左边算起
+   */
+  removeTabBarBadge (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `removeTabBarBadge${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+
+    const {
+      index,
+      success,
+      fail,
+      complete
+    } = options
+
+    const res = {errMsg: 'hideTabBarRedDot:ok'}
+
+    try {
+      const _tabBarIconConfig = global._tabBarIconConfig || {}
+      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isBadgeShow: false, badgeText: ''})
+      // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
+      global._tabBarIconConfig = _tabBarIconConfig
+      this.props.navigation.setParams({_tabBarIconConfig})
+    } catch (e) {
+      console.log(e)
+      return errorHandler(fail, complete)(res)
+    }
+    return successHandler(success, complete)(res)
+  }
+
+  /**
+   * @description 显示 tabBar 某一项的右上角的红点
+   * @param options
+   * @param {number} options.index - tabBar 的哪一项，从左边算起
+   * @returns {*}
+   */
+  showTabBarRedDot (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `showTabBarRedDot${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+    const {
+      index,
+      success,
+      fail,
+      complete
+    } = options
+
+    const res = {errMsg: 'showTabBarRedDot:ok'}
+
+    try {
+      const _tabBarIconConfig = global._tabBarIconConfig || {}
+      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isRedDotShow: true})
+      global._tabBarIconConfig = _tabBarIconConfig
+      this.props.navigation.setParams({_tabBarIconConfig})
+    } catch (e) {
+      console.log(e)
+      return errorHandler(fail, complete)(res)
+    }
+    return successHandler(success, complete)(res)
+  }
+
+  /**
+   * @description 隐藏 tabBar 某一项的右上角的红点
+   * @param options
+   * @param {number} options.index - tabBar 的哪一项，从左边算起
+   * @returns {*}
+   */
+  hideTabBarRedDot (options = {}) {
+    // options must be an Object
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `hideTabBarRedDot${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+    const {
+      index,
+      success,
+      fail,
+      complete
+    } = options
+
+    const res = {errMsg: 'hideTabBarRedDot:ok'}
+
+    try {
+      const _tabBarIconConfig = global._tabBarIconConfig || {}
+      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isRedDotShow: false})
+      // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
+      global._tabBarIconConfig = _tabBarIconConfig
+      this.props.navigation.setParams({_tabBarIconConfig})
+    } catch (e) {
+      console.log(e)
+      return errorHandler(fail, complete)(res)
+    }
+    return successHandler(success, complete)(res)
+  }
+
+  /**
+   * @description 显示 tabBar
+   * @param options
+   * @param {boolean} [options.animation=false] - 是否需要动画效果
+   * @returns {*}
+   */
   showTabBar (options = {}) {
     // options must be an Object
     const isObject = shouleBeObject(options)
@@ -179,7 +375,7 @@ class TaroProvider extends React.Component {
         correct: 'Boolean',
         wrong: animation
       })
-      console.error(res.errMsg)
+      console.warn(res.errMsg)
       return errorHandler(fail, complete)(res)
     }
 
@@ -189,10 +385,15 @@ class TaroProvider extends React.Component {
       console.log(e)
       return errorHandler(fail, complete)(res)
     }
-
     return successHandler(success, complete)(res)
   }
 
+  /**
+   * @description 隐藏 tabBar
+   * @param options
+   * @param {boolean} [options.animation=false] - 是否需要动画效果
+   * @returns {*}
+   */
   hideTabBar (options = {}) {
     // options must be an Object
     const isObject = shouleBeObject(options)
