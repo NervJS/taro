@@ -235,12 +235,15 @@ export default class Convertor {
                   )
                   needInsertImportTaro = true
                 }
-              } else if (callee.type === 'MemberExpression') {
-                const object = callee.object as t.Identifier
-                if (object.name === 'wx') {
-                  (calleePath.get('object') as NodePath).replaceWith(t.identifier('Taro'))
-                  needInsertImportTaro = true
-                }
+              }
+            },
+
+            MemberExpression (astPath) {
+              const node = astPath.node
+              const object = node.object
+              if (t.isIdentifier(object) && object.name === 'wx') {
+                node.object = t.identifier('Taro')
+                needInsertImportTaro = true
               }
             }
           })
