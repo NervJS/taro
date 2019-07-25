@@ -25,7 +25,7 @@
   "include": [
     "./src"
   ],
-  "excludee": [
+  "exclude": [
     "./src/__tests__/"
   ]
 }

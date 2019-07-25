@@ -23,6 +23,7 @@ import {
   createContext,
   memo
 } from '@tarojs/taro'
+import { shallowEqual } from '@tarojs/utils'
 
 import Component from './component'
 import PureComponent from './pure-component'
@@ -31,6 +32,8 @@ import createComponent from './create-component'
 import initNativeApi from './native-api'
 import propsManager from './propsManager'
 import { getElementById, genCompid } from './util'
+
+if (!my.propsManager) my.propsManager = propsManager
 
 export const Taro = {
   Component,
@@ -50,7 +53,6 @@ export const Taro = {
   internal_get_original,
   interceptors,
   getElementById,
-  propsManager,
   genCompid,
   useEffect,
   useLayoutEffect,
@@ -62,7 +64,8 @@ export const Taro = {
   useImperativeHandle,
   useContext,
   createContext,
-  memo
+  memo,
+  shallowEqual
 }
 
 export default Taro

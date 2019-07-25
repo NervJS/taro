@@ -47,6 +47,7 @@ export default function (WrappedComponent: React.ComponentType<any>) {
         } = this.props
         return !!(hoverStyle || onClick || onLongPress || onTouchstart || onTouchend)
       },
+      onShouldBlockNativeResponder: () => false,
       // onMoveShouldSetPanResponder: (evt: GestureResponderEvent, gestureState) => {
       //   const { onTouchmove, onTouchcancel, onTouchend } = this.props
       //   return !!(onTouchmove || onTouchcancel || onTouchend)

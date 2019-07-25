@@ -1,6 +1,8 @@
 import {
-  internal_safe_get as safeGet
+  internal_safe_get as safeGet,
+  internal_force_update as forceUpdateCallback
 } from '@tarojs/taro'
+
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
 
@@ -42,7 +44,7 @@ export default class BaseComponent {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
-      enqueueRender(this)
+      enqueueRender(this, forceUpdateCallback === callback)
     }
   }
 
@@ -94,11 +96,12 @@ export default class BaseComponent {
         __arguments: args
       }
       const detail = {}
-      if (this.$scope._externalBinding) {
-        const tempalateAttr = this.$scope._externalBinding.template.attr
-        Object.keys(tempalateAttr).forEach(item => {
+      const externalBinding = this.$scope._externalBinding
+      const attr = this.$scope._attr || this.$scope.attr || (externalBinding && externalBinding.template.attr)
+      if (attr) {
+        Object.keys(attr).forEach(item => {
           if (/^data/.test(item)) {
-            detail[item.replace(/^data/, '')] = tempalateAttr[item]
+            detail[item.replace(/_/g, '').replace(/^data/, '')] = typeof attr[item] === 'function' ? attr[item]() : attr[item]
           }
         })
       }

@@ -1,7 +1,7 @@
 import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { kebabCase } from 'lodash'
+import { kebabCase, snakeCase } from 'lodash'
 import {
   DEFAULT_Component_SET,
   SPECIAL_COMPONENT_PROPS,
@@ -9,7 +9,8 @@ import {
   THIRD_PARTY_COMPONENTS,
   TRANSFORM_COMPONENT_PROPS,
   lessThanSignPlacehold,
-  FN_PREFIX
+  FN_PREFIX,
+  DEFAULT_Component_SET_COPY
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
@@ -82,8 +83,12 @@ export function setJSXAttr (
   value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement,
   path?: NodePath<t.JSXElement>
 ) {
+  if ((name === Adapter.forIndex || name === Adapter.forItem) && Adapter.type === Adapters.quickapp) {
+    return
+  }
   const element = jsx.openingElement
-  if (!t.isJSXIdentifier(element.name)) {
+  // tslint:disable-next-line: strict-type-predicates
+  if (element == null || !t.isJSXIdentifier(element.name)) {
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
@@ -98,15 +103,18 @@ export function setJSXAttr (
   }
 }
 
+export function buildTrueJSXAttrValue () {
+  return t.jSXExpressionContainer(t.booleanLiteral(true))
+}
+
 export function generateJSXAttr (ast: t.Node) {
   const code = decodeUnicode(
     generate(ast, {
       quotes: 'single',
       jsonCompatibleStrings: true
-    })
-    .code
+    }).code
   )
-  .replace(/</g, lessThanSignPlacehold)
+    .replace(/</g, lessThanSignPlacehold)
   if (Status.isSFC) {
     return code
   }
@@ -119,8 +127,11 @@ export function isAllLiteral (...args) {
   return args.every(p => t.isLiteral(p))
 }
 
-export function buildBlockElement (attrs: t.JSXAttribute[] = []) {
-  const blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
+export function buildBlockElement (attrs: t.JSXAttribute[] = [], isView = false) {
+  let blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
+  if (isView) {
+    blockName = 'View'
+  }
   return t.jSXElement(
     t.jSXOpeningElement(t.jSXIdentifier(blockName), attrs),
     t.jSXClosingElement(t.jSXIdentifier(blockName)),
@@ -132,9 +143,6 @@ function parseJSXChildren (
   children: (t.JSXElement | t.JSXText | t.JSXExpressionContainer)[]
 ): string {
   return children
-    .filter(child => {
-      return !(t.isJSXText(child) && child.value.trim() === '')
-    })
     .reduce((str, child) => {
       if (t.isJSXText(child)) {
         const strings: string[] = []
@@ -208,6 +216,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           name = name.toLowerCase()
         }
       }
+      if (Adapters.quickapp === Adapter.type && !DEFAULT_Component_SET_COPY.has(componentName) && typeof name === 'string' && !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+        name = snakeCase(name)
+      }
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
@@ -218,9 +229,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
           let code = decodeUnicode(generate(attrValue.expression, {
-              quotes: 'single',
-              concise: true
-            }).code)
+            quotes: 'single',
+            concise: true
+          }).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
@@ -264,15 +275,13 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (componentTransfromProps && componentTransfromProps[componentName]) {
           const transfromProps = componentTransfromProps[componentName]
           Object.keys(transfromProps).forEach(oriName => {
-            if (transfromProps.hasOwnProperty(name as string)) {
-              name = transfromProps[oriName]
-            }
+            name = transfromProps[oriName]
           })
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value
         } else if (
-          componentSpecialProps && componentSpecialProps.has(name) ||
+          (componentSpecialProps && componentSpecialProps.has(name)) ||
           name.startsWith(FN_PREFIX) ||
           isAlipayOrQuickappEvent
         ) {

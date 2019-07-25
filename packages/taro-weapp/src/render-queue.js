@@ -3,10 +3,13 @@ import { updateComponent } from './lifecycle'
 
 let items = []
 
-export function enqueueRender (component) {
+export function enqueueRender (component, isForceUpdate = false) {
   // tslint:disable-next-line:no-conditional-assignment
   if (!component._dirty && (component._dirty = true) && items.push(component) === 1) {
-    nextTick(rerender)
+    nextTick(() => {
+      component._isForceUpdate = isForceUpdate
+      rerender()
+    })
   }
 }
 

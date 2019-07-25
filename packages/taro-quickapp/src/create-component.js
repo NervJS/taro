@@ -1,6 +1,9 @@
-import { isEmptyObject, queryToJson } from './util'
+import camelCase from 'lodash/camelCase'
+
+import { isEmptyObject, queryToJson, addLeadingSlash } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
+import appGlobal from './global'
 
 const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
@@ -34,6 +37,16 @@ function filterProps (properties, defaultProps = {}, componentProps = {}, compon
       }
     }
   }
+  Object.keys(newProps).forEach(propName => {
+    const camelizePropName = camelCase(propName)
+    if (camelizePropName !== propName) {
+      Object.defineProperty(newProps, camelizePropName, {
+        get () {
+          return newProps[propName]
+        }
+      })
+    }
+  })
   return newProps
 }
 
@@ -77,11 +90,11 @@ function processEvent (eventHandlerName, obj) {
     const dataset = {}
     const currentTarget = event.currentTarget
     const vm = currentTarget._vm || (currentTarget._target ? currentTarget._target._vm : null)
-    if (vm) {
-      const tempalateAttr = vm._externalBinding.template.attr
-      Object.keys(tempalateAttr).forEach(key => {
+    const attr = vm ? vm._externalBinding.template.attr : (currentTarget._attr || currentTarget.attr)
+    if (attr) {
+      Object.keys(attr).forEach(key => {
         if (/^data/.test(key)) {
-          const item = tempalateAttr[key]
+          const item = attr[key]
           dataset[key.replace(/^data/, '')] = typeof item === 'function' ? item() : item
         }
       })
@@ -199,8 +212,13 @@ function bindProperties (componentConf, ComponentClass) {
 }
 
 function getPageUrlParams (url) {
-  const queryStr = url.replace(/^.*\?&?/, '')
-  const params = queryToJson(queryStr)
+  const taroRouterParamsCache = appGlobal.taroRouterParamsCache
+  let params = {}
+  if (taroRouterParamsCache && url) {
+    url = addLeadingSlash(url)
+    params = taroRouterParamsCache[url] || {}
+    delete taroRouterParamsCache[url]
+  }
   return params
 }
 
@@ -266,7 +284,7 @@ export default function createComponent (ComponentClass, isPage) {
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
-      Object.assign(this.$component.$router.params, getPageUrlParams(this.$page.uri))
+      Object.assign(this.$component.$router.params, getPageUrlParams(isPage))
       this.$app.pageInstaceMap = this.$app.pageInstaceMap || {}
       this.$app.pageInstaceMap[isPage] = this.$component
       if (isPage) {
@@ -316,6 +334,6 @@ export default function createComponent (ComponentClass, isPage) {
   }
   bindStaticFns(componentConf, ComponentClass)
   bindProperties(componentConf, ComponentClass)
-  ComponentClass['$$events'] && bindEvents(componentConf, ComponentClass['$$events'])
+  ComponentClass['privateTaroEvent'] && bindEvents(componentConf, ComponentClass['privateTaroEvent'])
   return componentConf
 }

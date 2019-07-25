@@ -509,6 +509,10 @@
         "title": "Taro.stopVoice()",
         "sidebar_label": "stopVoice"
       },
+      "apis/multimedia/backgroundaudio/getBackgroundAudioManager": {
+        "title": "Taro.getBackgroundAudioManager(OBJECT)",
+        "sidebar_label": "getBackgroundAudioManager"
+      },
       "apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState": {
         "title": "Taro.getBackgroundAudioPlayerState(OBJECT)",
         "sidebar_label": "getBackgroundAudioPlayerState"
@@ -915,6 +919,9 @@
       "config": {
         "title": "编译配置"
       },
+      "context": {
+        "title": "Context"
+      },
       "CONTRIBUTING": {
         "title": "CONTRIBUTING"
       },
@@ -987,6 +994,9 @@
       "relations": {
         "title": "小程序原生作用域获取"
       },
+      "render-props": {
+        "title": "Render Props"
+      },
       "router": {
         "title": "路由功能"
       },
@@ -1013,6 +1023,9 @@
       },
       "team": {
         "title": "Taro 团队"
+      },
+      "template": {
+        "title": "项目模板"
       },
       "tutorial": {
         "title": "框架"

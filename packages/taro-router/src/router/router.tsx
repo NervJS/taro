@@ -102,10 +102,15 @@ class Router extends Taro.Component<Props, State> {
   }
 
   collectComponent = (comp, k) => {
-    this.currentPages[k] = comp
+    if(this.currentPages[k]){
+      this.currentPages[k] = comp;
+    }
+    else{
+      this.currentPages.push(comp);
+    }
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { history, customRoutes } = this.props
 
     this.mountApis()
@@ -138,9 +143,7 @@ class Router extends Taro.Component<Props, State> {
   }
 
   render () {
-    const router = this
     const currentLocation = Taro._$router
-    router.currentPages.length = this.state.routeStack.length
     return (
       <div
         className="taro_router"

@@ -172,7 +172,7 @@ class App extends Component {
 
 ### 组件 `state` 与 `props` 里字段重名的问题
 
-不要在 `state` 与 `props` 上用同名的字段，因为这些被字段在微信小程序中都会挂在 `data` 上。
+不要在 `state` 与 `props` 上用同名的字段，因为这些字段在微信小程序中都会挂在 `data` 上。
 
 ### 小程序中页面生命周期 `componentWillMount` 不一致问题
 
@@ -233,6 +233,26 @@ if (process.env.NODE_ENV === 'development') {
 ### 使用 `this.$componentType` 来判断当前 Taro.Component 是页面还是组件
 
 `this.$componentType` 可能取值分别为 `PAGE` 和 `COMPONENT`，开发者可以根据此变量的取值分别采取不同逻辑。
+
+### 原生小程序组件传递 props 给 Taro 组件
+
+**Taro v1.3+** 对 props 系统进行了改造，使得不能兼容原生组件通过 properties 传入的属性。
+
+目前可以通过把所有需要传入 Taro 组件的 props，通过借助 `extraProps` 属性来解决。
+
+```js
+// 小程序组件常规 props 传递
+<Plugin title="{{name}}" desc="{{desc}}" />
+
+// 原生小程序组件调用 Taro 组件时需要改造成以下形式：
+this.setData({
+  extraProps: {
+    name,
+    desc
+  }
+})
+<Plugin extraProps="{{extraProps}}" />
+```
 
 ## 全局变量
 

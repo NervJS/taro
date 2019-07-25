@@ -4,6 +4,10 @@
     "src/**/*.tsx",
     "src/**/*.ts"
   ],
+  "exclude": [
+    "src/**/ScrollViewExperimental.tsx",
+    "src/**/PropsTypeExperimental.tsx"
+  ],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",

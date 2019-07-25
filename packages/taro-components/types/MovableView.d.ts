@@ -41,7 +41,7 @@ export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   x?: number | string,
 
   /**
-   * 	定义x轴方向的偏移，如果x的值不在可移动范围内，会自动移动到可移动范围；改变x的值会触发动画c
+   * 	定义y轴方向的偏移，如果y的值不在可移动范围内，会自动移动到可移动范围；改变y的值会触发动画
    */
   y?: number | string,
 
@@ -121,7 +121,7 @@ export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   onHTouchMove?: TouchEventFunction,
 
   /**
-   * 初次手指触摸后移动为横向的移动，如果catch此事件，则意味着touchmove事件也被catch
+   * 初次手指触摸后移动为纵向的移动，如果catch此事件，则意味着touchmove事件也被catch
    */
   onVTouchMove?: TouchEventFunction,
 }

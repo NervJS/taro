@@ -122,6 +122,8 @@ declare namespace Taro {
         readonly current: T | null
     }
 
+    function createRef<T>(): RefObject<T>;
+
     // convenience overload for refs given as a ref prop as they typically start with a null value
     /**
      * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
@@ -349,6 +351,16 @@ declare namespace Taro {
 
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
+  }
+  
+  interface ComponentOptions {
+    addGlobalClass?: boolean
+  }
+
+  interface FunctionComponent<P = {}> {
+    (props: Readonly<P>): JSX.Element
+    defaultProps?: Partial<P>
+    options?: ComponentOptions
   }
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
@@ -693,8 +705,35 @@ declare namespace Taro {
     $componentType: 'PAGE' | 'COMPONENT'
 
     $router: {
-      params: any
-      preload: any
+      /**
+       * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
+       * 
+       * @example
+       * componentWillMount () {
+       *   console.log(this.$router.params)
+       * }
+       * 
+       * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
+       */
+      params: {
+        [key: string]: string
+      }
+      /**
+       * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
+       * 
+       * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
+       * 请开发者在使用时自行判断
+       * 
+       * @example
+       * componentWillMount () {
+       *   console.log('preload: ', this.$router.preload)
+       * }
+       * 
+       * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
+       */
+      preload?: {
+        [key: string]: string
+      }
     }
 
     $preloadData: any
@@ -726,6 +765,11 @@ declare namespace Taro {
   }
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> {}
+
+  function memo<P = {}>(
+    FunctionComponent: FunctionComponent<P>,
+    compare?: (oldProps: P, newProps: P) => Boolean
+  ): FunctionComponent<P>
 
   // Events
   class Events {
@@ -860,6 +904,17 @@ declare namespace Taro {
        */
       header: any
     }
+    /**
+     * 网络请求任务对象
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.html
+     */
+    interface requestTask<T> extends Promise<request.Promised<T>> {
+      /**
+       * 中断请求任务
+       * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
+       */
+      abort(): void
+    }
     type Param < P extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器接口地址
@@ -990,10 +1045,10 @@ declare namespace Taro {
    * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
    *
    * **返回值：**
+   * 
+   * @returns {request.requestTask} 返回一个 `requestTask` 对象，通过 `requestTask`，可中断请求任务。
    *
    * @since 1.4.0
-   *
-   * 返回一个 `requestTask` 对象，通过 `requestTask`，可中断请求任务。
    *
    * **Bug & Tip：**
    *
@@ -1002,44 +1057,54 @@ declare namespace Taro {
    * 3.  `bug`: 开发者工具 `0.10.102800` 版本，`header` 的 `content-type` 设置异常；
    *
    * **示例代码：**
+   * 
+   * @example
+   * // 回调函数(Callback)用法：
+   * const requestTask = Taro.request({
+   *   url: 'test.php', //仅为示例，并非真实的接口地址
+   *   data: {
+   *     x: '' ,
+   *     y: ''
+   *   },
+   *   header: {
+   *     'content-type': 'application/json' // 默认值
+   *   },
+   *   success: function(res) {
+   *     console.log(res.data)
+   *   }
+   * })
+   * requestTask.abort()
+   * 
+   * // Promise 用法：
+   * const requestTask = Taro.request({
+   *   url: 'test.php', //仅为示例，并非真实的接口地址
+   *   data: {
+   *     x: '' ,
+   *     y: ''
+   *   },
+   *   header: {
+   *     'content-type': 'application/json' // 默认值
+   *   },
+   *   success: function(res) {
+   *     console.log(res.data)
+   *   }
+   * })
+   * requestTask.then(res => {
+   *   console.log(res.data)
+   * })
+   * requestTask.abort()
+   * 
+   * // async/await 用法：
+   * const requestTask = Taro.request(params)
+   * const res = await requestTask
+   * requestTask.abort()
+   * 
+   * // 不需要 abort 的 async/await 用法：
+   * const res = await Taro.request(params)
    *
-   ```javascript
-   Taro.request({
-     url: 'test.php', //仅为示例，并非真实的接口地址
-     data: {
-        x: '' ,
-        y: ''
-     },
-     header: {
-         'content-type': 'application/json' // 默认值
-     },
-     success: function(res) {
-       console.log(res.data)
-     }
-   })
-   ```
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   const requestTask = Taro.request({
-     url: 'test.php', //仅为示例，并非真实的接口地址
-     data: {
-        x: '' ,
-        y: ''
-     },
-     header: {
-         'content-type': 'application/json'
-     },
-     success: function(res) {
-       console.log(res.data)
-     }
-   })
-         requestTask.abort() // 取消请求任务
-   ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
-  function request<T = any, U = any>(OBJECT: request.Param<U>): Promise<request.Promised<T>>
+  function request<T = any, U = any>(OBJECT: request.Param<U>): request.requestTask<T>
 
   type arrayBuffer = Uint8Array | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | ArrayBuffer
 
@@ -1633,30 +1698,41 @@ declare namespace Taro {
    * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html) 接口创建返回。
    */
   class SocketTask {
+
+    /**
+     * websocket 当前的连接 ID。
+     */
+    readonly socketTaskId: number
+
     /**
      * websocket 当前的连接状态。
      */
-    readonly readyState: boolean
+    readonly readyState: number
+
+    /**
+     * websocket 接口调用结果。
+     */
+    readonly errMsg: string
 
     /**
      * websocket 状态值：连接中。
      */
-    readonly CONNECTING: boolean
+    readonly CONNECTING: number
 
     /**
      * websocket 状态值：已连接。
      */
-    readonly OPEN: boolean
+    readonly OPEN: number
 
     /**
      * websocket 状态值：关闭中。
      */
-    readonly CLOSING: boolean
+    readonly CLOSING: number
 
     /**
      * websocket 状态值：已关闭。
      */
-    readonly CLOSED: boolean
+    readonly CLOSED: number
 
     /**
      * 浏览器 websocket 实例。（h5 端独有）
@@ -9964,6 +10040,50 @@ declare namespace Taro {
   function reportAnalytics(eventName: string, data: any): void
 
   /**
+   * @since 2.2.2
+   *
+   * 获取当前帐号信息
+   *
+   * **示例代码：**
+   *
+   ```javascript
+   const accountInfo = wx.getAccountInfoSync();
+   console.log(accountInfo.miniProgram.appId) // 小程序 appId
+   console.log(accountInfo.plugin.appId) // 插件 appId
+   console.log(accountInfo.plugin.version) // 插件版本号， 'a.b.c' 这样的形式
+   ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html
+   */
+  function getAccountInfoSync(): getAccountInfoSync.Return
+
+  namespace getAccountInfoSync {
+    interface Return {
+      /**
+       * 小程序帐号信息
+       */
+      miniProgram: {
+        /**
+         * 小程序 appId
+         */
+        appId: string
+      }
+      /**
+       * 插件帐号信息（仅在插件中调用时包含这一项）
+       */
+      plugin?: {
+        /**
+         * 插件 appId
+         */
+        appId: string
+        /**
+         * 插件版本号
+         */
+        version: string
+      }
+    }
+  }
+
+  /**
    * @since 1.9.90
    *
    * 获取**全局唯一**的版本更新管理器，用于管理小程序更新。
@@ -11526,7 +11646,7 @@ declare namespace Taro {
       export type CallFunctionData = AnyObject
 
       export interface CallFunctionResult extends IAPISuccessParam {
-        result: AnyObject | string | undefined
+        result: any
       }
 
       export interface CallFunctionParam extends ICloudAPIParam<CallFunctionResult> {

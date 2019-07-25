@@ -10,7 +10,8 @@
  * @warn Pass require(LOCAL IMAGE) to SRC, otherwise a string-type parameter.
  * @warn The width/height would be undefined in onLoad.
  * @warn Avoid using HTTP source image.
- * @warn unstable
+ * @warn Image.resolveAssetSource 会造成重复请求
+ * @warn 宽高为 0 的时候，不触发 onLoad，跟小程序不同
  */
 
 import * as React from 'react'
@@ -55,7 +56,8 @@ class _Image extends React.Component<ImageProps, ImageState> {
   }
 
   onLoad = () => {
-    const { src, onLoad = noop } = this.props
+    const { src, onLoad } = this.props
+    if (!onLoad) return
     if (typeof src === 'string') {
       Image.getSize(src as string, (width: number, height: number) => {
         onLoad({
@@ -120,12 +122,8 @@ class _Image extends React.Component<ImageProps, ImageState> {
     return true
   }
 
-  getSnapshotBeforeUpdate (prevProps: ImageProps, prevState: ImageState) {
-    return prevProps.src !== this.props.src
-  }
-
-  componentDidUpdate (prevProps: ImageProps, prevState: ImageState, snapshot: boolean) {
-    if (snapshot) {
+  componentDidUpdate (prevProps: ImageProps, prevState: ImageState) {
+    if (prevProps.src !== this.props.src) {
       this.loadImg(this.props)
     }
   }

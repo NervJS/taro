@@ -3,8 +3,9 @@ title: Taro.request(OBJECT)
 sidebar_label: request
 ---
 
-
 发起网络请求，支持 `Promise` 化使用。
+
+> 暂不支持使用 [RequestTask.onHeadersReceived(function callback)](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onHeadersReceived.html) 和 [RequestTask.offHeadersReceived(function callback)](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html) 方法。
 
 **OBJECT 参数说明：**
 
@@ -56,12 +57,27 @@ Taro.request({
   .then(res => console.log(res.data))
 ```
 
+## 小程序端使用 RequestTask.abort()
 
+```jsx
+const requestTask = Taro.request({
+  url: 'test.php', //仅为示例，并非真实的接口地址
+  data: {
+    x: '' ,
+    y: ''
+  },
+  header: {
+    'content-type': 'application/json'
+  },
+  success (res) {
+    console.log(res.data)
+  }
+})
+requestTask.abort() // 取消请求任务
+```
 
 ## API支持度
-
 
 | API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 | 头条小程序 | QQ 轻应用 |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | Taro.request | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-

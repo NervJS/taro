@@ -14,4 +14,8 @@ export default class Link {
   addInterceptor (interceptor) {
     this.chain.interceptors.push(interceptor)
   }
+
+  cleanInterceptors () {
+    this.chain = new Chain()
+  }
 }

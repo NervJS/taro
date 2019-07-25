@@ -7,7 +7,7 @@ import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors, globals } from './global'
 import { reserveKeyWords } from './constant'
-import { parseExpression } from 'babylon'
+import { parse as parseFile } from 'babylon'
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -123,21 +123,24 @@ export const createWxmlVistor = (
       }
     }
   }
+
+  const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
+    const nodeName = path.node.name
+    if (path.parentPath.isJSXAttribute()) {
+      if (nodeName === WX_KEY) {
+        path.replaceWith(t.jSXIdentifier('key'))
+      }
+      if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+        // tslint:disable-next-line
+        console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
+        path.parentPath.remove()
+      }
+    }
+  }
+
   return {
     JSXAttribute: jsxAttrVisitor,
-    JSXIdentifier (path) {
-      const nodeName = path.node.name
-      if (path.parentPath.isJSXAttribute()) {
-        if (nodeName === WX_KEY) {
-          path.replaceWith(t.jSXIdentifier('key'))
-        }
-        if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
-          // tslint:disable-next-line
-          console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
-          path.parentPath.remove()
-        }
-      }
-    },
+    JSXIdentifier: renameJSXKey,
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
         const openingElement = path.get('openingElement')
@@ -159,7 +162,8 @@ export const createWxmlVistor = (
               refIds.add(p.node.name)
             }
           },
-          JSXAttribute: jsxAttrVisitor
+          JSXAttribute: jsxAttrVisitor,
+          JSXIdentifier: renameJSXKey
         })
         const slotAttr = attrs.find(a => a.node.name.name === 'slot')
         if (slotAttr) {
@@ -236,9 +240,9 @@ export const createWxmlVistor = (
             let usedTemplate = new Set<string>()
 
             traverse(ast, {
-              JSXIdentifier (p) {
-                const node = p.node
-                if (node.name.endsWith('Tmpl') && node.name.length > 4 && p.parentPath.isJSXOpeningElement()) {
+              JSXIdentifier (path) {
+                const node = path.node
+                if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
                 }
               }
@@ -720,7 +724,7 @@ function parseAttribute (attr: Attribute) {
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
-      jsxValue = t.stringLiteral(content)
+      jsxValue = t.stringLiteral(content.replace(/\"/g, `'`))
     } else {
       let expr: t.Expression
       try {
@@ -734,21 +738,9 @@ function parseAttribute (attr: Attribute) {
           } else {
             throw new Error(err)
           }
-        } else if (content.includes(':')) {
-          const [ key, value ] = pureContent.split(':')
-          expr = t.objectExpression([t.objectProperty(t.stringLiteral(key), parseExpression(value))])
-        } else if (content.includes('...') && content.includes(',')) {
-          const objExpr = content.slice(1, content.length - 1).split(',')
-          const props: (t.SpreadProperty | t.ObjectProperty)[] = []
-          for (const str of objExpr) {
-            const s = str.trim()
-            if (s.includes('...')) {
-              props.push(t.spreadProperty(t.identifier(s.slice(3))))
-            } else {
-              props.push(t.objectProperty(t.identifier(s), t.identifier(s)))
-            }
-          }
-          expr = t.objectExpression(props)
+        } else if (content.includes(':') || (content.includes('...') && content.includes(','))) {
+          const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, { plugins: ['objectRestSpread'] })
+          expr = file.program.body[0].declarations[0].init
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)
@@ -770,7 +762,7 @@ function parseAttribute (attr: Attribute) {
     )
   }
 
-  if (key.startsWith('catch') && value && value === 'true') {
+  if (key.startsWith('catch') && value && (value === 'true' || value.trim() === '')) {
     jsxValue = t.jSXExpressionContainer(
       t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
     )

@@ -56,6 +56,9 @@ export default function withWeapp (componentType: string, weappConf?: Object) {
     class BaseComponent<_ = {}, S = {}> extends ConnectComponent {
       constructor (props) {
         super(props)
+        if (Array.isArray(super._observeProps)) {
+          this._observeProps = super._observeProps
+        }
         defineGetter(this, 'data', 'state')
         if (isComponent) {
           defineGetter(this, 'properties', 'props')

@@ -23,7 +23,8 @@ class Manager {
           const ComponentClass = observers[compid] && observers[compid].ComponentClass
           if (!component || !ComponentClass || !component.__isReady) return
 
-          const nextProps = filterProps(ComponentClass.defaultProps, props, component.props)
+          const extraProps = (component.$scope && component.$scope.data && component.$scope.data.extraProps) || null
+          const nextProps = filterProps(ComponentClass.defaultProps, props, component.props, extraProps)
           component.props = nextProps
           nextTick(() => {
             component._unsafeCallUpdate = true

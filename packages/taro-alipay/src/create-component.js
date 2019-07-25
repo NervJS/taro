@@ -1,9 +1,8 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
-import { isEmptyObject, isFunction } from './util'
+import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
+import { isEmptyObject, isFunction, isArray } from './util'
 import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
-import propsManager from './propsManager'
 
 const anonymousFnNamePreffix = 'funPrivate'
 const COLLECT_CHILDS = 'onTaroCollectChilds'
@@ -174,7 +173,7 @@ export function componentTrigger (component, key, args) {
   if (key === 'componentWillUnmount') {
     if (component.$scope.props) {
       const compid = component.$scope.props.compid
-      if (compid) propsManager.delete(compid)
+      if (compid) my.propsManager.delete(compid)
     }
   }
 
@@ -286,6 +285,11 @@ function createComponent (ComponentClass, isPage) {
 
       onUnload () {
         componentTrigger(this.$component, 'componentWillUnmount')
+        const component = this.$component
+        const events = component.$$renderPropsEvents
+        if (isArray(events)) {
+          events.forEach(e => eventCenter.off(e))
+        }
       },
 
       onShow () {
@@ -311,7 +315,7 @@ function createComponent (ComponentClass, isPage) {
     Object.assign(weappComponentConf, {
       didMount () {
         const compid = this.props.compid
-        const props = filterProps(ComponentClass.defaultProps, propsManager.map[compid], {})
+        const props = filterProps(ComponentClass.defaultProps, my.propsManager.map[compid], {})
 
         this.$component = new ComponentClass(props, isPage)
         this.$component._init(this)
@@ -319,7 +323,7 @@ function createComponent (ComponentClass, isPage) {
         this.$component.__propTypes = ComponentClass.propTypes
 
         if (compid) {
-          propsManager.observers[compid] = {
+          my.propsManager.observers[compid] = {
             component: this.$component,
             ComponentClass
           }

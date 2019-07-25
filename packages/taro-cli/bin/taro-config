@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const helper = require('../dist/taro-config')
+
+program
+  .option('--json', '以 JSON 形式输出')
+  .on('--help', function () {
+    console.log('')
+    console.log('Synopsis:')
+    console.log('  $ taro config set <key> <value>')
+    console.log('  $ taro config get <key>')
+    console.log('  $ taro config delete <key>')
+    console.log('  $ taro config list [--json]')
+  })
+  .parse(process.argv)
+
+const args = program.args
+const { json } = program
+
+const [cmd, key, value] = args
+
+switch (cmd) {
+  case 'get':
+    if (!key) return
+    helper.get(key)
+    break
+  case 'set':
+    if (!key || !value) return
+    helper.set(key, value)
+    break
+  case 'delete':
+    if (!key) return
+    helper.deleteKey(key)
+    break
+  case 'list':
+  case 'ls':
+    helper.list(json)
+    break
+  default:
+    break
+}

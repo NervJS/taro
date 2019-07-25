@@ -14,7 +14,7 @@ import {
   printLog,
   recursiveFindNodeModules,
   generateEnvList,
-  isQuickAppPkg
+  isQuickappPkg
 } from './index'
 
 import {
@@ -25,18 +25,24 @@ import {
   REG_FONT,
   REG_IMAGE,
   REG_MEDIA,
-  REG_JSON
+  REG_JSON,
+  taroJsFramework,
+  NODE_MODULES_REG,
+  taroJsRedux,
+  taroJsMobxCommon,
+  taroJsMobx
 } from './constants'
 
 import defaultUglifyConfig from '../config/uglify'
 
 import * as npmProcess from './npm'
-import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions } from './types'
+import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions, ITaroManifestConfig } from './types'
 
 const excludeNpmPkgs = ['ReactPropTypes']
 
 const resolvedCache: IResolvedCache = {}
 const copyedFiles = {}
+const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
 
 export function resolveNpmPkgMainPath (
   pkgName: string,
@@ -70,10 +76,11 @@ export function resolveNpmFilesPath ({
   root,
   rootNpm,
   npmOutputDir,
-  compileInclude = [],
+  compileConfig = {},
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: {
   pkgName: string,
   isProduction: boolean,
@@ -82,10 +89,11 @@ export function resolveNpmFilesPath ({
   root: string,
   rootNpm: string,
   npmOutputDir: string,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }) {
   if (!resolvedCache[pkgName]) {
     const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
@@ -102,13 +110,114 @@ export function resolveNpmFilesPath ({
       buildAdapter,
       rootNpm,
       npmOutputDir: npmOutputDir,
-      compileInclude,
+      compileConfig,
       env,
       uglify,
-      babelConfig
+      babelConfig,
+      quickappManifest
     })
   }
   return resolvedCache[pkgName]
+}
+
+function analyzeImportUrl ({
+  requirePath,
+  excludeRequire,
+  source,
+  filePath,
+  files,
+  isProduction,
+  npmConfig,
+  rootNpm,
+  npmOutputDir,
+  buildAdapter,
+  compileConfig = [],
+  env,
+  uglify,
+  babelConfig,
+  quickappManifest
+}: {
+  requirePath: string,
+  excludeRequire: string[],
+  source: any,
+  filePath: string,
+  files: string[],
+  isProduction: boolean,
+  npmConfig: INpmConfig,
+  rootNpm: string,
+  npmOutputDir: string,
+  buildAdapter: BUILD_TYPES,
+  compileConfig: {[k: string]: any},
+  env: object,
+  uglify: TogglableOptions,
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
+}) {
+  if (excludeRequire.indexOf(requirePath) < 0) {
+    const quickappPkgs = quickappManifest ? quickappManifest.features : []
+    if (isQuickappPkg(requirePath, quickappPkgs)) {
+      return
+    }
+    if (isNpmPkg(requirePath)) {
+      if (excludeNpmPkgs.indexOf(requirePath) < 0) {
+        const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
+        excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+        if (requirePath === taroJsFramework
+            && (!NODE_MODULES_REG.test(filePath) || !Array.from(excludeReplaceTaroFrameworkPkgs).some(item => filePath.replace(/\\/g, '/').indexOf(item) >= 0))) {
+          requirePath = taroMiniAppFramework
+        }
+        const res = resolveNpmFilesPath({
+          pkgName: requirePath,
+          isProduction,
+          npmConfig,
+          buildAdapter,
+          root: path.dirname(recursiveFindNodeModules(filePath)),
+          rootNpm,
+          npmOutputDir,
+          compileConfig,
+          env,
+          uglify,
+          babelConfig,
+          quickappManifest
+        })
+        let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
+        relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
+        if (buildAdapter === BUILD_TYPES.ALIPAY) {
+          relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
+        }
+        source.value = relativeRequirePath
+      }
+    } else {
+      let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
+      const tempPathWithJS = `${realRequirePath}.js`
+      const tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
+      if (fs.existsSync(tempPathWithJS)) {
+        realRequirePath = tempPathWithJS
+        requirePath += '.js'
+      } else if (fs.existsSync(tempPathWithIndexJS)) {
+        realRequirePath = tempPathWithIndexJS
+        requirePath += '/index.js'
+      }
+      if (files.indexOf(realRequirePath) < 0) {
+        files.push(realRequirePath)
+        recursiveRequire({
+          filePath: realRequirePath,
+          files,
+          isProduction,
+          npmConfig,
+          buildAdapter,
+          rootNpm,
+          npmOutputDir,
+          compileConfig,
+          env,
+          uglify,
+          babelConfig,
+          quickappManifest
+        })
+      }
+      source.value = requirePath
+    }
+  }
 }
 
 function parseAst ({
@@ -120,10 +229,11 @@ function parseAst ({
   rootNpm,
   npmOutputDir,
   buildAdapter,
-  compileInclude = [],
+  compileConfig = [],
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: {
   ast: t.File,
   filePath: string,
@@ -133,12 +243,14 @@ function parseAst ({
   rootNpm: string,
   npmOutputDir: string,
   buildAdapter: BUILD_TYPES,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }) {
   const excludeRequire: string[] = []
+
   traverse(ast, {
     IfStatement (astPath) {
       astPath.traverse({
@@ -168,74 +280,58 @@ function parseAst ({
     Program: {
       exit (astPath) {
         astPath.traverse({
+          ImportDeclaration (astPath) {
+            const node = astPath.node
+            const source = node.source
+            const value = source.value
+            analyzeImportUrl({
+              requirePath: value,
+              excludeRequire,
+              source,
+              filePath,
+              files,
+              isProduction,
+              npmConfig,
+              rootNpm,
+              npmOutputDir,
+              buildAdapter,
+              compileConfig,
+              env,
+              uglify,
+              babelConfig,
+              quickappManifest
+            })
+          },
           CallExpression (astPath) {
             const node = astPath.node
             const callee = node.callee as t.Identifier
             if (callee.name === 'require') {
               const args = node.arguments as Array<t.StringLiteral>
-              let requirePath = args[0].value
-              if (excludeRequire.indexOf(requirePath) < 0) {
-                if (isQuickAppPkg(requirePath)) {
-                  return
-                }
-                if (isNpmPkg(requirePath)) {
-                  if (excludeNpmPkgs.indexOf(requirePath) < 0) {
-                    const res = resolveNpmFilesPath({
-                      pkgName: requirePath,
-                      isProduction,
-                      npmConfig,
-                      buildAdapter,
-                      root: path.dirname(recursiveFindNodeModules(filePath)),
-                      rootNpm,
-                      npmOutputDir,
-                      compileInclude,
-                      env,
-                      uglify,
-                      babelConfig
-                    })
-                    let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
-                    relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
-                    if (buildAdapter === BUILD_TYPES.ALIPAY) {
-                      relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
-                    }
-                    args[0].value = relativeRequirePath
-                  }
-                } else {
-                  let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
-                  const tempPathWithJS = `${realRequirePath}.js`
-                  const tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
-                  if (fs.existsSync(tempPathWithJS)) {
-                    realRequirePath = tempPathWithJS
-                    requirePath += '.js'
-                  } else if (fs.existsSync(tempPathWithIndexJS)) {
-                    realRequirePath = tempPathWithIndexJS
-                    requirePath += '/index.js'
-                  }
-                  if (files.indexOf(realRequirePath) < 0) {
-                    files.push(realRequirePath)
-                    recursiveRequire({
-                      filePath: realRequirePath,
-                      files,
-                      isProduction,
-                      npmConfig,
-                      buildAdapter,
-                      rootNpm,
-                      npmOutputDir,
-                      compileInclude,
-                      env,
-                      uglify,
-                      babelConfig
-                    })
-                  }
-                  args[0].value = requirePath
-                }
-              }
+              const requirePath = args[0].value
+              analyzeImportUrl({
+                requirePath,
+                excludeRequire,
+                source: args[0],
+                filePath,
+                files,
+                isProduction,
+                npmConfig,
+                rootNpm,
+                npmOutputDir,
+                buildAdapter,
+                compileConfig,
+                env,
+                uglify,
+                babelConfig,
+                quickappManifest
+              })
             }
           }
         })
       }
     }
   })
+
   return generate(ast).code
 }
 
@@ -247,10 +343,11 @@ async function recursiveRequire ({
   buildAdapter,
   npmOutputDir,
   rootNpm,
-  compileInclude = [],
+  compileConfig = {},
   env,
   uglify,
-  babelConfig
+  babelConfig,
+  quickappManifest
 }: {
   filePath: string,
   files: string[],
@@ -259,10 +356,11 @@ async function recursiveRequire ({
   buildAdapter: BUILD_TYPES,
   rootNpm: string,
   npmOutputDir: string,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   env: object,
   uglify: TogglableOptions,
-  babelConfig: object
+  babelConfig: object,
+  quickappManifest?: ITaroManifestConfig
 }) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
@@ -281,49 +379,71 @@ async function recursiveRequire ({
     return
   }
   fileContent = npmCodeHack(filePath, fileContent, buildAdapter)
-  try {
-    const constantsReplaceList = Object.assign({
-      'process.env.TARO_ENV': buildAdapter
-    }, generateEnvList(env || {}))
-    const transformResult = wxTransformer({
-      code: fileContent,
-      sourcePath: filePath,
-      outputPath: outputNpmPath,
-      isNormal: true,
-      adapter: buildAdapter,
-      isTyped: REG_TYPESCRIPT.test(filePath),
-      env: constantsReplaceList
-    })
-    const ast = babel.transformFromAst(transformResult.ast, '', {
-      plugins: [
-        [require('babel-plugin-transform-define').default, constantsReplaceList]
-      ]
-    }).ast as t.File
-    fileContent = parseAst({
-      ast,
-      filePath,
-      files,
-      isProduction,
-      npmConfig,
-      rootNpm,
-      buildAdapter,
-      compileInclude,
-      npmOutputDir,
-      env,
-      uglify,
-      babelConfig
-    })
-  } catch (err) {
-    console.log(err)
+
+  const npmExclude = (compileConfig.exclude || []).filter(item => /(?:\/|^)node_modules(\/|$)/.test(item))
+  let isNpmInCompileExclude = false
+  for (const item of npmExclude) {
+    isNpmInCompileExclude = filePath.indexOf(item) !== -1
+    if (isNpmInCompileExclude) {
+      break
+    }
   }
+  if (!isNpmInCompileExclude) {
+    try {
+      const constantsReplaceList = Object.assign({
+        'process.env.TARO_ENV': buildAdapter
+      }, generateEnvList(env || {}))
+      const transformResult = wxTransformer({
+        code: fileContent,
+        sourcePath: filePath,
+        outputPath: outputNpmPath,
+        isNormal: true,
+        adapter: buildAdapter,
+        isTyped: REG_TYPESCRIPT.test(filePath),
+        env: constantsReplaceList
+      })
+      const ast = babel.transformFromAst(transformResult.ast, '', {
+        plugins: [
+          [require('babel-plugin-transform-define').default, constantsReplaceList]
+        ]
+      }).ast as t.File
+      fileContent = parseAst({
+        ast,
+        filePath,
+        files,
+        isProduction,
+        npmConfig,
+        rootNpm,
+        buildAdapter,
+        compileConfig,
+        npmOutputDir,
+        env,
+        uglify,
+        babelConfig,
+        quickappManifest
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   if (!copyedFiles[outputNpmPath]) {
+    const compileInclude = compileConfig.include
     if (compileInclude && compileInclude.length) {
       const filePathArr = filePath.split(path.sep)
       const nodeModulesIndex = filePathArr.indexOf('node_modules')
-      const npmPkgName = filePathArr[nodeModulesIndex + 1]
-      if (compileInclude.indexOf(npmPkgName) >= 0) {
-        const compileScriptRes = await npmProcess.callPlugin('babel', fileContent, filePath, babelConfig, rootNpm)
-        fileContent = compileScriptRes.code
+      if (nodeModulesIndex >= 0) {
+        const npmFilePath = filePathArr.slice(nodeModulesIndex + 1).join('/')
+        let needCompile = false
+        compileInclude.forEach(item => {
+          if (npmFilePath.indexOf(item) >= 0) {
+            needCompile = true
+          }
+        })
+        if (needCompile) {
+          const compileScriptRes = await npmProcess.callPlugin('babel', fileContent, filePath, babelConfig, rootNpm)
+          fileContent = compileScriptRes.code
+        }
       }
     }
     if (isProduction && buildAdapter !== BUILD_TYPES.QUICKAPP) {

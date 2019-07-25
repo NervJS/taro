@@ -1,6 +1,6 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
-import { isEmptyObject, isFunction } from './util'
+import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
+import { isEmptyObject, isFunction, isArray } from './util'
 import { mountComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
@@ -300,6 +300,13 @@ function createComponent (ComponentClass, isPage) {
             })
             .catch(err => console.error(err))
         }
+        if (component['$$hasLoopRef']) {
+          Current.current = component
+          component._disableEffect = true
+          component._createData(component.state, component.props, true)
+          component._disableEffect = false
+          Current.current = null
+        }
       }, 0)
     },
     detached () {
@@ -310,6 +317,10 @@ function createComponent (ComponentClass, isPage) {
           hook.cleanup()
         }
       })
+      const events = component.$$renderPropsEvents
+      if (isArray(events)) {
+        events.forEach(e => eventCenter.off(e))
+      }
     }
   }
   if (isPage) {

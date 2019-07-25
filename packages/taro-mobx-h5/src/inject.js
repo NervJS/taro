@@ -1,12 +1,12 @@
 import { createElement } from 'nervjs'
 import { Component } from '@tarojs/taro-h5'
-import { mapStoreToProps, generateDisplayName } from '@tarojs/mobx-common'
+import { mapStoreToProps, getInjectName, inject as originInject } from '@tarojs/mobx-common'
 
-export function createStoreInjector (grabStoresFn, injectNames, sourceComponent) {
+function createStoreInjector (grabStoresFn, injectNames, sourceComponent) {
   class Injector extends Component {
     static isMobxInjector = true
     static config = sourceComponent.config || {}
-    static displayName = generateDisplayName(sourceComponent, injectNames)
+    static displayName = getInjectName(sourceComponent, injectNames)
     __observeInstance
 
     render () {
@@ -38,4 +38,8 @@ export function createStoreInjector (grabStoresFn, injectNames, sourceComponent)
   }
 
   return Injector
+}
+
+export function inject () {
+  return originInject(...arguments, createStoreInjector)
 }

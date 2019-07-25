@@ -14,7 +14,7 @@ export default {
     format: 'esm',
     file: 'dist/index.esm.js'
   }],
-  external: ['nervjs', 'mobx', '@tarojs/taro-h5', '@tarojs/mobx-common'],
+  external: ['@tarojs/taro-h5', '@tarojs/mobx-common'],
   plugins: [
     babel({
       presets: [

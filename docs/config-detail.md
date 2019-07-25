@@ -64,7 +64,7 @@ csso: {
 
 ### plugins.sass
 用来配置 `sass` 工具，设置打包过程中的 SCSS 代码编译。  
-具体配置可以参考[dart-sass](https://www.npmjs.com/package/node-sass)  
+具体配置可以参考[node-sass](https://www.npmjs.com/package/node-sass)  
 当需要全局注入scss文件时，可以添加三个额外参数：`resource` 、 `projectDirectory` (v1.2.25开始支持)、`data`（v1.3.0开始支持），具体配置方式如下：
 ```jsx
 sass: {

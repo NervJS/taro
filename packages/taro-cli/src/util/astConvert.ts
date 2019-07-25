@@ -20,6 +20,9 @@ export function convertObjectToAstExpression (obj: object): t.ObjectProperty[] {
     if (Array.isArray(value)) {
       return t.objectProperty(t.stringLiteral(key), t.arrayExpression(convertArrayToAstExpression(value as [])))
     }
+    if (value === null) {
+      return t.objectProperty(t.stringLiteral(key), t.nullLiteral())
+    }
     if (typeof value === 'object') {
       return t.objectProperty(t.stringLiteral(key), t.objectExpression(convertObjectToAstExpression(value)))
     }

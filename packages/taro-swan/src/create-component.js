@@ -1,6 +1,6 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
-import { commitAttachRef, detachAllRef, Current } from '@tarojs/taro'
-import { isEmptyObject, isFunction } from './util'
+import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
+import { isEmptyObject, isFunction, isArray } from './util'
 import { mountComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import propsManager from './propsManager'
@@ -258,7 +258,7 @@ function createComponent (ComponentClass, isPage) {
           const query = swan.createSelectorQuery().in(this)
           if (ref.type === 'component') {
             target = this.selectComponent(`#${ref.id}`)
-            target = target.$component || target
+            target = (target && target.$component) || target
           } else {
             target = query.select(`#${ref.id}`)
           }
@@ -266,6 +266,13 @@ function createComponent (ComponentClass, isPage) {
           ref.target = target
         })
         component.refs = Object.assign({}, component.refs || {}, refs)
+      }
+      if (component['$$hasLoopRef']) {
+        Current.current = component
+        component._disableEffect = true
+        component._createData(component.state, component.props, true)
+        component._disableEffect = false
+        Current.current = null
       }
       if (!component.__mounted) {
         component.__mounted = true
@@ -280,6 +287,10 @@ function createComponent (ComponentClass, isPage) {
           hook.cleanup()
         }
       })
+      const events = component.$$renderPropsEvents
+      if (isArray(events)) {
+        events.forEach(e => eventCenter.off(e))
+      }
     }
   }
   if (isPage) {

@@ -82,7 +82,7 @@ class MyClass extends React.Component {
 
 ```jsx
 // counter-context.js
-export const CounterContext = React.createContext(0);
+export const CounterContext = Taro.createContext(0);
 
 // index.js
 class Index extends Component {

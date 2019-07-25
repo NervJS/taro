@@ -101,6 +101,14 @@ class Component extends Nerv.Component {
   set $app (app) {
     console.warn('Property "$app" is read-only.')
   }
+
+  get $component () {
+    return this
+  }
+
+  set $component (app) {
+    console.warn('Property "$component" is read-only.')
+  }
 }
 
 class PureComponent extends Nerv.PureComponent {
@@ -117,6 +125,14 @@ class PureComponent extends Nerv.PureComponent {
 
   set $app (app) {
     console.warn('Property "$app" is read-only.')
+  }
+
+  get $component () {
+    return this
+  }
+
+  set $component (app) {
+    console.warn('Property "$component" is read-only.')
   }
 }
 

@@ -27,13 +27,22 @@ import {
   useMemo,
   useImperativeHandle,
   invokeEffects,
-  useContext
+  useContext,
+  forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
 import { createContext } from './create-context'
 import { memo } from './memo'
 
-const eventCenter = new Events()
+let eventCenter
+if (process.env.TARO_ENV === 'alipay') {
+  if (!my.taroEventCenter) {
+    my.taroEventCenter = new Events()
+  }
+  eventCenter = my.taroEventCenter
+} else {
+  eventCenter = new Events()
+}
 
 export {
   Component,
@@ -46,6 +55,7 @@ export {
   internal_safe_set,
   internal_inline_style,
   internal_get_original,
+  internal_force_update,
   noPromiseApis,
   onAndSyncApis,
   otherApis,
@@ -81,6 +91,7 @@ export default {
   internal_safe_set,
   internal_inline_style,
   internal_get_original,
+  internal_force_update,
   noPromiseApis,
   onAndSyncApis,
   otherApis,

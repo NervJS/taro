@@ -205,3 +205,151 @@ export default Index
 
 - `mapStateToProps`，函数类型，接受最新的 `state` 作为参数，用于将 `state` 映射到组件的 `props`
 - `mapDispatchToProps`，函数类型，接收 `dispatch()` 方法并返回期望注入到展示组件的 `props` 中的回调方法
+
+## Hooks
+
+### 在 Redux 中使用 Hooks
+
+使用 hooks 的基本设置和使用 `connect` 的设置是一样的，你需要设置你的 `store`，并把你的应用放在 `Provider` 组件中。
+
+```jsx
+const store = configreStore(rootReducer)
+
+class App extends Components {
+    render () {
+        return (
+            <Provider store={store}>
+                <Index />
+            </Provider>
+        )
+    }
+}
+```
+
+在这样的情况下，你就可以使用 `taro-redux` 提供的 Hooks API 在函数式组件中使用。
+
+### `useSelector`
+
+```javascript
+const result : any = useSelector(selector : Function, equalityFn? : Function)
+```
+
+`useSelector` 允许你使用 selector 函数从一个 Redux Store 中获取数据。
+
+Selector 函数大致相当于 `connect` 函数的 `mapStateToProps` 参数。Selector 会在组件每次渲染时调用。`useSelector` 同样会订阅 Redux store，在 Redux action 被 dispatch 时调用。
+
+但 `useSelector` 还是和 `mapStateToProps` 有一些不同：
+
+* 不像 `mapStateToProps` 只返回对象一样，Selector 可能会返回任何值。
+* 当一个 action dispatch 时，`useSelector` 会把 selector 的前后返回值做一次浅对比，如果不同，组件会强制更新。
+* Selector 函数不接受 `ownProps` 参数。但 selector 可以通过闭包访问函数式组件传递下来的 props。
+
+
+#### 使用案例
+
+基本使用：
+
+```jsx
+import Taro, { Components } from '@tarojs/taro'
+import { useSelector } from '@tarojs/redux'
+
+export const CounterComponent = () => {
+  const counter = useSelector(state => state.counter)
+  return <View>{counter}</View>
+}
+```
+
+使用闭包决定如何 select 数据：
+
+```jsx
+export const TodoListItem = props => {
+  const todo = useSelector(state => state.todos[props.id])
+  return <View>{todo.text}</View>
+}
+
+```
+
+#### 进阶使用
+
+ 你还可以访问 [react-redux 文档](https://react-redux.js.org/api/hooks#using-memoizing-selectors) 了解如何使用 `reselect` 缓存 selector。
+
+
+### `useDispatch`
+
+```javascript
+const dispatch = useDispatch()
+```
+
+这个 Hook 返回 Redux store 的 `dispatch` 引用。你可以使用它来 dispatch actions。
+
+#### 使用案例
+
+```jsx
+import Taro, { Components } from '@tarojs/taro'
+import { useDispatch } from '@tarojs/redux'
+
+export const CounterComponent = ({ value }) => {
+  const dispatch = useDispatch()
+
+  return (
+    <View>
+      <Text>{value}</Text>
+      <Button onClick={() => dispatch({ type: 'increment-counter' })}>
+        Increment counter
+      </Button>
+    </View>
+  )
+}
+```
+
+当我们使用 `dispatch` 传递回调到一个子组件时，推荐使用 `useCallback` 把回调缓存起来，因为组件可能因为引用改变而重新渲染。
+
+```jsx
+// CounterComponent.js
+export const CounterComponent = ({ value }) => {
+  const dispatch = useDispatch()
+  const incrementCounter = useCallback(
+    () => dispatch({ type: 'increment-counter' }),
+    [dispatch]
+  )
+
+  return (
+    <View>
+      <Text>{value}</Text>
+      <MyIncrementButton onIncrement={incrementCounter} />
+    </View>
+  )
+}
+
+// IncrementButton.js
+const MyIncrementButton = ({ onIncrement }) => (
+  <Button onClick={onIncrement}>Increment counter</Button>
+)
+
+export default Taro.memo(MyIncrementButton)
+```
+
+### `useStore`
+
+```js
+const store = useStore()
+```
+
+`useStore` 返回一个 store 引用和 `Provider` 组件引用完全一致。
+
+这个 hook 可能并不经常使用。`useSelector` 大部分情况是你的第一选择，如果需要替换 reducers 的情况下可能会使用到这个 API。
+
+#### 使用案例
+
+```jsx
+import Taro, { Components } from '@tarojs/taro'
+import { useStore } from '@tarojs/redux'
+
+export const CounterComponent = ({ value }) => {
+  const store = useStore()
+
+  // EXAMPLE ONLY! Do not do this in a real app.
+  // The component will not automatically update if the store state changes
+  return <div>{store.getState()}</div>
+}
+```

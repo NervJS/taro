@@ -28,6 +28,7 @@
       "context",
       "hooks",
       "children",
+      "render-props",
       "ref",
       "envs",
       "relations",
@@ -50,6 +51,7 @@
       "mini-third-party",
       "hybrid",
       "css-modules",
+      "template",
       "CONTRIBUTING"
     ]
   },

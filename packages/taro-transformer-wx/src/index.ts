@@ -39,7 +39,7 @@ import {
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet, cloneDeep } from 'lodash'
+import { get as safeGet, cloneDeep, snakeCase } from 'lodash'
 import { isTestEnv } from './env'
 
 const template = require('babel-template')
@@ -108,7 +108,7 @@ function handleClosureJSXFunc (jsx: NodePath<t.JSXElement>, mainClass: NodePath<
     const parentPath = arrowFunc.parentPath
     if (parentPath.isVariableDeclarator()) {
       const id = parentPath.node.id
-      if (t.isIdentifier(id) && id.name.startsWith('render')) {
+      if (t.isIdentifier(id) && /^render[A-Z]/.test(id.name)) {
         const funcName = `renderClosure${id.name.slice(6, id.name.length)}`
         mainClass.node.body.body.push(
           t.classProperty(
@@ -222,6 +222,7 @@ export default function transform (options: Options): TransformResult {
   options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
   setTransformOptions(options)
   setting.sourceCode = code
+  let hasReduxBinding = false
   // babel-traverse 无法生成 Hub
   // 导致 Path#getSource|buildCodeFrameError 都无法直接使用
   // 原因大概是 babylon.parse 没有生成 File 实例导致 scope 和 path 原型上都没有 `file`
@@ -514,9 +515,15 @@ export default function transform (options: Options): TransformResult {
           }
         }
       }
-      if (name === 'View' && Adapter.type === Adapters.quickapp) {
-        path.node.name = t.jSXIdentifier('div')
+      if (Adapter.type === Adapters.quickapp) {
+        if (name === 'View') {
+          path.node.name = t.jSXIdentifier('div')
+        }
+        if (name === 'Block') {
+          path.node.name = t.jSXIdentifier('block')
+        }
       }
+
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
         const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
@@ -605,6 +612,43 @@ export default function transform (options: Options): TransformResult {
         // @TODO: bind 的处理待定
       }
     },
+    ClassProperty (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      if (path.node.key.name === 'defaultProps' && t.isObjectExpression(path.node.value)) {
+        const props = path.node.value.properties
+        for (const prop of props) {
+          if (t.isObjectProperty(prop)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value) && !prop.key.value.startsWith('on')) {
+              prop.key = t.stringLiteral(snakeCase(prop.key.value))
+            }
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name) && !prop.key.name.startsWith('on')) {
+              prop.key = t.identifier(snakeCase(prop.key.name))
+            }
+          }
+        }
+      }
+    },
+    AssignmentExpression (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      const { left, right } = path.node
+      if (t.isMemberExpression(left) && t.isIdentifier(left.property, { name: 'defaultProps' }) && t.isObjectExpression(right)) {
+        const props = right.properties
+        for (const prop of props) {
+          if (t.isObjectProperty(prop)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value) && !prop.key.value.startsWith('on')) {
+              prop.key = t.stringLiteral(snakeCase(prop.key.value))
+            }
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name) && !prop.key.name.startsWith('on')) {
+              prop.key = t.identifier(snakeCase(prop.key.name))
+            }
+          }
+        }
+      }
+    },
     ImportDeclaration (path) {
       const source = path.node.source.value
       if (importSources.has(source)) {
@@ -632,10 +676,14 @@ export default function transform (options: Options): TransformResult {
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
           t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
-          t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
           t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
           t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
+        if (Adapter.type !== Adapters.alipay) {
+          path.node.specifiers.push(
+            t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER))
+          )
+        }
       }
       if (
         source === REDUX_PACKAGE_NAME || source === MOBX_PACKAGE_NAME
@@ -646,6 +694,12 @@ export default function transform (options: Options): TransformResult {
             specs.push(
               t.importSpecifier(t.identifier('setStore'), t.identifier('setStore'))
             )
+            if (source === REDUX_PACKAGE_NAME) {
+              hasReduxBinding = true
+              specs.push(
+                t.importSpecifier(t.identifier('ReduxContext'), t.identifier('ReduxContext'))
+              )
+            }
           }
         })
       }
@@ -667,22 +721,44 @@ export default function transform (options: Options): TransformResult {
   })
 
   if (!isImportTaro) {
+    const specifiers = [
+      t.importDefaultSpecifier(t.identifier('Taro')),
+      t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
+      t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
+      t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
+      t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+      t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+      t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
+    ]
+    if (Adapter.type !== Adapters.alipay) {
+      specifiers.push(t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)))
+    }
     ast.program.body.unshift(
-      t.importDeclaration([
-        t.importDefaultSpecifier(t.identifier('Taro')),
-        t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
-        t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-        t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
-        t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
-        t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
-        t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
-      ], t.stringLiteral('@tarojs/taro'))
+      t.importDeclaration(specifiers, t.stringLiteral('@tarojs/taro'))
     )
   }
 
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
+  }
+
+  if (Adapter.type === Adapters.alipay) {
+    const body = ast.program.body
+    for (const i in body) {
+      if (t.isImportDeclaration(body[i]) && !t.isImportDeclaration(body[Number(i) + 1])) {
+        body.splice(Number(i) + 1, 0, t.variableDeclaration(
+          'const',
+          [t.variableDeclarator(
+            t.identifier('propsManager'),
+            t.memberExpression(
+              t.identifier('my'),
+              t.identifier('propsManager')
+            )
+          )]
+        ))
+        break
+      }
+    }
   }
 
   mainClass.node.body.body.forEach(handleThirdPartyComponent)
@@ -691,14 +767,27 @@ export default function transform (options: Options): TransformResult {
   if (storeBinding) {
     const statementPath = storeBinding.path.getStatementParent()
     if (statementPath) {
-      ast.program.body.forEach((node, index, body) => {
+      ast.program.body.every((node, index, body) => {
         if (node === statementPath.node) {
+          const settingReduxProvider = t.expressionStatement(
+            t.callExpression(t.memberExpression(t.identifier('ReduxContext'), t.identifier('Provider')), [
+              t.objectExpression([
+                t.objectProperty(t.identifier('store'), t.identifier(storeName))
+              ])
+            ])
+          )
+          const ifStem = t.ifStatement(t.memberExpression(t.identifier('ReduxContext'), t.identifier('Provider')), t.blockStatement([
+            settingReduxProvider,
+            settingReduxProvider // 第一次调用初始化，第二次赋值
+          ]))
           body.splice(index + 1, 0, t.expressionStatement(
             t.callExpression(t.identifier('setStore'), [
               t.identifier(storeName)
             ])
-          ))
+          ), hasReduxBinding ? ifStem : t.emptyStatement())
+          return false
         }
+        return true
       })
     }
   }

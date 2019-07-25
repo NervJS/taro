@@ -79,7 +79,7 @@ export function buildRender (
     const stateDecl = t.variableDeclaration('const', [
       t.variableDeclarator(
         t.objectPattern(Array.from(new Set(stateKeys)).filter(s => !propsKeys.includes(s)).map(s =>
-          t.objectProperty(t.identifier(s), t.identifier(s))
+          t.objectProperty(t.identifier(s), t.identifier(s), false, true)
         ) as any),
         t.memberExpression(t.thisExpression(), t.identifier('state'))
       )
@@ -89,7 +89,7 @@ export function buildRender (
 
   if (propsKeys.length) {
     let patterns = t.objectPattern(Array.from(new Set(propsKeys)).map(s =>
-      t.objectProperty(t.identifier(s), t.identifier(s))
+      t.objectProperty(t.identifier(s), t.identifier(s), false, true)
     ) as any)
     if (typeof templateType === 'string') {
       patterns = t.objectPattern([
