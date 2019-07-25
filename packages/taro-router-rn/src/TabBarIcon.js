@@ -1,9 +1,12 @@
 import React from 'react'
 import { View, Text, Image } from 'react-native'
+import { isUrl } from './utils'
 
 export function TabBarIcon (props) {
-  const {focused, iconConfig, isRedDotShow, isBadgeShow, badgeText = ''} = props
+  let {focused, selectedIconPath, iconPath, isRedDotShow, isBadgeShow, badgeText = ''} = props
   const text = badgeText.length > 4 ? '...' : badgeText
+  selectedIconPath = isUrl(selectedIconPath) ? {uri: selectedIconPath} : selectedIconPath
+  iconPath = isUrl(iconPath) ? {uri: iconPath} : iconPath
   return (
     <View style={{width: 30, height: 30}}>
       {isBadgeShow &&
@@ -40,7 +43,7 @@ export function TabBarIcon (props) {
       }} />}
       <Image
         style={{width: 30, height: 30}}
-        source={focused ? iconConfig.selectedIconPath : iconConfig.iconPath}
+        source={focused ? selectedIconPath : iconPath}
       />
     </View>
   )

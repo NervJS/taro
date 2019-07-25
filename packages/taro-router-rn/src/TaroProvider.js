@@ -23,6 +23,7 @@ class TaroProvider extends React.Component {
     Taro.hideTabBarRedDot = this.hideTabBarRedDot.bind(this)
     Taro.setTabBarBadge = this.setTabBarBadge.bind(this)
     Taro.removeTabBarBadge = this.removeTabBarBadge.bind(this)
+    Taro.setTabBarItem = this.setTabBarItem.bind(this)
   }
 
   componentWillMount () {
@@ -179,7 +180,6 @@ class TaroProvider extends React.Component {
   }
 
   /**
-   * @todo
    * @description 动态设置 tabBar 某一项的内容，2.7.0 起图片支持临时文件和网络文件
    * @param options
    * @param {number} options.index - tabBar 的哪一项，从左边算起
@@ -196,7 +196,30 @@ class TaroProvider extends React.Component {
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
-    console.log('not finished')
+    const {
+      index,
+      text,
+      iconPath,
+      selectedIconPath,
+      success,
+      fail,
+      complete
+    } = options
+
+    const res = {errMsg: 'setTabBarItem:ok'}
+
+    try {
+      const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index],
+        {itemText: text, itemSelectedIconPath: selectedIconPath, itemIconPath: iconPath})
+      // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
+      global._taroTabBarIconConfig = _taroTabBarIconConfig
+      this.props.navigation.setParams({_taroTabBarIconConfig})
+    } catch (e) {
+      console.log(e)
+      return errorHandler(fail, complete)(res)
+    }
+    return successHandler(success, complete)(res)
   }
 
   /**
@@ -225,11 +248,11 @@ class TaroProvider extends React.Component {
     const res = {errMsg: 'setTabBarBadge:ok'}
 
     try {
-      const _tabBarIconConfig = global._tabBarIconConfig || {}
-      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isBadgeShow: true, badgeText: text})
+      const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isBadgeShow: true, badgeText: text})
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
-      global._tabBarIconConfig = _tabBarIconConfig
-      this.props.navigation.setParams({_tabBarIconConfig})
+      global._taroTabBarIconConfig = _taroTabBarIconConfig
+      this.props.navigation.setParams({_taroTabBarIconConfig})
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -261,11 +284,11 @@ class TaroProvider extends React.Component {
     const res = {errMsg: 'hideTabBarRedDot:ok'}
 
     try {
-      const _tabBarIconConfig = global._tabBarIconConfig || {}
-      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isBadgeShow: false, badgeText: ''})
+      const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isBadgeShow: false, badgeText: ''})
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
-      global._tabBarIconConfig = _tabBarIconConfig
-      this.props.navigation.setParams({_tabBarIconConfig})
+      global._taroTabBarIconConfig = _taroTabBarIconConfig
+      this.props.navigation.setParams({_taroTabBarIconConfig})
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -297,10 +320,10 @@ class TaroProvider extends React.Component {
     const res = {errMsg: 'showTabBarRedDot:ok'}
 
     try {
-      const _tabBarIconConfig = global._tabBarIconConfig || {}
-      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isRedDotShow: true})
-      global._tabBarIconConfig = _tabBarIconConfig
-      this.props.navigation.setParams({_tabBarIconConfig})
+      const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isRedDotShow: true})
+      global._taroTabBarIconConfig = _taroTabBarIconConfig
+      this.props.navigation.setParams({_taroTabBarIconConfig})
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -332,11 +355,11 @@ class TaroProvider extends React.Component {
     const res = {errMsg: 'hideTabBarRedDot:ok'}
 
     try {
-      const _tabBarIconConfig = global._tabBarIconConfig || {}
-      _tabBarIconConfig[index] = Object.assign({}, _tabBarIconConfig[index], {isRedDotShow: false})
+      const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isRedDotShow: false})
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
-      global._tabBarIconConfig = _tabBarIconConfig
-      this.props.navigation.setParams({_tabBarIconConfig})
+      global._taroTabBarIconConfig = _taroTabBarIconConfig
+      this.props.navigation.setParams({_taroTabBarIconConfig})
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)

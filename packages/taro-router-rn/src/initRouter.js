@@ -5,6 +5,11 @@ import { TabBarIcon } from './TabBarIcon'
 
 const {createStackNavigator, createBottomTabNavigator} = require('react-navigation')
 
+function getTaroTabBarIconConfig (index, key) {
+  const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+  return _taroTabBarIconConfig[index] && _taroTabBarIconConfig[index][key]
+}
+
 function getRouteParam (navigation, name) {
   let routeState = navigation.state.routes[navigation.state.index]
   return routeState.params && routeState.params[name]
@@ -65,12 +70,13 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
     navigationOptions: ({navigation}) => ({ // 这里得到的是 tab 的 navigation
       tabBarIcon: ({focused, tintColor}) => {
         const {routeName} = navigation.state
-        const _tabBarIconConfig = global._tabBarIconConfig || {}
         const iconConfig = tabBar.list.find(item => item.pagePath === routeName)
         const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
-        const isRedDotShow = _tabBarIconConfig[tabBarIndex] && _tabBarIconConfig[tabBarIndex].isRedDotShow
-        const isBadgeShow = _tabBarIconConfig[tabBarIndex] && _tabBarIconConfig[tabBarIndex].isBadgeShow
-        const badgeText = _tabBarIconConfig[tabBarIndex] && _tabBarIconConfig[tabBarIndex].badgeText
+        const isRedDotShow = getTaroTabBarIconConfig(tabBarIndex, 'isRedDotShow')
+        const isBadgeShow = getTaroTabBarIconConfig(tabBarIndex, 'isBadgeShow')
+        const badgeText = getTaroTabBarIconConfig(tabBarIndex, 'badgeText')
+        const selectedIconPath = getTaroTabBarIconConfig(tabBarIndex, 'itemSelectedIconPath')
+        const iconPath = getTaroTabBarIconConfig(tabBarIndex, 'itemIconPath')
         return (
           <TabBarIcon
             focused={focused}
@@ -78,10 +84,17 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
             isRedDotShow={isRedDotShow}
             badgeText={badgeText}
             isBadgeShow={isBadgeShow}
+            selectedIconPath={selectedIconPath || iconConfig.selectedIconPath}
+            iconPath={iconPath || iconConfig.iconPath}
           />
         )
       },
-      tabBarLabel: tabBar.list.find(item => item.pagePath === navigation.state.routeName).text,
+      tabBarLabel: (() => {
+        const {routeName} = navigation.state
+        const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
+        const itemText = getTaroTabBarIconConfig(tabBarIndex, 'itemText')
+        return itemText || tabBar.list.find(item => item.pagePath === navigation.state.routeName).text
+      })(),
       tabBarVisible: getTabBarVisibleFlag(navigation)
     }),
     tabBarOptions: {
