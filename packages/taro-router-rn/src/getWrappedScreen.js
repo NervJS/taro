@@ -28,7 +28,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
       const rest = (navigationOptions.navigationStyle || globalNavigationOptions.navigationStyle) === 'custom' ? {header: null} : {}
       const headerTintColor = navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor
-      return {
+      const options = {
         ...rest,
         headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
@@ -38,6 +38,15 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
         headerStyle: {
           backgroundColor: navigation.getParam('backgroundColor') || navigationOptions.backgroundColor || globalNavigationOptions.backgroundColor
         }
+      }
+
+      // 如果页面组件也定义了navigationOptions，那么就合并页面那边的返回值
+      if (Screen.navigationOptions !== undefined) {
+          const target = Screen.navigationOptions({ navigation });
+          Object.assign(target, options);
+          return target;
+        }
+        return options;
       }
     }
 
