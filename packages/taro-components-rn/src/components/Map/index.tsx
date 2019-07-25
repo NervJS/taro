@@ -52,7 +52,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 /**
  * 标记点气泡 callout
  */
-type Callout = {
+type Callouts = {
   content?: string;
   color?: string;
   fontSize?: number;
@@ -96,7 +96,7 @@ type Marker = {
   alpha?: number;
   // width?: number;
   // height?: number;
-  callout?: Callout;
+  callout?: Callouts;
   // label?: Label;
   anchor?: { x: number, y: number };
 }
@@ -157,8 +157,8 @@ type Region = {
 }
 
 export interface Props {
-  longitude?: number;
-  latitude?: number;
+  longitude: number;
+  latitude: number;
   scale?: number;
   markers?: Array<Marker>;
   polyline?: Array<Polyline>;
@@ -195,6 +195,8 @@ export interface State {
 
 class _Map extends React.Component<Props, State> {
   static defaultProps: Props = {
+    longitude: 0,
+    latitude: 0,
     scale: 16,
     markers: [],
     polyline: [],
@@ -253,7 +255,7 @@ class _Map extends React.Component<Props, State> {
     const {id, callout} = marker
     if (!callout) return null
     return (
-      <MapView.Callout
+      <Callout
         onPress={() => {
           onCalloutClick && onCalloutClick(id)
         }}
@@ -277,7 +279,7 @@ class _Map extends React.Component<Props, State> {
             {callout.content}
           </Text>
         </View>
-      </MapView.Callout>
+      </Callout>
     )
   }
 
@@ -334,7 +336,7 @@ class _Map extends React.Component<Props, State> {
               longitude: marker.longitude
             }}
             title={marker.title}
-            image={marker.iconPath}
+            image={{ uri: marker.iconPath }}
             rotation={marker.rotate}
             opacity={marker.alpha}
             anchor={marker.anchor}
