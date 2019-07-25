@@ -112,6 +112,7 @@
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2",
     "xxhashjs": "^0.2.2",
+    "xml2js": "^0.4.19",
     "yauzl": "2.10.0"
   },
   "devDependencies": {
