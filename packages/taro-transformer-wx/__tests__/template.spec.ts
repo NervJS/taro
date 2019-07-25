@@ -916,4 +916,45 @@ describe('字符不转义', () => {
       expect(inst.state.anonymousState__temp).toEqual('')
     })
   })
+
+  describe("ObjectExpression property key", () => {
+    test("StringLiteral", () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return {
+              'weapp': (
+                  <View>weapp</View>
+              ),
+              'h5': (
+                  <View>h5</View>
+              )
+          }[process.env.TARO_ENV]
+        `)
+      })
+
+      const inst = evalClass(ast, "", true);
+      expect(template).toMatch(`'weapp' === 'weapp'`);
+    })
+    test("Identifier", () => {
+      const { template, ast, code } = transform({
+        ...baseOptions,
+        isRoot: true,
+        code: buildComponent(`
+          return {
+              weapp: (
+                  <View>weapp</View>
+              ),
+              h5: (
+                  <View>h5</View>
+              )
+          }[process.env.TARO_ENV]
+        `)
+      })
+
+      const inst = evalClass(ast, "", true);
+      expect(template).toMatch(`'weapp' === 'weapp'`);
+    })
+  })
 })
