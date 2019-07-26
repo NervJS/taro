@@ -42,7 +42,9 @@ const onAndSyncApis = {
   offPageNotFound: true,
   offError: true,
   offAppShow: true,
-  offAppHide: true
+  offAppHide: true,
+  onAudioInterruptionEnd: true,
+  onAudioInterruptionBegin: true,
 }
 const noPromiseApis = {
   // 媒体
