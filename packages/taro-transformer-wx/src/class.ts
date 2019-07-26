@@ -678,14 +678,14 @@ class Transformer {
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
-              self.buildPropsAnonymousFunc(attr, expr, true)
+              self.buildPropsAnonymousFunc(attr, expr, true, path)
             }
           } else if (t.isMemberExpression(expr)) {
             if (
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
               ) {
-              self.buildPropsAnonymousFunc(attr, expr as any, false)
+              self.buildPropsAnonymousFunc(attr, expr as any, false, path)
             }
           } else if (!t.isLiteral(expr)) {
             self.buildAnonyMousFunc(path, attr, expr)
@@ -862,7 +862,7 @@ class Transformer {
     })
   }
 
-  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
+  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false, path) => {
     const { code } = generate(expr)
     const id = t.isMemberExpression(expr.callee) ? findFirstIdentifierFromMemberExpression(expr.callee) : null
     if (
@@ -923,6 +923,9 @@ class Transformer {
           ))
         ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
+    } else if (t.isMemberExpression(expr) && !t.isThisExpression(expr.object)) {
+      // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清除
+      this.buildAnonyMousFunc(path, attr, expr)
     }
   }
 
