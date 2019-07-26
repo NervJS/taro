@@ -73,7 +73,7 @@ export function getExactedNpmFilePath ({
       outputNpmPath = npmInfoMainPath
       filePath = sourceFilePath
     } else {
-      outputNpmPath = npmInfoMainPath.replace(nodeModulesPath, npmOutputDir)
+      outputNpmPath = npmInfoMainPath.replace(nodeModulesPath, npmOutputDir).replace(/node_modules/g, npmConfig.name)
     }
     if (buildAdapter === BUILD_TYPES.ALIPAY) {
       outputNpmPath = outputNpmPath.replace(/@/g, '_')
