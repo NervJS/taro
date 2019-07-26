@@ -106,7 +106,7 @@ class Transformer {
     components: [],
     componentProperies: []
   }
-  private methods: ClassMethodsMap = new Map()
+  private methods: ClassMethodsMap
   private renderJSX: Map<string, NodePath<t.ClassMethod>> = new Map()
   private refIdMap: Map<NodePath<t.ClassMethod>, Set<t.Identifier>> = new Map()
   private initState: Set<string> = new Set()
@@ -128,13 +128,15 @@ class Transformer {
     path: NodePath<t.ClassDeclaration>,
     sourcePath: string,
     componentProperies: string[],
-    sourceDir: string
+    sourceDir: string,
+    methods: ClassMethodsMap
   ) {
     this.classPath = path
     this.sourcePath = sourcePath
     this.sourceDir = sourceDir
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.componentProperies = new Set(componentProperies)
+    this.methods = methods
     this.compile()
   }
 
@@ -924,7 +926,7 @@ class Transformer {
         ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
     } else if (t.isMemberExpression(expr) && !t.isThisExpression(expr.object)) {
-      // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清除
+      // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清楚
       this.buildAnonyMousFunc(path, attr, expr)
     }
   }
