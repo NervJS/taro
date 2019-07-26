@@ -262,6 +262,19 @@ const Block = (props) => <div>{props.children}</div>
 当你遇到了相关问题时，我们准备了一个快速起步的沙盒工具，你可以直接在这个工具里编辑、调试、复现问题：
 
 [![Edit Taro sandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/50nzv622z4?fontsize=14)
+## 组件
+
+### jsEnginScriptError
+
+`Component is not found in path "xxx/xxx/xxx"` 解决办法：
+
+1、检查有没有编译报错
+
+2、检查编译后的文件是否正确
+
+3、步骤 1 和 步骤 2 如果检查没有问题，重启开发者工具，否则跳到步骤 4 
+
+4、提供具体编译报错信息与编译后文件信息的截图
 
 ## 其它资源
 
