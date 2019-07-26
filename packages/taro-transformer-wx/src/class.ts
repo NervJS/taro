@@ -28,6 +28,8 @@ import { isTestEnv } from './env'
 import { Status } from './functional'
 import { injectRenderPropsEmiter } from './render-props'
 
+const stopPropagationExpr = require('babel-template')(`typeof e === 'object' && e.stopPropagation && e.stopPropagation()`)
+
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 function buildConstructor () {
@@ -294,7 +296,7 @@ class Transformer {
         )
         classBody.push(
           t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.restElement(t.identifier('e'))], t.blockStatement([
-            isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
+            isCatch ? stopPropagationExpr() : t.emptyStatement(),
             t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.spreadElement(t.identifier('e'))])))
           ]))
         )
