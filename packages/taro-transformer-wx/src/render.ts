@@ -752,11 +752,7 @@ export class RenderParser {
           }
         } else if (block.children.length !== 0) {
           if (this.topLevelIfStatement.size > 0) {
-            if (process.env.NODE_ENV !== 'test') {
-              setJSXAttr(jsxElementPath.node, Adapter.else, buildTrueJSXAttrValue(), jsxElementPath)
-            } else {
-              setJSXAttr(jsxElementPath.node, Adapter.else)
-            }
+            setJSXAttr(jsxElementPath.node, Adapter.else)
           }
         }
         block.children.push(jsxElementPath.node)
