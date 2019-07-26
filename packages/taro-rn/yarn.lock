@@ -1439,9 +1439,10 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/yargs" "^12.0.9"
 
-"@tarojs/taro@1.3.8":
-  version "1.3.8"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.8.tgz#53c10f3dccb4de7fee05e107ab5b48b7496a7513"
+"@tarojs/taro@1.3.10":
+  version "1.3.10"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.10.tgz#687dead4a737bbcdc22c1e97deb10e294381f0dc"
+  integrity sha512-nwqSy59pM5CLswboIm07qPpclvgdkr/KHZXRqbHs2QQUPmXHs/sk5a5GWfJ0OZVcxFBiKTxg2z1KbdJPLNpLMw==
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -2996,7 +2997,7 @@ compressible@~2.0.13:
 
 compression@^1.7.1:
   version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  resolved "https://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
   dependencies:
     accepts "~1.3.4"
     bytes "3.0.0"
@@ -5551,8 +5552,9 @@ locate-path@^3.0.0:
     path-exists "^3.0.0"
 
 lodash-es@^4.17.5:
-  version "4.17.10"
-  resolved "http://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
 
 lodash._baseisequal@^3.0.0:
   version "3.0.7"
