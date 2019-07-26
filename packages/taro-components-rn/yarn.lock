@@ -458,9 +458,10 @@
   version "3.3.0"
   resolved "https://registry.npm.taobao.org/@bang88/react-native-ultimate-listview/download/@bang88/react-native-ultimate-listview-3.3.0.tgz#b09199105b942aee4ae05729e4bd229353217ab6"
 
-"@manjiz/react-native-swiper@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npm.taobao.org/@manjiz/react-native-swiper/download/@manjiz/react-native-swiper-0.0.3.tgz#bcc03e573121751d50579050ef38461e21f33233"
+"@manjiz/react-native-swiper@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npm.taobao.org/@manjiz/react-native-swiper/download/@manjiz/react-native-swiper-0.1.3.tgz#979c2bb3469b43b34aeb0ef628a7c4022690fc0e"
+  integrity sha1-l5wrs0abQ7NK6w72KKfEAiaQ/A4=
 
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2":
   version "1.4.0"
@@ -6935,9 +6936,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "http://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^3.2.2:
-  version "3.4.3"
-  resolved "http://registry.npm.taobao.org/typescript/download/typescript-3.4.3.tgz#0eb320e4ace9b10eadf5bc6103286b0f8b7c224f"
+typescript@^3.5.2:
+  version "3.5.3"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.5.3.tgz#c830f657f93f1ea846819e929092f5fe5983e977"
+  integrity sha1-yDD2V/k/HqhGgZ6SkJL1/lmD6Xc=
 
 ua-parser-js@^0.7.18:
   version "0.7.19"
