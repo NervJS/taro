@@ -237,6 +237,41 @@ $ taro build --type rn --watch
 # npx 用户也可以使用
 $ npx taro build --type rn --watch
 ```
+> Note：React Native 端和其他端样式兼容性差异较大，如果需要兼容 React Native 端，建议 React Native 端和其他端同步开发。 
+
+> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不
+支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
+
+以下选择器的写法都是不支持的，在样式转换时会自动忽略。
+
+```css
+.button.button_theme_islands{
+  font-style: bold;
+}
+
+img + p {
+  font-style: bold;
+}
+
+p ~ span {
+  color: red;
+}
+
+div > span {
+  background-color: DodgerBlue;
+}
+
+div span { background-color: DodgerBlue; }
+
+```
+
+样式上 H5 最为灵活，小程序次之，RN 最弱，统一多端样式即是对齐短板，也就是要以 RN 的约束来管理样式，同时兼顾小程序的限制，核心可以用三点来概括：
+
+- 使用 Flex 布局
+- 基于 BEM 写样式
+- 采用 style 属性覆盖组件样式
+
+RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向。
 
 ## 更新
 
