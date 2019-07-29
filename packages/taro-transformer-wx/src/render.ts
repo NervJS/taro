@@ -37,8 +37,7 @@ import {
   setJSXAttr,
   buildBlockElement,
   parseJSXElement,
-  generateJSXAttr,
-  buildTrueJSXAttrValue
+  generateJSXAttr
 } from './jsx'
 import {
   DEFAULT_Component_SET,
