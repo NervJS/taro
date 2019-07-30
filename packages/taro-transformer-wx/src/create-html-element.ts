@@ -69,9 +69,8 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     },
     options
   )
-
+  const name = options.name
   if (Adapters.quickapp === Adapter.type) {
-    const name = options.name
     const nameCapitalized = capitalized(name)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
@@ -90,7 +89,7 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
 
   const isVoidTag = voidHtmlTags.has(options.name)
 
-  let ret = `<${options.name}${stringifyAttributes(options.attributes, options.name)}${isVoidTag ? `/` : '' }>`
+  let ret = `<${options.name}${stringifyAttributes(options.attributes, name)}${isVoidTag ? `/` : '' }>`
 
   if (!isVoidTag) {
     ret += `${options.value}</${options.name}>`
