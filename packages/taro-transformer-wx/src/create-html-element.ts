@@ -21,7 +21,7 @@ interface Options {
   value: string
 }
 
-function stringifyAttributes (input: object) {
+function stringifyAttributes (input: object, componentName: string) {
   const attributes: string[] = []
 
   for (const key of Object.keys(input)) {
@@ -36,6 +36,10 @@ function stringifyAttributes (input: object) {
     }
 
     let attribute = key
+
+    if (Adapters.quickapp === Adapter.type && !['div', 'text'].includes(componentName) && key === 'style') {
+      attribute = 'customstyle'
+    }
 
     if (value !== true) {
       attribute += `="${String(value)}"`
@@ -78,7 +82,7 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
 
   const isVoidTag = voidHtmlTags.has(options.name)
 
-  let ret = `<${options.name}${stringifyAttributes(options.attributes)}${isVoidTag ? `/` : '' }>`
+  let ret = `<${options.name}${stringifyAttributes(options.attributes, options.name)}${isVoidTag ? `/` : '' }>`
 
   if (!isVoidTag) {
     ret += `${options.value}</${options.name}>`
