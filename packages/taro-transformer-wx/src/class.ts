@@ -236,6 +236,7 @@ class Transformer {
     const classBody = this.classPath.node.body.body
     const loopCallExpr = jsxExpr.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
     let index: t.Identifier
+    const self = this
     if (loopCallExpr) {
       index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
       if (!t.isIdentifier(index)) {
@@ -251,7 +252,7 @@ class Transformer {
         while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
           let index = safeGet(callExpr, 'node.arguments[0].params[1]')
           if (!t.isIdentifier(index)) {
-            index = t.identifier('__index' + counter)
+            index = t.identifier('__index' + self.anonymousFuncCounter())
             safeSet(callExpr, 'node.arguments[0].params[1]', index)
           }
           indices.add(index)
