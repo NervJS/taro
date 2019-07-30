@@ -1,10 +1,11 @@
 <template>
   <stack
-    class="taro_icon {{className}} icon_{{type}}"
+    class="taro_icon {{classname}} icon_{{type}}"
     style="{{style}}"
     id="{{id}}"
     onclick="handleClick"
     disabled="{{disabled}}"
+    style="{{customstyle}}"
   >
     <div class="thumb" if="{{['success', 'waiting'].indexOf(type) > -1}}"></div>
     <div class="info" elif="{{['warn', 'info'].indexOf(type) > -1}}">{{typeFont}}</div>
@@ -14,7 +15,7 @@
 <script>
   export default {
     props: {
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -47,6 +48,11 @@
         type: String,
         required: false,
         default: 'success'
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
       }
     },
 

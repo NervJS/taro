@@ -1,7 +1,7 @@
 <template>
   <textarea
-    class="{{className}}"
-    style="{{style}}"
+    class="{{classname}}"
+    style="{{customstyle}}"
     id="{{id}}"
     disabled="{{disabled}}"
     maxlength="{{maxlength}}"
@@ -26,7 +26,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

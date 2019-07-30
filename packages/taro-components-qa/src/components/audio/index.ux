@@ -1,9 +1,9 @@
 <template>
-    <div class="audio {{className}}" id="{{id}}">
+    <div class="audio {{classname}}" id="{{id}}" style="{{customstyle}}">
       <div class="audio_content">
-        <div 
-          class="player_ontent" 
-          onclick="playAudio" 
+        <div
+          class="player_ontent"
+          onclick="playAudio"
           show="{{controls}}"
         >
           <image class="audio_content_img" show="{{playerStatus}}" src="{{startImg}}"></image>
@@ -12,7 +12,7 @@
         <text class="duration_content">{{spendTime}}/{{totalTime}}</text>
         <slider
           class="audio_slider"
-          min="0" 
+          min="0"
           step="1"
           max="{{duration}}"
           value="{{currentTime}}"
@@ -22,12 +22,12 @@
       </div>
     </div>
   </template>
-  
+
   <script>
     import audio from '@system.audio'
-  
+
     import { PAUSE_IMG, START_IMG } from './img.js'
-  
+
     export default {
       props: {
         id: {
@@ -35,12 +35,12 @@
           required: false,
           default: ''
         },
-        className: {
+        classname: {
           type: String,
           required: false,
           default: ''
         },
-        style: {
+        customstyle: {
           type: Object,
           required: false,
           default: {}
@@ -55,7 +55,7 @@
           required: false,
           default: false
         },
-        initialTime: {
+        initialtime: {
           type: Number,
           required: false,
           default: 0
@@ -71,7 +71,7 @@
           default: false
         },
       },
-  
+
       data: () => ({
         duration: 100,
         spendTime: '00:00',
@@ -82,7 +82,7 @@
         startImg: START_IMG,
         pauseImg: PAUSE_IMG
       }),
-  
+
       onInit () {
         audio.src = this.src
         audio.autoplay = this.autoplay
@@ -92,7 +92,7 @@
       audioInit () {
         audio.onloadeddata = () => {
           this.duration = audio.duration
-          audio.currentTime = this.initialTime  
+          audio.currentTime = this.initialtime
           this.totalTime = this.formatTime(audio.duration)
         }
         audio.ontimeupdate =  () => {
@@ -129,7 +129,7 @@
           this.$emit('stop')
         }
       },
-  
+
       playAudio () {
         if (this.playerStatus) {
           audio.play()
@@ -138,13 +138,13 @@
         }
         this.playerStatus = !this.playerStatus
       },
-  
+
       updateAudio () {
         const time = audio.currentTime
         this.currentTime = time
         this.spendTime = this.formatTime(time)
       },
-  
+
       sliderChange (e) {
         const value = e.progress - audio.currentTime
         if(value > 1 || value < -1) {
@@ -168,13 +168,13 @@
     .audio_content {
       flex-direction: row;
       background-color: #dddddd;
-      align-items: center; 
+      align-items: center;
     }
     .player_content {
       height: 120px;
       width: 100px;
       justify-content: center;
-      align-items: center; 
+      align-items: center;
     }
     .audio_content_img {
       height: 40px;
