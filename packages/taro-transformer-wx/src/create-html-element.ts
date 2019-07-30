@@ -1,5 +1,5 @@
 import { Adapters, Adapter } from './adapter'
-import { quickappComponentName } from './constant'
+import { quickappComponentName, DEFAULT_Component_SET_COPY } from './constant'
 import { transformOptions } from './options'
 import { camelCase } from 'lodash'
 import { isTestEnv } from './env'
@@ -14,6 +14,8 @@ const voidHtmlTags = new Set<string>([
 if (isTestEnv) {
   voidHtmlTags.add('image')
 }
+
+export const capitalized = (name: string) => name.charAt(0).toUpperCase() + name.slice(1)
 
 interface Options {
   name: string,
@@ -37,8 +39,14 @@ function stringifyAttributes (input: object, componentName: string) {
 
     let attribute = key
 
-    if (Adapters.quickapp === Adapter.type && !['div', 'text'].includes(componentName) && key === 'style') {
-      attribute = 'customstyle'
+    if (Adapters.quickapp === Adapter.type && key === 'style') {
+      const nameCapitalized = capitalized(componentName)
+      if (
+        !['div', 'text'].includes(componentName) &&
+        (quickappComponentName.has(nameCapitalized) || DEFAULT_Component_SET_COPY.has(nameCapitalized))
+      ) {
+        attribute = 'customstyle'
+      }
     }
 
     if (value !== true) {
@@ -64,7 +72,7 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
 
   if (Adapters.quickapp === Adapter.type) {
     const name = options.name
-    const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
+    const nameCapitalized = capitalized(name)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
     }
