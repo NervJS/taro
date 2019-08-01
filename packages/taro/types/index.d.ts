@@ -360,8 +360,17 @@ declare namespace Taro {
   interface FunctionComponent<P = {}> {
     (props: Readonly<P>): JSX.Element
     defaultProps?: Partial<P>
+    config?: Config
     options?: ComponentOptions
   }
+
+  type FC<P = {}> = FunctionComponent<P>
+
+  interface StatelessFunctionComponent {
+    (): JSX.Element
+  }
+
+  type SFC = StatelessFunctionComponent
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
     new (...args: any[]): Component<P, {}>
