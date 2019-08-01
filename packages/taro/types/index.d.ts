@@ -7159,7 +7159,7 @@ declare namespace Taro {
       /**
        * 提示的标题
        */
-      title: string
+      title?: string
       /**
        * 提示的内容
        */
