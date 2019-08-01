@@ -352,7 +352,7 @@ declare namespace Taro {
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
   }
-  
+
   interface ComponentOptions {
     addGlobalClass?: boolean
   }
@@ -707,28 +707,34 @@ declare namespace Taro {
     $router: {
       /**
        * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
-       * 
+       *
        * @example
        * componentWillMount () {
        *   console.log(this.$router.params)
        * }
-       * 
+       *
        * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
        */
       params: {
         [key: string]: string
+      } & {
+        path?: string
+        scene?: number | string
+        query?: {[key: string]: string} | string
+        shareTicket?: string
+        referrerInfo?: {[key: string]: any} | string
       }
       /**
        * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
-       * 
+       *
        * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
        * 请开发者在使用时自行判断
-       * 
+       *
        * @example
        * componentWillMount () {
        *   console.log('preload: ', this.$router.preload)
        * }
-       * 
+       *
        * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
        */
       preload?: {
@@ -1045,7 +1051,7 @@ declare namespace Taro {
    * 发起网络请求。**使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)**。
    *
    * **返回值：**
-   * 
+   *
    * @returns {request.requestTask} 返回一个 `requestTask` 对象，通过 `requestTask`，可中断请求任务。
    *
    * @since 1.4.0
@@ -1057,7 +1063,7 @@ declare namespace Taro {
    * 3.  `bug`: 开发者工具 `0.10.102800` 版本，`header` 的 `content-type` 设置异常；
    *
    * **示例代码：**
-   * 
+   *
    * @example
    * // 回调函数(Callback)用法：
    * const requestTask = Taro.request({
@@ -1074,7 +1080,7 @@ declare namespace Taro {
    *   }
    * })
    * requestTask.abort()
-   * 
+   *
    * // Promise 用法：
    * const requestTask = Taro.request({
    *   url: 'test.php', //仅为示例，并非真实的接口地址
@@ -1093,12 +1099,12 @@ declare namespace Taro {
    *   console.log(res.data)
    * })
    * requestTask.abort()
-   * 
+   *
    * // async/await 用法：
    * const requestTask = Taro.request(params)
    * const res = await requestTask
    * requestTask.abort()
-   * 
+   *
    * // 不需要 abort 的 async/await 用法：
    * const res = await Taro.request(params)
    *
@@ -7153,7 +7159,7 @@ declare namespace Taro {
       /**
        * 提示的标题
        */
-      title: string
+      title?: string
       /**
        * 提示的内容
        */
@@ -11601,7 +11607,7 @@ declare namespace Taro {
   }
 
   /**
-   * @since 2.1.2
+   * @since 微信小程序 2.1.2
    *
    * 获取小程序启动时的参数。与 `App.onLaunch` 的回调参数一致。
    *
@@ -11612,6 +11618,68 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
    */
   function getLaunchOptionsSync(): getLaunchOptionsSync.Return
+
+  namespace onPageNotFound {
+    /**
+     * 小程序要打开的页面不存在事件的回调函数参数
+     */
+    interface onPageNotFoundCallbackParam {
+      /**
+       * 不存在页面的路径
+       */
+      path: string,
+      /**
+       * 打开不存在页面的 query 参数
+       */
+      query: Object,
+      /**
+       * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
+       */
+      isEntryPage: boolean
+    }
+    /**
+     * 小程序要打开的页面不存在事件的回调函数
+     */
+    type onPageNotFoundCallback = (parma: onPageNotFoundCallbackParam) => void
+  }
+  /**
+   * @since 微信小程序 2.1.2
+   *
+   * 监听小程序要打开的页面不存在事件。该事件与 ·App.onPageNotFound· 的回调时机一致
+   *
+   */
+  function onPageNotFound(callback: onPageNotFound.onPageNotFoundCallback): void
+
+  namespace onError {
+    interface onErrorParam {
+      /**
+       * 错误信息，包含堆栈
+       */
+      error: string
+    }
+
+    type onErrorCallback = (param: onErrorParam) => void
+  }
+  /**
+   * @since 微信小程序 2.1.2
+   *
+   * 监听小程序错误事件。如脚本错误或 API 调用报错等。该事件与 App.onError 的回调时机与参数一致
+   */
+  function onError(callback: onError.onErrorCallback): void
+
+  /**
+   * @since 微信小程序  2.6.2
+   *
+   * 监听音频中断结束事件。在收到 onAudioInterruptionBegin 事件之后，小程序内所有音频会暂停，收到此事件之后才可再次播放成功
+   */
+  function onAudioInterruptionEnd(callback: () => void): void
+
+  /**
+   * @since 微信小程序  2.6.2
+   *
+   * 监听音频因为受到系统占用而被中断开始事件。以下场景会触发此事件：闹钟、电话、FaceTime 通话、微信语音聊天、微信视频聊天。此事件触发后，小程序内所有音频会暂停
+   */
+  function onAudioInterruptionBegin(callback: () => void): void
 
   namespace cloud {
     interface ICloudConfig {

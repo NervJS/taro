@@ -37,8 +37,7 @@ import {
   setJSXAttr,
   buildBlockElement,
   parseJSXElement,
-  generateJSXAttr,
-  buildTrueJSXAttrValue
+  generateJSXAttr
 } from './jsx'
 import {
   DEFAULT_Component_SET,
@@ -692,7 +691,10 @@ export class RenderParser {
         }
         const block = this.finalReturnElement || buildBlockElement(blockAttrs)
         if (isBlockIfStatement(ifStatement, blockStatement)) {
-          const { test, alternate, consequent } = ifStatement.node
+          let { test, alternate, consequent } = ifStatement.node
+          if (hasComplexExpression(ifStatement.get('test'))) {
+            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true);
+          }
           // blockStatement.node.body.push(t.returnStatement(
           //   t.memberExpression(t.thisExpression(), t.identifier('state'))
           // ))
@@ -752,11 +754,7 @@ export class RenderParser {
           }
         } else if (block.children.length !== 0) {
           if (this.topLevelIfStatement.size > 0) {
-            if (process.env.NODE_ENV !== 'test') {
-              setJSXAttr(jsxElementPath.node, Adapter.else, buildTrueJSXAttrValue(), jsxElementPath)
-            } else {
-              setJSXAttr(jsxElementPath.node, Adapter.else)
-            }
+            setJSXAttr(jsxElementPath.node, Adapter.else)
           }
         }
         block.children.push(jsxElementPath.node)

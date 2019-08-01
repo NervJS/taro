@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "1.3.10",
+  "version": "1.3.11",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -76,6 +76,6 @@
     "sinon": "^6.0.0",
     "ts-jest": "^23.10.5",
     "tsc-watch": "^1.0.30",
-    "typescript": "^3.2.2"
+    "typescript": "^3.5.2"
   }
 }

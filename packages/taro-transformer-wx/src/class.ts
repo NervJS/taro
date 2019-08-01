@@ -28,6 +28,8 @@ import { isTestEnv } from './env'
 import { Status } from './functional'
 import { injectRenderPropsEmiter } from './render-props'
 
+const stopPropagationExpr = require('babel-template')(`typeof e === 'object' && e.stopPropagation && e.stopPropagation()`)
+
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 function buildConstructor () {
@@ -106,7 +108,7 @@ class Transformer {
     components: [],
     componentProperies: []
   }
-  private methods: ClassMethodsMap = new Map()
+  private methods: ClassMethodsMap
   private renderJSX: Map<string, NodePath<t.ClassMethod>> = new Map()
   private refIdMap: Map<NodePath<t.ClassMethod>, Set<t.Identifier>> = new Map()
   private initState: Set<string> = new Set()
@@ -128,13 +130,15 @@ class Transformer {
     path: NodePath<t.ClassDeclaration>,
     sourcePath: string,
     componentProperies: string[],
-    sourceDir: string
+    sourceDir: string,
+    methods: ClassMethodsMap
   ) {
     this.classPath = path
     this.sourcePath = sourcePath
     this.sourceDir = sourceDir
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.componentProperies = new Set(componentProperies)
+    this.methods = methods
     this.compile()
   }
 
@@ -232,6 +236,7 @@ class Transformer {
     const classBody = this.classPath.node.body.body
     const loopCallExpr = jsxExpr.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
     let index: t.Identifier
+    const self = this
     if (loopCallExpr) {
       index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
       if (!t.isIdentifier(index)) {
@@ -247,7 +252,7 @@ class Transformer {
         while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
           let index = safeGet(callExpr, 'node.arguments[0].params[1]')
           if (!t.isIdentifier(index)) {
-            index = t.identifier('__index' + counter)
+            index = t.identifier('__index' + self.anonymousFuncCounter())
             safeSet(callExpr, 'node.arguments[0].params[1]', index)
           }
           indices.add(index)
@@ -292,7 +297,7 @@ class Transformer {
         )
         classBody.push(
           t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.restElement(t.identifier('e'))], t.blockStatement([
-            isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
+            isCatch ? stopPropagationExpr() : t.emptyStatement(),
             t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.spreadElement(t.identifier('e'))])))
           ]))
         )
@@ -678,14 +683,14 @@ class Transformer {
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
-              self.buildPropsAnonymousFunc(attr, expr, true)
+              self.buildPropsAnonymousFunc(attr, expr, true, path)
             }
           } else if (t.isMemberExpression(expr)) {
             if (
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
               ) {
-              self.buildPropsAnonymousFunc(attr, expr as any, false)
+              self.buildPropsAnonymousFunc(attr, expr as any, false, path)
             }
           } else if (!t.isLiteral(expr)) {
             self.buildAnonyMousFunc(path, attr, expr)
@@ -862,7 +867,7 @@ class Transformer {
     })
   }
 
-  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
+  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false, path) => {
     const { code } = generate(expr)
     const id = t.isMemberExpression(expr.callee) ? findFirstIdentifierFromMemberExpression(expr.callee) : null
     if (
@@ -923,6 +928,9 @@ class Transformer {
           ))
         ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
+    } else if (t.isMemberExpression(expr) && !t.isThisExpression(expr.object)) {
+      // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清楚
+      this.buildAnonyMousFunc(path, attr, expr)
     }
   }
 

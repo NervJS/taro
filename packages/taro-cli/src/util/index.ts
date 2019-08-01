@@ -496,7 +496,7 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
 }
 
 export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean {
-  const isQuickappPkg = /^@[a-zA-Z]{1,}\.[a-zA-Z]{1,}/.test(name)
+  const isQuickappPkg = /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
   let hasSetInManifest = false
   quickappPkgs.forEach(item => {
     if (item.name === name.replace(/^@/, '')) {

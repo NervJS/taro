@@ -244,6 +244,7 @@ export default function transform (options: Options): TransformResult {
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
   const importSources = new Set<string>()
+  const classMethods = new Map<string, NodePath<t.ClassMethod | t.ClassProperty>>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
@@ -330,8 +331,11 @@ export default function transform (options: Options): TransformResult {
       mainClass = path as any
     },
     ClassMethod (path) {
-      if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
-        renderMethod = path
+      if (t.isIdentifier(path.node.key)) {
+        if (path.node.key.name === 'render') {
+          renderMethod = path
+        }
+        classMethods.set(path.node.key.name, path)
       }
     },
     IfStatement (path) {
@@ -613,6 +617,20 @@ export default function transform (options: Options): TransformResult {
       }
     },
     ClassProperty (path) {
+      const { key: { name }, value } = path.node
+      if (t.isArrowFunctionExpression(value) || t.isFunctionExpression(value)) {
+        classMethods.set(name, path)
+        if (name.startsWith('render')) {
+          path.replaceWith(t.classMethod(
+            'method',
+            t.identifier(name),
+            value.params,
+            t.isBlockStatement(value.body) ? value.body : t.blockStatement([
+              t.returnStatement(value.body)
+            ])
+          ))
+        }
+      }
       if (Adapter.type !== Adapters.quickapp) {
         return
       }
@@ -798,7 +816,7 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!, classMethods).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')

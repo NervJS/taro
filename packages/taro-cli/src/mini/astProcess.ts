@@ -280,6 +280,7 @@ export function parseAst (
   const taroSelfComponents = new Set<string>()
   ast = babel.transformFromAst(ast, '', {
     plugins: [
+      [require('babel-plugin-preval')],
       [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }],
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
@@ -447,8 +448,9 @@ export function parseAst (
         value = replaceAliasPath(sourceFilePath, value, pathAlias)
         source.value = value
       }
+
       const quickappPkgs = quickappManifest ? quickappManifest.features : []
-      if (isNpmPkg(value) && !isQuickappPkg(value, quickappPkgs) && !notExistNpmList.has(value)) {
+      if (isNpmPkg(value) && !(isQuickApp && isQuickappPkg(value, quickappPkgs)) && !notExistNpmList.has(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
             specifiers.forEach(specifier => {
@@ -554,7 +556,7 @@ export function parseAst (
           args[0].value = value
         }
         const quickappPkgs = quickappManifest ? quickappManifest.features : []
-        if (isNpmPkg(value) && !isQuickappPkg(value, quickappPkgs) && !notExistNpmList.has(value)) {
+        if (isNpmPkg(value) && !(isQuickApp && isQuickappPkg(value, quickappPkgs)) && !notExistNpmList.has(value)) {
           if (value === taroJsComponents) {
             if (isQuickApp) {
               if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {

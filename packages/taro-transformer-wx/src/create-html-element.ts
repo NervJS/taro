@@ -1,5 +1,5 @@
 import { Adapters, Adapter } from './adapter'
-import { quickappComponentName } from './constant'
+import { quickappComponentName, DEFAULT_Component_SET_COPY } from './constant'
 import { transformOptions } from './options'
 import { camelCase } from 'lodash'
 import { isTestEnv } from './env'
@@ -15,13 +15,15 @@ if (isTestEnv) {
   voidHtmlTags.add('image')
 }
 
+export const capitalized = (name: string) => name.charAt(0).toUpperCase() + name.slice(1)
+
 interface Options {
   name: string,
   attributes: object,
   value: string
 }
 
-function stringifyAttributes (input: object) {
+function stringifyAttributes (input: object, componentName: string) {
   const attributes: string[] = []
 
   for (const key of Object.keys(input)) {
@@ -36,6 +38,16 @@ function stringifyAttributes (input: object) {
     }
 
     let attribute = key
+
+    if (Adapters.quickapp === Adapter.type && key === 'style') {
+      const nameCapitalized = capitalized(componentName)
+      if (
+        !['div', 'text'].includes(componentName) &&
+        (quickappComponentName.has(nameCapitalized) || DEFAULT_Component_SET_COPY.has(nameCapitalized))
+      ) {
+        attribute = 'customstyle'
+      }
+    }
 
     if (value !== true) {
       attribute += `="${String(value)}"`
@@ -57,10 +69,9 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     },
     options
   )
-
+  const name = options.name
   if (Adapters.quickapp === Adapter.type) {
-    const name = options.name
-    const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
+    const nameCapitalized = capitalized(name)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
     }
@@ -78,7 +89,7 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
 
   const isVoidTag = voidHtmlTags.has(options.name)
 
-  let ret = `<${options.name}${stringifyAttributes(options.attributes)}${isVoidTag ? `/` : '' }>`
+  let ret = `<${options.name}${stringifyAttributes(options.attributes, name)}${isVoidTag ? `/` : '' }>`
 
   if (!isVoidTag) {
     ret += `${options.value}</${options.name}>`
