@@ -3,205 +3,207 @@ export = Taro
 export as namespace Taro
 
 declare namespace Taro {
-  // React Hooks
-  // ----------------------------------------------------------------------
+     // React Hooks
+    // ----------------------------------------------------------------------
 
-  // based on the code in https://github.com/facebook/react/pull/13968
+    // based on the code in https://github.com/facebook/react/pull/13968
 
-  // Unlike the class component setState, the updates are not allowed to be partial
-  type SetStateAction<S> = S | ((prevState: S) => S)
-  // this technically does accept a second argument, but it's already under a deprecation warning
-  // and it's not even released so probably better to not define it.
-  type Dispatch<A> = (value: A) => void
-  // Unlike redux, the actions _can_ be anything
-  type Reducer<S, A> = (prevState: S, action: A) => S
-  // types used to try and prevent the compiler from reducing S
-  // to a supertype common with the second argument to useReducer()
-  type ReducerState<R extends Reducer<any, any>> = R extends Reducer<infer S, any> ? S : never
-  type ReducerAction<R extends Reducer<any, any>> = R extends Reducer<any, infer A> ? A : never
-  // The identity check is done with the SameValue algorithm (Object.is), which is stricter than ===
-  // TODO (TypeScript 3.0): ReadonlyArray<unknown>
-  type DependencyList = ReadonlyArray<any>
+    // Unlike the class component setState, the updates are not allowed to be partial
+    type SetStateAction<S> = S | ((prevState: S) => S)
+    // this technically does accept a second argument, but it's already under a deprecation warning
+    // and it's not even released so probably better to not define it.
+    type Dispatch<A> = (value: A) => void
+    // Unlike redux, the actions _can_ be anything
+    type Reducer<S, A> = (prevState: S, action: A) => S
+    // types used to try and prevent the compiler from reducing S
+    // to a supertype common with the second argument to useReducer()
+    type ReducerState<R extends Reducer<any, any>> = R extends Reducer<infer S, any> ? S : never
+    type ReducerAction<R extends Reducer<any, any>> = R extends Reducer<any, infer A> ? A : never
+    // The identity check is done with the SameValue algorithm (Object.is), which is stricter than ===
+    // TODO (TypeScript 3.0): ReadonlyArray<unknown>
+    type DependencyList = ReadonlyArray<any>
 
-  // NOTE: callbacks are _only_ allowed to return either void, or a destructor.
-  // The destructor is itself only allowed to return void.
-  type EffectCallback = () => void | (() => void | undefined)
+    // NOTE: callbacks are _only_ allowed to return either void, or a destructor.
+    // The destructor is itself only allowed to return void.
+    type EffectCallback = () => (void | (() => void | undefined))
 
-  interface MutableRefObject<T> {
-    current: T
-  }
+    interface MutableRefObject<T> {
+        current: T
+    }
 
-  /**
-   * Returns a stateful value, and a function to update it.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#usestate
-   */
-  function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>]
-  // convenience overload when first argument is ommitted
-  /**
-   * Returns a stateful value, and a function to update it.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#usestate
-   */
-  function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
-  /**
-   * An alternative to `useState`.
-   *
-   * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
-   * multiple sub-values. It also lets you optimize performance for components that trigger deep
-   * updates because you can pass `dispatch` down instead of callbacks.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#usereducer
-   */
-  // overload where "I" may be a subset of ReducerState<R>; used to provide autocompletion.
-  // If "I" matches ReducerState<R> exactly then the last overload will allow initializer to be ommitted.
-  // the last overload effectively behaves as if the identity function (x => x) is the initializer.
-  function useReducer<R extends Reducer<any, any>, I>(
-    reducer: R,
-    initializerArg: I & ReducerState<R>,
-    initializer: (arg: I & ReducerState<R>) => ReducerState<R>
-  ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
-  /**
-   * An alternative to `useState`.
-   *
-   * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
-   * multiple sub-values. It also lets you optimize performance for components that trigger deep
-   * updates because you can pass `dispatch` down instead of callbacks.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#usereducer
-   */
-  // overload for free "I"; all goes as long as initializer converts it into "ReducerState<R>".
-  function useReducer<R extends Reducer<any, any>, I>(
-    reducer: R,
-    initializerArg: I,
-    initializer: (arg: I) => ReducerState<R>
-  ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
-  /**
-   * An alternative to `useState`.
-   *
-   * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
-   * multiple sub-values. It also lets you optimize performance for components that trigger deep
-   * updates because you can pass `dispatch` down instead of callbacks.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#usereducer
-   */
+    /**
+     * Returns a stateful value, and a function to update it.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usestate
+     */
+    function useState<S> (initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>]
+    // convenience overload when first argument is ommitted
+    /**
+     * Returns a stateful value, and a function to update it.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usestate
+     */
+    function useState<S = undefined> (): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
+    /**
+     * An alternative to `useState`.
+     *
+     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
+     * multiple sub-values. It also lets you optimize performance for components that trigger deep
+     * updates because you can pass `dispatch` down instead of callbacks.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+     */
+    // overload where "I" may be a subset of ReducerState<R>; used to provide autocompletion.
+    // If "I" matches ReducerState<R> exactly then the last overload will allow initializer to be ommitted.
+    // the last overload effectively behaves as if the identity function (x => x) is the initializer.
+    function useReducer<R extends Reducer<any, any>, I> (
+        reducer: R,
+        initializerArg: I & ReducerState<R>,
+        initializer: (arg: I & ReducerState<R>) => ReducerState<R>
+    ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
+    /**
+     * An alternative to `useState`.
+     *
+     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
+     * multiple sub-values. It also lets you optimize performance for components that trigger deep
+     * updates because you can pass `dispatch` down instead of callbacks.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+     */
+    // overload for free "I"; all goes as long as initializer converts it into "ReducerState<R>".
+    function useReducer<R extends Reducer<any, any>, I> (
+        reducer: R,
+        initializerArg: I,
+        initializer: (arg: I) => ReducerState<R>
+    ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
+    /**
+     * An alternative to `useState`.
+     *
+     * `useReducer` is usually preferable to `useState` when you have complex state logic that involves
+     * multiple sub-values. It also lets you optimize performance for components that trigger deep
+     * updates because you can pass `dispatch` down instead of callbacks.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+     */
 
-  // I'm not sure if I keep this 2-ary or if I make it (2,3)-ary; it's currently (2,3)-ary.
-  // The Flow types do have an overload for 3-ary invocation with undefined initializer.
+    // I'm not sure if I keep this 2-ary or if I make it (2,3)-ary; it's currently (2,3)-ary.
+    // The Flow types do have an overload for 3-ary invocation with undefined initializer.
 
-  // NOTE: without the ReducerState indirection, TypeScript would reduce S to be the most common
-  // supertype between the reducer's return type and the initialState (or the initializer's return type),
-  // which would prevent autocompletion from ever working.
+    // NOTE: without the ReducerState indirection, TypeScript would reduce S to be the most common
+    // supertype between the reducer's return type and the initialState (or the initializer's return type),
+    // which would prevent autocompletion from ever working.
 
-  // TODO: double-check if this weird overload logic is necessary. It is possible it's either a bug
-  // in older versions, or a regression in newer versions of the typescript completion service.
-  function useReducer<R extends Reducer<any, any>>(
-    reducer: R,
-    initialState: ReducerState<R>,
-    initializer?: undefined
-  ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
-  /**
-   * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
-   * (`initialValue`). The returned object will persist for the full lifetime of the component.
-   *
-   * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
-   * value around similar to how you’d use instance fields in classes.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#useref
-   */
-  // TODO (TypeScript 3.0): <T extends unknown>
-  function useRef<T>(initialValue: T): MutableRefObject<T>
+    // TODO: double-check if this weird overload logic is necessary. It is possible it's either a bug
+    // in older versions, or a regression in newer versions of the typescript completion service.
+    function useReducer<R extends Reducer<any, any>> (
+        reducer: R,
+        initialState: ReducerState<R>,
+        initializer?: undefined
+    ): [ReducerState<R>, Dispatch<ReducerAction<R>>]
+    /**
+     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+     * (`initialValue`). The returned object will persist for the full lifetime of the component.
+     *
+     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+     * value around similar to how you’d use instance fields in classes.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useref
+     */
+    // TODO (TypeScript 3.0): <T extends unknown>
+    function useRef<T> (initialValue: T): MutableRefObject<T>
 
-  interface RefObject<T> {
-    readonly current: T | null
-  }
+    interface RefObject<T> {
+        readonly current: T | null
+    }
 
-  function createRef<T>(): RefObject<T>
+    function createRef<T>(): RefObject<T>;
 
-  // convenience overload for refs given as a ref prop as they typically start with a null value
-  /**
-   * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
-   * (`initialValue`). The returned object will persist for the full lifetime of the component.
-   *
-   * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
-   * value around similar to how you’d use instance fields in classes.
-   *
-   * Usage note: if you need the result of useRef to be directly mutable, include `| null` in the type
-   * of the generic argument.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#useref
-   */
-  // TODO (TypeScript 3.0): <T extends unknown>
-  function useRef<T>(initialValue: T | null): RefObject<T>
-  // convenience overload for potentially undefined initialValue / call with 0 arguments
-  // has a default to stop it from defaulting to {} instead
-  /**
-   * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
-   * (`initialValue`). The returned object will persist for the full lifetime of the component.
-   *
-   * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
-   * value around similar to how you’d use instance fields in classes.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#useref
-   */
-  // TODO (TypeScript 3.0): <T extends unknown>
-  function useRef<T = undefined>(): MutableRefObject<T | undefined>
-  /**
-   * The signature is identical to `useEffect`, but it fires synchronously after all DOM mutations.
-   * Use this to read layout from the DOM and synchronously re-render. Updates scheduled inside
-   * `useLayoutEffect` will be flushed synchronously, before the browser has a chance to paint.
-   *
-   * Prefer the standard `useEffect` when possible to avoid blocking visual updates.
-   *
-   * If you’re migrating code from a class component, `useLayoutEffect` fires in the same phase as
-   * `componentDidMount` and `componentDidUpdate`.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#uselayouteffect
-   */
-  function useLayoutEffect(effect: EffectCallback, deps?: DependencyList): void
-  /**
-   * Accepts a function that contains imperative, possibly effectful code.
-   *
-   * @param effect Imperative function that can return a cleanup function
-   * @param deps If present, effect will only activate if the values in the list change.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#useeffect
-   */
-  function useEffect(effect: EffectCallback, deps?: DependencyList): void
-  // NOTE: this does not accept strings, but this will have to be fixed by removing strings from type Ref<T>
-  /**
-   * `useImperativeHandle` customizes the instance value that is exposed to parent components when using
-   * `ref`. As always, imperative code using refs should be avoided in most cases.
-   *
-   * `useImperativeHandle` should be used with `React.forwardRef`.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
-   */
-  type Ref<T> = string | { bivarianceHack(instance: T | null): any }['bivarianceHack']
-  function useImperativeHandle<T, R extends T>(ref: Ref<T> | undefined, init: () => R, deps?: DependencyList): void
-  // I made 'inputs' required here and in useMemo as there's no point to memoizing without the memoization key
-  // useCallback(X) is identical to just using X, useMemo(() => Y) is identical to just using Y.
-  /**
-   * `useCallback` will return a memoized version of the callback that only changes if one of the `inputs`
-   * has changed.
-   *
-   * @version 16.8.0
-   * @see https://reactjs.org/docs/hooks-reference.html#usecallback
-   */
-  // TODO (TypeScript 3.0): <T extends (...args: never[]) => unknown>
-  function useCallback<T extends (...args: any[]) => any>(callback: T, deps: DependencyList): T
-  /**
+    // convenience overload for refs given as a ref prop as they typically start with a null value
+    /**
+     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+     * (`initialValue`). The returned object will persist for the full lifetime of the component.
+     *
+     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+     * value around similar to how you’d use instance fields in classes.
+     *
+     * Usage note: if you need the result of useRef to be directly mutable, include `| null` in the type
+     * of the generic argument.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useref
+     */
+    // TODO (TypeScript 3.0): <T extends unknown>
+    function useRef<T> (initialValue: T | null): RefObject<T>
+    // convenience overload for potentially undefined initialValue / call with 0 arguments
+    // has a default to stop it from defaulting to {} instead
+    /**
+     * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+     * (`initialValue`). The returned object will persist for the full lifetime of the component.
+     *
+     * Note that `useRef()` is useful for more than the `ref` attribute. It’s handy for keeping any mutable
+     * value around similar to how you’d use instance fields in classes.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useref
+     */
+    // TODO (TypeScript 3.0): <T extends unknown>
+    function useRef<T = undefined> (): MutableRefObject<T | undefined>
+    /**
+     * The signature is identical to `useEffect`, but it fires synchronously after all DOM mutations.
+     * Use this to read layout from the DOM and synchronously re-render. Updates scheduled inside
+     * `useLayoutEffect` will be flushed synchronously, before the browser has a chance to paint.
+     *
+     * Prefer the standard `useEffect` when possible to avoid blocking visual updates.
+     *
+     * If you’re migrating code from a class component, `useLayoutEffect` fires in the same phase as
+     * `componentDidMount` and `componentDidUpdate`.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#uselayouteffect
+     */
+    function useLayoutEffect (effect: EffectCallback, deps?: DependencyList): void
+    /**
+     * Accepts a function that contains imperative, possibly effectful code.
+     *
+     * @param effect Imperative function that can return a cleanup function
+     * @param deps If present, effect will only activate if the values in the list change.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useeffect
+     */
+    function useEffect (effect: EffectCallback, deps?: DependencyList): void
+    // NOTE: this does not accept strings, but this will have to be fixed by removing strings from type Ref<T>
+    /**
+     * `useImperativeHandle` customizes the instance value that is exposed to parent components when using
+     * `ref`. As always, imperative code using refs should be avoided in most cases.
+     *
+     * `useImperativeHandle` should be used with `React.forwardRef`.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+     */
+    type Ref<T> =
+      | string
+      | { bivarianceHack (instance: T | null): any }['bivarianceHack']
+    function useImperativeHandle<T, R extends T> (ref: Ref<T> | undefined, init: () => R, deps?: DependencyList): void
+    // I made 'inputs' required here and in useMemo as there's no point to memoizing without the memoization key
+    // useCallback(X) is identical to just using X, useMemo(() => Y) is identical to just using Y.
+    /**
+     * `useCallback` will return a memoized version of the callback that only changes if one of the `inputs`
+     * has changed.
+     *
+     * @version 16.8.0
+     * @see https://reactjs.org/docs/hooks-reference.html#usecallback
+     */
+    // TODO (TypeScript 3.0): <T extends (...args: never[]) => unknown>
+    function useCallback<T extends (...args: any[]) => any> (callback: T, deps: DependencyList): T
+    /**
      * `useMemo` will only recompute the memoized value when one of the `deps` has changed.
      *
      * Usage note: if calling `useMemo` with a referentially stable function, also give it as the input in
@@ -219,8 +221,8 @@ declare namespace Taro {
      * @version 16.8.0
      * @see https://reactjs.org/docs/hooks-reference.html#usememo
      */
-  // allow undefined, but don't make it optional as that is very likely a mistake
-  function useMemo<T>(factory: () => T, deps: DependencyList | undefined): T
+    // allow undefined, but don't make it optional as that is very likely a mistake
+    function useMemo<T> (factory: () => T, deps: DependencyList | undefined): T
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
@@ -297,15 +299,15 @@ declare namespace Taro {
   }
 
   type GetDerivedStateFromProps<P, S> =
-    /**
-     * Returns an update to a component's state based on its new props and old state.
-     *
-     * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
-     */
-    (nextProps: Readonly<P>, prevState: S) => Partial<S> | null
+  /**
+   * Returns an update to a component's state based on its new props and old state.
+   *
+   * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
+   */
+  (nextProps: Readonly<P>, prevState: S) => Partial<S> | null;
 
   interface StaticLifecycle<P, S> {
-    getDerivedStateFromProps?: GetDerivedStateFromProps<P, S>
+    getDerivedStateFromProps?: GetDerivedStateFromProps<P, S>;
   }
 
   interface NewLifecycle<P, S, SS> {
@@ -317,14 +319,14 @@ declare namespace Taro {
      * Note: the presence of getSnapshotBeforeUpdate prevents any of the deprecated
      * lifecycle events from running.
      */
-    getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null
+    getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null;
     /**
      * Called immediately after updating occurs. Not called for the initial render.
      *
      * The snapshot is only present if getSnapshotBeforeUpdate is present and returns non-null.
      */
-    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void
-  }
+    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void;
+}
 
   // Components
   interface ComponentLifecycle<P, S, SS = any> extends NewLifecycle<P, S, SS> {
@@ -382,11 +384,14 @@ declare namespace Taro {
   // type Provider<T> = ProviderExoticComponent<ProviderProps<T>>;
   // type Consumer<T> = ExoticComponent<ConsumerProps<T>>;
   interface Context<T> {
-    Provider: ComponentClass<{ value: T }>
-    // Consumer: Consumer<T>;
-    displayName?: string
+      Provider: ComponentClass<{ value: T }>;
+      // Consumer: Consumer<T>;
+      displayName?: string;
   }
-  function createContext<T>(defaultValue: T): Context<T>
+  function createContext<T>(
+      defaultValue: T
+  ): Context<T>;
+
 
   // This will technically work if you give a Consumer<T> or Provider<T> but it's deprecated and warns
   /**
@@ -396,7 +401,8 @@ declare namespace Taro {
    * @version 16.8.0
    * @see https://reactjs.org/docs/hooks-reference.html#usecontext
    */
-  function useContext<T>(context: Context<T> /*, (not public API) observedBits?: number|boolean */): T
+  function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+
 
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
@@ -723,9 +729,9 @@ declare namespace Taro {
       } & {
         path?: string
         scene?: number | string
-        query?: { [key: string]: string } | string
+        query?: {[key: string]: string} | string
         shareTicket?: string
-        referrerInfo?: { [key: string]: any } | string
+        referrerInfo?: {[key: string]: any} | string
       }
       /**
        * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
@@ -759,10 +765,7 @@ declare namespace Taro {
     $preload(key: string, value: any): void
     $preload(key: object): void
 
-    setState<K extends keyof S>(
-      state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S),
-      callback?: () => any
-    ): void
+    setState<K extends keyof S>(state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S), callback?: () => any): void
 
     forceUpdate(callBack?: () => any): void
 
@@ -892,7 +895,7 @@ declare namespace Taro {
    */
 
   namespace request {
-    type Promised<T extends any | string | ArrayBuffer = any> = {
+    type Promised < T extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器返回的数据
        *
@@ -927,7 +930,7 @@ declare namespace Taro {
        */
       abort(): void
     }
-    type Param<P extends any | string | ArrayBuffer = any> = {
+    type Param < P extends any | string | ArrayBuffer = any > = {
       /**
        * 开发者服务器接口地址
        */
@@ -1118,18 +1121,7 @@ declare namespace Taro {
    */
   function request<T = any, U = any>(OBJECT: request.Param<U>): request.requestTask<T>
 
-  type arrayBuffer =
-    | Uint8Array
-    | Int8Array
-    | Uint8Array
-    | Uint8ClampedArray
-    | Int16Array
-    | Uint16Array
-    | Int32Array
-    | Uint32Array
-    | Float32Array
-    | Float64Array
-    | ArrayBuffer
+  type arrayBuffer = Uint8Array | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | ArrayBuffer
 
   /**
    * 将 ArrayBuffer 数据转成 Base64 字符串
@@ -1547,8 +1539,8 @@ declare namespace Taro {
   function sendSocketMessage(OBJECT: sendSocketMessage.Param): Promise<any>
 
   namespace onSocketMessage {
-    type Param<T = any> = (res: ParamParam<T>) => any
-    type ParamParam<T extends any | string | ArrayBuffer = any> = {
+    type Param < T = any > = (res: ParamParam<T>) => any
+    type ParamParam < T extends any | string | ArrayBuffer = any > = {
       /**
        * 服务器返回的消息
        */
@@ -1706,8 +1698,8 @@ declare namespace Taro {
       }
     }
     namespace onMessage {
-      type Param<T = any> = (res: ParamParam<T>) => any
-      type ParamParam<T extends any | string | ArrayBuffer = any> = {
+      type Param < T = any > = (res: ParamParam<T>) => any
+      type ParamParam < T extends any | string | ArrayBuffer = any > = {
         /**
          * 服务器返回的消息
          */
@@ -1721,6 +1713,7 @@ declare namespace Taro {
    * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html) 接口创建返回。
    */
   class SocketTask {
+
     /**
      * websocket 当前的连接 ID。
      */
@@ -1939,15 +1932,7 @@ declare namespace Taro {
        *
        * @since 1.9.90
        */
-      orientation:
-        | 'up'
-        | 'down'
-        | 'left'
-        | 'right'
-        | 'up-mirrored'
-        | 'down-mirrored '
-        | 'left-mirrored'
-        | 'right-mirrored'
+      orientation: 'up' | 'down' | 'left' | 'right' | 'up-mirrored' | 'down-mirrored ' | 'left-mirrored' | 'right-mirrored'
       /**
        * 返回图片的格式
        *
@@ -2483,9 +2468,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioPlayerState.html
    */
-  function getBackgroundAudioPlayerState(
-    OBJECT?: getBackgroundAudioPlayerState.Param
-  ): Promise<getBackgroundAudioPlayerState.Promised>
+  function getBackgroundAudioPlayerState(OBJECT?: getBackgroundAudioPlayerState.Param): Promise<getBackgroundAudioPlayerState.Promised>
 
   namespace playBackgroundAudio {
     type Param = {
@@ -5473,9 +5456,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.startBluetoothDevicesDiscovery.html
    */
-  function startBluetoothDevicesDiscovery(
-    OBJECT?: startBluetoothDevicesDiscovery.Param
-  ): Promise<startBluetoothDevicesDiscovery.Promised>
+  function startBluetoothDevicesDiscovery(OBJECT?: startBluetoothDevicesDiscovery.Param): Promise<startBluetoothDevicesDiscovery.Promised>
 
   namespace stopBluetoothDevicesDiscovery {
     type Promised = {
@@ -5502,9 +5483,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.stopBluetoothDevicesDiscovery.html
    */
-  function stopBluetoothDevicesDiscovery(
-    OBJECT?: stopBluetoothDevicesDiscovery.Param
-  ): Promise<stopBluetoothDevicesDiscovery.Promised>
+  function stopBluetoothDevicesDiscovery(OBJECT?: stopBluetoothDevicesDiscovery.Param): Promise<stopBluetoothDevicesDiscovery.Promised>
 
   namespace getBluetoothDevices {
     type Promised = {
@@ -5720,9 +5699,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getConnectedBluetoothDevices.html
    */
-  function getConnectedBluetoothDevices(
-    OBJECT: getConnectedBluetoothDevices.Param
-  ): Promise<getConnectedBluetoothDevices.Promised>
+  function getConnectedBluetoothDevices(OBJECT: getConnectedBluetoothDevices.Param): Promise<getConnectedBluetoothDevices.Promised>
 
   namespace createBLEConnection {
     type Promised = {
@@ -5967,9 +5944,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceCharacteristics.html
    */
-  function getBLEDeviceCharacteristics(
-    OBJECT: getBLEDeviceCharacteristics.Param
-  ): Promise<getBLEDeviceCharacteristics.Promised>
+  function getBLEDeviceCharacteristics(OBJECT: getBLEDeviceCharacteristics.Param): Promise<getBLEDeviceCharacteristics.Promised>
 
   namespace readBLECharacteristicValue {
     type Promised = {
@@ -6028,9 +6003,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.readBLECharacteristicValue.html
    */
-  function readBLECharacteristicValue(
-    OBJECT: readBLECharacteristicValue.Param
-  ): Promise<readBLECharacteristicValue.Promised>
+  function readBLECharacteristicValue(OBJECT: readBLECharacteristicValue.Param): Promise<readBLECharacteristicValue.Promised>
 
   namespace writeBLECharacteristicValue {
     type Promised = {
@@ -6095,9 +6068,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.writeBLECharacteristicValue.html
    */
-  function writeBLECharacteristicValue(
-    OBJECT: writeBLECharacteristicValue.Param
-  ): Promise<writeBLECharacteristicValue.Promised>
+  function writeBLECharacteristicValue(OBJECT: writeBLECharacteristicValue.Param): Promise<writeBLECharacteristicValue.Promised>
 
   namespace notifyBLECharacteristicValueChange {
     type Promised = {
@@ -6155,9 +6126,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.notifyBLECharacteristicValueChange.html
    */
-  function notifyBLECharacteristicValueChange(
-    OBJECT: notifyBLECharacteristicValueChange.Param
-  ): Promise<notifyBLECharacteristicValueChange.Promised>
+  function notifyBLECharacteristicValueChange(OBJECT: notifyBLECharacteristicValueChange.Param): Promise<notifyBLECharacteristicValueChange.Promised>
 
   namespace onBLECharacteristicValueChange {
     type Param = (res: ParamParam) => any
@@ -9116,9 +9085,7 @@ declare namespace Taro {
       checkAliveType?: number
     }
   }
-  function checkIsSupportFacialRecognition(
-    OBJECT?: checkIsSupportFacialRecognition.Param
-  ): Promise<checkIsSupportFacialRecognition.Promised>
+  function checkIsSupportFacialRecognition(OBJECT?: checkIsSupportFacialRecognition.Param): Promise<checkIsSupportFacialRecognition.Promised>
 
   namespace startFacialRecognitionVerify {
     type Promised = {
@@ -9132,9 +9099,7 @@ declare namespace Taro {
       checkAliveType?: number
     }
   }
-  function startFacialRecognitionVerify(
-    OBJECT?: startFacialRecognitionVerify.Param
-  ): Promise<startFacialRecognitionVerify.Promised>
+  function startFacialRecognitionVerify(OBJECT?: startFacialRecognitionVerify.Param): Promise<startFacialRecognitionVerify.Promised>
 
   namespace startFacialRecognitionVerifyAndUploadVideo {
     type Promised = {
@@ -9148,9 +9113,7 @@ declare namespace Taro {
       checkAliveType?: number
     }
   }
-  function startFacialRecognitionVerifyAndUploadVideo(
-    OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param
-  ): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
+  function startFacialRecognitionVerifyAndUploadVideo(OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
 
   namespace requestPayment {
     type Param = {
@@ -9917,9 +9880,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSupportSoterAuthentication.html
    */
-  function checkIsSupportSoterAuthentication(
-    OBJECT?: checkIsSupportSoterAuthentication.Param
-  ): Promise<checkIsSupportSoterAuthentication.Promised>
+  function checkIsSupportSoterAuthentication(OBJECT?: checkIsSupportSoterAuthentication.Param): Promise<checkIsSupportSoterAuthentication.Promised>
 
   namespace startSoterAuthentication {
     type Promised = {
@@ -10062,9 +10023,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSoterEnrolledInDevice.html
    */
-  function checkIsSoterEnrolledInDevice(
-    OBJECT: checkIsSoterEnrolledInDevice.Param
-  ): Promise<checkIsSoterEnrolledInDevice.Promised>
+  function checkIsSoterEnrolledInDevice(OBJECT: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
 
   /**
    * @since 2.0.1
@@ -10320,9 +10279,7 @@ declare namespace Taro {
     getContext(contextType: string): any
   }
   namespace CanvasContext {
-    namespace draw {
-      type Param1 = () => any
-    }
+    namespace draw { type Param1 = () => any }
   }
   interface Color {}
 
@@ -11654,7 +11611,7 @@ declare namespace Taro {
       /**
        * 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}。
        */
-      referrerInfo: { appId: string; extraData: { [k: string]: any } }
+      referrerInfo: { appId: string, extraData: { [k: string]: any} }
     }
   }
 
@@ -11679,11 +11636,11 @@ declare namespace Taro {
       /**
        * 不存在页面的路径
        */
-      path: string
+      path: string,
       /**
        * 打开不存在页面的 query 参数
        */
-      query: Object
+      query: Object,
       /**
        * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
        */
