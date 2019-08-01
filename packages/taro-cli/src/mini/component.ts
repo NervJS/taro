@@ -247,7 +247,7 @@ export async function buildSingleComponent (
       const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
       const importCustomComponents = new Set(realComponentsPathList.map(item => {
         return {
-          path: path.relative(path.dirname(component), item.path as string).replace(path.extname(item.path as string), ''),
+          path: promoteRelativePath(path.relative(component, item.path as string)).replace(path.extname(item.path as string), ''),
           name: item.name as string
         }
       }))
@@ -262,7 +262,7 @@ export async function buildSingleComponent (
         template: componentWXMLContent
       })
       fs.writeFileSync(outputComponentWXMLPath, uxTxt)
-      printLog(processTypeEnum.GENERATE, '组件文件', `${outputDirName}/${componentObj.name}${outputFilesTypes.TEMPL}`)
+      printLog(processTypeEnum.GENERATE, '组件文件', `${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
     }
 
     const dependencyTree = getDependencyTree()
