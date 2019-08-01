@@ -3,7 +3,7 @@ import * as t from 'babel-types'
 import { isDerivedFromThis } from './utils'
 
 function buildMethodName (n: string) {
-  return `render${n}`
+  return `render${n.charAt(0).toUpperCase() + n.slice(1)}`
 }
 
 export const buildVistor = () => {
@@ -18,15 +18,20 @@ export const buildVistor = () => {
           let methodName = ''
           const classMethod = path.findParent(p => p.isClassMethod())
           if (classMethod && classMethod.isClassMethod() && t.isIdentifier(classMethod.node.key)) {
+            methodName = classMethod.node.key.name
             if (methodName.startsWith('render')) {
               return
             }
-            methodName = classMethod.node.key.name
+            classMethod.node.key = t.identifier(buildMethodName(methodName))
           }
 
           const classProp = path.findParent(p => p.isClassProperty())
           if (classProp && classProp.isClassProperty()) {
             methodName = classProp.node.key.name
+            if (methodName.startsWith('render')) {
+              return
+            }
+            classProp.node.key = t.identifier(buildMethodName(methodName))
           }
 
           if (methodName.length > 0 && !methodName.startsWith('render')) {
