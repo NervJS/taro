@@ -167,46 +167,49 @@ export function componentTrigger (component, key, args) {
   args = args || []
 
   if (key === 'componentDidMount') {
-     if (component['$$hasLoopRef']) {
-       Current.current = component
-       component._disableEffect = true
-       component._createData(component.state, component.props, true)
-       component._disableEffect = false
-       Current.current = null
-     }
+    if (component['$$hasLoopRef']) {
+      Current.current = component
+      component._disableEffect = true
+      component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
+    }
 
-      if (component['$$refs'] && component['$$refs'].length > 0) {
-        let refs = {}
-        const refComponents = component['$$refs'].map(ref => new Promise((resolve, reject) => {
-          const query = tt.createSelectorQuery().in(component.$scope)
-          if (ref.type === 'component') {
-            component.$scope.selectComponent(`#${ref.id}`, target => {
-              resolve({
-                target: target.$component || target,
-                ref
-              })
-            })
-          } else {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      const refComponents = component['$$refs'].map(ref => new Promise((resolve, reject) => {
+        const query = tt.createSelectorQuery().in(component.$scope)
+        if (ref.type === 'component') {
+          component.$scope.selectComponent(`#${ref.id}`, target => {
             resolve({
-              target: query.select(`#${ref.id}`),
+              target: target.$component || target,
               ref
             })
-          }
-        }))
-        Promise.all(refComponents)
-          .then(targets => {
-            targets.forEach(({ ref, target }) => {
-              commitAttachRef(ref, target, component, refs, true)
-              ref.target = target
-            })
-            component.refs = Object.assign({}, component.refs || {}, refs)
-            //此处执行componentDidMount
-            component[key] && typeof component[key] === 'function' && component[key](...args)
           })
-          .catch(err => console.error(err))
-        //此处跳过执行componentDidMount，在refComponents完成后再次执行
-        return
-      }
+        } else {
+          resolve({
+            target: query.select(`#${ref.id}`),
+            ref
+          })
+        }
+      }))
+      Promise.all(refComponents)
+        .then(targets => {
+          targets.forEach(({ ref, target }) => {
+            commitAttachRef(ref, target, component, refs, true)
+            ref.target = target
+          })
+          component.refs = Object.assign({}, component.refs || {}, refs)
+          // 此处执行componentDidMount
+          component[key] && typeof component[key] === 'function' && component[key](...args)
+        })
+        .catch(err => {
+          console.error(err)
+          component[key] && typeof component[key] === 'function' && component[key](...args)
+        })
+        // 此处跳过执行componentDidMount，在refComponents完成后再次执行
+      return
+    }
   }
 
   if (key === 'componentWillUnmount') {
@@ -314,7 +317,10 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     ready () {
-
+      if (!this.$component.__mounted) {
+        this.$component.__mounted = true
+        componentTrigger(this.$component, 'componentDidMount')
+      }
     },
     detached () {
       const component = this.$component

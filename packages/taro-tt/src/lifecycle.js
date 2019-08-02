@@ -225,10 +225,6 @@ function doUpdate (component, prevProps, prevState) {
         typeof cbs[i] === 'function' && cbs[i].call(component)
       }
     }
-    if (!component.__mounted) {
-      component.__mounted = true
-      componentTrigger(component, 'componentDidMount')
-    }
   }
 
   if (Object.keys(dataDiff).length === 0) {
