@@ -164,12 +164,56 @@ export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curA
 }
 
 export function componentTrigger (component, key, args) {
+  args = args || []
+
+  if (key === 'componentDidMount') {
+     if (component['$$hasLoopRef']) {
+       Current.current = component
+       component._disableEffect = true
+       component._createData(component.state, component.props, true)
+       component._disableEffect = false
+       Current.current = null
+     }
+
+      if (component['$$refs'] && component['$$refs'].length > 0) {
+        let refs = {}
+        const refComponents = component['$$refs'].map(ref => new Promise((resolve, reject) => {
+          const query = tt.createSelectorQuery().in(component.$scope)
+          if (ref.type === 'component') {
+            component.$scope.selectComponent(`#${ref.id}`, target => {
+              resolve({
+                target: target.$component || target,
+                ref
+              })
+            })
+          } else {
+            resolve({
+              target: query.select(`#${ref.id}`),
+              ref
+            })
+          }
+        }))
+        Promise.all(refComponents)
+          .then(targets => {
+            targets.forEach(({ ref, target }) => {
+              commitAttachRef(ref, target, component, refs, true)
+              ref.target = target
+            })
+            component.refs = Object.assign({}, component.refs || {}, refs)
+            //此处执行componentDidMount
+            component[key] && typeof component[key] === 'function' && component[key](...args)
+          })
+          .catch(err => console.error(err))
+        //此处跳过执行componentDidMount，在refComponents完成后再次执行
+        return
+      }
+  }
+
   if (key === 'componentWillUnmount') {
     const compid = component.$scope.data.compid
     if (compid) propsManager.delete(compid)
   }
 
-  args = args || []
   component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillUnmount') {
     component._dirty = true
@@ -270,44 +314,7 @@ function createComponent (ComponentClass, isPage) {
       initComponent.apply(this, [ComponentClass, isPage])
     },
     ready () {
-      setTimeout(() => {
-        const component = this.$component
-        if (component['$$refs'] && component['$$refs'].length > 0) {
-          let refs = {}
-          const refComponents = component['$$refs'].map(ref => new Promise((resolve, reject) => {
-            const query = tt.createSelectorQuery().in(this)
-            if (ref.type === 'component') {
-              this.selectComponent(`#${ref.id}`, target => {
-                resolve({
-                  target: target.$component || target,
-                  ref
-                })
-              })
-            } else {
-              resolve({
-                target: query.select(`#${ref.id}`),
-                ref
-              })
-            }
-          }))
-          Promise.all(refComponents)
-            .then(targets => {
-              targets.forEach(({ ref, target }) => {
-                commitAttachRef(ref, target, component, refs, true)
-                ref.target = target
-              })
-              component.refs = Object.assign({}, component.refs || {}, refs)
-            })
-            .catch(err => console.error(err))
-        }
-        if (component['$$hasLoopRef']) {
-          Current.current = component
-          component._disableEffect = true
-          component._createData(component.state, component.props, true)
-          component._disableEffect = false
-          Current.current = null
-        }
-      }, 0)
+
     },
     detached () {
       const component = this.$component
