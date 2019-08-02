@@ -6,6 +6,7 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "test": "jest",
+    "dev": "rollup -c rollup.config.js -w",
     "build": "rollup -c rollup.config.js"
   },
   "files": [

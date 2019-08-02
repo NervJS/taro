@@ -65,12 +65,12 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
         })
       }
 
-      componentWillMount () {
+      _constructor () {
         const store = getStore()
         Object.assign(this.props, mergeObjects(mapStateToProps(store.getState(), this.props), initMapDispatch))
         unSubscribe = store.subscribe(stateListener.bind(this))
-        if (super.componentWillMount) {
-          super.componentWillMount()
+        if (super._constructor) {
+          super._constructor(this.props)
         }
       }
 
