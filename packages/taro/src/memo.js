@@ -1,5 +1,5 @@
 import { isFunction } from './util'
-import { shallowEqual } from '@tarojs/utils'
+import shallowEqual from '@tarojs/utils/src/shallow-equal'
 
 export function memo (component, propsAreEqual) {
   component.prototype.shouldComponentUpdate = function (nextProps) {
