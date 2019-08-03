@@ -4,7 +4,7 @@
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf ./dist && gulp",
+    "build": "rimraf ./dist && gulp",
     "build:static": "rsync -avr --exclude=*.ts ./src/assets ./dist",
     "buildv2": "rm -rf ./dist && npm run build:static && tsc",
     "dev": "npm run build:static && tsc --watch",

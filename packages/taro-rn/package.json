@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "server": "node node_modules/react-native/local-cli/cli.js start",
-    "build": "rm -rf ./dist && gulp",
+    "build": "rimraf ./dist && gulp",
     "dev": "tsc --watch",
     "prepack": "npm run build",
     "test": "jest",
