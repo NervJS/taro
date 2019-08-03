@@ -49,7 +49,7 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: obj
   // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
   // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
   // 源代码文件，导致文件被意外修改
-  filePath = fs.realpathSync(filePath)
+  // filePath = fs.realpathSync(filePath) // 获取真实路径导致alias失效
 
   const prefixs = Object.keys(pathAlias)
   if (prefixs.includes(name)) {
