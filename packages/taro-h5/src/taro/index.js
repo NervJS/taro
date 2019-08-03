@@ -1,12 +1,12 @@
+/* eslint camelcase: [1] */
+
 import {
   ENV_TYPE,
   eventCenter,
   Events,
   getEnv,
   initPxTransform as originalInitPxTransform,
-  /* eslint-disable-next-line camelcase */
   internal_safe_get,
-  /* eslint-disable-next-line camelcase */
   internal_safe_set,
   render,
   interceptors
@@ -21,11 +21,9 @@ import Nerv, {
   isValidElement,
   unmountComponentAtNode,
   createPortal,
-  /* eslint-disable-next-line camelcase */
   unstable_renderSubtreeIntoContainer,
   hydrate,
   createFactory,
-  /* eslint-disable-next-line camelcase */
   unstable_batchedUpdates,
   version,
   PropTypes,
@@ -191,3 +189,51 @@ taro.canIUseWebp = canIUseWebp
 taro.interceptors = interceptors
 
 export default taro
+
+export {
+  getEnv,
+  ENV_TYPE,
+  Events,
+  eventCenter,
+  render,
+  internal_safe_set,
+  internal_safe_get,
+  Children,
+  createElement,
+  cloneElement,
+  options,
+  findDOMNode,
+  isValidElement,
+  unmountComponentAtNode,
+  createPortal,
+  /* eslint-disable-next-line camelcase */
+  unstable_renderSubtreeIntoContainer,
+  hydrate,
+  createFactory,
+  /* eslint-disable-next-line camelcase */
+  unstable_batchedUpdates,
+  version,
+  PropTypes,
+  createRef,
+  forwardRef,
+  memo,
+  createContext,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  useContext,
+
+  Component,
+  PureComponent,
+  initPxTransform,
+  requirePlugin,
+  getApp,
+  pxTransform,
+  canIUseWebp,
+  interceptors
+}

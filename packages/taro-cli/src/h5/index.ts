@@ -7,7 +7,7 @@ import generate from 'better-babel-generator'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
-import { findLastIndex, merge } from 'lodash'
+import { findLastIndex, merge, get } from 'lodash'
 import * as path from 'path'
 
 import CONFIG from '../config'
@@ -56,12 +56,6 @@ class Compiler {
   projectConfig
   h5Config
   routerConfig
-  appPath: string
-  routerMode: string
-  customRoutes: {
-    [key: string]: string
-  }
-  routerBasename: string
   sourceRoot: string
   sourcePath: string
   outputPath: string
@@ -71,10 +65,12 @@ class Compiler {
   entryFilePath: string
   entryFileName: string
   pxTransformConfig
-  pathAlias
+  pathAlias: {
+    [key: string]: string
+  }
   pages: string[] = []
 
-  constructor (appPath) {
+  constructor (public appPath: string) {
     const projectConfig = recursiveMerge({
       h5: {
         router: {
@@ -89,12 +85,6 @@ class Compiler {
     const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
     this.outputDir = outputDir
     this.h5Config = projectConfig.h5
-    const routerConfig = this.h5Config.router
-
-    this.appPath = appPath
-    this.routerMode = routerConfig.mode
-    this.customRoutes = routerConfig.customRoutes
-    this.routerBasename = addLeadingSlash(stripTrailingSlash(routerConfig.basename || '/'))
     this.sourcePath = path.join(appPath, sourceDir)
     this.outputPath = path.join(appPath, outputDir)
     this.tempDir = CONFIG.TEMP_DIR
@@ -131,7 +121,7 @@ class Compiler {
     )
     if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
 
-    let relSrcPath = path.relative('src', relPath)
+    let relSrcPath = path.relative(this.sourceRoot, relPath)
     relSrcPath = path.format({
       dir: path.dirname(relSrcPath),
       base: path.basename(relSrcPath, path.extname(relSrcPath))
@@ -181,9 +171,9 @@ class Compiler {
     const outputDir = this.outputDir
     const sourceRoot = this.sourceRoot
     const tempPath = this.tempPath
+    const pathAlias = this.pathAlias
 
     const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
-    // const sourceRoot = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     if (projectConfig.deviceRatio) {
       h5Config.deviceRatio = projectConfig.deviceRatio
     }
@@ -191,6 +181,7 @@ class Compiler {
       h5Config.env = projectConfig.env
     }
     recursiveMerge(h5Config, {
+      alias: pathAlias,
       copy: projectConfig.copy,
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
@@ -243,9 +234,9 @@ class Compiler {
 
   processEntry (code, filePath) {
     const pages = this.pages
-    const routerMode = this.routerMode
-    const routerBasename = this.routerBasename
-    const customRoutes = this.customRoutes
+    const routerMode = get(this.h5Config, 'router.mode', 'hash')
+    const customRoutes = get(this.h5Config, 'router.customRoutes', {})
+    const routerBasename = addLeadingSlash(stripTrailingSlash(get(this.h5Config, 'router.basename', '/')))
     const pathAlias = this.pathAlias
     const pxTransformConfig = this.pxTransformConfig
 
@@ -256,10 +247,10 @@ class Compiler {
       isTyped: REG_TYPESCRIPT.test(filePath),
       adapter: 'h5'
     }).ast
-    let taroImportDefaultName
-    let providorImportName
-    let storeName
-    let renderCallCode
+    let taroImportDefaultName: string
+    let providerImportName: string
+    let storeName: string
+    let renderCallCode: string
 
     let tabBar
     let tabbarPos
@@ -400,9 +391,9 @@ class Compiler {
             if (providerComponentName && storeName) {
               // 使用redux 或 mobx
               funcBody = `
-                <${providorImportName} store={${storeName}}>
+                <${providerImportName} store={${storeName}}>
                   ${funcBody}
-                </${providorImportName}>`
+                </${providerImportName}>`
             }
 
             /* 插入<Router /> */
@@ -566,60 +557,65 @@ class Compiler {
           const node = astPath.node
           const source = node.source
           const specifiers = node.specifiers
-          let value = source.value
-          if (isAliasPath(value, pathAlias)) {
-            value = this.transformToTempDir(replaceAliasPath(filePath, value, pathAlias))
-            source.value = value
-          }
-          if (!isNpmPkg(value)) {
-            if (value.indexOf('.') === 0) {
-              const pathArr = value.split('/')
-              if (pathArr.indexOf('pages') >= 0) {
-                astPath.remove()
-              } else if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
-                const absolutePath = path.resolve(filePath, '..', value)
-                const dirname = path.dirname(absolutePath)
-                const extname = path.extname(absolutePath)
-                const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
-                const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-                node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
-              }
-            }
-          } else if (value === '@tarojs/taro') {
-            source.value = '@tarojs/taro-h5'
+
+          if (source.value === '@tarojs/taro') {
             const specifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
             if (specifier) {
               taroImportDefaultName = toVar(specifier.local)
             }
-          } else if (value === '@tarojs/redux') {
+            source.value = '@tarojs/taro-h5'
+          } else if (source.value === '@tarojs/redux') {
             const specifier = specifiers.find(item => {
               return t.isImportSpecifier(item) && item.imported.name === providerComponentName
             })
             if (specifier) {
-              providorImportName = specifier.local.name
+              providerImportName = specifier.local.name
             } else {
-              providorImportName = providerComponentName
+              providerImportName = providerComponentName
               specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
             }
             source.value = '@tarojs/redux-h5'
-          } else if (value === '@tarojs/mobx') {
+          } else if (source.value === '@tarojs/mobx') {
             const specifier = specifiers.find(item => {
               return t.isImportSpecifier(item) && item.imported.name === providerComponentName
             })
             if (specifier) {
-              providorImportName = specifier.local.name
+              providerImportName = specifier.local.name
             } else {
-              providorImportName = providerComponentName
+              providerImportName = providerComponentName
               specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
             }
             source.value = '@tarojs/mobx-h5'
-          } else if (value === 'nervjs') {
+          } else if (source.value === 'nervjs') {
             hasNerv = true
             const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
             if (!defaultSpecifier) {
               specifiers.unshift(
                 t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
               )
+            }
+          }
+
+          if (isAliasPath(source.value, pathAlias)) {
+            source.value = this.transformToTempDir(replaceAliasPath(filePath, source.value, pathAlias))
+          }
+
+          if (!isNpmPkg(source.value)) {
+            if (source.value.indexOf('.') === 0) {
+              const pathArr = source.value.split('/')
+
+              /* FIXME: 会导致误删除 */
+              if (pathArr.indexOf('pages') >= 0) {
+                astPath.remove()
+              } else if (REG_SCRIPTS.test(source.value) || path.extname(source.value) === '') {
+                /* 移除后缀名 */
+                const absolutePath = path.resolve(filePath, '..', source.value)
+                const dirname = path.dirname(absolutePath)
+                const extname = path.extname(absolutePath)
+                const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+                const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
+                source.value = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+              }
             }
           }
         }
@@ -630,8 +626,14 @@ class Compiler {
           const callee = node.callee
           const calleeName = toVar(callee)
           const parentPath = astPath.parentPath
+          const arg0 = node.arguments[0]
 
-          if (t.isMemberExpression(callee)) {
+          if (calleeName === 'require' && t.isStringLiteral(arg0)) {
+            const required = arg0.value
+            if (required === '@tarojs/taro-h5') {
+              arg0.value = `@tarojs/taro-h5/dist/index.cjs.js`
+            }
+          } else if (t.isMemberExpression(callee)) {
             const object = callee.object as t.Identifier
             const property = callee.property as t.Identifier
             if (object.name === taroImportDefaultName && property.name === 'render') {
@@ -821,7 +823,7 @@ class Compiler {
         const attrName = toVar(attribute.name)
         if (attrName === idAttrName) return toVar(attribute.value)
         else return false
-      }, false)
+      }, false as string | false)
     }
     const getComponentRef = (node: t.JSXOpeningElement) => {
       return node.attributes.find(attribute => {
@@ -844,24 +846,10 @@ class Compiler {
         enter: (astPath: NodePath<t.ImportDeclaration>) => {
           const node = astPath.node
           const source = node.source
-          let value = source.value
           const specifiers = node.specifiers
-          if (isAliasPath(value, pathAlias)) {
-            value = this.transformToTempDir(replaceAliasPath(filePath, value, pathAlias))
-            source.value = value
-          }
-          if (!isNpmPkg(value)) {
-            if (REG_SCRIPTS.test(value) || path.extname(value) === '') {
-              const absolutePath = path.resolve(filePath, '..', value)
-              const dirname = path.dirname(absolutePath)
-              const extname = path.extname(absolutePath)
-              const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
-              const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-              node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
-            }
-          } else if (value === '@tarojs/taro') {
+
+          if (source.value === '@tarojs/taro') {
             importTaroNode = node
-            source.value = '@tarojs/taro-h5'
             specifiers.forEach(specifier => {
               if (t.isImportDefaultSpecifier(specifier)) {
                 taroImportDefaultName = toVar(specifier.local)
@@ -869,18 +857,34 @@ class Compiler {
                 taroapiMap.set(toVar(specifier.local), toVar(specifier.imported))
               }
             })
-          } else if (value === '@tarojs/redux') {
+            source.value = '@tarojs/taro-h5'
+          } else if (source.value === '@tarojs/redux') {
             source.value = '@tarojs/redux-h5'
-          } else if (value === '@tarojs/mobx') {
+          } else if (source.value === '@tarojs/mobx') {
             source.value = '@tarojs/mobx-h5'
-          } else if (value === '@tarojs/components') {
+          } else if (source.value === '@tarojs/components') {
             importTaroComponentNode = node
             node.specifiers.forEach((specifier) => {
               if (!t.isImportSpecifier(specifier)) return
               componentnameMap.set(toVar(specifier.local), toVar(specifier.imported))
             })
-          } else if (value === 'nervjs') {
+          } else if (source.value === 'nervjs') {
             importNervNode = node
+          }
+
+          if (isAliasPath(source.value, pathAlias)) {
+            source.value = this.transformToTempDir(replaceAliasPath(filePath, source.value, pathAlias))
+          }
+
+          if (!isNpmPkg(source.value)) {
+            if (REG_SCRIPTS.test(source.value) || path.extname(source.value) === '') {
+              const absolutePath = path.resolve(filePath, '..', source.value)
+              const dirname = path.dirname(absolutePath)
+              const extname = path.extname(absolutePath)
+              const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+              const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
+              source.value = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+            }
           }
         }
       },
@@ -921,9 +925,18 @@ class Compiler {
         exit (astPath: NodePath<t.CallExpression>) {
           const node = astPath.node
           const callee = node.callee
+          const calleeName = toVar(callee)
           let needToAppendThis = false
           let funcName = ''
-          if (t.isMemberExpression(callee)) {
+
+          const arg0 = node.arguments[0]
+
+          if (calleeName === 'require' && t.isStringLiteral(arg0)) {
+            const required = arg0.value
+            if (required === '@tarojs/taro-h5') {
+              arg0.value = `@tarojs/taro-h5/dist/index.cjs.js`
+            }
+          } else if (t.isMemberExpression(callee)) {
             const objName = toVar(callee.object)
             const tmpFuncName = toVar(callee.property)
             if (objName === taroImportDefaultName && APIS_NEED_TO_APPEND_THIS.has(tmpFuncName)) {

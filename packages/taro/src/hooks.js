@@ -1,6 +1,10 @@
 import { isFunction, isUndefined, isArray, isNullOrUndef, defer, objectIs } from './util'
 import { Current } from './current'
 
+export function forceUpdateCallback () {
+  //
+}
+
 function getHooks (index) {
   if (Current.current === null) {
     throw new Error(`invalid hooks call: hooks can only be called in a stateless component.`)
@@ -24,7 +28,7 @@ export function useState (initialState) {
       (action) => {
         hook.state[0] = isFunction(action) ? action(hook.state[0]) : action
         hook.component._disable = false
-        hook.component.setState({})
+        hook.component.setState({}, forceUpdateCallback)
       }
     ]
   }
@@ -47,7 +51,7 @@ export function useReducer (
       (action) => {
         hook.state[0] = reducer(hook.state[0], action)
         hook.component._disable = false
-        hook.component.setState({})
+        hook.component.setState({}, forceUpdateCallback)
       }
     ]
   }

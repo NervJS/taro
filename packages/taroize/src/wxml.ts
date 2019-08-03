@@ -123,21 +123,24 @@ export const createWxmlVistor = (
       }
     }
   }
+
+  const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
+    const nodeName = path.node.name
+    if (path.parentPath.isJSXAttribute()) {
+      if (nodeName === WX_KEY) {
+        path.replaceWith(t.jSXIdentifier('key'))
+      }
+      if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+        // tslint:disable-next-line
+        console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
+        path.parentPath.remove()
+      }
+    }
+  }
+
   return {
     JSXAttribute: jsxAttrVisitor,
-    JSXIdentifier (path) {
-      const nodeName = path.node.name
-      if (path.parentPath.isJSXAttribute()) {
-        if (nodeName === WX_KEY) {
-          path.replaceWith(t.jSXIdentifier('key'))
-        }
-        if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
-          // tslint:disable-next-line
-          console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
-          path.parentPath.remove()
-        }
-      }
-    },
+    JSXIdentifier: renameJSXKey,
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
         const openingElement = path.get('openingElement')
@@ -159,7 +162,8 @@ export const createWxmlVistor = (
               refIds.add(p.node.name)
             }
           },
-          JSXAttribute: jsxAttrVisitor
+          JSXAttribute: jsxAttrVisitor,
+          JSXIdentifier: renameJSXKey
         })
         const slotAttr = attrs.find(a => a.node.name.name === 'slot')
         if (slotAttr) {
@@ -236,9 +240,9 @@ export const createWxmlVistor = (
             let usedTemplate = new Set<string>()
 
             traverse(ast, {
-              JSXIdentifier (p) {
-                const node = p.node
-                if (node.name.endsWith('Tmpl') && node.name.length > 4 && p.parentPath.isJSXOpeningElement()) {
+              JSXIdentifier (path) {
+                const node = path.node
+                if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
                 }
               }
@@ -720,7 +724,7 @@ function parseAttribute (attr: Attribute) {
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
-      jsxValue = t.stringLiteral(content)
+      jsxValue = t.stringLiteral(content.replace(/\"/g, `'`))
     } else {
       let expr: t.Expression
       try {

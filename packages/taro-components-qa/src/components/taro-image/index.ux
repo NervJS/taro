@@ -3,7 +3,7 @@
     src="{{src}}"
     alt="{{alt}}"
     id="{{id}}"
-    class="taro_image {{className}}"
+    class="taro_image {{classname}}"
     style="{{imageStyle}}"
     onclick="handleClick"
   >
@@ -23,7 +23,7 @@
         required: false,
         default: 'taro-img'
       },
-      className: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -33,7 +33,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}
@@ -51,7 +51,7 @@
     }),
 
     onInit () {
-      this.imageStyle = Object.assign({}, this.style)
+      this.imageStyle = Object.assign({}, this.customstyle)
       switch (this.model) {
         case 'scaleToFill':
           this.imageStyle['resize-mode'] = 'contain'

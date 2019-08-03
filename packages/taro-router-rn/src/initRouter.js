@@ -1,13 +1,22 @@
 import React from 'react'
 import getWrappedScreen from './getWrappedScreen'
-import { Image } from 'react-native'
 import { getNavigationOptions } from './utils'
+import { TabBarIcon } from './TabBarIcon'
 
 const {createStackNavigator, createBottomTabNavigator} = require('react-navigation')
 
-function getTabBarVisible (navigation) {
+function getTaroTabBarIconConfig (index, key) {
+  const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
+  return _taroTabBarIconConfig[index] && _taroTabBarIconConfig[index][key]
+}
+
+function getRouteParam (navigation, name) {
   let routeState = navigation.state.routes[navigation.state.index]
-  const tabBarVisible = routeState.params && routeState.params._tabBarVisible
+  return routeState.params && routeState.params[name]
+}
+
+function getTabBarVisibleFlag (navigation) {
+  const tabBarVisible = getRouteParam(navigation, '_tabBarVisible')
   if (typeof tabBarVisible === 'boolean') {
     return tabBarVisible
   } else {
@@ -58,19 +67,35 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
   const RouteConfigs = getTabRouteConfig({pageList, Taro, tabBar, navigationOptions})
   // TODO tabBar.position
   return createBottomTabNavigator(RouteConfigs, {
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({navigation}) => ({ // 这里得到的是 tab 的 navigation
       tabBarIcon: ({focused, tintColor}) => {
         const {routeName} = navigation.state
         const iconConfig = tabBar.list.find(item => item.pagePath === routeName)
+        const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
+        const isRedDotShow = getTaroTabBarIconConfig(tabBarIndex, 'isRedDotShow')
+        const isBadgeShow = getTaroTabBarIconConfig(tabBarIndex, 'isBadgeShow')
+        const badgeText = getTaroTabBarIconConfig(tabBarIndex, 'badgeText')
+        const selectedIconPath = getTaroTabBarIconConfig(tabBarIndex, 'itemSelectedIconPath')
+        const iconPath = getTaroTabBarIconConfig(tabBarIndex, 'itemIconPath')
         return (
-          <Image
-            style={{width: 30, height: 30}}
-            source={focused ? iconConfig.selectedIconPath : iconConfig.iconPath}
+          <TabBarIcon
+            focused={focused}
+            iconConfig={iconConfig}
+            isRedDotShow={isRedDotShow}
+            badgeText={badgeText}
+            isBadgeShow={isBadgeShow}
+            selectedIconPath={selectedIconPath || iconConfig.selectedIconPath}
+            iconPath={iconPath || iconConfig.iconPath}
           />
         )
       },
-      tabBarLabel: tabBar.list.find(item => item.pagePath === navigation.state.routeName).text,
-      tabBarVisible: getTabBarVisible(navigation)
+      tabBarLabel: (() => {
+        const {routeName} = navigation.state
+        const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
+        const itemText = getTaroTabBarIconConfig(tabBarIndex, 'itemText')
+        return itemText || tabBar.list.find(item => item.pagePath === navigation.state.routeName).text
+      })(),
+      tabBarVisible: getTabBarVisibleFlag(navigation)
     }),
     tabBarOptions: {
       backBehavior: 'none',

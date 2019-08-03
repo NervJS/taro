@@ -235,12 +235,15 @@ export default class Convertor {
                   )
                   needInsertImportTaro = true
                 }
-              } else if (callee.type === 'MemberExpression') {
-                const object = callee.object as t.Identifier
-                if (object.name === 'wx') {
-                  (calleePath.get('object') as NodePath).replaceWith(t.identifier('Taro'))
-                  needInsertImportTaro = true
-                }
+              }
+            },
+
+            MemberExpression (astPath) {
+              const node = astPath.node
+              const object = node.object
+              if (t.isIdentifier(object) && object.name === 'wx') {
+                node.object = t.identifier('Taro')
+                needInsertImportTaro = true
               }
             }
           })
@@ -679,7 +682,7 @@ export default class Convertor {
     const version = getPkgVersion()
     const dateObj = new Date()
     const date = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1)}-${dateObj.getDate()}`
-    creator.template(templateName, 'pkg', pkgPath, {
+    creator.template(templateName, 'package.json', pkgPath, {
       description,
       projectName,
       version,
@@ -687,22 +690,22 @@ export default class Convertor {
       typescript: false,
       template: templateName
     })
-    creator.template(templateName, path.join('config', 'index'), path.join(configDir, 'index.js'), {
+    creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
       date,
       projectName
     })
-    creator.template(templateName, path.join('config', 'dev'), path.join(configDir, 'dev.js'))
-    creator.template(templateName, path.join('config', 'prod'), path.join(configDir, 'prod.js'))
-    creator.template(templateName, 'project', path.join(this.convertRoot, 'project.config.json'), {
+    creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'))
+    creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'))
+    creator.template(templateName, 'project.config.json', path.join(this.convertRoot, 'project.config.json'), {
       description,
       projectName
     })
-    creator.template(templateName, 'gitignore', path.join(this.convertRoot, '.gitignore'))
-    creator.template(templateName, 'editorconfig', path.join(this.convertRoot, '.editorconfig'))
-    creator.template(templateName, 'eslintrc', path.join(this.convertRoot, '.eslintrc'), {
+    creator.template(templateName, '.gitignore', path.join(this.convertRoot, '.gitignore'))
+    creator.template(templateName, '.editorconfig', path.join(this.convertRoot, '.editorconfig'))
+    creator.template(templateName, '.eslintrc', path.join(this.convertRoot, '.eslintrc'), {
       typescript: false
     })
-    creator.template(templateName, 'indexhtml', path.join(this.convertDir, 'index.html'))
+    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
       pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
@@ -719,7 +722,13 @@ export default class Convertor {
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.editorconfig')))
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.eslintrc')))
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertDir, 'index.html')))
+      this.showLog()
     })
+  }
+
+  showLog () {
+    console.log()
+    console.log(`${chalk.green('✔ ')} 转换成功，请进入 ${chalk.bold('taroConvert')} 目录下使用 npm 或者 yarn 安装项目依赖后再运行！`)
   }
 
   run () {

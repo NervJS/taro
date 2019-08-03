@@ -32,6 +32,7 @@ function createFiles (
     templatePath: string,
     projectPath: string,
     pageName: string,
+    period: string,
     version?: string
   }
 ): string[] {
@@ -53,7 +54,8 @@ function createFiles (
   const currentStyleExt = styleExtMap[css] || 'css'
 
   files.forEach(file => {
-    const fileRePath = file.replace(templatePath, '')
+    // fileRePath startsWith '/'
+    const fileRePath = file.replace(templatePath, '').replace(path.sep, '/')
     let externalConfig: any = null
 
     // 跑自定义逻辑，确定是否创建此文件
@@ -88,12 +90,12 @@ function createFiles (
     if (config.setPageName) {
       destRePath = config.setPageName
     }
-
+    destRePath = destRePath.replace(/^\//, '')
     // 处理 .js 和 .css 的后缀
     if (
       typescript &&
       changeExt &&
-      !destRePath.startsWith(`/${CONFIG_DIR_NAME}`) &&
+      !destRePath.startsWith(`${CONFIG_DIR_NAME}`) &&
       (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx')
     ) {
       destRePath = destRePath.replace('.js', '.ts')
@@ -124,14 +126,16 @@ export async function createPage (
 
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
-  const handler = fs.existsSync(handlerPath) ? require(handlerPath).pageHandler : null
-  const files = handler ? Object.keys(handler) : []
+  const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []
+  const files = Array.isArray(basePageFiles) ? basePageFiles : []
+  const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
 
   const logs = createFiles(creater, files, handler, {
     ...params,
     templatePath,
     projectPath: projectDir,
-    pageName
+    pageName,
+    period: 'createPage'
   })
 
   creater.fs.commit(() => {
@@ -188,7 +192,8 @@ export async function createApp (
       version,
       templatePath,
       projectPath,
-      pageName: 'index'
+      pageName: 'index',
+      period: 'createApp'
     })
   )
 

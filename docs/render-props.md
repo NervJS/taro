@@ -14,15 +14,25 @@ title: Render Props
 我们可以提供一个带有函数 prop 的 `<Mouse>` 组件，它能够动态决定什么需要渲染的，而不是将 `<Cat>` 硬编码到 `<Mouse>` 组件里，并有效地改变它的渲染结果。
 
 ```jsx
+// cat.js
+import catImage from './cat.jpg'
 class Cat extends Taro.Component {
+  static defaultProps = {
+    mouse: {
+      x: 0,
+      y: 0
+    }
+  }
+
   render() {
-    const mouse = this.props.mouse;
+    const { mouse } = this.props;
     return (
-      <img src="/cat.jpg" style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
+      <Image src={catImage} style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
     );
   }
 }
 
+// mouse.js
 class Mouse extends Taro.Component {
   constructor(props) {
     super(props);
@@ -51,13 +61,14 @@ class Mouse extends Taro.Component {
   }
 }
 
-class MouseTracker extends React.Component {
+// MouseTracker.js
+class MouseTracker extends Taro.Component {
   render() {
     return (
       <View>
         <View>点击鼠标!</View>
         {/*
-          这
+          Mouse 如何渲染由 MouseTracker 的状态控制
         */}
         <Mouse renderCat={mouse => (
           <Cat mouse={mouse} />
