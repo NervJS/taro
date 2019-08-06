@@ -1,6 +1,6 @@
 import camelCase from 'lodash/camelCase'
 
-import { isEmptyObject, queryToJson, addLeadingSlash } from './util'
+import { isEmptyObject, noop, addLeadingSlash } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
 import { updateComponent } from './lifecycle'
 import appGlobal from './global'
@@ -9,7 +9,7 @@ const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
 const componentFnReg = /^prv-fn-/
 const PRELOAD_DATA_KEY = 'preload'
-const pageExtraFns = ['onBackPress', 'onMenuPress']
+const pageExtraFns = ['onBackPress', 'onMenuPress', 'onRefresh']
 
 function filterProps (properties, defaultProps = {}, componentProps = {}, componentData) {
   let newProps = Object.assign({}, componentProps)
@@ -242,6 +242,7 @@ function initComponent (ComponentClass, isPage) {
 export function componentTrigger (component, key, args) {
   args = args || []
 
+  // eslint-disable-next-line no-useless-call
   component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
   if (key === 'componentWillMount') {
     component._dirty = false
