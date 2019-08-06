@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Map } from '../../dist'
 
-export default class EXAudio extends Component {
+export default class EXMap extends Component {
   state = {
     markers: [],
     polyline: [

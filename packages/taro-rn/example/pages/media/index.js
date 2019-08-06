@@ -6,6 +6,7 @@ import { getRecorderManager } from '../../../dist/api/media/record'
 import { createInnerAudioContext } from '../../../dist/api/media/audio'
 import { createVideoContext } from '../../../dist/api/media/video'
 import { Video } from 'expo-av'
+import Map from './Map'
 
 const recordInstance = getRecorderManager()
 
@@ -213,9 +214,7 @@ export class Media extends React.Component {
         </View>
         }
         {this.state.tab === 'map' &&
-        <View>
-          <Text style={styles.index}>地图</Text>
-        </View>
+        <Map />
         }
       </View>
     )

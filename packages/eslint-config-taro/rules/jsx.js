@@ -14,15 +14,20 @@ module.exports = {
     }
   },
   plugins: [
-    'react'
+    'react',
+    'react-hooks'
   ],
 
   // View link below for react rules documentation
   // https://github.com/yannickcr/eslint-plugin-react#list-of-supported-rules
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     // Specify whether double or single quotes should be used in JSX attributes
     // https://eslint.org/docs/rules/jsx-quotes
     'jsx-quotes': ['error', 'prefer-single'],
+
+    'react/sort-comp': ['warn'],
 
     // Prevent passing of children as props
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-children-prop.md
@@ -230,8 +235,6 @@ module.exports = {
 
     // Enforce spaces before the closing bracket of self-closing JSX elements
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
-    'react/jsx-tag-spacing': ["error", { "beforeSelfClosing": "always" }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md
     // Deprecated in favor of jsx-tag-spacing
     // 'react/jsx-space-before-closing': ['error', 'always'],
 

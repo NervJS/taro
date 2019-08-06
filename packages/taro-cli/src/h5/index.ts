@@ -625,8 +625,14 @@ class Compiler {
           const callee = node.callee
           const calleeName = toVar(callee)
           const parentPath = astPath.parentPath
+          const arg0 = node.arguments[0]
 
-          if (t.isMemberExpression(callee)) {
+          if (calleeName === 'require' && t.isStringLiteral(arg0)) {
+            const required = arg0.value
+            if (required === '@tarojs/taro-h5') {
+              arg0.value = `@tarojs/taro-h5/dist/index.cjs.js`
+            }
+          } else if (t.isMemberExpression(callee)) {
             const object = callee.object as t.Identifier
             const property = callee.property as t.Identifier
             if (object.name === taroImportDefaultName && property.name === 'render') {
@@ -816,7 +822,7 @@ class Compiler {
         const attrName = toVar(attribute.name)
         if (attrName === idAttrName) return toVar(attribute.value)
         else return false
-      }, false)
+      }, false as string | false)
     }
     const getComponentRef = (node: t.JSXOpeningElement) => {
       return node.attributes.find(attribute => {
@@ -918,9 +924,18 @@ class Compiler {
         exit (astPath: NodePath<t.CallExpression>) {
           const node = astPath.node
           const callee = node.callee
+          const calleeName = toVar(callee)
           let needToAppendThis = false
           let funcName = ''
-          if (t.isMemberExpression(callee)) {
+
+          const arg0 = node.arguments[0]
+
+          if (calleeName === 'require' && t.isStringLiteral(arg0)) {
+            const required = arg0.value
+            if (required === '@tarojs/taro-h5') {
+              arg0.value = `@tarojs/taro-h5/dist/index.cjs.js`
+            }
+          } else if (t.isMemberExpression(callee)) {
             const objName = toVar(callee.object)
             const tmpFuncName = toVar(callee.property)
             if (objName === taroImportDefaultName && APIS_NEED_TO_APPEND_THIS.has(tmpFuncName)) {

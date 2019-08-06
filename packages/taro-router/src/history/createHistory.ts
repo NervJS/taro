@@ -70,7 +70,9 @@ const tryToParseStore = (state: HistoryState) => {
  */
 const createHistorySerializer = (storeObj: HistoryState) => {
   let serialize = () => {
-    localStorage.setItem(defaultStoreKey, JSON.stringify(storeObj))
+    try {
+      localStorage.setItem(defaultStoreKey, JSON.stringify(storeObj))
+    } catch (e) {}
   }
   serialize()
   return serialize

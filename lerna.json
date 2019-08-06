@@ -53,6 +53,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.3.9",
+  "version": "1.3.12",
   "npmClient": "npm"
 }

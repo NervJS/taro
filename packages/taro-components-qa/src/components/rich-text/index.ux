@@ -1,7 +1,7 @@
 <template>
   <richtext 
-    class="taro_rich_text {{className}}" 
-    style="{{style}}" 
+    class="taro_rich_text {{classname}}" 
+    style="{{customstyle}}" 
     id="{{id}}"
     type="html" 
     onclick="handleClick"
@@ -28,7 +28,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

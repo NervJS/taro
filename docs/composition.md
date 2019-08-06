@@ -11,6 +11,8 @@ title: Taro 组成
 | [`@tarojs/taro-swan`](https://www.npmjs.com/package/@tarojs/taro-swan) |  Taro 百度智能小程序运行时框架  |
 | [`@tarojs/taro-tt`](https://www.npmjs.com/package/@tarojs/taro-tt) |  Taro 字节跳动小程序运行时框架  |
 | [`@tarojs/taro-alipay`](https://www.npmjs.com/package/@tarojs/taro-alipay) |  Taro 支付宝小程序运行时框架  |
+| [`@tarojs/taro-qq`](https://www.npmjs.com/package/@tarojs/taro-qq) |  Taro QQ 小程序运行时框架  |
+| [`@tarojs/taro-quickapp`](https://www.npmjs.com/package/@tarojs/taro-quiciapp) |  Taro 快应用 运行时框架  |
 | [`@tarojs/redux`](https://www.npmjs.com/package/@tarojs/redux) |  Taro 小程序 Redux 支持  |
 | [`@tarojs/redux-h5`](https://www.npmjs.com/package/@tarojs/redux-h5) |  Taro H5 Redux 支持  |
 | [`@tarojs/redux-rn`](https://www.npmjs.com/package/@tarojs/redux-rn) |  Taro React Native Redux 支持  |
@@ -27,6 +29,7 @@ title: Taro 组成
 | [`@tarojs/webpack-runner`](https://www.npmjs.com/package/@tarojs/webpack-runner) |  Taro H5 端 Webpack 打包编译工具  |
 | [`@tarojs/components`](https://www.npmjs.com/package/@tarojs/components) | Taro 标准组件库，H5 版 |
 | [`@tarojs/components-rn`](https://www.npmjs.com/package/@tarojs/components-rn) |  Taro 标准组件库，React Native 版  |
+| [`@tarojs/components-qa`](https://www.npmjs.com/package/@tarojs/components-qa) |  Taro 标准组件库，快应用 版  |
 | [`@tarojs/plugin-babel`](https://www.npmjs.com/package/@tarojs/plugin-babel) |  Taro Babel 编译插件  |
 | [`@tarojs/plugin-sass`](https://www.npmjs.com/package/@tarojs/plugin-sass) |  Taro Sass 编译插件  |
 | [`@tarojs/plugin-less`](https://www.npmjs.com/package/@tarojs/plugin-less) |  Taro Less 编译插件  |

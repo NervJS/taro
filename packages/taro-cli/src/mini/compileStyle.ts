@@ -57,7 +57,7 @@ export interface ICSSModulesConf {
  * @param styleObj { css: string, filePath: '' }
  * @returns postcss.process()
  */
-export function processStyleUseCssModule (styleObj: IStyleObj): any {
+export async function processStyleUseCssModule (styleObj: IStyleObj): Promise<any> {
   const { projectConfig, appPath } = getBuildData()
   const weappConf = Object.assign({}, projectConfig.weapp)
   const useModuleConf = weappConf.module || {}
@@ -100,7 +100,8 @@ export function processStyleUseCssModule (styleObj: IStyleObj): any {
     new ResolveImports({ resolve: Object.assign({}, { extensions: CSS_EXT }) })
   ]
   const runner = postcss(postcssPlugins)
-  const result = runner.process(styleObj.css, Object.assign({}, { from: styleObj.filePath }))
+  const cssText = (await compileStyleWithPlugin(styleObj.filePath)).css
+  const result = runner.process(cssText, Object.assign({}, { from: styleObj.filePath }))
   return result
 }
 
@@ -193,7 +194,7 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
   })
   let css = styleObj.css
   if (customCssModulesConf.enable) {
-    css = processStyleUseCssModule(styleObj).css
+    css = (await processStyleUseCssModule(styleObj)).css
   }
   const postcssResult = await postcss(processors).process(css, {
     from: styleObj.filePath
@@ -213,65 +214,68 @@ function compileImportStyles (filePath: string, importStyles: string[]) {
   }
 }
 
+function compileStyleWithPlugin (filePath) {
+  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter, quickappManifest } = getBuildData()
+  const fileExt = path.extname(filePath)
+  const pluginName = FILE_PROCESSOR_MAP[fileExt]
+  const fileContent = fs.readFileSync(filePath).toString()
+  const pluginsConfig = projectConfig.plugins || {}
+  const weappConf = projectConfig.weapp || {} as IMiniAppConfig
+  const useCompileConf = Object.assign({}, weappConf.compile)
+  const cssImportsRes = processStyleImports(fileContent, buildAdapter, (str, stylePath) => {
+    if (stylePath.indexOf('~') === 0) {
+      let newStylePath = stylePath
+      newStylePath = stylePath.replace('~', '')
+      const npmInfo = resolveNpmFilesPath({
+        pkgName: newStylePath,
+        isProduction,
+        npmConfig,
+        buildAdapter,
+        root: appPath,
+        rootNpm: nodeModulesPath,
+        npmOutputDir,
+        compileConfig: useCompileConf,
+        env: projectConfig.env || {},
+        uglify: projectConfig!.plugins!.uglify || {  enable: true  },
+        babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
+        quickappManifest
+      })
+      const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
+      return str.replace(stylePath, importRelativePath)
+    }
+    return str
+  })
+  compileImportStyles(filePath, cssImportsRes.imports)
+  if (pluginName) {
+    return callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {}, appPath)
+      .then(res => ({
+        css: cssImportsRes.style.join('\n') + '\n' + res.css,
+        filePath
+      })).catch(err => {
+        if (err) {
+          console.log(err)
+          if (isProduction) {
+            process.exit(0)
+          }
+        }
+      })
+  }
+  return new Promise(resolve => {
+    resolve({
+      css: cssImportsRes.style.join('\n') + '\n' + cssImportsRes.content,
+      filePath
+    })
+  })
+}
+
 export function compileDepStyles (outputFilePath: string, styleFiles: string[]) {
   if (isBuildingStyles.get(outputFilePath)) {
     return Promise.resolve({})
   }
-  const { appPath, npmOutputDir, nodeModulesPath, projectConfig, npmConfig, isProduction, buildAdapter, quickappManifest } = getBuildData()
+  const { appPath, projectConfig, isProduction } = getBuildData()
   const pluginsConfig = projectConfig.plugins || {}
-  const weappConf = projectConfig.weapp || {} as IMiniAppConfig
-  const useCompileConf = Object.assign({}, weappConf.compile)
   isBuildingStyles.set(outputFilePath, true)
-  return Promise.all(styleFiles.map(async p => {
-    const filePath = path.join(p)
-    const fileExt = path.extname(filePath)
-    const pluginName = FILE_PROCESSOR_MAP[fileExt]
-    const fileContent = fs.readFileSync(filePath).toString()
-    const cssImportsRes = processStyleImports(fileContent, buildAdapter, (str, stylePath) => {
-      if (stylePath.indexOf('~') === 0) {
-        let newStylePath = stylePath
-        newStylePath = stylePath.replace('~', '')
-        const npmInfo = resolveNpmFilesPath({
-          pkgName: newStylePath,
-          isProduction,
-          npmConfig,
-          buildAdapter,
-          root: appPath,
-          rootNpm: nodeModulesPath,
-          npmOutputDir,
-          compileConfig: useCompileConf,
-          env: projectConfig.env || {},
-          uglify: projectConfig!.plugins!.uglify || {  enable: true  },
-          babelConfig: getBabelConfig(projectConfig!.plugins!.babel) || {},
-          quickappManifest
-        })
-        const importRelativePath = promoteRelativePath(path.relative(filePath, npmInfo.main))
-        return str.replace(stylePath, importRelativePath)
-      }
-      return str
-    })
-    compileImportStyles(filePath, cssImportsRes.imports)
-    if (pluginName) {
-      return callPlugin(pluginName, cssImportsRes.content, filePath, pluginsConfig[pluginName] || {}, appPath)
-        .then(res => ({
-          css: cssImportsRes.style.join('\n') + '\n' + res.css,
-          filePath
-        })).catch(err => {
-          if (err) {
-            console.log(err)
-            if (isProduction) {
-              process.exit(0)
-            }
-          }
-        })
-    }
-    return new Promise(resolve => {
-      resolve({
-        css: cssImportsRes.style.join('\n') + '\n' + cssImportsRes.content,
-        filePath
-      })
-    })
-  })).then(async resList => {
+  return Promise.all(styleFiles.map(async p => compileStyleWithPlugin(p))).then(async resList => {
     await Promise.all(resList.map(res => processStyleWithPostCSS(res)))
       .then(cssList => {
         let resContent = cssList.map(res => res).join('\n')

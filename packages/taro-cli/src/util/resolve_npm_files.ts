@@ -155,7 +155,7 @@ function analyzeImportUrl ({
 }) {
   if (excludeRequire.indexOf(requirePath) < 0) {
     const quickappPkgs = quickappManifest ? quickappManifest.features : []
-    if (isQuickappPkg(requirePath, quickappPkgs)) {
+    if (buildAdapter === BUILD_TYPES.QUICKAPP && isQuickappPkg(requirePath, quickappPkgs)) {
       return
     }
     if (isNpmPkg(requirePath)) {

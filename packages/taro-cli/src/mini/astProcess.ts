@@ -56,17 +56,21 @@ import {
 import { processStyleUseCssModule } from './compileStyle'
 import { QUICKAPP_SPECIAL_COMPONENTS } from './constants'
 
-function createCssModuleMap (styleFilePath, tokens) {
+function generateCssModuleMapFilename (styleFilePath) {
   const {
     sourceDir,
     outputDir
   } = getBuildData()
   const cssModuleMapFilename = path.basename(styleFilePath) + '.map.js'
   const cssModuleMapFile = path.join(path.dirname(styleFilePath), cssModuleMapFilename).replace(sourceDir, outputDir)
+  return cssModuleMapFile
+}
+
+function createCssModuleMap (styleFilePath, tokens) {
+  const cssModuleMapFile = generateCssModuleMapFilename(styleFilePath)
   printLog(processTypeEnum.GENERATE, 'CSS Modules map', cssModuleMapFile)
   fs.ensureDirSync(path.dirname(cssModuleMapFile))
   fs.writeFileSync(cssModuleMapFile, `module.exports = ${JSON.stringify(tokens, null, 2)};\n`)
-  return cssModuleMapFile
 }
 
 interface IAnalyzeImportUrlOptions {
@@ -276,6 +280,7 @@ export function parseAst (
   const taroSelfComponents = new Set<string>()
   ast = babel.transformFromAst(ast, '', {
     plugins: [
+      [require('babel-plugin-preval')],
       [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }],
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
@@ -443,8 +448,9 @@ export function parseAst (
         value = replaceAliasPath(sourceFilePath, value, pathAlias)
         source.value = value
       }
+
       const quickappPkgs = quickappManifest ? quickappManifest.features : []
-      if (isNpmPkg(value) && !isQuickappPkg(value, quickappPkgs) && !notExistNpmList.has(value)) {
+      if (isNpmPkg(value) && !(isQuickApp && isQuickappPkg(value, quickappPkgs)) && !notExistNpmList.has(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
             specifiers.forEach(specifier => {
@@ -517,12 +523,14 @@ export function parseAst (
         printLog(processTypeEnum.GENERATE, '替换代码', `为文件 ${sourceFilePath} 生成 css modules`)
         const styleFilePath = path.join(path.dirname(sourceFilePath), value)
         const styleCode = fs.readFileSync(styleFilePath).toString()
-        const result = processStyleUseCssModule({
+        processStyleUseCssModule({
           css: styleCode,
           filePath: styleFilePath
+        }).then(result => {
+          const tokens = result.root.exports || {}
+          createCssModuleMap(styleFilePath, tokens)
         })
-        const tokens = result.root.exports || {}
-        const cssModuleMapFile = createCssModuleMap(styleFilePath, tokens)
+        const cssModuleMapFile = generateCssModuleMapFilename(styleFilePath)
         astPath.node.source = t.stringLiteral(astPath.node.source.value.replace(path.basename(styleFilePath), path.basename(cssModuleMapFile)))
         if (styleFiles.indexOf(styleFilePath) < 0) { // add this css file to queue
           styleFiles.push(styleFilePath)
@@ -548,7 +556,7 @@ export function parseAst (
           args[0].value = value
         }
         const quickappPkgs = quickappManifest ? quickappManifest.features : []
-        if (isNpmPkg(value) && !isQuickappPkg(value, quickappPkgs) && !notExistNpmList.has(value)) {
+        if (isNpmPkg(value) && !(isQuickApp && isQuickappPkg(value, quickappPkgs)) && !notExistNpmList.has(value)) {
           if (value === taroJsComponents) {
             if (isQuickApp) {
               if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
@@ -625,18 +633,15 @@ export function parseAst (
           printLog(processTypeEnum.GENERATE, '替换代码', `为文件 ${sourceFilePath} 生成 css modules`)
           const styleFilePath = path.join(path.dirname(sourceFilePath), value)
           const styleCode = fs.readFileSync(styleFilePath).toString()
-          const result = processStyleUseCssModule({
+          processStyleUseCssModule({
             css: styleCode,
             filePath: styleFilePath
+          }).then(result => {
+            const tokens = result.root.exports || {}
+            createCssModuleMap(styleFilePath, tokens)
           })
-          const tokens = result.root.exports || {}
-          const objectPropperties: t.ObjectProperty[] = []
-          for (const key in tokens) {
-            if (tokens.hasOwnProperty(key)) {
-              objectPropperties.push(t.objectProperty(t.identifier(key), t.stringLiteral(tokens[key])))
-            }
-          }
-          astPath.replaceWith(t.objectExpression(objectPropperties))
+          const cssModuleMapFile = generateCssModuleMapFilename(styleFilePath)
+          args[0].value = args[0].value.replace(path.basename(styleFilePath), path.basename(cssModuleMapFile))
           if (styleFiles.indexOf(styleFilePath) < 0) { // add this css file to queue
             styleFiles.push(styleFilePath)
           }
