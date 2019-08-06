@@ -169,7 +169,7 @@ export async function buildSinglePage (page: string) {
       const importTaroSelfComponents = getImportTaroSelfComponents(outputPageJSPath, res.taroSelfComponents)
       const importCustomComponents = new Set(realComponentsPathList.map(item => {
         return {
-          path: path.relative(path.dirname(pageJs), item.path as string).replace(path.extname(item.path as string), ''),
+          path: promoteRelativePath(path.relative(pageJs, item.path as string)).replace(path.extname(item.path as string), ''),
           name: item.name as string
         }
       }))

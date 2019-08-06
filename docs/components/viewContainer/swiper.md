@@ -45,7 +45,7 @@ sidebar_label: Swiper
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
 // 引入 Swiper, SwiperItem 组件
-import { Swiper, SwiperItem } from '@tarojs/components'
+import { Swiper, SwiperItem, View } from '@tarojs/components'
 
 class App extends Components {
   render () {

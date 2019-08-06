@@ -691,7 +691,10 @@ export class RenderParser {
         }
         const block = this.finalReturnElement || buildBlockElement(blockAttrs)
         if (isBlockIfStatement(ifStatement, blockStatement)) {
-          const { test, alternate, consequent } = ifStatement.node
+          let { test, alternate, consequent } = ifStatement.node
+          if (hasComplexExpression(ifStatement.get('test'))) {
+            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true);
+          }
           // blockStatement.node.body.push(t.returnStatement(
           //   t.memberExpression(t.thisExpression(), t.identifier('state'))
           // ))
