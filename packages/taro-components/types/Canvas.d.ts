@@ -8,6 +8,11 @@ export interface CanvasProps extends StandardProps {
   canvasId: string,
 
   /**
+   * 小程序 canvas 组件使用webgl，需要添加type="webgl"，才能通过 SelectorQuery 取到 canvas 节点
+   */
+  type?: string,
+
+  /**
    * 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新
    *
    * 默认值：`false`
