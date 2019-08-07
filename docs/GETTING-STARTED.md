@@ -19,6 +19,19 @@ $ yarn global add @tarojs/cli
 $ cnpm install -g @tarojs/cli
 ```
 
+## 回到某个版本
+
+需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
+
+```bash
+# 使用 npm 安装 CLI
+$ npm install -g @tarojs/cli@1.3.9
+# OR 使用 yarn 安装 CLI
+$ yarn global add @tarojs/cli@1.3.9
+# OR 安装了 cnpm，使用 cnpm 安装 CLI
+$ cnpm install -g @tarojs/cli@1.3.9
+```
+
 ### 注意事项
 
 值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。

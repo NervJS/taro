@@ -113,3 +113,28 @@ setTitle('页面标题')
 - 不同端的对应文件一定要统一接口，统一调用方式
 - 最好有一个平台无关的默认文件，这样在使用 ts 的时候也不会出现报错
 - 引用文件的时候，只需要写默认文件名，不用带文件后缀
+
+### app.js 中使用不同的 pages
+
+> 1.3.11 开始支持
+
+根据不同环境返回不同的 `pages`，可以这么写
+```
+config: Config = {
+  "pages": preval`
+    module.exports=(function() {
+      if (process.env.TARO_ENV === 'weapp') {
+        return [
+          '/pages/index/index'
+        ]
+      }
+      if (process.env.TARO_ENV === 'swan') {
+        return [
+          '/pages/indexswan/indexswan'
+        ]
+      }
+    })()
+  `
+}
+```
+详情可以参考 [issue](https://github.com/NervJS/taro/pull/3867)
