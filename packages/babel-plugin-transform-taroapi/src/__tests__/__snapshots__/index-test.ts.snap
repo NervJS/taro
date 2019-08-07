@@ -65,7 +65,7 @@ export class Connected extends Taro.Component {}"
 
 exports[`should work! 1`] = `
 "
-import Taro, { getStorage as _getStorage, setStorage as _setStorage } from '@tarojs/taro-h5';
+import Taro, { setStorage as _setStorage, getStorage as _getStorage } from '@tarojs/taro-h5';
 Taro.initPxTransform(Taro.param);
 Taro.initPxTransform();
 Taro.initPxTransform();

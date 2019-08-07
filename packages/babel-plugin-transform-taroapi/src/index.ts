@@ -10,13 +10,14 @@ const plugin = function (babel: {
   let taroName: string
   let needDefault: boolean
 
-  let namedImports: Types.ImportSpecifier[]
+  let referrencedTaros: Types.Identifier[]
 
   return {
     name: 'babel-plugin-transform-taro-api',
     visitor: {
       ImportDeclaration (ast, state) {
         const packageName = state.opts.packageName
+        const apis = state.opts.apis
         if (ast.node.source.value !== packageName) return
 
         ast.node.specifiers.forEach(node => {
@@ -24,7 +25,25 @@ const plugin = function (babel: {
             needDefault = true
             taroName = node.local.name
           } else if (t.isImportSpecifier(node)) {
-            namedImports.push(node)
+            const propertyName = node.imported.name
+            if (apis.has(propertyName)) { // 记录api名字
+              ast.scope.rename(node.local.name)
+              invokedApis.set(propertyName, node.local.name)
+            } else { // 如果是未实现的api 改成Taro.xxx
+              needDefault = true
+              const localName = node.local.name
+              const binding = ast.scope.getBinding(localName)
+              const iden = t.identifier(taroName)
+              referrencedTaros.push(iden)
+              binding && binding.referencePaths.forEach(reference => {
+                reference.replaceWith(
+                  t.memberExpression(
+                    iden,
+                    t.identifier(propertyName)
+                  )
+                )
+              })
+            }
           }
         })
       },
@@ -70,7 +89,7 @@ const plugin = function (babel: {
       Program: {
         enter (ast) {
           needDefault = false
-          namedImports = []
+          referrencedTaros = []
           invokedApis.clear()
 
           taroName = ast.scope.getBinding('Taro')
@@ -80,26 +99,8 @@ const plugin = function (babel: {
         exit (ast, state) {
           // 防止重复引入
           let isTaroApiImported = false
-          const apis = state.opts.apis
-
-          namedImports.forEach((node) => {
-            const propertyName = node.imported.name
-            if (apis.has(propertyName)) { // 记录api名字
-              ast.scope.rename(node.local.name)
-              invokedApis.set(propertyName, node.local.name)
-            } else { // 如果是未实现的api 改成Taro.xxx
-              needDefault = true
-              const localName = node.local.name
-              const binding = ast.scope.getBinding(localName)
-              binding && binding.referencePaths.forEach(reference => {
-                reference.replaceWith(
-                  t.memberExpression(
-                    t.identifier(taroName),
-                    t.identifier(propertyName)
-                  )
-                )
-              })
-            }
+          referrencedTaros.forEach(node => {
+            node.name = taroName
           })
 
           ast.traverse({
