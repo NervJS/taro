@@ -1,4 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject'
+import { Current } from '@tarojs/taro'
+import { SimpleMap } from '@tarojs/utils'
 
 export function addLeadingSlash (str) {
   return str[0] === '/' ? str : `/${str}`
@@ -227,4 +229,28 @@ export function getObjChainValue (obj, keyChain) {
     if (i === len - 1) return obj[key]
     obj = obj[key]
   }
+}
+
+let id = 0
+function genId () {
+  return String(id++)
+}
+
+let compIdsMapper
+try {
+  compIdsMapper = new Map()
+} catch (error) {
+  compIdsMapper = new SimpleMap()
+}
+export function genCompid (key) {
+  if (!Current || !Current.current || !Current.current.$scope) return
+  const prevId = compIdsMapper.get(key)
+  const id = prevId || genId()
+  !prevId && compIdsMapper.set(key, id)
+  return id
+}
+
+let prefix = 0
+export function genCompPrefix () {
+  return String(prefix++)
 }
