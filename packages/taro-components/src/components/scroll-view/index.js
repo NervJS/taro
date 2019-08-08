@@ -148,6 +148,14 @@ class ScrollView extends Nerv.Component {
         scrollHeight,
         scrollWidth
       } = this.container
+      const event = {
+        detail: {
+          scrollLeft,
+          scrollTop,
+          scrollHeight,
+          scrollWidth
+        }
+      }
       if (
         onScrollToLower &&
         ((this.props.scrollY &&
@@ -155,14 +163,14 @@ class ScrollView extends Nerv.Component {
           (this.props.scrollX &&
             offsetWidth + scrollLeft + lowerThreshold >= scrollWidth))
       ) {
-        onScrollToLower()
+        onScrollToLower(event)
       }
       if (
         onScrollToUpper &&
         ((this.props.scrollY && scrollTop <= upperThreshold) ||
           (this.props.scrollX && scrollLeft <= upperThreshold))
       ) {
-        onScrollToUpper()
+        onScrollToUpper(event)
       }
     }
     const uperAndLowerThrottle = throttle(uperAndLower, 200)
