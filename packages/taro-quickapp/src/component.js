@@ -5,6 +5,7 @@ import {
 
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
+import { isFunction, genCompPrefix } from './util'
 
 export default class BaseComponent {
   // _createData的时候生成，小程序中通过data.__createData访问
@@ -14,8 +15,11 @@ export default class BaseComponent {
   __isReady = false
   // 会在componentDidMount后置为true
   __mounted = false
+  nextProps = {}
+  context = {}
   _dirty = true
   _disable = true
+  _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
   $componentType = ''
@@ -24,10 +28,17 @@ export default class BaseComponent {
     path: ''
   }
 
+  _afterScheduleEffect = false
+  _disableEffect = false
+  hooks = []
+  effects = []
+  layoutEffects = []
+
   constructor (props = {}, isPage) {
     this.state = {}
     this.props = {}
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
+    this.$prefix = genCompPrefix()
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
   }
   _constructor (props) {
@@ -40,7 +51,7 @@ export default class BaseComponent {
     if (state) {
       (this._pendingStates = this._pendingStates || []).push(state)
     }
-    if (typeof callback === 'function') {
+    if (isFunction(callback)) {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {

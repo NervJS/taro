@@ -8,7 +8,9 @@ import {
   internal_safe_get,
   internal_safe_set,
   internal_inline_style,
-  internal_get_original
+  internal_get_original,
+  interceptors,
+  memo
 } from '@tarojs/taro'
 import { shallowEqual } from '@tarojs/utils'
 
@@ -17,6 +19,8 @@ import PureComponent from './pure-component'
 import createApp from './create-app'
 import createComponent from './create-component'
 import initNativeApi from './native-api'
+import propsManager from './propsManager'
+import { genCompid } from './util'
 
 export const Taro = {
   Component,
@@ -33,6 +37,10 @@ export const Taro = {
   internal_inline_style,
   createComponent,
   internal_get_original,
+  interceptors,
+  propsManager,
+  genCompid,
+  memo,
   shallowEqual
 }
 

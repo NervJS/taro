@@ -1,42 +1,75 @@
 import camelCase from 'lodash/camelCase'
+import { Current } from '@tarojs/taro'
 
-import { isEmptyObject, noop, addLeadingSlash } from './util'
+import { isEmptyObject, addLeadingSlash } from './util'
 import { cacheDataGet, cacheDataHas } from './data-cache'
-import { updateComponent } from './lifecycle'
+import { mountComponent } from './lifecycle'
 import appGlobal from './global'
+import propsManager from './propsManager'
 
-const privatePropValName = 'privatetriggerobserer'
 const anonymousFnNamePreffix = 'funPrivate'
-const componentFnReg = /^prv-fn-/
+const routerParamsPrivateKey = '__key_'
+const preloadPrivateKey = '__preload_'
 const PRELOAD_DATA_KEY = 'preload'
+const COMP_ID = 'compid'
+const preloadInitedComponent = '$preloadComponent'
 const pageExtraFns = ['onBackPress', 'onMenuPress', 'onRefresh']
 
-function filterProps (properties, defaultProps = {}, componentProps = {}, componentData) {
-  let newProps = Object.assign({}, componentProps)
-  for (const propName in properties) {
-    if (propName === privatePropValName) {
-      continue
-    }
-    if (typeof componentProps[propName] === 'function') {
-      newProps[propName] = componentProps[propName]
-    } else if (componentData && propName in componentData) {
-      newProps[propName] = componentData[propName]
-    }
-    if (componentFnReg.test(propName)) {
-      if (componentData && componentData[propName] === true) {
-        const fnName = propName.replace(componentFnReg, '')
-        newProps[fnName] = noop
+function bindProperties (componentConf, ComponentClass, isPage) {
+  componentConf.properties = ComponentClass.properties || {}
+  const defaultProps = ComponentClass.defaultProps || {}
+  for (const key in defaultProps) {
+    if (defaultProps.hasOwnProperty(key)) {
+      componentConf.properties[key] = {
+        type: null,
+        value: defaultProps[key]
       }
-      delete newProps[propName]
     }
   }
+  if (isPage) {
+    componentConf.properties[routerParamsPrivateKey] = {
+      type: null,
+      value: null
+    }
+    componentConf.properties[preloadPrivateKey] = {
+      type: null,
+      value: null
+    }
+    const defaultParams = ComponentClass.defaultParams || {}
+    for (const key in defaultParams) {
+      if (defaultParams.hasOwnProperty(key)) {
+        componentConf.properties[key] = {
+          type: null,
+          value: null
+        }
+      }
+    }
+  }
+  componentConf.props = []
+  Object.keys(componentConf.properties).forEach(item => {
+    componentConf.props.push(item.toLocaleLowerCase())
+  })
+  componentConf.props.push(COMP_ID)
+  componentConf.onCompidChange = function () {
+    initComponent.apply(this, [ComponentClass, isPage])
+  }
+}
+
+export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}, extraProps) {
+  let newProps = Object.assign({}, curAllProps, propsFromPropsManager)
+
   if (!isEmptyObject(defaultProps)) {
     for (const propName in defaultProps) {
-      if (newProps[propName] === undefined || newProps[propName] === null) {
+      if (newProps[propName] === undefined) {
         newProps[propName] = defaultProps[propName]
       }
     }
   }
+
+  if (extraProps) {
+    newProps = Object.assign({}, newProps, extraProps)
+  }
+
   Object.keys(newProps).forEach(propName => {
     const camelizePropName = camelCase(propName)
     if (camelizePropName !== propName) {
@@ -185,32 +218,6 @@ function bindStaticFns (componentConf, ComponentClass) {
   })
 }
 
-function bindProperties (componentConf, ComponentClass) {
-  componentConf.properties = ComponentClass.properties || {}
-  const defaultProps = ComponentClass.defaultProps || {}
-  for (const key in defaultProps) {
-    if (defaultProps.hasOwnProperty(key)) {
-      componentConf.properties[key] = {
-        type: null,
-        value: defaultProps[key]
-      }
-    }
-  }
-  componentConf.props = []
-  Object.keys(componentConf.properties).forEach(item => {
-    componentConf.props.push(item.toLocaleLowerCase())
-  })
-  componentConf.props.push(privatePropValName)
-  componentConf.onPrivatePropChange = function () {
-    if (!this.$component || !this.$component.__isReady) return
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this)
-    this.$component.props = nextProps
-    this.$component._unsafeCallUpdate = true
-    updateComponent(this.$component)
-    this.$component._unsafeCallUpdate = false
-  }
-}
-
 function getPageUrlParams (url) {
   const taroRouterParamsCache = appGlobal.taroRouterParamsCache
   let params = {}
@@ -225,25 +232,46 @@ function getPageUrlParams (url) {
 let hasPageInited = false
 
 function initComponent (ComponentClass, isPage) {
-  if (this.$component.__isReady) return
+  if (!this.$component || this.$component.__isReady) return
   this.$component.__isReady = true
+
   if (isPage && !hasPageInited) {
     hasPageInited = true
   }
   if (hasPageInited && !isPage) {
-    const nextProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps, this.$component.props, this)
+    const compid = this.compid
+    if (compid) {
+      propsManager.observers[compid] = {
+        component: this.$component,
+        ComponentClass
+      }
+    }
+    const nextProps = filterProps(ComponentClass.defaultProps, propsManager.map[compid], this.$component.props)
     this.$component.props = nextProps
   }
   if (hasPageInited || isPage) {
-    updateComponent(this.$component)
+    mountComponent(this.$component)
   }
 }
 
 export function componentTrigger (component, key, args) {
   args = args || []
 
-  // eslint-disable-next-line no-useless-call
-  component[key] && typeof component[key] === 'function' && component[key].call(component, ...args)
+  if (key === 'componentDidMount') {
+    if (component['$$hasLoopRef']) {
+      Current.current = component
+      component._disableEffect = true
+      component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
+    }
+  }
+  if (key === 'componentWillUnmount') {
+    const compid = component.$scope.compid
+    if (compid) propsManager.delete(compid)
+  }
+
+  component[key] && typeof component[key] === 'function' && component[key](...args)
   if (key === 'componentWillMount') {
     component._dirty = false
     component._disable = false
@@ -263,10 +291,12 @@ export function componentTrigger (component, key, args) {
 
 export default function createComponent (ComponentClass, isPage) {
   let initData = {}
-  const componentProps = filterProps(ComponentClass.properties, ComponentClass.defaultProps)
+  const componentProps = filterProps(ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
   try {
+    Current.current = componentInstance
+    Current.index = 0
     componentInstance.state = componentInstance._createData() || componentInstance.state
   } catch (err) {
     if (isPage) {
@@ -285,19 +315,19 @@ export default function createComponent (ComponentClass, isPage) {
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
-      Object.assign(this.$component.$router.params, getPageUrlParams(isPage))
-      this.$app.pageInstaceMap = this.$app.pageInstaceMap || {}
-      this.$app.pageInstaceMap[isPage] = this.$component
       if (isPage) {
         if (cacheDataHas(PRELOAD_DATA_KEY)) {
           const data = cacheDataGet(PRELOAD_DATA_KEY, true)
           this.$component.$router.preload = data
         }
+        Object.assign(this.$component.$router.params, getPageUrlParams(isPage))
+        this.$app.pageInstaceMap = this.$app.pageInstaceMap || {}
+        this.$app.pageInstaceMap[isPage] = this.$component
         // this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       }
       // 监听数据变化
-      this.$watch(privatePropValName, 'onPrivatePropChange')
+      this.$watch('COMP_ID', 'onCompidChange')
     },
 
     onReady () {
@@ -334,7 +364,7 @@ export default function createComponent (ComponentClass, isPage) {
     })
   }
   bindStaticFns(componentConf, ComponentClass)
-  bindProperties(componentConf, ComponentClass)
+  bindProperties(componentConf, ComponentClass, isPage)
   ComponentClass['privateTaroEvent'] && bindEvents(componentConf, ComponentClass['privateTaroEvent'])
   return componentConf
 }
