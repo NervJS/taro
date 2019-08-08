@@ -53,7 +53,8 @@ import {
   GEN_COMP_ID,
   ALIPAY_BUBBLE_EVENTS,
   FN_PREFIX,
-  CLASS_COMPONENT_UID
+  CLASS_COMPONENT_UID,
+  IS_TARO_READY
 } from './constant'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -685,7 +686,7 @@ export class RenderParser {
           if (this.isDefaultRender) {
             blockAttrs.push(t.jSXAttribute(
               t.jSXIdentifier(Adapter.if),
-              t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
+              t.jSXExpressionContainer(t.jSXIdentifier(IS_TARO_READY))
             ))
           }
         }
@@ -693,7 +694,7 @@ export class RenderParser {
         if (isBlockIfStatement(ifStatement, blockStatement)) {
           let { test, alternate, consequent } = ifStatement.node
           if (hasComplexExpression(ifStatement.get('test'))) {
-            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true);
+            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true)
           }
           // blockStatement.node.body.push(t.returnStatement(
           //   t.memberExpression(t.thisExpression(), t.identifier('state'))
@@ -1039,7 +1040,7 @@ export class RenderParser {
         return
       }
       const compId = genCompid()
-      const name = `$compid__${compId}`
+      const name = `${COMPID}__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
       const idExpr = buildConstVariableDeclaration(name,
@@ -1852,7 +1853,7 @@ export class RenderParser {
               }
 
               // createData 函数里加入 compid 相关逻辑
-              const variableName = `$compid__${genCompid()}`
+              const variableName = `${COMPID}__${genCompid()}`
               const tpmlExprs: t.Expression[] = []
               for (let index = 0; index < loopIndices.length; index++) {
                 const element = loopIndices[index]
