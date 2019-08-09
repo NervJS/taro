@@ -36,6 +36,8 @@ import {
 import defaultUglifyConfig from '../config/uglify'
 
 import * as npmProcess from './npm'
+import * as Util from '../util'
+import { getBuildData } from '../mini/helper'
 import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions, ITaroManifestConfig } from './types'
 
 const excludeNpmPkgs = ['ReactPropTypes']
@@ -153,6 +155,11 @@ function analyzeImportUrl ({
   babelConfig: object,
   quickappManifest?: ITaroManifestConfig
 }) {
+  // alias 替换
+  const { alias } = getBuildData()
+  if (Util.isAliasPath(requirePath, alias)) {
+    requirePath = Util.replaceAliasPath(filePath, requirePath, alias)
+  }
   if (excludeRequire.indexOf(requirePath) < 0) {
     const quickappPkgs = quickappManifest ? quickappManifest.features : []
     if (buildAdapter === BUILD_TYPES.QUICKAPP && isQuickappPkg(requirePath, quickappPkgs)) {
