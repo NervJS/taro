@@ -444,7 +444,7 @@ class Video extends Component {
       danmuBtn
     } = this.props
     const { enableDanmu, isFirst, isMute, isFullScreen } = this.state
-    const duration = formatTime(this.state.duration)
+    const duration = formatTime(this.props.duration || this.state.duration || null)
 
     const videoProps = {
       id,
@@ -478,7 +478,7 @@ class Video extends Component {
         onTouchStart={this.onTouchStartContainer}
         onClick={this.onClickContainer}>
         <video {...videoProps}>暂时不支持播放该视频</video>
-        <Controls controls={controls} currentTime={this.currentTime} duration={this.state.duration} isPlaying={this.state.isPlaying} pauseFunc={this.pause} playFunc={this.play} seekFunc={this.seek} showPlayBtn={showPlayBtn} showProgress={showProgress} ref={this.getControlsRef}>
+        <Controls controls={controls} currentTime={this.currentTime} duration={this.props.duration || this.state.duration || null} isPlaying={this.state.isPlaying} pauseFunc={this.pause} playFunc={this.play} seekFunc={this.seek} showPlayBtn={showPlayBtn} showProgress={showProgress} ref={this.getControlsRef}>
           {showMuteBtn && (
             <div
               className={classnames('taro-video-mute', {
