@@ -256,6 +256,8 @@ const otherApis = {
   checkIsSoterEnrolledInDevice: true,
 
   setEnableDebug: true,
+  // 支付宝小程序API
+  getOpenUserInfo: true,
 
   // 百度小程序专有 API
   // 百度小程序 AI 相关
