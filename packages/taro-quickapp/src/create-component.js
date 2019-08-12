@@ -327,7 +327,7 @@ export default function createComponent (ComponentClass, isPage) {
         initComponent.apply(this, [ComponentClass, isPage])
       }
       // 监听数据变化
-      this.$watch('COMP_ID', 'onCompidChange')
+      this.$watch(COMP_ID, 'onCompidChange')
     },
 
     onReady () {
