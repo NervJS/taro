@@ -3,6 +3,9 @@ import * as fs from 'fs-extra'
 import chalk from 'chalk'
 import Creator from './creator'
 import { createPage } from './init'
+import fetchTemplate from './fetchTemplate'
+import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
+import { getUserHomeDir } from '../util'
 
 
 export interface IPageConf {
@@ -54,10 +57,36 @@ export default class Page extends Creator {
     this.conf = Object.assign(this.conf, templateInfo)
   }
 
-  create () {
+  async fetchTemplates (): Promise<string[]> {
+    const homedir = getUserHomeDir()
+    let templateSource = DEFAULT_TEMPLATE_SRC
+    if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
+
+    const taroConfigPath = path.join(homedir, TARO_CONFIG_FLODER)
+    const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
+
+    if (fs.existsSync(taroConfig)) {
+      const config = await fs.readJSON(taroConfig)
+      templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
+    } else {
+      await fs.createFile(taroConfig)
+      await fs.writeJSON(taroConfig, { templateSource: DEFAULT_TEMPLATE_SRC })
+      templateSource = DEFAULT_TEMPLATE_SRC
+    }
+
+    // 从模板源下载模板
+    await fetchTemplate(templateSource, this.templatePath(''))
+  }
+
+  async create () {
     const date = new Date()
     this.getTemplateInfo()
     this.conf.date = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`
+
+    if (!fs.existsSync(this.templatePath(this.conf.template))) {
+      await this.fetchTemplates()
+    }
+
     this.write()
   }
 

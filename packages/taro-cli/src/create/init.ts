@@ -124,6 +124,8 @@ export async function createPage (
   // path
   const templatePath = creater.templatePath(template)
 
+  if (!fs.existsSync(templatePath)) return console.log(chalk.red(`创建页面错误：找不到模板${templatePath}`))
+
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
   const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []

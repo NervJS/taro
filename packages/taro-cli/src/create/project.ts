@@ -7,11 +7,8 @@ import { createApp } from './init'
 import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
 import CONFIG from '../config'
+import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
 import { getUserHomeDir, getTemplateSourceType } from '../util'
-
-const TARO_CONFIG_FLODER = '.taro'
-const TARO_BASE_CONFIG = 'index.json'
-const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates'
 
 export interface IProjectConf {
   projectName: string,
@@ -97,8 +94,7 @@ export default class Project extends Creator {
     }
 
     // 从模板源下载模板
-    const templateSourceType = getTemplateSourceType(conf.templateSource)
-    return fetchTemplate(this, templateSourceType)
+    return fetchTemplate(this.conf.templateSource, this.templatePath(''))
   }
 
   ask (templateChoices: string[]) {
