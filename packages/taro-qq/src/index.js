@@ -15,6 +15,8 @@ import {
   useLayoutEffect,
   useReducer,
   useState,
+  useDidShow,
+  useDidHide,
   useRef,
   useCallback,
   useMemo,
@@ -55,6 +57,8 @@ export const Taro = {
   genCompid,
   // eslint-disable-next-line object-property-newline
   useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo,
+  useDidShow,
+  useDidHide,
   useImperativeHandle,
   useContext,
   createContext,

@@ -35,6 +35,32 @@ export function useState (initialState) {
   return hook.state
 }
 
+export function useDidShow (callback) {
+  const hook = getHooks(Current.index++)
+  hook.component = Current.current
+  if (!hook.didShowMark) {
+    hook.didShowMark = true
+    const originalComponentDidShow = hook.component.componentDidShow
+    hook.component.componentDidShow = function () {
+      originalComponentDidShow && originalComponentDidShow()
+      callback.call(hook.component)
+    }
+  }
+}
+
+export function useDidHide (callback) {
+  const hook = getHooks(Current.index++)
+  hook.component = Current.current
+  if (!hook.didHideMark) {
+    hook.didHideMark = true
+    const originalComponentDidHide = hook.component.componentDidHide
+    hook.component.componentDidHide = function () {
+      originalComponentDidHide && originalComponentDidHide()
+      callback.call(hook.component)
+    }
+  }
+}
+
 export function useReducer (
   reducer,
   initialState,

@@ -28,6 +28,8 @@ import {
   useImperativeHandle,
   invokeEffects,
   useContext,
+  useDidShow,
+  useDidHide,
   forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
@@ -70,6 +72,7 @@ export {
   useLayoutEffect,
   useReducer,
   useState,
+  useDidShow,
   useRef,
   useCallback,
   useMemo,
@@ -106,6 +109,8 @@ export default {
   useLayoutEffect,
   useReducer,
   useState,
+  useDidShow,
+  useDidHide,
   useRef,
   useCallback,
   useMemo,
