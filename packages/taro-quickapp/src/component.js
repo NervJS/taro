@@ -6,6 +6,9 @@ import {
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
 import { isFunction, genCompPrefix } from './util'
+import { cacheDataSet, cacheDataGet } from './data-cache'
+
+const PRELOAD_DATA_KEY = 'preload'
 
 export default class BaseComponent {
   // _createData的时候生成，小程序中通过data.__createData访问
@@ -36,7 +39,7 @@ export default class BaseComponent {
 
   constructor (props = {}, isPage) {
     this.state = {}
-    this.props = {}
+    this.props = props || {}
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
     this.$prefix = genCompPrefix()
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
@@ -82,6 +85,18 @@ export default class BaseComponent {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     updateComponent(this)
+  }
+
+  $preload (key, value) {
+    const preloadData = cacheDataGet(PRELOAD_DATA_KEY) || {}
+    if (typeof key === 'object') {
+      for (const k in key) {
+        preloadData[k] = key[k]
+      }
+    } else {
+      preloadData[key] = value
+    }
+    cacheDataSet(PRELOAD_DATA_KEY, preloadData)
   }
 
   // 会被匿名函数调用

@@ -2,17 +2,17 @@ import camelCase from 'lodash/camelCase'
 import { Current } from '@tarojs/taro'
 
 import { isEmptyObject, addLeadingSlash } from './util'
-import { cacheDataGet, cacheDataHas } from './data-cache'
+import { cacheDataGet, cacheDataHas, cacheDataSet } from './data-cache'
 import { mountComponent } from './lifecycle'
 import appGlobal from './global'
 import propsManager from './propsManager'
 
 const anonymousFnNamePreffix = 'funPrivate'
 const routerParamsPrivateKey = '__key_'
-const preloadPrivateKey = '__preload_'
+const preloadPrivateKey = 'quick$PriPreload'
 const PRELOAD_DATA_KEY = 'preload'
 const COMP_ID = 'compid'
-const preloadInitedComponent = '$preloadComponent'
+const preloadInitedComponent = 'quick$PriPreloadComponent'
 const pageExtraFns = ['onBackPress', 'onMenuPress', 'onRefresh']
 
 function bindProperties (componentConf, ComponentClass, isPage) {
@@ -311,18 +311,29 @@ export default function createComponent (ComponentClass, isPage) {
     data: initData,
     onInit () {
       isPage && (hasPageInited = false)
-      this.$component = new ComponentClass({}, isPage)
+      if (isPage && cacheDataHas(preloadInitedComponent)) {
+        this.$component = cacheDataGet(preloadInitedComponent, true)
+      } else {
+        this.$component = new ComponentClass({}, isPage)
+      }
       this.$component._init(this)
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       if (isPage) {
+        this.$component.$componentType = 'PAGE'
         if (cacheDataHas(PRELOAD_DATA_KEY)) {
           const data = cacheDataGet(PRELOAD_DATA_KEY, true)
           this.$component.$router.preload = data
         }
-        Object.assign(this.$component.$router.params, getPageUrlParams(isPage))
+        const options = getPageUrlParams(isPage)
+        Object.assign(this.$component.$router.params, options)
         this.$app.pageInstaceMap = this.$app.pageInstaceMap || {}
         this.$app.pageInstaceMap[isPage] = this.$component
+        if (cacheDataHas(options[preloadPrivateKey])) {
+          this.$component.$preloadData = cacheDataGet(options[preloadPrivateKey], true)
+        } else {
+          this.$component.$preloadData = {}
+        }
         // this.$component.$router.path = getCurrentPageUrl()
         initComponent.apply(this, [ComponentClass, isPage])
       }
@@ -362,6 +373,7 @@ export default function createComponent (ComponentClass, isPage) {
         }
       }
     })
+    addLeadingSlash(isPage) && cacheDataSet(addLeadingSlash(isPage), ComponentClass)
   }
   bindStaticFns(componentConf, ComponentClass)
   bindProperties(componentConf, ComponentClass, isPage)
