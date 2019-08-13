@@ -157,7 +157,8 @@ export async function createApp (
   const {
     projectName,
     projectDir,
-    template
+    template,
+    env
   } = params
   const logs: string[] = []
   // path
@@ -165,7 +166,7 @@ export async function createApp (
   const projectPath = path.join(projectDir, projectName)
 
   // default 模板发布 npm 会滤掉 '.' 开头的文件，因此改为 '_' 开头，这里先改回来。
-  if (template === 'default') {
+  if (env !== 'test' && template === 'default') {
     const files = await fs.readdir(templatePath)
     const renames = files
       .map(file => {

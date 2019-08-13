@@ -57,7 +57,7 @@ export default class Page extends Creator {
     this.conf = Object.assign(this.conf, templateInfo)
   }
 
-  async fetchTemplates (): Promise<string[]> {
+  async fetchTemplates () {
     const homedir = getUserHomeDir()
     let templateSource = DEFAULT_TEMPLATE_SRC
     if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')

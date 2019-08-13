@@ -8,7 +8,7 @@ import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
 import CONFIG from '../config'
 import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
-import { getUserHomeDir, getTemplateSourceType } from '../util'
+import { getUserHomeDir } from '../util'
 
 export interface IProjectConf {
   projectName: string,
@@ -20,7 +20,8 @@ export interface IProjectConf {
   css: 'none' | 'sass' | 'stylus' | 'less',
   date?: string,
   src?: string,
-  sourceRoot?: string
+  sourceRoot?: string,
+  env?: string
 }
 
 interface AskMethods {
