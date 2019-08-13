@@ -195,15 +195,15 @@ function doUpdate (component, prevProps, prevState) {
     }
   })
 
-  if (component['$$hasLoopRef']) {
-    Current.current = component
-    component._disableEffect = true
-    component._createData(component.state, component.props, true)
-    component._disableEffect = false
-    Current.current = null
-  }
-
   if (__mounted) {
+    invokeEffects(component)
+    if (component['$$hasLoopRef']) {
+      Current.current = component
+      component._disableEffect = true
+      component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
+    }
     if (isFunction(component.componentDidUpdate)) {
       component.componentDidUpdate(prevProps, prevState, snapshot)
     }

@@ -10,6 +10,16 @@ import {
   internal_inline_style,
   internal_get_original,
   interceptors,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  useContext,
+  createContext,
   memo
 } from '@tarojs/taro'
 import { shallowEqual } from '@tarojs/utils'
@@ -40,6 +50,16 @@ export const Taro = {
   interceptors,
   propsManager,
   genCompid,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  useContext,
+  createContext,
   memo,
   shallowEqual
 }

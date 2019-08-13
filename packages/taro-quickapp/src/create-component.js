@@ -1,7 +1,7 @@
 import camelCase from 'lodash/camelCase'
-import { Current } from '@tarojs/taro'
+import { Current, eventCenter } from '@tarojs/taro'
 
-import { isEmptyObject, addLeadingSlash } from './util'
+import { isEmptyObject, addLeadingSlash, isArray, isFunction } from './util'
 import { cacheDataGet, cacheDataHas, cacheDataSet } from './data-cache'
 import { mountComponent } from './lifecycle'
 import appGlobal from './global'
@@ -354,6 +354,16 @@ export default function createComponent (ComponentClass, isPage) {
 
     onDestroy () {
       componentTrigger(this.$component, 'componentWillUnmount')
+      const component = this.$component
+      component.hooks.forEach((hook) => {
+        if (isFunction(hook.cleanup)) {
+          hook.cleanup()
+        }
+      })
+      const events = component.$$renderPropsEvents
+      if (isArray(events)) {
+        events.forEach(e => eventCenter.off(e))
+      }
     }
   }
   if (isPage) {
