@@ -38,7 +38,8 @@ import {
   replaceAliasPath,
   traverseObjectNode,
   isQuickappPkg,
-  getBabelConfig
+  getBabelConfig,
+  extnameExpRegOf
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -208,7 +209,7 @@ function analyzeImportUrl ({
               scriptFiles.push(vpath)
             }
             relativePath = promoteRelativePath(relativePath)
-            relativePath = relativePath.replace(path.extname(relativePath), '.js')
+            relativePath = relativePath.replace(extnameExpRegOf(relativePath), '.js')
             node.source.value = relativePath
           }
         }
@@ -891,7 +892,7 @@ export function parseAst (
                           scriptFiles.push(vpath)
                         }
                         relativePath = promoteRelativePath(relativePath)
-                        relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                        relativePath = relativePath.replace(extnameExpRegOf(relativePath), '.js')
                         args[0].value = relativePath
                       }
                     }
@@ -946,7 +947,7 @@ export function parseAst (
             if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             } else if (isQuickApp) {
-              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/g, '/').replace(path.extname(sourceFilePath), '')
+              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/g, '/').replace(extnameExpRegOf(sourceFilePath), '')
               if (!taroImportDefaultName) {
                 node.body.unshift(
                   template(`import Taro from '${taroMiniAppFrameworkPath}'`, babylonConfig as any)() as any

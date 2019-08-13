@@ -746,3 +746,7 @@ export function readDirWithFileTypes (floder: string): FileStat[] {
   })
   return res
 }
+
+export function extnameExpRegOf (filePath: string): RegExp {
+  return new RegExp(`${path.extname(filePath)}$`)
+}
