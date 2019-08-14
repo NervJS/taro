@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import ignore from 'ignore'
+import * as ignore from 'ignore'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
@@ -305,6 +305,7 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
   const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig } = BuildData
   const adapterConfig = Object.assign({}, projectConfig.weapp)
   // 初始化 ignore方法
+  // @ts-ignore
   const ig:any = ignore().add(getBuildData().projectConfig.copy!.options!.ignore || [])
   files.forEach(file => {
     let outputFilePath
