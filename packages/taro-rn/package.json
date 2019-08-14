@@ -43,7 +43,7 @@
     "react-native-root-siblings": "^3.1.0",
     "react-native-root-toast": "^3.0.1",
     "react-native-stylekit": "^1.0.0",
-    "react-native-unimodules": "^0.4.1"
+    "react-native-unimodules": "^0.5.3"
   },
   "devDependencies": {
     "@babel/core": "7.1.5",
