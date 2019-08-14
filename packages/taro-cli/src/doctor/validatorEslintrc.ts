@@ -4,6 +4,11 @@ module.exports = {
     'no-unused-vars': ['error', { 'varsIgnorePattern': 'Taro' }],
     'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx', '.tsx'] }]
   },
-  'parser': 'babel-eslint',
-  'plugins': ['typescript']
+  'parser': '@typescript-eslint/parser',
+  'parserOptions': {
+    'ecmaFeatures': {
+      'jsx': true
+    },
+    'useJSXTextNode': true
+  }
 }
