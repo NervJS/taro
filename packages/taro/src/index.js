@@ -30,6 +30,13 @@ import {
   useContext,
   useDidShow,
   useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useRouter,
   forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
@@ -111,6 +118,13 @@ export default {
   useState,
   useDidShow,
   useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useRouter,
   useRef,
   useCallback,
   useMemo,

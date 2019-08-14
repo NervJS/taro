@@ -35,30 +35,58 @@ export function useState (initialState) {
   return hook.state
 }
 
-export function useDidShow (callback) {
+function usePageLifecycle (callback, lifecycle) {
   const hook = getHooks(Current.index++)
   hook.component = Current.current
-  if (!hook.didShowMark) {
-    hook.didShowMark = true
-    const originalComponentDidShow = hook.component.componentDidShow
-    hook.component.componentDidShow = function () {
-      originalComponentDidShow && originalComponentDidShow()
-      callback.call(hook.component)
+  if (!hook.marked) {
+    hook.marked = true
+    const originalLifecycle = hook.component[lifecycle]
+    hook.component[lifecycle] = function () {
+      originalLifecycle && originalLifecycle(...arguments)
+      callback.call(hook.component, ...arguments)
     }
   }
 }
 
+export function useDidShow (callback) {
+  usePageLifecycle(callback, 'componentDidShow')
+}
+
 export function useDidHide (callback) {
+  usePageLifecycle(callback, 'componentDidHide')
+}
+
+export function usePullDownRefresh (callback) {
+  usePageLifecycle(callback, 'onPullDownRefresh')
+}
+
+export function useReachBottom (callback) {
+  usePageLifecycle(callback, 'onReachBottom')
+}
+
+export function usePageScroll (callback) {
+  usePageLifecycle(callback, 'onPageScroll')
+}
+
+export function useResize (callback) {
+  usePageLifecycle(callback, 'onResize')
+}
+
+export function useShareAppMessage (callback) {
+  usePageLifecycle(callback, 'onShareAppMessage')
+}
+
+export function useTabItemTap (callback) {
+  usePageLifecycle(callback, 'onTabItemTap')
+}
+
+export function useRouter () {
   const hook = getHooks(Current.index++)
-  hook.component = Current.current
-  if (!hook.didHideMark) {
-    hook.didHideMark = true
-    const originalComponentDidHide = hook.component.componentDidHide
-    hook.component.componentDidHide = function () {
-      originalComponentDidHide && originalComponentDidHide()
-      callback.call(hook.component)
-    }
+  if (!hook.router) {
+    hook.component = Current.current
+    hook.router = hook.component.$router
   }
+  return hook.router
 }
 
 export function useReducer (

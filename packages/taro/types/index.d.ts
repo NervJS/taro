@@ -223,6 +223,52 @@ declare namespace Taro {
      */
     // allow undefined, but don't make it optional as that is very likely a mistake
     function useMemo<T> (factory: () => T, deps: DependencyList | undefined): T
+
+    /**
+     * 页面展示时的回调
+     */
+    function useDidShow (callback: () => any)
+
+    /**
+     * 页面隐藏时的回调
+     */
+    function useDidHide (callback: () => any)
+
+    /**
+     * 监听用户下拉刷新事件
+     */
+    function usePullDownRefresh (callback: () => any)
+
+    /**
+     * 监听用户上拉触底事件
+     */
+    function useReachBottom (callback: () => any)
+
+    /**
+     * 监听用户滑动页面事件
+     */
+    function usePageScroll (callback: (obj: PageScrollObject) => any)
+
+    /**
+     * 小程序屏幕旋转时触发
+     */
+    function useResize (callback: (obj: any) => any)
+
+    /**
+     * 监听用户点击页面内转发按钮（button 组件 open-type="share"）或右上角菜单“转发”按钮的行为，并自定义转发内容
+     */
+    function useShareAppMessage (callback: (obj: ShareAppMessageObject) => any)
+
+    /**
+     * 点击 tab 时触发
+     */
+    function useTabItemTap (callback: (obj: TabItemTapObject) => any)
+
+    /**
+     * 获取页面传入路由相关参数
+     */
+    function useRouter (): RouterInfo
+
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
@@ -346,7 +392,7 @@ declare namespace Taro {
     onPageScroll?(obj: PageScrollObject): void
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
     onTabItemTap?(obj: TabItemTapObject): void
-    onResize?(): void
+    onResize?(obj: any): void
   }
 
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
@@ -704,6 +750,44 @@ declare namespace Taro {
     addGlobalClass?: boolean
   }
 
+  interface RouterInfo {
+    /**
+     * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
+     *
+     * @example
+     * componentWillMount () {
+     *   console.log(this.$router.params)
+     * }
+     *
+     * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
+    */
+    params: {
+      [key: string]: string
+    } & {
+      path?: string
+      scene?: number | string
+      query?: {[key: string]: string} | string
+      shareTicket?: string
+      referrerInfo?: {[key: string]: any} | string
+    }
+    /**
+    * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
+    *
+    * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
+    * 请开发者在使用时自行判断
+    *
+    * @example
+    * componentWillMount () {
+    *   console.log('preload: ', this.$router.preload)
+    * }
+    *
+    * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
+    */
+    preload?: {
+      [key: string]: string
+    }
+  }
+
   class Component<P, S> {
     constructor(props?: P, context?: any)
 
@@ -713,43 +797,7 @@ declare namespace Taro {
 
     $componentType: 'PAGE' | 'COMPONENT'
 
-    $router: {
-      /**
-       * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
-       *
-       * @example
-       * componentWillMount () {
-       *   console.log(this.$router.params)
-       * }
-       *
-       * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
-       */
-      params: {
-        [key: string]: string
-      } & {
-        path?: string
-        scene?: number | string
-        query?: {[key: string]: string} | string
-        shareTicket?: string
-        referrerInfo?: {[key: string]: any} | string
-      }
-      /**
-       * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
-       *
-       * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
-       * 请开发者在使用时自行判断
-       *
-       * @example
-       * componentWillMount () {
-       *   console.log('preload: ', this.$router.preload)
-       * }
-       *
-       * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
-       */
-      preload?: {
-        [key: string]: string
-      }
-    }
+    $router: RouterInfo
 
     $preloadData: any
 
