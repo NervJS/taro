@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as ignore from 'ignore'
+import ignore from 'ignore'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
