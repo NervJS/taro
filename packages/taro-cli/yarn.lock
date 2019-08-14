@@ -443,6 +443,13 @@
     pirates "^4.0.0"
     source-map-support "^0.5.9"
 
+"@babel/runtime@^7.4.2":
+  version "7.5.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.5.tgz#74fba56d35efbeca444091c7850ccd494fd2f132"
+  integrity sha512-28QvEGyQyNkB0/m2B4FU7IEZGK2NUrcMtT6BZEFALTguLk+AUT6ofsHtPk5QyjAdUkpMJ+/Em+quwz4HOt30AQ==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.0.0-beta.44.tgz#f8832f4fdcee5d59bf515e595fc5106c529b394f"
@@ -520,15 +527,17 @@
   version "0.7.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tarojs/taro@1.3.10":
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.10.tgz#687dead4a737bbcdc22c1e97deb10e294381f0dc"
-  integrity sha512-nwqSy59pM5CLswboIm07qPpclvgdkr/KHZXRqbHs2QQUPmXHs/sk5a5GWfJ0OZVcxFBiKTxg2z1KbdJPLNpLMw==
+"@tarojs/taro@1.3.13":
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.13.tgz#55875ab2c71cf19eb2b16dd237c43d61749c6d31"
+  integrity sha512-eYmngv0I3FobnpUH0xO+1zWwyprsIqCBejQX9mKwo94sdY9RV6d4u4MfQ/yUqII9/coi8XEwDoPQ2163H8BePA==
+  dependencies:
+    "@tarojs/utils" "1.3.13"
 
-"@tarojs/taroize@1.3.10":
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/@tarojs/taroize/-/taroize-1.3.10.tgz#3e3769a6c9859e4fd2957dbff01d22671fe5f981"
-  integrity sha512-U6vIcH/ZZ33Bt/uhld00E0T84/975LNyR3m1FaNoax/my4fB8uUdigYDtEIouadrF6jSabRHtY95RlTfvT3E2A==
+"@tarojs/taroize@1.3.13":
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/@tarojs/taroize/-/taroize-1.3.13.tgz#72fdafd6a5a3668075658a1018eb8fa90f1a3988"
+  integrity sha512-z6Z/OosucVg99b8IA6Vyd7XX4dQiIknSgPiDDnJ2OfypncQqU/FWTdz+wJBxjYsZ66MQXOGA7oMHYbjDATXWig==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     babel-core "^6.26.3"
@@ -541,10 +550,10 @@
     lodash "^4.17.5"
     typescript "^3.0.1"
 
-"@tarojs/transformer-wx@1.3.10":
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/@tarojs/transformer-wx/-/transformer-wx-1.3.10.tgz#3534df56e12450bfcd1758c14a56d347b0cf86f8"
-  integrity sha512-Oyi3mYFiliSS54zBrS0HlCIh2fEUz+lDjJneAVjwIltMIys56iCCqc5fbeq2eNhxstthmG2QPQawd1Y3nJ68cQ==
+"@tarojs/transformer-wx@1.3.13":
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/@tarojs/transformer-wx/-/transformer-wx-1.3.13.tgz#e3201b4afacd8fb1e7fd3918953a6b81ba3b91b1"
+  integrity sha512-a9I8DpoEX9lJv4d0mM4uN9ik+2obVzL8T481Fyy2jk+XhZ5HyeUnWEVFmWTRjq4UWtt2EtwcohQW82rYladLlg==
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     babel-core "^6.26.3"
@@ -566,11 +575,16 @@
     babel-types "^6.26.0"
     eslint "^4.15.0"
     eslint-plugin-react "7.10.0"
-    eslint-plugin-taro "1.3.10"
+    eslint-plugin-taro "1.3.13"
     html "^1.0.0"
     lodash "^4.17.5"
     prettier "^1.14.2"
     typescript "^3.2.2"
+
+"@tarojs/utils@1.3.13":
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-1.3.13.tgz#bf14cf332c01820b81dc216eac6d16a47c391836"
+  integrity sha512-rKa3TDBJOVWsllgTOtI8Z0axaL8JEB+WfBPoQRaHunSIgHQqAXEnlZ0O1NrcZQ0Z/1jf2OoK9D8dVz8OcYwfyQ==
 
 "@types/autoprefixer@^9.1.1":
   version "9.4.0"
@@ -1316,6 +1330,15 @@ babel-plugin-jest-hoist@^23.2.0:
   version "23.2.0"
   resolved "https://registry.npmjs.org/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-23.2.0.tgz#e61fae05a1ca8801aadee57a6d66b8cefaf44167"
 
+babel-plugin-macros@^2.0.0:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.6.1.tgz#41f7ead616fc36f6a93180e89697f69f51671181"
+  integrity sha512-6W2nwiXme6j1n2erPOnmRiWfObUhWH7Qw1LMi9XZy8cj+KtESu3T6asZvtk5bMQQjX8te35o7CFueiSdL/2NmQ==
+  dependencies:
+    "@babel/runtime" "^7.4.2"
+    cosmiconfig "^5.2.0"
+    resolve "^1.10.0"
+
 babel-plugin-minify-dead-code@^0.5.2:
   version "0.5.2"
   resolved "https://registry.npmjs.org/babel-plugin-minify-dead-code/-/babel-plugin-minify-dead-code-0.5.2.tgz#8babe8e5ef7c8a4a55bbe2e40f2f22db3ef4b1ad"
@@ -1324,6 +1347,16 @@ babel-plugin-minify-dead-code@^0.5.2:
     babel-helper-mark-eval-scopes "^0.3.0"
     babel-helper-remove-or-void "^0.3.0"
     lodash.some "^4.6.0"
+
+babel-plugin-preval@1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-preval/-/babel-plugin-preval-1.6.4.tgz#96febe8172b3ca6c3d03ed96eeb0382ba4b18056"
+  integrity sha512-XuNaiZ76CsdWialH2co05YRra9NlsyriTUbJ+56MAcWN9v33drTm5ovBRFuEKVj1dNRhEdBjeEyYtkkaRE8drw==
+  dependencies:
+    babel-plugin-macros "^2.0.0"
+    babel-register "^6.26.0"
+    babylon "^6.18.0"
+    require-from-string "^2.0.1"
 
 babel-plugin-react-transform@^3.0.0:
   version "3.0.0"
@@ -1675,10 +1708,10 @@ babel-plugin-transform-function-bind@^6.22.0:
     babel-plugin-syntax-function-bind "^6.8.0"
     babel-runtime "^6.22.0"
 
-babel-plugin-transform-jsx-to-stylesheet@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-to-stylesheet/-/babel-plugin-transform-jsx-to-stylesheet-1.3.10.tgz#e84bbed4fbd0163d2ecbb455f58a4c4e25f82d82"
-  integrity sha512-FnqtfPjSfQtK/UKeCJUrVjGrPF/DJ4++HuolePlN+r0ChbAVXihkhfmuA50Yb1nuCBfxNEDanSRL1cUdmw8T6A==
+babel-plugin-transform-jsx-to-stylesheet@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-to-stylesheet/-/babel-plugin-transform-jsx-to-stylesheet-1.3.13.tgz#fee2fcf4cca7525096ff2ee183013d26f693b0b3"
+  integrity sha512-hldwhwOXF5wCOW64N95snuRdwJjoQrYC04j+pqk9ihwXc8SDoMCs7arrRVay1VhSsLPfnCd+sR/bZMEVpD2QYQ==
 
 babel-plugin-transform-object-assign@^6.5.0:
   version "6.22.0"
@@ -2644,6 +2677,16 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.0"
     parse-json "^4.0.0"
 
+cosmiconfig@^5.2.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-5.2.1.tgz#040f726809c591e77a17c0a3626ca45b4f168b1a"
+  integrity sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA==
+  dependencies:
+    import-fresh "^2.0.0"
+    is-directory "^0.3.1"
+    js-yaml "^3.13.1"
+    parse-json "^4.0.0"
+
 create-error-class@^3.0.0:
   version "3.0.2"
   resolved "https://registry.npmjs.org/create-error-class/-/create-error-class-3.0.2.tgz#06be7abef947a3f14a30fd610671d401bca8b7b6"
@@ -3197,12 +3240,12 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-taro@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/eslint-config-taro/-/eslint-config-taro-1.3.10.tgz#31078dda022b101436e4e1a4e6fced65d1dfefb3"
-  integrity sha512-3uH+SdGrgEBsZU4BNFjc5QLeeUrnfzAZwaHYRLTEu6qlvc8w6fWEwc5EsKlsV2+5G1FuP11RbgGMQ1Xe3cWKNw==
+eslint-config-taro@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/eslint-config-taro/-/eslint-config-taro-1.3.13.tgz#69cff5acb919a7b0152267a184a3e7bf6e03a146"
+  integrity sha512-OOS0qbz2JQP62dBLZ1l8429UKohyWprPMhUMjIr51TKfqVCz8hYCVStmBnolhn0Ijv7n4FhRLCAqY9ybFkU7GQ==
   dependencies:
-    eslint-plugin-taro "1.3.10"
+    eslint-plugin-taro "1.3.13"
 
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
@@ -3233,6 +3276,11 @@ eslint-plugin-import@^2.8.0:
     minimatch "^3.0.4"
     read-pkg-up "^2.0.0"
     resolve "^1.10.0"
+
+eslint-plugin-react-hooks@^1.6.1:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-1.7.0.tgz#6210b6d5a37205f0b92858f895a4e827020a7d04"
+  integrity sha512-iXTCFcOmlWvw4+TOE8CLWj6yX1GwzT0Y6cUfHHZqWnSk144VmVIRcVGtUAzrLES7C798lmvnt02C7rxaOX1HNA==
 
 eslint-plugin-react-native-globals@^0.1.1:
   version "0.1.2"
@@ -3265,10 +3313,10 @@ eslint-plugin-react@^7.4.0:
     prop-types "^15.6.2"
     resolve "^1.9.0"
 
-eslint-plugin-taro@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-1.3.10.tgz#ef60120aaa228f4d509d33c055d7abb856a7584f"
-  integrity sha512-klQTPgJfNJaQndVyVuWU8oz2L8wMo5mZTWsuwh75//utuHIBMMsaMclXwH9wj3vlzEa/H0VHi5wPH6kAT8ymPA==
+eslint-plugin-taro@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-1.3.13.tgz#19d7cfa269d6765fcb96ae72d4d6a8521232200c"
+  integrity sha512-Jv+zEnbwbf9bLWeZzSMgm8PRvjkPKKLHbloiqSvfKnndjq0UXaQ22xrbLMlsTvl6RyKJFPPFj+sQCwJNL9t67w==
   dependencies:
     has "^1.0.1"
 
@@ -4372,6 +4420,11 @@ ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.10"
   resolved "https://registry.npmjs.org/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
 
+ignore@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.2.tgz#e28e584d43ad7e92f96995019cc43b9e1ac49558"
+  integrity sha512-vdqWBp7MyzdmHkkRWV5nY+PfGRbYbahfuvsBCh277tq+w9zyNi7h5CYJCK0kmzti9kU+O/cB7sE8HvKv6aXAKQ==
+
 image-size@^0.6.0:
   version "0.6.3"
   resolved "https://registry.npmjs.org/image-size/-/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
@@ -5296,7 +5349,7 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
 
-js-yaml@^3.13.0, js-yaml@^3.4.2, js-yaml@^3.7.0, js-yaml@^3.9.1:
+js-yaml@^3.13.0, js-yaml@^3.13.1, js-yaml@^3.4.2, js-yaml@^3.7.0, js-yaml@^3.9.1:
   version "3.13.1"
   resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   dependencies:
@@ -6868,10 +6921,10 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-1.3.10.tgz#e8d31de1e9c5121bcbea002f47aab33b4d482280"
-  integrity sha512-6m9xPXkmwZ8AQyQ300Imll1Csee3+Gv4TgNik6DCKUOb9OUJboH3dXsLW2tTTQ5/fBCK/NEyNrwzBs4MXrBJtA==
+postcss-pxtransform@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-1.3.13.tgz#3cdd2772543aab9d683ffe7b45aaf386a61be16a"
+  integrity sha512-Byxo2hm/CQS7nEm6bTi3Li+gV3wZP8lDtGd0ozJVoKxqXeAS63RFqexZJ6jV78cxwpIFhartpnE03FBKIzamyQ==
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
@@ -7342,6 +7395,11 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
+regenerator-runtime@^0.13.2:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
+  integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
+
 regenerator-transform@^0.10.0:
   version "0.10.1"
   resolved "https://registry.npmjs.org/regenerator-transform/-/regenerator-transform-0.10.1.tgz#1e4996837231da8b7f3cf4114d71b5691a0680dd"
@@ -7543,6 +7601,11 @@ require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
 
+require-from-string@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/require-from-string/-/require-from-string-2.0.2.tgz#89a7fdd938261267318eafe14f9c32e598c36909"
+  integrity sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==
+
 require-main-filename@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
@@ -7710,7 +7773,7 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.2.3"
 
-sax@^1.2.4:
+sax@>=0.6.0, sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
@@ -8158,15 +8221,15 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
-stylelint-config-taro-rn@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/stylelint-config-taro-rn/-/stylelint-config-taro-rn-1.3.10.tgz#97ef9b3b35ae014cff779b94968560404cc46474"
-  integrity sha512-IRvXVIdJVleTHd7nWn1mGA2ADUQl0wMGlaiYZSYr7vwRvvpk5/KfRWLP9hpylTNFKerYRIf+vCXrm1iWCKDlzg==
+stylelint-config-taro-rn@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/stylelint-config-taro-rn/-/stylelint-config-taro-rn-1.3.13.tgz#a70ac891e4fb36ff69d251a83883a88f8eb083e1"
+  integrity sha512-4eZ4xOVyUabQlp/KnPwsl7bZ7JroYyOGrsY+O+fp0MdFHnhUtYizrH/QIVzFUv81FxJNKbR1zWkRlFAC8IVekg==
 
-stylelint-taro-rn@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/stylelint-taro-rn/-/stylelint-taro-rn-1.3.10.tgz#21aa48045bdd31628aeb7194cb515f7db5389614"
-  integrity sha512-TjWNTE6RG34R9keKLqhAJLSG5PJP3BZH6+2KfuIwn4C4Z9ZkstnMISiHB2nXVt7xrWsMVa2tmnBLqzC9dGBufQ==
+stylelint-taro-rn@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/stylelint-taro-rn/-/stylelint-taro-rn-1.3.13.tgz#3a8b9e14230d6fd1eb6b19bbaabfcad80b979a12"
+  integrity sha512-QDsEv37ytN3FVXC9LZv6GpwywYHYxye4QiwCjHiBGd85kwLv/7NQcaCzqnpCuX9kVocDm+4I6Qv1MoomRWb5xw==
   dependencies:
     react-native-known-styling-properties "^1.0.4"
 
@@ -8305,10 +8368,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-taro-css-to-react-native@1.3.10:
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/taro-css-to-react-native/-/taro-css-to-react-native-1.3.10.tgz#c66fcea4f3760326eec76b3789d8811641cc2ee6"
-  integrity sha512-PKGVA2CgI2y4Z9SsfXNUpaDl+ClaUaBwdkZo8YXIgl3iKB/Uvn6V3U52QYMBrdWTSq8IprTqcoXz99P6SZUmEA==
+taro-css-to-react-native@1.3.13:
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/taro-css-to-react-native/-/taro-css-to-react-native-1.3.13.tgz#30fbf14288c322cd0af2d1408de8272af68ad5a0"
+  integrity sha512-gEjTOVKLPoQvQA1WMf/iOqrYlLKZbvg5YpqorGbOVF2DAC4TwBrV4qoQ994MucZp/KC6tvz8PCQ6Ln2T1Gz4rw==
   dependencies:
     camelize "^1.0.0"
     css "^2.2.4"
@@ -9078,6 +9141,14 @@ xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
 
+xml2js@^0.4.19:
+  version "0.4.19"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
+  integrity sha512-esZnJZJOiJR9wWKMyuvSE1y6Dq5LCuJanqhxslH2bxM6duahNZ+HMpCLhBQGZkbX6xRf8x1Y2eJlgt2q3qo49Q==
+  dependencies:
+    sax ">=0.6.0"
+    xmlbuilder "~9.0.1"
+
 xmlbuilder@4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-4.0.0.tgz#98b8f651ca30aa624036f127d11cc66dc7b907a3"
@@ -9087,6 +9158,11 @@ xmlbuilder@4.0.0:
 xmlbuilder@8.2.2:
   version "8.2.2"
   resolved "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-8.2.2.tgz#69248673410b4ba42e1a6136551d2922335aa773"
+
+xmlbuilder@~9.0.1:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+  integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
 
 xmldoc@^0.4.0:
   version "0.4.0"
