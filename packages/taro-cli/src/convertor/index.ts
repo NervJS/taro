@@ -442,7 +442,7 @@ export default class Convertor {
       const taroizeResult = taroize({
         json: entryJSON,
         script: entryJS,
-        path: path.dirname(entryJS)
+        path: path.dirname(this.entryJSPath)
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
