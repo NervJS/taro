@@ -66,12 +66,12 @@ const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
-function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
-  const parents: NodePath<t.Node>[] = []
+function findParents<T> (path: NodePath<t.Node>, predicates: (p: NodePath<t.Node>) => boolean) {
+  const parents: NodePath<T>[] = []
   // tslint:disable-next-line:no-conditional-assignment
   while (path = path.parentPath) {
-    if (cb(path)) {
-      parents.push(path)
+    if (predicates(path)) {
+      parents.push(path as any)
     }
   }
 
@@ -1518,6 +1518,10 @@ export class RenderParser {
     },
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
+      const callExprs = findParents<t.CallExpression>(path, p => p.isCallExpression())
+      if (callExprs.some(callExpr => callExpr && t.isIdentifier(callExpr.node.callee) && /^use[A-Z]/.test(callExpr.node.callee.name))) {
+        return
+      }
       if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
         path.replaceWith(
           t.jSXElement(
