@@ -1957,7 +1957,7 @@ export class RenderParser {
           // tslint:disable-next-line:no-inner-declarations
           function replaceOriginal (path, parent, name) {
             if (
-              path.isReferencedIdentifier() &&
+              (path.isReferencedIdentifier() || t.isAssignmentExpression(parent)) &&
               iterators.has(name) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE) || parent.property.name.startsWith(COMPID)))
