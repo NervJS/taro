@@ -5,7 +5,6 @@
         @scrolltop="onScrollToUpper"
         class="{{classname}}"
         style="{{customstyle}}"
-        flex-direction="{{flexDirection}}"
         >
         <list-item type='a'>
             <slot></slot>

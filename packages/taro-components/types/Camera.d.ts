@@ -6,7 +6,7 @@ export interface CameraProps extends StandardProps {
   /**
    * 模式，有效值为normal, scanCode
    * 默认值：`normal`
-   * 最低版本：2.1.0
+   * 最低版本：微信小程序 2.1.0
    */
   mode?: 'normal' | 'scanCode'
 
@@ -46,9 +46,15 @@ export interface CameraProps extends StandardProps {
   /**
    * 在成功识别到一维码时触发，
    * 仅在 mode="scanCode" 时生效
-   * 最低版本：2.1.0
+   * 最低版本：微信小程序 2.1.0
    */
   onScanCode?: CommonEventFunction
+
+  /**
+   * 相机初始化完成时触发
+   * 最低版本：微信小程序 2.7.0
+   */
+  onInitDone?: CommonEventFunction
 }
 
 declare const Camera: ComponentType<CameraProps>

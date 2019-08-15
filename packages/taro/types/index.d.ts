@@ -3224,6 +3224,36 @@ declare namespace Taro {
   function createCameraContext(instance?: any): CameraContext
 
   namespace CameraContext {
+    namespace onCameraFrame {
+      type CallbackParam = {
+        /**
+         * 图像数据矩形的宽度
+         */
+        width: number
+        /**
+         * 图像数据矩形的高度
+         */
+        height: number
+        /**
+         * 图像像素点数据，一维数组，每四项表示一个像素点的 rgba
+         */
+        data: ArrayBuffer
+      }
+      type Callback = (res: CallbackParam) => any
+      /**
+       * CameraContext.onCameraFrame() 返回的监听器。
+       */
+      class CameraFrameListener {
+        /**
+         * 开始监听帧数据
+         */
+        start(): any
+        /**
+         * 停止监听帧数据
+         */
+        stop(): any
+      }
+    }
     namespace takePhoto {
       type Param = {
         /**
@@ -3322,6 +3352,11 @@ declare namespace Taro {
     }
   }
   class CameraContext {
+    /**
+     * @since 2.7.0
+     * 获取 Camera 实时帧数据
+     */
+    onCameraFrame(callback: CameraContext.onCameraFrame.Callback): CameraContext.onCameraFrame.CameraFrameListener
     /**
      * 拍照，可指定质量，成功则返回图片
      */

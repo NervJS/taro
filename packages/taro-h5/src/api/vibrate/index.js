@@ -1,6 +1,12 @@
 import { successHandler, errorHandler } from '../utils/index'
 
-const vibrator = window.navigator.vibrate
+const vibrator = function vibrator (mm) {
+  try {
+    return window.navigator.vibrate(mm)
+  } catch (e) {
+    console.log('当前浏览器不支持vibrate')
+  }
+}
 
 /**
  * 使手机发生较短时间的振动（15 ms）。仅在 iPhone 7 / 7 Plus 以上及 Android 机型生效

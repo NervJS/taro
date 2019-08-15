@@ -307,6 +307,9 @@ function processApis (taro) {
                   res.data = res.text
                 } else if (newKey === 'scan') {
                   res.result = res.code
+                } else if (newKey === 'getScreenBrightness') {
+                  res.value = res.brightness
+                  delete res.brightness
                 }
               }
               options[k] && options[k](res)

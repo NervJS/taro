@@ -242,7 +242,7 @@ export const CONFIG_MAP = {
     onReachBottomDistance: false,
     backgroundColorBottom: false,
     backgroundColorTop: false,
-    navigationStyle: false
+    navigationStyle: 'navigationStyle'
   },
   [BUILD_TYPES.QQ]: {
     navigationBarTitleText: 'navigationBarTitleText',
