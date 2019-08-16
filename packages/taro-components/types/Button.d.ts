@@ -49,7 +49,10 @@ export interface ButtonProps extends StandardProps {
   /**
    * 微信开放能力
    */
-  openType?: 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber' | 'launchApp' | 'openSetting' | 'feedback' | 'getRealnameAuthInfo',
+  openType?: 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber' |
+    'launchApp' | 'openSetting' | 'feedback' | 'getRealnameAuthInfo' |
+    'getAuthorize' | 'lifestyle' | 'contactShare',
+
   /**
    * 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    *
@@ -121,6 +124,13 @@ export interface ButtonProps extends StandardProps {
     /** 加密算法的初始向量 */
     iv: string,
   }>,
+
+  /**
+   * 支付宝小程序scope
+   * 
+   * 生效时机：`open-type="getAuthorize"`
+   */
+  scope?: 'userInfo' | 'phoneNumber'
 
   /**
    * 会话来源
@@ -216,7 +226,14 @@ export interface ButtonProps extends StandardProps {
    *
    * 生效时机：`open-type="openSetting"`
    */
-  onOpenSetting?: CommonEventFunction
+  onOpenSetting?: CommonEventFunction,
+
+  /**
+   * 支付宝获取会员基础信息授权回调
+   * 
+   * 生效时机：`open-type="getAuthorize"`
+   */
+  onGetAuthorize?: CommonEventFunction
 }
 
 declare const Button: ComponentType<ButtonProps>
