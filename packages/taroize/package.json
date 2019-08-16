@@ -27,6 +27,7 @@
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
     "himalaya-wxml": "^1.1.0",
+    "html": "^1.0.0",
     "lodash": "^4.17.5",
     "typescript": "^3.0.1"
   },

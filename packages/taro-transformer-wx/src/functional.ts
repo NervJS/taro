@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash'
 import generate from 'babel-generator'
 import { DEFAULT_Component_SET } from './constant'
 import { injectRenderPropsListener } from './render-props'
+import { transformOptions } from './options';
 
 function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
@@ -136,7 +137,7 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
       JSXAttribute (path) {
         const { name, value } = path.node
         const jsxElementPath = path.parentPath.parentPath
-        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
+        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement() && transformOptions.isNormal === false) {
           const componentName = (jsxElementPath.node.openingElement as any).name.name
           if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
             if (!t.isJSXExpressionContainer(value)) {
