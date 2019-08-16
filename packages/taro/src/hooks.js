@@ -1,6 +1,10 @@
 import { isFunction, isUndefined, isArray, isNullOrUndef, defer, objectIs } from './util'
 import { Current } from './current'
 
+export function forceUpdateCallback () {
+  //
+}
+
 function getHooks (index) {
   if (Current.current === null) {
     throw new Error(`invalid hooks call: hooks can only be called in a stateless component.`)
@@ -24,11 +28,65 @@ export function useState (initialState) {
       (action) => {
         hook.state[0] = isFunction(action) ? action(hook.state[0]) : action
         hook.component._disable = false
-        hook.component.setState({})
+        hook.component.setState({}, forceUpdateCallback)
       }
     ]
   }
   return hook.state
+}
+
+function usePageLifecycle (callback, lifecycle) {
+  const hook = getHooks(Current.index++)
+  hook.component = Current.current
+  if (!hook.marked) {
+    hook.marked = true
+    const originalLifecycle = hook.component[lifecycle]
+    hook.component[lifecycle] = function () {
+      originalLifecycle && originalLifecycle(...arguments)
+      callback.call(hook.component, ...arguments)
+    }
+  }
+}
+
+export function useDidShow (callback) {
+  usePageLifecycle(callback, 'componentDidShow')
+}
+
+export function useDidHide (callback) {
+  usePageLifecycle(callback, 'componentDidHide')
+}
+
+export function usePullDownRefresh (callback) {
+  usePageLifecycle(callback, 'onPullDownRefresh')
+}
+
+export function useReachBottom (callback) {
+  usePageLifecycle(callback, 'onReachBottom')
+}
+
+export function usePageScroll (callback) {
+  usePageLifecycle(callback, 'onPageScroll')
+}
+
+export function useResize (callback) {
+  usePageLifecycle(callback, 'onResize')
+}
+
+export function useShareAppMessage (callback) {
+  usePageLifecycle(callback, 'onShareAppMessage')
+}
+
+export function useTabItemTap (callback) {
+  usePageLifecycle(callback, 'onTabItemTap')
+}
+
+export function useRouter () {
+  const hook = getHooks(Current.index++)
+  if (!hook.router) {
+    hook.component = Current.current
+    hook.router = hook.component.$router
+  }
+  return hook.router
 }
 
 export function useReducer (
@@ -47,7 +105,7 @@ export function useReducer (
       (action) => {
         hook.state[0] = reducer(hook.state[0], action)
         hook.component._disable = false
-        hook.component.setState({})
+        hook.component.setState({}, forceUpdateCallback)
       }
     ]
   }

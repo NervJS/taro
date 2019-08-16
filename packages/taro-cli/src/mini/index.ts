@@ -145,6 +145,10 @@ function generateQuickAppManifest (quickappJSON: any) {
   quickappJSON.config = Object.assign({}, quickappJSON.config, {
     designWidth: projectConfig.designWidth || 750
   })
+  if (appConfig.window && appConfig.window.navigationStyle === 'custom') {
+    quickappJSON.display.titleBar = false
+    delete quickappJSON.display.navigationStyle
+  }
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
 

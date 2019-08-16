@@ -151,6 +151,9 @@ class Compiler {
     if (REG_STYLE.test(filePath)) {
       // do something
     } else if (REG_SCRIPTS.test(filePath)) {
+      if(/\.jsx(\?.*)?$/.test(filePath)){
+        distPath = distPath.replace(/\.jsx(\?.*)?$/, '.js')
+      }
       if (REG_TYPESCRIPT.test(filePath)) {
         distPath = distPath.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
       }
@@ -181,10 +184,11 @@ class Compiler {
    */
   buildTemp () {
     return new Promise((resolve, reject) => {
+      const filePaths: string[] = [];
       klaw(this.sourceDir)
         .on('data', file => {
           if (!file.stats.isDirectory()) {
-            this.processFile(file.path)
+            filePaths.push(file.path);
           }
         })
         .on('error', (err, item) => {
@@ -192,12 +196,15 @@ class Compiler {
           console.log(item.path)
         })
         .on('end', () => {
-          if (!this.hasJDReactOutput) {
-            this.initProjectFile()
-            resolve()
-          } else {
-            resolve()
-          }
+          Promise.all(filePaths.map(filePath => this.processFile(filePath)))
+          .then(() => {
+            if (!this.hasJDReactOutput) {
+              this.initProjectFile()
+              resolve()
+            } else {
+              resolve()
+            }
+          })
         })
     })
   }

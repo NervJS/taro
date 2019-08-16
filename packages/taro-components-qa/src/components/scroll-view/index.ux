@@ -4,8 +4,7 @@
         @scrollbottom="onScrollToLower"
         @scrolltop="onScrollToUpper"
         class="{{classname}}"
-        style="{{style}}"
-        flex-direction="{{flexDirection}}"
+        style="{{customstyle}}"
         >
         <list-item type='a'>
             <slot></slot>
@@ -21,7 +20,7 @@
           required: false,
           default: ''
         },
-        style: {
+        customstyle: {
           type: String,
           required: false,
           default: ''

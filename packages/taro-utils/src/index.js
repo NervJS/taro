@@ -1,4 +1,5 @@
 import shallowEqual from './shallow-equal'
+import SimpleMap from './simple-map'
 
 function addLeadingSlash (path) {
   return path.charAt(0) === '/' ? path : '/' + path
@@ -12,10 +13,12 @@ function getCurrentPageUrl () {
 
 export default {
   shallowEqual,
-  getCurrentPageUrl
+  getCurrentPageUrl,
+  SimpleMap
 }
 
 export {
   shallowEqual,
-  getCurrentPageUrl
+  getCurrentPageUrl,
+  SimpleMap
 }

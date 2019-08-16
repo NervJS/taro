@@ -23,7 +23,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}
@@ -67,7 +67,7 @@
         `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.classname}` 
         : 
         `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.classname}`
-      this.btnStyle = Object.assign({}, this.style, this.btnStyle)
+      this.btnStyle = Object.assign({}, this.customstyle, this.btnStyle)
 
     },
   }

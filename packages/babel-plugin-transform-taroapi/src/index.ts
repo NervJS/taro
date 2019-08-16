@@ -4,36 +4,41 @@ const plugin = function (babel: {
   types: typeof Types;
 }): PluginObj {
   const t = babel.types
-
+  
   // 这些变量需要在每个programe里重置
-  let taroName: string = ''
-  let needDefault = false
   const invokedApis: Map<string, string> = new Map()
+  let taroName: string
+  let needDefault: boolean
+
+  let referrencedTaros: Types.Identifier[]
 
   return {
     name: 'babel-plugin-transform-taro-api',
     visitor: {
       ImportDeclaration (ast, state) {
-        const apis = state.opts.apis
         const packageName = state.opts.packageName
+        const apis = state.opts.apis
         if (ast.node.source.value !== packageName) return
 
-        taroName = 'Taro'
         ast.node.specifiers.forEach(node => {
           if (t.isImportDefaultSpecifier(node)) {
-            taroName = node.local.name
             needDefault = true
+            taroName = node.local.name
           } else if (t.isImportSpecifier(node)) {
             const propertyName = node.imported.name
             if (apis.has(propertyName)) { // 记录api名字
               ast.scope.rename(node.local.name)
               invokedApis.set(propertyName, node.local.name)
             } else { // 如果是未实现的api 改成Taro.xxx
-              const binding = ast.scope.getBinding(propertyName)!
-              binding.referencePaths.forEach(reference => {
+              needDefault = true
+              const localName = node.local.name
+              const binding = ast.scope.getBinding(localName)
+              const iden = t.identifier(taroName)
+              referrencedTaros.push(iden)
+              binding && binding.referencePaths.forEach(reference => {
                 reference.replaceWith(
                   t.memberExpression(
-                    t.identifier(taroName),
+                    iden,
                     t.identifier(propertyName)
                   )
                 )
@@ -43,6 +48,7 @@ const plugin = function (babel: {
         })
       },
       MemberExpression (ast, state) {
+        /* 处理Taro.xxx */
         const apis = state.opts.apis
         const isTaro = t.isIdentifier(ast.node.object, { name: taroName })
         const property = ast.node.property
@@ -81,14 +87,21 @@ const plugin = function (babel: {
         }
       },
       Program: {
-        enter (ast, state) {
-          taroName = ''
+        enter (ast) {
           needDefault = false
+          referrencedTaros = []
           invokedApis.clear()
+
+          taroName = ast.scope.getBinding('Taro')
+            ? ast.scope.generateUid('Taro')
+            : 'Taro'
         },
         exit (ast, state) {
           // 防止重复引入
           let isTaroApiImported = false
+          referrencedTaros.forEach(node => {
+            node.name = taroName
+          })
 
           ast.traverse({
             ImportDeclaration (ast) {

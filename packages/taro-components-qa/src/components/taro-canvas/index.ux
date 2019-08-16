@@ -1,22 +1,21 @@
 <template>
-  <div
+  <canvas
     class="{{className}}"
-    style="{{style}}"
-    disabled="{{disabled}}"
     id="{{id}}"
+    style="{{style}}"
     onclick="handleClick"
   >
     <slot></slot>
-  </div>
+  </canvas>
 </template>
 
 <script>
   export default {
     props: {
-      className: {
+      classname: {
         type: String,
         required: false,
-        default: 'taro_view'
+        default: 'taro_canvas'
       },
       id: {
         type: String,
@@ -24,14 +23,10 @@
         default: ''
       },
       style: {
-        type: String,
+        type: Object,
         required: false,
+        default: {}
       },
-      disabled: {
-        type: Boolean,
-        required: false,
-        default: false
-      }
     },
 
     data: () => ({
@@ -49,7 +44,7 @@
 </script>
 
 <style>
-  .taro_view {
+  .taro_canvas {
 
   }
 </style>

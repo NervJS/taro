@@ -11,6 +11,7 @@
  * @warn The width/height would be undefined in onLoad.
  * @warn Avoid using HTTP source image.
  * @warn Image.resolveAssetSource 会造成重复请求
+ * @warn 宽高为 0 的时候，不触发 onLoad，跟小程序不同
  */
 
 import * as React from 'react'

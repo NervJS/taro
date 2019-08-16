@@ -247,6 +247,7 @@ function createComponent (ComponentClass, isPage) {
         hasPageInited = false
         if (cacheDataHas(preloadInitedComponent)) {
           this.$component = cacheDataGet(preloadInitedComponent, true)
+          this.$component.$componentType = 'PAGE'
         } else {
           this.$component = new ComponentClass({}, isPage)
         }

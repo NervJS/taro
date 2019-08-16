@@ -37,8 +37,7 @@ import {
   setJSXAttr,
   buildBlockElement,
   parseJSXElement,
-  generateJSXAttr,
-  buildTrueJSXAttrValue
+  generateJSXAttr
 } from './jsx'
 import {
   DEFAULT_Component_SET,
@@ -54,7 +53,8 @@ import {
   GEN_COMP_ID,
   ALIPAY_BUBBLE_EVENTS,
   FN_PREFIX,
-  CLASS_COMPONENT_UID
+  CLASS_COMPONENT_UID,
+  IS_TARO_READY
 } from './constant'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -66,12 +66,12 @@ const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
-function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
-  const parents: NodePath<t.Node>[] = []
+function findParents<T> (path: NodePath<t.Node>, predicates: (p: NodePath<t.Node>) => boolean) {
+  const parents: NodePath<T>[] = []
   // tslint:disable-next-line:no-conditional-assignment
   while (path = path.parentPath) {
-    if (cb(path)) {
-      parents.push(path)
+    if (predicates(path)) {
+      parents.push(path as any)
     }
   }
 
@@ -221,7 +221,8 @@ export class RenderParser {
       }
       const children = properties.map(p => p.node).map((p, index) => {
         const block = buildBlockElement()
-        const tester = t.binaryExpression('===', p.key, rval.node as any)
+        const leftExpression = t.isStringLiteral(p.key) ? p.key : t.stringLiteral(p.key.name)
+        const tester = t.binaryExpression('===', leftExpression, rval.node as any)
         block.children = [t.jSXExpressionContainer(p.value)]
         if (index === 0) {
           newJSXIfAttr(block, tester)
@@ -685,13 +686,16 @@ export class RenderParser {
           if (this.isDefaultRender) {
             blockAttrs.push(t.jSXAttribute(
               t.jSXIdentifier(Adapter.if),
-              t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
+              t.jSXExpressionContainer(t.jSXIdentifier(IS_TARO_READY))
             ))
           }
         }
         const block = this.finalReturnElement || buildBlockElement(blockAttrs)
         if (isBlockIfStatement(ifStatement, blockStatement)) {
-          const { test, alternate, consequent } = ifStatement.node
+          let { test, alternate, consequent } = ifStatement.node
+          if (hasComplexExpression(ifStatement.get('test'))) {
+            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true)
+          }
           // blockStatement.node.body.push(t.returnStatement(
           //   t.memberExpression(t.thisExpression(), t.identifier('state'))
           // ))
@@ -751,11 +755,7 @@ export class RenderParser {
           }
         } else if (block.children.length !== 0) {
           if (this.topLevelIfStatement.size > 0) {
-            if (process.env.NODE_ENV !== 'test') {
-              setJSXAttr(jsxElementPath.node, Adapter.else, buildTrueJSXAttrValue(), jsxElementPath)
-            } else {
-              setJSXAttr(jsxElementPath.node, Adapter.else)
-            }
+            setJSXAttr(jsxElementPath.node, Adapter.else)
           }
         }
         block.children.push(jsxElementPath.node)
@@ -1021,6 +1021,8 @@ export class RenderParser {
 
   private prefixExpr = () => this.isDefaultRender ? t.identifier('__prefix') : t.identifier(CLASS_COMPONENT_UID)
 
+  private propsDecls = new Map<string, NodePath<t.VariableDeclaration>>()
+
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
     if (openingElement.attributes.find(attr => {
@@ -1038,7 +1040,7 @@ export class RenderParser {
         return
       }
       const compId = genCompid()
-      const name = `$compid__${compId}`
+      const name = `${COMPID}__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
       const idExpr = buildConstVariableDeclaration(name,
@@ -1054,7 +1056,8 @@ export class RenderParser {
       const properties = this.getPropsFromAttrs(openingElement)
       const propsId = `$props__${compId}`
       const collectedProps = buildConstVariableDeclaration(propsId, t.objectExpression(properties))
-      jsxElementPath.getStatementParent().insertBefore(collectedProps)
+      const result = jsxElementPath.getStatementParent().insertBefore(collectedProps)
+      this.propsDecls.set(propsId, result[0])
       const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName)
       this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
@@ -1116,10 +1119,13 @@ export class RenderParser {
           const componentName = JSXElement.openingElement.name
           if (
             isNewPropsSystem() &&
-            t.isJSXIdentifier(componentName) &&
-            !DEFAULT_Component_SET.has(componentName.name)
+            t.isJSXIdentifier(componentName)
           ) {
-            return
+            if (THIRD_PARTY_COMPONENTS.has(componentName.name)) {
+              //
+            } else if (!DEFAULT_Component_SET.has(componentName.name)) {
+              return
+            }
           }
 
           // const JSXAttribute = path.findParent(p => p.isJSXAttribute())
@@ -1512,6 +1518,10 @@ export class RenderParser {
     },
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
+      const callExprs = findParents<t.CallExpression>(path, p => p.isCallExpression())
+      if (callExprs.some(callExpr => callExpr && t.isIdentifier(callExpr.node.callee) && /^use[A-Z]/.test(callExpr.node.callee.name))) {
+        return
+      }
       if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
         path.replaceWith(
           t.jSXElement(
@@ -1847,7 +1857,7 @@ export class RenderParser {
               }
 
               // createData 函数里加入 compid 相关逻辑
-              const variableName = `$compid__${genCompid()}`
+              const variableName = `${COMPID}__${genCompid()}`
               const tpmlExprs: t.Expression[] = []
               for (let index = 0; index < loopIndices.length; index++) {
                 const element = loopIndices[index]
@@ -2184,7 +2194,7 @@ export class RenderParser {
   }
 
   removeJSXStatement () {
-    this.jsxDeclarations.forEach(d => d && !d.removed && d.remove())
+    this.jsxDeclarations.forEach(d => d && !d.removed && isContainJSXElement(d) && d.remove())
     this.returnedPaths.forEach((p: NodePath<t.ReturnStatement>) => {
       if (p.removed) {
         return
@@ -2411,6 +2421,19 @@ export class RenderParser {
         ]))
       )
     }
+    this.renderPath.traverse({
+      Identifier: (path) => {
+        if (this.propsDecls.has(path.node.name) && path.parentPath.isCallExpression()) {
+          const { callee } = path.parentPath.node
+          if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: PROPS_MANAGER }) && t.isIdentifier(callee.property, { name: 'set' })) {
+            const decl = this.propsDecls.get(path.node.name)!
+            path.replaceWith(decl.node.declarations[0].init)
+            this.propsDecls.delete(path.node.name)
+            !decl.removed && decl.remove()
+          }
+        }
+      }
+    })
   }
 
   getCreateJSXMethodName = (name: string) => `_create${name.slice(6)}Data`

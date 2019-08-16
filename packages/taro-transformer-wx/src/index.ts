@@ -35,7 +35,9 @@ import {
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID,
-  CONTEXT_PROVIDER
+  CONTEXT_PROVIDER,
+  setIsTaroReady,
+  setCompId
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -159,20 +161,24 @@ function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path:
 function handleThirdPartyComponent (expr: t.ClassMethod | t.ClassProperty) {
   if (t.isClassProperty(expr) && expr.key.name === 'config' && t.isObjectExpression(expr.value)) {
     const properties = expr.value.properties
-    for (const prop of properties) {
-      if (
-        t.isObjectProperty(prop) &&
-        (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
-        t.isObjectExpression(prop.value)
-      ) {
-        for (const value of prop.value.properties) {
-          if (t.isObjectProperty(value)) {
-            if (t.isStringLiteral(value.key)) {
-              THIRD_PARTY_COMPONENTS.add(value.key.value)
-            }
-            if (t.isIdentifier(value.key)) {
-              THIRD_PARTY_COMPONENTS.add(value.key.name)
-            }
+    findThirdPartyComponent(properties)
+  }
+}
+
+function findThirdPartyComponent (properties: (t.ObjectMethod | t.ObjectProperty | t.SpreadProperty)[]) {
+  for (const prop of properties) {
+    if (
+      t.isObjectProperty(prop) &&
+      (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
+      t.isObjectExpression(prop.value)
+    ) {
+      for (const value of prop.value.properties) {
+        if (t.isObjectProperty(value)) {
+          if (t.isStringLiteral(value.key)) {
+            THIRD_PARTY_COMPONENTS.add(value.key.value)
+          }
+          if (t.isIdentifier(value.key)) {
+            THIRD_PARTY_COMPONENTS.add(value.key.name)
           }
         }
       }
@@ -210,6 +216,10 @@ export default function transform (options: Options): TransformResult {
     setLoopCallee('anonymousCallee_')
     setLoopState('loopState')
   }
+  if (Adapter.type === Adapters.quickapp) {
+    setIsTaroReady('priTaroCompReady')
+    setCompId('priCompid')
+  }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
@@ -244,6 +254,7 @@ export default function transform (options: Options): TransformResult {
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
   const importSources = new Set<string>()
+  const classMethods = new Map<string, NodePath<t.ClassMethod | t.ClassProperty>>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
@@ -263,6 +274,14 @@ export default function transform (options: Options): TransformResult {
             }
           }
         }
+      }
+    },
+    MemberExpression (path) {
+      const { property } = path.node
+      const right = path.getSibling('right')
+      if (t.isIdentifier(property, { name: 'config' }) && path.parentPath.isAssignmentExpression() && right.isObjectExpression()) {
+        const properties = right.node.properties
+        findThirdPartyComponent(properties)
       }
     },
     JSXText (path) {
@@ -330,8 +349,11 @@ export default function transform (options: Options): TransformResult {
       mainClass = path as any
     },
     ClassMethod (path) {
-      if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
-        renderMethod = path
+      if (t.isIdentifier(path.node.key)) {
+        if (path.node.key.name === 'render') {
+          renderMethod = path
+        }
+        classMethods.set(path.node.key.name, path)
       }
     },
     IfStatement (path) {
@@ -613,6 +635,20 @@ export default function transform (options: Options): TransformResult {
       }
     },
     ClassProperty (path) {
+      const { key: { name }, value } = path.node
+      if (t.isArrowFunctionExpression(value) || t.isFunctionExpression(value)) {
+        classMethods.set(name, path)
+        if (name.startsWith('render')) {
+          path.replaceWith(t.classMethod(
+            'method',
+            t.identifier(name),
+            value.params,
+            t.isBlockStatement(value.body) ? value.body : t.blockStatement([
+              t.returnStatement(value.body)
+            ])
+          ))
+        }
+      }
       if (Adapter.type !== Adapters.quickapp) {
         return
       }
@@ -798,7 +834,7 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!, classMethods).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')

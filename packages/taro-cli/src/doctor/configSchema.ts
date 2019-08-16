@@ -56,6 +56,8 @@ const schema = Joi.object().keys({
     'chunkDirectory': Joi.string(),
     'webpackChain': Joi.func(),
 
+    'esnextModules': Joi.array().items(Joi.string()),
+
     // DEPRECATED: https://nervjs.github.io/taro/docs/config-detail.html#deprecated-h5webpack
     'webpack': Joi.forbidden(),
 

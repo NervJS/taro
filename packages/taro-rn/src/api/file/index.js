@@ -30,24 +30,28 @@ const createFormData = (file, body, name) => {
  */
 function uploadFile (opts = {}) {
   const {url, filePath, name, header, formData, success, fail, complete} = opts
-  fetch(url, {
+  return fetch(url, {
     method: 'POST',
     body: createFormData(filePath, formData, name),
     headers: header
   }).then(res => {
     if (res.ok) {
-      console.log('success')
-      success && success()
-      complete && complete()
+      console.log(res)
+      success && success(res)
+      complete && complete(res)
       return res.json()
     } else {
-      console.log('error')
-      fail && fail()
-      complete && complete()
+      console.log(res)
+      const errMsg = `uploadFile fail: ${res.status} ${res.statusText}`
+      fail && fail({errMsg})
+      complete && complete({errMsg})
+      return Promise.reject(new Error(errMsg))
     }
   }).catch(e => {
-    fail && fail()
-    complete && complete()
+    const errMsg = `uploadFile fail: ${e}`
+    fail && fail({errMsg})
+    complete && complete({errMsg})
+    return Promise.reject(new Error(errMsg))
   })
 }
 

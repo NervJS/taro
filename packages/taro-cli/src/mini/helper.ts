@@ -30,7 +30,8 @@ import {
   isEmptyObject,
   getInstalledNpmPkgPath,
   recursiveFindNodeModules,
-  getBabelConfig
+  getBabelConfig,
+  extnameExpRegOf
 } from '../util'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
 import {
@@ -225,7 +226,7 @@ export function buildUsingComponents (
       componentPath = component.path
     }
     if (component.name) {
-      usingComponents[component.name] = (componentPath as string).replace(path.extname(componentPath as string), '')
+      usingComponents[component.name] = (componentPath as string).replace(extnameExpRegOf(componentPath as string), '')
     }
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {

@@ -16,7 +16,7 @@ import EXForm from './example/EXForm'
 import EXIcon from './example/EXIcon'
 import EXImage from './example/EXImage'
 import EXInput from './example/EXInput'
-// import EXMap from './example/EXMap'
+import EXMap from './example/EXMap'
 import EXPicker from './example/EXPicker'
 import EXProgress from './example/EXProgress'
 import EXRadio from './example/EXRadio'
@@ -126,7 +126,7 @@ export default class App extends Component {
             <EXInput />
           </View>
 
-          {/* <EXMap /> */}
+           <EXMap />
 
           <View style={styles.section}>
             <View style={styles.sectionTit}>

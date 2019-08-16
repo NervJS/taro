@@ -58,3 +58,42 @@ Taro 在将代码编译完后，会自动下载快应用的容器模板，同时
 ### 使用 IDE
 
 https://doc.quickapp.cn/tutorial/ide/overview.html
+
+### 快应用配置
+
+在 Taro 编译适配快应用需要进行一些配置，可以通过在项目根目录下添加 `project.quickapp.json` 大体的配置项可以参考快应用官方文档的 [manifest 配置](https://doc.quickapp.cn/framework/manifest.html)，而 Taro 中支持以下配置：
+
+|属性|类型|默认值|必填|描述|
+| :-----| :---- | :---- | :---- | :---- |
+|package|String|-|是|应用包名，确认与原生应用的包名不一致，推荐采用 com.company.module 的格式，如：com.example.demo|
+|name|String|-|是|应用名称，6 个汉字以内，与应用商店保存的名称一致，用于在桌面图标、弹窗等处显示应用名称|
+|icon|String|-|是|应用图标，提供 192x192 大小的即可|
+|versionName|String|-|否|应用版本名称，如："1.0"|
+|versionCode|Integer|-|是|应用版本号，从1自增，推荐每次重新上传包时versionCode+1|
+|minPlatformVersion|Integer|-|否|支持的最小平台版本号，兼容性检查，避免上线后在低版本平台运行并导致不兼容；如果不填按照内测版本处理|
+|features|Array|-|否|接口列表，绝大部分接口都需要在这里声明，否则不能调用，详见每个接口的文档说明|
+|config|Object|-|是|系统配置信息，详见[说明](https://doc.quickapp.cn/framework/manifest.html#config)|
+|subpackages `1040+`|Object|-|否|定义并启用分包加载，详见[说明](https://doc.quickapp.cn/framework/manifest.html#subpackages)|
+
+可以看出，相比于快应用官方的配置项，Taro 中支持的配置项缺少了 [router](https://doc.quickapp.cn/framework/manifest.html#router) 与 [display](https://doc.quickapp.cn/framework/manifest.html#display) 配置，这是因为这两项配置在 Taro 编译时会根据用户代码直接生成，不再需要额外配置。
+
+而为了让用户更加方便进行快应用相关配置，Taro 增加了一些额外的配置项，例如：
+
+`customPageConfig` 是为了让用户可以为每个页面配置快应用独有的 `filter` 与 `launchMode` 它直接配置在 `project.quickapp.json` 中，它是一个对象的类型，其 key 值即为页面路径，与 **入口文件** 中 `config` 下 `pages` 数组中配置的页面路径保持一致，常见例子如下
+
+```json
+{
+  "customPageConfig": {
+    "pages/index/index": {
+      "filter": {
+        "<action>": {
+          "uri": "<pattern>"
+        }
+      },
+      "launchMode": "standard"
+    }
+  }
+}
+```
+
+一个典型的 `project.quickapp.json` 配置参考[例子](https://github.com/NervJS/taro/blob/master/packages/taro-cli/src/config/manifest.default.json)

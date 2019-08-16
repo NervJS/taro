@@ -13,7 +13,7 @@ jobs:
     - stage: test
       script:
         - npm install
-        - npm run bootstrap
+        - travis_wait 30 npm run bootstrap
         - npm run build
         - npm run test
     - stage: deploy

@@ -8,6 +8,7 @@
     interval="{{interval}}"
     indicator="{{indicatordots}}"
     loop="{{circular}}"
+    style="{{customstyle}}"
     @change="handleChange">
     <slot></slot>
   </swiper>
@@ -70,8 +71,12 @@
         type: Boolean,
         required: false,
         default: false
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
       }
-
     },
 
     data: () => ({

@@ -11,6 +11,7 @@ const defaultOptions = {
 }
 
 /**
+ * @deprecated
  * @description 从本地相册选择图片或使用相机拍照。
  *  sizeType ❌
  * @param options

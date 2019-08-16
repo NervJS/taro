@@ -1439,9 +1439,15 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/yargs" "^12.0.9"
 
-"@tarojs/taro@1.3.8":
-  version "1.3.8"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.8.tgz#53c10f3dccb4de7fee05e107ab5b48b7496a7513"
+"@tarojs/taro@1.3.12":
+  version "1.3.12"
+  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.12.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaro%2Fdownload%2F%40tarojs%2Ftaro-1.3.12.tgz#0cc1ae1abf19b4f068bdbf3e4672bdaaa0ae3d28"
+  dependencies:
+    "@tarojs/utils" "1.3.12"
+
+"@tarojs/utils@1.3.12":
+  version "1.3.12"
+  resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-1.3.12.tgz?cache=0&sync_timestamp=1565604567826&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-1.3.12.tgz#12ae1c0423cfc055f044250e6ba7055938f407e3"
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -1520,15 +1526,15 @@
   version "12.0.12"
   resolved "http://registry.m.jd.com/@types/yargs/download/@types/yargs-12.0.12.tgz#45dd1d0638e8c8f153e87d296907659296873916"
 
-"@unimodules/core@~2.0.0":
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/@unimodules/core/download/@unimodules/core-2.0.1.tgz#e5d760aa1a01885871d2d5c3f1fd3404552e5fcb"
+"@unimodules/core@~3.0.2":
+  version "3.0.2"
+  resolved "https://registry.npm.taobao.org/@unimodules/core/download/@unimodules/core-3.0.2.tgz#a2b143fb1e743809ba17c60ae1848f82b8637901"
   dependencies:
     compare-versions "^3.4.0"
 
-"@unimodules/react-native-adapter@~2.0.0":
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/@unimodules/react-native-adapter/download/@unimodules/react-native-adapter-2.0.1.tgz#021f1f7e2247d296986b0d8f1949a4d8e748ce9c"
+"@unimodules/react-native-adapter@~3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/@unimodules/react-native-adapter/download/@unimodules/react-native-adapter-3.0.0.tgz#303b76c131fe6b5ceb220235ddd1fa2a0193403d"
   dependencies:
     invariant "^2.2.4"
     lodash "^4.5.0"
@@ -2996,7 +3002,7 @@ compressible@~2.0.13:
 
 compression@^1.7.1:
   version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  resolved "https://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
   dependencies:
     accepts "~1.3.4"
     bytes "3.0.0"
@@ -3687,13 +3693,13 @@ expect@^23.1.0:
     jest-message-util "^23.1.0"
     jest-regex-util "^23.0.0"
 
-expo-app-loader-provider@~5.0.0:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-app-loader-provider/download/expo-app-loader-provider-5.0.1.tgz#56f531e189de8407bdf257d5753ccec43dd253f7"
+expo-app-loader-provider@~6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npm.taobao.org/expo-app-loader-provider/download/expo-app-loader-provider-6.0.0.tgz#c187a39942ac27cfaec3b394a5c9851d3f39678b"
 
-expo-asset@~5.0.0:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-asset/download/expo-asset-5.0.1.tgz#02445aeb695b8449cb7239e11fc3a8d34e6c86ce"
+expo-asset@~6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npm.taobao.org/expo-asset/download/expo-asset-6.0.0.tgz#caa3f45e7a27d978f8055fc58df6e33a4e661937"
   dependencies:
     blueimp-md5 "^2.10.0"
     path-browserify "^1.0.0"
@@ -3709,15 +3715,21 @@ expo-brightness@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/expo-brightness/download/expo-brightness-5.0.1.tgz#90e0445a34c7ef92c4511211c888bbc50eae0441"
 
-expo-constants@~5.0.0:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-constants/download/expo-constants-5.0.1.tgz#597263397f269d7fe37d9cd6b30e305c16635a00"
+expo-constants@~6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npm.taobao.org/expo-constants/download/expo-constants-6.0.0.tgz#ff4598985ba006e24949be3f05be7429e5bedacf"
   dependencies:
     ua-parser-js "^0.7.19"
 
-expo-file-system@^5.0.1, expo-file-system@~5.0.0:
+expo-file-system@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/expo-file-system/download/expo-file-system-5.0.1.tgz#c26054e512c3bb2e256325b48e603957a24e6210"
+  dependencies:
+    uuid-js "^0.7.5"
+
+expo-file-system@~6.0.1:
+  version "6.0.2"
+  resolved "https://registry.npm.taobao.org/expo-file-system/download/expo-file-system-6.0.2.tgz#e65f30eb6a7213e07933df9688116eaf4e25bbf8"
   dependencies:
     uuid-js "^0.7.5"
 
@@ -3735,9 +3747,9 @@ expo-location@^5.0.1:
   dependencies:
     invariant "^2.2.4"
 
-expo-permissions@~5.0.0:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-permissions/download/expo-permissions-5.0.1.tgz#cc6af49a37ea3ab73e780a8a19f22b7662379941"
+expo-permissions@~6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npm.taobao.org/expo-permissions/download/expo-permissions-6.0.0.tgz#2943f1aa98de833b88cea73cf03d18d08957cb68"
 
 expo-sensors@^5.0.1:
   version "5.0.1"
@@ -5551,8 +5563,8 @@ locate-path@^3.0.0:
     path-exists "^3.0.0"
 
 lodash-es@^4.17.5:
-  version "4.17.10"
-  resolved "http://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
 
 lodash._baseisequal@^3.0.0:
   version "3.0.7"
@@ -6904,28 +6916,28 @@ react-native-stylekit@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/react-native-stylekit/download/react-native-stylekit-1.0.0.tgz#96fc013345b8d3cd60dfdaced0d47af7a9d5316b"
 
-react-native-unimodules@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npm.taobao.org/react-native-unimodules/download/react-native-unimodules-0.4.1.tgz#c01491fd3cb7f4786521fbb7477c35882969a20d"
+react-native-unimodules@^0.5.3:
+  version "0.5.4"
+  resolved "https://registry.npm.taobao.org/react-native-unimodules/download/react-native-unimodules-0.5.4.tgz#d4d779576a027f0455b14d396b0e002cb57963fe"
   dependencies:
-    "@unimodules/core" "~2.0.0"
-    "@unimodules/react-native-adapter" "~2.0.0"
+    "@unimodules/core" "~3.0.2"
+    "@unimodules/react-native-adapter" "~3.0.0"
     chalk "^2.4.2"
-    expo-app-loader-provider "~5.0.0"
-    expo-asset "~5.0.0"
-    expo-constants "~5.0.0"
-    expo-file-system "~5.0.0"
-    expo-permissions "~5.0.0"
-    unimodules-barcode-scanner-interface "~2.0.0"
-    unimodules-camera-interface "~2.0.0"
-    unimodules-constants-interface "~2.0.0"
-    unimodules-face-detector-interface "~2.0.0"
-    unimodules-file-system-interface "~2.0.0"
-    unimodules-font-interface "~2.0.0"
-    unimodules-image-loader-interface "~2.0.0"
-    unimodules-permissions-interface "~2.0.0"
-    unimodules-sensors-interface "~2.0.0"
-    unimodules-task-manager-interface "~2.0.0"
+    expo-app-loader-provider "~6.0.0"
+    expo-asset "~6.0.0"
+    expo-constants "~6.0.0"
+    expo-file-system "~6.0.1"
+    expo-permissions "~6.0.0"
+    unimodules-barcode-scanner-interface "~3.0.0"
+    unimodules-camera-interface "~3.0.0"
+    unimodules-constants-interface "~3.0.0"
+    unimodules-face-detector-interface "~3.0.0"
+    unimodules-file-system-interface "~3.0.0"
+    unimodules-font-interface "~3.0.0"
+    unimodules-image-loader-interface "~3.0.0"
+    unimodules-permissions-interface "~3.0.0"
+    unimodules-sensors-interface "~3.0.0"
+    unimodules-task-manager-interface "~3.0.0"
 
 react-native@0.55.4:
   version "0.55.4"
@@ -8191,45 +8203,45 @@ unicode-property-aliases-ecmascript@^1.0.4:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/unicode-property-aliases-ecmascript/download/unicode-property-aliases-ecmascript-1.0.5.tgz#a9cc6cc7ce63a0a3023fc99e341b94431d405a57"
 
-unimodules-barcode-scanner-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-barcode-scanner-interface/download/unimodules-barcode-scanner-interface-2.0.1.tgz#74196fe25c366344ff101540626b8d61cc6c0438"
+unimodules-barcode-scanner-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-barcode-scanner-interface/download/unimodules-barcode-scanner-interface-3.0.0.tgz#2ec52201ee1f0e10af3b03ed49862d6b6937cf10"
 
-unimodules-camera-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-camera-interface/download/unimodules-camera-interface-2.0.1.tgz#0691ce3282fafaf87aecc3423b1d9c1b729797a4"
+unimodules-camera-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-camera-interface/download/unimodules-camera-interface-3.0.0.tgz#2869f0868a9e2c65bd2346f0a67d93bc96509676"
 
-unimodules-constants-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-constants-interface/download/unimodules-constants-interface-2.0.1.tgz#385a8adab7f22b4aa8cca2c302516c0465a64773"
+unimodules-constants-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-constants-interface/download/unimodules-constants-interface-3.0.0.tgz#991f823369da27362e8633a7dac680fb530e5569"
 
-unimodules-face-detector-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-face-detector-interface/download/unimodules-face-detector-interface-2.0.1.tgz#a9f3150f69fd8061f6ea920e6ae83c544990b549"
+unimodules-face-detector-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-face-detector-interface/download/unimodules-face-detector-interface-3.0.0.tgz#5752a00156a6de470944161040b845a1f1ae84b0"
 
-unimodules-file-system-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-file-system-interface/download/unimodules-file-system-interface-2.0.1.tgz#5fc237b5c4adaa48bd817a9542271d4210d978a9"
+unimodules-file-system-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-file-system-interface/download/unimodules-file-system-interface-3.0.0.tgz#0ada7a89e3046d2fa4dd1853b867fe8ae3994561"
 
-unimodules-font-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-font-interface/download/unimodules-font-interface-2.0.1.tgz#c2fee253c12d8ae45594adfe8dabff3ac57884de"
+unimodules-font-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-font-interface/download/unimodules-font-interface-3.0.0.tgz#e38dfc0932e9a84c5b8091eeb6735170fa86d85e"
 
-unimodules-image-loader-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-image-loader-interface/download/unimodules-image-loader-interface-2.0.1.tgz#d9d9148638d594bbdb95963449b78b5d0c686eb0"
+unimodules-image-loader-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-image-loader-interface/download/unimodules-image-loader-interface-3.0.0.tgz#49e371fdf3fc4acf382f726cfac643d5c08b051f"
 
-unimodules-permissions-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-permissions-interface/download/unimodules-permissions-interface-2.0.1.tgz#a8a21807095553a0476a72028ae7f3beab090dbd"
+unimodules-permissions-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-permissions-interface/download/unimodules-permissions-interface-3.0.0.tgz#c8396a1b697b116801cfcb3b52466b87380a5b78"
 
-unimodules-sensors-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-sensors-interface/download/unimodules-sensors-interface-2.0.1.tgz#5e24964bba0a541b1d4d8d3b82e54efb1aba96b9"
+unimodules-sensors-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-sensors-interface/download/unimodules-sensors-interface-3.0.0.tgz#9591b7015fae5c2752652a4cdc294f7734489ea1"
 
-unimodules-task-manager-interface@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/unimodules-task-manager-interface/download/unimodules-task-manager-interface-2.0.1.tgz#77ee744741f3fffe49f0da33aa04a444f66c9ebd"
+unimodules-task-manager-interface@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/unimodules-task-manager-interface/download/unimodules-task-manager-interface-3.0.0.tgz#26f31786eb54dfa5839ca71bf9a77b9c2b4cf4cb"
 
 union-value@^1.0.0:
   version "1.0.0"

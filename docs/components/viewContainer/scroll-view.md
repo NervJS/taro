@@ -66,15 +66,15 @@ export default class PageView extends Component {
     const Threshold = 20
     const vStyleA = {
       height: '150px',
-      'background-color': rgb(26, 173, 25)
+      'background-color': 'rgb(26, 173, 25)'
     }
     const vStyleB = {
        height: '150px',
-      'background-color': rgb(39,130,215)
+      'background-color': 'rgb(39,130,215)'
     }
     const vStyleC = {
       height: '150px',
-      'background-color': rgb(241,241,241),
+      'background-color': 'rgb(241,241,241)',
       color: '#333'
     }
     return (

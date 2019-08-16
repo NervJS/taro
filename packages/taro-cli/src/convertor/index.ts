@@ -235,12 +235,15 @@ export default class Convertor {
                   )
                   needInsertImportTaro = true
                 }
-              } else if (callee.type === 'MemberExpression') {
-                const object = callee.object as t.Identifier
-                if (object.name === 'wx') {
-                  (calleePath.get('object') as NodePath).replaceWith(t.identifier('Taro'))
-                  needInsertImportTaro = true
-                }
+              }
+            },
+
+            MemberExpression (astPath) {
+              const node = astPath.node
+              const object = node.object
+              if (t.isIdentifier(object) && object.name === 'wx') {
+                node.object = t.identifier('Taro')
+                needInsertImportTaro = true
               }
             }
           })
@@ -439,7 +442,7 @@ export default class Convertor {
       const taroizeResult = taroize({
         json: entryJSON,
         script: entryJS,
-        path: path.dirname(entryJS)
+        path: path.dirname(this.entryJSPath)
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -507,17 +510,28 @@ export default class Convertor {
           const pageUsingComponnets = pageConfig.usingComponents
           if (pageUsingComponnets) {
             // 页面依赖组件
+            let usingComponents = {}
             Object.keys(pageUsingComponnets).forEach(component => {
               let componentPath = path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
               if (!fs.existsSync(resolveScriptPath(componentPath))) {
                 componentPath = path.join(this.root, pageUsingComponnets[component])
               }
-              depComponents.add({
-                name: component,
-                path: componentPath
-              })
+
+              if (pageUsingComponnets[component].startsWith('plugin://')) {
+                usingComponents[pascalCase(component)] = pageUsingComponnets[component]
+              } else {
+                depComponents.add({
+                  name: component,
+                  path: componentPath
+                })
+              }
             })
-            delete pageConfig.usingComponents
+            if (Object.keys(usingComponents).length === 0) {
+              delete pageConfig.usingComponents
+            } else {
+              pageConfig.usingComponents = usingComponents
+            }
+
           }
           param.json = JSON.stringify(pageConfig)
         }

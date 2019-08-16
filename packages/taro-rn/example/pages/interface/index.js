@@ -14,15 +14,14 @@ function handleShowToast () {
 function handleShowModal () {
   showModal({
     title: '提示',
-    content: '这是一个模态弹窗',
-    success (res) {
-      if (res.confirm) {
-        console.log('用户点击确定')
-      } else if (res.cancel) {
-        console.log('用户点击取消')
-      }
+    content: '这是一个模态弹窗'
+  }).then(res => {
+    if (res.confirm) {
+      console.log('用户点击确定')
+    } else if (res.cancel) {
+      console.log('用户点击取消')
     }
-  })
+  }).catch(e => console.log(e))
 }
 
 function handleShowLoading () {
@@ -36,15 +35,9 @@ function handleShowLoading () {
 }
 
 function handleShowActionSheet () {
-  showActionSheet({
-    itemList: ['A', 'B', 'C'],
-    success (res) {
-      console.log(res.tapIndex)
-    },
-    fail (res) {
-      console.log(res.errMsg)
-    }
-  })
+  showActionSheet({itemList: ['A', 'B', 'C']})
+    .then(res => console.log(res))
+    .catch(e => console.log(e))
 }
 
 export function Interface () {

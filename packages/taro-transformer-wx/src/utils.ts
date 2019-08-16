@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
 import { NodePath, Scope } from 'babel-traverse'
-import { LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
+import { LOOP_STATE, TARO_PACKAGE_NAME, IS_TARO_READY } from './constant'
 import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -677,7 +677,7 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
         }
       } else if (t.isJSXExpressionContainer(attr.value)) {
         const condition = cloneDeep(attr.value.expression)
-        if (t.isJSXIdentifier(condition, { name: '$taroCompReady' })) {
+        if (t.isJSXIdentifier(condition, { name: IS_TARO_READY })) {
           return expr
         }
         const ifStem = logicalJSX.findParent(p => p.isIfStatement())

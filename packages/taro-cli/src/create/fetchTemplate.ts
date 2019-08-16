@@ -5,14 +5,12 @@ import * as ora from 'ora'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
 import * as request from 'request'
-import Project from './project'
-import { TemplateSourceType, readDirWithFileTypes } from '../util'
+import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'
 
-export default function fetchTemplate (creater: Project, type: TemplateSourceType): Promise<any> {
-  const { templateSource } = creater.conf
-  const templateRootPath = creater.templatePath('')
+export default function fetchTemplate (templateSource: string, templateRootPath: string): Promise<any> {
+  const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FLODER)
   let name: string
 
@@ -45,7 +43,7 @@ export default function fetchTemplate (creater: Project, type: TemplateSourceTyp
           const zip = new AdmZip(zipPath)
           zip.extractAllTo(tempPath, true)
           const files = readDirWithFileTypes(tempPath)
-            .filter(file => file.isDirectory)
+            .filter(file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX')
           if (files.length !== 1) {
             spinner.color = 'red'
             spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
@@ -77,7 +75,7 @@ export default function fetchTemplate (creater: Project, type: TemplateSourceTyp
       if (isTemplateGroup) {
         // 模板组
         const files = readDirWithFileTypes(templateFloder)
-          .filter(file => file.isDirectory)
+          .filter(file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX')
           .map(file => file.name)
         await Promise.all(files.map(file => {
           const src = path.join(templateFloder, file)

@@ -26,7 +26,8 @@ if (shouldUseYarn) {
   const generateLockfile = new GenerateLockfile({
     projectName: 'temp',
     template: 'default',
-    typescript: false
+    typescript: false,
+    env: 'test'
   })
   generateLockfile.start()
 }

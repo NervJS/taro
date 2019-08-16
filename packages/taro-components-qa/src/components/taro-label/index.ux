@@ -1,7 +1,7 @@
 <template>
   <div
-    class="{{className}}"
-    style="{{style}}"
+    class="{{classname}}"
+    style="{{customstyle}}"
     id="{{id}}"
     onclick="handleClick"
   >
@@ -17,7 +17,7 @@
         required: false,
         default: 'taro_label'
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

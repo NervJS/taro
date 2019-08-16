@@ -38,13 +38,13 @@ import * as React from 'react'
 import {
   Text,
   View,
-  Dimensions,
+  Dimensions
 } from 'react-native'
 // @ts-ignore // The type definitions for MapView have not been created.
-import { MapView } from 'expo'
+import MapView, { Callout, Polygon, Circle, Polyline, Marker } from 'react-native-maps'
 import utils from '../../utils'
 
-const { width, height } = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
@@ -52,7 +52,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 /**
  * 标记点气泡 callout
  */
-type Callout = {
+type Callouts = {
   content?: string;
   color?: string;
   fontSize?: number;
@@ -96,7 +96,7 @@ type Marker = {
   alpha?: number;
   // width?: number;
   // height?: number;
-  callout?: Callout;
+  callout?: Callouts;
   // label?: Label;
   anchor?: { x: number, y: number };
 }
@@ -157,8 +157,8 @@ type Region = {
 }
 
 export interface Props {
-  longitude?: number;
-  latitude?: number;
+  longitude: number;
+  latitude: number;
   scale?: number;
   markers?: Array<Marker>;
   polyline?: Array<Polyline>;
@@ -173,13 +173,20 @@ export interface Props {
   enableZoom?: boolean;
   enableScroll?: boolean;
   enableRotate?: boolean;
-  onMarkerClick?(markerId?: number): void;
-  onCalloutClick?(markerId?: number): void;
-  onControlClick?(controlId?: number): void;
-  onRegionChange?(event: { type: 'begin' | 'end', timeStamp: number, causedBy?: 'scale' | 'drag' | 'update' }): void;
-  onClick?(coordinate: Coordinate): void;
-  onUpdated?(): void;
-  onPoiClick?(): void;
+
+  onMarkerClick? (markerId?: number): void;
+
+  onCalloutClick? (markerId?: number): void;
+
+  onControlClick? (controlId?: number): void;
+
+  onRegionChange? (event: { type: 'begin' | 'end', timeStamp: number, causedBy?: 'scale' | 'drag' | 'update' }): void;
+
+  onClick? (coordinate: Coordinate): void;
+
+  onUpdated? (): void;
+
+  onPoiClick? (): void;
 }
 
 export interface State {
@@ -188,6 +195,8 @@ export interface State {
 
 class _Map extends React.Component<Props, State> {
   static defaultProps: Props = {
+    longitude: 0,
+    latitude: 0,
     scale: 16,
     markers: [],
     polyline: [],
@@ -203,50 +212,50 @@ class _Map extends React.Component<Props, State> {
     onRegionChange: utils.noop,
     onClick: utils.noop,
     onUpdated: utils.noop,
-    onPoiClick: utils.noop,
+    onPoiClick: utils.noop
   }
 
   state: State = {
-    networkState: '',
+    networkState: ''
   }
 
   _onRegionChange = (region: Region) => {
-    const { onRegionChange } = this.props
+    const {onRegionChange} = this.props
     onRegionChange && onRegionChange({
       type: 'begin',
-      timeStamp: Date.now(),
+      timeStamp: Date.now()
     })
   }
 
   _onRegionChangeComplete = (region: Region) => {
-    const { onRegionChange } = this.props
+    const {onRegionChange} = this.props
     onRegionChange && onRegionChange({
       type: 'end',
-      timeStamp: Date.now(),
+      timeStamp: Date.now()
     })
   }
 
   _onClick = (e: any) => {
-    const { onClick } = this.props
+    const {onClick} = this.props
     onClick && onClick(e.nativeEvent.coordinate)
   }
 
   _onMapReady = () => {
-    const { onUpdated } = this.props
+    const {onUpdated} = this.props
     onUpdated && onUpdated()
   }
 
   _onPoiClick = () => {
-    const { onPoiClick } = this.props
+    const {onPoiClick} = this.props
     onPoiClick && onPoiClick()
   }
 
   getCallout = (marker: Marker) => {
-    const { onCalloutClick } = this.props
-    const { id, callout } = marker
+    const {onCalloutClick} = this.props
+    const {id, callout} = marker
     if (!callout) return null
     return (
-      <MapView.Callout
+      <Callout
         onPress={() => {
           onCalloutClick && onCalloutClick(id)
         }}
@@ -257,24 +266,24 @@ class _Map extends React.Component<Props, State> {
             borderWidth: callout.borderWidth,
             borderColor: callout.borderColor,
             backgroundColor: callout.bgColor,
-            padding: callout.padding,
+            padding: callout.padding
           }}
         >
           <Text
             style={{
               fontSize: callout.fontSize,
               color: callout.color,
-              textAlign: callout.textAlign,
+              textAlign: callout.textAlign
             }}
           >
             {callout.content}
           </Text>
         </View>
-      </MapView.Callout>
+      </Callout>
     )
   }
 
-  render() {
+  render () {
     const {
       latitude,
       longitude,
@@ -287,24 +296,24 @@ class _Map extends React.Component<Props, State> {
       enableZoom,
       enableScroll,
       enableRotate,
-      onMarkerClick,
+      onMarkerClick
     } = this.props
 
     return (
       <MapView
-        style={{ flex: 1 }}
-        provider={MapView.PROVIDER_GOOGLE}
+        style={{flex: 1}}
+        // provider={MapView.PROVIDER_GOOGLE}
         initialRegion={{
           latitude,
           longitude,
           latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
         }}
         region={{
           latitude,
           longitude,
           latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
         }}
         minZoomLevel={5}
         maxZoomLevel={18}
@@ -320,14 +329,14 @@ class _Map extends React.Component<Props, State> {
         onPoiClick={this._onPoiClick}
       >
         {(markers || []).map((marker) => (
-          <MapView.Marker
+          <Marker
             key={marker.id}
             coordinate={{
               latitude: marker.latitude,
-              longitude: marker.longitude,
+              longitude: marker.longitude
             }}
             title={marker.title}
-            image={marker.iconPath}
+            image={{ uri: marker.iconPath }}
             rotation={marker.rotate}
             opacity={marker.alpha}
             anchor={marker.anchor}
@@ -336,10 +345,10 @@ class _Map extends React.Component<Props, State> {
             }}
           >
             {this.getCallout(marker)}
-          </MapView.Marker>
+          </Marker>
         ))}
         {(polyline || []).map((p, index) => (
-          <MapView.Polyline
+          <Polyline
             key={`polyline_${index}`}
             coordinates={p.points}
             strokeColor={p.color}
@@ -347,7 +356,7 @@ class _Map extends React.Component<Props, State> {
           />
         ))}
         {(polygons || []).map((p, index) => (
-          <MapView.Polygon
+          <Polygon
             key={`polygon_${index}`}
             coordinates={p.points}
             strokeColor={p.strokeColor}
@@ -356,9 +365,9 @@ class _Map extends React.Component<Props, State> {
           />
         ))}
         {(circles || []).map((c, index) => (
-          <MapView.Circle
+          <Circle
             key={`circle_${index}`}
-            center={{ latitude: c.latitude, longitude: c.longitude }}
+            center={{latitude: c.latitude, longitude: c.longitude}}
             strokeColor={c.color}
             fillColor={c.fillColor}
             radius={c.radius}
