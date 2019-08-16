@@ -67,7 +67,7 @@ const chooseImage = function (options) {
   taroChooseImageId.dispatchEvent(TaroMouseEvents)
   taroChooseImageId.onchange = function (e) {
     let arr = [...e.target.files]
-	arr=arr.splice(0,count)
+	  arr=arr.splice(0,count)
     arr && arr.forEach(item => {
       let blob = new Blob([item], {
         type: item.type
