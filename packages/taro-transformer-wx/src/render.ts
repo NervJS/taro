@@ -221,7 +221,7 @@ export class RenderParser {
       }
       const children = properties.map(p => p.node).map((p, index) => {
         const block = buildBlockElement()
-        const leftExpression = t.isStringLiteral(p.key) ? p.key : t.stringLiteral(p.key.name)
+        const leftExpression = p.key
         const tester = t.binaryExpression('===', leftExpression, rval.node as any)
         block.children = [t.jSXExpressionContainer(p.value)]
         if (index === 0) {
