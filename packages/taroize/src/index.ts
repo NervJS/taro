@@ -10,10 +10,12 @@ interface Option {
   script?: string,
   wxml?: string,
   path: string
+  rootPath: string
 }
 
 export function parse (option: Option) {
   resetGlobals()
+  setting.rootPath = option.rootPath
   const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
   const json = parseJSON(option.json)
   setting.sourceCode = option.script!
