@@ -449,6 +449,26 @@ class Transformer {
                 fn: expr
               })
             }
+          } else if (t.isIdentifier(expr)) {
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            const binding = path.scope.getBinding(expr.name)
+            const decl = t.expressionStatement(
+              t.assignmentExpression(
+                '=',
+                t.memberExpression(t.thisExpression(), expr),
+                expr
+              )
+            )
+            if (binding) {
+              binding.path.parentPath.insertAfter(decl)
+            } else {
+              path.getStatementParent().insertBefore(decl)
+            }
+            this.refs.push({
+              type,
+              id,
+              fn: t.memberExpression(t.thisExpression(), expr)
+            })
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
