@@ -110,4 +110,36 @@ class App extends Component {
 
 **所有组合都必须用 `render` 开头，且遵守驼峰式命名法**。和我们的事件规范以 `on` 开头一样，组件组合使用 `render` 开头。
 
-**组合只能传入单个 JSX 元素，不能传入其它任何类型**。当你需要进行一些条件判断或复杂逻辑操作的时候，可以使用一个 `Block` 元素包裹住，然后在 `Block` 元素的里面填充其它复杂的逻辑。
+**组合只能传入单个 JSX 元素，不能传入其它任何类型**。当你需要进行一些条件判断或复杂逻辑操作的时候，可以使用一个 `Block` 元素包裹住**并通过一个函数返回**(否则生成的带有slot属性的`Block`将会在微信中无效)，然后在 `Block` 元素的里面填充其它复杂的逻辑。
+```jsx
+class Dialog extends Component {
+  render () {
+    return (
+      <View className='dialog'>
+        <View className='header'>
+          {this.props.renderHeader}
+        </View>
+      </View>
+    )
+  }
+}
+
+class App extends Component {
+  render () {
+    const {needWelcome} = this.state;
+    return (
+      <View className='container'>
+        <Dialog
+          renderHeader={
+            () => <Block>{ needWelcome &&  <View className='welcome-message'>Welcome!</View> }<Block>
+          }
+        >
+          <View className="dialog-message">
+            Thank you for using Taro.
+          </View>
+        </Dialog>
+      </View>
+    )
+  }
+}
+```
