@@ -8,6 +8,7 @@ import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors, globals } from './global'
 import { reserveKeyWords } from './constant'
 import { parse as parseFile } from 'babylon'
+const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) =>
   str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -298,6 +299,14 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   imports: Imports[]
   refIds: Set<string>
 } {
+  try {
+    wxml = prettyPrint(wxml, {
+      max_char: 0,
+      unformatted: ['text']
+    })
+  } catch (error) {
+    //
+  }
   if (!parseImport) {
     errors.length = 0
     usedComponents.clear()
