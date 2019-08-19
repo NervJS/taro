@@ -39,7 +39,9 @@ import Nerv, {
   useCallback,
   useMemo,
   useImperativeHandle,
-  useContext
+  useContext,
+  getHooks,
+  Current
 } from 'nervjs'
 
 import { permanentlyNotSupport } from '../api/utils'
@@ -179,6 +181,48 @@ const canIUseWebp = function () {
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
 }
 
+function usePageLifecycle (callback, lifecycle) {
+  const hook = getHooks(Current.index++)
+  hook.component = Current.current
+  if (!hook.marked) {
+    hook.marked = true
+    const originalLifecycle = hook.component[lifecycle]
+    hook.component[lifecycle] = function () {
+      originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+      callback && callback.call(hook.component, ...arguments)
+    }
+  }
+}
+
+function useDidShow (callback) {
+  usePageLifecycle(callback, 'componentDidShow')
+}
+
+function useDidHide (callback) {
+  usePageLifecycle(callback, 'componentDidHide')
+}
+
+function usePullDownRefresh (callback) {
+  usePageLifecycle(callback, 'onPullDownRefresh')
+}
+
+function useReachBottom (callback) {
+  usePageLifecycle(callback, 'onReachBottom')
+}
+
+function usePageScroll (callback) {
+  usePageLifecycle(callback, 'onPageScroll')
+}
+
+function useRouter () {
+  const hook = getHooks(Current.index++)
+  if (!hook.router) {
+    hook.component = Current.current
+    hook.router = hook.component.$router
+  }
+  return hook.router
+}
+
 taro.Component = Component
 taro.PureComponent = PureComponent
 taro.initPxTransform = initPxTransform
@@ -187,6 +231,12 @@ taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.canIUseWebp = canIUseWebp
 taro.interceptors = interceptors
+taro.useDidShow = useDidShow
+taro.useDidHide = useDidHide
+taro.usePullDownRefresh = usePullDownRefresh
+taro.useReachBottom = useReachBottom
+taro.usePageScroll = usePageScroll
+taro.useRouter = useRouter
 
 export default taro
 
@@ -227,6 +277,12 @@ export {
   useMemo,
   useImperativeHandle,
   useContext,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useRouter,
 
   Component,
   PureComponent,
