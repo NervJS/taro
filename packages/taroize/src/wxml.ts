@@ -8,6 +8,7 @@ import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors, globals, THIRD_PARTY_COMPONENTS } from './global'
 import { reserveKeyWords } from './constant'
 import { parse as parseFile } from 'babylon'
+import { getCacheWxml, saveCacheWxml } from './cache'
 const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) =>
@@ -68,6 +69,13 @@ export interface Imports {
   ast: t.File,
   name: string,
   wxs?: boolean
+}
+
+export interface Wxml {
+  wxses: WXS[]
+  wxml?: t.Node
+  imports: Imports[]
+  refIds: Set<string>
 }
 
 const WX_IF = 'wx:if'
@@ -293,12 +301,11 @@ export const createWxmlVistor = (
   } as Visitor
 }
 
-export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): {
-  wxses: WXS[]
-  wxml?: t.Node
-  imports: Imports[]
-  refIds: Set<string>
-} {
+export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
+  let parseResult: Wxml = getCacheWxml(dirPath)
+  if (parseResult) {
+    return parseResult
+  }
   try {
     wxml = prettyPrint(wxml, {
       max_char: 0,
@@ -343,13 +350,14 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
-
-  return {
+  parseResult = {
     wxses,
     imports,
     wxml: hydrate(ast),
     refIds
   }
+  saveCacheWxml(dirPath, parseResult)
+  return parseResult
 }
 
 function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports: Imports[]): WXS {
