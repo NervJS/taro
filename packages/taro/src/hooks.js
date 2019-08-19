@@ -40,10 +40,11 @@ function usePageLifecycle (callback, lifecycle) {
   hook.component = Current.current
   if (!hook.marked) {
     hook.marked = true
-    const originalLifecycle = hook.component[lifecycle]
+    const component = hook.component
+    const originalLifecycle = component[lifecycle]
     hook.component[lifecycle] = function () {
-      originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
-      callback && callback.call(hook.component, ...arguments)
+      originalLifecycle && originalLifecycle.call(component, ...arguments)
+      callback && callback.call(component, ...arguments)
     }
   }
 }
