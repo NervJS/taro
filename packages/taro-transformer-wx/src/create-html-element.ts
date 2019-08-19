@@ -85,13 +85,6 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
         }
       }
     }
-
-    if (isFirstEmit && name === 'div' && !transformOptions.isRoot) {
-      options.attributes = {
-        ...options.attributes,
-        'if': '{{priTaroCompReady}}'
-      }
-    }
   }
 
   const isVoidTag = voidHtmlTags.has(options.name)
