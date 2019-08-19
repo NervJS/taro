@@ -634,6 +634,7 @@ export default class Picker extends Nerv.Component {
             <div className='weui-picker__action' onClick={onCancel}>
               取消
             </div>
+            {this.props.customHeader}
             <div className='weui-picker__action' onClick={onChange}>
               确定
             </div>

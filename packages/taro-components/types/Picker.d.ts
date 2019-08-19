@@ -1,4 +1,4 @@
-import { ComponentType } from 'react'
+import { ComponentType, ReactElement } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 export interface PickerStandardProps extends StandardProps, FormItemProps {
@@ -16,6 +16,10 @@ export interface PickerStandardProps extends StandardProps, FormItemProps {
    * 取消选择或点遮罩层收起 picker 时触发
    */
   onCancel?: CommonEventFunction
+  /**
+   * 自定义头部
+   */
+  customHeader?: ReactElement;
 }
 
 export interface PickerSelectorProps extends PickerStandardProps {
