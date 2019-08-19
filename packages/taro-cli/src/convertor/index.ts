@@ -520,7 +520,8 @@ export default class Convertor {
               }
 
               if (pageUsingComponnets[component].startsWith('plugin://')) {
-                usingComponents[pascalCase(component)] = pageUsingComponnets[component]
+                console.log(component)
+                usingComponents[component] = pageUsingComponnets[component]
               } else {
                 depComponents.add({
                   name: component,

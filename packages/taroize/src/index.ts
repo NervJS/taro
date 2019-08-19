@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import { parseWXML } from './wxml'
 import { parseScript } from './script'
 import { parseJSON } from './json'
-import { errors, resetGlobals } from './global'
+import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { setting } from './utils'
 
 interface Option {
@@ -16,6 +16,17 @@ interface Option {
 export function parse (option: Option) {
   resetGlobals()
   setting.rootPath = option.rootPath
+  if (option.json) {
+    const config = JSON.parse(option.json)
+    const usingComponents = config['usingComponents']
+    if (usingComponents) {
+      for (const key in usingComponents) {
+        if (usingComponents.hasOwnProperty(key)) {
+          THIRD_PARTY_COMPONENTS.add(key)
+        }
+      }
+    }
+  }
   const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
   const json = parseJSON(option.json)
   setting.sourceCode = option.script!

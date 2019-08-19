@@ -55,7 +55,7 @@ function createFiles (
 
   files.forEach(file => {
     // fileRePath startsWith '/'
-    const fileRePath = file.replace(templatePath, '').replace(path.sep, '/')
+    const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
     let externalConfig: any = null
 
     // 跑自定义逻辑，确定是否创建此文件
@@ -189,11 +189,11 @@ export async function createApp (
 
   if (useNpmrc) {
     creater.template(template, '.npmrc', path.join(projectPath, '.npmrc'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.npmrc`)}`)
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}.npmrc`)}`)
   }
   if (useYarnLock) {
     creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/yarn.lock`)}`)
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}yarn.lock`)}`)
   }
 
   // 遍历出模板中所有文件

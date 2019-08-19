@@ -147,7 +147,10 @@ function parseJSXChildren (
       if (t.isJSXText(child)) {
         const strings: string[] = []
         child.value.split(/(\r?\n\s*)/).forEach((val) => {
-          const value = val.replace(/\u00a0/g, '&nbsp;')
+          const value = val
+            .replace(/\u00a0/g, '&nbsp;')
+            .replace(/\u2002/g, '&ensp;')
+            .replace(/\u2003/g, '&emsp;')
           if (!value) {
             return
           }

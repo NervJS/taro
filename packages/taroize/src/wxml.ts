@@ -5,7 +5,7 @@ import traverse, { NodePath, Visitor } from 'babel-traverse'
 import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
 import { specialEvents } from './events'
 import { parseTemplate, parseModule } from './template'
-import { usedComponents, errors, globals } from './global'
+import { usedComponents, errors, globals, THIRD_PARTY_COMPONENTS } from './global'
 import { reserveKeyWords } from './constant'
 import { parse as parseFile } from 'babylon'
 const { prettyPrint } = require('html')
@@ -623,7 +623,7 @@ function parseNode (node: AllKindNode, tagName?: string) {
 }
 
 function parseElement (element: Element): t.JSXElement {
-  const tagName = t.jSXIdentifier(allCamelCase(element.tagName))
+  const tagName = t.jSXIdentifier(THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName))
   if (DEFAULT_Component_SET.has(tagName.name)) {
     usedComponents.add(tagName.name)
   }
