@@ -158,7 +158,8 @@ export async function createApp (
     projectName,
     projectDir,
     template,
-    env
+    env,
+    autoInstall = true
   } = params
   const logs: string[] = []
   // path
@@ -237,31 +238,41 @@ export async function createApp (
       }
     })
 
-    // packages install
-    let command: string
-    if (shouldUseYarn) {
-      command = 'yarn install'
-    } else if (helper.shouldUseCnpm()) {
-      command = 'cnpm install'
-    } else {
-      command = 'npm install'
-    }
-    const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        installSpinner.color = 'red'
-        installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
-        console.log(error)
-      } else {
-        installSpinner.color = 'green'
-        installSpinner.succeed('安装成功')
-        console.log(`${stderr}${stdout}`)
-      }
+    const callSuccess = () => {
       console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
       console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
       if (typeof cb === 'function') {
         cb()
       }
-    })
+    }
+
+    if (autoInstall) {
+      // packages install
+      let command: string
+      if (shouldUseYarn) {
+        command = 'yarn install'
+      } else if (helper.shouldUseCnpm()) {
+        command = 'cnpm install'
+      } else {
+        command = 'npm install'
+      }
+      const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          installSpinner.color = 'red'
+          installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
+          console.log(error)
+        } else {
+          installSpinner.color = 'green'
+          installSpinner.succeed('安装成功')
+          console.log(`${stderr}${stdout}`)
+        }
+        callSuccess()
+      })
+    } else {
+      callSuccess()
+    }
+
+    
   })
 }
