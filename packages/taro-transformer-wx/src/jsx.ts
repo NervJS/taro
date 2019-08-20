@@ -16,6 +16,7 @@ import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { Status } from './functional'
+import { transformOptions } from './options'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -147,7 +148,10 @@ function parseJSXChildren (
       if (t.isJSXText(child)) {
         const strings: string[] = []
         child.value.split(/(\r?\n\s*)/).forEach((val) => {
-          const value = val.replace(/\u00a0/g, '&nbsp;')
+          const value = val
+            .replace(/\u00a0/g, '&nbsp;')
+            .replace(/\u2002/g, '&ensp;')
+            .replace(/\u2003/g, '&emsp;')
           if (!value) {
             return
           }
@@ -301,11 +305,29 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
     }
   }
 
-  return createHTMLElement({
-    name: kebabCase(componentName),
-    attributes: attributesTrans,
-    value: parseJSXChildren(children)
-  }, isFirstEmit)
+  let elementStr
+
+  if (isFirstEmit && Adapters.quickapp === Adapter.type && !transformOptions.isRoot) {
+    const rootAttributes = Object.assign({}, attributesTrans)
+    delete rootAttributes[Adapter.if]
+    elementStr = createHTMLElement({
+      name: kebabCase(componentName),
+      attributes: rootAttributes,
+      value: createHTMLElement({
+        name: 'block',
+        attributes: { [Adapter.if]: attributesTrans[Adapter.if] },
+        value: parseJSXChildren(children)
+      })
+    }, isFirstEmit)
+  } else {
+    elementStr = createHTMLElement({
+      name: kebabCase(componentName),
+      attributes: attributesTrans,
+      value: parseJSXChildren(children)
+    }, isFirstEmit)
+  }
+
+  return elementStr
 }
 
 export function generateHTMLTemplate (template: t.JSXElement, name: string) {

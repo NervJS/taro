@@ -221,7 +221,7 @@ export class RenderParser {
       }
       const children = properties.map(p => p.node).map((p, index) => {
         const block = buildBlockElement()
-        const leftExpression = t.isStringLiteral(p.key) ? p.key : t.stringLiteral(p.key.name)
+        const leftExpression = p.key
         const tester = t.binaryExpression('===', leftExpression, rval.node as any)
         block.children = [t.jSXExpressionContainer(p.value)]
         if (index === 0) {
@@ -1317,8 +1317,14 @@ export class RenderParser {
           }
           const slotName = getSlotName(name.name)
           const slot = cloneDeep(expression)
-          setJSXAttr(t.isJSXIdentifier(slot.openingElement.name, { name: 'block' }) ? slot.children[0] as t.JSXElement : slot, 'slot', t.stringLiteral(slotName))
-          jsxElementPath.node.children.push(slot)
+          const view = t.jSXElement(
+            t.jSXOpeningElement(t.jSXIdentifier('View'), []),
+            t.jSXClosingElement(t.jSXIdentifier('View')),
+            []
+          )
+          view.children.push(slot)
+          setJSXAttr(view, 'slot', t.stringLiteral(slotName))
+          jsxElementPath.node.children.push(view)
           path.remove()
         }
       }
@@ -1957,7 +1963,7 @@ export class RenderParser {
           // tslint:disable-next-line:no-inner-declarations
           function replaceOriginal (path, parent, name) {
             if (
-              path.isReferencedIdentifier() &&
+              (path.isReferencedIdentifier() || t.isAssignmentExpression(parent)) &&
               iterators.has(name) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE) || parent.property.name.startsWith(COMPID)))

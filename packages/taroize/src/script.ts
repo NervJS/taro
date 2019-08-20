@@ -34,6 +34,11 @@ export function parseScript (
     BlockStatement (path) {
       path.scope.rename('wx', 'Taro')
     },
+    Identifier (path) {
+      if (path.isReferenced() && path.node.name === 'wx') {
+        path.replaceWith(t.identifier('Taro'))
+      }
+    },
     CallExpression (path) {
       const callee = path.get('callee')
       if (callee.isIdentifier()) {

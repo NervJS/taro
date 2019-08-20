@@ -121,6 +121,19 @@ export default function withWeapp (componentType: string, weappConf?: Object) {
       }
 
       componentWillMount () {
+        if (Array.isArray(this._observeProps)) {
+          this._observeProps.forEach(({ name: key, observer }) => {
+            const prop = this.props[key]
+            if (typeof observer === 'string') {
+              const ob = this[observer]
+              if (isFunction(ob)) {
+                ob.call(this, prop, prop, key)
+              }
+            } else if (isFunction(observer)) {
+              observer.call(this, prop, prop, key)
+            }
+          })
+        }
         this.executeComponentFunc(this.created)
         this.safeExecute(this.onLoad)
         if (super.componentWillMount) {

@@ -1,5 +1,58 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.13...v) (2019-08-12)
+# [](https://github.com/NervJS/taro/compare/v1.3.14...v) (2019-08-19)
+
+
+
+<a name="1.3.14"></a>
+## [1.3.14](https://github.com/NervJS/taro/compare/v1.3.13...v1.3.14) (2019-08-19)
+
+
+### Bug Fixes
+
+* **cli:** prepublish 创建测试模板时不纠正 _gitignore 等文件。fix [#4081](https://github.com/NervJS/taro/issues/4081) ([38b84dd](https://github.com/NervJS/taro/commit/38b84dd))
+* **cli:** taro doctor 使用 typescript-eslint/parser ([093133a](https://github.com/NervJS/taro/commit/093133a)), closes [#3598](https://github.com/NervJS/taro/issues/3598) [#4161](https://github.com/NervJS/taro/issues/4161)
+* **cli:** taroize 参数传递错误 ([#4168](https://github.com/NervJS/taro/issues/4168)) ([04c4d0a](https://github.com/NervJS/taro/commit/04c4d0a))
+* **cli:** 修复 windows 创建模板时路径问题，fix [#4196](https://github.com/NervJS/taro/issues/4196) ([ba32828](https://github.com/NervJS/taro/commit/ba32828))
+* **cli:** 创建页面时模板不存在则先拉取模板，fix [#4106](https://github.com/NervJS/taro/issues/4106) ([c79ef23](https://github.com/NervJS/taro/commit/c79ef23))
+* **cli:** 快应用支持 copy sign 文件，close [#4079](https://github.com/NervJS/taro/issues/4079) ([c363559](https://github.com/NervJS/taro/commit/c363559))
+* **cli:** 路径替换 extname 使用更严谨的正则去 replace。fix [#4148](https://github.com/NervJS/taro/issues/4148) ([58f9829](https://github.com/NervJS/taro/commit/58f9829))
+* **mobx:** 修改 observer typing ([489001e](https://github.com/NervJS/taro/commit/489001e))
+* **taro:** 增加 Map polyfill ([985eadf](https://github.com/NervJS/taro/commit/985eadf))
+* **taro:** 缺少 Hooks 函数导出 ([a8211d3](https://github.com/NervJS/taro/commit/a8211d3))
+* **taro:** 避免直接调用 pxTransform 函数报错 ([309627d](https://github.com/NervJS/taro/commit/309627d))
+* **taro-cli:** 小程序解析 npm 中的 json 引用需直接替换为 json 值，close [#4164](https://github.com/NervJS/taro/issues/4164) ([4443ee0](https://github.com/NervJS/taro/commit/4443ee0))
+* **taro-quickapp:** 变量使用错误 ([5bb14fb](https://github.com/NervJS/taro/commit/5bb14fb))
+* **taro-quickapp:** 快应用支持 useDidShow/useDidHide/useRouter 等 Hook API ([2254b8b](https://github.com/NervJS/taro/commit/2254b8b))
+* **taro-weapp/qq/tt/alipay:** 修复 $componentType 错误，fix [#4123](https://github.com/NervJS/taro/issues/4123) ([a6e31b5](https://github.com/NervJS/taro/commit/a6e31b5))
+* **transformer:** &emsp;/&ensp 解析为空格 ([8280ec1](https://github.com/NervJS/taro/commit/8280ec1))
+* **transformer:** context 传入 null 无法解构，close [#3910](https://github.com/NervJS/taro/issues/3910) ([d795d45](https://github.com/NervJS/taro/commit/d795d45))
+* **transformer:** h5 不需要调用 render props 编译 ([0de5870](https://github.com/NervJS/taro/commit/0de5870)), closes [#4180](https://github.com/NervJS/taro/issues/4180) [#4021](https://github.com/NervJS/taro/issues/4021)
+* **transformer:** hooks里return null会被解析成 jsx ([15c6e6a](https://github.com/NervJS/taro/commit/15c6e6a)), closes [#4073](https://github.com/NervJS/taro/issues/4073)
+* **transformer:** typescript 无法使用类属性函数，close [#4159](https://github.com/NervJS/taro/issues/4159) ([f26ec37](https://github.com/NervJS/taro/commit/f26ec37))
+* **transformer:** 函数式组件使用 render props 问题 ([cea3579](https://github.com/NervJS/taro/commit/cea3579)), closes [#4180](https://github.com/NervJS/taro/issues/4180)
+* **transformer:** 小程序 slot 统一用 view 包裹，close [#4162](https://github.com/NervJS/taro/issues/4162) ([fb9c769](https://github.com/NervJS/taro/commit/fb9c769))
+* **transformer:** 当 iterators 为赋值表达式也需要用 $original 替换 ([95303e9](https://github.com/NervJS/taro/commit/95303e9)), closes [#4174](https://github.com/NervJS/taro/issues/4174)
+* **transformer:** 枚举条件渲染编译错误，close [#4062](https://github.com/NervJS/taro/issues/4062) ([af495de](https://github.com/NervJS/taro/commit/af495de))
+* **transformer:** 转换所有名为 wx 的引用型标识符，close [#3953](https://github.com/NervJS/taro/issues/3953) ([8157ed9](https://github.com/NervJS/taro/commit/8157ed9))
+* **transformer-wx:** 快应用的组件最外层容器不能有 if 判断，需要包一层 ([4ffec26](https://github.com/NervJS/taro/commit/4ffec26))
+* **utils:** shallow equal 先判断是否为对象 ([7f67151](https://github.com/NervJS/taro/commit/7f67151))
+* **with-weapp:** observer 在组件载入时需要执行一次 ([2235c54](https://github.com/NervJS/taro/commit/2235c54)), closes [#4054](https://github.com/NervJS/taro/issues/4054)
+
+
+### Features
+
+* **cli:** cli的api支持创建项目后不安装依赖 ([07553ed](https://github.com/NervJS/taro/commit/07553ed))
+* **cli:** 快应用支持新 props 系统 ([152da05](https://github.com/NervJS/taro/commit/152da05))
+* **taro:** 增加 useDidShow/useDidHide hooks ([3f47153](https://github.com/NervJS/taro/commit/3f47153))
+* **taro:** 增加 usePullDownRefresh/useReachBottom/usePageScroll/useResize/useShareAppMessage/useTabItemTap/useRouter hooks ([ba91cb9](https://github.com/NervJS/taro/commit/ba91cb9))
+* **taro-alipay:** 补全Button组件的类型定义 ([#4187](https://github.com/NervJS/taro/issues/4187)) ([ebd12b8](https://github.com/NervJS/taro/commit/ebd12b8))
+* **taro-h5:** H5 端支持 useDidShow/useDidHide/usePullDownRefresh 等 Hooks API ([45db749](https://github.com/NervJS/taro/commit/45db749))
+* **taro-quickapp:** 快应用支持 componentWillPreload 和 this.$preload ([698bf6d](https://github.com/NervJS/taro/commit/698bf6d))
+* **taro-quickapp:** 快应用支持 hooks ([c8d565f](https://github.com/NervJS/taro/commit/c8d565f))
+* **taro-quickapp:** 快应用新 props 系统支持改造 ([78a4228](https://github.com/NervJS/taro/commit/78a4228))
+* **taroize:** 插件保留原组件名 ([eb0910d](https://github.com/NervJS/taro/commit/eb0910d))
+* **transformer:** 快应用加入新 props 系统 ([9d23d64](https://github.com/NervJS/taro/commit/9d23d64))
+* **transformer:** 支持 useRef 和 createRef 创建的 ref ([d862e1e](https://github.com/NervJS/taro/commit/d862e1e)), closes [#3945](https://github.com/NervJS/taro/issues/3945)
 
 
 

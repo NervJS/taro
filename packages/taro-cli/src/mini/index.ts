@@ -244,7 +244,9 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
     quickappJSON = readQuickAppManifest()
     setQuickappManifest(quickappJSON)
   }
-  copyFiles(appPath, buildData.projectConfig.copy)
+  if (!isQuickApp) {
+    copyFiles(appPath, buildData.projectConfig.copy)
+  }
   const appConfig = await buildEntry()
   setAppConfig(appConfig)
   await buildPages()
@@ -260,6 +262,7 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
       process.exit(0)
       return
     }
+    copyFiles(appPath, buildData.projectConfig.copy)
     await runQuickApp(watch, buildData, port, release)
   }
 }

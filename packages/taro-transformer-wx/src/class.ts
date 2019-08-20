@@ -449,6 +449,26 @@ class Transformer {
                 fn: expr
               })
             }
+          } else if (t.isIdentifier(expr)) {
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            const binding = path.scope.getBinding(expr.name)
+            const decl = t.expressionStatement(
+              t.assignmentExpression(
+                '=',
+                t.memberExpression(t.thisExpression(), expr),
+                expr
+              )
+            )
+            if (binding) {
+              binding.path.parentPath.insertAfter(decl)
+            } else {
+              path.getStatementParent().insertBefore(decl)
+            }
+            this.refs.push({
+              type,
+              id,
+              fn: t.memberExpression(t.thisExpression(), expr)
+            })
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
@@ -654,6 +674,9 @@ class Transformer {
           if (typeof calleeName === 'string' && isDerivedFromProps(calleeExpr.scope, calleeName)) {
             return
           }
+          if (calleeExpr.isMemberExpression() && isDerivedFromProps(calleeExpr.scope, findFirstIdentifierFromMemberExpression(calleeExpr.node).name)) {
+            return
+          }
           generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
         } else {
           if (parentPath.isJSXAttribute()) {
@@ -723,6 +746,12 @@ class Transformer {
             if (isDerivedFromProps(path.scope, path.node.name)) {
               injectRenderPropsEmiter(parentPath, path.node.name)
               parentPath.replaceWith(slot)
+            }
+          }
+          if (parentPath.isMemberExpression() && parentPath.parentPath.isCallExpression()) {
+            if (isDerivedFromProps(path.scope, findFirstIdentifierFromMemberExpression(parentPath.node).name)) {
+              injectRenderPropsEmiter(parentPath.parentPath, path.node.name)
+              parentPath.parentPath.replaceWith(slot)
             }
           }
           if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {

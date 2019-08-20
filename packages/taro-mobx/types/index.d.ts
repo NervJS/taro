@@ -12,8 +12,12 @@ export function useLocalStore<TStore extends Record<string, any>, TSource extend
   current?: TSource
 ): TStore;
 export function useAsObservableSource<TSource>(current: TSource): TSource;
+export type ITaroComponent<P = any> =
+   | Taro.ComponentClass<P>
+   | Taro.FunctionComponent<P>
 
-export function observer(component);
+export function observer<P extends ITaroComponent>(component: P): P
+// export function observer(component);
 export function inject(...stores: string[]);
 export function inject(fn: (stores: IValueMap, nextProps: IValueMap) => IValueMap);
 

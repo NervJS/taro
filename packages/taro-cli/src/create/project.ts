@@ -21,7 +21,8 @@ export interface IProjectConf {
   date?: string,
   src?: string,
   sourceRoot?: string,
-  env?: string
+  env?: string,
+  autoInstall?: boolean
 }
 
 interface AskMethods {
