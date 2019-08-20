@@ -8,7 +8,7 @@ import traverse from 'babel-traverse'
 import generate from 'babel-generator'
 import * as _ from 'lodash'
 
-import { TogglableOptions } from '@tarojs/taro/types/compile'
+import { TogglableOptions, ITaroManifestConfig } from '@tarojs/taro/types/compile'
 
 import {
   isNpmPkg,
@@ -39,7 +39,7 @@ import {
 import defaultUglifyConfig from '../config/uglify'
 
 import * as npmProcess from './npm'
-import { IInstallOptions, INpmConfig, IResolvedCache, ITaroManifestConfig } from './types'
+import { IInstallOptions, INpmConfig, IResolvedCache } from './types'
 import { convertArrayToAstExpression, convertObjectToAstExpression } from './astConvert'
 
 const excludeNpmPkgs = ['ReactPropTypes']
