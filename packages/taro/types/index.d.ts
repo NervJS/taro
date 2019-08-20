@@ -1,4 +1,3 @@
-import { JSX } from 'babel-types'
 export = Taro
 export as namespace Taro
 
