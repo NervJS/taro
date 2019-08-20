@@ -45,6 +45,8 @@ import Nerv, {
 } from 'nervjs'
 
 import { permanentlyNotSupport } from '../api/utils'
+import { onPageScroll } from '../api/privateApis/onPageScroll'
+import { onReachBottom } from '../api/privateApis/onReachBottom'
 
 const taro = {
   getEnv,
@@ -183,14 +185,50 @@ const canIUseWebp = function () {
 
 function usePageLifecycle (callback, lifecycle) {
   const hook = getHooks(Current.index++)
+  let originalLifecycle
   hook.component = Current.current
   if (!hook.marked) {
     hook.marked = true
-    const originalLifecycle = hook.component[lifecycle]
-    hook.component[lifecycle] = function () {
-      originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
-      callback && callback.call(hook.component, ...arguments)
+    originalLifecycle = hook.component[lifecycle]
+  }
+  hook.component[lifecycle] = function () {
+    originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+    callback && callback.call(hook.component, ...arguments)
+  }
+}
+
+function useSpecialPageLifecycle (callback, lifecycle, lifeFn) {
+  const hook = getHooks(Current.index++)
+  let originalLifecycle
+  hook.component = Current.current
+  if (!hook.marked) {
+    hook.marked = true
+    originalLifecycle = hook.component[lifecycle]
+    const originalDidShow = hook.component['componentDidShow']
+    const originalDidHide = hook.component['componentDidHide']
+    hook.component['componentDidShow'] = function () {
+      originalDidShow && originalDidShow.call(hook.component, ...arguments)
+      hook.component._offFn = lifeFn({
+        callback: function () {
+          originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+          callback && callback.call(hook.component, ...arguments)
+        },
+        ctx: hook.component
+      })
     }
+    hook.component['componentDidHide'] = function () {
+      originalDidHide && originalDidHide.call(hook.component, ...arguments)
+      hook.component._offFn && hook.component._offFn()
+    }
+  } else {
+    hook.component._offFn && hook.component._offFn()
+    hook.component._offFn = lifeFn({
+      callback: function () {
+        originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+        callback && callback.call(hook.component, ...arguments)
+      },
+      ctx: hook.component
+    })
   }
 }
 
@@ -207,11 +245,11 @@ function usePullDownRefresh (callback) {
 }
 
 function useReachBottom (callback) {
-  usePageLifecycle(callback, 'onReachBottom')
+  useSpecialPageLifecycle(callback, 'onReachBottom', onReachBottom)
 }
 
 function usePageScroll (callback) {
-  usePageLifecycle(callback, 'onPageScroll')
+  useSpecialPageLifecycle(callback, 'onPageScroll', onPageScroll)
 }
 
 function useRouter () {
