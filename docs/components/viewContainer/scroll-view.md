@@ -54,6 +54,11 @@ export default class PageView extends Component {
     console.log(e.detail)
   }
   
+  // or 使用箭头函数
+  // onScrollToUpper = (e) => {
+  //  console.log(e.detail)
+  // }
+  
   onScroll(e){
     console.log(e.detail)
   }
@@ -86,7 +91,7 @@ export default class PageView extends Component {
         style={scrollStyle}
         lowerThreshold={Threshold}
         upperThreshold={Threshold}
-        onScrollToUpper={this.onScrollToUpper}
+        onScrollToUpper={this.onScrollToUpper.bind(this)} // 使用箭头函数的时候 可以这样写 `onScrollToUpper={this.onScrollToUpper}`
         onScroll={this.onScroll}
       >
         <View style={vStyleA}>A</View>
