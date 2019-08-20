@@ -442,7 +442,7 @@ export default class Convertor {
       const taroizeResult = taroize({
         json: entryJSON,
         script: entryJS,
-        path: path.dirname(entryJS)
+        path: path.dirname(this.entryJSPath)
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -518,7 +518,8 @@ export default class Convertor {
               }
 
               if (pageUsingComponnets[component].startsWith('plugin://')) {
-                usingComponents[pascalCase(component)] = pageUsingComponnets[component]
+                console.log(component)
+                usingComponents[component] = pageUsingComponnets[component]
               } else {
                 depComponents.add({
                   name: component,

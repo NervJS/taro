@@ -21,7 +21,8 @@ import {
   promoteRelativePath,
   isDifferentArray,
   generateQuickAppUx,
-  uglifyJS
+  uglifyJS,
+  extnameExpRegOf
 } from '../util'
 
 import { parseComponentExportAst, parseAst } from './astProcess'
@@ -153,13 +154,13 @@ export async function buildSingleComponent (
     buildOutputDir = npmOutputDir
   }
   let outputComponentShowPath = componentShowPath.replace(isComponentFromNodeModules ? NODE_MODULES : sourceDirName, buildConfig.outputDirName || outputDirName)
-  outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
+  outputComponentShowPath = outputComponentShowPath.replace(extnameExpRegOf(outputComponentShowPath), '')
   printLog(processTypeEnum.COMPILE, '组件文件', componentShowPath)
   const componentContent = fs.readFileSync(component).toString()
-  const outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(path.extname(component), outputFilesTypes.SCRIPT)
-  const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.TEMPL)
-  const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.STYLE)
-  const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.CONFIG)
+  const outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(extnameExpRegOf(component), outputFilesTypes.SCRIPT)
+  const outputComponentWXMLPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.TEMPL)
+  const outputComponentWXSSPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.STYLE)
+  const outputComponentJSONPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.CONFIG)
 
   try {
     const isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
@@ -247,7 +248,7 @@ export async function buildSingleComponent (
       const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
       const importCustomComponents = new Set(realComponentsPathList.map(item => {
         return {
-          path: promoteRelativePath(path.relative(component, item.path as string)).replace(path.extname(item.path as string), ''),
+          path: promoteRelativePath(path.relative(component, item.path as string)).replace(extnameExpRegOf(item.path as string), ''),
           name: item.name as string
         }
       }))
@@ -302,7 +303,7 @@ export async function buildSingleComponent (
                 } else {
                   realPath = promoteRelativePath(path.relative(component, (componentPath as string)))
                 }
-                depComponent.path = realPath.replace(path.extname(realPath), '')
+                depComponent.path = realPath.replace(extnameExpRegOf(realPath), '')
               }
             })
           })

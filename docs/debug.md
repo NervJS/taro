@@ -25,7 +25,7 @@ taro-init(1) does not exist, try --help
 
 这时候，你可以选择使用 npm 或者 cnpm 重新安装 CLI，或者将 CLI [添加到环境变量中来解决](https://github.com/NervJS/taro/issues/2034)。
 
-### 项目依赖一致安装不下来
+### 项目依赖一直安装不下来
 
 由于 Taro 的 `@tarojs/webpack-runner` 包默认依赖了 `node-sass`，倒是有些时候依赖一直安装不了，在此，建议直接使用淘宝的 [cnpm](https://npm.taobao.org/) 进行安装依赖，或者尝试一下[这个包](https://github.com/gucong3000/mirror-config-china)
 

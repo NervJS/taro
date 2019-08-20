@@ -35,7 +35,9 @@ import {
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID,
-  CONTEXT_PROVIDER
+  CONTEXT_PROVIDER,
+  setIsTaroReady,
+  setCompId
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -213,6 +215,10 @@ export default function transform (options: Options): TransformResult {
     setLoopOriginal('privateOriginal')
     setLoopCallee('anonymousCallee_')
     setLoopState('loopState')
+  }
+  if (Adapter.type === Adapters.quickapp) {
+    setIsTaroReady('priTaroCompReady')
+    setCompId('priCompid')
   }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped

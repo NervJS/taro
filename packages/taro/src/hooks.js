@@ -35,6 +35,61 @@ export function useState (initialState) {
   return hook.state
 }
 
+function usePageLifecycle (callback, lifecycle) {
+  const hook = getHooks(Current.index++)
+  hook.component = Current.current
+  if (!hook.marked) {
+    hook.marked = true
+    const component = hook.component
+    const originalLifecycle = component[lifecycle]
+    hook.component[lifecycle] = function () {
+      originalLifecycle && originalLifecycle.call(component, ...arguments)
+      callback && callback.call(component, ...arguments)
+    }
+  }
+}
+
+export function useDidShow (callback) {
+  usePageLifecycle(callback, 'componentDidShow')
+}
+
+export function useDidHide (callback) {
+  usePageLifecycle(callback, 'componentDidHide')
+}
+
+export function usePullDownRefresh (callback) {
+  usePageLifecycle(callback, 'onPullDownRefresh')
+}
+
+export function useReachBottom (callback) {
+  usePageLifecycle(callback, 'onReachBottom')
+}
+
+export function usePageScroll (callback) {
+  usePageLifecycle(callback, 'onPageScroll')
+}
+
+export function useResize (callback) {
+  usePageLifecycle(callback, 'onResize')
+}
+
+export function useShareAppMessage (callback) {
+  usePageLifecycle(callback, 'onShareAppMessage')
+}
+
+export function useTabItemTap (callback) {
+  usePageLifecycle(callback, 'onTabItemTap')
+}
+
+export function useRouter () {
+  const hook = getHooks(Current.index++)
+  if (!hook.router) {
+    hook.component = Current.current
+    hook.router = hook.component.$router
+  }
+  return hook.router
+}
+
 export function useReducer (
   reducer,
   initialState,

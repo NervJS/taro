@@ -19,7 +19,7 @@ export const buildVistor = () => {
           const classMethod = path.findParent(p => p.isClassMethod())
           if (classMethod && classMethod.isClassMethod() && t.isIdentifier(classMethod.node.key)) {
             methodName = classMethod.node.key.name
-            if (methodName.startsWith('render')) {
+            if (methodName.startsWith('render') || methodName === 'constructor') {
               return
             }
             classMethod.node.key = t.identifier(buildMethodName(methodName))
@@ -31,7 +31,18 @@ export const buildVistor = () => {
             if (methodName.startsWith('render')) {
               return
             }
-            classProp.node.key = t.identifier(buildMethodName(methodName))
+            if (!t.isArrowFunctionExpression(classProp.node.value)) {
+              return
+            }
+            classProp.replaceWith(t.classMethod(
+              'method',
+              t.identifier(buildMethodName(methodName)),
+              classProp.node.value.params,
+              t.isBlockStatement(classProp.node.value.body) ? classProp.node.value.body : t.blockStatement([
+                t.returnStatement(classProp.node.value.body)
+              ])
+            ))
+            return
           }
 
           if (methodName.length > 0 && !methodName.startsWith('render')) {

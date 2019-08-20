@@ -5,14 +5,12 @@ import * as ora from 'ora'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
 import * as request from 'request'
-import Project from './project'
-import { TemplateSourceType, readDirWithFileTypes } from '../util'
+import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'
 
-export default function fetchTemplate (creater: Project, type: TemplateSourceType): Promise<any> {
-  const { templateSource } = creater.conf
-  const templateRootPath = creater.templatePath('')
+export default function fetchTemplate (templateSource: string, templateRootPath: string): Promise<any> {
+  const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FLODER)
   let name: string
 

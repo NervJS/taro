@@ -53,7 +53,8 @@ import {
   GEN_COMP_ID,
   ALIPAY_BUBBLE_EVENTS,
   FN_PREFIX,
-  CLASS_COMPONENT_UID
+  CLASS_COMPONENT_UID,
+  IS_TARO_READY
 } from './constant'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -65,12 +66,12 @@ const template = require('babel-template')
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
-function findParents (path: NodePath<t.Node>, cb: (p: NodePath<t.Node>) => boolean) {
-  const parents: NodePath<t.Node>[] = []
+function findParents<T> (path: NodePath<t.Node>, predicates: (p: NodePath<t.Node>) => boolean) {
+  const parents: NodePath<T>[] = []
   // tslint:disable-next-line:no-conditional-assignment
   while (path = path.parentPath) {
-    if (cb(path)) {
-      parents.push(path)
+    if (predicates(path)) {
+      parents.push(path as any)
     }
   }
 
@@ -220,7 +221,7 @@ export class RenderParser {
       }
       const children = properties.map(p => p.node).map((p, index) => {
         const block = buildBlockElement()
-        const leftExpression = t.isStringLiteral(p.key) ? p.key : t.stringLiteral(p.key.name)
+        const leftExpression = p.key
         const tester = t.binaryExpression('===', leftExpression, rval.node as any)
         block.children = [t.jSXExpressionContainer(p.value)]
         if (index === 0) {
@@ -685,7 +686,7 @@ export class RenderParser {
           if (this.isDefaultRender) {
             blockAttrs.push(t.jSXAttribute(
               t.jSXIdentifier(Adapter.if),
-              t.jSXExpressionContainer(t.jSXIdentifier('$taroCompReady'))
+              t.jSXExpressionContainer(t.jSXIdentifier(IS_TARO_READY))
             ))
           }
         }
@@ -693,7 +694,7 @@ export class RenderParser {
         if (isBlockIfStatement(ifStatement, blockStatement)) {
           let { test, alternate, consequent } = ifStatement.node
           if (hasComplexExpression(ifStatement.get('test'))) {
-            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true);
+            ifStatement.node.test = test = generateAnonymousState(blockStatement.scope, ifStatement.get('test') as any, this.referencedIdentifiers, true)
           }
           // blockStatement.node.body.push(t.returnStatement(
           //   t.memberExpression(t.thisExpression(), t.identifier('state'))
@@ -1039,7 +1040,7 @@ export class RenderParser {
         return
       }
       const compId = genCompid()
-      const name = `$compid__${compId}`
+      const name = `${COMPID}__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
       const idExpr = buildConstVariableDeclaration(name,
@@ -1316,8 +1317,14 @@ export class RenderParser {
           }
           const slotName = getSlotName(name.name)
           const slot = cloneDeep(expression)
-          setJSXAttr(t.isJSXIdentifier(slot.openingElement.name, { name: 'block' }) ? slot.children[0] as t.JSXElement : slot, 'slot', t.stringLiteral(slotName))
-          jsxElementPath.node.children.push(slot)
+          const view = t.jSXElement(
+            t.jSXOpeningElement(t.jSXIdentifier('View'), []),
+            t.jSXClosingElement(t.jSXIdentifier('View')),
+            []
+          )
+          view.children.push(slot)
+          setJSXAttr(view, 'slot', t.stringLiteral(slotName))
+          jsxElementPath.node.children.push(view)
           path.remove()
         }
       }
@@ -1517,6 +1524,10 @@ export class RenderParser {
     },
     NullLiteral (path) {
       const statementParent = path.getStatementParent()
+      const callExprs = findParents<t.CallExpression>(path, p => p.isCallExpression())
+      if (callExprs.some(callExpr => callExpr && t.isIdentifier(callExpr.node.callee) && /^use[A-Z]/.test(callExpr.node.callee.name))) {
+        return
+      }
       if (statementParent && statementParent.isReturnStatement() && !t.isBinaryExpression(path.parent) && !isChildrenOfJSXAttr(path)) {
         path.replaceWith(
           t.jSXElement(
@@ -1852,7 +1863,7 @@ export class RenderParser {
               }
 
               // createData 函数里加入 compid 相关逻辑
-              const variableName = `$compid__${genCompid()}`
+              const variableName = `${COMPID}__${genCompid()}`
               const tpmlExprs: t.Expression[] = []
               for (let index = 0; index < loopIndices.length; index++) {
                 const element = loopIndices[index]
@@ -1952,7 +1963,7 @@ export class RenderParser {
           // tslint:disable-next-line:no-inner-declarations
           function replaceOriginal (path, parent, name) {
             if (
-              path.isReferencedIdentifier() &&
+              (path.isReferencedIdentifier() || t.isAssignmentExpression(parent)) &&
               iterators.has(name) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property, { name: LOOP_ORIGINAL })) &&
               !(t.isMemberExpression(parent) && t.isIdentifier(parent.property) && (parent.property.name.startsWith(LOOP_STATE) || parent.property.name.startsWith(LOOP_CALLEE) || parent.property.name.startsWith(COMPID)))
