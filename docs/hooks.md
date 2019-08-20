@@ -419,7 +419,7 @@ usePageScroll(res => {
 })
 ```
 
-`usePageScroll` 是 Taro 专有的 Hook，等同于 `onReachBottom` 页面生命周期钩子
+`usePageScroll` 是 Taro 专有的 Hook，等同于 `onPageScroll` 页面生命周期钩子
 
 ### `useResize`
 
