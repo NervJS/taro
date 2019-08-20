@@ -11,6 +11,7 @@ import {
   getInstalledNpmPkgVersion,
   getPkgVersion,
   copyFiles,
+  copyFileSync,
   unzip,
   shouldUseYarn,
   shouldUseCnpm
@@ -103,7 +104,7 @@ function readQuickAppManifest () {
 }
 
 function generateQuickAppManifest (quickappJSON: any) {
-  const { appConfig, pageConfigs, outputDir, projectConfig } = getBuildData()
+  const { appPath, appConfig, pageConfigs, outputDir, projectConfig } = getBuildData()
   // 生成 router
   const pages = (appConfig.pages as string[]).concat()
   const routerPages = {}
@@ -148,6 +149,23 @@ function generateQuickAppManifest (quickappJSON: any) {
   if (appConfig.window && appConfig.window.navigationStyle === 'custom') {
     quickappJSON.display.titleBar = false
     delete quickappJSON.display.navigationStyle
+  }
+  //拷贝快应用图标
+  let iconPath = quickappJSON.icon
+  if (iconPath) {
+    if (iconPath.indexOf('/') === 0) {
+      iconPath = '.' + iconPath
+    }
+    const absIconPath = path.resolve(appPath, 'src', iconPath)
+    if (!fs.existsSync(absIconPath)) {
+      console.log(chalk.red('快应用图标不存在!'))
+    } else {
+      //创建目录
+      const to = path.join(outputDir, path.dirname(iconPath))
+      fs.ensureDirSync(to)
+      //拷贝图标
+      copyFileSync(absIconPath, to)
+    }
   }
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
