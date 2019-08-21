@@ -9,6 +9,19 @@ import { setStorage, getStorage } from '../storage/index'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
 
+// 判断是不是ios端
+const isOS = () => {
+  return navigator.userAgent.match(/ipad|iphone/i)
+};
+// 创建文本元素
+const createTextArea = text => {
+  const textArea = document.createElement('textArea')
+  textArea.innerHTML = text
+  textArea.value = text
+  document.body.appendChild(textArea)
+  return textArea
+};
+
 document.addEventListener('copy', () => {
   setStorage({
     key: CLIPBOARD_STORAGE_NAME,
@@ -59,6 +72,25 @@ export const setClipboardData = ({ data, success, fail, complete }) => {
           input.setSelectionRange(0, input.value.length)
           document.execCommand('copy')
           document.body.removeChild(input)
+          }
+      } else if (isOS()) {
+        const textArea = createTextArea(data);
+        const range = document.createRange();
+        range.selectNodeContents(textArea);
+        const selection = window.getSelection();
+        if (selection) {
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+        textArea.setSelectionRange(0, 999999);
+        try {
+          if (!document.execCommand('Copy')) {
+            throw new Error('复制失败');
+          }
+        } catch (err) {
+          throw new Error(err);
+        } finally {
+          document.body.removeChild(textArea);
         }
       }
       const res = {
