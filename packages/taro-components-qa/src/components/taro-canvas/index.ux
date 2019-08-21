@@ -1,6 +1,6 @@
 <template>
   <canvas
-    class="{{className}}"
+    class="{{class}}"
     id="{{id}}"
     style="{{style}}"
     onclick="handleClick"
@@ -12,7 +12,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_canvas'

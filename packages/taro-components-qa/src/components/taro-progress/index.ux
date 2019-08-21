@@ -1,7 +1,7 @@
 <template>
   <div class="taro_progress">
     <progress 
-      class="taro_progress_info {{classname}}" 
+      class="taro_progress_info {{class}}" 
       style="{{progressStyle}}"
       id="{{id}}"
       type="{{type}}" 
@@ -23,7 +23,7 @@
         required: false,
         default: 'horizontal'
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -37,7 +37,7 @@
         required: false,
         default: false
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {flex: 1}
@@ -79,7 +79,7 @@
     }),
 
     onInit() {
-      this.progressStyle = this.customstyle
+      this.progressStyle = this.style
     },
 
     // handleClick(e) {

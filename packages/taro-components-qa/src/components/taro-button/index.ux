@@ -2,7 +2,7 @@
   <div
     class="{{btnClass}}"
     disabled="{{disabled}}"
-    style="{{btnStyle}}"
+    style="{{style}}"
   >
     <slot></slot>
   </div>
@@ -13,7 +13,7 @@
   
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -23,7 +23,7 @@
         required: false,
         default: ''
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}
@@ -62,13 +62,10 @@
     }),
 
     onInit () {
-      this.btnClass = `taro-button taro-button_default`
       this.btnClass = this.plain ? 
-        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.classname}` 
+        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.class}` 
         : 
-        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.classname}`
-      this.btnStyle = Object.assign({}, this.customstyle, this.btnStyle)
-
+        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.class}`
     },
   }
 </script>

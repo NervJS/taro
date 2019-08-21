@@ -1,7 +1,7 @@
 <template>
   <div
-    class="{{classname}}"
-    style="{{customstyle}}"
+    class="{{class}}"
+    style="{{style}}"
     id="{{id}}"
     onclick="handleClick"
   >
@@ -14,7 +14,7 @@
   
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_navigator'
@@ -38,11 +38,6 @@
         type: String,
         required: false,
         default: 'navigate'
-      },
-      customstyle: {
-        type: Object,
-        required: false,
-        default: {}
       }
     },
 

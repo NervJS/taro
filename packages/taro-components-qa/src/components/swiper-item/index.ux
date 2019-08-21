@@ -1,7 +1,7 @@
 <template>
     <div
-      class="{{classname}}"
-      style="{{customstyle}}"
+      class="{{class}}"
+      style="{{style}}"
       itemId="{{itemid}}"
       onclick="handleClick">
       <slot></slot>
@@ -11,12 +11,12 @@
   <script>
     export default {
       props: {
-        classname: {
+        class: {
           type: String,
           required: false,
           default: ''
         },
-        customstyle: {
+        style: {
           type: String,
           required: false,
           default: ''

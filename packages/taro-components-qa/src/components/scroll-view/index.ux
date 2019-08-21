@@ -3,8 +3,8 @@
         @scroll="onScroll"
         @scrollbottom="onScrollToLower"
         @scrolltop="onScrollToUpper"
-        class="{{classname}}"
-        style="{{customstyle}}"
+        class="{{class}}"
+        style="{{flexDirection}} {{style}}"
         >
         <list-item type='a'>
             <slot></slot>
@@ -15,12 +15,12 @@
 <script>
     export default {
       props: {
-        classname: {
+        class: {
           type: String,
           required: false,
           default: ''
         },
-        customstyle: {
+        style: {
           type: String,
           required: false,
           default: ''
@@ -38,22 +38,22 @@
       },
 
       onInit () {
-        if (scrolly) {
-            this.flexDirection = 'column'
+        if (this.scrolly) {
+            this.flexDirection = 'flex-direction: column'
         } else {
-            this.flexDirection = 'row'
+            this.flexDirection = 'flex-direction: row'
         }
       },
 
-      onScroll () {
+      onScroll (e) {
         this.$emit('scroll', e)
       },
 
-      onScrollToLower() {
+      onScrollToLower(e) {
         this.$emit('scrollToLower', e)
       },
 
-      onScrollToUpper () {
+      onScrollToUpper (e) {
         this.$emit('scrollToUpper', e)
       },
 

@@ -2,10 +2,10 @@
   <input
     type='checkbox'
     checked="{{ checked }}"
-    class="{{ classname }}"
+    class="{{ class }}"
     id="{{ id }}"
     onchange="change"
-    style="{{customstyle}}" />
+    style="{{style}}" />
 </template>
 
 <script>
@@ -16,7 +16,7 @@
         default: false,
         required: false,
       },
-      classname: {
+      class: {
         type: String,
         required: false,
       },
@@ -24,7 +24,7 @@
         type: String,
         required: false
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}

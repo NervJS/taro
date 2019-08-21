@@ -1,6 +1,6 @@
 <template>
   <stack
-    class="taro_icon {{classname}} icon_{{type}}"
+    class="taro_icon {{class}} icon_{{type}}"
     style="{{style}}"
     id="{{id}}"
     onclick="handleClick"
@@ -15,7 +15,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -49,7 +49,7 @@
         required: false,
         default: 'success'
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}
@@ -62,19 +62,13 @@
     }),
 
     onInit () {
-      this.iconStyle = Object.assign( this.style, { 'font-size:': this.size, 'color:': '#' + this.color })
+      this.style = Object.assign(this.style, { 'font-size:': this.size, 'color:': '#' + this.color })
       switch (this.type) {
         case 'info':
           this.typeFont = 'i'
           break;
         case 'warn':
           this.typeFont = '!'
-          break;
-        case 'info':
-          this.typeFont = '!'
-          break;
-        case 'info':
-          this.typeFont = 'i'
           break;
       }
     },

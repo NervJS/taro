@@ -2,7 +2,8 @@
   <div class="taro_picker">
     <text class="label">当前选择</text>
     <picker
-      class="picker {{className}}"
+      class="picker {{class}}"
+      style="{{style}}"
       id="{{id}}"
       type="{{type}}"
       value="{{selectValue}}"
@@ -22,10 +23,15 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
+      },
+      style: {
+        type: Object,
+        required: false,
+        default: {}
       },
       id: {
         type: String,

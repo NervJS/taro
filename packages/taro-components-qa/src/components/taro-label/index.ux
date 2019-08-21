@@ -1,7 +1,7 @@
 <template>
   <div
-    class="{{classname}}"
-    style="{{customstyle}}"
+    class="{{class}}"
+    style="{{style}}"
     id="{{id}}"
     onclick="handleClick"
   >
@@ -12,12 +12,12 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_label'
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}

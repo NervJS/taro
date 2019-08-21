@@ -1,7 +1,7 @@
 <template>
   <textarea
-    class="{{classname}}"
-    style="{{customstyle}}"
+    class="{{class}}"
+    style="{{style}}"
     id="{{id}}"
     disabled="{{disabled}}"
     maxlength="{{maxlength}}"
@@ -16,7 +16,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -26,7 +26,7 @@
         required: false,
         default: ''
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}
@@ -41,10 +41,10 @@
         required: false,
         default: 140
       },
-      placeholderclass: {
+      placeholder: {
         type: String,
         required: false,
-        default: 'textarea-placeholder'
+        default: ''
       },
       value: {
         type: String,

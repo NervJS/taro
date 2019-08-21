@@ -1,7 +1,7 @@
 <template>
     <web
-      class="{{classname}}"
-      style="{{customstyle}}"
+      class="{{class}}"
+      style="{{style}}"
       src="{{src}}"
       onclick="handleClick"
       trustedurl="{{trustedurl}}"
@@ -13,7 +13,7 @@
   <script>
     export default {
       props: {
-        classname: {
+        class: {
           type: String,
           required: false,
         },
@@ -22,7 +22,7 @@
           required: false,
           default: ''
         },
-        customstyle: {
+        style: {
           type: Object,
           required: false,
           default: {}

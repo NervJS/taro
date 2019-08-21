@@ -1,7 +1,8 @@
 <template>
   <div class="taro_video">
     <video
-      style="{{customstyle}}"
+      style="{{style}}"
+      class="{{class}}"
       id="{{id}}"
       src="{{src}}"
       controls="{{controls}}"
@@ -25,7 +26,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -59,12 +60,12 @@
         required: false,
         default: ''
       },
-      initialTime: {
+      initialtime: {
         type: Number,
         required: false,
         default: 0
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}

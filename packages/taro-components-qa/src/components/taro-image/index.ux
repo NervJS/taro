@@ -3,7 +3,7 @@
     src="{{src}}"
     alt="{{alt}}"
     id="{{id}}"
-    class="taro_image {{classname}}"
+    class="taro_image {{class}}"
     style="{{imageStyle}}"
     onclick="handleClick"
   >
@@ -23,7 +23,7 @@
         required: false,
         default: 'taro-img'
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -33,7 +33,7 @@
         required: false,
         default: ''
       },
-      customstyle: {
+      style: {
         type: Object,
         required: false,
         default: {}
@@ -65,7 +65,7 @@
         default:
           this.imageStyle['object-fit'] = 'fill';
       }
-      this.imageStyle = Object.assign({}, this.customstyle)
+      this.imageStyle = Object.assign({}, this.style)
     },
 
     handleClick () {
